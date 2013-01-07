@@ -1,3 +1,6 @@
+/storage/*
+.idea/*
+*.iml
 *.rbc
 *.sassc
 .sass-cache
