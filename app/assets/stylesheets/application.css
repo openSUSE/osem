@@ -2,6 +2,7 @@
  *= require formtastic-bootstrap
  *= require bootstrap_and_overrides
  *= require osem
+ *= require schedule
  *= require jquery-ui-1.9.2.custom
  *= require jquery.fileupload-ui
 */

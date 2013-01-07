@@ -71,7 +71,8 @@ class EventAttachmentsController < ApplicationController
   end
 
   def update
-    @upload = EventAttachment.find(params[:proposal_id])
+    @proposal = current_user.person.events.find(params[:proposal_id])
+    @upload = @proposal.event_attachments.find(params[:proposal_id])
 
     respond_to do |format|
       if @upload.update_attributes(params[:upload])

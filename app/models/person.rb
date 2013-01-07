@@ -32,8 +32,9 @@ class Person < ActiveRecord::Base
                        :person_id => self.id).count
   end
 
+
   def proposals conference
-    self.events.where("conference_id = ? AND state != ? AND state != ?", conference.id, "withdrawn", "rejected")
+    self.events.where("conference_id = ? AND state != ? AND state != ? AND event_people.event_role=?", conference.id, "withdrawn", "rejected", "submitter")
   end
 
   def proposal_count conference
@@ -46,6 +47,10 @@ class Person < ActiveRecord::Base
     else
       self.biography.split.size
     end
+  end
+
+  def self.find_person_by_user_id user_id
+    Person.where(:user_id => user_id).first
   end
 
   private

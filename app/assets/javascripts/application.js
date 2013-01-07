@@ -47,6 +47,21 @@ $(function() {
         }
     });
 
+    $("#conference-reg-start-datepicker").datepicker({
+        dateFormat: 'yy/mm/dd',
+        numberOfMonths: 2,
+        onSelect: function(selected) {
+            $("#conference-reg-end-datepicker").datepicker("option","minDate", selected)
+        }
+    });
+    $("#conference-reg-end-datepicker").datepicker({
+        dateFormat: 'yy/mm/dd',
+        numberOfMonths: 2,
+        onSelect: function(selected) {
+            $("#conference-reg-start-datepicker").datepicker("option","maxDate", selected)
+        }
+    });
+
     $(".comment-reply-link").click(function(){
        $(".comment-reply", $(this).parent()).toggle();
        return false;

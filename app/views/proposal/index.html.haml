@@ -13,6 +13,7 @@
             .span10
               = event.title
             .pull-right
-              = link_to "Edit", edit_conference_proposal_path(@conference.short_title, event.id), :class => "btn btn-mini  btn-primary"
-              = link_to "Withdraw", conference_proposal_path(@conference.short_title, event.id), :method => :delete,
-                  :confirm => "Are you sure you want to withdraw this proposal?", :class => "btn btn-mini btn-danger"
+              - if @conference.cfp_open?
+                = link_to "Edit", edit_conference_proposal_path(@conference.short_title, event.id), :class => "btn btn-mini  btn-primary"
+                = link_to "Withdraw", conference_proposal_path(@conference.short_title, event.id), :method => :delete,
+                    :confirm => "Are you sure you want to withdraw this proposal?", :class => "btn btn-mini btn-danger"

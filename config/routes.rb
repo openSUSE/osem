@@ -7,6 +7,8 @@ Osem::Application.routes.draw do
     resources :people
 
     resources :conference do
+      get "/schedule" => "schedule#show"
+      put "/schedule" => "schedule#update"
       get "/registrations" => "registrations#show"
       get "/venue" => "venue#show", :as => "venue_info"
       put "/venue" => "venue#update", :as => "venue_update"

@@ -1,4 +1,6 @@
 class EventAttachment < ActiveRecord::Base
+  has_paper_trail
+
   belongs_to :event
   scope :public, where(:public => true)
   attr_accessible :public, :attachment, :event_id, :title

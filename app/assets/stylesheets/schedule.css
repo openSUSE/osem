@@ -1,0 +1,45 @@
+.schedule-content {
+    overflow: hidden;
+    width: 100%;
+}
+
+.unscheduled {
+    float:left;
+    border:1px solid #bbb;
+    padding-left:10px;
+    padding-right: 10px;
+    margin-right:20px;
+    margin-left:20px;
+    width:149px;
+    height:100%;
+    position:relative;
+}
+
+.schedule {
+    overflow: hidden;
+}
+
+.schedule-track-column-header {
+    position: absolute;
+    width: 149px;
+}
+
+.schedule-track-column {
+    float:left;
+    border-right:1px solid #bbb;
+    width:149px;
+    height:400px;
+    position:relative;
+}
+
+.schedule-event {
+    position:absolute;
+    cursor:move;
+    width:141px;
+    height:32px;
+    background: #6af;
+    color:#fff;
+    padding:4px;
+    font-weight:bold;
+    z-index:1;
+}

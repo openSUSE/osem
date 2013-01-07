@@ -15,16 +15,19 @@
             = conference.venue.address
         .row-fluid{:style => "padding-top: 30px;"}
           .span4
-            - if conference.user_registered?(current_user)
-              = link_to "Modify Registration", register_conference_path(conference.short_title), :class => "mainbutton center-text"
-              %br
-              %i.icon-thumbs-up You're attending!
+            - if conference.registration_open?
+              - if conference.user_registered?(current_user)
+                = link_to "Modify Registration", register_conference_path(conference.short_title), :class => "mainbutton center-text"
+                %br
+                %i.icon-thumbs-up You're attending!
+              - else
+                = link_to "Register", register_conference_path(conference.short_title), :class => "mainbutton center-text"
+                %br
+                - if !current_user.nil?
+                  %i.icon-thumbs-down
+                  You haven't registered yet!
             - else
-              = link_to "Register", register_conference_path(conference.short_title), :class => "mainbutton center-text"
-              %br
-              - if !current_user.nil?
-                %i.icon-thumbs-down
-                You haven't registered yet!
+              %b Registration is closed.
           .span4.offset4.pull-right
             - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
               = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "mainbutton center-text"

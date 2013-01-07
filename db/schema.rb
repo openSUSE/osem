@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130105115603) do
+ActiveRecord::Schema.define(:version => 20130107114930) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -42,31 +42,32 @@ ActiveRecord::Schema.define(:version => 20130105115603) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "conferences", :force => true do |t|
-    t.string   "guid",                                 :null => false
-    t.string   "title",                                :null => false
-    t.string   "short_title",                          :null => false
+    t.string   "guid",                    :null => false
+    t.string   "title",                   :null => false
+    t.string   "short_title",             :null => false
     t.string   "social_tag"
-    t.string   "contact_email",                        :null => false
-    t.string   "timezone",                             :null => false
+    t.string   "contact_email",           :null => false
+    t.string   "timezone",                :null => false
     t.string   "html_export_path"
-    t.date     "start_date",                           :null => false
-    t.date     "end_date",                             :null => false
-    t.boolean  "cfp_open",          :default => false
-    t.boolean  "registration_open", :default => false
+    t.date     "start_date",              :null => false
+    t.date     "end_date",                :null => false
     t.integer  "venue_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.date     "registration_start_date"
+    t.date     "registration_end_date"
   end
 
   create_table "event_attachments", :force => true do |t|
     t.integer  "event_id"
-    t.string   "title",                   :null => false
+    t.string   "title",                                     :null => false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.boolean  "public",                  :default => true
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "event_people", :force => true do |t|
@@ -103,11 +104,11 @@ ActiveRecord::Schema.define(:version => 20130105115603) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.text     "proposal_additional_speakers"
     t.integer  "track_id"
     t.integer  "room_id"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.text     "proposal_additional_speakers"
   end
 
   create_table "people", :force => true do |t|
@@ -136,7 +137,6 @@ ActiveRecord::Schema.define(:version => 20130105115603) do
     t.boolean  "using_affiliated_lodging",             :default => true
     t.date     "arrival"
     t.date     "departure"
-    t.text     "additional_speakers"
     t.datetime "created_at",                                              :null => false
     t.datetime "updated_at",                                              :null => false
   end
@@ -204,5 +204,16 @@ ActiveRecord::Schema.define(:version => 20130105115603) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end
+
+  create_table "versions", :force => true do |t|
+    t.string   "item_type",  :null => false
+    t.integer  "item_id",    :null => false
+    t.string   "event",      :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
 end

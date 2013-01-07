@@ -1,7 +1,9 @@
 class Conference < ActiveRecord::Base
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
-                  :start_date, :end_date, :rooms_attributes, :tracks_attributes, :cfp_open, :registration_open,
-                  :event_types_attributes
+                  :start_date, :end_date, :rooms_attributes, :tracks_attributes,
+                  :event_types_attributes, :registration_start_date, :registration_end_date
+
+  has_paper_trail
 
   has_one :call_for_papers, :dependent => :destroy
   has_many :events, :dependent => :destroy
@@ -59,6 +61,15 @@ class Conference < ActiveRecord::Base
       Rails.logger.debug("Returning true")
       true
     end
+  end
+
+  def registration_open?
+    today = Date.current
+    if self.registration_start_date.nil? || self.registration_end_date.nil?
+      false
+    end
+
+    (registration_start_date..registration_end_date).cover?(today)
   end
 
   def cfp_open?

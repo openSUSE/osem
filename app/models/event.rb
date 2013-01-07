@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
-
+  has_paper_trail
   attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person,
                   :proposal_additional_speakers
   acts_as_commentable

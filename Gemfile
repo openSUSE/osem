@@ -30,8 +30,10 @@ gem "haml"
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'node'
 gem 'twitter-bootstrap-rails'
+gem 'paper_trail'
 gem 'formtastic-bootstrap'
 gem 'cocoon'
+gem 'therubyracer'
 gem 'transitions', :require => ["transitions", "active_record/transitions"]
 gem 'acts_as_commentable_with_threading'
 gem 'prawn'

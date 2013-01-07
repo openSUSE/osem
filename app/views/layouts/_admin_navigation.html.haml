@@ -16,6 +16,12 @@
     - else
       %li
         = link_to "Events", admin_conference_events_path(@conference.short_title)
+    - if current_page?(admin_conference_schedule_path(@conference.short_title))
+      %li.active
+        = link_to "Schedule", "#"
+    -else
+      %li
+        = link_to "Schedule ", admin_conference_schedule_path(@conference.short_title)
 %ul.nav.secondary-nav.pull-right
   - if !@conference.nil?
     %li.dropdown

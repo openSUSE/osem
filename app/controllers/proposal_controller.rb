@@ -25,7 +25,7 @@ class ProposalController < ApplicationController
     @event = @person.events.find_by_id(params[:id])
     @attachments = @event.event_attachments
 
-    if @event.nil?
+    if @event.nil? || !@conference.cfp_open?
       redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Invalid proposal.')
     end
   end
