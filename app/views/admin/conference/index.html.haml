@@ -1,0 +1,3 @@
+%ul
+  - @conferences.each do |conference|
+    %li= link_to conference.title, admin_conference_path(conference.short_title)

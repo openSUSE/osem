@@ -1,0 +1,18 @@
+%table.table.table-striped.table-bordered.table-hover
+  %thead
+    %th
+      %b Last Name
+    %th
+      %b First Name
+    %th
+      %b Public Name
+    %th
+      %b # of Conference Registrations
+    %th
+  - @people.each do |person|
+    %tr
+      %td= person.last_name
+      %td= person.first_name
+      %td= person.public_name
+      %td= person.registrations.count
+      %td= link_to "View", admin_person_path(person)

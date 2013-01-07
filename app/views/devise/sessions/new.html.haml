@@ -1,0 +1,13 @@
+.container
+  %h2.center-text
+    Sign in
+  .row
+    .span6.offset3
+      = semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+        = f.input :email
+        = f.input :password
+        - if devise_mapping.rememberable?
+          = f.input :remember_me, :as=> :boolean
+        = f.submit "Sign in"
+
+      = render "devise/shared/links"

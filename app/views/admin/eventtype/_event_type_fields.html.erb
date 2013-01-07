@@ -1,0 +1,7 @@
+<div class="nested-fields">
+    <%= f.inputs do %>
+        <%= f.input :title %>
+        <%= f.input :length, :input_html => {:size => 3} %>
+        <%= remove_association_link :event_type, f %>
+    <% end %>
+</div>

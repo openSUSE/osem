@@ -1,0 +1,18 @@
+.container-fluid
+  .row-fluid
+    .span13
+      %h2.pull-left
+        My Proposals
+      .pull-right{:style=>"margin-top:20px;"}
+        = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-primary"
+  - @events.each do |event|
+    .row-fluid
+      .span12
+        .well
+          .row-fluid
+            .span10
+              = event.title
+            .pull-right
+              = link_to "Edit", edit_conference_proposal_path(@conference.short_title, event.id), :class => "btn btn-mini  btn-primary"
+              = link_to "Withdraw", conference_proposal_path(@conference.short_title, event.id), :method => :delete,
+                  :confirm => "Are you sure you want to withdraw this proposal?", :class => "btn btn-mini btn-danger"

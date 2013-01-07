@@ -1,0 +1,15 @@
+class CreateRoomsTable < ActiveRecord::Migration
+  def up
+    create_table :rooms do |t|
+      t.string :guid, :null => false
+      t.references :conference
+      t.string :name, :null => false
+      t.integer :size
+      t.boolean :public, :default => true
+    end
+  end
+
+  def down
+    drop_table :rooms
+  end
+end

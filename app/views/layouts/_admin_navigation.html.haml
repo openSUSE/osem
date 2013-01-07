@@ -1,0 +1,44 @@
+- if @conference.nil? || @conference.short_title.nil?
+  = link_to "OSEM", admin_conference_index_path, :class => 'brand'
+- else
+  = link_to @conference.title, admin_conference_path(@conference.short_title), :class => 'brand'
+- if @conference && !@conference.short_title.nil?
+  %ul.nav
+    - if current_page?(admin_conference_registrations_path(@conference.short_title))
+      %li.active
+        = link_to "Registrations", "#"
+    - else
+      %li
+        = link_to "Registrations", admin_conference_registrations_path(@conference.short_title)
+    - if current_page?(admin_conference_events_path(@conference.short_title))
+      %li.active
+        = link_to "Events", "#"
+    - else
+      %li
+        = link_to "Events", admin_conference_events_path(@conference.short_title)
+%ul.nav.secondary-nav.pull-right
+  - if !@conference.nil?
+    %li.dropdown
+      = link_to "#", :class => "dropdown-toggle" do
+        Export
+        <b class="caret"></b>
+      %ul.dropdown-menu
+        %li= link_to "JSON", "#"
+        %li= link_to "HTML", "#"
+  %li.dropdown
+    - unless Conference.count == 1 && !has_role?(current_user, "admin")
+      = link_to "#", :class => "dropdown-toggle"  do
+        Conferences
+        <b class="caret"></b>
+      %ul.dropdown-menu
+        - conferences = Conference.order("created_at DESC")
+        - unless conferences.nil?
+          - conferences.each do |c|
+            - unless @conference == c
+              %li= link_to c.short_title, admin_conference_path(c.short_title)
+        - if has_role?(current_user, "admin")
+          %li= link_to "New Conference", new_admin_conference_path
+  - if has_role?(current_user, "admin")
+    %li= link_to "Users", admin_users_path
+  %li= link_to "People", admin_people_path
+  %li= link_to "Log out", destroy_user_session_path, :method => :delete

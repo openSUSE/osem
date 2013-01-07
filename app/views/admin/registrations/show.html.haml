@@ -1,0 +1,48 @@
+.row-fluid
+  .span12
+    .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
+      = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-success"
+.row-fluid
+  .span12
+    %table.table.table-striped.table-bordered.table-hover
+      %thead
+        %th
+          %b Last Name
+        %th
+          %b First Name
+        %th
+          %b Public Name
+        %th
+          %b Email
+        %th
+          %b Attending Social Events
+        %th
+          %b Attending With Partner
+        %th
+          %b Arrival Date
+        %th
+          %b Departure Date
+        %th
+        %th
+      - @registrations.each do |registration|
+        %tr
+          %td
+            = registration.last_name
+          %td
+            = registration.first_name
+          %td
+            = registration.public_name
+          %td
+            = registration.email
+          %td
+            = registration.attending_social_events
+          %td
+            = registration.attending_social_events_with_partner
+          %td
+            = registration.arrival
+          %td
+            = registration.departure
+          %td
+            = link_to "Edit", "#", :class => "btn btn-primary"
+          %td
+            = link_to "Delete", "#", :class => "btn btn-danger", :confirm => "Really delete registration for #{registration.public_name}?"

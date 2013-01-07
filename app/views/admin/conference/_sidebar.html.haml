@@ -1,0 +1,26 @@
+.well.sidebar-nav
+  %ul.nav.nav-list
+    - if activated == "Conference"
+      %li.active= link_to "Conference", "#"
+    - else
+      %li= link_to "Conference", admin_conference_path(@conference.short_title)
+    - if activated == "Call for Papers"
+      %li.active= link_to "Call for Papers", "#"
+    - else
+      %li= link_to "Call for Papers", admin_conference_cfp_info_path(@conference.short_title)
+    - if activated == "Venue"
+      %li.active= link_to "Venue", "#"
+    - else
+      %li= link_to "Venue", admin_conference_venue_info_path(@conference.short_title)
+    - if activated == "Rooms"
+      %li.active= link_to "Rooms", "#"
+    - else
+      %li= link_to "Rooms", admin_conference_rooms_list_path(@conference.short_title)
+    - if activated == "Tracks"
+      %li.active= link_to "Tracks", "#"
+    - else
+      %li= link_to "Tracks", admin_conference_tracks_list_path(@conference.short_title)
+    - if activated == "Event Types"
+      %li.active= link_to "Event Types", "#"
+    - else
+      %li= link_to "Event Types", admin_conference_eventtype_list_path(@conference.short_title)

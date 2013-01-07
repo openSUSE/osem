@@ -1,0 +1,38 @@
+.container-fluid
+  %h1.center-text
+    Upcoming Conferences
+  - @conferences.each do |conference|
+    - if conference.cfp_open?
+      .well
+        %h2.center-text
+          = conference.title
+        %h4.center-text
+          = conference.date_range_string
+        .center-text
+          %i
+            %a= link_to conference.venue.name, conference.venue.website
+            ,
+            = conference.venue.address
+        .row-fluid{:style => "padding-top: 30px;"}
+          .span4
+            - if conference.user_registered?(current_user)
+              = link_to "Modify Registration", register_conference_path(conference.short_title), :class => "mainbutton center-text"
+              %br
+              %i.icon-thumbs-up You're attending!
+            - else
+              = link_to "Register", register_conference_path(conference.short_title), :class => "mainbutton center-text"
+              %br
+              - if !current_user.nil?
+                %i.icon-thumbs-down
+                You haven't registered yet!
+          .span4.offset4.pull-right
+            - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
+              = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "mainbutton center-text"
+              %br
+              - if !current_user.nil?
+                %i.icon-star
+                You've submitted
+                %b= current_user.person.proposal_count conference
+                proposals!
+            - else
+              = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "mainbutton center-text"
