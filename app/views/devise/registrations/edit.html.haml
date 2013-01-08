@@ -5,6 +5,8 @@
         = f.fields_for :person do |p|
           = p.inputs :first_name, :last_name, :public_name
           = p.input :company, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
+          = image_tag current_user.person.avatar(:small)
+          = p.input :avatar, :label => "Picture", :hint => "Upload a new picture."
           = p.input :biography,  :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count')"}, :for => :person
           You have used
           %span#biography-count #{current_user.person.biography_word_count}

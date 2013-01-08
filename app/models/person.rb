@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company
+  attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company, :avatar
 
   has_many :event_people, :dependent => :destroy
   has_many :events, :through => :event_people, :uniq => true
@@ -11,6 +11,10 @@ class Person < ActiveRecord::Base
   before_create :generate_guid
   before_save :set_public_name
 
+  has_attached_file :avatar,
+                    :styles => {:tiny => "16x16>", :small => "32x32>", :large => "128x128>"},
+                    :default_url => "person_:style.png"
+  validates_attachment_content_type :avatar, :content_type => [/jpg/, /jpeg/, /png/, /gif/]
   def to_s
     if self.public_name.empty?
       self.first_name + " " + self.last_name

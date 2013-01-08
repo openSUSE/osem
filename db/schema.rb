@@ -60,14 +60,14 @@ ActiveRecord::Schema.define(:version => 20130107114930) do
 
   create_table "event_attachments", :force => true do |t|
     t.integer  "event_id"
-    t.string   "title",                                     :null => false
+    t.string   "title",                   :null => false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.boolean  "public",                  :default => true
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.boolean  "public"
   end
 
   create_table "event_people", :force => true do |t|
@@ -104,11 +104,11 @@ ActiveRecord::Schema.define(:version => 20130107114930) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.text     "proposal_additional_speakers"
     t.integer  "track_id"
     t.integer  "room_id"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
+    t.text     "proposal_additional_speakers"
   end
 
   create_table "people", :force => true do |t|
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20130107114930) do
     t.boolean  "using_affiliated_lodging",             :default => true
     t.date     "arrival"
     t.date     "departure"
+    t.text     "additional_speakers"
     t.datetime "created_at",                                              :null => false
     t.datetime "updated_at",                                              :null => false
   end
@@ -206,11 +207,12 @@ ActiveRecord::Schema.define(:version => 20130107114930) do
   end
 
   create_table "versions", :force => true do |t|
-    t.string   "item_type",  :null => false
-    t.integer  "item_id",    :null => false
-    t.string   "event",      :null => false
+    t.string   "item_type",      :null => false
+    t.integer  "item_id",        :null => false
+    t.string   "event",          :null => false
     t.string   "whodunnit"
     t.text     "object"
+    t.text     "object_changes"
     t.datetime "created_at"
   end
 
