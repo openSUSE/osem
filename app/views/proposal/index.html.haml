@@ -27,7 +27,7 @@
               %td
                 .pull-right
                   - if event.transition_possible? :confirm
-                    = link_to "Confirm", "#", :class => "btn btn-mini btn-success"
+                    = link_to "Confirm", conference_proposal_confirm_path(@conference.short_title, event), :method => :put, :class => "btn btn-mini btn-success"
                   - if @conference.cfp_open?
                     - if !event.unconfirmed? && !event.confirmed?
                       = link_to "Edit", edit_conference_proposal_path(@conference.short_title, event.id), :class => "btn btn-mini  btn-primary"

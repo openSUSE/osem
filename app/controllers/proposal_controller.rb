@@ -1,9 +1,12 @@
 class ProposalController < ApplicationController
   before_filter :verify_user
-  before_filter :verify_access, :only => [:edit, :update, :destroy]
+  before_filter :verify_access, :only => [:edit, :update, :destroy, :confirm]
 
   def verify_access
     @person = current_user.person
+    if params.has_key? :proposal_id
+      params[:id] = params[:proposal_id]
+    end
     begin
       if !organizer_or_admin?
         @event = @person.event.find(params[:id])
@@ -105,4 +108,24 @@ class ProposalController < ApplicationController
   def show
 
   end
+
+  def confirm
+    if @event.transition_possible? :confirm
+      begin
+        @event.confirm!
+      rescue Exception => e
+        redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Event was NOT confirmed: #{e.message}')
+        return
+      end
+
+      if !@conference.user_registered?(current_user)
+        redirect_to(register_conference_path(@conference.short_title), :notice => "Event was confirmed. Please register to attend the conference.")
+        return
+      end
+      redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :notice => 'Event was confirmed.')
+    else
+      redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Event was NOT confirmed!')
+    end
+  end
+
 end

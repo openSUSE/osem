@@ -33,6 +33,7 @@ Osem::Application.routes.draw do
   resources :conference, :only => [] do
     resources :proposal do
       resources :event_attachment, :controller => "EventAttachments"
+      put "/confirm" => "proposal#confirm"
     end
     member do
       get "/register" => "ConferenceRegistration#register"
