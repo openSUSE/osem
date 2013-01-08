@@ -4,6 +4,11 @@
       %h3.pull-left
         Registration for
         = @conference.title
+  - if @person.proposal_count(@conference) > 0
+    .row-fluid
+      .span12
+        %i
+          Please note: Registration is not automatically performed for speakers.  If you're scheduled to speak at the conference, you still need to register!
   .row-fluid
     .span12
       = semantic_form_for(@registration, :url => register_conference_path(@conference.short_title), :html => { :method => :put }) do |f|

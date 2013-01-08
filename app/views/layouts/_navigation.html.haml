@@ -1,4 +1,22 @@
-= link_to "OSEM", root_path, :class => 'brand'
+- if @conference.nil? || @conference.short_title.nil?
+  = link_to "OSEM", root_path, :class => 'brand'
+- else
+  = link_to @conference.title, root_path, :class => 'brand'
+%ul.nav
+  - if !@conference.nil? && @conference.registration_open?
+    - if current_page?(register_conference_path(@conference.short_title))
+      %li.active
+        = link_to "Registration", "#"
+    - else
+      %li
+        = link_to "Registration", register_conference_path(@conference.short_title)
+  - if !@conference.nil?
+    - if current_page?(conference_proposal_index_path(@conference.short_title))
+      %li.active
+        = link_to "My Proposals", "#"
+    - else
+      %li
+        = link_to "My Proposals", conference_proposal_index_path(@conference.short_title)
 %ul.nav.pull-right
   - if user_signed_in?
     %li

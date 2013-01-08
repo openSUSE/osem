@@ -1,5 +1,19 @@
 class ProposalController < ApplicationController
   before_filter :verify_user
+  before_filter :verify_access, :only => [:edit, :update, :destroy]
+
+  def verify_access
+    @person = current_user.person
+    begin
+      if !organizer_or_admin?
+        @event = @person.event.find(params[:id])
+      else
+        @event = Event.find(params[:id])
+      end
+    rescue Exception => e
+      redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Invalid or uneditable proposal.')
+    end
+  end
 
   def index
     @person = current_user.person
@@ -7,7 +21,7 @@ class ProposalController < ApplicationController
   end
 
   def destroy
-    current_user.person.withdraw_proposal(params[:id])
+    @person.withdraw_proposal(params[:id])
     redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Proposal withdrawn.')
   end
 
@@ -20,26 +34,23 @@ class ProposalController < ApplicationController
 
   def edit
     @url = conference_proposal_path(@conference.short_title, params[:id])
-    @person = current_user.person
     @event_types = @conference.event_types
-    @event = @person.events.find_by_id(params[:id])
     @attachments = @event.event_attachments
 
-    if @event.nil? || !@conference.cfp_open?
-      redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Invalid proposal.')
+    if @event.nil? || !@conference.cfp_open? || @event.unconfirmed? || @event.confirmed?
+      redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Invalid or uneditable proposal.')
     end
   end
 
   def update
-    person = current_user.person
     session[:return_to] ||= request.referer
     submitter = params[:person]
 
     params[:event].delete :people_attributes
     params[:event].delete :person
 
-    if submitter[:public_name] != person.public_name || submitter[:biography] != person.biography
-      person.update_attributes(submitter)
+    if submitter[:public_name] != @person.public_name || submitter[:biography] != @person.biography
+      @person.update_attributes(submitter)
     end
 
     event = Event.find_by_id(params[:id])

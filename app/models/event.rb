@@ -76,6 +76,24 @@ class Event < ActiveRecord::Base
 
   end
 
+  def public_state
+    public_state = "Submitted"
+    case self.state
+      when "withdrawn"
+        public_state = "Withdrawn"
+      when "new", "review"
+        public_state = "Review Pending"
+      when "accepted", "unconfirmed"
+        public_state = "Accepted (confirmation pending)"
+      when "confirmed"
+        public_state = "Confirmed"
+      when "rejected"
+        public_state = "Rejected"
+      when "cancelled"
+        public_state = "Cancelled"
+    end
+    public_state
+  end
   def abstract_word_count
     if self.abstract.nil?
       0
