@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
-
   protect_from_forgery
 
   def verify_user
@@ -8,7 +7,7 @@ class ApplicationController < ActionController::Base
 
     if (current_user.nil?)
       redirect_to '/accounts/sign_in'
-      return
+      return false
     end
 
     @conference = Conference.find_all_by_short_title(params[:conference_id]).first
@@ -19,14 +18,18 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_organizer
-    verify_user
+    if !verify_user
+      return
+    end
 
     ## Todo simplify this
     redirect_to '/' unless has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
   end
 
   def verify_admin
-    verify_user
+    if !verify_user
+      return
+    end
 
     redirect_to '/' unless has_role?(current_user, 'admin')
   end

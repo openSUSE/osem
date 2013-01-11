@@ -7,13 +7,15 @@ class ProposalController < ApplicationController
     if params.has_key? :proposal_id
       params[:id] = params[:proposal_id]
     end
+
     begin
       if !organizer_or_admin?
-        @event = @person.event.find(params[:id])
+        @event = @person.events.find(params[:id])
       else
         @event = Event.find(params[:id])
       end
     rescue Exception => e
+      Rails.logger.debug("Proposal failure in verify_access: #{e.message}")
       redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Invalid or uneditable proposal.')
     end
   end

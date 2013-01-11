@@ -1,43 +1,48 @@
 .schedule-content
-  .unscheduled
-    Unscheduled Events
-    #test1.schedule-event
-      Test
-    #test2.schedule-event
-      Test2
-  .schedule
-    .tabbable
-      %ul.nav.nav-tabs
+  %h2
+    = "Schedule for #{@conference.title}"
+  #unscheduled.unscheduled
+    .unscheduled-header
+      Unscheduled Events
+  #schedule.schedule
+    .schedule-dates-header
+      %ul#date-tabs
         - @dates.each do |date|
-          -if date == @dates.first
-            %li.active
-              = link_to "#{date}", "##{date}-content", "data-toggle"=>"tab"
-          - else
-            %li
-              = link_to "#{date}", "##{date}-content", "data-toggle"=>"tab"
-      .tab-content
-        - @dates.each do |date|
-          - if date == @dates.first
-            .tab-pane.active{:id => "#{date}-content"}
-              = render 'day_tab'
-          - else
-            .tab-pane{:id => "#{date}-content"}
-              = render 'day_tab'
+          %li.date-selector
+            = link_to "#{date}", "#", :id => "#{date}-selector", :onclick => "Schedule.changeDay('#{date}')"
+    .schedule-rooms-container
+      = render 'day_tab'
 
 :javascript
   $(document).ready( function() {
-      $('.schedule-track-column').droppable({
-      accept: '.schedule-event',
-      drop: function(event, ui) {
-          var evtName = ui.draggable.text();
-          var evtDay = $(this).attr('title');
-          alert('Moved \'' + evtName + '\' to ' + evtDay);
-      }
-      });
-      $('.schedule-event').draggable({
-      grid: [150,20],
-      containment: '.schedule-content',
-      opacity: 0.7,
-      zIndex: 2
-      });
+      //Schedule.loadDaysAndTracks("#{@conference.short_title}");
+      var conference = "#{@conference.short_title}"
+      Schedule.loadEvents("#{@conference.short_title}", "#{@dates.first}");
+      $('.schedule-room-slot').droppable({
+                                      accept: '.schedule-event',
+                                      tolerance: "pointer",
+                                      drop: function(event, ui) {
+                                          $(ui.draggable).appendTo(this);
+                                          var myId = $(ui.draggable).attr("guid");
+                                          var myRoom = $(this).attr("room-guid")
+                                          var myDate = $(this).attr("date");
+                                          var myTime = $(this).attr("hour");
+                                          var length = $(ui.draggable).attr("length");
+                                          $(ui.draggable).css("left", 0);
+                                          $(ui.draggable).css("top", 0);
+                                          $(this).css("background-color", "#ffffff");
+
+                                          // 15 minute slots on the schedule are 30px,
+                                          // thus the magic multiplier here
+                                          $(ui.draggable).height(length * 2 - 7);
+                                          $(ui.draggable).width($(this).width() - 10);
+                                          Schedule.save(conference, myId, myRoom, myDate, myTime);
+                                      },
+                                      over: function(event, ui) {
+                                        $(this).css("background-color", "#009ED8");
+                                      },
+                                      out: function(event, ui) {
+                                        $(this).css("background-color", "#ffffff");
+                                      }
+                                  });
   });

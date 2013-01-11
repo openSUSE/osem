@@ -13,6 +13,10 @@ module ApplicationHelper
   end
 
   def has_role?(current_user, role)
+    if current_user.nil?
+      return false
+    end
+
     return !!current_user.role?(role.to_s.camelize)
   end
 

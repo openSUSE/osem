@@ -6,7 +6,7 @@
       = link_to "Attachments", "#attachment-content", "data-toggle"=>"tab"
   .tab-content
     #proposal-content.tab-pane.active
-      = render 'proposal_form'
+      = render 'proposal/proposal_form'
     #attachment-content.tab-pane
       .span12
         = form_for EventAttachment.new, :url => conference_proposal_event_attachment_index_path(@conference.short_title, @event),
@@ -40,6 +40,17 @@
               return false;
           }
           data.formData = inputs.serializeArray();
+      });
+      $.getJSON($('#fileupload').prop('action'), function (files) {
+        var fu = $('#fileupload').data('fileupload'),
+          template;
+        fu._adjustMaxNumberOfFiles(-files.length);
+        template = fu._renderDownload(files)
+          .appendTo($('#fileupload .files'));
+        fu._reflow = fu._transition && template.length &&
+          template[0].offsetWidth;
+        template.addClass('in');
+        $('#loading').remove();
       });
 
   } );

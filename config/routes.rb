@@ -25,6 +25,7 @@ Osem::Application.routes.draw do
         member do
           post :comment
           put :update_state
+          put :update_track
         end
       end
     end

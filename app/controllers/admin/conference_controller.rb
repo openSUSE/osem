@@ -32,5 +32,9 @@ class Admin::ConferenceController < ApplicationController
 
   def show
     @conference = Conference.find_all_by_short_title(params[:id]).first
+    respond_to do |format|
+      format.html
+      format.json { render :json => @conference.to_json }
+    end
   end
 end

@@ -5,8 +5,10 @@
     %i= @event.subtitle
 
   .span2
-    = link_to "Edit Submission", edit_admin_conference_event_path(@conference.short_title, @event),
-            :class => "btn btn-mini btn-primary pull-right", :style => "margin-top:20px;"
+    -#= link_to "Edit Submission", edit_admin_conference_event_path(@conference.short_title, @event),
+    -#        :class => "btn btn-mini btn-primary pull-right", :style => "margin-top:20px;",  :onclick => "javascript:alert('Not ready yet');"
+    = link_to "Edit Submission", "#",
+            :class => "btn btn-mini btn-primary pull-right", :style => "margin-top:20px;",  :onclick => "javascript:alert('Not ready yet');"
 
 .row-fluid
   .span12
@@ -36,12 +38,38 @@
               - if @event.transition_possible? :cancel
                 %li= link_to "Cancel event", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :cancel),
                   :method => :put, :hint => "Mark this event as cancelled. Usually this means that the speakers had to cancel their appearance."
-
+      %tr
+        %td
+          %b Track
+        %td
+          .dropdown
+            = link_to "#", :class => "dropdown-toggle", :id => "track-dropdown" do
+              - if @event.track.nil?
+                Track
+              - else
+                = @event.track.name
+              <b class="caret"></b>
+            %ul.dropdown-menu
+              - @tracks.each do |track|
+                %li= link_to track.name, admin_conference_event_path(@conference.short_title, @event, :track_id => track.id) ,
+                  :method => :put, :track_id => track.id
+      - if !@event.room.nil?
+        %tr
+          %td
+            %b Room
+          %td
+            = @event.room.name
+      - if !@event.start_time.nil?
+        %tr
+          %td
+            %b Scheduled time
+          %td
+            = @event.start_time
       %tr
         %td
           %b Submitter
         %td
-          = link_to @event.submitter.public_name, admin_person_path(@conference.short_title, @event.submitter)
+          = link_to @event.submitter.public_name, admin_person_path(@event.submitter)
           (
           = link_to @event.submitter.email, "mailto: #{@event.submitter.email}"
           )

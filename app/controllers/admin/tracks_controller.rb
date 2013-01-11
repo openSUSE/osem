@@ -3,7 +3,10 @@ class Admin::TracksController < ApplicationController
   layout "admin"
 
   def show
-    render :tracks_list
+    respond_to do |format|
+      format.html { render :tracks_list}
+      format.json { render :json => @conference.tracks.to_json }
+    end
   end
 
   def update

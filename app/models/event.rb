@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
   attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person,
-                  :proposal_additional_speakers
+                  :proposal_additional_speakers, :track_id
   acts_as_commentable
 
   has_many :event_people, :dependent => :destroy
@@ -61,7 +61,28 @@ class Event < ActiveRecord::Base
       nil
     end
   end
+  def as_json(options)
+    json = super(options)
 
+    if self.room.nil?
+      json[:room_guid] = nil
+    else
+      json[:room_guid] = self.room.guid
+    end
+
+    if self.track.nil?
+      json[:track_color]  = "#ffffff"
+    else
+      json[:track_color] = self.track.color;
+    end
+    if self.event_type.nil?
+      json[:length] = 25
+    else
+      json[:length] = self.event_type.length
+    end
+
+    json
+  end
   def transition_possible?(transition)
     self.class.state_machine.events_for(self.current_state).include?(transition)
   end

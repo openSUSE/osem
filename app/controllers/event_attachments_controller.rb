@@ -49,6 +49,15 @@ class EventAttachmentsController < ApplicationController
     params[:event_attachment][:public] = false
     params[:event_attachment][:event_id] = params[:proposal_id]
 
+    if !organizer_or_admin?
+      begin
+        event = current_user.person.events.find(params[:proposal_id])
+      rescue Exception => e
+        # They certainly aren't allowed to attach a file to someone else's proposal
+        raise ActionController::RoutingError.new('Invalid proposal')
+      end
+    end
+
     if params.has_key?(:public)
       params[:event_attachment][:public] = true
     end
@@ -86,11 +95,17 @@ class EventAttachmentsController < ApplicationController
   end
 
   def destroy
-    @proposal = current_user.person.events.find(params[:proposal_id])
-    @upload = @proposal.event_attachments.find(params[:id])
-    @upload.destroy
+    if organizer_or_admin?
+      @upload = Upload.find(params[:id])
+    else
+      @proposal = current_user.person.events.find(params[:proposal_id])
+      @upload = @proposal.event_attachments.find(params[:id])
+    end
+
+    @upload.destroy if !@upload.nil?
 
     respond_to do |format|
+
       format.html { redirect_to uploads_url }
       format.json { head :no_content }
     end

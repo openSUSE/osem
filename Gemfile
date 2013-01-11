@@ -22,14 +22,12 @@ end
 
 gem 'paperclip', '~> 3.0'
 gem 'jquery-rails'
-gem 'jquery_datepicker'
 gem 'jquery-fileupload-rails'
 gem 'devise'
 gem 'cancan'
 gem "haml"
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'node'
-gem 'twitter-bootstrap-rails'
 gem 'paper_trail'
 gem 'formtastic-bootstrap'
 gem 'cocoon'

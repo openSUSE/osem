@@ -6,17 +6,15 @@
     %title= content_for?(:title) ? yield(:title) : "OSEM"
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
-    = stylesheet_link_tag "application", :media => "all"
-    = javascript_include_tag "application"
+    = stylesheet_link_tag "/stylesheets/schedule/jquery-ui-1.9.2.custom.min"
+    = stylesheet_link_tag "/stylesheets/schedule/schedule"
+
+    = javascript_include_tag "/javascripts/schedule/jquery-1.8.3"
+    = javascript_include_tag "/javascripts/schedule/jquery-ui-1.9.2.custom.min"
+    = javascript_include_tag "/javascripts/schedule/date.format"
+    = javascript_include_tag "/javascripts/schedule/schedule"
     = csrf_meta_tags
     = yield(:head)
   %body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container-fluid
-          = render 'layouts/admin_navigation'
-    = render 'layouts/messages'
     .content
-      #wrap
-        #inner-content
-          = yield
+      = yield
