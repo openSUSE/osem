@@ -10,6 +10,8 @@ Osem::Application.routes.draw do
       get "/schedule" => "schedule#show"
       put "/schedule" => "schedule#update"
       get "/registrations" => "registrations#show"
+      get "/emailsettings" => "emails#show", :as => "email_settings"
+      put "/emailsettings" => "emails#update", :as => "email_settings"
       get "/venue" => "venue#show", :as => "venue_info"
       put "/venue" => "venue#update", :as => "venue_update"
       get "/rooms" => "rooms#show", :as => "rooms_list"

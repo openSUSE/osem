@@ -13,6 +13,7 @@ class ConferenceRegistrationController < ApplicationController
     end
   end
 
+  # TODO this is ugly
   def update
     conference = Conference.find_all_by_short_title(params[:id]).first
     person = current_user.person
@@ -37,6 +38,8 @@ class ConferenceRegistrationController < ApplicationController
     redirect_message = "You are now registered."
     if update_registration
       redirect_message = "Registration updated."
+    else
+      Mailbot.registration_mail(request.host_with_port, conference, current_user.person).deliver
     end
     redirect_to(register_conference_path(:id => conference.short_title), :notice => redirect_message)
   end

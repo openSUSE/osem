@@ -5,6 +5,7 @@ class Conference < ActiveRecord::Base
 
   has_paper_trail
 
+  has_one :email_settings, :dependent => :destroy
   has_one :call_for_papers, :dependent => :destroy
   has_many :events, :dependent => :destroy
   has_many :event_types, :dependent => :destroy
@@ -18,6 +19,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :tracks, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :event_types, :allow_destroy => true
+  accepts_nested_attributes_for :email_settings
 
   validates_presence_of :title,
                         :short_title,
@@ -26,7 +28,7 @@ class Conference < ActiveRecord::Base
   validates_format_of :short_title, :with => /^[a-zA-Z0-9_-]*$/
   before_create :generate_guid
   before_create :create_venue
-
+  before_create :create_email_settings
 
   def self.current
     self.order("created_at DESC").first
@@ -88,6 +90,10 @@ class Conference < ActiveRecord::Base
     true
   end
 
+  def create_email_settings
+    build_email_settings
+    true
+  end
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64

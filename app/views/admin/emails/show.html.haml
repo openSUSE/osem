@@ -1,0 +1,50 @@
+.container-fluid
+  .row-fluid
+    .span3
+      = render 'admin/conference/sidebar', :activated => "Emails"
+    .span9
+      = link_to "Template Help", "#", :id => "template-help-link"
+      #template-help
+        Valid attributes:
+        %table.table
+          %tr
+            %td {email}
+            %td The user's email address
+          %tr
+            %td {name}
+            %td The user's full name
+          %tr
+            %td {conference}
+            %td The full conference title
+          %tr
+            %td {proposalslink}
+            %td A link to the user's proposal page
+          %tr
+            %td {registrationlink}
+            %td A link to the registration page
+          %tr
+            %td {eventtitle}
+            %td The title of an accepted or rejected proposal
+
+      = semantic_form_for(@settings, :url => admin_conference_email_settings_path(@conference.short_title),:html => {:multipart => true}) do |f|
+        = f.input :send_on_registration, :label => false, :hint => "Send an email when the user registers for the conference?"
+        = f.input :registration_subject
+        = f.input :registration_email_template, :input_html => { :rows => 10, :cols => 20}
+        = f.input :send_on_accepted, :label => false, :hint => "Send an email when the proposal is accepted?"
+        = f.input :accepted_subject
+        = f.input :accepted_email_template, :input_html => { :rows => 10, :cols => 20 }
+        = f.input :send_on_rejected, :label => false, :hint => "Send an email when the proposal is rejected?"
+        = f.input :rejected_subject
+        = f.input :rejected_email_template, :input_html => { :rows => 10, :cols => 20 }
+        = f.input :send_on_confirmed_without_registration, :label => false, :hint => "Send an email when a user has a confirmed proposal, but isn't yet registered?"
+        = f.input :confirmed_without_registration_subject
+        = f.input :confirmed_email_template, :input_html => { :rows => 10, :cols => 20 }
+        = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+
+:javascript
+  $(document).ready( function() {
+    $("#template-help").hide();
+    $("#template-help-link").click(function() {
+       $("#template-help").toggle();
+    });
+  });

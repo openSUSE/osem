@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130107114930) do
+ActiveRecord::Schema.define(:version => 20130113132225) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -56,6 +56,24 @@ ActiveRecord::Schema.define(:version => 20130107114930) do
     t.datetime "updated_at",              :null => false
     t.date     "registration_start_date"
     t.date     "registration_end_date"
+  end
+
+  create_table "email_settings", :force => true do |t|
+    t.integer  "conference_id"
+    t.boolean  "send_on_registration",                   :default => true
+    t.boolean  "send_on_accepted",                       :default => true
+    t.boolean  "send_on_rejected",                       :default => true
+    t.boolean  "send_on_confirmed_without_registration", :default => true
+    t.text     "registration_email_template"
+    t.text     "accepted_email_template"
+    t.text     "rejected_email_template"
+    t.text     "confirmed_email_template"
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+    t.string   "registration_subject"
+    t.string   "accepted_subject"
+    t.string   "rejected_subject"
+    t.string   "confirmed_without_registration_subject"
   end
 
   create_table "event_attachments", :force => true do |t|

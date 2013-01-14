@@ -24,3 +24,7 @@
       %li.active= link_to "Event Types", "#"
     - else
       %li= link_to "Event Types", admin_conference_eventtype_list_path(@conference.short_title)
+    - if activated == "Emails"
+      %li.active= link_to "Emails", "#"
+    - else
+      %li= link_to "Emails", admin_conference_email_settings_path(@conference.short_title)
