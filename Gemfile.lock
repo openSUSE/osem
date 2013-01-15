@@ -81,6 +81,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.19)
     multi_json (1.5.0)
+    mysql2 (0.3.11)
     node (0.0.2)
       eventmachine
     orm_adapter (0.4.0)
@@ -171,6 +172,7 @@ DEPENDENCIES
   haml
   jquery-fileupload-rails
   jquery-rails
+  mysql2
   node
   paper_trail
   paperclip (~> 3.0)
