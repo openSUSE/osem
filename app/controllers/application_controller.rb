@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
     end
 
     @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    true
   end
 
   def organizer_or_admin?
