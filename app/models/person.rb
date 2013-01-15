@@ -59,7 +59,7 @@ class Person < ActiveRecord::Base
 
   private
   def biography_limit
-    if self.biography.split.size > 150
+    if !self.biography.nil? && self.biography.split.size > 150
       errors.add(:abstract, "cannot have more than 150 words")
     end
   end
