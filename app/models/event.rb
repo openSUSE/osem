@@ -14,11 +14,14 @@ class Event < ActiveRecord::Base
   belongs_to :room
   belongs_to :conference
 
-  accepts_nested_attributes_for :event_people
+  accepts_nested_attributes_for :event_people, :allow_destroy => true
   accepts_nested_attributes_for :event_attachments, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :people
   before_create :generate_guid
+
   validate :abstract_limit
+  validates :title, :presence => true
+  validates :abstract, :presence => true
 
   state_machine :initial => :new do
     state :new

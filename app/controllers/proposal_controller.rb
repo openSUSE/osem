@@ -1,9 +1,15 @@
 class ProposalController < ApplicationController
   before_filter :verify_user
+  before_filter :setup
   before_filter :verify_access, :only => [:edit, :update, :destroy, :confirm]
 
-  def verify_access
+  def setup
     @person = current_user.person
+    @url = conference_proposal_index_path(@conference.short_title)
+    @event_types = @conference.event_types
+  end
+
+  def verify_access
     if params.has_key? :proposal_id
       params[:id] = params[:proposal_id]
     end
@@ -21,7 +27,6 @@ class ProposalController < ApplicationController
   end
 
   def index
-    @person = current_user.person
     @events = @person.proposals @conference
   end
 
@@ -31,10 +36,7 @@ class ProposalController < ApplicationController
   end
 
   def new
-    @url = conference_proposal_index_path(@conference.short_title)
     @event = Event.new
-    @event_types = @conference.event_types
-    @person = current_user.person
   end
 
   def edit
@@ -75,13 +77,26 @@ class ProposalController < ApplicationController
     submitter = params[:person]
     params[:event].delete :person
 
+    @event = Event.new(event_params)
+    @event.conference = @conference
+
+    if submitter[:public_name].blank?
+      flash[:error] = "Your public name cannot be blank."
+      render :action => "new"
+      return
+    end
+
+    if submitter[:biography].blank?
+      flash[:error] = "Your biography cannot be blank."
+      render :action => "new"
+      return
+    end
+
     # First, update the submitter's info, if they've changed anything
     if submitter[:public_name] != person.public_name || submitter[:biography] != person.biography
       person.update_attributes(submitter)
     end
 
-    @event = Event.new(event_params)
-    @event.conference = @conference
     @event.event_people.new(:person => person,
                            :event_role => "submitter")
     @event.event_people.new(:person => person,

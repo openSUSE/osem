@@ -4,6 +4,7 @@ class Person < ActiveRecord::Base
   has_many :event_people, :dependent => :destroy
   has_many :events, :through => :event_people, :uniq => true
   has_many :registrations, :dependent => :destroy
+
   validates :first_name, :presence => true
   validates :last_name, :presence => true
   validate :biography_limit
@@ -65,7 +66,7 @@ class Person < ActiveRecord::Base
   end
 
   def set_public_name
-    if public_name.empty?
+    if public_name.blank?
       self.public_name = "#{first_name} #{last_name}"
     end
   end
