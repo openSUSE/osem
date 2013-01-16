@@ -12,7 +12,7 @@
       %br
       = f.input :description, :input_html => {:rows => 5}, :hint => "This will only be shown to organizers, not to attendees."
     %section#details
-    = f.inputs :name => "Event Details" do
+    = f.inputs :name => "Session Details" do
       = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false
     %section#information
     = f.inputs :name => "Your Information" do
