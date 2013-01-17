@@ -1,0 +1,13 @@
+defaults: &defaults
+  # The hostname to be used when building the URL in the emails
+  url_for_emails: localhost:3000
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+

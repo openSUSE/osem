@@ -17,7 +17,7 @@ class Admin::EventsController < ApplicationController
 
   def show
     @event = @conference.events.find(params[:id])
-    @tracks = Track.all
+    @tracks = @conference.tracks
     @comments = @event.root_comments
     @comment_count = @event.comment_threads.count
   end

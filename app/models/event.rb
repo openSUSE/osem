@@ -91,9 +91,15 @@ class Event < ActiveRecord::Base
   end
 
   def process_acceptance(options)
-    #if options[:send_mail]
-    #end
+    if options[:send_mail]
+      Mailbot.acceptance_mail(self).deliver
+    end
+  end
 
+  def process_rejection(options)
+    if options[:send_mail]
+      Mailbot.rejection_mail(self).deliver
+    end
   end
 
   def public_state
