@@ -7,6 +7,10 @@ html, body,.container,.content {
     height: 60px;
 }
 
+.well {
+    background-color: white;
+    border: 1px solid #299A0B;
+}
 .container, .content {
     position: relative;
 }

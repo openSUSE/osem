@@ -1,7 +1,7 @@
 class Conference < ActiveRecord::Base
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,
-                  :event_types_attributes, :registration_start_date, :registration_end_date
+                  :event_types_attributes, :registration_start_date, :registration_end_date, :logo
 
   has_paper_trail
 
@@ -20,6 +20,13 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :event_types, :allow_destroy => true
   accepts_nested_attributes_for :email_settings
+
+  has_attached_file :logo,
+                    :styles => {:thumb => "100x100>", :large => "300x300>" }
+
+  validates_attachment_content_type :logo,
+                                    :content_type => [/jpg/, /jpeg/, /png/, /gif/],
+                                    :size => { :in => 0..500.kilobytes }
 
   validates_presence_of :title,
                         :short_title,

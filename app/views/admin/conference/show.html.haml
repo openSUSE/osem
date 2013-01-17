@@ -13,5 +13,8 @@
         = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
         = f.input :registration_start_date, :as => :string, :input_html => { :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
         = f.input :registration_end_date, :as => :string, :input_html => { :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
+        - if !@conference.logo.blank?
+          = image_tag @conference.logo(:thumb)
+        = f.input :logo, :label => "Conference Logo", :hint => "This will be displayed on the front page."
         = f.input :html_export_path, :hint => "The path for static HTML exports"
         = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

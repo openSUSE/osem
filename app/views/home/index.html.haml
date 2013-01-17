@@ -1,20 +1,28 @@
 .container-fluid
-  %h1.center-text
+  %h1.center-text{:style => "padding-bottom: 30px"}
     Upcoming Conferences
   - @conferences.each do |conference|
     - if conference.cfp_open? || conference.registration_open?
       .well
-        %h2.center-text
-          = conference.title
-        %h4.center-text
-          = conference.date_range_string
-        .center-text
-          %i
-            %a= link_to conference.venue.name, conference.venue.website
-            ,
-            = conference.venue.address
+        .row-fluid
+          .span3.offset3
+            = image_tag conference.logo(:original)
+          .span3
+            %h2.center-text
+              = conference.title
+            %h4.center-text
+              = conference.date_range_string
+            .center-text
+              %i
+                %a= link_to conference.venue.name, conference.venue.website
+                ,
+                = conference.venue.address
+        .row-fluid
+          .span12
+            .center-text
+              = conference.venue.description
         .row-fluid{:style => "padding-top: 30px;"}
-          .span4
+          .span3
             - if conference.registration_open?
               - if conference.user_registered?(current_user)
                 = link_to "Modify Registration", register_conference_path(conference.short_title), :class => "btn btn-success btn-large"
@@ -23,9 +31,9 @@
                 = link_to "Register", register_conference_path(conference.short_title), :class => "btn btn-success btn-large"
             - else
               %b Registration is closed.
-          .span4.offset4.pull-right
+          .span9
             - if conference.cfp_open?
               - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
-                = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large"
+                = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large pull-right"
               - else
-                = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large"
+                = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large pull-right"
