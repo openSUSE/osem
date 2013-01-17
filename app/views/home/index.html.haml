@@ -2,7 +2,7 @@
   %h1.center-text
     Upcoming Conferences
   - @conferences.each do |conference|
-    - if conference.cfp_open?
+    - if conference.cfp_open? || conference.registration_open?
       .well
         %h2.center-text
           = conference.title
@@ -24,7 +24,8 @@
             - else
               %b Registration is closed.
           .span4.offset4.pull-right
-            - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
-              = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large"
-            - else
-              = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large"
+            - if conference.cfp_open?
+              - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
+                = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large"
+              - else
+                = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large"
