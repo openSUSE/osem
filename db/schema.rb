@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130113132225) do
+ActiveRecord::Schema.define(:version => 20130117130949) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -56,6 +56,10 @@ ActiveRecord::Schema.define(:version => 20130113132225) do
     t.datetime "updated_at",              :null => false
     t.date     "registration_start_date"
     t.date     "registration_end_date"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
   create_table "email_settings", :force => true do |t|
