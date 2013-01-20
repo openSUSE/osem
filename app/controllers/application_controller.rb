@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
     :authenticate_user!
 
     if (current_user.nil?)
-      redirect_to '/accounts/sign_in'
+      redirect_to new_user_session_path
       return false
     end
 
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     end
 
     ## Todo simplify this
-    redirect_to '/' unless has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
+    redirect_to root_path unless has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
   end
 
   def verify_admin
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
       return
     end
 
-    redirect_to '/' unless has_role?(current_user, 'admin')
+    redirect_to root_path unless has_role?(current_user, 'admin')
   end
 
   def current_ability
@@ -41,6 +41,6 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug("Access denied!")
-    redirect_to '/', :alert => exception.message
+    redirect_to root_path, :alert => exception.message
   end
 end
