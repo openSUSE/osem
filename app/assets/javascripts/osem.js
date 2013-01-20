@@ -27,15 +27,20 @@ $(function() {
         }
     });
 
-    $("#conference-reg-start-datepicker").datepicker({
-        dateFormat: 'yy/mm/dd',
+    $("#conference-reg-start-datepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        timeFormat: "HH:mm",
+        showSecond: false,
         numberOfMonths: 2,
         onSelect: function(selected) {
             $("#conference-reg-end-datepicker").datepicker("option","minDate", selected)
         }
     });
-    $("#conference-reg-end-datepicker").datepicker({
-        dateFormat: 'yy/mm/dd',
+
+    $("#conference-reg-end-datepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        timeFormat: "HH:mm",
+        showSecond: false,
         numberOfMonths: 2,
         onSelect: function(selected) {
             $("#conference-reg-start-datepicker").datepicker("option","maxDate", selected)

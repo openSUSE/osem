@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130117130949) do
+ActiveRecord::Schema.define(:version => 20130120104029) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(:version => 20130117130949) do
     t.boolean  "attending_social_events",              :default => true
     t.boolean  "attending_social_events_with_partner", :default => false
     t.boolean  "using_affiliated_lodging",             :default => true
-    t.date     "arrival"
-    t.date     "departure"
+    t.datetime "arrival"
+    t.datetime "departure"
     t.text     "additional_speakers"
     t.datetime "created_at",                                              :null => false
     t.datetime "updated_at",                                              :null => false
