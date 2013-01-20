@@ -19,6 +19,9 @@
         = link_to "My Proposals", conference_proposal_index_path(@conference.short_title)
 %ul.nav.pull-right
   - if user_signed_in?
+    - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+      %li
+        = link_to "Admin Area", admin_conference_index_path
     %li
       = link_to('Sign Out', destroy_user_session_path, :method=>'delete')
   - else
