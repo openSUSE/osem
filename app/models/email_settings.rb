@@ -8,12 +8,12 @@ class EmailSettings < ActiveRecord::Base
         "email" => person.email,
         "name" => person.public_name,
         "conference" => conference.title,
-        "proposalslink" => Rails.application.routes.url_helpers.conference_proposal_url(conference.short_title, event, :host => OSEM_CONFIG["url_for_emails"]),
         "registrationlink" => Rails.application.routes.url_helpers.register_conference_url(conference.short_title, :host => OSEM_CONFIG["url_for_emails"])
     }
 
     if !event.nil?
       h["eventtitle"] = event.title
+      h["proposalslink"] = Rails.application.routes.url_helpers.conference_proposal_url(conference.short_title, event, :host => OSEM_CONFIG["url_for_emails"])
     end
     h
   end
