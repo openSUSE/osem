@@ -5,9 +5,9 @@
     - if conference.cfp_open? || conference.registration_open?
       .well
         .row-fluid
-          .span3.offset3
-            = image_tag conference.logo(:original)
           .span3
+            = image_tag conference.logo(:original)
+          .span9
             %h2.center-text
               = conference.title
             %h4.center-text
@@ -16,7 +16,7 @@
               %i
                 %a= link_to conference.venue.name, conference.venue.website
                 ,
-                = conference.venue.address
+                %a= link_to conference.venue.address, "http://maps.google.com/maps?q=#{conference.venue.address}", :target => "_new"
         .row-fluid
           .span12
             .center-text
