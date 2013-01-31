@@ -1,25 +1,28 @@
 .span12
   = semantic_form_for(@event, :url => @url) do |f|
     %section#basic
-    = f.inputs :name => "Basic Information" do
+    = f.inputs :name => "Session Information" do
       = f.input :title, :required => true
       = f.input :subtitle
-      = f.input :abstract, :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'abstract-count')"}, :required => true
+    %section#details
+      = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false, :label => "Session Type"
+      = f.input :abstract, :input_html => {:rows => 5},
+        :required => true, :label => "Session Abstract"
       You have used
       %span#abstract-count #{@event.abstract_word_count}
-      words.  Abstracts are limited to 250 words.
+      words.  Abstracts are limited to
+      %span#abstract-maximum-word-count
+        250
+      words.
       %br
       %br
       = f.input :description, :input_html => {:rows => 5}, :hint => "This will only be shown to organizers, not to attendees."
-    %section#details
-    = f.inputs :name => "Session Details" do
-      = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false
     %section#information
     = f.inputs :name => "Your Information" do
       = semantic_fields_for @person do |p|
         = p.input :public_name, :required => true
         = p.input :company, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
-        = p.input :biography, :required => true, :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count')"}
+        = p.input :biography, :required => true, :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count', 150)"}
         You have used
         %span#biography-count #{@person.biography_word_count}
         words.  Biographies are limited to 150 words.
@@ -32,3 +35,18 @@
       biography for each.
       = f.input :proposal_additional_speakers, :input_html => {:rows => 5}, :label => false
     = f.action :submit, :as => :button, :label => "Submit Session",  :button_html => {:class => "btn btn-primary"}
+
+:javascript
+  var maxcount = 0;
+
+  $("#event_event_type_id").change(function () {
+    var str = "";
+    #{generate_abstract_length_js @conference}
+    $("#abstract-maximum-word-count").text(str);
+    word_count($('#event_abstract').get(0), 'abstract-count', maxcount);
+  })
+  .trigger('change');
+
+  $("#event_abstract").bind('keyup', function() {
+    word_count(this, 'abstract-count', maxcount);
+  } );

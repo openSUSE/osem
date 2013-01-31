@@ -62,7 +62,7 @@ $(function() {
     $("#comments-div").hide();
 });
 
-function word_count(text, divId) {
+function word_count(text, divId, maxcount) {
     var r = 0;
     var input = text.value.replace(/\s/g,' ');
     var word_array = input.split(' ');
@@ -71,4 +71,11 @@ function word_count(text, divId) {
     }
 
     $('#' + divId).text(r);
+    if (r > maxcount) {
+        console.log("R is greater than maxcount");
+        $('#' + divId).css('color', 'red');
+    } else {
+        console.log("R is less than maxcount");
+        $('#' + divId).css('color', '#333');
+    }
 };

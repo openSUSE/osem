@@ -7,7 +7,7 @@
           = p.input :company, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
           = image_tag current_user.person.avatar(:small)
           = p.input :avatar, :label => "Picture", :hint => "Upload a new picture."
-          = p.input :biography,  :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count')"}, :for => :person
+          = p.input :biography,  :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count', 150)"}, :for => :person
           You have used
           %span#biography-count #{current_user.person.biography_word_count}
           words.  Biographies are limited to 150 words.

@@ -41,8 +41,8 @@ person_tiny.png: person_tiny-eb905998ae5686c9eeb2693a7bc0f898.png
 person_tiny/index.png: person_tiny-eb905998ae5686c9eeb2693a7bc0f898.png
 rails.png: rails-a3386665c05a2d82f711a4aaa72d247c.png
 rails/index.png: rails-a3386665c05a2d82f711a4aaa72d247c.png
-application.js: application-986409c25606174904024db627737590.js
-application/index.js: application-986409c25606174904024db627737590.js
+application.js: application-d14966b224ff14b11626ff9e2d845328.js
+application/index.js: application-d14966b224ff14b11626ff9e2d845328.js
 application.css: application-bcc3d2bf9bcd0688a30ee4cc370479fc.css
 application/index.css: application-bcc3d2bf9bcd0688a30ee4cc370479fc.css
 loading.gif: loading-b7ff30d20adcf2b850f420d17048930c.gif

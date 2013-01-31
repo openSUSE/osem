@@ -20,6 +20,7 @@ class Event < ActiveRecord::Base
   before_create :generate_guid
 
   validate :abstract_limit
+  validate :biography_exists
   validates :title, :presence => true
   validates :abstract, :presence => true
 
@@ -130,11 +131,24 @@ class Event < ActiveRecord::Base
   private
 
   def abstract_limit
-    if self.abstract.split.size > 250
-      errors.add(:abstract, "cannot have more than 250 words")
+    len = self.abstract.split.size
+    max = self.event_type.maximum_abstract_length
+    min = self.event_type.minimum_abstract_length
+
+    if len < min
+      errors.add(:abstract, "cannot have less than #{min} words")
+    end
+
+    if len > max
+      errors.add(:abstract, "cannot have more than #{max} words")
     end
   end
 
+  def biography_exists
+    if self.submitter.biography_word_count == 0
+      errors.add(:person_biography, "must be filled out")
+    end
+  end
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64

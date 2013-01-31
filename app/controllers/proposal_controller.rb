@@ -56,16 +56,27 @@ class ProposalController < ApplicationController
     params[:event].delete :people_attributes
     params[:event].delete :person
 
+    if submitter[:public_name].blank?
+      redirect_to edit_conference_proposal_path(@conference.short_title, @event), :alert => "Your public name cannot be blank"
+      return
+    end
+
+    if submitter[:biography].blank?
+      redirect_to edit_conference_proposal_path(@conference.short_title, @event), :alert => "Your biography cannot be blank"
+      return
+    end
+
     if submitter[:public_name] != @person.public_name || submitter[:biography] != @person.biography
       @person.update_attributes(submitter)
     end
 
     event = Event.find_by_id(params[:id])
 
-    if event.update_attributes!(params[:event])
+    begin
+      event.update_attributes!(params[:event])
       redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :notice => "'#{event.title}' was successfully updated.")
-    else
-      redirect_to session[:return_to], :alert => "'#{event.title}' was NOT updated!"
+    rescue Exception => e
+      redirect_to edit_conference_proposal_path(@conference.short_title, @event), :alert => e.message
     end
   end
 

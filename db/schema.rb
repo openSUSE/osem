@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130120104029) do
+ActiveRecord::Schema.define(:version => 20130131100257) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -104,8 +104,10 @@ ActiveRecord::Schema.define(:version => 20130120104029) do
 
   create_table "event_types", :force => true do |t|
     t.integer "conference_id"
-    t.string  "title",                         :null => false
-    t.integer "length",        :default => 30
+    t.string  "title",                                    :null => false
+    t.integer "length",                  :default => 30
+    t.integer "minimum_abstract_length", :default => 0
+    t.integer "maximum_abstract_length", :default => 500
   end
 
   create_table "events", :force => true do |t|
