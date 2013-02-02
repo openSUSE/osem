@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130131100257) do
+ActiveRecord::Schema.define(:version => 20130202131932) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -42,24 +42,33 @@ ActiveRecord::Schema.define(:version => 20130131100257) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "conferences", :force => true do |t|
-    t.string   "guid",                    :null => false
-    t.string   "title",                   :null => false
-    t.string   "short_title",             :null => false
+    t.string   "guid",                                       :null => false
+    t.string   "title",                                      :null => false
+    t.string   "short_title",                                :null => false
     t.string   "social_tag"
-    t.string   "contact_email",           :null => false
-    t.string   "timezone",                :null => false
+    t.string   "contact_email",                              :null => false
+    t.string   "timezone",                                   :null => false
     t.string   "html_export_path"
-    t.date     "start_date",              :null => false
-    t.date     "end_date",                :null => false
+    t.date     "start_date",                                 :null => false
+    t.date     "end_date",                                   :null => false
     t.integer  "venue_id"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.date     "registration_start_date"
     t.date     "registration_end_date"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.boolean  "use_dietary_choices",     :default => false
+    t.boolean  "use_supporter_levels",    :default => false
+  end
+
+  create_table "dietary_choices", :force => true do |t|
+    t.integer  "conference_id"
+    t.string   "title",         :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "email_settings", :force => true do |t|
@@ -164,6 +173,9 @@ ActiveRecord::Schema.define(:version => 20130131100257) do
     t.text     "additional_speakers"
     t.datetime "created_at",                                              :null => false
     t.datetime "updated_at",                                              :null => false
+    t.integer  "dietary_choice_id"
+    t.text     "other_dietary_choice"
+    t.boolean  "handicapped_access_required",          :default => false
   end
 
   create_table "roles", :force => true do |t|
@@ -183,6 +195,20 @@ ActiveRecord::Schema.define(:version => 20130131100257) do
     t.string  "name",                            :null => false
     t.integer "size"
     t.boolean "public",        :default => true
+  end
+
+  create_table "supporter_levels", :force => true do |t|
+    t.integer "conference_id"
+    t.string  "title",         :null => false
+    t.string  "url"
+  end
+
+  create_table "supporter_registrations", :force => true do |t|
+    t.integer "registration_id"
+    t.integer "supporter_level_id"
+    t.string  "email"
+    t.string  "code"
+    t.boolean "code_is_valid",      :default => false
   end
 
   create_table "tracks", :force => true do |t|

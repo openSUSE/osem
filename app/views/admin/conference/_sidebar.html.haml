@@ -4,6 +4,10 @@
       %li.active= link_to "Conference", "#"
     - else
       %li= link_to "Conference", admin_conference_path(@conference.short_title)
+    - if activated == "Levels"
+      %li.active= link_to "Supporter Levels", "#"
+    - else
+      %li= link_to "Supporter Levels", admin_conference_supporter_levels_path(@conference.short_title)
     - if activated == "Call for Papers"
       %li.active= link_to "Call for Papers", "#"
     - else
@@ -28,3 +32,8 @@
       %li.active= link_to "Emails", "#"
     - else
       %li= link_to "Emails", admin_conference_email_settings_path(@conference.short_title)
+    - if activated == "Diet"
+      %li.active= link_to "Dietary Choices", "#"
+    - else
+      %li= link_to "Dietary Choices", admin_conference_dietary_list_path(@conference.short_title)
+

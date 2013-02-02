@@ -18,16 +18,14 @@ class RegistrationsController < Devise::RegistrationsController
       else
         params[:user].delete :password
         params[:user].delete :password_confirmation
-        params[:user].delete :current_password
       end
     end
 
-
-    successfully_updated = if email_changed or password_changed
-                             @user.update_with_password(params[:user])
-                           else
-                             @user.update_without_password(params[:user])
-                           end
+    if email_changed or password_changed
+      successfully_updated = @user.update_with_password(params[:user])
+    else
+      successfully_updated = @user.update_without_password(params[:user])
+    end
 
     if successfully_updated
       set_flash_message :notice, :updated

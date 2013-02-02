@@ -11,6 +11,8 @@ class ConferenceRegistrationController < ApplicationController
       @registered = false
       @registration = @person.registrations.new(:conference_id => @conference.id)
     end
+
+    @registration.supporter_registration ||= SupporterRegistration.new
   end
 
   # TODO this is ugly
