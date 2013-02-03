@@ -23,7 +23,16 @@
               .span12
                 = render 'layouts/messages'
             .row-fluid
-              .span12
+              %noscript
+                :css
+                   #yield-span {
+                     display: none;
+                   }
+                %h2
+                  JavaScript is not enabled
+                %p
+                  OSEM requires JavaScript to be enabled to function. Please turn on JavaScript in your browser's settings and reload the page to continue.
+              .span12#yield-span
                 = yield
           #push
         #footer
