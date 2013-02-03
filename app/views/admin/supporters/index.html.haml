@@ -1,0 +1,60 @@
+#new-supporter-dialog
+  = semantic_form_for :supporter_registration, :remote => true, :html => {:id => "supporter-add-form"}  do |f|
+    = f.input :name, :label => "Supporter Name"
+    = f.input :email, :label => "Supporter Email"
+    = f.input :supporter_level_id, :as => :select, :collection => @conference.supporter_levels
+    = f.input :code, :label => "Confirmation code"
+    = f.input :code_is_valid, :as => :boolean, :label => false
+    = f.action :submit, :button_html => { :value => "Save", :class => "btn btn-primary" }
+
+.row-fluid
+  .span12
+    .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
+      = link_to "New Supporter", "#", :id => "new-supporter-button", :class => "btn btn-success"
+.row-fluid
+  .span12
+    .well
+      %table.table.table-striped#supporters
+        %thead
+          %th
+            Name
+          %th
+            Email
+          %th
+            Level
+          %th
+            Code
+          %th
+            Code Valid
+        %tbody
+
+:javascript
+  $(document).ready(function() {
+      $('#supporters').dataTable( {
+        "bProcessing": true,
+        "bServerSide": true,
+        sPaginationType: "full_numbers",
+        sAjaxSource: "#{admin_conference_supporters_path(@conference.short_title)}",
+        "aoColumns": [
+        // TODO Disable sorting entirely for now, until issues with joins on the Person are resolved
+              { "bSortable": false },
+              { "bSortable": false },
+              { "bSortable": false },
+              { "bSortable": false },
+              { "bSortable": false },
+            ]
+      } );
+
+      $("#supporter-add-form").live('ajax:error', function(xhr, status, error) {
+        alert('error');
+      })
+      .live('ajax:success', function() {
+        $("#new-supporter-dialog").dialog("close");
+        $("#supporters").dataTable().fnReloadAjax();
+        $("#flash-bar").html("<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert'> ×</a>Supporter added.</div>");
+      });
+      $("#new-supporter-dialog").hide();
+      $("#new-supporter-button").click(function(event) {
+        $("#new-supporter-dialog").dialog();
+      });
+  } );

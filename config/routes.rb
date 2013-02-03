@@ -5,7 +5,6 @@ Osem::Application.routes.draw do
   namespace :admin do
     resources :users
     resources :people
-
     resources :conference do
       get "/schedule" => "schedule#show"
       put "/schedule" => "schedule#update"
@@ -34,6 +33,7 @@ Osem::Application.routes.draw do
           put :update_track
         end
       end
+      resources :supporters
     end
   end
 

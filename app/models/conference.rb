@@ -8,6 +8,7 @@ class Conference < ActiveRecord::Base
 
   has_one :email_settings, :dependent => :destroy
   has_one :call_for_papers, :dependent => :destroy
+  has_many :supporter_registrations, :dependent => :destroy
   has_many :supporter_levels, :dependent => :destroy
   has_many :dietary_choices, :dependent => :destroy
   has_many :events, :dependent => :destroy

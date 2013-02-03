@@ -15,6 +15,7 @@
 //= require jquery-ui
 //= require jquery-fileupload
 //= require jquery-ui-timepicker-addon
+//= require jquery.dataTables
 //= require cocoon
 //= require bootstrap.min
 //= require osem

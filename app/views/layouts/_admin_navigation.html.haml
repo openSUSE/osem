@@ -10,6 +10,13 @@
     - else
       %li
         = link_to "Registrations", admin_conference_registrations_path(@conference.short_title)
+    - if current_page?(admin_conference_supporters_path(@conference.short_title))
+      %li.active
+        = link_to "Supporters", "#"
+    - else
+      %li
+        = link_to "Supporters", admin_conference_supporters_path(@conference.short_title)
+
     - if current_page?(admin_conference_events_path(@conference.short_title))
       %li.active
         = link_to "Events", "#"

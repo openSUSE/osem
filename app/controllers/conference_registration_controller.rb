@@ -12,7 +12,7 @@ class ConferenceRegistrationController < ApplicationController
       @registration = @person.registrations.new(:conference_id => @conference.id)
     end
 
-    @registration.supporter_registration ||= SupporterRegistration.new
+    @registration.supporter_registration ||= SupporterRegistration.new(:conference_id => @conference.id)
   end
 
   # TODO this is ugly
@@ -26,6 +26,7 @@ class ConferenceRegistrationController < ApplicationController
         update_registration = false
         person.update_attributes(params[:registration][:person_attributes])
         params[:registration].delete :person_attributes
+        params[:registration][:supporter_registration_attributes]["conference_id"] = conference.id
         registration = person.registrations.new(params[:registration])
         registration.conference_id = conference.id
         registration.save!

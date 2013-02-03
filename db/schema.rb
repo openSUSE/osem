@@ -206,6 +206,8 @@ ActiveRecord::Schema.define(:version => 20130202131932) do
   create_table "supporter_registrations", :force => true do |t|
     t.integer "registration_id"
     t.integer "supporter_level_id"
+    t.integer "conference_id"
+    t.string  "name"
     t.string  "email"
     t.string  "code"
     t.boolean "code_is_valid",      :default => false
