@@ -5,6 +5,10 @@ class ConferenceRegistrationController < ApplicationController
     # TODO Figure out how to change the route's id from :id to :conference_id
     @conference = Conference.find_all_by_short_title(params[:id]).first
     @person = current_user.person
+    if @person.first_name.blank? || @person.last_name.blank?
+      redirect_to(edit_user_registration, :alert => "Please fill in your first and last name before registering.")
+      return
+    end
     @registration = @person.registrations.where(:conference_id => @conference.id).first
     @registered = true
     if @registration.nil?
