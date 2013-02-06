@@ -62,7 +62,14 @@ class Event < ActiveRecord::Base
     if !result.nil?
       result.person
     else
-      nil
+      person = nil
+      # Perhaps the event_people haven't been saved, if this is a new proposal
+      self.event_people.each do |p|
+        if p.event_role == "submitter"
+          person = p.person
+        end
+      end
+      person
     end
   end
   def as_json(options)
