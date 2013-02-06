@@ -18,8 +18,8 @@
         = f.input :attending_with_partner, :label => false
         = f.input :using_affiliated_lodging, :label => false
         = f.input :handicapped_access_required, :label => false
-        = f.input :arrival, :as => :string,  :input_html => {:value => (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
-        = f.input :departure, :as => :string, :input_html => {:value => (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
+        = f.input :arrival, :as => :string,  :input_html => {:value => (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), :id => "registration-arrival-datepicker", :readonly => "readonly"  }
+        = f.input :departure, :as => :string, :input_html => {:value => (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), :id => "registration-departure-datepicker", :readonly => "readonly"  }
         - if @conference.use_dietary_choices?
           = f.input :dietary_choice, :collection => [["None", nil]] + @conference.dietary_choices.map {|x| [x.title, x.id]},
                     :include_blank => false, :label => "Special Dietary Restriction"
@@ -43,3 +43,26 @@
       $("#supporter-link").html(str);
     })
     .trigger('change');
+
+    $("#registration-arrival-datepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        timeFormat: "HH:mm",
+        showSecond: false,
+        numberOfMonths: 2,
+        defaultDate: '#{@conference.start_date.yesterday.strftime('%Y-%m-%d')}',
+        onSelect: function(selected) {
+            $("#registration-departure-datepicker").datepicker("option","minDate", selected)
+        }
+    });
+
+    $("#registration-departure-datepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        timeFormat: "HH:mm",
+        showSecond: false,
+        numberOfMonths: 2,
+        defaultDate: '#{@conference.end_date.tomorrow.strftime('%Y-%m-%d')}',
+        onSelect: function(selected) {
+            $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
+        }
+    });
+
