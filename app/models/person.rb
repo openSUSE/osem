@@ -67,7 +67,8 @@ class Person < ActiveRecord::Base
 
   def set_public_name
     if public_name.blank?
-      self.public_name = "#{first_name} #{last_name}"
+      self.public_name = ""
+      self.public_name = "#{first_name} #{last_name}" if !first_name.blank? && !last_name.blank?
     end
   end
 
