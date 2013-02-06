@@ -48,7 +48,7 @@
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm",
         showSecond: false,
-        numberOfMonths: 2,
+        numberOfMonths: 1,
         defaultDate: '#{@conference.start_date.yesterday.strftime('%Y-%m-%d')}',
         onSelect: function(selected) {
             $("#registration-departure-datepicker").datepicker("option","minDate", selected)
@@ -59,7 +59,7 @@
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm",
         showSecond: false,
-        numberOfMonths: 2,
+        numberOfMonths: 1,
         defaultDate: '#{@conference.end_date.tomorrow.strftime('%Y-%m-%d')}',
         onSelect: function(selected) {
             $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
