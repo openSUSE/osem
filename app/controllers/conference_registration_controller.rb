@@ -42,14 +42,16 @@ class ConferenceRegistrationController < ApplicationController
         supporter_reg = params[:registration][:supporter_registration_attributes]
         params[:registration].delete :supporter_registration_attributes
         registration = person.registrations.new(params[:registration])
-        if !supporter_reg[:id].blank?
-          # This means that their supporter registration was entered ahead of time, probably by an admin
-          registration.supporter_registration = SupporterRegistration.find(supporter_reg[:id])
-          if registration.supporter_registration.email != person.email
-            raise "Invalid code"
+        if conference.use_supporter_levels? && !supporter_reg.nil?
+          if !supporter_reg[:id].blank?
+            # This means that their supporter registration was entered ahead of time, probably by an admin
+            registration.supporter_registration = SupporterRegistration.find(supporter_reg[:id])
+            if registration.supporter_registration.email != person.email
+              raise "Invalid code"
+            end
+          else
+            registration.supporter_registration = conference.supporter_registrations.new(supporter_reg)
           end
-        else
-          registration.supporter_registration = conference.supporter_registrations.new(supporter_reg)
         end
 
         registration.conference_id = conference.id
