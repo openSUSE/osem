@@ -23,7 +23,7 @@ prawn_document(:force_download=>true, :filename => @pdf_filename) do |pdf|
       row << " "
     end
 
-    if registration.attending_social_events_with_partner.to_s
+    if registration.attending_with_partner.to_s
       row << "X"
     else
       row << " "
