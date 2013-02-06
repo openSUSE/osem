@@ -12,6 +12,8 @@ class ConferenceRegistrationController < ApplicationController
       @registration = @person.registrations.new(:conference_id => @conference.id)
     end
 
+    # Check if there's an existing SupporterRegistration for this email and link it when appropriate
+    @registration.supporter_registration ||= @conference.supporter_registrations.where(:email => @person.email).first
     @registration.supporter_registration ||= SupporterRegistration.new(:conference_id => @conference.id)
   end
 
@@ -21,19 +23,42 @@ class ConferenceRegistrationController < ApplicationController
     person = current_user.person
     registration = person.registrations.where(:conference_id => conference.id).first
     update_registration = true
+    # First verify that the supporter code is legit
+    if !params[:registration][:supporter_registration_attributes].nil? && !params[:registration][:supporter_registration_attributes][:code].empty?
+      regs = conference.supporter_registrations.where(:code => params[:registration][:supporter_registration_attributes][:code])
+
+      if regs.count != 0
+        if regs.where(:email => person.email).count == 0
+          redirect_to(register_conference_path(:id => conference.short_title), :alert => "This code is already in use.  Please contact #{conference.contact_email} for assistance.")
+          return
+        end
+      end
+    end
     begin
       if registration.nil?
         update_registration = false
         person.update_attributes(params[:registration][:person_attributes])
         params[:registration].delete :person_attributes
-        params[:registration][:supporter_registration_attributes]["conference_id"] = conference.id
+        supporter_reg = params[:registration][:supporter_registration_attributes]
+        params[:registration].delete :supporter_registration_attributes
         registration = person.registrations.new(params[:registration])
+        if !supporter_reg[:id].blank?
+          # This means that their supporter registration was entered ahead of time, probably by an admin
+          registration.supporter_registration = SupporterRegistration.find(supporter_reg[:id])
+          if registration.supporter_registration.email != person.email
+            raise "Invalid code"
+          end
+        else
+          registration.supporter_registration = conference.supporter_registrations.new(supporter_reg)
+        end
+
         registration.conference_id = conference.id
         registration.save!
       else
         registration.update_attributes!(params[:registration])
       end
     rescue Exception => e
+      Rails.logger.debug e.backtrace.join("\n")
       redirect_to(register_conference_path(:id => conference.short_title), :alert => 'Registration failed:' + e.message)
       return
     end

@@ -24,11 +24,19 @@ class RegistrationsController < Devise::RegistrationsController
     if email_changed or password_changed
       successfully_updated = @user.update_with_password(params[:user])
     else
+      params[:user].delete :current_password
       successfully_updated = @user.update_without_password(params[:user])
     end
 
     if successfully_updated
-      set_flash_message :notice, :updated
+      if email_changed
+        if !@user.person.nil?
+          @user.person.update_attribute("email", params[:user][:email])
+        end
+        set_flash_message :notice, :update_needs_confirmation
+      else
+        set_flash_message :notice, :updated
+      end
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, :bypass => true
       redirect_to after_update_path_for(@user)

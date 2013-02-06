@@ -14,6 +14,5 @@ class Admin::SupportersController < ApplicationController
     supporter = SupporterRegistration.create!(params[:supporter_registration])
     flash[:notice] = "Supporter added"
     render :json => {"status" => "ok"}
-
   end
 end
