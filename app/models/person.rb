@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company, :avatar
+  attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company, :avatar, :irc_nickname
 
   has_many :event_people, :dependent => :destroy
   has_many :events, :through => :event_people, :uniq => true
