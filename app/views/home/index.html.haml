@@ -14,7 +14,7 @@
               = conference.date_range_string
             .center-text
               %i
-                %a= link_to conference.venue.name, conference.venue.website
+                %a= link_to conference.venue.name, conference.venue.website, :target => "_new"
                 ,
                 %a= link_to conference.venue.address, "http://maps.google.com/maps?q=#{conference.venue.address}", :target => "_new"
         .row-fluid
