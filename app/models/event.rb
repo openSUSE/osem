@@ -99,13 +99,14 @@ class Event < ActiveRecord::Base
   end
 
   def process_acceptance(options)
-    if options[:send_mail]
+    if options[:send_mail] == "true"
+      Rails.logger.debug "Sending acceptance mail"
       Mailbot.acceptance_mail(self).deliver
     end
   end
 
   def process_rejection(options)
-    if options[:send_mail]
+    if options[:send_mail] == "true"
       Mailbot.rejection_mail(self).deliver
     end
   end
