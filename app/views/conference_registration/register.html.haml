@@ -13,7 +13,7 @@
     .span12
       = semantic_form_for(@registration, :url => register_conference_path(@conference.short_title), :html => { :method => :put }) do |f|
         = f.fields_for :person do
-          = f.inputs :public_name, :for => :person
+          = f.inputs :public_name, :as => :string, :for => :person
         = f.input :attending_social_events, :label => false
         = f.input :attending_with_partner, :label => false
         = f.input :using_affiliated_lodging, :label => false
