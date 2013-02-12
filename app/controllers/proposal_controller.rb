@@ -142,7 +142,7 @@ class ProposalController < ApplicationController
       begin
         @event.confirm!
       rescue Exception => e
-        redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Event was NOT confirmed: #{e.message}')
+        redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => "Event was NOT confirmed: #{e.message}")
         return
       end
 

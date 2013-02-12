@@ -2,8 +2,8 @@
   = semantic_form_for(@event, :url => @url) do |f|
     %section#basic
     = f.inputs :name => "Session Information" do
-      = f.input :title, :required => true
-      = f.input :subtitle
+      = f.input :title, :as => :string, :required => true
+      = f.input :subtitle, :as => :string
     %section#details
       = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false, :label => "Session Type"
       = f.input :abstract, :input_html => {:rows => 5},
@@ -23,8 +23,8 @@
     %section#information
     = f.inputs :name => "Your Information" do
       = semantic_fields_for @person do |p|
-        = p.input :public_name, :required => true
-        = p.input :company, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
+        = p.input :public_name, :as => :string, :required => true
+        = p.input :company, :as => :string, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
         = p.input :biography, :required => true, :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count', 150)"}
         You have used
         %span#biography-count #{@person.biography_word_count}

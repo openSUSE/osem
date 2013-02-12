@@ -6,7 +6,7 @@
           = p.input :first_name, :as => :string
           = p.input :last_name, :as => :string
           = p.input :public_name, :as => :string
-          = p.input :irc_nickname, :label => "IRC nick:"
+          = p.input :irc_nickname, :label => "IRC nick:", :as => :string
           = p.input :company, :label => "Affiliation", :as => :string, :hint => "This could be a company, a user group, or nothing at all."
           = image_tag current_user.person.avatar(:small)
           = p.input :avatar, :label => "Picture", :hint => "Upload a new picture."

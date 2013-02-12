@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
       transitions :to => :review, :from=>[:confirmed]
     end
     event :confirm do
-      transitions :to => :confirmed, :from => :unconfirmed
+      transitions :to => :confirmed, :from => :unconfirmed, :on_transition => :process_confirmation
     end
     event :cancel do
       transitions :to => :canceled, :from => [:unconfirmed, :confirmed]
@@ -98,6 +98,13 @@ class Event < ActiveRecord::Base
     self.class.state_machine.events_for(self.current_state).include?(transition)
   end
 
+  def process_confirmation
+    if self.conference.email_settings.send_on_confirmed_without_registration?
+      if self.conference.registrations.where(:person_id => self.submitter.id).first.nil?
+        Mailbot.confirm_reminder_mail(self).deliver
+      end
+    end
+  end
   def process_acceptance(options)
     if options[:send_mail] == "true"
       Rails.logger.debug "Sending acceptance mail"
