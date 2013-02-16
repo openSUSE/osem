@@ -1,13 +1,14 @@
 class Conference < ActiveRecord::Base
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
-                  :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes,
+                  :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes, :social_events_attributes,
                   :event_types_attributes, :registration_start_date, :registration_end_date, :logo
 
   has_paper_trail
 
   has_one :email_settings, :dependent => :destroy
   has_one :call_for_papers, :dependent => :destroy
+  has_many :social_events, :dependent => :destroy
   has_many :supporter_registrations, :dependent => :destroy
   has_many :supporter_levels, :dependent => :destroy
   has_many :dietary_choices, :dependent => :destroy
@@ -21,6 +22,7 @@ class Conference < ActiveRecord::Base
 
   accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
   accepts_nested_attributes_for :tracks, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
+  accepts_nested_attributes_for :social_events, :allow_destroy => true
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :dietary_choices, :allow_destroy => true
   accepts_nested_attributes_for :supporter_levels, :allow_destroy => true

@@ -1,0 +1,7 @@
+<div class="nested-fields">
+    <%= f.inputs do %>
+        <%= f.input :title %>
+        <%= f.input :description, :input_html => {:rows => 5} %>
+        <%= remove_association_link :social_event, f %>
+    <% end %>
+</div>

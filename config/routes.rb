@@ -15,6 +15,8 @@ Osem::Application.routes.draw do
       put "/supporter_levels" => "SupporterLevels#update"
       get "/venue" => "venue#show", :as => "venue_info"
       put "/venue" => "venue#update", :as => "venue_update"
+      get "/social_events" => "SocialEvents#show", :as => "social_events"
+      put "/social_events" => "SocialEvents#update", :as => "social_events"
       get "/rooms" => "rooms#show", :as => "rooms_list"
       put "/rooms" => "rooms#update", :as => "rooms_update"
       get "/tracks" => "tracks#show", :as => "tracks_list"

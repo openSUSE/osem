@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130211170728) do
+ActiveRecord::Schema.define(:version => 20130216122417) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(:version => 20130211170728) do
     t.integer  "conference_id"
     t.boolean  "attending_social_events",     :default => true
     t.boolean  "attending_with_partner",      :default => false
-    t.boolean  "using_affiliated_lodging",    :default => true
+    t.boolean  "using_affiliated_lodging",    :default => false
     t.datetime "arrival"
     t.datetime "departure"
     t.text     "additional_speakers"
@@ -177,6 +177,12 @@ ActiveRecord::Schema.define(:version => 20130211170728) do
     t.integer  "dietary_choice_id"
     t.text     "other_dietary_choice"
     t.boolean  "handicapped_access_required", :default => false
+    t.text     "other_special_needs"
+  end
+
+  create_table "registrations_social_events", :id => false, :force => true do |t|
+    t.integer "registration_id"
+    t.integer "social_event_id"
   end
 
   create_table "roles", :force => true do |t|
@@ -196,6 +202,13 @@ ActiveRecord::Schema.define(:version => 20130211170728) do
     t.string  "name",                            :null => false
     t.integer "size"
     t.boolean "public",        :default => true
+  end
+
+  create_table "social_events", :force => true do |t|
+    t.integer "conference_id"
+    t.string  "title"
+    t.text    "description"
+    t.date    "date"
   end
 
   create_table "supporter_levels", :force => true do |t|
