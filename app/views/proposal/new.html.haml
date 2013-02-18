@@ -2,6 +2,5 @@
   .row
     .span12
       .center-text
-        %pre
-          = @conference.call_for_papers.description
+        = simple_format(@conference.call_for_papers.description)
   = render 'proposal_form'
