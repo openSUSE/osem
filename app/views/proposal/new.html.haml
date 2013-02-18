@@ -1,6 +1,5 @@
 .container
   .row
     .span12
-      .center-text
-        = simple_format(@conference.call_for_papers.description)
+      = simple_format(@conference.call_for_papers.description)
   = render 'proposal_form'
