@@ -30,20 +30,22 @@
       %li
         = link_to "Schedule ", admin_conference_schedule_path(@conference.short_title)
 %ul.nav.secondary-nav.pull-right
+  %li
+    = link_to "User Area", root_url
   - if !@conference.nil?
     %li.dropdown
-      = link_to "#", :class => "dropdown-toggle" do
+      = link_to "#", :class => "dropdown-toggle", :id =>'drop1', "data-toggle" => 'dropdown' do
         Export
         <b class="caret"></b>
-      %ul.dropdown-menu
+      %ul.dropdown-menu{:role => 'menu', "aria-labelledby" => "drop1"}
         %li= link_to "JSON", "#"
         %li= link_to "HTML", "#"
   %li.dropdown
     - unless Conference.count == 1 && !has_role?(current_user, "admin")
-      = link_to "#", :class => "dropdown-toggle"  do
+      = link_to "#", :class => "dropdown-toggle", :id => 'drop2', "data-toggle" => 'dropdown'  do
         Conferences
         <b class="caret"></b>
-      %ul.dropdown-menu
+      %ul.dropdown-menu{:role => 'menu', "aria-labelledby" => "drop2"}
         - conferences = Conference.order("created_at DESC")
         - unless conferences.nil?
           - conferences.each do |c|
