@@ -140,7 +140,7 @@ class ProposalController < ApplicationController
   def confirm
     if @event.transition_possible? :confirm
       begin
-        @event.confirm!
+        @event.confirm!(:send_mail => params[:send_mail])
       rescue Exception => e
         redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => "Event was NOT confirmed: #{e.message}")
         return
