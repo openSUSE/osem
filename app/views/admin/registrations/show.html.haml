@@ -4,6 +4,10 @@
       = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-success"
 .row-fluid
   .span12
+    %h2
+      Registrations
+      - if @registrations
+        = "(#{@registrations.length})"
     %table.table.table-striped.table-bordered.table-hover
       %thead
         %th
