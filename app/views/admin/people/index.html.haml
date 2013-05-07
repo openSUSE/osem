@@ -2,31 +2,34 @@
   People
   - if @people
     = "(#{@people.length})"
-%table.table.table-striped.table-bordered.table-hover#people
-  %thead
-    %th
-      %b Email
-    %th
-      %b Last Name
-    %th
-      %b First Name
-    %th
-      %b Public Name
-    %th
-      %b # of Conference Registrations
-    %th
-  - @people.each do |person|
-    %tr
-      %td= person.email
-      %td= person.last_name
-      %td= person.first_name
-      %td= person.public_name
-      %td= person.registrations.count
-      %td= link_to "View", admin_person_path(person)
+.well
+  %table.table.table-striped.table-bordered.table-hover#people
+    %thead
+      %th
+        %b Email
+      %th
+        %b Last Name
+      %th
+        %b First Name
+      %th
+        %b Public Name
+      %th
+        %b # of Conference Registrations
+      %th
+    - @people.each do |person|
+      %tr
+        %td= person.email
+        %td= person.last_name
+        %td= person.first_name
+        %td= person.public_name
+        %td= person.registrations.count
+        %td= link_to "View", admin_person_path(person)
 
 :javascript
   $(document).ready(function() {
       $('#people').dataTable( {
-        sPaginationType: "full_numbers"
+        "bScrollInfinite": true,
+        "bScrollCollapse": true,
+        "sScrollY": "200px"
       } );
   } );
