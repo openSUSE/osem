@@ -18,7 +18,7 @@
           - @events.each do |event|
             %tr
               %td
-                = event.title
+                = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
               %td
                 = event.public_state
                 - if event.confirmed? && !@conference.user_registered?(current_user)

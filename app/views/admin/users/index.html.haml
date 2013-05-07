@@ -1,7 +1,11 @@
 .container-fluid
   .row-fluid
     .span12
-      %table.table.table-striped.table-bordered.table-hover
+      %h2
+        Users
+        - if @users
+          = "(#{@users.length})"
+      %table.table.table-striped.table-bordered.table-hover#users
         %thead
           %th
             %b Email
@@ -55,3 +59,9 @@
                 "data-content" => user.popup_details,
                 "data-original-title" => ""
 
+:javascript
+  $(document).ready(function() {
+      $('#users').dataTable( {
+        sPaginationType: "full_numbers"
+      } );
+  } );

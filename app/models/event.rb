@@ -143,6 +143,12 @@ class Event < ActiveRecord::Base
       self.abstract.split.size
     end
   end
+
+  def type
+    type = EventType.find(self.event_type_id)
+    type if type
+  end
+
   private
 
   def abstract_limit

@@ -15,6 +15,12 @@
     %table.table
       %tr
         %td
+          %b Type
+        %td
+          - if @event.type
+            = @event.type.title
+      %tr
+        %td
           %b State
         %td
           .dropdown
