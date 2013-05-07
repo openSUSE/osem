@@ -28,8 +28,8 @@ prawn_document(:force_download=>true, :filename => @pdf_filename) do |pdf|
     else
       row << " "
     end
-    row << registration.arrival
-    row << registration.departure
+    row << registration.arrival.to_s
+    row << registration.departure.to_s
     table_array << row
   end
 

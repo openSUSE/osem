@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
     state :rejected
 
     event :start_review do
-      transitions :to => :review, :from => [:new, :rejected]
+      transitions :to => :review, :from => [:new, :rejected, :canceled]
     end
     event :withdraw do
       transitions :to => :withdrawn, :from => [:new, :review, :unconfirmed]
@@ -98,7 +98,7 @@ class Event < ActiveRecord::Base
     self.class.state_machine.events_for(self.current_state).include?(transition)
   end
 
-  def process_confirmation
+  def process_confirmation(options)
     if self.conference.email_settings.send_on_confirmed_without_registration?
       if self.conference.registrations.where(:person_id => self.submitter.id).first.nil?
         Mailbot.confirm_reminder_mail(self).deliver
