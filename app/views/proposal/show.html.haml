@@ -17,8 +17,8 @@
         %td
           %b Type
         %td
-          - if @event.type
-            = @event.type.title
+          - if @event.event_type
+            = @event.event_type.title
       - if !@event.track.nil?
         %tr
           %td
