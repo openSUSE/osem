@@ -30,3 +30,16 @@
   - if user_signed_in?
     %li
       = link_to('Edit account', edit_user_registration_path)
+  %li.dropdown
+    - unless Conference.count == 1 && !has_role?(current_user, "admin")
+      = link_to "#", :class => "dropdown-toggle"  do
+        Conferences
+        <b class="caret"></b>
+      %ul.dropdown-menu
+        - conferences = Conference.order("created_at DESC")
+        - unless conferences.nil?
+          - conferences.each do |c|
+            - unless @conference == c
+              %li= link_to c.short_title, admin_conference_path(c.short_title)
+        - if has_role?(current_user, "admin")
+          %li= link_to "New Conference", new_admin_conference_path

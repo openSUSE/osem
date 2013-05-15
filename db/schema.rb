@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130216122417) do
+ActiveRecord::Schema.define(:version => 20130515131420) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -91,14 +91,14 @@ ActiveRecord::Schema.define(:version => 20130216122417) do
 
   create_table "event_attachments", :force => true do |t|
     t.integer  "event_id"
-    t.string   "title",                   :null => false
+    t.string   "title",                                      :null => false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
-    t.boolean  "public"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.boolean  "public",                  :default => false
   end
 
   create_table "event_people", :force => true do |t|
@@ -171,7 +171,6 @@ ActiveRecord::Schema.define(:version => 20130216122417) do
     t.boolean  "using_affiliated_lodging",    :default => false
     t.datetime "arrival"
     t.datetime "departure"
-    t.text     "additional_speakers"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
     t.integer  "dietary_choice_id"
@@ -262,14 +261,14 @@ ActiveRecord::Schema.define(:version => 20130216122417) do
 
   create_table "venues", :force => true do |t|
     t.string   "guid"
-    t.string   "name"
-    t.string   "address"
+    t.text     "name",               :limit => 255
+    t.text     "address",            :limit => 255
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
     t.string   "offline_map_bounds"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "versions", :force => true do |t|

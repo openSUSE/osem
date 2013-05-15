@@ -5,14 +5,17 @@
     %i= @event.subtitle
 
   .span2
-    -#= link_to "Edit Submission", edit_admin_conference_event_path(@conference.short_title, @event),
-    -#        :class => "btn btn-mini btn-primary pull-right", :style => "margin-top:20px;",  :onclick => "javascript:alert('Not ready yet');"
     = link_to "Edit Submission", "#",
             :class => "btn btn-mini btn-primary pull-right", :style => "margin-top:20px;",  :onclick => "javascript:alert('Not ready yet');"
 
 .row-fluid
   .span12
     %table.table
+      %tr
+        %td
+          %b Type
+        %td
+          = @event.event_type.title
       %tr
         %td
           %b State
