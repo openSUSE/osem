@@ -1,3 +1,8 @@
+config/application.rb
+config/config.yml
+config/database.yml
+/vendor/cache
+/vendor/cache-old
 /storage/*
 .idea/*
 *.iml
