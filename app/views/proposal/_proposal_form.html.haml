@@ -6,7 +6,7 @@
       = f.input :subtitle, :as => :string
     %section#details
       = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false, :label => "Session Type"
-      = f.input :abstract, :input_html => {:rows => 5},
+      = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
         :required => true, :label => "Session Abstract"
       You have used
       %span#abstract-count #{@event.abstract_word_count}
@@ -19,13 +19,13 @@
       words.
       %br
       %br
-      = f.input :description, :input_html => {:rows => 5}, :hint => "This will only be shown to organizers, not to attendees."
+      = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
     %section#information
     = f.inputs :name => "Your Information" do
       = semantic_fields_for @person do |p|
         = p.input :public_name, :as => :string, :required => true
         = p.input :company, :as => :string, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
-        = p.input :biography, :required => true, :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count', 150)"}
+        = p.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
         You have used
         %span#biography-count #{@person.biography_word_count}
         words.  Biographies are limited to 150 words.
@@ -36,7 +36,7 @@
     = f.inputs :name => "Additional Speakers" do
       Will there be any additional speakers?  If so, please enter their full names, email address, and a short
       biography for each.
-      = f.input :proposal_additional_speakers, :input_html => {:rows => 5}, :label => false
+      = f.input :proposal_additional_speakers, :input_html => {:rows => 5, :class => "span11"}, :label => false
     = f.action :submit, :as => :button, :label => "Submit Session",  :button_html => {:class => "btn btn-primary"}
 
 :javascript
