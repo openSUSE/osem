@@ -38,7 +38,7 @@ class Event < ActiveRecord::Base
       transitions :to => :review, :from => [:new, :rejected, :canceled]
     end
     event :withdraw do
-      transitions :to => :withdrawn, :from => [:new, :review, :unconfirmed]
+      transitions :to => :withdrawn, :from => [:new, :review, :unconfirmed, :confirmed]
     end
     event :accept do
       transitions :to => :unconfirmed, :from => [:new, :review], :on_transition => :process_acceptance

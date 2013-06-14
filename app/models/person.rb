@@ -79,4 +79,17 @@ class Person < ActiveRecord::Base
     self.guid = guid
   end
 
+  def confirmed?
+    if User.exists?(self.user_id)
+      user = User.find(self.user_id)
+      if user.confirmed?
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
 end

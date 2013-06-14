@@ -4,6 +4,16 @@ class Admin::PeopleController < ApplicationController
 
   def index
     @people = Person.all
+    mails = []
+    @people.each do |p|
+      if p.registrations.count < 1 and p.confirmed?
+        mails << p.email
+     end
+    end
+    respond_to do |format|
+      format.html
+      format.text { render :text => mails }
+    end
   end
 
   def create

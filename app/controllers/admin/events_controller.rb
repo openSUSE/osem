@@ -1,7 +1,9 @@
 class Admin::EventsController < ApplicationController
   before_filter :verify_organizer
   layout "admin"
-  around_filter :set_timezone_for_this_request
+  # FIXME: The timezome should only be applied on output, otherwise
+  # you get lost in timezone conversions...
+  # around_filter :set_timezone_for_this_request
 
   def set_timezone_for_this_request(&block)
     Time.use_zone(@conference.timezone, &block)
@@ -9,6 +11,7 @@ class Admin::EventsController < ApplicationController
 
   def index
     @events = @conference.events
+    @tracks = @conference.tracks
     respond_to do |format|
       format.html
       format.json { render :json => Event.where(:state => :confirmed) }
@@ -50,7 +53,7 @@ class Admin::EventsController < ApplicationController
     if params.has_key? :track_id
       @event.update_attribute(:track_id, params[:track_id])
     end
-    redirect_to(admin_conference_event_path(@conference.short_title, @event), :notice => "Updated")
+    redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event), :notice => "Updated")
   end
 
   def create

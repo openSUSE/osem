@@ -8,24 +8,48 @@
       %table.table.table-striped.table-bordered.table-hover#events
         %thead
           %th
+            %b ID
+          %th
             %b Title
           %th
             %b Submitter
           %th
             %b Type
           %th
+            %b Track
+          %th
             %b State
         - @events.each do |event|
           %tr
             %td
-              =link_to event.title, admin_conference_event_path(@conference.short_title, event)
+              = event.id
             %td
+              =link_to event.title, admin_conference_event_path(@conference.short_title, event)
+            - if event.submitter.registrations.count < 1 
+              - bgcolor="#F7819F"
+            - else 
+              - bgcolor=""
+            %td{:style=>"background-color: #{bgcolor}"}
               - if !event.submitter.nil?
                 =link_to event.submitter.public_name, admin_person_path(event.submitter)
+                - if event.submitter.registrations.count < 1
+                  (Unregistered!)
               - else
                 Unknown submitter
             %td
               = event.event_type.title
+            %td
+              .dropdown
+                = link_to "#", :class => "dropdown-toggle", :id => "track-dropdown" do
+                  - if event.track.nil?
+                    Track
+                  - else
+                    = event.track.name
+                  <b class="caret"></b>
+                %ul.dropdown-menu
+                  - @tracks.each do |track|
+                    %li= link_to track.name, admin_conference_event_path(@conference.short_title, event, :track_id => track.id) ,
+                      :method => :put, :track_id => track.id
             %td
               - if event.state == "withdrawn"
                 Withdrawn

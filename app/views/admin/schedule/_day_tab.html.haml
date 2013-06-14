@@ -1,7 +1,7 @@
 .schedule-time-column
   .schedule-time-column-header
     = Time
-  - (7..23).each do |hour|
+  - (9..18).each do |hour|
     .schedule-time-slot
       = "#{hour}:00"
     .schedule-time-slot
@@ -15,7 +15,8 @@
   .schedule-room-column{:id => "schedule-room-#{room.guid}", "room-guid" => room.guid}
     .schedule-room-column-header
       = room.name
-    - (7..23).each do |hour|
+      = "(#{room.size} people)"
+    - (9..18).each do |hour|
       .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-0", "room-guid" => room.guid, "hour" => "#{hour}:00"}
       .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-15", "room-guid" => room.guid, "hour" => "#{hour}:15"}
       .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-30", "room-guid" => room.guid, "hour" => "#{hour}:30"}

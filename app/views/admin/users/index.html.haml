@@ -9,6 +9,10 @@
         %table.table.table-striped.table-bordered.table-hover#users
           %thead
             %th
+              %b ID
+            %th
+              %b State
+            %th
               %b Email
             %th
               %b Last Name
@@ -21,7 +25,15 @@
             %th
             %th
           - @users.each do |user|
+            - person = Person.find_person_by_user_id(user.id)
             %tr
+              %td
+                = user.id
+              %td
+                - if user.confirmed?
+                  confirmed
+                - else
+                  unconfirmed
               %td
                 = user.email
               %td
@@ -63,8 +75,7 @@
 :javascript
   $(document).ready(function() {
       $('#users').dataTable( {
-        "bScrollInfinite": true,
-        "bScrollCollapse": true,
-        "sScrollY": "200px"
+        "bPaginate": false,
+        "bLengthChange": false
       } );
   } );

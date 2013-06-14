@@ -20,6 +20,15 @@ module ApplicationHelper
     return !!current_user.role?(role.to_s.camelize)
   end
 
+  # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
+  def redirect_back_or_to(options = {}, response_status = {})
+    if request.env["HTTP_REFERER"]
+      redirect_to(:back)
+    else
+      redirect_to(options, response_status)
+    end
+  end
+
   # TODO Output better html
   def format_comments(comment, padding = 0)
     result = ""
