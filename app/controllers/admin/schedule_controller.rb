@@ -1,5 +1,6 @@
 class Admin::ScheduleController < ApplicationController
   before_filter :verify_organizer
+  skip_before_filter :verify_authenticity_token, :only => [:update]
   layout "schedule"
 
   def show
@@ -39,8 +40,11 @@ class Admin::ScheduleController < ApplicationController
     time = "#{params[:date]} #{params[:time]}"
 
     Rails.logger.debug("Loading #{time}")
-    zone = ActiveSupport::TimeZone::new(@conference.timezone)
-    startTime = DateTime.strptime(time + zone.formatted_offset, "%Y-%m-%d %k:%M %Z")
+    # FIXME: Same here as in events_controller.rb. Event timezone should be applied
+    # only on output 
+    # zone = ActiveSupport::TimeZone::new(@conference.timezone)
+    # startTime = DateTime.strptime(time + zone.formatted_offset, "%Y-%m-%d %k:%M %Z")
+    startTime = DateTime.strptime(time, "%Y-%m-%d %k:%M")
     event.start_time = startTime
     event.save!
     render :json => {"status" => "ok"}
