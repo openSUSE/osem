@@ -30,7 +30,7 @@ var scheduleDayEvents = {};
 var Schedule = {
     loadEvents: function(conference_id, start_date) {
         var eventDates = {};
-        var url = '/admin/conference/' + conference_id + '/events';
+        var url = '/osem/admin/conference/' + conference_id + '/events';
         var params = { start: $('#start').text(), end: $('#end').text()};
         var callback = function(data) {
             $.each(data, function(key, val) {
@@ -45,7 +45,7 @@ var Schedule = {
             + '<div onclick="Schedule.remove(\'event-' + vars["guid"] + '\', \'' + conference_id +'\');" class="schedule-event-delete-button">X</div>'
             + '<div>' + vars["title"] + '</div></div>');
         var date = "none";
-        var hour = "14";
+        var hour = "12";
         var minute = "0";
         console.log(vars);
         if (vars["start_time"] != null) {
@@ -55,7 +55,7 @@ var Schedule = {
                 + ('0' + d.getUTCDate()).slice(-2);
             hour = d.getUTCHours();
             minute = d.getUTCMinutes();
-            console.log(d);
+            console.log("date: " + d);
         }
         newEvent.addClass("schedule-event");
         newEvent.css('background-color',vars["track_color"]);
@@ -104,7 +104,7 @@ var Schedule = {
         var e =  $("#" + element);
         var unscheduled = $("#unscheduled");
 
-        var url = '/admin/conference/' + conference_id + '/schedule';
+        var url = '/osem/admin/conference/' + conference_id + '/schedule';
         var params = {
             event: e.attr("guid"),
             room: "none",
@@ -156,7 +156,7 @@ var Schedule = {
         }
     },
     save: function (conference_id, event_id, room_id, date, time) {
-        var url = '/admin/conference/' + conference_id + '/schedule';
+        var url = '/osem/admin/conference/' + conference_id + '/schedule';
         var params = {
             event: event_id,
             room: room_id,
