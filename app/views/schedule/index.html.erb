@@ -39,27 +39,31 @@
                 <% if !event.empty? %>
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
-                  <td rowspan ="<%= span[room.id] %>" >
-                    <p>
+                  <td style="width: <%= 95 / @rooms.length %>%" rowspan ="<%= span[room.id] %>" class="event" >
                       <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name%><br>
-                    </p>
                     <h5>
+                      <i class="icon-comment"></i>
                       <%= event[0].title %><br>
-                      <span class="muted"><%= event[0].subtitle %></span><br>
+                      <% unless event[0].subtitle.empty? %>
+                        <span class="text-error"><%= event[0].subtitle %></span><br>
+                      <% end %>
+                      <i class="icon-user"></i>
+                      <%= event[0].submitter.public_name %>
                       <% if event[0].track%>
-                        <span class="text-warning">in track</span>
+                        <br><i class="icon-road"></i>
                         <span style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
                         <% end -%>
                     </h5>
                     <% if span[room.id] > 2 %>
-                        <%= truncate(event[0].abstract, :length => 80) %>
+                        <% length = span[room.id] * 40 %>
+                        <%= truncate(event[0].abstract, :length => length) %>
                     <% end %>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
                   <% end %>
                   <% if span[room.id] == 1 %>
                     <!-- span equals 1 show an empty td -->
-                    <td class="empty <%= "room" + "#{room.id}" %>">
+                    <td style="width: <%= 95 / @rooms.length %>%">
                     </td>
                   <% end %>
                   <% if span[room.id] > 1 %>
