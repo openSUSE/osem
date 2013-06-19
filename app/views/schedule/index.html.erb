@@ -40,9 +40,8 @@
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
                   <td rowspan ="<%= span[room.id] %>" >
-                    <p class="pull-right text-info text-center">
-                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right" %><br>
-                      <small><%= event[0].submitter.public_name %></small>
+                    <p>
+                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name%><br>
                     </p>
                     <h5>
                       <%= event[0].title %><br>
