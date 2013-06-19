@@ -44,6 +44,9 @@ Osem::Application.routes.draw do
       resources :event_attachment, :controller => "EventAttachments"
       put "/confirm" => "proposal#confirm"
     end
+    resource :schedule, :only => [] do
+      get "/" => "schedule#index"
+    end
     member do
       get "/register" => "ConferenceRegistration#register"
       put "/register" => "ConferenceRegistration#update"

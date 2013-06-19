@@ -30,7 +30,7 @@ var scheduleDayEvents = {};
 var Schedule = {
     loadEvents: function(conference_id, start_date) {
         var eventDates = {};
-        var url = '/osem/admin/conference/' + conference_id + '/events';
+        var url = '/admin/conference/' + conference_id + '/events';
         var params = { start: $('#start').text(), end: $('#end').text()};
         var callback = function(data) {
             $.each(data, function(key, val) {
@@ -104,7 +104,7 @@ var Schedule = {
         var e =  $("#" + element);
         var unscheduled = $("#unscheduled");
 
-        var url = '/osem/admin/conference/' + conference_id + '/schedule';
+        var url = '/admin/conference/' + conference_id + '/schedule';
         var params = {
             event: e.attr("guid"),
             room: "none",
@@ -156,7 +156,7 @@ var Schedule = {
         }
     },
     save: function (conference_id, event_id, room_id, date, time) {
-        var url = '/osem/admin/conference/' + conference_id + '/schedule';
+        var url = '/admin/conference/' + conference_id + '/schedule';
         var params = {
             event: event_id,
             room: room_id,

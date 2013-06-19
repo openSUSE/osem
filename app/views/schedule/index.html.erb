@@ -1,0 +1,64 @@
+<div id="schedule-content">
+  <h2> Schedule for <%= @conference.title %></h2>
+  <ul class="nav nav-tabs">
+    <% @dates.each do |date| %>
+      <li <%= "class=active" if @dates.first == date %>>
+        <%= link_to date, "#" + "#{date}", "data-toggle" => "tab" %>
+      </li>
+   <% end %>
+   </ul>
+
+  <div class="tab-content">
+    <% @dates.each do |date| %>
+      <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
+        <table class="table table-striped table-bordered" width="100%">
+          <tr>
+            <th>Time</th>
+            <% @rooms.each do |room| %>
+              <th><%= room.name %></th>
+            <% end %>
+          </tr>
+
+              <% span = {} %>
+              <% @rooms.each do |room| %>
+                <% span[room.id] = 1 %>
+              <% end %>
+
+          <% conf_start = DateTime.parse("#{date} 09:00") %>
+          <% conf_end = DateTime.parse("#{date} 19:00") %>
+
+          <% while conf_start < conf_end %>
+
+            <tr>
+              <td style="width:10%">
+                <%= conf_start.strftime("%H:%M") %>
+              </td>
+
+              <% @rooms.each do |room| %>
+                <% event = @events.find_all{|event|event.start_time and event.start_time.strftime("%Y-%m-%d %H:%M").eql? conf_start.strftime("%Y-%m-%d %H:%M") and event.room_id == room.id } %>
+                <% if !event.empty? %>
+                  <!-- There is an event, calculate the span and show it -->
+                  <% span[room.id] = event[0].event_type.length / 15 %>
+                  <td style="width:45%" rowspan ="<%= span[room.id] %>">
+                    <%= event[0].title %><br>
+                   </td>
+                   <% span[room.id] = span[room.id] + 1 %>
+                  <% end %>
+                  <% if span[room.id] == 1 %>
+                    <!-- span equals 1 show an empty td -->
+                    <td  style="width:45%"class="empty <%= "room" + "#{room.id}" %>">
+                      Empty
+                    </td>
+                  <% end %>
+                  <% if span[room.id] > 1 %>
+                  <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
+                    <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
+                  <% end %>
+               <%end %>
+            </tr>
+            <% conf_start += 15.minutes %>
+          <%end %>
+        </table>
+      </div>
+    <% end %>
+  </div>
