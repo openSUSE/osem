@@ -41,15 +41,15 @@
                   <% span[room.id] = event[0].event_type.length / 15 %>
                   <td rowspan ="<%= span[room.id] %>" >
                     <p class="pull-right text-info text-center">
-                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle" %><br>
+                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right" %><br>
                       <small><%= event[0].submitter.public_name %></small>
                     </p>
                     <h5>
-                      <%= event[0].event_type.title %>:
                       <%= event[0].title %><br>
                       <span class="muted"><%= event[0].subtitle %></span><br>
                       <% if event[0].track%>
-                        Track: <span style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+                        <span class="text-warning">in track</span>
+                        <span style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
                         <% end -%>
                     </h5>
                     <% if span[room.id] > 2 %>
