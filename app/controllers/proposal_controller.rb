@@ -44,7 +44,7 @@ class ProposalController < ApplicationController
     @event_types = @conference.event_types
     @attachments = @event.event_attachments
 
-    if @event.nil? || !@conference.cfp_open? || @event.unconfirmed? || @event.confirmed?
+    if @event.nil?
       redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Invalid or uneditable proposal.')
     end
   end

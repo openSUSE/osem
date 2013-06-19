@@ -21,6 +21,7 @@ class Admin::EventsController < ApplicationController
   def show
     @event = @conference.events.find(params[:id])
     @tracks = @conference.tracks
+    @event_types = @conference.event_types
     @comments = @event.root_comments
     @comment_count = @event.comment_threads.count
   end
@@ -52,6 +53,9 @@ class Admin::EventsController < ApplicationController
     @event = Event.find(params[:id])
     if params.has_key? :track_id
       @event.update_attribute(:track_id, params[:track_id])
+    end
+    if params.has_key? :event_type_id
+      @event.update_attribute(:event_type_id, params[:event_type_id])
     end
     expire_page :controller => '/schedule', :action => :index
     redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event), :notice => "Updated")

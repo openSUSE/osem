@@ -32,10 +32,7 @@
         .span4
           = link_to "Schedule", conference_schedule_path(conference.short_title), :class => "btn btn-success btn-large"
         .span4
-          - if conference.cfp_open?
-            - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
-              = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large pull-right"
-            - else
-              = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large pull-right"
-          - else
-            %b.pull-right Call for Papers is closed.
+          - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
+            = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large pull-right"
+          - elsif conference.cfp_open?
+            = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class => "btn btn-success btn-large pull-right"

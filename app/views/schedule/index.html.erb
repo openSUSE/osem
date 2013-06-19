@@ -41,7 +41,7 @@
                   <% span[room.id] = event[0].event_type.length / 15 %>
                   <td style="width: <%= 95 / @rooms.length %>%" rowspan ="<%= span[room.id] %>" class="eventtd" >
                     <h5>
-                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name%>
+                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name, :style => "padding:8px;" %>
                       <i class="icon-comment"></i>
                       <%= event[0].title %><br>
                       <% unless event[0].subtitle.empty? %>
@@ -56,7 +56,9 @@
                     </h5>
                     <% if span[room.id] > 2 %>
                         <% length = span[room.id] * 40 %>
-                        <%= truncate(event[0].abstract, :length => length) %>
+                        <p class="hidden-phone">
+                          <%= truncate(event[0].abstract, :length => length) %>
+                        </p>
                     <% end %>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
