@@ -30,7 +30,7 @@
           <% while conf_start < conf_end %>
 
             <tr>
-              <td style="width:10%">
+              <td style="width:5%">
                 <%= conf_start.strftime("%H:%M") %>
               </td>
 
@@ -39,14 +39,14 @@
                 <% if !event.empty? %>
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
-                  <td style="width:45%" rowspan ="<%= span[room.id] %>">
+                  <td rowspan ="<%= span[room.id] %>">
                     <%= event[0].title %><br>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
                   <% end %>
                   <% if span[room.id] == 1 %>
                     <!-- span equals 1 show an empty td -->
-                    <td  style="width:45%"class="empty <%= "room" + "#{room.id}" %>">
+                    <td class="empty <%= "room" + "#{room.id}" %>">
                       Empty
                     </td>
                   <% end %>

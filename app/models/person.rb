@@ -58,6 +58,19 @@ class Person < ActiveRecord::Base
     Person.where(:user_id => user_id).first
   end
 
+  def confirmed?
+    if User.exists?(self.user_id)
+      user = User.find(self.user_id)
+      if user.confirmed?
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
   private
   def biography_limit
     if !self.biography.nil? && self.biography.split.size > 150
@@ -77,19 +90,6 @@ class Person < ActiveRecord::Base
       guid = SecureRandom.urlsafe_base64
     end while Person.where(:guid => guid).exists?
     self.guid = guid
-  end
-
-  def confirmed?
-    if User.exists?(self.user_id)
-      user = User.find(self.user_id)
-      if user.confirmed?
-        true
-      else
-        false
-      end
-    else
-      false
-    end
   end
 
 end
