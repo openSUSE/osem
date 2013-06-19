@@ -153,7 +153,7 @@ div.dataTables_scrollFoot table {
     border-top: none;
 }
 
-.event {
+.eventtd {
 background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
 background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
 background-image: -moz-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);

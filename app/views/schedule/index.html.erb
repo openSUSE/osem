@@ -39,7 +39,7 @@
                 <% if !event.empty? %>
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
-                  <td style="width: <%= 95 / @rooms.length %>%" rowspan ="<%= span[room.id] %>" class="event" >
+                  <td style="width: <%= 95 / @rooms.length %>%" rowspan ="<%= span[room.id] %>" class="eventtd" >
                     <h5>
                       <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name%>
                       <i class="icon-comment"></i>
@@ -60,15 +60,14 @@
                     <% end %>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
+                  <% elsif  span[room.id] > 1 %>
+                    <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
+                    <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
                   <% end %>
                   <% if span[room.id] == 1 %>
                     <!-- span equals 1 show an empty td -->
                     <td style="width: <%= 95 / @rooms.length %>%">
                     </td>
-                  <% end %>
-                  <% if span[room.id] > 1 %>
-                  <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
-                    <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
                   <% end %>
                <%end %>
             </tr>

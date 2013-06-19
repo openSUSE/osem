@@ -53,16 +53,18 @@ class Admin::EventsController < ApplicationController
     if params.has_key? :track_id
       @event.update_attribute(:track_id, params[:track_id])
     end
+    expire_page :controller => '/schedule', :action => :index
     redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event), :notice => "Updated")
   end
 
   def create
-
+    expire_page :controller => '/schedule', :action => :index
   end
 
   def update_state
     event = Event.find(params[:id])
     event.send(:"#{params[:transition]}!", :send_mail => params[:send_mail])
+    expire_page :controller => '/schedule', :action => :index
     redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Updated state")
   end
 end
