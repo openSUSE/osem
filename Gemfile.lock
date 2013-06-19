@@ -57,6 +57,7 @@ GEM
       actionpack (>= 3.0)
     formtastic-bootstrap (2.1.1)
       formtastic (~> 2.2)
+    gravtastic (3.2.6)
     haml (4.0.2)
       tilt
     hashery (2.1.0)
@@ -162,6 +163,7 @@ DEPENDENCIES
   cocoon
   devise
   formtastic-bootstrap
+  gravtastic
   haml
   jquery-fileupload-rails
   jquery-rails

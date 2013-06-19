@@ -36,6 +36,7 @@ gem 'transitions', :require => ["transitions", "active_record/transitions"]
 gem 'acts_as_commentable_with_threading'
 gem 'prawn'
 gem 'prawn_rails'
+gem 'gravtastic'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

@@ -39,15 +39,28 @@
                 <% if !event.empty? %>
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
-                  <td rowspan ="<%= span[room.id] %>">
-                    <%= event[0].title %><br>
+                  <td rowspan ="<%= span[room.id] %>" >
+                    <p class="pull-right text-info text-center">
+                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle" %><br>
+                      <small><%= event[0].submitter.public_name %></small>
+                    </p>
+                    <h5>
+                      <%= event[0].event_type.title %>:
+                      <%= event[0].title %><br>
+                      <span class="muted"><%= event[0].subtitle %></span><br>
+                      <% if event[0].track%>
+                        Track: <span style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+                        <% end -%>
+                    </h5>
+                    <% if span[room.id] > 2 %>
+                        <%= truncate(event[0].abstract, :length => 80) %>
+                    <% end %>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
                   <% end %>
                   <% if span[room.id] == 1 %>
                     <!-- span equals 1 show an empty td -->
                     <td class="empty <%= "room" + "#{room.id}" %>">
-                      Empty
                     </td>
                   <% end %>
                   <% if span[room.id] > 1 %>

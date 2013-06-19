@@ -1,4 +1,7 @@
 class Person < ActiveRecord::Base
+  include Gravtastic
+  gravtastic :size => 32
+
   attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company, :avatar, :irc_nickname
 
   has_many :event_people, :dependent => :destroy
