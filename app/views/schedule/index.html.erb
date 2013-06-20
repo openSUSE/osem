@@ -11,7 +11,7 @@
   <div class="tab-content">
     <% @dates.each do |date| %>
       <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
-        <table class="table table-striped table-bordered" width="100%">
+        <table class="table table-bordered" id="schedule" width="100%">
           <tr>
             <th>Time</th>
             <% @rooms.each do |room| %>
@@ -39,7 +39,10 @@
                 <% if !event.empty? %>
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
-                  <td style="width: <%= 95 / @rooms.length %>%" rowspan ="<%= span[room.id] %>" class="eventtd" >
+                  <td style="width: <%= 95 / @rooms.length %>%; cursor:pointer"
+                         rowspan ="<%= span[room.id] %>"
+                         class="event" role="button"
+                         data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
                     <h5>
                       <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name, :style => "padding:8px;" %>
                       <i class="icon-comment"></i>
@@ -51,15 +54,9 @@
                       <%= event[0].submitter.public_name %>
                       <% if event[0].track%>
                         <br><i class="icon-road"></i>
-                        <span style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+                        <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
                         <% end -%>
                     </h5>
-                    <% if span[room.id] > 2 %>
-                        <% length = span[room.id] * 40 %>
-                        <p class="hidden-phone">
-                          <%= truncate(event[0].abstract, :length => length) %>
-                        </p>
-                    <% end %>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
                   <% elsif  span[room.id] > 1 %>
@@ -79,3 +76,18 @@
       </div>
     <% end %>
   </div>
+
+<%= javascript_tag do %>
+  jQuery( function($) { 
+    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) { 
+      if(e.which===1)
+      {
+        window.location = $(this).attr('data-href'); 
+      }
+      else if(e.which===2)
+      {
+      window.open($(this).attr('data-href'), '_blank');
+      }
+    }); 
+}); 
+<% end %>

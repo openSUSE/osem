@@ -1,10 +1,13 @@
 class ProposalController < ApplicationController
-  before_filter :verify_user
+  before_filter :verify_user, :except => [:show]
   before_filter :setup
   before_filter :verify_access, :only => [:edit, :update, :destroy, :confirm]
 
   def setup
-    @person = current_user.person
+    @person = current_user.person if current_user
+    #FIXME: @conference also comes from verify_user, but we need setup also in show
+    # which can be accessed anonymusly
+    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
     @url = conference_proposal_index_path(@conference.short_title)
     @event_types = @conference.event_types
   end
