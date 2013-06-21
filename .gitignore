@@ -24,3 +24,4 @@ rerun.txt
 pickle-email-*.html
 *~
 /public/assets
+/bundle
