@@ -10,18 +10,32 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
     = yield(:head)
-  %body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container-fluid
-          = render 'layouts/admin_navigation'
-    .container
-      .content
-        #wrap
-          #inner-content
-            .row-fluid
-              .span12#flash-bar
-                = render 'layouts/messages'
-            .row-fluid
-              .span12
-                = yield
+    %body
+    #wrap
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container-fluid
+            = render 'layouts/admin_navigation'
+      .container#messages
+        .row
+          .span12
+            = render 'layouts/messages'
+            %noscript
+              :css
+                #content {
+                  display: none;
+                }
+              %h2
+                JavaScript is not enabled
+              %p
+                OSEM requires JavaScript to be enabled to function. Please turn on JavaScript in your browser's settings and reload the page to continue.
+      .container#content
+        = yield
+        #push
+    #footer
+      .container
+        %p.muted.credit.text-center
+          OSEM is (C) 2013
+          = link_to "Matt Barringer", "http://incoherent.de"
+          and released under the GPL.  You can get the source code from
+          = link_to "Github.", "https://github.com/mbarringer/osem"

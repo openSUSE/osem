@@ -1,35 +1,36 @@
-.tabbable
-  %ul.nav.nav-tabs
-    %li.active
-      = link_to "Proposal", "#proposal-content", "data-toggle"=>"tab"
-    %li
-      = link_to "Attachments", "#attachment-content", "data-toggle"=>"tab"
-  .tab-content
-    #proposal-content.tab-pane.active
-      = render 'proposal/proposal_form'
-    #attachment-content.tab-pane
-      .span12
-        = form_for EventAttachment.new, :url => conference_proposal_event_attachment_index_path(@conference.short_title, @event),
-                                        :html => { :multipart => true, :id => "fileupload"  } do |f|
-          %table.table.table-striped
-            %thead
-              %th
-              %th
-                %b Filename
-              %th
-                %b Title
-              %th
-                %b Size
-              %th
-                %b Public
-              %th
-            %tbody.files
-          .row-fluid.fileupload-buttonbar
-            .btn.btn-success.fileinput-button
-              %i.icon-plus.icon-white
-              Add files...
-              = f.file_field :attachment
-              = f.hidden_field :event_id, :value => @event.id
+.row
+  .span12
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to "Proposal", "#proposal-content", "data-toggle"=>"tab"
+        %li
+          = link_to "Attachments", "#attachment-content", "data-toggle"=>"tab"
+      .tab-content
+        #proposal-content.tab-pane.active
+          = render 'proposal/proposal_form'
+        #attachment-content.tab-pane
+          .span12
+            = form_for EventAttachment.new, :url => conference_proposal_event_attachment_index_path(@conference.short_title, @event), :html => { :multipart => true, :id => "fileupload"  } do |f|
+              %table.table.table-striped
+                %thead
+                  %th
+                  %th
+                    %b Filename
+                  %th
+                    %b Title
+                  %th
+                    %b Size
+                  %th
+                    %b Public
+                  %th
+                %tbody.files
+              .row-fluid.fileupload-buttonbar
+                .btn.btn-success.fileinput-button
+                  %i.icon-plus.icon-white
+                  Add files...
+                  = f.file_field :attachment
+                  = f.hidden_field :event_id, :value => @event.id
 
 :javascript
   $(document).ready( function() {
