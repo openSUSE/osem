@@ -12,21 +12,18 @@
       = simple_format(@event.abstract)
     %dl
       %dt Date:
-      %dd= @event.start_time.strftime("%Y %B %e %H:%M")
+      %dd= @event.start_time.strftime("%Y %B %e %H:%M") if @event.start_time
       %dt Conference:
       %dd= @event.conference.title
-      - if @event.language
-        %dt Language:
-        %dd= @event.language
-      - if @event.track_id
-        %dt Track:
-        %dd
-          %span.label
-            = @event.track.name
+      %dt Language:
+      %dd= @event.language if @event.language
+      %dt Track:
+      %dd
+        %span.label= @event.track.name if @event.track_id
   .span9
-    .row-fluid
-      .span12
-        -unless @event.video_id
+    -unless @event.video_id
+      .row-fluid
+        .span12
           %h5.text-error
             No video of the event yet, sorry! Meanwhile...
     .row-fluid
