@@ -20,7 +20,7 @@
       %dt Track:
       %dd
         - if @event.track_id
-          %span.label{:style=>"#{@event.track.color}"}
+          %span.label{:style =>"background-color: #{@event.track.color};"}
             = @event.track.name
   .span9
     -unless @event.video_id
