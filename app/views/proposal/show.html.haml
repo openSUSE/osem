@@ -12,7 +12,7 @@
       = simple_format(@event.abstract)
     %dl
       %dt Date:
-      %dd= @event.start_time.strftime("%Y %B %e")
+      %dd= @event.start_time.strftime("%Y %B %e %H:%M")
       %dt Conference:
       %dd= @event.conference.title
       - if @event.language
