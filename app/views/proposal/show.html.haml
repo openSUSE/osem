@@ -19,7 +19,9 @@
       %dd= @event.language if @event.language
       %dt Track:
       %dd
-        %span.label= @event.track.name if @event.track_id
+        - if @event.track_id
+          %span.label{:style=>"#{@event.track.color}"}
+            = @event.track.name
   .span9
     -unless @event.video_id
       .row-fluid
