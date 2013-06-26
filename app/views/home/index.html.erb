@@ -5,8 +5,9 @@
 </div>
 
 <% @conferences.each do |conference| %>
-<div class="row-fluid well" style="margin-top: 30px; background: #f5f5f5;">
+<div class="row-fluid" style="margin-top: 30px;">
   <div clas="span12">
+    <div class="well">
     <div class="row">
       <div class="span4 text-center">
         <%= image_tag conference.logo(:original) %>
@@ -44,7 +45,7 @@
         </ul>
         </div>
       </div>
-
+    </div>
   </div>
 </div>
 <% end %>

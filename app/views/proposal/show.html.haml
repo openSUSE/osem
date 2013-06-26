@@ -36,8 +36,7 @@
         -else
           %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>"http://www.youtube.com/embed/Eiv4e5ZxTmg?rel=0"}
     .row-fluid
-      .span12
-        = image_tag @event.submitter.gravatar_url(:size => 200), :class => "img-rounded pull-right"
+      .span8
         %h3
           by
           = @event.submitter.public_name
@@ -48,4 +47,7 @@
               = @event.submitter.company
         -if @event.submitter.biography
           = simple_format(@event.submitter.biography)
+      .span4
+        = image_tag @event.submitter.gravatar_url(:size => 200), :class => "img-rounded pull-right", :style => "margin: 8px;"
+
 
