@@ -53,10 +53,10 @@
                   = link_to(admin_conference_events_path(@conference.short_title)) do
                     %i.icon-comment
                     Events
-                %li
-                  = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
-                    %i.icon-tasks
-                    Schedule
+              %li
+                = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
+                  %i.icon-tasks
+                  Schedule
       %ul.nav.hidden-desktop
         = render 'layouts/user_menu'
       %ul.nav.pull-right.visible-desktop
@@ -68,12 +68,22 @@
             = render 'layouts/user_menu'
     - else
       %ul.nav.pull-right
+        - if current_page?(new_registration_path('user'))
+          %li.active
+            = link_to(new_registration_path('user')) do
+              %i.icon-heart
+              Sign Up
+        - else
+          %li
+            = link_to(new_registration_path('user')) do
+              %i.icon-heart
+              Sign Up
         %li.dropdown.visible-desktop
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             %i.icon-user.icon-2x
             Sign In
             %i.icon-angle-down
-          .dropdown-menu{:style => "padding: 15px; padding-bottom: 0px;"}
+          .dropdown-menu{:style => "padding: 17px;"}
             = form_tag user_session_path do
               = text_field_tag 'user[email]'
               = password_field_tag 'user[password]'
