@@ -1,10 +1,11 @@
-%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse", :id => "mobmenu" }
   %span.icon-th
   = link_to "OSEM", root_path, :class => 'brand', :title => "Open Source Event Manager"
   - if @conference && !@conference.short_title.nil?
     %span.brand
       = @conference.short_title
   .nav-collapse.collapse
+    / The Admin Menu for Conferences /
     - if user_signed_in?
       - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
         - if controller.class.name.split("::").first=="Admin"
@@ -50,14 +51,16 @@
                 %li
                   = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
                     Schedule
-
       %ul.nav.pull-right
         %li.dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            = image_tag(current_user.person.gravatar_url(:size => "20"), :title => "Yo #{current_user.person.public_name}!", :class=>"visible-desktop")
-
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", :class=>"visible-desktop"}
+            = image_tag(current_user.person.gravatar_url(:size => "22"), :title => "Yo #{current_user.person.public_name}!")
+            %b.caret
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", :class=>"hidden-desktop"}
+            = current_user.person.public_name if current_user.person
+            %b.caret
           %ul.dropdown-menu{:style => "padding: 15px;"}
-            %li
+            %li.visible-desktop
               = link_to("#") do
                 %i.icon-home
                 = current_user.person.public_name if current_user.person
@@ -118,5 +121,3 @@
               = link_to "Forgot your password?", new_password_path('user')
         %li.hidden-desktop
           = link_to('Sign In', new_user_session_path)
-
-
