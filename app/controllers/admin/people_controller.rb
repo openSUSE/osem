@@ -1,6 +1,5 @@
 class Admin::PeopleController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def index
     @people = Person.all

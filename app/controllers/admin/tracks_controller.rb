@@ -1,6 +1,5 @@
 class Admin::TracksController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     respond_to do |format|

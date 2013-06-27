@@ -1,6 +1,5 @@
 class Admin::CallforpapersController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     @cfp = @conference.call_for_papers

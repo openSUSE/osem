@@ -1,6 +1,5 @@
 class Admin::EmailsController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def update
     @conference.email_settings.update_attributes(params[:email_settings])

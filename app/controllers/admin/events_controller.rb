@@ -1,6 +1,5 @@
 class Admin::EventsController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
   # FIXME: The timezome should only be applied on output, otherwise
   # you get lost in timezone conversions...
   # around_filter :set_timezone_for_this_request

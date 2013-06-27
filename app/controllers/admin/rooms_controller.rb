@@ -1,6 +1,5 @@
 class Admin::RoomsController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     render :rooms_list

@@ -1,6 +1,5 @@
 class Admin::RegistrationsController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     session[:return_to] ||= request.referer

@@ -1,45 +1,122 @@
-- if @conference.nil? || @conference.short_title.nil?
-  = link_to "OSEM", root_path, :class => 'brand'
-- else
-  = link_to @conference.title, root_path, :class => 'brand'
-%ul.nav
-  - if !@conference.nil? && @conference.registration_open?
-    - if current_page?(register_conference_path(@conference.short_title))
-      %li.active
-        = link_to "Registration", "#"
+%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+  %span.icon-th
+  = link_to "OSEM", root_path, :class => 'brand', :title => "Open Source Event Manager"
+  - if @conference && !@conference.short_title.nil?
+    %span.brand
+      = @conference.short_title
+  .nav-collapse.collapse
+    - if user_signed_in?
+      - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+        - if controller.class.name.split("::").first=="Admin"
+          - if @conference && !@conference.short_title.nil?
+            %ul.nav
+              - if current_page?(admin_conference_path(@conference.short_title))
+                %li.active
+                  = link_to('#') do
+                    Settings
+              - else
+                %li
+                  = link_to(admin_conference_path(@conference.short_title)) do
+                    Settings
+              - if current_page?(admin_conference_registrations_path(@conference.short_title))
+                %li.active
+                  = link_to('#') do
+                    Registrations
+              - else
+                %li
+                  = link_to(admin_conference_registrations_path(@conference.short_title)) do
+                    Registrations
+              - if current_page?(admin_conference_supporters_path(@conference.short_title))
+                %li.active
+                  = link_to('#') do
+                    Supporters
+              - else
+                %li
+                  = link_to(admin_conference_supporters_path(@conference.short_title)) do
+                    Supporters
+              - if current_page?(admin_conference_events_path(@conference.short_title))
+                %li.active
+                  = link_to('#') do
+                    Events
+              - else
+                %li
+                  = link_to(admin_conference_events_path(@conference.short_title)) do
+                    Events
+              - if current_page?(admin_conference_schedule_path(@conference.short_title))
+                %li.active
+                  = link_to('#') do
+                    Schedule
+              -else
+                %li
+                  = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
+                    Schedule
+
+      %ul.nav.pull-right
+        %li.dropdown
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            = image_tag(current_user.person.gravatar_url(:size => "20"), :title => "Yo #{current_user.person.public_name}!", :class=>"visible-desktop")
+
+          %ul.dropdown-menu{:style => "padding: 15px;"}
+            %li
+              = link_to("#") do
+                %i.icon-home
+                = current_user.person.public_name if current_user.person
+            %li
+              = link_to(edit_user_registration_path) do
+                %i.icon-wrench
+                Edit Account
+            -if @conference and @conference.id
+              %li
+                = link_to(conference_proposal_index_path(@conference.short_title)) do
+                  %i.icon-comment
+                  My Submissions
+            %li
+              = link_to(destroy_user_session_path, :method=>'delete') do
+                %i.icon-minus
+                Sign out
+            -if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+              %li.divider
+              %h6
+                Manage Conferences
+              - @conferences.each do |conference|
+                %li
+                  = link_to(admin_conference_path(conference.short_title)) do
+                    %i.icon-cog
+                    Manage
+                    = conference.short_title
+              %li
+                = link_to(new_admin_conference_path) do
+                  %i.icon-plus
+                  New Conference
+              %li.divider
+              %h6
+                Manage OSEM
+              %li
+                = link_to(admin_users_path) do
+                  %i.icon-user
+                  Users
+              %li
+                = link_to(admin_people_path) do
+                  %i.icon-star-empty
+                  People
     - else
-      %li
-        = link_to "Registration", register_conference_path(@conference.short_title)
-  - if !@conference.nil?
-    - if current_page?(conference_proposal_index_path(@conference.short_title))
-      %li.active
-        = link_to "My Proposals", "#"
-    - else
-      %li
-        = link_to "My Proposals", conference_proposal_index_path(@conference.short_title)
-%ul.nav.pull-right
-  - if user_signed_in?
-    - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
-      %li
-        = link_to "Admin Area", admin_conference_index_path
-    %li
-      = link_to('Sign Out', destroy_user_session_path, :method=>'delete')
-  - else
-    %li
-      = link_to('Sign In', new_user_session_path)
-  - if user_signed_in?
-    %li
-      = link_to('Edit account', edit_user_registration_path)
-  %li.dropdown
-    - unless Conference.count == 1 && !has_role?(current_user, "admin")
-      = link_to "#", :class => "dropdown-toggle"  do
-        Conferences
-        <b class="caret"></b>
-      %ul.dropdown-menu
-        - conferences = Conference.order("created_at DESC")
-        - unless conferences.nil?
-          - conferences.each do |c|
-            - unless @conference == c
-              %li= link_to c.short_title, admin_conference_path(c.short_title)
-        - if has_role?(current_user, "admin")
-          %li= link_to "New Conference", new_admin_conference_path
+      %ul.nav.pull-right
+        %li.dropdown.visible-desktop
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %i.icon-user.icon-2x
+            Sign In
+            %i.icon-angle-down
+          .dropdown-menu{:style => "padding: 15px; padding-bottom: 0px;"}
+            = form_tag user_session_path do
+              = text_field_tag 'user[email]'
+              = password_field_tag 'user[password]'
+              %label.checkbox
+                = check_box_tag 'user[remember_me]'
+                Remember me
+              %button.btn.btn-block Sign in
+              %br
+              = link_to "Forgot your password?", new_password_path('user')
+        %li.hidden-desktop
+          = link_to('Sign In', new_user_session_path)
+
+

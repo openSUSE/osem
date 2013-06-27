@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   protect_from_forgery
+  before_filter :get_conferences
+
+  def get_conferences
+    @conferences =Conference.all
+  end
 
   def verify_user
     :authenticate_user!

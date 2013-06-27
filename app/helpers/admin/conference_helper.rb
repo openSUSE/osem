@@ -1,2 +1,0 @@
-module Admin::ConferenceHelper
-end

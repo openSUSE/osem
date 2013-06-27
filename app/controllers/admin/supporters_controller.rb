@@ -1,6 +1,5 @@
 class Admin::SupportersController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def index
     respond_to do |format|
