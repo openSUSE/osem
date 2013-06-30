@@ -12,6 +12,7 @@ class Admin::EventsController < ApplicationController
   def index
     @events = @conference.events
     @tracks = @conference.tracks
+    @event_states = @events.state_machine.states.map
     respond_to do |format|
       format.html
       format.json { render :json => Event.where(:state => :confirmed) }
