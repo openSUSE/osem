@@ -50,4 +50,5 @@ gem 'acts_as_commentable_with_threading'
 gem 'prawn'
 gem 'prawn_rails'
 gem 'gravtastic'
+gem 'active_model_serializers'
 

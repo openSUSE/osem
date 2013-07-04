@@ -53,6 +53,13 @@ Osem::Application.routes.draw do
       delete "/register" => "ConferenceRegistration#unregister"
     end
   end
+
+  namespace :api, defaults: {format: 'json'} do
+    namespace :v1 do
+      resources :conferences, :only => :index
+    end
+  end
+
   match "/admin" => redirect("/admin/conference")
 
   root :to => "home#index"
