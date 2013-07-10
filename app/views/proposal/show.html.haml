@@ -38,15 +38,15 @@
       .span8
         %h3
           by
-          = @event.submitter.public_name
-          - if @event.submitter.company
+          = @speaker.public_name
+          - if @speaker.company
             %br
             %span.muted
               from
-              = @event.submitter.company
-        -if @event.submitter.biography
-          = simple_format(@event.submitter.biography)
+              = @speaker.company
+        -if @speaker.biography
+          = simple_format(@speaker.biography)
       .span4
-        = image_tag @event.submitter.gravatar_url(:size => 200), :class => "img-rounded pull-right", :style => "margin: 8px;"
+        = image_tag @speaker.gravatar_url(:size => 200), :class => "img-rounded pull-right", :style => "margin: 8px;"
 
 

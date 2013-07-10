@@ -44,14 +44,15 @@
                          class="event" role="button"
                          data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
                     <h5>
-                      <%= image_tag event[0].submitter.gravatar_url, :class => "img-circle pull-right", :alt => event[0].submitter.public_name, :title => event[0].submitter.public_name, :style => "padding:8px;" %>
+                      <%- speaker = event[0].speakers.first || event[0].submitter %>
+                      <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right", :alt => speaker.public_name, :title => speaker.public_name, :style => "padding:8px;" %>
                       <i class="icon-comment"></i>
                       <%= event[0].title %><br>
                       <% unless event[0].subtitle.empty? %>
                         <span class="text-error"><%= event[0].subtitle %></span><br>
                       <% end %>
                       <i class="icon-user"></i>
-                      <%= event[0].submitter.public_name %>
+                      <%= speaker.public_name %>
                       <% if event[0].track%>
                         <br><i class="icon-road"></i>
                         <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
