@@ -1,29 +1,39 @@
-%h2 
-  People
-  - if @people
-    = "(#{@people.length})"
-.well
-  %table.table.table-striped.table-bordered.table-hover#people
-    %thead
-      %th
-        %b Email
-      %th
-        %b Last Name
-      %th
-        %b First Name
-      %th
-        %b Public Name
-      %th
-        %b # of Conference Registrations
-      %th
-    - @people.each do |person|
-      %tr
-        %td= person.email
-        %td= person.last_name
-        %td= person.first_name
-        %td= person.public_name
-        %td= person.registrations.count
-        %td= link_to "View", admin_person_path(person)
+.row-fluid
+  .span6
+    %h2
+      People
+      - if @people
+        = "(#{@people.length})"
+  .span6
+    .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
+      = link_to "New person", new_admin_person_path, :class => "btn btn-success"
+
+.row-fluid
+  .span12
+    .well
+      %table.table.table-striped.table-bordered.table-hover#people
+        %thead
+          %th
+            %b Email
+          %th
+            %b Last Name
+          %th
+            %b First Name
+          %th
+            %b Public Name
+          %th
+            %b # of Conference Registrations
+          %th
+          %th
+        - @people.each do |person|
+          %tr
+            %td= person.email
+            %td= person.last_name
+            %td= person.first_name
+            %td= person.public_name
+            %td= person.registrations.count
+            %td= link_to "Edit", edit_admin_person_path(person)
+            %td= link_to "View", admin_person_path(person)
 
 :javascript
   $(document).ready(function() {
