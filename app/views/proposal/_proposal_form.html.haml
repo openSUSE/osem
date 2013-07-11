@@ -6,6 +6,7 @@
   %section#details
     - unless @event.state === "unconfirmed" || @event.state === "confirmed"
       = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false, :label => "Session Type"
+    = f.input :require_registration
     = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
       :required => true, :label => "Session Abstract"
     You have used
