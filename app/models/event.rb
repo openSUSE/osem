@@ -8,6 +8,7 @@ class Event < ActiveRecord::Base
   has_many :event_people, :dependent => :destroy
   has_many :event_attachments, :dependent => :destroy
   has_many :people, :through => :event_people
+  has_many :speakers, :through => :event_people, :source => :person, :conditions => {"event_people.event_role" => "speaker"}
   belongs_to :event_type
 
   belongs_to :track

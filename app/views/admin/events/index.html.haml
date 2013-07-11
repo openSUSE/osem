@@ -102,11 +102,14 @@
           %th
             %b Submitter
           %th
+            %b Speaker
+          %th
             %b Type
           %th
             %b Track
           %th
             %b State
+          %th
         - @events.each do |event|
           %tr
             %td
@@ -124,6 +127,13 @@
                   (Unregistered!)
               - else
                 Unknown submitter
+            %td
+              - if speaker = event.speakers.first
+                = link_to speaker.public_name, admin_person_path(speaker)
+              - else
+                Unknown speaker
+              - l = link_to "Change", edit_admin_conference_event_speaker_path(@conference.short_title, event), :remote => true
+              = "(#{l})".html_safe
             %td
               = event.event_type.title
             %td
