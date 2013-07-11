@@ -4,6 +4,7 @@ class ConferenceRegistrationController < ApplicationController
   def register
     # TODO Figure out how to change the route's id from :id to :conference_id
     @conference = Conference.find_all_by_short_title(params[:id]).first
+    @workshops = @conference.events.where("require_registration = ? AND state LIKE ?", true, 'confirmed')
     @person = current_user.person
     if @person.first_name.blank? || @person.last_name.blank?
       redirect_to(edit_user_registration_path, :alert => "Please fill in your first and last name before registering.")
