@@ -14,7 +14,8 @@ class Admin::EventsController < ApplicationController
     @event_states = @events.state_machine.states.map
     respond_to do |format|
       format.html
-      format.json { render :json => Event.where(:state => :confirmed) }
+      # Explicity call #to_json to avoid the use of EventSerializer
+      format.json { render :json => Event.where(:state => :confirmed).to_json }
     end
   end
 
