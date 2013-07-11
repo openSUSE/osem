@@ -34,6 +34,7 @@ Osem::Application.routes.draw do
           put :update_state
           put :update_track
         end
+        resource :speaker, :only => [:edit, :update]
       end
       resources :supporters
     end

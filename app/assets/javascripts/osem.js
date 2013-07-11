@@ -242,3 +242,13 @@ $.extend( $.fn.dataTableExt.oPagination, {
     }
 } );
 
+/* Commodity function for modal windows */
+
+window.build_dialog = function(selector, content) {
+  // Close it and remove content if it's already open
+  $("#" + selector).modal('hide');
+  $("#" + selector).remove();
+  // Add new content and pops it up
+  $("body").append("<div id=\"" + selector + "\" class=\"modal fade\" role=\"dialog\">\n" + content + "</div>");
+  $("#" + selector).modal();
+}
