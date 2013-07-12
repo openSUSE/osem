@@ -1,0 +1,20 @@
+.row
+  .span12
+    %h3
+      Create new account and registration
+.row
+  .span12
+    = semantic_form_for(@user, :url => admin_users_new_path(:id => @conference.short_title), :html => { :method => :put }) do |f|
+      = f.inputs "Account Information" do
+        = f.input :email
+        = f.input :password, :hint => "Password must be at least 6 characters"
+      = f.inputs "Personal Information" do
+        = f.fields_for :people do |p|
+          = p.input :first_name
+          = p.input :last_name
+          = p.label :Nickname
+          = p.text_field :irc_nickname
+          = p.label :Affiliation
+          = p.text_field :company, :placeholder => "Company/User Group/nothing"
+      = f.input :conferences, :as => :check_boxes,  :label => true, :collection => @conferences
+      = f.action :submit, :button_html => { :value => "Create", :class => "btn btn-primary"}

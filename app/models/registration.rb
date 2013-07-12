@@ -10,9 +10,14 @@ class Registration < ActiveRecord::Base
   attr_accessible :person_id, :conference_id, :attending_social_events, :attending_with_partner,
                   :using_affiliated_lodging, :arrival, :departure, :person_attributes, :other_dietary_choice, :dietary_choice_id,
                   :handicapped_access_required, :supporter_registration_attributes, :social_event_ids, :other_special_needs,
-                  :event_ids
+                  :event_ids, :attended
 
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :supporter_registration
   accepts_nested_attributes_for :social_events
+  
+  alias_attribute :with_partner, :attending_with_partner
+  alias_attribute :social_events, :attending_social_events
+  alias_attribute :need_access, :handicapped_access_required
+  alias_attribute :other_needs, :other_special_needs
 end
