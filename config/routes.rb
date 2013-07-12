@@ -3,6 +3,7 @@ Osem::Application.routes.draw do
   devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
 
   namespace :admin do
+    put "/users/new" => "users#create"
     resources :users
     resources :people
     resources :conference do
