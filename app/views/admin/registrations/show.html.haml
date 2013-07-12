@@ -32,11 +32,14 @@
                 #{registration.last_name} #{registration.first_name} (#{registration.public_name})
           
               -elsif field == 'attended'
-                = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym), :class => "btn btn-primary"
+                = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym), :class => "btn btn-success"
+
               -elsif (registration.send(field.to_sym).class == TrueClass || registration.send(field.to_sym).class == FalseClass)
                 = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym)
+
               - elsif field == 'arrival' || field == 'departure'
                 = registration.send(field.to_sym).strftime("%d %b %H:%M") if registration.send(field.to_sym)
+
               - else
                 = registration.send(field.to_sym)
           %td

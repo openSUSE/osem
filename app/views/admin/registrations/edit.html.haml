@@ -2,24 +2,71 @@
   .row-fluid
     .span12
       %h3
-        Edit registration of #{@person.public_name} for #{@conference.title}
+        Edit registration of #{@person.public_name} (#{@person.email}) for #{@conference.title}
         %br
   .row-fluid
     .span12
       = semantic_form_for(@registration, :url => admin_conference_registrations_edit_path(@conference.short_title, @registration.id), :html => { :method => :put }) do |f|
-        .span6
-          = f.inputs :name => "Personal Data" do
-            = f.fields_for :person do |p|
-              = p.label :first_name
-              = p.text_field :first_name
-              = p.label :last_name
-              = p.text_field :last_name
-              = p.label :email
-              = p.text_field :email
-              = p.label :affiliation
-              = p.text_field :company
-              = p.label :Nickname
-              = p.text_field :irc_nickname
-        = render :partial => 'shared/conference_registration', :locals => { :f => f }
 
+        = f.inputs "Personal Information" do
+          = f.fields_for :person do |p|
+            = p.input :first_name
+            = p.input :last_name
+            = p.label :Nickname
+            = p.text_field :irc_nickname
+            = p.label :Affiliation
+            = p.text_field :company, :placeholder => "Company/User Group/nothing"
+
+        = f.inputs "Registration Information" do
+          - if @conference.use_supporter_levels?
+            = f.semantic_fields_for :supporter_registrations do |reg|
+              = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
+              = reg.input :code, :label => "Confirmation or registration code (if applicable)"
+              %span#supporter-link.help-block
+
+          = f.input :attending_with_partner, :label => false
+          = f.input :using_affiliated_lodging, :label => false
+          = f.input :handicapped_access_required, :label => false
+          = f.input :other_special_needs, :label => "Any other special needs?", :input_html => {:rows => 2, :class => "span6"}
+
+        - if @conference.social_events.count > 0
+          = f.inputs "Are you planning to attend any of the parties?" do
+            %br Yes, I'll be attending...
+            %br
+            = f.input :social_events, :as => :check_boxes, :label => false, :collection => @conference.social_events
+
+        - if @conference.use_dietary_choices?
+          = f.inputs "Food" do
+            = f.input :dietary_choice, :collection => [["None", nil]] + @conference.dietary_choices.map {|x| [x.title, x.id]},
+                :include_blank => false, :label => "Special Dietary Restriction"
+            = f.input :other_dietary_choice, :input_html => {:rows => "2", :class => "span6"}, :label => "Other Dietary Restictions (please describe)"
         = f.action :submit, :button_html => { :value => "Edit Registration", :class => "btn btn-primary" }
+:javascript
+    $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {
+      var str = "";
+      #{generate_supporter_level_js @conference}
+      $("#supporter-link").html(str);
+    })
+    .trigger('change');
+
+    $("#registration-arrival-datepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        timeFormat: "HH:mm",
+        showSecond: false,
+        numberOfMonths: 1,
+        defaultDate: '#{@conference.start_date.yesterday.strftime('%Y-%m-%d')}',
+        onSelect: function(selected) {
+            $("#registration-departure-datepicker").datepicker("option","minDate", selected)
+        }
+    });
+
+    $("#registration-departure-datepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        timeFormat: "HH:mm",
+        showSecond: false,
+        numberOfMonths: 1,
+        defaultDate: '#{@conference.end_date.tomorrow.strftime('%Y-%m-%d')}',
+        onSelect: function(selected) {
+            $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
+        }
+    });

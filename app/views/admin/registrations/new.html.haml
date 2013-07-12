@@ -5,8 +5,9 @@
 .row
   .span12
     = semantic_form_for(@registration, :url => admin_conference_registrations_new_path(@conference.short_title), :html => { :method => :put }) do |f|
+
       = f.inputs "Account Information" do
-        = f.fields_for :user do |u|
+        = f.fields_for :users do |u|
           = u.input :email
           = u.input :password, :hint => "Password must be at least 6 characters"
       = f.inputs "Personal Information" do
@@ -41,9 +42,8 @@
           = f.input :dietary_choice, :collection => [["None", nil]] + @conference.dietary_choices.map {|x| [x.title, x.id]},
               :include_blank => false, :label => "Special Dietary Restriction"
           = f.input :other_dietary_choice, :input_html => {:rows => "2", :class => "span6"}, :label => "Other Dietary Restictions (please describe)"
-
       = f.action :submit, :button_html => { :value => "Create", :class => "btn btn-primary"}
-
+      
 :javascript
     $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {
       var str = "";
@@ -72,4 +72,4 @@
         onSelect: function(selected) {
             $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
         }
-    });          
+    });
