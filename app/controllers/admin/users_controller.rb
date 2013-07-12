@@ -42,15 +42,20 @@ class Admin::UsersController < ApplicationController
         user.skip_confirmation!
         person = Person.where("user_id = ?", user.id).first
         person.update_attributes(params[:user][:people])
-        redirect_to admin_conference_registrations_path(@conference.short_title)
-        flash[:notice] = "Successfully created new registration for #{person.email}."
-        rescue Exception => e
-          redirect_to(:back, :alert => e.message)
+        begin
+          params[:user][:conferences].each do |r|
+            registration = person.registrations.new(:conference_id => r)
+            registration.save!
+          end
+          redirect_to admin_conference_registrations_path(@conference.short_title)
+          flash[:notice] = "Successfully created new registration for #{person.email}."
+          rescue Exception => e
+          redirect_to(:back, :alert => "Did not create registration. #{e.message}")
           return
-      end
-      params[:user][:conferences].each do |r|
-        registration = person.registrations.new(:conference_id => r)
-        registration.save!
+        end
+        rescue Exception => e
+          redirect_to(:back, :alert => "Did not create new user/person. #{e.message}")
+          return
       end
     else
       redirect_to(:back, :alert => "Please select at least one conference to register.")
