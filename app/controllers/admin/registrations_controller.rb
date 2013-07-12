@@ -28,4 +28,18 @@ class Admin::RegistrationsController < ApplicationController
       redirect_to admin_conference_registrations_path(@conference.short_title, @registration)
       flash[:notice] = "Updated '#{params[:view_field]}' for #{(Person.where("id = ?", @registration.person_id).first).email}"
   end
+  
+  def delete
+    registration = @conference.registrations.where(:id => params[:id]).first
+    person = Person.where("id = ?", registration.person_id).first
+
+    begin registration.destroy
+      redirect_to admin_conference_registrations_path
+      flash[:notice] = "Deleted registration for #{person.public_name} #{person.email}"
+    rescue Exception => e
+      Rails.logger.debug e.backtrace.join("\n")
+      redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'Failed to delete registration:' + e.message)
+      return
+    end
+  end
 end

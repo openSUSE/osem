@@ -40,7 +40,7 @@
           %td
             = link_to "Edit", "#", :class => "btn btn-primary"
           %td
-            = link_to "Delete", "#", :class => "btn btn-danger", :confirm => "Really delete registration for #{registration.public_name}?"
+            = link_to "Delete", admin_conference_registrations_path(@conference.short_title, :id => registration.id), :method => :delete, :class => "btn btn-danger", :confirm => "Really delete registration for #{registration.public_name} #{registration.email}?"
 
 :javascript
   $(document).ready(function() {

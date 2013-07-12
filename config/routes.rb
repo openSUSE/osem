@@ -11,6 +11,7 @@ Osem::Application.routes.draw do
       put "/schedule" => "schedule#update"
       get "/registrations" => "registrations#show"
       put "/registrations/change_field" => "registrations#change_field"
+      delete "/registrations"  => "registrations#delete"
       get "/emailsettings" => "emails#show", :as => "email_settings"
       put "/emailsettings" => "emails#update", :as => "email_settings"
       get "/supporter_levels" => "SupporterLevels#show"
