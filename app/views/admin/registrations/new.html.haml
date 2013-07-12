@@ -7,7 +7,7 @@
     = semantic_form_for(@registration, :url => admin_conference_registrations_new_path(@conference.short_title), :html => { :method => :put }) do |f|
 
       = f.inputs "Account Information" do
-        = f.fields_for :users do |u|
+        = f.fields_for :user do |u|
           = u.input :email
           = u.input :password, :hint => "Password must be at least 6 characters"
       = f.inputs "Personal Information" do
