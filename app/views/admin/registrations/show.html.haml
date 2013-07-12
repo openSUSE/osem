@@ -9,45 +9,43 @@
       Registrations
       - if @registrations
         = "(#{@registrations.length})"
-    %table.table.table-striped.table-bordered.table-hover
+      - if @attended
+        = " - Attended (#{@attended.length})"
+    %table.table.table-striped.table-bordered.table-hover#registrations
       %thead
         %th
-          %b Last Name
-        %th
-          %b First Name
-        %th
-          %b Public Name
-        %th
-          %b Email
-        %th
-          %b Attending Social Events
-        %th
-          %b Attending With Partner
-        %th
-          %b Arrival Date
-        %th
-          %b Departure Date
+          No
+        - @headers.each do |h|
+          - h = h.gsub("_", " ")
+          %th
+            = h.capitalize
         %th
         %th
+      - counter = 0    
       - @registrations.each do |registration|
         %tr
           %td
-            = registration.last_name
-          %td
-            = registration.first_name
-          %td
-            = registration.public_name
-          %td
-            = registration.email
-          %td
-            = registration.attending_social_events
-          %td
-            = registration.attending_with_partner
-          %td
-            = registration.arrival
-          %td
-            = registration.departure
+            = counter +=1
+          - @headers.each do |field|
+            %td
+              - if field == "name"
+                #{registration.last_name} #{registration.first_name} (#{registration.public_name})
+          
+              -elsif (registration.send(field.to_sym).class == TrueClass || registration.send(field.to_sym).class == FalseClass)
+                = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym)
+              - elsif field == 'arrival' || field == 'departure'
+                = registration.send(field.to_sym).strftime("%d %b %H:%M") if registration.send(field.to_sym)
+              - else
+                = registration.send(field.to_sym)
           %td
             = link_to "Edit", "#", :class => "btn btn-primary"
           %td
             = link_to "Delete", "#", :class => "btn btn-danger", :confirm => "Really delete registration for #{registration.public_name}?"
+
+:javascript
+  $(document).ready(function() {
+      $('#registrations').dataTable( {
+        "bPaginate": false,
+        "bLengthChange": false
+      } );
+  } );
