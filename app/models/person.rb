@@ -19,6 +19,9 @@ class Person < ActiveRecord::Base
                     :styles => {:tiny => "16x16>", :small => "32x32>", :large => "128x128>"},
                     :default_url => "person_:style.png"
   validates_attachment_content_type :avatar, :content_type => [/jpg/, /jpeg/, /png/, /gif/]
+
+  alias_attribute :affiliation, :company
+
   def to_s
     if self.public_name.empty?
       self.first_name + " " + self.last_name

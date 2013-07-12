@@ -8,6 +8,7 @@ Osem::Application.routes.draw do
     resources :conference do
       get "/schedule" => "schedule#show"
       put "/schedule" => "schedule#update"
+      get "/stats" => "stats#index"
       get "/registrations" => "registrations#show"
       get "/emailsettings" => "emails#show", :as => "email_settings"
       put "/emailsettings" => "emails#update", :as => "email_settings"

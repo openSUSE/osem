@@ -53,6 +53,16 @@
                   = link_to(admin_conference_events_path(@conference.short_title)) do
                     %i.icon-comment
                     Events
+              - if current_page?(admin_conference_stats_path(@conference.short_title))
+                %li.active
+                  = link_to('#') do
+                    %i.icon-comment
+                    Stats
+              - else
+                %li
+                  = link_to(admin_conference_stats_path(@conference.short_title)) do
+                    %i.icon-comment
+                    Stats
               %li
                 = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
                   %i.icon-tasks
