@@ -19,7 +19,7 @@
 
         = f.inputs "Registration Information" do
           - if @conference.use_supporter_levels?
-            = f.semantic_fields_for :supporter_registrations do |reg|
+            = f.semantic_fields_for :supporter_registration do |reg|
               = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
               = reg.input :code, :label => "Confirmation or registration code (if applicable)"
               %span#supporter-link.help-block
