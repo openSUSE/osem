@@ -1,7 +1,7 @@
 .row-fluid
   .span12
     .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
-      = link_to "New", admin_users_new_path(@conference.short_title), :class => "btn btn-primary"
+      = link_to "New", admin_conference_registrations_new_path(@conference.short_title), :class => "btn btn-primary"
       = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-success"
 .row-fluid
   .span12
