@@ -33,22 +33,22 @@
     - count = @conference.registrations.where("dietary_choice_id = ?", d.id).count
     - if count > 0
       - diet_choices << [d.title, count]
-    - if diet_choices.any?
-      %table.table.table-bordered.table-striped
-        %thead
-          %th Dietary Choice
-          %th #
-          %th Percentage
-        - diet_choices.each do |d|
-          %tr
-            %td= d[0]
-            %td= d[1]
-            %td
-              - if @registered and @registered > 0
-                = "#{d[1] * 100 / @registered}% of registered"
-              - if @attendees and @attendees > 0
-                %br
-                =  "#{d[1] * 100 / @attendees}% of attendees"
+  - if diet_choices.any?
+    %table.table.table-bordered.table-striped
+      %thead
+        %th Dietary Choice
+        %th #
+        %th Percentage
+      - diet_choices.each do |d|
+        %tr
+          %td= d[0]
+          %td= d[1]
+          %td
+            - if @registered and @registered > 0
+              = "#{d[1] * 100 / @registered}% of registered"
+            - if @attendees and @attendees > 0
+              %br
+              =  "#{d[1] * 100 / @attendees}% of attendees"
 
 - if @conference.social_events.count > 0
   - social_events = []
