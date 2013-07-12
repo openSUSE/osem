@@ -44,7 +44,7 @@ class Admin::UsersController < ApplicationController
         person.update_attributes(params[:user][:people])
         begin
           params[:user][:conferences].each do |r|
-            registration = person.registrations.new(:conference_id => r)
+            registration = person.registrations.new(:conference_id => r, :attended => 't')
             registration.save!
           end
           redirect_to admin_conference_registrations_path(@conference.short_title)
