@@ -30,16 +30,20 @@ class Admin::RegistrationsController < ApplicationController
   end
   
   def delete
-    registration = @conference.registrations.where(:id => params[:id]).first
-    person = Person.where("id = ?", registration.person_id).first
+    if has_role?(current_user, "Admin")
+      registration = @conference.registrations.where(:id => params[:id]).first
+      person = Person.where("id = ?", registration.person_id).first
 
-    begin registration.destroy
-      redirect_to admin_conference_registrations_path
-      flash[:notice] = "Deleted registration for #{person.public_name} #{person.email}"
-    rescue Exception => e
-      Rails.logger.debug e.backtrace.join("\n")
-      redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'Failed to delete registration:' + e.message)
-      return
+      begin registration.destroy
+        redirect_to admin_conference_registrations_path
+        flash[:notice] = "Deleted registration for #{person.public_name} #{person.email}"
+      rescue Exception => e
+        Rails.logger.debug e.backtrace.join("\n")
+        redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'Failed to delete registration:' + e.message)
+        return
+      end
+    else
+      redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'You must be an admin to delete a registration.')
     end
   end
 end
