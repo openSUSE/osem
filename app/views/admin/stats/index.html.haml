@@ -22,7 +22,7 @@
                 %td
                   = reg_support.count
                 %td
-                  = "#{reg_support.count * 100 / @pre_registered}% of registered"
+                  = "#{reg_support.count * 100 / @registered}% of registered"
                   - if @attendees
                     %br
                     =  "#{reg_support.count * 100 / @attendees}% of attendees"
@@ -30,9 +30,11 @@
  
 #registrations-stats
   %h3
-    Pre Registered
-    = "(#{@pre_registered}) -"
-    OnsiteRegistrations (#{@registered_onsite}) - Attendees (#{@attendees})
+    Registered
+    - if @registered
+      = "(#{@registered})"
+    - if @attendees
+      = " - Attendees (#{@attendees})"
   .row-fluid
     .span3
       %table.table.table-bordered.table-striped
@@ -76,7 +78,7 @@
                 %td= d[0]
                 %td= d[1]
                 %td
-                  = "#{d[1] * 100 / @pre_registered}% of registered"
+                  = "#{d[1] * 100 / @registered}% of registered"
                   - if @attendees
                     %br
                     =  "#{d[1] * 100 / @attendees}% of attendees"
@@ -121,7 +123,6 @@
           - @speaker_fields_person.each do |field|
             %td
               - if field == 'name'
-                = speaker.id
                 = speaker.first_name 
                 = speaker.last_name
                 %br
