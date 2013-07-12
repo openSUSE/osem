@@ -1,0 +1,25 @@
+.container-fluid
+  .row-fluid
+    .span12
+      %h3
+        Edit registration of #{@person.public_name} for #{@conference.title}
+        %br
+  .row-fluid
+    .span12
+      = semantic_form_for(@registration, :url => admin_conference_registrations_edit_path(@conference.short_title, @registration.id), :html => { :method => :put }) do |f|
+        .span6
+          = f.inputs :name => "Personal Data" do
+            = f.fields_for :person do |p|
+              = p.label :first_name
+              = p.text_field :first_name
+              = p.label :last_name
+              = p.text_field :last_name
+              = p.label :email
+              = p.text_field :email
+              = p.label :affiliation
+              = p.text_field :company
+              = p.label :Nickname
+              = p.text_field :irc_nickname
+        = render :partial => 'shared/conference_registration', :locals => { :f => f }
+
+        = f.action :submit, :button_html => { :value => "Edit Registration", :class => "btn btn-primary" }

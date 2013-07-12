@@ -38,7 +38,8 @@
               - else
                 = registration.send(field.to_sym)
           %td
-            = link_to "Edit", "#", :class => "btn btn-primary"
+            = link_to "Edit", admin_conference_registrations_edit_path(@conference.short_title, :id => registration.id), :method => :get, :class => "btn btn-primary"
+
           %td
             = link_to "Delete", admin_conference_registrations_path(@conference.short_title, :id => registration.id), :method => :delete, :class => "btn btn-danger", :confirm => "Really delete registration for #{registration.public_name} #{registration.email}?"
 
