@@ -7,18 +7,25 @@
 
 #tickets-stats
   .row-fluid
-    .span3
+    .span4
       - if @supporter_levels.count > 0
         %table.table.table-bordered.table-striped
           %thead
             %th Support Level
             %th #
+            %th %
           - @supporter_levels.each do |level|
             - reg_support = reg_support(level)
             - if reg_support.count > 0
               %tr
                 %td= level.title
-                %td= "#{reg_support.count} (#{reg_support.count * 100 / @attendees}%)"
+                %td
+                  = reg_support.count
+                %td
+                  = "#{reg_support.count * 100 / @pre_registered}% of registered"
+                  - if @attendees
+                    %br
+                    =  "#{reg_support.count * 100 / @attendees}% of attendees"
 
  
 #registrations-stats
@@ -58,7 +65,7 @@
         - if count > 0
           - diet_choices << [d.title, count]
       - if diet_choices.any?
-        .span3
+        .span4
           %table.table.table-bordered.table-striped
             %thead
               %th Dietary Choice
@@ -81,7 +88,7 @@
         - if count > 0
           - social_events << [social_event.title, count]
       - if social_events.any?
-        .span3
+        .span4
           %table.table.table-bordered.table-striped
             %thead
               %th Social Event
@@ -136,6 +143,7 @@
                   = reg.send(field.to_sym)
 
 :javascript              
+  $(document).ready( function() {
     $("#registrations-stats-link").click(function() {
          $("#registrations-stats").toggle();
     });
