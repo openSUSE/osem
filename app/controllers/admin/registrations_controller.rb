@@ -44,7 +44,7 @@ class Admin::RegistrationsController < ApplicationController
       @registration.supporter_registration = @conference.supporter_registrations.new(params[:registration][:supporter_registration_attributes])
       params[:registration].delete :supporter_registration_attributes
       @registration.update_attributes!(params[:registration])
-      flash[:notice] = "Successfully updated Registration for #{@person.public_name} #{@person.email}"
+      flash[:notice] = "Successfully updated registration for #{@person.public_name} #{@person.email}"
       redirect_to(admin_conference_registrations_path(@conference.short_title))
     rescue Exception => e
       Rails.logger.debug e.backtrace.join("\n")
