@@ -56,16 +56,16 @@
               - if current_page?(admin_conference_stats_path(@conference.short_title))
                 %li.active
                   = link_to('#') do
-                    %i.icon-comment
-                    Stats
+                    %i.icon-tasks
+                    Statistics
               - else
                 %li
                   = link_to(admin_conference_stats_path(@conference.short_title)) do
-                    %i.icon-comment
-                    Stats
+                    %i.icon-tasks
+                    Statistics
               %li
                 = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
-                  %i.icon-tasks
+                  %i.icon-calendar
                   Schedule
       %ul.nav.hidden-desktop
         = render 'layouts/user_menu'

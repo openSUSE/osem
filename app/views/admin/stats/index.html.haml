@@ -1,157 +1,147 @@
 .row-fluid
   .span12
-    .pull-left{:style=>"margin-top:20px; margin-bottom:20px;"}
-      = link_to "Registration Stats", "#", :id => "registrations-stats-link", :class => "btn btn-success"
-      = link_to "Speakers Stats", "#", :id => "speakers-stats-link", :class => "btn btn-success"
-      = link_to "Tickets Stats", "#", :id => "tickets-stats-link", :class => "btn btn-success"
+    %ul.nav.nav-tabs#myTab
+      %li.active
+        %a{:href=>"#registrations", "data-toggle"=>"tab"} Regitrations
+      %li
+        %a{:href=>"#speakers", "data-toggle"=>"tab"} Speakers
+      %li
+        %a{:href=>"#tickets", "data-toggle"=>"tab"} Tickets
 
-#tickets-stats
-  .row-fluid
-    .span4
-      - if @supporter_levels.count > 0
+    .tab-content
+      .tab-pane.active#registrations
+        %h3
+        Registered
+        - if @registered
+          = "(#{@registered})"
+        - if @attendees
+          = " - Attendees (#{@attendees})"
         %table.table.table-bordered.table-striped
           %thead
-            %th Support Level
+            %th General Stats
             %th #
-            %th %
-          - @supporter_levels.each do |level|
-            - reg_support = reg_support(level)
-            - if reg_support.count > 0
-              %tr
-                %td= level.title
+          %tr
+            %td Registered attended
+            %td= @registered_attended 
+          %tr     
+            %td Registered not attended
+            %td= @registered_not_attended
+          %tr
+            %td Attended with partner
+            %td= @attended_with_partner
+          %tr
+            %td Registred to attend with partner
+            %td= @registered_with_partner
+          %tr
+            %td Handicapped Access for: 
+            %td= @conference.registrations.where("handicapped_access_required = ?", true).count
+          %tr
+            %td Staying at suggested hotel:
+            %td= @conference.registrations.where("using_affiliated_lodging = ?", true).count
+          - if @conference.use_dietary_choices == true
+            - diet_choices = []
+            - @conference.dietary_choices.each do |d|
+              - count = @conference.registrations.where("dietary_choice_id = ?", d.id).count
+              - if count > 0
+                - diet_choices << [d.title, count]
+            - if diet_choices.any?
+              .span4
+                %table.table.table-bordered.table-striped
+                  %thead
+                    %th Dietary Choice
+                    %th #
+                    %th Percentage
+                  - diet_choices.each do |d|
+                    %tr
+                      %td= d[0]
+                      %td= d[1]
+                      %td
+                        = "#{d[1] * 100 / @registered}% of registered"
+                        - if @attendees
+                          %br
+                          =  "#{d[1] * 100 / @attendees}% of attendees"
+          - if @conference.social_events.count > 0
+            - social_events = []
+            - @conference.social_events.each do |social_event|
+              - count = @conference.registrations.joins(:social_events).where("registrations_social_events.social_event_id = ?", social_event.id).count
+              - if count > 0
+                - social_events << [social_event.title, count]
+            - if social_events.any?
+              .span4
+                %table.table.table-bordered.table-striped
+                  %thead
+                    %th Social Event
+                    %th #
+                  - social_events.each do |s|
+                    %tr
+                      %td= s[0]
+                      %td= s[1]
+      .tab-pane#speakers
+        - count =0 
+        %h3
+          Speakers (#{@speakers.length})
+          %br
+    
+        %table.table.table-striped.table-bordered.table-hover#events
+          %thead
+            %th
+              ID
+            - (@speaker_fields_person + @speaker_fields_reg).each do |field|
+              %th
+                = field.capitalize
+                
+          - @speakers.each do |speaker|
+            %tr
+              %td
+                = count +=1
+                
+              - @speaker_fields_person.each do |field|
                 %td
-                  = reg_support.count
-                %td
-                  = "#{reg_support.count * 100 / @registered}% of registered"
-                  - if @attendees
+                  - if field == 'name'
+                    = speaker.first_name 
+                    = speaker.last_name
                     %br
-                    =  "#{reg_support.count * 100 / @attendees}% of attendees"
-
+                    (#{speaker.public_name})
+                  - else 
+                    = speaker.send(field.to_sym)
+              - @speaker_fields_reg.each do |field|
+                %td
+                  - reg = speaker_reg(speaker)
+                  - if !reg.nil?
+                    - if field == "diet"
+                      - if reg.dietary_choice_id
+                        = speaker_diet(reg).title
+                      %br
+                      = reg.other_dietary_choice
+                    - elsif field == 'arrival' || field == 'departure'
+                      = getdatetime(reg, field)
+                    - else
+                      = reg.send(field.to_sym)
+      .tab-pane#tickets
+        - if @supporter_levels.count > 0
+          %table.table.table-bordered.table-striped
+            %thead
+              %th Support Level
+              %th #
+              %th %
+            - @supporter_levels.each do |level|
+              - reg_support = reg_support(level)
+              - if reg_support.count > 0
+                %tr
+                  %td= level.title
+                  %td
+                    = reg_support.count
+                  %td
+                    = "#{reg_support.count * 100 / @registered}% of registered"
+                    - if @attendees
+                      %br
+                      =  "#{reg_support.count * 100 / @attendees}% of attendees"
+        - else
+          %p
+            No tickets sold yet
  
-#registrations-stats
-  %h3
-    Registered
-    - if @registered
-      = "(#{@registered})"
-    - if @attendees
-      = " - Attendees (#{@attendees})"
-  .row-fluid
-    .span3
-      %table.table.table-bordered.table-striped
-        %thead
-          %th General Stats
-          %th #
-        %tr
-          %td Registered attended
-          %td= @registered_attended 
-        %tr     
-          %td Registered not attended
-          %td= @registered_not_attended
-        %tr
-          %td Attended with partner
-          %td= @attended_with_partner
-        %tr
-          %td Registred to attend with partner
-          %td= @registered_with_partner
-        %tr
-          %td Handicapped Access for: 
-          %td= @conference.registrations.where("handicapped_access_required = ?", true).count
-        %tr
-          %td Staying at suggested hotel:
-          %td= @conference.registrations.where("using_affiliated_lodging = ?", true).count
-
-    - if @conference.use_dietary_choices == true
-      - diet_choices = []
-      - @conference.dietary_choices.each do |d|
-        - count = @conference.registrations.where("dietary_choice_id = ?", d.id).count
-        - if count > 0
-          - diet_choices << [d.title, count]
-      - if diet_choices.any?
-        .span4
-          %table.table.table-bordered.table-striped
-            %thead
-              %th Dietary Choice
-              %th #
-              %th Percentage
-            - diet_choices.each do |d|
-              %tr
-                %td= d[0]
-                %td= d[1]
-                %td
-                  = "#{d[1] * 100 / @registered}% of registered"
-                  - if @attendees
-                    %br
-                    =  "#{d[1] * 100 / @attendees}% of attendees"
-
-    - if @conference.social_events.count > 0
-      - social_events = []
-      - @conference.social_events.each do |social_event|
-        - count = @conference.registrations.joins(:social_events).where("registrations_social_events.social_event_id = ?", social_event.id).count
-        - if count > 0
-          - social_events << [social_event.title, count]
-      - if social_events.any?
-        .span4
-          %table.table.table-bordered.table-striped
-            %thead
-              %th Social Event
-              %th #
-            - social_events.each do |s|
-              %tr
-                %td= s[0]
-                %td= s[1]
-
-#speakers-stats
-  - count =0 
-  .row-fluid 
-    %h3
-      Speakers (#{@speakers.length})
-      %br
-
-    %table.table.table-striped.table-bordered.table-hover#events
-      %thead
-        %th
-          ID
-        - (@speaker_fields_person + @speaker_fields_reg).each do |field|
-          %th
-            = field.capitalize
-            
-      - @speakers.each do |speaker|
-        %tr
-          %td
-            = count +=1
-            
-          - @speaker_fields_person.each do |field|
-            %td
-              - if field == 'name'
-                = speaker.first_name 
-                = speaker.last_name
-                %br
-                (#{speaker.public_name})
-              - else 
-                = speaker.send(field.to_sym)
-          - @speaker_fields_reg.each do |field|
-            %td
-              - reg = speaker_reg(speaker)
-              - if !reg.nil?
-                - if field == "diet"
-                  - if reg.dietary_choice_id
-                    = speaker_diet(reg).title
-                  %br
-                  = reg.other_dietary_choice
-                - elsif field == 'arrival' || field == 'departure'
-                  = getdatetime(reg, field)
-                - else
-                  = reg.send(field.to_sym)
-
 :javascript              
-  $(document).ready( function() {
-    $("#registrations-stats-link").click(function() {
-         $("#registrations-stats").toggle();
-    });
-    $("#speakers-stats-link").click(function() {
-         $("#speakers-stats").toggle();
-    });
-    $("#tickets-stats-link").click(function() {
-         $("#tickets-stats").toggle();
-    });    
-  });  
+  $('#myTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })
