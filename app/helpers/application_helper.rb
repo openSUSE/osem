@@ -14,6 +14,15 @@ module ApplicationHelper
       var.strftime("%a, %d %b")
     end
   end
+  
+  def get_supporter_level(registration)
+    @conference.supporter_registrations.find_by_sql("SELECT *, supporter_levels.title as title
+                                                    FROM supporter_registrations
+                                                   INNER JOIN supporter_levels
+                                                   ON supporter_registrations.supporter_level_id = supporter_levels.id
+                                                   WHERE supporter_registrations.conference_id = #{@conference.id}
+                                                   AND supporter_registrations.registration_id = #{registration.id}").first
+  end
 
   def add_association_link(association_name, form_builder, div_class, html_options = {})
     link_to_add_association "Add " + association_name.to_s.singularize, form_builder, div_class, html_options.merge(:class => "assoc btn btn-success")
