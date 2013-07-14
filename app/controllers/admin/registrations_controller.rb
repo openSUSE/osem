@@ -41,8 +41,10 @@ class Admin::RegistrationsController < ApplicationController
     begin
       @person.update_attributes!(params[:registration][:person_attributes])
       params[:registration].delete :person_attributes
-      @registration.supporter_registration = @conference.supporter_registrations.new(params[:registration][:supporter_registration_attributes])
-      params[:registration].delete :supporter_registration_attributes
+      if params[:registration][:supporter_registration]
+        @registration.supporter_registration.update_attributes(params[:registration][:supporter_registration_attributes])
+        params[:registration].delete :supporter_registration_attributes
+      end
       @registration.update_attributes!(params[:registration])
       flash[:notice] = "Successfully updated registration for #{@person.public_name} #{@person.email}"
       redirect_to(admin_conference_registrations_path(@conference.short_title))
@@ -54,50 +56,62 @@ class Admin::RegistrationsController < ApplicationController
   end
 
   def new
-    @registration = Registration.new
+    @user = User.new
+    @person = Person.new
+    @registration = @person.registrations.new
+    @supporter_registration = @conference.supporter_registrations.new
     @conference = Conference.find_all_by_short_title(params[:conference_id]).first
   end
   
   def create
     @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    person = Person.where("email LIKE ?", params[:registration][:user][:email]).first
     
-    if params[:registration][:people][:first_name].blank? || params[:registration][:people][:last_name].blank?
-      redirect_to(:back, :alert => "Please fill in your first and last name before registering.")
-      return
-    end
-    
-    user = User.new
-    user.email = params[:registration][:user][:email]
-    user.password = params[:registration][:user][:password]
-    begin
-      user.save!
-      user.skip_confirmation!
-      person = Person.where("user_id = ?", user.id).first
-      person.update_attributes(params[:registration][:people])
-      begin
-        params[:registration].delete :people
-        params[:registration].delete :user
-        
+    if !person.nil?
+      reg = @conference.registrations.where("person_id = ?", person.id).first
+      if reg.nil?
         registration = person.registrations.new
-        registration.supporter_registration = @conference.supporter_registrations.new(:supporter_level_id => params[:registration][:supporter_registrations][:supporter_level], :code => params[:registration][:supporter_registrations][:code], :email => person.email, :name => person.public_name)
-        params[:registration].delete :supporter_registrations
-
-        registration.update_attributes(params[:registration])
-        registration.update_attributes(:conference_id => @conference.id, :attended => true)
-        registration.save!
-        
+      else
         redirect_to admin_conference_registrations_path(@conference.short_title)
-        flash[:notice] = "Successfully created new registration for #{person.email}."
-#        rescue Exception => e
-#         user.destroy
-#         person.destroy
-#           redirect_to(:back, :alert => "Did not create registration. #{e.message}")
-#          return
+        flash[:notice] = "#{person.email} is already registred!"
+        return
       end
-#      rescue Exception => e
-#       redirect_to(:back, :alert => "Did not create new user/person. #{e.message}")
-#       return
+    else
+      if params[:registration][:person][:first_name].blank? || params[:registration][:person][:last_name].blank?
+         redirect_to(:back, :alert => "Please fill in your first and last name before registering.")
+         return
+      end
+      user = User.new
+      user.email = params[:registration][:user][:email]
+      user.password = rand(36**6).to_s(36)
+      begin user.save!
+        user.skip_confirmation!
+        person = Person.where("user_id = ?", user.id).first
+        person.update_attributes(params[:registration][:person])
+        begin
+          registration = person.registrations.new
+          if params[:registration][:supporter_registration]
+            registration.supporter_registration = @conference.supporter_registrations.new(:supporter_level_id => params[:registration][:supporter_registration][:supporter_level_id], :code => params[:registration][:supporter_registration][:code], :email => person.email, :name => person.public_name)
+          end
+        rescue Exception => e
+          user.destroy
+          person.destroy
+          redirect_to(:back, :alert => "Did not create registration. #{e.message}")
+          return
+        end
+      rescue Exception => e
+        redirect_to(:back, :alert => "Did not create new user/person. #{e.message}")
+        return
+      end
     end
+    params[:registration].delete :person
+    params[:registration].delete :user
+    params[:registration].delete :supporter_registration
+    registration.update_attributes(params[:registration])
+    registration.update_attributes(:conference_id => @conference.id, :attended => true)
+    registration.save!
+    redirect_to admin_conference_registrations_path(@conference.short_title)
+    flash[:notice] = "Successfully created new registration for #{person.email}."
   end
 
   def delete

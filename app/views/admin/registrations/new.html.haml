@@ -6,14 +6,13 @@
   .span12
     = semantic_form_for(@registration, :url => admin_conference_registrations_new_path(@conference.short_title), :html => { :method => :put }) do |f|
 
-      = f.inputs "Account Information" do
+      = f.inputs "Your details" do
         = f.fields_for :user do |u|
-          = u.input :email
-          = u.input :password, :hint => "Password must be at least 6 characters"
-      = f.inputs "Personal Information" do
-        = f.fields_for :people do |p|
+          = u.input :email, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
+        = f.fields_for @person do |p|
           = p.input :first_name
           = p.input :last_name
+          = p.input :public_name
           = p.label :Nickname
           = p.text_field :irc_nickname
           = p.label :Affiliation
@@ -21,7 +20,7 @@
 
       = f.inputs "Registration Information" do
         - if @conference.use_supporter_levels?
-          = f.semantic_fields_for :supporter_registrations do |reg|
+          = f.semantic_fields_for @supporter_registration do |reg|
             = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
             = reg.input :code, :label => "Confirmation or registration code (if applicable)"
             %span#supporter-link.help-block
@@ -72,4 +71,4 @@
         onSelect: function(selected) {
             $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
         }
-    });
+    });          
