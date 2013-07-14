@@ -52,7 +52,7 @@
                         <span class="text-error"><%= event[0].subtitle %></span><br>
                       <% end %>
                       <i class="icon-user"></i>
-                      <%= speaker.public_name %>
+                      <%= "#{speaker.first_name} #{speaker.last_name}" %>
                       <% if event[0].track%>
                         <br><i class="icon-road"></i>
                         <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
