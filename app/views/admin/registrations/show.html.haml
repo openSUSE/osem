@@ -30,9 +30,9 @@
             %td
               - if field == "name"
                 #{registration.last_name} #{registration.first_name} (#{registration.nickname}) #{registration.affiliation}
-                - if registration.supporter_level
+                - if registration.supporter_level && registration.supporter_level.title != 'Free'
                   %p{:style => "color:red"}
-                    = registration.supporter_level.title unless registration.supporter_level.title == 'Free'
+                    = registration.supporter_level.title
           
               -elsif field == 'attended'
                 = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym), :class => "btn btn-success"
