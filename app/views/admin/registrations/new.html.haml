@@ -8,15 +8,15 @@
 
       = f.inputs "Your details" do
         = f.fields_for :user do |u|
-          = u.input :email, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
+          = u.input :email, :as => :string, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
         = f.fields_for @person do |p|
-          = p.input :first_name
-          = p.input :last_name
-          = p.input :public_name
+          = p.input :first_name, :as => :string
+          = p.input :last_name, :as => :string
+          = p.input :public_name, :as => :string
           = p.label :Nickname
-          = p.text_field :irc_nickname
+          = p.text_field :irc_nickname, :as => :string
           = p.label :Affiliation
-          = p.text_field :company, :placeholder => "Company/User Group/nothing"
+          = p.text_field :company, :placeholder => "Company/User Group/nothing", :as => :string
 
       = f.inputs "Registration Information" do
         - if @conference.use_supporter_levels?

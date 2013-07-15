@@ -10,12 +10,12 @@
 
         = f.inputs "Personal Information" do
           = f.fields_for :person do |p|
-            = p.input :first_name
-            = p.input :last_name
-            = p.label :Nickname
-            = p.text_field :irc_nickname
+            = p.input :first_name, :as => :string
+            = p.input :last_name, :as => :string
+            = p.label :Nickname, :as => :string
+            = p.text_field :irc_nickname, :as => :string
             = p.label :Affiliation
-            = p.text_field :company, :placeholder => "Company/User Group/nothing"
+            = p.text_field :company, :placeholder => "Company/User Group/nothing", :as => :string
 
         = f.inputs "Registration Information" do
           - if @conference.use_supporter_levels?
