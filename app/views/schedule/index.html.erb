@@ -46,16 +46,24 @@
                     <h5>
                       <%- speaker = event[0].speakers.first || event[0].submitter %>
                       <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right", :alt => speaker.public_name, :title => speaker.public_name, :style => "padding:8px;" %>
+                      <span class="schedule-title">
                       <i class="icon-comment"></i>
-                      <%= event[0].title %><br>
+                      <%= event[0].title %>
+                      </span>
                       <% unless event[0].subtitle.empty? %>
-                        <span class="text-error"><%= event[0].subtitle %></span><br>
+                        <span class="schedule-subtitle">
+                        <%= event[0].subtitle %>
+                        </span>
                       <% end %>
+                      <span class="schedule-speaker">
                       <i class="icon-user"></i>
                       <%= "#{speaker.first_name} #{speaker.last_name}" %>
+                      </span>
                       <% if event[0].track%>
-                        <br><i class="icon-road"></i>
+                        <span class="schedule-track">
+                        <i class="icon-road"></i>
                         <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+                        </span>
                         <% end -%>
                     </h5>
                    </td>
