@@ -10,10 +10,10 @@ class Admin::RegistrationsController < ApplicationController
                                                                people.last_name AS last_name,
                                                                people.first_name AS first_name,
                                                                people.public_name AS public_name,
-                                                               people.email AS email")
+                                                  people.email AS email, people.company as affiliation, people.irc_nickname as nickname")
 
     @attended = @conference.registrations.where("attended = ?", true)
-    @headers = %w[name email social_events attending_with_partner need_access other_needs arrival departure attended]
+    @headers = %w[name email nickname affiliation social_events attending_with_partner need_access other_needs arrival departure attended]
   end
 
   def change_field
