@@ -4,6 +4,7 @@ class Registration < ActiveRecord::Base
   belongs_to :dietary_choice
 
   has_one :supporter_registration
+  has_one :supporter_level, :through => :supporter_registration
   has_and_belongs_to_many :social_events
   has_and_belongs_to_many :events
 
@@ -20,4 +21,5 @@ class Registration < ActiveRecord::Base
   alias_attribute :social_events, :attending_social_events
   alias_attribute :need_access, :handicapped_access_required
   alias_attribute :other_needs, :other_special_needs
+
 end

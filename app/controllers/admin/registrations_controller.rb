@@ -13,7 +13,7 @@ class Admin::RegistrationsController < ApplicationController
                                                   people.email AS email, people.company as affiliation, people.irc_nickname as nickname")
 
     @attended = @conference.registrations.where("attended = ?", true)
-    @headers = %w[name email nickname affiliation social_events attending_with_partner need_access other_needs arrival departure attended]
+    @headers = %w[name email social_events attending_with_partner need_access other_needs arrival departure attended]
   end
 
   def change_field
@@ -28,7 +28,7 @@ class Admin::RegistrationsController < ApplicationController
       redirect_to admin_conference_registrations_path(@conference.short_title, @registration)
       flash[:notice] = "Updated '#{params[:view_field]}' for #{(Person.where("id = ?", @registration.person_id).first).email}"
   end
-  
+
   def edit
     @registration = @conference.registrations.where("id = ?", params[:id]).first
     @person = Person.where("id = ?", @registration.person_id).first
@@ -131,4 +131,6 @@ class Admin::RegistrationsController < ApplicationController
       redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'You must be an admin to delete a registration.')
     end
   end
+  
+  helper_method :get_supporter_level
 end

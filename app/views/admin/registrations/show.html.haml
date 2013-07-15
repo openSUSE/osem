@@ -29,12 +29,10 @@
           - @headers.each do |field|
             %td
               - if field == "name"
-                #{registration.last_name} #{registration.first_name} (#{registration.public_name})
-                - supp_reg = get_supporter_level(registration)
-                - if supp_reg
-                  %br
+                #{registration.last_name} #{registration.first_name} (#{registration.nickname}) #{registration.affiliation}
+                - if registration.supporter_level
                   %p{:style => "color:red"}
-                    = supp_reg.title unless supp_reg.title == "Free"
+                    = registration.supporter_level.title unless registration.supporter_level.title == 'Free'
           
               -elsif field == 'attended'
                 = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym), :class => "btn btn-success"
