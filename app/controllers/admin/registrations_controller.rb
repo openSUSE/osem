@@ -58,53 +58,57 @@ class Admin::RegistrationsController < ApplicationController
   
   def create
     @conference = Conference.find_all_by_short_title(params[:conference_id]).first
-    person = Person.where("email LIKE ?", params[:registration][:user][:email]).first
+    email = params[:registration][:person].delete(:user)[:email]
+    @person = Person.find_by_email email
+    @registration = nil
+    @user = nil
     
-    if !person.nil?
-      reg = @conference.registrations.where("person_id = ?", person.id).first
-      if reg.nil?
-        registration = person.registrations.new
+    if @person
+      if @person.registrations.where(conference_id: @conference).empty?
+        @person.attributes = params[:registration][:person] # Should we really modify person information?
       else
         redirect_to admin_conference_registrations_path(@conference.short_title)
-        flash[:notice] = "#{person.email} is already registred!"
+        flash[:notice] = "#{@person.email} is already registred!"
         return
       end
     else
-      if params[:registration][:person][:first_name].blank? || params[:registration][:person][:last_name].blank?
-         redirect_to(:back, :alert => "Please fill in your first and last name before registering.")
-         return
-      end
-      user = User.new
-      user.email = params[:registration][:user][:email]
-      user.password = rand(36**6).to_s(36)
-      begin user.save!
-        user.skip_confirmation!
-        person = Person.where("user_id = ?", user.id).first
-        person.update_attributes(params[:registration][:person])
-        begin
-          registration = person.registrations.new
-          if params[:registration][:supporter_registration]
-            registration.supporter_registration = @conference.supporter_registrations.new(:supporter_level_id => params[:registration][:supporter_registration][:supporter_level_id], :code => params[:registration][:supporter_registration][:code], :email => person.email, :name => person.public_name)
-          end
-        rescue Exception => e
-          user.destroy
-          person.destroy
-          redirect_to(:back, :alert => "Did not create registration. #{e.message}")
-          return
-        end
-      rescue Exception => e
-        redirect_to(:back, :alert => "Did not create new user/person. #{e.message}")
-        return
-      end
+      @person = Person.new params[:registration][:person]
+    end
+    @person.email = email
+
+    @user = @person.user
+    if @user.nil?
+      @user = @person.build_user
+      @user.password = rand(36**6).to_s(36)
+      @user.skip_confirmation!
+    end
+    @user.email = @person.email
+
+    @registration = @person.registrations.build
+    if params[:registration][:supporter_registration]
+      @supporter_registration = @registration.build_supporter_registration
+      @supporter_registration.attributes = params[:registration][:supporter_registration]
+      @supporter_registration.conference_id = @conference.id
+    else
+      @supporter_registration = @conference.supporter_registrations.new
     end
     params[:registration].delete :person
     params[:registration].delete :user
     params[:registration].delete :supporter_registration
-    registration.update_attributes(params[:registration])
-    registration.update_attributes(:conference_id => @conference.id, :attended => true)
-    registration.save!
-    redirect_to admin_conference_registrations_path(@conference.short_title)
-    flash[:notice] = "Successfully created new registration for #{person.email}."
+    @registration.attributes = params[:registration]
+    @registration.conference_id = @conference.id
+    @registration.attended = true
+    begin
+      Registration.transaction do
+        @person.save!
+        @user.save!
+        @registration.save!
+      end
+      flash[:notice] = "Successfully created new registration for #{@person.email}."
+      redirect_to admin_conference_registrations_path(@conference.short_title)
+    rescue ActiveRecord::RecordInvalid
+      render action: "new"
+    end
   end
 
   def delete

@@ -7,9 +7,9 @@
     = semantic_form_for(@registration, :url => admin_conference_registrations_new_path(@conference.short_title), :html => { :method => :put }) do |f|
 
       = f.inputs "Your details" do
-        = f.fields_for :user do |u|
-          = u.input :email, :as => :string, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
         = f.fields_for @person do |p|
+          = p.fields_for @user do |u|
+            = u.input :email, :as => :string, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
           = p.input :first_name, :as => :string
           = p.input :last_name, :as => :string
           = p.input :public_name, :as => :string
@@ -71,4 +71,4 @@
         onSelect: function(selected) {
             $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
         }
-    });          
+    });
