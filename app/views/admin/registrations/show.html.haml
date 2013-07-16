@@ -1,7 +1,7 @@
 .row-fluid
   .span12
     .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
-      = link_to "New", admin_users_new_path(@conference.short_title), :class => "btn btn-primary"
+      = link_to "New", admin_conference_registrations_new_path(@conference.short_title), :class => "btn btn-primary"
       = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-success"
       = link_to "Export xlsx", {:format => :xlsx}, :class => "btn btn-success"
 .row-fluid
@@ -29,12 +29,20 @@
           - @headers.each do |field|
             %td
               - if field == "name"
-                #{registration.last_name} #{registration.first_name} (#{registration.public_name})
+                #{registration.last_name} #{registration.first_name} (#{registration.nickname}) #{registration.affiliation}
+                - if registration.supporter_level && registration.supporter_level.title != 'Free'
+                  %p{:style => "color:red"}
+                    = registration.supporter_level.title
           
+              -elsif field == 'attended'
+                = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym), :class => "btn btn-success"
+
               -elsif (registration.send(field.to_sym).class == TrueClass || registration.send(field.to_sym).class == FalseClass)
                 = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :put, ":#{field}" => registration.send(field.to_sym)
+
               - elsif field == 'arrival' || field == 'departure'
                 = registration.send(field.to_sym).strftime("%d %b %H:%M") if registration.send(field.to_sym)
+
               - else
                 = registration.send(field.to_sym)
           %td

@@ -3,7 +3,6 @@ Osem::Application.routes.draw do
   devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
 
   namespace :admin do
-    put "/users/new" => "users#create"
     resources :users
     resources :people
     resources :conference do
@@ -11,6 +10,8 @@ Osem::Application.routes.draw do
       put "/schedule" => "schedule#update"
       get "/stats" => "stats#index"
       get "/registrations" => "registrations#show"
+      get "/registrations/new" => "registrations#new"
+      put "/registrations/new" => "registrations#create"
       get "/registrations/edit" => "registrations#edit"
       put "/registrations/edit" => "registrations#update"
       delete "/registrations"  => "registrations#delete"
