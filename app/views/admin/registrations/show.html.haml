@@ -29,7 +29,7 @@
           - @headers.each do |field|
             %td
               - if field == "name"
-                #{registration.last_name} #{registration.first_name} (#{registration.nickname}) #{registration.affiliation}
+                #{registration.last_name} #{registration.first_name} (#{registration.irc_nickname}) #{registration.company}
                 - if registration.supporter_level && registration.supporter_level.title != 'Free'
                   %p{:style => "color:red"}
                     = registration.supporter_level.title
