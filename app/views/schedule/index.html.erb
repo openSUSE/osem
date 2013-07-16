@@ -28,6 +28,9 @@
           <% conf_end = DateTime.parse("#{date} 19:00") %>
 
           <% while conf_start < conf_end %>
+            <%-
+              start_hour = conf_start.hour
+              start_min = conf_start.min %>
 
             <tr>
               <td style="width:5%">
@@ -35,7 +38,8 @@
               </td>
 
               <% @rooms.each do |room| %>
-                <% event = @events.find_all{|event|event.start_time and event.start_time.strftime("%Y-%m-%d %H:%M").eql? conf_start.strftime("%Y-%m-%d %H:%M") and event.room_id == room.id } %>
+                <% events_for_date = @events.find_all {|e| e.room_id == room.id && e.start_time && e.start_time.to_date == date } %>
+                <% event = events_for_date.find_all{|e| e.start_time.hour == start_hour && e.start_time.min == start_min } %>
                 <% if !event.empty? %>
                   <!-- There is an event, calculate the span and show it -->
                   <% span[room.id] = event[0].event_type.length / 15 %>
@@ -44,8 +48,9 @@
                          class="event" role="button"
                          data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
                     <h5>
-                      <%- speaker = event[0].speakers.first || event[0].submitter %>
-                      <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right", :alt => speaker.public_name, :title => speaker.public_name, :style => "padding:8px;" %>
+                      <%- if speaker = event[0].speakers.first %>
+                        <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right", :alt => speaker.public_name, :title => speaker.public_name, :style => "padding:8px;" %>
+                      <%- end %>
                       <span class="schedule-title">
                       <i class="icon-comment"></i>
                       <%= event[0].title %>
