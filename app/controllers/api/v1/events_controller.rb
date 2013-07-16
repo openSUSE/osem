@@ -6,6 +6,6 @@ class Api::V1::EventsController < Api::BaseController
     unless params[:conference_id].blank?
       events = events.where("conferences.guid" => params[:conference_id])
     end
-    respond_with events
+    respond_with events.confirmed
   end
 end

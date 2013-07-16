@@ -27,6 +27,8 @@ class Event < ActiveRecord::Base
   validates :title, :presence => true
   validates :abstract, :presence => true
 
+  scope :confirmed, where(:state => "confirmed")
+
   state_machine :initial => :new do
     state :new
     state :review
