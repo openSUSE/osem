@@ -21,10 +21,21 @@ class Admin::StatsController < ApplicationController
     @speaker_fields_reg = %w[with_partner need_access other_needs diet arrival departure]
     
     @supporter_levels = @conference.supporter_levels
+    @tickets = @conference.registrations.find_by_sql("select * 
+                                                     from registrations inner join supporter_registrations 
+                                                    ON registrations.id = supporter_registrations.registration_id
+                                                    inner join supporter_levels
+                                                    ON supporter_levels.id = supporter_registrations.supporter_level_id
+                                                    where registrations.conference_id = #{@conference.id}")
+    
   end
   
   def reg_support(level)
-    Registration.find_by_sql("select supporter_registrations.* FROM registrations, supporter_registrations, supporter_levels WHERE registrations.id = supporter_registrations.registration_id AND registrations.conference_id = #{@conference.id} AND supporter_registrations.supporter_level_id = #{level.id}")
+    Registration.find_by_sql("select supporter_registrations.* 
+    FROM registrations INNER JOIN supporter_registrations
+    ON registrations.id = supporter_registrations.registration_id
+    WHERE registrations.conference_id = #{@conference.id} 
+    AND supporter_registrations.supporter_level_id = #{level.id}")
   end
   
   def speaker_reg(speaker)

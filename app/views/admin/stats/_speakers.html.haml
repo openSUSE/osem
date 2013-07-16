@@ -1,7 +1,7 @@
 - count =0 
 %h3
   Speakers (#{@speakers.length})
-%table.table.table-striped.table-bordered.table-hover#events
+%table.table.table-striped.table-bordered.table-hover#speakertable
   %thead
     %th
       ID
@@ -34,3 +34,10 @@
               = getdatetime(reg, field)
             - else
               = reg.send(field.to_sym)
+              
+:javascript
+  $(document).ready(function(){
+      $('#speakertable').dataTable({
+        "bPaginate": false
+      });
+  });              
