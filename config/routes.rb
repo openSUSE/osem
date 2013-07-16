@@ -65,6 +65,7 @@ Osem::Application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       resources :conferences, :only => :index do
+        resources :conferences, :only => :index
         resources :rooms, :only => :index
         resources :tracks, :only => :index
         resources :speakers, :only => :index
