@@ -3,14 +3,14 @@
     .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
       = link_to "New", admin_users_new_path(@conference.short_title), :class => "btn btn-primary"
       = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-success"
+      = link_to "Export xlsx", {:format => :xlsx}, :class => "btn btn-success"
 .row-fluid
   .span12
     %h2
       Registrations
       - if @registrations
         = "(#{@registrations.length})"
-      - if @attended
-        = " - Attended (#{@attended.length})"
+      = " - Attended (#{@attended})"
     %table.table.table-striped.table-bordered.table-hover#registrations
       %thead
         %th
