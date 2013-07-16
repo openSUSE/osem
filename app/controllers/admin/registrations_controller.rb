@@ -4,15 +4,8 @@ class Admin::RegistrationsController < ApplicationController
   def show
     session[:return_to] ||= request.referer
     @pdf_filename = "#{@conference.title}.pdf"
-    @registrations = @conference.registrations.all(:joins => :person,
-                                                   :order => "registrations.created_at ASC",
-                                                   :select => "registrations.*,
-                                                               people.last_name AS last_name,
-                                                               people.first_name AS first_name,
-                                                               people.public_name AS public_name,
-                                                               people.email AS email")
-
-    @attended = @conference.registrations.where("attended = ?", true)
+    @registrations = @conference.registrations.includes(:person).order("registrations.created_at ASC")
+    @attended = @conference.registrations.where("attended = ?", true).count
     @headers = %w[attended name email attending_social_events attending_with_partner need_access other_needs arrival departure]
   end
 

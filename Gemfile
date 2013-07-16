@@ -51,4 +51,4 @@ gem 'prawn'
 gem 'prawn_rails'
 gem 'gravtastic'
 gem 'active_model_serializers'
-
+gem 'axlsx_rails'

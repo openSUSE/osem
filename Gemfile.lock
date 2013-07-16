@@ -39,6 +39,13 @@ GEM
     arel (3.0.2)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
+    axlsx (1.3.6)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.4.1)
+      rubyzip (>= 0.9.5)
+    axlsx_rails (0.1.4)
+      axlsx
+      rails (>= 3.1)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.3.2.0)
       sass (~> 3.2)
@@ -80,6 +87,7 @@ GEM
       tilt
     hashery (2.1.0)
     hike (1.2.2)
+    htmlentities (4.3.1)
     i18n (0.6.4)
     journey (1.0.4)
     jquery-fileupload-rails (0.4.1)
@@ -217,6 +225,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   acts_as_commentable_with_threading
+  axlsx_rails
   bcrypt-ruby (~> 3.0.0)
   bootstrap-sass
   cancan

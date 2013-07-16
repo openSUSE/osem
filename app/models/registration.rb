@@ -15,6 +15,13 @@ class Registration < ActiveRecord::Base
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :supporter_registration
   accepts_nested_attributes_for :social_events
+
+  delegate :first_name, :to => :person
+  delegate :last_name, :to => :person
+  delegate :public_name, :to => :person
+  delegate :email, :to => :person
+  delegate :irc_nickname, :to => :person
+  delegate :company, :to => :person
   
   alias_attribute :with_partner, :attending_with_partner
   alias_attribute :need_access, :handicapped_access_required
