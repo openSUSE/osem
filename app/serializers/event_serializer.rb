@@ -5,7 +5,8 @@ class EventSerializer < ActiveModel::Serializer
     :speaker_ids, :type, :room, :track
 
   def date
-    object.start_time
+    t = object.start_time
+    t.blank? ? "" : %(#{t.time.strftime("%Y-%m-%dT%H:%M:%S")}#{t.formatted_offset(false)})
   end
 
   def speaker_ids
