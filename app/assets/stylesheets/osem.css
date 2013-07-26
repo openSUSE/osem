@@ -1,74 +1,50 @@
-html, body,.container,.content {
+ /* Sticky footer styles
+ -------------------------------------------------- */
+ html,
+ body {
     height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
 }
 
-#push,
-#footer {
-    height: 60px;
-}
-
-.well {
-    background-color: white;
-    border: 1px solid #299A0B;
-}
-.container, .content {
-    position: relative;
-}
-#inner-content {
-    padding-top: 60px;
-}
-
+/* Wrapper for page content to push down footer */
 #wrap {
     min-height: 100%;
     height: auto !important;
     height: 100%;
+    /* Negative indent footer by it's height */
     margin: 0 auto -60px;
 }
 
+/* Set the fixed height of the footer here */
+#push,
 #footer {
-    position: relative;
-    background-color: #ffffff;
+    height: 60px;
 }
-.navbar-inner {
-    background: #299a0b; /* Old browsers */
-    background: -moz-linear-gradient(top,  #299a0b 0%, #299a0b 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#299a0b), color-stop(100%,#299a0b)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #299a0b 0%,#299a0b 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #299a0b 0%,#299a0b 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #299a0b 0%,#299a0b 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #299a0b 0%,#299a0b 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#299a0b', endColorstr='#299a0b',GradientType=0 ); /* IE6-9 */
+#footer {
+   background-color: #f5f5f5;
 }
 
-.navbar .nav .active > a, .navbar .nav .active > a:hover {
-    background-color: #DFE0DF;
+.container .credit {
+  margin: 20px 0;
 }
 
-.navbar .divider-vertical {
-    background-color: #b4e391;
-    border-right: 1px solid #eab92d;
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+    #footer {
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: 20px;
+      padding-right: 20px;
+  }
 }
 
-.navbar-fixed-top .brand {
-    color: #ffffff;
-    text-shadow:none;
-}
-
-.navbar .nav > li > a {
-    float: none;
-    padding: 10px 15px 10px;
-    color: white;
-    text-decoration: none;
-    text-shadow: none;
+@media screen and (min-width: 980px) {
+  body { padding-top: 60px; }
 }
 
 .center {
     margin:0 auto;
     float:none;
-}
-
-.center-text {
-    text-align: center
 }
 
 textarea {
@@ -153,3 +129,62 @@ div.dataTables_scrollFoot table {
     border-top: none;
 }
 
+
+
+#schedule td.event {
+background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
+background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
+
+background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.24, rgb(247,250,242)),
+    color-stop(0.97, rgb(194,232,190)),
+    color-stop(1, rgb(194,232,190))
+);
+}
+
+#schedule td.event:hover
+{ 
+background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
+background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
+background-image: -moz-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
+background-image: -webkit-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
+background-image: -ms-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
+
+background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.24, rgb(247,250,242)),
+    color-stop(0.97, rgb(83,171,74)),
+    color-stop(1, rgb(83,171,74))
+);
+}
+
+.flexvideo {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+.flexvideo iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.schedule-title, .schedule-subtitle, .schedule-speaker, .schedule-track {
+    clear: none;
+    display: block;
+}
+
+.schedule-subtitle {
+    color: rgb(185, 74, 72);
+}

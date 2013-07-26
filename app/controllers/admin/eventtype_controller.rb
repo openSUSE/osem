@@ -1,6 +1,5 @@
 class Admin::EventtypeController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     render :event_type_list

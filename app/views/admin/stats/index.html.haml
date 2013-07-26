@@ -1,0 +1,23 @@
+.row-fluid
+  .span12
+    %ul.nav.nav-tabs#myTab
+      %li.active
+        %a{:href=>"#registrations", "data-toggle"=>"tab"} Registrations
+      %li
+        %a{:href=>"#speakers", "data-toggle"=>"tab"} Speakers
+      %li
+        %a{:href=>"#tickets", "data-toggle"=>"tab"} Tickets
+
+    .tab-content
+      .tab-pane.active#registrations
+        = render :partial => 'registrations'
+      .tab-pane#speakers
+        = render :partial => 'speakers'
+      .tab-pane#tickets
+        = render :partial => 'tickets'
+ 
+:javascript              
+  $('#myTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })

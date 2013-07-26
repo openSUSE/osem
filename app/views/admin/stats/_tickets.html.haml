@@ -1,0 +1,28 @@
+.row-fluid
+  .span12
+  %h3
+    Non-free Tickets (#{@tickets})
+.row-fluid
+  .span5
+    - if @supporter_levels.count > 0
+      %table.table.table-bordered.table-striped
+        %thead
+          %th Support Level
+          %th #
+          %th %
+        - @supporter_levels.each do |level|
+          - reg_count = level.supporter_registrations.count
+          - if reg_count > 0
+            %tr
+              %td= level.title
+              %td
+                = reg_count
+              %td
+                - if @registered and @registered > 0
+                  = "#{reg_count * 100 / @registered}% of registered"
+                - if @attendees and @attendees > 0
+                  %br
+                  = "#{reg_count * 100 / @attendees}% of attendees"
+    - else
+      %p
+        No tickets sold yet

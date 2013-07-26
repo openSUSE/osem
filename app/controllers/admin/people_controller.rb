@@ -1,6 +1,6 @@
 class Admin::PeopleController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
+  respond_to :html
 
   def index
     @people = Person.all
@@ -16,16 +16,28 @@ class Admin::PeopleController < ApplicationController
     end
   end
 
-  def create
+  def new
+    @person = Person.new
+  end
 
+  def create
+    @person = Person.new(params[:person])
+    flash[:notice] = 'Person was successfully created.' if @person.save
+    respond_with @person, :location => admin_people_path
   end
 
   def show
     @person = Person.find(params[:id])
   end
 
-  def update
+  def edit
+    @person = Person.find(params[:id])
+  end
 
+  def update
+    @person = Person.find(params[:id])
+    flash[:notice] = 'Person was successfully updated' if @person.update_attributes(params[:person])
+    respond_with @person, :location => admin_people_path
   end
 
   def delete

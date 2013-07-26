@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :confirmable
 
   has_and_belongs_to_many :roles
-  has_one :person
+  has_one :person, :inverse_of => :user
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids, :person_attributes
   accepts_nested_attributes_for :person
@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   private
     def create_person
       # TODO Search people for existing email address, add to their account
-      build_person(:email => self.email)
+      build_person(:email => self.email) if person.nil?
       true
     end
 end

@@ -1,6 +1,5 @@
 class Admin::SocialEventsController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     render :social_events_list

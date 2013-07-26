@@ -1,6 +1,5 @@
 class Admin::DietchoicesController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     render :diets_list

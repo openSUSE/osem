@@ -1,12 +1,17 @@
 class Person < ActiveRecord::Base
+  include Gravtastic
+  gravtastic :size => 32
+
   attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company, :avatar, :irc_nickname
 
+  belongs_to :user, :inverse_of => :person
   has_many :event_people, :dependent => :destroy
   has_many :events, :through => :event_people, :uniq => true
   has_many :registrations, :dependent => :destroy
 
   validates :first_name, :presence => true
   validates :last_name, :presence => true
+  validates :email, :presence => true
   validate :biography_limit
 
   before_create :generate_guid
@@ -16,6 +21,9 @@ class Person < ActiveRecord::Base
                     :styles => {:tiny => "16x16>", :small => "32x32>", :large => "128x128>"},
                     :default_url => "person_:style.png"
   validates_attachment_content_type :avatar, :content_type => [/jpg/, /jpeg/, /png/, /gif/]
+
+  alias_attribute :affiliation, :company
+
   def to_s
     if self.public_name.empty?
       self.first_name + " " + self.last_name
@@ -58,6 +66,19 @@ class Person < ActiveRecord::Base
     Person.where(:user_id => user_id).first
   end
 
+  def confirmed?
+    if User.exists?(self.user_id)
+      user = User.find(self.user_id)
+      if user.confirmed?
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+
   private
   def biography_limit
     if !self.biography.nil? && self.biography.split.size > 150
@@ -77,19 +98,6 @@ class Person < ActiveRecord::Base
       guid = SecureRandom.urlsafe_base64
     end while Person.where(:guid => guid).exists?
     self.guid = guid
-  end
-
-  def confirmed?
-    if User.exists?(self.user_id)
-      user = User.find(self.user_id)
-      if user.confirmed?
-        true
-      else
-        false
-      end
-    else
-      false
-    end
   end
 
 end

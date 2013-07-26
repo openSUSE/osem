@@ -1,0 +1,64 @@
+@media print {
+
+.navbar {
+   display: none;
+}
+.nav li, .tab-pane, #messages, #footer, h2, .text-error, br, .label, .schedule-subtitle, .schedule-track {
+   display: none;
+}
+.nav li.active, .tab-pane .active {
+   display: block;
+   width: 100%;
+   text-align: center;
+   text-size: 12px;
+   border-style: none;
+   font-weight: bold;
+}
+.nav-tabs {
+   border-bottom-style: none;
+}
+.nav-tabs > .active > a {
+   border-style: none;
+}
+#wrap {
+   min-height:0px;
+   height:auto;
+   margin:0px;
+   line-height: 12px;
+   font-size: 10px;
+}
+#content {
+   position: absolute;
+   top: 0px;
+   left: 0px;
+   max-width: 210mm !important;
+   max-height: 297mm !important;
+   padding: 10px;
+}
+#schedule td.event {
+   background-image: none;
+   border-style:solid;
+   border-width: 2px;
+   border-color: black;
+   line-height: auto;
+   font-size: 10px;
+}
+.event img, .img-circle {
+   display: none;
+}
+h5 {
+   font-size: 10px;
+   line-height: 12px;
+   margin: 0px;
+}
+.table th, .table td {
+   line-height: 12px;
+   padding: 3px;
+}
+
+.schedule-speaker {
+   font-weight: normal;
+   font-style: italic;
+}
+
+}

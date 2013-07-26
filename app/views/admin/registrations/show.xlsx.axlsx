@@ -1,0 +1,25 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(:name => "registrations") do |sheet|
+  bold_style = wb.styles.add_style(:b => true)
+  row = ["Attended", "Name", "Nickname", "Affilation", "Email", "Social events",
+    "With partner", "Needs access", "Other needs", "Arrival", "Departure"]
+  sheet.add_row row, :style => bold_style
+
+  @registrations.each do |reg|
+    row = []
+    row << reg.attended
+    row << "#{reg.last_name} #{reg.first_name} (#{reg.public_name})"
+    row << reg.irc_nickname
+    row << reg.company
+    row << reg.email
+    row << reg.attending_social_events
+    row << reg.attending_with_partner
+    row << reg.need_access
+    row << reg.other_needs
+    row << reg.arrival
+    row << reg.departure
+    sheet.add_row row
+  end
+  sheet.column_info[8].width = [sheet.column_info[8].width, 30].min
+end     
+

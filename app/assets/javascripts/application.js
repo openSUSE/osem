@@ -17,5 +17,5 @@
 //= require jquery-ui-timepicker-addon
 //= require jquery.dataTables
 //= require cocoon
-//= require bootstrap.min
+//= require bootstrap
 //= require osem

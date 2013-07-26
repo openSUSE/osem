@@ -1,4 +1,19 @@
 module ApplicationHelper
+  def getdatetime(registration, field)
+    if registration.send(field.to_sym).kind_of?(String)
+      DateTime.parse(registration.send(field.to_sym)).strftime("%d %b %H:%M") if registration.send(field.to_sym)
+    else
+      registration.send(field.to_sym).strftime("%d %b %H:%M") if registration.send(field.to_sym)
+    end
+  end
+  
+  def getdate(var)
+    if var.kind_of?(String)
+      DateTime.parse(var).strftime("%a, %d %b")
+    else
+      var.strftime("%a, %d %b")
+    end
+  end
 
   def add_association_link(association_name, form_builder, div_class, html_options = {})
     link_to_add_association "Add " + association_name.to_s.singularize, form_builder, div_class, html_options.merge(:class => "assoc btn btn-success")

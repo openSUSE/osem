@@ -1,43 +1,44 @@
-.span12
-  = semantic_form_for(@event, :url => @url) do |f|
-    %section#basic
-    = f.inputs :name => "Session Information" do
-      = f.input :title, :as => :string, :required => true
-      = f.input :subtitle, :as => :string
-    %section#details
+= semantic_form_for(@event, :url => @url) do |f|
+  %section#basic
+  = f.inputs :name => "Session Information" do
+    = f.input :title, :as => :string, :required => true
+    = f.input :subtitle, :as => :string
+  %section#details
+    - unless @event.state === "unconfirmed" || @event.state === "confirmed"
       = f.input :event_type_id,:as => :select, :collection => @event_types, :include_blank => false, :label => "Session Type"
-      = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
-        :required => true, :label => "Session Abstract"
+    = f.input :require_registration
+    = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
+      :required => true, :label => "Session Abstract"
+    You have used
+    %span#abstract-count #{@event.abstract_word_count}
+    words.  Abstracts must be between
+    %span#abstract-minimum-word-count
+      0
+    and
+    %span#abstract-maximum-word-count
+      250
+    words.
+    %br
+    %br
+    = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
+    = f.input :video_id, :as => :string, :hint => "Go to your youtube video, click on \"share\" and copy everything behind http://youtu.be/"
+  %section#information
+  = f.inputs :name => "Your Information" do
+    = semantic_fields_for @person do |p|
+      = p.input :public_name, :as => :string, :required => true
+      = p.input :company, :as => :string, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
+      = p.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
       You have used
-      %span#abstract-count #{@event.abstract_word_count}
-      words.  Abstracts must be between
-      %span#abstract-minimum-word-count
-        0
-      and
-      %span#abstract-maximum-word-count
-        250
-      words.
+      %span#biography-count #{@person.biography_word_count}
+      words.  Biographies are limited to 150 words.
       %br
       %br
-      = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
-    %section#information
-    = f.inputs :name => "Your Information" do
-      = semantic_fields_for @person do |p|
-        = p.input :public_name, :as => :string, :required => true
-        = p.input :company, :as => :string, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
-        = p.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
-        You have used
-        %span#biography-count #{@person.biography_word_count}
-        words.  Biographies are limited to 150 words.
-        %br
-        %br
-
-    %section#speakers
-    = f.inputs :name => "Additional Speakers" do
-      Will there be any additional speakers?  If so, please enter their full names, email address, and a short
-      biography for each.
-      = f.input :proposal_additional_speakers, :input_html => {:rows => 5, :class => "span11"}, :label => false
-    = f.action :submit, :as => :button, :label => "Submit Session",  :button_html => {:class => "btn btn-primary"}
+  %section#speakers
+  = f.inputs :name => "Additional Speakers" do
+    Will there be any additional speakers?  If so, please enter their full names, email address, and a short
+    biography for each.
+    = f.input :proposal_additional_speakers, :input_html => {:rows => 5, :class => "span11"}, :label => false
+  = f.action :submit, :as => :button, :label => "Submit Session",  :button_html => {:class => "btn btn-primary"}
 
 :javascript
   var maxcount = 0;

@@ -1,84 +1,52 @@
-.row-fluid
-  .span10
-    %h3
-      = @event.title
-    %i= @event.subtitle
-
-  .span2
-    - if @event.transition_possible? :confirm
-      = link_to "Confirm", conference_proposal_confirm_path(@conference.short_title, @event), :method => :put, :class => "btn btn-mini btn-success"
-    = link_to "Withdraw", conference_proposal_path(@conference.short_title, @event.id), :method => :delete,
-                            :confirm => "Are you sure you want to withdraw this proposal?", :class => "btn btn-mini btn-danger"
-
-.row-fluid
+.row
   .span12
-    %table.table
-      %tr
-        %td
-          %b Type
-        %td
-          - if @event.event_type
-            = @event.event_type.title
-      - if !@event.track.nil?
-        %tr
-          %td
-            %b Track
-        %td
-          = @event.track.name
-      - if !@event.room.nil?
-        %tr
-          %td
-            %b Room
-          %td
-            = @event.room.name
-      - if !@event.start_time.nil?
-        %tr
-          %td
-            %b Scheduled time
-          %td
-            = @event.start_time
-      %tr
-        %td
-          %b Submitted on
-        %td= @event.created_at
-      %tr
-        %td
-          %b Last updated on
-        %td= @event.updated_at
-      %tr
-        %td
-          %b Abstract
-        %td= simple_format(@event.abstract)
-      %tr
-        %td
-          %b Description
-        %td= simple_format(@event.description)
-    - if @event.event_attachments.size > 0
-      %table.table
-        %thead
-          %th
-            %b Filename
-          %th
-            %b Title
-          %th
-            %b Size
-          %th
-            %b Public?
-          %th
-        %tbody
-        - @event.event_attachments.each do |a|
-          %tr
-            %td
-              = link_to a.attachment_file_name, conference_proposal_event_attachment_path(@conference.short_title, @event.id, a.id)
-            %td
-              = a.title
-            %td
-              = number_to_human_size a.attachment_file_size
-            %td
-              - if a.public?
-                Public
-              - else
-                Not Public
-            %td
-              = link_to "Delete", conference_proposal_event_attachment_path(@conference.short_title, @event.id, a.id),
-                :method => :delete, :confirm => "Are you sure you want to delete this attachment?  It's permanant!"
+    %h2
+      = @event.title
+      - if @event.subtitle
+        %br
+        %span.muted
+          = @event.subtitle
+.row-fluid
+  .span3
+    %p
+      = simple_format(@event.abstract)
+    %dl
+      %dt Date:
+      %dd= @event.start_time.strftime("%Y %B %e %H:%M") if @event.start_time
+      %dt Conference:
+      %dd= @event.conference.title
+      %dt Language:
+      %dd= @event.language if @event.language
+      %dt Track:
+      %dd
+        - if @event.track_id
+          %span.label{:style =>"background-color: #{@event.track.color};"}
+            = @event.track.name
+  .span9
+    -unless @event.video_id
+      .row-fluid
+        .span12
+          %h5.text-error
+            No video of the event yet, sorry! Meanwhile...
+    .row-fluid
+      .span12.flexvideo
+        -if @event.video_id
+          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>"http://www.youtube.com/embed/#{@event.video_id}?rel=0"}
+        -else
+          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>"http://www.youtube.com/embed/Eiv4e5ZxTmg?rel=0"}
+    .row-fluid
+      .span8
+        %h3
+          by
+          = @speaker.public_name
+          - if @speaker.company
+            %br
+            %span.muted
+              from
+              = @speaker.company
+        -if @speaker.biography
+          = simple_format(@speaker.biography)
+      .span4
+        = image_tag @speaker.gravatar_url(:size => 200), :class => "img-rounded pull-right", :style => "margin: 8px;"
+
+

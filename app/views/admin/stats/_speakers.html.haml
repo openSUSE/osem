@@ -1,0 +1,43 @@
+- count =0 
+%h3
+  Speakers (#{@speakers.length})
+%table.table.table-striped.table-bordered.table-hover#speakertable
+  %thead
+    %th
+      ID
+    - (@speaker_fields_person + @speaker_fields_reg).each do |field|
+      %th
+        = field.capitalize        
+  - @speakers.each do |speaker|
+    %tr
+      %td
+        = count +=1        
+      - @speaker_fields_person.each do |field|
+        %td
+          - if field == 'name'
+            = speaker.first_name 
+            = speaker.last_name
+            %br
+            (#{speaker.public_name})
+          - else 
+            = speaker.send(field.to_sym)
+      - @speaker_fields_reg.each do |field|
+        %td
+          - reg = speaker_reg(speaker)
+          - if !reg.nil?
+            - if field == "diet"
+              - if reg.dietary_choice_id
+                = speaker_diet(reg).title
+              %br
+              = reg.other_dietary_choice
+            - elsif field == 'arrival' || field == 'departure'
+              = getdatetime(reg, field)
+            - else
+              = reg.send(field.to_sym)
+              
+:javascript
+  $(document).ready(function(){
+      $('#speakertable').dataTable({
+        "bPaginate": false
+      });
+  });              

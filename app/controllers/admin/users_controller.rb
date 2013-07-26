@@ -1,6 +1,5 @@
 class Admin::UsersController < ApplicationController
   before_filter :verify_admin
-  layout "admin"
 
   def index
     @users = User.all(:joins => :person,
@@ -16,5 +15,5 @@ class Admin::UsersController < ApplicationController
     user = User.find(params[:id])
     user.update_attributes!(params[:user])
     redirect_to admin_users_path, :notice => "Updated #{user.email}"
-  end
+  end  
 end

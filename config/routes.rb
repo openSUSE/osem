@@ -8,7 +8,14 @@ Osem::Application.routes.draw do
     resources :conference do
       get "/schedule" => "schedule#show"
       put "/schedule" => "schedule#update"
+      get "/stats" => "stats#index"
       get "/registrations" => "registrations#show"
+      get "/registrations/new" => "registrations#new"
+      put "/registrations/new" => "registrations#create"
+      get "/registrations/edit" => "registrations#edit"
+      put "/registrations/edit" => "registrations#update"
+      delete "/registrations"  => "registrations#delete"
+      put "/registrations/change_field" => "registrations#change_field"
       get "/emailsettings" => "emails#show", :as => "email_settings"
       put "/emailsettings" => "emails#update", :as => "email_settings"
       get "/supporter_levels" => "SupporterLevels#show"
@@ -34,6 +41,7 @@ Osem::Application.routes.draw do
           put :update_state
           put :update_track
         end
+        resource :speaker, :only => [:edit, :update]
       end
       resources :supporters
     end
@@ -44,12 +52,32 @@ Osem::Application.routes.draw do
       resources :event_attachment, :controller => "EventAttachments"
       put "/confirm" => "proposal#confirm"
     end
+    resource :schedule, :only => [] do
+      get "/" => "schedule#index"
+    end
     member do
       get "/register" => "ConferenceRegistration#register"
       put "/register" => "ConferenceRegistration#update"
       delete "/register" => "ConferenceRegistration#unregister"
     end
   end
+
+  namespace :api, defaults: {format: 'json'} do
+    namespace :v1 do
+      resources :conferences, :only => :index do
+        resources :conferences, :only => :index
+        resources :rooms, :only => :index
+        resources :tracks, :only => :index
+        resources :speakers, :only => :index
+        resources :events, :only => :index
+      end
+      resources :rooms, :only => :index
+      resources :tracks, :only => :index
+      resources :speakers, :only => :index
+      resources :events, :only => :index
+    end
+  end
+
   match "/admin" => redirect("/admin/conference")
 
   root :to => "home#index"

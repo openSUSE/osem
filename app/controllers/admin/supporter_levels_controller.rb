@@ -1,6 +1,5 @@
 class Admin::SupporterLevelsController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def show
     render :supporter_levels

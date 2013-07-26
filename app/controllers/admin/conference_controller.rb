@@ -1,6 +1,5 @@
 class Admin::ConferenceController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def index
     @conferences = Conference.all
@@ -31,6 +30,7 @@ class Admin::ConferenceController < ApplicationController
   end
 
   def show
+    @conferences = Conference.all
     @conference = Conference.find_all_by_short_title(params[:id]).first
     respond_to do |format|
       format.html

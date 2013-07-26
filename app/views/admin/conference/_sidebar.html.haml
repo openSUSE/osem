@@ -1,5 +1,8 @@
 .well.sidebar-nav
   %ul.nav.nav-list
+    %li.nav-header
+      =@conference.short_title
+      Settings
     - if activated == "Conference"
       %li.active= link_to "Conference", "#"
     - else

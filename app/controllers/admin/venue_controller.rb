@@ -1,6 +1,5 @@
 class Admin::VenueController < ApplicationController
   before_filter :verify_organizer
-  layout "admin"
 
   def index
   end

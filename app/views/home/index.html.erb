@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="span12">
+    <h2 class="text-center">Upcoming Conferences</h2>
+  </div>
+</div>
+
+<% @current.each do |conference| %>
+<div class="row-fluid" style="margin-top: 30px;">
+  <div clas="span12">
+    <div class="well">
+    <div class="row">
+      <div class="span4 text-center">
+        <%= image_tag conference.logo(:original) %>
+      </div>
+
+      <div class="span6">
+        <h3>
+          <%= conference.title %>
+          <br>
+          <span class="muted"><%= conference.date_range_string %></span>
+        </h3>
+        <p>
+          <small>
+            <%= link_to conference.venue.name, conference.venue.website, :target => "_new" %>
+            ,
+            <%= link_to conference.venue.address, "http://maps.google.com/maps?q=#{conference.venue.address}", :target => "_new" %>
+          </small>
+          <%= simple_format(conference.venue.description, class: 'lead') %>
+      </div>
+      <div class="span2">
+        <ul class="nav nav-tabs nav-stacked">
+        <% if conference.registration_open? %>
+          <%- if conference.user_registered?(current_user) %>
+            <li><%= link_to "Modify Registration", register_conference_path(conference.short_title) %></li>
+          <%- else %>
+            <li><%= link_to "Register", register_conference_path(conference.short_title) %></li>
+          <% end %>
+        <% end %>
+        <li><%= link_to "Schedule", conference_schedule_path(conference.short_title) %></li>
+        <%- if !current_user.nil? && current_user.person.proposal_count(conference) > 0 %>
+          <li><%= link_to "View My Proposals", conference_proposal_index_path(conference.short_title) %></li>
+        <%- elsif conference.cfp_open? %>
+          <li><%= link_to "Submit Proposal", conference_proposal_index_path(conference.short_title) %></li>
+        <% end %>
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+

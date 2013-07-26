@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130515131420) do
+ActiveRecord::Schema.define(:version => 20130705055128) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20130515131420) do
     t.datetime "logo_updated_at"
     t.boolean  "use_dietary_choices",     :default => false
     t.boolean  "use_supporter_levels",    :default => false
+    t.integer  "revision"
   end
 
   create_table "dietary_choices", :force => true do |t|
@@ -142,6 +143,8 @@ ActiveRecord::Schema.define(:version => 20130515131420) do
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
     t.text     "proposal_additional_speakers"
+    t.string   "video_id"
+    t.string   "video_type"
   end
 
   create_table "people", :force => true do |t|

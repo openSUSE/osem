@@ -1,4 +1,92 @@
 .row-fluid
+  .span
+    .row
+    %h5{:style=>"text-align: right"}
+      = link_to "Events Stats", "#", :id => "events-stats1-link",  :class => "btn btn-success"
+    #events-stats1
+      %table.table.table-bordered.table-striped
+    
+        %thead
+          %th
+          - @event_states.each do |state|
+            - totalstate = @events.where("state = ?", state.name).count
+            - if totalstate > 0
+              %th{:colspan => 2, :style => "text-align:center"}
+                Type "#{state.name}"
+          %th{:colspan => 2, :style => "text-align:center"}
+            Total
+            %br
+            No & Time
+
+        %tr
+          %td
+            %b Total
+          - @event_states.each do |state|
+            - totalstate = @events.where("state = ?", state.name).count
+            - if totalstate > 0
+              %td
+                %b= totalstate
+              %td
+                - length = 0
+                - @events.where("state = ?", state.name).each do |event|
+                  - length += event.event_type.length
+                - length_hour = length / 60
+                %b
+                  #{length_hour} h #{length-(length_hour*60)} m
+          %td
+            %b= @events.count
+          %td
+            - length = 0 
+            - @events.each do |event|
+              - length += event.event_type.length
+            - length_hour = length / 60
+            %b
+              = length_hour 
+              h
+            %b
+              = length-(length_hour*60)
+              m
+          
+        - @conference.event_types.each do |type|
+          %tr
+            %td
+              %b= type.title
+            - @event_states.each do |state|
+              - totalstate = @events.where("state = ?", state.name).count
+              - if totalstate > 0
+                %td
+                  - var = @events.where("event_type_id = ? AND state = ?", type.id, state.name)
+                  - if var.count == 0
+                    -
+                  - else
+                    = var.count
+                  - length = 0
+                %td
+                  - var.each do |e|
+                    - length += e.event_type.length
+                  - hour = length / 60
+                  - min = length-(hour*60)
+                  
+                  - if hour == 0 && min == 0
+                    -
+                  - else
+                    = hour
+                    h
+                    = min
+                    m
+            %td
+              = @events.where("event_type_id = ?", type.id).count
+            %td
+              - length = 0
+              - @events.where("event_type_id = ?", type.id).each do |event|
+                - length += event.event_type.length
+              - length_hour = length / 60
+              = length_hour 
+              h
+              = length-(length_hour*60)
+              m
+
+.row-fluid
   .span12
     %h2
       Events
@@ -13,6 +101,8 @@
             %b Title
           %th
             %b Submitter
+          %th
+            %b Speaker
           %th
             %b Type
           %th
@@ -36,6 +126,13 @@
                   (Unregistered!)
               - else
                 Unknown submitter
+            %td
+              - if speaker = event.speakers.first
+                = link_to speaker.public_name, admin_person_path(speaker)
+              - else
+                Unknown speaker
+              - l = link_to "Change", edit_admin_conference_event_speaker_path(@conference.short_title, event), :remote => true
+              = "(#{l})".html_safe
             %td
               = event.event_type.title
             %td
@@ -87,3 +184,9 @@
         "bPaginate": false
       } );
   } );
+  
+  $(document).ready( function() {
+    $("#events-stats1-link").click(function() {
+         $("#events-stats1").toggle();
+    });
+  });

@@ -2,13 +2,16 @@ class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
   attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person,
-                  :proposal_additional_speakers, :track_id
+                  :proposal_additional_speakers, :track_id, :video_id, :video_type, :require_registration
   acts_as_commentable
 
   has_many :event_people, :dependent => :destroy
   has_many :event_attachments, :dependent => :destroy
   has_many :people, :through => :event_people
+  has_many :speakers, :through => :event_people, :source => :person, :conditions => {"event_people.event_role" => "speaker"}
   belongs_to :event_type
+  
+  has_and_belongs_to_many :registrations
 
   belongs_to :track
   belongs_to :room
@@ -23,6 +26,8 @@ class Event < ActiveRecord::Base
   validate :biography_exists
   validates :title, :presence => true
   validates :abstract, :presence => true
+
+  scope :confirmed, where(:state => "confirmed")
 
   state_machine :initial => :new do
     state :new

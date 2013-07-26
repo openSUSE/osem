@@ -1,0 +1,40 @@
+%li.nav-header
+  = current_user.person.public_name if current_user.person
+%li
+  = link_to(edit_user_registration_path) do
+    %i.icon-wrench
+    Edit Account
+-if @conference and @conference.id
+  %li
+    = link_to(conference_proposal_index_path(@conference.short_title)) do
+      %i.icon-comment
+      My Submissions
+%li
+  = link_to(destroy_user_session_path, :method=>'delete') do
+    %i.icon-minus
+    Sign out
+-if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+  %li.divider
+  %li.nav-header
+    Conferences
+  - @conferences.each do |conference|
+    %li
+      = link_to(admin_conference_path(conference.short_title)) do
+        %i.icon-cog
+        Manage
+        = conference.short_title
+  %li
+    = link_to(new_admin_conference_path) do
+      %i.icon-plus
+      New Conference
+  %li.divider
+  %li.nav-header
+    People
+  %li
+    = link_to(admin_users_path) do
+      %i.icon-user
+      Users
+  %li
+    = link_to(admin_people_path) do
+      %i.icon-star-empty
+      People

@@ -1,0 +1,72 @@
+.row-fluid
+  .span12
+    %h3
+      Registered
+      - if @registered
+        = "(#{@registered})"
+      - if @attendees
+        = " - Attendees (#{@attendees})"
+.row-fluid
+  .span3
+    %table.table.table-bordered.table-striped
+      %thead
+        %th General Stats
+        %th #
+      %tr
+        %td Registered attended
+        %td= @registered_attended 
+      %tr     
+        %td Registered not attended
+        %td= @registered_not_attended
+      %tr
+        %td Attended with partner
+        %td= @attended_with_partner
+      %tr
+        %td Registred to attend with partner
+        %td= @registered_with_partner
+      %tr
+        %td Handicapped Access for
+        %td= @conference.registrations.where("handicapped_access_required = ?", true).count
+      %tr
+        %td Staying at suggested hotel
+        %td= @conference.registrations.where("using_affiliated_lodging = ?", true).count
+
+  .span3
+    - if @conference.use_dietary_choices == true
+      - diet_choices = []
+      - @conference.dietary_choices.each do |d|
+        - count = @conference.registrations.where("dietary_choice_id = ?", d.id).count
+        - if count > 0
+          - diet_choices << [d.title, count]
+      - if diet_choices.any?
+        %table.table.table-bordered.table-striped
+          %thead
+            %th Dietary Choice
+            %th #
+            %th Percentage
+          - diet_choices.each do |d|
+            %tr
+              %td= d[0]
+              %td= d[1]
+              %td
+                - if @registered and @registered > 0
+                  = "#{d[1] * 100 / @registered}% of registered"
+                - if @attendees and @attendees > 0
+                  %br
+                  =  "#{d[1] * 100 / @attendees}% of attendees"
+  .span3
+    - if @conference.social_events.count > 0
+      - social_events = []
+      - @conference.social_events.each do |social_event|
+        - count = @conference.registrations.joins(:social_events).where("registrations_social_events.social_event_id = ?", social_event.id).count
+        - if count > 0
+          - social_events << [social_event.title, count]
+      - if social_events.any?
+        %table.table.table-bordered.table-striped
+          %thead
+            %th Social Event
+            %th #
+          - social_events.each do |s|
+            %tr
+              %td= s[0]
+              %td= s[1]
