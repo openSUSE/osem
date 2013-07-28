@@ -1,7 +1,14 @@
 = semantic_form_for(@event, :url => @url) do |f|
   %section#basic
   = f.inputs :name => "Session Information" do
-    = f.input :title, :as => :string, :required => true
+    - if !@conference.call_for_papers.schedule_changes && @event.state == "confirmed"
+      Title
+      %br
+      = @event.title
+      %br
+      %br
+    - else
+      = f.input :title, :as => :string, :required => true
     = f.input :subtitle, :as => :string
   %section#details
     - unless @event.state === "unconfirmed" || @event.state === "confirmed"
