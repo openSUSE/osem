@@ -48,4 +48,5 @@ class ApplicationController < ActionController::Base
     Rails.logger.debug("Access denied!")
     redirect_to root_path, :alert => exception.message
   end
+  helper_method :organizer_or_admin?
 end
