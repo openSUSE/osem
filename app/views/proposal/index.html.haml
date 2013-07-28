@@ -4,6 +4,7 @@
       %h2.pull-left
         = "My Proposals for #{@conference.title}"
       .pull-right{:style=>"margin-top:20px;"}
+      - if @conference.cfp_open? || organizer_or_admin?
         = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-primary"
   - if @person.proposal_count(@conference) > 0
     .row-fluid
