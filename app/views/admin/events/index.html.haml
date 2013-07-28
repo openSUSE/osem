@@ -2,8 +2,8 @@
   .span
     .row
     %h5{:style=>"text-align: right"}
-      = link_to "Events Stats", "#", :id => "events-stats1-link",  :class => "btn btn-success"
-    #events-stats1
+      = link_to "Events Stats", "#", :id => "events-stats-link",  :class => "btn btn-success"
+    #events-stats
       %table.table.table-bordered.table-striped
     
         %thead
@@ -186,7 +186,8 @@
   } );
   
   $(document).ready( function() {
-    $("#events-stats1-link").click(function() {
-         $("#events-stats1").toggle();
+    $("#events-stats").hide();
+    $("#events-stats-link").click(function() {
+         $("#events-stats").toggle();
     });
   });
