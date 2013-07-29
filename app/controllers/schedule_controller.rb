@@ -7,6 +7,12 @@ class ScheduleController < ApplicationController
     @rooms = @conference.rooms
     @events = @conference.events
     @dates = @conference.start_date..@conference.end_date
+
+    if @dates === Date.current
+      @today = Date.current.strftime("%Y-%m-%d")
+    else
+      @today = @conference.start_date.strftime("%Y-%m-%d")
     end
+  end
 
 end

@@ -116,7 +116,7 @@ $(function() {
     if (activeTab.length) {
       activeTab.tab('show');
     } else {
-      $('.nav-tabs a:first').tab('show');
+      $('.nav-tabs a[href=#<%= j @today %>]').tab('show');
     }
   });
 });
