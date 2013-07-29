@@ -12,6 +12,7 @@ class Admin::EventsController < ApplicationController
     @events = @conference.events
     @tracks = @conference.tracks
     @event_states = @events.state_machine.states.map
+    @event_types = @conference.event_types
     respond_to do |format|
       format.html
       # Explicity call #to_json to avoid the use of EventSerializer

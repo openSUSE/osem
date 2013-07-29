@@ -2,8 +2,8 @@
   .span
     .row
     %h5{:style=>"text-align: right"}
-      = link_to "Events Stats", "#", :id => "events-stats1-link",  :class => "btn btn-success"
-    #events-stats1
+      = link_to "Events Stats", "#", :id => "events-stats-link",  :class => "btn btn-success"
+    #events-stats
       %table.table.table-bordered.table-striped
     
         %thead
@@ -134,7 +134,17 @@
               - l = link_to "Change", edit_admin_conference_event_speaker_path(@conference.short_title, event), :remote => true
               = "(#{l})".html_safe
             %td
-              = event.event_type.title
+              .dropdown
+                = link_to "#", :class => "dropdown-toggle", :id => "type-dropdown" do
+                  - if event.event_type.nil?
+                    Event Type
+                  - else
+                    = event.event_type.title
+                  <b class="caret"></b>
+                %ul.dropdown-menu
+                  - @event_types.each do |type|
+                    %li= link_to type.title, admin_conference_event_path(@conference.short_title, event, :event_type_id => type.id) ,
+                      :method => :put, :event_type_id => type.id
             %td
               .dropdown
                 = link_to "#", :class => "dropdown-toggle", :id => "track-dropdown" do
@@ -186,7 +196,8 @@
   } );
   
   $(document).ready( function() {
-    $("#events-stats1-link").click(function() {
-         $("#events-stats1").toggle();
+    $("#events-stats").hide();
+    $("#events-stats-link").click(function() {
+         $("#events-stats").toggle();
     });
   });
