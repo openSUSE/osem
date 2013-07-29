@@ -33,10 +33,8 @@ class Admin::EventsController < ApplicationController
     @tracks = Track.all
     @comments = @event.root_comments
     @comment_count = @event.comment_threads.count
-
-    @event = Event.find_by_id(params[:id])
     @person = @event.submitter
-    @url = edit_admin_conference_event_path(@conference.short_title, @event)
+    @url = admin_conference_event_path(@conference.short_title, @event)
   end
 
   def comment
@@ -57,6 +55,11 @@ class Admin::EventsController < ApplicationController
     end
     if params.has_key? :event_type_id
       @event.update_attribute(:event_type_id, params[:event_type_id])
+    end
+    if @event.update_attributes(params[:event]) && @event.submitter.update_attributes(params[:person])
+      flash[:notice] = "Successfully updated #{@event.title}."
+    else
+      flash[:notice] = "Update not successful."
     end
     expire_page :controller => '/schedule', :action => :index
     redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event), :notice => "Updated")

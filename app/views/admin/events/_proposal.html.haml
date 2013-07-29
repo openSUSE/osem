@@ -7,7 +7,7 @@
         = @event.subtitle
 
   .span2
-    = link_to "Edit", edit_conference_proposal_path(@conference.short_title, @event.id), :class => "btn btn-mini  btn-primary"
+    = link_to "Edit", edit_admin_conference_event_path(@conference.short_title, @event), :class => "btn btn-mini  btn-primary"
     
 .row-fluid
   .span12
