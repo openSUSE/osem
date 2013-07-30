@@ -11,7 +11,7 @@
           %th #
           %th %
         - @supporter_levels.each do |level|
-          - reg_count = level.supporter_registrations.count
+          - reg_count = level.supporter_registrations.where(conference_id: @conference).count
           - if reg_count > 0
             %tr
               %td= level.title
