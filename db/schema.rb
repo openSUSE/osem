@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130705055128) do
+ActiveRecord::Schema.define(:version => 20130712072609) do
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",    :null => false
@@ -145,6 +145,12 @@ ActiveRecord::Schema.define(:version => 20130705055128) do
     t.text     "proposal_additional_speakers"
     t.string   "video_id"
     t.string   "video_type"
+    t.boolean  "require_registration"
+  end
+
+  create_table "events_registrations", :id => false, :force => true do |t|
+    t.integer "registration_id"
+    t.integer "event_id"
   end
 
   create_table "people", :force => true do |t|
@@ -180,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20130705055128) do
     t.text     "other_dietary_choice"
     t.boolean  "handicapped_access_required", :default => false
     t.text     "other_special_needs"
+    t.boolean  "attended",                    :default => false
   end
 
   create_table "registrations_social_events", :id => false, :force => true do |t|
