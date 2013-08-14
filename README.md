@@ -4,6 +4,7 @@ The Open Source Event Manager. An event management tool tailored to Free and Ope
 
 Installation
 ============
+* install [ImageMagick](http://www.imagemagick.org/)
 * cp config/config.yml.example config/config.yml
 * cp config/database.yml.example config/database.yml
 * bundle install
