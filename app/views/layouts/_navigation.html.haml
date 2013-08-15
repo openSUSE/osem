@@ -72,6 +72,7 @@
       %ul.nav.pull-right.visible-desktop
         %li.dropdown
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            #{current_user.person.public_name} (#{current_user.email})
             = image_tag(current_user.person.gravatar_url(:size => "18"), :title => "Yo #{current_user.person.public_name}!")
             %b.caret
           %ul.dropdown-menu{:style => "padding: 15px;"}
