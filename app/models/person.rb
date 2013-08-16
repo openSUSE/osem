@@ -8,6 +8,8 @@ class Person < ActiveRecord::Base
   has_many :event_people, :dependent => :destroy
   has_many :events, :through => :event_people, :uniq => true
   has_many :registrations, :dependent => :destroy
+  has_many :votes, :dependent => :destroy
+  has_many :voted_events, :through => :votes, :source => :events
 
   validates :first_name, :presence => true
   validates :last_name, :presence => true

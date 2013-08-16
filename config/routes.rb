@@ -40,6 +40,7 @@ Osem::Application.routes.draw do
           post :comment
           put :update_state
           put :update_track
+          get :vote
         end
         resource :speaker, :only => [:edit, :update]
       end

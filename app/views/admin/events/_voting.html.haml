@@ -1,0 +1,47 @@
+%table#myeventratings{:style=>"width: 20%"}
+  %tr
+    %td
+      %b You voted:
+    %td
+      - @conference.call_for_papers.rating.times do |counter|
+        - voted = @event.voted?(@event, current_user.person)
+        - if voted && voted.rating == counter+1
+          = link_to "", vote_admin_conference_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating", :voted => true
+        - else
+          = link_to "", vote_admin_conference_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating"
+      %br
+
+  - if @ratings.length > 0
+    - @ratings.each do |rate|
+      - unless rate.person_id == current_user.person.id
+        %tr
+          %td
+            = rate.first_name
+            = rate.last_name
+          %td
+            - @conference.call_for_papers.rating.times do |counter|
+              - voted = @event.voted?(@event, rate.person)
+              - if voted && voted.rating == counter+1
+                = label_tag "label#{counter+1}", "", :class => "othersrating", :voted => true
+                = javascript_tag "$('label[voted=true]').prevAll().andSelf().addClass('bright');"
+              - else
+                = label_tag "label#{counter+1}", "", :class => "othersrating"
+:javascript   
+  $(function () {
+    var checkedId = $("a[voted='true']").attr('id');
+    $('a[id=' + checkedId + ']').prevAll().andSelf().addClass('bright');
+  });
+
+  $(".myrating").hover(
+    function() {    // mouseover
+        $(this).prevAll().andSelf().addClass('glow');
+    },
+    function() {  // mouseout
+        $(this).siblings().andSelf().removeClass('glow');
+    }
+  );
+
+  $(".myrating").click(function() {
+    $(this).siblings().removeClass("bright");
+    $(this).prevAll().andSelf().addClass("bright");
+  });

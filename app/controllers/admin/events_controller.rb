@@ -26,6 +26,7 @@ class Admin::EventsController < ApplicationController
     @event_types = @conference.event_types
     @comments = @event.root_comments
     @comment_count = @event.comment_threads.count
+    @ratings = @event.votes.includes(:person)
   end
 
   def edit
@@ -75,5 +76,19 @@ class Admin::EventsController < ApplicationController
     event.send(:"#{params[:transition]}!", :send_mail => params[:send_mail])
     expire_page :controller => '/schedule', :action => :index
     redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Updated state")
+  end
+  
+  def vote
+    event = Event.find(params[:id])
+    
+    if votes = current_user.person.votes.find_by_event_id(params[:id])
+      votes.update_attributes(:rating => params[:rating])
+    else
+      @myvote = event.votes.build
+      @myvote.person = current_user.person
+      @myvote.rating = params[:rating]
+      @myvote.save
+    end
+    redirect_to admin_conference_event_path(@conference.short_title, event)
   end
 end
