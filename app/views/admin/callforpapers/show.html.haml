@@ -10,7 +10,5 @@
         = f.input :description, :hint => "Welcome text for the Call for Papers"
         = f.input :schedule_changes
         = f.input :rating, :hint => "Enter the number of different rating levels you want to have for voting on proposals."
-        = f.input :rating_description, :hint => "Enter comments about voting process.", :input_html => {:value => "1 is for 'I don't like this proposal',\n2 is for 'I am ok with this proposal.',\n3 is for 'I love this proposal!'", :rows => 5, :class => "span6"}
-        = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
         = f.input :rating_desc, :label => "Rating Description", :hint => "Enter comments about voting process.", :input_html => {:value => "1 is for 'I don't like this proposal',\n2 is for 'I am ok with this proposal.',\n3 is for 'I love this proposal!'", :rows => 5, :class => "span6"}
         = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
