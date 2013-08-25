@@ -2,6 +2,15 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   protect_from_forgery
   before_filter :get_conferences
+  before_filter :store_location
+
+  def store_location
+    session[:return_to] = request.fullpath if request.get? and controller_name != "user_sessions" and controller_name != "sessions"
+  end
+
+  def after_sign_in_path_for(resource)
+    session[:return_to]
+  end
 
   def get_conferences
     @conferences =Conference.all
