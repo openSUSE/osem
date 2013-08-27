@@ -11,8 +11,51 @@ class Admin::EventsController < ApplicationController
   def index
     @events = @conference.events
     @tracks = @conference.tracks
-    @event_states = @events.state_machine.states.map
+    @machine_states = @events.state_machine.states.map
     @event_types = @conference.event_types
+
+    @mystates = []
+    @mytypes = []
+    @eventstats = Hash.new
+    statelength = 0
+    @totallength = 0
+
+    @machine_states.each do |mystate|
+      length = 0
+      events_mystate= @events.where("state" => mystate.name)
+      if events_mystate.count > 0
+        @mystates << mystate
+        events_mystate.each do |myevent|
+          length += myevent.event_type.length
+        end
+        @eventstats["#{mystate.name}"] = {"count" => events_mystate.count, "length" => length}
+      end
+    end
+    
+    @event_types.each do |mytype|
+      events_mytype = @events.where("event_type_id" => mytype.id)
+      if events_mytype.count > 0
+        @mytypes << mytype
+      end
+    end
+    @mytypes.each do |mytype|
+      @mystates.each do |mystate|
+        events_mytype = @events.where("event_type_id" => mytype.id)
+        events_mytype_mystate= events_mytype.where("state" => mystate.name)
+        typelength = 0
+        if events_mytype_mystate.count > 0
+          events_mytype_mystate.each do |myevent|
+            typelength += myevent.event_type.length
+            @totallength += myevent.event_type.length
+          end
+          @eventstats[mytype.title] = {"count" => events_mytype.count, "length" => events_mytype.count * mytype.length} if @eventstats[mytype.title] == nil
+          tmp = {"#{mystate.name}" => {"type_state_count" => events_mytype_mystate.count,  "type_state_length" => typelength}}
+          @eventstats[mytype.title].merge!(tmp)
+        end
+      end
+    end
+    @eventstats["totallength"] = @totallength
+
     respond_to do |format|
       format.html
       # Explicity call #to_json to avoid the use of EventSerializer
@@ -77,7 +120,7 @@ class Admin::EventsController < ApplicationController
     expire_page :controller => '/schedule', :action => :index
     redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Updated state")
   end
-  
+
   def vote
     event = Event.find(params[:id])
     

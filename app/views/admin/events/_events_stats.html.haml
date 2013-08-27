@@ -1,0 +1,51 @@
+.row-fluid
+  .row
+    .span12
+    %h5{:style=>"text-align: right"}
+      = link_to "Events Stats", "#", :id => "events-stats-link",  :class => "btn btn-success"
+
+  #events-stats
+    .span12
+      %table.table.table-bordered.table-striped
+        %thead
+          %th
+          - @mystates.each do |state|
+            %th{:colspan => 2, :style => "text-align:center"}
+              State "#{state.name}"
+          %th{:colspan => 2, :style => "text-align:center"}
+            Total
+            %br
+            No & Time
+
+        %tr
+          %td
+            %b Total
+            - @mystates.each do |mystate|
+              %td
+                %b
+                  = @eventstats["#{mystate.name}"]["count"]
+              %td
+                %b
+                  #{@eventstats["#{mystate.name}"]["length"] / 60} h #{@eventstats["#{mystate.name}"]["length"] - @eventstats["#{mystate.name}"]["length"] / 60 * 60} m
+            %td
+              %b= @events.count
+            %td
+              %b= show_time(@eventstats["totallength"])
+
+        - @mytypes.each do |mytype|
+          %tr
+            %td= mytype.title
+            - @mystates.each do |mystate|
+              %td= @eventstats["#{mytype.title}"]["#{mystate.name}"]["type_state_count"] unless @eventstats["#{mytype.title}"]["#{mystate.name}"] == nil
+              %td= show_time(@eventstats["#{mytype.title}"]["#{mystate.name}"]["type_state_length"]) unless @eventstats["#{mytype.title}"]["#{mystate.name}"] == nil
+            %td= @eventstats["#{mytype.title}"]["count"]
+            %td= show_time(@eventstats["#{mytype.title}"]["length"])
+
+
+:javascript  
+  $(document).ready( function() {
+    $("#events-stats").hide();
+    $("#events-stats-link").click(function() {
+         $("#events-stats").toggle();
+    });
+  });
