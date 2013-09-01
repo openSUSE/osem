@@ -15,6 +15,21 @@ module ApplicationHelper
     end
   end
 
+  def show_time(length)
+    h = length / 60
+    min = length - h * 60
+
+    if h != 0
+      if min != 0
+      "#{h} h #{min} min"
+      else
+        "#{h} h"
+      end
+    else
+      "#{min} min"
+    end
+  end
+
   def add_association_link(association_name, form_builder, div_class, html_options = {})
     link_to_add_association "Add " + association_name.to_s.singularize, form_builder, div_class, html_options.merge(:class => "assoc btn btn-success")
   end
