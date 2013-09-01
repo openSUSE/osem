@@ -34,7 +34,7 @@
 
         - @mytypes.each do |mytype|
           %tr
-            %td= mytype.title
+            %td= "#{mytype.title} (#{show_time(mytype.length)})"
             - @mystates.each do |mystate|
               %td= @eventstats["#{mytype.title}"]["#{mystate.name}"]["type_state_count"] unless @eventstats["#{mytype.title}"]["#{mystate.name}"] == nil
               %td= show_time(@eventstats["#{mytype.title}"]["#{mystate.name}"]["type_state_length"]) unless @eventstats["#{mytype.title}"]["#{mystate.name}"] == nil
