@@ -60,8 +60,7 @@ $(function() {
     $(".comment-reply").hide();
     $(".user-details-popover").popover();
     $("#comments-div").hide();
-    
-    $("#votes-div").hide();
+
     $("#votes-link").click(function(){
       $("#votes-div").toggle();
       return false;
