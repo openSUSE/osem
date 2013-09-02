@@ -3,6 +3,6 @@ class CallForPapers < ActiveRecord::Base
   belongs_to :conference
 
   validates_presence_of :start_date, :end_date, :hard_deadline
-  validates :rating, :numericality => { :greater_than_or_equal_to => 2, :less_than_or_equal_to => 10 }
+  validates :rating, :numericality => { :greater_than_or_equal_to => 1, :less_than_or_equal_to => 10 }
 
 end
