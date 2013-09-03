@@ -5,6 +5,23 @@
     height: 100%;
     /* The html and body elements cannot have any padding or margin. */
 }
+/* Styling for voting on proposals*/
+.myrating.bright { background-image: url(../assets/star-bright.png); }
+.myrating.glow { background-image: url(../assets/star-glow.png); }
+.othersrating.bright { background-image: url(../assets/star-bright.png); }
+.avgrating.bright { background-image: url(../assets/star-bright.png); }
+.avgrating {
+  background: url(../assets/star.png) 0 0;
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+.myrating, .othersrating {
+  background: url(../assets/star.png) 0 0;
+  width: 26px;
+  height: 26px;
+  float: left;
+}
 
 /* Wrapper for page content to push down footer */
 #wrap {

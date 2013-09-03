@@ -9,8 +9,10 @@ class Event < ActiveRecord::Base
   has_many :event_attachments, :dependent => :destroy
   has_many :people, :through => :event_people
   has_many :speakers, :through => :event_people, :source => :person, :conditions => {"event_people.event_role" => "speaker"}
+  has_many :votes
+  has_many :voters, :through => :votes, :source => :person
   belongs_to :event_type
-  
+
   has_and_belongs_to_many :registrations
 
   belongs_to :track
@@ -60,6 +62,19 @@ class Event < ActiveRecord::Base
     event :reject do
       transitions :to => :rejected, :from => [:new, :review], :on_transition => :process_rejection
     end
+  end
+
+  def voted?(event, person)
+    event.votes.where("person_id = ?", person).first
+  end
+  
+  def average_rating
+    @total_rating = 0
+    self.votes.each do |vote|
+      @total_rating = @total_rating + vote.rating
+    end
+    @total = self.votes.size
+    number_with_precision(@total_rating / @total.to_f, :precision => 2, :strip_insignificant_zeros => true)
   end
 
   def submitter

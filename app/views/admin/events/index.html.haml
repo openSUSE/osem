@@ -100,6 +100,8 @@
           %th
             %b Title
           %th
+            %b Rating
+          %th
             %b Submitter
           %th
             %b Speaker
@@ -115,6 +117,21 @@
               = event.id
             %td
               =link_to event.title, admin_conference_event_path(@conference.short_title, event)
+            %td
+              - if @conference.call_for_papers.rating
+                - if event.average_rating.to_f > 0 
+                  Rating: (#{event.average_rating}/#{@conference.call_for_papers.rating})
+                - else
+                  Rating: (0/#{@conference.call_for_papers.rating})
+                %br
+
+                - @conference.call_for_papers.rating.times do |counter|
+                  - if event.average_rating.to_f.round == counter+1
+                    = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
+                    = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
+                  - else
+                    = label_tag "label_rating", "", :class => "avgrating"
+
             - if event.submitter.registrations.count < 1 
               - bgcolor="#F7819F"
             - else 
