@@ -1,7 +1,7 @@
 .row-fluid
   .span12
     %h3
-      Registered
+      Total Registrations
       - if @registered
         = "(#{@registered})"
       - if @attendees
@@ -14,10 +14,10 @@
         %th #
       %tr
         %td Registered attended
-        %td= @registered_attended 
+        %td= @pre_registered_attended 
       %tr     
         %td Registered not attended
-        %td= @registered_not_attended
+        %td= @pre_registered - @pre_registered_attended
       %tr
         %td Attended with partner
         %td= @attended_with_partner
@@ -26,16 +26,16 @@
         %td= @registered_with_partner
       %tr
         %td Handicapped Access for
-        %td= @conference.registrations.where("handicapped_access_required = ?", true).count
+        %td= @handicapped_access 
       %tr
         %td Staying at suggested hotel
-        %td= @conference.registrations.where("using_affiliated_lodging = ?", true).count
+        %td= @suggested_hotel_stay
 
   .span3
     - if @conference.use_dietary_choices == true
       - diet_choices = []
       - @conference.dietary_choices.each do |d|
-        - count = @conference.registrations.where("dietary_choice_id = ?", d.id).count
+        - count = diet_count(d.id)
         - if count > 0
           - diet_choices << [d.title, count]
       - if diet_choices.any?
@@ -58,7 +58,7 @@
     - if @conference.social_events.count > 0
       - social_events = []
       - @conference.social_events.each do |social_event|
-        - count = @conference.registrations.joins(:social_events).where("registrations_social_events.social_event_id = ?", social_event.id).count
+        - count = social_event_count(social_event)
         - if count > 0
           - social_events << [social_event.title, count]
       - if social_events.any?
