@@ -24,18 +24,18 @@ var pie = d3.layout.pie()
     .value(function(d) { return d.value; });
 
 // Where to put the chart
-var svg = d3.select("#registered_attended").append("svg")
+var svg = d3.select("#preregistered_onsite").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-var registered = '<%= h @pre_registered%>';
-var attended = '<%= h @pre_registered_attended %>';
-var not_attended = '<%= h @pre_registered - @pre_registered_attended %>';
+var total = '<%= h @registrations.count %>';
+var pre_registered = '<%= h @pre_registered %>';
+var onsite = '<%= h @registrations.count - @pre_registered %>';
 var data = [
-{"status":"did not attend","value":not_attended, "percent": d3.round(not_attended / registered * 100)},
-{"status":"attended","value": attended, "percent": d3.round(attended / registered * 100)}
+{"status":"onsite","value": onsite, "percent": d3.round(onsite / total * 100)},
+{"status":"pre_registered","value":pre_registered, "percent": d3.round(pre_registered / total * 100)}
 ];
 
 var g = svg.selectAll(".arc")
@@ -62,9 +62,9 @@ svg.append("text")
     .text("% of pre-registered");
 
 // Create & position legend
-var legend = d3.select("#registered_attended").append("svg")
+var legend = d3.select("#preregistered_onsite").append("svg")
     .attr("class", "legend")
-    .attr("width", radius*2)
+    .attr("width", radius * 2)
     .attr("height", radius)
   .selectAll("g")
     .data(color.domain().slice().reverse())
@@ -80,6 +80,6 @@ legend.append("text")
     .attr("x", 24)
     .attr("y", 9)
     .attr("dy", ".15em")
-        .text(function(d) { return d + " (" + data.filter(function(v){return v.status === d;})[0].value + " or " + data.filter(function(v){return v.status === d;})[0].percent + "%)" ; });
+    .text(function(d) { return d + " (" + data.filter(function(v){return v.status === d;})[0].value + " or " + data.filter(function(v){return v.status === d;})[0].percent + "%)" ; });
 
 </script>

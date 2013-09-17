@@ -1,2 +1,32 @@
+.row-fluid
+  .span4
+    %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round}%)"
+    .row-fluid
+      .span12#registrations_attendees
+
+  .span4
+    %h4{:style => "text-indent: 10px"}= "Attendance of pre-registered"
+    .row-fluid
+      .span12#registered_attended
+
+  .span4
+    %h4{:style => "text-indent: 25px"}= "% of pre-registered"
+    .row-fluid
+      .span12#preregistered_onsite
+
+.row-fluid
+  .span6
+    %h4= "Other Info"
+    .row-fluid
+      .span12#other_info
+
+  .span6
+    %h4{:style => "text-indent: 98px"}= "Registrations over time"
+    .row-fluid
+      .span12#registered_time
+
 = render :partial => "registered_attended"
 = render :partial => "registered_time"
+= render :partial => "preregistered_onsite"
+= render :partial => "registrations_attendees"
+= render :partial => "other_info"

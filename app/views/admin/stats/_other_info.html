@@ -1,15 +1,15 @@
 <script>
 
 var registered = '<%= h @registrations.count%>';
-var data = <%=raw @mydays.to_json %>;
+var data = <%=raw @other_info.to_json %>;
 
-var valueLabelWidth = 10; // space reserved for value labels (right)
+var valueLabelWidth = 70; // space reserved for value labels (right)
 var barHeight = 24; // height of one bar
-var barLabelWidth = 100; // space reserved for bar labels
+var barLabelWidth = 210; // space reserved for bar labels
 var barLabelPadding = 8; // padding between bar and bar labels (left)
 var gridLabelHeight = 18; // space reserved for gridline labels
 var gridChartOffset = 3; // space between start of grid and first bar
-var maxBarWidth = 420; // width of the bar with the max value
+var maxBarWidth = 350; // width of the bar with the max value
 var color = d3.scale.category20();
 
 // accessor functions 
@@ -23,9 +23,9 @@ var y = function(d, i) { return yScale(i); };
 var yText = function(d, i) { return y(d, i) + yScale.rangeBand() / 2; };
 var yMax = d3.max(data, function(d){ return barValue(d) + 15; });
 var x = d3.scale.linear().domain([0, yMax]).range([0, maxBarWidth]);
-var width = maxBarWidth + barLabelWidth + valueLabelWidth;
+
 // svg container element
-var chart = d3.select('#registered_time').append("svg")
+var chart = d3.select('#other_info').append("svg")
   .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
   .attr('height', gridLabelHeight + gridChartOffset + data.length * barHeight);
 
@@ -49,7 +49,7 @@ barsContainer.selectAll("rect").data(data).enter().append("rect")
   .attr('height', yScale.rangeBand())
   .attr('width', function(d) { return x(barValue(d)); })
   .attr('stroke', 'white')
-  .attr('fill', function(d) { return color(barValue(d)); });
+  .attr('fill', function(d) { return color(barLabel(d)); });
 
 // bar value labels
 barsContainer.selectAll("text").data(data).enter().append("text")
@@ -67,5 +67,4 @@ barsContainer.append("line")
   .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
   .style("stroke", "#000");
 
- 
 </script>
