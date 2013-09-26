@@ -1,72 +1,32 @@
 .row-fluid
-  .span12
-    %h3
-      Total Registrations
-      - if @registered
-        = "(#{@registered})"
-      - if @attendees
-        = " - Attendees (#{@attendees})"
-.row-fluid
-  .span3
-    %table.table.table-bordered.table-striped
-      %thead
-        %th General Stats
-        %th #
-      %tr
-        %td Registered attended
-        %td= @pre_registered_attended 
-      %tr     
-        %td Registered not attended
-        %td= @pre_registered - @pre_registered_attended
-      %tr
-        %td Attended with partner
-        %td= @attended_with_partner
-      %tr
-        %td Registred to attend with partner
-        %td= @registered_with_partner
-      %tr
-        %td Handicapped Access for
-        %td= @handicapped_access 
-      %tr
-        %td Staying at suggested hotel
-        %td= @suggested_hotel_stay
+  .span4
+    %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round}%)"
+    .row-fluid
+      .span12#registrations_attendees
 
-  .span3
-    - if @conference.use_dietary_choices == true
-      - diet_choices = []
-      - @conference.dietary_choices.each do |d|
-        - count = diet_count(d.id)
-        - if count > 0
-          - diet_choices << [d.title, count]
-      - if diet_choices.any?
-        %table.table.table-bordered.table-striped
-          %thead
-            %th Dietary Choice
-            %th #
-            %th Percentage
-          - diet_choices.each do |d|
-            %tr
-              %td= d[0]
-              %td= d[1]
-              %td
-                - if @registered and @registered > 0
-                  = "#{d[1] * 100 / @registered}% of registered"
-                - if @attendees and @attendees > 0
-                  %br
-                  =  "#{d[1] * 100 / @attendees}% of attendees"
-  .span3
-    - if @conference.social_events.count > 0
-      - social_events = []
-      - @conference.social_events.each do |social_event|
-        - count = social_event_count(social_event)
-        - if count > 0
-          - social_events << [social_event.title, count]
-      - if social_events.any?
-        %table.table.table-bordered.table-striped
-          %thead
-            %th Social Event
-            %th #
-          - social_events.each do |s|
-            %tr
-              %td= s[0]
-              %td= s[1]
+  .span4
+    %h4{:style => "text-indent: 10px"}= "Attendance of pre-registered"
+    .row-fluid
+      .span12#registered_attended
+
+  .span4
+    %h4{:style => "text-indent: 25px"}= "% of pre-registered"
+    .row-fluid
+      .span12#preregistered_onsite
+
+.row-fluid
+  .span6
+    %h4= "Other Info"
+    .row-fluid
+      .span12#other_info
+
+  .span6
+    %h4{:style => "text-indent: 98px"}= "Registrations over time"
+    .row-fluid
+      .span12#registered_time
+
+= render :partial => "registered_attended"
+= render :partial => "registered_time"
+= render :partial => "preregistered_onsite"
+= render :partial => "registrations_attendees"
+= render :partial => "other_info"

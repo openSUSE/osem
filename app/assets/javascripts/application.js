@@ -19,3 +19,5 @@
 //= require cocoon
 //= require bootstrap
 //= require osem
+//= require d3.v3
+//= require d3.v3.min
