@@ -28,34 +28,10 @@
           %th
             Code Valid
         %tbody
-
-:javascript
-  $(document).ready(function() {
-      $('#supporters').dataTable( {
-        "bProcessing": true,
-        "bServerSide": true,
-        sPaginationType: "full_numbers",
-        sAjaxSource: "#{admin_conference_supporters_path(@conference.short_title)}",
-        "aoColumns": [
-        // TODO Disable sorting entirely for now, until issues with joins on the Person are resolved
-              { "bSortable": false },
-              { "bSortable": false },
-              { "bSortable": false },
-              { "bSortable": false },
-              { "bSortable": false },
-            ]
-      } );
-
-      $("#supporter-add-form").live('ajax:error', function(xhr, status, error) {
-        alert('error');
-      })
-      .live('ajax:success', function() {
-        $("#new-supporter-dialog").dialog("close");
-        $("#supporters").dataTable().fnReloadAjax();
-        $("#flash-bar").html("<div class='alert alert-success'><a href='#' class='close' data-dismiss='alert'> ×</a>Supporter added.</div>");
-      });
-      $("#new-supporter-dialog").hide();
-      $("#new-supporter-button").click(function(event) {
-        $("#new-supporter-dialog").dialog();
-      });
-  } );
+        - @conference.supporter_registrations.each do |u|
+          %tr
+            %td= u.name
+            %td= u.email
+            %td= u.supporter_level
+            %td= u.code
+            %td= u.code_is_valid
