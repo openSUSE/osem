@@ -28,20 +28,22 @@ class Admin::StatsController < ApplicationController
     @mydays = []
     @mytickets = []
 
-    (@conference.registration_start_date..@conference.end_date).each do |day|
-      day_reg_count = @registrations.where("created_at LIKE '%#{day}%' ").count
-      day_ticket_count = @tickets.where("supporter_registrations.created_at LIKE '%#{day}%' ").count
-      if  day_reg_count != 0
-        @mydays << {"status" => "#{day}", "value" => day_reg_count}
-      end
-      @conference.supporter_levels.each do |level|
-        day_ticket_count = @tickets.where("supporter_registrations.created_at LIKE ? AND supporter_levels.title LIKE ?", "%#{day}%", "%#{level.title}%").count
-        if day_ticket_count !=0
-          @mytickets << {"status" => "#{day}", "ticket" => "#{level}", "value" => day_ticket_count}
+    if @conference.registration_start_date and @conference.end_date
+      (@conference.registration_start_date..@conference.end_date).each do |day|
+        day_reg_count = @registrations.where("created_at LIKE '%#{day}%' ").count
+        day_ticket_count = @tickets.where("supporter_registrations.created_at LIKE '%#{day}%' ").count
+        if  day_reg_count != 0
+          @mydays << {"status" => "#{day}", "value" => day_reg_count}
+        end
+        @conference.supporter_levels.each do |level|
+          day_ticket_count = @tickets.where("supporter_registrations.created_at LIKE ? AND supporter_levels.title LIKE ?", "%#{day}%", "%#{level.title}%").count
+          if day_ticket_count !=0
+            @mytickets << {"status" => "#{day}", "ticket" => "#{level}", "value" => day_ticket_count}
+          end
         end
       end
     end
-
+    
     @other_info = [
       {"status" => "with partner (registered)", "value" => @registered_with_partner}, 
       {"status" => "with partner (attended)", "value" => @attended_with_partner}, 

@@ -11,16 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130712072609) do
+ActiveRecord::Schema.define(:version => 20131022131450) do
 
   create_table "call_for_papers", :force => true do |t|
-    t.date     "start_date",    :null => false
-    t.date     "end_date",      :null => false
-    t.date     "hard_deadline", :null => false
-    t.text     "description",   :null => false
+    t.date     "start_date",                          :null => false
+    t.date     "end_date",                            :null => false
+    t.date     "hard_deadline",                       :null => false
+    t.text     "description",                         :null => false
     t.integer  "conference_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.boolean  "schedule_changes", :default => false
+    t.integer  "rating"
+    t.text     "rating_desc"
   end
 
   create_table "comments", :force => true do |t|
@@ -227,13 +230,14 @@ ActiveRecord::Schema.define(:version => 20130712072609) do
   end
 
   create_table "supporter_registrations", :force => true do |t|
-    t.integer "registration_id"
-    t.integer "supporter_level_id"
-    t.integer "conference_id"
-    t.string  "name"
-    t.string  "email"
-    t.string  "code"
-    t.boolean "code_is_valid",      :default => false
+    t.integer  "registration_id"
+    t.integer  "supporter_level_id"
+    t.integer  "conference_id"
+    t.string   "name"
+    t.string   "email"
+    t.string   "code"
+    t.boolean  "code_is_valid",      :default => false
+    t.datetime "created_at"
   end
 
   create_table "tracks", :force => true do |t|
@@ -292,5 +296,13 @@ ActiveRecord::Schema.define(:version => 20130712072609) do
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
+
+  create_table "votes", :force => true do |t|
+    t.integer  "person_id"
+    t.integer  "event_id"
+    t.integer  "rating"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

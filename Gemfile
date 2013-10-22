@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.15'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -36,8 +36,9 @@ end
 gem 'will_paginate'
 gem 'paperclip', '~> 3.0'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'jquery-fileupload-rails'
-gem 'devise'
+gem 'devise', '~> 2.2'
 gem 'cancan'
 gem "haml"
 gem 'bcrypt-ruby', '~> 3.0.0'

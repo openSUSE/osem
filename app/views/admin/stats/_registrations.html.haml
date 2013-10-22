@@ -1,6 +1,9 @@
 .row-fluid
   .span4
-    %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round}%)"
+    - if @attendees > 0
+      %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round }%)"
+    - else
+      %h4{:style => "text-indent: 25px"}= "Registrations - Attendees"
     .row-fluid
       .span12#registrations_attendees
 
