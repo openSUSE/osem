@@ -1,49 +1,66 @@
-OSEM
-====
+#OSEM
 The Open Source Event Manager. An event management tool tailored to Free and Open Source Software conferences.
 
-Local Installation
-==================
+##Local Installation
 
-Ruby and Ruby on Rails:
+### Install Ruby and Ruby on Rails:
 
 * Install Ruby v. 1.9.3, guide at https://gist.github.com/AstonJ/2896818 for CentOS.
   Debian has Ruby v. 1.9.3 packaged into the Testing suite already.
 * Install Apache + mod_passenger, an handy guide is available at:
   http://nathanhoad.net/how-to-ruby-on-rails-ubuntu-apache-with-passenger
 
-OSEM:
+### Install OSEM
+1. Clone the git repository to the directory you want Apache to serve the content from.
+```
+git clone https://github.com/openSUSE/osem.git
+```
+2. Install all the ruby gems.
+```
+bundle install
+```
+3. Install ImageMagick
 
-Dependencies:
+* Fedora/CentOS:
 
-* git clone https://github.com/openSUSE/osem.git on the directory you want Apache
-  to serve the content from. (in our example, '/srv/http/osem.example.org')
-* Run bundle install for getting all the needed gems.
-* Install ImageMagick with either 'yum install ImageMagick' or 'apt-get install imagemagick'
+```
+yum install ImageMagick
+```
 
-Configuration files:
+* Ubuntu/Debian:
 
-* cp config/config.yml.example config/config.yml
-* cp config/database.yml.example config/database.yml
+```
+apt-get install imagemagick
+```
 
-Directories and permissions:
+4. Copy the sample configuration files
+```
+cp config/config.yml.example config/config.yml
+cp config/database.yml.example config/database.yml
+```
 
-* cd into the root directory for your OSEM app
-* mkdir storage cache system
-* chown all the files and directories to the user that runs
-  apache. (www-data on Ubuntu / Debian, apache on CentOS/Fedora/RHEL)
+5. Setup directories and permissions:
+```
+mkdir storage cache system
+```
+* Fedora/CentOS
+```
+chown apache storage cache system
+```
+* Debian/Ubuntu
+```
+chown www-data storage cache system
+```
 
-Database: 
+6. Setup the database
+```
+bundle exec rake db:setup
+bundle exec rake db:migrate
+bundle exec rake db:seed
+```
 
-* bundle exec rake db:setup
-* bundle exec rake db:migrate
-* bundle exec rake db:seed
-
-Apache:
-
-* Create a new vhost that should look like this:
-
-"""
+7. Create a new Apache vhost that should look like this:
+```
 <VirtualHost *:80>
    ServerName osem.example.org
    DocumentRoot /srv/http/osem.example.org/public
@@ -56,21 +73,20 @@ Apache:
      Options -MultiViews
    </Directory>
 </VirtualHost>
-"""
+```
 
-* Connect to osem.example.org and register your first user. Make
-  also sure that Postfix is installed and configured on the system
-  for the confirmation mail to pass through.
+7. Connect to osem.example.org and register your first user. Make also sure that Postfix is installed and configured on the system for the confirmation mail to pass through.
+
+8. To make the first registered user an admin:
+```
+rails console
+User.all
+me = User.find('1')
+me.role_ids=[3]
+```
 
 Caveats
 =======
-
-To make the first registered user an admin:
-
-* rails console
-* Check for available users with 'User.all'
-* If your user's ID is [1] then do: "hero = User.find('1')"
-* Give yourself admin status with "hero.role_ids=[3]"
 
 If you have problems with rails console, try this in the Gemfile: 
 
