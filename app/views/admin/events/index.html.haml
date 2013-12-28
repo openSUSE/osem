@@ -32,7 +32,7 @@
             %td
               =link_to event.title, admin_conference_event_path(@conference.short_title, event)
             %td
-              - if @conference.call_for_papers.rating
+              - if @conference.call_for_papers.rating != 0
                 - if event.average_rating.to_f > 0 
                   Rating: (#{event.average_rating}/#{@conference.call_for_papers.rating})
                 - else
@@ -45,6 +45,8 @@
                     = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
                   - else
                     = label_tag "label_rating", "", :class => "avgrating"
+              - else	
+                = link_to "(enable voting)", admin_conference_cfp_info_path(@conference.short_title)
 
             - if event.submitter.registrations.count < 1 
               - bgcolor="#F7819F"
