@@ -16,6 +16,8 @@
           words.  Biographies are limited to 150 words.
           %br
           %br
+          = render :partial => 'devise/registrations/volunteerperson', :locals => {:p => p}
+
       = f.inputs :name => "Account" do
         = f.input :email, :required => false
         = f.input :password, :hint => "(Leave blank if you don't want to change it)", :input_html => {:autocomplete => "off"}

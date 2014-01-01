@@ -43,4 +43,7 @@
       %li.active= link_to "Dietary Choices", "#"
     - else
       %li= link_to "Dietary Choices", admin_conference_dietary_list_path(@conference.short_title)
-
+    - if activated == "volunteers"
+      %li.active= link_to "Volunteer Options", "#"
+    - else
+      %li= link_to "Volunteer Options", admin_conference_volunteer_options_path(@conference.short_title)
