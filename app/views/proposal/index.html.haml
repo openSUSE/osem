@@ -22,6 +22,8 @@
                 = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
               %td
                 = event.public_state
+                - if event.state == 'confirmed' && event.require_registration == true
+                  (Pre-registered: #{pre_registered(event).count})
                 - if event.confirmed? && !@conference.user_registered?(current_user)
                   %br
                   = link_to "Register to attend", register_conference_path(@conference.short_title), :style => "font-size:10px;"

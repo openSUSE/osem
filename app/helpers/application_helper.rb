@@ -30,6 +30,10 @@ module ApplicationHelper
     end
   end
 
+  def pre_registered(event)
+    @conference.events.joins(:registrations).where("events.id = ?", event.id)
+  end
+
   def add_association_link(association_name, form_builder, div_class, html_options = {})
     link_to_add_association "Add " + association_name.to_s.singularize, form_builder, div_class, html_options.merge(:class => "assoc btn btn-success")
   end
