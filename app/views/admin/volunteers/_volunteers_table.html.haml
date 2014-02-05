@@ -1,0 +1,19 @@
+%table.table.table-striped.table-bordered.table-hover#speakertable
+  %thead
+    %th First Name
+    %th Last Name
+    %th Email
+    %th Mobile
+    %th Languages
+    %th Experience
+    %th Tshirt Size
+  %tbody
+    - @volunteers.each do |volunteer|
+      %tr
+        %td= volunteer.first_name
+        %td= volunteer.last_name
+        %td= volunteer.email
+        %td= volunteer.mobile
+        %td= volunteer.languages
+        %td= volunteer.volunteer_experience
+        %td= volunteer.tshirt
