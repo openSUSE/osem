@@ -6,7 +6,7 @@ class Admin::RegistrationsController < ApplicationController
     @pdf_filename = "#{@conference.title}.pdf"
     @registrations = @conference.registrations.includes(:person).order("registrations.created_at ASC")
     @attended = @conference.registrations.where("attended = ?", true).count
-    @headers = %w[name email attending_social_events attending_with_partner need_access other_needs arrival departure attended]
+    @headers = %w[first_name last_name email irc_nickname other_needs arrival departure attended]
   end
 
   def change_field

@@ -11,7 +11,7 @@
       - if @registrations
         = "(#{@registrations.length})"
       = " - Attended (#{@attended})"
-    %table.table.table-striped.table-bordered.table-hover#registrations
+    %table.table.table-bordered.table-striped.table-hover#registrations
       %thead
         %th
           No
@@ -19,6 +19,7 @@
           - h = h.gsub("_", " ")
           %th
             = h.capitalize
+        %th
         %th
         %th
       - counter = 0    
@@ -46,10 +47,16 @@
               - else
                 = registration.send(field.to_sym)
           %td
+            = link_to "Questions", "#", :class => "questions btn btn-success", :id => counter, :onclick => "toggle('row#{counter}')"
+
+          %td
             = link_to "Edit", admin_conference_registrations_edit_path(@conference.short_title, :id => registration.id), :method => :get, :class => "btn btn-primary"
 
           %td
             = link_to "Delete", admin_conference_registrations_path(@conference.short_title, :id => registration.id), :method => :delete, :class => "btn btn-danger", :confirm => "Really delete registration for #{registration.public_name} #{registration.email}?"
+        %tr{:id => "row#{counter}", :style=>"display:none;"}
+          %td{:colspan=>13}
+            = render :partial => "questions", :locals => {:registration => registration}
 
 :javascript
   $(document).ready(function() {
@@ -58,3 +65,11 @@
         "bLengthChange": false
       } );
   } );
+  
+  function toggle(rowid) {
+    if( document.getElementById(rowid).style.display=='none' ){
+      document.getElementById(rowid).style.display = '';
+    }else{
+      document.getElementById(rowid).style.display = 'none';
+    }
+  };
