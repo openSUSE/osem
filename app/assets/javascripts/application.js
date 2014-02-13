@@ -21,3 +21,8 @@
 //= require osem
 //= require d3.v3
 //= require d3.v3.min
+$(document).ready(function() {
+    $('a[disabled=disabled]').click(function(event){
+        return false;
+    });
+});
