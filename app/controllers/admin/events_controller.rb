@@ -70,6 +70,7 @@ class Admin::EventsController < ApplicationController
     @comments = @event.root_comments
     @comment_count = @event.comment_threads.count
     @ratings = @event.votes.includes(:person)
+    @difficulty_levels = @conference.difficulty_levels
   end
 
   def edit
@@ -100,6 +101,9 @@ class Admin::EventsController < ApplicationController
     end
     if params.has_key? :event_type_id
       @event.update_attribute(:event_type_id, params[:event_type_id])
+    end
+    if params.has_key? :difficulty_level_id
+      @event.update_attribute(:difficulty_level_id, params[:difficulty_level_id])
     end
     if @event.update_attributes(params[:event]) && @event.submitter.update_attributes(params[:person])
       flash[:notice] = "Successfully updated #{@event.title}."

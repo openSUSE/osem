@@ -31,6 +31,10 @@
       %li.active= link_to "Event Types", "#"
     - else
       %li= link_to "Event Types", admin_conference_eventtype_list_path(@conference.short_title)
+    - if activated == "Difficulty Levels"
+      %li.active= link_to "Difficulty Levels", "#"
+    - else
+      %li= link_to "Difficulty Levels", admin_conference_difficulty_levels_path(@conference.short_title)      
     - if activated == "Social Events"
       %li.active= link_to "Social Events", "#"
     - else

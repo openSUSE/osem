@@ -1,8 +1,8 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
-  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person,
-                  :proposal_additional_speakers, :track_id, :video_id, :video_type, :require_registration
+  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person, :proposal_additional_speakers, :track_id, :video_id, :video_type, :require_registration, :difficulty_level_id
+
   acts_as_commentable
 
   has_many :event_people, :dependent => :destroy
@@ -17,6 +17,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :track
   belongs_to :room
+  belongs_to :difficulty_level
   belongs_to :conference
 
   accepts_nested_attributes_for :event_people, :allow_destroy => true
@@ -92,6 +93,7 @@ class Event < ActiveRecord::Base
       person
     end
   end
+
   def as_json(options)
     json = super(options)
 
@@ -106,6 +108,7 @@ class Event < ActiveRecord::Base
     else
       json[:track_color] = self.track.color;
     end
+
     if self.event_type.nil?
       json[:length] = 25
     else
@@ -114,6 +117,7 @@ class Event < ActiveRecord::Base
 
     json
   end
+
   def transition_possible?(transition)
     self.class.state_machine.events_for(self.current_state).include?(transition)
   end
@@ -125,6 +129,7 @@ class Event < ActiveRecord::Base
       end
     end
   end
+
   def process_acceptance(options)
     if options[:send_mail] == "true"
       Rails.logger.debug "Sending acceptance mail"
@@ -156,6 +161,7 @@ class Event < ActiveRecord::Base
     end
     public_state
   end
+
   def abstract_word_count
     if self.abstract.nil?
       0
@@ -163,6 +169,7 @@ class Event < ActiveRecord::Base
       self.abstract.split.size
     end
   end
+
   private
 
   def abstract_limit
@@ -184,6 +191,7 @@ class Event < ActiveRecord::Base
       errors.add(:person_biography, "must be filled out")
     end
   end
+
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64
