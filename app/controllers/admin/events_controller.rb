@@ -1,5 +1,6 @@
 class Admin::EventsController < ApplicationController
   before_filter :verify_organizer
+
   # FIXME: The timezome should only be applied on output, otherwise
   # you get lost in timezone conversions...
   # around_filter :set_timezone_for_this_request
@@ -122,16 +123,21 @@ class Admin::EventsController < ApplicationController
   end
 
   def vote
-    event = Event.find(params[:id])
+    @event = Event.find(params[:id])
+    @ratings = @event.votes.includes(:person)
     
     if votes = current_user.person.votes.find_by_event_id(params[:id])
       votes.update_attributes(:rating => params[:rating])
     else
-      @myvote = event.votes.build
+      @myvote = @event.votes.build
       @myvote.person = current_user.person
       @myvote.rating = params[:rating]
       @myvote.save
     end
-    redirect_to admin_conference_event_path(@conference.short_title, event)
+
+    respond_to do |format|
+      format.html { redirect_to admin_conference_event_path(@conference.short_title, @event)}
+      format.js
+    end
   end
 end
