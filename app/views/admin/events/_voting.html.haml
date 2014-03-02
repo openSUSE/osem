@@ -1,12 +1,12 @@
 %table.table#myrating
   %tr
-    %td{:style => "width:20%"}
+    %td{:style => "width:15%"}
       %b Rating
     %td
       - if @event.average_rating.to_f > 0 
         #{@event.average_rating}/#{@conference.call_for_papers.rating}
       - else
-        Rating: (0/#{@conference.call_for_papers.rating})
+        Rating: 0/#{@conference.call_for_papers.rating}
 
       - @conference.call_for_papers.rating.times do |counter|
         - if @event.average_rating.to_f.round == counter+1
@@ -19,11 +19,13 @@
       %b Voters
     %td
       = @event.voters.length
-      (
-      = @ratings.map {|x| "#{x.first_name} #{x.last_name}"}.join ', '
-      )
+      - if @event.voters.length > 0
+        (
+        = @ratings.map {|x| "#{x.first_name} #{x.last_name}"}.join ', '
+        )
   %tr
-    %td Your vote
+    %td 
+      %b Your vote
     %td
       - @conference.call_for_papers.rating.times do |counter|
         - voted = @event.voted?(@event, current_user.person)

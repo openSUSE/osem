@@ -5,15 +5,14 @@
       %br
       %span.muted
         = @event.subtitle
-
   .span2
     = link_to "Edit", edit_admin_conference_event_path(@conference.short_title, @event), :class => "btn btn-mini  btn-primary"
-    
+
 .row-fluid
   .span12
     %table.table
       %tr
-        %td{:style => "width:20%"}
+        %td{:style => "width:15%"}
           %b Type
         %td
           .dropdown
@@ -114,8 +113,8 @@
           %b Description
         %td= simple_format(@event.description)
 
-    - if @conference.call_for_papers.rating > 0
-      = render :partial => "voting"
+      - if @conference.call_for_papers.rating > 0
+        = render :partial => "voting"
 
     - if @event.event_attachments.size > 0
       %table.table
