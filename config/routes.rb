@@ -37,6 +37,8 @@ Osem::Application.routes.draw do
       put "/event_types" => "eventtype#update", :as => "eventtype_update"
       put "/difficulty_levels" => "difficulty_levels#update"
       resources :difficulty_levels
+      put "/questions/update_conference" => "questions#update_conference"
+      resources :questions
       resources :events do
         member do
           post :comment

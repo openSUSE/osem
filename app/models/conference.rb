@@ -2,9 +2,11 @@ class Conference < ActiveRecord::Base
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
                   :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes, :social_events_attributes,
-                  :event_types_attributes, :difficulty_levels_attributes, :use_difficulty_levels, :registration_start_date, :registration_end_date, :logo
+                  :event_types_attributes, :registration_start_date, :registration_end_date, :logo, :questions_attributes, :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes, :use_difficulty_levels
 
   has_paper_trail
+
+  has_and_belongs_to_many :questions
 
   has_one :email_settings, :dependent => :destroy
   has_one :call_for_papers, :dependent => :destroy
@@ -30,6 +32,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :supporter_levels, :allow_destroy => true
   accepts_nested_attributes_for :event_types, :allow_destroy => true
   accepts_nested_attributes_for :email_settings
+  accepts_nested_attributes_for :questions, :allow_destroy => true
 
   has_attached_file :logo,
                     :styles => {:thumb => "100x100>", :large => "300x300>" }

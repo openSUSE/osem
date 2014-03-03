@@ -1,0 +1,20 @@
+%h2 
+  Questions for #{@conference.short_title}
+  - if @questions_conference.count
+    = "(#{@questions_conference.count})"
+%i The questions will appear in the registration page of the conference 
+
+%table.table
+  - @questions.each do |q|
+    %tr
+      %td
+        = hidden_field_tag "conference[question_ids][]", nil
+        = check_box_tag "conference[question_ids][]", q.id, @conference.question_ids.include?(q.id), id: dom_id(q)
+      %td
+        = label_tag dom_id(q), q.title
+        = label_tag dom_id(q), "Type: #{q.question_type.title}"
+        = label_tag dom_id(q), "Answers: #{q.answers.map {|a| a.title}.join(', ')}"
+
+      %td= link_to "Edit", edit_admin_conference_question_path(@conference.short_title, q), :class => "btn btn-primary", :disabled => q.global == true && !has_role?(current_user, "Admin")
+          
+      %td= link_to "Delete", admin_conference_question_path(@conference.short_title, q), :method => :delete, :remote => true, :class => "btn btn-danger", :confirm => "Delete question '#{q.title}'?", :disabled => q.global == true && !has_role?(current_user, "Admin")
