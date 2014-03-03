@@ -14,7 +14,7 @@
   background: url(../assets/star.png) 0 0;
   width: 26px;
   height: 26px;
-  display: block;
+  display: inline-block;
 }
 .myrating, .othersrating {
   background: url(../assets/star.png) 0 0;
