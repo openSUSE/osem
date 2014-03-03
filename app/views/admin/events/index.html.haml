@@ -25,6 +25,8 @@
           %th
             %b Track
           %th
+            %b Difficulty
+          %th
             %b State
         - @events.each do |event|
           %tr
@@ -92,6 +94,8 @@
                   - @tracks.each do |track|
                     %li= link_to track.name, admin_conference_event_path(@conference.short_title, event, :track_id => track.id) ,
                       :method => :put, :track_id => track.id
+            %td
+              = event.difficulty_level.title if @conference.use_difficulty_levels && event.difficulty_level
             %td
               - if event.state == "withdrawn"
                 Withdrawn

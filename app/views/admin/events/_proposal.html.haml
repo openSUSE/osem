@@ -71,6 +71,21 @@
               - @tracks.each do |track|
                 %li= link_to track.name, admin_conference_event_path(@conference.short_title, @event, :track_id => track.id) ,
                   :method => :put, :track_id => track.id
+      %tr
+        %td
+          %b Difficulty
+        %td
+          .dropdown
+            = link_to "#", :class => "dropdown-toggle", :id => "difficulty-dropdown" do
+              - if @event.difficulty_level.nil?
+                Difficulty Level
+              - else
+                = @event.difficulty_level.title
+              <b class="caret"></b>
+            %ul.dropdown-menu
+              - @difficulty_levels.each do |difficulty|
+                %li= link_to difficulty.title, admin_conference_event_path(@conference.short_title, @event, :difficulty_level_id => difficulty.id) ,
+                  :method => :put, :difficulty_level_id => difficulty.id
       - if !@event.room.nil?
         %tr
           %td
