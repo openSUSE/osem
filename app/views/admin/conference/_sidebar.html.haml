@@ -51,3 +51,7 @@
       %li.active= link_to "Questions", "#"
     - else
       %li= link_to "Questions", admin_conference_questions_path(@conference.short_title)
+    - if activated == "volunteers"
+      %li.active= link_to "Volunteer Options", "#"
+    - else
+      %li= link_to "Volunteer Options", admin_conference_volunteer_options_path(@conference.short_title)

@@ -1,15 +1,5 @@
 .row
   .span12
-    %h3
-      Registration for
-      = @conference.title
-- if @person.proposal_count(@conference) > 0
-  .row
-    .span12
-      %i
-        Please note: Registration is not automatically performed for speakers.  If you're scheduled to speak at the conference, you still need to register!
-.row
-  .span12
     = semantic_form_for(@registration, :url => register_conference_path(@conference.short_title), :html => { :method => :put }) do |f|
       = f.inputs :name => "Your Details" do
         %br
@@ -47,40 +37,20 @@
           = f.input :dietary_choice, :collection => [["None", nil]] + @conference.dietary_choices.map {|x| [x.title, x.id]},
                     :include_blank => false, :label => "Special Dietary Restriction"
           = f.input :other_dietary_choice, :input_html => {:rows => "2"}, :label => "Other Dietary Restictions (please describe)"
+      .tabbable
+        %ul.nav.nav-tabs
+          %li.active
+            = link_to "Register", "#register-content", "data-toggle"=>"tab"
+          %li
+            = link_to "Volunteer", "#volunteer-content", "data-toggle"=>"tab"
+        .tab-content
+          #register-content.tab-pane.active
+            = render 'conference_registration/registration', :f => f
+          #volunteer-content.tab-pane
+            = render 'conference_registration/volunteer', :f => f
       - if @registered
         = f.action :submit, :button_html => { :value => "Update Registration", :class => "btn btn-primary" }
         = link_to "Unregister", register_conference_path(@conference.short_title),:method => :delete, :class => "btn btn-danger",
                     :confirm => "Are you sure you want to unregister?"
       - else
         = f.action :submit, :button_html => { :value => "Register", :class => "btn btn-primary" }
-
-:javascript
-    $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {
-      var str = "";
-      #{generate_supporter_level_js @conference}
-      $("#supporter-link").html(str);
-    })
-    .trigger('change');
-
-    $("#registration-arrival-datepicker").datetimepicker({
-        dateFormat: "yy-mm-dd",
-        timeFormat: "HH:mm",
-        showSecond: false,
-        numberOfMonths: 1,
-        defaultDate: '#{@conference.start_date.yesterday.strftime('%Y-%m-%d')}',
-        onSelect: function(selected) {
-            $("#registration-departure-datepicker").datepicker("option","minDate", selected)
-        }
-    });
-
-    $("#registration-departure-datepicker").datetimepicker({
-        dateFormat: "yy-mm-dd",
-        timeFormat: "HH:mm",
-        showSecond: false,
-        numberOfMonths: 1,
-        defaultDate: '#{@conference.end_date.tomorrow.strftime('%Y-%m-%d')}',
-        onSelect: function(selected) {
-            $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
-        }
-    });
-
