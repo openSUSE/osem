@@ -4,7 +4,7 @@
   %br
   = f.fields_for :person do |p|
     = p.text_field :public_name, :for => :person
-  - if @conference.use_supporter_levels?
+  - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
     = f.semantic_fields_for :supporter_registration do |reg|
       = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
       = reg.input :code, :label => "Confirmation or registration code (if applicable)"
@@ -22,11 +22,6 @@
     %br Yes, I'll be attending...
     %br
     = f.input :social_events, :as => :check_boxes, :label => false, :collection => @conference.social_events
-- if @conference.use_dietary_choices?
-  = f.inputs "Food" do
-    = f.input :dietary_choice, :collection => [["None", nil]] + @conference.dietary_choices.map {|x| [x.title, x.id]},
-              :include_blank => false, :label => "Special Dietary Restriction"
-    = f.input :other_dietary_choice, :input_html => {:rows => "2", :class => "span6"}, :label => "Other Dietary Restictions (please describe)"
     
 :javascript
     $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {

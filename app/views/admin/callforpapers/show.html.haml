@@ -1,7 +1,7 @@
 .container-fluid
   .row-fluid
     .span3
-      = render 'admin/conference/sidebar', :activated => "Call for Papers"
+      = render 'admin/conference/sidebar'
     .span9
       = semantic_form_for(@cfp, :url => admin_conference_cfp_update_path(@conference.short_title),:html => {:multipart => true}) do |f|
         = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }

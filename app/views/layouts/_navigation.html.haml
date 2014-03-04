@@ -9,70 +9,35 @@
     - if user_signed_in?
       - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
         - if controller.class.name.split("::").first=="Admin"
-          - if @conference && !@conference.short_title.nil?
+          - if @conference and !@conference.short_title.nil?
             %ul.nav
               %li.nav-header.hidden-desktop
                 = @conference.short_title
-              - if current_page?(admin_conference_path(@conference.short_title))
-                %li.active
-                  = link_to('#') do
-                    %i.icon-wrench
-                    Settings
-              - else
-                %li
-                  = link_to(admin_conference_path(@conference.short_title)) do
-                    %i.icon-wrench
-                    Settings
-              - if current_page?(admin_conference_registrations_path(@conference.short_title))
-                %li.active
-                  = link_to('#') do
-                    %i.icon-user
-                    Registrations
-              - else
-                %li
-                  = link_to(admin_conference_registrations_path(@conference.short_title)) do
-                    %i.icon-user
-                    Registrations
-              - if current_page?(admin_conference_supporters_path(@conference.short_title))
-                %li.active
-                  = link_to('#') do
-                    %i.icon-star
-                    Supporters
-              - else
-                %li
+              %li{:class=> active_nav_li(admin_conference_path(@conference.short_title))}
+                = link_to(admin_conference_path(@conference.short_title)) do
+                  %i.icon-wrench
+                  Settings
+              %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
+                = link_to(admin_conference_registrations_path(@conference.short_title)) do
+                  %i.icon-user
+                  Registrations
+              - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
+                %li{:class=> active_nav_li(admin_conference_supporters_path(@conference.short_title))}
                   = link_to(admin_conference_supporters_path(@conference.short_title)) do
                     %i.icon-star
                     Supporters
-              - if current_page?(admin_conference_events_path(@conference.short_title))
-                %li.active
-                  = link_to('#') do
-                    %i.icon-comment
-                    Events
-              - else
-                %li
-                  = link_to(admin_conference_events_path(@conference.short_title)) do
-                    %i.icon-comment
-                    Events
-              - if current_page?(admin_conference_stats_path(@conference.short_title))
-                %li.active
-                  = link_to('#') do
-                    %i.icon-tasks
-                    Statistics
-              - else
-                %li
-                  = link_to(admin_conference_stats_path(@conference.short_title)) do
-                    %i.icon-tasks
-                    Statistics
-              - if current_page?(admin_conference_volunteers_list_path(@conference.short_title))
-                %li.active
-                  = link_to('#') do
-                    %i.icon-user
-                    Volunteers
-              - else
-                %li
-                  = link_to(admin_conference_volunteers_list_path(@conference.short_title)) do
-                    %i.icon-user
-                    Volunteers                    
+              %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
+                = link_to(admin_conference_events_path(@conference.short_title)) do
+                  %i.icon-comment
+                  Events
+              %li{:class=> active_nav_li(admin_conference_stats_path(@conference.short_title))}
+                = link_to(admin_conference_stats_path(@conference.short_title)) do
+                  %i.icon-tasks
+                  Statistics
+              %li{:class=> active_nav_li(admin_conference_volunteers_list_path(@conference.short_title))}
+                = link_to(admin_conference_volunteers_list_path(@conference.short_title)) do
+                  %i.icon-user
+                  Volunteers                    
               %li
                 = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
                   %i.icon-calendar

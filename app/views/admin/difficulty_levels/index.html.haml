@@ -1,7 +1,7 @@
 .container-fluid
   .row-fluid
     .span3
-      = render 'admin/conference/sidebar', :activated => "Difficulty Levels"
+      = render 'admin/conference/sidebar'
     .span9
       = semantic_form_for(@conference, :url => admin_conference_difficulty_levels_path(@conference.short_title)) do |f|
         = f.input :use_difficulty_levels, :label => false

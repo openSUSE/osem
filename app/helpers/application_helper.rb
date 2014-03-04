@@ -1,4 +1,13 @@
 module ApplicationHelper
+
+  def active_nav_li(link)
+    if current_page?(link)
+      return 'active'
+    else
+      return ''
+    end
+  end
+
   def getdatetime(registration, field)
     if registration.send(field.to_sym).kind_of?(String)
       DateTime.parse(registration.send(field.to_sym)).strftime("%d %b %H:%M") if registration.send(field.to_sym)

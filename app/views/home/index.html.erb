@@ -19,13 +19,16 @@
           <br>
           <span class="muted"><%= conference.date_range_string %></span>
         </h3>
+        <% if conference.venue.name and conference.venue.website and conference.venue.address %>
         <p>
           <small>
-            <%= link_to conference.venue.name, conference.venue.website, :target => "_new" %>
-            ,
-            <%= link_to conference.venue.address, "http://maps.google.com/maps?q=#{conference.venue.address}", :target => "_new" %>
+            <%= link_to conference.venue.name, conference.venue.website %>,
+            <%= link_to conference.venue.address, "http://maps.google.com/maps?q=#{conference.venue.address}" %>
           </small>
+        <% end -%>
+        <% if conference.venue.description %>
           <%= simple_format(conference.venue.description, class: 'lead') %>
+        <% end -%>
       </div>
       <div class="span2">
         <ul class="nav nav-tabs nav-stacked">
