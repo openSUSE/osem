@@ -28,7 +28,7 @@ class Person < ActiveRecord::Base
   alias_attribute :affiliation, :company
 
   def languages_upcase
-    self.languages = self.languages.upcase
+    self.languages = self.languages.upcase if self.languages
   end
 
   def to_s
