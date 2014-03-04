@@ -19,7 +19,7 @@ class Admin::StatsController < ApplicationController
 
     @speakers = Person.joins(:events).where("events.conference_id = ? AND events.state LIKE ?", @conference.id,  'confirmed').uniq
     @speaker_fields_person = %w[name email affiliation]
-    @speaker_fields_reg = %w[with_partner need_access other_needs diet arrival departure]
+    @speaker_fields_reg = %w[other_needs diet arrival departure]
     
     @supporter_levels = @conference.supporter_levels
     @tickets = @conference.registrations.joins(:supporter_registration => :supporter_level)
