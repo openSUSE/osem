@@ -18,7 +18,6 @@ class Person < ActiveRecord::Base
 
   before_create :generate_guid
   before_save :set_public_name
-  before_save :languages_upcase
 
   has_attached_file :avatar,
                     :styles => {:tiny => "16x16>", :small => "32x32>", :large => "128x128>"},
@@ -26,10 +25,6 @@ class Person < ActiveRecord::Base
   validates_attachment_content_type :avatar, :content_type => [/jpg/, /jpeg/, /png/, /gif/]
 
   alias_attribute :affiliation, :company
-
-  def languages_upcase
-    self.languages = self.languages.upcase if self.languages
-  end
 
   def to_s
     if self.public_name.empty?
