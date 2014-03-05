@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022131450) do
+ActiveRecord::Schema.define(:version => 20140213122424) do
+
+  create_table "answers", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "call_for_papers", :force => true do |t|
     t.date     "start_date",                          :null => false
@@ -22,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
     t.boolean  "schedule_changes", :default => false
-    t.integer  "rating"
+    t.integer  "rating",           :default => 3
     t.text     "rating_desc"
   end
 
@@ -66,6 +72,12 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
     t.boolean  "use_dietary_choices",     :default => false
     t.boolean  "use_supporter_levels",    :default => false
     t.integer  "revision"
+    t.boolean  "use_difficulty_levels",   :default => false
+  end
+
+  create_table "conferences_questions", :id => false, :force => true do |t|
+    t.integer "conference_id"
+    t.integer "question_id"
   end
 
   create_table "dietary_choices", :force => true do |t|
@@ -73,6 +85,15 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
     t.string   "title",         :null => false
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "difficulty_levels", :force => true do |t|
+    t.integer  "conference_id"
+    t.string   "title"
+    t.text     "description"
+    t.string   "color",         :default => "#ffffff"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   create_table "email_settings", :force => true do |t|
@@ -149,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
     t.string   "video_id"
     t.string   "video_type"
     t.boolean  "require_registration"
+    t.integer  "difficulty_level_id"
   end
 
   create_table "events_registrations", :id => false, :force => true do |t|
@@ -175,6 +197,31 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
     t.string   "irc_nickname"
   end
 
+  create_table "qanswers", :force => true do |t|
+    t.integer "question_id"
+    t.integer "answer_id"
+  end
+
+  create_table "qanswers_registrations", :id => false, :force => true do |t|
+    t.integer "registration_id", :null => false
+    t.integer "qanswer_id",      :null => false
+  end
+
+  create_table "question_types", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "questions", :force => true do |t|
+    t.string   "title"
+    t.integer  "question_type_id"
+    t.integer  "conference_id"
+    t.boolean  "global"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "registrations", :force => true do |t|
     t.integer  "person_id"
     t.integer  "conference_id"
@@ -195,6 +242,11 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
   create_table "registrations_social_events", :id => false, :force => true do |t|
     t.integer "registration_id"
     t.integer "social_event_id"
+  end
+
+  create_table "registrations_vchoices", :id => false, :force => true do |t|
+    t.integer "registration_id"
+    t.integer "vchoice_id"
   end
 
   create_table "roles", :force => true do |t|
@@ -272,6 +324,11 @@ ActiveRecord::Schema.define(:version => 20131022131450) do
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "vchoices", :force => true do |t|
+    t.integer "vday_id"
+    t.integer "vposition_id"
+  end
 
   create_table "venues", :force => true do |t|
     t.string   "guid"
