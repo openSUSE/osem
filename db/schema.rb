@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140213122424) do
+ActiveRecord::Schema.define(:version => 20140305102505) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -72,6 +72,8 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
     t.boolean  "use_dietary_choices",     :default => false
     t.boolean  "use_supporter_levels",    :default => false
     t.integer  "revision"
+    t.boolean  "use_vpositions",          :default => false
+    t.boolean  "use_vdays",               :default => false
     t.boolean  "use_difficulty_levels",   :default => false
   end
 
@@ -121,9 +123,9 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
+    t.boolean  "public",                  :default => false
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
-    t.boolean  "public",                  :default => false
   end
 
   create_table "event_people", :force => true do |t|
@@ -162,11 +164,11 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.text     "proposal_additional_speakers"
     t.integer  "track_id"
     t.integer  "room_id"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.text     "proposal_additional_speakers"
     t.string   "video_id"
     t.string   "video_type"
     t.boolean  "require_registration"
@@ -179,12 +181,12 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
   end
 
   create_table "people", :force => true do |t|
-    t.string   "guid",                                :null => false
-    t.string   "first_name",          :default => ""
-    t.string   "last_name",           :default => ""
-    t.string   "public_name",         :default => ""
-    t.string   "company",             :default => ""
-    t.string   "email",                               :null => false
+    t.string   "guid",                                 :null => false
+    t.string   "first_name",           :default => ""
+    t.string   "last_name",            :default => ""
+    t.string   "public_name",          :default => ""
+    t.string   "company",              :default => ""
+    t.string   "email",                                :null => false
     t.boolean  "email_public"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
@@ -192,9 +194,13 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
     t.datetime "avatar_updated_at"
     t.text     "biography"
     t.integer  "user_id"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "irc_nickname"
+    t.text     "volunteer_experience"
+    t.string   "tshirt"
+    t.string   "mobile"
+    t.string   "languages"
   end
 
   create_table "qanswers", :force => true do |t|
@@ -237,6 +243,7 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
     t.boolean  "handicapped_access_required", :default => false
     t.text     "other_special_needs"
     t.boolean  "attended",                    :default => false
+    t.boolean  "volunteer"
   end
 
   create_table "registrations_social_events", :id => false, :force => true do |t|
@@ -293,13 +300,13 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
   end
 
   create_table "tracks", :force => true do |t|
-    t.string   "guid",                                :null => false
+    t.string   "guid",                                 :null => false
     t.integer  "conference_id"
-    t.string   "name",                                :null => false
+    t.string   "name",                                 :null => false
     t.text     "description"
-    t.string   "color",         :default => "ffffff"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.string   "color",         :default => "#ffffff"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
   end
 
   create_table "users", :force => true do |t|
@@ -328,6 +335,14 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
   create_table "vchoices", :force => true do |t|
     t.integer "vday_id"
     t.integer "vposition_id"
+  end
+
+  create_table "vdays", :force => true do |t|
+    t.integer  "conference_id"
+    t.date     "day"
+    t.text     "description"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "venues", :force => true do |t|
@@ -360,6 +375,14 @@ ActiveRecord::Schema.define(:version => 20140213122424) do
     t.integer  "rating"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "vpositions", :force => true do |t|
+    t.integer  "conference_id"
+    t.string   "title",         :null => false
+    t.text     "description"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
 end
