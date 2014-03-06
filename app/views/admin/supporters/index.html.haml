@@ -32,6 +32,6 @@
           %tr
             %td= u.name
             %td= u.email
-            %td= u.supporter_level.title
+            %td= u.supporter_level.title if u.supporter_level
             %td= u.code
             %td= u.code_is_valid
