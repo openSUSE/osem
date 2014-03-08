@@ -16,7 +16,7 @@ qtype_multiple = QuestionType.create(:title => "Multiple Choice")
 answer_yes = Answer.create(:title => "Yes")
 answer_no = Answer.create(:title => "No")
 
-questions_yes_no = ["Do you need handicapped access to the venue?", "Are you attending with partner?", "Will you attend the social event(s)?", "Will you stay at suggested hotel?"]
+questions_yes_no = ["Do you need handicapped access?", "Will you attend with a partner?", "Will you attend the social event(s)?", "Will you stay at one of the suggested hotels?"]
 
 for i in questions_yes_no do
   q = Question.create(:title => i, :question_type_id => qtype_yesno.id, :global => true)
