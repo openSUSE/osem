@@ -13,7 +13,7 @@
             %b ID
           %th
             %b Title
-          - if @conference.call_for_papers.rating != 0
+          - if !@conference.call_for_papers.blank? && @conference.call_for_papers.rating != 0
             %th
               %b Rating
           %th
