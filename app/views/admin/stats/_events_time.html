@@ -1,7 +1,7 @@
 <script>
 
-var registered = '<%= h @registrations.count%>';
-var data = <%=raw @registered_time.to_json %>;
+var events = '<%= h @events.count%>';
+var data = <%=raw @events_time.to_json %>;
 
 var valueLabelWidth = 10; // space reserved for value labels (right)
 var barHeight = 24; // height of one bar
@@ -14,7 +14,7 @@ var color = d3.scale.category20();
 
 // accessor functions 
 var barLabel = function(d) { return d['status']; };
-var barValue = function(d) { return d['value'] / registered * 100; };
+var barValue = function(d) { return d['value'] / events * 100; };
 var barValues = function(d) { return d['value']; };
  
 // scales
@@ -25,7 +25,7 @@ var yMax = d3.max(data, function(d){ return barValue(d) + 15; });
 var x = d3.scale.linear().domain([0, yMax]).range([0, maxBarWidth]);
 var width = maxBarWidth + barLabelWidth + valueLabelWidth;
 // svg container element
-var chart = d3.select('#registered_time').append("svg")
+var chart = d3.select('#events_time').append("svg")
   .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
   .attr('height', gridLabelHeight + gridChartOffset + data.length * barHeight);
 

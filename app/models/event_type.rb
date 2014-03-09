@@ -4,4 +4,6 @@ class EventType < ActiveRecord::Base
   belongs_to :conference
 
   validates :length, :numericality => {:greater_than => 0} 
+
+  alias_attribute :name, :title
 end
