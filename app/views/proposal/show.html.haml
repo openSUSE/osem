@@ -31,9 +31,9 @@
     .row-fluid
       .span12.flexvideo
         -if @event.video_id
-          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>"http://www.youtube.com/embed/#{@event.video_id}?rel=0"}
+          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/#{@event.video_id}?rel=0"}
         -else
-          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>"http://www.youtube.com/embed/Eiv4e5ZxTmg?rel=0"}
+          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/Eiv4e5ZxTmg?rel=0"}
     .row-fluid
       .span8
         %h3
