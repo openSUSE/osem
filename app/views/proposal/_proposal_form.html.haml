@@ -31,7 +31,11 @@
     %br
     %br
     = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
-    = f.input :video_id, :as => :string, :hint => "Go to your youtube video, click on \"share\" and copy everything behind http://youtu.be/"
+    = f.input :video_type, :as => :select, :label => "Media Type", :collection => [['YoubTube', 'youtube'], ['SlideShare', 'slideshare']], :include_blank => false
+    %p{:class => "help-block media-type", :id => "youtube-help"} Go to your youtube video, click on "share" and copy everything behind http://youtu.be/"
+    %p{:class => "help-block media-type", :id => "slideshare-help", :style => "display:none"} Go to your slideshare, click on "share" -> "embed" and copy the id
+    = f.input :video_id, :label => "Media ID", :as => :string
+
   %section#information
   = f.inputs :name => "Your Information" do
     = semantic_fields_for @person do |p|
