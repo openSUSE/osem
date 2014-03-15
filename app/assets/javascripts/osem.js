@@ -1,7 +1,7 @@
 $(function() {
     $("#event_video_type").change(function () {
         $(".media-type").hide();
-        $('#' + $(this).val() + '-help').show();
+        $('#' + $(this).val().toLowerCase() + '-help').show();
     });
 
     $('.dropdown-toggle').dropdown();
