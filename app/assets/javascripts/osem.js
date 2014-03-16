@@ -1,4 +1,9 @@
 $(function() {
+    $("#event_video_type").change(function () {
+        $(".media-type").hide();
+        $('#' + $(this).val().toLowerCase() + '-help').show();
+    });
+
     $('.dropdown-toggle').dropdown();
     $("#conference-start-datepicker").datepicker({
         dateFormat: 'yy/mm/dd',
@@ -252,3 +257,5 @@ window.build_dialog = function(selector, content) {
   $("body").append("<div id=\"" + selector + "\" class=\"modal fade\" role=\"dialog\">\n" + content + "</div>");
   $("#" + selector).modal();
 }
+
+

@@ -31,7 +31,15 @@
     %br
     %br
     = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
-    = f.input :video_id, :as => :string, :hint => "Go to your youtube video, click on \"share\" and copy everything behind http://youtu.be/"
+    = f.input :video_type, :as => :select, :label => "Media Type", :collection => Event::VIDEO_TYPE, :include_blank => false
+    %p{:class => "help-block media-type", :id => "youtube-help"} Go to your YouTube video, click on "share" and copy everything behind http://youtu.be/"
+    %p{:class => "help-block media-type", :id => "slideshare-help", :style => "display:none"} Go to your SlideShare, click on "share" -> "embed" and copy the id
+    %p{:class => "help-block media-type", :id => "flickr-help", :style => "display:none"} Go to your image, click on "Grab the link" -> "Show short url" and copy everything behind https://flic.kr/p/
+    %p{:class => "help-block media-type", :id => "vimeo-help", :style => "display:none"} Go to your vimeo video, click on "share" and copy everything behind http://vimeo.com/
+    %p{:class => "help-block media-type", :id => "speakerdeck-help", :style => "display:none"} Go to your SpeakerDeck, click on "share" -> "embed" and copy the data-id
+    %p{:class => "help-block media-type", :id => "instagram-help", :style => "display:none"} Go to your Instagram photo page and copy everything behind instagram.com/p/ (without trailing /# hash symbol)
+    = f.input :video_id, :label => "Media ID", :as => :string
+
   %section#information
   = f.inputs :name => "Your Information" do
     = semantic_fields_for @person do |p|
