@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   has_paper_trail
   attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person, :proposal_additional_speakers, :track_id, :video_id, :video_type, :require_registration, :difficulty_level_id
 
-  VIDEO_TYPE = [YOUTUBE = 'YouTube', SLIDE_SHARE = 'SlideShare', FLICKR = 'Flickr', VIMEO = 'Vimeo', SPEAKERDECK = 'Speakerdeck']
+  VIDEO_TYPE = [YOUTUBE = 'YouTube', SLIDE_SHARE = 'SlideShare', FLICKR = 'Flickr', VIMEO = 'Vimeo', SPEAKERDECK = 'Speakerdeck', INSTAGRAM = 'Instagram']
 
   validates :video_type, inclusion: {in: VIDEO_TYPE}
 

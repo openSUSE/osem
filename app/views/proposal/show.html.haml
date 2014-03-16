@@ -39,6 +39,8 @@
             %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//player.vimeo.com/video/#{@event.video_id}"}
           -elsif @event.video_type == Event::SPEAKERDECK
             %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//speakerdeck.com/player/#{@event.video_id}?"}
+          -elsif @event.video_type == Event::INSTAGRAM
+            %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :scrolling =>"no", :allowtransparency=>"true", :src=> "//instagram.com/p/#{@event.video_id}/embed/"}
           -else
             %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/#{@event.video_id}?rel=0"}
         -else
