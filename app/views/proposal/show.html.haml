@@ -35,6 +35,8 @@
             %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.slideshare.net/slideshow/embed_code/#{@event.video_id}"}
           -elsif @event.video_type == Event::FLICKR
             %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "flic.kr/p/#{@event.video_id}/player/268a054da2"}
+          -elsif @event.video_type == Event::VIMEO
+            %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//player.vimeo.com/video/#{@event.video_id}"}
           -else
             %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/#{@event.video_id}?rel=0"}
         -else
