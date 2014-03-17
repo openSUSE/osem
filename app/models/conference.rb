@@ -5,7 +5,7 @@ class Conference < ActiveRecord::Base
                   :event_types_attributes, :registration_start_date, :registration_end_date, :logo,
 		  :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
                   :difficulty_levels_attributes, :use_difficulty_levels,
-                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes
+                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers
 
   has_paper_trail
 
