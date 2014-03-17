@@ -38,7 +38,7 @@
             - if @conference.call_for_papers.rating != 0
               %td{:style => "width:96px"}
                 - if event.average_rating.to_f > 0 
-                  %b #{event.average_rating}/#{@conference.call_for_papers.rating}
+                  #{event.average_rating}/#{@conference.call_for_papers.rating}
                   %br
                   #{pluralize(event.voters.length, 'voter')}
                   %br
@@ -49,7 +49,7 @@
                     - else
                       = label_tag "label_rating", "", :class => "avgrating"
                 - else
-                  Rating: 0/#{@conference.call_for_papers.rating}
+                  0/#{@conference.call_for_papers.rating}
                 %br
 
             - if event.submitter.registrations.count < 1 
