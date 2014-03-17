@@ -1,11 +1,5 @@
 Osem::Application.routes.draw do
-
   devise_for :users, :controllers => { :registrations => :registrations,:passwords=>:passwords }, :path => 'accounts'
-  
-    # resources :passwords do
-    #   get "passwords/new" => "passwords#new"
-    #   get "/passwords/:id/edit" => "passwords#edit"
-    # end  
   
   namespace :admin do
     resources :users
