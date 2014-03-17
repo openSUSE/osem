@@ -24,6 +24,7 @@
               %b Roles
             %th
             %th
+            %th
           - @users.each do |user|
             - person = Person.find_person_by_user_id(user.id)
             %tr
@@ -71,6 +72,12 @@
                   "data-html" => "true",
                   "data-content" => user.popup_details,
                   "data-original-title" => ""
+              
+              %td
+                - if current_user.id == user.id or user.role_ids.include? 3
+                  =link_to 'Delete',admin_user_path(user), :method => :delete , :data => {:confirm => 'Are you sure ?'}, :disabled => true,:class => "btn btn-primary disabled btn-danger",:role => "button" 
+                - else 
+                  =link_to 'Delete',admin_user_path(user), :method=> :delete , :data=> {:confirm => 'Are you sure ?'},:class => "btn btn-primary btn-danger"
 
 :javascript
   $(document).ready(function() {

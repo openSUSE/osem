@@ -118,14 +118,14 @@ ActiveRecord::Schema.define(:version => 20140305102505) do
 
   create_table "event_attachments", :force => true do |t|
     t.integer  "event_id"
-    t.string   "title",                                      :null => false
+    t.string   "title",                                     :null => false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.boolean  "public",                  :default => false
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.boolean  "public",                  :default => true
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "event_people", :force => true do |t|
@@ -347,14 +347,14 @@ ActiveRecord::Schema.define(:version => 20140305102505) do
 
   create_table "venues", :force => true do |t|
     t.string   "guid"
-    t.text     "name",               :limit => 255
-    t.text     "address",            :limit => 255
+    t.text     "name"
+    t.text     "address"
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
     t.string   "offline_map_bounds"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "versions", :force => true do |t|
