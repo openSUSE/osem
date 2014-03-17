@@ -1,5 +1,5 @@
-.row-fluid
-  .span4
+.row
+  .col-md-4
     - if @registered > 0 
       - if @attendees > 0
         %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round }%)"
@@ -11,30 +11,29 @@
     - else
       %h5 There are no registrations yet.
 
-
-  .span4
+  .col-md-4
     - if @registered > 0
       %h4{:style => "text-indent: 10px"}= "Attendance of pre-registered"
       .row-fluid
         .span12#registered_attended
           = render :partial => "registered_attended"
 
-  .span4
+  .col-md-4
     - if @registered > 0
       %h4{:style => "text-indent: 25px"}= "% of pre-registered"
       .row-fluid
         .span12#preregistered_onsite
           = render :partial => "preregistered_onsite"
 
-.row-fluid
-  .span6
+.row
+  .col-md-6
     - if @registered > 0  
       %h4= "Other Info"
       .row-fluid
         .span12#other_info
           = render :partial => "other_info"
 
-  .span6
+  .col-md-6
     - if @registered > 0
       %h4{:style => "text-indent: 98px"}= "Registrations over time"
       .row-fluid

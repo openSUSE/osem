@@ -1,15 +1,8 @@
-$navbarBackground: #299a0b;
-$navbarBackgroundHighlight: #299a0b;
-$navbarBorder: 1px solid #d4d4d4;
-$navbarText: #ffffff;
-$navbarLinkColor: white;
-$navbarLinkColorHover: black;
-$navbarLinkBackgroundActive: #DFE0DF;
+$navbar-default-bg: #299a0b;
+$navbar-default-link-active-bg: #DFE0DF;
+$navbar-default-border: 1px solid #d4d4d4;
+$navbar-default-color: #ffffff;
+$navbar-default-link-color: #ffffff;
+$navbar-default-link-hover-color: #000000;
 
 @import "bootstrap";
-@import "bootstrap-responsive";
-
-/* Set to navbarBackgroundHighlight otherwise */
-.navbar .nav > li > a {
-  text-shadow: none;
-}

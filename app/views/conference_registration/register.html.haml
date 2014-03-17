@@ -1,5 +1,5 @@
 .row
-  .span12
+  .col-md-12
     = semantic_form_for(@registration, :url => register_conference_path(@conference.short_title), :html => { :method => :put }) do |f|
       .tabbable
         %ul.nav.nav-tabs

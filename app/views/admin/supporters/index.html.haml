@@ -7,12 +7,12 @@
     = f.input :code_is_valid, :as => :boolean, :label => false
     = f.action :submit, :button_html => { :value => "Save", :class => "btn btn-primary" }
 
-.row-fluid
-  .span12
+.row
+  .col-md-12
     .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
       = link_to "New Supporter", "#", :id => "new-supporter-button", :class => "btn btn-success"
-.row-fluid
-  .span12
+.row
+  .col-md-12
     %h2 Supporters
     .well
       %table.table.table-striped#supporters

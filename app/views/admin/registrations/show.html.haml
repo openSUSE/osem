@@ -1,16 +1,15 @@
-.row-fluid
-  .span12
-    .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
-      = link_to "New", admin_conference_registrations_new_path(@conference.short_title), :class => "btn btn-primary"
-      = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-success"
-      = link_to "Export xlsx", {:format => :xlsx}, :class => "btn btn-success"
-.row-fluid
-  .span12
-    %h2
-      Registrations
-      - if @registrations
-        = "(#{@registrations.length})"
-      = " - Attended (#{@attended})"
+.row
+  .col-md-12
+    .page-header
+      %h2
+        Registrations
+        - if @registrations
+          = "(#{@registrations.length})"
+        = " - Attended (#{@attended})"
+        .btn-group.pull-right
+          = link_to "New", admin_conference_registrations_new_path(@conference.short_title), :class => "btn btn-default"
+          = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-default"
+          = link_to "Export XLS", {:format => :xlsx}, :class => "btn btn-default"
     %table.table.table-bordered.table-striped.table-hover#registrations
       %thead
         %th

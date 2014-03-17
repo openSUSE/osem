@@ -1,207 +1,29 @@
- /* Sticky footer styles
- -------------------------------------------------- */
- html,
- body {
-    height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
+html {
+  position: relative;
+  min-height: 100%;
 }
-/* Styling for voting on proposals*/
-.myrating.bright { background-image: url(../assets/star-bright.png); }
-.myrating.glow { background-image: url(../assets/star-glow.png); }
-.othersrating.bright { background-image: url(../assets/star-bright.png); }
-.avgrating.bright { background-image: url(../assets/star-bright.png); }
-.avgrating {
-  background: url(../assets/star.png) 0 0;
-  width: 26px;
-  height: 26px;
-  display: inline-block;
-}
-.myrating, .othersrating {
-  background: url(../assets/star.png) 0 0;
-  width: 26px;
-  height: 26px;
-  float: left;
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    /* Negative indent footer by it's height */
-    margin: 0 auto -60px;
+body > #content {
+padding: 60px 15px 0;
 }
 
-/* Set the fixed height of the footer here */
-#push,
 #footer {
-    height: 60px;
-}
-#footer {
-   background-color: #f5f5f5;
-}
-
-.container .credit {
-  margin: 20px 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
 }
 
-/* Lastly, apply responsive CSS fixes as necessary */
-@media (max-width: 767px) {
-    #footer {
-      margin-left: -20px;
-      margin-right: -20px;
-      padding-left: 20px;
-      padding-right: 20px;
-  }
+.container .text-muted {
+margin: 20px 0;
 }
 
-@media screen and (min-width: 980px) {
-  body { padding-top: 60px; }
-}
-
-.center {
-    margin:0 auto;
-    float:none;
-}
-
-textarea {
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
-    width:100%;
-}
-
-div.dataTables_length label {
-    float: left;
-    text-align: left;
-}
-
-div.dataTables_length select {
-    width: 75px;
-}
-
-div.dataTables_filter label {
-    float: right;
-}
-
-div.dataTables_info {
-    padding-top: 8px;
-}
-
-div.dataTables_paginate {
-    float: right;
-    margin: 0;
-}
-
-table.table {
-    clear: both;
-    margin-bottom: 6px !important;
-    max-width: none !important;
-}
-
-table.table thead .sorting,
-table.table thead .sorting_asc,
-table.table thead .sorting_desc,
-table.table thead .sorting_asc_disabled,
-table.table thead .sorting_desc_disabled {
-    cursor: pointer;
-    *cursor: hand;
-}
-
-table.table thead .sorting { background: url('images/sort_both.png') no-repeat center right; }
-table.table thead .sorting_asc { background: url('images/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: url('images/sort_desc.png') no-repeat center right; }
-
-table.table thead .sorting_asc_disabled { background: url('images/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: url('images/sort_desc_disabled.png') no-repeat center right; }
-
-table.dataTable th:active {
-    outline: none;
-}
-
-/* Scrolling */
-div.dataTables_scrollHead table {
-    margin-bottom: 0 !important;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-div.dataTables_scrollHead table thead tr:last-child th:first-child,
-div.dataTables_scrollHead table thead tr:last-child td:first-child {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-}
-
-div.dataTables_scrollBody table {
-    border-top: none;
-    margin-bottom: 0 !important;
-}
-
-div.dataTables_scrollBody tbody tr:first-child th,
-div.dataTables_scrollBody tbody tr:first-child td {
-    border-top: none;
-}
-
-div.dataTables_scrollFoot table {
-    border-top: none;
-}
-
-
-
-#schedule td.event {
-background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
-background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
-background-image: -moz-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
-background-image: -webkit-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
-background-image: -ms-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
-
-background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0.24, rgb(247,250,242)),
-    color-stop(0.97, rgb(194,232,190)),
-    color-stop(1, rgb(194,232,190))
-);
-}
-
-#schedule td.event:hover
-{ 
-background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
-background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
-background-image: -moz-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
-background-image: -webkit-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
-background-image: -ms-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
-
-background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0.24, rgb(247,250,242)),
-    color-stop(0.97, rgb(83,171,74)),
-    color-stop(1, rgb(83,171,74))
-);
-}
-
-.flexvideo {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 */
-    padding-top: 25px;
-    height: 0;
-}
-.flexvideo iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.schedule-title, .schedule-subtitle, .schedule-speaker, .schedule-track {
-    clear: none;
-    display: block;
-}
-
-.schedule-subtitle {
-    color: rgb(185, 74, 72);
+#footer > .container {
+padding: 15px;
 }
