@@ -47,7 +47,7 @@
               - else
                 = registration.send(field.to_sym)
           %td
-            = link_to "Questions", "#", :class => "questions btn btn-success", :id => counter, :onclick => "toggle('row#{counter}')"
+            = link_to "Questions", "javascript: void(0)", :class => "questions btn btn-success", :id => counter, :onclick => "toggle('row#{counter}')"
 
           %td
             = link_to "Edit", admin_conference_registrations_edit_path(@conference.short_title, :id => registration.id), :method => :get, :class => "btn btn-primary"
