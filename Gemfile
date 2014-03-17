@@ -20,7 +20,7 @@ end
 
 group :development, :test do
   gem 'pry'
-  gem 'sqlite3'
+  gem 'mysql2'
   gem 'thin'
   gem 'rspec-rails', '2.11.0'
 end
