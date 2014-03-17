@@ -1,0 +1,41 @@
+-if @events.count > 0
+  %h2{:style => "text-align: center"}
+    = "Events (#{@events.count})"
+  
+  .row-fluid
+    %h3 
+      %u Types per event state
+    - if !@conference.event_types.empty?
+      = render :partial => "events_types"
+    - else
+      %h4
+        %i There are no tracks defined for this conference!
+
+  .row-fluid
+    %h3 
+      %u Tracks per event state
+      - if @no_track_all.count > 0
+        %i= " (#{pluralize(@no_track_all.count, 'event')} not assigned to a track)"
+    - if !@conference.tracks.empty?
+      = render :partial => "events_tracks"
+    - else
+      %h4
+        %i There are no tracks defined for this conference!
+
+  .row-fluid
+    .span12
+      %h3 Proposal Submissions over time
+    .row-fluid
+      .span12#events_time
+    = render :partial => "events_time"
+
+  .row-fluid
+    .span12
+      %br
+      %h3 Overview of all events
+    .row-fluid
+      .span12#events_table
+    = render :partial => "events_table"
+
+- else
+  %h5 There are no submitted events yet.
