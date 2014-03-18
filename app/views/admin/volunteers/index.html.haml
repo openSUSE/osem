@@ -1,15 +1,16 @@
-.container-fluid
-  .row-fluid
-    .span3
-      = render 'admin/conference/sidebar'
-    .span9
-      = semantic_form_for(@conference, :url => admin_conference_volunteers_update_path(@conference.short_title)) do |f|
-        = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
-        %br
-        %br
-        .span5
+.row
+  .col-md-3
+    = render 'admin/conference/sidebar'
+  .col-md-9
+    = semantic_form_for(@conference, :url => admin_conference_volunteers_update_path(@conference.short_title)) do |f|
+      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+      %br
+      %br
+      = f.input :use_volunteers, :label => "Enable Volunteering"
+      .row
+        .col-md-6
           = f.input :use_vdays, :label => false  
           = dynamic_association :vdays, "Volunteer Days", f
-        .span5
+        .col-md-6
           = f.input :use_vpositions, :label => false  
           = dynamic_association :vpositions, "Volunteer positions", f

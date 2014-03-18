@@ -1,35 +1,41 @@
-.row-fluid
-  .span4
-    - if @attendees > 0
-      %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round }%)"
+.row
+  .col-md-4
+    - if @registered > 0 
+      - if @attendees > 0
+        %h4{:style => "text-indent: 25px"}= "Registrations - Attendees (#{(@attendees.to_f / @registered * 100).round }%)"
+      - else
+        %h4{:style => "text-indent: 25px"}= "Registrations - Attendees"
+      .row-fluid
+        .span12#registrations_attendees
+          = render :partial => "registrations_attendees"
     - else
-      %h4{:style => "text-indent: 25px"}= "Registrations - Attendees"
-    .row-fluid
-      .span12#registrations_attendees
+      %h5 There are no registrations yet.
 
-  .span4
-    %h4{:style => "text-indent: 10px"}= "Attendance of pre-registered"
-    .row-fluid
-      .span12#registered_attended
+  .col-md-4
+    - if @registered > 0
+      %h4{:style => "text-indent: 10px"}= "Attendance of pre-registered"
+      .row-fluid
+        .span12#registered_attended
+          = render :partial => "registered_attended"
 
-  .span4
-    %h4{:style => "text-indent: 25px"}= "% of pre-registered"
-    .row-fluid
-      .span12#preregistered_onsite
+  .col-md-4
+    - if @registered > 0
+      %h4{:style => "text-indent: 25px"}= "% of pre-registered"
+      .row-fluid
+        .span12#preregistered_onsite
+          = render :partial => "preregistered_onsite"
 
-.row-fluid
-  .span6
-    %h4= "Other Info"
-    .row-fluid
-      .span12#other_info
+.row
+  .col-md-6
+    - if @registered > 0  
+      %h4= "Other Info"
+      .row-fluid
+        .span12#other_info
+          = render :partial => "other_info"
 
-  .span6
-    %h4{:style => "text-indent: 98px"}= "Registrations over time"
-    .row-fluid
-      .span12#registered_time
-
-= render :partial => "registered_attended"
-= render :partial => "registered_time"
-= render :partial => "preregistered_onsite"
-= render :partial => "registrations_attendees"
-= render :partial => "other_info"
+  .col-md-6
+    - if @registered > 0
+      %h4{:style => "text-indent: 98px"}= "Registrations over time"
+      .row-fluid
+        .span12#registered_time
+          = render :partial => "registered_time"           

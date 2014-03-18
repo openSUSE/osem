@@ -1,5 +1,5 @@
 .row
-  .span12
+  .col-md-12
     = f.input :volunteer, :label => "Click here if you want to become a volunteer at #{@conference.short_title}", :input_html => {:maxlength => 15, :size => 40}
     = f.fields_for :person do |p|
       = render :partial => 'devise/registrations/volunteerperson', :locals => {:p => p}

@@ -3,9 +3,9 @@ class Conference < ActiveRecord::Base
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
                   :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes, :social_events_attributes,
                   :event_types_attributes, :registration_start_date, :registration_end_date, :logo,
-		  :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
+                  :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
                   :difficulty_levels_attributes, :use_difficulty_levels,
-                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes
+                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers
 
   has_paper_trail
 
@@ -29,8 +29,8 @@ class Conference < ActiveRecord::Base
 
   belongs_to :venue
 
-  accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
-  accepts_nested_attributes_for :tracks, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
+  accepts_nested_attributes_for :rooms, :reject_if => proc { |r| r["name"].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :tracks, :reject_if => proc { |r| r["name"].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :difficulty_levels, :allow_destroy => true
   accepts_nested_attributes_for :social_events, :allow_destroy => true
   accepts_nested_attributes_for :venue
@@ -43,18 +43,18 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :vpositions, :allow_destroy => true
 
   has_attached_file :logo,
-                    :styles => {:thumb => "100x100>", :large => "300x300>" }
+                    :styles => {:thumb => "100x100>", :large => "300x300>"}
 
   validates_attachment_content_type :logo,
                                     :content_type => [/jpg/, /jpeg/, /png/, /gif/],
-                                    :size => { :in => 0..500.kilobytes }
+                                    :size => {:in => 0..500.kilobytes}
 
   validates_presence_of :title,
                         :short_title,
                         :social_tag
   validates_uniqueness_of :short_title
   validates_format_of :short_title, :with => /^[a-zA-Z0-9_-]*$/
-   
+
   before_create :generate_guid
   before_create :create_venue
   before_create :create_email_settings
@@ -112,6 +112,7 @@ class Conference < ActiveRecord::Base
 
     return false
   end
+
   private
 
   def create_venue
@@ -123,6 +124,7 @@ class Conference < ActiveRecord::Base
     build_email_settings
     true
   end
+
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64

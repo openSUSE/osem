@@ -1,29 +1,26 @@
 .well.sidebar-nav
-  %ul.nav.nav-list
-    %li.nav-header
-      =@conference.short_title
-      Settings
-      %li{:class=> active_nav_li(admin_conference_path(@conference.short_title))}
-        = link_to "Conference", admin_conference_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_venue_info_path(@conference.short_title))}
-        = link_to "Venue", admin_conference_venue_info_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_cfp_info_path(@conference.short_title))}
-        = link_to "Call for Papers", admin_conference_cfp_info_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_rooms_list_path(@conference.short_title))}
-        = link_to "Rooms", admin_conference_rooms_list_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_tracks_list_path(@conference.short_title))}
-        = link_to "Tracks", admin_conference_tracks_list_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_eventtype_list_path(@conference.short_title))}
-        = link_to "Event Types", admin_conference_eventtype_list_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
-        = link_to "Difficulty Levels", admin_conference_difficulty_levels_path(@conference.short_title)      
-      %li{:class=> active_nav_li(admin_conference_social_events_path(@conference.short_title))}
-        = link_to "Social Events", admin_conference_social_events_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_supporter_levels_path(@conference.short_title))}
-        = link_to "Supporter Levels", admin_conference_supporter_levels_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_email_settings_path(@conference.short_title))}
-        = link_to "Emails", admin_conference_email_settings_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}
-        = link_to "Questions", admin_conference_questions_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_volunteers_info_path(@conference.short_title))}
-        = link_to "Volunteers", admin_conference_volunteers_info_path(@conference.short_title)
+  %ul.nav.nav-pills.nav-stacked
+    %li{:class=> active_nav_li(admin_conference_path(@conference.short_title))}
+      = link_to "Conference", admin_conference_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_venue_info_path(@conference.short_title))}
+      = link_to "Venue", admin_conference_venue_info_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_cfp_info_path(@conference.short_title))}
+      = link_to "Call for Papers", admin_conference_cfp_info_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_rooms_list_path(@conference.short_title))}
+      = link_to "Rooms", admin_conference_rooms_list_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_tracks_list_path(@conference.short_title))}
+      = link_to "Tracks", admin_conference_tracks_list_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_eventtype_list_path(@conference.short_title))}
+      = link_to "Event Types", admin_conference_eventtype_list_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
+      = link_to "Difficulty Levels", admin_conference_difficulty_levels_path(@conference.short_title)      
+    %li{:class=> active_nav_li(admin_conference_social_events_path(@conference.short_title))}
+      = link_to "Social Events", admin_conference_social_events_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_supporter_levels_path(@conference.short_title))}
+      = link_to "Supporter Levels", admin_conference_supporter_levels_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_email_settings_path(@conference.short_title))}
+      = link_to "Emails", admin_conference_email_settings_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}
+      = link_to "Questions", admin_conference_questions_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_volunteers_info_path(@conference.short_title))}
+      = link_to "Volunteers", admin_conference_volunteers_info_path(@conference.short_title)

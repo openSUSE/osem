@@ -7,12 +7,12 @@
     = f.input :code_is_valid, :as => :boolean, :label => false
     = f.action :submit, :button_html => { :value => "Save", :class => "btn btn-primary" }
 
-.row-fluid
-  .span12
+.row
+  .col-md-12
     .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
       = link_to "New Supporter", "#", :id => "new-supporter-button", :class => "btn btn-success"
-.row-fluid
-  .span12
+.row
+  .col-md-12
     %h2 Supporters
     .well
       %table.table.table-striped#supporters
@@ -32,6 +32,6 @@
           %tr
             %td= u.name
             %td= u.email
-            %td= u.supporter_level.title
+            %td= u.supporter_level.title if u.supporter_level
             %td= u.code
             %td= u.code_is_valid

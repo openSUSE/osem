@@ -1,96 +1,87 @@
 <script>
- var w = 250,
-    h = 250,
-    r = Math.min(w, h) / 2 - 10,
-    inner = 80,
-    color = d3.scale.category20c();
+    var w = 250,
+            h = 250,
+            r = Math.min(w, h) / 2 - 10,
+            inner = 80,
+            color = d3.scale.category20c();
 
-var registrations = '<%= h @registered %>';
-var attendees = '<%= h @attendees %>';
+    var registrations = '<%= h @registered %>';
+    var attendees = '<%= h @attendees %>';
 
-var data = [
-{"status":"Registrations","value": registrations, "percent": ""},
-{"status":"Attendees","value": attendees, "percent": d3.round(attendees/registrations * 100)+"%"}
-];
+    var data = [
+        {"status": "Did Not Attend", "value": registrations - attendees, "percent": ""},
+        {"status": "Attended", "value": attendees, "percent": d3.round(attendees / registrations * 100) + "%"}
+    ];
 
-var vis = d3.select("#registrations_attendees")
-    .append("svg:svg")
-    .data([data])
-        .attr("width", w)
-        .attr("height", h)
-    .append("svg:g")
-        .attr("transform", "translate(" + r * 1.1 + "," + r * 1.1 + ")")
+    var vis = d3.select("#registrations_attendees")
+            .append("svg:svg")
+            .data([data])
+            .attr("width", w)
+            .attr("height", h)
+            .append("svg:g")
+            .attr("transform", "translate(" + r * 1.1 + "," + r * 1.1 + ")")
 
-var textTop = vis.append("text")
-    .attr("dy", ".35em")
-    .style("text-anchor", "middle")
-    .attr("class", "textTop")
-    .text( "Registered: " + registrations)
-    .attr("y", -10),
-textBottom = vis.append("text")
-    .attr("dy", ".35em")
-    .style("text-anchor", "middle")
-    .attr("class", "textBottom")
-    .text("Attended: " + attendees)
-    .attr("y", 10);
-
-var arc = d3.svg.arc()
-    .innerRadius(inner)
-    .outerRadius(r);
-
-var arcOver = d3.svg.arc()
-    .innerRadius(inner + 5)
-    .outerRadius(r + 5);
- 
-var pie = d3.layout.pie()
-    .value(function(d) { return d.value; });
- 
-var arcs = vis.selectAll("g.slice")
-    .data(pie)
-    .enter()
-        .append("svg:g")
-            .attr("class", "slice")
-            .on("mouseover", function(d) {
-                d3.select(this).select("path").transition()
-                    .duration(200)
-                    .attr("d", arcOver)
-                
-                textTop.text(d3.select(this).datum().data.status)
-                    .attr("y", -10);
-                textBottom.text( d3.select(this).datum().data.value)
+    var textTop = vis.append("text")
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "middle")
+                    .attr("class", "textTop")
+                    .text("Registered: " + registrations)
+                    .attr("y", -10),
+            textBottom = vis.append("text")
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "middle")
+                    .attr("class", "textBottom")
+                    .text("Attended: " + attendees)
                     .attr("y", 10);
-            })
-            .on("mouseout", function(d) {
-                d3.select(this).select("path").transition()
-                    .duration(100)
-                    .attr("d", arc);
-                
-                textTop.text("Registered: " + registrations)
-                    .attr("y", -10);
-                textBottom.text("Attended: " + attendees);
+
+    var arc = d3.svg.arc()
+            .innerRadius(inner)
+            .outerRadius(r);
+
+    var arcOver = d3.svg.arc()
+            .innerRadius(inner + 5)
+            .outerRadius(r + 5);
+
+    var pie = d3.layout.pie()
+            .value(function (d) {
+                return d.value;
             });
 
-arcs.append("svg:path")
-    .attr("fill", function(d, i) { return color(i); } )
-    .attr("d", arc);
+    var arcs = vis.selectAll("g.slice")
+            .data(pie)
+            .enter()
+            .append("svg:g")
+            .attr("class", "slice");
 
-var legend = d3.select("#registrations_attendees").append("svg")
-    .attr("class", "legend")
-    .attr("width", r * 2)
-    .attr("height", r)
-    .selectAll("g")
-    .data(data)
-    .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+    arcs.append("svg:path")
+            .attr("fill", function (d, i) {
+                return color(i);
+            })
+            .attr("d", arc);
 
-legend.append("rect")
-    .attr("width", 18)
-    .attr("height", 18)
-    .style("fill", function(d, i) { return color(i); });
+    var legend = d3.select("#registrations_attendees").append("svg")
+            .attr("class", "legend")
+            .attr("width", r * 2)
+            .attr("height", r)
+            .selectAll("g")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 20 + ")";
+            });
 
-legend.append("text")
-    .attr("x", 24)
-    .attr("y", 9)
-    .attr("dy", ".35em")
-    .text(function(d) { return "Total " + d.status; });
+    legend.append("rect")
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function (d, i) {
+                return color(i);
+            });
+
+    legend.append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .text(function (d) {
+                return "Total " + d.status + " (" + d.value + ")";
+            });
 </script>

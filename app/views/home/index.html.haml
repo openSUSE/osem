@@ -1,0 +1,36 @@
+.row
+  .col-md-12.page-header
+    %h2.text-center Upcoming Conferences
+- @current.each do |conference|
+  .row
+    .col-md-12
+      .well
+        .row
+          .col-md-4.text-center
+            = image_tag(conference.logo(:original), class: 'img-responsive')
+          .col-md-6
+            %h3
+              = conference.title
+              %small
+                %b
+                = conference.date_range_string
+            - if conference.venue.name and conference.venue.website and conference.venue.address
+              %p
+                %small
+                  = link_to conference.venue.name, conference.venue.website
+                  ,
+                  \#{link_to conference.venue.address, "http://maps.google.com/maps?q=#{conference.venue.address}"}
+            - if conference.venue.description
+              = simple_format(conference.venue.description, class: 'lead')
+          .col-md-2
+            .btn-group-vertical
+              - if conference.registration_open?
+                - if conference.user_registered?(current_user)
+                  = link_to "Modify Registration", register_conference_path(conference.short_title), :class =>"btn btn-default"
+                - else
+                  = link_to "Register", register_conference_path(conference.short_title), :class =>"btn btn-success"
+              = link_to "Schedule", conference_schedule_path(conference.short_title), :class =>"btn btn-default"
+              - if !current_user.nil? && current_user.person.proposal_count(conference) > 0
+                = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class =>"btn btn-default"
+              - elsif conference.cfp_open?
+                = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class =>"btn btn-default"

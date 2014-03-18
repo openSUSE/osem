@@ -1,14 +1,15 @@
-.container
-  %h2.text-center
-    Sign Up
-  .row-fluid
-    .well.span3.offset2
+.row
+  .page-header
+    %h1.text-center Sign Up
+  .col-md-5.col-md-offset-1
+    .well
       = semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
         = f.input :email
         = f.input :password
         = f.input :password_confirmation
         = f.action :submit, :as => :button, :label => "Sign Up", :button_html => {:class => "btn btn-primary"}
-    .well.span3.offset2
+  .col-md-3.col-md-offset-2
+    .well
       %h4
         Already have an account?
       = render "devise/shared/links"

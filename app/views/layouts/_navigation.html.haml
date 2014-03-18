@@ -1,83 +1,59 @@
-%a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse", :id => "mobmenu" }
-  %span.icon-th
-  = link_to "OSEM", root_path, :class => 'brand', :title => "Open Source Event Manager"
-  - if @conference && !@conference.short_title.nil?
-    %span.brand
-      = @conference.short_title
-  .nav-collapse.collapse
-    / The Admin Menu for Conferences /
-    - if user_signed_in?
-      - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
-        - if controller.class.name.split("::").first=="Admin"
-          - if @conference and !@conference.short_title.nil?
-            %ul.nav
-              %li.nav-header.hidden-desktop
-                = @conference.short_title
-              %li{:class=> active_nav_li(admin_conference_path(@conference.short_title))}
-                = link_to(admin_conference_path(@conference.short_title)) do
-                  %i.icon-wrench
-                  Settings
-              %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
-                = link_to(admin_conference_registrations_path(@conference.short_title)) do
-                  %i.icon-user
-                  Registrations
-              - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
-                %li{:class=> active_nav_li(admin_conference_supporters_path(@conference.short_title))}
-                  = link_to(admin_conference_supporters_path(@conference.short_title)) do
-                    %i.icon-star
-                    Supporters
-              %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
-                = link_to(admin_conference_events_path(@conference.short_title)) do
-                  %i.icon-comment
-                  Events
-              %li{:class=> active_nav_li(admin_conference_stats_path(@conference.short_title))}
-                = link_to(admin_conference_stats_path(@conference.short_title)) do
-                  %i.icon-tasks
-                  Statistics
-              %li{:class=> active_nav_li(admin_conference_volunteers_list_path(@conference.short_title))}
-                = link_to(admin_conference_volunteers_list_path(@conference.short_title)) do
-                  %i.icon-user
-                  Volunteers                    
-              %li
-                = link_to(admin_conference_schedule_path(@conference.short_title), :target => "_blank") do
-                  %i.icon-calendar
-                  Schedule
-      %ul.nav.hidden-desktop
-        = render 'layouts/user_menu'
-      %ul.nav.pull-right.visible-desktop
-        %li.dropdown
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            #{current_user.person.public_name} (#{current_user.email})
-            = image_tag(current_user.person.gravatar_url(:size => "18"), :title => "Yo #{current_user.person.public_name}!")
-            %b.caret
-          %ul.dropdown-menu{:style => "padding: 15px;"}
-            = render 'layouts/user_menu'
-    - else
-      %ul.nav.pull-right
-        - if current_page?(new_registration_path('user'))
-          %li.active
-            = link_to(new_registration_path('user')) do
-              %i.icon-heart
-              Sign Up
-        - else
-          %li
-            = link_to(new_registration_path('user')) do
-              %i.icon-heart
-              Sign Up
-        %li.dropdown.visible-desktop
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            %i.icon-user.icon-2x
-            Sign In
-            %i.icon-angle-down
-          .dropdown-menu{:style => "padding: 17px;"}
-            = form_tag user_session_path do
-              = text_field_tag 'user[email]'
-              = password_field_tag 'user[password]'
-              %label.checkbox
-                = check_box_tag 'user[remember_me]'
-                Remember me
-              %button.btn.btn-block Sign in
-              %br
-              = link_to "Forgot your password?", new_password_path('user')
-        %li.hidden-desktop
-          = link_to('Sign In', new_user_session_path)
+.navbar.navbar-default.navbar-fixed-top{:role=>"navigation"}
+  .container
+    .navbar-header
+      %button{"data-target"=>".navbar-collapse", "data-toggle"=>"collapse", :class=>"navbar-toggle", :type=>"button"}
+        %span.sr-only
+          Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "OSEM", root_path, :class => 'navbar-brand', :title => "Open Source Event Manager"
+    .collapse.navbar-collapse
+      - if @conference && !@conference.short_title.nil?
+        %p.navbar-text
+          = @conference.short_title
+      - if user_signed_in?
+        - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+          - if controller.class.name.split("::").first=="Admin"
+            - if @conference and not @conference.short_title.nil?
+              = render 'layouts/admin_menu'
+        %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              - if not current_user.person.public_name.empty?
+                #{current_user.person.public_name}
+              -else 
+                #{current_user.email}
+              = image_tag(current_user.person.gravatar_url(:size => "18"), :title => "Yo #{current_user.person.public_name}!")
+              %b.caret
+            %ul.dropdown-menu
+              = render 'layouts/user_menu'
+      - else
+        %ul.nav.navbar-nav.navbar-right
+          - if current_page?(new_registration_path('user'))
+            %li.active
+              = link_to(new_registration_path('user')) do
+                %span.glyphicon.glyphicon-heart
+                Sign Up
+          - else
+            %li
+              = link_to(new_registration_path('user')) do
+                %span.glyphicon.glyphicon-heart
+                Sign Up  
+            %li.dropdown.visible-desktop
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                %span.glyphicon.glyphicon-user
+                Sign In
+                %span.caret
+              .dropdown-menu{:style => "padding: 17px;"}
+                = form_tag user_session_path do
+                  = text_field_tag 'user[email]'
+                  = password_field_tag 'user[password]'
+                  %label.checkbox
+                    = check_box_tag 'user[remember_me]'
+                    Remember me
+                  %button.btn.btn-block Sign in
+                  %br
+                  = link_to "Forgot your password?", new_password_path('user')
+            %li.hidden-lg
+              = link_to('Sign In', new_user_session_path)

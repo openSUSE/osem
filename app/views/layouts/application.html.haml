@@ -17,31 +17,26 @@
       });
     = yield(:head)
   %body
-    #wrap
-      .navbar.navbar-fixed-top
-        .navbar-inner
-          .container-fluid
-            = render 'layouts/navigation'
-      .container#messages
-        .row
-          .span12
-            = render 'layouts/messages'
-            %noscript
-              :css
-                #content {
-                  display: none;
-                }
-              %h2
-                JavaScript is not enabled
-              %p
-                OSEM requires JavaScript to be enabled to function. Please turn on JavaScript in your browser's settings and reload the page to continue.
-      .container#content
-        = yield
-        #push
+    = render 'layouts/navigation'
+    .container#messages
+      .row
+        .col-md-12
+          = render 'layouts/messages'
+          %noscript
+            :css
+              #content {
+                display: none;
+              }
+            %h2
+              JavaScript is not enabled
+            %p
+              OSEM requires JavaScript to be enabled to function. Please turn on JavaScript in your browser's settings and reload the page to continue.
+    .container#content
+      = yield
 
     #footer
       .container
-        %p.muted.credit.text-center
+        %p.muted.text-center
           OSEM is (C) 2013
           = link_to "Matt Barringer", "http://incoherent.de"
           and released under the GPL.  You can get the source code from

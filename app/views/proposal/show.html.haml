@@ -1,13 +1,13 @@
 .row
-  .span12
+  .col-md-12.page-header
     %h2
       = @event.title
       - if @event.subtitle
         %br
-        %span.muted
+        %small
           = @event.subtitle
-.row-fluid
-  .span3
+.row
+  .col-md-3
     %p
       = simple_format(@event.abstract)
     %dl
@@ -22,31 +22,32 @@
         - if @event.track_id
           %span.label{:style =>"background-color: #{@event.track.color};"}
             = @event.track.name
-  .span9
+  .col-md-9
     -unless @event.video_id
-      .row-fluid
-        .span12
+      .row
+        .col-md-12
           %h5.text-error
             No video of the event yet, sorry! Meanwhile...
-    .row-fluid
-      .span12.flexvideo
-        -if @event.video_id
-          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/#{@event.video_id}?rel=0"}
-        -else
-          %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/Eiv4e5ZxTmg?rel=0"}
-    .row-fluid
-      .span8
+    .row
+      .col-md-12
+        .flexvideo
+          -if not @event.video_id.blank?
+            %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/#{@event.video_id}?rel=0"}
+          -else
+            %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=>request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/Eiv4e5ZxTmg?rel=0"}
+    .row
+      .col-md-8
         %h3
           by
           = @speaker.public_name
-          - if @speaker.company
+          - if @speaker.company?
             %br
             %span.muted
               from
               = @speaker.company
-        -if @speaker.biography
+        -if @speaker.biography?
           = simple_format(@speaker.biography)
-      .span4
-        = image_tag @speaker.gravatar_url(:size => 200), :class => "img-rounded pull-right", :style => "margin: 8px;"
+      .col-md-4
+        = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"
 
 
