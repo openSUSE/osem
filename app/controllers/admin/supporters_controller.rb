@@ -11,7 +11,7 @@ class Admin::SupportersController < ApplicationController
   def create
     params[:supporter_registration][:conference_id] = @conference.id
     supporter = SupporterRegistration.create!(params[:supporter_registration])
-    flash[:notice] = "Supporter added"
-    render :json => {"status" => "ok"}
+    redirect_to(admin_conference_supporters_path(:conference_id => @conference.short_title), :notice => "Supporter added")
+ 
   end
 end
