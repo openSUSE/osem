@@ -9,7 +9,13 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    session[:return_to]
+    if not session[:return_to].start_with?('/accounts')
+      logger.debug "Returning to #{session[:return_to]}"
+      session[:return_to]
+    else
+      logger.debug "Not returning to #{session[:return_to]} because it would loop"
+      super
+    end
   end
 
   def get_conferences

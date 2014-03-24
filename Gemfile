@@ -20,11 +20,12 @@ group :development, :test do
   gem 'pry'
   gem 'sqlite3'
   gem 'thin'
-  gem 'rspec-rails', '2.11.0'
+  gem 'letter_opener'
 end
 
 group :production do
   gem 'mysql2'
+  gem 'rspec-rails', '2.11.0'
 end
 
 group :test do
@@ -36,7 +37,7 @@ gem 'paperclip', '~> 3.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-fileupload-rails'
-gem 'devise', '~> 2.2'
+gem 'devise'
 gem 'cancan'
 gem "haml"
 gem 'bcrypt-ruby', '~> 3.0.0'
