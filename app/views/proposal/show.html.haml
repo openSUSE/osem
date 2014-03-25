@@ -33,9 +33,9 @@
         -if not @event.media_id.blank?
           .flexvideo
             -if @event.media_type == Event.media_types[:slideshare]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.slideshare.net/slideshow/embed_code/#{@event.media_id}"}
+              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "www.slideshare.net/slideshow/embed_code/#{@event.media_id}"}
             -elsif @event.media_type == Event.media_types[:flickr]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "flic.kr/p/#{@event.media_id}/player/268a054da2"}
+              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "flic.kr/p/#{@event.media_id}/player/268a054da2"}
             -elsif @event.media_type == Event.media_types[:vimeo]
               %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//player.vimeo.com/video/#{@event.media_id}"}
             -elsif @event.media_type == Event.media_types[:speakerdeck]
@@ -43,7 +43,7 @@
             -elsif @event.media_type == Event.media_types[:instagram]
               %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :scrolling =>"no", :allowtransparency=>"true", :src=> "//instagram.com/p/#{@event.media_id}/embed/"}
             -else
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> request.ssl? ? "https://" : "http://" + "www.youtube.com/embed/#{@event.media_id}?rel=0"}
+              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "www.youtube.com/embed/#{@event.media_id}?rel=0"}
         -else
           %div.well.well-lg="No video of the event yet, sorry! Meanwhile..."
     .row
