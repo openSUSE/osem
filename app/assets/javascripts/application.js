@@ -19,8 +19,8 @@
 //= require cocoon
 //= require bootstrap
 //= require osem
-//= require d3.v3
-//= require d3.v3.min
+//= require d3
+
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
         return false;

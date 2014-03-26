@@ -1,7 +1,7 @@
 <script>
 
 var registered = '<%= h @registrations.count%>';
-var data = <%=raw @mydays.to_json %>;
+var data = <%=raw @registered_time.to_json %>;
 
 var valueLabelWidth = 10; // space reserved for value labels (right)
 var barHeight = 24; // height of one bar

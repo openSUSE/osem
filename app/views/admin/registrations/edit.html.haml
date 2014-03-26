@@ -1,41 +1,35 @@
-.container-fluid
-  .row-fluid
-    .span12
-      %h3
-        Edit registration of #{@person.public_name} (#{@person.email}) for #{@conference.title}
-        %br
-  .row-fluid
-    .span12
-      = semantic_form_for(@registration, :url => admin_conference_registrations_edit_path(@conference.short_title, @registration.id), :html => { :method => :put }) do |f|
-
-        = f.inputs "Personal Information" do
-          = f.fields_for :person do |p|
-            = p.input :first_name, :as => :string
-            = p.input :last_name, :as => :string
-            = p.label :Nickname, :as => :string
-            = p.text_field :irc_nickname, :as => :string
-            = p.label :Affiliation
-            = p.text_field :company, :placeholder => "Company/User Group/nothing", :as => :string
-
-        = f.inputs "Registration Information" do
-          - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
-            = f.semantic_fields_for :supporter_registration do |reg|
-              = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
-              = reg.input :code, :label => "Confirmation or registration code (if applicable)"
-              %span#supporter-link.help-block
-
-          = f.input :attending_with_partner, :label => false
-          = f.input :using_affiliated_lodging, :label => false
-          = f.input :handicapped_access_required, :label => false
-          = f.input :other_special_needs, :label => "Any other special needs?", :input_html => {:rows => 2, :class => "span6"}
-
-        - if @conference.social_events.count > 0
-          = f.inputs "Are you planning to attend any of the parties?" do
-            %br Yes, I'll be attending...
-            %br
-            = f.input :social_events, :as => :check_boxes, :label => false, :collection => @conference.social_events
-
-        = f.action :submit, :button_html => { :value => "Edit Registration", :class => "btn btn-primary" }
+.row
+  .col-md-12
+    %h3
+      Edit registration of #{@person.public_name} (#{@person.email}) for #{@conference.title}
+      %br
+.row
+  .col-md-12
+    = semantic_form_for(@registration, :url => admin_conference_registrations_edit_path(@conference.short_title, @registration.id), :html => { :method => :put }) do |f|
+      = f.inputs "Personal Information" do
+        = f.fields_for :person do |p|
+          = p.input :first_name, :as => :string
+          = p.input :last_name, :as => :string
+          = p.label :Nickname, :as => :string
+          = p.text_field :irc_nickname, :as => :string
+          = p.label :Affiliation
+          = p.text_field :company, :placeholder => "Company/User Group/nothing", :as => :string
+      = f.inputs "Registration Information" do
+        - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
+          = f.semantic_fields_for :supporter_registration do |reg|
+            = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
+            = reg.input :code, :label => "Confirmation or registration code (if applicable)"
+            %span#supporter-link.help-block
+        = f.input :attending_with_partner, :label => false
+        = f.input :using_affiliated_lodging, :label => false
+        = f.input :handicapped_access_required, :label => false
+        = f.input :other_special_needs, :label => "Any other special needs?", :input_html => {:rows => 2, :class => "span6"}
+      - if @conference.social_events.count > 0
+        = f.inputs "Are you planning to attend any of the parties?" do
+          %br Yes, I'll be attending...
+          %br
+          = f.input :social_events, :as => :check_boxes, :label => false, :collection => @conference.social_events
+      = f.action :submit, :button_html => { :value => "Edit Registration", :class => "btn btn-primary" }
 :javascript
     $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {
       var str = "";

@@ -1,36 +1,34 @@
-.container-fluid
-  .row-fluid
-    .span13
-      %h2.pull-left
-        = "My Proposals for #{@conference.title}"
-      .pull-right{:style=>"margin-top:20px;"}
-      - if @conference.cfp_open? || organizer_or_admin?
-        = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-primary"
-  - if @person.proposal_count(@conference) > 0
-    .row-fluid
-      .span12
-        %table.table.table-bordered.table-striped
-          %thead
-            %th
-              %b Title
-            %th
-              %b Status
-            %th
-          - @events.each do |event|
-            %tr
-              %td
-                = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
-              %td
-                = event.public_state
-                - if event.state == 'confirmed' && event.require_registration == true
-                  (Pre-registered: #{pre_registered(event).count})
-                - if event.confirmed? && !@conference.user_registered?(current_user)
-                  %br
-                  = link_to "Register to attend", register_conference_path(@conference.short_title), :style => "font-size:10px;"
-              %td
-                .pull-right
-                  - if event.transition_possible? :confirm
-                    = link_to "Confirm", conference_proposal_confirm_path(@conference.short_title, event, :send_mail=>false), :method => :put, :class => "btn btn-mini btn-success"
-                  = link_to "Edit", edit_conference_proposal_path(@conference.short_title, event.id), :class => "btn btn-mini  btn-primary"
-                  = link_to "Withdraw", conference_proposal_path(@conference.short_title, event.id), :method => :delete,
-                              :confirm => "Are you sure you want to withdraw this proposal?", :class => "btn btn-mini btn-danger"
+.row
+  .col-md-12.page-header
+    %h1
+      = "My Proposals for #{@conference.title}"
+    - if @conference.cfp_open? || organizer_or_admin?
+      = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-primary pull-right"
+- if @person.proposal_count(@conference) > 0
+  .row
+    .col-md-12
+      %table.table.table-bordered.table-striped
+        %thead
+          %th
+            %b Title
+          %th
+            %b Status
+          %th
+        - @events.each do |event|
+          %tr
+            %td
+              = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
+            %td
+              = event.public_state
+              - if event.state == 'confirmed' && event.require_registration == true
+                (Pre-registered: #{pre_registered(event).count})
+              - if event.confirmed? && !@conference.user_registered?(current_user)
+                %br
+                = link_to "Register to attend", register_conference_path(@conference.short_title), :style => "font-size:10px;"
+            %td
+              .pull-right
+                - if event.transition_possible? :confirm
+                  = link_to "Confirm", conference_proposal_confirm_path(@conference.short_title, event, :send_mail=>false), :method => :put, :class => "btn btn-mini btn-success"
+                = link_to "Edit", edit_conference_proposal_path(@conference.short_title, event.id), :class => "btn btn-mini  btn-primary"
+                = link_to "Withdraw", conference_proposal_path(@conference.short_title, event.id), :method => :delete,
+                            :confirm => "Are you sure you want to withdraw this proposal?", :class => "btn btn-mini btn-danger"

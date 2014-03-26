@@ -1,8 +1,10 @@
-.row-fluid
-  .span12
+.row
+  .col-md-12
     %ul.nav.nav-tabs#myTab
       %li.active
         %a{:href=>"#registrations", "data-toggle"=>"tab"} Registrations
+      %li
+        %a{:href=>"#events", "data-toggle"=>"tab"} Events       
       %li
         %a{:href=>"#speakers", "data-toggle"=>"tab"} Speakers
       %li
@@ -11,6 +13,8 @@
     .tab-content
       .tab-pane.active#registrations
         = render :partial => 'registrations'
+      .tab-pane#events
+        = render :partial => 'events'
       .tab-pane#speakers
         = render :partial => 'speakers'
       .tab-pane#tickets

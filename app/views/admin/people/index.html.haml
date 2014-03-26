@@ -1,15 +1,14 @@
-.row-fluid
-  .span6
-    %h2
-      People
-      - if @people
-        = "(#{@people.length})"
-  .span6
-    .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
-      = link_to "New person", new_admin_person_path, :class => "btn btn-success"
+.row
+  .col-md-12
+    .page-header
+      %h1
+        People
+        - if @people
+          = "(#{@people.length})"
+        = link_to "New person", new_admin_person_path, :class => "btn btn-success pull-right"
 
-.row-fluid
-  .span12
+.row
+  .col-md-12
     .well
       %table.table.table-striped.table-bordered.table-hover#people
         %thead
