@@ -1,7 +1,6 @@
 Osem::Application.routes.draw do
-
-  devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
-
+  devise_for :users, :controllers => { :registrations => :registrations,:passwords=>:passwords }, :path => 'accounts'
+  
   namespace :admin do
     resources :users
     resources :people

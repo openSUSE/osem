@@ -1,5 +1,5 @@
 #new-supporter-dialog
-  = semantic_form_for :supporter_registration, :remote => true, :html => {:id => "supporter-add-form"}  do |f|
+  = semantic_form_for :supporter_registration, :html => {:id => "supporter-add-form"}  do |f|
     = f.input :name, :label => "Supporter Name"
     = f.input :email, :label => "Supporter Email"
     = f.input :supporter_level_id, :as => :select, :collection => @conference.supporter_levels
