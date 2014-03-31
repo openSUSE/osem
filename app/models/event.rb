@@ -34,7 +34,7 @@ class Event < ActiveRecord::Base
   validate :biography_exists
   validates :title, :presence => true
   validates :abstract, :presence => true
-  validates :media_type, inclusion: {in: self.media_types.values}
+  validates :media_type, :allow_nil => true, inclusion: {in: self.media_types.values}
 
   scope :confirmed, where(:state => "confirmed")
 
