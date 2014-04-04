@@ -121,6 +121,9 @@ class Admin::EventsController < ApplicationController
 
   def update_state
     event = Event.find(params[:id])
+    if params[:send_mail] == "true" and (event.conference.email_settings.accepted_email_template.nil? or event.conference.email_settings.rejected_email_template.nil?)
+      redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Update Email Template before Sending Mails") and return
+    end
     event.send(:"#{params[:transition]}!", :send_mail => params[:send_mail])
     expire_page :controller => '/schedule', :action => :index
     redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Updated state")
