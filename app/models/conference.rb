@@ -51,7 +51,9 @@ class Conference < ActiveRecord::Base
 
   validates_presence_of :title,
                         :short_title,
-                        :social_tag
+                        :social_tag,
+                        :start_date,
+                        :end_date
   validates_uniqueness_of :short_title
   validates_format_of :short_title, :with => /^[a-zA-Z0-9_-]*$/
    
