@@ -21,15 +21,12 @@ group :development, :test do
   gem 'sqlite3'
   gem 'thin'
   gem 'letter_opener'
+  gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'capybara', '1.1.2'
 end
 
 group :production do
   gem 'mysql2'
-  gem 'rspec-rails', '2.11.0'
-end
-
-group :test do
-  gem 'capybara', '1.1.2'
 end
 
 gem 'will_paginate'
