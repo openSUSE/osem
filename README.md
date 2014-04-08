@@ -45,3 +45,9 @@ OSEM is extensively (some would say maniacally ;-) documented. You can generate 
 bundle exec rdoc --op doc/app --all -f fivefish app 
 xdg-open doc/app/index.html 
 ```
+
+## Testing
+We are using [rspec](http://rspec.info/)+[capybara](http://jnicklas.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) as test suite. You *should* run it, whenever you change something, with
+```
+bundle exec rake rspec
+```
