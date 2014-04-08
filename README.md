@@ -1,16 +1,11 @@
 #OSEM
 The Open Source Event Manager. An event management tool tailored to Free and Open Source Software conferences.
 
-##Local Installation
+## Install OSEM
+You can run rails apps in different modes (development, production). For more information
+about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
 
-### Install Ruby and Ruby on Rails:
-
-* Install Ruby v. 1.9.3, guide at https://gist.github.com/AstonJ/2896818 for CentOS.
-  Debian has Ruby v. 1.9.3 packaged into the Testing suite already.
-* Install Apache + mod_passenger, an handy guide is available at:
-  http://nathanhoad.net/how-to-ruby-on-rails-ubuntu-apache-with-passenger
-
-### Install OSEM
+### Run OSEM in development
 1. Clone the git repository to the directory you want Apache to serve the content from.
 ```
 git clone https://github.com/openSUSE/osem.git
@@ -19,78 +14,34 @@ git clone https://github.com/openSUSE/osem.git
 ```
 bundle install
 ```
-3. Install ImageMagick
-
-* Fedora/CentOS:
-
-```
-yum install ImageMagick
-```
-
-* Ubuntu/Debian:
-
-```
-apt-get install imagemagick
-```
-
-4. Copy the sample configuration files
+3. Install ImageMagick from your distribution repository
+4. Copy the sample configuration files and adapt them
 ```
 cp config/config.yml.example config/config.yml
 cp config/database.yml.example config/database.yml
 ```
-
-5. Setup directories and permissions:
-```
-mkdir storage cache system
-```
-* Fedora/CentOS
-```
-chown apache storage cache system
-```
-* Debian/Ubuntu
-```
-chown www-data storage cache system
-```
-
 6. Setup the database
 ```
 bundle exec rake db:setup
-bundle exec rake db:migrate
-bundle exec rake db:seed
 ```
-
-7. Create a new Apache vhost that should look like this:
+7. Run OSEM
 ```
-<VirtualHost *:80>
-   ServerName osem.example.org
-   DocumentRoot /srv/http/osem.example.org/public
-   RailsEnv development
-
-   <Directory /srv/http/osem.example.org/public>
-     # This relaxes Apache security settings.
-     AllowOverride all
-     # MultiViews must be turned off.
-     Options -MultiViews
-   </Directory>
-</VirtualHost>
+rails server
 ```
+8. Visit the APP at 
+```
+http://localhost:3000
+```
+9. Sign up, the first user will be automatically assigned the admin role.
 
-7. Connect to osem.example.org and register your first user. Make also sure that Postfix is installed and configured on the system for the confirmation mail to pass through.
+### Run OSEM in production
+We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
+and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
+base operating systems. Check Google ;-)
 
-8. Just sign up as a new user and you will be automatically assigned as admin role.
-
-
-
-Caveats
-=======
-
-If you have problems with rails console, try this in the Gemfile: 
-
-* gem uninstall rb-readline
-* gem 'rb-readline', '~>0.4.2'
-
-If you have problems with jquery-ui, try this in the Gemfile:
-
-* gem "jquery-rails", "~> 2.3.0"
-
-Or make the needed change as explained at http://stackoverflow.com/questions/17830313/couldnt-find-file-jquery-ui.
+## Documentation
+OSEM is extensively (some would say maniacally ;-) documented. You can generate a nice HTML documentation with ''rdoc''
+```
+bundle exec rdoc --op doc/app --all -f fivefish app 
+xdg-open doc/app/index.html 
+```

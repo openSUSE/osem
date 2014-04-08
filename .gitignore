@@ -25,3 +25,4 @@ pickle-email-*.html
 *~
 /public/assets
 /bundle
+/doc/app

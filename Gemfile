@@ -23,6 +23,7 @@ group :development, :test do
   gem 'letter_opener'
   gem 'rspec-rails', '~> 3.0.0.beta'
   gem 'capybara', '1.1.2'
+  gem 'rdoc-generator-fivefish'
 end
 
 group :production do

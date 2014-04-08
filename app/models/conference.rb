@@ -1,3 +1,6 @@
+##
+# This class represents a conference
+
 class Conference < ActiveRecord::Base
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
@@ -61,41 +64,34 @@ class Conference < ActiveRecord::Base
   before_create :create_venue
   before_create :create_email_settings
 
-  def self.current
-    self.order("created_at DESC").first
-  end
-
-  def date_range_string
-    startstr = "Unknown - "
-    endstr = "Unknown"
-    if start_date.month == end_date.month && start_date.year == end_date.year
-      startstr = start_date.strftime("%B %d - ")
-      endstr = end_date.strftime("%d, %Y")
-    elsif start_date.month != end_date.month && start_date.year == end_date.year
-      startstr = start_date.strftime("%B %d - ")
-      endstr = end_date.strftime("%B %d, %Y")
-    else
-      startstr = start_date.strftime("%B %d, %Y - ")
-      endstr = end_date.strftime("%B %d, %Y")
-    end
-
-    result = startstr + endstr
-    result
-  end
-
+  ##
+  # Checks if the user is registered to the conference
+  #
+  # ====Args
+  # * +user+ -> The user we check for 
+  # ====Returns
+  # * +nil+ -> If the user doesn't exist
+  # * +false+ -> If the user is registered
+  # * +true+ - If the user isn't registered
   def user_registered? user
     return nil if user.nil?
     return nil if user.person.nil?
 
     if self.registrations.where(:person_id => user.person.id).count == 0
-      Rails.logger.debug("Returning false")
-      false
+      logger.debug("User #{user.email} isn't registered to self.title")
+      return false
     else
-      Rails.logger.debug("Returning true")
-      true
+      return true
     end
   end
 
+  ##
+  # Checks if the registration for the conference is currently open
+  #
+  # ====Returns
+  # * +false+ -> If the conference dates are not set or today isn't in the
+  #   registration period.
+  # * +true+ -> If today is in the registration period.
   def registration_open?
     today = Date.current
     if self.registration_start_date.nil? || self.registration_end_date.nil?
@@ -105,6 +101,12 @@ class Conference < ActiveRecord::Base
     (registration_start_date..registration_end_date).cover?(today)
   end
 
+  ##
+  # Checks if the call for papers for the conference is currently open
+  #
+  # ====Returns
+  # * +false+ -> If the CFP is not set or today isn't in the CFP period.
+  # * +true+ -> If today is in the CFP period.
   def cfp_open?
     today = Date.current
     cfp = self.call_for_papers
@@ -114,17 +116,28 @@ class Conference < ActiveRecord::Base
 
     return false
   end
+  
   private
 
+  ##
+  # Creates a venue and sets self.venue_id to it's id. Used as before_create.
+  #
   def create_venue
     self.venue_id = Venue.create.id
     true
   end
 
+  ##
+  # Creates a EmailSettings association proxy. Used as before_create.
+  #
   def create_email_settings
     build_email_settings
     true
   end
+
+  ##
+  # Creates a UID for the conference. Used as before_create.
+  #
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64
