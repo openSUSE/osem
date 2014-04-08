@@ -22,8 +22,9 @@ group :development, :test do
   gem 'thin'
   gem 'letter_opener'
   gem 'rspec-rails', '~> 3.0.0.beta'
-  gem 'capybara', '1.1.2'
+  gem 'capybara'
   gem 'rdoc-generator-fivefish'
+  gem 'factory_girl_rails'
 end
 
 group :production do

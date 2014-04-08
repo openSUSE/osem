@@ -6,7 +6,7 @@ class Conference < ActiveRecord::Base
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
                   :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes, :social_events_attributes,
                   :event_types_attributes, :registration_start_date, :registration_end_date, :logo,
-		  :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
+		              :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
                   :difficulty_levels_attributes, :use_difficulty_levels,
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers
 
@@ -94,7 +94,7 @@ class Conference < ActiveRecord::Base
   # * +true+ -> If today is in the registration period.
   def registration_open?
     today = Date.current
-    if self.registration_start_date.nil? || self.registration_end_date.nil?
+    if self.registration_start_date.blank? ||  self.registration_end_date.blank?
       false
     end
 

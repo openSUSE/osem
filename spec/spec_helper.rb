@@ -34,4 +34,12 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  # Include factory_girls syntax
+  config.include FactoryGirl::Syntax::Methods
+  
+  # As we start from scratch in April 2014, let's forbid the old :should syntax
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end 
 end

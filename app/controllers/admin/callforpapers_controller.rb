@@ -16,7 +16,7 @@ class Admin::CallforpapersController < ApplicationController
   end
 
   def create
-    @cfp = CallForPapers.new(params[:call_for_papers])
+    @cfp = CallForPapers.new(params[:call_for_papers]) 
     @conference.call_for_papers = @cfp
     if @cfp.save
       redirect_to(admin_conference_cfp_info_path(:id => @conference.short_title), :notice => 'Call for Papers was successfully updated.')
