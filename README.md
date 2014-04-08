@@ -77,13 +77,14 @@ bundle exec rake db:seed
 
 7. Connect to osem.example.org and register your first user. Make also sure that Postfix is installed and configured on the system for the confirmation mail to pass through.
 
-8. To make the first registered user an admin:
+<!-- 8. To make the first registered user an admin:
 ```
 rails console
 User.all
 me = User.find('1')
 me.role_ids=[3]
-```
+``` -->
+8. Login as Admin with email:admin@opensuse.org and password:admin1234
 
 Caveats
 =======

@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_one :person, :inverse_of => :user
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids, :person_attributes
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids, :person_attributes,:confirmed_at
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :roles
 

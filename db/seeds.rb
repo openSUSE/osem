@@ -9,6 +9,9 @@ Role.create(:name => "Participant")
 Role.create(:name => "Organizer")
 Role.create(:name => "Admin")
 
+#For first admin setup 
+User.create(email:"admin@opensuse.org", password:"admin1234", password_confirmation:"admin1234",role_ids:[3],confirmed_at:Time.now) 
+
 qtype_yesno = QuestionType.create(:title => "Yes/No")
 qtype_single = QuestionType.create(:title => "Single Choice")
 qtype_multiple = QuestionType.create(:title => "Multiple Choice")
