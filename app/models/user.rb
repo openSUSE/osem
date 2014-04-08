@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_one :person, :inverse_of => :user
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids, :person_attributes,:confirmed_at
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids, :person_attributes
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :roles
 
@@ -27,9 +27,13 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
+    if self.id == 1
+      self.role_ids = [3]
+    end
+    
     if self.role_ids.empty?
       self.role_ids = [1]
-      end
+    end
   end
 
   def popup_details
