@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140319143547) do
+ActiveRecord::Schema.define(:version => 20140401094729) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20140319143547) do
     t.boolean  "schedule_changes", :default => false
     t.integer  "rating",           :default => 3
     t.text     "rating_desc"
+    t.boolean  "schedule_public"
   end
 
   create_table "comments", :force => true do |t|
@@ -75,7 +76,7 @@ ActiveRecord::Schema.define(:version => 20140319143547) do
     t.boolean  "use_vpositions",          :default => false
     t.boolean  "use_vdays",               :default => false
     t.boolean  "use_difficulty_levels",   :default => false
-    t.boolean "use_volunteers"
+    t.boolean  "use_volunteers"
   end
 
   create_table "conferences_questions", :id => false, :force => true do |t|
@@ -170,8 +171,8 @@ ActiveRecord::Schema.define(:version => 20140319143547) do
     t.integer  "room_id"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.string "media_id"
-    t.string "media_type"
+    t.string   "media_id"
+    t.string   "media_type"
     t.boolean  "require_registration"
     t.integer  "difficulty_level_id"
   end
