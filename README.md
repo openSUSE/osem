@@ -1,3 +1,4 @@
+[![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
 #OSEM
 The Open Source Event Manager. An event management tool tailored to Free and Open Source Software conferences.
 
