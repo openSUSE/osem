@@ -77,13 +77,9 @@ bundle exec rake db:seed
 
 7. Connect to osem.example.org and register your first user. Make also sure that Postfix is installed and configured on the system for the confirmation mail to pass through.
 
-8. To make the first registered user an admin:
-```
-rails console
-User.all
-me = User.find('1')
-me.role_ids=[3]
-```
+8. Just sign up as a new user and you will be automatically assigned as admin role.
+
+
 
 Caveats
 =======

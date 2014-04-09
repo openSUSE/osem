@@ -27,9 +27,13 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
+    if self.id == 1
+      self.role_ids = [3]
+    end
+    
     if self.role_ids.empty?
       self.role_ids = [1]
-      end
+    end
   end
 
   def popup_details
