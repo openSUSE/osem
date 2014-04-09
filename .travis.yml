@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+  - 2.1.0
+branches:
+  only:
+    - master
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+before_install:
+  - "cp config/database.yml.example config/database.yml"
+  - "cp config/config.yml.example config/config.yml"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"

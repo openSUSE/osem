@@ -54,3 +54,4 @@ gem 'gravtastic'
 gem 'active_model_serializers'
 gem 'axlsx_rails'
 gem 'd3_rails'
+gem 'coveralls', require: false
