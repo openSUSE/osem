@@ -55,3 +55,6 @@ gem 'active_model_serializers'
 gem 'axlsx_rails'
 gem 'd3_rails'
 gem 'coveralls', require: false
+# Use a self-hosted errbit with the old notifier
+gem 'hoptoad_notifier', "~> 2.3"
+

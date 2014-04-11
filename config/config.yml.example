@@ -5,6 +5,9 @@ defaults: &defaults
   url_for_emails: localhost:3000
   # A secret key. You can generate one with 'rake secret'
   devise_secret_key: 12345 
+  # errbit configuration, get your own instance: https://github.com/errbit/errbit
+  #errbit_key: 123456789101112131415
+  #errbit_host: errbit.exmaple.com
 
 development:
   <<: *defaults

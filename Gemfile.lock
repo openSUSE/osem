@@ -97,6 +97,9 @@ GEM
     haml (4.0.5)
       tilt
     hike (1.2.3)
+    hoptoad_notifier (2.4.11)
+      activesupport
+      builder
     htmlentities (4.3.1)
     i18n (0.6.9)
     inversion (0.12.3)
@@ -170,7 +173,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.1.1)
+    rake (10.2.2)
     rdoc (3.12.2)
       json (~> 1.4)
     rdoc-generator-fivefish (0.0.1)
@@ -267,6 +270,7 @@ DEPENDENCIES
   formtastic-bootstrap
   gravtastic
   haml
+  hoptoad_notifier (~> 2.3)
   jquery-fileupload-rails
   jquery-rails
   jquery-ui-rails
