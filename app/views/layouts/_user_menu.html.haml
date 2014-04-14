@@ -1,15 +1,15 @@
 %li
   = link_to(edit_user_registration_path) do
-    %i.icon-wrench
+    %span.glyphicon.glyphicon-wrench
     Edit Account
 -if @conference and @conference.id
   %li
     = link_to(conference_proposal_index_path(@conference.short_title)) do
-      %i.icon-comment
+      %span.glyphicon.glyphicon-comment
       My Submissions
 %li
   = link_to(destroy_user_session_path, :method=>'delete') do
-    %i.icon-minus
+    %span.glyphicon.glyphicon-minus
     Sign out
 -if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
   %li.divider
@@ -18,21 +18,21 @@
   - @conferences.each do |conference|
     %li
       = link_to(admin_conference_path(conference.short_title)) do
-        %i.icon-cog
+        %span.glyphicon.glyphicon-cog
         Manage
         = conference.short_title
   %li
     = link_to(new_admin_conference_path) do
-      %i.icon-plus
+      %span.glyphicon.glyphicon-plus
       New Conference
   %li.divider
   %li.dropdown-header
     People
   %li
     = link_to(admin_users_path) do
-      %i.icon-user
+      %span.glyphicon.glyphicon-user
       Users
   %li
     = link_to(admin_people_path) do
-      %i.icon-star-empty
+      %span.glyphicon.glyphicon-star-empty
       People

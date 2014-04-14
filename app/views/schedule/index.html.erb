@@ -47,30 +47,32 @@
                          rowspan ="<%= span[room.id] %>"
                          class="event" role="button"
                          data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
+                    <%- if speaker = event[0].speakers.first %>
+                      <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right",
+							  :alt => speaker.public_name,
+							  :title => speaker.public_name,
+							  :style => "padding:8px;" %>
+                    <%- end %>
                     <h5>
-                      <%- if speaker = event[0].speakers.first %>
-                        <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right", :alt => speaker.public_name, :title => speaker.public_name, :style => "padding:8px;" %>
-                      <%- end %>
-                      <span class="schedule-title">
-                      <i class="icon-comment"></i>
+                      <span class="glyphicon glyphicon-comment"></span>
                       <%= event[0].title %>
-                      </span>
                       <% unless event[0].subtitle.empty? %>
-                        <span class="schedule-subtitle">
-                        <%= event[0].subtitle %>
-                        </span>
+			<span class="schedule-subtitle">
+			  <%= event[0].subtitle %>
+                        <span>
                       <% end %>
+                    </h5>
+		      </span>
                       <span class="schedule-speaker">
-                      <i class="icon-user"></i>
-                      <%= "#{speaker.first_name} #{speaker.last_name}" %>
+                        <span class="glyphicon glyphicon-user"></span>
+                        <%= "#{speaker.first_name} #{speaker.last_name}" %>
                       </span>
                       <% if event[0].track%>
                         <span class="schedule-track">
-                        <i class="icon-road"></i>
-                        <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+                          <span class="glyphicon glyphicon-road"></span>
+                          <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
                         </span>
                         <% end -%>
-                    </h5>
                    </td>
                    <% span[room.id] = span[room.id] + 1 %>
                   <% elsif  span[room.id] > 1 %>
