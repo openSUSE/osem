@@ -31,7 +31,7 @@
     %br
     %br
     = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
-    = f.input :media_type, :as => :select, :label => "Media Type", :collection => Event.media_types.values, :include_blank => false
+    = f.input :media_type, :as => :select, :label => "Media Type", :collection => Conference.media_types.values, :include_blank => false
     %p{:class => "help-block media-type", :id => "youtube-help"} Go to your YouTube video, click on "share" and copy everything behind http://youtu.be/"
     %p{:class => "help-block media-type", :id => "slideshare-help", :style => "display:none"} Go to your SlideShare, click on "share" -> "embed" and copy the id
     %p{:class => "help-block media-type", :id => "flickr-help", :style => "display:none"} Go to your flickr image, click on "Grab the link" -> "Show short url" and copy everything behind https://flic.kr/p/
