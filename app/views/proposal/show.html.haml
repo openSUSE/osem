@@ -23,42 +23,28 @@
           %span.label{:style =>"background-color: #{@event.track.color};"}
             = @event.track.name
   .col-md-9
-    -unless @event.media_id
-      .row
-        .col-md-12
-          %h5.text-error
+    .row
+      .col-md-12
+        - if @event.media_id.blank?
+          %h5.text-warning
             No video of the event yet, sorry! Meanwhile...
-    .row
-      .col-md-13
-        -if not @event.media_id.blank?
           .flexvideo
-            -if @event.media_type == Event.media_types[:slideshare]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "www.slideshare.net/slideshow/embed_code/#{@event.media_id}"}
-            -elsif @event.media_type == Event.media_types[:flickr]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "flic.kr/p/#{@event.media_id}/player/268a054da2"}
-            -elsif @event.media_type == Event.media_types[:vimeo]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//player.vimeo.com/video/#{@event.media_id}"}
-            -elsif @event.media_type == Event.media_types[:speakerdeck]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//speakerdeck.com/player/#{@event.media_id}?"}
-            -elsif @event.media_type == Event.media_types[:instagram]
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :scrolling =>"no", :allowtransparency=>"true", :src=> "//instagram.com/p/#{@event.media_id}/embed/"}
-            -else
-              %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "www.youtube.com/embed/#{@event.media_id}?rel=0"}
-        -else
-          %div.well.well-lg="No video of the event yet, sorry! Meanwhile..."
+            = render partial: "shared/media_item", locals: {media_type: @conference.media_type, media_id: @conference.media_id}
+        - else
+          .flexvideo
+            = render partial: "shared/media_item", locals: {media_type: @event.media_type, media_id: @event.media_id}
     .row
-      .col-md-8
-        %h3
-          by
-          = @speaker.public_name
-          - if @speaker.company?
-            %br
-            %span.muted
-              from
-              = @speaker.company
-        -if @speaker.biography?
-          = simple_format(@speaker.biography)
-      .col-md-4
-        = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"
-
-
+      .speakerinfo
+        .col-md-8
+          %h3
+            by
+            = @speaker.public_name
+            - if @speaker.company?
+              %br
+              %span.muted
+                from
+                = @speaker.company
+          -if @speaker.biography?
+            = simple_format(@speaker.biography)
+        .col-md-4
+          = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"

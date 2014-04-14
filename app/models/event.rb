@@ -25,16 +25,11 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :people
   before_create :generate_guid
 
-  def self.media_types
-    media_types = {:youtube => 'YouTube', :slideshare => 'SlideShare',  :flickr => 'Flickr', :vimeo => 'Vimeo', :speakerdeck => 'Speakerdeck', :instagram => 'Instagram'}
-    return media_types
-  end
-
   validate :abstract_limit
   validate :biography_exists
   validates :title, :presence => true
   validates :abstract, :presence => true
-  validates :media_type, :allow_nil => true, inclusion: {in: self.media_types.values}
+  validates :media_type, :allow_nil => true, inclusion: {in: Conference.media_types.values}
 
   scope :confirmed, where(:state => "confirmed")
 

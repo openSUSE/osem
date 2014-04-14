@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140401094729) do
+ActiveRecord::Schema.define(:version => 20140414131028) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -77,6 +77,8 @@ ActiveRecord::Schema.define(:version => 20140401094729) do
     t.boolean  "use_vdays",               :default => false
     t.boolean  "use_difficulty_levels",   :default => false
     t.boolean  "use_volunteers"
+    t.string   "media_id"
+    t.string   "media_type"
   end
 
   create_table "conferences_questions", :id => false, :force => true do |t|

@@ -8,7 +8,8 @@ class Conference < ActiveRecord::Base
                   :event_types_attributes, :registration_start_date, :registration_end_date, :logo,
 		              :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
                   :difficulty_levels_attributes, :use_difficulty_levels,
-                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers
+                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
+                  :media_id, :media_type
 
   has_paper_trail
 
@@ -63,6 +64,12 @@ class Conference < ActiveRecord::Base
   before_create :generate_guid
   before_create :create_venue
   before_create :create_email_settings
+
+  def self.media_types
+    media_types = {:youtube => 'YouTube', :slideshare => 'SlideShare',  :flickr => 'Flickr', :vimeo => 'Vimeo', :speakerdeck => 'Speakerdeck', :instagram => 'Instagram'}
+    return media_types
+  end
+
 
   ##
   # Checks if the user is registered to the conference

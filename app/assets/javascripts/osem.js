@@ -4,6 +4,11 @@ $(function() {
         $('#' + $(this).val().toLowerCase() + '-help').show();
     });
 
+    $("#conference_media_type").change(function () {
+        $(".media-type").hide();
+        $('#' + $(this).val().toLowerCase() + '-help').show();
+    });
+
     $('.dropdown-toggle').dropdown();
     $("#conference-start-datepicker").datepicker({
         dateFormat: 'yy/mm/dd',
