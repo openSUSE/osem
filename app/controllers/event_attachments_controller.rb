@@ -95,19 +95,18 @@ class EventAttachmentsController < ApplicationController
   end
 
   def destroy
-    if organizer_or_admin?
-      @upload = Upload.find(params[:id])
-    else
-      @proposal = current_user.person.events.find(params[:proposal_id])
+    @proposal = Event.find(params[:proposal_id])
+    
+    if organizer_or_admin? || current_user.person == @proposal.submitter
       @upload = @proposal.event_attachments.find(params[:id])
     end
-
-    @upload.destroy if !@upload.nil?
-
-    respond_to do |format|
-
-      format.html { redirect_to uploads_url }
-      format.json { head :no_content }
+    
+    if @upload.destroy
+      flash[:notice] = "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" 
+    else
+      flash[:error] = "Attachment could not be deleted."
     end
+    
+    redirect_back_or_to conference_proposal_index_path(@conference.short_title)
   end
 end
