@@ -14,6 +14,7 @@
             %table.table.table-striped
               %thead
                 %th
+                %th
                   %b Filename
                 %th
                   %b Title
@@ -22,23 +23,9 @@
                 %th
                   %b Public
                 %th
+                %th
               %tbody.files
-                - @event.event_attachments.each do |a|
-                  %tr
-                    %td
-                      = link_to a.attachment_file_name, conference_proposal_event_attachment_path(@conference.short_title, @event.id, a.id)
-                    %td
-                      = a.title
-                    %td
-                      = number_to_human_size a.attachment_file_size
-                    %td
-                      - if a.public?
-                        Public
-                      - else
-                        Not Public
-                    %td
-                      = link_to "Delete", conference_proposal_event_attachment_path(@conference.short_title, @event.id, a.id),
-                        :method => :delete, :confirm => "Are you sure you want to delete this attachment?  It's permanant!"
+
 
             .row-fluid.fileupload-buttonbar
               .btn.btn-success.fileinput-button
@@ -76,16 +63,15 @@
     {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
       <td class="preview"><span class="fade"></span></td>
-      <td class="name"><span>{%=file.name%}</span></td>
+      <td class="name"><span>{%=file.name%}</span>
+        <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+      </td>
       <td class="name"><input type="text" name="title[]" value="{%=file.name%}"/></td>
       <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
       <td class="name"><input checked type="checkbox" name="public">Public</input></td>
       {% if (file.error) { %}
-      <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+      <td class="error"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
       {% } else if (o.files.valid && !i) { %}
-      <td>
-        <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-      </td>
       <td class="start">{% if (!o.options.autoUpload) { %}
         <button class="btn btn-primary">
           <span class="glyphicon glyphicon-upload"></span>
@@ -93,7 +79,7 @@
         </button>
         {% } %}</td>
       {% } else { %}
-      <td colspan="2"></td>
+      <td></td>
       {% } %}
       <td class="cancel">{% if (!i) { %}
         <button class="btn btn-warning">
@@ -123,9 +109,8 @@
           <td>{%=file.title%}</td>
           <td class="size">{%=o.formatFileSize(file.size)%}</td>
           <td>{%=file.public%}</td>
-          <td colspan="2"></td>
           {% } %}
-        <td class="delete">
+        <td class="delete" colspan="2">
           <button class="btn btn-danger pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
             <span class="glyphicon glyphicon-trash"></i>
             <span>{%=locale.fileupload.destroy%}</span>

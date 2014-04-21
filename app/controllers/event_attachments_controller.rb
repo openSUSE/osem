@@ -5,10 +5,11 @@ class EventAttachmentsController < ApplicationController
   def index
     @proposal = Event.find(params[:proposal_id])
     @uploads = @proposal.event_attachments
+    @uploads = @uploads.map{|upload| upload.to_jq_upload }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: {files: @uploads.map{|upload| upload.to_jq_upload } }}
+      format.json { render json: @uploads.to_json}
     end
   end
 
@@ -101,12 +102,13 @@ class EventAttachmentsController < ApplicationController
       @upload = @proposal.event_attachments.find(params[:id])
     end
     
-    if @upload.destroy
-      flash[:notice] = "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" 
-    else
-      flash[:error] = "Attachment could not be deleted."
-    end
+    @upload.destroy if !@upload.nil?
     
-    redirect_back_or_to conference_proposal_index_path(@conference.short_title)
+    respond_to do |format|
+
+      format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), :notice => "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
+
+      format.json { head :no_content }
+    end
   end
 end
