@@ -3,12 +3,13 @@ class EventAttachmentsController < ApplicationController
   skip_before_filter :verify_user, :only => [:show]
 
   def index
-    @proposal = current_user.person.events.find(params[:proposal_id])
+    @proposal = Event.find(params[:proposal_id])
     @uploads = @proposal.event_attachments
+    @uploads = @uploads.map{|upload| upload.to_jq_upload }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
+      format.json { render json: @uploads.to_json}
     end
   end
 
@@ -95,18 +96,18 @@ class EventAttachmentsController < ApplicationController
   end
 
   def destroy
-    if organizer_or_admin?
-      @upload = Upload.find(params[:id])
-    else
-      @proposal = current_user.person.events.find(params[:proposal_id])
+    @proposal = Event.find(params[:proposal_id])
+    
+    if organizer_or_admin? || current_user.person == @proposal.submitter
       @upload = @proposal.event_attachments.find(params[:id])
     end
-
+    
     @upload.destroy if !@upload.nil?
-
+    
     respond_to do |format|
 
-      format.html { redirect_to uploads_url }
+      format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), :notice => "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
+
       format.json { head :no_content }
     end
   end
