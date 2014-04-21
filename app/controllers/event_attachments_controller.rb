@@ -3,12 +3,12 @@ class EventAttachmentsController < ApplicationController
   skip_before_filter :verify_user, :only => [:show]
 
   def index
-    @proposal = current_user.person.events.find(params[:proposal_id])
+    @proposal = Event.find(params[:proposal_id])
     @uploads = @proposal.event_attachments
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
+      format.json { render json: {files: @uploads.map{|upload| upload.to_jq_upload } }}
     end
   end
 
