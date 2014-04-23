@@ -106,13 +106,15 @@ class Admin::EventsController < ApplicationController
     if params.has_key? :difficulty_level_id
       @event.update_attribute(:difficulty_level_id, params[:difficulty_level_id])
     end
-    if @event.update_attributes(params[:event]) && @event.submitter.update_attributes(params[:person])
+
+    if @event.submitter.update_attributes!(params[:person]) && @event.update_attributes!(params[:event])
       flash[:notice] = "Successfully updated #{@event.title}."
     else
       flash[:notice] = "Update not successful."
     end
+    
     expire_page :controller => '/schedule', :action => :index
-    redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event), :notice => "Updated")
+    redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
   end
 
   def create
