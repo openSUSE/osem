@@ -1,60 +1,92 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.17'
+# Use rails as framework 
+gem 'rails', '4.0.0'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# Use mysql as the database for Active Record
+gem 'mysql2'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-#  gem 'coffee-rails', '~> 3.2.1'
+# Use rails-observers for observing records
+gem 'rails-observers'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
+# User paper_trail for tracking data changes
+gem 'paper_trail'
 
-  gem 'uglifier', '>= 1.2.2'
-end
+# Use devise as authentification framework
+gem 'devise'
 
-group :development, :test do
-  gem 'pry'
-  gem 'sqlite3'
-  gem 'thin'
-  gem 'letter_opener'
-  gem 'rspec-rails', '~> 3.0.0.beta'
-  gem 'capybara'
-  gem 'rdoc-generator-fivefish'
-  gem 'factory_girl_rails'
-end
+# Use cancan as authorization framework
+gem 'cancan'
 
-group :production do
-  gem 'mysql2'
-end
+# Use transitions as state machine
+gem 'transitions', :require => ["transitions", "active_record/transitions"]
 
-gem 'will_paginate'
-gem 'paperclip', '~> 3.0'
+# Use acts_as_commentable_with_threading for comments
+gem 'acts_as_commentable_with_threading'
+
+# Use haml as templating language
+gem "haml-rails"
+
+# Use SCSS for stylesheets
+gem "sass-rails", ">= 4.0.2"
+
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+
+# Use bootstrap as the front-end framework
+gem 'bootstrap-sass'
+gem 'formtastic-bootstrap'
+
+
+# Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-fileupload-rails'
-gem 'devise'
-gem 'cancan'
-gem "haml"
-gem 'bcrypt-ruby', '~> 3.0.0'
-#gem 'node'
-gem 'paper_trail'
-gem 'formtastic-bootstrap'
-gem 'bootstrap-sass'
-gem 'sass-rails', '>= 3.2'
 gem 'cocoon'
-gem 'transitions', :require => ["transitions", "active_record/transitions"]
-gem 'acts_as_commentable_with_threading'
+
+# Use gravtastic for user avatars
+gem 'gravtastic'
+
+# Use paperclip for upload management
+gem 'paperclip'
+
+# Use prawn as PDF generator
 gem 'prawn'
 gem 'prawn_rails'
-gem 'gravtastic'
-gem 'active_model_serializers'
+
+# Use axlsx_rails to render XLS spreadsheets
 gem 'axlsx_rails'
+
+# Use d3js for building our statistics
 gem 'd3_rails'
+
+# We use coveralls for measuring test coverage
 gem 'coveralls', require: false
 # Use a self-hosted errbit with the old notifier
 gem 'hoptoad_notifier', "~> 2.3"
+gem 'rails-observers'
 
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+
+# Use active_model_serializers for JSON serializatioin our API
+gem 'active_model_serializers'
+
+# Use sqlite3 as the database in development
+gem 'sqlite3', group: [:development]
+
+# Use letter_opener to open mails in development
+gem 'letter_opener', group: [:development]
+
+# Use rspec and capybara as testing framework
+gem 'rspec-rails', '~> 3.0.0.beta', group: [:test]
+gem 'capybara', group: [:test]
+
+# FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/ 
+gem 'protected_attributes'
+
+# We use this bootstrap/html5 rdoc generator
+gem 'rdoc-generator-fivefish'
+
+# We use factory_girl for seeds 
+gem 'factory_girl_rails'

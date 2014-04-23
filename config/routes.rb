@@ -17,13 +17,13 @@ Osem::Application.routes.draw do
       delete "/registrations"  => "registrations#delete"
       put "/registrations/change_field" => "registrations#change_field"
       get "/emailsettings" => "emails#show", :as => "email_settings"
-      put "/emailsettings" => "emails#update", :as => "email_settings"
-      get "/supporter_levels" => "SupporterLevels#show"
-      put "/supporter_levels" => "SupporterLevels#update"
+      put "/emailsettings" => "emails#update"
+      get "/supporter_levels" => "supporter_levels#show"
+      put "/supporter_levels" => "supporter_levels#update"
       get "/venue" => "venue#show", :as => "venue_info"
       put "/venue" => "venue#update", :as => "venue_update"
-      get "/social_events" => "SocialEvents#show", :as => "social_events"
-      put "/social_events" => "SocialEvents#update", :as => "social_events"
+      get "/social_events" => "social_events#show", :as => "social_events"
+      put "/social_events" => "social_events#update"
       get "/rooms" => "rooms#show", :as => "rooms_list"
       put "/rooms" => "rooms#update", :as => "rooms_update"
       get "/tracks" => "tracks#show", :as => "tracks_list"
@@ -57,16 +57,16 @@ Osem::Application.routes.draw do
 
   resources :conference, :only => [] do
     resources :proposal do
-      resources :event_attachment, :controller => "EventAttachments"
+      resources :event_attachment, :controller => "event_attachments"
       put "/confirm" => "proposal#confirm"
     end
     resource :schedule, :only => [] do
       get "/" => "schedule#index"
     end
     member do
-      get "/register" => "ConferenceRegistration#register"
-      put "/register" => "ConferenceRegistration#update"
-      delete "/register" => "ConferenceRegistration#unregister"
+      get "/register" => "conference_registration#register"
+      put "/register" => "conference_registration#update"
+      delete "/register" => "conference_registration#unregister"
     end
   end
 
@@ -86,7 +86,7 @@ Osem::Application.routes.draw do
     end
   end
 
-  match "/admin" => redirect("/admin/conference")
+  get "/admin" => redirect("/admin/conference")
 
   root :to => "home#index"
 end

@@ -37,7 +37,13 @@
     #footer
       .container
         %p.muted.text-center
-          OSEM is (C) 2013
-          = link_to "Matt Barringer", "http://incoherent.de"
-          and released under the GPL.  You can get the source code from
-          = link_to "Github.", "https://github.com/mbarringer/osem"
+          %small
+            ©#{Date.today.year}
+            = link_to "Matt Barringer.", "http://incoherent.de"
+            This tool is
+            =link_to "free software,", "http://www.gnu.org/philosophy/free-sw.html"
+            released under the
+            =link_to "MIT license.", "http://opensource.org/licenses/MIT"
+            You can run, copy, distribute, study, change and improve it.
+            The source code and the developers are on
+            =link_to "github.", "https://github.com/openSUSE/osem"

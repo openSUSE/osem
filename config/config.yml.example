@@ -1,8 +1,12 @@
 defaults: &defaults
+  # The name of your instance
+  name: OSEM
   # The sender address of emails
   devise_mail_sender: "no-reply@localhost"
   # The hostname to be used when building the URL in the emails
   url_for_emails: "localhost:3000"
+  # A secret key for your rails app. You can generate one with 'rake secret'
+  secret_key: 12345 
   # A secret key. You can generate one with 'rake secret'
   devise_secret_key: '12345' 
   # errbit configuration, get your own instance: https://github.com/errbit/errbit

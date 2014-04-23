@@ -7,7 +7,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to "OSEM", root_path, :class => 'navbar-brand', :title => "Open Source Event Manager"
+      = link_to CONFIG['name'], root_path, :class => 'navbar-brand', :title => "Open Source Event Manager"
     .collapse.navbar-collapse
       - if @conference && !@conference.short_title.nil?
         %p.navbar-text
