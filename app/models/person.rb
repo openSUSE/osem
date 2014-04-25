@@ -6,7 +6,7 @@ class Person < ActiveRecord::Base
 
   belongs_to :user, :inverse_of => :person
   has_many :event_people, :dependent => :destroy
-  has_many :events, :through => :event_people, :uniq => true
+  has_many :events, -> { uniq }, :through => :event_people
   has_many :registrations, :dependent => :destroy
   has_many :votes, :dependent => :destroy
   has_many :voted_events, :through => :votes, :source => :events
