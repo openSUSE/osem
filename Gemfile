@@ -64,7 +64,6 @@ gem 'd3_rails'
 gem 'coveralls', require: false
 # Use a self-hosted errbit with the old notifier
 gem 'hoptoad_notifier', "~> 2.3"
-gem 'rails-observers'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
