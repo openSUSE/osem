@@ -59,7 +59,7 @@ bundle exec rake rspec
 We are always looking for contributions to OSEM. Here is how you can: 
 
 * Fork the repository and make a pull-request with your changes
-  * Make sure that the test suite passes (we have travis enabled) before you request a pull and that you comply to our ruby stlyeguide (we make use of [hound-ci](https://houndci.com/)).
+  * Make sure that the test suite passes (we have travis enabled) before you request a pull and that you comply to our ruby styleguide (we make use of [hound-ci](https://houndci.com/)).
   * Please make sure to mind what travis and hound tell you! :-)
 * One of the OSEM maintainers will review your pull-request 
   * If you are already a contributor (means you're in the [group osem-committers](https://github.com/orgs/openSUSE/teams/osem-committers)) and you get a positive review, you can merge your pull-request yourself
