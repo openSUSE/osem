@@ -51,7 +51,9 @@ xdg-open doc/app/index.html
 ```
 
 ## Testing
-We are using [rspec](http://rspec.info/)+[capybara](http://jnicklas.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) as test suite. You *should* run it, whenever you change something, with
+We are using [rspec](http://rspec.info/)+[capybara](http://jnicklas.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) to build test suite. You *should* run it continuously when you are developing, via:
 ```
-bundle exec rake rspec
+bundle exec guard
 ```
+This uses [spring](https://github.com/rails/spring) to provide a
+[fast feedback loop for the red/green cycle](http://bitzesty.com/blog/2013/05/enable-tdd-with-faster-ruby-on-rails-stack-reloading/).
