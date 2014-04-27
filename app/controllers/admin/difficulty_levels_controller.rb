@@ -2,7 +2,7 @@ class Admin::DifficultyLevelsController < ApplicationController
   before_filter :verify_organizer
   
   def index
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
   end
 
   def update

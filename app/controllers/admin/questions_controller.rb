@@ -2,19 +2,19 @@ class Admin::QuestionsController < ApplicationController
   before_filter :verify_organizer
 
   def index
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
     @questions = Question.where(:global => true).all | Question.where(:conference_id => @conference.id)
     @questions_conference = @conference.questions
     @new_question = @conference.questions.new
   end
 
   def new
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
     @new_question = @conference.questions.new
   end
 
   def create
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
     @question = @conference.questions.new(params[:question])
     @question.conference_id = @conference.id
 
@@ -30,7 +30,7 @@ class Admin::QuestionsController < ApplicationController
 
   # GET questions/1/edit
   def edit
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
     @question = Question.find(params[:id])
     
     if @question.global == true && !has_role?(current_user, "Admin")
@@ -41,7 +41,7 @@ class Admin::QuestionsController < ApplicationController
   # PUT questions/1
   def update
        
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
     @question = Question.find(params[:id])
 
     if @question.update_attributes(params[:question])
@@ -53,7 +53,7 @@ class Admin::QuestionsController < ApplicationController
 
   # Update questions used for the conference
   def update_conference
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
 
     if @conference.update_attributes(params[:conference])
       redirect_to(admin_conference_questions_path(:conference_id => @conference.short_title), :notice => "Questions for #{@conference.short_title} successfully updated.")

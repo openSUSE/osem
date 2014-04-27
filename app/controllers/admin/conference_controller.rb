@@ -23,7 +23,7 @@ class Admin::ConferenceController < ApplicationController
   end
 
   def update
-    @conference = Conference.find_all_by_short_title(params[:id]).first
+    @conference = Conference.where(short_title: params[:id]).first
     @conference.update_attributes(params[:conference])
     flash[:notice] = "Updated Conference"
     redirect_to(admin_conference_path(:id => @conference.short_title), :notice => 'Conference was successfully updated.')
@@ -31,7 +31,7 @@ class Admin::ConferenceController < ApplicationController
 
   def show
     @conferences = Conference.all
-    @conference = Conference.find_all_by_short_title(params[:id]).first
+    @conference = Conference.where(short_title: params[:id]).first
     respond_to do |format|
       format.html
       format.json { render :json => @conference.to_json }

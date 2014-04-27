@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       return false
     end
 
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.where(short_title: params[:conference_id]).first
     true
   end
 
