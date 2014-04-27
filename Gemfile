@@ -36,6 +36,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use bootstrap as the front-end framework
 gem 'bootstrap-sass'
 gem 'formtastic-bootstrap'
+gem 'formtastic', '~> 2.3.0.rc3'
 
 
 # Use jquery as the JavaScript library

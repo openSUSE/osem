@@ -90,7 +90,7 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
-    formtastic (2.2.1)
+    formtastic (2.3.0.rc3)
       actionpack (>= 3.0)
     formtastic-bootstrap (3.0.0)
       formtastic (>= 2.2)
@@ -183,7 +183,7 @@ GEM
       yajl-ruby (~> 1.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rspec-collection_matchers (0.0.3)
+    rspec-collection_matchers (0.0.4)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.0.0.beta2)
       rspec-support (= 3.0.0.beta2)
@@ -264,6 +264,7 @@ DEPENDENCIES
   d3_rails
   devise
   factory_girl_rails
+  formtastic (~> 2.3.0.rc3)
   formtastic-bootstrap
   gravtastic
   haml-rails
