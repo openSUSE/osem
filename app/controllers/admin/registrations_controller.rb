@@ -53,11 +53,11 @@ class Admin::RegistrationsController < ApplicationController
     @person = Person.new
     @registration = @person.registrations.new
     @supporter_registration = @conference.supporter_registrations.new
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.find_by(short_title: params[:conference_id])
   end
   
   def create
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.find_by(short_title: params[:conference_id])
     email = params[:registration][:person].delete(:user)[:email]
     @person = Person.find_by_email email
     @registration = nil
