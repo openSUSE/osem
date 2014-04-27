@@ -3,7 +3,7 @@ class ConferenceRegistrationController < ApplicationController
 
   def register
     # TODO Figure out how to change the route's id from :id to :conference_id
-    @conference = Conference.find_by(short_title: params[:id]).first
+    @conference = Conference.find_by(short_title: params[:id])
     @workshops = @conference.events.where("require_registration = ? AND state LIKE ?", true, 'confirmed')
     @person = current_user.person
     if @person.first_name.blank? || @person.last_name.blank?
