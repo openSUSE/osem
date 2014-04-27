@@ -1,11 +1,11 @@
 class Admin::VolunteersController < ApplicationController
   def index
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.find_by(short_title: params[:conference_id])
     render :index
   end
   
   def show
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.find_by(short_title: params[:conference_id])
     if @conference.use_vpositions
       @volunteers = @conference.registrations.joins(:vchoices).uniq
     else
@@ -14,7 +14,7 @@ class Admin::VolunteersController < ApplicationController
   end
 
   def update
-    @conference = Conference.find_all_by_short_title(params[:conference_id]).first
+    @conference = Conference.find_by(short_title: params[:conference_id])
     begin
       @conference.update_attributes!(params[:conference])
       redirect_to(admin_conference_volunteers_info_path(:conference_id => params[:conference_id]), :notice => "Volunteering options were successfully updated.")
