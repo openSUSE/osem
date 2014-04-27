@@ -3,7 +3,7 @@ class ConferenceRegistrationController < ApplicationController
 
   def register
     # TODO Figure out how to change the route's id from :id to :conference_id
-    @conference = Conference.find_all_by_short_title(params[:id]).first
+    @conference = Conference.where(short_title: params[:id]).first
     @workshops = @conference.events.where("require_registration = ? AND state LIKE ?", true, 'confirmed')
     @person = current_user.person
     if @person.first_name.blank? || @person.last_name.blank?
@@ -24,7 +24,7 @@ class ConferenceRegistrationController < ApplicationController
 
   # TODO this is ugly
   def update
-    conference = Conference.find_all_by_short_title(params[:id]).first
+    conference = Conference.where(short_title: params[:id]).first
     person = current_user.person
     registration = person.registrations.where(:conference_id => conference.id).first
     update_registration = true
@@ -80,7 +80,7 @@ class ConferenceRegistrationController < ApplicationController
   end
 
   def unregister
-    conference = Conference.find_all_by_short_title(params[:id]).first
+    conference = Conference.where(short_title: params[:id]).first
     person = current_user.person
     registration = person.registrations.where(:conference_id => conference.id).first
     registration.destroy
