@@ -16,8 +16,8 @@ Osem::Application.routes.draw do
       put "/registrations/edit" => "registrations#update"
       delete "/registrations"  => "registrations#delete"
       put "/registrations/change_field" => "registrations#change_field"
-      get "/emailsettings" => "emails#show", :as => "email_settings"
-      put "/emailsettings" => "emails#update"
+      #get "/emailsettings" => "emails#show", :as => "email_settings"
+      #put "/emailsettings" => "emails#update"
       get "/venue" => "venue#show", :as => "venue_info"
       put "/venue" => "venue#update", :as => "venue_update"
       get "/dietary_choices" => "dietchoices#show", :as => "dietary_list"
@@ -35,6 +35,7 @@ Osem::Application.routes.draw do
       resources :eventtype, :only => [ :show, :update, :index ]
       resources :social_events, :only => [ :show, :update, :index ]
       resources :supporter_levels, :only => [ :show, :update, :index ]
+      resources :emails, :only => [ :show, :update, :index ]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do

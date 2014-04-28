@@ -18,8 +18,8 @@
       = link_to "Social Events", admin_conference_social_events_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_supporter_levels_path(@conference.short_title))}
       = link_to "Supporter Levels", admin_conference_supporter_levels_path(@conference.short_title)
-    %li{:class=> active_nav_li(admin_conference_email_settings_path(@conference.short_title))}
-      = link_to "Emails", admin_conference_email_settings_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
+      = link_to "Emails", admin_conference_emails_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}
       = link_to "Questions", admin_conference_questions_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_volunteers_info_path(@conference.short_title))}
