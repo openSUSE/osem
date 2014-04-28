@@ -45,7 +45,7 @@
             %td
               = user.roles.map { |role| role.name }.join ','
             %td
-              .modal.hide.fade{:id => "user-role-selection-#{user.id}", "role" => "dialog", "aria-hidden" => "true"}
+              .modal.fade{:id => "user-role-selection-#{user.id}", "role" => "dialog", "aria-hidden" => "true"}
                 .modal-header
                   %button{"type"=>"button", :class=>"close", "data-dismiss"=>"modal", "aria-hidden"=>"true"}
                     ×
