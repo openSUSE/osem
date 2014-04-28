@@ -32,12 +32,11 @@ Osem::Application.routes.draw do
       get "/cfp" => "callforpapers#show", :as => "cfp_info"
       put "/cfp" => "callforpapers#update", :as => "cfp_update"
       post "/cfp" => "callforpapers#create", :as => "cfp_create"
-      get "/event_types" => "eventtype#show", :as => "eventtype_list"
-      put "/event_types" => "eventtype#update", :as => "eventtype_update"
 
       resources :difficulty_levels, :only => [ :show, :update, :index ]
       resources :rooms, :only => [ :show, :update, :index ]
       resources :tracks, :only => [ :show, :update, :index ]
+      resources :eventtype, :only => [ :show, :update, :index ]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do

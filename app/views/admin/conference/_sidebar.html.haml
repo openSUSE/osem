@@ -10,8 +10,8 @@
       = link_to "Rooms", admin_conference_rooms_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
       = link_to "Tracks", admin_conference_tracks_path(@conference.short_title)
-    %li{:class=> active_nav_li(admin_conference_eventtype_list_path(@conference.short_title))}
-      = link_to "Event Types", admin_conference_eventtype_list_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_eventtype_index_path(@conference.short_title))}
+      = link_to "Event Types", admin_conference_eventtype_index_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
       = link_to "Difficulty Levels", admin_conference_difficulty_levels_path(@conference.short_title)      
     %li{:class=> active_nav_li(admin_conference_social_events_path(@conference.short_title))}
