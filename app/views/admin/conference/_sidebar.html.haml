@@ -6,8 +6,8 @@
       = link_to "Venue", admin_conference_venue_info_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_cfp_info_path(@conference.short_title))}
       = link_to "Call for Papers", admin_conference_cfp_info_path(@conference.short_title)
-    %li{:class=> active_nav_li(admin_conference_rooms_list_path(@conference.short_title))}
-      = link_to "Rooms", admin_conference_rooms_list_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
+      = link_to "Rooms", admin_conference_rooms_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_tracks_list_path(@conference.short_title))}
       = link_to "Tracks", admin_conference_tracks_list_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_eventtype_list_path(@conference.short_title))}
