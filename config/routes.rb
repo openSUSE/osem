@@ -24,8 +24,6 @@ Osem::Application.routes.draw do
       put "/venue" => "venue#update", :as => "venue_update"
       get "/social_events" => "social_events#show", :as => "social_events"
       put "/social_events" => "social_events#update"
-      get "/tracks" => "tracks#show", :as => "tracks_list"
-      put "/tracks" => "tracks#update", :as => "tracks_update"
       get "/dietary_choices" => "dietchoices#show", :as => "dietary_list"
       put "/dietary_choices" => "dietchoices#update", :as => "dietary_update"
       get "/volunteers_list" => "volunteers#show"
@@ -39,6 +37,7 @@ Osem::Application.routes.draw do
 
       resources :difficulty_levels, :only => [ :show, :update, :index ]
       resources :rooms, :only => [ :show, :update, :index ]
+      resources :tracks, :only => [ :show, :update, :index ]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do
