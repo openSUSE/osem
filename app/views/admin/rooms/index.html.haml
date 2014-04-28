@@ -2,6 +2,6 @@
   .col-md-3
     = render 'admin/conference/sidebar'
   .col-md-9
-    = semantic_form_for(@conference, :url => admin_conference_room_path(:conferecene_id => @conference.short_title, :id => @conference.rooms)) do |f|
+    = semantic_form_for(@conference, :url => admin_conference_room_path(@conference.short_title, @conference.rooms)) do |f|
       = dynamic_association :rooms, "Rooms", f
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

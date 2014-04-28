@@ -2,7 +2,7 @@ class Admin::EventtypeController < ApplicationController
   before_filter :verify_organizer
 
   def show
-    render :event_type_list
+    render :eventtype_list
   end
 
   def update
