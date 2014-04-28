@@ -38,8 +38,8 @@ Osem::Application.routes.draw do
       post "/cfp" => "callforpapers#create", :as => "cfp_create"
       get "/event_types" => "eventtype#show", :as => "eventtype_list"
       put "/event_types" => "eventtype#update", :as => "eventtype_update"
-      put "/difficulty_levels" => "difficulty_levels#update"
-      resources :difficulty_levels
+      #put "/difficulty_levels" => "difficulty_levels#update"
+      resources :difficulty_levels, :only => [ :show, :update, :index ]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do
