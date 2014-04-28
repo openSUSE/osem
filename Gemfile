@@ -79,8 +79,11 @@ gem 'sqlite3', group: [:development]
 gem 'letter_opener', group: [:development]
 
 # Use rspec and capybara as testing framework
-gem 'rspec-rails', '~> 3.0.0.beta', group: [:test]
-gem 'capybara', group: [:test]
+group :development, :test do
+  gem 'rspec', '>= 3.0.0.beta'
+  gem 'rspec-rails', '>= 3.0.0.beta'
+  gem 'capybara'
+end
 
 # FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/ 
 gem 'protected_attributes'
@@ -90,3 +93,9 @@ gem 'rdoc-generator-fivefish'
 
 # We use factory_girl for seeds 
 gem 'factory_girl_rails'
+
+# Use guard and spring for testing in development
+group :development do
+  gem 'guard-rspec', '~> 4.2.8'
+  gem 'spring-commands-rspec'
+end
