@@ -24,14 +24,14 @@ Osem::Application.routes.draw do
       get "/volunteers" => "volunteers#index", :as => "volunteers_info"
       put "/volunteers" => "volunteers#update", :as => "volunteers_update"
 
-      resources :difficulty_levels, :only => [ :show, :update, :index ]
-      resources :rooms, :only => [ :show, :update, :index ]
-      resources :tracks, :only => [ :show, :update, :index ]
-      resources :eventtype, :only => [ :show, :update, :index ]
-      resources :social_events, :only => [ :show, :update, :index ]
-      resources :supporter_levels, :only => [ :show, :update, :index ]
-      resources :emails, :only => [ :show, :update, :index ]
-      resources :callforpapers, :only => [ :show, :update, :index ]
+      resources :difficulty_levels, only: [:show, :update, :index]
+      resources :rooms, only: [:show, :update, :index]
+      resources :tracks, only: [:show, :update, :index]
+      resources :eventtype, only: [:show, :update, :index]
+      resources :social_events, only: [:show, :update, :index]
+      resources :supporter_levels, only: [:show, :update, :index]
+      resources :emails, only: [:show, :update, :index]
+      resources :callforpapers, only: [:show, :update, :index]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do
