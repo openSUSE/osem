@@ -24,7 +24,7 @@
         %tr
           %td {eventtitle}
           %td The title of an accepted or rejected proposal
-    = semantic_form_for(@settings, :url => admin_conference_email_settings_path(@conference.short_title),:html => {:multipart => true}) do |f|
+    = semantic_form_for(@settings, :url => admin_conference_email_path(@conference.short_title, @conference.email_settings),:html => {:multipart => true}) do |f|
       = f.input :send_on_registration, :label => false, :hint => "Send an email when the user registers for the conference?"
       = f.input :registration_subject
       = f.input :registration_email_template, :input_html => { :rows => 10, :cols => 20}

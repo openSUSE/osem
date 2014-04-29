@@ -16,30 +16,22 @@ Osem::Application.routes.draw do
       put "/registrations/edit" => "registrations#update"
       delete "/registrations"  => "registrations#delete"
       put "/registrations/change_field" => "registrations#change_field"
-      get "/emailsettings" => "emails#show", :as => "email_settings"
-      put "/emailsettings" => "emails#update"
-      get "/supporter_levels" => "supporter_levels#show"
-      put "/supporter_levels" => "supporter_levels#update"
       get "/venue" => "venue#show", :as => "venue_info"
       put "/venue" => "venue#update", :as => "venue_update"
-      get "/social_events" => "social_events#show", :as => "social_events"
-      put "/social_events" => "social_events#update"
-      get "/rooms" => "rooms#show", :as => "rooms_list"
-      put "/rooms" => "rooms#update", :as => "rooms_update"
-      get "/tracks" => "tracks#show", :as => "tracks_list"
-      put "/tracks" => "tracks#update", :as => "tracks_update"
       get "/dietary_choices" => "dietchoices#show", :as => "dietary_list"
       put "/dietary_choices" => "dietchoices#update", :as => "dietary_update"
       get "/volunteers_list" => "volunteers#show"
       get "/volunteers" => "volunteers#index", :as => "volunteers_info"
       put "/volunteers" => "volunteers#update", :as => "volunteers_update"
-      get "/cfp" => "callforpapers#show", :as => "cfp_info"
-      put "/cfp" => "callforpapers#update", :as => "cfp_update"
-      post "/cfp" => "callforpapers#create", :as => "cfp_create"
-      get "/event_types" => "eventtype#show", :as => "eventtype_list"
-      put "/event_types" => "eventtype#update", :as => "eventtype_update"
-      put "/difficulty_levels" => "difficulty_levels#update"
-      resources :difficulty_levels
+
+      resources :difficulty_levels, only: [:show, :update, :index]
+      resources :rooms, only: [:show, :update, :index]
+      resources :tracks, only: [:show, :update, :index]
+      resources :eventtype, only: [:show, :update, :index]
+      resources :social_events, only: [:show, :update, :index]
+      resources :supporter_levels, only: [:show, :update, :index]
+      resources :emails, only: [:show, :update, :index]
+      resources :callforpapers, only: [:show, :update, :index]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do

@@ -2,6 +2,6 @@
   .col-md-3
     = render 'admin/conference/sidebar'
   .col-md-9
-    = semantic_form_for(@conference, :url => admin_conference_eventtype_update_path(@conference.short_title)) do |f|
+    = semantic_form_for(@conference, :url => admin_conference_eventtype_path(@conference.short_title, @conference.event_types)) do |f|
       = dynamic_association :event_types, "Event Types", f
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
