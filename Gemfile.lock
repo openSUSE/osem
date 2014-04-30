@@ -182,6 +182,8 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -318,9 +320,9 @@ DEPENDENCIES
   mysql2
   paper_trail
   paperclip
-  prawn
   prawn_rails
   protected_attributes
+  quiet_assets
   rails (~> 4.1)
   rails-observers
   rdoc-generator-fivefish
