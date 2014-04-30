@@ -19,7 +19,13 @@ git clone https://github.com/openSUSE/osem.git
 bundle install
 ```
 3. Install ImageMagick from your distribution repository
-4. Copy the sample configuration files and adapt them
+4. Generate secret key for devise and the rails app with 
+```
+rake secret
+```
+Look at config/config.yml.example.
+
+5. Copy the sample configuration files and adapt them
 ```
 cp config/config.yml.example config/config.yml
 cp config/database.yml.example config/database.yml
@@ -28,6 +34,7 @@ cp config/database.yml.example config/database.yml
 ```
 bundle exec rake db:setup
 ```
+
 7. Run OSEM
 ```
 rails server
