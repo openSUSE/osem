@@ -12,6 +12,7 @@ defaults: &defaults
   # errbit configuration, get your own instance: https://github.com/errbit/errbit
   #errbit_key: 123456789101112131415
   #errbit_host: errbit.exmaple.com
+  cookies_secret_token: 'secretstringwhichshouldbechanged'
 
 development:
   <<: *defaults
