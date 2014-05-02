@@ -56,6 +56,9 @@
           %h3
             by
             = @speaker.public_name
+            (
+            = @speaker.email
+            )
             - if @speaker.company?
               %br
               %span.muted
