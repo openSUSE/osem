@@ -7,7 +7,8 @@ class Admin::UsersController < ApplicationController
                                   people.first_name AS first_name,
                                   people.public_name AS public_name,
                                   people.email AS email').
-                                  joins(:person).load.order('people.last_name ASC')
+                                  joins(:person).load.
+                                  order('people.last_name ASC')
   end
 
   def update
