@@ -2,7 +2,7 @@
   .col-md-3
     = render 'admin/conference/sidebar'
   .col-md-9
-    = semantic_form_for(@cfp, :url => admin_conference_callforpaper_path(@conference.short_title, @conference.call_for_papers),:html => {:multipart => true}) do |f|
+    = semantic_form_for(@cfp, url: @url,:html => {:multipart => true}) do |f|
       = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
       = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
       = f.input :hard_deadline, :as => :string, :input_html => { :id => "cfp-hard-datepicker", :readonly => "readonly"  }
