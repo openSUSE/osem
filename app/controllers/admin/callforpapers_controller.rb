@@ -18,10 +18,11 @@ class Admin::CallforpapersController < ApplicationController
                   @conference.short_title),
                   notice: 'Call for Papers was successfully updated.')
     else
-      flash.now[:error] = 'Call for Papers update failed. ' + @cfp.errors.full_messages.map {|e| e.humanize + "."}.join(" ")
+      flash.now[:error] = 'Call for Papers update failed. ' + 
+	                   @cfp.errors.full_messages.map { |e| e.humanize + '.' }.join(' ')
 
       @url = admin_conference_callforpaper_path(@conference.short_title, @cfp)
-      render action: "index"
+      render action: 'index'
     end
   end
 
@@ -33,7 +34,8 @@ class Admin::CallforpapersController < ApplicationController
                   @conference.short_title),
                   notice: 'Call for Papers was successfully created.')
     else
-      flash.now[:error] = 'Call for Papers creation failed. ' + @cfp.errors.full_messages.map {|e| e.humanize + "."}.join(" ")
+      flash.now[:error] = 'Call for Papers creation failed. ' + 
+	                   @cfp.errors.full_messages.map { |e| e.humanize + '.' }.join(' ')
 
       @url = admin_conference_callforpapers_path(@conference.short_title)
       render action: "index"
