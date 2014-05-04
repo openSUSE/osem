@@ -31,7 +31,7 @@ Osem::Application.routes.draw do
       resources :social_events, only: [:show, :update, :index]
       resources :supporter_levels, only: [:show, :update, :index]
       resources :emails, only: [:show, :update, :index]
-      resources :callforpapers, only: [:show, :update, :index]
+      resources :callforpapers, only: [:create, :update, :index]
       put "/questions/update_conference" => "questions#update_conference"
       resources :questions
       resources :events do
