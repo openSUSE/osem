@@ -26,3 +26,5 @@ pickle-email-*.html
 /public/assets
 /bundle
 /doc/app
+/config/secrets.yml
+/db/schema.rb
