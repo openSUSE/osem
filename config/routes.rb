@@ -8,7 +8,6 @@ Osem::Application.routes.draw do
     resources :users
     resources :people
     resources :conference do
-      get "conferences/(:title)" => "conferences#show"
       get "/schedule" => "schedule#show"
       put "/schedule" => "schedule#update"
       get "/stats" => "stats#index"
