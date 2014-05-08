@@ -6,6 +6,7 @@ require File.expand_path("../../config/environment", __FILE__)
 
 if Rails.configuration.database_configuration['test']['database'] == ':memory:'
   load "#{Rails.root}/db/schema.rb"
+  load "#{Rails.root}/db/seeds.rb"
 end
 
 require 'rspec/rails'
