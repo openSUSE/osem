@@ -1,6 +1,5 @@
 Osem::Application.routes.draw do
-
-  get 'conferences/show'
+  
 
   devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
 
@@ -50,6 +49,7 @@ Osem::Application.routes.draw do
   end
 
   resources :conference, :only => [] do
+    get '/show' => 'conference#show'
     resources :proposal do
       resources :event_attachment, :controller => "event_attachments"
       put "/confirm" => "proposal#confirm"
