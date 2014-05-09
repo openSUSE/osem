@@ -3,6 +3,12 @@ Coveralls.wear!('rails')
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
+
+if Rails.configuration.database_configuration['test']['database'] == ':memory:'
+  load "#{Rails.root}/db/schema.rb"
+  load "#{Rails.root}/db/seeds.rb"
+end
+
 require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -39,9 +45,9 @@ RSpec.configure do |config|
 
   # Include factory_girls syntax
   config.include FactoryGirl::Syntax::Methods
-  
+
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
     c.syntax = :expect
-  end 
+  end
 end
