@@ -13,6 +13,6 @@ class Admin::EventtypesController < ApplicationController
   rescue Exception => e
     redirect_to(admin_conference_eventtypes_path(
                 conference_id: @conference.short_title),
-                alert: 'Event types update failed: #{e.message}')
+                alert: "Event types update failed: #{e.message}")
   end
 end

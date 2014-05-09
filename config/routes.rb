@@ -27,7 +27,11 @@ Osem::Application.routes.draw do
       resources :difficulty_levels, only: [:show, :update, :index]
       resources :rooms, only: [:show, :update, :index]
       resources :tracks, only: [:show, :update, :index]
-      resources :eventtypes, only: [:show, :update, :index]
+      resources :eventtypes, only: [:show, :index] do
+        collection do
+          patch :update
+        end
+      end
       resources :social_events, only: [:show, :update, :index]
       resources :supporter_levels, only: [:show, :update, :index]
       resources :emails, only: [:show, :update, :index]

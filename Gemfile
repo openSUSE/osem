@@ -19,16 +19,16 @@ gem 'devise'
 gem 'cancan'
 
 # Use transitions as state machine
-gem 'transitions', :require => ["transitions", "active_record/transitions"]
+gem 'transitions', :require => %w( transitions active_record/transitions )
 
 # Use acts_as_commentable_with_threading for comments
 gem 'acts_as_commentable_with_threading'
 
 # Use haml as templating language
-gem "haml-rails"
+gem 'haml-rails'
 
 # Use SCSS for stylesheets
-gem "sass-rails", ">= 4.0.2"
+gem 'sass-rails', '>= 4.0.2'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -52,7 +52,6 @@ gem 'gravtastic'
 gem 'paperclip'
 
 # Use prawn as PDF generator
-gem 'prawn'
 gem 'prawn_rails'
 
 # Use axlsx_rails to render XLS spreadsheets
@@ -64,19 +63,13 @@ gem 'd3_rails'
 # We use coveralls for measuring test coverage
 gem 'coveralls', require: false
 # Use a self-hosted errbit with the old notifier
-gem 'hoptoad_notifier', "~> 2.3"
+gem 'hoptoad_notifier', '~> 2.3'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
 # Use active_model_serializers for JSON serializatioin our API
 gem 'active_model_serializers'
-
-# Use sqlite3 as the database in development
-gem 'sqlite3', group: [:development]
-
-# Use letter_opener to open mails in development
-gem 'letter_opener', group: [:development]
 
 # Use rspec and capybara as testing framework
 group :development, :test do
@@ -96,6 +89,13 @@ gem 'factory_girl_rails'
 
 # Use guard and spring for testing in development
 group :development do
+  # rspec Guard rules
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
+  # Silence rack assests messages
+  gem 'quiet_assets'
+  # Use sqlite3 as the database in development
+  gem 'sqlite3'
+  # Use letter_opener to open mails in development
+  gem 'letter_opener'
 end
