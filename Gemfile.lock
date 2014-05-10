@@ -81,6 +81,7 @@ GEM
       thor
     d3_rails (3.4.6)
       railties (>= 3.1.0)
+    database_cleaner (1.2.0)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -305,6 +306,7 @@ DEPENDENCIES
   cocoon
   coveralls
   d3_rails
+  database_cleaner
   devise
   factory_girl_rails
   formtastic (~> 2.3.0.rc3)
