@@ -4,10 +4,6 @@ Coveralls.wear!('rails')
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
-if Rails.configuration.database_configuration['test']['database'] == ':memory:'
-  load "#{Rails.root}/db/schema.rb"
-end
-
 require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
