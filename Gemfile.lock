@@ -55,6 +55,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-webkit (1.1.0)
+      capybara (~> 2.0, >= 2.0.2)
+      json
     celluloid (0.15.2)
       timers (~> 1.1.0)
     celluloid-io (0.15.0)
@@ -303,6 +306,7 @@ DEPENDENCIES
   bootstrap-sass
   cancan
   capybara
+  capybara-webkit
   cocoon
   coveralls
   d3_rails

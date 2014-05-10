@@ -44,6 +44,9 @@ RSpec.configure do |config|
   # Enables devise sign_in function
   config.include Devise::TestHelpers, type: :controller
 
+  # Use capybara-webkit as default javascript driver
+  Capybara.javascript_driver = :webkit
+
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
     c.syntax = :expect

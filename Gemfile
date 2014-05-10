@@ -77,6 +77,7 @@ group :development, :test do
   gem 'rspec-rails', '>= 3.0.0.beta'
   gem 'capybara'
   gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
 
 # FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/ 
