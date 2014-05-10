@@ -1,4 +1,38 @@
-.row
-	.col-md-12
-		%h1
-			= @conference.title
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    %title= content_for?(:title) ? yield(:title) : "OSEM"
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    %nav{:class=>"navbar navbar-default", :role => "navigation"}
+      %div{:class => "container-fluid"}
+        %div{ :class => "navbar-header" }
+          %button{ :type=> "button", :class => "navbar-toggle", :data => {:toggle => "collapse", :target => "#navbar-collapse"}}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a{ :class=>"navbar-brand",:href=>"#" }
+            = @conference.short_title
+        %div{:class=>"collapse navbar-collapse",:id=>"navbar-collapse"}
+          %ul{:class=>"nav navbar-nav"}
+            %li
+              %a{:href=>"#"} Program
+            %li
+              %a{:href=>"#"} Location
+            %li
+              %a{:href=>"#"} Registration
+            %li
+              %a{:href=>"#"} CfP
+            %li
+              %a{:href=>"#"} Sponsors
+            %li
+              %a{:href=>"#"} Press
+            
+  %body
+    
+
