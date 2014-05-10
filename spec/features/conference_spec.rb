@@ -17,7 +17,8 @@ feature Conference do
 
       click_button 'Create Conference'
 
-      expect(page.find('#flash_notice').text).to eq('Conference was successfully created.')
+      expect(page.find('#flash_notice').text).
+          to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
     end
 
@@ -32,7 +33,8 @@ feature Conference do
       fill_in 'conference_social_tag', with: 'NewCon'
 
       click_button 'Update Conference'
-      expect(page.find('#flash_notice').text).to eq('Conference was successfully updated.')
+      expect(page.find('#flash_notice').text).
+          to eq('Conference was successfully updated.')
 
       conference.reload
       expect(conference.title).to eq('New Con')
