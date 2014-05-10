@@ -12,6 +12,8 @@ feature Conference do
       fill_in 'conference_short_title', with: 'ExCon'
       fill_in 'conference_social_tag', with: 'ExCon'
 
+      select('(GMT+01:00) Berlin', from: 'conference[timezone]')
+
       page.execute_script("$('#conference-start-datepicker').val('21/12/2014')")
       page.execute_script("$('#conference-end-datepicker').val('24/12/2014')")
 
