@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :roles
 
-  before_save :setup_role
+  before_create :setup_role
   before_create :create_person
 
   def role?(role)
@@ -27,12 +27,14 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    if self.id == 1
-      self.role_ids = [3]
+    if User.count == 0
+      admin = Role.where(name: 'Admin').first
+      self.role_ids = [admin.id] unless admin.nil?
     end
-    
+
     if self.role_ids.empty?
-      self.role_ids = [1]
+      participant = Role.where(name: 'Participant').first
+      self.role_ids = [participant.id] unless participant.nil?
     end
   end
 
