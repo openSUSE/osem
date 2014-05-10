@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
 
   def role?(role)
     Rails.logger.debug("Checking role in user")
-    return !!self.roles.find_by_name(role.to_s.downcase.camelize)
+    !!roles.find_by_name(role.to_s.downcase.camelize)
   end
 
   def get_roles
