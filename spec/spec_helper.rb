@@ -47,6 +47,9 @@ RSpec.configure do |config|
   # Use capybara-webkit as default javascript driver
   Capybara.javascript_driver = :webkit
 
+  # Includes support/login_macros for feature tests
+  config.include LoginMacros, type: :feature
+
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
     c.syntax = :expect
