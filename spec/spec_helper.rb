@@ -1,8 +1,8 @@
 require 'coveralls'
 Coveralls.wear!('rails')
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
 
 if Rails.configuration.database_configuration['test']['database'] == ':memory:'
   load "#{Rails.root}/db/schema.rb"
@@ -18,7 +18,7 @@ require 'rspec/rails'
 # run twice. It is recommended that you do not name files matching this glob to
 # end with _spec.rb. You can configure this pattern with with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -41,16 +41,16 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  config.order = 'random'
 
   # Include factory_girls syntax
   config.include FactoryGirl::Syntax::Methods
 
+  # Enables devise sign_in function
+  config.include Devise::TestHelpers, type: :controller
+
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
     c.syntax = :expect
-
-  # Enables devise sign_in function
-  config.include Devise::TestHelpers, type: :controller
   end
 end

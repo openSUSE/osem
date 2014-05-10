@@ -59,10 +59,11 @@ describe Admin::ConferenceController do
     describe 'POST #create' do
       context 'with valid attributes' do
         it 'saves the conference to the database' do
-          expect {
+          expected = expect do
             post :create, conference:
                 attributes_for(:conference, short_title: 'dps15')
-          }.to change(Conference, :count).by(1)
+          end
+          expected.to change { Conference.count }.by 1
         end
 
         it 'redirects to conference#show' do
@@ -76,10 +77,11 @@ describe Admin::ConferenceController do
 
       context 'with invalid attributes' do
         it 'does not save the conference to the database' do
-          expect {
+          expected = expect do
             post :create, conference:
                 attributes_for(:conference, short_title: nil)
-          }.to_not change(Conference, :count)
+          end
+          expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
@@ -91,9 +93,11 @@ describe Admin::ConferenceController do
 
       context 'with duplicate conference short title' do
         it 'does not save the conference to the database' do
-          expect {
-            post :create, conference: attributes_for(:conference)
-          }.to_not change(Conference, :count)
+          expected = expect do
+            post :create, conference:
+                attributes_for(:conference)
+          end
+          expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
