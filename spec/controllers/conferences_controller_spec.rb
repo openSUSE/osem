@@ -87,7 +87,7 @@ describe Admin::ConferenceController do
         it 're-renders the new template' do
           post :create, conference:
               attributes_for(:conference, short_title: nil)
-          expect(response).to render_template :new
+          expect(response).to redirect_to new_admin_conference_path
         end
       end
 
@@ -102,7 +102,7 @@ describe Admin::ConferenceController do
 
         it 're-renders the new template' do
           post :create, conference: attributes_for(:conference)
-          expect(response).to render_template :new
+          expect(response).to redirect_to new_admin_conference_path
         end
       end
     end
