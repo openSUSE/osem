@@ -1,10 +1,8 @@
-#!/bin/env ruby
-# encoding: utf-8
 require 'spec_helper'
 
 describe User do
 
-  # It is necessary to build roles before user
+  # It is necessary to use bang version of let to build roles before user
   let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
   let!(:admin_role) { create(:admin_role) }
