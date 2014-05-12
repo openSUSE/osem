@@ -10,7 +10,7 @@ require File.expand_path("../../config/environment", __FILE__)
 # end
 
 require 'rspec/rails'
-
+ActiveRecord::Migration.maintain_test_schema!
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -47,7 +47,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
 
   # Includes support/login_macros for feature tests
-  config.include SigninMacros, type: :feature
+  config.include SignInMacros, type: :feature
   
   # Include factory_girls syntax
   config.include FactoryGirl::Syntax::Methods

@@ -7,4 +7,11 @@ FactoryGirl.define do
     password_confirmation 'changeme'
     confirmed_at Time.now
   end
+  factory :admin, class: User do
+   	sequence(:email) {|n|'gopesh#{n}@exampleco.in'}
+    password 'changeme'
+    password_confirmation 'changeme'
+    confirmed_at Time.now
+    after(:create) { |user| user.role_ids = [3] }
+  end
 end
