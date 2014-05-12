@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   before_create :setup_role
   before_create :create_person
 
+  delegate :last_name, :first_name, :public_name, to: :person
+
   def role?(role)
     Rails.logger.debug("Checking role in user")
     !!roles.find_by_name(role.to_s.downcase.camelize)
