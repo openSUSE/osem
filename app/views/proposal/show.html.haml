@@ -6,6 +6,9 @@
         %br
         %small
           = @event.subtitle
+      = link_to "Schedule", conference_schedule_path(@conference.short_title), :class =>"btn btn-success pull-right"
+      - if has_role?(current_user, "admin")
+        = link_to "Edit", edit_admin_conference_event_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary pull-right"
 .row
   .col-md-3
     %p
@@ -13,6 +16,12 @@
     %dl
       %dt Date:
       %dd= @event.start_time.strftime("%Y %B %e %H:%M") if @event.start_time
+      %dt Duration:
+      %dd= show_time(@event.event_type.length)
+      %dt Room:
+      %dd
+        - if @event.room_id
+          = @event.room.name
       %dt Conference:
       %dd= @event.conference.title
       %dt Language:
@@ -22,6 +31,13 @@
         - if @event.track_id
           %span.label{:style =>"background-color: #{@event.track.color};"}
             = @event.track.name
+      %dt Difficulty:
+      %dd
+        - if @event.difficulty_level_id
+          %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
+            = @event.difficulty_level.title
+    - if @event.require_registration
+      = link_to "Registration required!", register_conference_path(@conference.short_title), :class => "btn btn-xs btn-warning"
   .col-md-9
     .row
       .col-md-12
@@ -42,6 +58,9 @@
           %h3
             by
             = @speaker.public_name
+            (
+            = @speaker.email
+            )
             - if @speaker.company?
               %br
               %span.muted
