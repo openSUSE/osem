@@ -2,54 +2,58 @@ require 'spec_helper'
 
 describe Admin::ConferenceController do
 
-  shared_examples 'access as administration or organizer' do
+  let(:conference) { create(:conference) }
+  let(:admin) { create(:admin) }
+  let(:organizer) { create(:organizer) }
+  let(:participant) { create(:participant) }
 
+  shared_examples 'access as administration or organizer' do
     describe 'PATCH #update' do
       context 'valid attributes' do
-        it 'locates the requested @conference' do
-          patch :update, id: @conference.short_title, conference:
+        it 'locates the requested conference' do
+          patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
 
-          expect(assigns(:conference)).to eq(@conference)
+          expect(assigns(:conference)).to eq(conference)
         end
 
-        it 'changes @conference attributes' do
-          patch :update, id: @conference.short_title, conference:
+        it 'changes conference attributes' do
+          patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                                          short_title: 'ExCon')
+                             short_title: 'ExCon')
 
-          @conference.reload
-          expect(@conference.title).to eq('Example Con')
-          expect(@conference.short_title).to eq('ExCon')
+          conference.reload
+          expect(conference.title).to eq('Example Con')
+          expect(conference.short_title).to eq('ExCon')
         end
 
-        it 'redirects to the updated @conference' do
-          patch :update, id: @conference.short_title, conference:
+        it 'redirects to the updated conference' do
+          patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
 
           expect(response).to redirect_to admin_conference_path(
-                                              @conference.short_title)
+                                              conference.short_title)
         end
       end
 
       context 'invalid attributes' do
         it 'does not change conference attributes' do
-          patch :update, id: @conference.short_title, conference:
+          patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                                          short_title: nil)
+                             short_title: nil)
 
-          @conference.reload
-          expect(@conference.title).to eq('The dog and pony show')
-          expect(@conference.short_title).to eq('dps14')
+          conference.reload
+          expect(conference.title).to eq('The dog and pony show')
+          expect(conference.short_title).to eq('dps14')
         end
 
         it 're-renders the #show template' do
-          patch :update, id: @conference.short_title, conference:
+          patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                                          short_title: nil)
+                             short_title: nil)
 
           expect(response).to redirect_to admin_conference_path(
-                                              @conference.short_title)
+                                              conference.short_title)
         end
       end
     end
@@ -91,6 +95,7 @@ describe Admin::ConferenceController do
 
       context 'with duplicate conference short title' do
         it 'does not save the conference to the database' do
+          conference
           expected = expect do
             post :create, conference:
                 attributes_for(:conference)
@@ -99,6 +104,7 @@ describe Admin::ConferenceController do
         end
 
         it 're-renders the new template' do
+          conference
           post :create, conference: attributes_for(:conference)
           expect(response).to redirect_to new_admin_conference_path
         end
@@ -106,33 +112,43 @@ describe Admin::ConferenceController do
     end
 
     describe 'GET #show' do
-      it 'assigns the requested conference to @conference' do
-        get :show, id: @conference.short_title
-        expect(assigns(:conference)).to eq @conference
+      it 'assigns the requested conference to conference' do
+        get :show, id: conference.short_title
+        expect(assigns(:conference)).to eq conference
       end
 
       it 'renders the show template' do
-        get :show, id: @conference.short_title
+        get :show, id: conference.short_title
         expect(response).to render_template :show
       end
     end
 
     describe 'GET #index' do
-      it 'populates an array with conferences' do
-        con2 = create(:conference, short_title: 'dps15',
-                                   title: 'The dog and pony show 2015')
-        get :index
-        expect(assigns(:conferences)).to match_array([@conference, con2])
+      context 'with more than 0 conferences' do
+        it 'populates an array with conferences' do
+          con2 = create(:conference, short_title: 'dps15',
+                        title: 'The dog and pony show 2015')
+          get :index
+          expect(assigns(:conferences)).to match_array([conference, con2])
+        end
+
+        it 'renders the index template' do
+          conference
+          get :index
+          expect(response).to render_template :index
+        end
       end
 
-      it 'renders the index template' do
-        get :index
-        expect(response).to render_template :index
+      context 'no conferences' do
+        it 'redirect to new conference' do
+          get :index
+          expect(response).to redirect_to(redirect_to new_admin_conference_path)
+        end
       end
     end
 
     describe 'GET #new' do
-      it 'assigns a new conference to @conference' do
+      it 'assigns a new conference to conference' do
         get :new
         expect(assigns(:conference)).to be_a_new(Conference)
       end
@@ -145,10 +161,9 @@ describe Admin::ConferenceController do
   end
 
   describe 'administrator access' do
+
     before(:each) do
-      @conference = create(:conference)
-      @admin = create(:admin)
-      sign_in(@admin)
+      sign_in(admin)
     end
 
     it_behaves_like 'access as administration or organizer'
@@ -156,10 +171,9 @@ describe Admin::ConferenceController do
   end
 
   describe 'organizer access' do
+
     before(:each) do
-      @conference = create(:conference)
-      @organizer = create(:organizer)
-      sign_in(@organizer)
+      sign_in(organizer)
     end
 
     it_behaves_like 'access as administration or organizer'
@@ -169,7 +183,7 @@ describe Admin::ConferenceController do
   shared_examples 'access as participant or guest' do |success_path|
     describe 'GET #show' do
       it 'requires admin privileges' do
-        get :show, id: @conference.short_title
+        get :show, id: conference.short_title
         expect(response).to redirect_to(send(success_path))
       end
     end
@@ -198,9 +212,9 @@ describe Admin::ConferenceController do
 
     describe 'PATCH #update' do
       it 'requires admin privileges' do
-        patch :update, id: @conference.short_title,
-                       conference: attributes_for(:conference,
-                                                  short_title: 'ExCon')
+        patch :update, id: conference.short_title,
+              conference: attributes_for(:conference,
+                                         short_title: 'ExCon')
         expect(response).to redirect_to(send(success_path))
       end
     end
@@ -208,9 +222,7 @@ describe Admin::ConferenceController do
 
   describe 'participant access' do
     before(:each) do
-      @conference = create(:conference)
-      @participant = create(:participant)
-      sign_in(@participant)
+      sign_in(participant)
     end
 
     it_behaves_like 'access as participant or guest', :root_path
@@ -218,10 +230,6 @@ describe Admin::ConferenceController do
   end
 
   describe 'guest access' do
-
-    before(:each) do
-      @conference = create(:conference)
-    end
 
     it_behaves_like 'access as participant or guest', :new_user_session_path
 
