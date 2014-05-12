@@ -4,13 +4,13 @@ Coveralls.wear!('rails')
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 
-if Rails.configuration.database_configuration['test']['database'] == ':memory:'
-  load "#{Rails.root}/db/schema.rb"
-  load "#{Rails.root}/db/seeds.rb"
-end
+# if Rails.configuration.database_configuration['test']['database'] == ':memory:'
+#   load "#{Rails.root}/db/schema.rb"
+#   load "#{Rails.root}/db/seeds.rb"
+# end
 
 require 'rspec/rails'
-
+ActiveRecord::Migration.maintain_test_schema!
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -30,19 +30,25 @@ RSpec.configure do |config|
   # config.mock_with :rr
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+  
+  # Enables devise sign_in function
+  config.include Devise::TestHelpers, type: :controller
 
+  # Includes support/login_macros for feature tests
+  config.include SignInMacros, type: :feature
+  
   # Include factory_girls syntax
   config.include FactoryGirl::Syntax::Methods
 
