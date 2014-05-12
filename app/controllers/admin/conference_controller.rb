@@ -32,8 +32,9 @@ class Admin::ConferenceController < ApplicationController
       redirect_to(admin_conference_path(id: @conference.short_title),
                   notice: 'Conference was successfully updated.')
     else
+      errors = @conference.errors.full_messages.join('! ')
       redirect_to(admin_conference_path(id: short_title),
-                  notice: 'Conference update failed.')
+                  flash: { error: "Conference update failed. #{errors}"  })
     end
   end
 
