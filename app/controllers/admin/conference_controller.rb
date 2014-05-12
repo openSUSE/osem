@@ -15,13 +15,6 @@ class Admin::ConferenceController < ApplicationController
 
   def create
     @conference = Conference.new(params[:conference])
-<<<<<<< HEAD
-    if @conference.save
-      redirect_to(admin_conference_path(id: @conference.short_title),
-                  notice: 'Conference was successfully created.')
-    else
-      render action: 'new'
-=======
     if @conference.valid?
       @conference.save
       redirect_to(admin_conference_path(id: @conference.short_title),
@@ -29,7 +22,6 @@ class Admin::ConferenceController < ApplicationController
     else
       redirect_to(new_admin_conference_path,
                   flash: { error: @conference.errors.full_messages.join('! ') })
->>>>>>> 374efd311fb7f82d0e8257a62675a663904708d5
     end
   end
 
