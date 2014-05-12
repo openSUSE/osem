@@ -14,6 +14,7 @@ before_install:
 before_script:
   - cp config/database.yml.example config/database.yml
   - cp config/config.yml.example config/config.yml
+  - cp config/secrets.yml.example config/secrets.yml
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 script:
   - bundle exec rspec --color --format documentation
