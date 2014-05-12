@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   before_save :setup_role
   before_create :create_person
 
-  delegate :last_name, :first_name, :public_name, :email, to: :person
+  delegate :last_name, :first_name, :public_name, to: :person
 
   def role?(role)
     Rails.logger.debug("Checking role in user")
