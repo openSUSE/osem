@@ -1,6 +1,6 @@
 .row
   .col-md-12
-    = semantic_form_for(@registration, :url => register_conference_path(@conference.short_title), :html => { :method => :put }) do |f|
+    = semantic_form_for(@registration, :url => register_conference_path(@conference.short_title), :html => { :method => :patch }) do |f|
       .tabbable
         %ul.nav.nav-tabs
           %li.active
@@ -19,4 +19,4 @@
         = link_to "Unregister", register_conference_path(@conference.short_title),:method => :delete, :class => "btn btn-danger",
                     :confirm => "Are you sure you want to unregister?"
       - else
-        = f.action :submit, :button_html => { :value => "Register", :class => "btn btn-primary" }
+        = f.action :submit, :button_html => { :value => "Register", :class => "btn btn-primary", id: 'register' }

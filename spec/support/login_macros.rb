@@ -8,4 +8,10 @@ module LoginMacros
 
     expect(page.has_content?('Signed in successfully')).to be true
   end
+
+  def sign_out
+    Capybara.current_session.driver.browser.clear_cookies
+    visit root_path
+    expect(page.has_content?('Sign In')).to be true
+  end
 end
