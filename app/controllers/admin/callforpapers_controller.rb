@@ -1,7 +1,7 @@
 class Admin::CallforpapersController < ApplicationController
   before_filter :verify_organizer
 
-  def index
+  def show
     @cfp = @conference.call_for_papers
     if @cfp.nil?
       @cfp = CallForPapers.new
