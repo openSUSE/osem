@@ -132,14 +132,17 @@ class Event < ActiveRecord::Base
   end
 
   def process_acceptance(options)
-    if options[:send_mail] == "true"
-      Rails.logger.debug "Sending acceptance mail"
+    if conference.email_settings.send_on_accepted &&
+        options[:send_mail].blank?
+      Rails.logger.debug 'Sending event acceptance mail'
       Mailbot.acceptance_mail(self).deliver
     end
   end
 
   def process_rejection(options)
-    if options[:send_mail] == "true"
+    if conference.email_settings.send_on_rejected &&
+        options[:send_mail].blank?
+      Rails.logger.debug 'Sending rejected mail'
       Mailbot.rejection_mail(self).deliver
     end
   end

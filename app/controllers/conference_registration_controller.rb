@@ -74,7 +74,9 @@ class ConferenceRegistrationController < ApplicationController
     if update_registration
       redirect_message = "Registration updated."
     else
-      Mailbot.registration_mail(conference, current_user.person).deliver
+      if conference.email_settings.send_on_registration?
+        Mailbot.registration_mail(conference, current_user.person).deliver
+      end
     end
     redirect_to(register_conference_path(:id => conference.short_title), :notice => redirect_message)
   end
