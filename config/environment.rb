@@ -12,4 +12,3 @@ end
 
 # Initialize the rails application
 Osem::Application.initialize!
-Osem::Application.config.secret_keybase = CONFIG['secret_key']
