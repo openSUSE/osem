@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
 
   def setup_role
     roles << Role.find_by(name: 'Admin') if User.count == 0
-    roles << Role.find_by(name: 'Participant') if self.roles.empty?
+    roles << Role.find_by(name: 'Participant') if roles.empty?
   end
 
   def popup_details
