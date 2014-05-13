@@ -1,5 +1,4 @@
 Osem::Application.routes.draw do
-
   devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
 
   namespace :admin do
@@ -51,7 +50,7 @@ Osem::Application.routes.draw do
     end
   end
 
-  resources :conference, :only => [] do
+  resources :conference, :only => [:show] do
     resources :proposal do
       resources :event_attachment, :controller => "event_attachments"
       patch "/confirm" => "proposal#confirm"
