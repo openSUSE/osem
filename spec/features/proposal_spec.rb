@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature Event do
 
-  shared_examples 'participant' do |user|
+  shared_examples 'proposal' do |user|
     scenario 'submitts a new proposal and updates account', feature: true, js: true do
       expected_count = Event.count + 1
       conference = create(:conference)
@@ -43,9 +43,9 @@ feature Event do
     end
   end
 
-  describe 'participant' do
-    it_behaves_like 'participant', :participant
-    it_behaves_like 'participant', :organizer
-    it_behaves_like 'participant', :admin
+  describe 'proposal workflow' do
+    it_behaves_like 'proposal', :participant
+    it_behaves_like 'proposal', :organizer
+    it_behaves_like 'proposal', :admin
   end
 end
