@@ -7,7 +7,9 @@ feature Event do
   let!(:admin_role) { create(:admin_role) }
 
   shared_examples 'proposal workflow' do
-    scenario 'submitts a new proposal, accepts and confirms', feature: true, js: true do
+    scenario 'submitts a proposal, accepts and confirms',
+             feature: true, js: true do
+
       admin = create(:admin, email: 'admin@example.com')
       participant = create(:participant, email: 'participant@example.com')
 
@@ -17,7 +19,7 @@ feature Event do
       conference.email_settings = create(:email_settings)
       conference.event_types = [create(:event_type)]
 
-      #Submit a new proposal as participant
+      # Submit a new proposal as participant
       sign_in participant
 
       visit conference_proposal_index_path(conference.short_title)
@@ -51,31 +53,33 @@ feature Event do
 
       expect(Event.count).to eq(expected_count)
 
+      event = Event.where(title: 'Example Proposal').first
+
       visit conference_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
       sign_out
 
-      #Accept proposal as admin
+      # Accept proposal as admin
       sign_in admin
 
       visit admin_conference_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
       click_link 'New'
-      click_link 'accept_event'
+      click_link "accept_event_#{event.id}"
 
       expect(page.has_content?('Unconfirmed')).to be true
       sign_out
 
-      #Confirm proposal as participant
+      # Confirm proposal as participant
       sign_in participant
       visit conference_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
       expect(page.has_content?('Accepted (confirmation pending)')).to be true
-      click_link 'confirm_proposal'
+      click_link "confirm_proposal_#{event.id}"
       expect(page.find('#flash_notice').text).
-          to eq('Event was confirmed. Please register to attend the conference.')
+        to eq('Event was confirmed. Please register to attend the conference.')
 
       find('#register').click
 
