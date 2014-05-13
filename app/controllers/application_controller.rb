@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if not session[:return_to].start_with?(user_registration_path)
+    if session[:return_to] &&
+        !session[:return_to].start_with?(user_registration_path)
       logger.debug "Returning to #{session[:return_to]}"
       session[:return_to]
     else

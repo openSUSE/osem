@@ -14,14 +14,14 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :roles
 
-  before_save :setup_role
+  before_create :setup_role
   before_create :create_person
 
   delegate :last_name, :first_name, :public_name, to: :person
 
   def role?(role)
     Rails.logger.debug("Checking role in user")
-    return !!self.roles.find_by_name(role.to_s.camelize)
+    !!roles.find_by_name(role.to_s.downcase.camelize)
   end
 
   def get_roles
@@ -29,13 +29,8 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    if self.id == 1
-      self.role_ids = [3]
-    end
-    
-    if self.role_ids.empty?
-      self.role_ids = [1]
-    end
+    roles << Role.find_by(name: 'Admin') if User.count == 0
+    roles << Role.find_by(name: 'Participant') if roles.empty?
   end
 
   def popup_details
@@ -54,9 +49,9 @@ class User < ActiveRecord::Base
   end
 
   private
-    def create_person
-      # TODO Search people for existing email address, add to their account
-      build_person(:email => self.email) if person.nil?
-      true
-    end
+  def create_person
+    # TODO Search people for existing email address, add to their account
+    build_person(email: email) if person.nil?
+    true
+  end
 end

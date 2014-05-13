@@ -47,8 +47,8 @@
                 %span.caret
               .dropdown-menu{:style => "padding: 17px;"}
                 = form_tag user_session_path do
-                  = text_field_tag 'user[email]'
-                  = password_field_tag 'user[password]'
+                  = text_field_tag 'user[email]', nil, id: 'user_email_dd'
+                  = password_field_tag 'user[password]', nil, id: 'user_password_dd'
                   %label.checkbox
                     = check_box_tag 'user[remember_me]'
                     Remember me

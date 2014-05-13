@@ -27,9 +27,15 @@ class Admin::ConferenceController < ApplicationController
 
   def update
     @conference = Conference.find_by(short_title: params[:id])
-    @conference.update_attributes(params[:conference])
-    flash[:notice] = "Updated Conference"
-    redirect_to(admin_conference_path(:id => @conference.short_title), :notice => 'Conference was successfully updated.')
+    short_title = @conference.short_title
+    if @conference.update_attributes(params[:conference])
+      redirect_to(admin_conference_path(id: @conference.short_title),
+                  notice: 'Conference was successfully updated.')
+    else
+      errors = @conference.errors.full_messages.join('! ')
+      redirect_to(admin_conference_path(id: short_title),
+                  flash: { error: "Conference update failed. #{errors}"  })
+    end
   end
 
   def show
@@ -37,7 +43,7 @@ class Admin::ConferenceController < ApplicationController
     @conference = Conference.find_by(short_title: params[:id])
     respond_to do |format|
       format.html
-      format.json { render :json => @conference.to_json }
+      format.json { render json: @conference.to_json }
     end
   end
 end
