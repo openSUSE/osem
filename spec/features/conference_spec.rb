@@ -2,6 +2,11 @@ require 'spec_helper'
 
 feature Conference do
 
+  # It is necessary to use bang version of let to build roles before user
+  let!(:organizer_role) { create(:organizer_role) }
+  let!(:participant_role) { create(:participant_role) }
+  let!(:admin_role) { create(:admin_role) }
+
   shared_examples 'add and update conference' do |user|
     scenario 'adds a new conference', feature: true, js: true do
       expected_count = Conference.count + 1

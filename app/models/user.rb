@@ -29,15 +29,8 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    if User.count == 0
-      admin = Role.where(name: 'Admin').first
-      self.role_ids = [admin.id] unless admin.nil?
-    end
-
-    if self.role_ids.empty?
-      participant = Role.where(name: 'Participant').first
-      self.role_ids = [participant.id] unless participant.nil?
-    end
+    roles << Role.find_by(name: 'Admin') if User.count == 0
+    roles << Role.find_by(name: 'Participant') if roles.empty?
   end
 
   def popup_details
@@ -56,9 +49,9 @@ class User < ActiveRecord::Base
   end
 
   private
-    def create_person
-      # TODO Search people for existing email address, add to their account
-      build_person(:email => self.email) if person.nil?
-      true
-    end
+  def create_person
+    # TODO Search people for existing email address, add to their account
+    build_person(email: email) if person.nil?
+    true
+  end
 end

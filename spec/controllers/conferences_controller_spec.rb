@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe Admin::ConferenceController do
 
+  # It is necessary to use bang version of let to build roles before user
+  let!(:organizer_role) { create(:organizer_role) }
+  let!(:participant_role) { create(:participant_role) }
+  let!(:admin_role) { create(:admin_role) }
+
   let(:conference) { create(:conference) }
   let(:admin) { create(:admin) }
   let(:organizer) { create(:organizer) }
