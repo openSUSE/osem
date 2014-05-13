@@ -47,7 +47,6 @@ class Admin::ScheduleController < ApplicationController
     startTime = DateTime.strptime(time, "%Y-%m-%d %k:%M")
     event.start_time = startTime
     event.save!
-    expire_page :controller => '/schedule', :action => :index
     render :json => {"status" => "ok"}
   end
 
