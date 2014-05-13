@@ -113,12 +113,10 @@ class Admin::EventsController < ApplicationController
       flash[:notice] = "Update not successful."
     end
     
-    expire_page :controller => '/schedule', :action => :index
     redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
   end
 
   def create
-    expire_page :controller => '/schedule', :action => :index
   end
 
   def update_state
@@ -127,7 +125,6 @@ class Admin::EventsController < ApplicationController
       redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Update Email Template before Sending Mails") and return
     end
     event.send(:"#{params[:transition]}!", :send_mail => params[:send_mail])
-    expire_page :controller => '/schedule', :action => :index
     redirect_to(admin_conference_events_path(:conference_id => @conference.short_title), :notice => "Updated state")
   end
 
