@@ -24,7 +24,7 @@ feature Conference do
 
       click_button 'Create Conference'
 
-      expect(page.find('#flash_notice').text).
+      expect(flash).
           to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
     end
@@ -40,7 +40,7 @@ feature Conference do
       fill_in 'conference_social_tag', with: 'NewCon'
 
       click_button 'Update Conference'
-      expect(page.find('#flash_notice').text).
+      expect(flash).
           to eq('Conference was successfully updated.')
 
       conference.reload
@@ -70,7 +70,7 @@ feature Conference do
 
       click_button 'Update Venue'
 
-      expect(page.find('#flash_notice').text).
+      expect(flash).
           to eq('Venue was successfully updated.')
 
       venue = Conference.find(conference.id).venue
@@ -90,7 +90,7 @@ feature Conference do
                       'sed diam voluptua. new'
 
       click_button 'Update Venue'
-      expect(page.find('#flash_notice').text).
+      expect(flash).
           to eq('Venue was successfully updated.')
 
       venue.reload
