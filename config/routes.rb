@@ -25,19 +25,33 @@ Osem::Application.routes.draw do
       patch "/volunteers" => "volunteers#update", :as => "volunteers_update"
 
       resources :difficulty_levels, only: [:show, :update, :index]
+
       resources :rooms, only: [:show, :update, :index]
+
       resources :tracks, only: [:show, :update, :index]
+
       resources :eventtypes, only: [:show, :index] do
         collection do
           patch :update
         end
       end
+
       resources :social_events, only: [:show, :update, :index]
+
       resources :supporter_levels, only: [:show, :update, :index]
+
       resources :emails, only: [:show, :update, :index]
-      resources :callforpapers, only: [:show, :update, :index]
+
+      resources :callforpapers, only: [:create] do
+        collection do
+          patch :update
+          get :show
+        end
+      end
+
       patch "/questions/update_conference" => "questions#update_conference"
       resources :questions
+
       resources :events do
         member do
           post :comment
@@ -47,6 +61,7 @@ Osem::Application.routes.draw do
         end
         resource :speaker, :only => [:edit, :update]
       end
+
       resources :supporters
     end
   end

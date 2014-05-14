@@ -1,7 +1,7 @@
 class Admin::CallforpapersController < ApplicationController
   before_filter :verify_organizer
 
-  def index
+  def show
     @cfp = @conference.call_for_papers
     if @cfp.nil?
       @cfp = CallForPapers.new
@@ -10,23 +10,29 @@ class Admin::CallforpapersController < ApplicationController
 
   def update
     @cfp = @conference.call_for_papers
-    @cfp.update_attributes(params[:call_for_papers])
-    redirect_to(admin_conference_callforpapers_path(
-                id: @conference.short_title),
-                notice: 'Call for Papers was successfully updated.')
-  end
-
-  def create
-    @cfp = CallForPapers.new(params[:call_for_papers])
-    @conference.call_for_papers = @cfp
-    if @cfp.save
+    if @cfp.update_attributes(params[:call_for_papers])
       redirect_to(admin_conference_callforpapers_path(
                   id: @conference.short_title),
                   notice: 'Call for Papers was successfully updated.')
     else
       redirect_to(admin_conference_callforpapers_path(
                   id: @conference.short_title),
-                  error: 'Call for Papers failed.')
+                  alert: "Updating call for papers failed. #{@cfp.errors.to_a.join(". ")}.")
+    end
+  end
+
+  def create
+    @cfp = CallForPapers.new(params[:call_for_papers])
+    if @cfp.valid?
+      @cfp.save
+      @conference.call_for_papers = @cfp
+      redirect_to(admin_conference_callforpapers_path(
+                  id: @conference.short_title),
+                  notice: 'Call for Papers was successfully created.')
+    else
+      redirect_to(admin_conference_callforpapers_path(
+                  id: @conference.short_title),
+                  alert: "Creating the call for papers failed. #{@cfp.errors.to_a.join(". ")}.")
     end
   end
 end
