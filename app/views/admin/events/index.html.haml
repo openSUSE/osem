@@ -71,25 +71,25 @@
               - l = link_to "Change", edit_admin_conference_event_speaker_path(@conference.short_title, event), :remote => true
               = "(#{l})".html_safe
             %td
-              .dropdown
-                = link_to "#", :class => "dropdown-toggle", :id => "type-dropdown" do
+              .btn-group
+                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
                   - if event.event_type.nil?
                     Event Type
                   - else
                     = event.event_type.title
-                  <b class="caret"></b>
+                  %span.caret
                 %ul.dropdown-menu
                   - @event_types.each do |type|
                     %li= link_to type.title, admin_conference_event_path(@conference.short_title, event, :event_type_id => type.id) ,
                       :method => :put, :event_type_id => type.id
             %td
-              .dropdown
-                = link_to "#", :class => "dropdown-toggle", :id => "track-dropdown" do
+              .btn-group
+                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
                   - if event.track.nil?
                     Track
                   - else
                     = event.track.name
-                  <b class="caret"></b>
+                  %span.caret
                 %ul.dropdown-menu
                   - @tracks.each do |track|
                     %li= link_to track.name, admin_conference_event_path(@conference.short_title, event, :track_id => track.id) ,
@@ -100,11 +100,11 @@
               - if event.state == "withdrawn"
                 Withdrawn
               - else
-                .dropdown
-                  = link_to "#", :class => "dropdown-toggle" do
+                .btn-group
+                  %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
                     = event.state.humanize
-                    <b class="caret"></b>
-                  %ul.dropdown-menu
+                    %span.caret
+                  %ul.dropdown-menu{:role=>"menu"}
                     - if event.transition_possible? :accept
                       %li= link_to 'Accept event',
                       update_state_admin_conference_event_path(@conference.short_title, event, transition: :accept),

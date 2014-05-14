@@ -66,7 +66,7 @@ feature Event do
       visit admin_conference_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
-      click_link 'New'
+      click_button 'New'
       click_link "accept_event_#{event.id}"
 
       expect(page.has_content?('Unconfirmed')).to be true
