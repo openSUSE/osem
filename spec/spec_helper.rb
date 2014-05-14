@@ -50,6 +50,9 @@ RSpec.configure do |config|
   # Includes support/login_macros for feature tests
   config.include LoginMacros, type: :feature
 
+  # Includes support/flash for feature tests
+  config.include Flash, type: :feature
+
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
     c.syntax = :expect

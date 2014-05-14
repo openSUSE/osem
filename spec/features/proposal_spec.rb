@@ -48,7 +48,7 @@ feature Event do
 
       click_button 'Update'
 
-      expect(page.find('#flash_notice').text).
+      expect(flash).
           to eq('You updated your account successfully.')
 
       expect(Event.count).to eq(expected_count)
@@ -78,12 +78,12 @@ feature Event do
       expect(page.has_content?('Example Proposal')).to be true
       expect(page.has_content?('Accepted (confirmation pending)')).to be true
       click_link "confirm_proposal_#{event.id}"
-      expect(page.find('#flash_notice').text).
+      expect(flash).
         to eq('Event was confirmed. Please register to attend the conference.')
 
       find('#register').click
 
-      expect(page.find('#flash_notice').text).
+      expect(flash).
           to eq('You are now registered.')
     end
   end
