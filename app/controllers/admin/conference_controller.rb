@@ -21,7 +21,8 @@ class Admin::ConferenceController < ApplicationController
                   notice: 'Conference was successfully created.')
     else
       redirect_to(new_admin_conference_path,
-                  flash: { error: @conference.errors.full_messages.join('! ') })
+                  alert: 'Creating the Conference failed.' \
+                          "#{@conference.errors.full_messages.join('. ')}.")
     end
   end
 
@@ -32,9 +33,9 @@ class Admin::ConferenceController < ApplicationController
       redirect_to(admin_conference_path(id: @conference.short_title),
                   notice: 'Conference was successfully updated.')
     else
-      errors = @conference.errors.full_messages.join('! ')
       redirect_to(admin_conference_path(id: short_title),
-                  flash: { error: "Conference update failed. #{errors}"  })
+                  alert: 'Updating conference failed. ' \
+                  "#{@conference.errors.full_messages.join('. ')}.")
     end
   end
 
