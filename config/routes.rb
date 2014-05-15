@@ -9,13 +9,6 @@ Osem::Application.routes.draw do
       get "/schedule" => "schedule#show"
       patch "/schedule" => "schedule#update"
       get "/stats" => "stats#index"
-      get "/registrations" => "registrations#show"
-      get "/registrations/new" => "registrations#new"
-      patch "/registrations/new" => "registrations#create"
-      get "/registrations/edit" => "registrations#edit"
-      patch "/registrations/edit" => "registrations#update"
-      delete "/registrations"  => "registrations#delete"
-      patch "/registrations/change_field" => "registrations#change_field"
       get "/venue" => "venue#show", :as => "venue_info"
       patch "/venue" => "venue#update", :as => "venue_update"
       get "/dietary_choices" => "dietchoices#show", :as => "dietary_list"
@@ -23,6 +16,9 @@ Osem::Application.routes.draw do
       get "/volunteers_list" => "volunteers#show"
       get "/volunteers" => "volunteers#index", :as => "volunteers_info"
       patch "/volunteers" => "volunteers#update", :as => "volunteers_update"
+      
+      patch "/registrations/change_field" => "registrations#change_field"
+      resources :registrations
 
       resources :difficulty_levels, only: [:show, :update, :index]
 

@@ -4,7 +4,7 @@
       Create new account and registration
 .row
   .col-md-12
-    = semantic_form_for(@registration, :url => admin_conference_registrations_new_path(@conference.short_title), :html => { :method => :put }) do |f|
+    = semantic_form_for(@registration, :url => admin_conference_registrations_path(@conference.short_title)) do |f|
 
       = f.inputs "Your details" do
         = f.fields_for @person do |p|
