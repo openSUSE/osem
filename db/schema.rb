@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414131028) do
+ActiveRecord::Schema.define(version: 20140514140013) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20140414131028) do
     t.datetime "updated_at"
     t.boolean  "schedule_changes", default: false
     t.integer  "rating",           default: 3
-    t.text     "rating_desc"
     t.boolean  "schedule_public"
   end
 
