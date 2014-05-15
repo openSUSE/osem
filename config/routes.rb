@@ -16,8 +16,8 @@ Osem::Application.routes.draw do
       get "/volunteers_list" => "volunteers#show"
       get "/volunteers" => "volunteers#index", :as => "volunteers_info"
       patch "/volunteers" => "volunteers#update", :as => "volunteers_update"
-      
-      patch "/registrations/change_field" => "registrations#change_field"
+
+      patch '/registrations/change_field' => 'registrations#change_field'
       resources :registrations
 
       resources :difficulty_levels, only: [:show, :update, :index]
