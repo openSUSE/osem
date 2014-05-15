@@ -19,7 +19,7 @@ class Admin::RegistrationsController < ApplicationController
       end
 
       redirect_to admin_conference_registrations_path(@conference.short_title)
-      flash[:notice] = "Updated '#{params[:view_field]}' => #{@registration.attended} for 
+      flash[:notice] = "Updated '#{params[:view_field]}' => #{@registration.attended} for
                         #{(Person.where("id = ?", @registration.person_id).first).email}"
   end
 
@@ -43,8 +43,8 @@ class Admin::RegistrationsController < ApplicationController
       redirect_to(admin_conference_registrations_path(@conference.short_title))
     rescue Exception => e
       Rails.logger.debug e.backtrace.join("\n")
-      redirect_to(admin_conference_registrations_path(@conference.short_title), 
-                  :alert => 'Failed to update registration:' + e.message)
+      redirect_to(admin_conference_registrations_path(@conference.short_title),
+                  alert: 'Failed to update registration:' + e.message)
       return
     end
   end
@@ -122,13 +122,13 @@ class Admin::RegistrationsController < ApplicationController
         flash[:notice] = "Deleted registration for #{person.public_name} #{person.email}"
       rescue Exception => e
         Rails.logger.debug e.backtrace.join("\n")
-        redirect_to(admin_conference_registrations_path(@conference.short_title), 
-	            :alert => 'Failed to delete registration:' + e.message)
+        redirect_to(admin_conference_registrations_path(@conference.short_title),
+	            alert: 'Failed to delete registration:' + e.message)
         return
       end
     else
-      redirect_to(admin_conference_registrations_path(@conference.short_title), 
-                  :alert => 'You must be an admin to delete a registration.')
+      redirect_to(admin_conference_registrations_path(@conference.short_title),
+                  alert: 'You must be an admin to delete a registration.')
     end
   end
 end
