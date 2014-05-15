@@ -7,12 +7,12 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      - if controller.class.name == "ConferenceController"
+      - if @conference && controller.class.name == "ConferenceController"
         = link_to @conference.title, "#", :class => 'navbar-brand'
       - else
         = link_to CONFIG['name'], root_path, :class => 'navbar-brand', :title => "Open Source Event Manager"
     .collapse.navbar-collapse
-      - if @conference && controller.class.name == "ConferenceController"
+      - if content_for?(:splash_header)
         = yield(:splash_header)
       - else
         - if @conference && !@conference.short_title.nil?
