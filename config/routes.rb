@@ -51,7 +51,7 @@ Osem::Application.routes.draw do
     end
   end
 
-  resources :conference, :only => [:show] do
+  resources :conference, only: [:show] do
     resources :proposal do
       resources :event_attachment, :controller => "event_attachments"
       patch "/confirm" => "proposal#confirm"
