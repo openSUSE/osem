@@ -45,25 +45,27 @@
             %td
               = user.roles.map { |role| role.name }.join ','
             %td
-              .modal.hide.fade{:id => "user-role-selection-#{user.id}", "role" => "dialog", "aria-hidden" => "true"}
-                .modal-header
-                  %button{"type"=>"button", :class=>"close", "data-dismiss"=>"modal", "aria-hidden"=>"true"}
-                    ×
-                  %h3{:id => "role-selector-header-#{user.id}"}
-                    Modifying Roles
-                .modal-body
-                  - if current_user == user
-                    You cannot modify your own role!
-                    %br
-                    %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
-                      Cancel
-                  - else
-                    = "Give #{user.public_name} (#{user.email}) the following roles:"
-                    = semantic_form_for(user, :url => admin_user_path(user), :method => :put) do |f|
-                      = f.input :roles, :label => false
-                      %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
-                        Cancel
-                      = f.action :submit, :as => :button, :button_html => {:value => "Save", :class => "btn btn-primary"}
+              .modal.fade{:id => "user-role-selection-#{user.id}", "role" => "dialog", "aria-hidden" => "true"}
+                .modal-dialog
+                  .modal-content
+                    .modal-header
+                      %button{"type"=>"button", :class=>"close", "data-dismiss"=>"modal", "aria-hidden"=>"true"}
+                        ×
+                      %h3{:id => "role-selector-header-#{user.id}"}
+                        Modifying Roles
+                    .modal-body
+                      - if current_user == user
+                        You cannot modify your own role!
+                        %br
+                        %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
+                          Cancel
+                      - else
+                        = "Give #{user.public_name} (#{user.email}) the following roles:"
+                        = semantic_form_for(user, :url => admin_user_path(user), :method => :put) do |f|
+                          = f.input :roles, :label => false
+                          %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
+                            Cancel
+                          = f.action :submit, :as => :button, :button_html => {:value => "Save", :class => "btn btn-primary"}
               =link_to "Modify Roles", "#", "data-toggle" => "modal", "data-target" => "#user-role-selection-#{user.id}"
             %td
               =link_to "Details", "javascript: void(0)", :class => "user-details-popover", "data-trigger" => "click", "data-placement" => "bottom",
