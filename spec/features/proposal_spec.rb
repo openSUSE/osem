@@ -59,16 +59,23 @@ feature Event do
       expect(page.has_content?('Example Proposal')).to be true
 
       sign_out
-
-      # Accept proposal as admin
       sign_in admin
 
+      # Reject proposal
       visit admin_conference_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
       click_button 'New'
-      click_link "accept_event_#{event.id}"
+      click_link "reject_event_#{event.id}"
+      expect(flash).to eq('Updated state')
+      click_button 'Rejected'
+      click_link "review_event_#{event.id}"
+      expect(flash).to eq('Updated state')
 
+      # Start review
+      click_button 'Review'
+      click_link "accept_event_#{event.id}"
+      expect(flash).to eq('Updated state')
       expect(page.has_content?('Unconfirmed')).to be true
       sign_out
 
@@ -79,12 +86,17 @@ feature Event do
       expect(page.has_content?('Accepted (confirmation pending)')).to be true
       click_link "confirm_proposal_#{event.id}"
       expect(flash).
-        to eq('Event was confirmed. Please register to attend the conference.')
+          to eq('Event was confirmed. Please register to attend the conference.')
 
+      # Register for conference
       find('#register').click
+      expect(flash).to eq('You are now registered.')
 
-      expect(flash).
-          to eq('You are now registered.')
+      # Withdraw proposal
+      visit conference_proposal_index_path(conference.short_title)
+      expect(page.has_content?('Confirmed')).to be true
+      click_link "delete_proposal_#{event.id}"
+      expect(flash).to eq('Proposal withdrawn.')
     end
   end
 
