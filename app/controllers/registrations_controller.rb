@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   def update
     @user = User.find(current_user.id)
     email_changed = false
@@ -22,10 +24,10 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if email_changed or password_changed
-      successfully_updated = @user.update_with_password(params[:user])
+      successfully_updated = @user.update_with_password(account_update_params)
     else
       params[:user].delete :current_password
-      successfully_updated = @user.update_without_password(params[:user])
+      successfully_updated = @user.update_without_password(account_update_params)
     end
 
     if successfully_updated
@@ -41,7 +43,9 @@ class RegistrationsController < Devise::RegistrationsController
       sign_in @user, :bypass => true
       redirect_to after_update_path_for(@user)
     else
-      render "edit"
+      flash[:alert] = 'Updating account failed. ' \
+                  "#{@user.errors.full_messages.join('. ')}."
+      render 'edit'
     end
   end
 
@@ -55,4 +59,14 @@ class RegistrationsController < Devise::RegistrationsController
     edit_user_registration_path(resource)
   end
 
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:account_update) do |u|
+      u.
+          permit(:email, :password, :password_confirmation, :current_password, person_attributes:
+          [:id, :first_name, :last_name,
+           :public_name, :biography, :company,
+           :avatar, :irc_nickname,:mobile, :tshirt,
+           :languages, :volunteer_experience])
+    end
+  end
 end
