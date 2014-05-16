@@ -7,59 +7,57 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      - if @conference && controller.class.name == "ConferenceController"
+      - if @conference
         = link_to @conference.title, "#", :class => 'navbar-brand'
       - else
         = link_to CONFIG['name'], root_path, :class => 'navbar-brand', :title => "Open Source Event Manager"
     .collapse.navbar-collapse
-      - if content_for?(:splash_header)
-        = yield(:splash_header)
+      = yield(:splash_header)
+      - if @conference && !@conference.short_title.nil?
+        %p.navbar-text
+          = @conference.short_title
+      - if user_signed_in?
+        - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+          - if controller.class.name.split("::").first=="Admin"
+            - if @conference and not @conference.short_title.nil?
+              = render 'layouts/admin_menu'
+        %ul.nav.navbar-nav.navbar-right
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              - if not current_user.person.public_name.empty?
+                #{current_user.person.public_name}
+              -else 
+                #{current_user.email}
+              = image_tag(current_user.person.gravatar_url(:size => "18"), :title => "Yo #{current_user.person.public_name}!")
+              %b.caret
+            %ul.dropdown-menu
+              = render 'layouts/user_menu'
       - else
-        - if @conference && !@conference.short_title.nil?
-          %p.navbar-text
-            = @conference.short_title
-        - if user_signed_in?
-          - if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
-            - if controller.class.name.split("::").first=="Admin"
-              - if @conference and not @conference.short_title.nil?
-                = render 'layouts/admin_menu'
-          %ul.nav.navbar-nav.navbar-right
-            %li.dropdown
+        %ul.nav.navbar-nav.navbar-right
+          - if current_page?(new_registration_path('user'))
+            %li.active
+              = link_to(new_registration_path('user')) do
+                %span.glyphicon.glyphicon-heart
+                Sign Up
+          - else
+            %li
+              = link_to(new_registration_path('user')) do
+                %span.glyphicon.glyphicon-heart
+                Sign Up  
+            %li.dropdown.visible-desktop
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                - if not current_user.person.public_name.empty?
-                  #{current_user.person.public_name}
-                -else 
-                  #{current_user.email}
-                = image_tag(current_user.person.gravatar_url(:size => "18"), :title => "Yo #{current_user.person.public_name}!")
-                %b.caret
-              %ul.dropdown-menu
-                = render 'layouts/user_menu'
-        - else
-          %ul.nav.navbar-nav.navbar-right
-            - if current_page?(new_registration_path('user'))
-              %li.active
-                = link_to(new_registration_path('user')) do
-                  %span.glyphicon.glyphicon-heart
-                  Sign Up
-            - else
-              %li
-                = link_to(new_registration_path('user')) do
-                  %span.glyphicon.glyphicon-heart
-                  Sign Up  
-              %li.dropdown.visible-desktop
-                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  %span.glyphicon.glyphicon-user
-                  Sign In
-                  %span.caret
-                .dropdown-menu{:style => "padding: 17px;"}
-                  = form_tag user_session_path do
-                    = text_field_tag 'user[email]', nil, id: 'user_email_dd'
-                    = password_field_tag 'user[password]', nil, id: 'user_password_dd'
-                    %label.checkbox
-                      = check_box_tag 'user[remember_me]'
-                      Remember me
-                    %button.btn.btn-block Sign in
-                    %br
-                    = link_to "Forgot your password?", new_password_path('user')
-              %li.hidden-lg
-                = link_to('Sign In', new_user_session_path)
+                %span.glyphicon.glyphicon-user
+                Sign In
+                %span.caret
+              .dropdown-menu{:style => "padding: 17px;"}
+                = form_tag user_session_path do
+                  = text_field_tag 'user[email]', nil, id: 'user_email_dd'
+                  = password_field_tag 'user[password]', nil, id: 'user_password_dd'
+                  %label.checkbox
+                    = check_box_tag 'user[remember_me]'
+                    Remember me
+                  %button.btn.btn-block Sign in
+                  %br
+                  = link_to "Forgot your password?", new_password_path('user')
+            %li.hidden-lg
+              = link_to('Sign In', new_user_session_path)
