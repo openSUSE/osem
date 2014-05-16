@@ -17,14 +17,16 @@ class EventAttachment < ActiveRecord::Base
 
   def to_jq_upload
     {
-      "name" => read_attribute(:attachment_file_name),
-      "size" => read_attribute(:attachment_file_size),
-      "title" => read_attribute(:title),
-      "public" => read_attribute(:public),
+      'name' => read_attribute(:attachment_file_name),
+      'size' => read_attribute(:attachment_file_size),
+      'title' => read_attribute(:title),
+      'public' => read_attribute(:public),
       #"url" => attachment.url(:original),
-      "url" => conference_proposal_event_attachment_path(self.event.conference.short_title, self.event_id, self.id),
-      "delete_url" => conference_proposal_event_attachment_path(self.event.conference.short_title, self.event_id, self.id),
-      "delete_type" => "DELETE"
+      'url' => conference_proposal_event_attachment_path(
+        self.event.conference.short_title, self.event_id, self.id),
+      'delete_url' => conference_proposal_event_attachment_path(
+        self.event.conference.short_title, self.event_id, self.id),
+      'delete_type' => "DELETE"
     }
   end
   #:path => ":rails_root/public/system/:attachment/:id/:style/:filename",
