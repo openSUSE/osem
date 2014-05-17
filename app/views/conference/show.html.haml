@@ -1,16 +1,16 @@
 = content_for :splash_header do
   %ul.nav.navbar-nav 
     %li
-      %a{ href: "#program" } Program
+      %a{ href: '#program' } Program
     %li
-      %a{ href: "#location" } Location
+      %a{ href: '#locatio' } Location
     %li
-      %a{ href: "#registration" } Registration
+      %a{ href: '#registration' } Registration
     %li
-      %a{ href: "#call-for-papers" } CfP
+      %a{ href: '#call-for-papers' } CfP
     %li
-      %a{ href: "#sponsors" } Sponsors
+      %a{ href: '#sponsors' } Sponsors
     %li
-      %a{ href: "#press" } Press
+      %a{ href: '#press' } Press
 
 = render :partial => "home/conference_details", :locals => {:conference => @conference}
