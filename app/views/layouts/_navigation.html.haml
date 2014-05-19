@@ -7,8 +7,10 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
+      = yield(:splash_logo) 
       = link_to CONFIG['name'], root_path, :class => 'navbar-brand', :title => "Open Source Event Manager"
     .collapse.navbar-collapse
+      = yield(:splash_header)
       - if @conference && !@conference.short_title.nil?
         %p.navbar-text
           = @conference.short_title
