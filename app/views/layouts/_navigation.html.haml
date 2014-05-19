@@ -24,7 +24,7 @@
                 #{current_user.person.public_name}
               -else 
                 #{current_user.email}
-              = image_tag(current_user.person.gravatar_url(:size => "18"), :title => "Yo #{current_user.person.public_name}!")
+              = image_tag(current_user.person.gravatar_url(size: '18'), title: "Yo #{current_user.person.public_name}!", :alt => '')
               %b.caret
             %ul.dropdown-menu
               = render 'layouts/user_menu'
