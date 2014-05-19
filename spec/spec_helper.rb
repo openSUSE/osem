@@ -45,7 +45,6 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
 
   config.include Devise::TestHelpers, type: :view
-  
   # Use capybara-webkit as default javascript driver
   Capybara.javascript_driver = :webkit
 
