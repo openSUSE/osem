@@ -1,7 +1,7 @@
 class Admin::RegistrationsController < ApplicationController
   before_filter :verify_organizer
 
-  def show
+  def index
     session[:return_to] ||= request.referer
     @pdf_filename = "#{@conference.title}.pdf"
     @registrations = @conference.registrations.includes(:person).order("registrations.created_at ASC")
@@ -18,8 +18,9 @@ class Admin::RegistrationsController < ApplicationController
         @registration.update_attribute(:"#{field}",1)
       end
 
-      redirect_to admin_conference_registrations_path(@conference.short_title, @registration)
-      flash[:notice] = "Updated '#{params[:view_field]}' for #{(Person.where("id = ?", @registration.person_id).first).email}"
+      redirect_to admin_conference_registrations_path(@conference.short_title)
+      flash[:notice] = "Updated '#{params[:view_field]}' => #{@registration.attended} for
+                        #{(Person.where("id = ?", @registration.person_id).first).email}"
   end
 
   def edit
@@ -28,8 +29,7 @@ class Admin::RegistrationsController < ApplicationController
   end
 
   def update
-    reg_id = params[:format]
-    @registration = @conference.registrations.where("id = ?", reg_id).first
+    @registration = @conference.registrations.where("id = ?", params[:id]).first
     @person = Person.where("id = ?", @registration.person_id).first
     begin
       @person.update_attributes!(params[:registration][:person_attributes])
@@ -43,7 +43,8 @@ class Admin::RegistrationsController < ApplicationController
       redirect_to(admin_conference_registrations_path(@conference.short_title))
     rescue Exception => e
       Rails.logger.debug e.backtrace.join("\n")
-      redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'Failed to update registration:' + e.message)
+      redirect_to(admin_conference_registrations_path(@conference.short_title),
+                  alert: 'Failed to update registration:' + e.message)
       return
     end
   end
@@ -111,7 +112,7 @@ class Admin::RegistrationsController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     if has_role?(current_user, "Admin")
       registration = @conference.registrations.where(:id => params[:id]).first
       person = Person.where("id = ?", registration.person_id).first
@@ -121,11 +122,13 @@ class Admin::RegistrationsController < ApplicationController
         flash[:notice] = "Deleted registration for #{person.public_name} #{person.email}"
       rescue Exception => e
         Rails.logger.debug e.backtrace.join("\n")
-        redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'Failed to delete registration:' + e.message)
+        redirect_to(admin_conference_registrations_path(@conference.short_title),
+	            alert: 'Failed to delete registration:' + e.message)
         return
       end
     else
-      redirect_to(admin_conference_registrations_path(@conference.short_title), :alert => 'You must be an admin to delete a registration.')
+      redirect_to(admin_conference_registrations_path(@conference.short_title),
+                  alert: 'You must be an admin to delete a registration.')
     end
   end
 end

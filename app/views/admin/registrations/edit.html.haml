@@ -5,7 +5,7 @@
       %br
 .row
   .col-md-12
-    = semantic_form_for(@registration, :url => admin_conference_registrations_edit_path(@conference.short_title, @registration.id), :html => { :method => :put }) do |f|
+    = semantic_form_for(@registration, :url => admin_conference_registration_path(@conference.short_title, @registration)) do |f|
       = f.inputs "Personal Information" do
         = f.fields_for :person do |p|
           = p.input :first_name, :as => :string
