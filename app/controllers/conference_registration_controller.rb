@@ -42,11 +42,11 @@ class ConferenceRegistrationController < ApplicationController
     begin
       if registration.nil?
         update_registration = false
-        person.update_attributes(params[:registration][:person_attributes])
+        person.update_attributes(registration_params[:person_attributes])
         params[:registration].delete :person_attributes
         supporter_reg = params[:registration][:supporter_registration_attributes]
         params[:registration].delete :supporter_registration_attributes
-        registration = person.registrations.new(params[:registration])
+        registration = person.registrations.new(registration_params)
         if conference.use_supporter_levels? && !supporter_reg.nil?
           if !supporter_reg[:id].blank?
             # This means that their supporter registration was entered ahead of time, probably by an admin
@@ -55,14 +55,15 @@ class ConferenceRegistrationController < ApplicationController
               raise "Invalid code"
             end
           else
-            registration.supporter_registration = conference.supporter_registrations.new(supporter_reg)
+            registration.supporter_registration = conference.
+                supporter_registrations.new(registration_params[:supporter_registration_attributes])
           end
         end
 
         registration.conference_id = conference.id
         registration.save!
       else
-        registration.update_attributes!(params[:registration])
+        registration.update_attributes!(registration_params)
       end
     rescue Exception => e
       Rails.logger.debug e.backtrace.join("\n")
@@ -87,5 +88,27 @@ class ConferenceRegistrationController < ApplicationController
     registration = person.registrations.where(:conference_id => conference.id).first
     registration.destroy
     redirect_to :root
+  end
+
+  protected
+
+  def registration_params
+    params.require(:registration).
+        permit(
+          :conference_id, :attending_social_events, :attending_with_partner,
+          :using_affiliated_lodging, :arrival, :departure,
+          :other_dietary_choice, :handicapped_access_required, :dietary_choice_id,
+          :volunteer,
+          social_event_ids: [],
+          other_special_needs: [],
+          vchoice_ids: [],
+          qanswer_ids: [],
+          qanswers_attributes: [],
+          person_attributes: [
+            :id, :public_name, :mobile, :tshirt, :languages,
+            :volunteer_experience],
+          supporter_registration_attributes: [
+            :id, :supporter_level_id, :code
+          ])
   end
 end
