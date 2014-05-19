@@ -3,6 +3,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_conferences
   before_filter :store_location
+  before_action :set_locale
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options(options={})
+    logger.debug "default_url_options is passed options: #{options.inspect}\n"
+    { :locale => ((I18n.locale == I18n.default_locale) ? nil : I18n.locale) }
+  end
 
   def store_location
     session[:return_to] = request.fullpath if request.get? and controller_name != "user_sessions" and controller_name != "sessions"
