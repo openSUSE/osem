@@ -21,7 +21,7 @@
               = render 'layouts/admin_menu'
         %ul.nav.navbar-nav.navbar-right
           %li.dropdown
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "current-user-detail"}
               - if not current_user.person.public_name.empty?
                 #{current_user.person.public_name}
               -else 

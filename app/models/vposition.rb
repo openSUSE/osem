@@ -1,5 +1,5 @@
 class Vposition < ActiveRecord::Base
-  attr_accessible :title, :description, :date, :vday_ids
+  attr_accessible :title, :description, :vday_ids
 
   belongs_to :conference
 

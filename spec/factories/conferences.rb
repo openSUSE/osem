@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :conference do
     title 'The dog and pony show'
-    short_title 'dps14'
+    sequence(:short_title) { |n| "dps#{n}14"}
     social_tag 'dps14'
     timezone 'Amsterdam'
     contact_email 'admin@example.com'
