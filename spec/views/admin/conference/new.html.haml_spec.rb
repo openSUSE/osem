@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "admin/conference/new" do
+describe 'admin/conference/new' do
   it 'renders the new template for the conference' do
     assign(:conference, Conference.new)
     render

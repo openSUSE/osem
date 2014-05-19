@@ -1,6 +1,5 @@
 require 'spec_helper'
-
-describe "admin/rooms/index" do
+describe 'admin/rooms/index' do
   it 'renders conference sidebar' do
     expect(sidebar).to be true
   end
@@ -11,4 +10,5 @@ describe "admin/rooms/index" do
     expect(rendered).to include('Example Room')
     expect(rendered).to include('4')
   end
+
 end

@@ -35,7 +35,7 @@ describe Admin::ConferenceController do
         it 'redirects to the updated conference' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
-              conference.reload
+          conference.reload
           expect(response).to redirect_to admin_conference_path(
                                               conference.short_title)
         end

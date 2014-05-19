@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "admin/venue/venue_info" do
+describe 'admin/venue/venue_info' do
   it 'renders conference sidebar' do
     assign :venue, stub_model(Venue)
     expect(sidebar).to be true

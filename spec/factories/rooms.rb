@@ -4,4 +4,5 @@ FactoryGirl.define do
     size 4
     conference
   end
+
 end

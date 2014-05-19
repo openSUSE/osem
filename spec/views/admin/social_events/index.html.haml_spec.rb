@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "admin/social_events/index" do
+describe 'admin/social_events/index' do
   it 'renders conference sidebar' do
     expect(sidebar).to be true
   end

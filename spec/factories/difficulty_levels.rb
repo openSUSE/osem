@@ -5,4 +5,5 @@ FactoryGirl.define do
     color '#ffffff'
     conference
   end
+
 end

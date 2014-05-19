@@ -4,4 +4,5 @@ FactoryGirl.define do
     url 'www.example.com'
     conference
   end
+
 end
