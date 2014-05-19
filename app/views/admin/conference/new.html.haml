@@ -1,17 +1,14 @@
 .row
   .col-md-6.col-md-offset-3
     = semantic_form_for(@conference, :url => admin_conference_index_path) do |f|
-      = f.inputs 'Basic Information' do
-        = f.input :title, hint: "The name of your conference as it shall appear throughout the site. Example: 'OpenSUSE Conference 2013'",
-                          input_html: { required: 'required' }
-        = f.input :short_title, hint: "A short and unique handle for your conference, using only lower-case letters, numbers and underscores. This will be used to identify your conference in URLs etc. Example: 'froscon2011'",
-                                input_html: { required: 'required' }
-        = f.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'",
-                               input_html: { required: 'required' }
-        = f.input :contact_email, hint: 'Contact email address for your conference. Will be used as reply-to address in emails sent out by the system.'
-      = f.inputs 'Scheduling' do
-        = f.input :timezone, as: :time_zone, hint: 'Please select in what time zone your conference will take place.'
-        = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', readonly: 'readonly', required: 'required' }
-        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker', readonly: 'readonly', required: 'required'  }
+      = f.inputs t ".basic_info" do
+        = f.input :title, :hint => t('.title_hint')
+        = f.input :short_title, :hint => t('.short_title_hint')
+        = f.input :social_tag, :hint => t('.social_tag_hint')
+        = f.input :contact_email, :hint => t('.contact_email_hint')
+      = f.inputs "Scheduling" do
+        = f.input :timezone, :as => :time_zone, :hint => t('.timezone_hint')
+        = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
+        = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
       = f.actions do
         = f.action :submit, button_html: {class: 'btn btn-success pull-right'}

@@ -1,5 +1,6 @@
 .row
   .col-md-12.page-header
-    %h2.text-center Upcoming Conferences
+    %h2.text-center
+      =  t "upcoming_conferences"
 - @current.each do |conference|
   = render :partial => "conference_details", :locals => {:conference => conference}

@@ -3,13 +3,13 @@
     = render 'admin/conference/sidebar'
   .col-md-9
     = semantic_form_for(@conference, :url => admin_conference_path(@conference.short_title),:html => {:multipart => true}) do |f|
-      = f.input :title, :hint => "The full name of the conference, such as 'OpenSUSE Conference 2013'"
-      = f.input :short_title, :hint => "A short title, such as 'osc2013', to be used in URLs"
-      = f.input :social_tag, :hint => "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'"
-      = f.input :contact_email, :hint => "Contact email address for your conference. Will be used as reply-to address in emails sent out by the system."
+      = f.input :title, :hint => t('.title_hint')
+      = f.input :short_title, :hint => t('.short_title_hint')
+      = f.input :social_tag, :hint => t('.social_tag_hint')
+      = f.input :contact_email, :hint => t('.contact_email_hint')
 
       = f.inputs :name => "Scheduling" do
-        = f.input :timezone, :as => :time_zone, :hint => "The conference time zone"
+        = f.input :timezone, :as => :time_zone, :hint => t('.timezone_hint')
         = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
         = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
         = f.input :registration_start_date, :as => :string, :input_html => { :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
@@ -18,13 +18,19 @@
       = f.inputs :name => "Media" do
         - if !@conference.logo.blank?
           = image_tag @conference.logo(:thumb)
-        = f.input :logo, :label => "Conference Logo", :hint => "This will be displayed on the front page."
-        = f.input :media_type, :as => :select, :label => "Conference Promo Media Type", :class=>"form-control", :collection => Conference.media_types.values, :include_blank => false, :hint => "This media-item will be used to represent this conference at various places in OSEM."
-        = f.input :media_id, :label => "Conference Promo Media ID", :as => :string
-        %p{:class => "help-block media-type", :id => "youtube-help"} Go to your YouTube video, click on "share" and copy everything behind http://youtu.be/"
-        %p{:class => "help-block media-type", :id => "slideshare-help", :style => "display:none"} Go to your SlideShare, click on "share" -> "embed" and copy the id
-        %p{:class => "help-block media-type", :id => "flickr-help", :style => "display:none"} Go to your flickr image, click on "Grab the link" -> "Show short url" and copy everything behind https://flic.kr/p/
-        %p{:class => "help-block media-type", :id => "vimeo-help", :style => "display:none"} Go to your vimeo video, click on "share" and copy everything behind http://vimeo.com/
-        %p{:class => "help-block media-type", :id => "speakerdeck-help", :style => "display:none"} Go to your SpeakerDeck, click on "share" -> "embed" and copy the data-id
-        %p{:class => "help-block media-type", :id => "instagram-help", :style => "display:none"} Go to your Instagram photo page and copy everything behind instagram.com/p/ (without trailing /# hash symbol)
+        = f.input :logo, :label => t('.logo_label'), :hint => t('.logo_hint')
+        = f.input :media_type, :as => :select, :label => t('.media_type_label'), :class=>"form-control", :collection => Conference.media_types.values, :include_blank => false, :hint => t('.media_type_hint')
+        = f.input :media_id, :label => t('.media_id_label'), :as => :string
+        %p{:class => "help-block media-type", :id => "youtube-help"}
+          = t('.media_youtube-help')
+        %p{:class => "help-block media-type", :id => "slideshare-help", :style => "display:none"}
+          = t('.media_slideshare-help')
+        %p{:class => "help-block media-type", :id => "flickr-help", :style => "display:none"}
+          = t('.media_flickr-help')
+        %p{:class => "help-block media-type", :id => "vimeo-help", :style => "display:none"}
+          = t('.media_vimeo-help')
+        %p{:class => "help-block media-type", :id => "speakerdeck-help", :style => "display:none"}
+          = t('.media_speakerdeck-help')
+        %p{:class => "help-block media-type", :id => "instagram-help", :style => "display:none"}
+          = t('.media_instagram-help')
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

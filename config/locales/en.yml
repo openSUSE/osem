@@ -2,4 +2,52 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  # home page
+  upcoming_conferences: "Upcoming Conferences"
+  modify_registration: "Modify Registration"
+  register: "Register"
+  schedule: "Schedule"
+  view_proposals: "View My Proposals"
+  submit_proposal: "Submit Proposal"
+
+  admin:
+    conference:
+      sidebar:
+        conference: "Conferencesss"
+        venue: "Venue"
+        cfp: "Call for Papers"
+        rooms: "Rooms"
+        tracks: "Tracks"
+        event_types: "Event Types"
+        difficulty_levels: "Difficulty Levels"
+        social_events: "Social Events"
+        supporter_levels: "Supporter Levels"
+        emails: "Emails"
+        questions: "Questions"
+        volunteers: "Volunteers"
+      new:
+        basic_info: "Basic Information"
+        title_hint: "The name of your conference as it shall appear throughout the site. Example: 'openSUSE Conference 2013'"
+        short_title_hint: "A short and unique handle for your conference, using only lower-case letters,  numbers and underscores. This will be used to identify your conference in URLs etc. Example: 'froscon2011'"
+        social_tag_hint: "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'"
+        contact_email_hint: "Contact email address for your conference. Will be used as reply-to address in  emails sent out by the system."
+        timezone_hint: "Please select in what time zone your conference will take place."
+
+      show:
+        basic_info: "Basic Information"
+        title_hint: "The full name of the conference, such as 'OpenSUSE Conference 2013'"
+        short_title_hint: "A short title, such as 'osc2013', to be used in URLs"
+        social_tag_hint: "The hashtag you'll use on Twitter and Google+. Don't include the '#' sign!'"
+        contact_email_hint: "Contact email address for your conference. Will be used as reply-to address in emails sent out by the system."
+        timezone_hint: "The conference time zone"
+        logo_label: "Conference Logo"
+        logo_hint: "This will be displayed on the front page."
+        media_type_label: "Conference Promo Media Type"
+        media_type_hint: "This media-item will be used to represent this conference at various places in OSEM."
+        media_id_label: "Conference Promo Media ID"
+        media_youtube-help: "Go to your YouTube video, click on 'share' and copy everything behind http://youtu.be/"
+        media_slideshare-help: "Go to your SlideShare, click on 'share' -> 'embed' and copy the id"
+        media_flickr-help: Go to your flickr image, click on "Grab the link" -> "Show short url" and copy everything behind https://flic.kr/p/
+        media_vimeo-help: "Go to your vimeo video, click on 'share' and copy everything behind http://vimeo.com/"
+        media_speakerdeck-help: "Go to your SpeakerDeck, click on 'share' -> 'embed' and copy the data-id"
+        media_instagram-help: "Go to your Instagram photo page and copy everything behind instagram.com/p/ (without trailing /# hash symbol)"

@@ -1,0 +1,405 @@
+#TODO translate buttons' label
+en:
+    models:
+      answer: answer  #g
+      call_for_papers: call_for_papers  #g
+      comment: comment  #g
+      conference: conference  #g
+      dietary_choice: dietary_choice  #g
+      difficulty_level: difficulty_level  #g
+      email_settings: email_settings  #g
+      event: event  #g
+      event_attachment: event_attachment  #g
+      event_person: event_person  #g
+      event_type: event_type  #g
+      habtm_conferences: habtm_conferences  #g
+      habtm_events: habtm_events  #g
+      habtm_qanswers: habtm_qanswers  #g
+      habtm_questions: habtm_questions  #g
+      habtm_registrations: habtm_registrations  #g
+      habtm_roles: habtm_roles  #g
+      habtm_social_events: habtm_social_events  #g
+      habtm_users: habtm_users  #g
+      habtm_vchoices: habtm_vchoices  #g
+      paper_trail/version: paper_trail/version  #g
+      person: person  #g
+      qanswer: qanswer  #g
+      question: question  #g
+      question_type: question_type  #g
+      registration: registration  #g
+      role: role  #g
+      room: room  #g
+      social_event: social_event  #g
+      supporter_level: supporter_level  #g
+      supporter_registration: supporter_registration  #g
+      track: track  #g
+      user: user  #g
+      vchoice: vchoice  #g
+      vday: vday  #g
+      venue: venue  #g
+      vote: vote  #g
+      vposition: vposition  #g
+
+    attributes:
+      answer:
+        qanswers: qanswers  #g
+        questions: questions  #g
+        title: title  #g
+
+      call_for_papers:
+        conference: :activerecord.models.conference  #g
+        description: description  #g
+        end_date: end_date  #g
+        hard_deadline: hard_deadline  #g
+        rating: rating  #g
+        rating_desc: rating_desc  #g
+        schedule_changes: schedule_changes  #g
+        schedule_public: schedule_public  #g
+        start_date: start_date  #g
+
+      comment:
+        body: body  #g
+        commentable: :activerecord.models.commentable  #g
+        commentable_type: commentable_type  #g
+        lft: lft  #g
+        rgt: rgt  #g
+        subject: subject  #g
+        title: title  #g
+        user: :activerecord.models.user  #g
+
+      conference:
+        call_for_papers: :activerecord.models.call_for_papers  #g
+        conferences_questions: conferences_questions  #g
+        contact_email: contact_email  #g
+        dietary_choices: dietary_choices  #g
+        difficulty_levels: difficulty_levels  #g
+        email_settings: :activerecord.models.email_settings  #g
+        end_date: end_date  #g
+        event_types: event_types  #g
+        events: events  #g
+        guid: guid  #g
+        html_export_path: html_export_path  #g
+        logo_content_type: logo_content_type  #g
+        logo_file_name: logo_file_name  #g
+        logo_file_size: logo_file_size  #g
+        logo_updated_at: logo_updated_at  #g
+        media_type: media_type  #g
+        questions: questions  #g
+        registration_end_date: registration_end_date  #g
+        registration_start_date: registration_start_date  #g
+        registrations: registrations  #g
+        revision: revision  #g
+        rooms: rooms  #g
+        short_title: short_title  #g
+        social_events: social_events  #g
+        social_tag: social_tag  #g
+        start_date: start_date  #g
+        supporter_levels: supporter_levels  #g
+        supporter_registrations: supporter_registrations  #g
+        timezone: timezone  #g
+        title: title  #g
+        tracks: tracks  #g
+        use_dietary_choices: use_dietary_choices  #g
+        use_difficulty_levels: use_difficulty_levels  #g
+        use_supporter_levels: use_supporter_levels  #g
+        use_vdays: use_vdays  #g
+        use_volunteers: use_volunteers  #g
+        use_vpositions: use_vpositions  #g
+        vchoices: vchoices  #g
+        vdays: vdays  #g
+        venue: :activerecord.models.venue  #g
+        versions: versions  #g
+        vpositions: vpositions  #g
+
+      dietary_choice:
+        conference: :activerecord.models.conference  #g
+        registrations: registrations  #g
+        title: title  #g
+
+      difficulty_level:
+        color: color  #g
+        conference: :activerecord.models.conference  #g
+        description: description  #g
+        events: events  #g
+        title: title  #g
+
+      email_settings:
+        accepted_email_template: accepted_email_template  #g
+        accepted_subject: accepted_subject  #g
+        confirmed_email_template: confirmed_email_template  #g
+        confirmed_without_registration_subject: confirmed_without_registration_subject  #g
+        registration_email_template: registration_email_template  #g
+        registration_subject: registration_subject  #g
+        rejected_email_template: rejected_email_template  #g
+        rejected_subject: rejected_subject  #g
+        send_on_accepted: send_on_accepted  #g
+        send_on_confirmed_without_registration: send_on_confirmed_without_registration  #g
+        send_on_registration: send_on_registration  #g
+        send_on_rejected: send_on_rejected  #g
+
+      event:
+        abstract: abstract  #g
+        comment_threads: comment_threads  #g
+        conference: :activerecord.models.conference  #g
+        description: description  #g
+        difficulty_level: :activerecord.models.difficulty_level  #g
+        event_attachments: event_attachments  #g
+        event_people: event_people  #g
+        event_type: :activerecord.models.event_type  #g
+        events_registrations: events_registrations  #g
+        guid: guid  #g
+        language: language  #g
+        logo_content_type: logo_content_type  #g
+        logo_file_name: logo_file_name  #g
+        logo_file_size: logo_file_size  #g
+        logo_updated_at: logo_updated_at  #g
+        max_participants: max_participants  #g
+        media_type: media_type  #g
+        people: people  #g
+        progress: progress  #g
+        proposal_additional_speakers: proposal_additional_speakers  #g
+        public: public  #g
+        registrations: registrations  #g
+        require_registration: require_registration  #g
+        room: :activerecord.models.room  #g
+        speakers: speakers  #g
+        start_time: start_time  #g
+        state: state  #g
+        subtitle: subtitle  #g
+        time_slots: time_slots  #g
+        title: title  #g
+        track: :activerecord.models.track  #g
+        versions: versions  #g
+        voters: voters  #g
+        votes: votes  #g
+
+      event_attachment:
+        attachment_content_type: attachment_content_type  #g
+        attachment_file_name: attachment_file_name  #g
+        attachment_file_size: attachment_file_size  #g
+        attachment_updated_at: attachment_updated_at  #g
+        event: :activerecord.models.event  #g
+        public: public  #g
+        title: title  #g
+        versions: versions  #g
+
+      event_person:
+        comment: comment  #g
+        event: :activerecord.models.event  #g
+        event_role: event_role  #g
+        person: :activerecord.models.person  #g
+
+      event_type:
+        conference: :activerecord.models.conference  #g
+        length: length  #g
+        maximum_abstract_length: maximum_abstract_length  #g
+        minimum_abstract_length: minimum_abstract_length  #g
+        title: title  #g
+
+      habtm_conferences:
+        conference: :activerecord.models.conference  #g
+        left_side: :activerecord.models.left_side  #g
+
+      habtm_events:
+        event: :activerecord.models.event  #g
+        left_side: :activerecord.models.left_side  #g
+
+      habtm_qanswers:
+        left_side: :activerecord.models.left_side  #g
+        qanswer: :activerecord.models.qanswer  #g
+
+      habtm_questions:
+        left_side: :activerecord.models.left_side  #g
+        question: :activerecord.models.question  #g
+
+      habtm_registrations:
+        left_side: :activerecord.models.left_side  #g
+        registration: :activerecord.models.registration  #g
+
+      habtm_roles:
+        left_side: :activerecord.models.left_side  #g
+        role: :activerecord.models.role  #g
+
+      habtm_social_events:
+        left_side: :activerecord.models.left_side  #g
+        social_event: :activerecord.models.social_event  #g
+
+      habtm_users:
+        left_side: :activerecord.models.left_side  #g
+        user: :activerecord.models.user  #g
+
+      habtm_vchoices:
+        left_side: :activerecord.models.left_side  #g
+        vchoice: :activerecord.models.vchoice  #g
+
+      paper_trail/version:
+        event: event  #g
+        item: :activerecord.models.item  #g
+        item_type: item_type  #g
+        object: object  #g
+        object_changes: object_changes  #g
+        whodunnit: whodunnit  #g
+
+      person:
+        avatar_content_type: avatar_content_type  #g
+        avatar_file_name: avatar_file_name  #g
+        avatar_file_size: avatar_file_size  #g
+        avatar_updated_at: avatar_updated_at  #g
+        biography: biography  #g
+        company: company  #g
+        email: email  #g
+        email_public: email_public  #g
+        event_people: event_people  #g
+        events: events  #g
+        first_name: first_name  #g
+        guid: guid  #g
+        irc_nickname: irc_nickname  #g
+        languages: languages  #g
+        last_name: last_name  #g
+        mobile: mobile  #g
+        public_name: public_name  #g
+        registrations: registrations  #g
+        tshirt: tshirt  #g
+        user: :activerecord.models.user  #g
+        volunteer_experience: volunteer_experience  #g
+        voted_events: voted_events  #g
+        votes: votes  #g
+
+      qanswer:
+        answer: :activerecord.models.answer  #g
+        qanswers_registrations: qanswers_registrations  #g
+        question: :activerecord.models.question  #g
+        registrations: registrations  #g
+
+      question:
+        answers: answers  #g
+        conferences: conferences  #g
+        global: global  #g
+        qanswers: qanswers  #g
+        question_type: :activerecord.models.question_type  #g
+        questions_conferences: questions_conferences  #g
+        title: title  #g
+
+      question_type:
+        questions: questions  #g
+        title: title  #g
+
+      registration:
+        arrival: arrival  #g
+        attended: attended  #g
+        attending_social_events: attending_social_events  #g
+        attending_with_partner: attending_with_partner  #g
+        conference: :activerecord.models.conference  #g
+        departure: departure  #g
+        dietary_choice: :activerecord.models.dietary_choice  #g
+        events: events  #g
+        handicapped_access_required: handicapped_access_required  #g
+        other_dietary_choice: other_dietary_choice  #g
+        other_special_needs: other_special_needs  #g
+        person: :activerecord.models.person  #g
+        qanswers: qanswers  #g
+        registrations_events: registrations_events  #g
+        registrations_qanswers: registrations_qanswers  #g
+        registrations_social_events: registrations_social_events  #g
+        registrations_vchoices: registrations_vchoices  #g
+        social_events: social_events  #g
+        supporter_level: :activerecord.models.supporter_level  #g
+        supporter_registration: :activerecord.models.supporter_registration  #g
+        using_affiliated_lodging: using_affiliated_lodging  #g
+        vchoices: vchoices  #g
+        volunteer: volunteer  #g
+
+      role:
+        name: name  #g
+        roles_users: roles_users  #g
+        users: users  #g
+
+      room:
+        conference: :activerecord.models.conference  #g
+        events: events  #g
+        guid: guid  #g
+        name: name  #g
+        public: public  #g
+        size: size  #g
+
+      social_event:
+        conference: :activerecord.models.conference  #g
+        date: date  #g
+        description: description  #g
+        registrations: registrations  #g
+        socialevents_registrations: socialevents_registrations  #g
+        title: title  #g
+
+      supporter_level:
+        conference: :activerecord.models.conference  #g
+        supporter_registrations: supporter_registrations  #g
+        title: title  #g
+        url: url  #g
+
+      supporter_registration:
+        code: code  #g
+        code_is_valid: code_is_valid  #g
+        email: email  #g
+        name: name  #g
+        registration: :activerecord.models.registration  #g
+        supporter_level: :activerecord.models.supporter_level  #g
+
+      track:
+        color: color  #g
+        conference: :activerecord.models.conference  #g
+        description: description  #g
+        guid: guid  #g
+        name: name  #g
+
+      user:
+        confirmation_sent_at: confirmation_sent_at  #g
+        confirmation_token: confirmation_token  #g
+        confirmed_at: confirmed_at  #g
+        current_sign_in_at: current_sign_in_at  #g
+        current_sign_in_ip: current_sign_in_ip  #g
+        email: email  #g
+        encrypted_password: encrypted_password  #g
+        last_sign_in_at: last_sign_in_at  #g
+        last_sign_in_ip: last_sign_in_ip  #g
+        person: :activerecord.models.person  #g
+        remember_created_at: remember_created_at  #g
+        reset_password_sent_at: reset_password_sent_at  #g
+        reset_password_token: reset_password_token  #g
+        roles: roles  #g
+        unconfirmed_email: unconfirmed_email  #g
+        users_roles: users_roles  #g
+
+      vchoice:
+        registrations: registrations  #g
+        vchoices_registrations: vchoices_registrations  #g
+        vday: :activerecord.models.vday  #g
+        vposition: :activerecord.models.vposition  #g
+
+      vday:
+        conference: :activerecord.models.conference  #g
+        day: day  #g
+        description: description  #g
+        vchoices: vchoices  #g
+        vpositions: vpositions  #g
+
+      venue:
+        address: address  #g
+        conferences: conferences  #g
+        description: description  #g
+        guid: guid  #g
+        name: name  #g
+        offline_map_bounds: offline_map_bounds  #g
+        offline_map_url: offline_map_url  #g
+        website: website  #g
+
+      vote:
+        event: :activerecord.models.event  #g
+        person: :activerecord.models.person  #g
+        rating: rating  #g
+
+      vposition:
+        conference: :activerecord.models.conference  #g
+        description: description  #g
+        title: title  #g
+        vchoices: vchoices  #g
+        vdays: vdays  #g
