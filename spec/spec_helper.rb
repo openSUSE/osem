@@ -44,6 +44,7 @@ RSpec.configure do |config|
   # Enables devise sign_in function
   config.include Devise::TestHelpers, type: :controller
 
+  config.include Devise::TestHelpers, type: :view
   # Use capybara-webkit as default javascript driver
   Capybara.javascript_driver = :webkit
 

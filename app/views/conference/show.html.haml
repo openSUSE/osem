@@ -1,0 +1,3 @@
+= content_for :splash_logo do 
+  = link_to @conference.title, "#", :class => 'navbar-brand'
+= render :partial => "home/conference_details", :locals => {:conference => @conference}

@@ -20,6 +20,8 @@
             = simple_format(conference.venue.description, class: 'lead')
         .col-md-2
           .btn-group-vertical
+            - if !@conference || @conference != conference
+              = link_to "View Conference", conference_path(conference.short_title), :class =>"btn btn-default"
             - if conference.registration_open?
               - if conference.user_registered?(current_user)
                 = link_to "Modify Registration", register_conference_path(conference.short_title), :class =>"btn btn-default"
