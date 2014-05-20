@@ -3,7 +3,7 @@ describe Admin::UsersController do
   let!(:admin_role) { create(:admin_role) }
   let!(:participant_role) { create(:participant_role) }
   let(:admin) { create(:admin) }
-  let(:user) { create(:user) } 
+  let(:user) { create(:user) }
   before(:each) do
     sign_in(admin)
   end
