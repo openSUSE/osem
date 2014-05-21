@@ -2,7 +2,9 @@ class Person < ActiveRecord::Base
   include Gravtastic
   gravtastic :size => 32
 
-  attr_accessible :email, :first_name, :last_name, :public_name, :biography, :company, :avatar, :irc_nickname, :mobile, :tshirt, :languages, :volunteer_experience
+  attr_accessible :email, :first_name, :last_name, :public_name, :biography,
+                  :company, :avatar, :irc_nickname, :mobile, :tshirt,
+                  :languages, :volunteer_experience, :featured
 
   belongs_to :user, :inverse_of => :person
   has_many :event_people, :dependent => :destroy

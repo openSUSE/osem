@@ -50,3 +50,8 @@ body > #messages {
         display: block;
     }
 }
+
+/*spalsh page css*/
+.speaker-pic{
+  margin: 0 auto;
+}

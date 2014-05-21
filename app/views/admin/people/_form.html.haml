@@ -1,5 +1,6 @@
 = semantic_form_for [:admin, @person] do |f|
   = f.inputs "Basic Information" do
+    = f.input :featured, label: "Keynote Speaker"
     = f.input :first_name, :as => :string
     = f.input :last_name, :as => :string
     = f.input :public_name, :as => :string
