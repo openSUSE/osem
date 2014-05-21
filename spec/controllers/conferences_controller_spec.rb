@@ -35,7 +35,7 @@ describe Admin::ConferenceController do
         it 'redirects to the updated conference' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
-
+          conference.reload
           expect(response).to redirect_to admin_conference_path(
                                               conference.short_title)
         end
@@ -51,7 +51,7 @@ describe Admin::ConferenceController do
           expect(flash[:alert]).
               to eq("Updating conference failed. Short title can't be blank.")
           expect(conference.title).to eq('The dog and pony show')
-          expect(conference.short_title).to eq('dps14')
+          expect(conference.short_title).to eq("#{conference.short_title}")
         end
 
         it 're-renders the #show template' do
@@ -107,14 +107,14 @@ describe Admin::ConferenceController do
           conference
           expected = expect do
             post :create, conference:
-                attributes_for(:conference)
+                attributes_for(:conference, short_title: conference.short_title)
           end
           expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
           conference
-          post :create, conference: attributes_for(:conference)
+          post :create, conference: attributes_for(:conference, short_title: conference.short_title)
           expect(response).to redirect_to new_admin_conference_path
         end
       end
@@ -135,8 +135,7 @@ describe Admin::ConferenceController do
     describe 'GET #index' do
       context 'with more than 0 conferences' do
         it 'populates an array with conferences' do
-          con2 = create(:conference, short_title: 'dps15',
-                        title: 'The dog and pony show 2015')
+          con2 = create(:conference)
           get :index
           expect(assigns(:conferences)).to match_array([conference, con2])
         end

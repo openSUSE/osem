@@ -2,6 +2,7 @@
     <%= f.inputs do %>
         <%= f.input :title %>
         <%= f.input :description, :input_html => {:rows => 5} %>
+        <%= f.date_select :date, as: :string %>
         <%= remove_association_link :social_event, f %>
     <% end %>
 </div>
