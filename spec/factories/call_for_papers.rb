@@ -6,5 +6,6 @@ FactoryGirl.define do
     end_date Date.today + 7
     hard_deadline Date.today + 8
     description 'We call for papers'
+    conference
   end
 end

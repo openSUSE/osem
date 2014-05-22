@@ -1,0 +1,57 @@
+= content_for :splash_nav do
+  %li
+    %a{ href: '#callforpapers' } Call For Papers
+
+%div.container#callforpapers.text-center
+  %div.row
+    %div.col-md-12
+      %h1
+        Call For Papers
+      - if !@conference.call_for_papers.description.blank?
+        %p
+          = @conference.call_for_papers.description
+      %p Proposals will be accepted between #{ date_string(@conference.call_for_papers.start_date, @conference.call_for_papers.end_date) }
+      - if @conference.cfp_open?
+        %div.row.col-md-12.col-md-offset-2
+          %div.col-md-2
+            %h2#days
+            %p Days
+          %div.col-md-2
+            %h2#hours
+            %p Hours
+          %div.col-md-2
+            %h2#minutes
+            %p Minutes
+          %div.col-md-2
+            %h2#seconds
+            %p Seconds
+        %p
+          = link_to "Submit Your Proposals Today", conference_proposal_index_path(@conference.short_title), class: 'btn btn-info', target: '_blank'
+
+:javascript
+  $( document ).ready(function(){
+    var target_date = new Date("#{@conference.call_for_papers.end_date}").getTime();
+
+    var days, hours, minutes, seconds;
+
+    setInterval(function () {
+
+      var current_date = new Date().getTime();
+      var seconds_left = (target_date - current_date) / 1000;
+
+      days = parseInt(seconds_left / 86400);
+      seconds_left = seconds_left % 86400;
+
+      hours = parseInt(seconds_left / 3600);
+      seconds_left = seconds_left % 3600;
+
+      minutes = parseInt(seconds_left / 60);
+      seconds = parseInt(seconds_left % 60);
+
+      $('#days').text(days)
+      $('#hours').text(hours);
+      $('#minutes').text(minutes);
+      $('#seconds').text(seconds);
+    }, 1000);
+  });
+
