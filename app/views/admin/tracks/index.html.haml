@@ -1,7 +1,5 @@
 .row
-  .col-md-3
-    = render 'admin/conference/sidebar'
-  .col-md-9
+  .col-md-8
     = semantic_form_for(@conference, :url => admin_conference_track_path(@conference.short_title, @conference.tracks)) do |f|
       = dynamic_association :tracks, "Tracks", f
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

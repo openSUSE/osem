@@ -1,3 +1,12 @@
+%noscript
+  :css
+    #content {
+      display: none;
+    }
+  %h2
+    JavaScript is not enabled
+  %p
+    OSEM requires JavaScript to be enabled to function. Please turn on JavaScript in your browser's settings and reload the page to continue.
 - flash.each do |type, message|
   %div{:class=>"alert alert-dismissable #{bootstrap_class_for(type)}", :id=>"flash"}
     .button.close{"data-dismiss" => "alert", "aria-hidden"=>"true"}

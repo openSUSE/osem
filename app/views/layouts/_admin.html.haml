@@ -1,0 +1,14 @@
+.container-fluid
+  .row
+    .col-md-2
+      - if @conference and not @conference.short_title.nil?
+        -# Individual admin sidebar
+        = render 'layouts/admin_sidebar'
+      -else
+        -# Index admin sidebar
+        = render 'layouts/admin_sidebar_index'
+    .col-md-10
+      #messages
+        =render 'layouts/messages'
+      #content
+        = yield

@@ -1,9 +1,6 @@
 require 'spec_helper'
 describe 'admin/callforpapers/show' do
-  it 'renders conference sidebar' do
-    assign :cfp, CallForPapers.new
-    expect(sidebar).to be true
-  end
+
   it 'renders callforpapers details' do
     @conference = create(:conference)
     assign :conference, @conference

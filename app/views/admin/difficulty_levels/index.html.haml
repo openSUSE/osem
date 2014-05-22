@@ -1,7 +1,5 @@
 .row
-  .col-md-3
-    = render 'admin/conference/sidebar'
-  .col-md-9
+  .col-md-8
     = semantic_form_for @conference, :url => admin_conference_difficulty_level_path(@conference.short_title, @conference.difficulty_levels) do |f|
       = f.input :use_difficulty_levels, :label => false
       = dynamic_association :difficulty_levels, "Difficulty_Levels", f

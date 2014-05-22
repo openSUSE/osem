@@ -70,6 +70,19 @@ $(function() {
     $(".comment-reply").hide();
     $(".user-details-popover").popover();
     $("#comments-div").hide();
+
+    $( ".myAccordion" ).mouseover(function() {
+        if(!$(this).find("ul").is(':visible')){
+            //Hide all except this
+            $siblings = $(this).siblings().find("ul:visible");
+            $siblings.hide();
+            $siblings.parent().find('span:nth-child(2)').toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
+
+            //show this
+            $(this).find("ul").show();
+            $(this).find('span:nth-child(2)').toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
+        }
+    });
 });
 
 function word_count(text, divId, maxcount) {

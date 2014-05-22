@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe 'admin/social_events/index' do
-  it 'renders conference sidebar' do
-    expect(sidebar).to be true
-  end
+
   it 'renders social events' do 
     @social_event = create(:social_event)
     assign :conference, @social_event.conference

@@ -1,5 +1,5 @@
 .row
-  .col-md-6.col-md-offset-3
+  .col-md-8
     = semantic_form_for(@conference, :url => admin_conference_index_path) do |f|
       = f.inputs 'Basic Information' do
         = f.input :title, hint: "The name of your conference as it shall appear throughout the site. Example: 'OpenSUSE Conference 2013'",

@@ -1,9 +1,6 @@
 require 'spec_helper'
 describe 'admin/emails/index' do
-  it 'renders conference sidebar' do 
-    assign :settings, create(:email_settings)
-    expect(sidebar).to be true
-  end
+
   it 'renders email templates' do 
     @conference = create(:conference)
     assign :conference, @conference
