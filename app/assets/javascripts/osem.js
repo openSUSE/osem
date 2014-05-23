@@ -71,6 +71,18 @@ $(function() {
     $(".user-details-popover").popover();
     $("#comments-div").hide();
 
+    $(document).ready(function () {
+        var path = window.location.pathname;
+        $(".myAccordion ul").each(function () {
+            $this = $(this);
+            $this.find("a").each(function () {
+                if ($(this).attr("href") == path) {
+                    $this.show();
+                }
+            })
+        });
+    });
+
     $( ".myAccordion" ).mouseover(function() {
         if(!$(this).find("ul").is(':visible')){
             //Hide all except this
