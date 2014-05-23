@@ -30,16 +30,24 @@ class Admin::ConferenceController < ApplicationController
     @conference = Conference.find_by(short_title: params[:id])
     short_title = @conference.short_title
     if @conference.update_attributes(params[:conference])
-      redirect_to(admin_conference_path(id: @conference.short_title),
+      redirect_to(edit_admin_conference_path(id: @conference.short_title),
                   notice: 'Conference was successfully updated.')
     else
-      redirect_to(admin_conference_path(id: short_title),
+      redirect_to(edit_admin_conference_path(id: short_title),
                   alert: 'Updating conference failed. ' \
                   "#{@conference.errors.full_messages.join('. ')}.")
     end
   end
 
   def show
+    @conference = Conference.find_by(short_title: params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: @conference.to_json }
+    end
+  end
+
+  def edit
     @conferences = Conference.all
     @conference = Conference.find_by(short_title: params[:id])
     respond_to do |format|
