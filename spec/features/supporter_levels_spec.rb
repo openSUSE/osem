@@ -32,7 +32,7 @@ feature SupporterLevel do
           set('223.0')
       page.
           find('div.nested-fields:nth-of-type(1) div:nth-of-type(5) textarea').
-          set('Lorem Ipsum')  
+          set('Lorem Ipsum')
       click_button 'Update Conference'
 
       # Validations
