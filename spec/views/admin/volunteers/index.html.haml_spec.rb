@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe 'admin/volunteers/index' do
-  it 'renders conference sidebar' do
-    expect(sidebar).to be true
-  end
 
   it 'renders volunteers days as vdays' do
     @vday = create(:vday)

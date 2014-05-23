@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe 'admin/tracks/index' do
-  it 'renders conference sidebar' do
-    expect(sidebar).to be true
-  end
+
   it 'renders tracks' do
     @track = create(:track)
     assign :conference, @track.conference

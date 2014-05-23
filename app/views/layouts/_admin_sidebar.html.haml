@@ -1,0 +1,71 @@
+%ul.nav.nav-stacked.mySidebar
+  .btn-group
+    %button{type:'button', class:'btn btn-default btn-link dropdown-toggle', 'data-toggle'=>'dropdown'}
+      %span.glyphicon.glyphicon-home
+      Conferences
+      %span.caret
+    %ul.dropdown-menu{role:'menu'}
+      %li
+        = link_to(admin_conference_index_path) do
+          %span.glyphicon.glyphicon-dashboard
+          All
+      - @conferences.each do |conference|
+        %li
+          = link_to(admin_conference_path(conference.short_title)) do
+            %span.glyphicon.glyphicon-cog
+            Manage
+            = conference.short_title
+        %li
+          = link_to(new_admin_conference_path) do
+            %span.glyphicon.glyphicon-plus
+            New Conference
+  %hr
+  %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
+    = link_to(admin_conference_registrations_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-user
+      Registrations
+  %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
+    = link_to(admin_conference_events_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-comment
+      Events
+  %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
+    = link_to(admin_conference_schedule_path(@conference.short_title), target: '_blank') do
+      %span.glyphicon.glyphicon-calendar
+      Shedule
+  %hr
+  %li.nav-header
+    %a
+      %span.glyphicon.glyphicon-wrench
+      Settings
+  %li{:class=> active_nav_li(admin_conference_path(@conference.short_title))}
+    = link_to(admin_conference_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-cog
+      Conference
+  %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
+    = link_to(admin_conference_venue_info_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-calendar
+      Venue
+      %span.small.glyphicon.glyphicon-chevron-right
+    %ul.nav.nav-stacked.small.collapse.subNav
+      %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
+        = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
+  %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
+    = link_to(admin_conference_emails_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-envelope
+      E-Mails
+  %li{:class=> "#{active_nav_li(admin_conference_callforpapers_path(@conference.short_title))} myAccordion"}
+    = link_to(admin_conference_callforpapers_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-comment
+      Call for papers
+      %span.small.glyphicon.glyphicon-chevron-right
+    %ul.nav.nav-stacked.small.collapse.subNav
+      %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
+        = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)
+      %li{:class=> active_nav_li(admin_conference_eventtypes_path(@conference.short_title))}
+        = link_to 'Event types', admin_conference_eventtypes_path(@conference.short_title)
+      %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
+        = link_to 'Difficulty levels', admin_conference_difficulty_levels_path(@conference.short_title)
+    %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}
+      = link_to(admin_conference_questions_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-question-sign
+        Questions

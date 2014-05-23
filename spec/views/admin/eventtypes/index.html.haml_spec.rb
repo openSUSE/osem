@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe 'admin/eventtypes/index' do
-  it 'renders conference sidebar' do
-    expect(sidebar).to be true
-  end
 
   it 'renders event types' do
     @event_type = create(:event_type)

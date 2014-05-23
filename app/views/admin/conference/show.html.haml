@@ -1,7 +1,5 @@
 .row
-  .col-md-3
-    = render :partial => "sidebar"
-  .col-md-9
+  .col-md-8
     = semantic_form_for(@conference, :url => admin_conference_path(@conference.short_title),:html => {:multipart => true}) do |f|
       = f.input :title, :hint => "The full name of the conference, such as 'OpenSUSE Conference 2013'"
       = f.input :short_title, :hint => "A short title, such as 'osc2013', to be used in URLs"

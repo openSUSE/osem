@@ -1,7 +1,5 @@
 .row
-  .col-md-3
-    = render 'admin/conference/sidebar'
-  .col-md-9
+  .col-md-8
     = semantic_form_for(@venue, :url => admin_conference_venue_update_path(@conference.short_title),:html => {:multipart => true}) do |f|
       = f.input :name, :input_html => {:rows => 1}
       = f.input :address, :input_html => {:rows => 1}

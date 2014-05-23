@@ -17,21 +17,16 @@
     = yield(:head)
   %body
     = render 'layouts/navigation'
-    .container#messages
-      .row
-        .col-md-12
-          = render 'layouts/messages'
-          %noscript
-            :css
-              #content {
-                display: none;
-              }
-            %h2
-              JavaScript is not enabled
-            %p
-              OSEM requires JavaScript to be enabled to function. Please turn on JavaScript in your browser's settings and reload the page to continue.
-    .container#content
-      = yield
+    -# Admin area
+    - if controller.class.name.split("::").first=="Admin"
+      = render 'layouts/admin'
+    -else
+      .container#messages
+        .row
+          .col-md-12
+            = render 'layouts/messages'
+      .container#content
+        = yield
 
     #footer
       .container
