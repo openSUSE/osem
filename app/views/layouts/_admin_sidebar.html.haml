@@ -1,4 +1,4 @@
-%ul.nav.nav-stacked.mySidebar
+%ul.nav.nav-stacked.nav-pills.mySidebar
   .btn-group
     %button{type:'button', class:'btn btn-default btn-link dropdown-toggle', 'data-toggle'=>'dropdown'}
       %span.glyphicon.glyphicon-home
@@ -37,8 +37,8 @@
     %a
       %span.glyphicon.glyphicon-wrench
       Settings
-  %li{:class=> active_nav_li(admin_conference_path(@conference.short_title))}
-    = link_to(admin_conference_path(@conference.short_title)) do
+  %li{:class=> active_nav_li(edit_admin_conference_path(@conference.short_title))}
+    = link_to(edit_admin_conference_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-cog
       Conference
   %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
@@ -46,7 +46,7 @@
       %span.glyphicon.glyphicon-calendar
       Venue
       %span.small.glyphicon.glyphicon-chevron-right
-    %ul.nav.nav-stacked.small.collapse.subNav
+    %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
         = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
   %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
@@ -58,7 +58,7 @@
       %span.glyphicon.glyphicon-comment
       Call for papers
       %span.small.glyphicon.glyphicon-chevron-right
-    %ul.nav.nav-stacked.small.collapse.subNav
+    %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
         = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)
       %li{:class=> active_nav_li(admin_conference_eventtypes_path(@conference.short_title))}

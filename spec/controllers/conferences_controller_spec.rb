@@ -36,7 +36,7 @@ describe Admin::ConferenceController do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
           conference.reload
-          expect(response).to redirect_to admin_conference_path(
+          expect(response).to redirect_to edit_admin_conference_path(
                                               conference.short_title)
         end
       end
@@ -61,7 +61,7 @@ describe Admin::ConferenceController do
 
           expect(flash[:alert]).
               to eq("Updating conference failed. Short title can't be blank.")
-          expect(response).to redirect_to admin_conference_path(
+          expect(response).to redirect_to edit_admin_conference_path(
                                               conference.short_title)
         end
       end
@@ -117,6 +117,18 @@ describe Admin::ConferenceController do
           post :create, conference: attributes_for(:conference, short_title: conference.short_title)
           expect(response).to redirect_to new_admin_conference_path
         end
+      end
+    end
+
+    describe 'GET #edit' do
+      it 'assigns the requested conference to conference' do
+        get :show, id: conference.short_title
+        expect(assigns(:conference)).to eq conference
+      end
+
+      it 'renders the show template' do
+        get :show, id: conference.short_title
+        expect(response).to render_template :show
       end
     end
 

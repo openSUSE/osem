@@ -39,7 +39,7 @@ feature Conference do
       expected_count = Conference.count
       sign_in create(user)
 
-      visit admin_conference_path(conference.short_title)
+      visit edit_admin_conference_path(conference.short_title)
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
       fill_in 'conference_social_tag', with: 'NewCon'
