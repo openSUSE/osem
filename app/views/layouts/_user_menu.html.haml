@@ -13,26 +13,13 @@
     Sign out
 -if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
   %li.divider
-  %li.dropdown-header
-    Conferences
-  - @conferences.each do |conference|
     %li
-      = link_to(admin_conference_path(conference.short_title)) do
-        %span.glyphicon.glyphicon-cog
-        Manage
-        = conference.short_title
-  %li
-    = link_to(new_admin_conference_path) do
-      %span.glyphicon.glyphicon-plus
-      New Conference
-  %li.divider
-  %li.dropdown-header
-    People
-  %li
-    = link_to(admin_users_path) do
-      %span.glyphicon.glyphicon-user
-      Users
-  %li
-    = link_to(admin_people_path) do
-      %span.glyphicon.glyphicon-star-empty
-      People
+      = link_to(admin_conference_index_path()) do
+        %span.glyphicon.glyphicon-home
+        Administration
+    -if @conference and @conference.id
+      %li
+        = link_to(admin_conference_path(@conference.short_title)) do
+          %span.glyphicon.glyphicon-cog
+          Manage
+          = @conference.short_title
