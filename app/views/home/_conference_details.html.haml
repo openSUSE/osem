@@ -9,7 +9,7 @@
             = conference.title
             %small
               %b
-              = conference_date_string(conference)
+              = conference_date_string(conference.start_date, conference.end_date)
           - if conference.venue.name and conference.venue.website and conference.venue.address
             %p
               %small

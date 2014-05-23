@@ -24,7 +24,15 @@ feature SupporterLevel do
       page.
           find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
           set('http://www.google.de')
-
+      page.
+          find('div.nested-fields:nth-of-type(1) div:nth-of-type(3) select').
+          set('USD')
+      page.
+          find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
+          set('223.0')
+      page.
+          find('div.nested-fields:nth-of-type(1) div:nth-of-type(5) textarea').
+          set('Lorem Ipsum')  
       click_button 'Update Conference'
 
       # Validations
@@ -33,6 +41,12 @@ feature SupporterLevel do
                  value).to eq('Example supporter level')
       expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
                  value).to eq('http://www.google.de')
+      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(3) select').
+                 value).to eq('USD')
+      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
+                 value).to eq('223.0')
+      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(5) textarea').
+                 value).to eq('Lorem Ipsum')
 
       # Remove supporter level
       click_link 'Remove supporter_level'
