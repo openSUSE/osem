@@ -11,9 +11,9 @@ FactoryGirl.define do
     sponsorship_level
     organization
     after(:build) do |sponsorship_registration|
-      sponsorship_registration.sponsorship_level = 
-        build(:sponsorship_level, 
-                conference: sponsorship_registration.conference)
+      sponsorship_registration.sponsorship_level =
+        build(:sponsorship_level,
+              conference: sponsorship_registration.conference)
     end
   end
 end

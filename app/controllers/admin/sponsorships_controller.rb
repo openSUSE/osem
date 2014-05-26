@@ -8,10 +8,12 @@ class Admin::SponsorshipsController < ApplicationController
     params[:sponsorship_registration][:conference_id] = @conference.id
     sponsorship = SponsorshipRegistration.new(params[:sponsorship_registration])
     if sponsorship.save
-      redirect_to(admin_conference_sponsorships_path(:conference_id => @conference.short_title), :notice => "Sponsorship added")
+      redirect_to(admin_conference_sponsorships_path(
+                  conference_id: @conference.short_title), notice: 'Sponsorship added')
     else
-      redirect_to(admin_conference_sponsorships_path(:conference_id => @conference.short_title),
-                 :alert => "Sponsorship creation failed.#{sponsorship.errors.full_messages.join('. ')}")
+      redirect_to(admin_conference_sponsorships_path(conference_id: @conference.short_title),
+                  alert: 'Sponsorship creation failed.' \
+                          "#{sponsorship.errors.full_messages.join('. ')}")
     end
   end
 end

@@ -11,7 +11,7 @@ FactoryGirl.define do
     end_date Date.tomorrow
     factory :conference_with_sponsorship_level do
       after(:build) do |conference|
-      conference.sponsorship_levels << build(:sponsorship_level, conference: conference)
+        conference.sponsorship_levels << build(:sponsorship_level, conference: conference)
       end
     end
   end

@@ -6,11 +6,14 @@ class Admin::SponsorshipLevelsController < ApplicationController
   end
 
   def update
-    begin
-      @conference.update_attributes!(params[:conference])
-      redirect_to(admin_conference_sponsorship_levels_path(:conference_id => @conference.short_title), :notice => 'Sponsorship levels were successfully updated.')
-    rescue Exception => e
-      redirect_to(admin_conference_sponsorship_levels_path(:conference_id => @conference.short_title), :alert => "Sponsorship levels update failed: #{e.message}")
+    if @conference.update_attributes!(params[:conference])
+      redirect_to(admin_conference_sponsorship_levels_path(
+                  conference_id: @conference.short_title),
+                  notice: 'Sponsorship levels were successfully updated.')
+    else
+      redirect_to(admin_conference_sponsorship_levels_path(
+                  conference_id: @conference.short_title),
+                  alert: 'Sponsorship levels update failed')
     end
   end
 end

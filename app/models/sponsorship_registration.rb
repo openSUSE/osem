@@ -1,5 +1,5 @@
 class SponsorshipRegistration < ActiveRecord::Base
-  attr_accessible :name, :email_id, :contact_no, :amount_donated, :method_of_donation, 
+  attr_accessible :name, :email_id, :contact_no, :amount_donated, :method_of_donation,
                   :sponsorship_level_id, :conference_id, :organization_id
   belongs_to :organization
   belongs_to :sponsorship_level
