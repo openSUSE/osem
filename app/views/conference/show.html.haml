@@ -1,3 +1,32 @@
 = content_for :splash_logo do 
   = link_to @conference.title, "#", :class => 'navbar-brand'
-= render :partial => "home/conference_details", :locals => {:conference => @conference}
+= content_for :splash_header do
+  %ul.nav.navbar-nav
+    %li
+      %a{ href: '#registration' } Registration
+%div.container#registration.text-center
+  %div.row.col-md-12
+    %h2 Registration
+  - if !@conference.registration_description.blank?
+    %p
+      = @conference.registration_description
+  %h4 Registration period #{ conference_date_string(@conference.registration_start_date, @conference.registration_end_date)}
+  - if @conference.registration_open?
+    = link_to "Register for #{@conference.short_title}", register_conference_path(@conference.short_title), :class =>"btn btn-success btn-lg", target: '_blank'
+  %div.row
+    %h3 Tickets
+    - if !@conference.ticket_description.blank?
+      %p #{ @conference.ticket_description }
+    - if @conference.use_supporter_levels?
+      - @conference.supporter_levels.each do |s|
+        %div.col-md-6
+          - if !s.title.blank?
+            %h4 #{ s.title }
+          -if !s.description.blank?
+            %p #{ s.description }
+          - if !s.url.blank?
+            %div.btn-group
+              = link_to "Buy Ticket", s.url, class: 'btn btn-success', target: '_blank'
+              - if !s.price_cents.blank?
+                = button_tag "#{ humanized_money_with_symbol s.price}", class: 'btn btn-success'
+

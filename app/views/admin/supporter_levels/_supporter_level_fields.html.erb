@@ -1,7 +1,11 @@
 <div class="nested-fields">
     <%= f.inputs do %>
-        <%= f.input :title%>
+        <%= f.input :title %>
         <%= f.input :url  %>
+        <%= f.input :price_currency, collection: Money::Currency.table.map{ |x| x[1][:iso_code] }, label: 'Price Currency' %>
+        <%= f.input :amount, hint: 'Enter your price in only.For 100$ enter 100 and so on' %>
+        <%= f.input :description, hint: 'This will be displayed on supoorter level category in
+                                        splash page' %>
         <%= remove_association_link :supporter_level, f %>
     <% end %>
 </div>
