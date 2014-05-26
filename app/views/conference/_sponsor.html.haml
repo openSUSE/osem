@@ -1,0 +1,20 @@
+%div.container#sponsors.text-center
+  %div.row
+    %div.col-md-12
+      %h2 Sponsors
+      -if !@conference.sponsor_description.blank?
+        %p #{ @conference.sponsor_description }
+      -if !@conference.sponsor_email.blank?
+        %h3= mail_to "#{ @conference.sponsor_email }", 'Become a Sponsor'
+  - if !@conference.sponsorship_levels.blank?
+    - @conference.sponsorship_levels.each do |l|
+      - if !l.sponsorship_registrations.blank?
+        %div.row.multi-columns-row
+          %h4 #{l.title}
+          - l.sponsorship_registrations.each_with_index do |r,index|
+            %div.col-md-4
+              - if !r.organization.photo.blank?
+                = link_to image_tag(r.organization.photo(:large), class: 'img-responsive', alt: "#{r.organization.title} Logo", title: "#{r.organization.description}"), "http://#{r.organization.website_url}"
+            - unless index == 0
+              - if index%2 == 0
+                %div.clearfix.visible-md.visible-lg

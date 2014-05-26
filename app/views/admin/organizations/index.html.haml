@@ -1,0 +1,36 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Organizations
+        - if @organizations
+          = "(#{@organizations.length})"
+        = link_to "New Organization", new_admin_organization_path, :class => "btn btn-success pull-right"
+
+.row
+  .col-md-12
+    .well
+      %table.table.table-striped.table-bordered.table-hover#organization
+        %thead
+          %th
+            %b Title
+          %th
+            %b Email
+          %th
+          %th
+          %th
+        - @organizations.each do |organization|
+          %tr
+            %td= organization.title
+            %td= organization.email_id
+            %td= link_to "Edit", edit_admin_organization_path(organization)
+            %td= link_to "View", admin_organization_path(organization)
+            %td=link_to 'Delete',admin_organization_path(organization), :method=> :delete , :data=> {:confirm => 'Are you sure ?'},:class => "btn btn-primary btn-danger"
+
+:javascript
+  $(document).ready(function() {
+      $('#organization').dataTable( {
+        "bPaginate": false,
+        "bLengthChange": false
+      } );
+  } );

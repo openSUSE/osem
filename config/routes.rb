@@ -1,12 +1,11 @@
 Osem::Application.routes.draw do
 
-  get 'conference/show'
-
   devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
 
   namespace :admin do
     resources :users
     resources :people
+    resources :organizations
     resources :conference do
       get "/schedule" => "schedule#show"
       patch "/schedule" => "schedule#update"
@@ -38,6 +37,8 @@ Osem::Application.routes.draw do
 
       resources :supporter_levels, only: [:show, :update, :index]
 
+      resources :sponsorship_levels, only: [:show, :update, :index]
+
       resources :emails, only: [:show, :update, :index]
 
       resources :callforpapers, only: [:create] do
@@ -59,7 +60,7 @@ Osem::Application.routes.draw do
         end
         resource :speaker, :only => [:edit, :update]
       end
-
+      resources :sponsorships
       resources :supporters
     end
   end
