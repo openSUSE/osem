@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
 
   validates_attachment_content_type :photo,
                                     content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { :in => 0..500.kilobytes }
+                                    size: { in: 0..500.kilobytes }
   validates_presence_of :title,
                         :email_id,
                         :website_url

@@ -26,7 +26,8 @@ class Admin::OrganizationsController < ApplicationController
 
   def update
     @organization = Organization.find(params[:id])
-    flash[:notice] = 'Organization was successfully updated' if @organization.update_attributes(params[:organization])
+    flash[:notice] = 'Organization was successfully updated' 
+                      if @organization.update_attributes(params[:organization])
     respond_with @organization, location: admin_organizations_path
   end
 
