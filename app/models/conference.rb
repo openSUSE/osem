@@ -9,7 +9,7 @@ class Conference < ActiveRecord::Base
 		              :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
                   :difficulty_levels_attributes, :use_difficulty_levels,
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
-                  :media_id, :media_type
+                  :media_id, :media_type, :description
 
   has_paper_trail
 
@@ -57,7 +57,8 @@ class Conference < ActiveRecord::Base
                         :short_title,
                         :social_tag,
                         :start_date,
-                        :end_date
+                        :end_date,
+                        :description
   validates_uniqueness_of :short_title
   validates_format_of :short_title, :with => /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid

@@ -16,7 +16,7 @@ feature Conference do
       fill_in 'conference_title', with: 'Example Con'
       fill_in 'conference_short_title', with: 'ExCon'
       fill_in 'conference_social_tag', with: 'ExCon'
-
+      fill_in 'conference_description', with: 'ExCon description'
       select('(GMT+01:00) Berlin', from: 'conference[timezone]')
 
       today = Date.today - 1

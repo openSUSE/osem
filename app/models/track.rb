@@ -1,6 +1,6 @@
 class Track < ActiveRecord::Base
   attr_accessible :name, :description, :color
-
+  validates :description, presence: true
   belongs_to :conference
 
   before_create :generate_guid

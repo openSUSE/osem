@@ -4,6 +4,7 @@
       = f.inputs 'Basic Information' do
         = f.input :title, hint: "The name of your conference as it shall appear throughout the site. Example: 'OpenSUSE Conference 2013'",
                           input_html: { required: 'required' }
+        = f.input :description, hint: 'Required for program section in the splash page'
         = f.input :short_title, hint: "A short and unique handle for your conference, using only lower-case letters, numbers and underscores. This will be used to identify your conference in URLs etc. Example: 'froscon2011'",
                                 input_html: { required: 'required' }
         = f.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'",

@@ -1,3 +1,34 @@
 = content_for :splash_logo do 
   = link_to @conference.title, "#", :class => 'navbar-brand'
-= render :partial => "home/conference_details", :locals => {:conference => @conference}
+= content_for :splash_header do
+  %ul.nav.navbar-nav
+    %li
+      %a{ href: '#program' } Program
+%div.container#program.text-center
+  %div.row
+    %div.col-md-12
+      %h1 Program
+      %p 
+        = @conference.description
+      %span You can find the complete schedule in our 
+      %span 
+        = link_to 'Master Schedule', conference_schedule_path(@conference.short_title)
+  - if !@keynote_speakers.blank?
+    %div.row
+      %h2 Keynote Speakers
+      - @keynote_speakers.each do |k|
+        %div.col-lg-3.text-center
+          = image_tag(k.person.gravatar_url(size: '140'), class: 'img-responsive img-circle speaker-pic')
+          %h4 
+            = k.person.first_name
+            = k.person.last_name
+  -if !@conference.tracks.blank?
+    %div.row
+      %div.col-md-12
+        %h2 Tracks
+        - @conference.tracks.each do |t|
+          %div.col-md-4
+            %h4 
+              = t.name
+            %p
+              = t.description 
