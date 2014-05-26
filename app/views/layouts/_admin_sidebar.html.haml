@@ -33,14 +33,10 @@
       %span.glyphicon.glyphicon-calendar
       Shedule
   %hr
-  %li.nav-header
-    %a
-      %span.glyphicon.glyphicon-wrench
-      Settings
-  %li{:class=> active_nav_li(edit_admin_conference_path(@conference.short_title))}
+  %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header"}
     = link_to(edit_admin_conference_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-cog
-      Conference
+      Settings
   %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
     = link_to(admin_conference_venue_info_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-calendar
