@@ -24,6 +24,10 @@
     = link_to(admin_conference_registrations_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-user
       Registrations
+  %li{:class=> active_nav_li(admin_conference_sponsorships_path(@conference.short_title))}
+    = link_to(admin_conference_sponsorships_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-usd
+      Sponsorships
   %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
     = link_to(admin_conference_events_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-comment
@@ -31,7 +35,7 @@
   %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
     = link_to(admin_conference_schedule_path(@conference.short_title), target: '_blank') do
       %span.glyphicon.glyphicon-calendar
-      Shedule
+      Schedule
   %hr
   %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header"}
     = link_to(edit_admin_conference_path(@conference.short_title)) do
@@ -45,6 +49,10 @@
     %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
         = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
+  %li{:class=> active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))}
+    = link_to(admin_conference_sponsorship_levels_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-star
+      Sponsorship Levels
   %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
     = link_to(admin_conference_emails_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-envelope

@@ -35,7 +35,7 @@ class Admin::ConferenceController < ApplicationController
     else
       redirect_to(edit_admin_conference_path(id: short_title),
                   alert: 'Updating conference failed. ' \
-                  "#{@conference.errors.full_messages.join('. ')}.")
+                          "#{@conference.errors.full_messages.join('. ')}.")
     end
   end
 

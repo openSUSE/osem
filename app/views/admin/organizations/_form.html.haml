@@ -1,0 +1,11 @@
+= semantic_form_for [:admin, @organization] do |f|
+  = f.inputs "Basic Information" do
+    = f.input :title, as: :string
+    = f.input :email_id, as: :string
+    = f.input :website_url, as: :string 
+    = f.input :description
+    - if !@organization.photo.blank?
+      = image_tag @organization.photo(:thumb)
+    = f.input :photo
+  = f.actions do
+    = f.action :submit, :button_html => {:class => "btn primary"}

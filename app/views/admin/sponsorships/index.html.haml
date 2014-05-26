@@ -1,0 +1,45 @@
+#new-sponsorship-dialog
+  = semantic_form_for :sponsorship_registration, :html => {:id => "sponsorship-add-form"}  do |f|
+    = f.input :name, :label => "Sponsorship Name"
+    = f.input :email_id, :label => "Sponsorship Email"
+    = f.input :organization_id, as: :select, collection: Organization.all
+    = f.input :sponsorship_level_id, :as => :select, :collection => @conference.sponsorship_levels
+    = f.input :contact_no, :label => "Phone Number"
+    = f.input :amount_donated
+    = f.input :method_of_donation
+    = f.action :submit, :button_html => { :value => "Save", :class => "btn btn-primary" }
+
+.row
+  .col-md-12
+    .pull-right{:style=>"margin-top:20px; margin-bottom:20px;"}
+      = link_to "New Sponsorship", "#", :id => "new-sponsorship-button", :class => "btn btn-success"
+.row
+  .col-md-12
+    %h2 Sponsorships
+    .well
+      %table.table.table-striped#sponsorships
+        %thead
+          %th
+            Name
+          %th
+            Email
+          %th
+            Level
+          %th
+            Organization
+          %th
+            Phone Number
+          %th
+            Amount Donated
+          %th
+            Method of Donation
+        %tbody
+        - @conference.sponsorship_registrations.each do |u|
+          %tr
+            %td= u.name
+            %td= u.email_id
+            %td= u.sponsorship_level.title if u.sponsorship_level
+            %td= u.organization.title
+            %td= u.contact_no
+            %td= u.amount_donated
+            %td= u.method_of_donation

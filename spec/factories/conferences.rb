@@ -9,5 +9,10 @@ FactoryGirl.define do
     contact_email 'admin@example.com'
     start_date Date.today
     end_date Date.tomorrow
+    factory :conference_with_sponsorship_level do
+      after(:build) do |conference|
+        conference.sponsorship_levels << build(:sponsorship_level, conference: conference)
+      end
+    end
   end
 end

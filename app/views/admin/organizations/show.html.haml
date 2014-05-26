@@ -1,0 +1,26 @@
+%table.table
+  %tr
+    %td
+      %b Title
+    %td
+      = @organization.title
+  %tr
+    %td
+      %b Email
+    %td
+      = @organization.email_id
+  %tr
+    %td
+      %b Logo
+    %td
+      = image_tag(@organization.photo(:thumb), class: 'img-responsive') if @organization.photo?
+  %tr
+    %td
+      %b Description
+    %td
+      = @organization.description
+  %tr
+    %td
+      %b Website Url
+    %td
+      = @organization.website_url
