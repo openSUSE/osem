@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140514140013) do
+ActiveRecord::Schema.define(version: 20140528072939) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20140514140013) do
     t.boolean  "use_volunteers"
     t.string   "media_id"
     t.string   "media_type"
+    t.string   "color",                   default: "#000000"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
