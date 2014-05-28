@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def bootstrap_class_for(flash_type)
     logger.debug "flash_type is #{flash_type}"
     case flash_type
@@ -31,7 +30,7 @@ module ApplicationHelper
       registration.send(field.to_sym).strftime("%d %b %H:%M") if registration.send(field.to_sym)
     end
   end
-  
+
   def getdate(var)
     if var.kind_of?(String)
       DateTime.parse(var).strftime("%a, %d %b")
@@ -111,5 +110,24 @@ module ApplicationHelper
     end
 
     result
+  end
+
+  def default_brand
+    link_to CONFIG['name'], root_path,
+            class: 'navbar-brand',
+            title: 'Open Source Event Manager'
+  end
+
+  def short_title_brand(conference)
+    link_to conference.short_title, conference_path(conference.short_title),
+            class: 'navbar-brand',
+            title: conference.title
+  end
+
+  def brand
+    content_for(:brand) ||
+    (default_brand if controller.class.parent == Admin) ||
+    (short_title_brand(@conference) if @conference) ||
+    default_brand
   end
 end
