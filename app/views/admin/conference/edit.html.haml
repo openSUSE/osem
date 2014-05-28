@@ -14,6 +14,7 @@
         = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
         = f.input :registration_start_date, :as => :string, :input_html => { :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
         = f.input :registration_end_date, :as => :string, :input_html => { :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
+      = f.input :registration_description, hint: 'This description will appear in registration segment of the splash'
 
       = f.inputs :name => "Media" do
         - if !@conference.logo.blank?

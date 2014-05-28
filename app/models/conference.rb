@@ -9,7 +9,7 @@ class Conference < ActiveRecord::Base
 		              :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
                   :difficulty_levels_attributes, :use_difficulty_levels,
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
-                  :media_id, :media_type, :color, :description
+                  :media_id, :media_type, :color, :description, :registration_description
 
   has_paper_trail
 
@@ -74,7 +74,7 @@ class Conference < ActiveRecord::Base
   # Checks if the user is registered to the conference
   #
   # ====Args
-  # * +user+ -> The user we check for 
+  # * +user+ -> The user we check for
   # ====Returns
   # * +nil+ -> If the user doesn't exist
   # * +false+ -> If the user is registered
