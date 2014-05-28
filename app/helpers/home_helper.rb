@@ -13,22 +13,25 @@ module HomeHelper
   # All other cases
   # * %B %d, %Y - %B %d, %Y (December 30, 2013 - January 02, 2014)
   def conference_date_string(conf)
-    startstr = "Unknown - "
-    endstr = "Unknown"
-    # When the conference  in the same motn
-    if conf.start_date.month == conf.end_date.month and conf.start_date.year == conf.end_date.year
-      startstr = conf.start_date.strftime("%B %d - ")
-      endstr = conf.end_date.strftime("%d, %Y")
-    elsif conf.start_date.month != conf.end_date.month && conf.start_date.year == conf.end_date.year
-      startstr = conf.start_date.strftime("%B %d - ")
-      endstr = conf.end_date.strftime("%B %d, %Y")
+    date_string(conf.start_date, conf.end_date)
+  end
+
+  def date_string(start_date, end_date)
+    startstr = 'Unknown - '
+    endstr = 'Unknown'
+    # When the conference  in the same month
+    if start_date.month == end_date.month && start_date.year == end_date.year
+      startstr = start_date.strftime('%B %d - ')
+      endstr = end_date.strftime('%d, %Y')
+    elsif start_date.month != end_date.month && start_date.year == end_date.year
+      startstr = start_date.strftime('%B %d - ')
+      endstr = end_date.strftime('%B %d, %Y')
     else
-      startstr = conf.start_date.strftime("%B %d, %Y - ")
-      endstr = conf.end_date.strftime("%B %d, %Y")
+      startstr = start_date.strftime('%B %d, %Y - ')
+      endstr = end_date.strftime('%B %d, %Y')
     end
 
     result = startstr + endstr
     result
   end
-
 end
