@@ -13,3 +13,6 @@
         %span You can find the complete schedule in our
         %span
           = link_to 'Master Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
+  -if !@conference.tracks.blank?
+    = render 'tracks'
+

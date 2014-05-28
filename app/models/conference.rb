@@ -74,7 +74,7 @@ class Conference < ActiveRecord::Base
   # Checks if the user is registered to the conference
   #
   # ====Args
-  # * +user+ -> The user we check for 
+  # * +user+ -> The user we check for
   # ====Returns
   # * +nil+ -> If the user doesn't exist
   # * +false+ -> If the user is registered
