@@ -2,6 +2,9 @@
     <%= f.inputs do %>
         <%= f.input :title%>
         <%= f.input :url  %>
+        <%= f.input :description %>
+        <%= f.input :ticket_price, hint: 'Please enter price with currency symbol.
+                                          For example, $200,₹300' %>
         <%= remove_association_link :supporter_level, f %>
     <% end %>
 </div>
