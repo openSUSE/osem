@@ -1,0 +1,15 @@
+= content_for :splash_nav do
+  %li
+    %a{ href: '#program' } Program
+
+%div.container.text-center
+  %div.row
+    %div.col-md-12
+      %h1 Program
+      - if !@conference.description.blank?
+        %p
+          = @conference.description
+      - if @conference.call_for_papers and @conference.call_for_papers.schedule_public
+        %span You can find the complete schedule in our
+        %span
+          = link_to 'Master Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
