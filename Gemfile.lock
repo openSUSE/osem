@@ -55,7 +55,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.1.0)
+    capybara-webkit (1.1.1)
       capybara (~> 2.0, >= 2.0.2)
       json
     celluloid (0.15.2)
@@ -159,7 +159,7 @@ GEM
     mini_portile (0.6.0)
     minitest (5.3.3)
     multi_json (1.9.2)
-    mysql2 (0.3.15)
+    mysql2 (0.3.16)
     nio4r (1.0.0)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
