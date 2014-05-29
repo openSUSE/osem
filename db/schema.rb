@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140528072939) do
+ActiveRecord::Schema.define(version: 20140529133339) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -51,15 +51,15 @@ ActiveRecord::Schema.define(version: 20140528072939) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "conferences", force: true do |t|
-    t.string   "guid",                                    null: false
-    t.string   "title",                                   null: false
-    t.string   "short_title",                             null: false
+    t.string   "guid",                                         null: false
+    t.string   "title",                                        null: false
+    t.string   "short_title",                                  null: false
     t.string   "social_tag"
-    t.string   "contact_email",                           null: false
-    t.string   "timezone",                                null: false
+    t.string   "contact_email",                                null: false
+    t.string   "timezone",                                     null: false
     t.string   "html_export_path"
-    t.date     "start_date",                              null: false
-    t.date     "end_date",                                null: false
+    t.date     "start_date",                                   null: false
+    t.date     "end_date",                                     null: false
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -69,16 +69,19 @@ ActiveRecord::Schema.define(version: 20140528072939) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.boolean  "use_dietary_choices",     default: false
-    t.boolean  "use_supporter_levels",    default: false
+    t.boolean  "use_dietary_choices",      default: false
+    t.boolean  "use_supporter_levels",     default: false
     t.integer  "revision"
-    t.boolean  "use_vpositions",          default: false
-    t.boolean  "use_vdays",               default: false
-    t.boolean  "use_difficulty_levels",   default: false
+    t.boolean  "use_vpositions",           default: false
+    t.boolean  "use_vdays",                default: false
+    t.boolean  "use_difficulty_levels",    default: false
     t.boolean  "use_volunteers"
     t.string   "media_id"
     t.string   "media_type"
-    t.string   "color",                   default: "#000000"
+    t.string   "color",                    default: "#000000"
+    t.text     "description"
+    t.text     "registration_description"
+    t.text     "ticket_description"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
@@ -290,6 +293,8 @@ ActiveRecord::Schema.define(version: 20140528072939) do
     t.integer "conference_id"
     t.string  "title",         null: false
     t.string  "url"
+    t.text    "description"
+    t.string  "ticket_price"
   end
 
   create_table "supporter_registrations", force: true do |t|

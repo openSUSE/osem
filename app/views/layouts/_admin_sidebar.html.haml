@@ -45,6 +45,9 @@
     %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
         = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
+  %li{ class: active_nav_li(admin_conference_supporter_levels_path(@conference.short_title)) }
+    = link_to(admin_conference_supporter_levels_path(@conference.short_title)) do
+      Supporter Levels
   %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
     = link_to(admin_conference_emails_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-envelope
