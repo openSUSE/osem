@@ -174,6 +174,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def week
+    created_at.strftime('%W')
+  end
+
   private
 
   def abstract_limit

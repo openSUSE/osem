@@ -6,6 +6,25 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  describe '#pending?' do
+
+    context 'is pending' do
+
+      it '#pending? is true' do
+        subject.start_date = Date.today + 10
+        expect(subject.pending?).to be true
+      end
+    end
+
+    context 'is not pending' do
+
+      it '#pending? is false' do
+        subject.start_date = Date.today - 10
+        expect(subject.pending?).to be false
+      end
+    end
+  end
+
   describe '#registration_open?' do
 
     context 'closed registration' do

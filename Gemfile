@@ -59,6 +59,7 @@ gem 'axlsx_rails'
 
 # Use d3js for building our statistics
 gem 'd3_rails'
+gem 'chart-js-rails'
 
 # We use coveralls for measuring test coverage
 gem 'coveralls', require: false
