@@ -7,6 +7,7 @@ feature Conference do
   let!(:admin_role) { create(:admin_role) }
   let(:admin) { create(:admin) }
   let(:conference) { create(:conference) }
+
   shared_examples 'volunteer' do |user|
     scenario 'adds and updates vdays', feature: true, js: true do
       sign_in(admin)
@@ -56,6 +57,7 @@ feature Conference do
       sign_in(admin)
       visit admin_conference_volunteers_info_path(
         conference_id: conference.short_title)
+
       # Adding vday
       check('Enable Volunteering')
       check('Use vdays')
@@ -76,6 +78,7 @@ feature Conference do
       click_button 'Update Conference'
       expect(flash).
       to eq('Volunteering options were successfully updated.')
+
       # Add vposition
       check('Use vpositions')
       click_link 'Add vposition'
@@ -114,9 +117,11 @@ feature Conference do
       sign_out
     end
   end
+
   describe 'admin' do
     it_behaves_like 'volunteer', :admin
   end
+
   describe 'organizer' do
     it_behaves_like 'volunteer', :organizer
   end
