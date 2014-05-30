@@ -7,7 +7,8 @@
   - if !@conference.registration_description.blank?
     %p
       = @conference.registration_description
-  %h4 Registration period #{ date_string(@conference.registration_start_date, @conference.registration_end_date) }
+  - if @conference.registration_open?
+    %h4 Registration period #{ date_string(@conference.registration_start_date, @conference.registration_end_date) }
   - if @conference.registration_open?
     = link_to "Register for #{@conference.short_title}", register_conference_path(@conference.short_title), :class =>"btn btn-success btn-lg", target: '_blank'
   - if @conference.use_supporter_levels?
