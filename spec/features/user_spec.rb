@@ -24,11 +24,12 @@ feature User do
       sign_in(admin)
       visit admin_users_path
       find("#user-modify-role-#{@user.id}").click
-      find("#user-role-selection-#{@user.id}").visible?
-      page.find('#user_role_ids').find(:xpath, 'option[2]').select_option do
-        find('#user_submit_action').click
-        expect(flash).to eq("Updated #{@user.email}")
-        expect(@user.role_ids).to match_array([2])
+      if find("#user-role-selection-#{@user.id}").visible?
+        page.find('#user_role_ids').find(:xpath, 'option[2]').select_option do
+          find('#user_submit_action').click
+          expect(flash).to eq("Updated #{@user.email}")
+          expect(@user.role_ids).to match_array([2])
+        end
       end
       sign_out
     end
