@@ -124,6 +124,43 @@ class Conference < ActiveRecord::Base
     return false
   end
 
+  ##
+  # Returns an array with the summarized event submissions per week.
+  # ====Params:
+  #  * +weeks+ -> Integer with number of weeks. This is necessary to compare conferences.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0 events, second week 3 events.
+  def get_submissions_per_week(weeks)
+    result = []
+
+    if call_for_papers && events
+      submissions = events.select('id, created_at').group_by { |t| t.week }
+      start_week = call_for_papers.start_week
+      sum = 0
+
+      (0..weeks - 1).each do |week|
+        if submissions["#{week + start_week}"]
+          sum += submissions["#{week + start_week}"].length
+        end
+        result.push(sum)
+      end
+    else
+      result = Array.new(weeks, 0)
+    end
+    result
+  end
+
+  ##
+  # Checks if the conference is pending.
+  #
+  # ====Returns
+  # * +false+ -> If the conference start date is in the past.
+  # * +true+ -> If the conference start date is in the future.
+  def pending?
+    start_date > Date.today
+  end
+
   private
 
   ##

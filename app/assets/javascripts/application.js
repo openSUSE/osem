@@ -18,8 +18,10 @@
 //= require jquery.dataTables
 //= require cocoon
 //= require bootstrap
-//= require osem
+//= require Chart
 //= require d3
+//= require osem
+//= require dashboard
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

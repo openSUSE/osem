@@ -147,9 +147,20 @@ describe Admin::ConferenceController do
     describe 'GET #index' do
       context 'with more than 0 conferences' do
         it 'populates an array with conferences' do
+          conference
           con2 = create(:conference)
           get :index
           expect(assigns(:conferences)).to match_array([conference, con2])
+        end
+
+        it 'assigns cfp_max an array with maximum weeks' do
+          conference
+          date = Date.new(2014, 05, 28)
+          conference.call_for_papers = create(:call_for_papers,
+                                              start_date: date,
+                                              end_date: date + 14)
+          get :index
+          expect(assigns(:weeks)).to match_array([1, 2])
         end
 
         it 'renders the index template' do

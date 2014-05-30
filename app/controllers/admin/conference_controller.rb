@@ -2,8 +2,21 @@ class Admin::ConferenceController < ApplicationController
   before_filter :verify_organizer
 
   def index
-    @conferences = Conference.all
-    if @conferences.count == 0
+    @conferences = Conference.select('id, short_title, color, start_date')
+
+    # Event submissions over time
+    @weeks = CallForPapers.max_weeks
+    @result = {}
+
+    @conferences.each do |c|
+      submission = c.get_submissions_per_week(@weeks)
+      @result[c.short_title] = submission
+    end
+
+    @weeks = @weeks > 0 ? (1..@weeks).to_a : 1
+
+    # Redirect to new form if there is no conference
+    if Conference.count == 0
       redirect_to new_admin_conference_path
       return
     end

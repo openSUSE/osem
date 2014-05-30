@@ -1,7 +1,22 @@
 .row
-  %h1 Global Dashboard
-  %hr
-.row
-  %ul
-    - @conferences.each do |conference|
-      %li= link_to conference.title, admin_conference_path(conference.short_title)
+  .col-md-12
+    .well
+      .row
+        .text-center
+          %h4 Event submissions over time
+      .row
+        .submissionsChart{"data-chart"=>"#{@result.to_json}", "data-conferences"=>"#{@conferences.to_json}", "data-weeks"=>"#{@weeks.to_json}"}
+          %canvas#chart
+      .row
+        .text-center
+          weeks
+      .row
+        .conferenceCheckboxes
+          - @conferences.each do |conference|
+            %div
+              %span{"style"=>"border-bottom: 3px solid #{conference.color};"}
+                - if conference.pending?
+                  %input{"type"=>"checkbox", "name"=>"#{conference.short_title}", "checked"=>"checked"}
+                - else
+                  %input{"type"=>"checkbox", "name"=>"#{conference.short_title}"}
+                #{conference.short_title}
