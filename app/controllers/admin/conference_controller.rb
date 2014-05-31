@@ -2,6 +2,12 @@ class Admin::ConferenceController < ApplicationController
   before_filter :verify_organizer
 
   def index
+    last_sign_in = current_user.last_sign_in_at
+    @total_user = User.count
+    @new_user = User.where('created_at > ?', last_sign_in).count
+    @new_reg = Registration.where('created_at > ?', last_sign_in).count
+    @total_reg = Registration.count
+
     @conferences = Conference.select('id, short_title, color, start_date,
                                       registration_end_date, registration_start_date')
 

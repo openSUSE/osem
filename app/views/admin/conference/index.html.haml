@@ -1,4 +1,37 @@
 .row
+  .col-sm-3
+    .dashbox.well.well-sm
+      .icon
+        %i.glyphicon.glyphicon-user
+      .text
+        %var
+          = @total_user
+        %label.text-muted total user
+  .col-sm-3
+    .dashbox.well.well-sm
+      .icon
+        %i.glyphicon.glyphicon-thumbs-up
+      .text
+        %var
+          = @new_user
+        %label.text-muted new user
+  .col-sm-3
+    .dashbox.well.well-sm
+      .icon
+        %i.glyphicon.glyphicon-star
+      .text
+        %var
+          = @total_reg
+        %label.text-muted total registrations
+  .col-sm-3
+    .dashbox.well.well-sm
+      .icon
+        %i.glyphicon.glyphicon-usd
+      .text
+        %var
+          = @new_reg
+        %label.text-muted new registrations
+.row
   .col-md-12
     .well#submissions
       .row
