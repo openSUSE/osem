@@ -175,7 +175,7 @@ class Event < ActiveRecord::Base
   end
 
   def week
-    created_at.strftime('%W')
+    created_at.strftime('%W').to_i
   end
 
   private

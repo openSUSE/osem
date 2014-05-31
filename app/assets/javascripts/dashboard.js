@@ -11,9 +11,8 @@ $(function() {
                     "width":$(el).parent().width(),
                     "height":$(el).parent().outerHeight()
                 });
+                redraw(animate, $(this));
             });
-
-            redraw(animate);
 
             var m = 0;
             $(".widget").height("");
@@ -22,7 +21,7 @@ $(function() {
         }, 30);
     }
 
-    function redraw(animation){
+    function redraw(animation, $this){
         var options = {};
         if (!animation){
             options.animation = false;
@@ -30,22 +29,22 @@ $(function() {
             options.animation = true;
         }
 
-        var chart_data = create_dataset();
-        var weeks = $('.submissionsChart').data('weeks');
+        var chart_data = create_dataset($this);
+        var weeks = $this.parent().data('weeks');
         var data = {
             labels : weeks,
             datasets : chart_data
         }
 
-        var canvas = document.getElementById("chart");
+        var canvas = $this[0];
         var ctx = canvas.getContext("2d");
         new Chart(ctx).Line(data, options);
     }
 
-    function create_dataset(){
-        var selected = getSelectedConferences();
-        var chart_data = $('.submissionsChart').data('chart');
-        var conferences = $('.submissionsChart').data('conferences');
+    function create_dataset($this){
+        var selected = getSelectedConferences($this);
+        var chart_data = $this.parent().data('chart');
+        var conferences = $this.parent().data('conferences');
         var result = [];
 
         for(var i in conferences){
@@ -60,9 +59,11 @@ $(function() {
         return result
     }
 
-    function getSelectedConferences(){
+    function getSelectedConferences($this){
+        var name = $this.data('name');
+        var id = '#' + name + 'Checkboxes'
         var selected = []
-        $('.conferenceCheckboxes input').each(function(){
+        $(id + ' input').each(function(){
             if($(this).is(":checked")) {
                 selected.push($(this).attr('name'));
             }
@@ -71,7 +72,9 @@ $(function() {
     }
 
     $('.conferenceCheckboxes input').change(function(){
-        redraw(false);
+        var chart = $(this).parent().data('chart');
+        var $canvas = $('#' + chart + 'Chart');
+        redraw(false, $canvas);
     });
 
     $(window).on('resize', function(){ size(false); });
