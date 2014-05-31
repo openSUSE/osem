@@ -6,6 +6,168 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  describe '#registration_weeks' do
+
+    it 'calculates new year' do
+      subject.registration_start_date = Date.new(2013, 12, 31)
+      subject.registration_end_date = Date.new(2013, 12, 30) + 6
+      expect(subject.registration_weeks).to eq(1)
+    end
+
+    it 'is one if start and end are 6 days apart' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 6
+      expect(subject.registration_weeks).to eq(1)
+    end
+
+    it 'is one if start and end date are the same' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26)
+      expect(subject.registration_weeks).to eq(1)
+    end
+
+    it 'is two if start and end are 10 days apart' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 10
+      expect(subject.registration_weeks).to eq(2)
+    end
+  end
+
+  describe '#cfp_weeks' do
+
+    it 'calculates new year' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2013, 12, 30)
+      cfp.end_date = Date.new(2013, 12, 30) + 6
+      subject.call_for_papers = cfp
+      expect(subject.cfp_weeks).to eq(1)
+    end
+
+    it 'is one if start and end are 6 days apart' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 6
+      subject.call_for_papers = cfp
+      expect(subject.cfp_weeks).to eq(1)
+    end
+
+    it 'is one if start and end are the same date' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26)
+      subject.call_for_papers = cfp
+      expect(subject.cfp_weeks).to eq(1)
+    end
+
+    it 'is two if start and end are 10 days apart' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 10
+      subject.call_for_papers = cfp
+      expect(subject.cfp_weeks).to eq(2)
+    end
+  end
+
+  describe '#get_submissions_per_week' do
+
+    it 'returns [0] if there are no submissions' do
+      subject.call_for_papers = create(:call_for_papers)
+      expect(subject.get_submissions_per_week).to eq([0])
+    end
+
+    it 'summarized correct if there are no submissions in one week' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 28
+      subject.call_for_papers = cfp
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 7)]
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 14)]
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 28)]
+      expect(subject.get_submissions_per_week).to eq([0, 1, 2, 2, 3])
+    end
+
+    it 'summarized correct if there are submissions every week except the first' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 21
+      subject.call_for_papers = cfp
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 7)]
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 14)]
+      expect(subject.get_submissions_per_week).to eq([0, 1, 2])
+    end
+
+    it 'summarized correct if there are submissions every week' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 21
+      subject.call_for_papers = cfp
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26))]
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 7)]
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 14)]
+      expect(subject.get_submissions_per_week).to eq([1, 2, 3])
+    end
+  end
+
+  describe '#get_registrations_per_week' do
+
+    it 'returns [0] it there are no registrations' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 7
+
+      expect(subject.get_registrations_per_week).to eq([0])
+    end
+
+    it 'summarized correct if there are no registrations in one week' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 28
+
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 7)
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 14)
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 28)
+
+      expect(subject.get_registrations_per_week).to eq([0, 1, 2, 2, 3])
+    end
+
+    it 'it returns [1] if there is one registration on the first day' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 7
+
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26))
+      expect(subject.get_registrations_per_week).to eq([1])
+    end
+
+    it 'summarized correct if there are registrations every week' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 21
+
+      create(:registration, conference: subject, created_at: Date.new(2014, 05, 26))
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 7)
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 14)
+
+      expect(subject.get_registrations_per_week).to eq([1, 2, 3])
+    end
+
+    it 'summarized correct if there are registrations every week except the first' do
+      subject.registration_start_date = Date.new(2014, 05, 26)
+      subject.registration_end_date = Date.new(2014, 05, 26) + 28
+
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 7)
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 14)
+      create(:registration, conference: subject,
+                            created_at: Date.new(2014, 05, 26) + 28)
+
+      expect(subject.get_registrations_per_week).to eq([0, 1, 2, 2, 3])
+    end
+  end
+
   describe '#pending?' do
 
     context 'is pending' do

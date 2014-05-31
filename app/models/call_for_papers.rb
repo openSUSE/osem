@@ -7,19 +7,29 @@ class CallForPapers < ActiveRecord::Base
   validates_presence_of :start_date, :end_date, :hard_deadline
   validates :rating, :numericality => { :greater_than_or_equal_to => 0, :less_than_or_equal_to => 10 }
 
-  def self.max_weeks
-    all = CallForPapers.all
-    result = [0]
-    all.each do |cfp|
-      result.push(cfp.end_week - cfp.start_week)
-    end
-    result.max
+  ##
+  # Calculates how many weeks the call for paper is.
+  #
+  # ====Returns
+  # * +Integer+ -> start week
+  def weeks
+    result = end_week - start_week + 1
+    weeks = Date.new(start_week.year, 12, 31).strftime('%W').to_i
+    result < 0 ? result + weeks : result
   end
 
+  ##
+  # Calculates the end week of the cfp
+  #
+  # ====Returns
   def start_week
     start_date.strftime('%W').to_i
   end
 
+  ##
+  # Calculates the end week of the cfp
+  #
+  # ====Returns
   def end_week
     end_date.strftime('%W').to_i
   end

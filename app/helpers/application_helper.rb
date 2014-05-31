@@ -15,6 +15,14 @@ module ApplicationHelper
     end
   end
 
+  def normalize_array_length(hashmap, length)
+    hashmap.each do |key, value|
+      if value.length < length
+        value.fill(value[-1], value.length...length)
+      end
+    end
+  end
+
   def active_nav_li(link)
     if current_page?(link)
       return 'active'
