@@ -1,5 +1,5 @@
 .row
-  .col-sm-3
+  .col-sm-2
     .dashbox.well.well-sm.text-center
       .icon
         %i.glyphicon.glyphicon-user
@@ -7,7 +7,7 @@
         %var
           = @total_user
         %label.text-muted total user
-  .col-sm-3
+  .col-sm-2
     .dashbox.well.well-sm.text-center
       .icon
         %i.glyphicon.glyphicon-thumbs-up
@@ -15,7 +15,15 @@
         %var
           = @new_user
         %label.text-muted new user
-  .col-sm-3
+  .col-sm-2
+    .dashbox.well.well-sm.text-center
+      .icon
+        %i.glyphicon.glyphicon-heart-empty
+      .text
+        %var
+          = @active_user
+        %label.text-muted active user
+  .col-sm-2
     .dashbox.well.well-sm.text-center
       .icon
         %i.glyphicon.glyphicon-star
@@ -23,7 +31,7 @@
         %var
           = @total_reg
         %label.text-muted total registrations
-  .col-sm-3
+  .col-sm-2
     .dashbox.well.well-sm.text-center
       .icon
         %i.glyphicon.glyphicon-usd
@@ -31,6 +39,14 @@
         %var
           = @new_reg
         %label.text-muted new registrations
+  .col-sm-2
+    .dashbox.well.well-sm.text-center
+      .icon
+        %i.glyphicon.glyphicon-comment
+      .text
+        %var
+          = @submissions_count
+        %label.text-muted submissions
 .row
   .col-md-12
     .well#submissions
