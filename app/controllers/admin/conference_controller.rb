@@ -6,6 +6,8 @@ class Admin::ConferenceController < ApplicationController
     @new_user = User.where('created_at > ?', current_user.last_sign_in_at).count
     @new_reg = Registration.where('created_at > ?', current_user.last_sign_in_at).count
     @total_reg = Registration.count
+    @active_user = User.where('last_sign_in_at > ?', Date.today - 3.months).count
+    @submissions_count = Event.count
 
     @conferences = Conference.select('id, short_title, color, start_date,
                                       registration_end_date, registration_start_date')
