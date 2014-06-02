@@ -9,5 +9,6 @@ FactoryGirl.define do
     contact_email 'admin@example.com'
     start_date Date.today
     end_date Date.tomorrow
+    venue
   end
 end
