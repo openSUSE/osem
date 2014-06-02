@@ -127,29 +127,87 @@ class Conference < ActiveRecord::Base
 
   ##
   # Returns an array with the summarized event submissions per week.
-  # ====Params:
-  #  * +weeks+ -> Integer with number of weeks. This is necessary to compare conferences.
   #
   # ====Returns
   #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0 events, second week 3 events.
-  def get_submissions_per_week(weeks)
+  def get_submissions_per_week
     result = []
 
     if call_for_papers && events
-      submissions = events.select('id, created_at').group_by { |t| t.week }
+      submissions = events.group("strftime('%W', created_at)").count
       start_week = call_for_papers.start_week
-      sum = 0
-
-      (0..weeks - 1).each do |week|
-        if submissions["#{week + start_week}"]
-          sum += submissions["#{week + start_week}"].length
-        end
-        result.push(sum)
-      end
-    else
-      result = Array.new(weeks, 0)
+      weeks = call_for_papers.weeks
+      result = calculate_items_per_week(start_week, weeks, submissions)
     end
     result
+  end
+
+  ##
+  # Returns an array with the summarized registrations per week.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0, second week 3 registrations
+  def get_registrations_per_week
+    result = []
+
+    if registrations &&
+        registration_start_date &&
+        registration_end_date
+
+      reg = registrations.group("strftime('%W', created_at)").count
+      start_week = get_registration_start_week
+      weeks = registration_weeks
+      result = calculate_items_per_week(start_week, weeks, reg)
+    end
+    result
+  end
+
+  ##
+  # Calculates how many weeks the registration is.
+  #
+  # ====Returns
+  # * +Integer+ -> start week
+  def registration_weeks
+    result = 0
+    weeks = 0
+    if registration_start_date && registration_end_date
+      weeks = Date.new(registration_start_date.year, 12, 31).
+          strftime('%W').to_i
+
+      result = get_registration_end_week - get_registration_start_week + 1
+    end
+    result < 0 ? result + weeks : result
+  end
+
+  ##
+  # Calculates how many weeks call for papers is.
+  #
+  # ====Returns
+  # * +Integer+ -> weeks
+  def cfp_weeks
+    result = 0
+    if call_for_papers
+      result = call_for_papers.weeks
+    end
+    result
+  end
+
+  ##
+  # Calculates the end week of the registration
+  #
+  # ====Returns
+  # * +Integer+ -> start week
+  def get_registration_start_week
+    registration_start_date.strftime('%W').to_i
+  end
+
+  ##
+  # Calculates the start week of the registration
+  #
+  # ====Returns
+  # * +Integer+ -> start week
+  def get_registration_end_week
+    registration_end_date.strftime('%W').to_i
   end
 
   ##
@@ -203,5 +261,36 @@ class Conference < ActiveRecord::Base
         #87CEEB #808080 #800080 #008B8B #006400
       ).sample
     end
+  end
+
+  # Calculates items per week from a hash.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. [1, 3, 3, 5] -> first week 1, second week 2 registrations
+  def calculate_items_per_week(start_week, weeks, items)
+    sum = 0
+    result = []
+    last_key = start_week + 1
+
+    items.each_with_index do |(key, value), index|
+      # Padding left
+      if index == 0
+        result = Array.new(key.to_i - start_week, 0)
+      # Padding middle
+      elsif last_key < (key.to_i - 1)
+        result += Array.new(key.to_i - last_key - 1, sum)
+      end
+
+      sum += value
+      result.push(sum)
+      last_key = key.to_i
+    end
+
+    # Padding right
+    if result.length < weeks
+      result += Array.new(weeks - result.length, sum)
+    end
+
+    result
   end
 end

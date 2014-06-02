@@ -55,3 +55,23 @@ body > #messages {
     display: inline-block;
     padding: 0px 10px 0px 0px;
 }
+
+.dashbox {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.dashbox .icon {
+    display: block;
+    font-size: 3.5em;
+}
+
+.dashbox var {
+    display: block;
+    font-size: 2em;
+    font-style: normal;
+}
+
+.dashbox label {
+    font-size: 1.2em;
+}
