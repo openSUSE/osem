@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140529133339) do
+ActiveRecord::Schema.define(version: 20140530082708) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20140529133339) do
     t.boolean  "use_volunteers"
     t.string   "media_id"
     t.string   "media_type"
-    t.string   "color",                    default: "#000000"
+    t.string   "color"
     t.text     "description"
     t.text     "registration_description"
     t.text     "ticket_description"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20140529133339) do
     t.integer  "conference_id"
     t.string   "title"
     t.text     "description"
-    t.string   "color",         default: "#ffffff"
+    t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -313,7 +313,7 @@ ActiveRecord::Schema.define(version: 20140529133339) do
     t.integer  "conference_id"
     t.string   "name",                              null: false
     t.text     "description"
-    t.string   "color",         default: "#ffffff"
+    t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -64,6 +64,7 @@ class Conference < ActiveRecord::Base
   before_create :generate_guid
   before_create :create_venue
   before_create :create_email_settings
+  before_create :add_color
 
   def self.media_types
     media_types = {:youtube => 'YouTube', :slideshare => 'SlideShare',  :flickr => 'Flickr', :vimeo => 'Vimeo', :speakerdeck => 'Speakerdeck', :instagram => 'Instagram'}
@@ -189,4 +190,18 @@ class Conference < ActiveRecord::Base
     self.guid = guid
   end
 
+  ##
+  # Adds a random color to the conference
+  #
+  def add_color
+    if !color
+      self.color = %w(
+        #000000 #0000FF #00FF00 #FF0000 #FFFF00 #9900CC
+        #CC0066 #00FFFF #FF00FF #C0C0C0 #00008B #FFD700
+        #FFA500 #FF1493 #FF00FF #F0FFFF #EE82EE #D2691E
+        #C0C0C0 #A52A2A #9ACD32 #9400D3 #8B008B #8B0000
+        #87CEEB #808080 #800080 #008B8B #006400
+      ).sample
+    end
+  end
 end
