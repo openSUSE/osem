@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Use rails as framework 
+# Use rails as framework
 gem 'rails', '~> 4.1'
 
 # Use mysql as the database for Active Record
@@ -82,13 +82,13 @@ group :development, :test do
   gem 'shoulda'
 end
 
-# FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/ 
+# FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/
 gem 'protected_attributes'
 
 # We use this bootstrap/html5 rdoc generator
 gem 'rdoc-generator-fivefish'
 
-# We use factory_girl for seeds 
+# We use factory_girl for seeds
 gem 'factory_girl_rails'
 
 # Use guard and spring for testing in development

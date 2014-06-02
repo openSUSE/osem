@@ -2,6 +2,7 @@
 # This class represents a conference
 
 class Conference < ActiveRecord::Base
+  require 'uri'
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
                   :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes, :social_events_attributes,
@@ -10,7 +11,8 @@ class Conference < ActiveRecord::Base
                   :difficulty_levels_attributes, :use_difficulty_levels,
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
                   :media_id, :media_type, :color, :description,
-                  :registration_description, :ticket_description
+                  :registration_description, :ticket_description, :facebook_url,
+                  :google_url, :twitter_url
 
   has_paper_trail
 
@@ -59,6 +61,8 @@ class Conference < ActiveRecord::Base
                         :social_tag,
                         :start_date,
                         :end_date
+  validates :facebook_url, :twitter_url, :google_url,
+            format: URI::regexp(%w(http https)), allow_blank: true
   validates_uniqueness_of :short_title
   validates_format_of :short_title, :with => /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid
