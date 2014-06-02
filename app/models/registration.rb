@@ -33,4 +33,8 @@ class Registration < ActiveRecord::Base
   delegate :tshirt, :to => :person
   
   alias_attribute :other_needs, :other_special_needs
+
+  def week
+    created_at.strftime('%W').to_i
+  end
 end

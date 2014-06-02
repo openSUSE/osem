@@ -2,18 +2,37 @@ class Admin::ConferenceController < ApplicationController
   before_filter :verify_organizer
 
   def index
-    @conferences = Conference.select('id, short_title, color, start_date')
+    @total_user = User.count
+    @new_user = User.where('created_at > ?', current_user.last_sign_in_at).count
+    @new_reg = Registration.where('created_at > ?', current_user.last_sign_in_at).count
+    @total_reg = Registration.count
 
-    # Event submissions over time
-    @weeks = CallForPapers.max_weeks
-    @result = {}
+    @conferences = Conference.select('id, short_title, color, start_date,
+                                      registration_end_date, registration_start_date')
+
+    @submissions = {}
+    @cfp_weeks = [0]
+
+    @registrations = {}
+    @registration_weeks = [0]
 
     @conferences.each do |c|
-      submission = c.get_submissions_per_week(@weeks)
-      @result[c.short_title] = submission
+      # Event submissions over time chart
+      @submissions[c.short_title] = c.get_submissions_per_week
+      @cfp_weeks.push(c.cfp_weeks)
+
+      # Conference registrations over time chart
+      @registrations[c.short_title] = c.get_registrations_per_week
+      @registration_weeks.push(c.registration_weeks)
     end
 
-    @weeks = @weeks > 0 ? (1..@weeks).to_a : 1
+    @cfp_weeks = @cfp_weeks.max
+    @submissions = normalize_array_length(@submissions, @cfp_weeks)
+    @cfp_weeks = @cfp_weeks > 0 ? (1..@cfp_weeks).to_a : 1
+
+    @registration_weeks = @registration_weeks.max
+    @registrations = normalize_array_length(@registrations, @registration_weeks)
+    @registration_weeks = @registration_weeks > 0 ? (1..@registration_weeks).to_a : 1
 
     # Redirect to new form if there is no conference
     if Conference.count == 0
