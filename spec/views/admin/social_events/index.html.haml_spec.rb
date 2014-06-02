@@ -10,6 +10,6 @@ describe 'admin/social_events/index' do
     expect(rendered).to include('Lorem Ipsum Dolsum')
     expect(rendered).to include("#{Date.today.strftime('%Y')}")
     expect(rendered).to include("#{Date.today.strftime('%B')}")
-    expect(rendered).to include("#{Date.today.strftime('%d')}")
+    expect(rendered).to include("#{Date.today.strftime('%-d')}")
   end
 end
