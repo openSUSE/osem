@@ -95,7 +95,31 @@ $(function() {
             $(this).find('span:nth-child(2)').toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
         }
     });
+
+    $('a:contains("Add track")').click(function () {
+        setTimeout(function () {
+                $("div.nested-fields:last div:nth-of-type(2) input").val(get_color());
+            },
+            5)
+    });
+
+    $('a:contains("Add difficulty_level")').click(function () {
+        setTimeout(function () {
+                $("div.nested-fields:last div:nth-of-type(3) input").val(get_color());
+            },
+            5)
+    });
 });
+
+function get_color() {
+    var colors = ['#000000', '#0000FF', '#00FF00', '#FF0000', '#FFFF00', '#9900CC',
+        '#CC0066', '#00FFFF', '#FF00FF', '#C0C0C0', '#00008B', '#FFD700',
+        '#FFA500', '#FF1493', '#FF00FF', '#F0FFFF', '#EE82EE', '#D2691E',
+        '#C0C0C0', '#A52A2A', '#9ACD32', '#9400D3', '#8B008B', '#8B0000',
+        '#87CEEB', '#808080', '#800080', '#008B8B', '#006400'
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
 
 function word_count(text, divId, maxcount) {
     var r = 0;
