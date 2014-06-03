@@ -25,7 +25,7 @@ feature Conference do
       set("#{Date.today.strftime('%B')}")
       page.
       find('div.nested-fields:nth-of-type(1) select:nth-of-type(3)').
-      set("#{Date.today.strftime('%d')}")
+      set("#{Date.today.strftime('%-d')}")
       page.
       find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
       set('Example Person')
@@ -39,7 +39,7 @@ feature Conference do
       expect(find('div.nested-fields:nth-of-type(1) select:nth-of-type(2)').
         value).to eq("#{Date.today.month}")
       expect(find('div.nested-fields:nth-of-type(1) select:nth-of-type(3)').
-        value).to eq("#{Date.today.strftime('%d')}")
+        value).to eq("#{Date.today.strftime('%-d')}")
       expect(
         find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
         value).to eq('Example Person')
