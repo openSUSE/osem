@@ -21,11 +21,11 @@
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'
     -else
-      = yield :splash
       .container#messages
         .row
           .col-md-12
             = render 'layouts/messages'
+      = yield :splash
       .container#content
         = yield
 
