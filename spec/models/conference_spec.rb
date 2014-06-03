@@ -6,6 +6,166 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  describe '#get_status' do
+
+    before(:each) do
+      # Setup positive result hash
+      @result = {}
+      @result['registration'] = true
+      @result['cfp'] = true
+      @result['venue'] = true
+      @result['rooms'] = true
+      @result['tracks'] = true
+      @result['event_types'] = true
+      @result['difficulty_levels'] = true
+
+      # Setup negative result hash
+      @result_false = Hash.new
+      @result.each { |key, value| @result_false[key] = !value }
+
+      @result['short_title'] = @result_false['short_title'] = subject.short_title
+      @result['process'] = 100.to_s
+      @result_false['process'] = 0.to_s
+    end
+
+    it 'calculates correct for new conference' do
+      subject.registration_start_date = nil
+      subject.registration_end_date = nil
+      subject.call_for_papers = nil
+      subject.venue = nil
+      subject.rooms = []
+      subject.tracks = []
+      subject.event_types = []
+      subject.difficulty_levels = []
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with registration' do
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.call_for_papers = nil
+      subject.rooms = []
+      subject.tracks = []
+      subject.event_types = []
+      subject.difficulty_levels = []
+
+      @result_false['registration'] = true
+      @result_false['process'] = 14.to_s
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with registration, cfp' do
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.call_for_papers = create(:call_for_papers)
+      subject.rooms = []
+      subject.tracks = []
+      subject.event_types = []
+      subject.difficulty_levels = []
+
+      @result_false['cfp'] = true
+      @result_false['registration'] = true
+      @result_false['process'] = 29.to_s
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with registration, cfp, venue' do
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.call_for_papers = create(:call_for_papers)
+      subject.venue = create(:venue)
+      subject.rooms = []
+      subject.tracks = []
+      subject.event_types = []
+      subject.difficulty_levels = []
+
+      @result_false['cfp'] = true
+      @result_false['registration'] = true
+      @result_false['venue'] = true
+      @result_false['process'] = 43.to_s
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with registration, cfp, venue, rooms' do
+      subject.rooms = [create(:room)]
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.call_for_papers = create(:call_for_papers)
+      subject.venue = create(:venue)
+      subject.tracks = []
+      subject.event_types = []
+      subject.difficulty_levels = []
+
+      @result_false['cfp'] = true
+      @result_false['registration'] = true
+      @result_false['venue'] = true
+      @result_false['rooms'] = true
+      @result_false['process'] = 57.to_s
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with registration, cfp, venue, rooms, tracks' do
+      subject.rooms = [create(:room)]
+      subject.tracks = [create(:track)]
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.call_for_papers = create(:call_for_papers)
+      subject.venue = create(:venue)
+      subject.event_types = []
+      subject.difficulty_levels = []
+
+      @result_false['cfp'] = true
+      @result_false['registration'] = true
+      @result_false['venue'] = true
+      @result_false['rooms'] = true
+      @result_false['tracks'] = true
+      @result_false['process'] = 71.to_s
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with registration, cfp,
+                                      venue, rooms, tracks, event_types' do
+      subject.rooms = [create(:room)]
+      subject.tracks = [create(:track)]
+      subject.event_types = [create(:event_type)]
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.call_for_papers = create(:call_for_papers)
+      subject.venue = create(:venue)
+      subject.difficulty_levels = []
+
+      @result_false['cfp'] = true
+      @result_false['registration'] = true
+      @result_false['venue'] = true
+      @result_false['rooms'] = true
+      @result_false['tracks'] = true
+      @result_false['event_types'] = true
+      @result_false['process'] = 86.to_s
+
+      expect(subject.get_status).to eq(@result_false)
+    end
+
+    it 'calculates correct for conference with all mandatory options' do
+      subject.rooms = [create(:room)]
+      subject.tracks = [create(:track)]
+      subject.event_types = [create(:event_type)]
+      subject.difficulty_levels = [create(:difficulty_level)]
+      subject.registration_start_date = Date.today
+      subject.registration_end_date = Date.today + 14
+      subject.venue = create(:venue)
+      subject.call_for_papers = create(:call_for_papers)
+      subject.venue = create(:venue)
+
+      expect(subject.get_status).to eq(@result)
+    end
+  end
+
   describe '#registration_weeks' do
 
     it 'calculates new year' do

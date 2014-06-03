@@ -1,0 +1,22 @@
+.row
+  .col-md-12
+    .well#registrations
+      .row
+        .text-center
+          %h4 Conference registrations over time
+      .row
+        .registrationsChart{"data-chart"=>"#{registrations.to_json}", "data-conferences"=>"#{conferences.to_json}", "data-weeks"=>"#{registration_weeks.to_json}"}
+          %canvas#registrationsChart{"data-name"=>"registrations"}
+      .row
+        .text-center
+          weeks
+      .row
+        .conferenceCheckboxes#registrationsCheckboxes
+          - conferences.each do |conference|
+            %div
+              %span{"style"=>"border-bottom: 3px solid #{conference.color};", "data-chart"=> "registrations"}
+                - if conference.pending?
+                  %input{"type"=>"checkbox", "name"=>"#{conference.short_title}", "checked"=>"checked"}
+                - else
+                  %input{"type"=>"checkbox", "name"=>"#{conference.short_title}"}
+                #{conference.short_title}
