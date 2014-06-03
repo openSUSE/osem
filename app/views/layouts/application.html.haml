@@ -21,13 +21,18 @@
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'
     -else
-      .container#messages
-        .row
-          .col-md-12
+      - if content_for :splash
+        %div#splash
+          #messages
             = render 'layouts/messages'
-      = yield :splash
-      .container#content
-        = yield
+          = yield :splash
+      -else
+        .container#messages
+          .row
+            .col-md-12
+              = render 'layouts/messages'
+        .container#content
+          = yield
 
     #footer
       .container
