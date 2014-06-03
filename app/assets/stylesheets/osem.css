@@ -73,3 +73,19 @@ body > #messages {
     font-style: normal;
 }
 
+.dashbox label {
+    font-size: 1em;
+}
+
+.todolist-missing span {
+    color: #ff0000;
+}
+
+.todolist-ok {
+    text-decoration: line-through;
+}
+
+.todolist-ok span {
+    color: #02A10F;
+}
+

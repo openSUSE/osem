@@ -1,0 +1,33 @@
+.row
+  .col-md-12
+    - conference_progress.each do |key, value|
+      .col-md-4
+        .list-group
+          %li.list-group-item
+            %h4
+              = key
+            .progress
+              .progress-bar{ 'role'=>'progressbar', 'aria-valuenow'=>"#{value['process']}", 'aria-valuemin'=>'0',
+                            'aria-valuemax'=>'100', 'style'=>"width: #{value['process']}%;" }
+                = value['process'] + '%'
+          %li{'class'=>class_for_todo(value['registration'])}
+            %span{'class'=>icon_for_todo(value['registration'])}
+            = link_to 'Set up registration period', edit_admin_conference_path(value['short_title'], :anchor => 'conference-end-datepicker')
+          %li{'class'=>class_for_todo(value['cfp'])}
+            %span{'class'=>icon_for_todo(value['cfp'])}
+            = link_to 'Set up call for papers', admin_conference_callforpapers_path(value['short_title'])
+          %li{'class'=>class_for_todo(value['venue'])}
+            %span{'class'=>icon_for_todo(value['venue'])}
+            = link_to 'Add venue', admin_conference_venue_info_path(value['short_title'])
+          %li{'class'=>class_for_todo(value['rooms'])}
+            %span{'class'=>icon_for_todo(value['rooms'])}
+            = link_to 'Add rooms', admin_conference_rooms_path(value['short_title'])
+          %li{'class'=>class_for_todo(value['tracks'])}
+            %span{'class'=>icon_for_todo(value['tracks'])}
+            = link_to 'Add tracks', admin_conference_tracks_path(value['short_title'])
+          %li{'class'=>class_for_todo(value['event_types'])}
+            %span{'class'=>icon_for_todo(value['event_types'])}
+            = link_to 'Add event types', admin_conference_eventtypes_path(value['short_title'])
+          %li{'class'=>class_for_todo(value['difficulty_levels'])}
+            %span{'class'=>icon_for_todo(value['difficulty_levels'])}
+            = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(value['short_title'])

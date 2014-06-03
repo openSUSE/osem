@@ -220,6 +220,25 @@ class Conference < ActiveRecord::Base
     start_date > Date.today
   end
 
+  ##
+  # Returns a hash with booleans with the required conference options.
+  #
+  # ====Returns
+  # * +hash+ -> true -> filled / false -> missing
+  def get_status
+    result = {}
+    result['registration'] = !!registration_start_date && !!registration_end_date
+    result['cfp'] = !!call_for_papers
+    result['venue'] = !!venue && !!venue.name && !!venue.address && !!venue.website
+    result['rooms'] = rooms.count > 0
+    result['tracks'] = tracks.count > 0
+    result['event_types'] = event_types.count > 0
+    result['difficulty_levels'] = difficulty_levels.count > 0
+    result['process'] = (result.select { |k, v| v }.length / result.length.to_f * 100).round(0).to_s
+    result['short_title'] = short_title
+    result
+  end
+
   private
 
   ##

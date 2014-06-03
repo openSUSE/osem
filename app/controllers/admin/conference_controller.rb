@@ -9,14 +9,16 @@ class Admin::ConferenceController < ApplicationController
     @active_user = User.where('last_sign_in_at > ?', Date.today - 3.months).count
     @submissions_count = Event.count
 
-    @conferences = Conference.select('id, short_title, color, start_date,
-                                      registration_end_date, registration_start_date')
+    @conferences = Conference.select('id, title, short_title, color, start_date,
+                                      registration_end_date, registration_start_date, venue_id')
 
     @submissions = {}
     @cfp_weeks = [0]
 
     @registrations = {}
     @registration_weeks = [0]
+
+    @conference_progress = {}
 
     @conferences.each do |c|
       # Event submissions over time chart
@@ -26,6 +28,9 @@ class Admin::ConferenceController < ApplicationController
       # Conference registrations over time chart
       @registrations[c.short_title] = c.get_registrations_per_week
       @registration_weeks.push(@registrations[c.short_title].length)
+
+      # Conference progress
+      @conference_progress[c.title] = c.get_status
     end
 
     @cfp_weeks = @cfp_weeks.max
