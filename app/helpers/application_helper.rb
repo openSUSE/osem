@@ -15,6 +15,22 @@ module ApplicationHelper
     end
   end
 
+  def icon_for_todo(bool)
+    if bool
+      return 'glyphicon glyphicon-ok'
+    else
+      return 'glyphicon glyphicon-remove'
+    end
+  end
+
+  def class_for_todo(bool)
+    if bool
+      return 'list-group-item todolist-ok'
+    else
+      return 'list-group-item todolist-missing'
+    end
+  end
+
   def normalize_array_length(hashmap, length)
     hashmap.each do |key, value|
       if value.length < length

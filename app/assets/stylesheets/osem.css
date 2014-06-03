@@ -64,12 +64,22 @@ body > #messages {
 .dashbox .icon {
     padding-left: 8px;
     display: block;
-    font-size: 2.3em;
+    font-size: 3.8em;
 }
 
-.dashbox var {
+.dashbox label {
     display: block;
-    font-size: 2em;
-    font-style: normal;
+    font-size: 1.1em;
 }
 
+.todolist-missing span {
+    color: #ff0000;
+}
+
+.todolist-ok {
+    text-decoration: line-through;
+}
+
+.todolist-ok span {
+    color: #02A10F;
+}
