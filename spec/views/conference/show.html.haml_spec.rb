@@ -11,16 +11,16 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders program partial' do
-    expect(render).to include("#{@conference.description}")
-    expect(view).to render_template(partial: 'conference/_program')
+    expect(view.content_for(:splash)).to include("#{@conference.description}")
+    expect(view.content_for(:splash)).to render_template(partial: 'conference/_program')
   end
 
   it 'renders registration partial' do
-    expect(rendered).to include("#{@conference.registration_description}")
-    expect(view).to render_template(partial: 'conference/_registration')
+    expect(view.content_for(:splash)).to include("#{@conference.registration_description}")
+    expect(view.content_for(:splash)).to render_template(partial: 'conference/_registration')
   end
 
   it 'renders call_for_papers partial' do
-    expect(render).to include("#{@conference.call_for_papers.description}")
+    expect(view.content_for(:splash)).to include("#{@conference.call_for_papers.description}")
   end
 end
