@@ -270,14 +270,16 @@ class Conference < ActiveRecord::Base
   def calculate_items_per_week(start_week, weeks, items)
     sum = 0
     result = []
-    last_key = start_week + 1
+    last_key = start_week - 1
 
-    items.each_with_index do |(key, value), index|
-      # Padding left
-      if index == 0
-        result = Array.new(key.to_i - start_week, 0)
-      # Padding middle
-      elsif last_key < (key.to_i - 1)
+    if !items.empty? && start_week > items.keys[0].to_i
+      start_week = items.keys[0].to_i
+      weeks += start_week - items.keys[0].to_i + 1
+    end
+
+    items.each do |key, value|
+      # Padding
+      if last_key < (key.to_i - 1)
         result += Array.new(key.to_i - last_key - 1, sum)
       end
 

@@ -70,6 +70,24 @@ describe Conference do
 
   describe '#get_submissions_per_week' do
 
+    it 'does calculate correct if cfp start date is altered' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 21
+      subject.call_for_papers = cfp
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) - 7)]
+      expect(subject.get_submissions_per_week).to eq([1, 1, 1, 1, 1])
+    end
+
+    it 'does calculate correct if cfp end date is altered' do
+      cfp = create(:call_for_papers)
+      cfp.start_date = Date.new(2014, 05, 26)
+      cfp.end_date = Date.new(2014, 05, 26) + 21
+      subject.call_for_papers = cfp
+      subject.events += [create(:event, created_at: Date.new(2014, 05, 26) + 28)]
+      expect(subject.get_submissions_per_week).to eq([0, 0, 0, 0, 1])
+    end
+
     it 'pads with zeros if there are no submissions' do
       cfp = create(:call_for_papers)
       cfp.start_date = Date.new(2014, 05, 26)
