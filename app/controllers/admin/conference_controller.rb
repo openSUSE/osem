@@ -21,11 +21,11 @@ class Admin::ConferenceController < ApplicationController
     @conferences.each do |c|
       # Event submissions over time chart
       @submissions[c.short_title] = c.get_submissions_per_week
-      @cfp_weeks.push(c.cfp_weeks)
+      @cfp_weeks.push(@submissions[c.short_title].length)
 
       # Conference registrations over time chart
       @registrations[c.short_title] = c.get_registrations_per_week
-      @registration_weeks.push(c.registration_weeks)
+      @registration_weeks.push(@registrations[c.short_title].length)
     end
 
     @cfp_weeks = @cfp_weeks.max
