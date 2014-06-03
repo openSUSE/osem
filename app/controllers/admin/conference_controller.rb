@@ -4,10 +4,12 @@ class Admin::ConferenceController < ApplicationController
   def index
     @total_user = User.count
     @new_user = User.where('created_at > ?', current_user.last_sign_in_at).count
-    @new_reg = Registration.where('created_at > ?', current_user.last_sign_in_at).count
+
     @total_reg = Registration.count
-    @active_user = User.where('last_sign_in_at > ?', Date.today - 3.months).count
-    @submissions_count = Event.count
+    @new_reg = Registration.where('created_at > ?', current_user.last_sign_in_at).count
+
+    @total_submissions = Event.count
+    @new_submissions = Event.where('created_at > ?', current_user.last_sign_in_at).count
 
     @conferences = Conference.select('id, short_title, color, start_date,
                                       registration_end_date, registration_start_date')
@@ -75,6 +77,7 @@ class Admin::ConferenceController < ApplicationController
 
   def show
     @conference = Conference.find_by(short_title: params[:id])
+    @conference_progress = @conference.get_status
     respond_to do |format|
       format.html
       format.json { render json: @conference.to_json }

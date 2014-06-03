@@ -1,0 +1,29 @@
+.list-group
+  %li.list-group-item
+    %h4
+      Conference progress
+    .progress
+      .progress-bar{ 'role'=>'progressbar', 'aria-valuenow'=>"#{conference_progress['process']}", 'aria-valuemin'=>'0',
+                    'aria-valuemax'=>'100', 'style'=>"width: #{conference_progress['process']}%;" }
+        = conference_progress['process'] + '%'
+  %li{'class'=>class_for_todo(conference_progress['registration'])}
+    %span{'class'=>icon_for_todo(conference_progress['registration'])}
+    = link_to 'Set up registration period', edit_admin_conference_path(conference_progress['short_title'], :anchor => 'conference-end-datepicker')
+  %li{'class'=>class_for_todo(conference_progress['cfp'])}
+    %span{'class'=>icon_for_todo(conference_progress['cfp'])}
+    = link_to 'Set up call for papers', admin_conference_callforpapers_path(conference_progress['short_title'])
+  %li{'class'=>class_for_todo(conference_progress['venue'])}
+    %span{'class'=>icon_for_todo(conference_progress['venue'])}
+    = link_to 'Add venue', admin_conference_venue_info_path(conference_progress['short_title'])
+  %li{'class'=>class_for_todo(conference_progress['rooms'])}
+    %span{'class'=>icon_for_todo(conference_progress['rooms'])}
+    = link_to 'Add rooms', admin_conference_rooms_path(conference_progress['short_title'])
+  %li{'class'=>class_for_todo(conference_progress['tracks'])}
+    %span{'class'=>icon_for_todo(conference_progress['tracks'])}
+    = link_to 'Add tracks', admin_conference_tracks_path(conference_progress['short_title'])
+  %li{'class'=>class_for_todo(conference_progress['event_types'])}
+    %span{'class'=>icon_for_todo(conference_progress['event_types'])}
+    = link_to 'Add event types', admin_conference_eventtypes_path(conference_progress['short_title'])
+  %li{'class'=>class_for_todo(conference_progress['difficulty_levels'])}
+    %span{'class'=>icon_for_todo(conference_progress['difficulty_levels'])}
+    = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(conference_progress['short_title'])

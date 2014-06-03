@@ -1,3 +1,7 @@
+%h1
+  %span.glyphicon.glyphicon-dashboard
+  Dashboard for #{@conference.title}
+%hr
 .row
-  .col-md-8
-    %h1 Dashboard for #{@conference.title}
+  .col-md-4
+    = render partial: 'todo_list', locals: { conference_progress: @conference_progress }

@@ -1,0 +1,20 @@
+.well#submissions
+  .row
+    .text-center
+      %h4 Event submissions over time
+  .row
+    .submissionsChart{"data-chart"=>"#{submissions.to_json}", "data-conferences"=>"#{conferences.to_json}", "data-weeks"=>"#{cfp_weeks.to_json}"}
+      %canvas#submissionsChart{"data-name"=>"submissions"}
+  .row
+    .text-center
+      weeks
+  .row
+    .conferenceCheckboxes#submissionsCheckboxes
+      - conferences.each do |conference|
+        %div
+          %span{"style"=>"border-bottom: 3px solid #{conference.color};", "data-chart"=> "submissions"}
+            - if conference.pending?
+              %input{"type"=>"checkbox", "name"=>"#{conference.short_title}", "checked"=>"checked"}
+            - else
+              %input{"type"=>"checkbox", "name"=>"#{conference.short_title}"}
+            #{conference.short_title}
