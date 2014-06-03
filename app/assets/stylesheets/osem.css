@@ -10,10 +10,6 @@ body {
     padding-top: 60px;
 }
 
-body > #messages {
-    padding: 60px 15px 0;
-}
-
 #footer {
     position: absolute;
     bottom: 0;
