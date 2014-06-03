@@ -18,7 +18,6 @@ describe Admin::ConferenceController do
         it 'locates the requested conference' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
-
           expect(assigns(:conference)).to eq(conference)
         end
 
