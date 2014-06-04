@@ -5,3 +5,5 @@
 .row
   .col-md-4
     = render partial: 'todo_list', locals: { conference_progress: @conference_progress }
+  .col-md-4
+    = render partial: 'top_submitter', locals: {top_submitter: @top_submitter}

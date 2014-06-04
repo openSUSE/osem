@@ -239,7 +239,45 @@ class Conference < ActiveRecord::Base
     result
   end
 
+  ##
+  # Returns a hash with person => submissions ordered by submissions for all conferences
+  #
+  # ====Returns
+  # * +hash+ -> person: submissions
+  def self.get_top_submitter(limit = 5)
+    submitter = EventPerson.where('event_role = ?', 'submitter').limit(limit).group(:person_id)
+    counter = submitter.count
+    calculate_person_submission_hash(submitter, counter)
+  end
+
+  ##
+  # Returns a hash with person => submissions ordered by submissions
+  #
+  # ====Returns
+  # * +hash+ -> person: submissions
+  def get_top_submitter(limit = 5)
+    submitter = EventPerson.joins(:event).
+        where('event_role = ? and conference_id = ?', 'submitter', id).
+        limit(limit).group(:person_id)
+
+    counter = submitter.count
+    Conference.calculate_person_submission_hash(submitter, counter)
+  end
+
   private
+
+  ##
+  # Returns a hash with person => submissions ordered by submissions for all conferences
+  #
+  # ====Returns
+  # * +hash+ -> person: submissions
+  def self.calculate_person_submission_hash(submitter, counter)
+    result = {}
+    submitter.each do |s|
+      result[s.person] = counter[s.person_id]
+    end
+    result
+  end
 
   ##
   # Creates a venue and sets self.venue_id to it's id. Used as before_create.

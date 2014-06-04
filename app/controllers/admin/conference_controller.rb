@@ -14,6 +14,12 @@ class Admin::ConferenceController < ApplicationController
     @conferences = Conference.select('id, short_title, color, start_date,
                                       registration_end_date, registration_start_date')
 
+    @recent_users = User.limit(5).order(created_at: :desc)
+    @recent_events = Event.limit(5).order(created_at: :desc)
+    @recent_registrations = Registration.limit(5).order(created_at: :desc)
+
+    @top_submitter = Conference.get_top_submitter
+
     @submissions = {}
     @cfp_weeks = [0]
 
@@ -78,6 +84,7 @@ class Admin::ConferenceController < ApplicationController
   def show
     @conference = Conference.find_by(short_title: params[:id])
     @conference_progress = @conference.get_status
+    @top_submitter = @conference.get_top_submitter
     respond_to do |format|
       format.html
       format.json { render json: @conference.to_json }

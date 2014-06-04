@@ -15,6 +15,27 @@ module ApplicationHelper
     end
   end
 
+  def label_for(event_state)
+    result = ''
+    case event_state
+    when 'Withdrawn'
+      result = 'label label-danger'
+    when 'Review Pending'
+      result = 'label label-primary'
+    when 'Accepted (confirmation pending)'
+      result = 'label label-success'
+    when 'Confirmed'
+      result = 'label label-success'
+    when 'Rejected'
+      result = 'label label-warning'
+    when 'Cancelled'
+      result = 'label label-danger'
+    when 'Submitted'
+      result = 'label label-primary'
+    end
+    result
+  end
+
   def icon_for_todo(bool)
     if bool
       return 'glyphicon glyphicon-ok'

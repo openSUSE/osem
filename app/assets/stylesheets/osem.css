@@ -79,3 +79,7 @@ body {
 .todolist-ok span {
     color: #02A10F;
 }
+
+.top-submitter img {
+    margin: 0 auto;
+}

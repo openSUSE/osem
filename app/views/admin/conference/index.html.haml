@@ -11,3 +11,34 @@
     = render partial: 'registrations', locals: { conferences: @conferences, registrations: @registrations,
                                              registration_weeks: @registration_weeks }
   .col-md-4
+  .col-md-8
+    .row
+      %ul.nav.nav-tabs#recentTable
+        %li.active
+          %a{:href=>"#recent_user", "data-toggle"=>"tab"}
+            %span.glyphicon.glyphicon-user
+            Recent Users
+        %li
+          %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
+            %span.glyphicon.glyphicon-star
+            Recent Registrations
+        %li
+          %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
+            %span.glyphicon.glyphicon-comment
+            Recent Submissions
+      .tab-content
+        .tab-pane.active#recent_user
+          = render partial: 'recent_users', locals: {recent_users: @recent_users}
+        .tab-pane#recent_reg
+          = render partial: 'recent_registrations', locals: {recent_registrations: @recent_registrations}
+        .tab-pane#recent_submissions
+          = render partial: 'recent_submissions', locals: {recent_events: @recent_events}
+  .col-md-4
+    = render partial: 'top_submitter', locals: {top_submitter: @top_submitter}
+
+
+:javascript
+  $('#recentTable a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })
