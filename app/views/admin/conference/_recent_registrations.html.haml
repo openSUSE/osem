@@ -1,0 +1,18 @@
+- if recent_registrations && !recent_registrations.empty?
+  %table.table
+    %thead
+      %tr
+        %th #
+        %th Public Name
+        %th Conference
+        %th Date
+      - recent_registrations.each_with_index do |registration, index|
+        %tbody
+          %tr
+            %td #{index + 1}
+            %td #{registration.public_name}
+            %td #{registration.conference.title}
+            %td #{registration.created_at.strftime('%m/%d/%Y')}
+- else
+  %h5.text-warning.text-center
+    No registrations!

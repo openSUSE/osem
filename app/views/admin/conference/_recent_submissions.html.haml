@@ -1,0 +1,21 @@
+- if recent_events && !recent_events.empty?
+  %table.table
+    %thead
+      %tr
+        %th #
+        %th Submitter
+        %th Title
+        %th Conference
+        %th Status
+      - recent_events.each_with_index do |event, index|
+        %tbody
+          %tr
+            %td #{index + 1}
+            %td #{event.submitter}
+            %td #{event.title}
+            %td #{event.conference.title}
+            %td
+              .span{'class'=>label_for(event.public_state)} #{event.public_state}
+- else
+  %h5.text-warning.text-center
+    No submissions!

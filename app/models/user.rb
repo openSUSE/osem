@@ -48,6 +48,10 @@ class User < ActiveRecord::Base
     details += "#{self.created_at}<br>"
   end
 
+  def confirmed?
+    !confirmed_at.nil?
+  end
+
   private
   def create_person
     # TODO Search people for existing email address, add to their account
