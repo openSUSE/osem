@@ -10,7 +10,9 @@
       - if !@conference.call_for_papers.description.blank?
         %p
           = @conference.call_for_papers.description
-      %p Proposals will be accepted between #{ date_string(@conference.call_for_papers.start_date, @conference.call_for_papers.end_date) }
+      - if !@conference.call_for_papers.start_date.blank? && !@conference.call_for_papers.end_date.blank?
+        %p Proposals will be accepted between
+        #{ date_string(@conference.call_for_papers.start_date, @conference.call_for_papers.end_date) }
       - if @conference.cfp_open?
         - if @conference.call_for_papers.end_date.to_time < Time.now
           %p Today is the last day. Hurry Up!
