@@ -102,11 +102,25 @@ class Conference < ActiveRecord::Base
   # * +true+ -> If today is in the registration period.
   def registration_open?
     today = Date.current
-    if self.registration_start_date.blank? ||  self.registration_end_date.blank?
+    if registration_dates_given?
+      (registration_start_date..registration_end_date).cover?(today)
+    else
       false
     end
+  end
 
-    (registration_start_date..registration_end_date).cover?(today)
+  ##
+  # Checks if the registration dates for the conference are provided
+  #
+  # ====Returns
+  # * +false+ -> If the conference registration dates are not set
+  # * +true+ -> If conference registration dates are set
+  def registration_dates_given?
+    if self.registration_start_date.blank? ||  self.registration_end_date.blank?
+      false
+    else
+      true
+    end
   end
 
   ##
