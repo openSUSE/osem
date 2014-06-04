@@ -19,16 +19,13 @@ feature Conference do
 
       expect(flash).
           to eq('Creating the call for papers failed. ' +
-          "Start date can't be blank. End date can't be blank. " +
-          "Hard deadline can't be blank.")
+          "Start date can't be blank. End date can't be blank.")
 
       today = Date.today - 1
       page.execute_script(
       "$('#conference-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
       page.execute_script(
       "$('#conference-end-datepicker').val('#{(today + 7).strftime('%d/%m/%Y')}')")
-      page.execute_script(
-      "$('#cfp-hard-datepicker').val('#{(today + 8).strftime('%d/%m/%Y')}')")
 
       fill_in 'call_for_papers_description', with: 'Cfp description'
       fill_in 'call_for_papers_rating', with: '4'
@@ -42,8 +39,6 @@ feature Conference do
           to eq(today.strftime('%Y-%m-%d'))
       expect(find('#conference-end-datepicker').value).
           to eq((today + 7).strftime('%Y-%m-%d'))
-      expect(find('#cfp-hard-datepicker').value).
-          to eq((today + 8).strftime('%Y-%m-%d'))
       expect(find('#call_for_papers_description').text).
           to eq('Cfp description')
       expect(find('#call_for_papers_rating').value).to eq('4')
@@ -73,8 +68,6 @@ feature Conference do
         "$('#conference-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
       page.execute_script(
         "$('#conference-end-datepicker').val('#{(today + 14).strftime('%d/%m/%Y')}')")
-      page.execute_script(
-        "$('#cfp-hard-datepicker').val('#{(today + 28).strftime('%d/%m/%Y')}')")
 
       fill_in 'call_for_papers_description', with: 'Updated description'
       fill_in 'call_for_papers_rating', with: '0'
@@ -87,8 +80,6 @@ feature Conference do
           to eq(today.strftime('%Y-%m-%d'))
       expect(find('#conference-end-datepicker').value).
           to eq((today + 14).strftime('%Y-%m-%d'))
-      expect(find('#cfp-hard-datepicker').value).
-          to eq((today + 28).strftime('%Y-%m-%d'))
       expect(find('#call_for_papers_description').text).
           to eq('Updated description')
       expect(find('#call_for_papers_rating').value).to eq('0')

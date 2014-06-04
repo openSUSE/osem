@@ -3,7 +3,6 @@
     = semantic_form_for(@cfp, :url => admin_conference_callforpapers_path(@conference.short_title),:html => {:multipart => true}) do |f|
       = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
       = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
-      = f.input :hard_deadline, :as => :string, :input_html => { :id => "cfp-hard-datepicker", :readonly => "readonly"  }
       = f.input :description, :hint => "Welcome text for the Call for Papers"
       = f.input :schedule_changes
       = f.input :schedule_public

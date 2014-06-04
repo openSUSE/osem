@@ -6,7 +6,6 @@ describe 'admin/callforpapers/show' do
     assign :conference, @conference
     assign :cfp, stub_model(CallForPapers, start_date: Date.today,
                                            end_date: Date.today + 7.days,
-                                           hard_deadline: Date.today + 6.days,
                                            description: 'Lorem Ipsum Dolsum')
     render
     expect(rendered).to include("#{Date.today}")
