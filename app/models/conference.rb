@@ -116,7 +116,7 @@ class Conference < ActiveRecord::Base
   # * +false+ -> If the conference registration dates are not set
   # * +true+ -> If conference registration dates are set
   def registration_dates_given?
-    if self.registration_start_date.blank? ||  self.registration_end_date.blank?
+    if registration_start_date.blank? || registration_end_date.blank?
       false
     else
       true
