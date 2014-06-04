@@ -1,10 +1,10 @@
 class CallForPapers < ActiveRecord::Base
-  attr_accessible :start_date, :end_date, :hard_deadline,
+  attr_accessible :start_date, :end_date,
                   :description, :schedule_changes, :rating,
                   :schedule_public
   belongs_to :conference
 
-  validates_presence_of :start_date, :end_date, :hard_deadline
+  validates_presence_of :start_date, :end_date
   validates :rating, :numericality => { :greater_than_or_equal_to => 0, :less_than_or_equal_to => 10 }
 
   ##

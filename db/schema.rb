@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140530082708) do
+ActiveRecord::Schema.define(version: 20140604142949) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20140530082708) do
   create_table "call_for_papers", force: true do |t|
     t.date     "start_date",                       null: false
     t.date     "end_date",                         null: false
-    t.date     "hard_deadline",                    null: false
     t.text     "description",                      null: false
     t.integer  "conference_id"
     t.datetime "created_at"
