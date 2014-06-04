@@ -11,7 +11,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders program partial' do
-    expect(render).to include("#{@conference.description}")
+    expect(rendered).to include("#{@conference.description}")
     expect(view).to render_template(partial: 'conference/_program')
   end
 
@@ -21,6 +21,6 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders call_for_papers partial' do
-    expect(render).to include("#{@conference.call_for_papers.description}")
+    expect(rendered).to include("#{@conference.call_for_papers.description}")
   end
 end
