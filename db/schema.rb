@@ -50,15 +50,15 @@ ActiveRecord::Schema.define(version: 20140605125153) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "conferences", force: true do |t|
-    t.string   "guid",                                         null: false
-    t.string   "title",                                        null: false
-    t.string   "short_title",                                  null: false
+    t.string   "guid",                                     null: false
+    t.string   "title",                                    null: false
+    t.string   "short_title",                              null: false
     t.string   "social_tag"
-    t.string   "contact_email",                                null: false
-    t.string   "timezone",                                     null: false
+    t.string   "contact_email",                            null: false
+    t.string   "timezone",                                 null: false
     t.string   "html_export_path"
-    t.date     "start_date",                                   null: false
-    t.date     "end_date",                                     null: false
+    t.date     "start_date",                               null: false
+    t.date     "end_date",                                 null: false
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -288,6 +288,27 @@ ActiveRecord::Schema.define(version: 20140605125153) do
     t.date    "date"
   end
 
+  create_table "sponsors", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "website_url"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "sponsorship_level_id"
+    t.integer  "conference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sponsorship_levels", force: true do |t|
+    t.string   "title"
+    t.integer  "conference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "supporter_levels", force: true do |t|
     t.integer "conference_id"
     t.string  "title",         null: false
@@ -308,9 +329,9 @@ ActiveRecord::Schema.define(version: 20140605125153) do
   end
 
   create_table "tracks", force: true do |t|
-    t.string   "guid",                              null: false
+    t.string   "guid",          null: false
     t.integer  "conference_id"
-    t.string   "name",                              null: false
+    t.string   "name",          null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
