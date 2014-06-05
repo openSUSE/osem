@@ -15,8 +15,8 @@ describe Organization do
       should validate_presence_of(:website_url)
     end
 
-    it 'is not valid with a duplicate email' do
-      should validate_uniqueness_of(:email)
+    it 'is not valid with a duplicate website_url' do
+      should validate_uniqueness_of(:website_url)
     end
   end
 end

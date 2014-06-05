@@ -3,9 +3,7 @@
 FactoryGirl.define do
   factory :organization do
     name 'Example organization'
-    sequence(:email) { |n| "example#{n}@example.com" }
-    website_url 'www.esxample.com'
+    sequence(:website_url) { |n| "example#{n}@example.com" }
     description 'Lorem Ipsum Dolor'
-    phone_number '900099009'
   end
 end

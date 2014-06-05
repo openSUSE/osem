@@ -188,8 +188,6 @@ ActiveRecord::Schema.define(version: 20140605101748) do
 
   create_table "organizations", force: true do |t|
     t.string   "name"
-    t.string   "email"
-    t.string   "phone_number"
     t.string   "website_url"
     t.text     "description"
     t.string   "logo_file_name"
