@@ -1,5 +1,6 @@
 class Sponsor < ActiveRecord::Base
-  attr_accessible :name, :description, :website_url, :logo
+  attr_accessible :name, :description, :website_url, :logo,
+                  :sponsorship_level_id
   belongs_to :sponsorship_level
   belongs_to :conference
   has_attached_file :logo,
@@ -8,5 +9,5 @@ class Sponsor < ActiveRecord::Base
   validates_attachment_content_type :logo,
                                     content_type: [/jpg/, /jpeg/, /png/, /gif/],
                                     size: { in: 0..500.kilobytes }
-  validates_presence_of :name, :website_url
+  validates_presence_of :name, :website_url, :sponsorship_level
 end

@@ -11,7 +11,8 @@ class Conference < ActiveRecord::Base
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
                   :media_id, :media_type, :color, :description,
                   :registration_description, :ticket_description,
-                  :sponsorship_levels_attributes
+                  :sponsorship_levels_attributes,
+                  :sponsors_attributes
 
   has_paper_trail
 
@@ -45,6 +46,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :dietary_choices, :allow_destroy => true
   accepts_nested_attributes_for :supporter_levels, :allow_destroy => true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
+  accepts_nested_attributes_for :sponsors, allow_destroy: true
   accepts_nested_attributes_for :event_types, :allow_destroy => true
   accepts_nested_attributes_for :email_settings
   accepts_nested_attributes_for :questions, :allow_destroy => true
