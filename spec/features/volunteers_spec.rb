@@ -71,7 +71,7 @@ feature Conference do
       set("#{Date.today.strftime('%B')}")
       page.
       find('div.nested-fields:nth-of-type(1) select:nth-of-type(3)').
-      set("#{Date.today.strftime('%d')}")
+      set("#{Date.today.strftime('%-d')}")
       page.
       find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
       set('Example Person')
