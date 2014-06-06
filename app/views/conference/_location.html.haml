@@ -24,6 +24,9 @@
           %li
             %b
               = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
+    - if @conference.venue
+      - unless @conference.venue.lodgings.empty?
+        = render 'lodging'
 
 
 :javascript

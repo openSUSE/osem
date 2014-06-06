@@ -6,6 +6,7 @@ describe 'conference/show.html.haml' do
                                       registration_end_date: Date.tomorrow,
                                       description: 'Lorem Ipsum')
     @conference.venue = create(:venue)
+    @conference.venue.lodgings << create(:lodging, venue: @conference.venue)
     @conference.call_for_papers = create(:call_for_papers, conference: @conference)
     assign :conference, @conference
     render
@@ -32,5 +33,12 @@ describe 'conference/show.html.haml' do
     expect(rendered).to include('Maxfeldstrasse 5 \n90409 Nuremberg')
     expect(rendered).to include('www.opensuse.org')
     expect(rendered).to include('Lorem Ipsum Dolor')
+  end
+
+  it 'renders lodging partial' do
+    expect(view).to render_template(partial: 'conference/_lodging')
+    expect(rendered).to include('Example Hotel')
+    expect(rendered).to include('Lorem Ipsum Dolor')
+    expect(rendered).to include('http://www.example.com')
   end
 end
