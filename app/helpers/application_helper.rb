@@ -18,20 +18,18 @@ module ApplicationHelper
   def label_for(event_state)
     result = ''
     case event_state
-    when 'Withdrawn'
-      result = 'label label-danger'
-    when 'Review Pending'
+    when 'new'
       result = 'label label-primary'
-    when 'Accepted (confirmation pending)'
+    when 'withdrawn'
+      result = 'label label-danger'
+    when 'unconfirmed'
       result = 'label label-success'
-    when 'Confirmed'
+    when 'confirmed'
       result = 'label label-success'
-    when 'Rejected'
+    when 'rejected'
       result = 'label label-warning'
-    when 'Cancelled'
+    when 'canceled'
       result = 'label label-danger'
-    when 'Submitted'
-      result = 'label label-primary'
     end
     result
   end

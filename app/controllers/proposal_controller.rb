@@ -1,7 +1,7 @@
 class ProposalController < ApplicationController
   before_filter :verify_user, :except => [:show]
   before_filter :setup
-  before_filter :verify_access, :only => [:edit, :update, :destroy, :confirm]
+  before_filter :verify_access, only: [:edit, :update, :destroy, :confirm, :restart]
 
   def setup
     @person = current_user.person if current_user
@@ -34,8 +34,16 @@ class ProposalController < ApplicationController
   end
 
   def destroy
-    @person.withdraw_proposal(params[:id])
-    redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => 'Proposal withdrawn.')
+    proposal = @person.events.find_by_id(params[:id])
+    if proposal
+      proposal.withdraw
+      proposal.save
+      redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+                  alert: 'Proposal withdrawn.')
+    else
+      redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+                  alert: 'Error! Could not find proposal!')
+    end
   end
 
   def new
@@ -144,8 +152,8 @@ class ProposalController < ApplicationController
   def confirm
     if @event.transition_possible? :confirm
       begin
-        @event.confirm!(:send_mail => params[:send_mail])
-      rescue Exception => e
+        @event.confirm!
+      rescue InvalidTransition => e
         redirect_to(conference_proposal_index_path(:conference_id => @conference.short_title), :alert => "Event was NOT confirmed: #{e.message}")
         return
       end
@@ -160,4 +168,24 @@ class ProposalController < ApplicationController
     end
   end
 
+  def restart
+    @event
+    if @event.transition_possible? :restart
+      begin
+        @event.restart
+        @event.save
+      rescue InvalidTransition => e
+        redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+                    alert: "Event was NOT restarted: #{e.message}")
+        return
+      end
+      # Success
+      redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+                  notice: 'Event was restarted. Review pending!')
+    else
+      # Error
+      redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+                  alert: 'Event was NOT restarted!')
+    end
+  end
 end

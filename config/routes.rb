@@ -53,8 +53,12 @@ Osem::Application.routes.draw do
       resources :events do
         member do
           post :comment
-          patch :update_state
-          patch :update_track
+          patch :accept
+          patch :confirm
+          patch :cancel
+          patch :reject
+          patch :unconfirm
+          patch :restart
           get :vote
         end
         resource :speaker, :only => [:edit, :update]
@@ -67,7 +71,8 @@ Osem::Application.routes.draw do
   resources :conference, only: [:show] do
     resources :proposal do
       resources :event_attachment, :controller => "event_attachments"
-      patch "/confirm" => "proposal#confirm"
+      patch '/confirm' => 'proposal#confirm'
+      patch '/restart' => 'proposal#restart'
     end
     resource :schedule, :only => [] do
       get "/" => "schedule#index"

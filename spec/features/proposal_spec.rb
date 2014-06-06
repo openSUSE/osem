@@ -67,15 +67,15 @@ feature Event do
 
       click_button 'New'
       click_link "reject_event_#{event.id}"
-      expect(flash).to eq('Updated state')
+      expect(flash).to eq('Event rejected!')
       click_button 'Rejected'
-      click_link "review_event_#{event.id}"
-      expect(flash).to eq('Updated state')
+      click_link "restart_event_#{event.id}"
+      expect(flash).to eq('Review started!')
 
       # Start review
-      click_button 'Review'
+      click_button 'New'
       click_link "accept_event_#{event.id}"
-      expect(flash).to eq('Updated state')
+      expect(flash).to eq('Event accepted!')
       expect(page.has_content?('Unconfirmed')).to be true
       sign_out
 
@@ -83,7 +83,7 @@ feature Event do
       sign_in participant
       visit conference_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
-      expect(page.has_content?('Accepted (confirmation pending)')).to be true
+      expect(page.has_content?('Unconfirmed')).to be true
       click_link "confirm_proposal_#{event.id}"
       expect(flash).
           to eq('Event was confirmed. Please register to attend the conference.')

@@ -34,14 +34,6 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def withdraw_proposal id
-    proposal = self.events.find_by_id(id)
-    if !proposal.nil?
-      proposal.withdraw
-      proposal.save
-    end
-  end
-
   def attending_conference? conference
     Registration.where(:conference_id => conference.id,
                        :person_id => self.id).count
@@ -49,7 +41,7 @@ class Person < ActiveRecord::Base
 
 
   def proposals conference
-    self.events.where("conference_id = ? AND state != ? AND state != ? AND event_people.event_role=?", conference.id, "withdrawn", "rejected", "submitter")
+    events.where('conference_id = ? AND event_people.event_role=?', conference.id, 'submitter')
   end
 
   def proposal_count conference

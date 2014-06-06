@@ -15,7 +15,7 @@
             %td #{event.title}
             %td #{event.conference.title}
             %td
-              .span{'class'=>label_for(event.public_state)} #{event.public_state}
+              .span{'class'=>label_for(event.state)} #{event.state.humanize}
 - else
   %h5.text-warning.text-center
     No submissions!
