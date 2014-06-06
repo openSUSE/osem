@@ -107,33 +107,33 @@
                   %ul.dropdown-menu{:role=>"menu"}
                     - if event.transition_possible? :accept
                       %li= link_to 'Accept event',
-                      update_state_admin_conference_event_path(@conference.short_title, event, transition: :accept),
+                      accept_admin_conference_event_path(@conference.short_title, event),
                       method: :patch, id: "accept_event_#{event.id}"
                       - if @conference.email_settings.send_on_accepted?
                         %li= link_to 'Accept event (without email)',
-                        update_state_admin_conference_event_path(@conference.short_title, event, transition: :accept, send_mail: false),
+                        accept_admin_conference_event_path(@conference.short_title, event, send_mail: false),
                             method: :patch, hint: 'Accept this event without sending an automated email.',
                             id: "accept_event_without_mail_#{event.id}"
                     - if event.transition_possible? :reject
                       %li= link_to 'Reject event',
-                      update_state_admin_conference_event_path(@conference.short_title, event, transition: :reject),
+                      reject_admin_conference_event_path(@conference.short_title, event),
                           method: :patch, confirm: 'Are you sure?', id: "reject_event_#{event.id}"
                       - if @conference.email_settings.send_on_rejected?
                         %li= link_to 'Reject event (without email)',
-                        update_state_admin_conference_event_path(@conference.short_title, event, transition: :reject, send_mail: false),
+                        reject_admin_conference_event_path(@conference.short_title, event, send_mail: false),
                             method: :patch, confirm: 'Are you sure?', id: "reject_event_without_mail_#{event.id}"
-                    - if event.transition_possible? :start_review
+                    - if event.transition_possible? :restart
                       %li= link_to 'Start review',
-                      update_state_admin_conference_event_path(@conference.short_title, event, transition: :start_review),
-                          method: :patch, id: "review_event_#{event.id}"
+                      restart_admin_conference_event_path(@conference.short_title, event),
+                          method: :patch, id: "restart_event_#{event.id}"
                     - if event.transition_possible? :confirm
                       %li= link_to 'Confirm event',
-                      update_state_admin_conference_event_path(@conference.short_title, event, transition: :confirm),
+                      confirm_admin_conference_event_path(@conference.short_title, event),
                           method: :patch, id: "confirm_event_#{event.id}",
                           hint: 'Confirm that the speaker(s) will be present and that the event will actually take place.'
                     - if event.transition_possible? :cancel
                       %li= link_to 'Cancel event',
-                      update_state_admin_conference_event_path(@conference.short_title, event, :transition => :cancel),
+                      cancel_admin_conference_event_path(@conference.short_title, event),
                           method: :patch, id: "cancel_event_#{event.id}",
                           hint: 'Mark this event as cancelled. Usually this means that the speakers had to cancel their appearance.'
 

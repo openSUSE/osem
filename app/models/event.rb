@@ -35,34 +35,29 @@ class Event < ActiveRecord::Base
 
   state_machine :initial => :new do
     state :new
-    state :review
     state :withdrawn
-    state :accepted
     state :unconfirmed
     state :confirmed
     state :canceled
     state :rejected
 
-    event :start_review do
-      transitions :to => :review, :from => [:new, :rejected, :canceled]
+    event :restart do
+      transitions to: :new, from: [:rejected, :withdrawn, :canceled]
     end
     event :withdraw do
-      transitions :to => :withdrawn, :from => [:new, :review, :unconfirmed, :confirmed]
+      transitions to: :withdrawn, from: [:new, :unconfirmed, :confirmed]
     end
     event :accept do
-      transitions :to => :unconfirmed, :from => [:new, :review], :on_transition => :process_acceptance
-    end
-    event :unconfirm do
-      transitions :to => :review, :from=>[:confirmed]
+      transitions to: :unconfirmed, from: [:new], on_transition: :process_acceptance
     end
     event :confirm do
-      transitions :to => :confirmed, :from => :unconfirmed, :on_transition => :process_confirmation
+      transitions to: :confirmed, from: :unconfirmed, on_transition: :process_confirmation
     end
     event :cancel do
-      transitions :to => :canceled, :from => [:unconfirmed, :confirmed]
+      transitions to: :canceled, from: [:unconfirmed, :confirmed]
     end
     event :reject do
-      transitions :to => :rejected, :from => [:new, :review], :on_transition => :process_rejection
+      transitions to: :rejected, from: [:new], on_transition: :process_rejection
     end
   end
 
@@ -123,7 +118,7 @@ class Event < ActiveRecord::Base
     self.class.state_machine.events_for(self.current_state).include?(transition)
   end
 
-  def process_confirmation(options)
+  def process_confirmation
     if self.conference.email_settings.send_on_confirmed_without_registration?
       if self.conference.registrations.where(:person_id => self.submitter.id).first.nil?
         Mailbot.confirm_reminder_mail(self).deliver
@@ -145,25 +140,6 @@ class Event < ActiveRecord::Base
       Rails.logger.debug 'Sending rejected mail'
       Mailbot.rejection_mail(self).deliver
     end
-  end
-
-  def public_state
-    public_state = "Submitted"
-    case self.state
-      when "withdrawn"
-        public_state = "Withdrawn"
-      when "new", "review"
-        public_state = "Review Pending"
-      when "accepted", "unconfirmed"
-        public_state = "Accepted (confirmation pending)"
-      when "confirmed"
-        public_state = "Confirmed"
-      when "rejected"
-        public_state = "Rejected"
-      when "cancelled"
-        public_state = "Cancelled"
-    end
-    public_state
   end
 
   def abstract_word_count
