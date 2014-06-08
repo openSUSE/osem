@@ -9,7 +9,8 @@ Osem::Application.routes.draw do
     resources :people
     resources :conference do
       get "/schedule" => "schedule#show"
-      patch "/schedule" => "schedule#update"
+      # FIXME 'Patch' route for schedule does not work
+      put "/schedule" => "schedule#update"
       get "/stats" => "stats#index"
       get "/venue" => "venue#show", :as => "venue_info"
       patch "/venue" => "venue#update", :as => "venue_update"
