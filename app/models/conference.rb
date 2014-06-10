@@ -31,7 +31,7 @@ class Conference < ActiveRecord::Base
   has_many :vdays, :dependent => :destroy
   has_many :vpositions, :dependent => :destroy
   has_many :vchoices, :dependent => :destroy
-
+  has_many :photos, dependent: :destroy
   belongs_to :venue
 
   accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
