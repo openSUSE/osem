@@ -1,0 +1,7 @@
+<div class="nested-fields">
+    <%= f.inputs do %>
+        <%= f.input :picture %>
+        <%= f.input :description, :input_html => {:rows => 2 } %>
+        <%= remove_association_link :photo, f %>
+    <% end %>
+</div>

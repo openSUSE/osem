@@ -17,6 +17,8 @@
       = f.input :registration_description, hint: 'This description will appear in registration segment of the splash'
       = f.input :ticket_description, hint: 'This will appear in the Tickets segment of the splash'
 
+      = dynamic_association :photos, "Photos", f
+
       = f.inputs :name => "Media" do
         - if !@conference.logo.blank?
           = image_tag @conference.logo(:thumb)
