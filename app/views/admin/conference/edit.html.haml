@@ -25,6 +25,8 @@
       = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
       = f.input :lodging_description, hint: 'This will appear in the lodging segment of the splash'
 
+      = dynamic_association :photos, "Photos", f
+
       = f.inputs :name => 'Social Media' do
         - if !@conference.logo.blank?
           = image_tag @conference.logo(:thumb)
