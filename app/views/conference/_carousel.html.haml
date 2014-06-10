@@ -1,0 +1,19 @@
+%div#gallery-carousel.carousel.slide{"data-ride" => "carousel"}
+  / Indicators
+  %ol.carousel-indicators
+    - @conference.photos.each_with_index do |p,i|
+      %li{"data-slide-to" => "#{i}", "data-target" => "#gallery-carousel", class: i==0 ? "active": "" }
+  / Wrapper for slides
+  .carousel-inner
+    - @conference.photos.each_with_index do |p,i|
+      %div{ class: i==0 ? "active item": "item" }
+        = image_tag(p.picture(:original), class: 'img-responsive')
+        - unless p.description.blank?
+          %div.carousel-caption
+            %p.text-center
+              = p.description
+  / Controls
+  %a.left.carousel-control{"data-slide" => "prev", href: "#gallery-carousel"}
+    %span.glyphicon.glyphicon-chevron-left
+  %a.right.carousel-control{"data-slide" => "next", href: "#gallery-carousel"}
+    %span.glyphicon.glyphicon-chevron-right
