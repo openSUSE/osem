@@ -6,6 +6,175 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  describe '#event_distribution' do
+
+    before(:each) do
+      @conference = create(
+          :conference,
+          email_settings: create(:email_settings))
+      @conference.email_settings = create(:email_settings)
+
+      @options = {}
+      @options[:send_mail] = 'false'
+
+      create(:event, conference: @conference)
+
+      withdrawn = create(:event, conference: @conference)
+      withdrawn.withdraw!
+
+      unconfirmed = create(:event, conference: @conference)
+      unconfirmed.accept!(@options)
+
+      rejected = create(:event, conference: @conference)
+      rejected.reject!(@options)
+
+      confirmed = create(:event, conference: @conference)
+      confirmed.accept!(@options)
+      confirmed.confirm!
+
+      canceled = create(:event, conference: @conference)
+      canceled.accept!(@options)
+      canceled.cancel!
+
+      @result = {}
+      @result['New'] = { 'value' => 1, 'color' => '#0000FF' }
+      @result['Withdrawn'] = { 'value' => 1, 'color' => '#FF8000' }
+      @result['Unconfirmed'] = { 'value' => 1, 'color' => '#FFFF00' }
+      @result['Rejected'] = { 'value' => 1, 'color' => '#FF0000' }
+      @result['Confirmed'] = { 'value' => 1, 'color' => '#00FF00' }
+      @result['Canceled'] = { 'value' => 1, 'color' => '#848484' }
+    end
+
+    it '#event_distribution does calculate correct values with events' do
+      expect(@conference.event_distribution).to eq(@result)
+    end
+
+    it '#event_distribution does calculate correct values with no events' do
+      @conference.events.clear
+      expect(@conference.event_distribution).to eq({})
+    end
+
+    it 'event_distribution does calculate correct values with just a new event' do
+      conference = create(:conference)
+      create(:event, conference: conference)
+      result = { 'New' => { 'value' => 1, 'color' => '#0000FF' } }
+      expect(conference.event_distribution).to eq(result)
+    end
+
+    it 'event_distribution does calculate correct values with just an withdrawn event' do
+      conference = create(:conference)
+      event = create(:event, conference: conference)
+      event.withdraw!
+      result = { 'Withdrawn' => { 'value' => 1, 'color' => '#FF8000' } }
+      expect(conference.event_distribution).to eq(result)
+    end
+
+    it 'event_distribution does calculate correct values with just an unconfirmed event' do
+      conference = create(:conference)
+      event = create(:event, conference: conference)
+      event.accept!(@options)
+      result = { 'Unconfirmed' => { 'value' => 1, 'color' => '#FFFF00' } }
+      expect(conference.event_distribution).to eq(result)
+    end
+
+    it 'event_distribution does calculate correct values with just an rejected event' do
+      conference = create(:conference)
+      event = create(:event, conference: conference)
+      event.reject!(@options)
+      result = { 'Rejected' =>  { 'value' => 1, 'color' => '#FF0000' } }
+      expect(conference.event_distribution).to eq(result)
+    end
+
+    it 'event_distribution does calculate correct values with just an confirmed event' do
+      conference = create(:conference)
+      conference.email_settings = create(:email_settings)
+      event = create(:event, conference: conference)
+      event.accept!(@options)
+      event.confirm!
+      result = { 'Confirmed' =>  { 'value' => 1, 'color' => '#00FF00' } }
+      expect(conference.event_distribution).to eq(result)
+    end
+
+    it 'event_distribution does calculate correct values with just an canceled event' do
+      conference = create(:conference)
+      event = create(:event, conference: conference)
+      event.accept!(@options)
+      event.cancel!
+      result = { 'Canceled' =>  { 'value' => 1, 'color' => '#848484' } }
+      expect(conference.event_distribution).to eq(result)
+    end
+
+    it 'self#event_distribution does calculate correct values' do
+      expect(Conference.event_distribution).to eq(@result)
+    end
+
+    it 'self#event_distribution does calculate correct values with no events' do
+      @conference.events.clear
+      expect(Conference.event_distribution).to eq({})
+    end
+
+    it 'self#event_distribution does calculate correct values with just a new event' do
+      @conference.events.clear
+      create(:event, conference: @conference)
+      result = { 'New' => { 'value' => 1, 'color' => '#0000FF' } }
+      expect(Conference.event_distribution).to eq(result)
+    end
+
+    it 'self#event_distribution does calculate correct values
+                      with just a new events from different conferences' do
+      create(:event, conference: @conference)
+      @result['New'] = { 'value' => 2, 'color' => '#0000FF' }
+      expect(Conference.event_distribution).to eq(@result)
+    end
+  end
+
+  describe 'self#event_distribution' do
+    # It is necessary to use bang version of let to build roles before user
+    let!(:organizer_role) { create(:organizer_role) }
+    let!(:participant_role) { create(:participant_role) }
+    let!(:admin_role) { create(:admin_role) }
+
+    it 'self#event_distribution calculates correct values with user' do
+      create(:user, last_sign_in_at: Time.now - 3.months) # active
+      create(:user, confirmed_at: nil) # unconfirmed
+      create(:user, last_sign_in_at: Time.now - 1.year - 1.day) # dead
+      result = {}
+      result['Active'] = { 'color' => 'green', 'value' => 1 }
+      result['Unconfirmed'] = { 'color' => 'red', 'value' => 1 }
+      result['Dead'] = { 'color' => 'black', 'value' => 1 }
+
+      expect(Conference.user_distribution).to eq(result)
+    end
+
+    it 'self#event_distribution calculates correct with only active user' do
+      create(:user, last_sign_in_at: Time.now - 3.months) # active
+      result = {}
+      result['Active'] = { 'color' => 'green', 'value' => 1 }
+
+      expect(Conference.user_distribution).to eq(result)
+    end
+
+    it 'self#event_distribution calculates correct values with only unconfirmed user' do
+      create(:user, confirmed_at: nil) # unconfirmed
+      result = {}
+      result['Unconfirmed'] = { 'color' => 'red', 'value' => 1 }
+
+      expect(Conference.user_distribution).to eq(result)
+    end
+
+    it 'self#event_distribution calculates correct values with only dead user' do
+      create(:user, last_sign_in_at: Time.now - 1.year - 1.day) # dead
+      result = {}
+      result['Dead'] = { 'color' => 'black', 'value' => 1 }
+
+      expect(Conference.user_distribution).to eq(result)
+    end
+
+    it 'self#event_distribution calculates correct values without user' do
+      expect(Conference.user_distribution).to eq({})
+    end
+  end
+
   describe '#get_status' do
 
     before(:each) do

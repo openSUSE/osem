@@ -2,6 +2,12 @@ class Admin::ConferenceController < ApplicationController
   before_filter :verify_organizer
 
   def index
+    # Redirect to new form if there is no conference
+    if Conference.count == 0
+      redirect_to new_admin_conference_path
+      return
+    end
+
     @total_user = User.count
     @new_user = User.where('created_at > ?', current_user.last_sign_in_at).count
 
@@ -44,11 +50,8 @@ class Admin::ConferenceController < ApplicationController
     @registrations = normalize_array_length(@registrations, @registration_weeks)
     @registration_weeks = @registration_weeks > 0 ? (1..@registration_weeks).to_a : 1
 
-    # Redirect to new form if there is no conference
-    if Conference.count == 0
-      redirect_to new_admin_conference_path
-      return
-    end
+    @event_distribution = Conference.event_distribution
+    @user_distribution = Conference.user_distribution
   end
 
   def new
@@ -85,6 +88,8 @@ class Admin::ConferenceController < ApplicationController
     @conference = Conference.find_by(short_title: params[:id])
     @conference_progress = @conference.get_status
     @top_submitter = @conference.get_top_submitter
+    @event_distribution = @conference.event_distribution
+
     respond_to do |format|
       format.html
       format.json { render json: @conference.to_json }

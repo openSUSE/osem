@@ -6,11 +6,13 @@
     = render partial: 'submissions', locals: { conferences: @conferences, submissions: @submissions,
                                            cfp_weeks: @cfp_weeks }
   .col-md-4
+    = render partial: 'event_distribution', locals: { event_distribution: @event_distribution }
 .row
   .col-md-8
     = render partial: 'registrations', locals: { conferences: @conferences, registrations: @registrations,
                                              registration_weeks: @registration_weeks }
   .col-md-4
+    = render partial: 'user_distribution', locals: { user_distribution: @user_distribution }
   .col-md-8
     .row
       %ul.nav.nav-tabs#recentTable

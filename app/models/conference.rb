@@ -278,7 +278,87 @@ class Conference < ActiveRecord::Base
     Conference.calculate_person_submission_hash(submitter, counter)
   end
 
+  ##
+  # Returns a hash with event state => {value: count of event states, color: color}.
+  # The result is calculated over all conferences.
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def self.event_distribution
+    calculate_event_distribution_hash(Event.group(:state).count)
+  end
+
+  ##
+  # Returns a hash with event state => {value: count of event states, color: color}
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def event_distribution
+    Conference.calculate_event_distribution_hash(events.group(:state).count)
+  end
+
+  ##
+  # Returns a hash with user distribution => {value: count of user state, color: color}
+  # active: signed in during the last 3 months
+  # unconfirmed: registered but not confirmed
+  # dead: not signed in during the last year
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def self.user_distribution
+    active_user = User.where('last_sign_in_at > ?', Date.today - 3.months).count
+    unconfirmed_user = User.where('confirmed_at IS NULL').count
+    dead_user = User.where('last_sign_in_at < ?', Date.today - 1.year).count
+
+    calculate_user_distribution_hash(active_user, unconfirmed_user, dead_user)
+  end
+
   private
+
+  ##
+  # Helper method for calculating hash with corresponding colors of user distribution states.
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def self.calculate_user_distribution_hash(active_user, unconfirmed_user, dead_user)
+    result = {}
+    if active_user > 0
+      result['Active'] = {
+        'color' => 'green',
+        'value' => active_user
+      }
+    end
+    if unconfirmed_user > 0
+      result['Unconfirmed'] = {
+        'color' => 'red',
+        'value' => unconfirmed_user
+      }
+    end
+    if dead_user > 0
+      result['Dead'] = {
+        'color' => 'black',
+        'value' => dead_user
+      }
+    end
+    result
+  end
+
+  ##
+  # Helper method. Calculates hash with corresponding colors of event state distribution.
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def self.calculate_event_distribution_hash(states)
+    result = {}
+    states.each do |key, value|
+      result[key.capitalize] =
+          {
+            'value' => value,
+            'color' => Event.get_state_color(key)
+          }
+    end
+    result
+  end
 
   ##
   # Returns a hash with person => submissions ordered by submissions for all conferences

@@ -11,7 +11,14 @@ $(function() {
                     "width":$(el).parent().width(),
                     "height":$(el).parent().outerHeight()
                 });
-                redraw(animate, $(this));
+            });
+
+            $(".line_chart").each(function(){
+                draw_line_chart(animate, $(this));
+            });
+
+            $(".doughnut_chart").each(function(){
+                draw_doughnut_chart(animate, $(this));
             });
 
             var m = 0;
@@ -21,13 +28,37 @@ $(function() {
         }, 30);
     }
 
-    function redraw(animation, $this){
-        var options = {};
+    function draw_doughnut_chart(animation, $this){
+        var options = get_animation({}, animation);
+        var tmp = $this.data('chart');
+
+        if(jQuery.isEmptyObject(tmp)){
+            // Append error message if there is no data
+            $this.parent().append("<h4 class=\"text-warning\">No data!</h4>");
+            // Remove canvas
+            $this.remove();
+        }else{
+            var data = [];
+            for (var key in tmp) {
+                data.push(tmp[key]);
+            }
+
+            var ctx = $this.get(0).getContext("2d");
+            new Chart(ctx).Doughnut(data, options);
+        }
+    }
+
+    function get_animation(options, animation){
         if (!animation){
             options.animation = false;
         } else {
             options.animation = true;
         }
+        return options;
+    }
+
+    function draw_line_chart(animation, $this){
+        var options = get_animation({}, animation);
 
         var chart_data = create_dataset($this);
         var weeks = $this.parent().data('weeks');
@@ -36,8 +67,7 @@ $(function() {
             datasets : chart_data
         }
 
-        var canvas = $this[0];
-        var ctx = canvas.getContext("2d");
+        var ctx = $this.get(0).getContext("2d");
         new Chart(ctx).Line(data, options);
     }
 
@@ -74,7 +104,7 @@ $(function() {
     $('.conferenceCheckboxes input').change(function(){
         var chart = $(this).parent().data('chart');
         var $canvas = $('#' + chart + 'Chart');
-        redraw(false, $canvas);
+        draw_line_chart(false, $canvas);
     });
 
     $(window).on('resize', function(){ size(false); });

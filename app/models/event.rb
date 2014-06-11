@@ -154,6 +154,26 @@ class Event < ActiveRecord::Base
     created_at.strftime('%W').to_i
   end
 
+  def self.get_state_color(state)
+    # default azure
+    result = '#00FFFF'
+    case state
+    when 'new' # blue
+      result = '#0000FF'
+    when 'withdrawn' # orange
+      result = '#FF8000'
+    when 'confirmed' # green
+      result = '#00FF00'
+    when 'unconfirmed' # yellow
+      result = '#FFFF00'
+    when 'rejected' # red
+      result = '#FF0000'
+    when 'canceled' # grey
+      result = '#848484'
+    end
+    result
+  end
+
   private
 
   def abstract_limit
