@@ -83,3 +83,12 @@ body {
 .top-submitter img {
     margin: 0 auto;
 }
+
+#gallery-carousel .item img{
+  height: 700px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  background-size: cover;
+  -webkit-background-size:cover;
+}

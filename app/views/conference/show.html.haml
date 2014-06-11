@@ -1,5 +1,8 @@
 = content_for :brand do
   = link_to @conference.title, conference_url(@conference.short_title), class: 'navbar-brand'
+- unless @conference.photos.blank?
+  %div
+    = render 'carousel'
 %div#program
   = render 'program'
 %div#registration

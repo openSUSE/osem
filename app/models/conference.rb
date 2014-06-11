@@ -10,7 +10,8 @@ class Conference < ActiveRecord::Base
                   :difficulty_levels_attributes, :use_difficulty_levels,
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
                   :media_id, :media_type, :color, :description,
-                  :registration_description, :ticket_description
+                  :registration_description, :ticket_description,
+                  :photos_attributes
 
   has_paper_trail
 
@@ -31,7 +32,7 @@ class Conference < ActiveRecord::Base
   has_many :vdays, :dependent => :destroy
   has_many :vpositions, :dependent => :destroy
   has_many :vchoices, :dependent => :destroy
-
+  has_many :photos, dependent: :destroy
   belongs_to :venue
 
   accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
@@ -46,6 +47,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :questions, :allow_destroy => true
   accepts_nested_attributes_for :vdays, :allow_destroy => true
   accepts_nested_attributes_for :vpositions, :allow_destroy => true
+  accepts_nested_attributes_for :photos, allow_destroy: true
 
   has_attached_file :logo,
                     :styles => {:thumb => "100x100>", :large => "300x300>" }
