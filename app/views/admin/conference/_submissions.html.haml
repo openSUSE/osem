@@ -4,7 +4,7 @@
       %h4 Event submissions over time
   .row
     .submissionsChart{"data-chart"=>"#{submissions.to_json}", "data-conferences"=>"#{conferences.to_json}", "data-weeks"=>"#{cfp_weeks.to_json}"}
-      %canvas#submissionsChart{"data-name"=>"submissions"}
+      %canvas.line_chart#submissionsChart{"data-name"=>"submissions"}
   .row
     .text-center
       weeks

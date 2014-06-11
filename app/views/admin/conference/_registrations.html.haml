@@ -4,7 +4,7 @@
       %h4 Conference registrations over time
   .row
     .registrationsChart{"data-chart"=>"#{registrations.to_json}", "data-conferences"=>"#{conferences.to_json}", "data-weeks"=>"#{registration_weeks.to_json}"}
-      %canvas#registrationsChart{"data-name"=>"registrations"}
+      %canvas.line_chart#registrationsChart{"data-name"=>"registrations"}
   .row
     .text-center
       weeks
