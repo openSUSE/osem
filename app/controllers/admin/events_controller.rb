@@ -163,7 +163,7 @@ class Admin::EventsController < ApplicationController
   def update_state(id, transition, notice, mail = false)
     event = Event.find(id)
     if mail
-      check_mail_settings
+      check_mail_settings(event)
     end
     if event
       begin
@@ -187,7 +187,7 @@ class Admin::EventsController < ApplicationController
     end
   end
 
-  def check_mail_settings
+  def check_mail_settings(event)
     if !params[:send_mail].blank? && event &&
         event.conference.email_settings.rejected_email_template.nil? &&
         event.conference.email_settings.accepted_email_template.nil?
