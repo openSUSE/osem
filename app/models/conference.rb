@@ -10,7 +10,8 @@ class Conference < ActiveRecord::Base
                   :difficulty_levels_attributes, :use_difficulty_levels,
                   :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
                   :media_id, :media_type, :color, :description,
-                  :registration_description, :ticket_description
+                  :registration_description, :ticket_description,
+                  :lodging_description
 
   has_paper_trail
 

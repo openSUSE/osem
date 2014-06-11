@@ -83,3 +83,17 @@ body {
 .top-submitter img {
     margin: 0 auto;
 }
+
+#location{
+ background-repeat: no-repeat;
+ background-position: center center;
+ width: 100%;
+ min-height: 500px;
+ background-size: cover;
+ -webkit-background-size:cover;
+}
+
+#location li{
+  display: inline-block;
+  margin-right: 2em;
+}

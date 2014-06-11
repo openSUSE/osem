@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140605125153) do
+ActiveRecord::Schema.define(version: 20140606173417) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -50,15 +50,15 @@ ActiveRecord::Schema.define(version: 20140605125153) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "conferences", force: true do |t|
-    t.string   "guid",                                         null: false
-    t.string   "title",                                        null: false
-    t.string   "short_title",                                  null: false
+    t.string   "guid",                                     null: false
+    t.string   "title",                                    null: false
+    t.string   "short_title",                              null: false
     t.string   "social_tag"
-    t.string   "contact_email",                                null: false
-    t.string   "timezone",                                     null: false
+    t.string   "contact_email",                            null: false
+    t.string   "timezone",                                 null: false
     t.string   "html_export_path"
-    t.date     "start_date",                                   null: false
-    t.date     "end_date",                                     null: false
+    t.date     "start_date",                               null: false
+    t.date     "end_date",                                 null: false
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -81,6 +81,10 @@ ActiveRecord::Schema.define(version: 20140605125153) do
     t.text     "description"
     t.text     "registration_description"
     t.text     "ticket_description"
+    t.string   "facebook_url"
+    t.string   "google_url"
+    t.string   "twitter_url"
+    t.text     "lodging_description"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
@@ -184,6 +188,19 @@ ActiveRecord::Schema.define(version: 20140605125153) do
   create_table "events_registrations", id: false, force: true do |t|
     t.integer "registration_id"
     t.integer "event_id"
+  end
+
+  create_table "lodgings", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.integer  "venue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "website_link"
   end
 
   create_table "people", force: true do |t|
@@ -308,9 +325,9 @@ ActiveRecord::Schema.define(version: 20140605125153) do
   end
 
   create_table "tracks", force: true do |t|
-    t.string   "guid",                              null: false
+    t.string   "guid",          null: false
     t.integer  "conference_id"
-    t.string   "name",                              null: false
+    t.string   "name",          null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
@@ -363,6 +380,10 @@ ActiveRecord::Schema.define(version: 20140605125153) do
     t.string   "offline_map_bounds"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   create_table "versions", force: true do |t|
