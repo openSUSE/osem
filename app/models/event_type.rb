@@ -1,5 +1,5 @@
 class EventType < ActiveRecord::Base
-  attr_accessible :title, :length, :minimum_abstract_length, :maximum_abstract_length
+  attr_accessible :title, :length, :minimum_abstract_length, :maximum_abstract_length, :color
 
   belongs_to :conference
 

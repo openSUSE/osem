@@ -109,6 +109,13 @@ $(function() {
             },
             5)
     });
+
+    $('a:contains("Add event_type")').click(function () {
+        setTimeout(function () {
+                $("div.nested-fields:last div:nth-of-type(5) input").val(get_color());
+            },
+            5)
+    });
 });
 
 function get_color() {
