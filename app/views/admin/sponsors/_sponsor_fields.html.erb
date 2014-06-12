@@ -1,0 +1,11 @@
+<div class="nested-fields">
+    <%= f.inputs do %>
+      <%= f.input :name %>
+      <%= f.input :description %>
+      <%= image_tag f.object.logo(:thumb) if !f.object.logo.blank? %>
+      <%= f.input :logo %>
+      <%= f.input :website_url %>
+      <%= f.input :sponsorship_level, collection: @conference.sponsorship_levels %>
+      <%= remove_association_link :sponsor, f %>
+    <% end %>
+</div>
