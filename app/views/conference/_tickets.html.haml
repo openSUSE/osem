@@ -1,5 +1,5 @@
 %div.row
-  %h3 Tickets
+  %h2 Tickets
   -if !@conference.ticket_description.blank?
     %p #{ @conference.ticket_description }
     - @conference.supporter_levels.each do |s|

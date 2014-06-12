@@ -1,9 +1,13 @@
 = content_for :brand do
   = link_to @conference.title, conference_url(@conference.short_title), class: 'navbar-brand'
+
 %div#program
   = render 'program'
 %div#registration
   = render 'registration'
 %div#callforpapers
   = render 'call_for_papers'
+%div#social-media
+  = render 'social_media'
+
 
