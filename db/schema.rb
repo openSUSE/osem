@@ -84,6 +84,8 @@ ActiveRecord::Schema.define(version: 20140612181230) do
     t.string   "twitter_url"
     t.string   "facebook_url"
     t.string   "google_url"
+    t.text     "sponsor_description"
+    t.string   "sponsor_email"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
