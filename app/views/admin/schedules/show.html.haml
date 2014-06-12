@@ -9,7 +9,7 @@
       %ul#date-tabs
         - @dates.each do |date|
           %li.date-selector
-            = link_to "#{date}", "#", :id => "#{date}-selector", :onclick => "Schedule.changeDay('#{date}')"
+            = link_to "#{date}", "#", id: "#{date}-selector", onclick: "Schedule.changeDay('#{date}')"
     .schedule-rooms-container
       = render 'day_tab'
 
