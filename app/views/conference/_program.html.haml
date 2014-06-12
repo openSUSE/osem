@@ -6,13 +6,13 @@
   %div.row
     %div.col-md-12
       %h1 Program
-      - if !@conference.description.blank?
+      - unless @conference.description.blank?
         %p
           = @conference.description
       - if @conference.call_for_papers and @conference.call_for_papers.schedule_public
-        %span You can find the complete schedule in our
+        %span You can check out our
         %span
-          = link_to 'Master Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
-  -if !@conference.tracks.blank?
+          = link_to 'Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
+  -unless @conference.tracks.blank?
     = render 'tracks'
 
