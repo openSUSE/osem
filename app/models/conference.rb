@@ -15,7 +15,7 @@ class Conference < ActiveRecord::Base
                   :registration_description, :ticket_description,
                   :sponsorship_levels_attributes,
                   :sponsors_attributes, :facebook_url,
-                  :google_url, :twitter_url
+                  :google_url, :twitter_url, :sponsor_description, :sponsor_email
 
   has_paper_trail
 

@@ -16,6 +16,8 @@
         = f.input :registration_end_date, :as => :string, :input_html => { :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
       = f.input :registration_description, hint: 'This description will appear in registration segment of the splash'
       = f.input :ticket_description, hint: 'This will appear in the Tickets segment of the splash'
+      = f.input :sponsor_description, hint: 'This will appear in the sponsor segment of the splash'
+      = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
 
       = f.inputs :name => "Media" do
         - if !@conference.logo.blank?
