@@ -10,6 +10,8 @@
         %span You can check out our
         %span
           = link_to 'Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
+      - else
+        %span The schedule is not ready yet. Stay tuned!
   -unless @conference.tracks.blank?
     = render 'tracks'
 
