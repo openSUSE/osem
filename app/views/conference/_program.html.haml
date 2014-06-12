@@ -6,9 +6,6 @@
   %div.row
     %div.col-md-12
       %h1 Program
-      - unless @conference.description.blank?
-        %p
-          = @conference.description
       - if @conference.call_for_papers and @conference.call_for_papers.schedule_public
         %span You can check out our
         %span
