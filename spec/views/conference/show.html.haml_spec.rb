@@ -43,6 +43,7 @@ describe 'conference/show.html.haml' do
     expect(rendered).to include('http://www.example.com')
     expect(rendered).to include('Lorem Ipsum Dolor')
     expect(rendered).to include('rails.jpg')
+  end
 
   it 'renders social media partial' do
     expect(view).to render_template('conference/_social_media')
