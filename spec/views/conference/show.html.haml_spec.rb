@@ -6,7 +6,11 @@ describe 'conference/show.html.haml' do
                                       registration_end_date: Date.tomorrow,
                                       description: 'Lorem Ipsum',
                                       sponsor_description: 'Lorem Ipsum Dolor',
-                                      sponsor_email: 'example@example.com')
+                                      sponsor_email: 'example@example.com',
+                                      facebook_url: 'http://www.fbexample.com',
+                                      google_url: 'http://www.google-example.com',
+                                      media_type: 'YouTube',
+                                      media_id: 'rtyutut')
     @conference.call_for_papers = create(:call_for_papers, conference: @conference)
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
     @sponsorship_level = @conference.sponsorship_levels.first
@@ -39,5 +43,11 @@ describe 'conference/show.html.haml' do
     expect(rendered).to include('http://www.example.com')
     expect(rendered).to include('Lorem Ipsum Dolor')
     expect(rendered).to include('rails.jpg')
+
+  it 'renders social media partial' do
+    expect(view).to render_template('conference/_social_media')
+    expect(rendered).to include('http://www.fbexample.com')
+    expect(rendered).to include('http://www.google-example.com')
+    expect(rendered).to include('http://youtu.be/rtyutut')
   end
 end
