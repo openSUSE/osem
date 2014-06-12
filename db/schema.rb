@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140605125153) do
+ActiveRecord::Schema.define(version: 20140612181230) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -81,6 +81,9 @@ ActiveRecord::Schema.define(version: 20140605125153) do
     t.text     "description"
     t.text     "registration_description"
     t.text     "ticket_description"
+    t.string   "twitter_url"
+    t.string   "facebook_url"
+    t.string   "google_url"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
