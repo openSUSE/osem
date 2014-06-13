@@ -4,6 +4,7 @@
         <%= f.input :length, :input_html => {:size => 3} %>
         <%= f.input :minimum_abstract_length, :input_html => {:size => 3} %>
         <%= f.input :maximum_abstract_length, :input_html => {:size => 3} %>
+        <%= f.input :color, :input_html => { :size => 6, :type => 'color' } %>
         <%= remove_association_link :event_type, f %>
     <% end %>
 </div>

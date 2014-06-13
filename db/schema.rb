@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20140612181230) do
     t.integer "length",                  default: 30
     t.integer "minimum_abstract_length", default: 0
     t.integer "maximum_abstract_length", default: 500
+    t.string  "color"
   end
 
   create_table "events", force: true do |t|
