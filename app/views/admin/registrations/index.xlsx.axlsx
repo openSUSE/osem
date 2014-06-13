@@ -14,7 +14,7 @@ wb.add_worksheet(:name => "registrations") do |sheet|
     row << reg.email
     row << reg.attending_social_events
     row << reg.attending_with_partner
-    row << reg.need_access
+    row << reg.handicapped_access_required
     row << reg.other_needs
     row << reg.arrival
     row << reg.departure
