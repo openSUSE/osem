@@ -14,7 +14,7 @@ class CallForPapers < ActiveRecord::Base
   # * +Integer+ -> start week
   def weeks
     result = end_week - start_week + 1
-    weeks = Date.new(start_week.year, 12, 31).strftime('%W').to_i
+    weeks = Date.new(start_date.year, 12, 31).strftime('%W').to_i
     result < 0 ? result + weeks : result
   end
 
