@@ -1,5 +1,5 @@
 class Lodging < ActiveRecord::Base
-  attr_accessible :name, :description, :photo
+  attr_accessible :name, :description, :photo, :website_link
   belongs_to :venue
   has_attached_file :photo,
                     styles: { thumb: '100x100>', large: '300x300>' }

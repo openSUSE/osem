@@ -24,17 +24,28 @@ feature Lodging do
       page.
       find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
           set('Lorem Ipsum Dolor')
+
       attach_file 'Photo', path
+
+      page.
+      find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
+          set('http://www.example.com')
 
       click_button 'Update Venue'
 
       # Validations
       expect(flash).to eq('Lodgings were successfully updated.')
+
       expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
                  value).to eq('Example Hotel')
+
       expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
                  value).to eq('Lorem Ipsum Dolor')
+
       expect(page).to have_selector("img[src*='rails.png']")
+
+      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
+                 value).to eq('http://www.example.com')
 
       # Remove room
       click_link 'Remove lodging'
