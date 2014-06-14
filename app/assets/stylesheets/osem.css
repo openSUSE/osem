@@ -92,16 +92,20 @@ body {
     padding-bottom: 20px;
 }
 
-#location{
+#venue-banner-disp{
  background-repeat: no-repeat;
  background-position: center center;
  width: 100%;
- min-height: 500px;
  background-size: cover;
  -webkit-background-size:cover;
 }
 
-#location li{
+#venue-banner-disp li{
   display: inline-block;
   margin-right: 2em;
+}
+
+.pad{
+    padding-top: 35px;
+    padding-bottom: 35px;
 }

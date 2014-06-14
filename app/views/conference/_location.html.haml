@@ -3,26 +3,27 @@
     %a{ href: '#location' } Location
 
 
-%div.container.text-center
-  .div.row.col-md-12
-    - unless @conference.venue.name.blank?
-      %h1
-        %strong #{ @conference.venue.name }
-    - unless @conference.venue.address.blank?
-      %h2
-        %strong #{ @conference.venue.address }
-    - unless @conference.venue.description.blank?
-      %p
-        %strong #{ @conference.venue.description }
-    %ul
+%div#venue-banner-disp
+  %div.container.text-center
+    .div.row.col-md-12
+      - unless @conference.venue.name.blank?
+        %h1
+          %strong #{ @conference.venue.name }
       - unless @conference.venue.address.blank?
-        %li
-          %b
-            = link_to 'View in Google Maps', "http://maps.google.com/maps?q=#{@conference.venue.address}", target: '_blank'
-      - unless @conference.venue.website.blank?
-        %li
-          %b
-            = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
+        %h2
+          %strong #{ @conference.venue.address }
+      - unless @conference.venue.description.blank?
+        %p
+          %strong #{ @conference.venue.description }
+      %ul
+        - unless @conference.venue.address.blank?
+          %li
+            %b
+              = link_to 'View in Google Maps', "http://maps.google.com/maps?q=#{@conference.venue.address}", target: '_blank'
+        - unless @conference.venue.website.blank?
+          %li
+            %b
+              = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
 
 
 - unless @conference.venue.photo.blank?
@@ -31,6 +32,7 @@
       var photo = "#{@conference.venue.photo}";
       if(photo)
       {
-        $('#location').css('background-image', 'url('+photo+')');
+        $('#venue-banner-disp').css('min-height','500px');
+        $('#venue-banner-disp').css('background-image', 'url('+photo+')');
       }
     });
