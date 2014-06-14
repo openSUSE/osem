@@ -45,6 +45,8 @@
     %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
         = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
+      %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
+        = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
   %li{:class=> "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))} myAccordion" }
     = link_to(admin_conference_sponsorship_levels_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-star
