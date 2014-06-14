@@ -1,0 +1,35 @@
+= content_for :splash_nav do
+  %li
+    %a{ href: '#location' } Location
+
+
+%div.container.text-center
+  .div.row.col-md-12
+    - unless @conference.venue.name.blank?
+      %h1
+        %strong #{ @conference.venue.name }
+    - unless @conference.venue.address.blank?
+      %h2
+        %strong #{ @conference.venue.address }
+    - unless @conference.venue.description.blank?
+      %p
+        %strong #{ @conference.venue.description }
+    %ul
+      - unless @conference.venue.address.blank?
+        %li
+          %b
+            = link_to 'View in Google Maps', "http://maps.google.com/maps?q=#{@conference.venue.address}", target: '_blank'
+      - unless @conference.venue.website.blank?
+        %li
+          %b
+            = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
+
+
+:javascript
+  $(document).ready(function(){
+    var photo = "#{@conference.venue.photo}";
+    if(photo)
+    {
+      $('#location').css('background-image', 'url('+photo+')');
+    }
+  });
