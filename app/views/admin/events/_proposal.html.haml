@@ -35,25 +35,25 @@
               <b class="caret"></b>
             %ul.dropdown-menu
               - if @event.transition_possible? :accept
-                %li= link_to "Accept event (no email)", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :accept, :send_mail => false),
+                %li= link_to "Accept event (no email)", accept_admin_conference_event_path(@conference.short_title, @event, :transition => :accept, :send_mail => false),
                     :method => :put, :hint => "Accept this event without sending an automated email."
-                %li= link_to "Accept event (WITH email)", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :accept, :send_mail => true),
+                %li= link_to "Accept event (WITH email)", accept_admin_conference_event_path(@conference.short_title, @event, :transition => :accept, :send_mail => true),
                     :method => :put, :hint => "Accept this event and send an automated email."
               - if @event.transition_possible? :reject
-                %li= link_to "Reject event (no email)", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :reject, :send_mail => false),
+                %li= link_to "Reject event (no email)", reject_admin_conference_event_path(@conference.short_title, @event, :transition => :reject, :send_mail => false),
                     :method => :put, :confirm => "Are you sure?",
                     :hint => "Reject this event without sending an automated email."
-                %li= link_to "Reject event (WITH email)", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :reject, :send_mail => true),
+                %li= link_to "Reject event (WITH email)", reject_admin_conference_event_path(@conference.short_title, @event, :transition => :reject, :send_mail => true),
                     :method => :put, :confirm => "Are you sure?",
                     :hint => "Reject this event and send an automated email."
               - if @event.transition_possible? :start_review
-                %li= link_to "Start review", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :start_review),
+                %li= link_to "Start review", review_admin_conference_event_path(@conference.short_title, @event, :transition => :start_review),
                     :method => :put
               - if @event.transition_possible? :confirm
-                %li= link_to "Confirm event", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :confirm),
+                %li= link_to "Confirm event", confirm_admin_conference_event_path(@conference.short_title, @event, :transition => :confirm),
                             :method => :put, :hint => "Confirm that the speaker(s) will be present and that the event will actually take place."
               - if @event.transition_possible? :cancel
-                %li= link_to "Cancel event", update_state_admin_conference_event_path(@conference.short_title, @event, :transition => :cancel),
+                %li= link_to "Cancel event", cancel_admin_conference_event_path(@conference.short_title, @event, :transition => :cancel),
                   :method => :put, :hint => "Mark this event as cancelled. Usually this means that the speakers had to cancel their appearance."
       %tr
         %td
