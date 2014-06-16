@@ -32,6 +32,8 @@ Osem::Application.routes.draw do
 
       resources :sponsors, only: [:show, :update, :index]
 
+      resources :lodgings, only: [:show, :update, :index]
+
       resources :eventtypes, only: [:show, :index] do
         collection do
           patch :update

@@ -1,6 +1,7 @@
 class Venue < ActiveRecord::Base
-  attr_accessible :name, :description, :website, :address, :photo
+  attr_accessible :name, :description, :website, :address, :photo, :lodgings_attributes
   has_many :conferences
+  has_many :lodgings
   before_create :generate_guid
   has_attached_file :photo,
                     styles: { thumb: '100x100>', large: '300x300>' }
@@ -8,6 +9,7 @@ class Venue < ActiveRecord::Base
   validates_attachment_content_type :photo,
                                     content_type: [/jpg/, /jpeg/, /png/, /gif/],
                                     size: { in: 0..500.kilobytes }
+  accepts_nested_attributes_for :lodgings, allow_destroy: true
   private
 
   def generate_guid

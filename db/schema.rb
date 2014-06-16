@@ -192,6 +192,18 @@ ActiveRecord::Schema.define(version: 20140613083115) do
     t.integer "event_id"
   end
 
+  create_table "lodgings", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.integer  "venue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "people", force: true do |t|
     t.string   "guid",                              null: false
     t.string   "first_name",           default: ""
