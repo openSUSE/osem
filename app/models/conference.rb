@@ -254,14 +254,14 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> true -> filled / false -> missing
   def get_status
     result = {}
-    result['registration'] = !!registration_start_date && !!registration_end_date
-    result['cfp'] = !!call_for_papers
-    result['venue'] = !!venue && !!venue.name && !!venue.address && !!venue.website
-    result['rooms'] = rooms.count > 0
-    result['tracks'] = tracks.count > 0
-    result['event_types'] = event_types.count > 0
-    result['difficulty_levels'] = difficulty_levels.count > 0
-    result['process'] = (result.select { |k, v| v }.length / result.length.to_f * 100).round(0).to_s
+    result['registration'] = registration_date_set?
+    result['cfp'] = cfp_set?
+    result['venue'] = venue_set?
+    result['rooms'] = rooms_set?
+    result['tracks'] = tracks_set?
+    result['event_types'] = event_types_set?
+    result['difficulty_levels'] = difficulty_levels_set?
+    result['process'] = calculate_setup_progress(result)
     result['short_title'] = short_title
     result
   end
@@ -327,6 +327,85 @@ class Conference < ActiveRecord::Base
   end
 
   private
+
+  ##
+  # Returns the progress of the set up conference list in percent
+  #
+  # ====Returns
+  # * +Fixnum+ -> Progress in Percent
+  def calculate_setup_progress(result)
+    (result.select { |k, v| v }.length / result.length.to_f * 100).round(0).to_s
+  end
+
+  ##
+  # Checks if there is a difficulty level.
+  #
+  # ====Returns
+  # * +True+ -> One difficulty level or more
+  # * +False+ -> No diffculty level
+  def difficulty_levels_set?
+    difficulty_levels.count > 0
+  end
+
+  ##
+  # Checks if there is a difficulty level.
+  #
+  # ====Returns
+  # * +True+ -> One difficulty level or more
+  # * +False+ -> No diffculty level
+  def event_types_set?
+    event_types.count > 0
+  end
+
+  ##
+  # Checks if there is a track.
+  #
+  # ====Returns
+  # * +True+ -> One track or more
+  # * +False+ -> No track
+  def tracks_set?
+    tracks.count > 0
+  end
+
+  ##
+  # Checks if there is a room.
+  #
+  # ====Returns
+  # * +True+ -> One room or more
+  # * +False+ -> No room
+  def rooms_set?
+    rooms.count > 0
+  end
+
+  ##
+  # Checks if venue has a name, address and website.
+  #
+  # ====Returns
+  # * +True+ -> If venue has a name, address and website.
+  # * +False+ -> venue has a no name, address or website.
+  def venue_set?
+    !!venue && !!venue.name && !!venue.address && !!venue.website
+  end
+
+  ##
+  # Checks if the conference has a call for papers object.
+  #
+  # ====Returns
+  # * +True+ -> If conference has a cfp object.
+  # * +False+ -> If conference has no cfp object.
+  def cfp_set?
+    !!call_for_papers
+  end
+
+  ##
+  # Checks if conference has a start and a end date.
+  #
+  # ====Returns
+  # * +True+ -> If conference has a start and a end date.
+  # * +False+ -> If conference has no start or end date.
+  def registration_date_set?
+    !!registration_start_date && !!registration_end_date
+  end
 
   ##
   # Helper method for calculating hash with corresponding colors of user distribution states.
