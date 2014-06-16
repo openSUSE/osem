@@ -16,7 +16,7 @@ module Admin
                     notice: 'Lodgings were successfully updated.')
       else
         redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
-                    notice: 'Lodgings Updation Failed!')
+                    notice: 'Updating lodgings failed!')
       end
     end
   end
