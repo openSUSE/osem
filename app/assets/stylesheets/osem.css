@@ -99,6 +99,9 @@ body {
  background-size: cover;
  -webkit-background-size:cover;
 }
+#venue-banner-disp.with-background{
+    min-height: 500px;
+}
 
 #venue-banner-disp li{
   display: inline-block;

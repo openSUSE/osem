@@ -3,7 +3,7 @@
     %a{ href: '#location' } Location
 
 
-%div#venue-banner-disp
+%div#venue-banner-disp{ style: ("background-image: url(#{@conference.venue.photo})" if @conference.venue.photo), class:('with-background' if @conference.venue.photo) }
   %div.container.text-center
     .div.row.col-md-12
       - unless @conference.venue.name.blank?
@@ -24,15 +24,3 @@
           %li
             %b
               = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
-
-
-- unless @conference.venue.photo.blank?
-  :javascript
-    $(document).ready(function(){
-      var photo = "#{@conference.venue.photo}";
-      if(photo)
-      {
-        $('#venue-banner-disp').css('min-height','500px');
-        $('#venue-banner-disp').css('background-image', 'url('+photo+')');
-      }
-    });
