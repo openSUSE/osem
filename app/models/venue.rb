@@ -1,4 +1,5 @@
 class Venue < ActiveRecord::Base
+  attr_accessible :name, :description, :address, :website
   has_many :conferences
   before_create :generate_guid
 
