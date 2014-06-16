@@ -18,6 +18,7 @@
       = f.input :ticket_description, hint: 'This will appear in the Tickets segment of the splash'
       = f.input :sponsor_description, hint: 'This will appear in the sponsor segment of the splash'
       = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
+      = f.input :lodging_description, hint: 'This will appear in the lodging segment of the splash'
 
       = f.inputs :name => "Media" do
         - if !@conference.logo.blank?

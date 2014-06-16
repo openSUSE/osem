@@ -25,11 +25,12 @@
             = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
 
 
-:javascript
-  $(document).ready(function(){
-    var photo = "#{@conference.venue.photo}";
-    if(photo)
-    {
-      $('#location').css('background-image', 'url('+photo+')');
-    }
-  });
+- unless @conference.venue.photo.blank?
+  :javascript
+    $(document).ready(function(){
+      var photo = "#{@conference.venue.photo}";
+      if(photo)
+      {
+        $('#location').css('background-image', 'url('+photo+')');
+      }
+    });

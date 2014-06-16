@@ -1,0 +1,18 @@
+%div.row.col-md-12.text-center
+  %h2 Lodgings
+  -unless @conference.lodging_description.blank?
+    %p.lead
+      = @conference.lodging_description
+
+%div.row
+  - @conference.venue.lodgings.each do |r|
+    %div.col-md-3.thumbnail
+      -unless r.photo.blank?
+        = image_tag r.photo(:large), class: 'img-responsive'
+      -unless r.name.blank?
+        %h4.text-center #{ r.name }
+      -unless r.description.blank?
+        %p.text-left #{ r.description }
+      - unless r.website_link.blank?
+        .text-center
+          = link_to 'Go to Website', r.website_link

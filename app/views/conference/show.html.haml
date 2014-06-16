@@ -13,6 +13,9 @@
 -unless @conference.venue.blank?
   %div#location
     = render 'location'
+- if @conference.venue
+  - unless @conference.venue.lodgings.empty?
+    = render 'lodging'
 %div#sponsors
   = render 'sponsor'
 %div#social-media

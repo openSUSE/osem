@@ -5,6 +5,7 @@
        of what they are offering, about types of rooms, prices and address' %>
       <%= image_tag f.object.photo(:thumb) if !f.object.photo.blank? %>
       <%= f.input :photo %>
+      <%= f.input :website_link %>
       <%= remove_association_link :lodging, f %>
     <% end %>
 </div>

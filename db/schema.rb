@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613083115) do
+ActiveRecord::Schema.define(version: 20140614174354) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20140613083115) do
     t.string   "google_url"
     t.text     "sponsor_description"
     t.string   "sponsor_email"
+    t.text     "lodging_description"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
@@ -202,6 +203,7 @@ ActiveRecord::Schema.define(version: 20140613083115) do
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "website_link"
   end
 
   create_table "people", force: true do |t|
