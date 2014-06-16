@@ -3,20 +3,31 @@
 
 - unless @conference.description.blank?
   %p= @conference.description
-%div#program
-  = render 'program'
-%div#registration
+  %section{ id: 'program' }
+  .pad
+    = render 'program'
+
+%section{ id: 'registration' }
+.pad
   = render 'registration'
+
 -unless @conference.call_for_papers.blank?
-  %div#callforpapers
+  %section{ id:'callforpapers' }
+  .pad
     = render 'call_for_papers'
 -unless @conference.venue.blank?
-  %div#location
+  %section{ id: 'location' }
+  .pad
     = render 'location'
 - if @conference.venue
   - unless @conference.venue.lodgings.empty?
     = render 'lodging'
-%div#sponsors
+
+%section{ id: 'sponsors' }
+.pad
   = render 'sponsor'
-%div#social-media
+
+%section{ id: 'social-media' }
+.pad
   = render 'social_media'
+
