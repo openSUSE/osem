@@ -283,6 +283,7 @@ class Conference < ActiveRecord::Base
     result['tracks'] = tracks_set?
     result['event_types'] = event_types_set?
     result['difficulty_levels'] = difficulty_levels_set?
+    result['make_conference_public'] = make_conference_public?
     result['process'] = calculate_setup_progress(result)
     result['short_title'] = short_title
     result

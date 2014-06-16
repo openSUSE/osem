@@ -594,6 +594,7 @@ describe Conference do
       @result['tracks'] = true
       @result['event_types'] = true
       @result['difficulty_levels'] = true
+      @result['make_conference_public'] = true
 
       # Setup negative result hash
       @result_false = Hash.new
@@ -613,6 +614,7 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -625,9 +627,10 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       @result_false['registration'] = true
-      @result_false['process'] = 14.to_s
+      @result_false['process'] = 13.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -640,10 +643,11 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
-      @result_false['process'] = 29.to_s
+      @result_false['process'] = 25.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -657,11 +661,12 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
       @result_false['venue'] = true
-      @result_false['process'] = 43.to_s
+      @result_false['process'] = 38.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -675,12 +680,13 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
       @result_false['venue'] = true
       @result_false['rooms'] = true
-      @result_false['process'] = 57.to_s
+      @result_false['process'] = 50.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -694,13 +700,14 @@ describe Conference do
       subject.venue = create(:venue)
       subject.event_types = []
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
       @result_false['venue'] = true
       @result_false['rooms'] = true
       @result_false['tracks'] = true
-      @result_false['process'] = 71.to_s
+      @result_false['process'] = 63.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -715,6 +722,7 @@ describe Conference do
       subject.call_for_papers = create(:call_for_papers)
       subject.venue = create(:venue)
       subject.difficulty_levels = []
+      subject.make_conference_public = false
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
@@ -722,7 +730,7 @@ describe Conference do
       @result_false['rooms'] = true
       @result_false['tracks'] = true
       @result_false['event_types'] = true
-      @result_false['process'] = 86.to_s
+      @result_false['process'] = 75.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -737,6 +745,7 @@ describe Conference do
       subject.venue = create(:venue)
       subject.call_for_papers = create(:call_for_papers)
       subject.venue = create(:venue)
+      subject.make_conference_public = true
 
       expect(subject.get_status).to eq(@result)
     end
