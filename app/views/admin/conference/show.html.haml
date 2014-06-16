@@ -3,9 +3,103 @@
   Dashboard for #{@conference.title}
 %hr
 .row
-  .col-md-4
-    = render partial: 'todo_list', locals: { conference_progress: @conference_progress }
+  .col-sm-4
+    .dashbox.text-center
+      .icon
+        %i.glyphicon.glyphicon-star
+      .text
+        %label.text-muted total registrations: #{@total_reg}
+        %label.text-muted new registrations: #{@new_reg}
+  .col-sm-4
+    .dashbox.text-center
+      .icon
+        %i.glyphicon.glyphicon-comment
+      .text
+        %label.text-muted total submissions: #{@total_submissions}
+        %label.text-muted new submissions: #{@new_submissions}
+  .col-sm-4
+    .dashbox.text-center
+      .icon
+        %i.glyphicon.glyphicon-user
+      .text
+        %label.text-muted programm hours: #{@program_length} h
+        %label.text-muted new programm hours: #{@new_program_length} h
+.row
+  .col-md-12
+    .row
+      .col-md-8
+        .row#registrations
+          .col-md-12
+            = render partial: 'line_chart', locals: { title: 'Registrations over time',
+                                                       name: 'registrations',
+                                                       conferences: [@conference],
+                                                       active_conferences: [@conference],
+                                                       deactive_conferences: [],
+                                                       y: @registrations,
+                                                       x: @registration_weeks,
+                                                       unit: 'weeks' }
+        .row#submissions
+          .col-md-12
+            = render partial: 'line_chart', locals: { title: 'Submissions over time',
+                                                        name: 'submissions',
+                                                        conferences: @submissions,
+                                                        active_conferences: @submissions,
+                                                        deactive_conferences: [],
+                                                        y: @submissions_data,
+                                                        x: @cfp_weeks,
+                                                        unit: 'weeks' }
+      .col-md-4
+        = render partial: 'todo_list', locals: { conference_progress: @conference_progress }
+.row
+  .col-md-12#doughnut
+    %ul.nav.nav-tabs#doughnut_tabs
+      %li.active
+        %a{:href=>"#distribution_all", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-star
+          All
+      %li
+        %a{:href=>"#distribution_confirmed", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-comment
+          Confirmed
+    .tab-content
+      .tab-pane.active#distribution_all
+        .row
+          .col-md-4
+            = render partial: 'doughnut_chart', locals: {title: 'Event types', data: @event_type_distribution}
+          .col-md-4
+            = render partial: 'doughnut_chart', locals: {title: 'Difficulty levels', data: @difficulty_levels_distribution}
+          .col-md-4
+            = render partial: 'doughnut_chart', locals: {title: 'Tracks', data: @tracks_distribution}
+      .tab-pane#distribution_confirmed
+        .row
+          .col-md-4
+            = render partial: 'doughnut_chart', locals: {title: 'Event types', data: @event_type_distribution_confirmed}
+          .col-md-4
+            = render partial: 'doughnut_chart', locals: {title: 'Difficulty levels', data: @difficulty_levels_distribution_confirmed}
+          .col-md-4
+            = render partial: 'doughnut_chart', locals: {title: 'Tracks', data: @tracks_distribution_confirmed}
+
+.row
+  .col-md-8
+    %ul.nav.nav-tabs#recentTable
+      %li.active
+        %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-star
+          Recent Registrations
+      %li
+        %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-comment
+          Recent Submissions
+    .tab-content
+      .tab-pane.active#recent_reg
+        = render partial: 'recent_registrations', locals: {recent_registrations: @recent_registrations}
+      .tab-pane#recent_submissions
+        = render partial: 'recent_submissions', locals: {recent_events: @recent_events}
   .col-md-4
     = render partial: 'top_submitter', locals: {top_submitter: @top_submitter}
-  .col-md-4
-    = render partial: 'event_distribution', locals: { event_distribution: @event_distribution }
+
+:javascript
+  $('#recentTable a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+  })

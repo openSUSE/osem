@@ -1,46 +1,70 @@
 .row
-  = render partial: 'top_boxes', locals: { total_user: @total_user, new_user: @new_user, active_user: @active_user,
-                                       total_reg: @total_reg, new_reg: @new_reg, submissions_count: @submissions_count }
+  .col-sm-4
+    .dashbox.text-center
+      .icon
+        %i.glyphicon.glyphicon-user
+      .text
+        %label.text-muted total user: #{@total_user}
+        %label.text-muted new user: #{@new_user}
+  .col-sm-4
+    .dashbox.text-center
+      .icon
+        %i.glyphicon.glyphicon-star
+      .text
+        %label.text-muted total registrations: #{@total_reg}
+        %label.text-muted new registrations: #{@new_reg}
+  .col-sm-4
+    .dashbox.text-center
+      .icon
+        %i.glyphicon.glyphicon-comment
+      .text
+        %label.text-muted total submissions: #{@total_submissions}
+        %label.text-muted new submissions: #{@new_submissions}
+.row#registrations
+  .col-md-8
+    = render partial: 'line_chart', locals: { title: 'Registrations over time',
+                                               name: 'registrations',
+                                               conferences: @conferences,
+                                               active_conferences: @active_conferences,
+                                               deactive_conferences: @deactive_conferences,
+                                               y: @registrations,
+                                               x: @registration_weeks,
+                                               unit: 'weeks' }
+  .col-md-4
+    = render partial: 'doughnut_chart', locals: { title: 'Events',data: @event_distribution }
+.row#submissions
+  .col-md-8
+    = render partial: 'line_chart', locals: { title: 'Submissions over time',
+                                               name: 'submissions',
+                                               conferences: @conferences,
+                                               active_conferences: @active_conferences,
+                                               deactive_conferences: @deactive_conferences,
+                                               y: @submissions,
+                                               x: @cfp_weeks,
+                                               unit: 'weeks' }
+  .col-md-4
+    = render partial: 'doughnut_chart', locals: { title: 'User',data: @user_distribution }
 .row
   .col-md-8
-    = render partial: 'submissions', locals: { conferences: @conferences, submissions: @submissions,
-                                           cfp_weeks: @cfp_weeks }
-  .col-md-4
-    = render partial: 'event_distribution', locals: { event_distribution: @event_distribution }
-.row
-  .col-md-8
-    = render partial: 'registrations', locals: { conferences: @conferences, registrations: @registrations,
-                                             registration_weeks: @registration_weeks }
-  .col-md-4
-    = render partial: 'user_distribution', locals: { user_distribution: @user_distribution }
-  .col-md-8
-    .row
-      %ul.nav.nav-tabs#recentTable
-        %li.active
-          %a{:href=>"#recent_user", "data-toggle"=>"tab"}
-            %span.glyphicon.glyphicon-user
-            Recent Users
-        %li
-          %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
-            %span.glyphicon.glyphicon-star
-            Recent Registrations
-        %li
-          %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
-            %span.glyphicon.glyphicon-comment
-            Recent Submissions
-      .tab-content
-        .tab-pane.active#recent_user
-          = render partial: 'recent_users', locals: {recent_users: @recent_users}
-        .tab-pane#recent_reg
-          = render partial: 'recent_registrations', locals: {recent_registrations: @recent_registrations}
-        .tab-pane#recent_submissions
-          = render partial: 'recent_submissions', locals: {recent_events: @recent_events}
+    %ul.nav.nav-tabs#recentTable
+      %li.active
+        %a{:href=>"#recent_user", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-user
+          Recent Users
+      %li
+        %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-star
+          Recent Registrations
+      %li
+        %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
+          %span.glyphicon.glyphicon-comment
+          Recent Submissions
+    .tab-content
+      .tab-pane.active#recent_user
+        = render partial: 'recent_users', locals: {recent_users: @recent_users}
+      .tab-pane#recent_reg
+        = render partial: 'recent_registrations', locals: {recent_registrations: @recent_registrations}
+      .tab-pane#recent_submissions
+        = render partial: 'recent_submissions', locals: {recent_events: @recent_events}
   .col-md-4
     = render partial: 'top_submitter', locals: {top_submitter: @top_submitter}
-
-
-:javascript
-  $('#recentTable a').click(function (e) {
-    e.preventDefault();
-    $(this).tab('show');
-  })

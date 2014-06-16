@@ -17,8 +17,10 @@ class Admin::ConferenceController < ApplicationController
     @total_submissions = Event.count
     @new_submissions = Event.where('created_at > ?', current_user.last_sign_in_at).count
 
-    @conferences = Conference.select('id, short_title, color, start_date,
-                                      registration_end_date, registration_start_date')
+    @active_conferences = Conference.get_active_conferences_for_dashboard # pending or the last two
+    @deactive_conferences = Conference.
+      get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
+    @conferences = @active_conferences + @deactive_conferences
 
     @recent_users = User.limit(5).order(created_at: :desc)
     @recent_events = Event.limit(5).order(created_at: :desc)
@@ -86,9 +88,63 @@ class Admin::ConferenceController < ApplicationController
 
   def show
     @conference = Conference.find_by(short_title: params[:id])
+
+    # Overview and since last login information
+    @total_reg = @conference.registrations.count
+    @new_reg = @conference.registrations.where('created_at > ?', current_user.last_sign_in_at).count
+
+    @total_submissions = @conference.events.count
+    @new_submissions = @conference.events.
+        where('created_at > ?', current_user.last_sign_in_at).count
+
+    @program_length = @conference.current_program_hours
+    @new_program_length = @conference.new_program_hours(current_user.last_sign_in_at)
+
+    #  Step by step list
     @conference_progress = @conference.get_status
+
+    # Line charts
+    @registrations = { @conference.short_title => @conference.get_registrations_per_week }
+    @registration_weeks = [0]
+    @registration_weeks.push(@registrations[@conference.short_title].length)
+
+    @registration_weeks = @registration_weeks.max
+    @registrations = normalize_array_length(@registrations, @registration_weeks)
+    @registration_weeks = @registration_weeks > 0 ? (1..@registration_weeks).to_a : 1
+
+    @submissions = Conference.get_event_state_line_colors
+
+    @submissions_data = {}
+    @cfp_weeks = [0]
+    @submissions_data['Submitted'] = @conference.get_submissions_per_week
+    @cfp_weeks.push(@submissions_data['Submitted'].length)
+
+    @submissions_data['Confirmed'] = @conference.get_submissions_per_week_by_status('confirmed')
+    @cfp_weeks.push(@submissions_data['Confirmed'].length)
+
+    @submissions_data['Unconfirmed'] = @conference.get_submissions_per_week_by_status('unconfirmed')
+    @cfp_weeks.push(@submissions_data['Unconfirmed'].length)
+
+    @cfp_weeks = @cfp_weeks.max
+    @submissions_data = normalize_array_length(@submissions_data, @cfp_weeks)
+    @cfp_weeks = @cfp_weeks > 0 ? (1..@cfp_weeks).to_a : 1
+
+    # Doughnut charts
+    @event_type_distribution = @conference.event_type_distribution
+    @event_type_distribution_confirmed = @conference.event_type_distribution(:confirmed)
+
+    @difficulty_levels_distribution = @conference.difficulty_levels_distribution
+    @difficulty_levels_distribution_confirmed = @conference.
+        difficulty_levels_distribution(:confirmed)
+
+    @tracks_distribution = @conference.tracks_distribution
+    @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
+
+    # Recent actions information
+    @recent_events = @conference.events.limit(5).order(created_at: :desc)
+    @recent_registrations = @conference.registrations.limit(5).order(created_at: :desc)
+
     @top_submitter = @conference.get_top_submitter
-    @event_distribution = @conference.event_distribution
 
     respond_to do |format|
       format.html
