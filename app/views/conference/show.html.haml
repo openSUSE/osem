@@ -10,6 +10,9 @@
 -unless @conference.call_for_papers.blank?
   %div#callforpapers
     = render 'call_for_papers'
+-unless @conference.venue.blank?
+  %div#location
+    = render 'location'
 %div#sponsors
   = render 'sponsor'
 %div#social-media

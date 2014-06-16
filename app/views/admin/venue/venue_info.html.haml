@@ -5,4 +5,7 @@
       = f.input :address, :input_html => {:rows => 1}
       = f.input :website
       = f.input :description, :input_html => { :rows => 10, :cols => 20 }
+      - unless @venue.photo.blank?
+        = image_tag @venue.photo(:thumb)
+      = f.input :photo
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

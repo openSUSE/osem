@@ -16,6 +16,7 @@ describe 'conference/show.html.haml' do
     @sponsorship_level = @conference.sponsorship_levels.first
     @sponsorship_level.sponsors << create(:sponsor, sponsorship_level: @sponsorship_level,
                                                     conference: @conference)
+    @conference.venue = create(:venue)
     assign :conference, @conference
     render
   end
@@ -50,5 +51,13 @@ describe 'conference/show.html.haml' do
     expect(rendered).to include('http://www.fbexample.com')
     expect(rendered).to include('http://www.google-example.com')
     expect(rendered).to include('http://youtu.be/rtyutut')
+  end
+
+  it 'renders location partial' do
+    expect(view).to render_template(partial: 'conference/_location')
+    expect(rendered).to include('Suse Office')
+    expect(rendered).to include('Maxfeldstrasse 5 \n90409 Nuremberg')
+    expect(rendered).to include('www.opensuse.org')
+    expect(rendered).to include('Lorem Ipsum Dolor')
   end
 end
