@@ -19,7 +19,8 @@ class Conference < ActiveRecord::Base
                   :lodging_description, :include_registrations_in_splash,
                   :include_sponsors_in_splash, :include_tracks_in_splash,
                   :include_tickets_in_splash, :include_social_media_in_splash,
-                  :include_program_in_splash
+                  :include_program_in_splash, :make_conference_public
+
 
   has_paper_trail
 

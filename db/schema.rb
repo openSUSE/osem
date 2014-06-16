@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20140618062623) do
     t.boolean  "include_tickets_in_splash",       default: false
     t.boolean  "include_social_media_in_splash",  default: false
     t.boolean  "include_program_in_splash",       default: false
+    t.boolean  "make_conference_public",   default: false
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
