@@ -6,6 +6,413 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  describe 'program hours' do
+    before(:each) do
+      @long = create(:event_type, length: 100)
+      @short = create(:event_type, length: 10)
+    end
+
+    describe '#actual_program_hours' do
+      it 'calculates correct values with events' do
+        create(:event, conference: subject, event_type: @long)
+        create(:event, conference: subject, event_type: @long)
+        create(:event, conference: subject, event_type: @short)
+        create(:event, conference: subject, event_type: @short)
+        result = 220
+        expect(subject.current_program_hours).to eq(result)
+      end
+
+      it 'calculates correct values without events' do
+        result = 0
+        expect(subject.current_program_hours).to eq(result)
+      end
+    end
+
+    describe '#new_program_hours' do
+      it 'calculates correct values with events' do
+
+        create(:event, conference: subject, event_type: @long, created_at: Time.now - 3.days)
+        create(:event, conference: subject, event_type: @long)
+        create(:event, conference: subject, event_type: @short, created_at: Time.now - 3.days)
+        create(:event, conference: subject, event_type: @short)
+        result = 110
+        expect(subject.new_program_hours(Time.now - 5.minutes)).to eq(result)
+      end
+
+      it 'calculates correct values without events' do
+        result = 0
+        expect(subject.new_program_hours(Time.now - 5.minutes)).to eq(result)
+      end
+    end
+  end
+
+  describe '#difficulty_levels' do
+    before (:each) do
+      subject.email_settings = create(:email_settings)
+      @easy = create(:difficulty_level, title: 'Easy', color: '#000000')
+      @hard = create(:difficulty_level, title: 'Hard', color: '#ffffff')
+    end
+
+    describe '#difficulty_levels_distribution' do
+
+      it 'calculates correct for different difficulty levels' do
+        create(:event, conference: subject, difficulty_level: @easy)
+        create(:event, conference: subject, difficulty_level: @easy)
+        create(:event, conference: subject, difficulty_level: @hard)
+        result = {}
+        result['Hard'] = {
+          'value' => 1,
+          'color' => '#ffffff',
+        }
+        result['Easy'] = {
+          'value' => 2,
+          'color' => '#000000',
+        }
+        expect(subject.difficulty_levels_distribution).to eq(result)
+      end
+
+      it 'calculates correct for one difficulty levels' do
+        create(:event, conference: subject, difficulty_level: @easy)
+        result = {}
+        result['Easy'] = {
+          'value' => 1,
+          'color' => '#000000',
+        }
+        expect(subject.difficulty_levels_distribution).to eq(result)
+      end
+
+      it 'calculates correct for no difficulty levels' do
+        result = {}
+        expect(subject.difficulty_levels_distribution).to eq(result)
+      end
+    end
+
+    describe '#difficulty_levels_distribution_confirmed' do
+      it 'calculates correct for different difficulty levels without confirmed' do
+        create(:event, conference: subject, difficulty_level: @easy)
+        create(:event, conference: subject, difficulty_level: @easy)
+        create(:event, conference: subject, difficulty_level: @hard)
+        result = {}
+
+        expect(subject.difficulty_levels_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for different difficulty levels with confirmed' do
+        confirmed_easy = create(:event, conference: subject, difficulty_level: @easy)
+        create(:event, conference: subject, difficulty_level: @easy)
+        confirmed_hard = create(:event, conference: subject, difficulty_level: @hard)
+
+        options = {}
+        options[:send_mail] = 'false'
+        confirmed_easy.accept!(options)
+        confirmed_hard.accept!(options)
+        confirmed_easy.confirm!
+        confirmed_hard.confirm!
+
+        result = {}
+        result['Hard'] = {
+          'value' => 1,
+          'color' => '#ffffff'
+        }
+        result['Easy'] = {
+          'value' => 1,
+          'color' => '#000000'
+        }
+        expect(subject.difficulty_levels_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for one difficulty levels' do
+        confirmed = create(:event, conference: subject, difficulty_level: @easy)
+        options = {}
+        options[:send_mail] = 'false'
+        confirmed.accept!(options)
+        confirmed.confirm!
+
+        result = {}
+        result['Easy'] = {
+          'value' => 1,
+          'color' => '#000000',
+        }
+        expect(subject.difficulty_levels_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for no difficulty levels' do
+        result = {}
+        expect(subject.difficulty_levels_distribution(:confirmed)).to eq(result)
+      end
+    end
+  end
+
+  describe 'event type distribution' do
+    before (:each) do
+      subject.email_settings = create(:email_settings)
+      @workshop = create(:event_type, title: 'Workshop', color: '#000000')
+      @lecture = create(:event_type, title: 'Lecture', color: '#ffffff')
+    end
+
+    describe '#event_type_distribution' do
+      it 'calculates correct for different event types' do
+        create(:event, conference: subject, event_type: @workshop)
+        create(:event, conference: subject, event_type: @workshop)
+        create(:event, conference: subject, event_type: @lecture)
+        result = {}
+        result['Workshop'] = {
+          'value' => 2,
+          'color' => '#000000',
+        }
+        result['Lecture'] = {
+          'value' => 1,
+          'color' => '#ffffff',
+        }
+        expect(subject.event_type_distribution).to eq(result)
+      end
+
+      it 'calculates correct for one event types' do
+        create(:event, conference: subject, event_type: @workshop)
+        result = {}
+        result['Workshop'] = {
+          'value' => 1,
+          'color' => '#000000',
+        }
+        expect(subject.event_type_distribution).to eq(result)
+      end
+
+      it 'calculates correct for no event types' do
+        result = {}
+        expect(subject.event_type_distribution).to eq(result)
+      end
+    end
+
+    describe '#event_type_distribution_confirmed' do
+      it 'calculates correct for different event types without confirmed' do
+        create(:event, conference: subject, event_type: @workshop)
+        create(:event, conference: subject, event_type: @workshop)
+        create(:event, conference: subject, event_type: @lecture)
+        result = {}
+
+        expect(subject.event_type_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for different event types with confirmed' do
+        confirmed_ws = create(:event, conference: subject, event_type: @workshop)
+        create(:event, conference: subject, event_type: @workshop)
+        confirmed_lt = create(:event, conference: subject, event_type: @lecture)
+
+        options = {}
+        options[:send_mail] = 'false'
+        confirmed_ws.accept!(options)
+        confirmed_lt.accept!(options)
+        confirmed_ws.confirm!
+        confirmed_lt.confirm!
+
+        result = {}
+        result['Lecture'] = {
+          'value' => 1,
+          'color' => '#ffffff'
+        }
+        result['Workshop'] = {
+          'value' => 1,
+          'color' => '#000000'
+        }
+        expect(subject.event_type_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for one event types' do
+        confirmed = create(:event, conference: subject, event_type: @workshop)
+        options = {}
+        options[:send_mail] = 'false'
+        confirmed.accept!(options)
+        confirmed.confirm!
+
+        result = {}
+        result['Workshop'] = {
+          'value' => 1,
+          'color' => '#000000',
+        }
+        expect(subject.event_type_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for no event types' do
+        result = {}
+        expect(subject.event_type_distribution(:confirmed)).to eq(result)
+      end
+    end
+  end
+
+  describe 'tracks_distribution' do
+    before (:each) do
+      subject.email_settings = create(:email_settings)
+      @track_one = create(:track, name: 'Track One', color: '#000000')
+      @track_two = create(:track, name: 'Track Two', color: '#ffffff')
+    end
+
+    describe '#tracks_distribution' do
+      it 'calculates correct for different tracks' do
+        create(:event, conference: subject, track: @track_one)
+        create(:event, conference: subject, track: @track_one)
+        create(:event, conference: subject, track: @track_two)
+        result = {}
+        result['Track One'] = {
+          'value' => 2,
+          'color' => '#000000',
+        }
+        result['Track Two'] = {
+          'value' => 1,
+          'color' => '#ffffff',
+        }
+        expect(subject.tracks_distribution).to eq(result)
+      end
+
+      it 'calculates correct for one track' do
+        create(:event, conference: subject, track: @track_one)
+        result = {}
+        result['Track One'] = {
+          'value' => 1,
+          'color' => '#000000',
+        }
+        expect(subject.tracks_distribution).to eq(result)
+      end
+
+      it 'calculates correct for no track' do
+        result = {}
+        expect(subject.tracks_distribution).to eq(result)
+      end
+    end
+
+    describe '#tracks_distribution_confirmed' do
+      it 'calculates correct for different tracks without confirmed' do
+        create(:event, conference: subject, track: @track_one)
+        create(:event, conference: subject, track: @track_one)
+        create(:event, conference: subject, track: @track_two)
+        result = {}
+
+        expect(subject.tracks_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for different tracks with confirmed' do
+        confirmed_one = create(:event, conference: subject, track: @track_one)
+        create(:event, conference: subject, track: @track_one)
+        confirmed_two = create(:event, conference: subject, track: @track_two)
+
+        options = {}
+        options[:send_mail] = 'false'
+        confirmed_one.accept!(options)
+        confirmed_two.accept!(options)
+        confirmed_one.confirm!
+        confirmed_two.confirm!
+
+        result = {}
+        result['Track One'] = {
+          'value' => 1,
+          'color' => '#000000'
+        }
+        result['Track Two'] = {
+          'value' => 1,
+          'color' => '#ffffff'
+        }
+        expect(subject.tracks_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for one track' do
+        confirmed = create(:event, conference: subject, track: @track_one)
+        options = {}
+        options[:send_mail] = 'false'
+        confirmed.accept!(options)
+        confirmed.confirm!
+
+        result = {}
+        result['Track One'] = {
+          'value' => 1,
+          'color' => '#000000',
+        }
+        expect(subject.tracks_distribution(:confirmed)).to eq(result)
+      end
+
+      it 'calculates correct for no track' do
+        result = {}
+        expect(subject.tracks_distribution(:confirmed)).to eq(result)
+      end
+    end
+  end
+
+  describe '#get_active_conferences' do
+
+    it 'returns pending conferences' do
+      a = create(:conference,
+                 short_title: 'a', start_date: Time.now + 14.days,
+                 end_date: Time.now + 21.days)
+      b = create(:conference,
+                 short_title: 'b', start_date: Time.now + 21.days,
+                 end_date: Time.now + 28.days)
+      c = create(:conference,
+                 short_title: 'c', start_date: Time.now + 21.days,
+                 end_date: Time.now + 28.days)
+      create(:conference,
+             short_title: 'd', start_date: Time.now - 1.year,
+             end_date: Time.now - 360.days)
+      result = [a, b, c]
+
+      expect(Conference.get_active_conferences_for_dashboard).to match_array(result)
+    end
+
+    it 'returns the last two past conferences if there are no pending conferences' do
+      subject.start_date = Time.now - 10.days
+      subject.end_date = Time.now - 5.days
+      c = create(:conference,
+                 short_title: 'c', start_date: Time.now - 1.year,
+                 end_date: Time.now - 360.days)
+      result = [subject, c]
+
+      expect(Conference.get_active_conferences_for_dashboard).to match_array(result)
+    end
+
+    it 'returns empty array if there are no conferences' do
+      expect(Conference.get_active_conferences_for_dashboard).to match_array([])
+    end
+  end
+
+  describe '#get_deactive_conferences' do
+    it 'returns all conferences without the active conferences' do
+      a = create(:conference,  start_date: Time.now - 3.year, end_date: Time.now - 1080.days)
+      b = create(:conference,  start_date: Time.now - 2.year, end_date: Time.now - 720.days)
+      c = create(:conference, start_date: Time.now - 1.year, end_date: Time.now - 360.days)
+      result = [a, b, c]
+
+      expect(Conference.get_conferences_without_active_for_dashboard([subject])).
+          to match_array(result)
+    end
+
+    it 'returns all conferences if there are no active conferences' do
+      subject.start_date = Time.now - 10.days
+      subject.end_date = Time.now - 5.days
+      expect(Conference.get_conferences_without_active_for_dashboard([])).to match_array([subject])
+    end
+
+    it 'returns empty array if there are no conferences' do
+      expect(Conference.get_conferences_without_active_for_dashboard([])).to match_array([])
+    end
+
+    it 'returns no conferences if all conferences are pending' do
+      expect(Conference.get_conferences_without_active_for_dashboard([subject])).to match_array([])
+    end
+
+    it 'return no conferences if there are only two conferences and no pending' do
+      a = create(:conference,  start_date: Time.now - 2.year, end_date: Time.now - 720.days)
+      b = create(:conference, start_date: Time.now - 1.year, end_date: Time.now - 360.days)
+      expect(Conference.get_conferences_without_active_for_dashboard([a, b])).to match_array([])
+    end
+  end
+
+  describe '#get_submission_line_colors' do
+    it ' returns correct values' do
+      result = []
+      result.push(short_title: 'Submitted', color: 'blue')
+      result.push(short_title: 'Confirmed', color: 'green')
+      result.push(short_title: 'Unconfirmed', color: 'orange')
+      expect(Conference.get_event_state_line_colors).to eq(result)
+    end
+  end
+
   describe '#event_distribution' do
 
     before(:each) do

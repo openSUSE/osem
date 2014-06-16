@@ -1,22 +1,23 @@
 - if recent_users && !recent_users.empty?
-  %table.table
-    %thead
-      %tr
-        %th #
-        %th E-Mail
-        %th Date registered
-        %th Status
-    - recent_users.each_with_index do |user, index|
-      %tbody
+  .table-responsive
+    %table.table
+      %thead
         %tr
-          %td #{index}
-          %td #{user.email}
-          %td #{user.created_at.strftime('%m/%d/%Y')}
-          %td
-            - if user.confirmed?
-              %span.label.label-success Confirmed
-            -else
-              %span.label.label-danger Unconfirmed
+          %th #
+          %th E-Mail
+          %th Date registered
+          %th Status
+      - recent_users.each_with_index do |user, index|
+        %tbody
+          %tr
+            %td #{index}
+            %td #{user.email}
+            %td #{user.created_at.strftime('%m/%d/%Y')}
+            %td
+              - if user.confirmed?
+                %span.label.label-success Confirmed
+              -else
+                %span.label.label-danger Unconfirmed
 - else
   %h5.text-warning.text-center
     No sign ups!

@@ -1,8 +1,0 @@
-.well
-  .text-center
-    %h4 User distribution
-    %canvas.doughnut_chart{"data-chart"=>user_distribution.to_json}
-  .row
-    - if user_distribution
-      - user_distribution.each do |key, value|
-        %span{"style"=>"border-bottom: 3px solid #{value['color']}"} #{key}: #{value['value']}

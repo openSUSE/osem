@@ -170,6 +170,23 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Returns an array with the summarized event submissions per week.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0 events, second week 3 events.
+  def get_submissions_per_week_by_status(state)
+    result = []
+
+    if call_for_papers && events
+      submissions = events.where('state = ?', state).group("strftime('%W', created_at)").count
+      start_week = call_for_papers.start_week
+      weeks = call_for_papers.weeks
+      result = calculate_items_per_week(start_week, weeks, submissions)
+    end
+    result
+  end
+
+  ##
   # Returns an array with the summarized registrations per week.
   #
   # ====Returns
@@ -326,6 +343,106 @@ class Conference < ActiveRecord::Base
     calculate_user_distribution_hash(active_user, unconfirmed_user, dead_user)
   end
 
+  ##
+  # Calculates the overall programm hours
+  #
+  # ====Returns
+  # * +hash+ -> Fixnum hours
+  def current_program_hours
+    events_grouped = events.group(:event_type_id)
+    events_counted = events_grouped.count
+    calculate_program_hours(events_grouped, events_counted)
+  end
+
+  ##
+  # Calculates the overall programm hours since date
+  #
+  # ====Returns
+  # * +hash+ -> Fixnum hours
+  def new_program_hours(date)
+    events_grouped = events.where('created_at > ?', date).group(:event_type_id)
+    events_counted = events_grouped.count
+    calculate_program_hours(events_grouped, events_counted)
+  end
+
+  ##
+  # Calculates the difficulty level distribution from all events.
+  #
+  # ====Returns
+  # * +hash+ -> difficulty level => {color, value}
+  def difficulty_levels_distribution(state = nil)
+    calculate_event_distribution(:difficulty_level_id, :difficulty_level, state)
+  end
+
+  ##
+  # Calculates the event_type distribution from all events.
+  #
+  # ====Returns
+  # * +hash+ -> event_type => {color, value}
+  def event_type_distribution(state = nil)
+    calculate_event_distribution(:event_type_id, :event_type, state)
+  end
+
+  ##
+  # Calculates the track distribution from all events.
+  #
+  # ====Returns
+  # * +hash+ -> track => {color, value}
+  def tracks_distribution(state = nil)
+    if state
+      tracks_grouped = events.where('state = ?', state).group(:track_id)
+    else
+      tracks_grouped = events.group(:track_id)
+    end
+    tracks_counted = tracks_grouped.count
+
+    calculate_track_distribution_hash(tracks_grouped, tracks_counted)
+  end
+
+  ##
+  # Return all pending conferences. If there are no pending conferences, the last two
+  # past conferences are returned
+  #
+  # ====Returns
+  # * +ActiveRecord+
+  def self.get_active_conferences_for_dashboard
+    result = Conference.where('start_date > ?', Time.now).
+        select('id, short_title, color, start_date,
+        registration_end_date, registration_start_date')
+
+    if result.length == 0
+      result = Conference.
+          select('id, short_title, color, start_date, registration_end_date,
+          registration_start_date').limit(2).
+          order(start_date: :desc)
+    end
+    result
+  end
+
+  ##
+  # Return all conferences minus the active conferences
+  #
+  # ====Returns
+  # * +ActiveRecord+
+  def self.get_conferences_without_active_for_dashboard(active_conferences)
+    result = Conference.select('id, short_title, color, start_date,
+              registration_end_date, registration_start_date').order(start_date: :desc)
+    result - active_conferences
+  end
+
+  ##
+  # A list with the three event states submitted, confirmed, unconfirmed with corresponding colors
+  #
+  # ====Returns
+  # * +List+
+  def self.get_event_state_line_colors
+    result = []
+    result.push(short_title: 'Submitted', color: 'blue')
+    result.push(short_title: 'Confirmed', color: 'green')
+    result.push(short_title: 'Unconfirmed', color: 'orange')
+    result
+  end
+
   private
 
   ##
@@ -405,6 +522,73 @@ class Conference < ActiveRecord::Base
   # * +False+ -> If conference has no start or end date.
   def registration_date_set?
     !!registration_start_date && !!registration_end_date
+  end
+
+  # Calculates the distribution from events.
+  #
+  # ====Returns
+  # * +hash+ -> object_type => {color, value}
+  def calculate_event_distribution(group_by_id, association_symbol, state = nil)
+    if state
+      grouped = events.where('state = ?', 'confirmed').group(group_by_id)
+    else
+      grouped = events.group(group_by_id)
+    end
+    counted = grouped.count
+
+    calculate_distribution_hash(grouped, counted, association_symbol)
+  end
+
+  ##
+  # Helper method to calculate the correct data format for the doughnut charts.
+  #
+  # ====Returns
+  # * +hash+ -> object_type => {color, value}
+  def calculate_distribution_hash(grouped, counter, symbol)
+    result = {}
+
+    grouped.each do |event|
+      object = event.send(symbol)
+      if object
+        result[object.title] = {
+          'value' => counter[object.id],
+          'color' => object.color
+        }
+      end
+    end
+    result
+  end
+
+  ##
+  # Helper method to calculate the correct data format for the doughnut charts
+  # for track distribution of events.
+  #
+  # ====Returns
+  # * +hash+ -> object_type => {color, value}
+  def calculate_track_distribution_hash(tracks_grouped, tracks_counter)
+    result = {}
+    tracks_grouped.each do |event|
+      if event.track
+        result[event.track.name] = {
+          'value' => tracks_counter[event.track_id],
+          'color' => event.track.color
+        }
+      end
+    end
+    result
+  end
+
+  ##
+  # Helper method to calculate the program hours.
+  #
+  # ====Returns
+  # * +Fixnums+ summed programm hours
+  def calculate_program_hours(events_grouped, events_counted)
+    result = 0
+    events_grouped.each do |event|
+      result += events_counted[event.event_type_id] * event.event_type.length
+    end
+    result
   end
 
   ##
@@ -496,14 +680,18 @@ class Conference < ActiveRecord::Base
   #
   def add_color
     if !color
-      self.color = %w(
+      self.color = get_color
+    end
+  end
+
+  def get_color
+    %w(
         #000000 #0000FF #00FF00 #FF0000 #FFFF00 #9900CC
         #CC0066 #00FFFF #FF00FF #C0C0C0 #00008B #FFD700
         #FFA500 #FF1493 #FF00FF #F0FFFF #EE82EE #D2691E
         #C0C0C0 #A52A2A #9ACD32 #9400D3 #8B008B #8B0000
         #87CEEB #808080 #800080 #008B8B #006400
       ).sample
-    end
   end
 
   # Calculates items per week from a hash.

@@ -7,10 +7,9 @@ $(function() {
         clearTimeout(t);
         t = setTimeout(function(){
             $("canvas").each(function(i,el){
-                $(el).attr({
-                    "width":$(el).parent().width(),
-                    "height":$(el).parent().outerHeight()
-                });
+                    $(el).attr({
+                        "width":$(el).parent().width()
+                    });
             });
 
             $(".line_chart").each(function(){
@@ -18,13 +17,11 @@ $(function() {
             });
 
             $(".doughnut_chart").each(function(){
-                draw_doughnut_chart(animate, $(this));
+                if($(this).is(":visible")){
+                    draw_doughnut_chart(animate, $(this));
+                }
             });
 
-            var m = 0;
-            $(".widget").height("");
-            $(".widget").each(function(i,el){ m = Math.max(m,$(el).height()); });
-            $(".widget").height(m);
         }, 30);
     }
 
@@ -57,24 +54,23 @@ $(function() {
         return options;
     }
 
-    function draw_line_chart(animation, $this){
+    function draw_line_chart(animation, $canvas){
         var options = get_animation({}, animation);
-
-        var chart_data = create_dataset($this);
-        var weeks = $this.parent().data('weeks');
+        var chart_data = create_dataset($canvas);
+        var weeks = $canvas.parent().data('weeks');
         var data = {
             labels : weeks,
             datasets : chart_data
         }
 
-        var ctx = $this.get(0).getContext("2d");
+        var ctx = $canvas.get(0).getContext("2d");
         new Chart(ctx).Line(data, options);
     }
 
-    function create_dataset($this){
-        var selected = getSelectedConferences($this);
-        var chart_data = $this.parent().data('chart');
-        var conferences = $this.parent().data('conferences');
+    function create_dataset($canvas){
+        var selected = getSelectedConferences($canvas);
+        var chart_data = $canvas.parent().data('chart');
+        var conferences = $canvas.parent().data('conferences');
         var result = [];
 
         for(var i in conferences){
@@ -89,25 +85,43 @@ $(function() {
         return result
     }
 
-    function getSelectedConferences($this){
-        var name = $this.data('name');
+    function getSelectedConferences($canvas){
+        var name = $canvas.data('name');
         var id = '#' + name + 'Checkboxes'
-        var selected = []
-        $(id + ' input').each(function(){
-            if($(this).is(":checked")) {
-                selected.push($(this).attr('name'));
+        var selected = [];
+        var $checkboxes = $(id + ' input');
+        // If there are checkboxes -> get selected
+        // Else -> use the active conference
+        if($checkboxes.length){
+            $(id + ' input').each(function(){
+                if($(this).is(":checked")) {
+                    selected.push($(this).attr('name'));
+                }
+            });
+        }else{
+            var active = $canvas.parent().data('active');
+            for(i in active){
+                selected.push(active[i].short_title)
             }
-        })
+        }
         return selected;
     }
 
     $('.conferenceCheckboxes input').change(function(){
-        var chart = $(this).parent().data('chart');
-        var $canvas = $('#' + chart + 'Chart');
+        var chart_name = $(this).parent().data('chart');
+        var $canvas = $('#line_chart_' + chart_name);
         draw_line_chart(false, $canvas);
     });
 
-    $(window).on('resize', function(){ size(false); });
+    $(window).on('resize', function(){
+        size(false);
+    });
+
+    $('#doughnut_tabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+        size(false);
+    });
 
     size(true);
 });

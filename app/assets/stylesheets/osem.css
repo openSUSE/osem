@@ -83,3 +83,11 @@ body {
 .top-submitter img {
     margin: 0 auto;
 }
+
+#doughnut .tab-content {
+    padding-bottom: 20px;
+}
+
+#submissions {
+    padding-bottom: 20px;
+}
