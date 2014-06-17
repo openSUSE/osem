@@ -1,5 +1,6 @@
 .row
   .col-md-8
     = semantic_form_for(@venue, :url => admin_conference_lodging_path(@conference.short_title, @conference.venue.lodgings), :html => {:multipart => true}) do |f|
+      = f.input :include_lodgings_in_splash, hint: 'On setting this true you will enable the lodgings to be displayed on the splash page'
       = dynamic_association :lodgings, "Lodgings", f
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
