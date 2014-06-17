@@ -1,6 +1,7 @@
 .row
   .col-md-8
     = semantic_form_for(@conference, :url => admin_conference_path(@conference.short_title),:html => {:multipart => true}) do |f|
+      = f.input :include_program_in_splash, hint: 'On setting this true you will enable the program component to be displayed on the splash page.This component includes tracks, keynote speakers and the schedule'
       = f.input :title, :hint => "The full name of the conference, such as 'OpenSUSE Conference 2013'"
       = f.input :short_title, :hint => "A short title, such as 'osc2013', to be used in URLs"
       = f.input :social_tag, :hint => "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'"
@@ -12,17 +13,20 @@
         = f.input :timezone, :as => :time_zone, :hint => "The conference time zone"
         = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
         = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
+      = f.inputs name: 'Registration' do
+        = f.input :include_registrations_in_splash, hint: 'On setting this true you will enable the registrations to be displayed on the splash page'
         = f.input :registration_start_date, :as => :string, :input_html => { :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
         = f.input :registration_end_date, :as => :string, :input_html => { :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
-      = f.input :registration_description, hint: 'This description will appear in registration segment of the splash'
+        = f.input :registration_description, hint: 'This description will appear in registration segment of the splash'
       = f.input :ticket_description, hint: 'This will appear in the Tickets segment of the splash'
       = f.input :sponsor_description, hint: 'This will appear in the sponsor segment of the splash'
       = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
       = f.input :lodging_description, hint: 'This will appear in the lodging segment of the splash'
 
-      = f.inputs :name => "Media" do
+      = f.inputs :name => 'Social Media' do
         - if !@conference.logo.blank?
           = image_tag @conference.logo(:thumb)
+        = f.input :include_social_media_in_splash, hint: 'On setting this true you will enable the social media links to be displayed on the splash page'
         = f.input :logo, :label => "Conference Logo", :hint => "This will be displayed on the front page."
         = f.input :media_type, :as => :select, :label => "Conference Promo Media Type", :class=>"form-control", :collection => Conference.media_types.values, :include_blank => false, :hint => "This media-item will be used to represent this conference at various places in OSEM."
         = f.input :media_id, :label => "Conference Promo Media ID", :as => :string

@@ -1,6 +1,7 @@
 .row
   .col-md-8
     = semantic_form_for(@venue, :url => admin_conference_venue_update_path(@conference.short_title),:html => {:multipart => true}) do |f|
+      = f.input :include_venue_in_splash, hint: 'On setting this true you will enable the venue to be displayed on the splash page'
       = f.input :name, :input_html => {:rows => 1}
       = f.input :address, :input_html => {:rows => 1}
       = f.input :website
