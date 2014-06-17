@@ -42,7 +42,7 @@ module Admin
 
       Rails.logger.debug("Loading #{time}")
       # FIXME: Same here as in events_controller.rb. Event timezone should be applied
-      # only on output 
+      # only on output
       # zone = ActiveSupport::TimeZone::new(@conference.timezone)
       # start_time = DateTime.strptime(time + zone.formatted_offset, "%Y-%m-%d %k:%M %Z")
       start_time = DateTime.strptime(time, '%Y-%m-%d %k:%M')
@@ -52,3 +52,4 @@ module Admin
     end
 
   end
+end
