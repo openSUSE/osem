@@ -1,7 +1,7 @@
 class CallForPapers < ActiveRecord::Base
   attr_accessible :start_date, :end_date,
                   :description, :schedule_changes, :rating,
-                  :schedule_public
+                  :schedule_public, :include_cfp_in_splash
   belongs_to :conference
 
   validates_presence_of :start_date, :end_date

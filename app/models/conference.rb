@@ -16,7 +16,10 @@ class Conference < ActiveRecord::Base
                   :sponsorship_levels_attributes,
                   :sponsors_attributes, :facebook_url,
                   :google_url, :twitter_url, :sponsor_description, :sponsor_email,
-                  :lodging_description
+                  :lodging_description, :include_registrations_in_splash,
+                  :include_sponsors_in_splash, :include_tracks_in_splash,
+                  :include_tickets_in_splash, :include_social_media_in_splash,
+                  :include_program_in_splash
 
   has_paper_trail
 

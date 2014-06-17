@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140614174354) do
+ActiveRecord::Schema.define(version: 20140617145048) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -20,15 +20,16 @@ ActiveRecord::Schema.define(version: 20140614174354) do
   end
 
   create_table "call_for_papers", force: true do |t|
-    t.date     "start_date",                       null: false
-    t.date     "end_date",                         null: false
-    t.text     "description",                      null: false
+    t.date     "start_date",                            null: false
+    t.date     "end_date",                              null: false
+    t.text     "description",                           null: false
     t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "schedule_changes", default: false
-    t.integer  "rating",           default: 3
+    t.boolean  "schedule_changes",      default: false
+    t.integer  "rating",                default: 3
     t.boolean  "schedule_public"
+    t.boolean  "include_cfp_in_splash", default: false
   end
 
   create_table "comments", force: true do |t|
@@ -50,15 +51,15 @@ ActiveRecord::Schema.define(version: 20140614174354) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "conferences", force: true do |t|
-    t.string   "guid",                                     null: false
-    t.string   "title",                                    null: false
-    t.string   "short_title",                              null: false
+    t.string   "guid",                                            null: false
+    t.string   "title",                                           null: false
+    t.string   "short_title",                                     null: false
     t.string   "social_tag"
-    t.string   "contact_email",                            null: false
-    t.string   "timezone",                                 null: false
+    t.string   "contact_email",                                   null: false
+    t.string   "timezone",                                        null: false
     t.string   "html_export_path"
-    t.date     "start_date",                               null: false
-    t.date     "end_date",                                 null: false
+    t.date     "start_date",                                      null: false
+    t.date     "end_date",                                        null: false
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -68,12 +69,12 @@ ActiveRecord::Schema.define(version: 20140614174354) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.boolean  "use_dietary_choices",      default: false
-    t.boolean  "use_supporter_levels",     default: false
+    t.boolean  "use_dietary_choices",             default: false
+    t.boolean  "use_supporter_levels",            default: false
     t.integer  "revision"
-    t.boolean  "use_vpositions",           default: false
-    t.boolean  "use_vdays",                default: false
-    t.boolean  "use_difficulty_levels",    default: false
+    t.boolean  "use_vpositions",                  default: false
+    t.boolean  "use_vdays",                       default: false
+    t.boolean  "use_difficulty_levels",           default: false
     t.boolean  "use_volunteers"
     t.string   "media_id"
     t.string   "media_type"
@@ -87,6 +88,12 @@ ActiveRecord::Schema.define(version: 20140614174354) do
     t.text     "sponsor_description"
     t.string   "sponsor_email"
     t.text     "lodging_description"
+    t.boolean  "include_registrations_in_splash", default: false
+    t.boolean  "include_sponsors_in_splash",      default: false
+    t.boolean  "include_tracks_in_splash",        default: false
+    t.boolean  "include_tickets_in_splash",       default: false
+    t.boolean  "include_social_media_in_splash",  default: false
+    t.boolean  "include_program_in_splash",       default: false
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
@@ -396,8 +403,8 @@ ActiveRecord::Schema.define(version: 20140614174354) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name",               limit: 255
-    t.text     "address",            limit: 255
+    t.text     "name",                       limit: 255
+    t.text     "address",                    limit: 255
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
@@ -408,6 +415,8 @@ ActiveRecord::Schema.define(version: 20140614174354) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.boolean  "include_venue_in_splash",                default: false
+    t.boolean  "include_lodgings_in_splash",             default: false
   end
 
   create_table "versions", force: true do |t|
