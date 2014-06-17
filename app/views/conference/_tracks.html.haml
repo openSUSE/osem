@@ -1,9 +1,9 @@
-%div.row
+%div.row.text-center
   %div.col-md-12
     %h2 Tracks
     - @conference.tracks.each do |t|
-      %div.col-md-4
-        %h4 
+      %div{ class: (@conference.tracks.count.to_i <= 2 ? "col-md-#{12/@conference.tracks.count.to_i}" : "col-md-4") }
+        %h4
           = t.name
         %p
-          = t.description 
+          = t.description
