@@ -1,4 +1,4 @@
-class CreateOpenids< ActiveRecord::Migration
+class CreateOpenids < ActiveRecord::Migration
   def change
     create_table :openids do |t|
       t.string :provider

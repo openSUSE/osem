@@ -25,7 +25,6 @@ class User < ActiveRecord::Base
   # ====Returns
   # * +User::ActiveRecord_Relation+ -> user
   def self.find_for_auth(auth, current_user = nil)
-
     user = current_user
 
     if user.nil? # No current user available, user is not already logged in
@@ -34,7 +33,7 @@ class User < ActiveRecord::Base
 
     if user.new_record?
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0,20]
+      user.password = Devise.friendly_token[0, 20]
       user.skip_confirmation!
     end
 

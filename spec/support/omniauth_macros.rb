@@ -16,7 +16,7 @@ module OmniauthMacros
     })
   end
 
-    def mock_auth_new_user_fb
+  def mock_auth_new_user_fb
     OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
       provider: 'google',
       uid: 'facebook-test-uid-1',
