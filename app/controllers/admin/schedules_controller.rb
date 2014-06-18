@@ -2,7 +2,7 @@ module Admin
   class SchedulesController < ApplicationController
     before_filter :verify_organizer
     skip_before_filter :verify_authenticity_token, only: [:update]
-    layout "schedule"
+    layout 'schedule'
 
     def show
       if @conference.nil?
@@ -32,7 +32,7 @@ module Admin
         error_message = "Could not find room GUID: #{params[:room]}"
       end
 
-      if !error_message.nil?
+      unless error_message.nil?
         render json: { 'status' => 'error', 'message' => error_message }, status: 500
         return
       end
@@ -50,6 +50,5 @@ module Admin
       event.save!
       render json: { 'status' => 'ok' }
     end
-
   end
 end
