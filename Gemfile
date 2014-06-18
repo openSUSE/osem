@@ -96,6 +96,8 @@ group :development do
   # rspec Guard rules
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
+  # Get HoundCi comments locally
+  gem 'rubocop'
   # Silence rack assests messages
   gem 'quiet_assets'
   # Use sqlite3 as the database in development

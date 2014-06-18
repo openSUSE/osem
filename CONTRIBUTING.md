@@ -15,6 +15,8 @@ In particular, this community seeks the following types of contributions:
 * One of the OSEM maintainers will review your pull-request 
   * If you are already a contributor (means you're in the [group osem-committers](https://github.com/orgs/openSUSE/teams/osem-committers)) and you get a positive review, you can merge your pull-request yourself
   * If you are not a contributor already please request a merge via the pull-request comments
+* Run rubocop locally for fixes according to HoundCI comments
+  * https://github.com/openSUSE/osem/wiki/Houndci-and-rubocop
 
 # Conduct
 OSEM is part of the openSUSE project. We follow all the [openSUSE Guiding
