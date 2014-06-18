@@ -10,13 +10,21 @@ describe 'conference/show.html.haml' do
                                       facebook_url: 'http://www.fbexample.com',
                                       google_url: 'http://www.google-example.com',
                                       media_type: 'YouTube',
-                                      media_id: 'rtyutut')
-    @conference.call_for_papers = create(:call_for_papers, conference: @conference)
+                                      media_id: 'rtyutut',
+                                      include_registrations_in_splash: true,
+                                      include_program_in_splash: true,
+                                      include_sponsors_in_splash: true,
+                                      include_social_media_in_splash: true,
+                                      include_tracks_in_splash: true,
+                                      include_tickets_in_splash: true)
+    @conference.call_for_papers = create(:call_for_papers, conference: @conference,
+                                                           include_cfp_in_splash: true)
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
     @sponsorship_level = @conference.sponsorship_levels.first
     @sponsorship_level.sponsors << create(:sponsor, sponsorship_level: @sponsorship_level,
                                                     conference: @conference)
-    @conference.venue = create(:venue)
+    @conference.venue = create(:venue, include_venue_in_splash: true,
+                                       include_lodgings_in_splash: true)
     @conference.venue.lodgings << create(:lodging, venue: @conference.venue)
     assign :conference, @conference
     render
