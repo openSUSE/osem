@@ -15,6 +15,18 @@
           %br
           %br
           = render :partial => 'devise/registrations/volunteerperson', :locals => {:p => p}
+      = f.inputs :name => 'OpenID' do
+        %h4
+          Currently using the following openIDs:
+        - @openids.each do |openid|
+          = openid.provider
+          = openid.email
+          %br
+        %h4
+          To add an openID to your account using a different email address, sign in with your
+          openID while logged in to OSEM
+        = render 'devise/shared/openid'
+
       = f.inputs :name => "Account" do
         = f.input :email, :required => false
         = f.input :password, :hint => "(Leave blank if you don't want to change it)", :input_html => {:autocomplete => "off"}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617145048) do
+ActiveRecord::Schema.define(version: 20140618062623) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -82,11 +82,11 @@ ActiveRecord::Schema.define(version: 20140617145048) do
     t.text     "description"
     t.text     "registration_description"
     t.text     "ticket_description"
+    t.text     "sponsor_description"
+    t.string   "sponsor_email"
     t.string   "twitter_url"
     t.string   "facebook_url"
     t.string   "google_url"
-    t.text     "sponsor_description"
-    t.string   "sponsor_email"
     t.text     "lodging_description"
     t.boolean  "include_registrations_in_splash", default: false
     t.boolean  "include_sponsors_in_splash",      default: false
@@ -211,6 +211,15 @@ ActiveRecord::Schema.define(version: 20140617145048) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "website_link"
+  end
+
+  create_table "openids", force: true do |t|
+    t.string   "provider"
+    t.string   "email"
+    t.string   "uid"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "people", force: true do |t|

@@ -51,5 +51,6 @@
                   %button.btn.btn-block Sign in
                   %br
                   = link_to "Forgot your password?", new_password_path('user')
+                = link_to 'Sign in with openID', new_user_session_path
             %li.hidden-lg
               = link_to('Sign In', new_user_session_path)

@@ -4,13 +4,15 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable,
+         :omniauthable, omniauth_providers: [:novell, :google, :facebook]
 
   has_and_belongs_to_many :roles
   has_one :person, :inverse_of => :user
+  has_many :openids
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids, :person_attributes
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
+                  :person_attributes
   accepts_nested_attributes_for :person
   accepts_nested_attributes_for :roles
 
@@ -18,6 +20,26 @@ class User < ActiveRecord::Base
   before_create :create_person
 
   delegate :last_name, :first_name, :public_name, to: :person
+
+  # Searches for user based on email. Returns found user or new user.
+  # ====Returns
+  # * +User::ActiveRecord_Relation+ -> user
+  def self.find_for_auth(auth, current_user = nil)
+
+    user = current_user
+
+    if user.nil? # No current user available, user is not already logged in
+      user = User.where(email: auth.info.email).first_or_initialize
+    end
+
+    if user.new_record?
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      user.skip_confirmation!
+    end
+
+    user
+  end
 
   def role?(role)
     Rails.logger.debug("Checking role in user")

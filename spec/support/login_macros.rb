@@ -4,7 +4,7 @@ module LoginMacros
 
     fill_in 'user_email', with: user.email
     fill_in 'user_password', with: user.password
-    find(:xpath, "//div[@id='content']//input[@name='commit']").click
+    find(:xpath, "//div[@id='content']//button[@type='submit']").click
 
     expect(page.has_content?('Signed in successfully')).to be true
   end

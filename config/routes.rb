@@ -2,7 +2,9 @@ Osem::Application.routes.draw do
 
   get 'conference/show'
 
-  devise_for :users, controllers: { registrations: :registrations }, path: 'accounts'
+  devise_for :users, :controllers => { registrations: :registrations,
+                                       omniauth_callbacks: 'users/omniauth_callbacks' },
+             :path => 'accounts'
 
   namespace :admin do
     resources :users

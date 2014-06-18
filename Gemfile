@@ -14,6 +14,11 @@ gem 'paper_trail'
 
 # Use devise as authentification framework
 gem 'devise'
+# Use omniauth to support openID authentication
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-openid'
+gem 'omniauth-google-oauth2'
 
 # Use cancan as authorization framework
 gem 'cancan'

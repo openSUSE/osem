@@ -1,6 +1,10 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def edit
+    @openids = Openid.where(user_id: current_user.id).order(:provider)
+  end
+
   def update
     @user = User.find(current_user.id)
     email_changed = false

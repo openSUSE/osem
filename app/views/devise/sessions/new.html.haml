@@ -1,0 +1,21 @@
+.row
+  .page-header
+    %h2.text-center Sign In
+  .col-md-5.col-md-offset-1
+    .well
+      = semantic_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        = f.input :email
+        = f.input :password
+        - if devise_mapping.rememberable?
+          = f.check_box :remember_me
+          = f.label 'Remember me'
+        %br
+        = f.action :submit, as: :button, label: 'Sign In', button_html: {class: 'btn btn-primary'}
+        %br
+        %br
+        = render "devise/shared/links"
+
+  .col-md-4
+    .well
+      %h4 Or use your openID
+      = render 'devise/shared/openid'
