@@ -63,9 +63,9 @@ feature Openid do
       expect(Openid.where(email: 'test-1@gmail.com').first.nil?).to eq(false)
     end
 
-    it 'signs in with openID using the same email as another associated openid' do |user|
+    it 'signs in with openID using the same email as another associated openid' do
       # Sign in user
-      user = create(:participant, email: 'test-participant-1@google.com')
+      create(:participant, email: 'test-participant-1@google.com')
       expected_count_openid = Openid.count + 1
       expected_count_user = User.count
       visit '/accounts/sign_in'

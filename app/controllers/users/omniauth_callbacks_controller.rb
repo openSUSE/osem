@@ -1,13 +1,14 @@
-class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  skip_before_filter :verify_authenticity_token
+module Users
+  class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    skip_before_filter :verify_authenticity_token
 
-  [:novell, :google, :facebook, :twitter].each do |provider|
-    define_method(provider) { handle(provider) }
-  end
+    [:novell, :google, :facebook, :twitter].each do |provider|
+      define_method(provider) { handle(provider) }
+    end
 
-  private
+    private
+
     def handle(provider)
-
       auth_hash = request.env['omniauth.auth']
       openid = Openid.find_for_oauth(auth_hash) # Get or create openid
       # If openid exists and is associated with a user, sign in with associated user,
@@ -29,4 +30,5 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         redirect_back_or_to new_user_registration_path, alert: 'Failed' + e.message
       end
     end
+  end
 end

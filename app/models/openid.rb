@@ -1,6 +1,6 @@
 class Openid < ActiveRecord::Base
   belongs_to :user
-  validates :provider, :uid, :presence => true
+  validates :provider, :uid, presence: true
 
   # Searches for openid based on provider and uid.
   # Returns found openid or a new openid.
@@ -16,7 +16,5 @@ class Openid < ActiveRecord::Base
       end
     end
     openid
-
   end
-
 end
