@@ -2,22 +2,21 @@ Osem::Application.routes.draw do
 
   get 'conference/show'
 
-  devise_for :users, :controllers => { :registrations => :registrations }, :path => 'accounts'
+  devise_for :users, controllers: { registrations: :registrations }, path: 'accounts'
 
   namespace :admin do
     resources :users
     resources :people
     resources :conference do
-      get "/schedule" => "schedule#show"
-      patch "/schedule" => "schedule#update"
-      get "/stats" => "stats#index"
-      get "/venue" => "venue#show", :as => "venue_info"
-      patch "/venue" => "venue#update", :as => "venue_update"
-      get "/dietary_choices" => "dietchoices#show", :as => "dietary_list"
-      patch "/dietary_choices" => "dietchoices#update", :as => "dietary_update"
-      get "/volunteers_list" => "volunteers#show"
-      get "/volunteers" => "volunteers#index", :as => "volunteers_info"
-      patch "/volunteers" => "volunteers#update", :as => "volunteers_update"
+      resource :schedule, only: [:show, :update]
+      get '/stats' => 'stats#index'
+      get '/venue' => 'venue#show', as: 'venue_info'
+      patch '/venue' => 'venue#update', as: 'venue_update'
+      get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
+      patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
+      get '/volunteers_list' => 'volunteers#show'
+      get '/volunteers' => 'volunteers#index', as: 'volunteers_info'
+      patch '/volunteers' => 'volunteers#update', as: 'volunteers_update'
 
       patch '/registrations/change_field' => 'registrations#change_field'
       resources :registrations
