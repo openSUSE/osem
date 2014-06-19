@@ -67,9 +67,7 @@ class Admin::ConferenceController < ApplicationController
       redirect_to(admin_conference_path(id: @conference.short_title),
                   notice: 'Conference was successfully created.')
     else
-      redirect_to(new_admin_conference_path,
-                  alert: 'Creating the Conference failed.' \
-                          "#{@conference.errors.full_messages.join('. ')}.")
+      render action: 'new'
     end
   end
 
