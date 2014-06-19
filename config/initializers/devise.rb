@@ -1,8 +1,20 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
+
 Devise.setup do |config|
   # ==> Secret key, generate one with `rake secret`
   config.secret_key = Rails.application.secrets.devise_secret_key
+
+  # ==> openIDs configuration
+  # Define the available openID providers that can be used to log in
+  # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
+  # Include provider in users/omniauth_callbacks_controller.rb
+
+  config.omniauth :open_id, name: 'novell', identifier: 'http://www.opensuse.org/openid/user'
+  config.omniauth :google_oauth2, Rails.application.secrets.google_key, Rails.application.secrets.google_secret, {
+    name: 'google',
+    scope: 'email' }
+  config.omniauth :facebook, Rails.application.secrets.facebook_key, Rails.application.secrets.facebook_secret
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,

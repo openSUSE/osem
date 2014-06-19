@@ -53,6 +53,9 @@ RSpec.configure do |config|
   # Includes support/login_macros for feature tests
   config.include LoginMacros, type: :feature
 
+  # Includes omniauth macro
+  config.include(OmniauthMacros)
+
   # Includes support/flash for feature tests
   config.include Flash, type: :feature
 
@@ -63,3 +66,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+OmniAuth.config.test_mode = true
