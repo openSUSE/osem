@@ -1,6 +1,8 @@
 .row
   .col-md-8
     = semantic_form_for(@conference, :url => admin_conference_path(@conference.short_title),:html => {:multipart => true}) do |f|
+
+      = f.input :make_conference_public, hint: 'This will enable the visitors to view the splash page(the "View Conference" button will be visible now on the home page), it is recommended to enable this after you have finished setting up all the components for display'
       = f.input :include_program_in_splash, hint: 'On setting this true you will enable the program component to be displayed on the splash page.This component includes tracks, keynote speakers and the schedule'
       = f.input :title, :hint => "The full name of the conference, such as 'OpenSUSE Conference 2013'"
       = f.input :short_title, :hint => "A short title, such as 'osc2013', to be used in URLs"

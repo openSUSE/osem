@@ -27,3 +27,6 @@
   %li{'class'=>class_for_todo(conference_progress['difficulty_levels'])}
     %span{'class'=>icon_for_todo(conference_progress['difficulty_levels'])}
     = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(conference_progress['short_title'])
+  %li{class: class_for_todo(conference_progress['make_conference_public'])}
+    %span{'class'=>icon_for_todo(conference_progress['make_conference_public'])}
+    = link_to 'Make Splash Page Public for Visitors', edit_admin_conference_path(conference_progress['short_title'])

@@ -19,7 +19,8 @@ class Conference < ActiveRecord::Base
                   :lodging_description, :include_registrations_in_splash,
                   :include_sponsors_in_splash, :include_tracks_in_splash,
                   :include_tickets_in_splash, :include_social_media_in_splash,
-                  :include_program_in_splash
+                  :include_program_in_splash, :make_conference_public
+
 
   has_paper_trail
 
@@ -282,6 +283,7 @@ class Conference < ActiveRecord::Base
     result['tracks'] = tracks_set?
     result['event_types'] = event_types_set?
     result['difficulty_levels'] = difficulty_levels_set?
+    result['make_conference_public'] = make_conference_public?
     result['process'] = calculate_setup_progress(result)
     result['short_title'] = short_title
     result
