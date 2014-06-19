@@ -3,31 +3,40 @@
 
 - unless @conference.description.blank?
   %p= @conference.description
-%section{ id: 'program' }
-  .pad
-    = render 'program'
 
-%section{ id: 'registration' }
-.pad
-  = render 'registration'
+- if @conference.include_program_in_splash?
+  %section{ id: 'program' }
+    .pad
+      = render 'program'
+
+- if @conference.include_registrations_in_splash?
+  %section{ id: 'registration' }
+  .pad
+    = render 'registration'
+
 
 -unless @conference.call_for_papers.blank?
-  %section{ id:'callforpapers' }
-  .pad
-    = render 'call_for_papers'
+  - if @conference.call_for_papers.include_cfp_in_splash?
+    %section{ id:'callforpapers' }
+    .pad
+      = render 'call_for_papers'
+
 -unless @conference.venue.blank?
-  %section{ id: 'location' }
-  .pad
-    = render 'location'
-- if @conference.venue
+  - if @conference.venue.include_venue_in_splash?
+    %section{ id: 'location' }
+    .pad
+      = render 'location'
   - unless @conference.venue.lodgings.empty?
-    = render 'lodging'
+    - if @conference.venue.include_lodgings_in_splash?
+      = render 'lodging'
 
-%section{ id: 'sponsors' }
-.pad
-  = render 'sponsor'
+- if @conference.include_sponsors_in_splash?
+  %section{ id: 'sponsors' }
+  .pad
+    = render 'sponsor'
 
-%section{ id: 'social-media' }
-.pad
-  = render 'social_media'
+- if @conference.include_social_media_in_splash?
+  %section{ id: 'social-media' }
+  .pad
+    = render 'social_media'
 

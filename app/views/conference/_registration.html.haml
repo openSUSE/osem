@@ -15,4 +15,5 @@
   - if @conference.registration_open?
     = link_to "Register for #{@conference.short_title}", register_conference_path(@conference.short_title), :class =>"btn btn-success btn-lg", target: '_blank'
   - if @conference.use_supporter_levels?
-    = render 'tickets'
+    - if @conference.include_tickets_in_splash?
+      = render 'tickets'

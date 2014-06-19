@@ -13,5 +13,6 @@
       - else
         %span The schedule is not ready yet. Stay tuned!
   -unless @conference.tracks.blank?
-    = render 'tracks'
+    - if @conference.include_tracks_in_splash?
+      = render 'tracks'
 
