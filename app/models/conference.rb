@@ -19,8 +19,8 @@ class Conference < ActiveRecord::Base
                   :lodging_description, :include_registrations_in_splash,
                   :include_sponsors_in_splash, :include_tracks_in_splash,
                   :include_tickets_in_splash, :include_social_media_in_splash,
-                  :include_program_in_splash, :make_conference_public
-
+                  :include_program_in_splash, :make_conference_public,
+                  :photos_attributes
 
   has_paper_trail
 
@@ -60,6 +60,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :questions, :allow_destroy => true
   accepts_nested_attributes_for :vdays, :allow_destroy => true
   accepts_nested_attributes_for :vpositions, :allow_destroy => true
+  accepts_nested_attributes_for :photos, allow_destroy: true
 
   has_attached_file :logo,
                     :styles => {:thumb => "100x100>", :large => "300x300>" }
