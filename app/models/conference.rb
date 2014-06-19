@@ -42,7 +42,7 @@ class Conference < ActiveRecord::Base
   has_many :vchoices, :dependent => :destroy
   has_many :sponsorship_levels, dependent: :destroy
   has_many :sponsors, dependent: :destroy
-
+  has_many :photos, dependent: :destroy
   belongs_to :venue
 
   accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
