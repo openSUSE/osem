@@ -20,7 +20,8 @@ class Conference < ActiveRecord::Base
                   :include_sponsors_in_splash, :include_tracks_in_splash,
                   :include_tickets_in_splash, :include_social_media_in_splash,
                   :include_program_in_splash, :make_conference_public,
-                  :photos_attributes, :banner_photo
+                  :photos_attributes, :banner_photo,
+                  :include_banner_in_splash
 
   has_paper_trail
 

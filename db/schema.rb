@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140620130306) do
+ActiveRecord::Schema.define(version: 20140620134535) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20140620130306) do
     t.string   "banner_photo_content_type"
     t.integer  "banner_photo_file_size"
     t.datetime "banner_photo_updated_at"
+    t.boolean  "include_banner_in_splash",        default: false
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
