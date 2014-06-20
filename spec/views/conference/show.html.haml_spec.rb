@@ -16,7 +16,8 @@ describe 'conference/show.html.haml' do
                                       include_sponsors_in_splash: true,
                                       include_social_media_in_splash: true,
                                       include_tracks_in_splash: true,
-                                      include_tickets_in_splash: true)
+                                      include_tickets_in_splash: true,
+                                      include_banner_in_splash: true)
     @conference.call_for_papers = create(:call_for_papers, conference: @conference,
                                                            include_cfp_in_splash: true)
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
@@ -30,8 +31,12 @@ describe 'conference/show.html.haml' do
     render
   end
 
-  it 'renders program partial' do
+  it 'renders banner component' do
     expect(view.content_for(:splash)).to include("#{@conference.description}")
+    expect(view.content_for(:splash)).to include("#{@conference.title}")
+  end
+
+  it 'renders program partial' do
     expect(view).to render_template(partial: 'conference/_program')
   end
 

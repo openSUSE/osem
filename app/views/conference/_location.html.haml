@@ -3,7 +3,7 @@
     %a{ href: '#location' } Location
 
 
-%div#venue-banner-disp{ style: ("background-image: url(#{@conference.venue.photo})" unless @conference.venue.photo.blank?), class:('with-background' unless @conference.venue.photo.blank?) }
+%div.banner-disp{ style: ("background-image: url(#{@conference.venue.photo})" unless @conference.venue.photo.blank?), class:('with-location-background' unless @conference.venue.photo.blank?) }
   %div.container.text-center
     .div.row.col-md-12
       - unless @conference.venue.name.blank?
@@ -15,7 +15,7 @@
       - unless @conference.venue.description.blank?
         %p
           %strong #{ @conference.venue.description }
-      %ul
+      %ul.location-links
         - unless @conference.venue.address.blank?
           %li
             %b
