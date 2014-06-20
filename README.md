@@ -19,7 +19,7 @@ git clone https://github.com/openSUSE/osem.git
 bundle install
 ```
 3. Install ImageMagick from your distribution repository
-4. Generate secret key for devise and the rails app with 
+4. Generate secret key for devise and the rails app with
 ```
 rake secret
 ```
@@ -39,11 +39,17 @@ bundle exec rake db:setup
 ```
 rails server
 ```
-8. Visit the APP at 
+8. Visit the APP at
 ```
 http://localhost:3000
 ```
 9. Sign up, the first user will be automatically assigned the admin role.
+
+10. Use openID
+In order to use the OpenID feature you need to register your application with the providers
+(Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
+You can register as a devoloper with Google from https://code.google.com/apis/console#:access
+You can register as a devoloper with Facebook from https://developers.facebook.com/
 
 ### Run OSEM in production
 We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
@@ -53,8 +59,8 @@ base operating systems. Check Google ;-)
 ## Documentation
 OSEM is extensively (some would say maniacally ;-) documented. You can generate a nice HTML documentation with ''rdoc''
 ```
-bundle exec rdoc --op doc/app --all -f fivefish app 
-xdg-open doc/app/index.html 
+bundle exec rdoc --op doc/app --all -f fivefish app
+xdg-open doc/app/index.html
 ```
 
 ## Testing
