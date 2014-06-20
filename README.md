@@ -48,8 +48,23 @@ http://localhost:3000
 10. Use openID
 In order to use the OpenID feature you need to register your application with the providers
 (Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
+
 You can register as a devoloper with Google from https://code.google.com/apis/console#:access
-You can register as a devoloper with Facebook from https://developers.facebook.com/
+You can register as a devoloper with Facebook from https://developers.facebook.com/,
+by selecting from the top menu the option 'Apps' -> 'Create a New App'
+
+Unless you add the key and secret for each provider, you will not be able to see the image that
+redirects to the login page of the provider.
+
+If you add a provider that does not require developers to register their application, you still need
+to create two (2) variables, in config/secrets.yml
+with the format of providername_key and providername_secret and add some sample text as their values.
+Example:
+myprovider_key = 'sample data'
+myprovider_secret = 'sample data'
+
+That is required so that the check in app/views/devise/shared/_openid.html.haml will pass and
+the image-link to login using the provider will be shown.
 
 ### Run OSEM in production
 We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
