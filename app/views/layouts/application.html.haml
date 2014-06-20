@@ -25,8 +25,12 @@
         .row
           .col-md-12
             = render 'layouts/messages'
-      .container#content
-        = yield
+      - if content_for :splash
+        #content
+          = yield :splash
+      -else
+        .container#content
+          = yield
 
     #footer
       .container
