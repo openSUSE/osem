@@ -9,7 +9,10 @@
       = f.input :social_tag, :hint => "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'"
       = f.input :contact_email, :hint => "Contact email address for your conference. Will be used as reply-to address in emails sent out by the system."
       = f.input :color, :hint => "The color will be used eg for the dashboard.", :input_html => {:size => 6, :type => "color"}
-      = f.input :description, hint: 'This description will be shown in the program segement of the Splash'
+      = f.inputs name: 'Banner for Splash' do
+        = f.input :include_banner_in_splash, hint: 'This enable the Banner Photo with description to be displayed on the splash'
+        = f.input :banner_photo, hint: 'This will be the top most component of the splash.This background cover will contain start_date and end_date of the conference and the description'
+        = f.input :description, hint: 'This description will be shown at the bottom of the banner photo of the Splash'
 
       = f.inputs :name => "Scheduling" do
         = f.input :timezone, :as => :time_zone, :hint => "The conference time zone"

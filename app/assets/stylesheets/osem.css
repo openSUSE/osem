@@ -92,20 +92,30 @@ body {
     padding-bottom: 20px;
 }
 
-#venue-banner-disp{
+.banner-disp{
  background-repeat: no-repeat;
  background-position: center center;
  width: 100%;
  background-size: cover;
  -webkit-background-size:cover;
 }
-#venue-banner-disp.with-background{
+
+#location .with-background {
     min-height: 500px;
 }
 
-#venue-banner-disp li{
+#splash-banner .with-background{
+    min-height: 700px;
+}
+
+.location-links li{
   display: inline-block;
   margin-right: 2em;
+}
+
+.banner-text{
+    padding-top: 10%;
+    color: #fff;
 }
 
 .pad{
