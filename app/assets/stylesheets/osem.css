@@ -99,20 +99,25 @@ body {
  background-size: cover;
  -webkit-background-size:cover;
 }
-.banner-disp.with-location-background{
+
+#location .with-background {
     min-height: 500px;
 }
-.banner-disp.with-splash-banner{
+
+#splash-banner .with-background{
     min-height: 700px;
 }
+
 .location-links li{
   display: inline-block;
   margin-right: 2em;
 }
+
 .banner-text{
     padding-top: 10%;
     color: #fff;
 }
+
 .pad{
     padding-top: 35px;
     padding-bottom: 35px;
