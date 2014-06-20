@@ -20,7 +20,7 @@ class Conference < ActiveRecord::Base
                   :include_sponsors_in_splash, :include_tracks_in_splash,
                   :include_tickets_in_splash, :include_social_media_in_splash,
                   :include_program_in_splash, :make_conference_public,
-                  :photos_attributes
+                  :photos_attributes, :banner_photo
 
   has_paper_trail
 
@@ -63,12 +63,18 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :photos, allow_destroy: true
 
   has_attached_file :logo,
-                    :styles => {:thumb => "100x100>", :large => "300x300>" }
+                    styles: { thumb: '100x100>', large: '300x300>' }
 
   validates_attachment_content_type :logo,
-                                    :content_type => [/jpg/, /jpeg/, /png/, /gif/],
-                                    :size => { :in => 0..500.kilobytes }
+                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
+                                    size: { in: 0..500.kilobytes }
 
+  has_attached_file :banner_photo,
+                    styles: { thumb: '100x100>', large: '1300x700>' }
+
+  validates_attachment_content_type :banner_photo,
+                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
+                                    size: { in: 0..500.kilobytes }
   validates_presence_of :title,
                         :short_title,
                         :social_tag,

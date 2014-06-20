@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618062623) do
+ActiveRecord::Schema.define(version: 20140620130306) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -94,7 +94,11 @@ ActiveRecord::Schema.define(version: 20140618062623) do
     t.boolean  "include_tickets_in_splash",       default: false
     t.boolean  "include_social_media_in_splash",  default: false
     t.boolean  "include_program_in_splash",       default: false
-    t.boolean  "make_conference_public",   default: false
+    t.boolean  "make_conference_public",          default: false
+    t.string   "banner_photo_file_name"
+    t.string   "banner_photo_content_type"
+    t.integer  "banner_photo_file_size"
+    t.datetime "banner_photo_updated_at"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
