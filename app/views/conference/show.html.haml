@@ -1,42 +1,42 @@
 = content_for :brand do
   = link_to @conference.title, conference_url(@conference.short_title), class: 'navbar-brand'
+= content_for :splash do
+  - unless @conference.description.blank?
+    %p= @conference.description
 
-- unless @conference.description.blank?
-  %p= @conference.description
+  - if @conference.include_program_in_splash?
+    %section{ id: 'program' }
+      .pad
+        = render 'program'
 
-- if @conference.include_program_in_splash?
-  %section{ id: 'program' }
+  - if @conference.include_registrations_in_splash?
+    %section{ id: 'registration' }
     .pad
-      = render 'program'
-
-- if @conference.include_registrations_in_splash?
-  %section{ id: 'registration' }
-  .pad
-    = render 'registration'
+      = render 'registration'
 
 
--unless @conference.call_for_papers.blank?
-  - if @conference.call_for_papers.include_cfp_in_splash?
-    %section{ id:'callforpapers' }
+  -unless @conference.call_for_papers.blank?
+    - if @conference.call_for_papers.include_cfp_in_splash?
+      %section{ id:'callforpapers' }
+      .pad
+        = render 'call_for_papers'
+
+  -unless @conference.venue.blank?
+    - if @conference.venue.include_venue_in_splash?
+      %section{ id: 'location' }
+      .pad
+        = render 'location'
+    - unless @conference.venue.lodgings.empty?
+      - if @conference.venue.include_lodgings_in_splash?
+        = render 'lodging'
+
+  - if @conference.include_sponsors_in_splash?
+    %section{ id: 'sponsors' }
     .pad
-      = render 'call_for_papers'
+      = render 'sponsor'
 
--unless @conference.venue.blank?
-  - if @conference.venue.include_venue_in_splash?
-    %section{ id: 'location' }
+  - if @conference.include_social_media_in_splash?
+    %section{ id: 'social-media' }
     .pad
-      = render 'location'
-  - unless @conference.venue.lodgings.empty?
-    - if @conference.venue.include_lodgings_in_splash?
-      = render 'lodging'
-
-- if @conference.include_sponsors_in_splash?
-  %section{ id: 'sponsors' }
-  .pad
-    = render 'sponsor'
-
-- if @conference.include_social_media_in_splash?
-  %section{ id: 'social-media' }
-  .pad
-    = render 'social_media'
+      = render 'social_media'
 
