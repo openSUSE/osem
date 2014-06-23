@@ -1,9 +1,7 @@
 prawn_document(:force_download=>true, :filename => @pdf_filename) do |pdf|
   table_array = []
   header_array = ["   ",
-                  "Last Name",
-                  "First Name",
-                  "Public Name",
+                  "Name",
                   "Email",
                   "Attending Social Events",
                   "Attending With Partner",
@@ -13,9 +11,7 @@ prawn_document(:force_download=>true, :filename => @pdf_filename) do |pdf|
   @registrations.each do |registration|
     row = []
     row << ""
-    row << registration.last_name
-    row << registration.first_name
-    row << registration.public_name
+    row << registration.name
     row << registration.email
     if registration.attending_social_events
       row << "X"

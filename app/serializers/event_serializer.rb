@@ -10,8 +10,8 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def speaker_ids
-    speakers = object.event_people.select {|i| i.event_role == "speaker" }
-    speakers.map {|i| i.person.guid}
+    speakers = object.event_users.select {|i| i.event_role == "speaker" }
+    speakers.map {|i| i.user.id}
   end
 
   def type

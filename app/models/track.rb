@@ -8,9 +8,10 @@ class Track < ActiveRecord::Base
   private
 
   def generate_guid
-    begin
-      guid = SecureRandom.urlsafe_base64
-    end while Person.where(:guid => guid).exists?
+    guid = SecureRandom.urlsafe_base64
+#     begin
+#       guid = SecureRandom.urlsafe_base64
+#     end while Person.where(:guid => guid).exists?
     self.guid = guid
   end
 

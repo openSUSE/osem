@@ -33,7 +33,7 @@ FactoryGirl.define do
       libero quis porta ultricies. Fusce pulvinar accumsan lobortis.
     EOS
     after(:build) do |event|
-      event.event_people << build(:submitter, event: event)
+      event.event_users << build(:submitter, event: event)
     end
   end
 end

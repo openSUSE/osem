@@ -3,10 +3,10 @@ class EmailSettings < ActiveRecord::Base
                   :registration_email_template, :accepted_email_template, :rejected_email_template, :confirmed_email_template,
                   :registration_subject, :accepted_subject, :rejected_subject, :confirmed_without_registration_subject
 
-  def get_values(conference, person, event = nil)
+  def get_values(conference, user, event = nil)
     h = {
-        "email" => person.email,
-        "name" => person.public_name,
+        "email" => user.email,
+        "name" => user.name,
         "conference" => conference.title,
         "registrationlink" => Rails.application.routes.url_helpers.register_conference_url(conference.short_title, :host => CONFIG["url_for_emails"])
     }
@@ -18,8 +18,8 @@ class EmailSettings < ActiveRecord::Base
     h
   end
 
-  def generate_registration_email(conference, person)
-    values = get_values(conference, person)
+  def generate_registration_email(conference, user)
+    values = get_values(conference, user)
     template = self.registration_email_template
     parse_template(template, values)
   end

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :registration do
-    person
+    user
     conference
   end
 end

@@ -49,8 +49,8 @@
                          data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
                     <%- if speaker = event[0].speakers.first %>
                       <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right",
-							  :alt => speaker.public_name,
-							  :title => speaker.public_name,
+							  :alt => speaker.name,
+							  :title => speaker.name,
 							  :style => "padding:8px;" %>
                     <%- end %>
                     <h5>
@@ -65,7 +65,7 @@
 		      </span>
                       <span class="schedule-speaker">
                         <span class="glyphicon glyphicon-user"></span>
-                        <%= "#{speaker.first_name} #{speaker.last_name}" %>
+                        <%= "#{speaker.name}" %>
                       </span>
                       <% if event[0].track%>
                         <span class="schedule-track">

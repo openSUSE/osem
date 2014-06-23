@@ -5,6 +5,7 @@
     .well
       = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
         = f.input :email
+        = f.input :name, required: true
         = f.input :password
         = f.input :password_confirmation
         = f.action :submit, as: :button, label: 'Sign Up', button_html: {class: 'btn btn-primary'}

@@ -29,7 +29,7 @@
           - @headers.each do |field|
             %td
               - if field == "name"
-                #{registration.last_name} #{registration.first_name} (#{registration.irc_nickname}) #{registration.company}
+                #{registration.name} #{registration.nickname} #{registration.affiliation}
                 - if registration.supporter_level && registration.supporter_level.title != 'Free'
                   %p{:style => "color:red"}
                     = registration.supporter_level.title
@@ -52,7 +52,7 @@
             = link_to "Edit", edit_admin_conference_registration_path(@conference.short_title, :id => registration), :method => :get, :class => "btn btn-primary"
 
           %td
-            = link_to "Delete", admin_conference_registration_path(@conference.short_title, registration), :method => :delete, :class => "btn btn-danger", data: {confirm: "Really delete registration for #{registration.public_name} #{registration.email}?"}
+            = link_to "Delete", admin_conference_registration_path(@conference.short_title, registration), :method => :delete, :class => "btn btn-danger", data: {confirm: "Really delete registration for #{registration.name} #{registration.email}?"}
         %tr{:id => "row#{counter}", :style=>"display:none;"}
           %td{:colspan=>13}
             = render :partial => "questions", :locals => {:registration => registration}

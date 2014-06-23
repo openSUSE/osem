@@ -7,16 +7,11 @@
     = semantic_form_for(@registration, :url => admin_conference_registrations_path(@conference.short_title)) do |f|
 
       = f.inputs "Your details" do
-        = f.fields_for @person do |p|
-          = p.fields_for @user do |u|
-            = u.input :email, :as => :string, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
-          = p.input :first_name, :as => :string
-          = p.input :last_name, :as => :string
-          = p.input :public_name, :as => :string
-          = p.label :Nickname
-          = p.text_field :irc_nickname, :as => :string
-          = p.label :Affiliation
-          = p.text_field :company, :placeholder => "Company/User Group/nothing", :as => :string
+        = f.fields_for @user do |u|
+          = u.input :email, :as => :string, :hint => "Please enter a valid email address. You will need it to log in to OSEM later."
+          = u.input :name, as: :string
+          = u.input :nickname, :as => :string
+          = u.input :affiliation, :placeholder => "Company/User Group/nothing", :as => :string
 
       = f.inputs "Registration Information" do
         - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0

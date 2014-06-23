@@ -1,0 +1,7 @@
+%table.table
+  - @show_attributes.each do |attr|
+    %tr
+      %td
+        %b
+          = attr.capitalize.gsub('_', ' ')
+      %td= @user.send(attr)

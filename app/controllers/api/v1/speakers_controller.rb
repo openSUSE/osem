@@ -3,12 +3,12 @@ class Api::V1::SpeakersController < Api::BaseController
 
   def index
     if params[:conference_id].blank?
-      people = Person.joins(:event_people)
+      people = User.joins(:event_users)
     else
-      people = Person.joins(:event_people => {:event => :conference})
+      people = User.joins(:event_users => {:event => :conference})
       people = people.where("conferences.guid" => params[:conference_id])
     end
-    people = people.where("event_people.event_role" => "speaker")
-    render :json => people, :each_serializer => SpeakerSerializer
+    people = people.where("event_users.event_role" => "speaker")
+    render :json => users, :each_serializer => SpeakerSerializer
   end
 end
