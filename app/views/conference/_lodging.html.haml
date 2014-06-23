@@ -1,18 +1,19 @@
-%div.row.col-md-12.text-center
+%div.container.text-center
   %h2 Lodgings
   -unless @conference.lodging_description.blank?
     %p.lead
       = @conference.lodging_description
 
-%div.row
-  - @conference.venue.lodgings.each do |r|
-    %div.col-md-3.thumbnail
-      -unless r.photo.blank?
-        = image_tag r.photo(:large), class: 'img-responsive'
-      -unless r.name.blank?
-        %h4.text-center #{ r.name }
-      -unless r.description.blank?
-        %p.text-left #{ r.description }
-      - unless r.website_link.blank?
-        .text-center
-          = link_to 'Go to Website', r.website_link
+  %div.row.text-center
+    - @conference.venue.lodgings.each do |r|
+      %div{ class: (@conference.venue.lodgings.count.to_i <= 2 ? "col-md-#{12/@conference.venue.lodgings.count.to_i}" : "col-md-4") }
+        .div.thumbnail
+          -unless r.photo.blank?
+            = image_tag r.photo(:large), class: 'img-responsive'
+          -unless r.name.blank?
+            %h4.text-center #{ r.name }
+          -unless r.description.blank?
+            %p.text-left #{ r.description }
+          - unless r.website_link.blank?
+            .text-center
+              = link_to 'Go to Website', r.website_link
