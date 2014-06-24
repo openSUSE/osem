@@ -118,6 +118,8 @@ GEM
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
+    font-awesome-rails (4.1.0.0)
+      railties (>= 3.2, < 5.0)
     formatador (0.2.4)
     formtastic (2.3.0.rc3)
       actionpack (>= 3.0)
@@ -387,6 +389,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  font-awesome-rails
   formtastic (~> 2.3.0.rc3)
   formtastic-bootstrap
   gravtastic
