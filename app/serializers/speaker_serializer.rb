@@ -11,7 +11,7 @@ class SpeakerSerializer < ActiveModel::Serializer
     if object.biography.blank?
       nil
     else
-      simple_format(object.biography).gsub("\n", "")
+      simple_format(object.biography).gsub('\n', '')
     end
   end
 end

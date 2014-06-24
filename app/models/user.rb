@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   include Gravtastic
-  gravtastic :size => 32
+  gravtastic size: 32
 
 
   # Include default devise modules. Others available are:
@@ -16,11 +16,11 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
                   :name, :email_public, :biography, :nickname, :affiliation
 
-  has_many :event_users, :dependent => :destroy
-  has_many :events, -> { uniq }, :through => :event_users
-  has_many :registrations, :dependent => :destroy
-  has_many :votes, :dependent => :destroy
-  has_many :voted_events, :through => :votes, :source => :events
+  has_many :event_users, dependent: :destroy
+  has_many :events, -> { uniq }, through: :event_users
+  has_many :registrations, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :voted_events, through: :votes, source: :events
 
   accepts_nested_attributes_for :roles
 
@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   end
 
   def role?(role)
-    Rails.logger.debug("Checking role in user")
+    Rails.logger.debug('Checking role in user')
     !!roles.find_by_name(role.to_s.downcase.camelize)
   end
 
@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
 
     # If there is a new user, add the necessary attributes
     if user.new_record?
-      user.password = Devise.friendly_token[0,20]
+      user.password = Devise.friendly_token[0, 20]
       user.skip_confirmation!
       user.attributes = params
     end
@@ -99,8 +99,8 @@ class User < ActiveRecord::Base
   end
 
   def attending_conference? conference
-    Registration.where(:conference_id => conference.id,
-                       :user_id => self.id).count
+    Registration.where(conference_id: conference.id,
+                       user_id: self.id).count
   end
 
   def proposals conference
@@ -118,10 +118,12 @@ class User < ActiveRecord::Base
       self.biography.split.size
     end
   end
+
   private
-    def biography_limit
-      if !self.biography.nil? && self.biography.split.size > 150
-        errors.add(:abstract, "cannot have more than 150 words")
-      end
+
+  def biography_limit
+    if !self.biography.nil? && self.biography.split.size > 150
+      errors.add(:abstract, 'cannot have more than 150 words')
     end
+  end
 end

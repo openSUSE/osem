@@ -1,18 +1,20 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
-  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :users_attributes, :user, :proposal_additional_speakers, :track_id, :media_id, :media_type, :require_registration, :difficulty_level_id
+  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :users_attributes,
+                  :user, :proposal_additional_speakers, :track_id, :media_id, :media_type,
+                  :require_registration, :difficulty_level_id
 
   acts_as_commentable
 
   after_create :set_week
 
-  has_many :event_users, :dependent => :destroy
-  has_many :event_attachments, :dependent => :destroy
-  has_many :users, :through => :event_users
-  has_many :speakers, :through => :event_users, :source => :user
+  has_many :event_users, dependent: :destroy
+  has_many :event_attachments, dependent: :destroy
+  has_many :users, through: :event_users
+  has_many :speakers, through: :event_users, source: :user
   has_many :votes
-  has_many :voters, :through => :votes, :source => :user
+  has_many :voters, through: :votes, source: :user
   belongs_to :event_type
 
   has_and_belongs_to_many :registrations
@@ -22,20 +24,20 @@ class Event < ActiveRecord::Base
   belongs_to :difficulty_level
   belongs_to :conference
 
-  accepts_nested_attributes_for :event_users, :allow_destroy => true
-  accepts_nested_attributes_for :event_attachments, :allow_destroy => true, :reject_if => :all_blank
+  accepts_nested_attributes_for :event_users, allow_destroy: true
+  accepts_nested_attributes_for :event_attachments, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :users
   before_create :generate_guid
 
   validate :abstract_limit
   validate :biography_exists
-  validates :title, :presence => true
-  validates :abstract, :presence => true
-  validates :media_type, :allow_nil => true, inclusion: {in: Conference.media_types.values}
+  validates :title, presence: true
+  validates :abstract, presence: true
+  validates :media_type, allow_nil: true, inclusion: { in: Conference.media_types.values }
 
   scope :confirmed, -> { where(state: 'confirmed') }
 
-  state_machine :initial => :new do
+  state_machine initial: :new do
     state :new
     state :withdrawn
     state :unconfirmed
@@ -64,7 +66,7 @@ class Event < ActiveRecord::Base
   end
 
   def voted?(event, user)
-    event.votes.where("user_id = ?", user).first
+    event.votes.where('user_id = ?', user).first
   end
 
   def average_rating
@@ -73,18 +75,18 @@ class Event < ActiveRecord::Base
       @total_rating = @total_rating + vote.rating
     end
     @total = self.votes.size
-    number_with_precision(@total_rating / @total.to_f, :precision => 2, :strip_insignificant_zeros => true)
+    number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true)
   end
 
   def submitter
-    result = self.event_users.where(:event_role => "submitter").first
+    result = self.event_users.where(event_role: 'submitter').first
     if !result.nil?
       result.user
     else
       user = nil
       # Perhaps the event_users haven't been saved, if this is a new proposal
       self.event_users.each do |p|
-        if p.event_role == "submitter"
+        if p.event_role == 'submitter'
           user = p.user
         end
       end
@@ -102,7 +104,7 @@ class Event < ActiveRecord::Base
     end
 
     if self.track.nil?
-      json[:track_color]  = "#ffffff"
+      json[:track_color]  = '#ffffff'
     else
       json[:track_color] = self.track.color;
     end
@@ -194,14 +196,14 @@ class Event < ActiveRecord::Base
 
   def biography_exists
     if self.submitter.biography_word_count == 0
-      errors.add(:user_biography, "must be filled out")
+      errors.add(:user_biography, 'must be filled out')
     end
   end
 
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64
-    end while self.class.where(:guid => guid).exists?
+    end while self.class.where(guid: guid).exists?
     self.guid = guid
   end
 

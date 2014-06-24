@@ -5,33 +5,33 @@ module Admin
     def index
       session[:return_to] ||= request.referer
       @pdf_filename = "#{@conference.title}.pdf"
-      @registrations = @conference.registrations.includes(:user).order("registrations.created_at ASC")
-      @attended = @conference.registrations.where("attended = ?", true).count
-      @headers = %w[name email nickname other_needs arrival departure attended]
+      @registrations = @conference.registrations.includes(:user).order('registrations.created_at ASC')
+      @attended = @conference.registrations.where('attended = ?', true).count
+      @headers = %w(name email nickname other_needs arrival departure attended)
     end
 
     def change_field
-        @registration = Registration.find(params[:id])
-        field = params[:view_field]
-        if @registration.send(field.to_sym)
-          @registration.update_attribute(:"#{field}",0)
-        else
-          @registration.update_attribute(:"#{field}",1)
-        end
+      @registration = Registration.find(params[:id])
+      field = params[:view_field]
+      if @registration.send(field.to_sym)
+        @registration.update_attribute(:"#{field}", 0)
+      else
+        @registration.update_attribute(:"#{field}", 1)
+      end
 
-        redirect_to admin_conference_registrations_path(@conference.short_title)
-        flash[:notice] = "Updated '#{params[:view_field]}' => #{@registration.attended} for
-                          #{(User.where("id = ?", @registration.user_id).first).email}"
+      redirect_to admin_conference_registrations_path(@conference.short_title)
+      flash[:notice] = "Updated '#{params[:view_field]}' => #{@registration.attended} for
+                        #{(User.where('id = ?', @registration.user_id).first).email}"
     end
 
     def edit
-      @registration = @conference.registrations.where("id = ?", params[:id]).first
-      @user = User.where("id = ?", @registration.user_id).first
+      @registration = @conference.registrations.where('id = ?', params[:id]).first
+      @user = User.where('id = ?', @registration.user_id).first
     end
 
     def update
-      @registration = @conference.registrations.where("id = ?", params[:id]).first
-      @user = User.where("id = ?", @registration.user_id).first
+      @registration = @conference.registrations.where('id = ?', params[:id]).first
+      @user = User.where('id = ?', @registration.user_id).first
       begin
         @user.update_attributes!(params[:registration][:user_attributes])
         params[:registration].delete :user_attributes
@@ -95,9 +95,9 @@ module Admin
     end
 
     def destroy
-      if has_role?(current_user, "Admin")
-        registration = @conference.registrations.where(:id => params[:id]).first
-        user = User.where("id = ?", registration.user_id).first
+      if has_role?(current_user, 'Admin')
+        registration = @conference.registrations.where(id: params[:id]).first
+        user = User.where('id = ?', registration.user_id).first
 
         begin registration.destroy
           redirect_to admin_conference_registrations_path
@@ -115,14 +115,19 @@ module Admin
     end
 
     protected
-      def registration_params
-        params.require(:registration).permit(:attending_with_partner, :using_affiliated_lodging, :handicapped_access_required, :other_special_needs, :attended)
-      end
-      def user_params
-        params.require(:registration).permit(user: [:email, :name, :nickname, :affiliation])
-      end
-      def supporter_params
-        params.require(:registration).permit(supporter_registration: [:supporter_level_id, :code])
-      end
+
+    def registration_params
+      params.require(:registration).permit(:attending_with_partner, :using_affiliated_lodging,
+                                           :handicapped_access_required, :other_special_needs,
+                                           :attended)
+    end
+
+    def user_params
+      params.require(:registration).permit(user: [:email, :name, :nickname, :affiliation])
+    end
+
+    def supporter_params
+      params.require(:registration).permit(supporter_registration: [:supporter_level_id, :code])
+    end
   end
 end

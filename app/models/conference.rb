@@ -5,44 +5,42 @@ class Conference < ActiveRecord::Base
   require 'uri'
 
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
-                  :start_date, :end_date, :rooms_attributes, :tracks_attributes, :dietary_choices_attributes,
-                  :use_dietary_choices, :use_supporter_levels, :supporter_levels_attributes, :social_events_attributes,
-                  :event_types_attributes, :registration_start_date, :registration_end_date, :logo,
-                   :questions_attributes, :question_ids, :answers_attributes, :answer_ids,
-                  :difficulty_levels_attributes, :use_difficulty_levels,
-                  :use_vpositions, :use_vdays, :vdays_attributes, :vpositions_attributes, :use_volunteers,
-                  :media_id, :media_type, :color, :description,
-                  :registration_description, :ticket_description,
-                  :sponsorship_levels_attributes,
-                  :sponsors_attributes, :facebook_url,
-                  :google_url, :twitter_url, :sponsor_description, :sponsor_email,
-                  :lodging_description, :include_registrations_in_splash,
-                  :include_sponsors_in_splash, :include_tracks_in_splash,
-                  :include_tickets_in_splash, :include_social_media_in_splash,
-                  :include_program_in_splash, :make_conference_public,
-                  :photos_attributes, :banner_photo,
-                  :include_banner_in_splash,
-                  :targets, :targets_attributes, :campaigns, :campaigns_attributes
+                  :start_date, :end_date, :rooms_attributes, :tracks_attributes,
+                  :dietary_choices_attributes, :use_dietary_choices, :use_supporter_levels,
+                  :supporter_levels_attributes, :social_events_attributes, :event_types_attributes,
+                  :registration_start_date, :registration_end_date, :logo, :questions_attributes,
+                  :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
+                  :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
+                  :vpositions_attributes, :use_volunteers, :media_id, :media_type, :color,
+                  :description, :registration_description, :ticket_description,
+                  :sponsorship_levels_attributes, :sponsors_attributes, :facebook_url, :google_url,
+                  :twitter_url, :sponsor_description, :sponsor_email, :lodging_description,
+                  :include_registrations_in_splash, :include_sponsors_in_splash,
+                  :include_tracks_in_splash, :include_tickets_in_splash,
+                  :include_social_media_in_splash, :include_program_in_splash,
+                  :make_conference_public, :photos_attributes, :banner_photo,
+                  :include_banner_in_splash, :targets, :targets_attributes, :campaigns,
+                  :campaigns_attributes
 
   has_paper_trail
 
   has_and_belongs_to_many :questions
 
-  has_one :email_settings, :dependent => :destroy
-  has_one :call_for_papers, :dependent => :destroy
-  has_many :social_events, :dependent => :destroy
-  has_many :supporter_registrations, :dependent => :destroy
-  has_many :supporter_levels, :dependent => :destroy
-  has_many :dietary_choices, :dependent => :destroy
-  has_many :events, :dependent => :destroy
-  has_many :event_types, :dependent => :destroy
-  has_many :tracks, :dependent => :destroy
-  has_many :difficulty_levels, :dependent => :destroy
-  has_many :rooms, :dependent => :destroy
-  has_many :registrations, :dependent => :destroy
-  has_many :vdays, :dependent => :destroy
-  has_many :vpositions, :dependent => :destroy
-  has_many :vchoices, :dependent => :destroy
+  has_one :email_settings, dependent: :destroy
+  has_one :call_for_papers, dependent: :destroy
+  has_many :social_events, dependent: :destroy
+  has_many :supporter_registrations, dependent: :destroy
+  has_many :supporter_levels, dependent: :destroy
+  has_many :dietary_choices, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :event_types, dependent: :destroy
+  has_many :tracks, dependent: :destroy
+  has_many :difficulty_levels, dependent: :destroy
+  has_many :rooms, dependent: :destroy
+  has_many :registrations, dependent: :destroy
+  has_many :vdays, dependent: :destroy
+  has_many :vpositions, dependent: :destroy
+  has_many :vchoices, dependent: :destroy
   has_many :sponsorship_levels, dependent: :destroy
   has_many :sponsors, dependent: :destroy
   has_many :photos, dependent: :destroy
@@ -50,20 +48,20 @@ class Conference < ActiveRecord::Base
   has_many :campaigns, dependent: :destroy
   belongs_to :venue
 
-  accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
-  accepts_nested_attributes_for :tracks, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
-  accepts_nested_attributes_for :difficulty_levels, :allow_destroy => true
-  accepts_nested_attributes_for :social_events, :allow_destroy => true
+  accepts_nested_attributes_for :rooms, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :tracks, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
+  accepts_nested_attributes_for :difficulty_levels, allow_destroy: true
+  accepts_nested_attributes_for :social_events, allow_destroy: true
   accepts_nested_attributes_for :venue
-  accepts_nested_attributes_for :dietary_choices, :allow_destroy => true
-  accepts_nested_attributes_for :supporter_levels, :allow_destroy => true
+  accepts_nested_attributes_for :dietary_choices, allow_destroy: true
+  accepts_nested_attributes_for :supporter_levels, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
   accepts_nested_attributes_for :sponsors, allow_destroy: true
-  accepts_nested_attributes_for :event_types, :allow_destroy => true
+  accepts_nested_attributes_for :event_types, allow_destroy: true
   accepts_nested_attributes_for :email_settings
-  accepts_nested_attributes_for :questions, :allow_destroy => true
-  accepts_nested_attributes_for :vdays, :allow_destroy => true
-  accepts_nested_attributes_for :vpositions, :allow_destroy => true
+  accepts_nested_attributes_for :questions, allow_destroy: true
+  accepts_nested_attributes_for :vdays, allow_destroy: true
+  accepts_nested_attributes_for :vpositions, allow_destroy: true
   accepts_nested_attributes_for :photos, allow_destroy: true
   accepts_nested_attributes_for :targets, allow_destroy: true
   accepts_nested_attributes_for :campaigns, allow_destroy: true
@@ -98,7 +96,8 @@ class Conference < ActiveRecord::Base
   before_create :add_color
 
   def self.media_types
-    media_types = {:youtube => 'YouTube', :slideshare => 'SlideShare',  :flickr => 'Flickr', :vimeo => 'Vimeo', :speakerdeck => 'Speakerdeck', :instagram => 'Instagram'}
+    media_types = { youtube: 'YouTube', slideshare: 'SlideShare', flickr: 'Flickr', vimeo: 'Vimeo',
+                    speakerdeck: 'Speakerdeck', instagram: 'Instagram' }
     return media_types
   end
 
@@ -115,7 +114,7 @@ class Conference < ActiveRecord::Base
   def user_registered? user
     return nil if user.nil?
 
-    if self.registrations.where(:user_id => user.id).count == 0
+    if self.registrations.where(user_id: user.id).count == 0
       logger.debug("User #{user.email} isn't registered to self.title")
       return false
     else
@@ -721,7 +720,7 @@ class Conference < ActiveRecord::Base
     guid = SecureRandom.urlsafe_base64
 #     begin
 #       guid = SecureRandom.urlsafe_base64
-#     end # while User.where(:guid => guid).exists?
+#     end while User.where(:guid => guid).exists?
     self.guid = guid
   end
 
