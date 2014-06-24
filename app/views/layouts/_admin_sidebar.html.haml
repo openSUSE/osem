@@ -50,12 +50,14 @@
   %li{:class=> "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))} myAccordion" }
     = link_to(admin_conference_sponsorship_levels_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-star
-      Sponsorship Levels
+      Sponsorship
+      %span.small.glyphicon.glyphicon-chevron-right
     %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_sponsors_path(@conference.short_title))}
         = link_to 'Sponsors', admin_conference_sponsors_path(@conference.short_title)
   %li{ class: active_nav_li(admin_conference_supporter_levels_path(@conference.short_title)) }
     = link_to(admin_conference_supporter_levels_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-usd
       Supporter Levels
   %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
     = link_to(admin_conference_emails_path(@conference.short_title)) do
