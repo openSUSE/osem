@@ -17,21 +17,23 @@
       - if @conference.call_for_papers.end_date.to_time < Time.now
         %p Today is the last day. Hurry Up!
       - else
-        %div.row.col-md-6.col-md-offset-4
-          %div.col-md-2
-            %h2#days
-            %p Days
-          %div.col-md-2
-            %h2#hours
-            %p Hours
-          %div.col-md-2
-            %h2#minutes
-            %p Minutes
-          %div.col-md-2
-            %h2#seconds
-            %p Seconds
-      %p
-        = link_to "Submit Your Proposals Today", conference_proposal_index_path(@conference.short_title), class: 'btn btn-info', target: '_blank'
+        .row
+          .col-md-6.col-md-offset-4
+            %div.col-md-2
+              %h2#days
+              %p Days
+            %div.col-md-2
+              %h2#hours
+              %p Hours
+            %div.col-md-2
+              %h2#minutes
+              %p Minutes
+            %div.col-md-2
+              %h2#seconds
+              %p Seconds
+      .row
+        %p
+          = link_to "Submit Your Proposals Today", conference_proposal_index_path(@conference.short_title), class: 'btn btn-info', target: '_blank'
     -else
       %h3 Deadline has ended
 
