@@ -5,7 +5,7 @@
 body {
   background-color: #f2f2f2;
   font-family: 'Lato';
-  font-weight: 300;
+  font-weight: 350;
   font-size: 16px;
   color: #555;
 
@@ -87,5 +87,25 @@ a:after {
   p {
     color: #fff;
     font-weight: 500;
+  }
+}
+
+#program{
+  .tracks:hover{
+    background-color: white;
+  }
+}
+
+#callforpapers{
+  .timer-box{
+    width: 130px;
+    margin: 35px 24px 0 0;
+    border-radius: 50%;
+    border:4px solid #989797;
+  }
+  #cfp-date{
+    font-size: 40px;
+    font-family: 'Coustard', serif;
+    color: #ff6633;
   }
 }
