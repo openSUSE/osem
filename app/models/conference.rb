@@ -304,7 +304,7 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> person: submissions
   def self.get_top_submitter(limit = 5)
     submitter = EventPerson.where('event_role = ?', 'submitter').limit(limit).group(:person_id)
-    counter = submitter.count
+    counter = submitter.order('count_all desc').count
     calculate_person_submission_hash(submitter, counter)
   end
 
@@ -318,7 +318,7 @@ class Conference < ActiveRecord::Base
         where('event_role = ? and conference_id = ?', 'submitter', id).
         limit(limit).group(:person_id)
 
-    counter = submitter.count
+    counter = submitter.order('count_all desc').count
     Conference.calculate_person_submission_hash(submitter, counter)
   end
 
@@ -656,9 +656,12 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> person: submissions
   def self.calculate_person_submission_hash(submitter, counter)
-    result = {}
-    submitter.each do |s|
-      result[s.person] = counter[s.person_id]
+    result = ActiveSupport::OrderedHash.new
+    counter.each do |key, value|
+      submitter = submitter.find_by_id(key)
+      if submitter
+        result[submitter] = value
+      end
     end
     result
   end
