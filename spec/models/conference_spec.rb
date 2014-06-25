@@ -6,6 +6,36 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  # describe '#get_top_submitter' do
+  #   # It is necessary to use bang version of let to build roles before user
+  #   let!(:organizer_role) { create(:organizer_role) }
+  #   let!(:participant_role) { create(:participant_role) }
+  #   let!(:admin_role) { create(:admin_role) }
+  #
+  #   it 'calculates correct hash with top submitters' do
+  #     event = create(:event, conference: subject)
+  #     result = {
+  #       event.submitter => 1
+  #     }
+  #     expect(subject.get_top_submitter).to eq(result)
+  #   end
+  #
+  #   it 'returns the submitter ordered by submissions' do
+  #     e1 = create(:event, conference: subject)
+  #
+  #     e2 = create(:event, conference: subject)
+  #     e3 = create(:event, conference: subject)
+  #     e4 = create(:event, conference: subject)
+  #
+  #     e3.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
+  #     e4.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
+  #
+  #     expect(subject.get_top_submitter.values).to eq([3, 1])
+  #     expect(subject.get_top_submitter.keys).to eq([e2.submitter, e1.submitter])
+  #   end
+  #
+  # end
+
   describe 'program hours' do
     before(:each) do
       @long = create(:event_type, length: 100)
