@@ -34,7 +34,16 @@ class Registration < ActiveRecord::Base
   
   alias_attribute :other_needs, :other_special_needs
 
+  after_create :set_week
+
   def week
     created_at.strftime('%W').to_i
+  end
+
+  private
+
+  def set_week
+    self.week = created_at.strftime('%W')
+    save!
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140623101032) do
+ActiveRecord::Schema.define(version: 20140625114813) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -224,6 +224,7 @@ ActiveRecord::Schema.define(version: 20140623101032) do
     t.string   "media_type"
     t.boolean  "require_registration"
     t.integer  "difficulty_level_id"
+    t.integer  "week"
   end
 
   create_table "events_registrations", id: false, force: true do |t|
@@ -328,6 +329,7 @@ ActiveRecord::Schema.define(version: 20140623101032) do
     t.text     "other_special_needs"
     t.boolean  "attended",                    default: false
     t.boolean  "volunteer"
+    t.integer  "week"
   end
 
   create_table "registrations_social_events", id: false, force: true do |t|

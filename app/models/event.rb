@@ -5,6 +5,8 @@ class Event < ActiveRecord::Base
 
   acts_as_commentable
 
+  after_create :set_week
+
   has_many :event_people, :dependent => :destroy
   has_many :event_attachments, :dependent => :destroy
   has_many :people, :through => :event_people
@@ -203,4 +205,8 @@ class Event < ActiveRecord::Base
     self.guid = guid
   end
 
+  def set_week
+    self.week = created_at.strftime('%W')
+    save!
+  end
 end
