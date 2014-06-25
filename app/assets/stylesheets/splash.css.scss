@@ -5,7 +5,7 @@
 body {
   background-color: #f2f2f2;
   font-family: 'Lato';
-  font-weight: 350;
+  font-weight: 300;
   font-size: 16px;
   color: #555;
 
@@ -24,6 +24,7 @@ h1, h2, h3, h4, h5, h6 {
 p {
     line-height: 28px;
     margin-bottom: 25px;
+    font-size: 18px;
 }
 
 .centered {
@@ -99,7 +100,7 @@ a:after {
 #callforpapers{
   .timer-box{
     width: 130px;
-    margin: 35px 24px 0 0;
+    margin: 35px 24px 20px 0;
     border-radius: 50%;
     border:4px solid #989797;
   }
