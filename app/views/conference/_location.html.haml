@@ -14,7 +14,7 @@
           %strong #{ @conference.venue.address }
       - unless @conference.venue.description.blank?
         %p
-          %strong #{ @conference.venue.description }
+          = @conference.venue.description
       %ul.location-links
         - unless @conference.venue.address.blank?
           %li

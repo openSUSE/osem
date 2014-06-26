@@ -129,8 +129,18 @@ a:after {
   i{
     color: #4a4a4a;
   }
-
   i:hover{
     color: #16a085;
+  }
+}
+
+#location{
+
+  h1,h2,p{
+    color: #fff;
+  }
+  h1,h2,li,p{
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+    font-weight: 400;
   }
 }
