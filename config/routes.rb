@@ -35,6 +35,10 @@ Osem::Application.routes.draw do
 
       resources :lodgings, only: [:show, :update, :index]
 
+      resources :targets, only: [:update, :index]
+
+      resources :campaigns
+
       resources :eventtypes, only: [:show, :index] do
         collection do
           patch :update

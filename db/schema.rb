@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140620134535) do
+ActiveRecord::Schema.define(version: 20140623101032) do
+
+  create_table "ahoy_events", force: true do |t|
+    t.uuid     "visit_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.text     "properties"
+    t.datetime "time"
+  end
+
+  #add_index "ahoy_events", ["id"], name: "sqlite_autoindex_ahoy_events_1", unique: true
+  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
+  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
+  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -30,6 +43,18 @@ ActiveRecord::Schema.define(version: 20140620134535) do
     t.integer  "rating",                default: 3
     t.boolean  "schedule_public"
     t.boolean  "include_cfp_in_splash", default: false
+  end
+
+  create_table "campaigns", force: true do |t|
+    t.integer  "conference_id"
+    t.string   "name"
+    t.string   "utm_source"
+    t.string   "utm_medium"
+    t.string   "utm_term"
+    t.string   "utm_content"
+    t.string   "utm_campaign"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "comments", force: true do |t|
@@ -381,6 +406,16 @@ ActiveRecord::Schema.define(version: 20140620134535) do
     t.datetime "created_at"
   end
 
+  create_table "targets", force: true do |t|
+    t.integer  "conference_id"
+    t.integer  "campaign_id"
+    t.date     "due_date"
+    t.integer  "target_count"
+    t.string   "unit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tracks", force: true do |t|
     t.string   "guid",          null: false
     t.integer  "conference_id"
@@ -456,6 +491,32 @@ ActiveRecord::Schema.define(version: 20140620134535) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+
+  create_table "visits", force: true do |t|
+    t.uuid     "visitor_id"
+    t.string   "ip"
+    t.text     "user_agent"
+    t.text     "referrer"
+    t.text     "landing_page"
+    t.integer  "user_id"
+    t.string   "referring_domain"
+    t.string   "search_keyword"
+    t.string   "browser"
+    t.string   "os"
+    t.string   "device_type"
+    t.string   "country"
+    t.string   "region"
+    t.string   "city"
+    t.string   "utm_source"
+    t.string   "utm_medium"
+    t.string   "utm_term"
+    t.string   "utm_content"
+    t.string   "utm_campaign"
+    t.datetime "started_at"
+  end
+
+  #add_index "visits", ["id"], name: "sqlite_autoindex_visits_1", unique: true
+  add_index "visits", ["user_id"], name: "index_visits_on_user_id"
 
   create_table "votes", force: true do |t|
     t.integer  "person_id"

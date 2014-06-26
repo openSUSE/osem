@@ -6,35 +6,98 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
-  # describe '#get_top_submitter' do
-  #   # It is necessary to use bang version of let to build roles before user
-  #   let!(:organizer_role) { create(:organizer_role) }
-  #   let!(:participant_role) { create(:participant_role) }
-  #   let!(:admin_role) { create(:admin_role) }
-  #
-  #   it 'calculates correct hash with top submitters' do
-  #     event = create(:event, conference: subject)
-  #     result = {
-  #       event.submitter => 1
-  #     }
-  #     expect(subject.get_top_submitter).to eq(result)
-  #   end
-  #
-  #   it 'returns the submitter ordered by submissions' do
-  #     e1 = create(:event, conference: subject)
-  #
-  #     e2 = create(:event, conference: subject)
-  #     e3 = create(:event, conference: subject)
-  #     e4 = create(:event, conference: subject)
-  #
-  #     e3.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
-  #     e4.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
-  #
-  #     expect(subject.get_top_submitter.values).to eq([3, 1])
-  #     expect(subject.get_top_submitter.keys).to eq([e2.submitter, e1.submitter])
-  #   end
-  #
-  # end
+  describe '#get_top_submitter' do
+    # It is necessary to use bang version of let to build roles before user
+    let!(:organizer_role) { create(:organizer_role) }
+    let!(:participant_role) { create(:participant_role) }
+    let!(:admin_role) { create(:admin_role) }
+
+    it 'calculates correct hash with top submitters' do
+      event = create(:event, conference: subject)
+      result = {
+        event.submitter => 1
+      }
+      expect(subject.get_top_submitter).to eq(result)
+    end
+
+    it 'returns the submitter ordered by submissions' do
+      e1 = create(:event, conference: subject)
+
+      e2 = create(:event, conference: subject)
+      e3 = create(:event, conference: subject)
+      e4 = create(:event, conference: subject)
+
+      e3.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
+      e4.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
+
+      expect(subject.get_top_submitter.values).to eq([3, 1])
+      expect(subject.get_top_submitter.keys).to eq([e2.submitter, e1.submitter])
+    end
+
+  end
+
+  describe '#get_targets' do
+    it 'returns 0 if there is no registration' do
+      target = build(:target, target_count: 10, unit: Target.units[:registrations])
+      subject.targets = [target]
+      result = {
+          "10 Registrations by #{target.due_date}" => '0'
+      }
+      expect(subject.get_targets(Target.units[:registrations])).to eq(result)
+    end
+
+    it 'returns 10 if there is 1 registration of 10' do
+      target = build(:target, target_count: 10, unit: Target.units[:registrations])
+      subject.targets = [target]
+      subject.registrations = [create(:registration)]
+      result = {
+          "10 Registrations by #{target.due_date}" => '10'
+      }
+      expect(subject.get_targets(Target.units[:registrations])).to eq(result)
+    end
+
+    it 'returns an empty hash if there is no target' do
+      expect(subject.get_targets(Target.units[:registrations])).to eq({})
+    end
+
+    it 'returns 0 if there is no submission' do
+      target = build(:target, target_count: 10, unit: Target.units[:submissions])
+      subject.targets = [target]
+      result = {
+          "10 Submissions by #{target.due_date}" => '0'
+      }
+      expect(subject.get_targets(Target.units[:submissions])).to eq(result)
+    end
+
+    it 'returns 10 if there is 1 submissions of 10' do
+      target = build(:target, target_count: 10, unit: Target.units[:submissions])
+      subject.targets = [target]
+      subject.events = [create(:event)]
+      result = {
+          "10 Submissions by #{target.due_date}" => '10'
+      }
+      expect(subject.get_targets(Target.units[:submissions])).to eq(result)
+    end
+
+    it 'returns 0 if there is no program minute' do
+      target = build(:target, target_count: 300, unit: Target.units[:program_minutes])
+      subject.targets = [target]
+      result = {
+          "300 Program minutes by #{target.due_date}" => '0'
+      }
+      expect(subject.get_targets(Target.units[:program_minutes])).to eq(result)
+    end
+
+    it 'returns 10 if there is 30 program minutes of 300' do
+      target = build(:target, target_count: 300, unit: Target.units[:program_minutes])
+      subject.targets = [target]
+      subject.events = [create(:event)]
+      result = {
+          "300 Program minutes by #{target.due_date}" => '10'
+      }
+      expect(subject.get_targets(Target.units[:program_minutes])).to eq(result)
+    end
+  end
 
   describe 'program hours' do
     before(:each) do

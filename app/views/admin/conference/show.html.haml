@@ -10,6 +10,8 @@
       .text
         %label.text-muted total registrations: #{@total_reg}
         %label.text-muted new registrations: #{@new_reg}
+        .row
+          = render partial: 'targets', locals: { targets: @registration_targets, name: 'registrations' }
   .col-sm-4
     .dashbox.text-center
       .icon
@@ -17,13 +19,17 @@
       .text
         %label.text-muted total submissions: #{@total_submissions}
         %label.text-muted new submissions: #{@new_submissions}
+        .row
+          = render partial: 'targets', locals: { targets: @submission_targets, name: 'submissions'  }
   .col-sm-4
     .dashbox.text-center
       .icon
         %i.glyphicon.glyphicon-user
       .text
-        %label.text-muted programm hours: #{@program_length} h
-        %label.text-muted new programm hours: #{@new_program_length} h
+        %label.text-muted programm: #{@program_length} min
+        %label.text-muted new programm: #{@new_program_length} min
+        .row
+          = render partial: 'targets', locals: { targets: @program_minutes_targets, name: 'program_hours' }
 .row
   .col-md-12
     .row
@@ -97,6 +103,13 @@
         = render partial: 'recent_submissions', locals: {recent_events: @recent_events}
   .col-md-4
     = render partial: 'top_submitter', locals: {top_submitter: @top_submitter}
+.row
+  .col-md-12
+    %h3
+      %span
+        %i.glyphicon.glyphicon-flag
+        Campaigns
+    = render partial: 'campaigns', locals: {campaigns: @campaigns, name: 'campaigns'}
 
 :javascript
   $('#recentTable a').click(function (e) {

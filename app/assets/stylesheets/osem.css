@@ -27,8 +27,8 @@ body {
     padding: 15px;
 }
 
-.nav > li.nav-header > a {
-    font-size: 12px;
+.nav-header-bigger {
+    font-size: 15px;
     font-weight: bold;
     text-transform: uppercase;
 }

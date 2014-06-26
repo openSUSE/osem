@@ -75,6 +75,8 @@ class ConferenceRegistrationController < ApplicationController
     if update_registration
       redirect_message = "Registration updated."
     else
+      # Track ahoy event
+      ahoy.track 'Registered', title: 'New registration'
       if conference.email_settings.send_on_registration?
         Mailbot.registration_mail(conference, current_user.person).deliver
       end

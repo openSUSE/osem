@@ -1,0 +1,41 @@
+%h1
+  Campaigns
+.row
+  .col-md-12
+    .table-responsive
+      %table.table
+        %thead
+          %tr
+            %th #
+            %th Name
+            %th Visits
+            %th Registrations
+            %th Submissions
+            %th Link
+            %th Edit
+            %th Delete
+        %tbody
+          - @campaigns.each_with_index do |campaign, index|
+            %tr
+              %td
+                = index + 1
+              %td{'id'=> "name_#{index}"}
+                = campaign.name
+              %td{'id'=> "visits_#{index}"}
+                = campaign.visits_count
+              %td{'id'=> "registrations_#{index}"}
+                = campaign.registrations_count
+              %td{'id'=> "submissions_#{ + index}"}
+                = campaign.submissions_count
+              %td
+                %a.copyLink{'href'=> '#', 'data-url'=>root_path + campaign.url_parameters}
+                  Copy link
+              %td
+                = link_to 'Edit',
+                edit_admin_conference_campaign_path(@conference.short_title, campaign.id)
+              %td
+                = link_to 'Delete',
+                admin_conference_campaign_path(@conference.short_title, campaign.id), method: :delete
+.row
+  .col-md-12
+    %b= link_to 'New Campaign', new_admin_conference_campaign_path, class: 'btn btn-success'

@@ -21,7 +21,8 @@ class Conference < ActiveRecord::Base
                   :include_tickets_in_splash, :include_social_media_in_splash,
                   :include_program_in_splash, :make_conference_public,
                   :photos_attributes, :banner_photo,
-                  :include_banner_in_splash
+                  :include_banner_in_splash,
+                  :targets, :targets_attributes, :campaigns, :campaigns_attributes
 
   has_paper_trail
 
@@ -45,6 +46,8 @@ class Conference < ActiveRecord::Base
   has_many :sponsorship_levels, dependent: :destroy
   has_many :sponsors, dependent: :destroy
   has_many :photos, dependent: :destroy
+  has_many :targets, dependent: :destroy
+  has_many :campaigns, dependent: :destroy
   belongs_to :venue
 
   accepts_nested_attributes_for :rooms, :reject_if => proc {|r| r["name"].blank?}, :allow_destroy => true
@@ -62,6 +65,8 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :vdays, :allow_destroy => true
   accepts_nested_attributes_for :vpositions, :allow_destroy => true
   accepts_nested_attributes_for :photos, allow_destroy: true
+  accepts_nested_attributes_for :targets, allow_destroy: true
+  accepts_nested_attributes_for :campaigns, allow_destroy: true
 
   has_attached_file :logo,
                     styles: { thumb: '100x100>', large: '300x300>' }
@@ -457,6 +462,35 @@ class Conference < ActiveRecord::Base
     result
   end
 
+  ##
+  # A map with all conference targets with progress in percent of a certain unit.
+  #
+  # ====Returns
+  # * +Map+ -> target => progress
+  def get_targets(target_unit)
+    conference_target = targets.where('unit = ?', target_unit)
+    result = {}
+    conference_target.each do |target|
+      result[target.to_s] = target.get_progress
+    end
+    result
+  end
+
+  ##
+  # A map with all conference campaigns associated with targets.
+  #
+  # ====Returns
+  # * +Map+ -> campaign => {actual, target, progress}
+  def get_campaigns
+    result = {}
+    campaigns.each do |campaign|
+      campaign.targets.each do |target|
+        result["#{target} from #{campaign.name}"] = target.get_campaign
+      end
+    end
+    result
+  end
+
   private
 
   ##
@@ -655,12 +689,12 @@ class Conference < ActiveRecord::Base
   #
   # ====Returns
   # * +hash+ -> person: submissions
-  def self.calculate_person_submission_hash(submitter, counter)
+  def self.calculate_person_submission_hash(submitters, counter)
     result = ActiveSupport::OrderedHash.new
     counter.each do |key, value|
-      submitter = submitter.find_by_id(key)
+      submitter = submitters.where(person_id: key).first
       if submitter
-        result[submitter] = value
+        result[submitter.person] = value
       end
     end
     result

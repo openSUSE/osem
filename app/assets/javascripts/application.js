@@ -22,6 +22,7 @@
 //= require d3
 //= require osem
 //= require dashboard
+//= require ahoy
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
