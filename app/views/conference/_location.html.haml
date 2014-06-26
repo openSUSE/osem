@@ -1,6 +1,6 @@
 = content_for :splash_nav do
   %li
-    %a{ href: '#location' } Location
+    %a.smoothscroll{ href: '#location' } Location
 
 
 %div.banner-disp{ style: ("background-image: url(#{@conference.venue.photo})" unless @conference.venue.photo.blank?), class:('with-background' unless @conference.venue.photo.blank?) }
