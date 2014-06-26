@@ -49,7 +49,12 @@ module Admin
               typelength += myevent.event_type.length
               @totallength += myevent.event_type.length
             end
-            @eventstats[mytype.title] = { 'count' => events_mytype.count, 'length' => events_mytype.count * mytype.length } if @eventstats[mytype.title] == nil
+
+            if @eventstats[mytype.title] == nil
+              @eventstats[mytype.title] = { 'count' => events_mytype.count,
+                                            'length' => events_mytype.count * mytype.length }
+            end
+
             tmp = { "#{mystate.name}" => { 'type_state_count' => events_mytype_mystate.count,
                                            'type_state_length' => typelength } }
             @eventstats[mytype.title].merge!(tmp)
@@ -108,7 +113,8 @@ module Admin
         @event.update_attribute(:difficulty_level_id, params[:difficulty_level_id])
       end
 
-      if @event.submitter.update_attributes!(params[:user]) && @event.update_attributes!(params[:event])
+      if @event.submitter.update_attributes!(params[:user]) && @event.
+                                                               update_attributes!(params[:event])
         flash[:notice] = "Successfully updated #{@event.title}."
       else
         flash[:notice] = 'Update not successful.'
