@@ -1,0 +1,6 @@
+.nested-fields
+  = f.inputs do
+    = f.input :due_date, as: :string, input_html: { class: 'target-due-date-datepicker', readonly: 'readonly' }
+    = f.input :target_count
+    = f.input :unit, as: :select, label: 'Unit', class: 'form-control', collection: Target.units.values, include_blank: false
+    = remove_association_link :target, f

@@ -29,11 +29,22 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    activeuuid (0.5.0)
+      activerecord (>= 3.1)
+      uuidtools
     acts_as_commentable_with_threading (1.2.0)
       activerecord (>= 3.0)
       activesupport (>= 3.0)
       awesome_nested_set (>= 2.0)
     addressable (2.3.6)
+    ahoy_matey (1.0.0)
+      addressable
+      browser (>= 0.4.0)
+      geocoder
+      referer-parser
+      request_store
+      user_agent_parser
+      uuidtools
     arel (5.0.1.20140414130214)
     ast (2.0.0)
     awesome_nested_set (3.0.0.rc.5)
@@ -48,6 +59,7 @@ GEM
     bcrypt (3.1.7)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
+    browser (0.6.0)
     builder (3.2.2)
     cancan (1.6.10)
     capybara (2.2.1)
@@ -111,6 +123,7 @@ GEM
       actionpack (>= 3.0)
     formtastic-bootstrap (3.0.0)
       formtastic (>= 2.2)
+    geocoder (1.2.2)
     gravtastic (3.2.6)
     guard (2.6.0)
       formatador (>= 0.2.4)
@@ -258,6 +271,8 @@ GEM
       loggability (~> 0.6)
       rdoc (~> 4.0)
       yajl-ruby (~> 1.1)
+    referer-parser (0.2.1)
+    request_store (1.0.6)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (3.0.0.beta2)
@@ -343,6 +358,8 @@ GEM
     uglifier (2.5.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    user_agent_parser (2.1.5)
+    uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
     xpath (2.0.0)
@@ -354,7 +371,9 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  activeuuid
   acts_as_commentable_with_threading
+  ahoy_matey
   awesome_nested_set (~> 3.0.0.rc.5)
   axlsx_rails
   bootstrap-sass

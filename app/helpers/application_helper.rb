@@ -1,4 +1,28 @@
 module ApplicationHelper
+  def target_progress_color(progress)
+    progress = progress.to_i
+    if progress > 90
+      result = 'green'
+    elsif progress < 90 && progress > 80
+      result = 'orange'
+    else
+      result = 'red'
+    end
+    result
+  end
+
+  def days_left_color(days_left)
+    days_left = days_left.to_i
+    if days_left > 30
+      result = 'green'
+    elsif days_left < 30 && days_left > 10
+      result = 'orange'
+    else
+      result = 'red'
+    end
+    result
+  end
+
   def bootstrap_class_for(flash_type)
     logger.debug "flash_type is #{flash_type}"
     case flash_type

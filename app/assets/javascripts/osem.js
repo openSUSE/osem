@@ -1,4 +1,41 @@
 $(function() {
+    /**
+     * Opens a prompt with the URL to copy to clipboard.
+     * Used in the campaign index view.
+     */
+    $('.copyLink').on('click', function(){
+        var url = $(this).data('url');
+        copyToClipboard(url);
+    })
+    function copyToClipboard(text) {
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+    }
+
+    /**
+     * Toggles the targets on the conference site with a more / less link.
+     */
+    $('.show_targets').click(function () {
+        if($(this).text().trim() == 'more'){
+            $(this).text("less");
+        }else{
+            $(this).text("more");
+        }
+        $('#' + $(this).data('name')).toggle();
+    });
+
+    /**
+     * Appends the datetimepicker to new injected nested target fields.
+     */
+    $('a:contains("Add target")').click(function () {
+        setTimeout(function () {
+            $('.target-due-date-datepicker').not('.hasDatepicker').datepicker({
+                dateFormat: 'yy/mm/dd',
+                numberOfMonths: 1
+            });
+        },
+        5)
+    });
+
     $("#event_media_type").change(function () {
         $(".media-type").hide();
         $('#' + $(this).val().toLowerCase() + '-help').show();
@@ -25,6 +62,11 @@ $(function() {
             $("#cfp-hard-datepicker").datepicker("option","minDate", selected)
 
         }
+    });
+
+    $(".target-due-date-datepicker").datepicker({
+        dateFormat: 'yy/mm/dd',
+        numberOfMonths: 1
     });
 
     $("#cfp-hard-datepicker").datepicker({

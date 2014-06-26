@@ -20,26 +20,38 @@
           %span.glyphicon.glyphicon-plus
           New Conference
   %hr
-  %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
-    = link_to(admin_conference_registrations_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-user
-      Registrations
+  %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
+    = link_to(admin_conference_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-dashboard
+      Manage
   %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
     = link_to(admin_conference_events_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-comment
       Events
+  %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
+    = link_to(admin_conference_registrations_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-user
+      Registrations
   %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
     = link_to(admin_conference_schedule_path(@conference.short_title), target: '_blank') do
       %span.glyphicon.glyphicon-calendar
       Schedule
+  %li{class: active_nav_li(admin_conference_campaigns_path(@conference.short_title))}
+    = link_to(admin_conference_campaigns_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-bullhorn
+      Campaigns
   %hr
-  %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header"}
+  %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
     = link_to(edit_admin_conference_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-cog
       Settings
+  %li{:class=> "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
+    = link_to(admin_conference_targets_path(@conference.short_title)) do
+      %span.glyphicon.glyphicon-flag
+      Targets
   %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
     = link_to(admin_conference_venue_info_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-calendar
+      %span.glyphicon.glyphicon-road
       Venue
       %span.small.glyphicon.glyphicon-chevron-right
     %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
