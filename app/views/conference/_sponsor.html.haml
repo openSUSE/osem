@@ -12,12 +12,12 @@
   - if !@conference.sponsorship_levels.blank?
     - @conference.sponsorship_levels.each do |l|
       - if !l.sponsors.blank?
-        %div.row
+        %div.row.text-center
           %h4 #{l.title}
           - l.sponsors.each_with_index do |r,index|
-            %div.col-md-4
+            %div.text-center{ class: (l.sponsors.count.to_i <= 2 ? "col-md-#{12/l.sponsors.count.to_i}" : "col-md-4") }
               - if !r.logo.blank?
-                = link_to image_tag(r.logo(:large), class: 'img-responsive', alt: "#{r.name} Logo", title: "#{r.description}"), "http://#{r.website_url}"
+                = link_to image_tag(r.logo(:large), alt: "#{r.name} Logo", title: "#{r.description}"), "http://#{r.website_url}"
             - unless index == 0
               - if index%2 == 0
                 %div.clearfix.visible-md.visible-lg

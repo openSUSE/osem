@@ -5,16 +5,18 @@
     %section{ id: 'splash-banner' }
       %div.banner-disp{ style: ("background-image: url(#{@conference.banner_photo})" unless @conference.banner_photo.blank?), class:('with-background' unless @conference.banner_photo.blank?) }
         %div.container.text-center.banner-text
-          .row.col-md-12
+          .row
             %h1
               = @conference.title
           - if @conference.start_date && @conference.end_date
-            %h3
-              = conference_date_string(@conference)
+            .row
+              %h3
+                = conference_date_string(@conference)
 
           - unless @conference.description.blank?
-            .row-fluid.col-md-12.lead
-              %p= @conference.description
+            .row-fluid
+              .col-md-12.lead
+                %p= @conference.description
 
   - if @conference.include_program_in_splash?
     %section{ id: 'program' }
