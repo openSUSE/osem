@@ -4,7 +4,7 @@ class DatatableSupporters < Datatable
     items.each do |i|
       item = []
       if i.name.blank?
-        if !i.registration.nil? && !i.registration.user.nil?
+        unless i.registration.nil? || i.registration.user.nil?
           item << i.registration.user.name
         else
           item << "Unknown"
@@ -15,7 +15,7 @@ class DatatableSupporters < Datatable
       end
 
       if i.email.blank?
-        if !i.registration.nil? && !i.registration.user.nil?
+        unless i.registration.nil? && i.registration.user.nil?
           item << i.registration.user.email
         else
           item << "Unknown"

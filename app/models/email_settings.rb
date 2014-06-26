@@ -7,46 +7,48 @@ class EmailSettings < ActiveRecord::Base
 
   def get_values(conference, user, event = nil)
     h = {
-        'email' => user.email,
-        'name' => user.name,
-        'conference' => conference.title,
-        'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(conference.short_title, host: CONFIG['url_for_emails'])
+      'email' => user.email,
+      'name' => user.name,
+      'conference' => conference.title,
+      'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(
+                            conference.short_title, host: CONFIG['url_for_emails'])
     }
 
     if !event.nil?
       h['eventtitle'] = event.title
-      h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_url(conference.short_title, event, host: CONFIG['url_for_emails'])
+      h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_url(
+                           conference.short_title, event, host: CONFIG['url_for_emails'])
     end
     h
   end
 
   def generate_registration_email(conference, user)
     values = get_values(conference, user)
-    template = self.registration_email_template
+    template = registration_email_template
     parse_template(template, values)
   end
 
   def generate_accepted_email(event)
     values = get_values(event.conference, event.submitter, event)
-    template = self.accepted_email_template
+    template = accepted_email_template
     parse_template(template, values)
   end
 
   def generate_rejected_email(event)
     values = get_values(event.conference, event.submitter, event)
-    template = self.rejected_email_template
+    template = rejected_email_template
     parse_template(template, values)
   end
 
   def confirmed_but_not_registered_email(event)
     values = get_values(event.conference, event.submitter, event)
-    template = self.confirmed_email_template
+    template = confirmed_email_template
     parse_template(template, values)
   end
 
   def parse_template(text, values)
     values.each do |key, value|
-      text = text.gsub"{#{key}}", value unless text.blank?
+      text = text.gsub "{#{key}}", value unless text.blank?
     end
     text
   end

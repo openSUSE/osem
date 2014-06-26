@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   include Gravtastic
   gravtastic size: 32
 
-
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -54,7 +53,7 @@ class User < ActiveRecord::Base
   end
 
   def get_roles
-    return self.roles
+    roles
   end
 
   def setup_role
@@ -86,7 +85,7 @@ class User < ActiveRecord::Base
   end
 
   def attended
-    registrations_attended = self.registrations.where(attended: true)
+    registrations_attended = registrations.where(attended: true)
     if registrations_attended.count == 0
       'None'
     else
@@ -98,32 +97,31 @@ class User < ActiveRecord::Base
     !confirmed_at.nil?
   end
 
-  def attending_conference? conference
+  def attending_conference?(conference)
     Registration.where(conference_id: conference.id,
-                       user_id: self.id).count
+                       user_id: id).count
   end
 
-  def proposals conference
+  def proposals(conference)
     events.where('conference_id = ? AND event_users.event_role=?', conference.id, 'submitter')
   end
 
-  def proposal_count conference
+  def proposal_count(conference)
     proposals(conference).count
   end
 
   def biography_word_count
-    if self.biography.nil?
+    if biography.nil?
       0
     else
-      self.biography.split.size
+      biography.split.size
     end
   end
 
   private
 
   def biography_limit
-    if !self.biography.nil? && self.biography.split.size > 150
-      errors.add(:abstract, 'cannot have more than 150 words')
-    end
+    errors.add(:abstract, 'cannot have more than 150 words') if !biography.nil? &&
+                                                                biography.split.size > 150
   end
 end

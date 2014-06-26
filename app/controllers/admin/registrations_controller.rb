@@ -5,7 +5,8 @@ module Admin
     def index
       session[:return_to] ||= request.referer
       @pdf_filename = "#{@conference.title}.pdf"
-      @registrations = @conference.registrations.includes(:user).order('registrations.created_at ASC')
+      @registrations = @conference.registrations.includes(:user)
+      @registrations = @registrations.order('registrations.created_at ASC')
       @attended = @conference.registrations.where('attended = ?', true).count
       @headers = %w(name email nickname other_needs arrival departure attended)
     end
@@ -36,7 +37,8 @@ module Admin
         @user.update_attributes!(params[:registration][:user_attributes])
         params[:registration].delete :user_attributes
         if params[:registration][:supporter_registration]
-          @registration.supporter_registration.update_attributes(params[:registration][:supporter_registration_attributes])
+          @registration.supporter_registration.
+          update_attributes(params[:registration][:supporter_registration_attributes])
           params[:registration].delete :supporter_registration_attributes
         end
         @registration.update_attributes!(params[:registration])

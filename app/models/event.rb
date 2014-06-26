@@ -71,23 +71,23 @@ class Event < ActiveRecord::Base
 
   def average_rating
     @total_rating = 0
-    self.votes.each do |vote|
+    votes.each do |vote|
       @total_rating = @total_rating + vote.rating
     end
-    @total = self.votes.size
+    @total = votes.size
     number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true)
   end
 
   def submitter
-    result = self.event_users.where(event_role: 'submitter').first
+    result = event_users.where(event_role: 'submitter').first
     if !result.nil?
       result.user
     else
       user = nil
       # Perhaps the event_users haven't been saved, if this is a new proposal
-      self.event_users.each do |p|
-        if p.event_role == 'submitter'
-          user = p.user
+      event_users.each do |u|
+        if u.event_role == 'submitter'
+          user = u.user
         end
       end
       user
@@ -97,34 +97,34 @@ class Event < ActiveRecord::Base
   def as_json(options)
     json = super(options)
 
-    if self.room.nil?
+    if room.nil?
       json[:room_guid] = nil
     else
-      json[:room_guid] = self.room.guid
+      json[:room_guid] = room.guid
     end
 
-    if self.track.nil?
+    if track.nil?
       json[:track_color]  = '#ffffff'
     else
-      json[:track_color] = self.track.color;
+      json[:track_color] = track.color
     end
 
-    if self.event_type.nil?
+    if event_type.nil?
       json[:length] = 25
     else
-      json[:length] = self.event_type.length
+      json[:length] = event_type.length
     end
 
     json
   end
 
   def transition_possible?(transition)
-    self.class.state_machine.events_for(self.current_state).include?(transition)
+    self.class.state_machine.events_for(current_state).include?(transition)
   end
 
   def process_confirmation
-    if self.conference.email_settings.send_on_confirmed_without_registration?
-      if self.conference.registrations.where(:user_id => self.submitter.id).first.nil?
+    if conference.email_settings.send_on_confirmed_without_registration?
+      if conference.registrations.where(user_id: submitter.id).first.nil?
         Mailbot.confirm_reminder_mail(self).deliver
       end
     end
@@ -147,10 +147,10 @@ class Event < ActiveRecord::Base
   end
 
   def abstract_word_count
-    if self.abstract.nil?
+    if abstract.nil?
       0
     else
-      self.abstract.split.size
+      abstract.split.size
     end
   end
 
@@ -181,23 +181,19 @@ class Event < ActiveRecord::Base
   private
 
   def abstract_limit
-    len = self.abstract.split.size
-    max = self.event_type.maximum_abstract_length
-    min = self.event_type.minimum_abstract_length
+    len = abstract.split.size
+    max = event_type.maximum_abstract_length
+    min = event_type.minimum_abstract_length
 
     if len < min
       errors.add(:abstract, "cannot have less than #{min} words")
     end
 
-    if len > max
-      errors.add(:abstract, "cannot have more than #{max} words")
-    end
+    errors.add(:abstract, "cannot have more than #{max} words") if len > max
   end
 
   def biography_exists
-    if self.submitter.biography_word_count == 0
-      errors.add(:user_biography, 'must be filled out')
-    end
+    errors.add(:user_biography, 'must be filled out') if submitter.biography_word_count == 0
   end
 
   def generate_guid

@@ -6,6 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def update
+    @openids = Openid.where(user_id: current_user.id).order(:provider)
     @user = User.find(current_user.id)
     email_changed = false
 
@@ -20,14 +21,14 @@ class RegistrationsController < Devise::RegistrationsController
     password_changed = false
     if !params[:user][:password].nil?
       if !params[:user][:password].empty?
-          password_changed = true
+        password_changed = true
       else
         params[:user].delete :password
         params[:user].delete :password_confirmation
       end
     end
 
-    if email_changed or password_changed
+    if email_changed || password_changed
       successfully_updated = @user.update_with_password(account_update_params)
     else
       params[:user].delete :current_password
@@ -36,7 +37,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if successfully_updated
       if email_changed
-        if !@user.nil?
+        unless @user.nil?
           @user.update_attribute('email', params[:user][:email])
         end
         set_flash_message :notice, :update_needs_confirmation
@@ -66,7 +67,8 @@ class RegistrationsController < Devise::RegistrationsController
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:account_update) do |u|
       u.
-          permit(:email, :password, :password_confirmation, :current_password, :name, :biography)
+          permit(:email, :password, :password_confirmation, :current_password, :name, :biography,
+                 :nickname, :affiliation)
     end
     devise_parameter_sanitizer.for(:sign_up) do |u|
       u.
