@@ -33,7 +33,7 @@ describe 'conference/show.html.haml' do
 
   it 'renders banner component' do
     expect(view.content_for(:splash)).to include("#{@conference.description}")
-    expect(view.content_for(:splash)).to include("#{@conference.title}")
+    expect(view.content_for(:splash)).to include("#{@conference.short_title}")
   end
 
   it 'renders program partial' do

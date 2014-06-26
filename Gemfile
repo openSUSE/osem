@@ -78,6 +78,9 @@ gem 'turbolinks'
 # Use active_model_serializers for JSON serializatioin our API
 gem 'active_model_serializers'
 
+# Use FontAwesome for splash themes
+gem 'font-awesome-rails'
+
 # Use rspec and capybara as testing framework
 group :development, :test do
   gem 'rspec', '>= 3.0.0.beta'
