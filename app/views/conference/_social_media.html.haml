@@ -6,30 +6,31 @@
   %div.row
     - if !@conference.facebook_url.blank?
       %div.col-md-3
-        = link_to image_tag('fb-logo-blue.png', class: 'img-responsive'),
-         "#{ @conference.facebook_url }"
+        = link_to "#{ @conference.facebook_url }" do
+          %i.fa.fa-facebook-square.fa-4x
     - if !@conference.twitter_url.blank?
       %div.col-md-3
-        = link_to image_tag('twitter-logo-blue.png', class: 'img-responsive'), "#{ @conference.twitter_url }"
+        = link_to "#{ @conference.twitter_url }" do
+          %i.fa.fa-twitter.fa-4x
     - if !@conference.media_type.blank? && !@conference.media_id.blank?
       %div.col-md-3
         -if @conference.media_type == 'YouTube'
-          = link_to image_tag('youtube-color-logo.png', class: 'img-responsive'),
-           "http://youtu.be/#{ @conference.media_id}"
+          = link_to "http://youtu.be/#{ @conference.media_id}" do
+            %i.fa.fa-youtube.fa-4x
         -if @conference.media_type == 'SlideShare'
           = link_to image_tag('slideshare.png', class: 'img-responsive'), "#{ @conference.media_id}"
         -if @conference.media_type == 'Instagram'
-          = link_to image_tag('instagram.png', class: 'img-responsive'),
-           "http://instagram.com/p/#{ @conference.media_id}"
+          = link_to "http://instagram.com/p/#{ @conference.media_id}" do
+            %i.fa.fa-instagram.fa-4x
         -if @conference.media_type == 'Vimeo'
-          = link_to image_tag('vimeo-logo-dark.png', class: 'img-responsive'),
-           "http://vimeo.com/#{ @conference.media_id}"
+          = link_to "http://vimeo.com/#{ @conference.media_id}" do
+            %i.fa.fa-vimeo-square.fa-4x
         -if @conference.media_type == 'Speakerdeck'
           = link_to image_tag('speakerdeck.png', class: 'img-responsive'),"#{ @conference.media_id}"
         -if @conference.media_type == 'Flickr'
-          = link_to image_tag('flickr.png', class: 'img-responsive'),
-           "https://flic.kr/p/#{ @conference.media_id}"
+          = link_to "https://flic.kr/p/#{ @conference.media_id}" do
+            %i.fa.fa-flickr.fa-4x
     - if !@conference.google_url.blank?
       %div.col-md-3
-        = link_to image_tag('google-logo.png', class: 'img-responsive'),
-         "#{ @conference.google_url }"
+        = link_to "#{ @conference.google_url }" do
+          %i.fa.fa-google-plus-square.fa-4x
