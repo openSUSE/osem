@@ -10,7 +10,7 @@
       = brand
     .collapse.navbar-collapse
       - if content_for :splash_nav
-        %ul.nav.navbar-nav
+        %ul.nav.navbar-nav#splash-nav
           = content_for :splash_nav
       -if user_signed_in?
         %ul.nav.navbar-nav.navbar-right

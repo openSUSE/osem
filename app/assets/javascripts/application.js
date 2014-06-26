@@ -23,6 +23,7 @@
 //= require osem
 //= require dashboard
 //= require ahoy
+//= require smoothscroll
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

@@ -15,7 +15,7 @@
         });
       });
     = yield(:head)
-  %body
+  %body{ data: (content_for?(:splash_nav) ? {spy: 'scroll', offset: 0, target: 'splash-nav'} : {} ) }
     = render 'layouts/navigation'
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
