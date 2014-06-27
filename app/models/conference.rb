@@ -20,7 +20,7 @@ class Conference < ActiveRecord::Base
                   :include_social_media_in_splash, :include_program_in_splash,
                   :make_conference_public, :photos_attributes, :banner_photo,
                   :include_banner_in_splash, :targets, :targets_attributes, :campaigns,
-                  :campaigns_attributes
+                  :campaigns_attributes, :instagram_url
 
   has_paper_trail
 
