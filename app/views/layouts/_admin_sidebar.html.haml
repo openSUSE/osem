@@ -32,8 +32,8 @@
     = link_to(admin_conference_registrations_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-user
       Registrations
-  %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
-    = link_to(admin_conference_schedule_path(@conference.short_title), target: '_blank') do
+  %li{class: active_nav_li(conference_schedule_path(@conference.short_title))}
+    = link_to(conference_schedule_path(@conference.short_title), target: '_blank') do
       %span.glyphicon.glyphicon-calendar
       Schedule
   %li{class: active_nav_li(admin_conference_campaigns_path(@conference.short_title))}

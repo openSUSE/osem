@@ -1,5 +1,9 @@
 <div id="schedule-content">
-  <h2> Schedule for <%= @conference.title %></h2>
+  <h2> Schedule for <%= @conference.title %>
+    <% if has_role?(current_user, 'Admin')%>
+      <%= link_to "Edit", edit_admin_conference_schedule_path(@conference.short_title), :class => "btn btn-mini btn-primary pull-right"%>
+    <% end %>
+  </h2>
   <ul class="nav nav-tabs">
     <% @dates.each do |date| %>
       <li <%= "class=active" if @dates.first == date %>>
@@ -94,18 +98,18 @@
   </div>
 
 <%= javascript_tag do %>
-  jQuery( function($) { 
-    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) { 
+  jQuery( function($) {
+    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) {
       if(e.which===1)
       {
-        window.location = $(this).attr('data-href'); 
+        window.location = $(this).attr('data-href');
       }
       else if(e.which===2)
       {
       window.open($(this).attr('data-href'), '_blank');
       }
-    }); 
-}); 
+    });
+});
 
 $(function() {
   // add a hash to the URL when the user clicks on a tab
