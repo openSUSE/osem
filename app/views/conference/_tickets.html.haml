@@ -1,7 +1,8 @@
 %div.row
   %h3 Tickets
   -if !@conference.ticket_description.blank?
-    %p #{ @conference.ticket_description }
+    %p
+      = markdown(@conference.ticket_description)
     - @conference.supporter_levels.each do |s|
       %div.col-md-6
         - if !s.title.blank?

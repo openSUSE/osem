@@ -16,7 +16,8 @@
           - unless @conference.description.blank?
             .row-fluid
               .col-md-12.lead
-                %p= @conference.description
+                %p
+                  = markdown(@conference.description)
           -unless @conference.photos.blank?
             = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
             = render 'gallery'

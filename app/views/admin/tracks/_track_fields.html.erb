@@ -2,7 +2,7 @@
     <%= f.inputs do %>
         <%= f.input :name %>
         <%= f.input :color, :input_html => {:size => 6, :type => "color"}, :required=> true %>
-        <%= f.input :description, :input_html => {:rows => 2 } %>
+        <%= f.input :description, :input_html => {:rows => 2, data: { provide: "markdown-editable" } }, hint: markdown_hint %>
         <%= remove_association_link :track, f %>
     <% end %>
 </div>

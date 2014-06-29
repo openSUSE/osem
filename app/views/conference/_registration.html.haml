@@ -6,7 +6,7 @@
     %h1 Registration
   - if !@conference.registration_description.blank?
     %p
-      = @conference.registration_description
+      = markdown(@conference.registration_description)
   - if @conference.registration_dates_given?
     -if @conference.registration_end_date >= Date.today
       %h4 Registration period #{ date_string(@conference.registration_start_date, @conference.registration_end_date) }

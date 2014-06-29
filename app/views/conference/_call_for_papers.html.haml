@@ -9,7 +9,7 @@
         Call For Papers
       - if !@conference.call_for_papers.description.blank?
         %p
-          = @conference.call_for_papers.description
+          = markdown(@conference.call_for_papers.description)
       - if !@conference.call_for_papers.start_date.blank? && !@conference.call_for_papers.end_date.blank?
         %p.lead Proposals will be accepted between
         #cfp-date

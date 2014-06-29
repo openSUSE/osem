@@ -2,7 +2,7 @@
   %h2 Lodgings
   -unless @conference.lodging_description.blank?
     %p.lead
-      = @conference.lodging_description
+      = markdown(@conference.lodging_description)
 
   %div.row.text-center
     - @conference.venue.lodgings.each do |r|
@@ -13,7 +13,7 @@
           -unless r.name.blank?
             %h4.text-center #{ r.name }
           -unless r.description.blank?
-            %p.text-left #{ r.description }
+            %p.text-left #{ markdown(r.description) }
           - unless r.website_link.blank?
             .text-center
               = link_to 'Go to Website', r.website_link
