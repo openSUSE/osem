@@ -3,7 +3,7 @@
     %h3
       Registration for
       = @conference.title
-- if @person.proposal_count(@conference) > 0
+- if @user.proposal_count(@conference) > 0
   .row
     .col-md-12
       %i
@@ -14,8 +14,8 @@
       %br
       Your public name (required)
       %br
-      = f.fields_for :person do |p|
-        = p.text_field :public_name, :for => :person
+      = f.fields_for :user do |p|
+        = p.input :name
 
       - if @conference.questions
         = render :partial => "questions", :locals => {:f => f}

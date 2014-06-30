@@ -159,7 +159,7 @@ module ApplicationHelper
     result = ""
     result += "<div style='padding-left:#{padding}px'>"
     result += "<div class='well'>"
-    result += "<b>#{comment.user.person.public_name}</b> <i>#{comment.created_at}</i><br><br>"
+    result += "<b>#{comment.user.name}</b> <i>#{comment.created_at}</i><br><br>"
     result += comment.body
     result += "<br><div><a href='#' class='pull-right comment-reply-link'>Reply</a><br><br>"
     result += "<div class='comment-reply'>"

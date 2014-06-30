@@ -4,7 +4,7 @@
     Assign speaker
 = semantic_form_for @speaker, :as => :speaker, :url => admin_conference_event_speaker_path(@conference.short_title, @event), :method => :put do |f|
   .form-inputs.form-horizontal.modal-body
-    = f.collection_select(:person_id, Person.order(:public_name), :id, :public_name)
+    = f.collection_select(:user_id, User.order(:name), :id, :name)
 
   .modal-footer
     = link_to "Close", "#", :data => {:dismiss => "modal"}, :class => 'btn'

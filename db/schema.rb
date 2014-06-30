@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625114813) do
+ActiveRecord::Schema.define(version: 20140626123837) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.datetime "time"
   end
 
-  #add_index "ahoy_events", ["id"], name: "sqlite_autoindex_ahoy_events_1", unique: true
+#   add_index "ahoy_events", ["id"], name: "sqlite_autoindex_ahoy_events_1", unique: true
   add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
   add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
   add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
@@ -178,16 +178,6 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.datetime "updated_at"
   end
 
-  create_table "event_people", force: true do |t|
-    t.integer  "proposal_id"
-    t.integer  "person_id"
-    t.integer  "event_id"
-    t.string   "event_role",  default: "participant", null: false
-    t.string   "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "event_types", force: true do |t|
     t.integer "conference_id"
     t.string  "title",                                 null: false
@@ -195,6 +185,15 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.integer "minimum_abstract_length", default: 0
     t.integer "maximum_abstract_length", default: 500
     t.string  "color"
+  end
+
+  create_table "event_users", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.string   "event_role", default: "participant", null: false
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "events", force: true do |t|
@@ -254,29 +253,6 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.datetime "updated_at"
   end
 
-  create_table "people", force: true do |t|
-    t.string   "guid",                              null: false
-    t.string   "first_name",           default: ""
-    t.string   "last_name",            default: ""
-    t.string   "public_name",          default: ""
-    t.string   "company",              default: ""
-    t.string   "email",                             null: false
-    t.boolean  "email_public"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
-    t.text     "biography"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "irc_nickname"
-    t.text     "volunteer_experience"
-    t.string   "tshirt"
-    t.string   "mobile"
-    t.string   "languages"
-  end
-
   create_table "photos", force: true do |t|
     t.text     "description"
     t.string   "picture_file_name"
@@ -314,7 +290,6 @@ ActiveRecord::Schema.define(version: 20140625114813) do
   end
 
   create_table "registrations", force: true do |t|
-    t.integer  "person_id"
     t.integer  "conference_id"
     t.boolean  "attending_social_events",     default: true
     t.boolean  "attending_with_partner",      default: false
@@ -330,6 +305,7 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.boolean  "attended",                    default: false
     t.boolean  "volunteer"
     t.integer  "week"
+    t.integer  "user_id"
   end
 
   create_table "registrations_social_events", id: false, force: true do |t|
@@ -445,6 +421,15 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
+    t.boolean  "email_public"
+    t.text     "biography"
+    t.string   "nickname"
+    t.string   "affiliation"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
@@ -517,15 +502,15 @@ ActiveRecord::Schema.define(version: 20140625114813) do
     t.datetime "started_at"
   end
 
-  #add_index "visits", ["id"], name: "sqlite_autoindex_visits_1", unique: true
+#   add_index "visits", ["id"], name: "sqlite_autoindex_visits_1", unique: true
   add_index "visits", ["user_id"], name: "index_visits_on_user_id"
 
   create_table "votes", force: true do |t|
-    t.integer  "person_id"
     t.integer  "event_id"
     t.integer  "rating"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   create_table "vpositions", force: true do |t|

@@ -1,21 +1,19 @@
 .row
   .col-md-12
-    = semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
-      = f.inputs :name => "Profile" do
-        = f.fields_for :person do |p|
-          = p.input :first_name, :as => :string
-          = p.input :last_name, :as => :string
-          = p.input :public_name, :as => :string
-          = p.input :irc_nickname, :label => "IRC nick:", :as => :string
-          = p.input :company, :label => "Affiliation", :as => :string, :hint => "This could be a company, a user group, or nothing at all."
-          = p.input :biography,  :input_html => {:rows => 5, "onkeyup" => "word_count(this, 'biography-count', 150)"}, :for => :person
-          You have used
-          %span#biography-count #{current_user.person.biography_word_count}
-          words.  Biographies are limited to 150 words.
-          %br
-          %br
-          = render :partial => 'devise/registrations/volunteerperson', :locals => {:p => p}
-      = f.inputs :name => 'OpenID' do
+    = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+      = f.inputs name: 'Profile' do
+        = f.input :name, as: :string
+        = f.input :nickname, as: :string
+        = f.input :affiliation, as: :string,
+          hint: 'This could be a company, a user group, or nothing at all.'
+        = f.input :biography,  input_html: {rows: 5,
+          'onkeyup' => "word_count(this, 'biography-count', 150)"}
+        You have used
+        %span#biography-count #{current_user.biography_word_count}
+        words.  Biographies are limited to 150 words.
+        %br
+        %br
+      = f.inputs name: 'OpenID' do
         %h4
           Currently using the following openIDs:
         - @openids.each do |openid|
@@ -27,9 +25,10 @@
           openID while logged in to OSEM
         = render 'devise/shared/openid'
 
-      = f.inputs :name => "Account" do
-        = f.input :email, :required => false
-        = f.input :password, :hint => "(Leave blank if you don't want to change it)", :input_html => {:autocomplete => "off"}
-        = f.input :password_confirmation, :input_html => {:autocomplete => "off"}
-        = f.input :current_password, :input_html => {:autocomplete => "off"}, :hint => "(we need your current password to confirm password or email changes)"
-      = f.action :submit, :as => :button, :label => "Update", :button_html => {:class => "btn btn-primary"}
+      = f.inputs name: 'Account' do
+        = f.input :email, required: false, input_html: {autocomplete: "off"}
+        = f.input :password, hint: "(Leave blank if you don't want to change it)", input_html: {autocomplete: 'off'}
+        = f.input :password_confirmation, input_html: {autocomplete: 'off'}
+        = f.input :current_password, input_html: {autocomplete: 'off'},
+          hint: '(we need your current password to confirm password or email changes)'
+      = f.action :submit, as: :button, label: 'Update', button_html: {class: 'btn btn-primary'}

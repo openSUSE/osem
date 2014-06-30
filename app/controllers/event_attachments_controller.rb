@@ -25,7 +25,7 @@ class EventAttachmentsController < ApplicationController
       return
     end
 
-    if organizer_or_admin? || current_user.person == upload.event.submitter
+    if organizer_or_admin? || current_user == upload.event.submitter
       send_file upload.attachment.path
     else
       raise ActionController::RoutingError.new('Not Found')
@@ -52,7 +52,7 @@ class EventAttachmentsController < ApplicationController
 
     if !organizer_or_admin?
       begin
-        event = current_user.person.events.find(params[:proposal_id])
+        event = current_user.events.find(params[:proposal_id])
       rescue Exception => e
         # They certainly aren't allowed to attach a file to someone else's proposal
         raise ActionController::RoutingError.new('Invalid proposal')
@@ -81,7 +81,7 @@ class EventAttachmentsController < ApplicationController
   end
 
   def update
-    @proposal = current_user.person.events.find(params[:proposal_id])
+    @proposal = current_user.events.find(params[:proposal_id])
     @upload = @proposal.event_attachments.find(params[:proposal_id])
 
     respond_to do |format|
@@ -98,7 +98,7 @@ class EventAttachmentsController < ApplicationController
   def destroy
     @proposal = Event.find(params[:proposal_id])
     
-    if organizer_or_admin? || current_user.person == @proposal.submitter
+    if organizer_or_admin? || current_user == @proposal.submitter
       @upload = @proposal.event_attachments.find(params[:id])
     end
     

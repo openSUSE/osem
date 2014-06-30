@@ -4,6 +4,8 @@
       Users
       - if @users
         = "(#{@users.length})"
+
+      = link_to "New User", new_admin_user_path, :class => "btn btn-success pull-right"
     .well
       %table.table.table-striped.table-bordered.table-hover#users
         %thead
@@ -14,18 +16,15 @@
           %th
             %b Email
           %th
-            %b Last Name
+            %b Name
           %th
-            %b First Name
-          %th
-            %b Public Name
+            %b # of Conference Registrations
           %th
             %b Roles
           %th
           %th
           %th
         - @users.each do |user|
-          - person = Person.find_person_by_user_id(user.id)
           %tr
             %td
               = user.id
@@ -37,13 +36,9 @@
             %td
               = user.email
             %td
-              = user.last_name
+              = user.name
             %td
-              = user.first_name
-            %td
-              = user.public_name
-            %td
-              = user.roles.map { |role| role.name }.join ','
+              = user.registrations.count
             %td
               .modal.fade{:id => "user-role-selection-#{user.id}", "role" => "dialog", "aria-hidden" => "true"}
                 .modal-dialog
@@ -60,22 +55,21 @@
                         %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
                           Cancel
                       - else
-                        = "Give #{user.public_name} (#{user.email}) the following roles:"
+                        = "Give #{user.name} (#{user.email}) the following roles:"
                         = semantic_form_for(user, :url => admin_user_path(user), :method => :put) do |f|
                           = f.input :roles, :label => false
                           %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
                             Cancel
                           = f.action :submit, :as => :button, :button_html => {:value => "Save", :class => "btn btn-primary"}
-              =link_to "Modify Roles", "#", "data-toggle" => "modal", "data-target" => "#user-role-selection-#{user.id}",id: "user-modify-role-#{user.id}"
+              =link_to "#{user.roles.map { |role| role.name }.join ', '}", "#", "data-toggle" => "modal", "data-target" => "#user-role-selection-#{user.id}",id: "user-modify-role-#{user.id}"
             %td
-              =link_to "Details", "javascript: void(0)", :class => "user-details-popover", "data-trigger" => "click", "data-placement" => "bottom",
-                "data-html" => "true",
-                "data-content" => user.popup_details,
-                "data-original-title" => ""
+              = link_to "Edit", edit_admin_user_path(user)
+            %td
+              = link_to "View", admin_user_path(user)
             %td
               - if current_user.id == user.id or user.role_ids.include? 3
-                =link_to 'Delete',admin_user_path(user), :method => :delete , :data => {:confirm => 'Are you sure ?'}, :disabled => true,:class => "btn btn-primary disabled btn-danger",:role => "button" 
-              - else 
+                =link_to 'Delete',admin_user_path(user), :method => :delete , :data => {:confirm => 'Are you sure ?'}, :disabled => true,:class => "btn btn-primary disabled btn-danger",:role => "button"
+              - else
                 =link_to 'Delete',admin_user_path(user), :method=> :delete , :data=> {:confirm => 'Are you sure ?'},:class => "btn btn-primary btn-danger"
 
 

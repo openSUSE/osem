@@ -3,6 +3,6 @@ class RoomSerializer < ActiveModel::Serializer
 
   # FIXME: just giving suseconferenceclient something to play with
   def description
-    ""
+    ''
   end
 end

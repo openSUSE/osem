@@ -5,22 +5,16 @@
   %thead
     %th
       ID
-    - (@speaker_fields_person + @speaker_fields_reg).each do |field|
+    - (@speaker_fields_user + @speaker_fields_reg).each do |field|
       %th
         = field.capitalize        
   - @speakers.each do |speaker|
     %tr
       %td
         = count +=1        
-      - @speaker_fields_person.each do |field|
+      - @speaker_fields_user.each do |field|
         %td
-          - if field == 'name'
-            = speaker.first_name 
-            = speaker.last_name
-            %br
-            (#{speaker.public_name})
-          - else 
-            = speaker.send(field.to_sym)
+          = speaker.send(field.to_sym)
       - @speaker_fields_reg.each do |field|
         %td
           - reg = speaker_reg(speaker)

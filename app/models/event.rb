@@ -1,18 +1,20 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
-  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :people_attributes, :person, :proposal_additional_speakers, :track_id, :media_id, :media_type, :require_registration, :difficulty_level_id
+  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :users_attributes,
+                  :user, :proposal_additional_speakers, :track_id, :media_id, :media_type,
+                  :require_registration, :difficulty_level_id
 
   acts_as_commentable
 
   after_create :set_week
 
-  has_many :event_people, :dependent => :destroy
-  has_many :event_attachments, :dependent => :destroy
-  has_many :people, :through => :event_people
-  has_many :speakers, :through => :event_people, :source => :person
+  has_many :event_users, dependent: :destroy
+  has_many :event_attachments, dependent: :destroy
+  has_many :users, through: :event_users
+  has_many :speakers, through: :event_users, source: :user
   has_many :votes
-  has_many :voters, :through => :votes, :source => :person
+  has_many :voters, through: :votes, source: :user
   belongs_to :event_type
 
   has_and_belongs_to_many :registrations
@@ -22,20 +24,20 @@ class Event < ActiveRecord::Base
   belongs_to :difficulty_level
   belongs_to :conference
 
-  accepts_nested_attributes_for :event_people, :allow_destroy => true
-  accepts_nested_attributes_for :event_attachments, :allow_destroy => true, :reject_if => :all_blank
-  accepts_nested_attributes_for :people
+  accepts_nested_attributes_for :event_users, allow_destroy: true
+  accepts_nested_attributes_for :event_attachments, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :users
   before_create :generate_guid
 
   validate :abstract_limit
   validate :biography_exists
-  validates :title, :presence => true
-  validates :abstract, :presence => true
-  validates :media_type, :allow_nil => true, inclusion: {in: Conference.media_types.values}
+  validates :title, presence: true
+  validates :abstract, presence: true
+  validates :media_type, allow_nil: true, inclusion: { in: Conference.media_types.values }
 
   scope :confirmed, -> { where(state: 'confirmed') }
 
-  state_machine :initial => :new do
+  state_machine initial: :new do
     state :new
     state :withdrawn
     state :unconfirmed
@@ -63,66 +65,66 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def voted?(event, person)
-    event.votes.where("person_id = ?", person).first
+  def voted?(event, user)
+    event.votes.where('user_id = ?', user).first
   end
-  
+
   def average_rating
     @total_rating = 0
-    self.votes.each do |vote|
+    votes.each do |vote|
       @total_rating = @total_rating + vote.rating
     end
-    @total = self.votes.size
-    number_with_precision(@total_rating / @total.to_f, :precision => 2, :strip_insignificant_zeros => true)
+    @total = votes.size
+    number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true)
   end
 
   def submitter
-    result = self.event_people.where(:event_role => "submitter").first
+    result = event_users.where(event_role: 'submitter').first
     if !result.nil?
-      result.person
+      result.user
     else
-      person = nil
-      # Perhaps the event_people haven't been saved, if this is a new proposal
-      self.event_people.each do |p|
-        if p.event_role == "submitter"
-          person = p.person
+      user = nil
+      # Perhaps the event_users haven't been saved, if this is a new proposal
+      event_users.each do |u|
+        if u.event_role == 'submitter'
+          user = u.user
         end
       end
-      person
+      user
     end
   end
 
   def as_json(options)
     json = super(options)
 
-    if self.room.nil?
+    if room.nil?
       json[:room_guid] = nil
     else
-      json[:room_guid] = self.room.guid
+      json[:room_guid] = room.guid
     end
 
-    if self.track.nil?
-      json[:track_color]  = "#ffffff"
+    if track.nil?
+      json[:track_color]  = '#ffffff'
     else
-      json[:track_color] = self.track.color;
+      json[:track_color] = track.color
     end
 
-    if self.event_type.nil?
+    if event_type.nil?
       json[:length] = 25
     else
-      json[:length] = self.event_type.length
+      json[:length] = event_type.length
     end
 
     json
   end
 
   def transition_possible?(transition)
-    self.class.state_machine.events_for(self.current_state).include?(transition)
+    self.class.state_machine.events_for(current_state).include?(transition)
   end
 
   def process_confirmation
-    if self.conference.email_settings.send_on_confirmed_without_registration?
-      if self.conference.registrations.where(:person_id => self.submitter.id).first.nil?
+    if conference.email_settings.send_on_confirmed_without_registration?
+      if conference.registrations.where(user_id: submitter.id).first.nil?
         Mailbot.confirm_reminder_mail(self).deliver
       end
     end
@@ -145,10 +147,10 @@ class Event < ActiveRecord::Base
   end
 
   def abstract_word_count
-    if self.abstract.nil?
+    if abstract.nil?
       0
     else
-      self.abstract.split.size
+      abstract.split.size
     end
   end
 
@@ -179,29 +181,25 @@ class Event < ActiveRecord::Base
   private
 
   def abstract_limit
-    len = self.abstract.split.size
-    max = self.event_type.maximum_abstract_length
-    min = self.event_type.minimum_abstract_length
+    len = abstract.split.size
+    max = event_type.maximum_abstract_length
+    min = event_type.minimum_abstract_length
 
     if len < min
       errors.add(:abstract, "cannot have less than #{min} words")
     end
 
-    if len > max
-      errors.add(:abstract, "cannot have more than #{max} words")
-    end
+    errors.add(:abstract, "cannot have more than #{max} words") if len > max
   end
 
   def biography_exists
-    if self.submitter.biography_word_count == 0
-      errors.add(:person_biography, "must be filled out")
-    end
+    errors.add(:user_biography, 'must be filled out') if submitter.biography_word_count == 0
   end
 
   def generate_guid
     begin
       guid = SecureRandom.urlsafe_base64
-    end while self.class.where(:guid => guid).exists?
+    end while self.class.where(guid: guid).exists?
     self.guid = guid
   end
 

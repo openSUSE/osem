@@ -27,8 +27,8 @@ describe Conference do
       e3 = create(:event, conference: subject)
       e4 = create(:event, conference: subject)
 
-      e3.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
-      e4.event_people = [create(:event_person, person: e2.submitter, event_role: 'submitter')]
+      e3.event_users = [create(:event_user, user: e2.submitter, event_role: 'submitter')]
+      e4.event_users = [create(:event_user, user: e2.submitter, event_role: 'submitter')]
 
       expect(subject.get_top_submitter.values).to eq([3, 1])
       expect(subject.get_top_submitter.keys).to eq([e2.submitter, e1.submitter])

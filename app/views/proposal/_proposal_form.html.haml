@@ -42,12 +42,12 @@
 
   %section#information
   = f.inputs :name => "Your Information" do
-    = semantic_fields_for @person do |p|
-      = p.input :public_name, :as => :string, :required => true
-      = p.input :company, :as => :string, :label => "Affiliation", :hint => "This could be a company, a user group, or nothing at all."
-      = p.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
+    = semantic_fields_for @user do |u|
+      = u.input :name, :as => :string, :required => true
+      = u.input :affiliation, :as => :string, :hint => "This could be a company, a user group, or nothing at all."
+      = u.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
       You have used
-      %span#biography-count #{@person.biography_word_count}
+      %span#biography-count #{@user.biography_word_count}
       words.  Biographies are limited to 150 words.
       %br
       %br

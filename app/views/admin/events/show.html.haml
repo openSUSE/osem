@@ -24,7 +24,7 @@
             %tr
               %td
                 - if !version.whodunnit.nil?
-                  = Person.find_person_by_user_id(version.whodunnit).public_name
+                  = User.find(version.whodunnit).name
                 - else
                   No user (probably via the console)
               %td

@@ -1,21 +1,17 @@
 class SpeakerSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attributes :guid, :name, :full_name, :company, :biography
+  attributes :guid, :name, :affiliation, :biography
 
   def name
-    object.public_name
-  end
-
-  def full_name
-    [object.first_name, object.last_name].join(" ")
+    object.name
   end
 
   def biography
     if object.biography.blank?
       nil
     else
-      simple_format(object.biography).gsub("\n", "")
+      simple_format(object.biography).gsub('\n', '')
     end
   end
 end
