@@ -144,3 +144,14 @@ a:after {
     font-weight: 400;
   }
 }
+#gallery{
+  .modal-body{
+    min-height: 500px;
+    i{
+      margin-top: 35%;
+    }
+  }
+  #carousel-example-generic{
+    visibility: hidden;
+  }
+}
