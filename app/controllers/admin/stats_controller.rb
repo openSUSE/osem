@@ -228,3 +228,4 @@ module Admin
     helper_method :social_event_count
   end
 end
+

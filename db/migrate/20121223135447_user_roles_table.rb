@@ -9,4 +9,3 @@ class UserRolesTable < ActiveRecord::Migration
     drop_table :roles_users
   end
 end
-
