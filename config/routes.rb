@@ -92,7 +92,7 @@ Osem::Application.routes.draw do
       get "/register" => "conference_registration#register"
       patch "/register" => "conference_registration#update"
       delete "/register" => "conference_registration#unregister"
-      get 'fetch_gallery_photos'
+      get "fetch_gallery_photos"
     end
   end
 

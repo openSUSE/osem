@@ -6,6 +6,6 @@ class ConferenceController < ApplicationController
 
   def fetch_gallery_photos
     @photos = Conference.find(params[:id].to_i).photos
-    render 'photos', formats: [:js]
+    render "photos", formats: [:js]
   end
 end

@@ -15,8 +15,18 @@
 
 
 :javascript
+  var count = 0;
   $('#gallery-btn').click(function(){
-    $('#gallery .modal-body').append('<i class="fa fa-spinner fa-spin fa-4x"></i>');
+    if(count == 0){
+      $('#gallery').modal('show');
+      $('#gallery .modal-body').append('<i class="fa fa-spinner fa-spin fa-4x"></i>');
+      count +=1;
+    }
+    else{
+      $('#gallery').modal('show');
+      return false;
+    }
   });
+
 
 

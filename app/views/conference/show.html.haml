@@ -17,7 +17,7 @@
             .row-fluid
               .col-md-12.lead
                 %p= @conference.description
-          = link_to 'Gallery', fetch_gallery_photos_conference_path(@conference.id), class: 'btn btn-primary btn-lg', id: 'gallery-btn', data: {toggle: 'modal', target: '#gallery' }, remote: true
+          = link_to 'Gallery', fetch_gallery_photos_conference_path(@conference.id), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
           = render 'gallery'
   - if @conference.include_program_in_splash?
     %section{ id: 'program' }
