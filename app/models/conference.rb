@@ -179,7 +179,7 @@ class Conference < ActiveRecord::Base
     result = []
 
     if call_for_papers && events
-      submissions = events.group("strftime('%W', created_at)").count
+      submissions = events.group(:week).count
       start_week = call_for_papers.start_week
       weeks = call_for_papers.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
@@ -196,7 +196,7 @@ class Conference < ActiveRecord::Base
     result = []
 
     if call_for_papers && events
-      submissions = events.where('state = ?', state).group("strftime('%W', created_at)").count
+      submissions = events.where('state = ?', state).group(:week).count
       start_week = call_for_papers.start_week
       weeks = call_for_papers.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
@@ -216,7 +216,7 @@ class Conference < ActiveRecord::Base
         registration_start_date &&
         registration_end_date
 
-      reg = registrations.group("strftime('%W', created_at)").count
+      reg = registrations.group(:week).count
       start_week = get_registration_start_week
       weeks = registration_weeks
       result = calculate_items_per_week(start_week, weeks, reg)
