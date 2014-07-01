@@ -144,3 +144,24 @@ a:after {
     font-weight: 400;
   }
 }
+#gallery{
+  min-height: 600px;
+  .item{
+    img {
+      height: 600px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 100%;
+      background-size: cover;
+      -webkit-background-size:cover;
+    }
+  }
+  .modal-body{
+    i{
+      margin-top: 35%;
+    }
+  }
+  #carousel-example-generic{
+    visibility: hidden;
+  }
+}

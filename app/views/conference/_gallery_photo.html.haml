@@ -1,0 +1,7 @@
+- photos.each_with_index do |photo,index|
+  %div.item{ class: (index==0? 'active' : '') }
+    = image_tag(photo.picture(:banner))
+    - unless photo.description.blank?
+      %div.carousel-caption
+        %p.lead
+          = photo.description

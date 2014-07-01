@@ -1,0 +1,35 @@
+<!-- Modal -->
+%div{ class: "modal fade", id: "gallery", tabindex: "-1", role: "dialog", "aria-labelledby" => "myLargeModalLabel", "aria-hidden"=> "true" }
+  %div{ class: "modal-dialog modal-lg" }
+    %div{ class: "modal-content" }
+      %div{ class: "modal-body" }
+        %div{ id: "carousel-example-generic", class: "carousel slide", "data-ride" => "carousel" }
+          <!-- Wrapper for slides -->
+          %div{ class: "carousel-inner" }
+
+          <!-- Controls -->
+          %a{ class: "left carousel-control", href: "#carousel-example-generic", role: "button", "data-slide" => "prev" }
+            %span{ class: "glyphicon glyphicon-chevron-left" }
+          %a{ class: "right carousel-control", href: "#carousel-example-generic", role: "button", "data-slide" => "next" }
+            %span{ class: "glyphicon glyphicon-chevron-right" }
+
+
+:javascript
+  $(document).ready(function(){
+    var count = 0;
+    $('#gallery-btn').click(function(){
+      if(count == 0){
+        $('#gallery').modal('show');
+        $('#gallery .modal-body').append('<i class="fa fa-spinner fa-spin fa-4x"></i>');
+        count +=1;
+      }
+      else{
+        $('#gallery').modal('show');
+        return false;
+      }
+    });
+  });
+
+
+
+
