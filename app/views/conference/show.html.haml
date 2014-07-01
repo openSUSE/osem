@@ -18,7 +18,7 @@
               .col-md-12.lead
                 %p= @conference.description
           -unless @conference.photos.blank?
-            = link_to 'Gallery', fetch_gallery_photos_conference_path(@conference.id), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
+            = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
             = render 'gallery'
   - if @conference.include_program_in_splash?
     %section{ id: 'program' }
