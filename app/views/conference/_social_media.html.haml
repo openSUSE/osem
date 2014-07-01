@@ -4,33 +4,19 @@
 
 %div.container#social-media.text-center
   %div.row
-    - if !@conference.facebook_url.blank?
+    - unless @conference.facebook_url.blank?
       %div.col-md-3
         = link_to "#{ @conference.facebook_url }" do
           %i.fa.fa-facebook-square.fa-4x
-    - if !@conference.twitter_url.blank?
+    - unless @conference.twitter_url.blank?
       %div.col-md-3
         = link_to "#{ @conference.twitter_url }" do
           %i.fa.fa-twitter.fa-4x
-    - if !@conference.media_type.blank? && !@conference.media_id.blank?
+    - unless @conference.instagram_url.blank?
       %div.col-md-3
-        -if @conference.media_type == 'YouTube'
-          = link_to "http://youtu.be/#{ @conference.media_id}" do
-            %i.fa.fa-youtube.fa-4x
-        -if @conference.media_type == 'SlideShare'
-          = link_to image_tag('slideshare.png', class: 'img-responsive'), "#{ @conference.media_id}"
-        -if @conference.media_type == 'Instagram'
-          = link_to "http://instagram.com/p/#{ @conference.media_id}" do
-            %i.fa.fa-instagram.fa-4x
-        -if @conference.media_type == 'Vimeo'
-          = link_to "http://vimeo.com/#{ @conference.media_id}" do
-            %i.fa.fa-vimeo-square.fa-4x
-        -if @conference.media_type == 'Speakerdeck'
-          = link_to image_tag('speakerdeck.png', class: 'img-responsive'),"#{ @conference.media_id}"
-        -if @conference.media_type == 'Flickr'
-          = link_to "https://flic.kr/p/#{ @conference.media_id}" do
-            %i.fa.fa-flickr.fa-4x
-    - if !@conference.google_url.blank?
+        = link_to "#{ @conference.instagram_url }" do
+          %i.fa.fa-instagram.fa-4x
+    - unless @conference.google_url.blank?
       %div.col-md-3
         = link_to "#{ @conference.google_url }" do
           %i.fa.fa-google-plus-square.fa-4x

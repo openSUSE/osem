@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20140626123837) do
     t.integer  "banner_photo_file_size"
     t.datetime "banner_photo_updated_at"
     t.boolean  "include_banner_in_splash",        default: false
+    t.string   "instagram_url"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
