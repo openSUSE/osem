@@ -24,7 +24,9 @@
 //= require dashboard
 //= require ahoy
 //= require smoothscroll
-
+//= require bootstrap-markdown
+//= require to-markdown
+//= require markdown
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
         return false;
