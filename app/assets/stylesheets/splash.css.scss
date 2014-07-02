@@ -1,6 +1,71 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic);
-@import url(http://fonts.googleapis.com/css?family=Raleway:400,300,700);
-@import url(http://fonts.googleapis.com/css?family=Coustard:400,900);
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url("fonts/Lato-Light.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url("fonts/Lato-Regular.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url("fonts/Lato-Bold.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Lato Light Italic'), local('Lato-LightItalic'), url("fonts/Lato-LightItalic.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Lato Italic'), local('Lato-Italic'), url("fonts/Lato-Italic.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Raleway Light'), local('Raleway-Light'), url("fonts/Raleway-Light.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url("fonts/Raleway.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Raleway Bold'), local('Raleway-Bold'), url("fonts/Raleway-Bold.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Coustard';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Coustard'), url("fonts/Coustard.woff") format('woff');
+}
+@font-face {
+  font-family: 'Coustard';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Coustard-Black'), url("fonts/Coustard-Black.woff") format('woff');
+}
 
 body {
   background-color: #f2f2f2;
