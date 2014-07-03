@@ -17,4 +17,3 @@ class CreateVenueTable < ActiveRecord::Migration
   end
 
 end
-

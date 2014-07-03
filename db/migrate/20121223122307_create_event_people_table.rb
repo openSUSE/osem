@@ -15,4 +15,3 @@ class CreateEventPeopleTable < ActiveRecord::Migration
     drop_table :event_people
   end
 end
-
