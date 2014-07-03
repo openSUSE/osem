@@ -6,4 +6,3 @@ class Vote < ActiveRecord::Base
   delegate :name, to: :user
 
 end
-
