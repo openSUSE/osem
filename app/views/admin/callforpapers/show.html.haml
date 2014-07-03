@@ -4,7 +4,7 @@
       = f.input :include_cfp_in_splash, label: 'Include Call for Papers in Splash', hint: 'On setting this true you will enable the call for papers to be displayed on the splash page'
       = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
       = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
-      = f.input :description, :hint => "Welcome text for the Call for Papers"
+      = f.input :description, hint: markdown_hint("Welcome text for the Call for Papers."), input_html: { data: { provide: "markdown-editable" } }
       = f.input :schedule_changes
       = f.input :schedule_public
       = f.input :rating, :hint => "Enter the number of different rating levels you want to have for voting on proposals. Enter 0 if you do not want to vote on proposals."

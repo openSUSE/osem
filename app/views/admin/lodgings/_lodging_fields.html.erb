@@ -1,8 +1,7 @@
 <div class="nested-fields">
     <%= f.inputs do %>
       <%= f.input :name %>
-      <%= f.input :description, :input_html => {:rows => 2 }, hint: 'Write about the hotel/place,
-       of what they are offering, about types of rooms, prices and address' %>
+      <%= f.input :description, :input_html => {:rows => 2, data: { provide: "markdown-editable" } }, hint: markdown_hint("Write about the hotel/place, of what they are offering, about types of rooms, prices and address.") %>
       <%= image_tag f.object.photo(:thumb) if !f.object.photo.blank? %>
       <%= f.input :photo %>
       <%= f.input :website_link %>

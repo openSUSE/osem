@@ -5,7 +5,7 @@
       = f.input :name, :input_html => {:rows => 1}
       = f.input :address, :input_html => {:rows => 1}
       = f.input :website
-      = f.input :description, :input_html => { :rows => 10, :cols => 20 }
+      = f.input :description, :input_html => { :rows => 10, :cols => 20, data: { provide: "markdown-editable" } }, hint: markdown_hint
       - unless @venue.photo.blank?
         = image_tag @venue.photo(:thumb)
       = f.input :photo

@@ -10,4 +10,5 @@
  *= require osem-schedule
  *= require osem-schedule-print
  *= require font-awesome
+ *= require bootstrap-markdown.min
 */
