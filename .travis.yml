@@ -1,6 +1,8 @@
 language: ruby
 rvm:
   - 2.1.1
+before_install:
+  - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
 branches:
   only:
     - master
