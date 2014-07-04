@@ -9,20 +9,22 @@ class MigrateDataPersonToUser < ActiveRecord::Migration
 
   def change
     TempPerson.all.each do |p|
-      user = TempUser.find(p.user_id)
-      if p.public_name.empty?
-        user.name = p.email
-      else
-        user.name = p.public_name
+      user = TempUser.where('id = ?', p.user_id).first
+      unless user.nil?
+        if p.public_name.empty?
+          user.name = p.email
+        else
+          user.name = p.public_name
+        end
+        user.biography = p.biography
+        user.nickname = p.irc_nickname
+        user.affiliation = p.company
+        user.avatar_file_name = p.avatar_file_name
+        user.avatar_content_type = p.avatar_content_type
+        user.avatar_file_size = p.avatar_file_size
+        user.avatar_updated_at = p.avatar_updated_at
+        user.save!
       end
-      user.biography = p.biography
-      user.nickname = p.irc_nickname
-      user.affiliation = p.company
-      user.avatar_file_name = p.avatar_file_name
-      user.avatar_content_type = p.avatar_content_type
-      user.avatar_file_size = p.avatar_file_size
-      user.avatar_updated_at = p.avatar_updated_at
-      user.save!
     end
   end
 end
