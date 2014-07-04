@@ -67,8 +67,6 @@ gem 'axlsx_rails'
 gem 'd3_rails'
 gem 'chart-js-rails'
 
-# We use coveralls for measuring test coverage
-gem 'coveralls', require: false
 # Use a self-hosted errbit with the old notifier
 gem 'hoptoad_notifier', '~> 2.3'
 
@@ -84,15 +82,8 @@ gem 'font-awesome-rails'
 #Use Redcarpet for Markdown in description
 gem 'redcarpet'
 
-# Use rspec and capybara as testing framework
-group :development, :test do
-  gem 'rspec', '>= 3.0.0.beta'
-  gem 'rspec-rails', '>= 3.0.0.beta'
-  gem 'capybara'
-  gem 'database_cleaner'
-  gem 'capybara-webkit'
-  gem 'shoulda'
-end
+# Rubyracer is JavaScript Runtime of choice
+gem 'therubyracer'
 
 # FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/
 gem 'protected_attributes'
@@ -120,4 +111,16 @@ group :development do
   gem 'sqlite3'
   # Use letter_opener to open mails in development
   gem 'letter_opener'
+end
+
+# Use rspec and capybara as testing framework
+group :test do
+  # We use coveralls for measuring test coverage
+  gem 'coveralls', require: false
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'poltergeist'
+  # Set of rails validations matchers to describe models
+  gem 'shoulda'
 end
