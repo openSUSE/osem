@@ -40,4 +40,9 @@ Osem::Application.configure do
 
   # Do not perform deliveries on test
   config.action_mailer.perform_deliveries = false
+
+  config.after_initialize do
+    ActiveRecord::Base.logger = nil
+  end
+
 end
