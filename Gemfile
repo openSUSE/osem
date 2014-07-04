@@ -123,4 +123,6 @@ group :test do
   gem 'poltergeist'
   # Set of rails validations matchers to describe models
   gem 'shoulda'
+  # Extracted from RSpec 3 stub_model and mock_model
+  gem 'rspec-activemodel-mocks'
 end

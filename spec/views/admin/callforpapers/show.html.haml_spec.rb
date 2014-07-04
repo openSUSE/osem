@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe 'admin/callforpapers/show' do
 
   it 'renders callforpapers details' do
@@ -8,8 +9,8 @@ describe 'admin/callforpapers/show' do
                                            end_date: Date.today + 7.days,
                                            description: 'Lorem Ipsum Dolsum')
     render
-    expect(rendered).to include("#{Date.today}")
-    expect(rendered).to include("#{Date.today + 7.days}")
+    expect(rendered).to include(Date.today.strftime('%Y-%m-%d'))
+    expect(rendered).to include(7.days.from_now.strftime('%Y-%m-%d'))
     expect(rendered).to include('Lorem Ipsum Dolsum')
   end
 

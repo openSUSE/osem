@@ -287,6 +287,10 @@ GEM
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
       rspec-mocks (~> 3.0.0)
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-core (3.0.2)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.2)
@@ -420,6 +424,7 @@ DEPENDENCIES
   rails-observers
   rdoc-generator-fivefish
   redcarpet
+  rspec-activemodel-mocks
   rspec-rails
   rubocop
   sass-rails (>= 4.0.2)
