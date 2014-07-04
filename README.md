@@ -86,3 +86,10 @@ bundle exec guard
 ```
 This uses [spring](https://github.com/rails/spring) to provide a
 [fast feedback loop for the red/green cycle](http://bitzesty.com/blog/2013/05/enable-tdd-with-faster-ruby-on-rails-stack-reloading/).
+
+# Communication
+GitHub issues are the primary way for communicating about specific proposed
+changes to this project. If you have other questions feel free to subscribe to
+the [opensuse-web@opensuse.org](http://lists.opensuse.org/opensuse-web/)
+mailinglist, all OSEM contributors are on that list! Additionally you can use #osem channel
+on freenode IRC.

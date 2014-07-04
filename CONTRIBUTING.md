@@ -28,4 +28,5 @@ admins](https://github.com/orgs/openSUSE/teams/osem-admins) know!
 GitHub issues are the primary way for communicating about specific proposed
 changes to this project. If you have other questions feel free to subscribe to
 the [opensuse-web@opensuse.org](http://lists.opensuse.org/opensuse-web/)
-mailinglist, all OSEM contributors are on that list! 
+mailinglist, all OSEM contributors are on that list! Additionally you can use #osem channel
+on freenode IRC.
