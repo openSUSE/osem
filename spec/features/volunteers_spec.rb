@@ -103,9 +103,10 @@ feature Conference do
       expect(find('div.vpositions div.nested-fields:nth-of-type(1)'\
                   ' div:nth-of-type(2) textarea').
                       value).to eq('Example Description')
+
       expect(find('div.vpositions div.nested-fields:nth-of-type(1)'\
-                  ' div:nth-of-type(3) select:nth-of-type(1)').
-                      text).to eq("#{Date.today.strftime}")
+                  ' div:nth-of-type(3) select:nth-of-type(1)').find('option[selected]').
+                      text).to eq(Date.today.strftime)
 
       # Remove vposition
       click_link 'Remove vposition'

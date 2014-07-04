@@ -13,11 +13,15 @@ describe Admin::ConferenceController do
   let(:participant) { create(:participant) }
 
   shared_examples 'access as administration or organizer' do
+
     describe 'PATCH #update' do
+
       context 'valid attributes' do
+
         it 'locates the requested conference' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con')
+
           expect(assigns(:conference)).to eq(conference)
         end
 
@@ -192,7 +196,7 @@ describe Admin::ConferenceController do
 
   describe 'administrator access' do
 
-    before(:each) do
+    before do
       sign_in(admin)
     end
 

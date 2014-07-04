@@ -5,6 +5,12 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
 require 'rspec/rails'
+# To avoid confusion on missed migrations - use Rails 4 checker to ensure
+# all migrations applied
+ActiveRecord::Migration.maintain_test_schema!
+
+# Add poltergeist to use it as JS driver
+require 'capybara/poltergeist'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -24,9 +30,6 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -38,33 +41,44 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  # Include factory_girls syntax
+  # Setting up DB cleaning to maintain empty rows
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  # poltergeist as a underlying mech for Capybara
+  Capybara.javascript_driver = :poltergeist
+
+  # Includes helpers and connect them to specific types of tests
   config.include FactoryGirl::Syntax::Methods
-
-  # Enables devise sign_in function
+  config.include OmniauthMacros
   config.include Devise::TestHelpers, type: :controller
-
-  # Enables devise sign_in function
-  config.include Devise::TestHelpers, type: :view
-
-  # Use capybara-webkit as default javascript driver
-  Capybara.javascript_driver = :webkit
-
-  # Includes support/login_macros for feature tests
   config.include LoginMacros, type: :feature
-
-  # Includes omniauth macro
-  config.include(OmniauthMacros)
-
-  # Includes support/flash for feature tests
   config.include Flash, type: :feature
-
   config.include Sidebar, type: :view
+  config.include Devise::TestHelpers, type: :view
 
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.use_transactional_fixtures = true
+
+  # Reuse rspec as mocking framework
+  config.mock_framework = :rspec
+
+  # Types of tests (controller, feature, model) will
+  # be inferred from subfolder name
+  config.infer_spec_type_from_file_location!
+
 end
 
 OmniAuth.config.test_mode = true
