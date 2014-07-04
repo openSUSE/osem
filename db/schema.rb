@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140626123837) do
+ActiveRecord::Schema.define(version: 20140627165718) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 20140626123837) do
     t.datetime "time"
   end
 
-#   add_index "ahoy_events", ["id"], name: "sqlite_autoindex_ahoy_events_1", unique: true
   add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
   add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
   add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
@@ -113,13 +112,13 @@ ActiveRecord::Schema.define(version: 20140626123837) do
     t.string   "facebook_url"
     t.string   "google_url"
     t.text     "lodging_description"
+    t.boolean  "make_conference_public",          default: false
     t.boolean  "include_registrations_in_splash", default: false
     t.boolean  "include_sponsors_in_splash",      default: false
     t.boolean  "include_tracks_in_splash",        default: false
     t.boolean  "include_tickets_in_splash",       default: false
     t.boolean  "include_social_media_in_splash",  default: false
     t.boolean  "include_program_in_splash",       default: false
-    t.boolean  "make_conference_public",          default: false
     t.string   "banner_photo_file_name"
     t.string   "banner_photo_content_type"
     t.integer  "banner_photo_file_size"
@@ -305,8 +304,8 @@ ActiveRecord::Schema.define(version: 20140626123837) do
     t.text     "other_special_needs"
     t.boolean  "attended",                    default: false
     t.boolean  "volunteer"
-    t.integer  "week"
     t.integer  "user_id"
+    t.integer  "week"
   end
 
   create_table "registrations_social_events", id: false, force: true do |t|
@@ -503,7 +502,6 @@ ActiveRecord::Schema.define(version: 20140626123837) do
     t.datetime "started_at"
   end
 
-#   add_index "visits", ["id"], name: "sqlite_autoindex_visits_1", unique: true
   add_index "visits", ["user_id"], name: "index_visits_on_user_id"
 
   create_table "votes", force: true do |t|
