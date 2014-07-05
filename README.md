@@ -29,6 +29,7 @@ Look at config/config.yml.example.
 ```
 cp config/config.yml.example config/config.yml
 cp config/database.yml.example config/database.yml
+cp config/secrets.yml.example config/secrets.yml
 ```
 6. Setup the database
 ```
