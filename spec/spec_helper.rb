@@ -1,6 +1,14 @@
-require 'coveralls'
-Coveralls.wear!('rails')
 # This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'simplecov'
+
+if ENV['TRAVIS']
+  require 'coveralls'
+  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+  Coveralls.wear!('rails')
+else
+  SimpleCov.start 'rails'
+end
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
