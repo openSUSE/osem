@@ -9,7 +9,8 @@ class MigrateDataPersonToUser < ActiveRecord::Migration
 
   def change
     TempPerson.all.each do |p|
-      user = TempUser.find(p.user_id)
+      user = TempUser.find_by(id: p.user_id)
+      next unless user
       if p.public_name.empty?
         user.name = p.email
       else
