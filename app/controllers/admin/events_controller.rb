@@ -169,8 +169,11 @@ module Admin
 
     def update_state(id, transition, notice, mail = false)
       event = Event.find(id)
-      if mail
-        check_mail_settings(event)
+      if mail && params[:send_mail].blank? && event &&
+          (event.conference.email_settings.rejected_email_template.nil? ||
+              event.conference.email_settings.accepted_email_template.nil?)
+          return redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
+                             notice: 'Update Email Template before Sending Mails') && return
       end
       if event
         begin
@@ -182,25 +185,13 @@ module Admin
           end
           event.save
         rescue Transitions::InvalidTransition => e
-          redirect_to(
-              admin_conference_events_path(conference_id: @conference.short_title),
-              notice: "Update state failed. #{e.message}") && return
+          notice = "Update state failed. #{e.message}"
         end
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: notice)
       else
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: 'Error! Could not find event!')
+        notice = 'Error! Could not find event!'
       end
-    end
-
-    def check_mail_settings(event)
-      if !params[:send_mail].blank? && event &&
-          event.conference.email_settings.rejected_email_template.nil? &&
-          event.conference.email_settings.accepted_email_template.nil?
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: 'Update Email Template before Sending Mails') && return
-      end
+      redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
+                   notice: notice) && return
     end
   end
 end
