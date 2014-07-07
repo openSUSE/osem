@@ -12,7 +12,7 @@ In particular, this community seeks the following types of contributions:
 * Fork the repository and make a pull-request with your changes
   * Make sure that the test suite passes (we have [travis](https://travis-ci.org/openSUSE/osem) enabled) before you request a pull and that you comply to our ruby styleguide (we make use of [hound-ci](https://houndci.com/)).
   * Please make sure to mind what travis tell you! :-)
-  * Please increase code coverage by you pull request (coveralls or simplecov locally will give you insight)
+  * Please increase code coverage by your pull request (coveralls or simplecov locally will give you insight)
 
 * One of the OSEM maintainers will review your pull-request
   * If you are already a contributor (means you're in the [group osem-committers](https://github.com/orgs/openSUSE/teams/osem-committers)) and you get a positive review, you can merge your pull-request yourself
