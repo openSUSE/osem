@@ -40,7 +40,6 @@ class Conference < ActiveRecord::Base
   has_many :registrations, dependent: :destroy
   has_many :vdays, dependent: :destroy
   has_many :vpositions, dependent: :destroy
-  has_many :vchoices, dependent: :destroy
   has_many :sponsorship_levels, dependent: :destroy
   has_many :sponsors, dependent: :destroy
   has_many :photos, dependent: :destroy
