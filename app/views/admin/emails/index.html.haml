@@ -35,6 +35,9 @@
       = f.input :send_on_confirmed_without_registration, :label => false, :hint => "Send an email when a user has a confirmed proposal, but isn't yet registered?"
       = f.input :confirmed_without_registration_subject
       = f.input :confirmed_email_template, :input_html => { :rows => 10, :cols => 20 }
+      = f.input :send_on_updated_conference_dates, hint: "This is to notify all participants that the conference dates has been changed."
+      = f.input :updated_conference_dates_subject
+      = f.input :updated_conference_dates_template, :input_html => { :rows => 10, :cols => 20 }
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
 
 :javascript

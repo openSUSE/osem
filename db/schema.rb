@@ -165,6 +165,9 @@ ActiveRecord::Schema.define(version: 20140714141156) do
     t.string   "accepted_subject"
     t.string   "rejected_subject"
     t.string   "confirmed_without_registration_subject"
+    t.boolean  "send_on_updated_conference_dates",       default: true
+    t.string   "updated_conference_dates_subject"
+    t.text     "updated_conference_dates_template"
   end
 
   create_table "event_attachments", force: true do |t|
