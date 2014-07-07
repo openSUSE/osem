@@ -3,7 +3,9 @@ class EmailSettings < ActiveRecord::Base
                   :send_on_confirmed_without_registration, :registration_email_template,
                   :accepted_email_template, :rejected_email_template, :confirmed_email_template,
                   :registration_subject, :accepted_subject, :rejected_subject,
-                  :confirmed_without_registration_subject
+                  :confirmed_without_registration_subject,
+                  :send_on_updated_conferences_dates, :updated_conference_dates_subject
+                  :updated_conference_dates_template
 
   def get_values(conference, user, event = nil)
     h = {
