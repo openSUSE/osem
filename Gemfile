@@ -111,6 +111,8 @@ group :development do
   gem 'sqlite3'
   # Use letter_opener to open mails in development
   gem 'letter_opener'
+  # mina is a blazing fast deployment system
+  gem 'mina'
 end
 
 # Use rspec and capybara as testing framework
