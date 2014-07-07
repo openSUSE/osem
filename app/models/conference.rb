@@ -3,6 +3,7 @@
 
 class Conference < ActiveRecord::Base
   require 'uri'
+  serialize :events_per_week, Hash
 
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,
@@ -184,18 +185,28 @@ class Conference < ActiveRecord::Base
   end
 
   ##
-  # Returns an array with the summarized event submissions per week.
+  # Returns an hash with submitted, confirmed and unconfirmed event submissions
+  # per week.
   #
   # ====Returns
-  #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0 events, second week 3 events.
-  def get_submissions_per_week_by_status(state)
-    result = []
-
+  #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
+  def get_submissions_data
+    result = {}
     if call_for_papers && events
-      submissions = events.where('state = ?', state).group(:week).count
+      result = get_events_per_week_by_state
+
       start_week = call_for_papers.start_week
-      weeks = call_for_papers.weeks
-      result = calculate_items_per_week(start_week, weeks, submissions)
+      end_week = end_date.strftime('%W').to_i
+      weeks = weeks(start_week, end_week)
+
+      result.each do |state, values|
+        if state == 'Submitted'
+          result['Submitted'] = pad_array_left_kumulative(start_week, values)
+        else
+          result[state] = pad_array_left_not_kumulative(start_week, values)
+        end
+      end
+      result['Weeks'] =  weeks > 0 ? (1..weeks).to_a : 0
     end
     result
   end
@@ -486,7 +497,141 @@ class Conference < ActiveRecord::Base
     result
   end
 
+  ##
+  # Writes an snapshot of the actual event distribution to the database
+  # Triggered each every Sunday 11:55 pm form whenever (config/schedule.rb).
+  #
+  def self.write_event_distribution_to_db
+    week = DateTime.now.end_of_week
+
+    Conference.where('end_date > ?', Date.today).each do |conference|
+      result = {}
+      Event.state_machine.states.each do |state|
+        count = conference.events.where('state = ?', state.name).count
+        result[state.name] = count
+      end
+
+      if !conference.events_per_week
+        conference.events_per_week = {}
+      end
+
+      # Write to database
+      conference.events_per_week[week] = result
+      conference.save!
+    end
+  end
+
   private
+
+  ##
+  # Calculates the weeks from a start and a end week.
+  #
+  # ====Returns
+  # * +Fixnum+ -> weeks
+  def weeks(start_week, end_week)
+    weeks = end_week - start_week + 1
+    weeks_of_year = Date.new(start_date.year, 12, 31).strftime('%W').to_i
+    weeks < 0 ? weeks + weeks_of_year : weeks
+  end
+
+  ##
+  # Returns a Hash with the events with the state confirmend / unconfirmed per week.
+  #
+  # ====Returns
+  # * +Hash+ -> e.g. 'Confirmed' => { 3 => 5, 4 => 6 }
+  def get_events_per_week_by_state
+    result = {
+      'Submitted' => {},
+      'Confirmed' => {},
+      'Unconfirmed' => {}
+    }
+
+    # Completed weeks
+    events_per_week.each do |week, values|
+      values.each do |state, value|
+        if [:confirmed, :unconfirmed].include?(state)
+          if !result[state.to_s.capitalize]
+            result[state.to_s.capitalize] = {}
+          end
+          result[state.to_s.capitalize][week.strftime('%W').to_i] = value
+        end
+      end
+    end
+
+    # Actual week
+    this_week = Date.today.end_of_week.strftime('%W').to_i
+    result['Confirmed'][this_week] = events.where('state = ?', :confirmed).count
+    result['Unconfirmed'][this_week] = events.where('state = ?', :unconfirmed).count
+    result['Submitted'] = events.group(:week).count
+    result['Submitted'][this_week] = events.where(week: this_week).count
+    result
+  end
+
+  ##
+  # Returns an array from the hash values with left padding.
+  #
+  # ====Returns
+  # * +Array+ -> [0, 0, 1, 2, 3, 0, 0]
+  def pad_array_left_not_kumulative(start_week, hash)
+    hash = assert_keys_are_continuously(hash)
+
+    first_week = hash.keys[0]
+    left = pad_left(first_week, start_week)
+    left + hash.values
+  end
+
+  ##
+  # Returns an array from the hash values with left padding.
+  #
+  # ====Returns
+  # * +Array+ -> [0, 0, 1, 2, 3, 3, 3]
+  def pad_array_left_kumulative(start_week, hash)
+    hash = assert_keys_are_continuously(hash)
+    result = cumulative_sum(hash.values)
+
+    first_week = hash.keys[0]
+    left = pad_left(first_week, start_week)
+    left + result
+  end
+
+  ##
+  # Cumulative sums an array.
+  #
+  # ====Returns
+  # * +Array+ -> [1, 2, 3, 4] --> [1, 3, 7, 11]
+  def cumulative_sum(array)
+    sum = 0
+    array.map { |x| sum += x }
+  end
+
+  ##
+  # Returns the left padding.
+  #
+  # ====Returns
+  # * +Array+
+  def pad_left(first_week, start_week)
+    left = []
+    if first_week > start_week
+      left = Array.new(first_week - start_week - 1, 0)
+    end
+    left
+  end
+
+  ##
+  # Asserts that all keys in the hash are continuously.
+  # If not, the missing key is inserted with value 0.
+  #
+  # ====Returns
+  # * +Hash+  { 1 => 1, 2 => 0, 3 => 0, 4 => 3 }
+  def assert_keys_are_continuously(hash)
+    keys = hash.keys
+    (keys.min..keys.max).each do |key|
+      if !hash[key]
+        hash[key] = 0
+      end
+    end
+    hash.sort.to_h
+  end
 
   ##
   # Returns the progress of the set up conference list in percent
