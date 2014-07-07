@@ -12,6 +12,7 @@ feature Sponsor do
       conference = create(:conference)
       conference.sponsorship_levels << create(:sponsorship_level, conference: conference)
       sign_in create(user)
+
       visit admin_conference_sponsors_path(
                 conference_id: conference.short_title)
       # Add sponsors
@@ -36,6 +37,7 @@ feature Sponsor do
       find(:css, "select[id^='conference_sponsors_attributes_']"\
                  "[id$='_sponsorship_level_id']").
                       find(:option, 'Platin').select_option
+
       click_button 'Update Conference'
 
       expect(flash).to eq('Sponsorships were successfully updated.')
@@ -55,7 +57,7 @@ feature Sponsor do
                       value).to eq('http://www.example.com')
 
       expect(find('div.nested-fields:nth-of-type(1)'\
-                  ' div:nth-of-type(5) select:nth-of-type(1)').
+                  ' div:nth-of-type(5) select:nth-of-type(1)').find('option[selected]').
                       text).to eq('Platin')
 
       # Remove sponsor

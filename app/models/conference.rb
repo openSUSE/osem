@@ -115,7 +115,6 @@ class Conference < ActiveRecord::Base
     return nil if user.nil?
 
     if registrations.where(user_id: user.id).count == 0
-      logger.debug("User #{user.email} isn't registered to self.title")
       return false
     else
       return true

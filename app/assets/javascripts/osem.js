@@ -180,10 +180,8 @@ function word_count(text, divId, maxcount) {
 
     $('#' + divId).text(r);
     if (r > maxcount) {
-        console.log("R is greater than maxcount");
         $('#' + divId).css('color', 'red');
     } else {
-        console.log("R is less than maxcount");
         $('#' + divId).css('color', '#333');
     }
 };
