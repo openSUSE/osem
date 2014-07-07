@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627165718) do
+ActiveRecord::Schema.define(version: 20140701123203) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20140627165718) do
     t.datetime "banner_photo_updated_at"
     t.boolean  "include_banner_in_splash",        default: false
     t.string   "instagram_url"
+    t.text     "events_per_week"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
