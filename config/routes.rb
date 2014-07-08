@@ -114,6 +114,5 @@ Osem::Application.routes.draw do
 
   get "/admin" => redirect("/admin/conference")
 
-  root :to => "home#index"
-
+  root to: 'home#index', via: [:get, :options]
 end
