@@ -113,19 +113,12 @@ class Admin::ConferenceController < ApplicationController
     @submissions = Conference.get_event_state_line_colors
 
     @submissions_data = {}
-    @cfp_weeks = [0]
-    @submissions_data['Submitted'] = @conference.get_submissions_per_week
-    @cfp_weeks.push(@submissions_data['Submitted'].length)
-
-    @submissions_data['Confirmed'] = @conference.get_submissions_per_week_by_status('confirmed')
-    @cfp_weeks.push(@submissions_data['Confirmed'].length)
-
-    @submissions_data['Unconfirmed'] = @conference.get_submissions_per_week_by_status('unconfirmed')
-    @cfp_weeks.push(@submissions_data['Unconfirmed'].length)
-
-    @cfp_weeks = @cfp_weeks.max
-    @submissions_data = normalize_array_length(@submissions_data, @cfp_weeks)
-    @cfp_weeks = @cfp_weeks > 0 ? (1..@cfp_weeks).to_a : 1
+    @submissions_data = @conference.get_submissions_data
+    @cfp_weeks = 0
+    if @submissions_data['Weeks']
+      @cfp_weeks = @submissions_data['Weeks']
+      @submissions_data = @submissions_data.except('Weeks')
+    end
 
     # Doughnut charts
     @event_type_distribution = @conference.event_type_distribution
