@@ -10,7 +10,7 @@ feature EventType do
     scenario 'adds and updates event type', feature: true, js: true do
       conference = create(:conference)
       sign_in create(user)
-      visit admin_conference_eventtypes_path(
+      visit admin_conference_event_types_path(
                 conference_id: conference.short_title)
 
       expect(page.all('div.nested-fields').count == 2).to be true 
