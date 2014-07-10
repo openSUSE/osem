@@ -11,7 +11,7 @@
           - if @conference.start_date && @conference.end_date
             .row
               %h3
-                = conference_date_string(@conference)
+                = date_string(@conference.start_date, @conference.end_date)
 
           - unless @conference.description.blank?
             .row-fluid
