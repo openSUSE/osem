@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe 'conference/show.html.haml' do
   before(:each) do
+    allow(view).to receive(:date_string).and_return("January 17 - 21 2014")
     @conference = create(:conference, registration_description: 'Lorem Ipsum Dolor',
                                       registration_start_date: Date.today,
                                       registration_end_date: Date.tomorrow,
