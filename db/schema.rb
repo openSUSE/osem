@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714141156) do
+ActiveRecord::Schema.define(version: 20140710130608) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -151,10 +151,10 @@ ActiveRecord::Schema.define(version: 20140714141156) do
 
   create_table "email_settings", force: true do |t|
     t.integer  "conference_id"
-    t.boolean  "send_on_registration",                   default: true
-    t.boolean  "send_on_accepted",                       default: true
-    t.boolean  "send_on_rejected",                       default: true
-    t.boolean  "send_on_confirmed_without_registration", default: true
+    t.boolean  "send_on_registration",                           default: true
+    t.boolean  "send_on_accepted",                               default: true
+    t.boolean  "send_on_rejected",                               default: true
+    t.boolean  "send_on_confirmed_without_registration",         default: true
     t.text     "registration_email_template"
     t.text     "accepted_email_template"
     t.text     "rejected_email_template"
@@ -165,9 +165,12 @@ ActiveRecord::Schema.define(version: 20140714141156) do
     t.string   "accepted_subject"
     t.string   "rejected_subject"
     t.string   "confirmed_without_registration_subject"
-    t.boolean  "send_on_updated_conference_dates",       default: true
+    t.boolean  "send_on_updated_conference_dates",               default: true
     t.string   "updated_conference_dates_subject"
     t.text     "updated_conference_dates_template"
+    t.boolean  "send_on_updated_conference_registration_dates",  default: true
+    t.string   "updated_conference_registration_dates_subject"
+    t.text     "updated_conference_registration_dates_template"
   end
 
   create_table "event_attachments", force: true do |t|
