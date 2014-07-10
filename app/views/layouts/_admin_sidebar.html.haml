@@ -83,8 +83,8 @@
     %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
       %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
         = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_eventtypes_path(@conference.short_title))}
-        = link_to 'Event types', admin_conference_eventtypes_path(@conference.short_title)
+      %li{:class=> active_nav_li(admin_conference_event_types_path(@conference.short_title))}
+        = link_to 'Event types', admin_conference_event_types_path(@conference.short_title)
       %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
         = link_to 'Difficulty levels', admin_conference_difficulty_levels_path(@conference.short_title)
     %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}

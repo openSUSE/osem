@@ -37,7 +37,7 @@ Osem::Application.routes.draw do
 
       resources :campaigns
 
-      resources :eventtypes, only: [:show, :index] do
+      resources :event_types, only: [:show, :index] do
         collection do
           patch :update
         end

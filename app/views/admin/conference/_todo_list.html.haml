@@ -23,7 +23,7 @@
     = link_to 'Add tracks', admin_conference_tracks_path(conference_progress['short_title'])
   %li{'class'=>class_for_todo(conference_progress['event_types'])}
     %span{'class'=>icon_for_todo(conference_progress['event_types'])}
-    = link_to 'Add event types', admin_conference_eventtypes_path(conference_progress['short_title'])
+    = link_to 'Add event types', admin_conference_event_types_path(conference_progress['short_title'])
   %li{'class'=>class_for_todo(conference_progress['difficulty_levels'])}
     %span{'class'=>icon_for_todo(conference_progress['difficulty_levels'])}
     = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(conference_progress['short_title'])
