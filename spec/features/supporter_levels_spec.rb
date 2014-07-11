@@ -2,9 +2,8 @@ require 'spec_helper'
 
 feature SupporterLevel do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_role) { create(:organizer_role) }
 
   shared_examples 'supporter levels' do |user|
     scenario 'adds and updates supporter level', feature: true, js: true do
@@ -41,10 +40,6 @@ feature SupporterLevel do
       expect(flash).to eq('Supporter levels were successfully updated.')
       expect(page.all('div.nested-fields').count == 0).to be true
     end
-  end
-
-  describe 'admin' do
-    it_behaves_like 'supporter levels', :admin
   end
 
   describe 'organizer' do

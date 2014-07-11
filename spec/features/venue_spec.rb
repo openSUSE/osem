@@ -3,9 +3,8 @@ require 'spec_helper'
 feature Conference do
 
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_role) { create(:organizer_role) }
 
   shared_examples 'venue' do |user|
     scenario 'adds and updates venue' do
@@ -57,10 +56,6 @@ feature Conference do
       expect(venue.website).to eq('www.example.com new')
       expect(venue.description).to eq('new')
     end
-  end
-
-  describe 'admin' do
-    it_behaves_like 'venue', :admin
   end
 
   describe 'organizer' do

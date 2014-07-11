@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
+  rolify
   include Gravtastic
   gravtastic size: 32
+
+  before_create :setup_role
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -22,8 +25,6 @@ class User < ActiveRecord::Base
   has_many :voted_events, through: :votes, source: :events
 
   accepts_nested_attributes_for :roles
-
-  before_create :setup_role
 
   validates :name, presence: true
 
@@ -47,26 +48,13 @@ class User < ActiveRecord::Base
     user
   end
 
-  def role?(role)
-    Rails.logger.debug('Checking role in user')
-    !!roles.find_by_name(role.to_s.downcase.camelize)
-  end
-
-  def admin?
-    role?('Admin')
-  end
-
-  def organizer?
-    role?('Organizer')
-  end
-
   def get_roles
     roles
   end
 
   def setup_role
-    roles << Role.where(name: 'Admin') if User.count == 0
-    roles << Role.where(name: 'Participant') if roles.empty?
+    roles << Role.where(name: 'organizer') if User.count == 0
+    roles << Role.where(name: 'participant') if roles.empty?
   end
 
   def self.prepare(params)

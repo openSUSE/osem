@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 feature SponsorshipLevel do
-# It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
+  # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_role) { create(:organizer_role) }
 
   shared_examples 'sponsorship levels' do |user|
     scenario 'adds and updates sponsorship level', feature: true, js: true do
@@ -34,10 +33,6 @@ feature SponsorshipLevel do
       expect(flash).to eq('Sponsorship levels were successfully updated.')
       expect(page.all('div.nested-fields').count == 0).to be true
     end
-  end
-
-  describe 'admin' do
-    it_behaves_like 'sponsorship levels', :admin
   end
 
   describe 'organizer' do

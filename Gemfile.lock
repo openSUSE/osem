@@ -296,6 +296,7 @@ GEM
     request_store (1.0.6)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rolify (3.4.0)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
       rspec-expectations (~> 3.0.0)
@@ -441,6 +442,7 @@ DEPENDENCIES
   rails-observers
   rdoc-generator-fivefish
   redcarpet
+  rolify
   rspec-activemodel-mocks
   rspec-rails
   rubocop

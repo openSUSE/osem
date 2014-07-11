@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'admin/conference/show' do
 
   it 'renders conference dashboard' do
-    conference = create(:conference, title: 'OpenSUSE')
+    conference = create(:conference, title: 'openSUSE')
     assign :conference, conference
     assign :conference_progress, conference.get_status
     render

@@ -2,9 +2,8 @@ require 'spec_helper'
 
 feature EventType do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_role) { create(:organizer_role) }
 
   shared_examples 'event types' do |user|
     scenario 'adds and updates event type', feature: true, js: true do
@@ -53,10 +52,6 @@ feature EventType do
       expect(flash).to eq('Event types were successfully updated.')
       expect(page.all('div.nested-fields').count == 2).to be true
     end
-  end
-
-  describe 'admin' do
-    it_behaves_like 'event types', :admin
   end
 
   describe 'organizer' do

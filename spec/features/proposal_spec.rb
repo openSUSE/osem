@@ -2,16 +2,15 @@ require 'spec_helper'
 
 feature Event do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_role) { create(:organizer_role) }
 
   shared_examples 'proposal workflow' do
     scenario 'submitts a proposal, accepts and confirms',
              feature: true, js: true do
 
-      admin = create(:admin, email: 'admin@example.com')
-      participant = create(:participant, email: 'participant@example.com', biography: "")
+      organizer = create(:organizer, email: 'admin@example.com')
+      participant = create(:participant, email: 'participant@example.com')
 
       expected_count = Event.count + 1
       conference = create(:conference)
@@ -49,7 +48,7 @@ feature Event do
       expect(page.has_content?('Example Proposal')).to be true
 
       sign_out
-      sign_in admin
+      sign_in organizer
 
       # Reject proposal
       visit admin_conference_events_path(conference.short_title)
