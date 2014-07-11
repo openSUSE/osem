@@ -1,7 +1,7 @@
 module Admin
-  class EventTypesController < Admin::BaseController
-    authorize_resource
+  class EventTypesController < ApplicationController
     load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource :event_type, through: :conference
 
     def show
       render :eventtypes

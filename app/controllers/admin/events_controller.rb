@@ -1,6 +1,7 @@
 module Admin
   class EventsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource :event, through: :conference
 
     before_action :get_event, except: [:index, :create]
 
@@ -13,6 +14,7 @@ module Admin
     end
 
     def index
+      @conference = Conference.find_by(short_title: params[:conference_id])
       @events = @conference.events
       @tracks = @conference.tracks
       @machine_states = @events.state_machine.states.map

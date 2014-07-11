@@ -1,6 +1,7 @@
 module Admin
   class LodgingsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource :lodging, through: :conference
 
     def index
       @venue = @conference.venue

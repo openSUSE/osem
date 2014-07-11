@@ -1,14 +1,12 @@
 module Admin
   class UsersController < ApplicationController
-    before_filter :verify_admin
+    load_and_authorize_resource :user
 
     def index
       @users = User.all
     end
 
     def show
-      @user = User.find(params[:id])
-
       # Variable @show_attributes holds the attributes that are visible for the 'show' action
       # If you want to change the attributes that are shown in the 'show' action of users
       # add/remove the attributes in the following string array
@@ -18,23 +16,16 @@ module Admin
     end
 
     def update
-      user = User.find(params[:id])
-      user.update_attributes!(params[:user])
-      redirect_to admin_users_path, notice: "Updated #{user.email}"
+      @user.update_attributes!(params[:user])
+      redirect_to admin_users_path, notice: "Updated #{@user.email}"
     end
 
     def edit
-      @user = User.find(params[:id])
-    end
-
-    def delete
-      @user = User.find(params[:id])
     end
 
     def destroy
-      @user = User.find(params[:id])
       @user.destroy
-      redirect_to admin_users_path, notice: 'User got deleted'
+      redirect_to admin_users_path, notice: "User #{@user.name} (#{@user.email})got deleted"
     end
   end
 end

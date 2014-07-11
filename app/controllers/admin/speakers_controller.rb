@@ -1,6 +1,8 @@
 module Admin
   class SpeakersController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource :speaker, through: :conference
+
     respond_to :js, :html
 
     def edit

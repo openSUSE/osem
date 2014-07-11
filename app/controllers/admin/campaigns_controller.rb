@@ -1,6 +1,7 @@
 module Admin
   class CampaignsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource :campaign, through: :conference
 
     def index
       @conference = Conference.find_by(short_title: params[:conference_id])

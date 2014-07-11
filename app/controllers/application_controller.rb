@@ -4,13 +4,15 @@ class ApplicationController < ActionController::Base
   before_filter :get_conferences
   before_filter :store_location
   helper_method :date_string
+  # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
+  check_authorization unless: :devise_controller?
 
   def store_location
     session[:return_to] = request.fullpath if request.get? and controller_name != "user_sessions" and controller_name != "sessions"
   end
 
   def after_sign_in_path_for(resource)
-    if organizer_or_admin? &&
+    if can? :view, Conference &&
       (!session[:return_to] ||
       session[:return_to] &&
       session[:return_to] == root_path)
@@ -39,36 +41,21 @@ class ApplicationController < ActionController::Base
       return false
     end
 
-    @conference = Conference.find_by(short_title: params[:conference_id])
     true
   end
 
-  def organizer_or_admin?
-    has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
-  end
-
-  def verify_organizer
-    if !verify_user
-      return
+  def current_ability
+    if self.class.to_s.split('::').first == 'Admin'
+      @current_ability ||= AdminAbility.new(current_user)
+    else
+      @current_ability ||= Ability.new(current_user)
     end
-
-    ## Todo simplify this
-    redirect_to root_path unless has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
-  end
-
-  def verify_admin
-    if !verify_user
-      return
-    end
-
-    redirect_to root_path unless has_role?(current_user, 'admin')
   end
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug("Access denied!")
     redirect_to root_path, alert: exception.message
   end
-  helper_method :organizer_or_admin?
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
