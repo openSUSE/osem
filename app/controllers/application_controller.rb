@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     :authenticate_user!
 
     if (current_user.nil?)
-      redirect_to new_user_session_path
+      redirect_to new_user_registration_path
       return false
     end
 

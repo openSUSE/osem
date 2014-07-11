@@ -265,7 +265,7 @@ describe Admin::ConferenceController do
 
   describe 'guest access' do
 
-    it_behaves_like 'access as participant or guest', :new_user_session_path
+    it_behaves_like 'access as participant or guest', :new_user_registration_path
 
   end
 end
