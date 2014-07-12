@@ -82,9 +82,6 @@ gem 'font-awesome-rails'
 #Use Redcarpet for Markdown in description
 gem 'redcarpet'
 
-# Rubyracer is JavaScript Runtime of choice
-gem 'therubyracer'
-
 # FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/
 gem 'protected_attributes'
 
