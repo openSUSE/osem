@@ -1,20 +1,20 @@
 = semantic_form_for(@event, :url => @url) do |f|
   %section#basic
   = f.inputs :name => "Session Information" do
-    - if !@conference.call_for_papers.schedule_changes && @event.state == "confirmed" && !organizer_or_admin?
+    - if can? :update, @event
+      = f.input :title, :as => :string, :required => true
+    - else
       Title: #{@event.title}
       %br
       %br
-    - else
-      = f.input :title, :as => :string, :required => true
     = f.input :subtitle, :as => :string
   %section#details
-    - if (@event.state === "unconfirmed" || @event.state === "confirmed") && !organizer_or_admin? && !@conference.call_for_papers.schedule_changes
+    - if can? :update, @event
+      = f.input :event_type_id,:as => :select, :collection => @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id]}, :include_blank => false, :label => "Session Type"
+    - else
       Event type: #{@event.event_type.title}
       %br
       %br
-    - else
-      = f.input :event_type_id,:as => :select, :collection => @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id]}, :include_blank => false, :label => "Session Type"
     = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.use_difficulty_levels
     = f.input :require_registration
     = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
