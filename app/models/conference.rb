@@ -4,6 +4,7 @@
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
+  resourcify # Needed to call 'Conference.with_role' in /models/ability.rb and admin_ability.rb
 
   attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,

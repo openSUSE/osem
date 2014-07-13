@@ -7,7 +7,7 @@
         %small
           = @event.subtitle
       = link_to "Schedule", conference_schedule_path(@conference.short_title), :class =>"btn btn-success pull-right"
-      - if has_role?(current_user, "admin")
+      - if can? :edit, @event
         = link_to "Edit", edit_admin_conference_event_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary pull-right"
 .row
   .col-md-3
