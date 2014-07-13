@@ -13,7 +13,7 @@
     -else
       %h4 Registration is Closed, it was from #{ date_string(@conference.registration_start_date, @conference.registration_end_date) }
   - if @conference.registration_open?
-    = link_to "Register for #{@conference.short_title}", register_conference_path(@conference.short_title), :class =>"btn btn-success btn-lg", target: '_blank'
+    = link_to "Register for #{@conference.short_title}", conference_register_path(@conference.short_title), :class =>"btn btn-success btn-lg", target: '_blank'
   - if @conference.use_supporter_levels?
     - if @conference.include_tickets_in_splash?
       = render 'tickets'

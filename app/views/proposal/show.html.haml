@@ -37,7 +37,7 @@
           %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
             = @event.difficulty_level.title
     - if @event.require_registration
-      = link_to "Registration required!", register_conference_path(@conference.short_title), :class => "btn btn-xs btn-warning"
+      = link_to "Registration required!", conference_register_path(@conference.short_title), :class => "btn btn-xs btn-warning"
   .col-md-9
     .row
       .col-md-12

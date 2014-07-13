@@ -105,7 +105,6 @@ class ProposalController < ApplicationController
   end
 
   def confirm
-    authorize! :update, @event
     @url = conference_proposal_path(@conference.short_title, params[:id])
 
     begin

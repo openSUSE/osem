@@ -88,10 +88,10 @@ Osem::Application.routes.draw do
     resource :schedule, only: [] do
       get "/" => "schedule#index"
     end
+    get "/register" => "conference_registration#register"
+    patch "/register" => "conference_registration#update"
+    delete "/register" => "conference_registration#unregister"
     member do
-      get "/register" => "conference_registration#register"
-      patch "/register" => "conference_registration#update"
-      delete "/register" => "conference_registration#unregister"
       get "gallery_photos"
     end
   end
