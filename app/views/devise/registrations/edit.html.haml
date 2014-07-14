@@ -15,15 +15,15 @@
         %br
       = f.inputs name: 'OpenID' do
         %h4
-          Currently using the following openIDs:
+          Currently the following openIDs are associated with your account
         - @openids.each do |openid|
-          = openid.provider
-          = openid.email
+          %li= openid.provider + ': ' + openid.email
           %br
-        %h4
-          To add an openID to your account using a different email address, sign in with your
-          openID while logged in to OSEM
-        = render 'devise/shared/openid'
+        - if User.omniauth_providers.present?
+          %h4
+            To add an openID with a different email address to your account, sign in with your
+            openID while logged in to OSEM
+          = render 'devise/shared/openid'
 
       = f.inputs name: 'Account' do
         = f.input :email, required: false, input_html: {autocomplete: "off"}

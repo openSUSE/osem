@@ -15,7 +15,8 @@
         %br
         = render "devise/shared/links"
 
-  .col-md-4
-    .well
-      %h4 Or use your openID
-      = render 'devise/shared/openid'
+  - if resource_class.omniauth_providers.present?
+    .col-md-4
+      .well
+        %h4 Or use your openID
+        = render 'devise/shared/openid'

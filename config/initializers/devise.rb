@@ -8,7 +8,6 @@ Devise.setup do |config|
   # ==> openIDs configuration
   # Define the available openID providers that can be used to log in
   # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
-  # Include provider in users/omniauth_callbacks_controller.rb
 
   config.omniauth :open_id, name: 'novell', identifier: 'http://www.opensuse.org/openid/user'
   config.omniauth :google_oauth2, Rails.application.secrets.google_key, Rails.application.secrets.google_secret, {
@@ -140,7 +139,7 @@ Devise.setup do |config|
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
   # config.timeout_in = 30.minutes
-  
+
   # If true, expires auth token on session timeout.
   # config.expire_auth_token_on_timeout = false
 
