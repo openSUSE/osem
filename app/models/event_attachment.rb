@@ -6,6 +6,7 @@ class EventAttachment < ActiveRecord::Base
 
   has_attached_file :attachment, :path => ":rails_root/storage/:rails_env/attachments/:id/:style/:basename.:extension"
   include Rails.application.routes.url_helpers
+  do_not_validate_attachment_file_type :attachment
 
   def to_jq_upload
     {
