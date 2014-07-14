@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140701123203) do
+ActiveRecord::Schema.define(version: 20140714141156) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -431,6 +431,10 @@ ActiveRecord::Schema.define(version: 20140701123203) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "mobile"
+    t.string   "tshirt"
+    t.string   "languages"
+    t.text     "volunteer_experience"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
