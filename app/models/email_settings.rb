@@ -6,7 +6,7 @@ class EmailSettings < ActiveRecord::Base
                   :confirmed_without_registration_subject,
                   :send_on_updated_conference_dates, :updated_conference_dates_subject,
                   :updated_conference_dates_template, :send_on_updated_conference_registration_dates,
-                  :updated_conference_registration_dates_subject, :updated_conference_registration_dates_template
+                  :updated_conference_registration_dates_subject, :updated_conference_registration_dates_template,
                   :send_on_venue_update,
                   :venue_update_subject, :venue_update_template
 
