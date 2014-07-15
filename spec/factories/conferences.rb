@@ -8,7 +8,9 @@ FactoryGirl.define do
     timezone 'Amsterdam'
     contact_email 'admin@example.com'
     start_date Date.today
-    end_date Date.tomorrow
+    end_date Date.today + 6.days
+    registration_start_date Date.today + 3.days
+    registration_end_date Date.today + 5.days
     make_conference_public true
     venue
   end
