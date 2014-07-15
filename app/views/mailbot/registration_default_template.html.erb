@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <p>Dear <%= @name %>,</p>
+
+        <p>Thank you for Registering for the conference <%= @conference.title %>.
+          Please complete your registration by filling out your travel information.
+          If you are unable to attend please unregister online:</p>
+        <p><%= link_to "Unregister for #{@conference.title}", register_conference_path(@conference.short_title) %></p>
+
+        <p>Feel free to contact us with any questions or concerns.
+          We look forward to see you there.</p>
+
+        <p>Best wishes</p>
+
+        <p><%= @conference.title %> Team</p>
+    </body>
+</html>

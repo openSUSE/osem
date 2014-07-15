@@ -1,41 +1,88 @@
 class Mailbot < ActionMailer::Base
   default from: "no-reply@example.com"
 
-  def registration_mail(conference, person)
-    build_email(conference,
-                person.email,
-                conference.email_settings.registration_subject,
-                conference.email_settings.generate_registration_email(conference, person))
-
+  def registration_mail(conference, user)
+    # Send default template if subject or template is blank
+    if conference.email_settings.registration_subject.blank? ||
+    conference.email_settings.registration_email_template.blank?
+      subject = "Registration for #{conference.title}"
+      template = 'registration_default_template'
+      send_default_mail(template,
+                        subject,
+                        conference,
+                        user)
+    else
+      build_email(conference,
+                  user.email,
+                  conference.email_settings.registration_subject,
+                  conference.email_settings.generate_registration_email(conference, user))
+    end
   end
 
   def acceptance_mail(event)
     conference = event.conference
-    person = event.submitter
-    build_email(conference,
-                person.email,
-                conference.email_settings.accepted_subject,
-                conference.email_settings.generate_accepted_email(event))
+    user = event.submitter
 
+    # Send default template if subject or template is blank
+    if conference.email_settings.accepted_subject.blank? ||
+        conference.email_settings.accepted_email_template.blank?
+      subject = 'Your proposal has been accepted'
+      template = 'accepted_default_template'
+      send_default_mail(template,
+                        subject,
+                        conference,
+                        user,
+                        event)
+    else
+      build_email(conference,
+                  user.email,
+                  conference.email_settings.accepted_subject,
+                  conference.email_settings.generate_accepted_email(event))
+    end
   end
 
   def rejection_mail(event)
     conference = event.conference
-    person = event.submitter
+    user = event.submitter
+
+    # Send default template if subject or template is blank
+    if conference.email_settings.rejected_subject.blank? ||
+        conference.email_settings.rejected_email_template.blank?
+      subject = 'Your proposal has been rejected'
+      template = 'rejected_default_template'
+      send_default_mail(template,
+                        subject,
+                        conference,
+                        user,
+                        event)
+    else
     build_email(conference,
-                person.email,
+                user.email,
                 conference.email_settings.rejected_subject,
                 conference.email_settings.generate_rejected_email(event))
+    end
   end
 
   def confirm_reminder_mail(event)
     conference = event.conference
-    person = event.submitter
+    user = event.submitter
 
-    build_email(conference,
-                person.email,
-                conference.email_settings.confirmed_without_registration_subject,
-                conference.email_settings.confirmed_but_not_registered_email(event))
+    # Send default template if subject or template is blank
+    if conference.email_settings.confirmed_without_registration_subject.blank? ||
+        conference.email_settings.confirmed_email_template.blank?
+      subject = "Your are not registered for #{conference.title}"
+      template = 'confirmed_default_template'
+      send_default_mail(template,
+                        subject,
+                        conference,
+                        user,
+                        event)
+    else
+      build_email(conference,
+                  user.email,
+                  conference.email_settings.confirmed_without_registration_subject,
+                  conference.email_settings.confirmed_but_not_registered_email(event))
+    end
   end
 
   def conference_date_update_mail(conference,dates)
@@ -64,4 +111,19 @@ class Mailbot < ActionMailer::Base
          :body => body)
   end
 
+
+  def send_default_mail(template, subject, conference, user, event = nil)
+    @name = user.name
+    @conference = conference
+    if event
+      @event = event
+    end
+
+    mail(to: user.email,
+         from: conference.contact_email,
+         reply_to: conference.contact_email,
+         subject: subject,
+         template_name: template,
+         )
+  end
 end
