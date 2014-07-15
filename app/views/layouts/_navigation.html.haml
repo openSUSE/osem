@@ -45,12 +45,17 @@
                 = form_tag user_session_path do
                   = text_field_tag 'user[email]', nil, id: 'user_email_dd'
                   = password_field_tag 'user[password]', nil, id: 'user_password_dd'
-                  %label.checkbox
-                    = check_box_tag 'user[remember_me]'
-                    Remember me
-                  %button.btn.btn-block Sign in
-                  %br
-                  = link_to "Forgot your password?", new_password_path('user')
-                = link_to 'Sign in with openID', new_user_session_path
+                  %p.text-right
+                    %small
+                      Remember me
+                      = check_box_tag 'user[remember_me]'
+                  %button.btn.btn-success.btn-block Sign in
+                  %p
+                    %small
+                      %ul.list-unstyled
+                        %li
+                          = link_to "Forgot your password?", new_password_path('user')
+                        %li
+                          = link_to 'Sign in with openID', new_user_session_path
             %li.hidden-lg
               = link_to('Sign In', new_user_session_path)
