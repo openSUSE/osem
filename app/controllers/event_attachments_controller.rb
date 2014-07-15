@@ -71,7 +71,7 @@ class EventAttachmentsController < ApplicationController
                  :content_type => 'text/html',
                  :layout => false
         }
-        format.json { render json: [@upload.to_jq_upload].to_json, status: :created,
+        format.json { render json: {files: [@upload.to_jq_upload]}, status: :created,
                              location: conference_proposal_event_attachment_path(@upload.event.conference.short_title, @upload.event, @upload) }
       else
         format.html { render action: "new" }
@@ -97,13 +97,13 @@ class EventAttachmentsController < ApplicationController
 
   def destroy
     @proposal = Event.find(params[:proposal_id])
-    
+
     if organizer_or_admin? || current_user == @proposal.submitter
       @upload = @proposal.event_attachments.find(params[:id])
     end
-    
+
     @upload.destroy if !@upload.nil?
-    
+
     respond_to do |format|
 
       format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), :notice => "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
