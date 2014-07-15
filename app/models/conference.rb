@@ -92,6 +92,7 @@ class Conference < ActiveRecord::Base
   validates_format_of :short_title, :with => /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid
   before_create :create_venue
+  before_create :create_event_types
   before_create :create_email_settings
   before_create :add_color
 
@@ -841,10 +842,23 @@ class Conference < ActiveRecord::Base
   end
 
   ##
-  # Creates a venue and sets self.venue_id to it's id. Used as before_create.
+  # Creates a Venue for this Conference. Used as before_create.
   #
   def create_venue
     self.venue_id = Venue.create.id
+    true
+  end
+
+  ##
+  # Creates default EventTypes for this Conference. Used as before_create.
+  #
+  def create_event_types
+    event_types << EventType.create(title: 'Talk', length: 30, color: '#FF0000',
+                                    minimum_abstract_length: 0,
+                                    maximum_abstract_length: 500)
+    event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF',
+                                    minimum_abstract_length: 0,
+                                    maximum_abstract_length: 500)
     true
   end
 
