@@ -33,7 +33,8 @@ class Event < ActiveRecord::Base
   validate :biography_exists
   validates :title, presence: true
   validates :abstract, presence: true
-  validates :media_type, allow_nil: true, inclusion: { in: Conference.media_types.values }
+  validates :event_type, presence: true
+  validates :media_type, inclusion: { in: Conference.media_types.values }, allow_blank: true
 
   scope :confirmed, -> { where(state: 'confirmed') }
 
@@ -181,15 +182,14 @@ class Event < ActiveRecord::Base
   private
 
   def abstract_limit
+    # If we don't have an event type, there is no need to count anything
+    return unless event_type
     len = abstract.split.size
-    max = event_type.maximum_abstract_length
-    min = event_type.minimum_abstract_length
+    max_words = event_type.maximum_abstract_length
+    min_words = event_type.minimum_abstract_length
 
-    if len < min
-      errors.add(:abstract, "cannot have less than #{min} words")
-    end
-
-    errors.add(:abstract, "cannot have more than #{max} words") if len > max
+    errors.add(:abstract, "cannot have less than #{min_words} words") if len < min_words
+    errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
   end
 
   def biography_exists
