@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710130608) do
+ActiveRecord::Schema.define(version: 20140714141156) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20140710130608) do
     t.datetime "time"
   end
 
-  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
-  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
-  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
+  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time", using: :btree
+  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id", using: :btree
+  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id", using: :btree
 
   create_table "answers", force: true do |t|
     t.string   "title"
@@ -70,9 +70,9 @@ ActiveRecord::Schema.define(version: 20140710130608) do
     t.integer  "rgt"
   end
 
-  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
-  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type"
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "conferences", force: true do |t|
     t.string   "guid",                                            null: false
@@ -174,12 +174,12 @@ ActiveRecord::Schema.define(version: 20140710130608) do
 
   create_table "event_attachments", force: true do |t|
     t.integer  "event_id"
-    t.string   "title",                                   null: false
+    t.string   "title",                                  null: false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.boolean  "public",                  default: false
+    t.boolean  "public",                  default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -442,9 +442,9 @@ ActiveRecord::Schema.define(version: 20140710130608) do
     t.text     "volunteer_experience"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "vchoices", force: true do |t|
     t.integer "vday_id"
@@ -461,8 +461,8 @@ ActiveRecord::Schema.define(version: 20140710130608) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name",                       limit: 255
-    t.text     "address",                    limit: 255
+    t.text     "name"
+    t.text     "address"
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
@@ -473,8 +473,8 @@ ActiveRecord::Schema.define(version: 20140710130608) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "include_venue_in_splash",                default: false
-    t.boolean  "include_lodgings_in_splash",             default: false
+    t.boolean  "include_venue_in_splash",    default: false
+    t.boolean  "include_lodgings_in_splash", default: false
   end
 
   create_table "versions", force: true do |t|
@@ -487,7 +487,7 @@ ActiveRecord::Schema.define(version: 20140710130608) do
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "visits", force: true do |t|
     t.uuid     "visitor_id"
@@ -512,7 +512,7 @@ ActiveRecord::Schema.define(version: 20140710130608) do
     t.datetime "started_at"
   end
 
-  add_index "visits", ["user_id"], name: "index_visits_on_user_id"
+  add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
 
   create_table "votes", force: true do |t|
     t.integer  "event_id"
