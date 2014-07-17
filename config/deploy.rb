@@ -43,7 +43,7 @@ task :deploy => :environment do
 end
 
 desc 'Notifies the exception handler of the deploy.'
-task :notify_errbit do
+task :notify_errbit => :environment do
   revision = `git rev-parse HEAD`.strip
   user = ENV['USER']
   queue "bundle exec rake hoptoad:deploy TO=#{rails_env} REVISION=#{revision} REPO=#{repository} USER=#{user}"
