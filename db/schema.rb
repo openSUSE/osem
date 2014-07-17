@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140719160903) do
+ActiveRecord::Schema.define(version: 20140724113107) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -167,10 +167,10 @@ ActiveRecord::Schema.define(version: 20140719160903) do
 
   create_table "email_settings", force: true do |t|
     t.integer  "conference_id"
-    t.boolean  "send_on_registration",                                            default: false
-    t.boolean  "send_on_accepted",                                                default: false
-    t.boolean  "send_on_rejected",                                                default: false
-    t.boolean  "send_on_confirmed_without_registration",                          default: false
+    t.boolean  "send_on_registration",                           default: false
+    t.boolean  "send_on_accepted",                               default: false
+    t.boolean  "send_on_rejected",                               default: false
+    t.boolean  "send_on_confirmed_without_registration",         default: false
     t.text     "registration_email_template"
     t.text     "accepted_email_template"
     t.text     "rejected_email_template"
@@ -181,15 +181,21 @@ ActiveRecord::Schema.define(version: 20140719160903) do
     t.string   "accepted_subject"
     t.string   "rejected_subject"
     t.string   "confirmed_without_registration_subject"
-    t.boolean  "send_on_updated_conference_dates",                                default: false
+    t.boolean  "send_on_updated_conference_dates",               default: false
     t.string   "updated_conference_dates_subject"
     t.text     "updated_conference_dates_template"
-    t.boolean  "send_on_updated_conference_registration_dates",                   default: false
+    t.boolean  "send_on_updated_conference_registration_dates",  default: false
     t.string   "updated_conference_registration_dates_subject"
     t.text     "updated_conference_registration_dates_template"
-    t.boolean  "send_on_venue_update",                                            default: false
+    t.boolean  "send_on_venue_update",                           default: false
     t.string   "venue_update_subject"
     t.text     "venue_update_template"
+    t.boolean  "send_on_call_for_papers_dates_updates",          default: false
+    t.boolean  "send_on_call_for_papers_schedule_public",        default: false
+    t.string   "call_for_papers_schedule_public_subject"
+    t.string   "call_for_papers_dates_updates_subject"
+    t.text     "call_for_papers_schedule_public_template"
+    t.text     "call_for_papers_dates_updates_template"
   end
 
   create_table "event_attachments", force: true do |t|
@@ -481,8 +487,8 @@ ActiveRecord::Schema.define(version: 20140719160903) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name"
-    t.text     "address"
+    t.text     "name",                       limit: 255
+    t.text     "address",                    limit: 255
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
@@ -493,8 +499,8 @@ ActiveRecord::Schema.define(version: 20140719160903) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "include_venue_in_splash",    default: false
-    t.boolean  "include_lodgings_in_splash", default: false
+    t.boolean  "include_venue_in_splash",                default: false
+    t.boolean  "include_lodgings_in_splash",             default: false
   end
 
   create_table "versions", force: true do |t|
