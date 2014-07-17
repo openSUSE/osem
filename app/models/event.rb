@@ -30,10 +30,11 @@ class Event < ActiveRecord::Base
   before_create :generate_guid
 
   validate :abstract_limit
-  validate :biography_exists
+  validate :name_and_biography_exists
   validates :title, presence: true
   validates :abstract, presence: true
   validates :event_type, presence: true
+  validates :conference, presence: true
   validates :media_type, inclusion: { in: Conference.media_types.values }, allow_blank: true
 
   scope :confirmed, -> { where(state: 'confirmed') }
@@ -192,8 +193,9 @@ class Event < ActiveRecord::Base
     errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
   end
 
-  def biography_exists
-    errors.add(:user_biography, 'must be filled out') if submitter.biography_word_count == 0
+  def name_and_biography_exists
+    errors.add(:biography, "cant' be blank") if submitter.biography.blank?
+    errors.add(:username, " can't be blank") if submitter.name.blank?
   end
 
   def generate_guid

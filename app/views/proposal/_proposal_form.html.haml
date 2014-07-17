@@ -14,7 +14,7 @@
       %br
       %br
     - else
-      = f.input :event_type_id,:as => :select, :collection => @event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id]}, :include_blank => false, :label => "Session Type"
+      = f.input :event_type_id,:as => :select, :collection => @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id]}, :include_blank => false, :label => "Session Type"
     = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.use_difficulty_levels
     = f.input :require_registration
     = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
@@ -41,22 +41,18 @@
     = f.input :media_id, :label => "Media ID", :as => :string
 
   %section#information
-  = f.inputs :name => "Your Information" do
-    = semantic_fields_for @user do |u|
-      = u.input :name, :as => :string, :required => true
-      = u.input :affiliation, :as => :string, :hint => "This could be a company, a user group, or nothing at all."
-      = u.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
-      You have used
-      %span#biography-count #{@user.biography_word_count}
-      words.  Biographies are limited to 150 words.
-      %br
-      %br
-  %section#speakers
-  = f.inputs :name => "Additional Speakers" do
-    Will there be any additional speakers?  If so, please enter their full names, email address, and a short
-    biography for each.
-    = f.input :proposal_additional_speakers, :input_html => {:rows => 5, :class => "span11"}, :label => false
-  = f.action :submit, :as => :button, :label => "Submit Session",  :button_html => {:class => "btn btn-primary"}
+  - if current_user.name.blank? || current_user.biography.blank?
+    = f.inputs :name => "Your Information" do
+      = semantic_fields_for current_user do |u|
+        - if current_user.name.blank?
+          = u.input :name, :as => :string, :required => true
+        - if current_user.biography.blank?
+          = u.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
+          You have used
+          %span#biography-count #{current_user.biography_word_count}
+          words.  Biographies are limited to 150 words.
+  %p.text-right
+    = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}
 
 :javascript
   var maxcount = 0;
