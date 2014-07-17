@@ -1,17 +1,17 @@
 HoptoadNotifier.configure do |config|
   # Change this to some sensible data for your errbit instance
   config.api_key = Rails.application.secrets.errbit_key || ''
-  config.host    = CONFIG['errbit_host'] || ''
+  config.host    = Rails.application.secrets.errbit_host || ''
   if config.api_key.blank? || config.host.blank?
     config.development_environments = 'production development test'
   else
     config.development_environments = 'development test'
   end
 
-  config.ignore_only = %w{ 
+  config.ignore_only = %w{
     Some::ExceptionName
   }
- 
+
   config.ignore_by_filter do |exception_data|
     ret=false
     if exception_data[:error_class] == 'ActionController::RoutingError'
