@@ -10,17 +10,20 @@
           %span.glyphicon.glyphicon-home
           All Conferences
       - @conferences.each do |conference|
+        - if can? :show, conference
+          %li
+            = link_to(admin_conference_path(conference.short_title)) do
+              %span.glyphicon.glyphicon-cog
+              Manage
+              = conference.short_title
+      - if can? :create, Conference
         %li
-          = link_to(admin_conference_path(conference.short_title)) do
-            %span.glyphicon.glyphicon-cog
-            Manage
-            = conference.short_title
-      %li
-        = link_to(new_admin_conference_path) do
-          %span.glyphicon.glyphicon-plus
-          New Conference
-  %hr
-  %li
-    = link_to(admin_users_path) do
-      %span.glyphicon.glyphicon-user
-      Users
+          = link_to(new_admin_conference_path) do
+            %span.glyphicon.glyphicon-plus
+            New Conference
+  - if can? :index, User
+    %hr
+    %li
+      = link_to(admin_users_path) do
+        %span.glyphicon.glyphicon-user
+        Users

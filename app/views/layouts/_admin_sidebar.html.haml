@@ -10,83 +10,104 @@
           %span.glyphicon.glyphicon-home
           All Conferences
       - @conferences.each do |conference|
+        - if can? :show, conference
+          %li
+            = link_to(admin_conference_path(conference.short_title)) do
+              %span.glyphicon.glyphicon-cog
+              Manage
+              = conference.short_title
+      - if can? :create, Conference
         %li
-          = link_to(admin_conference_path(conference.short_title)) do
-            %span.glyphicon.glyphicon-cog
-            Manage
-            = conference.short_title
-      %li
-        = link_to(new_admin_conference_path) do
-          %span.glyphicon.glyphicon-plus
-          New Conference
+          = link_to(new_admin_conference_path) do
+            %span.glyphicon.glyphicon-plus
+            New Conference
   %hr
-  %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
-    = link_to(admin_conference_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-dashboard
-      Manage
-  %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
-    = link_to(admin_conference_events_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-comment
-      Events
-  %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
-    = link_to(admin_conference_registrations_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-user
-      Registrations
-  %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
-    = link_to(admin_conference_schedule_path(@conference.short_title), target: '_blank') do
-      %span.glyphicon.glyphicon-calendar
-      Schedule
-  %li{class: active_nav_li(admin_conference_campaigns_path(@conference.short_title))}
-    = link_to(admin_conference_campaigns_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-bullhorn
-      Campaigns
+  - if can? :show, @conference
+    %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
+      = link_to(admin_conference_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-dashboard
+        Manage
+  - if can? :index, Event, conference_id: @conference.id
+    %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
+      = link_to(admin_conference_events_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-comment
+        Events
+  - if can? :index, @conference => Registration
+    %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
+      = link_to(admin_conference_registrations_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-user
+        Registrations
+  - if can? :update, :schedule
+    %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
+      = link_to(admin_conference_schedule_path(@conference.short_title), target: '_blank') do
+        %span.glyphicon.glyphicon-calendar
+        Schedule
+  - if can? :index, Campaign, conference_id: @conference.id
+    %li{class: active_nav_li(admin_conference_campaigns_path(@conference.short_title))}
+      = link_to(admin_conference_campaigns_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-bullhorn
+        Campaigns
   %hr
-  %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
-    = link_to(edit_admin_conference_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-cog
-      Settings
-  %li{:class=> "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
-    = link_to(admin_conference_targets_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-flag
-      Targets
-  %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
-    = link_to(admin_conference_venue_info_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-road
-      Venue
-      %span.small.glyphicon.glyphicon-chevron-right
-    %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
-      %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
-        = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
-      %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
-        = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
-  %li{:class=> "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))} myAccordion" }
-    = link_to(admin_conference_sponsorship_levels_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-star
-      Sponsorship
-      %span.small.glyphicon.glyphicon-chevron-right
-    %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
-      %li{:class=> active_nav_li(admin_conference_sponsors_path(@conference.short_title))}
-        = link_to 'Sponsors', admin_conference_sponsors_path(@conference.short_title)
-  %li{ class: active_nav_li(admin_conference_supporter_levels_path(@conference.short_title)) }
-    = link_to(admin_conference_supporter_levels_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-usd
-      Supporter Levels
-  %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
-    = link_to(admin_conference_emails_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-envelope
-      E-Mails
-  %li{:class=> "#{active_nav_li(admin_conference_callforpapers_path(@conference.short_title))} myAccordion"}
-    = link_to(admin_conference_callforpapers_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-comment
-      Call for papers
-      %span.small.glyphicon.glyphicon-chevron-right
-    %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
-      %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
-        = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_event_types_path(@conference.short_title))}
-        = link_to 'Event types', admin_conference_event_types_path(@conference.short_title)
-      %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
-        = link_to 'Difficulty levels', admin_conference_difficulty_levels_path(@conference.short_title)
+  - if can? :update, Conference, id: @conference.id
+    %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
+      = link_to(edit_admin_conference_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-cog
+        Settings
+  - if can? :index, Target, conference_id: @conference.id
+    %li{:class=> "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
+      = link_to(admin_conference_targets_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-flag
+        Targets
+  - if can? :index, Venue, id: @conference.venue.id
+    %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
+      = link_to(admin_conference_venue_info_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-road
+        Venue
+        %span.small.glyphicon.glyphicon-chevron-right
+      %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
+        - if can? :index, Room, conference_id: @conference.id
+          %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
+            = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
+        - if can? :index, Lodging, venue_id: @conference.venue.id
+          %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
+            = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
+  - if can? :index, SponsorshipLevel, conference_id: @conference.id
+    %li{:class=> "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))} myAccordion" }
+      = link_to(admin_conference_sponsorship_levels_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-star
+        Sponsorship
+        %span.small.glyphicon.glyphicon-chevron-right
+      %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
+        - if can? :index, Sponsor, conference_id: @conference.id
+          %li{:class=> active_nav_li(admin_conference_sponsors_path(@conference.short_title))}
+            = link_to 'Sponsors', admin_conference_sponsors_path(@conference.short_title)
+  - if can? :index, SupporterLevel, conference_id: @conference.id
+    %li{ class: active_nav_li(admin_conference_supporter_levels_path(@conference.short_title)) }
+      = link_to(admin_conference_supporter_levels_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-usd
+        Supporter Levels
+  - if can? :index, EmailSettings, conference_id: @conference.id
+    %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
+      = link_to(admin_conference_emails_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-envelope
+        E-Mails
+  - if can? :index, CallForPapers, conference_id: @conference.id
+    %li{:class=> "#{active_nav_li(admin_conference_callforpapers_path(@conference.short_title))} myAccordion"}
+      = link_to(admin_conference_callforpapers_path(@conference.short_title)) do
+        %span.glyphicon.glyphicon-comment
+        Call for papers
+        %span.small.glyphicon.glyphicon-chevron-right
+      %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
+        - if can? :index, @conference => Track
+          %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
+            = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)
+        - if can? :index, EventType, conference_id: @conference.id
+          %li{:class=> active_nav_li(admin_conference_event_types_path(@conference.short_title))}
+            = link_to 'Event types', admin_conference_event_types_path(@conference.short_title)
+        - if can? :index, DifficultyLevel, conference_id: @conference.id
+          %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
+            = link_to 'Difficulty levels', admin_conference_difficulty_levels_path(@conference.short_title)
+  - if can? :index, Question, conference_id: @conference.id
     %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}
       = link_to(admin_conference_questions_path(@conference.short_title)) do
         %span.glyphicon.glyphicon-question-sign

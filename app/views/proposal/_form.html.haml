@@ -45,7 +45,7 @@
           data.formData = inputs.serializeArray();
       });
       $.getJSON($('#fileupload').prop('action'), function (files) {
-        var fu = $('#fileupload').data('fileupload'),
+        var fu = $('#fileupload').data('blueimpFileupload'),
           template;
         fu._adjustMaxNumberOfFiles(-files.length);
         template = fu._renderDownload(files)

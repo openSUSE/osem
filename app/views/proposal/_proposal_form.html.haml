@@ -1,7 +1,7 @@
 = semantic_form_for(@event, :url => @url) do |f|
   %section#basic
   = f.inputs :name => "Session Information" do
-    - if can? :update, @event
+    - if can? :update, @event or can? :create, @event
       = f.input :title, :as => :string, :required => true
     - else
       Title: #{@event.title}
@@ -9,7 +9,7 @@
       %br
     = f.input :subtitle, :as => :string
   %section#details
-    - if can? :update, @event
+    - if can? :update, @event or can? :create, @event
       = f.input :event_type_id,:as => :select, :collection => @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id]}, :include_blank => false, :label => "Session Type"
     - else
       Event type: #{@event.event_type.title}

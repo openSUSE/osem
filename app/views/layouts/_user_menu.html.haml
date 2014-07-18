@@ -11,13 +11,13 @@
   = link_to(destroy_user_session_path, :method=>'delete') do
     %span.glyphicon.glyphicon-minus
     Sign out
--if has_role?(current_user, "admin") || has_role?(current_user, "organizer")
+- if can? :index, Conference
   %li.divider
     %li
       = link_to(admin_conference_index_path()) do
         %span.glyphicon.glyphicon-home
         Administration
-    -if @conference and @conference.id
+    -if @conference and @conference.id and can? :index, @conference
       %li
         = link_to(admin_conference_path(@conference.short_title)) do
           %span.glyphicon.glyphicon-cog
