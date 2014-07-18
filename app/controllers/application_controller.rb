@@ -45,11 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    if self.class.to_s.split('::').first == 'Admin'
-      @current_ability ||= AdminAbility.new(current_user)
-    else
-      @current_ability ||= Ability.new(current_user)
-    end
+    @current_ability ||= Ability.new(current_user)
   end
 
   rescue_from CanCan::AccessDenied do |exception|
