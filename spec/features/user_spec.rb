@@ -8,15 +8,13 @@ feature User do
   shared_examples 'admin ability' do |user|
     scenario 'deletes a user', feature: true, js: true do
       sign_in(admin)
+      @user = create(:user)
       visit admin_users_path
       expected_count = User.count - 1
-      page.all('btn btn-primary btn-danger') do
-        click_link 'Delete'
-        page.evaluate_script('window.confirm = function() { return true; }')
-        page.click('OK')
-        expect(flash).to eq('User got deleted')
-        expect(User.count).to eq(expected_count)
-      end
+      find("#user-delete-#{@user.id}").click
+      page.evaluate_script('window.confirm = function() { return true; }')
+      expect(flash).to eq('User got deleted')
+      expect(User.count).to eq(expected_count)
       sign_out
     end
     scenario 'can modify roles', feature: true, js: true do
