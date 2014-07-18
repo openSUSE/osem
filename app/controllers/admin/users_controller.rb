@@ -4,6 +4,7 @@ module Admin
 
     def index
       @users = User.all
+      @roles = Role.all.where(resource_type: nil)
     end
 
     def show

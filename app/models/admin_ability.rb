@@ -48,8 +48,6 @@ class AdminAbility
       cannot :manage, :schedule
       can :manage, :schedule
 
-#       cannot :manage, Registration
-#       can :manage, Registration, conference: { id: conf_ids_for_organizer}
       # Authorize explicitely, so that it doesn't look for a 'conference_id'
       can :manage, :volunteer
 
@@ -64,9 +62,11 @@ class AdminAbility
       # can :manage, Role, resource_id: conf_ids_for_organizer
     end
 
-    if user.is_organizer? # A user can have 'organizer' role not associated to specific conference
+    if user.is_admin # is_admin is an attribute of User
       can :create, Conference
-      # Can manage /admin/conference # any organizer of any conference and anyone who can create a conf can view the /admin/conference
+      can :index, Conference # this will allow the Conference to appear in the menu
+      can :view, Conference # for /admin/conference overview
+      can :manage, User # to make other users admins
     end
 
     ## Authorization for CfP
@@ -107,9 +107,5 @@ class AdminAbility
       can :manage, Vday, conference_id: conf_ids_for_volunteer_coordinator
       can :manage, :volunteer
     end
-
-    # Allow access to event_attachments that belong to events (via event_id), which
-    # events belong to a conference (via conference_id) that has an organizer role for current user
-#     can :manage, EventAttachment, event_id: (Event.where(conference_id: conf_ids_for_organizer).pluck(:id))
   end
 end

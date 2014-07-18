@@ -49,18 +49,7 @@
                       %h3{:id => "role-selector-header-#{user.id}"}
                         Modifying Roles
                     .modal-body
-                      - if current_user == user
-                        You cannot modify your own role!
-                        %br
-                        %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
-                          Cancel
-                      - else
-                        = "Give #{user.name} (#{user.email}) the following roles:"
-                        = semantic_form_for(user, :url => admin_user_path(user), :method => :put) do |f|
-                          = f.input :roles, :label => false
-                          %button{:class=> "btn btn-danger", "data-dismiss"=> "modal", "aria-hidden"=>"true"}
-                            Cancel
-                          = f.action :submit, :as => :button, :button_html => {:value => "Save", :class => "btn btn-primary"}
+                      = render partial: 'roles', locals: { user: user }
               - if can? :update, Role
                 =link_to "#{user.roles.map { |role| role.name }.join ', '}", "#", "data-toggle" => "modal", "data-target" => "#user-role-selection-#{user.id}",id: "user-modify-role-#{user.id}"
               - else
