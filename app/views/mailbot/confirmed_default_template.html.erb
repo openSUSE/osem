@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <p>Dear <%= @name %>,</p>
+
+        <p>Thank you for the confirmation of <%= @event.title %>. Unfortunately you are
+          not registered for the conference <%= @conference.title %>. Please register as soon as possible:</p>
+
+        <p><%= link_to "Register for #{@conference.title}", register_conference_path(@conference.short_title) %></p>
+
+        <p>Feel free to contact us with any questions or concerns.</p>
+
+        <p>We look forward to seeing you there.</p>
+
+        <p>Best wishes</p>
+
+        <p><%= @conference.title %> Team</p>
+    </body>
+</html>

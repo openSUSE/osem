@@ -49,6 +49,8 @@ class EmailSettings < ActiveRecord::Base
     parse_template(template, values)
   end
 
+  private
+
   def parse_template(text, values)
     values.each do |key, value|
       text = text.gsub "{#{key}}", value unless text.blank?
