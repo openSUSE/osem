@@ -80,8 +80,10 @@ Osem::Application.routes.draw do
   resources :conference, only: [:show] do
     resources :proposal do
       resources :event_attachment, :controller => "event_attachments"
-      patch '/confirm' => 'proposal#confirm'
-      patch '/restart' => 'proposal#restart'
+      member do
+        patch '/confirm' => 'proposal#confirm'
+        patch '/restart' => 'proposal#restart'
+      end
     end
     resource :schedule, :only => [] do
       get "/" => "schedule#index"

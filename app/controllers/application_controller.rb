@@ -64,10 +64,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path unless has_role?(current_user, 'admin')
   end
 
-  def current_ability
-    @current_ability ||= AdminAbility.new(current_user)
-  end
-
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug("Access denied!")
     redirect_to root_path, :alert => exception.message
