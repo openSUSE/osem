@@ -127,7 +127,9 @@ module Admin
     end
 
     def accept
-      update_state(params[:id], :accept, 'Event accepted!', true)
+      event = Event.find(params[:id])
+      subject = event.conference.email_settings.accepted_subject.blank?
+      update_state(params[:id], :accept, 'Event accepted!', true, subject)
     end
 
     def confirm
@@ -139,7 +141,9 @@ module Admin
     end
 
     def reject
-      update_state(params[:id], :reject, 'Event rejected!', true)
+      event = Event.find(params[:id])
+      subject = event.conference.email_settings.rejected_subject.blank?
+      update_state(params[:id], :reject, 'Event rejected!', true, subject)
     end
 
     def restart
@@ -167,10 +171,11 @@ module Admin
 
     private
 
-    def update_state(id, transition, notice, mail = false)
+    def update_state(id, transition, notice, mail = false, subject = nil)
       event = Event.find(id)
-      if mail
-        check_mail_settings(event)
+      if mail && params[:send_mail].blank? && event && subject
+          return redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
+                             notice: 'Please add a Subject before sending Mails!') && return
       end
       if event
         begin
@@ -182,25 +187,13 @@ module Admin
           end
           event.save
         rescue Transitions::InvalidTransition => e
-          redirect_to(
-              admin_conference_events_path(conference_id: @conference.short_title),
-              notice: "Update state failed. #{e.message}") && return
+          notice = "Update state failed. #{e.message}"
         end
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: notice)
       else
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: 'Error! Could not find event!')
+        notice = 'Error! Could not find event!'
       end
-    end
-
-    def check_mail_settings(event)
-      if !params[:send_mail].blank? && event &&
-          event.conference.email_settings.rejected_email_template.nil? &&
-          event.conference.email_settings.accepted_email_template.nil?
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: 'Update Email Template before Sending Mails') && return
-      end
+      redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
+                   notice: notice) && return
     end
   end
 end

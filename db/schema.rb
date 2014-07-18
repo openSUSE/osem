@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714141156) do
+ActiveRecord::Schema.define(version: 20140716115448) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -150,10 +150,10 @@ ActiveRecord::Schema.define(version: 20140714141156) do
 
   create_table "email_settings", force: true do |t|
     t.integer  "conference_id"
-    t.boolean  "send_on_registration",                           default: true
-    t.boolean  "send_on_accepted",                               default: true
-    t.boolean  "send_on_rejected",                               default: true
-    t.boolean  "send_on_confirmed_without_registration",         default: true
+    t.boolean  "send_on_registration",                   default: false
+    t.boolean  "send_on_accepted",                       default: false
+    t.boolean  "send_on_rejected",                       default: false
+    t.boolean  "send_on_confirmed_without_registration", default: false
     t.text     "registration_email_template"
     t.text     "accepted_email_template"
     t.text     "rejected_email_template"
