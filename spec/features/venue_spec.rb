@@ -4,7 +4,7 @@ feature Conference do
 
   # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'venue' do |user|
     scenario 'adds and updates venue' do
@@ -59,7 +59,7 @@ feature Conference do
   end
 
   describe 'organizer' do
-    it_behaves_like 'venue', :organizer
+    it_behaves_like 'venue', :organizer_conference_1
   end
 
 end

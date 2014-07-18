@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_conferences
   before_filter :store_location
+  before_filter :verify_user_admin
   helper_method :date_string
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
@@ -31,6 +32,12 @@ class ApplicationController < ActionController::Base
 
   def get_conferences
     @conferences =Conference.all
+  end
+
+  def verify_user_admin
+    if self.class.to_s.split('::').first == 'Admin'
+      verify_user
+    end
   end
 
   def verify_user

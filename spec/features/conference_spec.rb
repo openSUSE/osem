@@ -4,7 +4,7 @@ feature Conference do
 
   # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'add and update conference' do |user|
     scenario 'adds a new conference', feature: true, js: true do
@@ -36,7 +36,7 @@ feature Conference do
     scenario 'update conference', feature: true, js: true do
       conference = create(:conference)
       expected_count = Conference.count
-      sign_in create(user)
+      sign_in create(:organizer_conference_1_role)
 
       visit edit_admin_conference_path(conference.short_title)
       fill_in 'conference_title', with: 'New Con'
@@ -56,6 +56,6 @@ feature Conference do
   end
 
   describe 'organizer' do
-    it_behaves_like 'add and update conference', :organizer
+    it_behaves_like 'add and update conference', :admin
   end
 end

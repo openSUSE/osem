@@ -19,9 +19,12 @@ FactoryGirl.define do
       after(:create) { |user| user.role_ids = create(:participant_role).id }
     end
 
-    factory :organizer do
-      after(:create) { |user| user.role_ids = create(:organizer_role).id }
+    factory :organizer_conference_1 do
+      after(:create) { |user| user.role_ids = create(:organizer_conference_1_role).id }
     end
 
+    factory :admin do
+      is_admin true
+    end
   end
 end

@@ -71,6 +71,9 @@ class Ability
     # Ids of all the conferences for which the user has an 'organizer' role
     conf_ids_for_organizer =
         Conference.with_role(:organizer, user).pluck(:id) unless user.new_record?
+    # Ids of the venues of the conference for which (conferences) the user has an 'organizer' role
+    conf_ids_for_organizer_venue =
+        Conference.with_role(:organizer, user).pluck(:venue_id) unless user.new_record?
     # Ids of all the conferences for which the user has a 'cfp' role
     conf_ids_for_cfp =
         Conference.with_role(:cfp, user).pluck(:id) unless user.new_record?
@@ -105,7 +108,7 @@ class Ability
       # Authorize Conference by its 'id' attribute
       can :manage, Conference, id: conf_ids_for_organizer
       # Authorize venues of conferences, which user can manage
-      can :manage, Venue, conference: { id: conf_ids_for_organizer }
+      can :manage, Venue, id: conf_ids_for_organizer_venue
       # id: Conference.where(id: conf_ids_for_organizer).map(&:venue_id)
       # User can view the admin 'users' page if he is an organizer for any conference
       can :manage, User if user.has_role?('organizer', :any)

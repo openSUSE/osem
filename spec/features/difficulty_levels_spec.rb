@@ -3,7 +3,7 @@ require 'spec_helper'
 feature DifficultyLevel do
   # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'difficulty levels' do |user|
     scenario 'adds and updates difficulty level', feature: true, js: true do
@@ -50,6 +50,6 @@ feature DifficultyLevel do
   end
 
   describe 'organizer' do
-    it_behaves_like 'difficulty levels', :organizer
+    it_behaves_like 'difficulty levels', :organizer_conference_1
   end
 end

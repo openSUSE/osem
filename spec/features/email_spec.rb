@@ -3,7 +3,7 @@ require 'spec_helper'
 feature Event do
   # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'email settings' do |user|
     scenario 'updates email settings',
@@ -91,6 +91,6 @@ feature Event do
   end
 
   describe 'organizer' do
-    it_behaves_like 'email settings', :organizer
+    it_behaves_like 'email settings', :organizer_conference_1
   end
 end

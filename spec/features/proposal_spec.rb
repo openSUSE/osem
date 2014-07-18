@@ -3,13 +3,13 @@ require 'spec_helper'
 feature Event do
   # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'proposal workflow' do
     scenario 'submitts a proposal, accepts and confirms',
              feature: true, js: true do
 
-      organizer = create(:organizer, email: 'admin@example.com')
+      organizer = create(:organizer_conference_1, email: 'admin@example.com')
       participant = create(:participant, email: 'participant@example.com')
 
       expected_count = Event.count + 1

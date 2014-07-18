@@ -4,7 +4,7 @@ feature Campaign do
 
   # It is necessary to use bang version of let to build roles before user
   let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'add and update campaign' do |user|
     scenario 'adds and update a campaign', feature: true, js: true do
@@ -52,6 +52,6 @@ feature Campaign do
   end
 
   describe 'organizer' do
-    it_behaves_like 'add and update campaign', :organizer
+    it_behaves_like 'add and update campaign', :organizer_conference_1
   end
 end

@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Admin::ConferenceController do
 
   # It is necessary to use bang version of let to build roles before user
-  let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_role) }
-
   let(:conference) { create(:conference) }
-  let(:organizer) { create(:organizer) }
+  let!(:participant_role) { create(:participant_role) }
+  let!(:organizer_role) { create(:organizer_conference_1_role, resource_id: conference.id) }
+
+  let(:organizer) { create(:organizer_conference_1, is_admin: true) }
   let(:participant) { create(:participant) }
 
   shared_examples 'access as administration' do
@@ -226,7 +226,9 @@ describe Admin::ConferenceController do
       it 'requires organizer privileges' do
         get :show, id: conference.short_title
         expect(response).to redirect_to(send(path))
-        expect(flash[:alert]).to match(/#{message}/)
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
       end
     end
 
@@ -234,7 +236,9 @@ describe Admin::ConferenceController do
       it 'requires organizer privileges' do
         get :index
         expect(response).to redirect_to(send(path))
-        expect(flash[:alert]).to match(/#{message}/)
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
       end
     end
 
@@ -242,7 +246,9 @@ describe Admin::ConferenceController do
       it 'requires organizer privileges' do
         get :new
         expect(response).to redirect_to(send(path))
-        expect(flash[:alert]).to match(/#{message}/)
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
       end
     end
 
@@ -251,7 +257,9 @@ describe Admin::ConferenceController do
         post :create, conference: attributes_for(:conference,
                                                  short_title: 'ExCon')
         expect(response).to redirect_to(send(path))
-        expect(flash[:alert]).to match(/#{message}/)
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
       end
     end
 
@@ -261,7 +269,9 @@ describe Admin::ConferenceController do
                        conference: attributes_for(:conference,
                                                   short_title: 'ExCon')
         expect(response).to redirect_to(send(path))
-        expect(flash[:alert]).to match(/#{message}/)
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
       end
     end
   end
@@ -277,7 +287,7 @@ describe Admin::ConferenceController do
 
   describe 'guest access' do
 
-    it_behaves_like 'access as participant or guest', :root_path, 'You are not authorized to access this page.'
+    it_behaves_like 'access as participant or guest', :new_user_session_path
 
   end
 end

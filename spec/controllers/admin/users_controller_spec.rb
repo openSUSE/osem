@@ -1,8 +1,8 @@
 require 'spec_helper'
 describe Admin::UsersController do
-  let!(:organizer_role) { create(:organizer_role) }
+  let!(:organizer_role) { create(:organizer_conference_1_role ) }
   let!(:participant_role) { create(:participant_role) }
-  let(:organizer) { create(:organizer) }
+  let(:organizer) { create(:organizer_conference_1) }
   let(:user) { create(:user) }
   before(:each) do
     sign_in(organizer)
