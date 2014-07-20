@@ -91,6 +91,7 @@ gem 'rdoc-generator-fivefish'
 # We use factory_girl for seeds
 gem 'factory_girl_rails'
 
+gem 'delayed_job_active_record'
 # We use ahoy for visitor tracking
 gem 'ahoy_matey'
 gem 'activeuuid'
