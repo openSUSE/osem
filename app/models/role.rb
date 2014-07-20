@@ -4,4 +4,6 @@ class Role < ActiveRecord::Base
   belongs_to :resource, polymorphic: true
 
   scopify
+
+  LABELS = ['Participant', 'Attendee', 'Volunteer', 'Speaker', 'Sponsor', 'Press', 'Organizer', 'CfP', 'Info Desk', 'Volunteers Coordinator']
 end

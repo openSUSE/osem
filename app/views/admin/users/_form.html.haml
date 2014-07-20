@@ -1,8 +1,13 @@
 = semantic_form_for [:admin, @user] do |f|
-  = f.inputs "Basic Information" do
+  = f.inputs 'Basic Information' do
     = f.input :name, :as => :string
     = f.input :email
-    = f.input :affiliation, :as => :string
-    = f.input :biography, :input_html => {:rows => 10}
-  = f.actions do
-    = f.action :submit, :button_html => {:class => "btn btn-primary"}
+    = f.input :affiliation, as: :string
+    = f.input :biography, input_html: { rows: 5, "onkeyup" => "word_count(this, 'biography-count', 150)" }
+    You have used
+    %span#biography-count #{@user.biography_word_count}
+    words.  Biographies are limited to 150 words.
+    %br
+    %br
+    = f.actions do
+      = f.action :submit, button_html: { class: 'btn btn-primary' }

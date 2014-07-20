@@ -1,0 +1,11 @@
+= semantic_form_for(user, url: add_role_admin_user_path(user), remote: true) do |f|
+  .pull-left
+    = f.action :submit, as: :button, label: 'Add Role', button_html: {value: 'Save', class: 'btn btn-success'}
+  %br
+  %br
+  = f.fields_for :roles, Role.new do |role|
+    = role.input :name, label: 'Select role', collection: Role::LABELS
+    = role.label 'Select Conference'
+    %br
+    = role.input :resource, label: false, collection: Conference.all.map { |c| [c.short_title, c.id] }
+    %br

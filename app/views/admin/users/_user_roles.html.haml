@@ -1,0 +1,10 @@
+- user ||= @user
+.roles{ id: 'current_roles' }
+  = semantic_form_for(user, url: admin_user_path(user)) do |f|
+    = f.action :submit, as: :button, label: 'Update Roles', button_html: {value: 'Save', class: 'btn btn-primary'}
+    = f.inputs "Roles for #{@user.name}" do
+      - user.roles.each do |role|
+        %br
+        = hidden_field_tag "user[role_ids][]", nil
+        = check_box_tag "user[role_ids][]", role.id, user.roles.include?(role), id: dom_id(role)
+        = label_tag dom_id(role), "#{ role.name.capitalize } for #{ role.resource_type.constantize.find(role.resource_id).short_title }"

@@ -5,7 +5,11 @@ Osem::Application.routes.draw do
                      path: 'accounts'
 
   namespace :admin do
-    resources :users
+    resources :users do
+      member do
+        patch 'add_role' => 'users#add_role'
+      end
+    end
     resources :people
     resources :conference do
       resource :schedule, only: [:show, :update]

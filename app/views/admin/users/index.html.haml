@@ -40,26 +40,17 @@
             %td
               = user.registrations.count
             %td
-              .modal.fade{:id => "user-role-selection-#{user.id}", "role" => "dialog", "aria-hidden" => "true"}
-                .modal-dialog
-                  .modal-content
-                    .modal-header
-                      %button{"type"=>"button", :class=>"close", "data-dismiss"=>"modal", "aria-hidden"=>"true"}
-                        ×
-                      %h3{:id => "role-selector-header-#{user.id}"}
-                        Modifying Roles
-                    .modal-body
-                      = render partial: 'roles', locals: { user: user }
               - if can? :update, Role
-                =link_to "#{user.roles.map { |role| role.name }.join ', '}", "#", "data-toggle" => "modal", "data-target" => "#user-role-selection-#{user.id}",id: "user-modify-role-#{user.id}"
+                = link_to "#{ user.roles.present? ? (user.roles.map { |role| "#{ role.name.titleize }(#{ role.resource_type.constantize.find(role.resource_id).short_title })" }.join ', ') : 'Add Role'}", "#", "data-toggle" => "modal", "data-target" => "#user-role-selection-#{user.id}",id: "user-modify-role-#{user.id}"
+
               - else
-                = user.roles.map { |role| role.name }.join ', '
-            - if can? :update, user
-              %td
-                = link_to "Edit", edit_admin_user_path(user)
+                = user.roles.map { |role| "#{ role.name.capitalize } for #{ role.resource_type.constantize.find(role.resource_id).short_title }" }.join ', '
             - if can? :show, user
               %td
-                = link_to "View", admin_user_path(user)
+                = link_to "View", admin_user_path(user), class: 'btn btn-success'
+            - if can? :update, user
+              %td
+                = link_to "Edit", edit_admin_user_path(user), class: 'btn btn-primary'
             - if can? :destroy, user
               %td
                 - if current_user.id == user.id or user.role_ids.include? 3
