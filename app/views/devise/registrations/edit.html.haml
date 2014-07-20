@@ -17,7 +17,7 @@
         %h4
           Currently the following openIDs are associated with your account
         - @openids.each do |openid|
-          %li= openid.provider + ': ' + openid.email
+          %li= "#{openid.provider}:#{openid.email}"
           %br
         - if User.omniauth_providers.present?
           %h4
