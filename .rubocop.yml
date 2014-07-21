@@ -75,9 +75,8 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Enabled: true
 
-# Offense count: 1
 Lint/Void:
-  Enabled: false
+  Enabled: true
 
 # Offense count: 17
 Style/AccessorMethodName:

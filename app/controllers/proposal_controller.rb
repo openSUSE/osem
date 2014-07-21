@@ -182,7 +182,6 @@ class ProposalController < ApplicationController
   end
 
   def restart
-    @event
     if @event.transition_possible? :restart
       begin
         @event.restart
