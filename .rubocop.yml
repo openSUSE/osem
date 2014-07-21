@@ -11,31 +11,79 @@ Lint/DeprecatedClassMethods:
 Style/NilComparison:
   Enabled: true
 
+# Use one empty line between method definitions
 Style/EmptyLineBetweenDefs:
   Enabled: true
 
-# Offense count: 4
-# Cop supports --auto-correct.
+# There should be only one empty line in designated place
 Style/EmptyLines:
+  Enabled: true
+
+# Keep a blank line before and after private.
+Style/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+# Do not insert empty line after class definition and before closing class
+Style/EmptyLinesAroundBody:
+  Enabled: true
+
+# Use hash literal {} instead of Hash.new
+Style/EmptyLiteral:
+  Enabled: true
+
+# Prefer `each` over `for i`
+Style/For:
+  Enabled: true
+
+# Wrap your assignment in condition if you mean it, otherwise it is most likely equality check
+Lint/AssignmentInCondition:
+  Enabled: true
+
+# Align blocks of code properly
+Lint/BlockAlignment:
+  Enabled: true
+
+# Do not use literal in conditions. We have it enabled for now
+Lint/LiteralInCondition:
   Enabled: false
+
+# Prefer `Kernel#loop -> break` over `begin -> while`
+Lint/Loop:
+  Enabled: true
+
+# do not put space before arguments when they are in parentheses
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: true
+
+# Offense count: 13
+# Cop supports --auto-correct.
+Lint/RescueException:
+  Enabled: true
 
 # Offense count: 1
-Style/EmptyLinesAroundAccessModifier:
+Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
-# Offense count: 21
+# Offense count: 5
 # Cop supports --auto-correct.
-Style/EmptyLinesAroundBody:
+Lint/UnusedBlockArgument:
   Enabled: false
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/EmptyLiteral:
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+# Offense count: 6
+Lint/UselessAssignment:
   Enabled: false
 
 # Offense count: 1
-# Configuration parameters: Exclude.
-Style/FileName:
+Lint/Void:
+  Enabled: false
+
+# Offense count: 17
+Style/AccessorMethodName:
   Enabled: false
 
 AllCops:

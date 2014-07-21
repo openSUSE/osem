@@ -12,7 +12,6 @@ class CreateEmailTable < ActiveRecord::Migration
       t.text :confirmed_email_template
       t.timestamps
     end
-
   end
 
   def down

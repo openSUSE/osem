@@ -30,6 +30,5 @@ class CreateEventUsers < ActiveRecord::Migration
       record.comment = ep.comment
       record.save!
     end
-
   end
 end

@@ -79,7 +79,7 @@ class Admin::QuestionsController < ApplicationController
               a.delete
             end
             flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
-        end
+          end
         rescue ActiveRecord::RecordInvalid
           flash[:error] = "Could not delete question."
         end
@@ -91,6 +91,6 @@ class Admin::QuestionsController < ApplicationController
     end
 
     @questions = Question.where(:global => true).all | Question.where(:conference_id => @conference.id)
-    @questions_conference = @conference.questions    
+    @questions_conference = @conference.questions
   end
 end

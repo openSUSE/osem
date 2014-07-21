@@ -11,7 +11,7 @@ class Openid < ActiveRecord::Base
 
     if openid.new_record?
       openid.email = auth.info.email
-      if existing_openid = Openid.where(email: openid.email).first
+      if (existing_openid = Openid.where(email: openid.email).first)
         openid.user_id = existing_openid.user_id
       end
     end

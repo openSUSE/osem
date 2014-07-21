@@ -11,7 +11,5 @@ class Admin::SocialEventsController < ApplicationController
     else
       redirect_to(admin_conference_social_events_path(:conference_id => @conference.short_title), :notice => 'Social events update failed.')
     end
-
   end
-
 end

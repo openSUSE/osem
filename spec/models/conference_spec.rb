@@ -406,7 +406,7 @@ describe Conference do
   end
 
   describe '#difficulty_levels' do
-    before (:each) do
+    before do
       subject.email_settings = create(:email_settings)
       @easy = create(:difficulty_level, title: 'Easy', color: '#000000')
       @hard = create(:difficulty_level, title: 'Hard', color: '#ffffff')
@@ -503,7 +503,7 @@ describe Conference do
   end
 
   describe 'event type distribution' do
-    before (:each) do
+    before do
       subject.email_settings = create(:email_settings)
       @workshop = create(:event_type, title: 'Workshop', color: '#000000')
       @lecture = create(:event_type, title: 'Lecture', color: '#ffffff')
@@ -599,7 +599,7 @@ describe Conference do
   end
 
   describe 'tracks_distribution' do
-    before (:each) do
+    before do
       subject.email_settings = create(:email_settings)
       @track_one = create(:track, name: 'Track One', color: '#000000')
       @track_two = create(:track, name: 'Track Two', color: '#ffffff')

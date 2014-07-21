@@ -71,8 +71,10 @@ class EventAttachmentsController < ApplicationController
                  :content_type => 'text/html',
                  :layout => false
         }
-        format.json { render json: [@upload.to_jq_upload].to_json, status: :created,
-                             location: conference_proposal_event_attachment_path(@upload.event.conference.short_title, @upload.event, @upload) }
+        format.json do
+          render json: [@upload.to_jq_upload].to_json, status: :created,
+                 location: conference_proposal_event_attachment_path(@upload.event.conference.short_title, @upload.event, @upload)
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @upload.errors, status: :unprocessable_entity }

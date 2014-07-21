@@ -15,5 +15,4 @@ class CreateVenueTable < ActiveRecord::Migration
   def down
     drop_table :venues
   end
-
 end

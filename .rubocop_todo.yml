@@ -5,58 +5,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 3
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Enabled: false
-
-# Offense count: 4
-Lint/BlockAlignment:
-  Enabled: false
-
-# Offense count: 1
-Lint/LiteralInCondition:
-  Enabled: false
-
-# Offense count: 2
-Lint/Loop:
-  Enabled: false
-
-# Offense count: 3
-Lint/ParenthesesAsGroupedExpression:
-  Enabled: false
-
-# Offense count: 13
-# Cop supports --auto-correct.
-Lint/RescueException:
-  Enabled: false
-
-# Offense count: 1
-Lint/ShadowingOuterLocalVariable:
-  Enabled: false
-
-# Offense count: 5
-# Cop supports --auto-correct.
-Lint/UnusedBlockArgument:
-  Enabled: false
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Lint/UnusedMethodArgument:
-  Enabled: false
-
-# Offense count: 6
-Lint/UselessAssignment:
-  Enabled: false
-
-# Offense count: 1
-Lint/Void:
-  Enabled: false
-
-# Offense count: 17
-Style/AccessorMethodName:
-  Enabled: false
-
 # Offense count: 10
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle, SupportedLastArgumentHashStyles.
@@ -157,38 +105,8 @@ Style/DoubleNegation:
   Enabled: false
 
 # Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAdjacentOneLineDefs.
-Style/EmptyLineBetweenDefs:
-  Enabled: false
-
-# Offense count: 4
-# Cop supports --auto-correct.
-Style/EmptyLines:
-  Enabled: false
-
-# Offense count: 1
-Style/EmptyLinesAroundAccessModifier:
-  Enabled: false
-
-# Offense count: 21
-# Cop supports --auto-correct.
-Style/EmptyLinesAroundBody:
-  Enabled: false
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/EmptyLiteral:
-  Enabled: false
-
-# Offense count: 1
 # Configuration parameters: Exclude.
 Style/FileName:
-  Enabled: false
-
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/For:
   Enabled: false
 
 # Offense count: 8

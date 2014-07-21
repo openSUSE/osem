@@ -18,12 +18,9 @@ class EventAttachment < ActiveRecord::Base
         "delete_url" => conference_proposal_event_attachment_path(self.event.conference.short_title, self.event_id, self.id),
         "delete_type" => "DELETE"
     }
-
   end
   #:path => ":rails_root/public/system/:attachment/:id/:style/:filename",
   #    :url => "/system/:attachment/:id/:style/:filename"
 
   #has_paper_trail :meta => {:associated_id => :event_id, :associated_type => "Event"}
-
-
 end

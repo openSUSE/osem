@@ -65,10 +65,9 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
       conference.save
     end
 
-
     # Cumulate the previous weeks to get a snapshot
     TempConference.all.each do |conference|
-      hash = conference.events_per_week.sort.to_h
+      hash = conference.events_per_week.sort.to_hash
       previous = nil
 
       hash.each do |week, values|

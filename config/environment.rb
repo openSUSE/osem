@@ -7,7 +7,7 @@ begin
   CONFIG = YAML.load_file(path)[Rails.env]
 rescue Exception
   puts "Error while parsing config file #{path}"
-  CONFIG = Hash.new
+  CONFIG = {}
 end
 
 # Initialize the rails application

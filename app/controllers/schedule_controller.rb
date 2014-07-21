@@ -1,5 +1,4 @@
 class ScheduleController < ApplicationController
-
   layout "application"
   
   def index
@@ -14,5 +13,4 @@ class ScheduleController < ApplicationController
       @today = @conference.start_date.strftime("%Y-%m-%d")
     end
   end
-
 end

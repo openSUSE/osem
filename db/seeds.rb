@@ -18,7 +18,7 @@ answer_no = Answer.create(:title => "No")
 
 questions_yes_no = ["Do you need handicapped access to the venue?", "Are you attending with partner?", "Will you attend the social event(s)?", "Will you stay at suggested hotel?"]
 
-for i in questions_yes_no do
+questions_yes_no.each do |i|
   q = Question.create(:title => i, :question_type_id => qtype_yesno.id, :global => true)
 
   Qanswer.create(:question_id => q.id, :answer_id => answer_no.id)

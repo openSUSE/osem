@@ -19,5 +19,4 @@ class Admin::VenueController < ApplicationController
     @venue = @conference.venue
     render :venue_info
   end
-
 end

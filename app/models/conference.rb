@@ -102,7 +102,6 @@ class Conference < ActiveRecord::Base
     return media_types
   end
 
-
   ##
   # Checks if the user is registered to the conference
   #

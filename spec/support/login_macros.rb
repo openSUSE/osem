@@ -1,5 +1,4 @@
 module LoginMacros
-
   include Warden::Test::Helpers
   Warden.test_mode!
 
@@ -10,5 +9,4 @@ module LoginMacros
   def sign_out
     logout(:user)
   end
-
 end

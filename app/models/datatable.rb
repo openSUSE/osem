@@ -18,7 +18,6 @@ class Datatable
     }
   end
 
-
   def data
     []
   end
