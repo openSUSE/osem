@@ -85,4 +85,5 @@ AllCops:
     - '**/Rakefile'
     - '**/config.ru'
   Exclude:
-    - db/schema.rb
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'

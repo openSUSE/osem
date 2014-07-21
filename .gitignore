@@ -28,4 +28,3 @@ pickle-email-*.html
 /bundle
 /doc/app
 .ruby-version
-rubocop.yml
