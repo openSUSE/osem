@@ -44,7 +44,7 @@ module Admin
         @registration.update_attributes!(params[:registration])
         flash[:success] = "Successfully updated registration for #{@user.name} #{@user.email}"
         redirect_to(admin_conference_registrations_path(@conference.short_title))
-      rescue Exception => e
+      rescue => e
         Rails.logger.debug e.backtrace.join("\n")
         redirect_to(admin_conference_registrations_path(@conference.short_title),
                     alert: 'Failed to update registration:' + e.message)
@@ -104,7 +104,7 @@ module Admin
         begin registration.destroy
           redirect_to admin_conference_registrations_path
           flash[:notice] = "Deleted registration for #{user.name} #{user.email}"
-        rescue Exception => e
+        rescue => e
           Rails.logger.debug e.backtrace.join("\n")
           redirect_to(admin_conference_registrations_path(@conference.short_title),
                       alert: 'Failed to delete registration:' + e.message)

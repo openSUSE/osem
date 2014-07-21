@@ -639,7 +639,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Fixnum+ -> Progress in Percent
   def calculate_setup_progress(result)
-    (result.select { |k, v| v }.length / result.length.to_f * 100).round(0).to_s
+    (result.select { |_k, v| v }.length / result.length.to_f * 100).round(0).to_s
   end
 
   ##

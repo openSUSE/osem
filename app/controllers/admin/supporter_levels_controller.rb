@@ -9,7 +9,7 @@ class Admin::SupporterLevelsController < ApplicationController
     begin
       @conference.update_attributes!(params[:conference])
       redirect_to(admin_conference_supporter_levels_path(:conference_id => @conference.short_title), :notice => 'Supporter levels were successfully updated.')
-    rescue Exception => e
+    rescue => e
       redirect_to(admin_conference_supporter_levels_path(:conference_id => @conference.short_title), :alert => "Supporter levels update failed: #{e.message}")
     end
   end

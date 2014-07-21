@@ -23,7 +23,7 @@ class ProposalController < ApplicationController
       else
         @event = Event.find(params[:id])
       end
-    rescue Exception => e
+    rescue => e
       Rails.logger.debug("Proposal failure in verify_access: #{e.message}")
       redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
                   alert: 'Invalid or uneditable proposal.')
@@ -91,7 +91,7 @@ class ProposalController < ApplicationController
       event.update_attributes!(params[:event])
       redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
                   notice: "'#{event.title}' was successfully updated.")
-    rescue Exception => e
+    rescue => e
       redirect_to edit_conference_proposal_path(@conference.short_title, @event), alert: e.message
     end
   end
@@ -131,7 +131,7 @@ class ProposalController < ApplicationController
 
     begin
       @event.save!
-    rescue Exception => e
+    rescue => e
       @url = conference_proposal_index_path(@conference.short_title)
       @event_types = @conference.event_types
       @user = current_user

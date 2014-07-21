@@ -55,28 +55,25 @@ Lint/Loop:
 Lint/ParenthesesAsGroupedExpression:
   Enabled: true
 
-# Offense count: 13
-# Cop supports --auto-correct.
+# Do not rescue Exceptions class itself
 Lint/RescueException:
   Enabled: true
 
-# Offense count: 1
+# do not shadow local variables in blocks, choose other name
 Lint/ShadowingOuterLocalVariable:
-  Enabled: false
+  Enabled: true
 
-# Offense count: 5
-# Cop supports --auto-correct.
+# use _ or variable_name to explicitly mark variable as unused
 Lint/UnusedBlockArgument:
-  Enabled: false
+  Enabled: true
 
-# Offense count: 2
-# Cop supports --auto-correct.
+# use _ or _argument_name to explicitly mark argument as unused
 Lint/UnusedMethodArgument:
-  Enabled: false
+  Enabled: true
 
-# Offense count: 6
+# avoid useless assignment
 Lint/UselessAssignment:
-  Enabled: false
+  Enabled: true
 
 # Offense count: 1
 Lint/Void:

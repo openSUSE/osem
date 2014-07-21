@@ -26,7 +26,7 @@ module Users
 
         sign_in user
         redirect_to root_path, notice: user.email + " signed in successfully with #{provider}"
-      rescue Exception => e
+      rescue => e
         redirect_back_or_to new_user_registration_path, alert: 'Failed' + e.message
       end
     end

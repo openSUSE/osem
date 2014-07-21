@@ -72,7 +72,7 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
 
       hash.each do |week, values|
         if previous
-          values.each do |state, value|
+          values.each do |state, _value|
             hash[week][state] += previous[state]
           end
         end

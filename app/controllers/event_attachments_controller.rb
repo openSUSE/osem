@@ -53,7 +53,7 @@ class EventAttachmentsController < ApplicationController
     if !organizer_or_admin?
       begin
         event = current_user.events.find(params[:proposal_id])
-      rescue Exception => e
+      rescue => e
         # They certainly aren't allowed to attach a file to someone else's proposal
         raise ActionController::RoutingError.new('Invalid proposal')
       end

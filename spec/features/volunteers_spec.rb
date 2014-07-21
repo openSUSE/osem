@@ -8,7 +8,7 @@ feature Conference do
   let(:admin) { create(:admin) }
   let(:conference) { create(:conference) }
 
-  shared_examples 'volunteer' do |user|
+  shared_examples 'volunteer' do
     scenario 'adds and updates vdays', feature: true, js: true do
       sign_in(admin)
       visit admin_conference_volunteers_info_path(

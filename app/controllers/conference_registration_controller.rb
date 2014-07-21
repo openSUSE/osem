@@ -68,7 +68,7 @@ class ConferenceRegistrationController < ApplicationController
       else
         registration.update_attributes!(registration_params)
       end
-    rescue Exception => e
+    rescue => e
       Rails.logger.debug e.backtrace.join('\n')
       redirect_to(register_conference_path(id: conference.short_title),
                   alert: 'Registration failed:' + e.message)
