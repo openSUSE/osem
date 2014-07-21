@@ -187,7 +187,7 @@ module Admin
         total = @conference.events.where(state: mystate).count
         status = "#{myvar.name}"
 
-        percent = 0
+        percent = 0 # rubocop:disable Lint/UselessAssignment
         if value != 0
           percent = (value.to_f / total * 100).round(2)
           result << { 'status' => status, 'value' => value, 'percent' => percent }
