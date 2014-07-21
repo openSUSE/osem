@@ -40,8 +40,7 @@
       - unless rate.user_id == current_user.id
         %tr
           %td
-            = rate.first_name
-            = rate.last_name
+            = rate.name
           %td
             - @conference.call_for_papers.rating.times do |counter|
               - voted = @event.voted?(@event, rate.user)
