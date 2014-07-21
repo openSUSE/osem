@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug("Access denied!")
-    redirect_to root_path, :alert => exception.message
+    redirect_to root_path, alert: exception.message
   end
   helper_method :organizer_or_admin?
 

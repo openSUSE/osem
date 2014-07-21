@@ -1,12 +1,12 @@
 class CreatePeopleTable < ActiveRecord::Migration
   def up
     create_table :people do |t|
-      t.string :guid, :null => false
-      t.string :first_name, :default => ""
-      t.string :last_name, :default => ""
-      t.string :public_name, :default => ""
-      t.string :company, :default => ""
-      t.string :email, :null => false
+      t.string :guid, null: false
+      t.string :first_name, default: ""
+      t.string :last_name, default: ""
+      t.string :public_name, default: ""
+      t.string :company, default: ""
+      t.string :email, null: false
       t.boolean :email_public
       t.string :avatar_file_name
       t.string :avatar_content_type

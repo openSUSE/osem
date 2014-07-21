@@ -67,5 +67,5 @@ Osem::Application.configure do
   config.active_support.deprecation = :notify
 
   # Set the detault url for action mailer
-  config.action_mailer.default_url_options = { :host => CONFIG['url_for_emails'] }
+  config.action_mailer.default_url_options = { host: CONFIG['url_for_emails'] }
 end

@@ -89,7 +89,7 @@ class Conference < ActiveRecord::Base
             format: URI::regexp(%w(http https)), allow_blank: true
 
   validates_uniqueness_of :short_title
-  validates_format_of :short_title, :with => /\A[a-zA-Z0-9_-]*\z/
+  validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid
   before_create :create_venue
   before_create :create_event_types

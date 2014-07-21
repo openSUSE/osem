@@ -4,7 +4,7 @@ class EventType < ActiveRecord::Base
   belongs_to :conference
 
   validates :title, presence: true
-  validates :length, :numericality => {:greater_than => 0} 
+  validates :length, numericality: {greater_than: 0} 
   validates :minimum_abstract_length, presence: true
   validates :maximum_abstract_length, presence: true
 

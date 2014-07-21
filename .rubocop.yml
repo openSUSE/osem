@@ -1,6 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 Style/HashSyntax:
+  Enabled: true
   EnforcedStyle: ruby19
 
 # Things deprecated in current ruby API
@@ -75,12 +76,9 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Enabled: true
 
+# Do not use variables in void context
 Lint/Void:
   Enabled: true
-
-# Offense count: 17
-Style/AccessorMethodName:
-  Enabled: false
 
 AllCops:
   Include:

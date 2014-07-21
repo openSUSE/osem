@@ -11,6 +11,6 @@ class Admin::SupportersController < ApplicationController
   def create
     params[:supporter_registration][:conference_id] = @conference.id
     SupporterRegistration.create!(params[:supporter_registration])
-    redirect_to(admin_conference_supporters_path(:conference_id => @conference.short_title), :notice => "Supporter added")
+    redirect_to(admin_conference_supporters_path(conference_id: @conference.short_title), notice: "Supporter added")
   end
 end

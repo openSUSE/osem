@@ -7,7 +7,7 @@ class CreateTableSupporterRegistrations < ActiveRecord::Migration
       t.string :name
       t.string :email
       t.string :code
-      t.boolean :code_is_valid, :default => false
+      t.boolean :code_is_valid, default: false
     end
   end
 

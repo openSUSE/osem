@@ -4,7 +4,7 @@ class EventAttachment < ActiveRecord::Base
   belongs_to :event
   attr_accessible :public, :attachment, :event_id, :title
 
-  has_attached_file :attachment, :path => ":rails_root/storage/:rails_env/attachments/:id/:style/:basename.:extension"
+  has_attached_file :attachment, path: ":rails_root/storage/:rails_env/attachments/:id/:style/:basename.:extension"
   include Rails.application.routes.url_helpers
 
   def to_jq_upload

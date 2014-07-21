@@ -12,7 +12,7 @@ set :repository, 'https://github.com/openSUSE/osem.git'
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, %w{ config/database.yml log public/system config/secrets.yml config/config.yml tmp}
 
-task :setup => :environment do
+task setup: :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
 
@@ -27,7 +27,7 @@ task :setup => :environment do
 end
 
 desc 'Deploys the current version to the server.'
-task :deploy => :environment do
+task deploy: :environment do
   deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
@@ -43,7 +43,7 @@ task :deploy => :environment do
 end
 
 desc 'Notifies the exception handler of the deploy.'
-task :notify_errbit => :environment do
+task notify_errbit: :environment do
   revision = `git rev-parse HEAD`.strip
   user = ENV['USER']
   queue "bundle exec rake hoptoad:deploy TO=#{rails_env} REVISION=#{revision} REPO=#{repository} USER=#{user}"

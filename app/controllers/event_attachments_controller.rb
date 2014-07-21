@@ -1,6 +1,6 @@
 class EventAttachmentsController < ApplicationController
   before_filter :verify_user
-  skip_before_filter :verify_user, :only => [:show]
+  skip_before_filter :verify_user, only: [:show]
 
   def index
     @proposal = Event.find(params[:proposal_id])
@@ -67,9 +67,9 @@ class EventAttachmentsController < ApplicationController
     respond_to do |format|
       if @upload.save
         format.html {
-          render :json => [@upload.to_jq_upload].to_json,
-                 :content_type => 'text/html',
-                 :layout => false
+          render json: [@upload.to_jq_upload].to_json,
+                 content_type: 'text/html',
+                 layout: false
         }
         format.json do
           render json: [@upload.to_jq_upload].to_json, status: :created,
@@ -108,7 +108,7 @@ class EventAttachmentsController < ApplicationController
     
     respond_to do |format|
 
-      format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), :notice => "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
+      format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), notice: "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
 
       format.json { head :no_content }
     end

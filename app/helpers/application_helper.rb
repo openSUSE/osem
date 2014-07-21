@@ -126,15 +126,15 @@ module ApplicationHelper
   end
 
   def add_association_link(association_name, form_builder, div_class, html_options = {})
-    link_to_add_association "Add " + association_name.to_s.singularize, form_builder, div_class, html_options.merge(:class => "assoc btn btn-success")
+    link_to_add_association "Add " + association_name.to_s.singularize, form_builder, div_class, html_options.merge(class: "assoc btn btn-success")
   end
 
   def remove_association_link(association_name, form_builder)
-    link_to_remove_association("Remove " + association_name.to_s.singularize, form_builder, :class => "assoc btn btn-danger") + tag(:hr)
+    link_to_remove_association("Remove " + association_name.to_s.singularize, form_builder, class: "assoc btn btn-danger") + tag(:hr)
   end
 
   def dynamic_association(association_name, title, form_builder, options = {})
-    render "shared/dynamic_association", :association_name => association_name, :title => title, :f => form_builder, :hint => options[:hint]
+    render "shared/dynamic_association", association_name: association_name, title: title, f: form_builder, hint: options[:hint]
   end
 
   def has_role?(current_user, role)

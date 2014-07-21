@@ -4,7 +4,7 @@ class CreateDifficultyLevels < ActiveRecord::Migration
       t.references :conference
       t.string :title
       t.text :description
-      t.string :color, :default => "#ffffff"
+      t.string :color, default: "#ffffff"
 
       t.timestamps
     end

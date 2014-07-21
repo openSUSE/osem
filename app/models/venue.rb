@@ -20,7 +20,7 @@ class Venue < ActiveRecord::Base
   def generate_guid
     loop do
       @guid = SecureRandom.urlsafe_base64
-      break if !Venue.where(:guid => guid).any?
+      break if !Venue.where(guid: guid).any?
     end
     self.guid = @guid
   end

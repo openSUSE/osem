@@ -55,10 +55,10 @@ class Mailbot < ActionMailer::Base
   end
 
   def build_email(conference, to, subject, body)
-    mail(:to => to,
-         :from => conference.contact_email,
-         :reply_to => conference.contact_email,
-         :subject => subject,
-         :body => body)
+    mail(to: to,
+         from: conference.contact_email,
+         reply_to: conference.contact_email,
+         subject: subject,
+         body: body)
   end
 end

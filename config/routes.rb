@@ -70,7 +70,7 @@ Osem::Application.routes.draw do
           patch :restart
           get :vote
         end
-        resource :speaker, :only => [:edit, :update]
+        resource :speaker, only: [:edit, :update]
       end
 
       resources :supporters
@@ -79,11 +79,11 @@ Osem::Application.routes.draw do
 
   resources :conference, only: [:show] do
     resources :proposal do
-      resources :event_attachment, :controller => "event_attachments"
+      resources :event_attachment, controller: "event_attachments"
       patch '/confirm' => 'proposal#confirm'
       patch '/restart' => 'proposal#restart'
     end
-    resource :schedule, :only => [] do
+    resource :schedule, only: [] do
       get "/" => "schedule#index"
     end
     member do
@@ -96,17 +96,17 @@ Osem::Application.routes.draw do
 
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
-      resources :conferences, :only => :index do
-        resources :conferences, :only => :index
-        resources :rooms, :only => :index
-        resources :tracks, :only => :index
-        resources :speakers, :only => :index
-        resources :events, :only => :index
+      resources :conferences, only: :index do
+        resources :conferences, only: :index
+        resources :rooms, only: :index
+        resources :tracks, only: :index
+        resources :speakers, only: :index
+        resources :events, only: :index
       end
-      resources :rooms, :only => :index
-      resources :tracks, :only => :index
-      resources :speakers, :only => :index
-      resources :events, :only => :index
+      resources :rooms, only: :index
+      resources :tracks, only: :index
+      resources :speakers, only: :index
+      resources :events, only: :index
     end
   end
 
