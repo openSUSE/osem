@@ -13,7 +13,7 @@
             %b ID
           %th
             %b Title
-          - unless @conference.call_for_papers.blank? or !(@conference.call_for_papers.rating > 0)
+          - if @conference.call_for_papers && @conference.call_for_papers.rating && @conference.call_for_papers.rating > 0
             %th
               %b Rating
           %th
@@ -35,7 +35,7 @@
             %td
               =link_to event.title, admin_conference_event_path(@conference.short_title, event)
 
-            - if @conference.call_for_papers.rating != 0
+            - if @conference.call_for_papers && @conference.call_for_papers.rating && @conference.call_for_papers.rating > 0
               %td{:style => "width:96px"}
                 - if event.average_rating.to_f > 0
                   #{event.average_rating}/#{@conference.call_for_papers.rating}
@@ -52,7 +52,7 @@
                   0/#{@conference.call_for_papers.rating}
                 %br
 
-            - if event.submitter.registrations.count < 1
+            - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
               - bgcolor="#F7819F"
             - else
               - bgcolor=""
