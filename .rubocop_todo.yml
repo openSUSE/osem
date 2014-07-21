@@ -114,12 +114,6 @@ Style/FileName:
 Style/GuardClause:
   Enabled: false
 
-# Offense count: 214
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/HashSyntax:
-  Enabled: false
-
 # Offense count: 27
 # Configuration parameters: MaxLineLength.
 Style/IfUnlessModifier:
@@ -330,3 +324,6 @@ Style/TrailingWhitespace:
 # Cop supports --auto-correct.
 Style/WordArray:
   MinSize: 5
+
+Style/AccessorMethodName:
+  Enabled: false
