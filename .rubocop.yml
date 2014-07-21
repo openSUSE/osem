@@ -1,0 +1,47 @@
+inherit_from: .rubocop_todo.yml
+
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+
+# Things deprecated in current ruby API
+Lint/DeprecatedClassMethods:
+  Enabled: true
+
+# Do not compare with nil. Use .nil? instead
+Style/NilComparison:
+  Enabled: true
+
+Style/EmptyLineBetweenDefs:
+  Enabled: true
+
+# Offense count: 4
+# Cop supports --auto-correct.
+Style/EmptyLines:
+  Enabled: false
+
+# Offense count: 1
+Style/EmptyLinesAroundAccessModifier:
+  Enabled: false
+
+# Offense count: 21
+# Cop supports --auto-correct.
+Style/EmptyLinesAroundBody:
+  Enabled: false
+
+# Offense count: 2
+# Cop supports --auto-correct.
+Style/EmptyLiteral:
+  Enabled: false
+
+# Offense count: 1
+# Configuration parameters: Exclude.
+Style/FileName:
+  Enabled: false
+
+AllCops:
+  Include:
+    - Rakefile
+    - config.ru
+  Exclude:
+    - db/schema.rb
+    - features/**/*
