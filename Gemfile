@@ -95,6 +95,9 @@ gem 'factory_girl_rails'
 gem 'ahoy_matey'
 gem 'activeuuid'
 
+# We use whenever for recurring jobs
+gem 'whenever', :require => false
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules

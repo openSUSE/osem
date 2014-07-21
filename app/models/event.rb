@@ -30,6 +30,7 @@ class Event < ActiveRecord::Base
   before_create :generate_guid
 
   validate :abstract_limit
+  validate :before_end_of_conference
   validate :biography_exists
   validates :title, presence: true
   validates :abstract, presence: true
@@ -206,5 +207,11 @@ class Event < ActiveRecord::Base
   def set_week
     self.week = created_at.strftime('%W')
     save!
+  end
+
+  def before_end_of_conference
+    errors.
+        add(:created_at, "can't be after the conference end date!") if conference.end_date &&
+        (Date.today > conference.end_date)
   end
 end

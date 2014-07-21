@@ -6,6 +6,272 @@ describe Conference do
 
   let(:subject) { create(:conference) }
 
+  describe '#write_event_distribution_to_db' do
+
+    it 'updates pending conferences' do
+      create(:conference,
+             start_date: Date.today - 2.weeks,
+             end_date: Date.today - 1.weeks)
+
+      subject.start_date = Date.today + 1.weeks
+      subject.end_date = Date.today + 2.weeks
+
+      result = {
+        DateTime.now.end_of_week =>
+          {
+            confirmed: 0,
+            unconfirmed: 0,
+            new: 0,
+            withdrawn: 0,
+            canceled: 0,
+            rejected: 0
+          },
+      }
+
+      Conference.write_event_distribution_to_db
+      subject.reload
+      expect(subject.events_per_week).to eq(result)
+    end
+
+    it 'does not update past conferences' do
+      old_conference = create(:conference,
+                              start_date: Date.today - 2.weeks,
+                              end_date: Date.today - 1.weeks)
+
+      Conference.write_event_distribution_to_db
+      old_conference.reload
+      expect(old_conference.events_per_week).to eq({})
+    end
+
+    it 'computes the correct result' do
+      subject.email_settings = create(:email_settings)
+      subject.start_date = Date.today + 6.weeks
+      subject.end_date = Date.today + 7.weeks
+      subject.save
+      subject.call_for_papers = create(:call_for_papers, start_date: Date.today - 3.weeks)
+
+      create(:event, conference: subject, created_at: Date.today)
+      options = {}
+      options[:send_mail] = 'false'
+
+      withdrawn = create(:event, conference: subject)
+      withdrawn.withdraw!
+
+      unconfirmed = create(:event, conference: subject)
+      unconfirmed.accept!(options)
+
+      rejected = create(:event, conference: subject)
+      rejected.reject!(options)
+
+      confirmed = create(:event, conference: subject)
+      confirmed.accept!(options)
+      confirmed.confirm!
+
+      canceled = create(:event, conference: subject)
+      canceled.accept!(options)
+      canceled.cancel!
+
+      Conference.write_event_distribution_to_db
+
+      result = {
+        DateTime.now.end_of_week =>
+          {
+            confirmed: 1,
+            unconfirmed: 1,
+            new: 1,
+            withdrawn: 1,
+            canceled: 1,
+            rejected: 1
+          },
+      }
+
+      subject.reload
+      expect(subject.events_per_week).to eq(result)
+    end
+
+    it 'does not overwrite old entries' do
+      subject.email_settings = create(:email_settings)
+      subject.start_date = Date.today + 6.weeks
+      subject.end_date = Date.today + 7.weeks
+      db_data = {
+        DateTime.now.end_of_week - 2.weeks =>
+          {
+            confirmed: 1,
+            unconfirmed: 2,
+            new: 0,
+            withdrawn: 0,
+            canceled: 0,
+            rejected: 0
+          },
+        DateTime.now.end_of_week - 1.weeks =>
+          {
+            confirmed: 3,
+            unconfirmed: 4,
+            new: 0,
+            withdrawn: 0,
+            canceled: 0,
+            rejected: 0
+          },
+      }
+      subject.events_per_week = db_data
+      subject.save
+      subject.call_for_papers = create(:call_for_papers, start_date: Date.today - 3.weeks)
+
+      create(:event, conference: subject, created_at: Date.today)
+      unconfirmed = create(:event, conference: subject)
+      confirmed = create(:event, conference: subject)
+      options = {}
+      options[:send_mail] = 'false'
+      unconfirmed.accept!(options)
+      confirmed.accept!(options)
+      confirmed.confirm!
+
+      Conference.write_event_distribution_to_db
+
+      result = {
+        DateTime.now.end_of_week - 2.weeks =>
+          {
+            confirmed: 1,
+            unconfirmed: 2,
+            new: 0,
+            withdrawn: 0,
+            canceled: 0,
+            rejected: 0
+          },
+        DateTime.now.end_of_week - 1.weeks =>
+          {
+            confirmed: 3,
+            unconfirmed: 4,
+            new: 0,
+            withdrawn: 0,
+            canceled: 0,
+            rejected: 0
+          },
+        DateTime.now.end_of_week =>
+          {
+            confirmed: 1,
+            unconfirmed: 1,
+            new: 1,
+            withdrawn: 0,
+            canceled: 0,
+            rejected: 0
+          },
+      }
+
+      subject.reload
+      expect(subject.events_per_week).to eq(result)
+    end
+  end
+
+  describe '#get_submissions_data' do
+    it 'returns emtpy hash if there is no cfp or events' do
+      expect(subject.get_submissions_data).to eq({})
+    end
+
+    it 'calculates the correct result with data from database' do
+      subject.start_date = Date.today + 6.weeks
+      subject.end_date = Date.today + 7.weeks
+
+      # Inject last two weeks to database
+      db_data = {
+        Date.today.end_of_week - 2.weeks => {
+          confirmed: 1,
+          unconfirmed: 2,
+        },
+        Date.today.end_of_week - 1.weeks => {
+          confirmed: 3,
+          unconfirmed: 4,
+        }
+      }
+      subject.events_per_week = db_data
+
+      subject.save
+      subject.call_for_papers = create(:call_for_papers, start_date: Date.today - 2.weeks)
+
+      create(:event, conference: subject, created_at: Date.today - 2.weeks)
+
+      result = {
+        'Submitted' => [1, 1, 1],
+        'Confirmed' => [1, 3, 0],
+        'Unconfirmed' => [2, 4, 0],
+        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      }
+      expect(subject.get_submissions_data).to eq(result)
+    end
+
+    it 'calculates the correct result without data from database' do
+      subject.start_date = Date.today + 6.weeks
+      subject.end_date = Date.today + 7.weeks
+      subject.save
+      subject.call_for_papers = create(:call_for_papers, start_date: Date.today)
+      create(:event, conference: subject)
+
+      result = {
+        'Submitted' => [1],
+        'Confirmed' => [0],
+        'Unconfirmed' => [0],
+        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8]
+      }
+      expect(subject.get_submissions_data).to eq(result)
+    end
+
+    it 'pads left correct' do
+      subject.email_settings = create(:email_settings)
+      subject.start_date = Date.today + 6.weeks
+      subject.end_date = Date.today + 7.weeks
+      subject.save
+      subject.call_for_papers = create(:call_for_papers, start_date: Date.today - 3.weeks)
+
+      create(:event, conference: subject, created_at: Date.today)
+      unconfirmed = create(:event, conference: subject)
+      confirmed = create(:event, conference: subject)
+      options = {}
+      options[:send_mail] = 'false'
+      unconfirmed.accept!(options)
+      confirmed.accept!(options)
+      confirmed.confirm!
+
+      result = {
+        'Submitted' => [0, 0, 3],
+        'Confirmed' => [0, 0, 1],
+        'Unconfirmed' => [0, 0, 1],
+        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      }
+      expect(subject.get_submissions_data).to eq(result)
+    end
+
+    it 'calculates correct with missing weeks' do
+      subject.start_date = Date.today + 6.weeks
+      subject.end_date = Date.today + 7.weeks
+
+      # Inject last two weeks to database
+      db_data = {
+        Date.today.end_of_week - 3.weeks => {
+          confirmed: 1,
+          unconfirmed: 2,
+        },
+        Date.today.end_of_week - 1.weeks => {
+          confirmed: 3,
+          unconfirmed: 4,
+        }
+      }
+      subject.events_per_week = db_data
+
+      subject.save
+      subject.call_for_papers = create(:call_for_papers, start_date: Date.today - 3.weeks)
+
+      create(:event, conference: subject, created_at: Date.today - 3.weeks)
+
+      result = {
+        'Submitted' => [1, 1, 1, 1],
+        'Confirmed' => [1, 0, 3, 0],
+        'Unconfirmed' => [2, 0, 4, 0],
+        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+      }
+      expect(subject.get_submissions_data).to eq(result)
+    end
+  end
+
   describe '#get_top_submitter' do
     # It is necessary to use bang version of let to build roles before user
     let!(:organizer_role) { create(:organizer_role) }
