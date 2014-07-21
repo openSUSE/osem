@@ -4,7 +4,7 @@ module Admin
     skip_before_filter :verify_authenticity_token, only: [:update]
     layout 'schedule'
 
-    def show
+    def edit
       if @conference.nil?
         redirect_to admin_conference_index_path
         return

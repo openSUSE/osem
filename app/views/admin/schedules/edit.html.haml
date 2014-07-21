@@ -1,6 +1,7 @@
 .schedule-content
   %h2
-    = "Schedule for #{@conference.title}"
+    = "Edit schedule for #{@conference.title} or go back to"
+    = link_to 'schedule', conference_schedule_path(@conference.short_title)
   #unscheduled.unscheduled
     .unscheduled-header
       Unscheduled Events

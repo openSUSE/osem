@@ -8,7 +8,7 @@ Osem::Application.routes.draw do
     resources :users
     resources :people
     resources :conference do
-      resource :schedule, only: [:show, :update]
+      resource :schedule, only: [:edit, :update]
       get '/stats' => 'stats#index'
       get '/venue' => 'venue#show', as: 'venue_info'
       patch '/venue' => 'venue#update', as: 'venue_update'
@@ -56,7 +56,7 @@ Osem::Application.routes.draw do
         end
       end
 
-      patch "/questions/update_conference" => "questions#update_conference"
+      patch '/questions/update_conference' => 'questions#update_conference'
       resources :questions
 
       resources :events do
@@ -70,7 +70,7 @@ Osem::Application.routes.draw do
           patch :restart
           get :vote
         end
-        resource :speaker, :only => [:edit, :update]
+        resource :speaker, only: [:edit, :update]
       end
 
       resources :supporters
@@ -79,12 +79,12 @@ Osem::Application.routes.draw do
 
   resources :conference, only: [:show] do
     resources :proposal do
-      resources :event_attachment, :controller => "event_attachments"
+      resources :event_attachment, controller: 'event_attachments'
       patch '/confirm' => 'proposal#confirm'
       patch '/restart' => 'proposal#restart'
     end
-    resource :schedule, :only => [] do
-      get "/" => "schedule#index"
+    resource :schedule, only: [] do
+      get '/' => 'schedule#index'
     end
     member do
       get "/register" => "conference_registration#register"
@@ -94,23 +94,23 @@ Osem::Application.routes.draw do
     end
   end
 
-  namespace :api, defaults: {format: 'json'} do
+  namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      resources :conferences, :only => :index do
-        resources :conferences, :only => :index
-        resources :rooms, :only => :index
-        resources :tracks, :only => :index
-        resources :speakers, :only => :index
-        resources :events, :only => :index
+      resources :conferences, only: :index do
+        resources :conferences, only: :index
+        resources :rooms, only: :index
+        resources :tracks, only: :index
+        resources :speakers, only: :index
+        resources :events, only: :index
       end
-      resources :rooms, :only => :index
-      resources :tracks, :only => :index
-      resources :speakers, :only => :index
-      resources :events, :only => :index
+      resources :rooms, only: :index
+      resources :tracks, only: :index
+      resources :speakers, only: :index
+      resources :events, only: :index
     end
   end
 
-  get "/admin" => redirect("/admin/conference")
+  get '/admin' => redirect('/admin/conference')
 
   root to: 'home#index', via: [:get, :options]
 end
