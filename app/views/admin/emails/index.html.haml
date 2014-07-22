@@ -41,6 +41,9 @@
       = f.input :send_on_updated_conference_registration_dates, hint: "This is to notify all participants that the conference registration dates has been changed."
       = f.input :updated_conference_registration_dates_subject
       = f.input :updated_conference_registration_dates_template, :input_html => { :rows => 10, :cols => 20 }
+      = f.input :send_on_venue_update, hint: 'Send an email on updating the Venue.'
+      = f.input :venue_update_subject
+      = f.input :venue_update_template, :input_html => { :rows => 10, :cols => 20 }
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
 
 :javascript

@@ -12,6 +12,9 @@ FactoryGirl.define do
     updated_conference_dates_subject 'Conference dates have been updated'
     updated_conference_registration_dates_subject 'Conference registration dates have been updated'
     updated_conference_registration_dates_template 'Sample Conference\n New Dates: January 17 - 21 2014'
+    send_on_venue_update true
+    venue_update_subject "Venue has been updated"
+    venue_update_template "Venue has been Updated to Sample Location"
     registration_subject 'Lorem Ipsum Dolsum'
     registration_email_template 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
   end

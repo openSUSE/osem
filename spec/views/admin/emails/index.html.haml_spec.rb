@@ -8,9 +8,9 @@ describe 'admin/emails/index' do
     assign :settings, @settings
     render
     expect(rendered).
-        to have_selector("input[type='checkbox'][value='1']", count: 6)
+        to have_selector("input[type='checkbox'][value='1']", count: 7)
     expect(rendered).
-        to have_selector("input[checked='checked'][type='checkbox'][value='1']", count: 3)
+        to have_selector("input[checked='checked'][type='checkbox'][value='1']", count: 4)
     expect(rendered).to include('Lorem Ipsum Dolsum')
     expect(rendered).
         to include('Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
@@ -18,5 +18,7 @@ describe 'admin/emails/index' do
         to include('Conference dates have been updated')
     expect(rendered).
         to include('Conference registration dates have been updated')
+    expect(rendered).to include("Venue has been updated")
+    expect(rendered).to include("Venue has been Updated to Sample Location")
   end
 end

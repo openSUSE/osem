@@ -171,6 +171,9 @@ ActiveRecord::Schema.define(version: 20140714141156) do
     t.boolean  "send_on_updated_conference_registration_dates",  default: true
     t.string   "updated_conference_registration_dates_subject"
     t.text     "updated_conference_registration_dates_template"
+    t.boolean  "send_on_venue_update",                   default: true
+    t.string   "venue_update_subject"
+    t.text     "venue_update_template"
   end
 
   create_table "event_attachments", force: true do |t|

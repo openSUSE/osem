@@ -56,6 +56,15 @@ class Mailbot < ActionMailer::Base
     end
   end
 
+  def send_email_on_venue_update(conference)
+    subject = conference.email_settings.venue_update_subject.blank? ? "#{conference.title} location has been changed" : conference.email_settings.venue_update_subject
+    partial = "#{conference.title} new location is: #{conference.venue.name}.\n Address: #{conference.venue.address}\n. For more information please visit #{Rails.application.routes.url_helpers.conference_path(conference.short_title, host: CONFIG['url_for_emails'])}"
+    body = conference.email_settings.venue_update_template.blank? ? partial : "#{conference.email_settings.venue_update_template}\n #{partial}"
+    conference.registrations.each do |u|
+      build_email(conference, u.email, subject, body)
+    end
+  end
+
   def build_email(conference, to, subject, body)
     mail(:to => to,
          :from => conference.contact_email,
