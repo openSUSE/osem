@@ -13,8 +13,9 @@
         %br
         %h4 Already have an account?
       = render 'devise/shared/links'
-  .col-md-4
-    .well
-      %h4 Or use your openID
+  - if resource_class.omniauth_providers.present?
+    .col-md-4
+      .well
+        %h4 Or use your openID
 
-      = render 'devise/shared/openid'
+        = render 'devise/shared/openid'
