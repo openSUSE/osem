@@ -1,7 +1,7 @@
 class ProposalController < ApplicationController
+  before_filter :verify_user, except: [:show]
   load_and_authorize_resource :conference, find_by: :short_title
   load_and_authorize_resource :event, parent: false
-  before_filter :verify_user, except: [:show]
   before_filter :setup
 
   def setup
