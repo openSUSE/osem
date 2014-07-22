@@ -87,6 +87,13 @@ bundle exec guard
 This uses [spring](https://github.com/rails/spring) to provide a
 [fast feedback loop for the red/green cycle](http://bitzesty.com/blog/2013/05/enable-tdd-with-faster-ruby-on-rails-stack-reloading/).
 
+
+## Style
+We are using [rubocop](https://github.com/bbatsov/rubocop) as a style checker. It is running each time
+Travis run its testing routine. If you want to run it locally just `bundle exec rubocop`. 
+You can read through current enabled rules in `.rubocop.yml` file. Explanations of the defined [rules](http://rubydoc.info/github/bbatsov/rubocop/master/frames) can be found in modules [Cop::Lint](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Lint) and [Cop::Style](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Style).
+Additionally you can read through [community ruby style-guide](https://github.com/bbatsov/ruby-style-guide) to better understand core principles.
+
 # Communication
 GitHub issues are the primary way for communicating about specific proposed
 changes to this project. If you have other questions feel free to subscribe to
