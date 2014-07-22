@@ -35,8 +35,12 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_user_admin
-    if self.class.to_s.split('::').first == 'Admin'
-      verify_user
+    if self.class.to_s.split('::').first == 'Admin' && verify_user
+      unless (current_user.has_role? :organizer, :any) || (current_user.has_role? :cfp, :any) ||
+          (current_user.has_role? :info_desk, :any) ||
+          (current_user.has_role? :volunteers_coordinator, :any)
+        raise CanCan::AccessDenied.new('You are not authorized to access this area!')
+      end
     end
   end
 
