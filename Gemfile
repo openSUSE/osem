@@ -128,3 +128,7 @@ group :test do
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
 end
+
+group :development, :test do
+  gem 'debugger'
+end

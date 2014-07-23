@@ -18,7 +18,7 @@ module Admin
 
       @mystates = []
       @mytypes = []
-      @eventstats = Hash.new
+      @eventstats = {}
       @totallength = 0
 
       @machine_states.each do |mystate|
@@ -50,7 +50,7 @@ module Admin
               @totallength += myevent.event_type.length
             end
 
-            if @eventstats[mytype.title] == nil
+            if @eventstats[mytype.title].nil?
               @eventstats[mytype.title] = { 'count' => events_mytype.count,
                                             'length' => events_mytype.count * mytype.length }
             end
@@ -150,7 +150,7 @@ module Admin
       @event = Event.find(params[:id])
       @ratings = @event.votes.includes(:user)
 
-      if votes = current_user.votes.find_by_event_id(params[:id])
+      if (votes = current_user.votes.find_by_event_id(params[:id]))
         votes.update_attributes(rating: params[:rating])
       else
         @myvote = @event.votes.build

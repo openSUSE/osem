@@ -90,6 +90,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    columnize (0.8.9)
     coveralls (0.7.0)
       multi_json (~> 1.3)
       rest-client
@@ -99,6 +100,12 @@ GEM
     d3_rails (3.4.6)
       railties (>= 3.1.0)
     database_cleaner (1.3.0)
+    debugger (1.6.8)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.3.5)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.3.5)
     devise (3.2.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -221,7 +228,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    parser (2.1.9)
+    parser (2.2.0.pre.3)
       ast (>= 1.1, < 3.0)
       slop (~> 3.4, >= 3.4.5)
     pdf-core (0.2.5)
@@ -310,9 +317,9 @@ GEM
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.2)
-    rubocop (0.22.0)
+    rubocop (0.24.1)
       json (>= 1.7.7, < 2)
-      parser (~> 2.1.9)
+      parser (>= 2.2.0.pre.3, < 3.0)
       powerpack (~> 0.0.6)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.4)
@@ -336,7 +343,7 @@ GEM
       multi_json
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
-    slop (3.5.0)
+    slop (3.6.0)
     spring (1.1.2)
     spring-commands-rspec (1.0.2)
       spring (>= 0.9.1)
@@ -399,6 +406,7 @@ DEPENDENCIES
   coveralls
   d3_rails
   database_cleaner
+  debugger
   devise
   factory_girl_rails
   font-awesome-rails

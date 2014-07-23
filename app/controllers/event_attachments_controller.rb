@@ -1,6 +1,6 @@
 class EventAttachmentsController < ApplicationController
   before_filter :verify_user
-  skip_before_filter :verify_user, :only => [:show]
+  skip_before_filter :verify_user, only: [:show]
 
   def index
     @proposal = Event.find(params[:proposal_id])
@@ -52,8 +52,8 @@ class EventAttachmentsController < ApplicationController
 
     if !organizer_or_admin?
       begin
-        event = current_user.events.find(params[:proposal_id])
-      rescue Exception => e
+        current_user.events.find(params[:proposal_id])
+      rescue
         # They certainly aren't allowed to attach a file to someone else's proposal
         raise ActionController::RoutingError.new('Invalid proposal')
       end
@@ -67,12 +67,14 @@ class EventAttachmentsController < ApplicationController
     respond_to do |format|
       if @upload.save
         format.html {
-          render :json => [@upload.to_jq_upload].to_json,
-                 :content_type => 'text/html',
-                 :layout => false
+          render json: [@upload.to_jq_upload].to_json,
+                 content_type: 'text/html',
+                 layout: false
         }
-        format.json { render json: [@upload.to_jq_upload].to_json, status: :created,
-                             location: conference_proposal_event_attachment_path(@upload.event.conference.short_title, @upload.event, @upload) }
+        format.json do
+          render json: [@upload.to_jq_upload].to_json, status: :created,
+                 location: conference_proposal_event_attachment_path(@upload.event.conference.short_title, @upload.event, @upload)
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @upload.errors, status: :unprocessable_entity }
@@ -106,7 +108,7 @@ class EventAttachmentsController < ApplicationController
     
     respond_to do |format|
 
-      format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), :notice => "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
+      format.html { redirect_back_or_to conference_proposal_index_path(@conference.short_title), notice: "Deleted successfully attachment '#{@upload.title}' for proposal '#{@proposal.title}'" }
 
       format.json { head :no_content }
     end

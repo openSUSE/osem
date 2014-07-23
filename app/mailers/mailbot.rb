@@ -6,7 +6,6 @@ class Mailbot < ActionMailer::Base
                 person.email,
                 conference.email_settings.registration_subject,
                 conference.email_settings.generate_registration_email(conference, person))
-
   end
 
   def acceptance_mail(event)
@@ -16,7 +15,6 @@ class Mailbot < ActionMailer::Base
                 person.email,
                 conference.email_settings.accepted_subject,
                 conference.email_settings.generate_accepted_email(event))
-
   end
 
   def rejection_mail(event)
@@ -66,11 +64,10 @@ class Mailbot < ActionMailer::Base
   end
 
   def build_email(conference, to, subject, body)
-    mail(:to => to,
-         :from => conference.contact_email,
-         :reply_to => conference.contact_email,
-         :subject => subject,
-         :body => body)
+    mail(to: to,
+         from: conference.contact_email,
+         reply_to: conference.contact_email,
+         subject: subject,
+         body: body)
   end
-
 end

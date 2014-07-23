@@ -197,11 +197,15 @@ class Event < ActiveRecord::Base
     errors.add(:user_biography, 'must be filled out') if submitter.biography_word_count == 0
   end
 
+  # TODO: create a module to be mixed into model to perform same operation
+  # venue.rb has same functionality which can be shared
+  # TODO: rename guid to UUID as guid is specifically Microsoft term
   def generate_guid
-    begin
-      guid = SecureRandom.urlsafe_base64
-    end while self.class.where(guid: guid).exists?
-    self.guid = guid
+    loop do
+      @guid = SecureRandom.urlsafe_base64
+      break if !self.class.where(guid: guid).any?
+    end
+    self.guid = @guid
   end
 
   def set_week

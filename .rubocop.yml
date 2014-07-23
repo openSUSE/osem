@@ -1,0 +1,89 @@
+inherit_from: .rubocop_todo.yml
+
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: ruby19
+
+# Things deprecated in current ruby API
+Lint/DeprecatedClassMethods:
+  Enabled: true
+
+# Do not compare with nil. Use .nil? instead
+Style/NilComparison:
+  Enabled: true
+
+# Use one empty line between method definitions
+Style/EmptyLineBetweenDefs:
+  Enabled: true
+
+# There should be only one empty line in designated place
+Style/EmptyLines:
+  Enabled: true
+
+# Keep a blank line before and after private.
+Style/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+# Do not insert empty line after class definition and before closing class
+Style/EmptyLinesAroundBody:
+  Enabled: true
+
+# Use hash literal {} instead of Hash.new
+Style/EmptyLiteral:
+  Enabled: true
+
+# Prefer `each` over `for i`
+Style/For:
+  Enabled: true
+
+# Wrap your assignment in condition if you mean it, otherwise it is most likely equality check
+Lint/AssignmentInCondition:
+  Enabled: true
+
+# Align blocks of code properly
+Lint/BlockAlignment:
+  Enabled: true
+
+# Do not use literal in conditions. We have it enabled for now
+Lint/LiteralInCondition:
+  Enabled: false
+
+# Prefer `Kernel#loop -> break` over `begin -> while`
+Lint/Loop:
+  Enabled: true
+
+# do not put space before arguments when they are in parentheses
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: true
+
+# Do not rescue Exceptions class itself
+Lint/RescueException:
+  Enabled: true
+
+# do not shadow local variables in blocks, choose other name
+Lint/ShadowingOuterLocalVariable:
+  Enabled: true
+
+# use _ or variable_name to explicitly mark variable as unused
+Lint/UnusedBlockArgument:
+  Enabled: true
+
+# use _ or _argument_name to explicitly mark argument as unused
+Lint/UnusedMethodArgument:
+  Enabled: true
+
+# avoid useless assignment
+Lint/UselessAssignment:
+  Enabled: true
+
+# Do not use variables in void context
+Lint/Void:
+  Enabled: true
+
+AllCops:
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'

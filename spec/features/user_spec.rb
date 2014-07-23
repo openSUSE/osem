@@ -5,7 +5,8 @@ feature User do
   let!(:participant_role) { create(:participant_role) }
   let!(:admin_role) { create(:admin_role) }
   let(:admin) { create(:admin) }
-  shared_examples 'admin ability' do |user|
+
+  shared_examples 'admin ability' do
     scenario 'deletes a user', feature: true, js: true do
       sign_in(admin)
       visit admin_users_path
@@ -34,6 +35,7 @@ feature User do
       sign_out
     end
   end
+
   describe 'admin' do
     it_behaves_like 'admin ability', :admin
   end

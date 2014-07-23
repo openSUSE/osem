@@ -35,6 +35,6 @@ Osem::Application.configure do
   config.eager_load = false
 
   # Set the detault url for action mailer
-  config.action_mailer.default_url_options = { :host => CONFIG['url_for_emails'] }
+  config.action_mailer.default_url_options = { host: CONFIG['url_for_emails'] }
 
 end

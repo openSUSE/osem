@@ -4,11 +4,11 @@ class Question < ActiveRecord::Base
   belongs_to :question_type
   has_and_belongs_to_many :conferences
   
-  has_many :qanswers, :dependent => :delete_all
-  has_many :answers, :through => :qanswers, :dependent => :delete_all
+  has_many :qanswers, dependent: :delete_all
+  has_many :answers, through: :qanswers, dependent: :delete_all
   
-  validates :title, :presence => true
-  validates :answers, :presence => true
+  validates :title, presence: true
+  validates :answers, presence: true
   
-  accepts_nested_attributes_for :answers, :allow_destroy => true
+  accepts_nested_attributes_for :answers, allow_destroy: true
 end

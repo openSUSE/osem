@@ -7,6 +7,6 @@ class Api::V1::ConferencesController < Api::BaseController
     else
       conferences = Conference.find_all_by_guid(params[:conference_id])
     end
-    render :json => conferences, :serializer => ConferencesArraySerializer
+    render json: conferences, serializer: ConferencesArraySerializer
   end
 end

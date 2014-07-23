@@ -4,9 +4,9 @@ class CreateRegistrationsTable < ActiveRecord::Migration
       t.references :person
       t.references :conference
 
-      t.boolean :attending_social_events, :default => true
-      t.boolean :attending_social_events_with_partner, :default => false
-      t.boolean :using_affiliated_lodging, :default => true
+      t.boolean :attending_social_events, default: true
+      t.boolean :attending_social_events_with_partner, default: false
+      t.boolean :using_affiliated_lodging, default: true
       t.date :arrival
       t.date :departure
 

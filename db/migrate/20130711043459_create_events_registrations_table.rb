@@ -1,6 +1,6 @@
 class CreateEventsRegistrationsTable < ActiveRecord::Migration
   def up
-    create_table :events_registrations, :id => false do |t|
+    create_table :events_registrations, id: false do |t|
       t.references :registration, :event
     end
   end

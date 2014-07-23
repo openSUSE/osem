@@ -3,7 +3,7 @@ class Admin::QuestionsController < ApplicationController
 
   def index
     @conference = Conference.find_by(short_title: params[:conference_id])
-    @questions = Question.where(:global => true).all | Question.where(:conference_id => @conference.id)
+    @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
     @questions_conference = @conference.questions
     @new_question = @conference.questions.new
   end
@@ -34,7 +34,7 @@ class Admin::QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     
     if @question.global == true && !has_role?(current_user, "Admin")
-      redirect_to(admin_conference_questions_path(:conference_id => @conference.short_title), :alert => "Sorry, you cannot edit global questions. Create a new one.")
+      redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), alert: "Sorry, you cannot edit global questions. Create a new one.")
     end
   end
 
@@ -45,9 +45,9 @@ class Admin::QuestionsController < ApplicationController
     @question = Question.find(params[:id])
 
     if @question.update_attributes(params[:question])
-      redirect_to(admin_conference_questions_path(:conference_id => @conference.short_title), :notice => "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
+      redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
     else
-      redirect_to(admin_conference_questions_path(:conference_id => @conference.short_title), :notice => "Update of questions for #{@conference.short_title} failed.")
+      redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
     end
   end
 
@@ -56,9 +56,9 @@ class Admin::QuestionsController < ApplicationController
     @conference = Conference.find_by(short_title: params[:conference_id])
 
     if @conference.update_attributes(params[:conference])
-      redirect_to(admin_conference_questions_path(:conference_id => @conference.short_title), :notice => "Questions for #{@conference.short_title} successfully updated.")
+      redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated.")
     else
-      redirect_to(admin_conference_questions_path(:conference_id => @conference.short_title), :notice => "Update of questions for #{@conference.short_title} failed.")
+      redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
     end
   end
 
@@ -79,7 +79,7 @@ class Admin::QuestionsController < ApplicationController
               a.delete
             end
             flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
-        end
+          end
         rescue ActiveRecord::RecordInvalid
           flash[:error] = "Could not delete question."
         end
@@ -90,7 +90,7 @@ class Admin::QuestionsController < ApplicationController
       flash[:error] = "You must be an admin to delete a question."
     end
 
-    @questions = Question.where(:global => true).all | Question.where(:conference_id => @conference.id)
-    @questions_conference = @conference.questions    
+    @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
+    @questions_conference = @conference.questions
   end
 end

@@ -48,7 +48,7 @@ module Admin
       if @events.count > 0
         start_date = @events.minimum('created_at').strftime('%Y-%m-%d')
         end_date = @events.maximum('created_at').strftime('%Y-%m-%d')
-        unless start_date == nil || end_date == nil
+        unless start_date.nil? || end_date.nil?
           @events_time = var_time(start_date, end_date, @events, 'created_at')
         end
       end
@@ -87,7 +87,7 @@ module Admin
               typelength += myevent.event_type.length
               @totallength += myevent.event_type.length
             end
-            if @eventstats[mytype.title] == nil
+            if @eventstats[mytype.title].nil?
               @eventstats[mytype.title] = { 'count' => events_mytype.count,
                                             'length' => events_mytype.count * mytype.length }
             end
@@ -187,7 +187,7 @@ module Admin
         total = @conference.events.where(state: mystate).count
         status = "#{myvar.name}"
 
-        percent = 0
+        percent = 0 # rubocop:disable Lint/UselessAssignment
         if value != 0
           percent = (value.to_f / total * 100).round(2)
           result << { 'status' => status, 'value' => value, 'percent' => percent }

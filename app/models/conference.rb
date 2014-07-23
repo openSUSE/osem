@@ -89,7 +89,7 @@ class Conference < ActiveRecord::Base
             format: URI::regexp(%w(http https)), allow_blank: true
 
   validates_uniqueness_of :short_title
-  validates_format_of :short_title, :with => /\A[a-zA-Z0-9_-]*\z/
+  validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid
   before_create :create_venue
   before_create :create_event_types
@@ -101,7 +101,6 @@ class Conference < ActiveRecord::Base
                     speakerdeck: 'Speakerdeck', instagram: 'Instagram' }
     return media_types
   end
-
 
   ##
   # Checks if the user is registered to the conference
@@ -640,7 +639,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Fixnum+ -> Progress in Percent
   def calculate_setup_progress(result)
-    (result.select { |k, v| v }.length / result.length.to_f * 100).round(0).to_s
+    (result.select { |_k, v| v }.length / result.length.to_f * 100).round(0).to_s
   end
 
   ##

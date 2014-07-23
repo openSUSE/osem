@@ -14,5 +14,4 @@ class Track < ActiveRecord::Base
 #     end while Person.where(:guid => guid).exists?
     self.guid = guid
   end
-
 end
