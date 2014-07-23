@@ -9,7 +9,12 @@ HoptoadNotifier.configure do |config|
   end
 
   config.ignore_only = %w{
-    Some::ExceptionName
+    ActiveRecord::RecordNotFound
+    ActionController::InvalidAuthenticityToken
+    ActionController::UnknownAction
+    AbstractController::ActionNotFound
+    ActionView::MissingTemplate
+    ActionController::UnknownFormat
   }
 
   config.ignore_by_filter do |exception_data|
