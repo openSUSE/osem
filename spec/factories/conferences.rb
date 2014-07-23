@@ -7,10 +7,10 @@ FactoryGirl.define do
     social_tag 'dps14'
     timezone 'Amsterdam'
     contact_email 'admin@example.com'
-    start_date Date.today
-    end_date Date.today + 6.days
-    registration_start_date Date.today + 3.days
-    registration_end_date Date.today + 5.days
+    start_date { Date.today }
+    end_date { 6.days.from_now }
+    registration_start_date { 3.days.from_now }
+    registration_end_date { 5.days.from_now }
     make_conference_public true
     venue
   end

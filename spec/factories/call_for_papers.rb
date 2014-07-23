@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :call_for_papers do
-    start_date Date.today - 1
-    end_date Date.today + 7
+    start_date { 1.day.ago }
+    end_date { 7.days.from_now }
     description 'We call for papers'
     conference
   end

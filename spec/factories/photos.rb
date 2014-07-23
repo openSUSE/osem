@@ -5,7 +5,7 @@ FactoryGirl.define do
     picture_file_name 'rails.png'
     picture_content_type 'image/png'
     picture_file_size '1024'
-    picture_updated_at DateTime.now
+    picture_updated_at { DateTime.now }
     description 'Lorem Ipsum Dolor'
     conference
   end

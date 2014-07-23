@@ -3,15 +3,12 @@ require 'spec_helper'
 describe 'admin/callforpapers/show' do
 
   it 'renders callforpapers details' do
-    @conference = create(:conference)
-    assign :conference, @conference
-    assign :cfp, stub_model(CallForPapers, start_date: Date.today,
-                                           end_date: Date.today + 7.days,
-                                           description: 'Lorem Ipsum Dolsum')
+    assign :conference, create(:conference)
+    assign :cfp, create(:call_for_papers)
     render
-    expect(rendered).to include(Date.today.strftime('%Y-%m-%d'))
+    expect(rendered).to include(1.day.ago.strftime('%Y-%m-%d'))
     expect(rendered).to include(7.days.from_now.strftime('%Y-%m-%d'))
-    expect(rendered).to include('Lorem Ipsum Dolsum')
+    expect(rendered).to include('We call for papers')
   end
 
 end
