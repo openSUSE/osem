@@ -76,14 +76,18 @@ class Admin::ConferenceController < ApplicationController
     short_title = @conference.short_title
     @conference.assign_attributes(params[:conference])
     if @conference.start_date_changed? || @conference.end_date_changed?
-      if @conference.email_settings.send_on_updated_conference_dates
-        Mailbot.conference_date_update_mail(@conference,date_string(@conference.start_date, @conference.end_date)).deliver
+      if @conference.email_settings.send_on_updated_conference_dates &&
+              !@conference.email_settings.updated_conference_dates_subject.blank? &&
+              @conference.email_settings.updated_conference_dates_template
+        Mailbot.conference_date_update_mail(@conference).deliver
       end
     end
 
     if @conference.registration_start_date_changed? || @conference.registration_end_date_changed?
-      if @conference.email_settings.send_on_updated_conference_registration_dates
-        Mailbot.conference_registration_date_update_mail(@conference,date_string(@conference.registration_start_date, @conference.registration_end_date)).deliver
+      if @conference.email_settings.send_on_updated_conference_registration_dates &&
+      !@conference.email_settings.updated_conference_registration_dates_subject.blank? &&
+      @conference.email_settings.updated_conference_registration_dates_template
+        Mailbot.conference_registration_date_update_mail(@conference).deliver
       end
     end
 

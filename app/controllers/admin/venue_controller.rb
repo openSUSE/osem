@@ -8,7 +8,11 @@ class Admin::VenueController < ApplicationController
     @venue = @conference.venue
     @venue.assign_attributes(params[:venue])
     unless @venue.name.blank? || @venue.address.blank? || @conference.registrations.blank?
-      if @venue.name_changed? || @venue.address_changed? && @conference.email_settings.send_on_venue_update
+      if (@venue.name_changed? ||
+          @venue.address_changed?) &&
+              (@conference.email_settings.send_on_venue_update &&
+              !@conference.email_settings.venue_update_subject.blank? &&
+              @conference.email_settings.venue_update_template)
         venue_notify = Mailbot.send_email_on_venue_update(@conference)
       end
     end
