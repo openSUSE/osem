@@ -97,7 +97,7 @@ describe Target do
       target = build(:target, target_count: 10, unit: Target.units[:registrations])
       conference.targets = [target]
 
-      result = "10 Registrations by #{Date.today + 14}"
+      result = "10 Registrations by #{14.days.from_now.to_date}"
 
       expect(target.to_s).to eq(result)
     end

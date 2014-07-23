@@ -127,6 +127,7 @@ group :test do
   gem 'shoulda'
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
+  gem 'timecop'
 end
 
 group :development, :test do
