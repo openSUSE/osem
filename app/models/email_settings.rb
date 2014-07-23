@@ -14,6 +14,12 @@ class EmailSettings < ActiveRecord::Base
       'email' => user.email,
       'name' => user.name,
       'conference' => conference.title,
+      'conference_start_date' => conference.start_date,
+      'conference_end_date' => conference.end_date,
+      'registration_start_date' => conference.registration_start_date,
+      'registration_end_date' => conference.registration_end_date,
+      'venue' => conference.venue.name,
+      'venue_adress' => conference.venue.address,
       'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(
                             conference.short_title, host: CONFIG['url_for_emails'])
     }
@@ -50,9 +56,31 @@ class EmailSettings < ActiveRecord::Base
     parse_template(template, values)
   end
 
+  def generate_conference_date_update_mail(conference, user)
+    values = get_values(conference, user)
+    template = updated_conference_dates_template
+    parse_template(template, values)
+  end
+
+  def generate_conference_registration_date_update_mail(conference, user)
+    values = get_values(conference, user)
+    template = updated_conference_registration_dates_template
+    parse_template(template, values)
+  end
+
+  def generate_send_email_on_venue_update(conference, user)
+    values = get_values(conference, user)
+    template = venue_update_template
+    parse_template(template, values)
+  end
+
   def parse_template(text, values)
     values.each do |key, value|
-      text = text.gsub "{#{key}}", value unless text.blank?
+      if value.kind_of?(Date)
+        text = text.gsub "{#{key}}", value.strftime('%Y-%m-%d') unless text.blank?
+      else
+        text = text.gsub "{#{key}}", value unless text.blank? || value.blank?
+      end
     end
     text
   end

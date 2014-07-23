@@ -1,55 +1,57 @@
 .row
   .col-md-8
-    = link_to "Template Help", "#", :id => "template-help-link"
-    #template-help
-      Valid attributes:
-      %table.table
-        %tr
-          %td {email}
-          %td The user's email address
-        %tr
-          %td {name}
-          %td The user's full name
-        %tr
-          %td {conference}
-          %td The full conference title
-        %tr
-          %td {proposalslink}
-          %td A link to the user's proposal page
-        %tr
-          %td {registrationlink}
-          %td A link to the registration page
-        %tr
-          %td {eventtitle}
-          %td The title of an accepted or rejected proposal
     = semantic_form_for(@settings, :url => admin_conference_email_path(@conference.short_title, @conference.email_settings),:html => {:multipart => true}) do |f|
-      = f.input :send_on_registration, :label => false, :hint => "Send an email when the user registers for the conference?"
-      = f.input :registration_subject
-      = f.input :registration_email_template, :input_html => { :rows => 10, :cols => 20}
-      = f.input :send_on_accepted, :label => false, :hint => "Send an email when the proposal is accepted?"
-      = f.input :accepted_subject
-      = f.input :accepted_email_template, :input_html => { :rows => 10, :cols => 20 }
-      = f.input :send_on_rejected, :label => false, :hint => "Send an email when the proposal is rejected?"
-      = f.input :rejected_subject
-      = f.input :rejected_email_template, :input_html => { :rows => 10, :cols => 20 }
-      = f.input :send_on_confirmed_without_registration, :label => false, :hint => "Send an email when a user has a confirmed proposal, but isn't yet registered?"
-      = f.input :confirmed_without_registration_subject
-      = f.input :confirmed_email_template, :input_html => { :rows => 10, :cols => 20 }
-      = f.input :send_on_updated_conference_dates, hint: "This is to notify all participants that the conference dates has been changed."
-      = f.input :updated_conference_dates_subject
-      = f.input :updated_conference_dates_template, :input_html => { :rows => 10, :cols => 20 }
-      = f.input :send_on_updated_conference_registration_dates, hint: "This is to notify all participants that the conference registration dates has been changed."
-      = f.input :updated_conference_registration_dates_subject
-      = f.input :updated_conference_registration_dates_template, :input_html => { :rows => 10, :cols => 20 }
-      = f.input :send_on_venue_update, hint: 'Send an email on updating the Venue.'
-      = f.input :venue_update_subject
-      = f.input :venue_update_template, :input_html => { :rows => 10, :cols => 20 }
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
-
-:javascript
-  $(document).ready( function() {
-    $("#template-help").hide();
-    $("#template-help-link").click(function() {
-       $("#template-help").toggle();
-    });
-  });
+      .row
+        .col-md-12
+          = f.input :send_on_registration, label: "Send an email when the user registers for the conference?", :input_html => {"data-name"=>"email_settings_registration_subject", "class"=>"send_on_radio"}
+          = f.input :registration_subject
+          = f.input :registration_email_template, :input_html => { :rows => 10, :cols => 20}
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThank you for Registering for the conference {conference}.\nPlease complete your registration by filling out your travel information.\n\nIf you are unable to attend please unregister online:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\nWe look forward to see you there.\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_registration_email_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"registration_help"} Show Help
+          = render partial: 'help', locals: {id: 'registration_help'}
+          = f.input :send_on_accepted, label: "Send an email when the proposal is accepted?", :input_html => {"data-name"=>"email_settings_accepted_subject", "class"=>"send_on_radio"}
+          = f.input :accepted_subject
+          = f.input :accepted_email_template, :input_html => { :rows => 10, :cols => 20 }
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name}\n\nWe are very pleased to inform you that your submission {eventtitle} has been accepted for the conference {conference}.\n\nThe public page of your submission can be found at:\n{proposalslink}\nIf you haven´t already registered for {conference}, please do as soon as possible:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_accepted_email_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"accepted_help"} Show Help
+          = render partial: 'help', locals: {id: 'accepted_help'}
+          = f.input :send_on_rejected, label: "Send an email when the proposal is rejected?", :input_html => {"data-name"=>"email_settings_rejected_subject", "class"=>"send_on_radio"}
+          = f.input :rejected_subject
+          = f.input :rejected_email_template, :input_html => { :rows => 10, :cols => 20 }
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThank you for your submission {eventtitle} for the conference {conference}.\nAfter careful consideration we are sorry to inform you that your submissionhas been rejected.\n\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_rejected_email_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"rejected_help"} Show Help
+          = render partial: 'help', locals: {id: 'rejected_help'}
+          = f.input :send_on_confirmed_without_registration, label: "Send an email when a user has a confirmed proposal, but isn't yet registered?", :input_html => {"data-name"=>"email_settings_confirmed_without_registration_subject", "class"=>"send_on_radio"}
+          = f.input :confirmed_without_registration_subject
+          = f.input :confirmed_email_template, :input_html => { :rows => 10, :cols => 20 }
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThank you for the confirmation of {eventtitle}. Unfortunately you are not registered for the conference {conference}. Please register as soon as possible:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_confirmed_email_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"confirmed_help"} Show Help
+          = render partial: 'help', locals: {id: 'confirmed_help'}
+          = f.input :send_on_updated_conference_dates, label: "This is to notify all participants that the conference dates has been changed.", :input_html => {"data-name"=>"email_settings_updated_conference_dates_subject", "class"=>"send_on_radio"}
+          = f.input :updated_conference_dates_subject
+          = f.input :updated_conference_dates_template, :input_html => { :rows => 10, :cols => 20 }
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThe date of {conference} has changed.\n New Dates : {conference_start_date} - {conference_end_date}.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_updated_conference_dates_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"updated_dates_help"} Show Help
+          = render partial: 'help', locals: {id: 'updated_dates_help'}
+          = f.input :send_on_updated_conference_registration_dates, label: "This is to notify all participants that the conference registration dates has been changed.", :input_html => {"data-name"=>"email_settings_updated_conference_registration_dates_subject", "class"=>"send_on_radio"}
+          = f.input :updated_conference_registration_dates_subject
+          = f.input :updated_conference_registration_dates_template, :input_html => { :rows => 10, :cols => 20 }
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThe registration date of {conference} has changed.\n New Dates : {registration_start_date} - {registration_end_date}.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_updated_conference_registration_dates_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"updated_registrations_dates_help"} Show Help
+          = render partial: 'help', locals: {id: 'updated_registrations_dates_help'}
+          = f.input :send_on_venue_update, label: 'Send an email on updating the Venue.', :input_html => {"data-name"=>"email_settings_venue_update_subject", "class"=>"send_on_radio"}
+          = f.input :venue_update_subject
+          = f.input :venue_update_template, :input_html => { :rows => 10, :cols => 20 }
+          %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThe Conference venue of {conference} has changed. New location is: {venue}.\n Address: {venue_address}.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+          "data-name"=>"email_settings_venue_update_template"} Load Template
+          %a.btn.btn-link.control_label.template_help_link{"data-name"=>"updated_venue_help"} Show Help
+          = render partial: 'help', locals: {id: 'updated_venue_help'}
+      .row
+        .col-md-12
+          = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

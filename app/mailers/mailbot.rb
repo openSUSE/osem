@@ -36,30 +36,30 @@ class Mailbot < ActionMailer::Base
                 conference.email_settings.confirmed_but_not_registered_email(event))
   end
 
-  def conference_date_update_mail(conference,dates)
-    subject = conference.email_settings.updated_conference_dates_subject.blank? ? "#{conference.title} Dates Updated" : conference.email_settings.updated_conference_dates_subject
-    partial = "#{conference.title}\n New Dates : #{dates}\n For more information visit #{Rails.application.routes.url_helpers.conference_path(conference.short_title,  host: CONFIG['url_for_emails'])}"
-    body = conference.email_settings.updated_conference_dates_template.blank? ? "#{partial}" : "#{conference.email_settings.updated_conference_dates_template}\n #{partial}"
-    conference.registrations.each do |u|
-      build_email(conference, u.user.email, subject, body)
+  def conference_date_update_mail(conference)
+    conference.registrations.each do |user|
+      build_email(conference,
+                  user.user.email,
+                  conference.email_settings.updated_conference_dates_subject,
+                  conference.email_settings.generate_conference_date_update_mail(conference, user))
     end
   end
 
-  def conference_registration_date_update_mail(conference, dates)
-    subject = conference.email_settings.updated_conference_registration_dates_subject.blank? ? "#{conference.title} Registration Dates Updated" : conference.email_settings.updated_conference_registration_dates_subject
-    partial = "#{conference.title}\n New Registration Dates : #{dates}\n For more information visit #{Rails.application.routes.url_helpers.conference_path(conference.short_title,  host: CONFIG['url_for_emails'])}"
-    body = conference.email_settings.updated_conference_registration_dates_template.blank? ? "#{partial}" : "#{conference.email_settings.updated_conference_dates_template}\n #{partial}"
-    conference.registrations.each do |u|
-      build_email(conference, u.user.email, subject, body)
+  def conference_registration_date_update_mail(conference)
+    conference.registrations.each do |user|
+      build_email(conference,
+                  user.user.email,
+                  conference.email_settings.updated_conference_registration_dates_subject,
+                  conference.email_settings.generate_conference_registration_date_update_mail(conference, user))
     end
   end
 
   def send_email_on_venue_update(conference)
-    subject = conference.email_settings.venue_update_subject.blank? ? "#{conference.title} location has been changed" : conference.email_settings.venue_update_subject
-    partial = "#{conference.title} new location is: #{conference.venue.name}.\n Address: #{conference.venue.address}\n. For more information please visit #{Rails.application.routes.url_helpers.conference_path(conference.short_title, host: CONFIG['url_for_emails'])}"
-    body = conference.email_settings.venue_update_template.blank? ? partial : "#{conference.email_settings.venue_update_template}\n #{partial}"
-    conference.registrations.each do |u|
-      build_email(conference, u.email, subject, body)
+    conference.registrations.each do |user|
+      build_email(conference,
+                  user.email,
+                  conference.email_settings.venue_update_subject,
+                  conference.email_settings.generate_send_email_on_venue_update(conference, user))
     end
   end
 
