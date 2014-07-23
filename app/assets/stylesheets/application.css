@@ -9,6 +9,7 @@
  *= require osem-rating
  *= require osem-schedule
  *= require osem-schedule-print
+ *= require osem-fonts
  *= require font-awesome
  *= require bootstrap-markdown.min
 */

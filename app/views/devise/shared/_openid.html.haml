@@ -1,7 +1,7 @@
-- if devise_mapping.omniauthable?
-  - resource_class.omniauth_providers.each do |provider|
-    - provider_key = "#{provider}_key"
-    - provider_secret = "#{provider}_secret"
-    - unless Rails.application.secrets.send(provider_key).blank? || Rails.application.secrets.send(provider_secret).blank?
-      = link_to image_tag("#{provider}.png", size: '32x32') + provider , omniauth_authorize_path(resource_name, provider)
-      %br
+.btn-group.btn-group-lg
+  - omniauth_configured.each do |provider|
+    = link_to user_omniauth_authorize_path(provider),
+                                      class: "btn btn-success btn-lg",
+                                      id: "omniauth-#{provider}",
+                                      title: "Your #{provider} login" do
+      %i{:class => "fa fa-#{provider}"}

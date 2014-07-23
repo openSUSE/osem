@@ -8,8 +8,8 @@ feature Openid do
 
     scenario 'has option to log in with Google account' do
       visit '/accounts/sign_in'
-      expect(page.has_content?('Or use your openID')).to be true
-      expect(page.has_content?('google')).to be true
+      expect(page.has_content?('or sign in using')).to be true
+      expect(page.has_link?('omniauth-google')).to be true
     end
 
     scenario 'signs in *new* user with Google account' do
@@ -18,7 +18,9 @@ feature Openid do
       visit '/accounts/sign_in'
 
       mock_auth_new_user
-      click_link 'google'
+      within("#openidlinks") do
+        click_link 'omniauth-google'
+      end
       expect(flash).to eq('test-1@gmail.com signed in successfully with google')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
@@ -31,7 +33,9 @@ feature Openid do
       visit '/accounts/sign_in'
 
       mock_auth_existing_user_participant
-      click_link 'google'
+      within("#openidlinks") do
+        click_link 'omniauth-google'
+      end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
@@ -40,8 +44,11 @@ feature Openid do
     scenario 'can handle authentication error' do
       OmniAuth.config.mock_auth[:google] = :invalid_credentials
       visit '/accounts/sign_in'
-      expect(page.has_content?('Or use your openID')).to be true
-      click_link 'google'
+      expect(page.has_content?('or sign in using')).to be true
+      within("#openidlinks") do
+        click_link 'omniauth-google'
+      end
+
       expect(flash).to eq("Could not authenticate you from Google because \"Invalid credentials\".")
     end
 
@@ -56,7 +63,9 @@ feature Openid do
       visit '/accounts/edit'
 
       mock_auth_new_user
-      click_link 'google'
+      within("#openidlinks") do
+        click_link 'omniauth-google'
+      end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
@@ -71,7 +80,9 @@ feature Openid do
       visit '/accounts/sign_in'
 
       mock_auth_existing_user_participant
-      click_link 'google'
+      within("#openidlinks") do
+        click_link 'omniauth-google'
+      end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
@@ -82,7 +93,9 @@ feature Openid do
       visit '/accounts/edit'
 
       mock_auth_new_user
-      click_link 'google'
+      within("#openidlinks") do
+        click_link 'omniauth-google'
+      end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
@@ -96,7 +109,9 @@ feature Openid do
 
       visit '/accounts/sign_in'
       mock_auth_new_user_fb
-      click_link 'facebook'
+      within("#openidlinks") do
+        click_link 'omniauth-facebook'
+      end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with facebook')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)

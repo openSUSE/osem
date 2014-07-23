@@ -23,7 +23,8 @@
           %h4
             To add an openID with a different email address to your account, sign in with your
             openID while logged in to OSEM
-          = render 'devise/shared/openid'
+          #openidlinks
+            = render 'devise/shared/openid'
 
       = f.inputs name: 'Account' do
         = f.input :email, required: false, input_html: {autocomplete: "off"}
