@@ -9,10 +9,8 @@ Devise.setup do |config|
   # Define the available openID providers that can be used to log in
   # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
 
-  config.omniauth :open_id, name: 'novell', identifier: 'http://www.opensuse.org/openid/user'
-  config.omniauth :google_oauth2, Rails.application.secrets.google_key, Rails.application.secrets.google_secret, {
-    name: 'google',
-    scope: 'email' }
+  config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
+  config.omniauth :google_oauth2, Rails.application.secrets.google_key, Rails.application.secrets.google_secret, { name: 'google', scope: 'email' }
   config.omniauth :facebook, Rails.application.secrets.facebook_key, Rails.application.secrets.facebook_secret
 
   # ==> Mailer Configuration
