@@ -52,6 +52,14 @@ class User < ActiveRecord::Base
     !!roles.find_by_name(role.to_s.downcase.camelize)
   end
 
+  def admin?
+    role?('Admin')
+  end
+
+  def organizer?
+    role?('Organizer')
+  end
+
   def get_roles
     roles
   end

@@ -20,8 +20,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-openid'
 gem 'omniauth-google-oauth2'
 
-# Use cancan as authorization framework
-gem 'cancan'
+# Use cancancan as authorization framework
+gem 'cancancan'
 
 # Use transitions as state machine
 gem 'transitions', :require => %w( transitions active_record/transitions )
