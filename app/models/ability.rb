@@ -45,12 +45,25 @@ class Ability
     # Ids of all the conferences for which the user has a 'volunteer_coordinator' role
     conf_ids_for_volunteer_coordinator =
         Conference.with_role(:volunteer_coordinator, user).pluck(:id) unless user.new_record?
+    event_ids_for_user =
+      EventUser.where(user_id: user.id).pluck(:event_id)
 
-    # Abilities for signed in users
+    ## Abilities for everyone, even guests (not logged in users)
+    can :show, Conference do |conference|
+      conference.make_conference_public
+    end
+
+    can :show, Event do |event|
+      event.state == 'confirmed'
+    end
+
+    can :index, :schedule # show?
+
+    ## Abilities for signed in users
     unless user.new_record?
-      # Can manage any conference for which user is organizer
-      # We need this so that the user menus will properly display admin options
-      can :manage, Conference, id: Conference.with_role(:organizer, user).map(&:id)
+      can :show, Conference do |conference|
+        conference.make_conference_public
+      end
 
       # Conference Registration
       can :manage, Registration
@@ -58,31 +71,20 @@ class Ability
       # Proposals
       # Users can edit their own proposals
       # Organizer and CfP team can edit any proposal they want
-
       # Can manage an event if the user is a speaker or a submitter of that event
+#       can [:index, :create], Event
+      can :create, Event
       can :manage, Event do |event|
         event.event_users.where(:user_id => user.id).present?
       end
 
-      # Also an organizer can manage that Event
-      # With the following ability organizers can access the event/proposal directly from
-      # the same link as submitters: /conference/conference_id/proposal/id/edit
-      can :manage, Event, conference_id: Conference.with_role(:organizer, user).map(&:id)
-      can :manage, Event, conference_id: Conference.with_role(:cfp, user).map(&:id)
-
-      can :create, Event
       can :manage, EventAttachment do |ea|
         Event.find(ea.event_id).event_users.where(user_id: user.id).present?
       end
       can :create, EventAttachment
     end
 
-    # Abilities for everyone, even guests (not logged in users)
-    can :show, Conference#, make_conference_public: true
-    can :show, Event # if confirmed...?
-    can :index, :schedule # show?
-
-    ## Authorization for admins
+    ## Abilities for admins
     if user.is_admin # is_admin is an attribute of User
       can :create, Conference
       can :index, Conference # this will allow the Conference to appear in the menu
@@ -90,7 +92,7 @@ class Ability
       can :manage, User # to make other users admins
     end
 
-    ## Authorization for ORGANIZER
+    ## Abilities for ORGANIZER
     # If a user is organizer of a conference, they can manage everything related to this conference
 
     if user.has_role? :organizer, :any
@@ -117,12 +119,12 @@ class Ability
       can :manage, Venue, id: conf_ids_for_organizer_venue
       # id: Conference.where(id: conf_ids_for_organizer).map(&:venue_id)
       # User can view the admin 'users' page if he is an organizer for any conference
-      can :manage, User if user.has_role?('organizer', :any)
+      can :manage, User
       # To assign roles to users
       # can :manage, Role, resource_id: conf_ids_for_organizer
     end
 
-    ## Authorization for CfP
+    ## Abilities for CfP
     # A user can manage events of the conference, for which conference the user has a 'cfp' role
     if user.has_role? :cfp, :any
       # Can view dashboard for specific conference (show) and for all conference (index)
@@ -138,7 +140,7 @@ class Ability
       can :index, User
     end
 
-    ## Authorization for Info Desk
+    ## Abilities for Info Desk
     if user.has_role? :info_desk, :any
       can [:index, :show], Conference, id: conf_ids_for_info_desk
       can :manage, Registration, conference_id: conf_ids_for_info_desk
@@ -153,7 +155,7 @@ class Ability
       can :index, User
     end
 
-    ## Authorization for Volunteer Coordinator
+    ## Abilities for Volunteer Coordinator
     if user.has_role? :volunteer_coordinator, :any
       can [:index, :show], Conference, id: conf_ids_for_volunteer_coordinator
       can :manage, Vposition, conference_id: conf_ids_for_volunteer_coordinator

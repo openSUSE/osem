@@ -54,7 +54,6 @@ class User < ActiveRecord::Base
 
   def setup_role
     is_admin = true if User.count == 0
-    roles << Role.where(name: 'participant') if roles.empty?
   end
 
   def self.prepare(params)
