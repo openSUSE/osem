@@ -62,10 +62,6 @@ RSpec.configure do |config|
   end
 
   # poltergeist as a underlying mech for Capybara
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, js_errors: false)
-  end
-
   Capybara.javascript_driver = :poltergeist
 
   # Includes helpers and connect them to specific types of tests
