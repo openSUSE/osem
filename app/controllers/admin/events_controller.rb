@@ -2,6 +2,8 @@ module Admin
   class EventsController < ApplicationController
     before_filter :verify_organizer
 
+    before_action :get_event, except: [:index, :create]
+
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
     # around_filter :set_timezone_for_this_request
@@ -71,7 +73,6 @@ module Admin
     end
 
     def show
-      @event = @conference.events.find(params[:id])
       @tracks = @conference.tracks
       @event_types = @conference.event_types
       @comments = @event.root_comments
@@ -81,7 +82,6 @@ module Admin
     end
 
     def edit
-      @event = @conference.events.find(params[:id])
       @event_types = @conference.event_types
       @tracks = Track.all
       @comments = @event.root_comments
@@ -91,8 +91,7 @@ module Admin
     end
 
     def comment
-      event = @conference.events.find_by_id(params[:id])
-      comment = Comment.build_from(event, current_user.id, params[:comment])
+      comment = Comment.build_from(@event, current_user.id, params[:comment])
       comment.save!
       if !params[:parent].nil?
         comment.move_to_child_of(params[:parent])
@@ -102,7 +101,6 @@ module Admin
     end
 
     def update
-      @event = Event.find(params[:id])
       if params.has_key? :track_id
         @event.update_attribute(:track_id, params[:track_id])
       end
@@ -127,27 +125,30 @@ module Admin
     end
 
     def accept
-      update_state(params[:id], :accept, 'Event accepted!', true)
+      send_mail = @event.conference.email_settings.send_on_accepted
+      subject = @event.conference.email_settings.accepted_subject.blank?
+      update_state(:accept, 'Event accepted!', true, subject, send_mail)
     end
 
     def confirm
-      update_state(params[:id], :confirm, 'Event confirmed!')
+      update_state(:confirm, 'Event confirmed!')
     end
 
     def cancel
-      update_state(params[:id], :cancel, 'Event canceled!')
+      update_state(:cancel, 'Event canceled!')
     end
 
     def reject
-      update_state(params[:id], :reject, 'Event rejected!', true)
+      send_mail = @event.conference.email_settings.send_on_rejected
+      subject = @event.conference.email_settings.rejected_subject.blank?
+      update_state(:reject, 'Event rejected!', true, subject, send_mail)
     end
 
     def restart
-      update_state(params[:id], :restart, 'Review started!')
+      update_state(:restart, 'Review started!')
     end
 
     def vote
-      @event = Event.find(params[:id])
       @ratings = @event.votes.includes(:user)
 
       if (votes = current_user.votes.find_by_event_id(params[:id]))
@@ -167,39 +168,24 @@ module Admin
 
     private
 
-    def update_state(id, transition, notice, mail = false)
-      event = Event.find(id)
-      if mail
-        check_mail_settings(event)
-      end
-      if event
-        begin
-          if mail
-            event.send(transition,
-                       send_mail: params[:send_mail])
-          else
-            event.send(transition)
-          end
-          event.save
-        rescue Transitions::InvalidTransition => e
-          redirect_to(
-              admin_conference_events_path(conference_id: @conference.short_title),
-              notice: "Update state failed. #{e.message}") && return
-        end
+    def get_event
+      @event = @conference.events.find_by_id(params[:id])
+      if !@event
         redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: notice)
-      else
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: 'Error! Could not find event!')
+                    alert: 'Error! Could not find event!') && return
       end
+      @event
     end
 
-    def check_mail_settings(event)
-      if !params[:send_mail].blank? && event &&
-          event.conference.email_settings.rejected_email_template.nil? &&
-          event.conference.email_settings.accepted_email_template.nil?
+    def update_state(transition, notice, mail = false, subject = false, send_mail = false)
+      alert = @event.update_state(transition, mail, subject, send_mail, params[:send_mail].blank?)
+
+      if !alert.blank?
+        return redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
+                           alert: alert) && return
+      else
         redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: 'Update Email Template before Sending Mails') && return
+                    notice: notice) && return
       end
     end
   end

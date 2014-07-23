@@ -1,5 +1,51 @@
-$(function() {
+$(function () {
     /**
+     * Toggles email template help below email body textarea field.
+     */
+    $(document).ready( function() {
+        $(".template-help").hide();
+        $(".template_help_link").click(function() {
+            var id = $(this).data('name');
+            $("#" + id).toggle();
+        });
+    });
+
+    /**
+     * Adds the default template as value to the regarding email textarea field.
+     */
+    $(".load_template").on('click', function () {
+        var template = $(this).data('template');
+        var textarea_name = $(this).data('name');
+        $('#' + textarea_name).val(template);
+    });
+
+    /**
+     * Toggle the required attribute on click on_send_email radio button.
+     */
+    $('.send_on_radio').click(function () {
+        toggle_required_for_mail_subjects($(this))
+    });
+
+    /**
+     * Adds required attribute to on_send_email radio button if necessary.
+     */
+    $('.send_on_radio').each(function () {
+        toggle_required_for_mail_subjects($(this))
+    });
+    /**
+     * Toggle the required attribute helper function.
+     */
+    function toggle_required_for_mail_subjects($this) {
+        var name = $this.data('name');
+        if ($this.is(':checked')) {
+            $('#' + name).prop('required', true);
+        } else {
+            $('#' + name).removeAttr('required');
+        }
+    }
+
+    /**
+     /**
      * Opens a prompt with the URL to copy to clipboard.
      * Used in the campaign index view.
      */

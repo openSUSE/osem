@@ -162,7 +162,7 @@ class ProposalController < ApplicationController
     if @event.transition_possible? :confirm
       begin
         @event.confirm!
-      rescue InvalidTransition => e
+      rescue Transitions::InvalidTransition => e
         redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
                     alert: "Event was NOT confirmed: #{e.message}")
         return
@@ -186,7 +186,7 @@ class ProposalController < ApplicationController
       begin
         @event.restart
         @event.save
-      rescue InvalidTransition => e
+      rescue Transitions::InvalidTransition => e
         redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
                     alert: "Event was NOT restarted: #{e.message}")
         return

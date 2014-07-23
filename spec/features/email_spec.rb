@@ -37,6 +37,16 @@ feature Event do
       fill_in 'email_settings_confirmed_email_template',
               with: 'Confirmed without registration email body'
 
+      fill_in 'email_settings_updated_conference_dates_subject',
+              with: 'Updated conference dates subject'
+      fill_in 'email_settings_updated_conference_dates_template',
+              with: 'Updated conference dates email template'
+
+      fill_in 'email_settings_updated_conference_registration_dates_subject',
+              with: 'Updated conference registration dates subject'
+      fill_in 'email_settings_updated_conference_registration_dates_template',
+              with: 'Updated conference registration dates template'
+
       click_button 'Update Email settings'
 
       expect(flash).
@@ -58,7 +68,14 @@ feature Event do
                  value).to eq('Confirmed without registration subject')
       expect(find('#email_settings_confirmed_email_template').
                  value).to eq('Confirmed without registration email body')
-
+      expect(find('#email_settings_updated_conference_dates_subject').
+                 value).to eq('Updated conference dates subject')
+      expect(find('#email_settings_updated_conference_dates_template').
+                 value).to eq('Updated conference dates email template')
+      expect(find('#email_settings_updated_conference_registration_dates_subject').
+                 value).to eq('Updated conference registration dates subject')
+      expect(find('#email_settings_updated_conference_registration_dates_template').
+                 value).to eq('Updated conference registration dates template')
       expect(EmailSettings.count).to eq(expected_count)
 
     end
