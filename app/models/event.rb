@@ -138,7 +138,7 @@ class Event < ActiveRecord::Base
     if conference.email_settings.send_on_accepted &&
         conference.email_settings.accepted_email_template &&
         conference.email_settings.accepted_subject &&
-        options[:send_mail].blank?
+        !options[:send_mail].blank?
       Rails.logger.debug 'Sending event acceptance mail'
       Mailbot.acceptance_mail(self).deliver
     end
@@ -148,7 +148,7 @@ class Event < ActiveRecord::Base
     if conference.email_settings.send_on_rejected &&
         conference.email_settings.rejected_email_template &&
         conference.email_settings.rejected_subject &&
-        options[:send_mail].blank?
+        !options[:send_mail].blank?
       Rails.logger.debug 'Sending rejected mail'
       Mailbot.rejection_mail(self).deliver
     end
@@ -184,6 +184,25 @@ class Event < ActiveRecord::Base
       result = '#848484'
     end
     result
+  end
+
+  def update_state(transition, mail = false, subject = false, send_mail = false, send_mail_param)
+    alert = ''
+    if mail && send_mail_param && subject && send_mail
+      alert = 'Update Email Subject before Sending Mails'
+    end
+      begin
+        if mail
+          self.send(transition,
+                      send_mail: send_mail_param)
+        else
+          self.send(transition)
+        end
+        self.save
+      rescue Transitions::InvalidTransition => e
+        alert = "Update state failed. #{e.message}"
+      end
+    alert
   end
 
   private
