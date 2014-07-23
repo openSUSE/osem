@@ -36,26 +36,29 @@
               = link_to(new_registration_path('user')) do
                 %span.glyphicon.glyphicon-heart
                 Sign Up
-            %li.dropdown.visible-desktop
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                %span.glyphicon.glyphicon-user
-                Sign In
-                %span.caret
-              .dropdown-menu{:style => "padding: 17px;"}
-                = form_tag user_session_path do
-                  = text_field_tag 'user[email]', nil, id: 'user_email_dd'
-                  = password_field_tag 'user[password]', nil, id: 'user_password_dd'
-                  %p.text-right
-                    %small
-                      Remember me
-                      = check_box_tag 'user[remember_me]'
-                  %button.btn.btn-success.btn-block Sign in
-                  %p
-                    %small
-                      %ul.list-unstyled
-                        %li
-                          = link_to "Forgot your password?", new_password_path('user')
-                        %li
-                          = link_to 'Sign in with openID', new_user_session_path
+          %li.dropdown.visible-desktop
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              %span.glyphicon.glyphicon-user
+              Sign In
+              %span.caret
+            .dropdown-menu{:style => "padding: 17px;"}
+              = form_tag user_session_path do
+                = text_field_tag 'user[email]', nil, id: 'user_email_dd'
+                = password_field_tag 'user[password]', nil, id: 'user_password_dd'
+                %p.text-right
+                  %small
+                    Remember me
+                    = check_box_tag 'user[remember_me]'
+                %button.btn.btn-success.btn-block Sign in
+                - unless omniauth_configured.empty?
+                  .divider
+                  %h6.text-center
+                    or
+                  = render 'devise/shared/openid'
+                %p.text-right
+                  %a.small{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
+                    Need Help?
+                  #navbar-devise-help.collapse
+                    = link_to "Forgot your password?", new_password_path(User.new)
             %li.hidden-lg
               = link_to('Sign In', new_user_session_path)

@@ -210,4 +210,16 @@ module ApplicationHelper
   def markdown_hint(text="")
     markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text")
   end
+
+  def omniauth_configured
+    providers = []
+    Devise.omniauth_providers.each do |provider|
+      provider_key = "#{provider}_key"
+      provider_secret = "#{provider}_secret"
+      unless Rails.application.secrets.send(provider_key).blank? || Rails.application.secrets.send(provider_secret).blank?
+        providers << provider
+      end
+    end
+    return providers
+  end
 end
