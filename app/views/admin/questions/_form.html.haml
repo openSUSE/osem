@@ -1,8 +1,10 @@
 .row
   .col-md-6
     %legend Question
-    = f.input :title, :label => "Your Question"
+    = f.input :title, label: 'Your Question'
     = f.input :question_type
-    = f.input :global, :label => "Make Global", :hint => "(Global questions are available for selection to all conferences)"
+    = f.input :global, label: 'Make Global',
+              hint: '(Global questions are available for selection to all conferences)'
   .col-md-6
-    = dynamic_association :answers, "Answers", f, :hint => "Insert your answers in the order you want them to appear"
+    = dynamic_association :answers, 'Answers', f,
+                          hint: 'Insert your answers in the order you want them to appear'
