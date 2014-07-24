@@ -1,14 +1,26 @@
-- if can? :edit, @user
-  .pull-right
-    = link_to "Edit", edit_admin_user_path(@user), class: 'btn btn-primary'
-%table.table
-  - @show_attributes.each do |attr|
-    %tr
-      %td{class: 'table20'}
-        %b
-          = attr.capitalize.gsub('_', ' ')
-      - if attr == 'roles'
-        %td
-          = show_roles(@user.get_roles)
-      - else
-        %td= @user.send(attr)
+.row
+  .col-md-12
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to 'User Info', '#user-info-content', 'data-toggle'=>'tab'
+        - unless @user.submissions.blank?
+          %li= link_to 'Submissions', '#submissions-content', 'data-toggle'=>'tab'
+      .tab-content
+        #user-info-content.tab-pane.active
+          - if can? :edit, @user
+            .pull-right
+              = link_to "Edit", edit_admin_user_path(@user), class: 'btn btn-primary'
+          %table.table
+            - @show_attributes.each do |attr|
+              %tr
+                %td{class: 'table20'}
+                  %b
+                    = attr.capitalize.gsub('_', ' ')
+                - if attr == 'roles'
+                  %td
+                    = show_roles(@user.get_roles)
+                - else
+                  %td= @user.send(attr)
+        #submissions-content.tab-pane
+          = render 'submissions'

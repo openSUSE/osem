@@ -11,7 +11,7 @@
         %tbody
           %tr
             %td #{index}
-            %td #{user.email}
+            %td= link_to "#{user.email}", admin_user_path(user.id)
             %td #{user.created_at.strftime('%m/%d/%Y')}
             %td
               - if user.confirmed?

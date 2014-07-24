@@ -11,8 +11,8 @@
           %tbody
             %tr
               %td #{index + 1}
-              %td #{registration.name}
-              %td #{registration.conference.title}
+              %td= link_to "#{registration.name}", admin_user_path(registration.user.id)
+              %td= link_to "#{registration.conference.title}", admin_conference_path(registration.conference.short_title)
               %td #{registration.created_at.strftime('%m/%d/%Y')}
 - else
   %h5.text-warning.text-center
