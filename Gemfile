@@ -19,6 +19,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-openid'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-github'
 
 # Use cancancan as authorization framework
 gem 'cancancan'
