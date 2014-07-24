@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    is_admin = true if User.count == 0
+    self.is_admin = true if User.count == 0
   end
 
   def self.prepare(params)

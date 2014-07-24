@@ -5,5 +5,6 @@ class Role < ActiveRecord::Base
 
   scopify
 
-  LABELS = ['Participant', 'Attendee', 'Volunteer', 'Speaker', 'Sponsor', 'Press', 'Organizer', 'CfP', 'Info Desk', 'Volunteers Coordinator']
+  LABELS = ['Participant', 'Attendee', 'Volunteer', 'Speaker', 'Sponsor', 'Press',
+            'Organizer', 'CfP', 'Info Desk', 'Volunteers Coordinator']
 end
