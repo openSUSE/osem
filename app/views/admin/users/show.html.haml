@@ -1,3 +1,6 @@
+- if can? :update, @user
+  .pull-right
+    = link_to "Edit", edit_admin_user_path(@user), class: 'btn btn-primary'
 %table.table
   - @show_attributes.each do |attr|
     %tr
