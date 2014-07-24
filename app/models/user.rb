@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_many :registrations, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
-
+  has_many :subscriptions, dependent: :destroy
   accepts_nested_attributes_for :roles
 
   before_create :setup_role

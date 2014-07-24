@@ -49,7 +49,7 @@ class Conference < ActiveRecord::Base
   has_many :targets, dependent: :destroy
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
-  belongs_to :venue
+  has_many :subscriptions, dependent: :destroy
 
   accepts_nested_attributes_for :rooms, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :tracks, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
