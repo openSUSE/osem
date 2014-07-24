@@ -15,6 +15,7 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
 
   def up
     add_column :conferences, :events_per_week, :text
+    TempConference.reset_column_information
 
     TempVersion.where(item_type: 'Event').each do |event_version|
       event = TempEvent.find_by_id(event_version.item_id)
