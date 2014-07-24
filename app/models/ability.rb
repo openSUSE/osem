@@ -23,12 +23,13 @@ class Ability
 
     # Check roles of user, using rolify. Role name is *case sensitive*
     # user.is_organizer? or user.has_role? :organizer
-    # user.is_cfp_of? Conference or user.has_role? :cfp, Conference
-    # user.is_info_desk_of? Conference
-    # user.is_volunteer_coordinator_of? Conference
-    # user.is_attendee_of? Conference
+    # We only assign roles per conference, so:
+    # user.is_cfp_of? Conference.find(1) or user.has_role? :cfp, @conference
+    # user.is_info_desk_of? @conference
+    # user.is_volunteer_coordinator_of? @conference
+    # user.is_attendee_of? @conference
     # The following is wrong because a user will only have 'cfp' role for a specific conference
-    # user.is_cfp? # This is always false
+    # user.is_cfp? # Always FALSE
 
     # Ids of all the conferences for which the user has an 'organizer' role
     conf_ids_for_organizer =
@@ -48,31 +49,23 @@ class Ability
     event_ids_for_user =
       EventUser.where(user_id: user.id).pluck(:event_id)
 
-    ## Abilities for everyone, even guests (not logged in users)
-    can :show, Conference do |conference|
-      conference.make_conference_public
-    end
+    ## Abilities for everyone (incl. GUESTS - not logged in users)
+    can :show, Conference, make_conference_public: true
 
-    can :show, Event do |event|
-      event.state == 'confirmed'
-    end
+    can :show, Event, state: 'confirmed'
 
-    can :index, :schedule # show?
+    can :index, :schedule
 
     ## Abilities for signed in users
     unless user.new_record?
-      can :show, Conference do |conference|
-        conference.make_conference_public
-      end
-
       # Conference Registration
-      can :manage, Registration
+      can [:register, :update, :unregister], Registration, user_id: user.id
 
       # Proposals
       # Users can edit their own proposals
       # Organizer and CfP team can edit any proposal they want
       # Can manage an event if the user is a speaker or a submitter of that event
-#       can [:index, :create], Event
+
       can :create, Event
       can :manage, Event do |event|
         event.event_users.where(:user_id => user.id).present?
@@ -88,7 +81,7 @@ class Ability
     if user.is_admin # is_admin is an attribute of User
       can :create, Conference
       can :index, Conference # this will allow the Conference to appear in the menu
-      can :view, Conference # for /admin/conference overview
+      can :show, Conference # for /admin/conference overview
       can :manage, User # to make other users admins
     end
 

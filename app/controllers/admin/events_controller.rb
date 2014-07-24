@@ -1,9 +1,8 @@
 module Admin
   class EventsController < ApplicationController
-    load_and_authorize_resource :conference, find_by: :short_title
+    load_resource :conference, find_by: :short_title
     load_and_authorize_resource :event, through: :conference
-
-    before_action :get_event, except: [:index, :create]
+    before_filter :authorize_conference
 
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
@@ -14,7 +13,6 @@ module Admin
     end
 
     def index
-      @conference = Conference.find_by(short_title: params[:conference_id])
       @events = @conference.events
       @tracks = @conference.tracks
       @machine_states = @events.state_machine.states.map
@@ -169,15 +167,6 @@ module Admin
     end
 
     private
-
-    def get_event
-      @event = @conference.events.find_by_id(params[:id])
-      if !@event
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    alert: 'Error! Could not find event!') && return
-      end
-      @event
-    end
 
     def update_state(transition, notice, mail = false, subject = false, send_mail = false)
       alert = @event.update_state(transition, mail, subject, send_mail, params[:send_mail].blank?)

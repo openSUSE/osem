@@ -34,11 +34,15 @@ class ApplicationController < ActionController::Base
     @conferences =Conference.all
   end
 
+  def authorize_conference
+    authorize! :update, @conference
+  end
+
   def verify_user_admin
     if self.class.to_s.split('::').first == 'Admin' && verify_user
       unless (current_user.has_role? :organizer, :any) || (current_user.has_role? :cfp, :any) ||
           (current_user.has_role? :info_desk, :any) ||
-          (current_user.has_role? :volunteers_coordinator, :any)
+          (current_user.has_role? :volunteers_coordinator, :any) || (current_user.is_admin)
         raise CanCan::AccessDenied.new('You are not authorized to access this area!')
       end
     end
