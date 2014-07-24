@@ -130,7 +130,7 @@ class Event < ActiveRecord::Base
         conference.email_settings.confirmed_email_template &&
         conference.email_settings.confirmed_without_registration_subject
       if conference.registrations.where(user_id: submitter.id).first.nil?
-        Mailbot.confirm_reminder_mail(self).deliver
+        Mailbot.delay.confirm_reminder_mail(self)
       end
     end
   end
@@ -141,7 +141,7 @@ class Event < ActiveRecord::Base
         conference.email_settings.accepted_subject &&
         !options[:send_mail].blank?
       Rails.logger.debug 'Sending event acceptance mail'
-      Mailbot.acceptance_mail(self).deliver
+      Mailbot.delay.acceptance_mail(self)
     end
   end
 
@@ -151,7 +151,7 @@ class Event < ActiveRecord::Base
         conference.email_settings.rejected_subject &&
         !options[:send_mail].blank?
       Rails.logger.debug 'Sending rejected mail'
-      Mailbot.rejection_mail(self).deliver
+      Mailbot.delay.rejection_mail(self)
     end
   end
 

@@ -7,18 +7,14 @@ class Admin::VenueController < ApplicationController
   def update
     @venue = @conference.venue
     @venue.assign_attributes(params[:venue])
-    unless @venue.name.blank? || @venue.address.blank? || @conference.registrations.blank?
-      if (@venue.name_changed? ||
-          @venue.address_changed?) &&
-              (@conference.email_settings.send_on_venue_update &&
-              !@conference.email_settings.venue_update_subject.blank? &&
-              @conference.email_settings.venue_update_template)
-        venue_notify = Mailbot.send_email_on_venue_update(@conference)
-      end
-    end
+    venue_notify = (@venue.name_changed? || @venue.address_changed?) &&
+                   (!@venue.name.blank? && !@venue.address.blank?) &&
+                   (@conference.email_settings.send_on_venue_update &&
+                   !@conference.email_settings.venue_update_subject.blank? &&
+                   @conference.email_settings.venue_update_template)
 
     if @venue.update_attributes(params[:venue])
-      venue_notify.deliver unless venue_notify.blank?
+      Mailbot.delay.send_email_on_venue_update(@conference) if venue_notify
       redirect_to(admin_conference_venue_info_path(conference_id: @conference.short_title),
                   notice: 'Venue was successfully updated.')
     else
