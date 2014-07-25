@@ -14,7 +14,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.accepted_subject,
-                conference.email_settings.generate_accepted_email(event))
+                conference.email_settings.generate_event_email(event, accepted_email_template))
   end
 
   def rejection_mail(event)
@@ -23,59 +23,58 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.rejected_subject,
-                conference.email_settings.generate_rejected_email(event))
+                conference.email_settings.generate_event_email(event, rejected_email_template))
   end
 
   def confirm_reminder_mail(event)
     conference = event.conference
     person = event.submitter
-
     build_email(conference,
                 person.email,
                 conference.email_settings.confirmed_without_registration_subject,
-                conference.email_settings.confirmed_but_not_registered_email(event))
+                conference.email_settings.generate_event_email(event, confirmed_email_template))
   end
 
   def conference_date_update_mail(conference)
-    conference.registrations.each do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
-                  user.user.email,
+                  user.email,
                   conference.email_settings.updated_conference_dates_subject,
                   conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_dates_template))
     end
   end
 
   def conference_registration_date_update_mail(conference)
-    conference.registrations.each do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions).uniq.joins('INNER JOIN registrations ON registrations.user_id != users.id').merge(conference.registrations) do |user|
       build_email(conference,
-                  user.user.email,
+                  user.email,
                   conference.email_settings.updated_conference_registration_dates_subject,
                   conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_registration_dates_template))
     end
   end
 
   def send_email_on_venue_update(conference)
-    conference.registrations.each do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
-                  user.user.email,
+                  user.email,
                   conference.email_settings.venue_update_subject,
                   conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.venue_update_template))
     end
   end
 
   def send_on_schedule_public(conference)
-    conference.registrations.each do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
-                  user.user.email,
+                  user.email,
                   conference.email_settings.call_for_papers_schedule_public_subject,
                   conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_schedule_public_template))
     end
   end
 
   def send_on_call_for_papers_dates_updates(conference)
-    conference.registrations.each do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
-                  user.user.email,
+                  user.email,
                   conference.email_settings.call_for_papers_dates_updates_subject,
                   conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_dates_updates_template))
     end

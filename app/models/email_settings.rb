@@ -41,28 +41,14 @@ class EmailSettings < ActiveRecord::Base
     h
   end
 
-  def generate_accepted_email(event)
+  def generate_event_mail(event, event_template)
     values = get_values(event.conference, event.submitter, event)
-    template = accepted_email_template
-    parse_template(template, values)
-  end
-
-  def generate_rejected_email(event)
-    values = get_values(event.conference, event.submitter, event)
-    template = rejected_email_template
-    parse_template(template, values)
-  end
-
-  def confirmed_but_not_registered_email(event)
-    values = get_values(event.conference, event.submitter, event)
-    template = confirmed_email_template
-    parse_template(template, values)
+    parse_template(event_template, values)
   end
 
   def generate_email_on_conf_updates(conference, user, conf_update_template)
     values = get_values(conference, user)
-    template = conf_update_template
-    parse_template(template, values)
+    parse_template(conf_update_template, values)
   end
 
   def parse_template(text, values)

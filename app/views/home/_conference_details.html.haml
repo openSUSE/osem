@@ -20,6 +20,12 @@
             = simple_format(conference.venue.description, class: 'lead')
         .col-md-2
           .btn-group-vertical
+            - unless current_user.blank?
+              - if Conference.joins(:subscriptions).merge(current_user.subscriptions).include? conference
+                = link_to "Unsubscribe", subscription_conference_path(conference.short_title), method: "DELETE", class: "btn btn-danger btn-group-vertical"
+              -else
+                = link_to "Subscribe", subscription_conference_path(conference.short_title), method: "PATCH", class: "btn btn-info btn-group-vertical"
+
             - if !@conference || @conference != conference
               - if conference.make_conference_public?
                 = link_to "View Conference", conference_path(conference.short_title), :class =>"btn btn-default"

@@ -96,6 +96,8 @@ Osem::Application.routes.draw do
       patch "/register" => "conference_registration#update"
       delete "/register" => "conference_registration#unregister"
       get "gallery_photos"
+      patch "subscription" => "conference#subscribe"
+      delete "subscription" => "conference#unsubscribe"
     end
   end
 

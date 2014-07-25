@@ -130,7 +130,7 @@ feature Event do
 
       # Register for conference
       find('#register').click
-      expect(flash).to eq('You are now registered.')
+      expect(flash).to eq('You are now Registered and will be receiving Email Notifications.')
 
       # Withdraw proposal
       visit conference_proposal_index_path(conference.short_title)

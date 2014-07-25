@@ -65,6 +65,10 @@ class ConferenceRegistrationController < ApplicationController
 
         registration.conference_id = conference.id
         registration.save!
+        if user.subscriptions.where(conference: conference).blank?
+          subscription = Subscription.new(conference_id: conference.id, user_id: user.id)
+          redirect_message = subscription.save ? 'You are now Registered and will be receiving Email Notifications.' : 'You are now Registered.'
+        end
       else
         registration.update_attributes!(registration_params)
       end
@@ -75,7 +79,6 @@ class ConferenceRegistrationController < ApplicationController
       return
     end
 
-    redirect_message = 'You are now registered.'
     if update_registration
       redirect_message = 'Registration updated.'
     else
@@ -93,6 +96,10 @@ class ConferenceRegistrationController < ApplicationController
     conference = Conference.find_by(short_title: params[:id])
     user = current_user
     registration = user.registrations.where(conference_id: conference.id).first
+    subscription = user.subscriptions.where(conference: conference)
+    unless subscription.blank?
+      subscription.first.destroy
+    end
     registration.destroy
     redirect_to :root
   end
