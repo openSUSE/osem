@@ -31,10 +31,55 @@ Osem::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # Do not eager load code on boot. 
+  # Do not eager load code on boot.
   config.eager_load = false
 
   # Set the detault url for action mailer
   config.action_mailer.default_url_options = { host: CONFIG['url_for_emails'] }
+
+  # Use omniauth mock credentials
+  OmniAuth.config.test_mode = true
+
+  OmniAuth.config.mock_auth[:facebook] =
+      OmniAuth::AuthHash.new(
+                              provider: 'facebook',
+                              uid: 'facebook-test-uid-1',
+                              info: {
+                                name: 'admin admin',
+                                email: 'admin@email.com'
+                              },
+                              credentials: {
+                                token: 'fb_mock_token',
+                                secret: 'fb_mock_secret'
+                              }
+                            )
+
+  OmniAuth.config.mock_auth[:google] =
+      OmniAuth::AuthHash.new(
+                              provider: 'google',
+                              uid: 'google-test-uid-1',
+                              info: {
+                                name: 'simple user',
+                                email: 'user0@email.com'
+                              },
+                              credentials: {
+                                token: 'google_mock_token',
+                                secret: 'google_mock_secret'
+                              }
+                            )
+
+  OmniAuth.config.mock_auth[:novell] =
+      OmniAuth::AuthHash.new(
+                              provider: 'novell',
+                              uid: 'novell-test-uid-1',
+                              info: {
+                                name: 'another user',
+                                email: 'user1@email.com'
+                              },
+                              credentials: {
+                                token: 'novell_mock_token',
+                                secret: 'novell_mock_secret'
+                              }
+                            )
 
 end
