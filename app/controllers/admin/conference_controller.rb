@@ -92,15 +92,15 @@ module Admin
         @conference.email_settings.updated_conference_registration_dates_template
           Mailbot.conference_registration_date_update_mail(@conference).deliver
         end
+      end
 
-        if @conference.update_attributes(params[:conference])
-          redirect_to(edit_admin_conference_path(id: @conference.short_title),
-                      notice: 'Conference was successfully updated.')
-        else
-          redirect_to(edit_admin_conference_path(id: short_title),
-                      alert: 'Updating conference failed. ' \
-                      "#{@conference.errors.full_messages.join('. ')}.")
-        end
+      if @conference.update_attributes(params[:conference])
+        redirect_to(edit_admin_conference_path(id: @conference.short_title),
+                    notice: 'Conference was successfully updated.')
+      else
+        redirect_to(edit_admin_conference_path(id: short_title),
+                    alert: 'Updating conference failed. ' \
+                    "#{@conference.errors.full_messages.join('. ')}.")
       end
     end
 
