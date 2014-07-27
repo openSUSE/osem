@@ -26,8 +26,8 @@
       .icon
         %i.glyphicon.glyphicon-user
       .text
-        %label.text-muted programm: #{@program_length} min
-        %label.text-muted new programm: #{@new_program_length} min
+        %label.text-muted program: #{@program_length} min
+        %label.text-muted new program: #{@new_program_length} min
         .row
           = render partial: 'targets', locals: { targets: @program_minutes_targets, name: 'program_hours' }
 .row

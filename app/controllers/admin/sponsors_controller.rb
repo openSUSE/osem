@@ -10,7 +10,7 @@ module Admin
       else
         redirect_to(admin_conference_sponsors_path(
                     conference_id: @conference.short_title),
-                    alert: 'Sponsorships updation failed')
+                    alert: 'Sponsorships update failed.')
       end
     end
   end
