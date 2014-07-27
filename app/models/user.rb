@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_many :events, -> { uniq }, through: :event_users
   has_many :registrations, dependent: :destroy
   has_many :votes, dependent: :destroy
-  has_many :voted_events, through: :votes, source: :events
+  has_many :voted_events, through: :votes, source: :event
 
   accepts_nested_attributes_for :roles
 
