@@ -105,6 +105,7 @@ class ConferenceRegistrationController < ApplicationController
           :other_dietary_choice, :handicapped_access_required, :dietary_choice_id,
           :volunteer, :other_special_needs,
           social_event_ids: [],
+          event_ids: [],
           vchoice_ids: [],
           qanswer_ids: [],
           qanswers_attributes: [],
