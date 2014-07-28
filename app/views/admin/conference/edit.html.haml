@@ -12,7 +12,7 @@
       = f.inputs name: 'Banner for Splash' do
         = f.input :include_banner_in_splash, hint: 'This enable the Banner Photo with description to be displayed on the splash'
         = f.input :banner_photo, hint: 'This will be the top most component of the splash.This background cover will contain start_date and end_date of the conference and the description'
-        = f.input :description, hint: markdown_hint("This description will be shown at the bottom of the banner photo of the Splash."), input_html: { data: { provide: "markdown-editable" } }
+        = f.input :description, hint: markdown_hint("This description will be shown at the bottom of the banner photo of the Splash."), input_html: { rows: 6, data: { provide: "markdown-editable" } }
 
       = f.inputs :name => "Scheduling" do
         = f.input :timezone, :as => :time_zone, :hint => "The conference time zone"
@@ -22,11 +22,11 @@
         = f.input :include_registrations_in_splash, hint: 'On setting this true you will enable the registrations to be displayed on the splash page'
         = f.input :registration_start_date, :as => :string, :input_html => { :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
         = f.input :registration_end_date, :as => :string, :input_html => { :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
-        = f.input :registration_description, hint: markdown_hint("This description will appear in registration segment of the splash."), input_html: { data: { provide: "markdown-editable" } }
-      = f.input :ticket_description, hint: markdown_hint("This will appear in the Tickets segment of the splash."), input_html: { data: { provide: "markdown-editable" } }
-      = f.input :sponsor_description, hint: markdown_hint("This will appear in the sponsor segment of the splash."), input_html: { data: { provide: "markdown-editable" } }
+        = f.input :registration_description, hint: markdown_hint("This description will appear in registration segment of the splash."), input_html: { rows: 6, data: { provide: "markdown-editable" } }
+      = f.input :ticket_description, hint: markdown_hint("This will appear in the Tickets segment of the splash."), input_html: { rows: 6, data: { provide: "markdown-editable" } }
+      = f.input :sponsor_description, hint: markdown_hint("This will appear in the sponsor segment of the splash."), input_html: { rows: 6, data: { provide: "markdown-editable" } }
       = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
-      = f.input :lodging_description, hint: markdown_hint("This will appear in the lodging segment of the splash."), input_html: { data: { provide: "markdown-editable" } }
+      = f.input :lodging_description, hint: markdown_hint("This will appear in the lodging segment of the splash."), input_html: { rows: 6, data: { provide: "markdown-editable" } }
 
       = dynamic_association :photos, "Photos", f
 
