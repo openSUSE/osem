@@ -194,7 +194,6 @@ module ApplicationHelper
   def brand
     content_for(:brand) ||
     (default_brand if controller.class.parent == Admin) ||
-    (short_title_brand(@conference) if @conference) ||
     default_brand
   end
 
