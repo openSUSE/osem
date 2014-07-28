@@ -19,9 +19,15 @@ class EmailSettings < ActiveRecord::Base
       'registration_start_date' => conference.registration_start_date,
       'registration_end_date' => conference.registration_end_date,
       'venue' => conference.venue.name,
-      'venue_adress' => conference.venue.address,
+      'venue_address' => conference.venue.address,
       'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(
-                            conference.short_title, host: CONFIG['url_for_emails'])
+                            conference.short_title, host: CONFIG['url_for_emails']),
+      'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
+                                  conference.short_title, host: CONFIG['url_for_emails']),
+      'cfp_start_date' => conference.call_for_papers.start_date,
+      'cfp_end_date' => conference.call_for_papers.end_date,
+      'schedule_link' => Rails.application.routes.url_helpers.conference_schedule_url(
+                         conference.short_title, host: CONFIG['url_for_emails'])
     }
 
     if !event.nil?

@@ -10,30 +10,49 @@
     %tr
       %td {conference}
       %td The full conference title
-    %tr
-      %td {proposalslink}
-      %td A link to the user's proposal page
-    %tr
-      %td {registrationlink}
-      %td A link to the registration page
-    %tr
-      %td {eventtitle}
-      %td The title of an accepted or rejected proposal
+    - if show_event_variables
+      %tr
+        %td {proposalslink}
+        %td A link to the user's proposal page
+      %tr
+        %td {eventtitle}
+        %td The title of an accepted or rejected proposal
     %tr
       %td {conference_start_date}
       %td The start date of the conference
     %tr
       %td {conference_end_date}
       %td The end date of the conference
-    %tr
-      %td {registration_start_date}
-      %td The start date of the registration period
-    %tr
-      %td {registration_end_date}
-      %td The end date of the registration period
-    %tr
-      %td {venue}
-      %td The name of the venue
-    %tr
-      %td {venue_adress}
-      %td The adress of the venue
+    - if @conference.registration_dates_given?
+      %tr
+        %td {registration_start_date}
+        %td The start date of the registration period
+      %tr
+        %td {registration_end_date}
+        %td The end date of the registration period
+      %tr
+        %td {registrationlink}
+        %td A link to the registration page
+    - unless @conference.venue.name.blank?
+      %tr
+        %td {venue}
+        %td The name of the venue
+    - unless @conference.venue.address.blank?
+      %tr
+        %td {venue_address}
+        %td The address of the venue
+    - unless @conference.call_for_papers.blank? || @conference.call_for_papers.start_date.blank? || @conference.call_for_papers.end_date.blank?
+      %tr
+        %td {cfp_start_date}
+        %td The call for papers start date
+      %tr
+        %td {cfp_end_date}
+        %td The call for papers end date
+      -if @conference.call_for_papers.schedule_public
+        %td {schedule_link}
+        %td The link to complete schedule of the conference
+    - if @conference.make_conference_public
+      %tr
+        %td {conference_splash_link}
+        %td The link to conference splash page
+
