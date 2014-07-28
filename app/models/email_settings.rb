@@ -7,7 +7,10 @@ class EmailSettings < ActiveRecord::Base
                   :send_on_updated_conference_dates, :updated_conference_dates_subject,
                   :updated_conference_dates_template, :send_on_updated_conference_registration_dates,
                   :updated_conference_registration_dates_subject, :updated_conference_registration_dates_template,
-                  :send_on_venue_update, :venue_update_subject, :venue_update_template
+                  :send_on_venue_update, :venue_update_subject, :venue_update_template,
+                  :send_on_call_for_papers_dates_updates, :send_on_call_for_papers_schedule_public,
+                  :call_for_papers_schedule_public_subject, :call_for_papers_dates_updates_subject,
+                  :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template
 
   def get_values(conference, user, event = nil)
     h = {
@@ -38,12 +41,6 @@ class EmailSettings < ActiveRecord::Base
     h
   end
 
-  def generate_registration_email(conference, user)
-    values = get_values(conference, user)
-    template = registration_email_template
-    parse_template(template, values)
-  end
-
   def generate_accepted_email(event)
     values = get_values(event.conference, event.submitter, event)
     template = accepted_email_template
@@ -62,21 +59,9 @@ class EmailSettings < ActiveRecord::Base
     parse_template(template, values)
   end
 
-  def generate_conference_date_update_mail(conference, user)
+  def generate_email_on_conf_updates(conference, user, conf_update_template)
     values = get_values(conference, user)
-    template = updated_conference_dates_template
-    parse_template(template, values)
-  end
-
-  def generate_conference_registration_date_update_mail(conference, user)
-    values = get_values(conference, user)
-    template = updated_conference_registration_dates_template
-    parse_template(template, values)
-  end
-
-  def generate_send_email_on_venue_update(conference, user)
-    values = get_values(conference, user)
-    template = venue_update_template
+    template = conf_update_template
     parse_template(template, values)
   end
 
