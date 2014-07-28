@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
 
   # Returns user submissions (in any conference)
   def submissions
-    submissions = Array.new
+    submissions = []
     Conference.all.each do |c|
       unless self.proposals(c).blank?
         submissions << self.proposals(c)
