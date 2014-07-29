@@ -5,9 +5,11 @@
     %title= content_for?(:title) ? yield(:title) : "OSEM"
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
+    = jquery_include_tag :google
+    = jquery_ui_include_tag :google
+    = javascript_include_tag "application"
     = stylesheet_link_tag "application", :media => "all"
     = stylesheet_link_tag "splash" if content_for :splash
-    = javascript_include_tag "application"
     = csrf_meta_tags
     :javascript
       $(function() {

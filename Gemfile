@@ -36,19 +36,17 @@ gem 'haml-rails'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 4.0.2'
 
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-
 # Use bootstrap as the front-end framework
 gem 'bootstrap-sass'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 2.3.0.rc3'
 
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'jquery-fileupload-rails'
+gem 'jquery-rails-cdn'
+gem 'jquery-ui-rails-cdn'
 gem 'cocoon'
 
 # Use gravtastic for user avatars
@@ -133,4 +131,9 @@ end
 
 group :development, :test do
   gem 'byebug'
+end
+
+group :production do
+  # Use Uglifier as compressor for JavaScript assets
+  gem 'uglifier'
 end
