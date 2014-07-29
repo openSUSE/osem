@@ -40,6 +40,6 @@ class DeleteEventsWithoutUser < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, 'Cannot reverse migration. Events deleted cannot be re-created'
+    raise ActiveRecord::IrreversibleMigration.new('Cannot reverse migration. Deleted events cannot be re-created')
   end
 end
