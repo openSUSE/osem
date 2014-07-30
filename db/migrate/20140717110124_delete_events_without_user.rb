@@ -1,5 +1,4 @@
 class DeleteEventsWithoutUser < ActiveRecord::Migration
-
   class TempEvent < ActiveRecord::Base
     self.table_name = 'events'
   end
@@ -32,6 +31,6 @@ class DeleteEventsWithoutUser < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, 'Cannot reverse migration. Events deleted cannot be re-created'
+    raise ActiveRecord::IrreversibleMigration.new('Cannot reverse migration. Events deleted cannot be re-created')
   end
 end
