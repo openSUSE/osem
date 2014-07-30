@@ -88,6 +88,9 @@ bundle exec guard
 This uses [spring](https://github.com/rails/spring) to provide a
 [fast feedback loop for the red/green cycle](http://bitzesty.com/blog/2013/05/enable-tdd-with-faster-ruby-on-rails-stack-reloading/).
 
+Generally, no PR with decreased test coverage should be accepted. Please look closely on comments which been provided
+by Coveralls in your PR.
+
 
 ## Style
 We are using [rubocop](https://github.com/bbatsov/rubocop) as a style checker. It is running each time
