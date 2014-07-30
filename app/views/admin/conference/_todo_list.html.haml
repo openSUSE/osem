@@ -8,7 +8,7 @@
         = conference_progress['process'] + '%'
   %li{'class'=>class_for_todo(conference_progress['registration'])}
     %span{'class'=>icon_for_todo(conference_progress['registration'])}
-    = link_to 'Set up registration period', edit_admin_conference_path(conference_progress['short_title'], :anchor => 'conference-end-datepicker')
+    = link_to 'Set up registration period', edit_admin_conference_conference_basics_path(conference_progress['short_title'], :anchor => 'conference-end-datepicker')
   %li{'class'=>class_for_todo(conference_progress['cfp'])}
     %span{'class'=>icon_for_todo(conference_progress['cfp'])}
     = link_to 'Set up call for papers', admin_conference_callforpapers_path(conference_progress['short_title'])
@@ -29,4 +29,4 @@
     = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(conference_progress['short_title'])
   %li{class: class_for_todo(conference_progress['make_conference_public'])}
     %span{'class'=>icon_for_todo(conference_progress['make_conference_public'])}
-    = link_to 'Make Splash Page Public for Visitors', edit_admin_conference_path(conference_progress['short_title'])
+    = link_to 'Make Splash Page Public for Visitors', edit_admin_conference_conference_basics_path(conference_progress['short_title'])
