@@ -104,6 +104,10 @@ Style/Blocks:
 Style/BracesAroundHashParameters:
   Enabled: true
 
+#
+Style/CaseEquality:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'

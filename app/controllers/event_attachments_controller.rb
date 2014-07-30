@@ -66,11 +66,11 @@ class EventAttachmentsController < ApplicationController
 
     respond_to do |format|
       if @upload.save
-        format.html {
+        format.html do
           render json: [@upload.to_jq_upload].to_json,
                  content_type: 'text/html',
                  layout: false
-        }
+        end
         format.json do
           render json: [@upload.to_jq_upload].to_json, status: :created,
                  location: conference_proposal_event_attachment_path(@upload.event.conference.short_title, @upload.event, @upload)
