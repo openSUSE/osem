@@ -84,6 +84,10 @@ Lint/Void:
 Style/AlignHash:
   Enabled: true
 
+# Align the parameters of a method call if they span more than one line
+Style/AlignParameters:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'

@@ -19,8 +19,7 @@ describe Admin::ConferenceController do
       context 'valid attributes' do
 
         it 'locates the requested conference' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con')
+          patch :update, id: conference.short_title, conference: attributes_for(:conference, title: 'Example Con')
           expect(assigns(:conference)).to eq(conference)
         end
 
@@ -267,7 +266,7 @@ describe Admin::ConferenceController do
       it 'requires admin privileges' do
         patch :update, id: conference.short_title,
                        conference: attributes_for(:conference,
-                                         short_title: 'ExCon')
+                                                  short_title: 'ExCon')
         expect(response).to redirect_to(send(success_path))
       end
     end

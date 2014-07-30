@@ -128,7 +128,7 @@ module Admin
 
               day_ticket_count = @tickets.where('supporter_registrations.created_at LIKE ?
                                                  AND supporter_levels.title LIKE ?',
-                                                 "%#{day}%", "%#{level.title}%").count
+                                                "%#{day}%", "%#{level.title}%").count
 
               index = @tickets_time.index { |v| v['key'] == "#{level.title}" }
               @tickets_time[index]['values'] << { 'label' => "#{day}", 'value' => day_ticket_count }
