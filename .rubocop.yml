@@ -92,6 +92,14 @@ Style/AlignParameters:
 Style/AndOr:
   Enabled: true
 
+# avoid deep blocks nesting
+Style/BlockNesting:
+  Max: 4
+
+# use do instead of {...} in multiline blocks
+Style/Blocks:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'
