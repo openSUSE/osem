@@ -80,6 +80,10 @@ Lint/UselessAssignment:
 Lint/Void:
   Enabled: true
 
+# Align the elements of a hash literal if they span more than one line
+Style/AlignHash:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'

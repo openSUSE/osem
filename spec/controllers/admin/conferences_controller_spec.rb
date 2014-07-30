@@ -27,7 +27,7 @@ describe Admin::ConferenceController do
         it 'changes conference attributes' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                             short_title: 'ExCon')
+                                          short_title: 'ExCon')
 
           conference.reload
           expect(conference.title).to eq('Example Con')
@@ -67,7 +67,7 @@ describe Admin::ConferenceController do
         it 'does not change conference attributes' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                             short_title: nil)
+                                          short_title: nil)
 
           conference.reload
           expect(flash[:alert]).
@@ -79,7 +79,7 @@ describe Admin::ConferenceController do
         it 're-renders the #show template' do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                             short_title: nil)
+                                          short_title: nil)
 
           expect(flash[:alert]).
               to eq("Updating conference failed. Short title can't be blank.")
@@ -266,7 +266,7 @@ describe Admin::ConferenceController do
     describe 'PATCH #update' do
       it 'requires admin privileges' do
         patch :update, id: conference.short_title,
-              conference: attributes_for(:conference,
+                       conference: attributes_for(:conference,
                                          short_title: 'ExCon')
         expect(response).to redirect_to(send(success_path))
       end
