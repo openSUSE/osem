@@ -7,12 +7,6 @@
 
 
 
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/AndOr:
-  Enabled: false
-
 # Offense count: 1
 Style/BlockNesting:
   Max: 4

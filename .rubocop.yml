@@ -88,6 +88,10 @@ Style/AlignHash:
 Style/AlignParameters:
   Enabled: true
 
+# Use && instead of and, use || instead of or
+Style/AndOr:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'
