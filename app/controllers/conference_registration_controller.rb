@@ -82,7 +82,7 @@ class ConferenceRegistrationController < ApplicationController
       # Track ahoy event
       ahoy.track 'Registered', title: 'New registration'
       if conference.email_settings.send_on_registration?
-        Mailbot.registration_mail(conference, current_user).deliver
+        Mailbot.delay.registration_mail(conference, current_user)
       end
     end
     redirect_to(register_conference_path(id: conference.short_title),
