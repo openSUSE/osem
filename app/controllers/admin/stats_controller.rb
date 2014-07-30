@@ -1,6 +1,7 @@
 module Admin
   class StatsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource
+    load_and_authorize_resource :conference, find_by: :short_title
 
     def index
       @registrations = @conference.registrations.includes(:user)

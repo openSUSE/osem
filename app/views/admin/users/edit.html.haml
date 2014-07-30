@@ -1,0 +1,19 @@
+.row
+  .col-md-12
+    .tabbable
+      %ul.nav.nav-tabs
+        %li.active
+          = link_to 'User', '#user-content', 'data-toggle'=>'tab'
+        %li= link_to 'Roles', '#roles-content', 'data-toggle'=>'tab'
+      .tab-content
+        #user-content.tab-pane.active
+          = render partial: 'form'
+
+        #roles-content.tab-pane
+          .row
+            .col-md-6
+              %br
+              = render partial: 'user_roles', locals: { user: @user }
+            .col-md-6
+              %br
+              = render partial: 'add_roles', locals: { user: @user }

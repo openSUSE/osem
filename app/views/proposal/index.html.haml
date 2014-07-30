@@ -27,7 +27,7 @@
                 (Pre-registered: #{pre_registered(event).count})
               - if event.confirmed? && !@conference.user_registered?(current_user)
                 %br
-                = link_to "Register to attend", register_conference_path(@conference.short_title), :style => "font-size:10px;"
+                = link_to "Register to attend", conference_register_path(@conference.short_title), :style => "font-size:10px;"
             %td
               .pull-right
                 - if event.transition_possible? :confirm

@@ -1,18 +1,18 @@
 require 'spec_helper'
 describe Admin::UsersController do
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_role) { create(:organizer_conference_1_role ) }
   let!(:participant_role) { create(:participant_role) }
-  let(:admin) { create(:admin) }
+  let(:organizer) { create(:organizer_conference_1) }
   let(:user) { create(:user) }
   before(:each) do
-    sign_in(admin)
+    sign_in(organizer)
   end
   describe 'GET #index' do
     it 'populates an array of users' do
       user1 = create(:user, email: 'gopesh.7500@gmail.com')
       user2 = create(:user, email: 'gopesh_750@gmail.com')
       get :index
-      expect(assigns(:users)).to match_array([user, admin, user1, user2])
+      expect(assigns(:users)).to match_array([user, organizer, user1, user2])
     end
     it 'renders index template' do
       get :index
@@ -31,13 +31,13 @@ describe Admin::UsersController do
           :user, email: 'example@incoherent.de', id: user.id).email).
               to eq('example@incoherent.de')
       end
-      it "redirects to the updated user" do
+      it 'redirects to the updated user' do
         patch :update, id: user.id
         expect(response).to redirect_to admin_users_path
       end
     end
   end
-  describe 'DELETE #destroy' do 
+  describe 'DELETE #destroy' do
     before :each do
       @user = create(:user)
     end

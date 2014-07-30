@@ -5,7 +5,11 @@ Osem::Application.routes.draw do
                      path: 'accounts'
 
   namespace :admin do
-    resources :users
+    resources :users do
+      member do
+        patch 'add_role' => 'users#add_role'
+      end
+    end
     resources :people
     resources :conference do
       resource :schedule, only: [:show, :update]
@@ -37,7 +41,7 @@ Osem::Application.routes.draw do
 
       resources :campaigns
 
-      resources :eventtypes, only: [:show, :index] do
+      resources :event_types, only: [:show, :index] do
         collection do
           patch :update
         end
@@ -88,10 +92,10 @@ Osem::Application.routes.draw do
     resource :schedule, only: [] do
       get "/" => "schedule#index"
     end
+    get "/register" => "conference_registration#register"
+    patch "/register" => "conference_registration#update"
+    delete "/register" => "conference_registration#unregister"
     member do
-      get "/register" => "conference_registration#register"
-      patch "/register" => "conference_registration#update"
-      delete "/register" => "conference_registration#unregister"
       get "gallery_photos"
     end
   end

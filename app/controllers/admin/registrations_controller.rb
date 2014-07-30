@@ -1,6 +1,7 @@
 module Admin
   class RegistrationsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource through: :conference
 
     def index
       session[:return_to] ||= request.referer
@@ -12,7 +13,6 @@ module Admin
     end
 
     def change_field
-      @registration = Registration.find(params[:id])
       field = params[:view_field]
       if @registration.send(field.to_sym)
         @registration.update_attribute(:"#{field}", 0)
@@ -26,12 +26,10 @@ module Admin
     end
 
     def edit
-      @registration = @conference.registrations.where('id = ?', params[:id]).first
       @user = User.where('id = ?', @registration.user_id).first
     end
 
     def update
-      @registration = @conference.registrations.where('id = ?', params[:id]).first
       @user = User.where('id = ?', @registration.user_id).first
       begin
         @user.update_attributes!(params[:registration][:user_attributes])
@@ -55,6 +53,7 @@ module Admin
     def new
       @user = User.new
       @registration = @user.registrations.new
+      @registration.conference_id = @conference.id
       @supporter_registration = @conference.supporter_registrations.new
     end
 
@@ -97,7 +96,7 @@ module Admin
     end
 
     def destroy
-      if has_role?(current_user, 'Admin')
+      if can? :destroy, @registration
         registration = @conference.registrations.where(id: params[:id]).first
         user = User.where('id = ?', registration.user_id).first
 

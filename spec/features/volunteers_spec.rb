@@ -2,15 +2,14 @@ require 'spec_helper'
 
 feature Conference do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
-  let(:admin) { create(:admin) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
+  let(:organizer) { create(:organizer_conference_1) }
   let(:conference) { create(:conference) }
 
   shared_examples 'volunteer' do
     scenario 'adds and updates vdays', feature: true, js: true do
-      sign_in(admin)
+      sign_in(organizer)
       visit admin_conference_volunteers_info_path(
         conference_id: conference.short_title)
       check('Enable Volunteering')
@@ -54,7 +53,7 @@ feature Conference do
     end
 
     scenario 'adds and updates vpositions', feature: true, js: true do
-      sign_in(admin)
+      sign_in(organizer)
       visit admin_conference_volunteers_info_path(
         conference_id: conference.short_title)
 
@@ -117,10 +116,6 @@ feature Conference do
       expect(page.all('div.nested-fields').count == 0).to be true
       sign_out
     end
-  end
-
-  describe 'admin' do
-    it_behaves_like 'volunteer', :admin
   end
 
   describe 'organizer' do

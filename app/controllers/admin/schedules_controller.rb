@@ -1,6 +1,10 @@
 module Admin
   class SchedulesController < ApplicationController
-    before_filter :verify_organizer
+    # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to
+    # the schedule of a conference, which should not be accessed in the first place
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource class: false
+
     skip_before_filter :verify_authenticity_token, only: [:update]
     layout 'schedule'
 

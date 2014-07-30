@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
+  rolify
   include Gravtastic
   gravtastic size: 32
+
+  before_create :setup_role
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -9,21 +12,18 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:novell, :google, :facebook]
 
-  has_and_belongs_to_many :roles
-  has_many :openids
-
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
                   :name, :email_public, :biography, :nickname, :affiliation
 
+  has_and_belongs_to_many :roles
+  has_many :openids
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
   has_many :registrations, dependent: :destroy
   has_many :votes, dependent: :destroy
-  has_many :voted_events, through: :votes, source: :events
+  has_many :voted_events, through: :votes, source: :event
 
   accepts_nested_attributes_for :roles
-
-  before_create :setup_role
 
   validates :name, presence: true
 
@@ -47,26 +47,12 @@ class User < ActiveRecord::Base
     user
   end
 
-  def role?(role)
-    Rails.logger.debug('Checking role in user')
-    !!roles.find_by_name(role.to_s.downcase.camelize)
-  end
-
-  def admin?
-    role?('Admin')
-  end
-
-  def organizer?
-    role?('Organizer')
-  end
-
   def get_roles
     roles
   end
 
   def setup_role
-    roles << Role.where(name: 'Admin') if User.count == 0
-    roles << Role.where(name: 'Participant') if roles.empty?
+    self.is_admin = true if User.count == 0
   end
 
   def self.prepare(params)

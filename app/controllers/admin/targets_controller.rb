@@ -1,6 +1,7 @@
 module Admin
   class TargetsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource :target, through: :conference
 
     def index
     end
