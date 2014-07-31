@@ -10,7 +10,7 @@ class ConferenceSerializer < ActiveModel::Serializer
   end
 
   def socialtag
-    object.social_tag
+    object.contact.social_tag
   end
 
   def revision

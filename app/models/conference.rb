@@ -5,7 +5,7 @@ class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
 
-  attr_accessible :title, :short_title, :social_tag, :contact_email, :timezone, :html_export_path,
+  attr_accessible :title, :short_title, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,
                   :dietary_choices_attributes, :use_dietary_choices, :use_supporter_levels,
                   :supporter_levels_attributes, :social_events_attributes, :event_types_attributes,
@@ -14,14 +14,14 @@ class Conference < ActiveRecord::Base
                   :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
                   :vpositions_attributes, :use_volunteers, :media_id, :media_type, :color,
                   :description, :registration_description, :ticket_description,
-                  :sponsorship_levels_attributes, :sponsors_attributes, :facebook_url, :google_url,
-                  :twitter_url, :sponsor_description, :sponsor_email, :lodging_description,
+                  :sponsorship_levels_attributes, :sponsors_attributes,
+                  :sponsor_description, :sponsor_email, :lodging_description,
                   :include_registrations_in_splash, :include_sponsors_in_splash,
                   :include_tracks_in_splash, :include_tickets_in_splash,
-                  :include_social_media_in_splash, :include_program_in_splash,
+                  :include_program_in_splash,
                   :make_conference_public, :photos_attributes, :banner_photo,
                   :include_banner_in_splash, :targets, :targets_attributes, :campaigns,
-                  :campaigns_attributes, :instagram_url
+                  :campaigns_attributes
 
   has_paper_trail
 
@@ -83,12 +83,8 @@ class Conference < ActiveRecord::Base
                                     size: { in: 0..500.kilobytes }
   validates_presence_of :title,
                         :short_title,
-                        :social_tag,
                         :start_date,
                         :end_date
-
-  validates :facebook_url, :twitter_url, :google_url,
-            format: URI::regexp(%w(http https)), allow_blank: true
 
   validates_uniqueness_of :short_title
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/

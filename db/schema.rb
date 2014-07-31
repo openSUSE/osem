@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731153332) do
+ActiveRecord::Schema.define(version: 20140731165107) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -78,8 +78,6 @@ ActiveRecord::Schema.define(version: 20140731153332) do
     t.string   "guid",                                            null: false
     t.string   "title",                                           null: false
     t.string   "short_title",                                     null: false
-    t.string   "social_tag"
-    t.string   "contact_email",                                   null: false
     t.string   "timezone",                                        null: false
     t.string   "html_export_path"
     t.date     "start_date",                                      null: false
@@ -108,23 +106,18 @@ ActiveRecord::Schema.define(version: 20140731153332) do
     t.text     "ticket_description"
     t.text     "sponsor_description"
     t.string   "sponsor_email"
-    t.string   "twitter_url"
-    t.string   "facebook_url"
-    t.string   "google_url"
     t.text     "lodging_description"
     t.boolean  "make_conference_public",          default: false
     t.boolean  "include_registrations_in_splash", default: false
     t.boolean  "include_sponsors_in_splash",      default: false
     t.boolean  "include_tracks_in_splash",        default: false
     t.boolean  "include_tickets_in_splash",       default: false
-    t.boolean  "include_social_media_in_splash",  default: false
     t.boolean  "include_program_in_splash",       default: false
     t.string   "banner_photo_file_name"
     t.string   "banner_photo_content_type"
     t.integer  "banner_photo_file_size"
     t.datetime "banner_photo_updated_at"
     t.boolean  "include_banner_in_splash",        default: false
-    t.string   "instagram_url"
     t.text     "events_per_week"
   end
 

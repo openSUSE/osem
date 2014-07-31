@@ -15,7 +15,6 @@ feature Conference do
       visit new_admin_conference_path
       fill_in 'conference_title', with: 'Example Con'
       fill_in 'conference_short_title', with: 'ExCon'
-      fill_in 'conference_social_tag', with: 'ExCon'
 
       select('(GMT+01:00) Berlin', from: 'conference[timezone]')
 
@@ -42,7 +41,6 @@ feature Conference do
       visit edit_admin_conference_path(conference.short_title)
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
-      fill_in 'conference_social_tag', with: 'NewCon'
 
       click_button 'Update Conference'
       expect(flash).
@@ -51,7 +49,6 @@ feature Conference do
       conference.reload
       expect(conference.title).to eq('New Con')
       expect(conference.short_title).to eq('NewCon')
-      expect(conference.social_tag).to eq('NewCon')
       expect(Conference.count).to eq(expected_count)
     end
   end
