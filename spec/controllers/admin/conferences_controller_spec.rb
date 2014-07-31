@@ -14,81 +14,6 @@ describe Admin::ConferenceController do
 
   shared_examples 'access as administration or organizer' do
 
-    describe 'PATCH #update' do
-
-      context 'valid attributes' do
-
-        it 'locates the requested conference' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con')
-          expect(assigns(:conference)).to eq(conference)
-        end
-
-        it 'changes conference attributes' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con',
-                             short_title: 'ExCon')
-
-          conference.reload
-          expect(conference.title).to eq('Example Con')
-          expect(conference.short_title).to eq('ExCon')
-        end
-
-        it 'redirects to the updated conference' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con')
-          conference.reload
-          expect(response).to redirect_to edit_admin_conference_path(
-                                              conference.short_title)
-        end
-
-        it 'sends email notification on conference date update' do
-          mailer = double
-          allow(mailer).to receive(:deliver)
-          conference.email_settings = create(:email_settings)
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, start_date: Date.today + 2.days, end_date: Date.today + 4.days)
-          conference.reload
-          allow(Mailbot).to receive(:conference_date_update_mail).and_return(mailer)
-        end
-
-        it 'sends email notification on conference registration date update' do
-          mailer = double
-          allow(mailer).to receive(:deliver)
-          conference.email_settings = create(:email_settings)
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, registration_start_date: Date.today + 2.days, registration_end_date: Date.today + 4.days)
-          conference.reload
-          allow(Mailbot).to receive(:conference_registration_date_update_mail).and_return(mailer)
-        end
-      end
-
-      context 'invalid attributes' do
-        it 'does not change conference attributes' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con',
-                             short_title: nil)
-
-          conference.reload
-          expect(flash[:alert]).
-              to eq("Updating conference failed. Short title can't be blank.")
-          expect(conference.title).to eq('The dog and pony show')
-          expect(conference.short_title).to eq("#{conference.short_title}")
-        end
-
-        it 're-renders the #show template' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con',
-                             short_title: nil)
-
-          expect(flash[:alert]).
-              to eq("Updating conference failed. Short title can't be blank.")
-          expect(response).to redirect_to edit_admin_conference_path(
-                                              conference.short_title)
-        end
-      end
-    end
-
     describe 'POST #create' do
       context 'with valid attributes' do
         it 'saves the conference to the database' do
@@ -139,18 +64,6 @@ describe Admin::ConferenceController do
           post :create, conference: attributes_for(:conference, short_title: conference.short_title)
           expect(response).to be_success
         end
-      end
-    end
-
-    describe 'GET #edit' do
-      it 'assigns the requested conference to conference' do
-        get :show, id: conference.short_title
-        expect(assigns(:conference)).to eq conference
-      end
-
-      it 'renders the show template' do
-        get :show, id: conference.short_title
-        expect(response).to render_template :show
       end
     end
 
@@ -263,14 +176,6 @@ describe Admin::ConferenceController do
       end
     end
 
-    describe 'PATCH #update' do
-      it 'requires admin privileges' do
-        patch :update, id: conference.short_title,
-              conference: attributes_for(:conference,
-                                         short_title: 'ExCon')
-        expect(response).to redirect_to(send(success_path))
-      end
-    end
   end
 
   describe 'participant access' do

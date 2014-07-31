@@ -1,0 +1,82 @@
+.row{'style'=>'padding-top: 15px;'}
+  .col-md-6
+    %dl.dl-horizontal
+      %dt
+        Title
+      %dd
+        = @conference.title
+      %dt
+        Short Title
+      %dd
+        = @conference.short_title
+      %dt
+        Description
+      %dd
+        - unless @conference.description.blank?
+          = markdown(@conference.description)
+        - else
+          Not set!
+      %dt
+        Date
+      %dd
+        = date_string(@conference.start_date, @conference.end_date)
+      %dt
+        Color
+      %dd
+        %div.text-center{'style'=>"width: 25px; height: 25px; background: #{@conference.color};"}
+.row.row-flex.row-flex-wrap
+  .col-md-4
+    .thumbnail.flex-col
+      %h3.text-center
+        Conference Logo
+      - if @conference.logo?
+        = image_tag(@conference.logo(:large), class: 'img-responsive')
+        .caption.flex-grow
+        .caption
+          %p
+            %dl.dl-horizontal
+              %dt
+                Filename
+              %dd
+                = @conference.logo_file_name
+      -else
+        %h4.text-center
+          Not set!
+  .col-md-4
+    .thumbnail.flex-col
+      %h3.text-center
+        Conference Banner
+      - if @conference.banner_photo?
+        = image_tag(@conference.banner_photo(:large), class: 'img-responsive')
+        .caption.flex-grow
+        .caption
+          %p
+            %dl.dl-horizontal
+              %dt
+                Filename
+              %dd
+                = @conference.banner_photo_file_name
+      - else
+        %h4.text-center
+          Not set!
+  .col-md-4
+    .thumbnail
+      %h3.text-center
+        Media
+      - unless @conference.media_id.blank?
+        .flexvideo
+          = render partial: 'shared/media_item', locals: { media_type: @conference.media_type, media_id: @conference.media_id }
+        .caption
+          %p
+            %dl.dl-horizontal
+              %dt
+                Media Type
+              %dd
+                = @conference.media_type
+              %dt
+                Media ID
+              %dd
+                = @conference.media_id
+      - else
+        %h4.text-center
+          Not set!

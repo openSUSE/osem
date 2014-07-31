@@ -1,0 +1,13 @@
+.row
+  .col-md-8
+    = semantic_form_for(@conference, :url => admin_conference_conference_basics_path(@conference.short_title),:html => {:multipart => true}) do |f|
+      = f.inputs :name => 'Contact' do
+        = f.input :contact_email, hint: 'Contact email address for your conference. Will be used as reply-to address in emails sent out by the system.'
+      = f.inputs :name => 'Social Media' do
+        = f.input :include_social_media_in_splash, hint: 'On setting this true you will enable the social media links to be displayed on the splash page'
+        = f.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+.  Don't include the '#' sign!'"
+        = f.input :facebook_url, hint: 'This will appear in the social media section as link to the Facebook page of your Conference'
+        = f.input :google_url, label: 'Google+ Url', hint: 'This will appear in the social media section as the link to the Google+ Page of your Conference'
+        = f.input :twitter_url, hint: 'This will appear in the social media section as the link to   the Twitter Page of your Conference'
+        = f.input :instagram_url, hint: 'This will appear in the social media section as the link to   the Instagram Page of your Conference'
+      = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

@@ -7,7 +7,11 @@ Osem::Application.routes.draw do
   namespace :admin do
     resources :users
     resources :people
-    resources :conference do
+    resources :conference, except: [:edit, :update] do
+
+      resource :conference_basics, only: [:edit, :update]
+      resource :conference_contacts, only: [:edit, :update]
+
       resource :schedule, only: [:show, :update]
       get '/stats' => 'stats#index'
       get '/venue' => 'venue#show', as: 'venue_info'
@@ -42,6 +46,8 @@ Osem::Application.routes.draw do
           patch :update
         end
       end
+
+      resources :photos, except: [:show]
 
       resources :social_events, only: [:show, :update, :index]
 
