@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :date_string
 
   def store_location
-    session[:return_to] = request.fullpath if request.get? and controller_name != "user_sessions" and controller_name != "sessions"
+    session[:return_to] = request.fullpath if request.get? && controller_name != "user_sessions" && controller_name != "sessions"
   end
 
   def after_sign_in_path_for(resource)

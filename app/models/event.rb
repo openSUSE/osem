@@ -195,7 +195,7 @@ class Event < ActiveRecord::Base
       begin
         if mail
           self.send(transition,
-                      send_mail: send_mail_param)
+                    send_mail: send_mail_param)
         else
           self.send(transition)
         end

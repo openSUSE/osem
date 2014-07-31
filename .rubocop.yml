@@ -80,6 +80,34 @@ Lint/UselessAssignment:
 Lint/Void:
   Enabled: true
 
+# Align the elements of a hash literal if they span more than one line
+Style/AlignHash:
+  Enabled: true
+
+# Align the parameters of a method call if they span more than one line
+Style/AlignParameters:
+  Enabled: true
+
+# Use && instead of and, use || instead of or
+Style/AndOr:
+  Enabled: true
+
+# avoid deep blocks nesting
+Style/BlockNesting:
+  Max: 4
+
+# use do instead of {...} in multiline blocks
+Style/Blocks:
+  Enabled: true
+
+# avoid redundunt curly braces when it is obvious that hash is used
+Style/BracesAroundHashParameters:
+  Enabled: true
+
+#
+Style/CaseEquality:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'

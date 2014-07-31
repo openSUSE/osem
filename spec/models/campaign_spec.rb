@@ -15,7 +15,7 @@ describe Campaign do
   describe '#url_parameters' do
     it 'returns the parameters in the correct format' do
       campaign = create(:campaign, utm_source: 'google+', utm_medium: 'advertisement',
-                       utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
+                                   utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
       campaign.conference = create(:conference)
 
       result = '?utm_source=google+&utm_medium=advertisement&utm_term=opensource&utm_content=content&utm_campaign=20percent'
@@ -32,17 +32,17 @@ describe Campaign do
   describe '#visits' do
     it 'returns one if there is one visit' do
       campaign = create(:campaign, utm_source: 'google+', utm_medium: 'advertisement',
-                       utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
+                                   utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
       campaign.conference = build(:conference)
 
       create(:visit, utm_source: 'google+', utm_medium: 'advertisement',
-                utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent', started_at: Time.now)
+                     utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent', started_at: Time.now)
       expect(campaign.visits_count).to eq(1)
     end
 
     it 'returns zero if there are no visits' do
       campaign = create(:campaign, utm_source: 'google+', utm_medium: 'advertisement',
-                       utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
+                                   utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
       campaign.conference = create(:conference)
 
       expect(campaign.visits_count).to eq(0)
@@ -52,7 +52,7 @@ describe Campaign do
   describe '#registrations' do
     it 'returns zero if there are no registration' do
       campaign = build(:campaign, utm_source: 'google+', utm_medium: 'advertisement',
-                       utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
+                                  utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
       campaign.conference = build(:conference)
 
       expect(campaign.registrations_count).to eq(0)
@@ -62,7 +62,7 @@ describe Campaign do
   describe '#submissions' do
     it 'returns zero if there are no submissions' do
       campaign = build(:campaign, utm_source: 'google+', utm_medium: 'advertisement',
-                       utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
+                                  utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent')
       campaign.conference = build(:conference)
 
       expect(campaign.submissions_count).to eq(0)
