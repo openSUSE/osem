@@ -12,11 +12,13 @@ feature Conference do
       conference = create(:conference)
 
       sign_in create(user)
-      visit admin_conference_venue_info_path(
+      visit edit_admin_conference_venue_path(
                 conference_id: conference.short_title)
 
       expect(page.find("//*[@id='venue_submit_action']").
                  text).to eq('Update Venue')
+
+      click_link 'Edit'
 
       fill_in 'venue_name', with: 'Example University'
       fill_in 'venue_address', with: 'Example Street 42 \n' +

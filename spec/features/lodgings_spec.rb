@@ -8,51 +8,58 @@ feature Lodging do
 
   shared_examples 'lodgings' do |user|
     scenario 'adds and updates lodgings', feature: true, js: true do
-      path = "#{Rails.root}/app/assets/images/rails.png"
+      expected_count = Lodging.count + 1
       conference = create(:conference)
       conference.venue = create(:venue)
       sign_in create(user)
+
       visit admin_conference_lodgings_path(
                 conference_id: conference.short_title)
+
       # Add lodging
-      click_link 'Add lodging'
-      expect(page.all('div.nested-fields').count == 1).to be true
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example Hotel')
-
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
-          set('Lorem Ipsum Dolor')
-
-      attach_file 'Photo', path
-
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
-          set('http://www.example.com')
-
-      click_button 'Update Venue'
+      click_link 'New Lodging'
+      fill_in 'lodging_name', with: 'Lodging1000'
+      fill_in 'lodging_description', with: 'Lorem ipsum dolorem'
+      attach_file('lodging_photo', Rails.root + 'spec/fixtures/suse.jpg')
+      fill_in 'lodging_website_link', with: 'http://www.suse.com'
+      click_button 'Save Lodging'
 
       # Validations
-      expect(flash).to eq('Lodgings were successfully updated.')
+      expect(Lodging.count).to eq(expected_count)
+      expect(flash).to eq('Lodging was successfully created.')
+      expect(page.has_content?('Lodging1000')).to be true
+      expect(page.has_content?('Lorem ipsum dolorem')).to be true
+      expect(page.has_content?('http://www.suse.com')).to be true
 
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-                 value).to eq('Example Hotel')
+      # Update room
+      click_link 'Edit'
+      fill_in 'lodging_name', with: 'Lodging2000'
+      fill_in 'lodging_description', with: 'Lorem ipsum dolorem...'
+      attach_file('lodging_photo', Rails.root + 'spec/fixtures/suse_pinguin.png')
+      fill_in 'lodging_website_link', with: 'http://www.opensuse.com'
+      click_button 'Save Lodging'
 
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
-                 value).to eq('Lorem Ipsum Dolor')
-
-      expect(page).to have_selector("img[src*='rails.png']")
-
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
-                 value).to eq('http://www.example.com')
+      # Validations
+      expect(Lodging.count).to eq(expected_count)
+      expect(flash).to eq('Lodging was successfully updated.')
+      expect(page.has_content?('Lodging2000')).to be true
+      expect(page.has_content?('Lorem ipsum dolorem...')).to be true
+      expect(page.has_content?('http://www.opensuse.com')).to be true
 
       # Remove room
-      click_link 'Remove lodging'
-      expect(page.all('div.nested-fields').count == 0).to be true
+      click_link 'Delete'
+
+      # Validations
+      expect(Lodging.count).to eq(expected_count - 1)
+      expect(flash).to eq('Lodging was successfully destroyed.')
+      expect(page.has_content?('Lodging2000')).to be false
+      expect(page.has_content?('Lorem ipsum dolorem...')).to be false
+      expect(page.has_content?('http://www.opensuse.com')).to be false
+
+      # Enable lodgings for splash page
+      check('venue_include_lodgings_in_splash')
       click_button 'Update Venue'
-      expect(flash).to eq('Lodgings were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
+      expect(flash).to eq('Venue was successfully updated.')
     end
   end
 
