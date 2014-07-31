@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724113107) do
+ActiveRecord::Schema.define(version: 20140731153332) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -131,6 +131,19 @@ ActiveRecord::Schema.define(version: 20140724113107) do
   create_table "conferences_questions", id: false, force: true do |t|
     t.integer "conference_id"
     t.integer "question_id"
+  end
+
+  create_table "contacts", force: true do |t|
+    t.string   "social_tag"
+    t.string   "email"
+    t.string   "facebook"
+    t.string   "googleplus"
+    t.string   "twitter"
+    t.string   "instagram"
+    t.boolean  "public"
+    t.integer  "conference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -487,8 +500,8 @@ ActiveRecord::Schema.define(version: 20140724113107) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name",                       limit: 255
-    t.text     "address",                    limit: 255
+    t.text     "name"
+    t.text     "address"
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
@@ -499,8 +512,8 @@ ActiveRecord::Schema.define(version: 20140724113107) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "include_venue_in_splash",                default: false
-    t.boolean  "include_lodgings_in_splash",             default: false
+    t.boolean  "include_venue_in_splash",    default: false
+    t.boolean  "include_lodgings_in_splash", default: false
   end
 
   create_table "versions", force: true do |t|

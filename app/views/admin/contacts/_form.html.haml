@@ -1,0 +1,31 @@
+= form_for @contact, url: admin_conference_contact_path do |f|
+  - if @contact.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@contact.errors.count, "error")} prohibited this contact from being saved:"
+      %ul
+        - @contact.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :social_tag
+    = f.text_field :social_tag
+  .field
+    = f.label :email
+    = f.text_field :email
+  .field
+    = f.label :facebook
+    = f.text_field :facebook
+  .field
+    = f.label :googleplus
+    = f.text_field :googleplus
+  .field
+    = f.label :twitter
+    = f.text_field :twitter
+  .field
+    = f.label :instagram
+    = f.text_field :instagram
+  .field
+    = f.label :public
+    = f.check_box :public
+  .actions
+    = f.submit 'Save'

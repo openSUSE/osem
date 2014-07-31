@@ -27,6 +27,8 @@ class Conference < ActiveRecord::Base
 
   has_and_belongs_to_many :questions
 
+  has_one :contact, dependent: :destroy
+
   has_one :email_settings, dependent: :destroy
   has_one :call_for_papers, dependent: :destroy
   has_many :social_events, dependent: :destroy
@@ -522,6 +524,10 @@ class Conference < ActiveRecord::Base
   end
 
   private
+
+  after_create do
+    self.create_contact
+  end
 
   ##
   # Calculates the weeks from a start and a end week.

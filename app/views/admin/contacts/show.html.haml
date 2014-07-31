@@ -1,0 +1,26 @@
+%p#notice= notice
+
+%p
+  %b Social tag:
+  = @contact.social_tag
+%p
+  %b Email:
+  = @contact.email
+%p
+  %b Facebook:
+  = @contact.facebook
+%p
+  %b Googleplus:
+  = @contact.googleplus
+%p
+  %b Twitter:
+  = @contact.twitter
+%p
+  %b Instagram:
+  = @contact.instagram
+%p
+  %b Public:
+  = @contact.public
+
+= link_to 'Edit', edit_admin_conference_contact_path
+
