@@ -22,8 +22,22 @@
   %hr
   %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
     = link_to(admin_conference_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-dashboard
-      Manage
+      %span.fa.fa-tachometer
+      Dashboard
+  %li{ class: active_nav_li(edit_admin_conference_venue_path(@conference.short_title)) }
+    = link_to(edit_admin_conference_venue_path(@conference.short_title)) do
+      %span.fa.fa-building
+      Venue
+    %ul
+      %li{ class: active_nav_li(admin_conference_rooms_path(@conference.short_title)) }
+        = link_to(admin_conference_rooms_path(@conference.short_title)) do
+          %span.fa.fa-flag
+          Rooms
+      %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
+        = link_to(admin_conference_lodgings_path(@conference.short_title)) do
+          %span.fa.fa-institution
+          Lodgings
+  %hr
   %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
     = link_to(admin_conference_events_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-comment
@@ -49,16 +63,6 @@
     = link_to(admin_conference_targets_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-flag
       Targets
-  %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
-    = link_to(admin_conference_venue_info_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-road
-      Venue
-      %span.small.glyphicon.glyphicon-chevron-right
-    %ul.nav.nav-stacked.nav-pills.small.collapse.subNav
-      %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
-        = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
-      %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
-        = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
   %li{:class=> "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))} myAccordion" }
     = link_to(admin_conference_sponsorship_levels_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-star

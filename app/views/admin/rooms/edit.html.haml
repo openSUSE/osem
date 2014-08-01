@@ -1,0 +1,6 @@
+%h1 Editing Room
+
+= semantic_form_for @room, url: admin_conference_room_path(conference_id: @conference.short_title, id: @room.id) do |f|
+  = render 'form', f: f
+
+= link_to 'Back', admin_conference_rooms_path

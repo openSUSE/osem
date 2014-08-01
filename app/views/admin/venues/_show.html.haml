@@ -1,0 +1,44 @@
+%dl.dl-horizontal
+  %dt
+    Name
+  %dd
+    - unless @conference.venue.name.blank?
+      = @conference.venue.name
+    - else
+      Not set!
+  %dt
+    Address
+  %dd
+    - unless @conference.venue.name.blank?
+      = @conference.venue.address
+    - else
+      Not set!
+  %dt
+    Website
+  %dd
+    - unless @conference.venue.name.blank?
+      = @conference.venue.website
+    - else
+      Not set!
+  %dt
+    Description
+  %dd
+    - unless @conference.venue.name.blank?
+      = markdown(@conference.venue.description)
+    - else
+      Not set!
+.thumbnail
+  %h3.text-center
+    Venue Photo
+  - if @conference.venue.photo?
+    = image_tag(@conference.venue.photo(:large), class: 'img-responsive')
+    .caption
+      %p
+        %dl.dl-horizontal
+          %dt
+            Filename
+          %dd
+            = @conference.venue.photo_file_name
+  -else
+    %h4.text-center
+      Not set!

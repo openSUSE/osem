@@ -9,9 +9,8 @@ Osem::Application.routes.draw do
     resources :people
     resources :conference do
       resource :schedule, only: [:show, :update]
+      resource :venue, only: [:edit, :update]
       get '/stats' => 'stats#index'
-      get '/venue' => 'venue#show', as: 'venue_info'
-      patch '/venue' => 'venue#update', as: 'venue_update'
       get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
       patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
       get '/volunteers_list' => 'volunteers#show'
@@ -23,7 +22,7 @@ Osem::Application.routes.draw do
 
       resources :difficulty_levels, only: [:show, :update, :index]
 
-      resources :rooms, only: [:show, :update, :index]
+      resources :rooms, except: [:show]
 
       resources :tracks, only: [:show, :update, :index]
 
@@ -31,7 +30,7 @@ Osem::Application.routes.draw do
 
       resources :sponsors, only: [:show, :update, :index]
 
-      resources :lodgings, only: [:show, :update, :index]
+      resources :lodgings, except: [:show]
 
       resources :targets, only: [:update, :index]
 

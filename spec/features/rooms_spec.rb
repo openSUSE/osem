@@ -9,37 +9,45 @@ feature Room do
   shared_examples 'rooms' do |user|
     scenario 'adds and updates rooms', feature: true, js: true do
       conference = create(:conference)
+      expected_count = Room.count + 1
       sign_in create(user)
       visit admin_conference_rooms_path(
                 conference_id: conference.short_title)
 
       # Add room
-      click_link 'Add room'
-      expect(page.all('div.nested-fields').count == 1).to be true
-
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example room')
-
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
-          set('100')
-
-      click_button 'Update Conference'
+      click_link 'New Room'
+      fill_in 'room_name', with: 'Room1000'
+      fill_in 'room_size', with: '500'
+      check('room_public')
+      click_button 'Save Room'
 
       # Validations
-      expect(flash).to eq('Rooms were successfully updated.')
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-                 value).to eq('Example room')
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
-                 value).to eq('100')
+      expect(Room.count).to eq(expected_count)
+      expect(flash).to eq('Room was successfully created.')
+      expect(page.has_content?('Room1000')).to be true
+      expect(page.has_content?('500')).to be true
+
+      # Update room
+      click_link 'Room1000'
+      fill_in 'room_name', with: 'Room2000'
+      fill_in 'room_size', with: '600'
+      check('room_public')
+      click_button 'Save Room'
+
+      # Validations
+      expect(Room.count).to eq(expected_count)
+      expect(flash).to eq('Room was successfully updated.')
+      expect(page.has_content?('Room2000')).to be true
+      expect(page.has_content?('600')).to be true
 
       # Remove room
-      click_link 'Remove room'
-      expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
-      expect(flash).to eq('Rooms were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
+      click_link 'Delete'
+
+      # Validations
+      expect(Room.count).to eq(expected_count - 1)
+      expect(flash).to eq('Room was successfully destroyed.')
+      expect(page.has_content?('Room2000')).to be false
+      expect(page.has_content?('600')).to be false
     end
   end
 

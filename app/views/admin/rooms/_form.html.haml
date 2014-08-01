@@ -1,0 +1,6 @@
+= f.inputs do
+    = f.input :name
+    = f.input :size, input_html: { size: 5 }
+    = f.input :public, as: :boolean
+    .actions
+    = f.button 'Save Room', class: 'btn btn-primary'

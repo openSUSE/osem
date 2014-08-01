@@ -1,6 +1,37 @@
 .row
   .col-md-8
-    = semantic_form_for(@venue, :url => admin_conference_lodging_path(@conference.short_title, @conference.venue.lodgings), :html => {:multipart => true}) do |f|
+    = semantic_form_for(@venue, :url => admin_conference_venue_path(@conference.short_title, @conference.venue)) do |f|
       = f.input :include_lodgings_in_splash, hint: 'On setting this true you will enable the lodgings to be displayed on the splash page'
-      = dynamic_association :lodgings, "Lodgings", f
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+%hr
+
+- @venue.lodgings.each_slice(3) do |slice|
+  .row.row-flex.row-flex-wrap
+    - slice.each do |lodging|
+      .col-md-4
+        .thumbnail.flex-col
+          %h3.text-center
+            = lodging.name
+          - unless lodging.photo.blank?
+            = image_tag(lodging.photo(:large), class: 'img-responsive')
+          -else
+            %h4.text-center
+              Not set!
+          .caption.flex-grow
+          .caption
+            %p
+              %dl.dl-horizontal
+                %dt
+                  Description
+                %dd
+                  = markdown(lodging.description) unless lodging.description.blank?
+                %dt
+                  Website
+                %dd
+                  = lodging.website_link
+            %p
+              = link_to 'Edit', edit_admin_conference_lodging_path(@conference.short_title, lodging.id), class: 'btn btn-primary'
+              = link_to 'Delete', admin_conference_lodging_path(@conference.short_title, lodging.id),
+              method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+
+= link_to 'New Lodging', new_admin_conference_lodging_path(@conference.short_title), class: 'btn btn-primary'

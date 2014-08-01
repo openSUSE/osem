@@ -1,5 +1,23 @@
-.row
-  .col-md-8
-    = semantic_form_for(@conference, :url => admin_conference_room_path(@conference.short_title, @conference.rooms)) do |f|
-      = dynamic_association :rooms, "Rooms", f
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+%h1 Rooms
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Size
+      %th Public
+      %th Delete
+
+  - @rooms.each do |room|
+    %tr
+      %td= link_to room.name, edit_admin_conference_room_path(@conference.short_title, room.id)
+      %td= room.size
+      %td
+        - if room.public
+          %span.fa.fa-check{'style'=>'color: green;'}
+        -else
+          %span.fa.fa-times{'style'=>'color: red;'}
+      %td= link_to 'Delete', admin_conference_room_path(@conference.short_title, room.id),
+      method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'New Room', new_admin_conference_room_path(@conference.short_title), class: 'btn btn-primary'
