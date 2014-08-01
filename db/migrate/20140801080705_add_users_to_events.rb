@@ -18,8 +18,8 @@ class AddUsersToEvents < ActiveRecord::Migration
         # Create dummy user
         unless (user = User.find_by(email: 'deleted@localhost.osem'))
           user = User.new(email: 'deleted@localhost.osem', name: 'User deleted',
-                              biography: 'Data is no longer available for deleted user.',
-                              password: Devise.friendly_token[0, 20])
+                          biography: 'Data is no longer available for deleted user.',
+                          password: Devise.friendly_token[0, 20])
           user.skip_confirmation!
           user.save!
         end
