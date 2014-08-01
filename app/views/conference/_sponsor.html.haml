@@ -6,7 +6,7 @@
     %div.col-md-12
       %h2 Sponsors
       -if !@conference.sponsor_description.blank?
-        %p
+        .lead
         = markdown(@conference.sponsor_description)
       -if !@conference.sponsor_email.blank?
         %h3= mail_to "#{ @conference.sponsor_email }", 'Become a Sponsor'

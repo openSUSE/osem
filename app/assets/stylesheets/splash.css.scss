@@ -67,206 +67,197 @@
   src: local('Coustard-Black'), url("fonts/Coustard-Black.woff") format('woff');
 }
 
-body {
+.splash {
   background-color: #f2f2f2;
   font-family: 'Lato';
   font-weight: 300;
   font-size: 16px;
   color: #555;
+  margin-top: -10px;
 
   -webkit-font-smoothing: antialiased;
   /*-webkit-overflow-scrolling: touch;*/
-}
 
-/* Titles */
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Raleway";
-  font-weight: 300;
-  color: #333;
-}
 
-/* Paragraph & Typographic */
-p {
-    line-height: 28px;
-    margin-bottom: 25px;
-    font-size: 18px;
-}
-
-.centered {
-    text-align: center;
-}
-
-/* Links */
-a {
-    color: #f85c37;
-    word-wrap: break-word;
-
-    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
-    transition: color 0.1s ease-in, background 0.1s ease-in;
-}
-
-a:hover,
-a:focus {
-    color: #7b7b7b;
-    text-decoration: none;
-    outline: 0;
-}
-
-a:before,
-a:after {
-    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
-    transition: color 0.1s ease-in, background 0.1s ease-in;
-}
-
- hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-}
-/* ==========================================================================
-   Wrap Sections
-   ========================================================================== */
-
-#splash-banner{
-  h1, h3{
-    color:#3399CC;
-  }
-  h3{
-    font-family: 'Coustard', serif;
-    font-weight: 600;
-    text-shadow: 0.2em 0.2em 0 #4A4F6A;
-  }
-  h1{
-    font-size: 200px;
-    font-weight: 700;
-    text-shadow:0.04em 0.04em 0 black;
-  }
-  p {
-    color: #fff;
-    font-weight: 500;
-  }
-}
-
-#program{
-  .tracks:hover{
-    background-color: white;
-  }
-}
-
-#callforpapers{
-  .timer-box{
-    width: 130px;
-    margin: 35px 24px 20px 0;
-    border-radius: 50%;
-    border:4px solid #989797;
-  }
-  #cfp-date{
-    font-size: 40px;
-    font-family: 'Coustard', serif;
-    color: #ff6633;
-  }
-}
-
-#registration{
-  background-color: #e0e0e0;
-}
-
-#sponsors{
-  h2,h3,h4{
-    color: #fff;
-    font-weight: 400;
+  /* Titles */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Raleway";
+    font-weight: 300;
+    color: #333;
   }
 
-  color: #fff;
-  background-color: #343b3d;
-}
-
-#social-media{
-  i{
-    color: #4a4a4a;
-  }
-  i:hover{
-    color: #16a085;
-  }
-}
-
-#location{
-
-  h1,h2,p{
-    color: #fff;
-  }
-  h1,h2,li,p{
-    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
-    font-weight: 400;
-  }
-}
-#gallery{
-  min-height: 600px;
-  .item{
-    img {
-      height: 600px;
-      background-repeat: no-repeat;
-      background-position: center center;
-      width: 100%;
-      background-size: cover;
-      -webkit-background-size:cover;
-    }
-  }
-  .modal-body{
-    i{
-      margin-top: 35%;
-    }
-  }
-  #carousel-example-generic{
-    visibility: hidden;
-  }
-}
-
-.scroll-top-wrapper {
-  position: fixed;
-  opacity: 0;
-  visibility: hidden;
-  overflow: hidden;
-  text-align: center;
-  z-index: 99999999;
-  background-color: #424242;
-  width: 50px;
-  height: 48px;
-  line-height: 48px;
-  right: 30px;
-  bottom: 30px;
-  padding-top: 2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  -ms-transition: all 0.5s ease-in-out;
-  -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out;
-
-  i.fa {
-    line-height: inherit;
-  }
-
-  &.show {
-    visibility:visible;
-    cursor:pointer;
-    opacity: 1.0;
-  }
-
+  /* Links */
   a {
-    color: white;
+      color: #f85c37;
+      word-wrap: break-word;
+
+      -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+      -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+      -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+      -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+      transition: color 0.1s ease-in, background 0.1s ease-in;
+  }
+
+  a:hover,
+  a:focus {
+      color: #7b7b7b;
+      text-decoration: none;
+      outline: 0;
+  }
+
+  a:before,
+  a:after {
+      -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+      -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+      -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+      -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+      transition: color 0.1s ease-in, background 0.1s ease-in;
+  }
+
+   hr {
+      display: block;
+      height: 1px;
+      border: 0;
+      border-top: 1px solid #ccc;
+      margin: 1em 0;
+      padding: 0;
+  }
+  /* ==========================================================================
+     Wrap Sections
+     ========================================================================== */
+
+  #splash-banner{
+    h1, h3{
+      color:#3399CC;
+    }
+    h3{
+      font-family: 'Coustard', serif;
+      font-weight: 600;
+      text-shadow: 0.2em 0.2em 0 #4A4F6A;
+    }
+    h1{
+      font-size: 5em;
+      font-weight: 700;
+      text-shadow:0.04em 0.04em 0 black;
+    }
+    p {
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+
+  #program{
+    .tracks:hover{
+      background-color: white;
+    }
+  }
+
+  #callforpapers{
+    .timer-box{
+      width: 130px;
+      margin: 35px 24px 20px 0;
+      border-radius: 50%;
+      border:4px solid #989797;
+    }
+    #cfp-date{
+      font-size: 40px;
+      font-family: 'Coustard', serif;
+      color: #ff6633;
+    }
+  }
+
+  #registration{
+    background-color: #e0e0e0;
+  }
+
+  #sponsors{
+    h2,h3,h4{
+      color: #fff;
+      font-weight: 400;
+    }
+
+    color: #fff;
+    background-color: #343b3d;
+  }
+
+  #social-media{
+    i{
+      color: #4a4a4a;
+    }
+    i:hover{
+      color: #16a085;
+    }
+  }
+
+  #location{
+
+    h1,h2,p{
+      color: #fff;
+    }
+    h1,h2,li,p{
+      text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.6);
+      font-weight: 400;
+    }
+  }
+  #gallery{
+    min-height: 600px;
+    .item{
+      img {
+        height: 600px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: 100%;
+        background-size: cover;
+        -webkit-background-size:cover;
+      }
+    }
+    .modal-body{
+      i{
+        margin-top: 35%;
+      }
+    }
+    #carousel-example-generic{
+      visibility: hidden;
+    }
+  }
+
+  .scroll-top-wrapper {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    text-align: center;
+    z-index: 99999999;
+    background-color: #424242;
+    width: 50px;
+    height: 48px;
+    line-height: 48px;
+    right: 30px;
+    bottom: 30px;
+    padding-top: 2px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+
+    i.fa {
+      line-height: inherit;
+    }
+
+    &.show {
+      visibility:visible;
+      cursor:pointer;
+      opacity: 1.0;
+    }
+
+    a {
+      color: white;
+    }
   }
 }
 

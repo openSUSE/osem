@@ -13,7 +13,7 @@
         %h2
           %strong #{ @conference.venue.address }
       - unless @conference.venue.description.blank?
-        %p
+        .lead
           = markdown(@conference.venue.description)
       %ul.location-links
         - unless @conference.venue.address.blank?
