@@ -1,6 +1,6 @@
 ##
 # This class represents a conference
-
+# rubocop:disable Style/ClassLength
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
