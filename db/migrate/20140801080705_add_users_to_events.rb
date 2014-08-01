@@ -15,15 +15,8 @@ class AddUsersToEvents < ActiveRecord::Migration
   def up
     TempEvent.all.each do |event|
       if TempEventUser.where(event_id: event).blank?
-        # Create dummy user
-        unless (user = User.find_by(email: 'deleted@localhost.osem'))
-          user = User.new(email: 'deleted@localhost.osem', name: 'User deleted',
-                          biography: 'Data is no longer available for deleted user.',
-                          password: Devise.friendly_token[0, 20])
-          user.skip_confirmation!
-          user.save!
-        end
-
+        # Assign sample user (created in seeds)
+        user = User.find_by(email: 'deleted@localhost.osem')
         TempEventUser.create!(event_id: event.id, user_id: user.id, event_role: 'submitter')
         TempEventUser.create!(event_id: event.id, user_id: user.id, event_role: 'speaker')
       end

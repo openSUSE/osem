@@ -6,10 +6,17 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+# Create sample user
+user = User.new(email: 'deleted@localhost.osem', name: 'User deleted',
+biography: 'Data is no longer available for deleted user.',
+password: Devise.friendly_token[0, 20])
+user.skip_confirmation!
+user.save!
+
 # Questions
-qtype_yesno = QuestionType.create(title: 'Yes/No')
-QuestionType.create(title: 'Single Choice')
-QuestionType.create(title: 'Multiple Choice')
+qtype_yesno = QuestionType.create(title: "Yes/No")
+QuestionType.create(title: "Single Choice")
+QuestionType.create(title: "Multiple Choice")
 
 answer_yes = Answer.create(title: 'Yes')
 answer_no = Answer.create(title: 'No')
