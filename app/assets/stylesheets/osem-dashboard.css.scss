@@ -1,0 +1,14 @@
+@import "breakpoints.css.scss";
+
+.dashbox span.fa {
+  line-height: 1.1em;
+  @include breakpoint(sm) {
+    font-size: 3em;
+  }
+  @include breakpoint(md) {
+    font-size: 4em;
+  }
+  @include breakpoint(lg) {
+    font-size: 5em;
+  }
+}

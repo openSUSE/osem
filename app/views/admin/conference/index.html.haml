@@ -1,25 +1,41 @@
 .row
-  .col-sm-4
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.glyphicon.glyphicon-user
-      .text
-        %label.text-muted total user: #{@total_user}
-        %label.text-muted new user: #{@new_user}
-  .col-sm-4
+      %span.fa.fa-user.fa-lg
+      %span.fa.fa-lg
+        = @total_user
+      %p
+        %small
+          #{'User'.pluralize(@total_user)}
+          - if @new_user
+            %span.label.label-success{title: "+ #{@new_user} since you last logged in!"}
+              +
+              = @new_user
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.glyphicon.glyphicon-star
-      .text
-        %label.text-muted total registrations: #{@total_reg}
-        %label.text-muted new registrations: #{@new_reg}
-  .col-sm-4
+      %span.fa.fa-check-square.fa-lg
+      %span.fa.fa-lg
+        = @total_reg
+      %p
+        %small
+          #{'Registration'.pluralize(@total_reg)}
+          - if @new_reg
+            %span.label.label-success{title: "+#{@new_reg} since you last logged in!"}
+              +
+              = @new_reg
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.glyphicon.glyphicon-comment
-      .text
-        %label.text-muted total submissions: #{@total_submissions}
-        %label.text-muted new submissions: #{@new_submissions}
+      %span.fa.fa-file-text.fa-lg
+      %span.fa.fa-lg
+        = @total_submissions
+      %p
+        %small
+          #{'Submission'.pluralize(@total_submissions)}
+          - if @new_submissions
+            %span.label.label-success{title: "+#{@new_submissions} since you last logged in!"}
+              +
+              = @new_submissions
+
 .row#registrations
   .col-md-8
     = render partial: 'line_chart', locals: { title: 'Registrations over time',
