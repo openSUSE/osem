@@ -18,7 +18,7 @@ as fast as we can. There are some things which we embrace
 # Sprints
 
 * once in a while (2 weeks, currently) we catch up on freenode#osem to review results of previous sprint and plan next one.
-* date of the meeting should be last working day before the end of current sprint (Milestone in Github terms)
+* date of the meeting is discussed and chosen beforehand with preference to friday (Milestone in Github terms)
 * on meeting we discuss what is achieved and what is not
 * we do planning of next sprint tasks. It is a commitment. We will do our best to deliver what we agreed on
 * we use [waffle.io](https://waffle.io/opensuse/osem) to track current GH issues/pull requests
@@ -29,9 +29,7 @@ as fast as we can. There are some things which we embrace
 
 # Issues
 
-* every issue should be as clear as it is possible to creator. Consice, but enough detailed
-* it should at best propose probable solution
-* no problem/feature should be repeated or clash with existing one
+please refer to our [CONTRIBUTING.md](CONTRIBUTING guide)
 
 ## Documentation
 OSEM is extensively (some would say maniacally ;-) documented. You can generate a nice HTML documentation with ''rdoc''
