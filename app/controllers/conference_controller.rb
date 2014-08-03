@@ -1,7 +1,7 @@
 class ConferenceController < ApplicationController
   def show
     @conference = Conference.find_by_short_title(params[:id])
-    not_found unless @conference.make_conference_public?
+    redirect_to root_path, notice: "Conference not ready yet!!" unless @conference.make_conference_public?
   end
 
   def gallery_photos
