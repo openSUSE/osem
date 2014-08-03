@@ -68,17 +68,17 @@ Osem::Application.configure do
                               }
                             )
 
-  OmniAuth.config.mock_auth[:novell] =
+  OmniAuth.config.mock_auth[:suse] =
       OmniAuth::AuthHash.new(
-                              provider: 'novell',
-                              uid: 'novell-test-uid-1',
+                              provider: 'suse',
+                              uid: 'suse-test-uid-1',
                               info: {
                                 name: 'another user',
                                 email: 'user1@email.com'
                               },
                               credentials: {
-                                token: 'novell_mock_token',
-                                secret: 'novell_mock_secret'
+                                token: 'suse_mock_token',
+                                secret: 'suse_mock_secret'
                               }
                             )
 
