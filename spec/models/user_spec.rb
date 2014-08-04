@@ -26,6 +26,11 @@ describe User do
     expect(user_with_all_roles.roles[2]).to eq(admin_role)
   end
 
+  it { should have_many(:events).dependent(:destroy) }
+  it { should have_many(:event_users).dependent(:destroy) }
+  it { should have_many(:registrations).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
+
   describe '#role?' do
     shared_examples '#role?' do |user, role, expected|
       it "returns #{expected} for #{role}" do

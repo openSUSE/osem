@@ -36,6 +36,7 @@ module Admin
 
     def destroy
       @user = User.find(params[:id])
+      @user.events.destroy_all
       @user.destroy
       redirect_to admin_users_path, notice: 'User got deleted'
     end
