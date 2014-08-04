@@ -6,72 +6,30 @@
 #OSEM
 The Open Source Event Manager. An event management tool tailored to Free and Open Source Software conferences.
 
-## Install OSEM
-You can run rails apps in different modes (development, production). For more information
-about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
+## Installation and production usage
 
-### Run OSEM in development
-1. Clone the git repository to the directory you want Apache to serve the content from.
-```
-git clone https://github.com/openSUSE/osem.git
-```
-2. Install all the ruby gems.
-```
-bundle install
-```
-3. Install ImageMagick from your distribution repository
-4. Generate secret key for devise and the rails app with
-```
-rake secret
-```
-Look at config/config.yml.example.
+please refer to [INSTALL](INSTALL.md) documentation file
 
-5. Copy the sample configuration files and adapt them
-```
-cp config/config.yml.example config/config.yml
-cp config/database.yml.example config/database.yml
-cp config/secrets.yml.example config/secrets.yml
-```
-6. Setup the database
-```
-bundle exec rake db:setup
-```
+## Development discipline
 
-7. Run OSEM
-```
-rails server
-```
-8. Visit the APP at
-```
-http://localhost:3000
-```
-9. Sign up, the first user will be automatically assigned the admin role.
+Our [team](https://github.com/openSUSE/osem/graphs/contributors) is following agile methodologies to deliver best and
+as fast as we can. There are some things which we embrace
 
-10. Use openID
-In order to use the OpenID feature you need to register your application with the providers
-(Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
+# Sprints
 
-You can register as a devoloper with Google from https://code.google.com/apis/console#:access
-You can register as a devoloper with Facebook from https://developers.facebook.com/,
-by selecting from the top menu the option 'Apps' -> 'Create a New App'
+* once in a while (2 weeks, currently) we catch up on freenode#osem to review results of previous sprint and plan next one.
+* date of the meeting is discussed and chosen beforehand with preference to friday (Milestone in Github terms)
+* on meeting we discuss what is achieved and what is not
+* we do planning of next sprint tasks. It is a commitment. We will do our best to deliver what we agreed on
+* we use [waffle.io](https://waffle.io/opensuse/osem) to track current GH issues/pull requests
+* what is planned for current sprint is observable in `ready` column (each issue marked with label with same name)
+* what is delivered is in done columnt
+* what is in progress lives in respecitive column
+* each person assigned in ready column to an issue is acting on his task
 
-Unless you add the key and secret for each provider, you will not be able to see the image that
-redirects to the login page of the provider.
+# Issues
 
-If you add a provider that does not require developers to register their application, you still need
-to create two (2) variables, in config/secrets.yml
-with the format of providername_key and providername_secret and add some sample text as their values.
-Example:
-myprovider_key = 'sample data'
-myprovider_secret = 'sample data'
-
-That is required so that the check in app/views/devise/shared/_openid.html.haml will pass and
-the image-link to login using the provider will be shown.
-
-### Run OSEM in production
-We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
-and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
-base operating systems. Check Google ;-)
+please refer to our [CONTRIBUTING.md](CONTRIBUTING guide)
 
 ## Documentation
 OSEM is extensively (some would say maniacally ;-) documented. You can generate a nice HTML documentation with ''rdoc''
