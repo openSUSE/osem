@@ -15,11 +15,27 @@ describe ConferenceController do
       end
     end
     context 'conference is not public' do
-      it 'raises routing error' do
-        # rendered as 404 NOT FOUND in production environment
-        conference.update_attribute(:make_conference_public, false)
-        expect { get :show, id: conference.short_title }.
-            to raise_error(ActionController::RoutingError)
+      before(:each) { conference.update_attribute(:make_conference_public, false) }
+
+      it 'redirects to root path' do
+        get :show, id: conference.short_title
+        expect(response).to redirect_to root_path
+      end
+
+      it 'renders flash saying conference not ready' do
+        get :show, id: conference.short_title
+        expect(flash[:notice]).to eq("Conference not ready yet!!")
+      end
+    end
+    context 'gallery photos for splash' do
+      it 'return conference photos' do
+        xhr :get, :gallery_photos, id: conference.short_title
+        expect(assigns(:photos)).to eq conference.photos
+      end
+
+      it 'renders photos template' do
+        xhr :get, :gallery_photos, id: conference.short_title
+       expect(response).to render_template :photos
       end
     end
   end
