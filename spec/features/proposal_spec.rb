@@ -33,12 +33,11 @@ feature Event do
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       fill_in 'event_description', with: 'Lorem ipsum description'
 
-      select('YouTube', from: 'event[media_type]')
-      fill_in 'event_media_id', with: '123456'
-
       fill_in 'user_biography', with: 'Lorem ipsum biography'
 
       click_button 'Create Event'
+      expect(flash).to eq('Event was successfully submitted. You should register for the conference now.')
+
       expect(current_path).to eq(register_conference_path(conference.short_title))
 
       expect(Event.count).to eq(expected_count)
@@ -47,6 +46,57 @@ feature Event do
 
       visit conference_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
+
+      expected_count_commercial = Commercial.count + 1
+      # Add a invalid commercial
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+
+      click_link 'Commercials'
+      click_link 'Add Commercial'
+
+      select('SlideShare', from: 'commercial_commercial_type')
+
+      click_button 'Create Commercial'
+      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(event.commercials.count).to eq(expected_count_commercial - 1)
+
+      # Add a valid commercial
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+
+      click_link 'Commercials'
+      click_link 'Add Commercial'
+
+      select('SlideShare', from: 'commercial_commercial_type')
+      fill_in 'commercial_commercial_id', with: '12345'
+
+      click_button 'Create Commercial'
+      expect(flash).to eq('Commercial was successfully created.')
+      expect(event.commercials.count).to eq(expected_count_commercial)
+
+      # Edit an invalid commercial
+      click_link 'Commercials'
+      click_link 'Edit'
+
+      select('SlideShare', from: 'commercial_commercial_type')
+      fill_in 'commercial_commercial_id', with: ''
+
+      click_button 'Update Commercial'
+      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(event.commercials.count).to eq(expected_count_commercial)
+
+      # Edit a valid commercial
+      select('SlideShare', from: 'commercial_commercial_type')
+      fill_in 'commercial_commercial_id', with: '56789'
+
+      click_button 'Update Commercial'
+      expect(flash).to eq('Commercial was successfully updated.')
+      expect(event.commercials.count).to eq(expected_count_commercial)
+
+      # Delete a commercial
+      click_link 'Commercials'
+      click_link 'Delete'
+      expect(flash).to eq('Commercial was successfully destroyed.')
+      expect(event.commercials.count).to eq(expected_count_commercial - 1)
 
       sign_out
       sign_in admin

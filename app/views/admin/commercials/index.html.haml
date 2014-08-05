@@ -1,0 +1,21 @@
+%h1 Commercials
+
+%p.text-muted
+  You can add commercials for your conference. These commercials will be displayed on the event detail site if
+  the event submitter doesn't add a commercial. Currently supported commercial types are YouTube, Vimeo, Instagram
+  Flickr, Speakerdeck and SlideShare.
+
+- @commercials.each_slice(3) do |slice|
+  .row
+    - slice.each do |commercial|
+      .col-md-4
+        .thumbnail
+          %h3.text-center
+            = commercial.commercial_type
+          .flexvideo
+            = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
+          = link_to 'Edit', edit_admin_conference_commercial_path(@conference.short_title, commercial.id), class: 'btn btn-primary'
+          = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
+            method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+%br
+  = link_to 'New Commercial', new_admin_conference_commercial_path, class: 'btn btn-primary'

@@ -20,6 +20,11 @@
           %span.glyphicon.glyphicon-plus
           New Conference
   %hr
+    %li{:class=> active_nav_li(admin_conference_commercials_path(@conference.short_title))}
+      = link_to(admin_conference_commercials_path(@conference.short_title)) do
+        %span.fa.fa-picture-o
+        Commercials
+  %hr
   %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
     = link_to(admin_conference_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-dashboard

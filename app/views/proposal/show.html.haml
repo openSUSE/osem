@@ -41,17 +41,16 @@
   .col-md-9
     .row
       .col-md-12
-        - if @event.media_id.blank?
+        - if @event.commercials.empty?
           %h5.text-warning
             No video of the event yet, sorry!
-            - unless @conference.media_id.blank?
+            - unless @conference.commercials.empty?
               Meanwhile...
-          - unless @conference.media_id.blank?
-            .flexvideo
-              = render partial: "shared/media_item", locals: {media_type: @conference.media_type, media_id: @conference.media_id}
+          - unless @conference.commercials.empty?
+            = render partial: 'shared/media_items', locals: { commercials: @conference.commercials }
         - else
-          .flexvideo
-            = render partial: "shared/media_item", locals: {media_type: @event.media_type, media_id: @event.media_id}
+          %p
+          = render partial: 'shared/media_items', locals: { commercials: @event.commercials }
     .row
       .speakerinfo
         .col-md-8
