@@ -82,12 +82,8 @@ $(function () {
         5)
     });
 
-    $("#event_media_type").change(function () {
-        $(".media-type").hide();
-        $('#' + $(this).val().toLowerCase() + '-help').show();
-    });
 
-    $("#conference_media_type").change(function () {
+    $("#commercial_commercial_type").change(function () {
         $(".media-type").hide();
         $('#' + $(this).val().toLowerCase() + '-help').show();
     });

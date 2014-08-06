@@ -10,6 +10,7 @@ Osem::Application.routes.draw do
     resources :conference do
       resource :contact, except: [:index, :new, :create]
       resource :schedule, only: [:show, :update]
+      resources :commercials, except: [:show]
       get '/stats' => 'stats#index'
       get '/venue' => 'venue#show', as: 'venue_info'
       patch '/venue' => 'venue#update', as: 'venue_update'
@@ -80,6 +81,7 @@ Osem::Application.routes.draw do
 
   resources :conference, only: [:show] do
     resources :proposal do
+      resources :commercials, except: [:show, :index]
       resources :event_attachment, controller: "event_attachments"
       member do
         patch '/confirm' => 'proposal#confirm'

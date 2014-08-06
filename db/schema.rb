@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731165107) do
+ActiveRecord::Schema.define(version: 20140801170430) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -74,6 +74,15 @@ ActiveRecord::Schema.define(version: 20140731165107) do
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
+  create_table "commercials", force: true do |t|
+    t.string   "commercial_id"
+    t.string   "commercial_type"
+    t.integer  "commercialable_id"
+    t.string   "commercialable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "conferences", force: true do |t|
     t.string   "guid",                                            null: false
     t.string   "title",                                           null: false
@@ -98,8 +107,6 @@ ActiveRecord::Schema.define(version: 20140731165107) do
     t.boolean  "use_vdays",                       default: false
     t.boolean  "use_difficulty_levels",           default: false
     t.boolean  "use_volunteers"
-    t.string   "media_id"
-    t.string   "media_type"
     t.string   "color"
     t.text     "description"
     t.text     "registration_description"
@@ -257,8 +264,6 @@ ActiveRecord::Schema.define(version: 20140731165107) do
     t.integer  "room_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "media_id"
-    t.string   "media_type"
     t.boolean  "require_registration"
     t.integer  "difficulty_level_id"
     t.integer  "week"

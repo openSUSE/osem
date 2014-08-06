@@ -12,7 +12,7 @@ class Conference < ActiveRecord::Base
                   :registration_start_date, :registration_end_date, :logo, :questions_attributes,
                   :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
                   :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
-                  :vpositions_attributes, :use_volunteers, :media_id, :media_type, :color,
+                  :vpositions_attributes, :use_volunteers, :color,
                   :description, :registration_description, :ticket_description,
                   :sponsorship_levels_attributes, :sponsors_attributes,
                   :sponsor_description, :sponsor_email, :lodging_description,
@@ -48,6 +48,7 @@ class Conference < ActiveRecord::Base
   has_many :photos, dependent: :destroy
   has_many :targets, dependent: :destroy
   has_many :campaigns, dependent: :destroy
+  has_many :commercials, as: :commercialable, dependent: :destroy
   belongs_to :venue
 
   accepts_nested_attributes_for :rooms, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
@@ -93,12 +94,6 @@ class Conference < ActiveRecord::Base
   before_create :create_event_types
   before_create :create_email_settings
   before_create :add_color
-
-  def self.media_types
-    media_types = { youtube: 'YouTube', slideshare: 'SlideShare', flickr: 'Flickr', vimeo: 'Vimeo',
-                    speakerdeck: 'Speakerdeck', instagram: 'Instagram' }
-    return media_types
-  end
 
   ##
   # Checks if the user is registered to the conference

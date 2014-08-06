@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature Event do
+feature EmailSettings do
   # It is necessary to use bang version of let to build roles before user
   let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }

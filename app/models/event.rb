@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
   attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :users_attributes,
-                  :user, :proposal_additional_speakers, :track_id, :media_id, :media_type,
+                  :user, :proposal_additional_speakers, :track_id,
                   :require_registration, :difficulty_level_id
 
   acts_as_commentable
@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   has_many :speakers, through: :event_users, source: :user
   has_many :votes
   has_many :voters, through: :votes, source: :user
+  has_many :commercials, as: :commercialable, dependent: :destroy
   belongs_to :event_type
 
   has_and_belongs_to_many :registrations
@@ -36,7 +37,6 @@ class Event < ActiveRecord::Base
   validates :abstract, presence: true
   validates :event_type, presence: true
   validates :conference, presence: true
-  validates :media_type, inclusion: { in: Conference.media_types.values }, allow_blank: true
 
   scope :confirmed, -> { where(state: 'confirmed') }
 
