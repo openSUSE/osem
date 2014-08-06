@@ -10,6 +10,7 @@ describe User do
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:cfp_role) { create(:cfp_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:user) { create(:user) }
 
   it 'returns the correct role' do
     expect(user_admin.is_admin).to eq(true)
@@ -41,8 +42,8 @@ describe User do
     end
 
     context 'admin' do
-      it 'assigns first user admin role' do
-        expect(User.first.is_admin).to be true
+      it 'assigns second user admin role' do
+        expect(User.second.is_admin).to be true
       end
     end
 
