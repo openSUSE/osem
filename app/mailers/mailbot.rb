@@ -83,8 +83,8 @@ class Mailbot < ActionMailer::Base
 
   def build_email(conference, to, subject, body)
     mail(to: to,
-         from: conference.contact_email,
-         reply_to: conference.contact_email,
+         from: conference.contact.email,
+         reply_to: conference.contact.email,
          subject: subject,
          body: body)
   end

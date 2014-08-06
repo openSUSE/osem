@@ -8,6 +8,7 @@ Osem::Application.routes.draw do
     resources :users
     resources :people
     resources :conference do
+      resource :contact, except: [:index, :new, :create]
       resource :schedule, only: [:show, :update]
       get '/stats' => 'stats#index'
       get '/venue' => 'venue#show', as: 'venue_info'

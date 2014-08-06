@@ -4,19 +4,19 @@
 
 %div.container#social-media.text-center
   %div.row
-    - unless @conference.facebook_url.blank?
+    - unless @conference.contact.facebook.blank?
       %div.col-md-3
-        = link_to "#{ @conference.facebook_url }" do
+        = link_to "#{ @conference.contact.facebook }" do
           %i.fa.fa-facebook-square.fa-4x
-    - unless @conference.twitter_url.blank?
+    - unless @conference.contact.twitter.blank?
       %div.col-md-3
-        = link_to "#{ @conference.twitter_url }" do
+        = link_to "#{ @conference.contact.twitter }" do
           %i.fa.fa-twitter.fa-4x
-    - unless @conference.instagram_url.blank?
+    - unless @conference.contact.instagram.blank?
       %div.col-md-3
-        = link_to "#{ @conference.instagram_url }" do
+        = link_to "#{ @conference.contact.instagram }" do
           %i.fa.fa-instagram.fa-4x
-    - unless @conference.google_url.blank?
+    - unless @conference.contact.googleplus.blank?
       %div.col-md-3
-        = link_to "#{ @conference.google_url }" do
+        = link_to "#{ @conference.contact.googleplus }" do
           %i.fa.fa-google-plus-square.fa-4x

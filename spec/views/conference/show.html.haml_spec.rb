@@ -8,17 +8,20 @@ describe 'conference/show.html.haml' do
                                       description: 'Lorem Ipsum',
                                       sponsor_description: 'Lorem Ipsum Dolor',
                                       sponsor_email: 'example@example.com',
-                                      facebook_url: 'http://www.fbexample.com',
-                                      google_url: 'http://www.google-example.com',
-                                      instagram_url: "http://instagram.com",
-                                      twitter_url: "http://twitter.com",
                                       include_registrations_in_splash: true,
                                       include_program_in_splash: true,
                                       include_sponsors_in_splash: true,
-                                      include_social_media_in_splash: true,
                                       include_tracks_in_splash: true,
                                       include_tickets_in_splash: true,
                                       include_banner_in_splash: true)
+    @conference.contact.update(facebook: 'http://www.fbexample.com',
+                               googleplus: 'http://www.google-example.com',
+                               instagram: 'http://instagram.com',
+                               twitter: 'http://twitter.com',
+                               public: true
+                               )
+    @conference.call_for_papers = create(:call_for_papers, conference: @conference,
+                                                           include_cfp_in_splash: true)
     @conference.call_for_papers = create(:call_for_papers, conference: @conference,
                                                            include_cfp_in_splash: true)
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)

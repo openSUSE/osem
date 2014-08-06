@@ -1457,10 +1457,6 @@ describe Conference do
       should validate_presence_of(:short_title)
     end
 
-    it 'is not valid without a social tag' do
-      should validate_presence_of(:social_tag)
-    end
-
     it 'is not valid without a start date' do
       should validate_presence_of(:start_date)
     end

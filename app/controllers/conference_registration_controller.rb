@@ -37,7 +37,7 @@ class ConferenceRegistrationController < ApplicationController
         if regs.where(email: user.email).count == 0
           redirect_to(register_conference_path(id: conference.short_title),
                       alert: "This code is already in use.
-                                 Please contact #{conference.contact_email} for assistance.")
+                                 Please contact #{conference.contact.email} for assistance.")
           return
         end
       end

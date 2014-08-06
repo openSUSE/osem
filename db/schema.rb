@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724113107) do
+ActiveRecord::Schema.define(version: 20140731165107) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -78,8 +78,6 @@ ActiveRecord::Schema.define(version: 20140724113107) do
     t.string   "guid",                                            null: false
     t.string   "title",                                           null: false
     t.string   "short_title",                                     null: false
-    t.string   "social_tag"
-    t.string   "contact_email",                                   null: false
     t.string   "timezone",                                        null: false
     t.string   "html_export_path"
     t.date     "start_date",                                      null: false
@@ -108,29 +106,37 @@ ActiveRecord::Schema.define(version: 20140724113107) do
     t.text     "ticket_description"
     t.text     "sponsor_description"
     t.string   "sponsor_email"
-    t.string   "twitter_url"
-    t.string   "facebook_url"
-    t.string   "google_url"
     t.text     "lodging_description"
     t.boolean  "make_conference_public",          default: false
     t.boolean  "include_registrations_in_splash", default: false
     t.boolean  "include_sponsors_in_splash",      default: false
     t.boolean  "include_tracks_in_splash",        default: false
     t.boolean  "include_tickets_in_splash",       default: false
-    t.boolean  "include_social_media_in_splash",  default: false
     t.boolean  "include_program_in_splash",       default: false
     t.string   "banner_photo_file_name"
     t.string   "banner_photo_content_type"
     t.integer  "banner_photo_file_size"
     t.datetime "banner_photo_updated_at"
     t.boolean  "include_banner_in_splash",        default: false
-    t.string   "instagram_url"
     t.text     "events_per_week"
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
     t.integer "conference_id"
     t.integer "question_id"
+  end
+
+  create_table "contacts", force: true do |t|
+    t.string   "social_tag"
+    t.string   "email"
+    t.string   "facebook"
+    t.string   "googleplus"
+    t.string   "twitter"
+    t.string   "instagram"
+    t.boolean  "public"
+    t.integer  "conference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -487,8 +493,8 @@ ActiveRecord::Schema.define(version: 20140724113107) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name",                       limit: 255
-    t.text     "address",                    limit: 255
+    t.text     "name"
+    t.text     "address"
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
@@ -499,8 +505,8 @@ ActiveRecord::Schema.define(version: 20140724113107) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "include_venue_in_splash",                default: false
-    t.boolean  "include_lodgings_in_splash",             default: false
+    t.boolean  "include_venue_in_splash",    default: false
+    t.boolean  "include_lodgings_in_splash", default: false
   end
 
   create_table "versions", force: true do |t|

@@ -7,6 +7,5 @@ describe 'admin/conference/edit' do
     assign :conference, @conference
     render template: 'admin/conference/edit.html.haml'
     expect(rendered).to include('OpenSUSE')
-    expect(rendered).to include("#{@conference.contact_email}")
   end
 end

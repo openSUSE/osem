@@ -52,7 +52,7 @@
       .pad
         = render 'sponsor'
 
-  - if @conference.include_social_media_in_splash?
+  - if @conference.contact.public?
     %section{ id: 'social-media' }
       .pad
         = render 'social_media'
