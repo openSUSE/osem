@@ -8,8 +8,8 @@
 
 # Create sample user
 user = User.new(email: 'deleted@localhost.osem', name: 'User deleted',
-biography: 'Data is no longer available for deleted user.',
-password: Devise.friendly_token[0, 20])
+                biography: 'Data is no longer available for deleted user.',
+                password: Devise.friendly_token[0, 20])
 user.skip_confirmation!
 user.save!
 
