@@ -34,7 +34,7 @@ task deploy: :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :notify_errbit
+    #invoke :notify_errbit
 
     to :launch do
       queue "touch #{deploy_to}/tmp/restart.txt"
