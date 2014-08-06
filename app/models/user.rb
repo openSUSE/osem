@@ -114,17 +114,6 @@ class User < ActiveRecord::Base
     proposals(conference).count
   end
 
-  # Returns user submissions (in any conference)
-  def submissions
-    submissions = []
-    Conference.all.each do |c|
-      unless self.proposals(c).blank?
-        submissions << self.proposals(c)
-      end
-    end
-    submissions
-  end
-
   def biography_word_count
     if biography.nil?
       0

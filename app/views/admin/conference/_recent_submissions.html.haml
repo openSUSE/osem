@@ -11,13 +11,13 @@
         - recent_events.each_with_index do |event, index|
           %tbody
             %tr
-              %td #{index + 1}
+              %td= index + 1
               - if event.submitter
-                %td= link_to "#{event.submitter.name}", admin_user_path(event.submitter.id)
+                %td= link_to event.submitter.name, admin_user_path(event.submitter.id)
               - else
                 %td Unknown Submitter
-              %td= link_to "#{event.title}", admin_conference_event_path(event.conference.short_title, event)
-              %td= link_to "#{event.conference.title}", admin_conference_path(event.conference.short_title)
+              %td= link_to event.title, admin_conference_event_path(event.conference.short_title, event)
+              %td= link_to event.conference.title, admin_conference_path(event.conference.short_title)
               %td
                 .span{'class'=>label_for(event.state)} #{event.state.humanize}
 - else

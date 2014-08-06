@@ -1,7 +1,7 @@
 .row
   .col-md-12.page-header
     %h2
-      Submissions (#{@user.submissions.length}) for #{@user.name}
+      Submissions (#{@user.events.length}) for #{@user.name}
   .col-md-12
     .well
       %table.table.table-bordered.table-striped.table-hover#submissions
@@ -14,8 +14,7 @@
           %th Rating
           %th Created At
         %tbody
-          - @user.submissions.each do |submission|
-            - event = submission[0]
+          - @user.events.each do |event|
             %tr
               %td= event.id
               %td= link_to event.conference.short_title, admin_conference_path(event.conference.short_title)
@@ -26,10 +25,10 @@
                 - if event.conference.call_for_papers && event.conference.call_for_papers.rating && event.conference.call_for_papers.rating > 0
                   - event.conference.call_for_papers.rating.times do |counter|
                     - if event.average_rating.to_f.round == counter+1
-                      = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
+                      = label_tag 'label_rating', '', class: 'avgrating', avgrate: true
                       = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
                     - else
-                      = label_tag "label_rating", "", :class => "avgrating"
+                      = label_tag 'label_rating', '', class: 'avgrating'
               %td= event.created_at
 
 :javascript
