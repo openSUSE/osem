@@ -1,5 +1,5 @@
 module Admin
-  class Admin::EmailsController < ApplicationController
+  class EmailsController < ApplicationController
     before_filter :verify_organizer
 
     def update
