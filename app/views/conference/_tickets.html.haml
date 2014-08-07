@@ -1,14 +1,14 @@
 %div.row
   %h3 Tickets
   -if !@conference.ticket_description.blank?
-    %p
+    .lead
       = markdown(@conference.ticket_description)
     - @conference.supporter_levels.each do |s|
       %div.col-md-6
         - if !s.title.blank?
           %h4 #{ s.title }
         -if !s.description.blank?
-          %p #{ s.description }
+          .lead #{ s.description }
         - if !s.url.blank?
           %div.btn-group
             = link_to "Buy Ticket", s.url, class: 'btn btn-success', target: '_blank'

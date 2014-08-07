@@ -5,7 +5,7 @@
   %div.row
     %h1 Registration
   - if !@conference.registration_description.blank?
-    %p
+    .lead
       = markdown(@conference.registration_description)
   - if @conference.registration_dates_given?
     -if @conference.registration_end_date >= Date.today

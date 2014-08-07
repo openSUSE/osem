@@ -1,61 +1,61 @@
 = content_for :brand do
-  = link_to @conference.title, conference_url(@conference.short_title), class: 'navbar-brand'
+  = link_to @conference.short_title, conference_url(@conference.short_title), class: 'navbar-brand'
 = content_for :splash do
-  - if @conference.include_banner_in_splash?
-    %section{ id: 'splash-banner' }
-      %div.banner-disp{ style: ("background-image: url(#{@conference.banner_photo})" unless @conference.banner_photo.blank?), class:('with-background' unless @conference.banner_photo.blank?) }
-        %div.container.text-center.banner-text
-          .row
-            %h1
-              = @conference.short_title
-          - if @conference.start_date && @conference.end_date
+  .splash
+    - if @conference.include_banner_in_splash?
+      %section{ id: 'splash-banner' }
+        %div.banner-disp{ style: ("background-image: url(#{@conference.banner_photo})" unless @conference.banner_photo.blank?), class:('with-background' unless @conference.banner_photo.blank?) }
+          %div.container.text-center.banner-text
             .row
-              %h3
-                = date_string(@conference.start_date, @conference.end_date)
+              %h1
+                = @conference.title
+            - if @conference.start_date && @conference.end_date
+              .row
+                %h3
+                  = date_string(@conference.start_date, @conference.end_date)
 
-          - unless @conference.description.blank?
-            .row-fluid
-              .col-md-12.lead
-                %p
-                  = markdown(@conference.description)
-          -unless @conference.photos.blank?
-            = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
-            = render 'gallery'
-  - if @conference.include_program_in_splash?
-    %section{ id: 'program' }
-      .pad
-        = render 'program'
-
-  - if @conference.include_registrations_in_splash?
-    %section{ id: 'registration' }
-      .pad
-        = render 'registration'
-
-
-  -unless @conference.call_for_papers.blank?
-    - if @conference.call_for_papers.include_cfp_in_splash?
-      %section{ id:'callforpapers' }
+            - unless @conference.description.blank?
+              .row-fluid
+                .col-md-12.lead
+                  .lead
+                    = markdown(@conference.description)
+            -unless @conference.photos.blank?
+              = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
+              = render 'gallery'
+    - if @conference.include_program_in_splash?
+      %section{ id: 'program' }
         .pad
-          = render 'call_for_papers'
+          = render 'program'
 
-  -unless @conference.venue.blank?
-    - if @conference.venue.include_venue_in_splash?
-      %section{ id: 'location' }
+    - if @conference.include_registrations_in_splash?
+      %section{ id: 'registration' }
         .pad
-          = render 'location'
-      - unless @conference.venue.lodgings.empty?
-        - if @conference.venue.include_lodgings_in_splash?
-          = render 'lodging'
+          = render 'registration'
 
-  - if @conference.include_sponsors_in_splash?
-    %section{ id: 'sponsors' }
-      .pad
-        = render 'sponsor'
 
-  - if @conference.contact.public?
-    %section{ id: 'social-media' }
-      .pad
-        = render 'social_media'
+    -unless @conference.call_for_papers.blank?
+      - if @conference.call_for_papers.include_cfp_in_splash?
+        %section{ id:'callforpapers' }
+          .pad
+            = render 'call_for_papers'
 
-  = render 'footer'
+    -unless @conference.venue.blank?
+      - if @conference.venue.include_venue_in_splash?
+        %section{ id: 'location' }
+          .pad
+            = render 'location'
+        - unless @conference.venue.lodgings.empty?
+          - if @conference.venue.include_lodgings_in_splash?
+            = render 'lodging'
 
+    - if @conference.include_sponsors_in_splash?
+      %section{ id: 'sponsors' }
+        .pad
+          = render 'sponsor'
+
+    - if @conference.contact.public?
+      %section{ id: 'social-media' }
+        .pad
+          = render 'social_media'
+
+    = render 'footer'

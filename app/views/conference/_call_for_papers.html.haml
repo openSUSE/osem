@@ -8,32 +8,32 @@
       %h1
         Call For Papers
       - if !@conference.call_for_papers.description.blank?
-        %p
+        .lead
           = markdown(@conference.call_for_papers.description)
       - if !@conference.call_for_papers.start_date.blank? && !@conference.call_for_papers.end_date.blank?
-        %p.lead Proposals will be accepted between
+        .lead Proposals will be accepted between
         #cfp-date
           = date_string(@conference.call_for_papers.start_date, @conference.call_for_papers.end_date)
     - if @conference.cfp_open?
       - if @conference.call_for_papers.end_date.to_time < Time.now
-        %p Today is the last day. Hurry Up!
+        .lead Today is the last day. Hurry Up!
       - else
         .row
           .col-md-8.col-md-offset-3
             %div.col-md-2.timer-box
               %h2#days
-              %p Days
+              .lead Days
             %div.col-md-2.timer-box
               %h2#hours
-              %p Hours
+              .lead Hours
             %div.col-md-2.timer-box
               %h2#minutes
-              %p Minutes
+              .lead Minutes
             %div.col-md-2.timer-box
               %h2#seconds
-              %p Seconds
+              .lead Seconds
       .row
-        %p
+        .lead
           = link_to "Submit Your Proposals Today", conference_proposal_index_path(@conference.short_title), class: 'btn btn-info', target: '_blank'
     -else
       %h3 Deadline has ended
