@@ -1,0 +1,61 @@
+.row{'style'=>'padding-top: 15px;'}
+  .col-md-6
+    %dl.dl-horizontal
+      %dt
+        Title
+      %dd
+        = @conference.title
+      %dt
+        Short Title
+      %dd
+        = @conference.short_title
+      %dt
+        Description
+      %dd
+        - unless @conference.description.blank?
+          = markdown(@conference.description)
+        - else
+          Not set!
+      %dt
+        Date
+      %dd
+        = @date_string
+      %dt
+        Color
+      %dd
+        %div.text-center{'style'=>"width: 25px; height: 25px; background: #{@conference.color};"}
+.row.row-flex.row-flex-wrap
+  .col-md-4
+    .thumbnail.flex-col
+      %h3.text-center
+        Conference Logo
+      - if @conference.logo?
+        = image_tag(@conference.logo(:large), class: 'img-responsive')
+        .caption.flex-grow
+        .caption
+          %p
+            %dl.dl-horizontal
+              %dt
+                Filename
+              %dd
+                = @conference.logo_file_name
+      -else
+        %h4.text-center
+          Not set!
+  .col-md-4
+    .thumbnail.flex-col
+      %h3.text-center
+        Conference Banner
+      - if @conference.banner_photo?
+        = image_tag(@conference.banner_photo(:large), class: 'img-responsive')
+        .caption.flex-grow
+        .caption
+          %p
+            %dl.dl-horizontal
+              %dt
+                Filename
+              %dd
+                = @conference.banner_photo_file_name
+      - else
+        %h4.text-center
+          Not set!

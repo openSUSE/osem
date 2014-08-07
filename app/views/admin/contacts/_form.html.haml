@@ -1,31 +1,13 @@
-= form_for @contact, url: admin_conference_contact_path do |f|
-  - if @contact.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@contact.errors.count, "error")} prohibited this contact from being saved:"
-      %ul
-        - @contact.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :social_tag
-    = f.text_field :social_tag
-  .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :facebook
-    = f.text_field :facebook
-  .field
-    = f.label :googleplus
-    = f.text_field :googleplus
-  .field
-    = f.label :twitter
-    = f.text_field :twitter
-  .field
-    = f.label :instagram
-    = f.text_field :instagram
-  .field
-    = f.label :public
-    = f.check_box :public
-  .actions
-    = f.submit 'Save'
+.row
+  .col-md-8
+    = semantic_form_for(@contact, :url => admin_conference_contact_path(@conference.short_title),:html => {:multipart => true}) do |f|
+      = f.inputs :name => 'Contact' do
+        = f.input :email, hint: 'Contact email address for your conference. Will be used as reply-to address in emails sent out by the system.'
+      = f.inputs :name => 'Social Media' do
+        = f.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+. Don't include the '#' sign!'"
+        = f.input :facebook, hint: 'This will appear in the social media section as link to the Facebook page of your Conference'
+        = f.input :googleplus, label: 'Google+ Url', hint: 'This will appear in the social media section as the link to the Google+ Page of your Conference'
+        = f.input :twitter, hint: 'This will appear in the social media section as the link to the Twitter Page of your Conference'
+        = f.input :instagram, hint: 'This will appear in the social media section as the link to the Instagram Page of your Conference'
+        = f.input :public, hint: 'On setting this true you will enable the social media links to be displayed on the splash page'
+      = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

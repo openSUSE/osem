@@ -8,7 +8,7 @@ Osem::Application.routes.draw do
     resources :users
     resources :people
     resources :conference do
-      resource :contact, except: [:index, :new, :create]
+      resource :contact, except: [:index, :new, :create, :show, :destroy]
       resource :schedule, only: [:show, :update]
       resources :commercials, except: [:show]
       get '/stats' => 'stats#index'

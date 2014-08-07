@@ -1,0 +1,31 @@
+%ul.list-unstyled
+  - unless @contact.email.blank?
+    %li
+      = link_to "#{ @contact.email }" do
+        %i.fa.fa-envelope.fa-3x
+      = @contact.email
+  - unless @contact.social_tag.blank?
+    %li
+      = link_to "#{ @contact.social_tag }" do
+        %i.fa.fa-thumbs-o-up.fa-3x
+      = "##{@contact.social_tag}"
+  - unless @contact.facebook.blank?
+    %li
+      = link_to "#{ @contact.facebook }" do
+        %i.fa.fa-facebook-square.fa-3x
+      = @contact.facebook
+  - unless @contact.twitter.blank?
+    %li
+      = link_to "#{ @contact.twitter }" do
+        %i.fa.fa-twitter.fa-3x
+      = @contact.twitter
+  - unless @contact.instagram.blank?
+    %li
+      = link_to "#{ @contact.instagram }" do
+        %i.fa.fa-instagram.fa-3x
+      = @contact.instagram
+  - unless @contact.googleplus.blank?
+    %li
+      = link_to "#{ @contact.googleplus }" do
+        %i.fa.fa-google.fa-3x
+      = @contact.googleplus
