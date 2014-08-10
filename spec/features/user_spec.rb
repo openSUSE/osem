@@ -5,15 +5,28 @@ feature User do
   shared_examples 'admin ability' do
     scenario 'deletes a user', feature: true, js: true do
       sign_in(create(:admin))
+      @user = create(:user)
       visit admin_users_path
       expected_count = User.count - 1
-      page.all('btn btn-primary btn-danger') do
-        click_link 'Delete'
-        page.evaluate_script('window.confirm = function() { return true; }')
-        page.click('OK')
-        expect(flash).to eq('User got deleted')
-        expect(User.count).to eq(expected_count)
-      end
+      find("#user-delete-#{@user.id}").click
+      page.evaluate_script('window.confirm = function() { return true; }')
+      expect(flash).to eq('User got deleted')
+      expect(User.count).to eq(expected_count)
+      sign_out
+    end
+    scenario 'deletes a user with scheduled events', feature: true, js: true do
+      sign_in(create(:admin))
+      @user = create(:user)
+      deleted_user = create(:user, email: 'deleted@localhost.osem', name: 'User deleted', biography: 'Data is no longer available for deleted user.')
+      @user.events << create(:event, start_time: DateTime.now)
+      event = @user.events.first
+      visit admin_users_path
+      expected_count = User.count - 1
+      find("#user-delete-#{@user.id}").click
+      page.evaluate_script('window.confirm = function() { return true; }')
+      expect(flash).to eq('User got deleted')
+      expect(User.count).to eq(expected_count)
+      expect(event.event_users.map{|x| User.find(x.user_id)}).to include(deleted_user)
       sign_out
     end
   end

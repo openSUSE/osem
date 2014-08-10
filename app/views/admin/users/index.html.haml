@@ -53,4 +53,14 @@
                   disabled: true, class: 'btn btn-primary disabled btn-danger', role: 'button'
                 - else
                   = link_to 'Delete',admin_user_path(user), method: :delete,
-                  data: { confirm: 'Are you sure ?' }, class: 'btn btn-primary btn-danger'
+                  data: { confirm: 'Are you sure ?' }, class: 'btn btn-primary btn-danger', id: "user-delete-#{user.id}"
+
+
+:javascript
+  $(document).ready(function() {
+      $('#users').dataTable( {
+        "bPaginate": false,
+        "bLengthChange": false
+      } );
+  } );
+>>>>>>> User deletion

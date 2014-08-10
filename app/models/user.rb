@@ -122,6 +122,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  def destroy
+    if self.events.blank?
+      super
+    else
+      self.events.each do |event|
+        if event.start_time.nil? || event.start_time > DateTime.now
+          event.destroy
+        else
+          EventUser.create_deleted_eventuser(self,event)
+        end
+      end
+      super
+    end
+  end
+
   private
 
   def biography_limit

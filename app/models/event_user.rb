@@ -5,4 +5,10 @@ class EventUser < ActiveRecord::Base
 
   belongs_to :event
   belongs_to :user
+
+  def self.create_deleted_eventuser(user,event)
+    event_role = event.event_users.where(user: user).first.event_role
+    event.event_users.where(user: user).destroy_all
+    EventUser.create(user: User.find_by(email: 'deleted@localhost.osem'), event: event, event_role: event_role)
+  end
 end
