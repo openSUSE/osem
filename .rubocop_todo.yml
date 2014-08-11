@@ -8,7 +8,7 @@
 # Offense count: 20
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/ClassAndModuleChildren:
-  Enabled: false
+  Enabled: true
 
 # Offense count: 3
 # Cop supports --auto-correct.

@@ -1,3 +1,5 @@
-class Ahoy::Store < Ahoy::Stores::ActiveRecordStore
-  # customize here
+module Ahoy
+  class Store < Ahoy::Stores::ActiveRecordStore
+    # customize here
+  end
 end
