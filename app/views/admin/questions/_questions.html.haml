@@ -18,11 +18,9 @@
         = ','
         = label_tag dom_id(q), "Answers: #{q.answers.map {|a| a.title}.join(', ')}"
 
-      - if can? :update, q
-        %td= link_to 'Edit', edit_admin_conference_question_path(@conference.short_title, q),
-                      class: 'btn btn-primary', disabled: q.global == true
+      %td= link_to 'Edit', edit_admin_conference_question_path(@conference.short_title, q),
+                    class: 'btn btn-primary', disabled: !(can? :update, q)
 
-      - if can? :destroy, q
-        %td= link_to 'Delete', admin_conference_question_path(@conference.short_title, q),
-                      method: :delete, remote: true, class: 'btn btn-danger',
-                      confirm: "Delete question '#{q.title}'?", disabled: q.global == true
+      %td= link_to 'Delete', admin_conference_question_path(@conference.short_title, q),
+                    method: :delete, remote: true, class: 'btn btn-danger',
+                    confirm: "Delete question '#{q.title}'?", disabled: !(can? :destroy, q)

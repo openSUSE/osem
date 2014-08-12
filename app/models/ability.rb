@@ -79,6 +79,7 @@ class Ability
     can :index, Venue, id: venue_ids_for_cfp
     can :manage, Registration, conference_id: conf_ids_for_organizer + conf_ids_for_info_desk
     can :manage, Question, conference_id: conf_ids_for_organizer + conf_ids_for_info_desk
+    cannot [:edit, :update, :destroy], Question, global: true
     can :manage, Vposition, conference_id: conf_ids_for_organizer + conf_ids_for_volunteer_coordinator
     can :manage, Vday, conference_id: conf_ids_for_organizer + conf_ids_for_volunteer_coordinator
     # The ability to manage an Event means that:
