@@ -35,8 +35,12 @@
           Contact
       %li{:class=> "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
         = link_to(admin_conference_commercials_path(@conference.short_title)) do
-          %span.fa.fa-comment
+          %span.fa.fa-film
           Commercials
+      %li{:class=> "#{active_nav_li(admin_conference_photos_path(@conference.short_title))}"}
+        = link_to(admin_conference_photos_path(@conference.short_title)) do
+          %span.fa.fa-picture-o
+          Photos
   %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
     = link_to(admin_conference_events_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-comment

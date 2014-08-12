@@ -27,6 +27,4 @@
       = f.input :sponsor_description, hint: markdown_hint("This will appear in the sponsor segment of the splash."), input_html: { rows: 5, data: { provide: "markdown-editable" } }
       = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
       = f.input :lodging_description, hint: markdown_hint("This will appear in the lodging segment of the splash."), input_html: { rows: 5, data: { provide: "markdown-editable" } }
-
-      = dynamic_association :photos, "Photos", f
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
