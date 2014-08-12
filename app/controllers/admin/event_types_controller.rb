@@ -16,7 +16,7 @@ module Admin
       redirect_to(admin_conference_event_types_path(
                   conference_id: @conference.short_title),
                   notice: 'Event types were successfully updated.')
-    rescue Exception => e
+    rescue => e
       redirect_to(admin_conference_event_types_path(
                   conference_id: @conference.short_title),
                   alert: "Event types update failed: #{e.message}")

@@ -27,11 +27,10 @@ class Ability
     # The following is wrong because a user will only have 'cfp' role for a specific conference
     # user.is_cfp? # This is always false
 
-
     user ||= User.new # guest user (not logged in)
 
     if user.new_record?
-      guest(user)
+      guest
     else
       roles = Role::ACTIONABLES.map {|i| i.parameterize.underscore}
       if (user.roles.pluck(:name) & roles).empty? && !user.is_admin # User has no roles
@@ -100,7 +99,7 @@ class Ability
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
     can :manage, SupporterLevel, conference_id: conf_ids_for_organizer
     can :manage, Target, conference_id: conf_ids_for_organizer
-    can :manage, Commercial#, commercialable_type: 'Conference', commercialable_id: conf_ids_for_organizer
+    can :manage, Commercial # , commercialable_type: 'Conference', commercialable_id: conf_ids_for_organizer
     can :index, Commercial, commercialable_type: 'Conference'
     # Manage commercials for events that belong to a conference of which user is organizer
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(conference_id: conf_ids_for_organizer + conf_ids_for_cfp).pluck(:id)
@@ -108,7 +107,7 @@ class Ability
     can :manage, Campaign, conference_id: conf_ids_for_organizer
   end
 
-  def guest(user)
+  def guest
     ## Abilities for everyone, even guests (not logged in users)
     can [:show, :gallery_photos], Conference do |conference|
       conference.make_conference_public == true
@@ -122,7 +121,7 @@ class Ability
   end
 
   def signed_in(user)
-    guest(user) # Inherits abilities of guest
+    guest # Inherits abilities of guest
 
     # Conference Registration
     can :manage, Registration, user_id: user.id

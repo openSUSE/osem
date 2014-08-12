@@ -57,7 +57,6 @@ module Admin
 
     # DELETE questions/1
     def destroy
-
       if can? :destroy, @question
         # Do not delete global questions
         if @question.global == false
@@ -71,7 +70,7 @@ module Admin
                 a.delete
               end
               flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
-          end
+            end
           rescue ActiveRecord::RecordInvalid
             flash[:error] = "Could not delete question."
           end

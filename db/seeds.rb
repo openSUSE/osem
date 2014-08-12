@@ -8,8 +8,8 @@
 
 # Questions
 qtype_yesno = QuestionType.create(title: 'Yes/No')
-qtype_single = QuestionType.create(title: 'Single Choice')
-qtype_multiple = QuestionType.create(title: 'Multiple Choice')
+QuestionType.create(title: 'Single Choice')
+QuestionType.create(title: 'Multiple Choice')
 
 answer_yes = Answer.create(title: 'Yes')
 answer_no = Answer.create(title: 'No')

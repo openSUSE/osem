@@ -16,7 +16,6 @@ class EventAttachmentsController < ApplicationController
   end
 
   def show
-
     if @upload.public?
       send_file @upload.attachment.path
       return
@@ -84,7 +83,6 @@ class EventAttachmentsController < ApplicationController
   end
 
   def update
-
     respond_to do |format|
       if @upload.update_attributes(params[:upload])
         format.html { redirect_to @upload, notice: 'Upload was successfully updated.' }
@@ -97,7 +95,6 @@ class EventAttachmentsController < ApplicationController
   end
 
   def destroy
-
     if can? :destroy, @proposal
       @upload = @proposal.event_attachments.find(params[:id])
     end
