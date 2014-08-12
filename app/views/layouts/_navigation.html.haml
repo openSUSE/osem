@@ -7,7 +7,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = brand
+      = link_to CONFIG['name'], root_path, class: 'navbar-brand', title: 'Open Source Event Manager'
     .collapse.navbar-collapse
       - if content_for :splash_nav
         %ul.nav.navbar-nav#splash-nav

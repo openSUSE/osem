@@ -179,24 +179,6 @@ module ApplicationHelper
     result
   end
 
-  def default_brand
-    link_to CONFIG['name'], root_path,
-            class: 'navbar-brand',
-            title: 'Open Source Event Manager'
-  end
-
-  def short_title_brand(conference)
-    link_to conference.short_title, conference_path(conference.short_title),
-            class: 'navbar-brand',
-            title: conference.title
-  end
-
-  def brand
-    content_for(:brand) ||
-    (default_brand if controller.class.parent == Admin) ||
-    default_brand
-  end
-
   def markdown(text)
     options = {
       autolink: true,
