@@ -105,6 +105,7 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(conference_id: conf_ids_for_organizer + conf_ids_for_cfp).pluck(:id)
     can :manage, Contact, conference_id: conf_ids_for_organizer
     can :manage, Campaign, conference_id: conf_ids_for_organizer
+    can :manage, Photo, conference_id: conf_ids_for_organizer
   end
 
   def guest

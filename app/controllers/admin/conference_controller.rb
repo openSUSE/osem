@@ -190,7 +190,6 @@ module Admin
 
     def edit
       @conferences = Conference.all
-      @conference = Conference.find_by(short_title: params[:id])
       @date_string = date_string(@conference.start_date, @conference.end_date)
       respond_to do |format|
         format.html
