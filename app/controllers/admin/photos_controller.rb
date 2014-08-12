@@ -14,8 +14,7 @@ module Admin
     end
 
 # GET /admin/photos/1/edit
-    def edit
-    end
+    def edit; end
 
 # POST /admin/photos
     def create

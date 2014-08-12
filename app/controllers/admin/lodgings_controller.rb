@@ -8,8 +8,7 @@ module Admin
       authorize! :update, Lodging.new(venue_id: @venue.id)
     end
 
-    def show
-    end
+    def show; end
 
     def update
       if @venue.update_attributes(params[:venue])

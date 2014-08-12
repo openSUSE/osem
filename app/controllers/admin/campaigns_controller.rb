@@ -21,11 +21,9 @@ module Admin
       end
     end
 
-    def new
-    end
+    def new; end
 
-    def edit
-    end
+    def edit; end
 
     def update
       if @campaign.update_attributes(params[:campaign])

@@ -124,8 +124,7 @@ module Admin
       redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
     end
 
-    def create
-    end
+    def create; end
 
     def accept
       send_mail = @event.conference.email_settings.send_on_accepted

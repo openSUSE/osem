@@ -1,8 +1,7 @@
 class ConferenceController < ApplicationController
   load_and_authorize_resource find_by: :short_title
 
-  def show
-  end
+  def show; end
 
   def subscribe
     conference = Conference.find_by_short_title(params[:id])

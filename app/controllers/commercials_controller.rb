@@ -8,8 +8,7 @@ class CommercialsController < ApplicationController
     authorize! :new, @commercial
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @commercial = @event.commercials.build(commercial_params)

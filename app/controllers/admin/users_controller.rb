@@ -24,8 +24,7 @@ module Admin
       redirect_to admin_users_path, notice: "Updated #{@user.email}"
     end
 
-    def edit
-    end
+    def edit; end
 
     def destroy
       @user.destroy

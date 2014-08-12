@@ -11,8 +11,7 @@ module Admin
       @commercial = @conference.commercials.build
     end
 
-    def edit
-    end
+    def edit; end
 
     def create
       @commercial = @conference.commercials.build(commercial_params)

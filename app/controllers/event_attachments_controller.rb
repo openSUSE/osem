@@ -42,8 +42,7 @@ class EventAttachmentsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     params[:event_attachment][:title] = params[:title][0]
