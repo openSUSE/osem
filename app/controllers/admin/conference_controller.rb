@@ -1,6 +1,6 @@
 module Admin
   class ConferenceController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
 
     def index
       # Redirect to new form if there is no conference
@@ -63,8 +63,11 @@ module Admin
 
     def create
       @conference = Conference.new(params[:conference])
+
       if @conference.valid?
         @conference.save
+        # user that creates the conference becomes organizer of that conference
+        current_user.add_role :organizer, @conference
         redirect_to(admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully created.')
       else
@@ -108,6 +111,7 @@ module Admin
       if @conference.update_attributes(params[:conference])
         Mailbot.delay.conference_date_update_mail(@conference) if notify_on_conf_dates_updates
         Mailbot.delay.conference_registration_date_update_mail(@conference) if notify_on_conf_reg_dates_updates
+
         redirect_to(edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.')
       else

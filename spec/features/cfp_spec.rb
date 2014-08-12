@@ -3,9 +3,8 @@ require 'spec_helper'
 feature Conference do
 
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'add and update cfp' do |user|
     scenario 'adds a new cfp', feature: true, js: true do
@@ -87,8 +86,7 @@ feature Conference do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'add and update cfp', :admin
-    it_behaves_like 'add and update cfp', :organizer
+  describe 'organizer' do
+    it_behaves_like 'add and update cfp', :organizer_conference_1
   end
 end

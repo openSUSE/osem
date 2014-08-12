@@ -3,14 +3,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :get_conferences
   before_filter :store_location
+  before_filter :verify_user_admin
   helper_method :date_string
+  # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
+  check_authorization unless: :devise_controller?
 
   def store_location
     session[:return_to] = request.fullpath if request.get? && controller_name != "user_sessions" && controller_name != "sessions"
   end
 
   def after_sign_in_path_for(resource)
-    if organizer_or_admin? &&
+    if (can? :view, Conference) &&
       (!session[:return_to] ||
       session[:return_to] &&
       session[:return_to] == root_path)
@@ -31,6 +34,16 @@ class ApplicationController < ActionController::Base
     @conferences =Conference.all
   end
 
+  def verify_user_admin
+    if self.class.to_s.split('::').first == 'Admin' && verify_user
+      unless (current_user.has_role? :organizer, :any) || (current_user.has_role? :cfp, :any) ||
+          (current_user.has_role? :info_desk, :any) ||
+          (current_user.has_role? :volunteers_coordinator, :any) || current_user.is_admin
+        raise CanCan::AccessDenied.new('You are not authorized to access this area!')
+      end
+    end
+  end
+
   def verify_user
     :authenticate_user!
 
@@ -39,36 +52,17 @@ class ApplicationController < ActionController::Base
       return false
     end
 
-    @conference = Conference.find_by(short_title: params[:conference_id])
     true
   end
 
-  def organizer_or_admin?
-    has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
-  end
-
-  def verify_organizer
-    if !verify_user
-      return
-    end
-
-    ## Todo simplify this
-    redirect_to root_path unless has_role?(current_user, 'admin') || has_role?(current_user, 'organizer')
-  end
-
-  def verify_admin
-    if !verify_user
-      return
-    end
-
-    redirect_to root_path unless has_role?(current_user, 'admin')
+  def current_ability
+    @current_ability ||= Ability.new(current_user)
   end
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug("Access denied!")
     redirect_to root_path, alert: exception.message
   end
-  helper_method :organizer_or_admin?
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')

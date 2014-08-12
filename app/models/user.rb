@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
+  rolify
   include Gravtastic
   gravtastic size: 32
+
+  before_create :setup_role
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -13,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :openids
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
-                  :name, :email_public, :biography, :nickname, :affiliation
+                  :name, :email_public, :biography, :nickname, :affiliation, :is_admin
 
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
@@ -22,8 +25,6 @@ class User < ActiveRecord::Base
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
   accepts_nested_attributes_for :roles
-
-  before_create :setup_role
 
   validates :name, presence: true
 
@@ -47,26 +48,24 @@ class User < ActiveRecord::Base
     user
   end
 
-  def role?(role)
-    Rails.logger.debug('Checking role in user')
-    !!roles.find_by_name(role.to_s.downcase.camelize)
-  end
-
-  def admin?
-    role?('Admin')
-  end
-
-  def organizer?
-    role?('Organizer')
-  end
-
   def get_roles
     roles
   end
 
   def setup_role
-    roles << Role.where(name: 'Admin') if User.count == 0
-    roles << Role.where(name: 'Participant') if roles.empty?
+    self.is_admin = true if User.count == 0
+  end
+
+  # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
+  # ====Returns
+  # * +Hash+ * ->  e.g. 'organizer' =>  "(conf1, conf2)"
+  def show_roles
+    result = {}
+    Role::ACTIONABLES.each do |role|
+      resources = self.roles.where(name: role.parameterize.underscore).map{ |myrole| Conference.find(myrole.resource_id).short_title }.join ', '
+      result[role.parameterize.underscore] = "(#{ resources })" unless resources.blank?
+    end
+    result
   end
 
   def self.prepare(params)

@@ -1,6 +1,10 @@
 class ScheduleController < ApplicationController
+<<<<<<< HEAD
+=======
+  authorize_resource class: false
+>>>>>>> authorization with cancancan
   layout "application"
-  
+
   def index
     @conference = Conference.includes(:rooms, events: [:speakers, :track, :event_type]).where("conferences.short_title" => params[:conference_id]).first
     @rooms = @conference.rooms

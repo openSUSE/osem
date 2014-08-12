@@ -7,9 +7,11 @@
           = "(#{@registrations.length})"
         = " - Attended (#{@attended})"
         .btn-group.pull-right
-          = link_to "New", new_admin_conference_registration_path(@conference.short_title), :class => "btn btn-default"
-          = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-default"
-          = link_to "Export XLS", {:format => :xlsx}, :class => "btn btn-default"
+          - if can? :create, Registration
+            = link_to "New", new_admin_conference_registration_path(@conference.short_title), :class => "btn btn-default"
+          - if can? :read, Registration
+            = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-default"
+            = link_to "Export XLS", {:format => :xlsx}, :class => "btn btn-default"
     %table.table.table-bordered.table-striped.table-hover#registrations
       %thead
         %th
@@ -21,7 +23,7 @@
         %th
         %th
         %th
-      - counter = 0    
+      - counter = 0
       - @registrations.each do |registration|
         %tr
           %td
@@ -33,7 +35,7 @@
                 - if registration.supporter_level && registration.supporter_level.title != 'Free'
                   %p{:style => "color:red"}
                     = registration.supporter_level.title
-          
+
               -elsif field == 'attended'
                 = link_to "#{registration.send(field.to_sym)}", admin_conference_registrations_change_field_path(@conference.short_title, :id => registration.id, :view_field => "#{field}"), :method => :patch, ":#{field}" => registration.send(field.to_sym), :class => "btn btn-success"
 
@@ -64,7 +66,7 @@
         "bLengthChange": false
       } );
   } );
-  
+
   function toggle(rowid) {
     if( document.getElementById(rowid).style.display=='none' ){
       document.getElementById(rowid).style.display = '';

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 feature Openid do
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
 
   shared_examples 'sign in with openid' do
 

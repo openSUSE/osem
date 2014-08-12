@@ -1,22 +1,19 @@
 class ProposalController < ApplicationController
   before_filter :verify_user, except: [:show]
-  before_action :set_conference, only: [:show]
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :confirm, :restart]
+  load_resource :conference, find_by: :short_title
+  load_and_authorize_resource :event, parent: false, through: :conference
 
   def index
     @events = current_user.proposals(@conference)
   end
 
   def show
-    authorize! :show, @event
     # FIXME: We should show more than the first speaker
     @speaker = @event.speakers.first || @event.submitter
   end
 
   def new
-    authorize! :new, Event
     @url = conference_proposal_index_path(@conference.short_title)
-    @event = Event.new
   end
 
   def edit
@@ -26,7 +23,6 @@ class ProposalController < ApplicationController
   end
 
   def create
-    authorize! :create, Event
     @url = conference_proposal_index_path(@conference.short_title)
 
     params[:event].delete :user
@@ -53,7 +49,7 @@ class ProposalController < ApplicationController
     registration = current_user.registrations.where(conference_id: @conference.id).first
     ahoy.track 'Event submission', title: 'New submission'
     if registration.nil?
-      redirect_to(register_conference_path(@conference.short_title),
+      redirect_to(conference_register_path(@conference.short_title),
                   alert: 'Event was successfully submitted.
                  You should register for the conference now.')
     else
@@ -120,7 +116,7 @@ class ProposalController < ApplicationController
     end
 
     if !@conference.user_registered?(current_user)
-      redirect_to(register_conference_path(@conference.short_title),
+      redirect_to(conference_register_path(@conference.short_title),
                   alert: 'The proposal was confirmed. Please register to attend the conference.')
       return
     end
@@ -131,7 +127,7 @@ class ProposalController < ApplicationController
   def restart
     authorize! :update, @event
     @url = conference_proposal_path(@conference.short_title, params[:id])
-    
+
     begin
       @event.restart
     rescue Transitions::InvalidTransition
@@ -148,15 +144,5 @@ class ProposalController < ApplicationController
 
     redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
                 notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
-  end
-
-  private
-
-  def set_conference
-    @conference = Conference.find_by(short_title: params[:conference_id])
-  end
-
-  def set_event
-    @event = Event.find(params[:id])
   end
 end

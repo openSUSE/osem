@@ -2,9 +2,8 @@ require 'spec_helper'
 
 feature EmailSettings do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'email settings' do |user|
     scenario 'updates email settings',
@@ -91,11 +90,7 @@ feature EmailSettings do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'email settings', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'email settings', :organizer
+    it_behaves_like 'email settings', :organizer_conference_1
   end
 end

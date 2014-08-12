@@ -2,9 +2,8 @@ require 'spec_helper'
 
 feature Sponsor do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'sponsors' do |user|
     scenario 'adds and updates sponsors', feature: true, js: true do
@@ -69,11 +68,7 @@ feature Sponsor do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'sponsors', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'sponsors', :organizer
+    it_behaves_like 'sponsors', :organizer_conference_1
   end
 end

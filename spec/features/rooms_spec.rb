@@ -2,9 +2,8 @@ require 'spec_helper'
 
 feature Room do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'rooms' do |user|
     scenario 'adds and updates rooms', feature: true, js: true do
@@ -43,11 +42,7 @@ feature Room do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'rooms', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'rooms', :organizer
+    it_behaves_like 'rooms', :organizer_conference_1
   end
 end

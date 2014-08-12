@@ -1,17 +1,14 @@
 require 'spec_helper'
 
 feature SupporterLevel do
-  # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
-  let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:user) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'supporter levels' do |user|
+  shared_examples 'supporter levels' do
     scenario 'adds and updates supporter level', feature: true, js: true do
-      conference = create(:conference)
-      sign_in create(user)
-      visit admin_conference_supporter_levels_path(
-                conference_id: conference.short_title)
+      sign_in user
+      visit admin_conference_supporter_levels_path(conference_id: conference.short_title)
 
       # Add supporter level
       click_link 'Add supporter_level'
@@ -43,11 +40,7 @@ feature SupporterLevel do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'supporter levels', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'supporter levels', :organizer
+    it_behaves_like 'supporter levels'
   end
 end

@@ -1,7 +1,11 @@
 %table.table
   - @show_attributes.each do |attr|
     %tr
-      %td
+      %td{style: 'width:20%'}
         %b
           = attr.capitalize.gsub('_', ' ')
-      %td= @user.send(attr)
+      - if attr == 'roles'
+        %td
+          = @user.show_roles.map { |x| x[0].titleize + ' ' + x[1] }.join ', '
+      - else
+        %td= @user.send(attr)

@@ -1,11 +1,15 @@
 module Admin
   class TargetsController < ApplicationController
-    before_filter :verify_organizer
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource through: :conference
 
     def index
+      authorize! :index, Target.new(conference_id: @conference.id)
     end
 
     def update
+      authorize! :update, @conference => Target
+
       if @conference.update_attributes(params[:conference])
         redirect_to(admin_conference_targets_path(
                     conference_id: @conference.short_title),

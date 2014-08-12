@@ -137,14 +137,6 @@ module ApplicationHelper
     render "shared/dynamic_association", association_name: association_name, title: title, f: form_builder, hint: options[:hint]
   end
 
-  def has_role?(current_user, role)
-    if current_user.nil?
-      return false
-    end
-
-    return !!current_user.role?(role.to_s.camelize)
-  end
-
   # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
   def redirect_back_or_to(options = {}, response_status = {})
     if request.env["HTTP_REFERER"]

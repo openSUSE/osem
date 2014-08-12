@@ -1,16 +1,18 @@
 FactoryGirl.define do
   factory :role do
 
-    factory :admin_role do
-      name 'Admin'
+    factory :participant_role do
+      name 'participant'
     end
 
     factory :organizer_role do
-      name 'Organizer'
+      name 'organizer'
     end
 
-    factory :participant_role do
-      name 'Participant'
+    factory :organizer_conference_1_role do
+      name 'organizer'
+      resource_type 'Conference'
+      resource_id 1
     end
   end
 end

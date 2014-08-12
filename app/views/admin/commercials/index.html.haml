@@ -14,8 +14,11 @@
             = commercial.commercial_type
           .flexvideo
             = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
-          = link_to 'Edit', edit_admin_conference_commercial_path(@conference.short_title, commercial.id), class: 'btn btn-primary'
-          = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
-            method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-%br
+          - if can? :update, commercial
+            = link_to 'Edit', edit_admin_conference_commercial_path(@conference.short_title, commercial.id), class: 'btn btn-primary'
+          - if can? :destroy, commercial
+            = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
+              method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- if can? :create, @conference.commercials.new
+  %br
   = link_to 'New Commercial', new_admin_conference_commercial_path, class: 'btn btn-primary'

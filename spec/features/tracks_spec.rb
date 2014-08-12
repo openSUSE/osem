@@ -2,9 +2,8 @@ require 'spec_helper'
 
 feature Track do
   # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
   let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
 
   shared_examples 'tracks' do |user|
     scenario 'adds and updates tracks', feature: true, js: true do
@@ -50,11 +49,7 @@ feature Track do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'tracks', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'tracks', :organizer
+    it_behaves_like 'tracks', :organizer_conference_1
   end
 end
