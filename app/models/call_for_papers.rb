@@ -33,4 +33,31 @@ class CallForPapers < ActiveRecord::Base
   def end_week
     end_date.strftime('%W').to_i
   end
+
+  ##
+  # Checks whether cfp dates is updated
+  #
+  # ====Returns
+  # * +True+ -> If cfp dates is updated and all other parameters are set
+  # * +False+ -> Either cfp date is not updated or one or more parameter is not set
+  def notify_on_cfp_date_update?
+    !self.end_date.blank? && !self.start_date.blank?\
+    && (self.start_date_changed? || self.end_date_changed?)\
+    && self.conference.email_settings.send_on_call_for_papers_dates_updates\
+    && !self.conference.email_settings.call_for_papers_dates_updates_subject.blank?\
+    && !self.conference.email_settings.call_for_papers_dates_updates_template.blank?
+  end
+  ##
+  # Checks whether cfp dates is updated
+  #
+  # ====Returns
+  # * +True+ -> If cfp dates is updated and all other parameters are set
+  # * +False+ -> Either cfp date is not updated or one or more parameter is not set
+  def notify_on_schedule_public?
+    !self.end_date.blank? && !self.start_date.blank?\
+    && (self.start_date_changed? || self.end_date_changed?)\
+    && self.conference.email_settings.send_on_call_for_papers_dates_updates\
+    && !self.conference.email_settings.call_for_papers_dates_updates_subject.blank?\
+    && !self.conference.email_settings.call_for_papers_dates_updates_template.blank?
+  end
 end

@@ -12,6 +12,14 @@ class Venue < ActiveRecord::Base
                                     size: { in: 0..500.kilobytes }
   accepts_nested_attributes_for :lodgings, allow_destroy: true
 
+  def venue_notify?(conference)
+    (self.name_changed? || self.address_changed?) &&
+    (!self.name.blank? && !self.address.blank?) &&
+    (conference.email_settings.send_on_venue_update &&
+    !conference.email_settings.venue_update_subject.blank? &&
+    conference.email_settings.venue_update_template)
+  end
+
   private
 
   # TODO: create a module to be mixed into model to perform same operation

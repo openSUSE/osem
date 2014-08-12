@@ -929,4 +929,30 @@ class Conference < ActiveRecord::Base
 
     result
   end
+
+  ##
+  # Checks if conference is updated for email notifications.
+  #
+  # ====Returns
+  # * +True+ -> If conference is updated and all other parameters are set
+  # * +False+ -> Either conference is not updated or one or more parameter is not set
+  def notify_on_conf_dates_updates?
+    (self.start_date_changed? || self.end_date_changed?)\
+    && self.email_settings.send_on_updated_conference_dates\
+    && !self.email_settings.updated_conference_dates_subject.blank?\
+    && self.email_settings.updated_conference_dates_template
+  end
+
+  ##
+  # Checks if registration dates are updated for email notifications.
+  #
+  # ====Returns
+  # * +True+ -> If registration dates is updated and all other parameters are set
+  # * +False+ -> Either registration date is not updated or one or more parameter is not set
+  def notify_on_reg_dates?
+    (self.registration_start_date_changed? || self.registration_end_date_changed?)\
+    && self.email_settings.send_on_updated_conference_registration_dates\
+    && !self.email_settings.updated_conference_registration_dates_subject.blank?\
+    && self.email_settings.updated_conference_registration_dates_template
+  end
 end
