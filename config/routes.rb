@@ -15,6 +15,7 @@ Osem::Application.routes.draw do
         delete :remove_user
       end
       resource :contact, except: [:index, :new, :create]
+      resources :photos, except: [:show]
       resource :schedule, only: [:show, :update]
       resources :commercials, except: [:show]
       get '/stats' => 'stats#index'
