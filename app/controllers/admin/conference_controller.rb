@@ -20,7 +20,7 @@ module Admin
 
       @active_conferences = Conference.get_active_conferences_for_dashboard # pending or the last two
       @deactive_conferences = Conference.
-        get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
+          get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
       @conferences = @active_conferences + @deactive_conferences
 
       @recent_users = User.limit(5).order(created_at: :desc)
@@ -116,7 +116,7 @@ module Admin
       @conference_progress = @conference.get_status
 
       # Line charts
-      @registrations = { @conference.short_title => @conference.get_registrations_per_week }
+      @registrations = {@conference.short_title => @conference.get_registrations_per_week}
       @registration_weeks = [0]
       @registration_weeks.push(@registrations[@conference.short_title].length)
 
@@ -168,6 +168,7 @@ module Admin
     def edit
       @conferences = Conference.all
       @conference = Conference.find_by(short_title: params[:id])
+      @date_string = date_string(@conference.start_date, @conference.end_date)
       respond_to do |format|
         format.html
         format.json { render json: @conference.to_json }

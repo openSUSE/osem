@@ -20,15 +20,27 @@
           %span.glyphicon.glyphicon-plus
           New Conference
   %hr
-    %li{:class=> active_nav_li(admin_conference_commercials_path(@conference.short_title))}
-      = link_to(admin_conference_commercials_path(@conference.short_title)) do
-        %span.fa.fa-picture-o
-        Commercials
-  %hr
   %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
     = link_to(admin_conference_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-dashboard
-      Manage
+      %span.fa.fa-tachometer
+      Dashboard
+  %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
+    = link_to(edit_admin_conference_path(@conference.short_title)) do
+      %span.fa.fa-home
+      Basics
+    %ul
+      %li{:class=> "#{active_nav_li(edit_admin_conference_contact_path(@conference.short_title))}"}
+        = link_to(edit_admin_conference_contact_path(@conference.short_title)) do
+          %span.fa.fa-envelope-o
+          Contact
+      %li{:class=> "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
+        = link_to(admin_conference_commercials_path(@conference.short_title)) do
+          %span.fa.fa-film
+          Commercials
+      %li{:class=> "#{active_nav_li(admin_conference_photos_path(@conference.short_title))}"}
+        = link_to(admin_conference_photos_path(@conference.short_title)) do
+          %span.fa.fa-picture-o
+          Photos
   %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
     = link_to(admin_conference_events_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-comment
@@ -46,10 +58,6 @@
       %span.glyphicon.glyphicon-bullhorn
       Campaigns
   %hr
-  %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
-    = link_to(edit_admin_conference_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-cog
-      Settings
   %li{:class=> "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
     = link_to(admin_conference_targets_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-flag

@@ -39,6 +39,15 @@ feature Conference do
       sign_in create(user)
 
       visit edit_admin_conference_path(conference.short_title)
+      click_link 'Edit'
+      fill_in 'conference_title', with: 'New Con'
+      fill_in 'conference_short_title', with: ''
+
+      click_button 'Update Conference'
+      expect(flash).
+          to eq("Updating conference failed. Short title can't be blank.")
+
+      click_link 'Edit'
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
 
