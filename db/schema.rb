@@ -492,7 +492,7 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.string   "tshirt"
     t.string   "languages"
     t.text     "volunteer_experience"
-    t.boolean  "is_admin"
+    t.boolean  "is_admin",               default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
