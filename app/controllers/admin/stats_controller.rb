@@ -112,8 +112,8 @@ module Admin
 
       @tickets_time = []
 
-      if @conference.registration_start_date && @conference.end_date && @registered > 0 && @supporter_levels
-        start_date = @conference.registration_start_date
+      if @conference.audience.registration_start_date && @conference.end_date && @registered > 0 && @supporter_levels
+        start_date = @conference.audience.registration_start_date
         end_date = @conference.end_date
         levels = []
         @conference.supporter_levels.each do |level|
@@ -154,8 +154,8 @@ module Admin
       ]
 
       # REGISTRATIONS, registered_time
-      if @conference.registration_start_date && @conference.end_date && @registered > 0
-        start_date = @conference.registration_start_date
+      if @conference.audience.registration_start_date && @conference.end_date && @registered > 0
+        start_date = @conference.audience.registration_start_date
         end_date = @conference.end_date
         @registered_time = var_time(start_date, end_date, @registrations, 'created_at')
       end

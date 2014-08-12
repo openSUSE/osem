@@ -24,6 +24,8 @@ Osem::Application.routes.draw do
       patch '/registrations/change_field' => 'registrations#change_field'
       resources :registrations
 
+      resource :audience, only: [:update, :edit]
+
       resources :difficulty_levels, only: [:show, :update, :index]
 
       resources :rooms, only: [:show, :update, :index]

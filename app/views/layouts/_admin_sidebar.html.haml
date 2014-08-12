@@ -20,7 +20,7 @@
           %span.glyphicon.glyphicon-plus
           New Conference
   %hr
-  %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
+  %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))}"}
     = link_to(admin_conference_path(@conference.short_title)) do
       %span.fa.fa-tachometer
       Dashboard
@@ -41,6 +41,11 @@
         = link_to(admin_conference_photos_path(@conference.short_title)) do
           %span.fa.fa-picture-o
           Photos
+  %li{:class=> active_nav_li(edit_admin_conference_audience_path(@conference.short_title))}
+    = link_to(edit_admin_conference_audience_path(@conference.short_title)) do
+      %span.fa.fa-male
+      Audience
+  %hr
   %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
     = link_to(admin_conference_events_path(@conference.short_title)) do
       %span.glyphicon.glyphicon-comment

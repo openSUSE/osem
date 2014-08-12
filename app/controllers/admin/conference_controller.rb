@@ -81,14 +81,8 @@ module Admin
                                       && !@conference.email_settings.updated_conference_dates_subject.blank?\
                                       && @conference.email_settings.updated_conference_dates_template
 
-      notify_on_conf_reg_dates_updates = (@conference.registration_start_date_changed? || @conference.registration_end_date_changed?)\
-                                         && @conference.email_settings.send_on_updated_conference_registration_dates\
-                                         && !@conference.email_settings.updated_conference_registration_dates_subject.blank?\
-                                         && @conference.email_settings.updated_conference_registration_dates_template
-
       if @conference.update_attributes(params[:conference])
         Mailbot.delay.conference_date_update_mail(@conference) if notify_on_conf_dates_updates
-        Mailbot.delay.conference_registration_date_update_mail(@conference) if notify_on_conf_reg_dates_updates
         redirect_to(edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.')
       else
