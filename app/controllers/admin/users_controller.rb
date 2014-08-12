@@ -29,7 +29,7 @@ module Admin
 
     def destroy
       @user.destroy
-      redirect_to admin_users_path, notice: "User got deleted"
+      redirect_to admin_users_path, notice: 'User got deleted'
     end
   end
 end
