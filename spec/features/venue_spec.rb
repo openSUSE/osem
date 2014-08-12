@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 feature Conference do
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  # It is necessary to use bang version of let to build roles before user
-  let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_role) { create(:organizer_conference_1_role) }
-
-  shared_examples 'venue' do |user|
+  shared_examples 'venue' do
     scenario 'adds and updates venue' do
-      conference = create(:conference)
 
-      sign_in create(user)
+      sign_in organizer
+
       visit admin_conference_venue_info_path(
                 conference_id: conference.short_title)
 
@@ -59,7 +58,7 @@ feature Conference do
   end
 
   describe 'organizer' do
-    it_behaves_like 'venue', :organizer_conference_1
+    it_behaves_like 'venue'
   end
 
 end

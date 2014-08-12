@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 feature Lodging do
-  # It is necessary to use bang version of let to build roles before user
-  let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'lodgings' do |user|
+  shared_examples 'lodgings' do
     scenario 'adds and updates lodgings', feature: true, js: true do
       path = "#{Rails.root}/app/assets/images/rails.png"
-      conference = create(:conference)
+
       conference.venue = create(:venue)
-      sign_in create(user)
+      sign_in organizer
       visit admin_conference_lodgings_path(
                 conference_id: conference.short_title)
       # Add lodging
@@ -56,6 +56,6 @@ feature Lodging do
   end
 
   describe 'organizer' do
-    it_behaves_like 'lodgings', :organizer_conference_1
+    it_behaves_like 'lodgings'
   end
 end

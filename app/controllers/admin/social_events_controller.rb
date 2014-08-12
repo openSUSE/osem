@@ -9,9 +9,9 @@ module Admin
 
     def update
       if @conference.update_attributes(params[:conference])
-        redirect_to(admin_conference_social_events_path(:conference_id => @conference.short_title), :notice => 'Social events were successfully updated.')
+        redirect_to(admin_conference_social_events_path(conference_id: @conference.short_title), notice: 'Social events were successfully updated.')
       else
-        redirect_to(admin_conference_social_events_path(:conference_id => @conference.short_title), :notice => 'Social events update failed.')
+        redirect_to(admin_conference_social_events_path(conference_id: @conference.short_title), notice: 'Social events update failed.')
       end
     end
   end

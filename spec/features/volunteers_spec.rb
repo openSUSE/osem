@@ -1,11 +1,9 @@
 require 'spec_helper'
 
 feature Conference do
-  # It is necessary to use bang version of let to build roles before user
-  let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
-  let(:organizer) { create(:organizer_conference_1) }
-  let(:conference) { create(:conference) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
   shared_examples 'volunteer' do
     scenario 'adds and updates vdays', feature: true, js: true do

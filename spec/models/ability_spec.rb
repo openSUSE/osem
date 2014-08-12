@@ -28,7 +28,7 @@ describe 'User' do
     end
 
     context 'when user is a Signed In User' do # Test abilities for signed in users (without any role)
-      let(:user) { create(:participant) }
+      let(:user) { create(:user) }
       let(:registration1) { create(:registration, conference: conference_public, user: user) }
       let(:registration2) { create(:registration, conference: conference_not_public, user: user) }
 
@@ -52,8 +52,8 @@ describe 'User' do
     end
 
     context 'signed in users can manage their events' do
-      let(:user) { create(:participant) }
-      let(:user2) { create(:participant) }
+      let(:user) { create(:user) }
+      let(:user2) { create(:user) }
       let(:myevent) { create(:event, users: [user]) }
       let(:someevent) { create(:event, users: [user2]) }
       let(:commercial_myevent) { create(:commercial, commercialable: myevent) }

@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 feature Openid do
-  let!(:participant_role) { create(:participant_role) }
-
   shared_examples 'sign in with openid' do
 
     scenario 'has option to log in with Google account' do
@@ -26,7 +24,7 @@ feature Openid do
     end
 
     scenario 'signs in an existing user' do
-      create(:participant, email: 'test-participant-1@google.com')
+      create(:user, email: 'test-participant-1@google.com')
       expected_count_openid = Openid.count + 1
       expected_count_user = User.count
       visit '/accounts/sign_in'
@@ -53,7 +51,7 @@ feature Openid do
 
     scenario 'adds openid to existing user' do
       # Sign in user
-      user = create(:participant, email: 'test-participant-1@google.com')
+      user = create(:user, email: 'test-participant-1@google.com')
       sign_in user
 
       # Add openID to current user
@@ -73,7 +71,7 @@ feature Openid do
 
     scenario 'signs in with openID using the same email as another associated openid' do
       # Sign in user
-      create(:participant, email: 'test-participant-1@google.com')
+      create(:user, email: 'test-participant-1@google.com')
       expected_count_openid = Openid.count + 1
       expected_count_user = User.count
       visit '/accounts/sign_in'

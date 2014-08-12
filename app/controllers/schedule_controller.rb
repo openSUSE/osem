@@ -1,8 +1,5 @@
 class ScheduleController < ApplicationController
-<<<<<<< HEAD
-=======
   authorize_resource class: false
->>>>>>> authorization with cancancan
   layout "application"
 
   def index

@@ -2,15 +2,14 @@ require 'spec_helper'
 
 feature Campaign do
 
-  # It is necessary to use bang version of let to build roles before user
-  let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
+  let!(:conference) { create(:conference, short_title: 'osc14') }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'add and update campaign' do |user|
+  shared_examples 'add and update campaign' do
     scenario 'adds and update a campaign', feature: true, js: true do
       expected_count = Campaign.count + 1
-      conference = create(:conference, short_title: 'osc14')
-      sign_in create(user)
+      sign_in organizer
 
       visit admin_conference_campaigns_path(conference.short_title)
 
@@ -52,6 +51,6 @@ feature Campaign do
   end
 
   describe 'organizer' do
-    it_behaves_like 'add and update campaign', :organizer_conference_1
+    it_behaves_like 'add and update campaign'
   end
 end

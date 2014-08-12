@@ -15,7 +15,7 @@ module Admin
         if @conference.use_vpositions
           @volunteers = @conference.registrations.joins(:vchoices).uniq
         else
-          @volunteers = @conference.registrations.where(:volunteer => true)
+          @volunteers = @conference.registrations.where(volunteer: true)
         end
       else
         authorize! :index, :volunteer
@@ -26,9 +26,9 @@ module Admin
       if (current_user.has_role? :organizer, @conference) || (current_user.has_role? :volunteer_coordinator, @conference)
         begin
           @conference.update_attributes!(params[:conference])
-          redirect_to(admin_conference_volunteers_info_path(:conference_id => params[:conference_id]), :notice => "Volunteering options were successfully updated.")
+          redirect_to(admin_conference_volunteers_info_path(conference_id: params[:conference_id]), notice: "Volunteering options were successfully updated.")
         rescue Exception => e
-          redirect_to(admin_conference_volunteers_info_path(:conference_id => params[:conference_id]), :alert => "Volunteering options update failed: #{e.message}")
+          redirect_to(admin_conference_volunteers_info_path(conference_id: params[:conference_id]), alert: "Volunteering options update failed: #{e.message}")
         end
       else
         authorize! :index, :volunteer

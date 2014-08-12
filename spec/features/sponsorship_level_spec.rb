@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 feature SponsorshipLevel do
-  # It is necessary to use bang version of let to build roles before user
-  let!(:participant_role) { create(:participant_role) }
-  let!(:organizer_conference_1_role) { create(:organizer_conference_1_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'sponsorship levels' do |user|
+  shared_examples 'sponsorship levels' do
     scenario 'adds and updates sponsorship level', feature: true, js: true do
-      conference = create(:conference)
-      sign_in create(user)
+
+      sign_in organizer
       visit admin_conference_sponsorship_levels_path(
                 conference_id: conference.short_title)
       # Add sponsorship level
@@ -36,6 +36,6 @@ feature SponsorshipLevel do
   end
 
   describe 'organizer' do
-    it_behaves_like 'sponsorship levels', :organizer_conference_1
+    it_behaves_like 'sponsorship levels'
   end
 end
