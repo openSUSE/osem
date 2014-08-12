@@ -197,5 +197,48 @@ module Admin
         format.json { render json: @conference.to_json }
       end
     end
+
+    def roles
+      @user = User.new
+      @roles = Role::ACTIONABLES + Role::LABELS
+
+      params[:user] ? (@selected = params[:user][:roles]) : (@selected = 'Organizer')
+      @selection = @selected.parameterize.underscore
+      @role = Role.where(name: @selection, resource: @conference)
+      @role_users = get_users(@selection)
+    end
+
+    def add_user
+      user = User.find_by(email: params[:user][:email])
+      @selected = params[:role]
+      @selection = @selected.parameterize.underscore
+
+      @role_users = get_users(@selection)
+
+      user.add_role @selection.to_sym, @conference
+      render 'roles', formats: [:js]
+    end
+
+    def remove_user
+      user = User.find(params[:user])
+      @selected = params[:role]
+      @selection = @selected.parameterize.underscore
+      role = Role.where(name: @selection, resource: @conference).first
+
+      @role_users = get_users(@selection)
+
+      user.revoke role.name.to_sym, @conference
+      render 'roles', formats: [:js]
+    end
+
+    protected
+
+    def get_users(role)
+      @role_users = {}
+      get_role = Role.where(name: role, resource: @conference)
+      get_role.blank? ? @role_users[role] = get_role : @role_users[role] = get_role.first.users
+
+      @role_users
+    end
   end
 end
