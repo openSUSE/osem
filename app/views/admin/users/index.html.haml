@@ -40,9 +40,9 @@
             %td
               = user.registrations.where(attended: true).count
             %td
-              - unless user.show_roles.blank?
-                = user.show_roles.first(2).map { |x| x[0].titleize + ' ' + x[1] }.join ', '
-                - if user.show_roles.count > 2
+              - unless user.get_roles.blank?
+                = show_roles(user.get_roles.first(2))
+                - if user.get_roles.count > 2
                   = '...'
             - if can? :show, user
               %td

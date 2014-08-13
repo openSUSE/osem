@@ -27,7 +27,7 @@
       = link_to(admin_conference_path(@conference.short_title)) do
         %span.fa.fa-tachometer
         Dashboard
-  - if can? :update, @conference
+  - if can? :show, @conference
     %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
       = link_to(edit_admin_conference_path(@conference.short_title)) do
         %span.fa.fa-home
@@ -38,16 +38,16 @@
             = link_to(edit_admin_conference_contact_path(@conference.short_title)) do
               %span.fa.fa-envelope-o
               Contact
-          - if can? :index, @conference.commercials.build
-            %li{:class=> "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
-              = link_to(admin_conference_commercials_path(@conference.short_title)) do
-                %span.fa.fa-film
-                Commercials
-          - if can? :update, @conference.photos.build
-            %li{:class=> "#{active_nav_li(admin_conference_photos_path(@conference.short_title))}"}
-              = link_to(admin_conference_photos_path(@conference.short_title)) do
-                %span.fa.fa-picture-o
-                Photos
+      - if can? :index, @conference.commercials.build
+        %li{:class=> "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
+          = link_to(admin_conference_commercials_path(@conference.short_title)) do
+            %span.fa.fa-film
+            Commercials
+      - if can? :update, @conference.photos.build
+        %li{:class=> "#{active_nav_li(admin_conference_photos_path(@conference.short_title))}"}
+          = link_to(admin_conference_photos_path(@conference.short_title)) do
+            %span.fa.fa-picture-o
+            Photos
   - if can? :update, @conference.events.build
     %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
       = link_to(admin_conference_events_path(@conference.short_title)) do

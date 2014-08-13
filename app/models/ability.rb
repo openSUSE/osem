@@ -99,8 +99,8 @@ class Ability
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
     can :manage, SupporterLevel, conference_id: conf_ids_for_organizer
     can :manage, Target, conference_id: conf_ids_for_organizer
-    can :manage, Commercial # , commercialable_type: 'Conference', commercialable_id: conf_ids_for_organizer
     can :index, Commercial, commercialable_type: 'Conference'
+    can :manage, Commercial, commercialable_type: 'Conference', commercialable_id: conf_ids_for_organizer
     # Manage commercials for events that belong to a conference of which user is organizer
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(conference_id: conf_ids_for_organizer + conf_ids_for_cfp).pluck(:id)
     can :manage, Contact, conference_id: conf_ids_for_organizer
@@ -113,6 +113,8 @@ class Ability
     can [:show, :gallery_photos], Conference do |conference|
       conference.make_conference_public == true
     end
+
+    # see commercials too
 
     can :show, Event do |event|
       event.state == 'confirmed'

@@ -48,10 +48,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def get_roles
-    roles
-  end
-
   def setup_role
     self.is_admin = true if User.count == 0
   end
@@ -59,7 +55,7 @@ class User < ActiveRecord::Base
   # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
   # ====Returns
   # * +Hash+ * ->  e.g. 'organizer' =>  "(conf1, conf2)"
-  def show_roles
+  def get_roles
     result = {}
     Role::ACTIONABLES.each do |role|
       resources = self.roles.where(name: role.parameterize.underscore).map{ |myrole| Conference.find(myrole.resource_id).short_title }.join ', '

@@ -81,7 +81,7 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference2.short_title)
 
-    expect(page.has_content?('Basics')).to be false
+    expect(page.has_content?('Basics')).to be true
     expect(page.has_content?('Dashboard')).to be true
 #     expect(page.has_content?('Registrations')).to be false
     expect(page.has_content?('Events')).to be true
@@ -94,7 +94,7 @@ feature 'Has correct abilities' do
     expect(page.has_content?('E-Mails')).to be true
     expect(page.has_content?('Call for papers')).to be true
     expect(page.has_content?('Questions')).to be false
-#     expect(page.has_content?('Commercials')).to be true
+    expect(page.has_content?('Commercials')).to be true
 
     visit edit_admin_conference_path(conference2.short_title)
     expect(current_path).to eq(root_path)
@@ -143,7 +143,7 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference3.short_title)
 
-    expect(page.has_content?('Basics')).to be false
+    expect(page.has_content?('Basics')).to be true
     expect(page.has_content?('Dashboard')).to be true
     expect(page.has_content?('Registrations')).to be true
     expect(page.has_content?('Events')).to be false
@@ -205,8 +205,9 @@ feature 'Has correct abilities' do
   scenario 'when user is volunteer coordinator' do
     sign_in user
     visit admin_conference_path(conference4.short_title)
+    save_and_open_page
 
-    expect(page.has_content?('Basics')).to be false
+    expect(page.has_content?('Basics')).to be true
     expect(page.has_content?('Dashboard')).to be true
 #     expect(page.has_content?('Registrations')).to be false
     expect(page.has_content?('Events')).to be false
@@ -219,7 +220,7 @@ feature 'Has correct abilities' do
     expect(page.has_content?('E-Mails')).to be false
     expect(page.has_content?('Call for papers')).to be false
     expect(page.has_content?('Questions')).to be false
-#     expect(page.has_content?('Commercials')).to be true
+    expect(page.has_content?('Commercials')).to be true
 
     visit edit_admin_conference_path(conference4.short_title)
     expect(current_path).to eq(root_path)
