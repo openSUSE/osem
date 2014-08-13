@@ -121,7 +121,7 @@ $(function () {
         }
     });
 
-    $("#conference-reg-start-datepicker").datetimepicker({
+    $("#registration-start-datepicker").datetimepicker({
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm",
         showSecond: false,
@@ -131,7 +131,7 @@ $(function () {
         }
     });
 
-    $("#conference-reg-end-datepicker").datetimepicker({
+    $("#registration-end-datepicker").datetimepicker({
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm",
         showSecond: false,

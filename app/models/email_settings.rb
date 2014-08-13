@@ -19,8 +19,8 @@ class EmailSettings < ActiveRecord::Base
       'conference' => conference.title,
       'conference_start_date' => conference.start_date,
       'conference_end_date' => conference.end_date,
-      'registration_start_date' => conference.registration_start_date,
-      'registration_end_date' => conference.registration_end_date,
+      'registration_start_date' => conference.audience.registration_start_date,
+      'registration_end_date' => conference.audience.registration_end_date,
       'venue' => conference.venue.name,
       'venue_address' => conference.venue.address,
       'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(

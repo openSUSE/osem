@@ -7,8 +7,6 @@ FactoryGirl.define do
     timezone 'Amsterdam'
     start_date { Date.today }
     end_date { 6.days.from_now }
-    registration_start_date { 3.days.from_now }
-    registration_end_date { 5.days.from_now }
     make_conference_public true
     venue
   end

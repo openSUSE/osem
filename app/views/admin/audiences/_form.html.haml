@@ -1,0 +1,4 @@
+= f.input :registration_start_date, as: :string, input_html: { id: 'registration-start-datepicker', readonly: 'readonly'  }
+= f.input :registration_end_date, as: :string, input_html: { id: 'registration-end-datepicker', readonly: 'readonly'  }
+= f.input :registration_description, hint: markdown_hint('This will appear in the Tickets segment of the splash.'), input_html: { rows: 5, data: { provide: "markdown-editable" } }
+= f.submit 'Save Audience', class: 'btn btn-primary'

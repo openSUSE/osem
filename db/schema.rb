@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801170430) do
+ActiveRecord::Schema.define(version: 20140812065531) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -27,6 +27,15 @@ ActiveRecord::Schema.define(version: 20140801170430) do
 
   create_table "answers", force: true do |t|
     t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "audiences", force: true do |t|
+    t.integer  "conference_id"
+    t.date     "registration_start_date"
+    t.date     "registration_end_date"
+    t.text     "registration_description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,8 +103,6 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "registration_start_date"
-    t.date     "registration_end_date"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -109,7 +116,6 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.boolean  "use_volunteers"
     t.string   "color"
     t.text     "description"
-    t.text     "registration_description"
     t.text     "ticket_description"
     t.text     "sponsor_description"
     t.string   "sponsor_email"

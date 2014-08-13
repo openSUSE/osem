@@ -9,11 +9,11 @@ class Conference < ActiveRecord::Base
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,
                   :dietary_choices_attributes, :use_dietary_choices, :use_supporter_levels,
                   :supporter_levels_attributes, :social_events_attributes, :event_types_attributes,
-                  :registration_start_date, :registration_end_date, :logo, :questions_attributes,
+                  :logo, :questions_attributes,
                   :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
                   :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
                   :vpositions_attributes, :use_volunteers, :color,
-                  :description, :registration_description, :ticket_description,
+                  :description, :ticket_description,
                   :sponsorship_levels_attributes, :sponsors_attributes,
                   :sponsor_description, :sponsor_email, :lodging_description,
                   :include_registrations_in_splash, :include_sponsors_in_splash,
@@ -28,7 +28,7 @@ class Conference < ActiveRecord::Base
   has_and_belongs_to_many :questions
 
   has_one :contact, dependent: :destroy
-
+  has_one :audience, dependent: :destroy
   has_one :email_settings, dependent: :destroy
   has_one :call_for_papers, dependent: :destroy
   has_many :social_events, dependent: :destroy
@@ -95,6 +95,7 @@ class Conference < ActiveRecord::Base
   before_create :create_event_types
   before_create :create_email_settings
   before_create :add_color
+  before_create :create_audience
 
   ##
   # Checks if the user is registered to the conference
@@ -125,7 +126,7 @@ class Conference < ActiveRecord::Base
   def registration_open?
     today = Date.current
     if registration_dates_given?
-      (registration_start_date..registration_end_date).cover?(today)
+      (audience.registration_start_date..audience.registration_end_date).cover?(today)
     else
       false
     end
@@ -138,7 +139,7 @@ class Conference < ActiveRecord::Base
   # * +false+ -> If the conference registration dates are not set
   # * +true+ -> If conference registration dates are set
   def registration_dates_given?
-    if registration_start_date.blank? || registration_end_date.blank?
+    if audience.registration_start_date.blank? || audience.registration_end_date.blank?
       false
     else
       true
@@ -214,8 +215,8 @@ class Conference < ActiveRecord::Base
     result = []
 
     if registrations &&
-        registration_start_date &&
-        registration_end_date
+        audience.registration_start_date &&
+        audience.registration_end_date
 
       reg = registrations.group(:week).count
       start_week = get_registration_start_week
@@ -233,8 +234,8 @@ class Conference < ActiveRecord::Base
   def registration_weeks
     result = 0
     weeks = 0
-    if registration_start_date && registration_end_date
-      weeks = Date.new(registration_start_date.year, 12, 31).
+    if audience.registration_start_date && audience.registration_end_date
+      weeks = Date.new(audience.registration_start_date.year, 12, 31).
           strftime('%W').to_i
 
       result = get_registration_end_week - get_registration_start_week + 1
@@ -261,7 +262,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> start week
   def get_registration_start_week
-    registration_start_date.strftime('%W').to_i
+    audience.registration_start_date.strftime('%W').to_i
   end
 
   ##
@@ -270,7 +271,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> start week
   def get_registration_end_week
-    registration_end_date.strftime('%W').to_i
+    audience.registration_end_date.strftime('%W').to_i
   end
 
   ##
@@ -426,13 +427,11 @@ class Conference < ActiveRecord::Base
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
     result = Conference.where('start_date > ?', Time.now).
-        select('id, short_title, color, start_date,
-        registration_end_date, registration_start_date')
+        select('id, short_title, color, start_date')
 
     if result.length == 0
       result = Conference.
-          select('id, short_title, color, start_date, registration_end_date,
-          registration_start_date').limit(2).
+          select('id, short_title, color, start_date').limit(2).
           order(start_date: :desc)
     end
     result
@@ -444,8 +443,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +ActiveRecord+
   def self.get_conferences_without_active_for_dashboard(active_conferences)
-    result = Conference.select('id, short_title, color, start_date,
-              registration_end_date, registration_start_date').order(start_date: :desc)
+    result = Conference.select('id, short_title, color, start_date').order(start_date: :desc)
     result - active_conferences
   end
 
@@ -707,7 +705,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a start and a end date.
   # * +False+ -> If conference has no start or end date.
   def registration_date_set?
-    !!registration_start_date && !!registration_end_date
+    !!audience.registration_start_date && !!audience.registration_end_date
   end
 
   # Calculates the distribution from events.
@@ -867,6 +865,13 @@ class Conference < ActiveRecord::Base
     true
   end
 
+  ##
+  # Creates a Audience association proxy. Used as before_create.
+  #
+  def create_audience
+    build_audience
+    true
+  end
   ##
   # Creates a UID for the conference. Used as before_create.
   #

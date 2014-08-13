@@ -1,0 +1,5 @@
+%h1 Audience
+.row
+  .col-md-8
+    = semantic_form_for(@audience, url: admin_conference_audience_path(@conference.short_title)) do |f|
+      = render 'form', f: f
