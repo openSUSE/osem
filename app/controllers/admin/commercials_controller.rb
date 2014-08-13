@@ -1,5 +1,5 @@
 module Admin
-  class CommercialsController < ApplicationController
+  class CommercialsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource through: :conference, except: [:new, :create]
 
@@ -9,7 +9,7 @@ module Admin
 
     def new
       @commercial = @conference.commercials.build
-      authorize! :create, @commercial
+      authorize! :create, @conference.commercials.new
     end
 
     def edit; end

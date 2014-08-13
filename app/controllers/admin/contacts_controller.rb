@@ -1,5 +1,5 @@
 module Admin
-  class ContactsController < ApplicationController
+  class ContactsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource through: :conference, singleton: true
 

@@ -1,5 +1,5 @@
 module Admin
-  class EmailsController < ApplicationController
+  class EmailsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource class: EmailSettings
 

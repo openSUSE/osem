@@ -1,5 +1,5 @@
 module Admin
-  class CallforpapersController < ApplicationController
+  class CallforpapersController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
 #     load_and_authorize_resource :cfp, class: 'CallForPapers', through: :conference
 

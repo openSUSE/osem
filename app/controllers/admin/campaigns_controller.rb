@@ -1,5 +1,5 @@
 module Admin
-  class CampaignsController < ApplicationController
+  class CampaignsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :campaign, through: :conference
 

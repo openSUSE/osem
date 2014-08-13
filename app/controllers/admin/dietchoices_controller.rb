@@ -1,5 +1,5 @@
 module Admin
-  class DietchoicesController < ApplicationController
+  class DietchoicesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :dietary_choice, through: :conference
 

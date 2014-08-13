@@ -1,5 +1,5 @@
 module Admin
-  class EventsController < ApplicationController
+  class EventsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :event, through: :conference
 

@@ -1,5 +1,5 @@
 module Admin
-  class SponsorsController < ApplicationController
+  class SponsorsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     authorize_resource :sponsor, through: :conference
 

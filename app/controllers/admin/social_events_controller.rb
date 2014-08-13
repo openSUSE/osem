@@ -1,5 +1,5 @@
 module Admin
-  class SocialEventsController < ApplicationController
+  class SocialEventsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     authorize_resource :social_event, through: :conference
 

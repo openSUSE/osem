@@ -1,5 +1,5 @@
 module Admin
-  class StatsController < ApplicationController
+  class StatsController < Admin::BaseController
     load_and_authorize_resource
     load_and_authorize_resource :conference, find_by: :short_title
 

@@ -1,5 +1,5 @@
 module Admin
-  class RoomsController < ApplicationController
+  class RoomsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     authorize_resource through: :conference
 

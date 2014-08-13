@@ -1,5 +1,5 @@
 module Admin
-  class LodgingsController < ApplicationController
+  class LodgingsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :venue, through: :conference, singleton: true
     authorize_resource :lodging, through: :venue

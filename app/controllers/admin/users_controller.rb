@@ -1,5 +1,5 @@
 module Admin
-  class UsersController < ApplicationController
+  class UsersController < Admin::BaseController
     load_and_authorize_resource
 
     def new
@@ -21,9 +21,9 @@ module Admin
 
     def update
       if @user.update_attributes(params[:user])
-        redirect_to admin_users_path, notice: "Updated #{@user.email}"
+        redirect_to admin_users_path, notice: "Updated #{@user.name} (#{@user.email})!"
       else
-        redirect_to admin_users_path, alert: "Could not update #{@user.name}. #{@user.errors.full_messages.join '. '}."
+        redirect_to admin_users_path, alert: "Could not update #{@user.name} (#{@user.email}). #{@user.errors.full_messages.join('. ')}."
       end
     end
 

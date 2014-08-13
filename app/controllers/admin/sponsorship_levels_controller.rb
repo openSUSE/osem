@@ -1,5 +1,5 @@
 module Admin
-  class SponsorshipLevelsController < ApplicationController
+  class SponsorshipLevelsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     authorize_resource through: :conference
 

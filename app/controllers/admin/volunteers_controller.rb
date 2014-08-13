@@ -1,5 +1,5 @@
 module Admin
-  class VolunteersController < ApplicationController
+  class VolunteersController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
 
     def index

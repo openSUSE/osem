@@ -1,5 +1,5 @@
 module Admin
-  class DifficultyLevelsController < ApplicationController
+  class DifficultyLevelsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     authorize_resource through: :conference
 

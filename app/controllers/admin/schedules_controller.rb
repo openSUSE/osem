@@ -1,5 +1,5 @@
 module Admin
-  class SchedulesController < ApplicationController
+  class SchedulesController < Admin::BaseController
     # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to
     # the schedule of a conference, which should not be accessed in the first place
     load_and_authorize_resource :conference, find_by: :short_title
