@@ -37,7 +37,7 @@ task deploy: :environment do
     invoke :notify_errbit
 
     to :launch do
-      queue "touch #{deploy_to}/tmp/restart.txt"
+      queue "sudo /etc/init.d/apache2 restart"
     end
     
     invoke :'deploy:cleanup'
