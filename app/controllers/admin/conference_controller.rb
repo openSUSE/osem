@@ -1,6 +1,7 @@
 module Admin
   class ConferenceController < ApplicationController
     load_and_authorize_resource :conference, find_by: :short_title
+    load_resource :user, only: [:remove_user]
 
     def index
       # Redirect to new form if there is no conference
@@ -219,14 +220,13 @@ module Admin
     end
 
     def remove_user
-      user = User.find(params[:user])
       @selected = params[:role]
       @selection = @selected.parameterize.underscore
       role = Role.where(name: @selection, resource: @conference).first
 
       @role_users = get_users(@selection)
 
-      user.revoke role.name.to_sym, @conference
+      @user.revoke role.name.to_sym, @conference
       render 'roles', formats: [:js]
     end
 

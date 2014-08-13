@@ -22,7 +22,7 @@
           - @role_users[@selection].each do |user|
             %tr
               %td
-                = link_to remove_user_admin_conference_path(@conference.short_title, user: user, role: @selected), method: :delete, remote: true, title: 'Remove user' do
+                = link_to remove_user_admin_conference_path(@conference.short_title, user_id: user.id, role: @selected), method: :delete, remote: true, title: 'Remove user' do
                   %i{class: 'fa fa-times'}
                 = user.id
                 %td= user.name
