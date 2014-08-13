@@ -4,7 +4,7 @@ module Admin
     load_and_authorize_resource :campaign, through: :conference
 
     def index
-      authorize! :show, Campaign.new(conference_id: @conference.id)
+      authorize! :index, Campaign.new(conference_id: @conference.id)
       @campaigns = @conference.campaigns
     end
 

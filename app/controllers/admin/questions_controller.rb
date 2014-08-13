@@ -4,7 +4,7 @@ module Admin
     load_and_authorize_resource through: :conference, except: [:new, :create]
 
     def index
-      authorize! :update, Question.new(conference_id: @conference.id)
+      authorize! :index, Question.new(conference_id: @conference.id)
       @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
       @questions_conference = @conference.questions
       @new_question = @conference.questions.new
@@ -32,7 +32,7 @@ module Admin
 
     # GET questions/1/edit
     def edit
-      if @question.global == true && !(current_user.has_role? :organizer, @conference)
+      if @question.global
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), alert: "Sorry, you cannot edit global questions. Create a new one.")
       end
     end
@@ -48,6 +48,7 @@ module Admin
 
     # Update questions used for the conference
     def update_conference
+      authorize! :update, Question.new(conference_id: @conference.id)
       if @conference.update_attributes(params[:conference])
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated.")
       else
@@ -59,7 +60,7 @@ module Admin
     def destroy
       if can? :destroy, @question
         # Do not delete global questions
-        if @question.global == false
+        if !@question.global
 
           # Delete question and its answers
           begin
@@ -67,7 +68,7 @@ module Admin
 
               @question.destroy
               @question.answers.each do |a|
-                a.delete
+                a.destroy
               end
               flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
             end

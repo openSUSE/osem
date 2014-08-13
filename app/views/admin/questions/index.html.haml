@@ -1,16 +1,18 @@
 .row
   .col-md-8
     .pull-right
-      %b= link_to 'Create New Question','#', 'data-toggle' => 'modal',
-                  'data-target' => '#new-question', class: 'btn btn-success'
+      - if can? :create, Question.new(conference_id: @conference.id)
+        %b= link_to 'Create New Question','#', 'data-toggle' => 'modal',
+                    'data-target' => '#new-question', class: 'btn btn-success'
       %br
       %br
     - if @questions.count > 0
       = semantic_form_for(@conference, url: admin_conference_questions_update_conference_path(@conference.short_title)) do |f|
         .questions{id: 'myquestions'}
           = render partial: 'questions'
-        = f.submit "Update Questions for #{@conference.short_title}", class: 'btn btn-primary',
-                    confirm: 'Are you sure you want to make these changes?'
+        - if can? :update, @conference
+          = f.submit "Update Questions for #{@conference.short_title}", class: 'btn btn-primary',
+                      confirm: 'Are you sure you want to make these changes?'
 
     .modal.fade{id: 'new-question', 'role' => 'dialog', 'aria-hidden' => 'true'}
       .modal-dialog

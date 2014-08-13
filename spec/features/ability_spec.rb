@@ -205,7 +205,6 @@ feature 'Has correct abilities' do
   scenario 'when user is volunteer coordinator' do
     sign_in user
     visit admin_conference_path(conference4.short_title)
-    save_and_open_page
 
     expect(page.has_content?('Basics')).to be true
     expect(page.has_content?('Dashboard')).to be true

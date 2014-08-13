@@ -12,16 +12,10 @@ module Admin
     # PATCH/PUT /:conference/contact
     def update
       if @contact.update(contact_params)
-        redirect_to admin_conference_contact_path, notice: 'Contact details were successfully updated.'
+        redirect_to edit_admin_conference_contact_path, notice: 'Contact details were successfully updated.'
       else
         render :edit
       end
-    end
-
-    # DELETE /:conference/contact
-    def destroy
-      @contact.destroy
-      redirect_to admin_conference_contacts_url, notice: 'Contact details were successfully destroyed.'
     end
 
     private

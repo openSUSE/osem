@@ -202,17 +202,14 @@ module Admin
       @user = User.new
       @roles = Role::ACTIONABLES + Role::LABELS
 
-      params[:user] ? (@selected = params[:user][:roles]) : (@selected = 'Organizer')
-      @selection = @selected.parameterize.underscore
+      params[:user] ? (@selection = params[:user][:roles].parameterize.underscore) : (@selection = 'organizer')
       @role = Role.where(name: @selection, resource: @conference)
       @role_users = get_users(@selection)
     end
 
     def add_user
       user = User.find_by(email: params[:user][:email])
-      @selected = params[:role]
-      @selection = @selected.parameterize.underscore
-
+      @selection = params[:role].parameterize.underscore
       @role_users = get_users(@selection)
 
       user.add_role @selection.to_sym, @conference
@@ -220,23 +217,22 @@ module Admin
     end
 
     def remove_user
-      @selected = params[:role]
-      @selection = @selected.parameterize.underscore
-      role = Role.where(name: @selection, resource: @conference).first
-
+      @selection = params[:role]
       @role_users = get_users(@selection)
 
-      @user.revoke role.name.to_sym, @conference
+      @user.revoke @selection.to_sym, @conference
       render 'roles', formats: [:js]
     end
 
     protected
 
-    def get_users(role)
+    def get_users(role_name)
       @role_users = {}
-      get_role = Role.where(name: role, resource: @conference)
-      get_role.blank? ? @role_users[role] = get_role : @role_users[role] = get_role.first.users
+      role = Role.where(name: role_name, resource: @conference)
+      role.blank? ? @role_users[role_name] = role : @role_users[role_name] = role.first.users
 
+      # Initialize @role variable, so that view can show the role description
+      @role = Role.where(name: role_name, resource: @conference)
       @role_users
     end
   end

@@ -4,7 +4,7 @@
 %table.table
   - @show_attributes.each do |attr|
     %tr
-      %td{style: 'width:20%'}
+      %td{class: 'table20'}
         %b
           = attr.capitalize.gsub('_', ' ')
       - if attr == 'roles'

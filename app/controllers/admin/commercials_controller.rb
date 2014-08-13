@@ -1,7 +1,7 @@
 module Admin
   class CommercialsController < ApplicationController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference
+    load_and_authorize_resource through: :conference, except: [:new, :create]
 
     def index
       @commercials = @conference.commercials
@@ -9,12 +9,14 @@ module Admin
 
     def new
       @commercial = @conference.commercials.build
+      authorize! :create, @commercial
     end
 
     def edit; end
 
     def create
       @commercial = @conference.commercials.build(commercial_params)
+      authorize! :create, @commercial
 
       if @commercial.save
         redirect_to admin_conference_commercials_path,

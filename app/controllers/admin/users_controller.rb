@@ -20,8 +20,11 @@ module Admin
     end
 
     def update
-      @user.update_attributes!(params[:user])
-      redirect_to admin_users_path, notice: "Updated #{@user.email}"
+      if @user.update_attributes(params[:user])
+        redirect_to admin_users_path, notice: "Updated #{@user.email}"
+      else
+        redirect_to admin_users_path, alert: "Could not update #{@user.name}. #{@user.errors.full_messages.join '. '}."
+      end
     end
 
     def edit; end
