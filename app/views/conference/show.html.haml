@@ -1,3 +1,5 @@
+= content_for :brand do
+  = link_to @conference.short_title, conference_url(@conference.short_title), class: 'navbar-brand'
 = content_for :splash do
   .splash
     - if @conference.include_banner_in_splash?
