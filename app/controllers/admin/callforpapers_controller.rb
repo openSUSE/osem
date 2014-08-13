@@ -12,20 +12,13 @@ module Admin
     def update
       @cfp = @conference.call_for_papers
       @cfp.assign_attributes(params[:call_for_papers])
-      notify_on_schedule_public = @cfp.schedule_public_changed? && @cfp.schedule_public\
-                                  && @conference.email_settings.send_on_call_for_papers_schedule_public\
-                                  && !@conference.email_settings.call_for_papers_schedule_public_subject.blank?\
-                                  && !@conference.email_settings.call_for_papers_schedule_public_template.blank?
+      send_mail_on_schedule_public = @cfp.notify_on_schedule_public?
 
-      notify_on_cfp_date_update = !@cfp.end_date.blank? && !@cfp.start_date.blank?\
-                                  && (@cfp.start_date_changed? || @cfp.end_date_changed?)\
-                                  && @conference.email_settings.send_on_call_for_papers_dates_updates\
-                                  && !@conference.email_settings.call_for_papers_dates_updates_subject.blank?\
-                                  && !@conference.email_settings.call_for_papers_dates_updates_template.blank?
+      send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?
 
       if @cfp.update_attributes(params[:call_for_papers])
-        Mailbot.delay.send_on_call_for_papers_dates_updates(@conference) if notify_on_cfp_date_update
-        Mailbot.delay.send_on_schedule_public(@conference) if notify_on_schedule_public
+        Mailbot.delay.send_on_call_for_papers_dates_updates(@conference) if send_mail_on_cfp_dates_updates
+        Mailbot.delay.send_on_schedule_public(@conference) if send_mail_on_schedule_public
         redirect_to(admin_conference_callforpapers_path(
                     id: @conference.short_title),
                     notice: 'Call for Papers was successfully updated.')

@@ -76,6 +76,25 @@ module Admin
       @conference = Conference.find_by(short_title: params[:id])
       short_title = @conference.short_title
       @conference.assign_attributes(params[:conference])
+      send_mail_on_conf_update = @conference.notify_on_conf_dates_updates?
+      send_mail_on_reg_update = @conference.notify_on_conf_reg_dates_updates?
+
+      if @conference.update_attributes(params[:conference])
+        Mailbot.delay.conference_date_update_mail(@conference) if send_mail_on_conf_update
+        Mailbot.delay.conference_registration_date_update_mail(@conference) if send_mail_on_reg_update
+        redirect_to(edit_admin_conference_path(id: @conference.short_title),
+                    notice: 'Conference was successfully updated.')
+      else
+        redirect_to(edit_admin_conference_path(id: short_title),
+                    alert: 'Updating conference failed. ' \
+                    "#{@conference.errors.full_messages.join('. ')}.")
+      end
+    end
+
+    def update
+      @conference = Conference.find_by(short_title: params[:id])
+      short_title = @conference.short_title
+      @conference.assign_attributes(params[:conference])
       notify_on_conf_dates_updates = (@conference.start_date_changed? || @conference.end_date_changed?)\
                                       && @conference.email_settings.send_on_updated_conference_dates\
                                       && !@conference.email_settings.updated_conference_dates_subject.blank?\
