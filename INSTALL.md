@@ -60,6 +60,12 @@ myprovider_secret = 'sample data'
 That is required so that the check in app/views/devise/shared/_openid.html.haml will pass and
 the image-link to login using the provider will be shown.
 
+
+11. Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
+```
+rake jobs:work
+```
+
 ### Run OSEM in production
 We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
