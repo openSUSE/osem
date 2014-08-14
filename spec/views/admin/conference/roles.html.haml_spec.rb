@@ -9,7 +9,7 @@ describe 'admin/conference/roles' do
     assign :conference, conference
     assign :selection, 'organizer'
     assign :role, [organizer_role]
-    assign :role_users, {'organizer' => [organizer]}
+    assign :role_users, 'organizer' => [organizer]
     render
     expect(rendered).to include('Show users for role:')
     expect(rendered).to include(organizer_role.description)
