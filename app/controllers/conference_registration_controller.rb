@@ -64,8 +64,8 @@ class ConferenceRegistrationController < ApplicationController
 
         registration.conference_id = @conference.id
         registration.save!
-        if user.subscriptions.where(conference: conference).blank?
-          subscription = Subscription.new(conference_id: conference.id, user_id: user.id)
+        if user.subscriptions.where(conference: @conference).blank?
+          subscription = Subscription.new(conference_id: @conference.id, user_id: user.id)
           redirect_message = subscription.save ? 'You are now Registered and will be receiving Email Notifications.' : 'You are now Registered.'
         end
       else

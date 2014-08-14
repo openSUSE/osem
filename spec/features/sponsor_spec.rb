@@ -62,7 +62,9 @@ feature Sponsor do
       # Remove sponsor
       click_link 'Remove sponsor'
       expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
+
+      find('button', text: 'Update Conference').trigger('click')
+
       expect(flash).to eq('Sponsorships were successfully updated.')
       expect(page.all('div.nested-fields').count == 0).to be true
     end
