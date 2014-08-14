@@ -41,6 +41,7 @@ class Conference < ActiveRecord::Base
   has_many :difficulty_levels, dependent: :destroy
   has_many :rooms, dependent: :destroy
   has_many :registrations, dependent: :destroy
+  has_many :participants, through: :registrations, source: :user
   has_many :vdays, dependent: :destroy
   has_many :vpositions, dependent: :destroy
   has_many :sponsorship_levels, dependent: :destroy
