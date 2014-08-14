@@ -19,7 +19,7 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference1.short_title)
 
-    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to have_link('Basics', href: "/admin/conference/#{conference1.short_title}/edit")
     expect(page).to have_link('Contact', href: "/admin/conference/#{conference1.short_title}/contact/edit")
     expect(page).to have_link('Commercials', href: "/admin/conference/#{conference1.short_title}/commercials")
@@ -90,7 +90,7 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference2.short_title)
 
-    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to have_link('Basics', href: "/admin/conference/#{conference2.short_title}/edit")
     expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference2.short_title}/contact/edit")
     expect(page).to have_link('Commercials', href: "/admin/conference/#{conference2.short_title}/commercials")
@@ -161,7 +161,7 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference3.short_title)
 
-    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to have_link('Basics', href: "/admin/conference/#{conference3.short_title}/edit")
     expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference3.short_title}/contact/edit")
     expect(page).to have_link('Commercials', href: "/admin/conference/#{conference3.short_title}/commercials")
@@ -233,7 +233,7 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference4.short_title)
 
-    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to have_link('Basics', href: "/admin/conference/#{conference4.short_title}/edit")
     expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference4.short_title}/contact/edit")
     expect(page).to have_link('Commercials', href: "/admin/conference/#{conference4.short_title}/commercials")
