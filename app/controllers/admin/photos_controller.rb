@@ -44,6 +44,7 @@ module Admin
     end
 
     private
+
 # Only allow a trusted parameter "white list" through.
     def photo_params
       params[:photo]

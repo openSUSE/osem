@@ -1,5 +1,4 @@
 class MigrateRolesForCancancan < ActiveRecord::Migration
-
   def up
     # Store the number of existing roles
     old_roles = Role.count
