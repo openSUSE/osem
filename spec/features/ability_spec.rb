@@ -19,20 +19,29 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference1.short_title)
 
-    expect(page.has_content?('Basics')).to be true
-    expect(page.has_content?('Dashboard')).to be true
-    expect(page.has_content?('Registrations')).to be true
-    expect(page.has_content?('Events')).to be true
-    expect(page.has_content?('Schedule')).to be true
-    expect(page.has_content?('Campaigns')).to be true
-    expect(page.has_content?('Targets')).to be true
-    expect(page.has_content?('Venue')).to be true
-    expect(page.has_content?('Sponsorship')).to be true
-    expect(page.has_content?('Supporter Levels')).to be true
-    expect(page.has_content?('E-Mails')).to be true
-    expect(page.has_content?('Call for papers')).to be true
-    expect(page.has_content?('Questions')).to be true
-    expect(page.has_content?('Commercials')).to be true
+    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_link('Basics', href: "/admin/conference/#{conference1.short_title}/edit")
+    expect(page).to have_link('Contact', href: "/admin/conference/#{conference1.short_title}/contact/edit")
+    expect(page).to have_link('Commercials', href: "/admin/conference/#{conference1.short_title}/commercials")
+    expect(page).to have_link('Photos', href: "/admin/conference/#{conference1.short_title}/photos")
+    expect(page).to have_link('Events', href: "/admin/conference/#{conference1.short_title}/events")
+    expect(page).to have_link('Registrations', href: "/admin/conference/#{conference1.short_title}/registrations")
+    expect(page).to have_link('Schedule', href: "/admin/conference/#{conference1.short_title}/schedule")
+    expect(page).to have_link('Campaigns', href: "/admin/conference/#{conference1.short_title}/campaigns")
+    expect(page).to have_link('Targets', href: "/admin/conference/#{conference1.short_title}/targets")
+    expect(page).to have_link('Venue', href: "/admin/conference/#{conference1.short_title}/venue")
+    expect(page).to have_link('Rooms', href: "/admin/conference/#{conference1.short_title}/rooms")
+    expect(page).to have_link('Lodgings', href: "/admin/conference/#{conference1.short_title}/lodgings")
+    expect(page).to have_link('Sponsorship', href: "/admin/conference/#{conference1.short_title}/sponsorship_levels")
+    expect(page).to have_link('Sponsors', href: "/admin/conference/#{conference1.short_title}/sponsors")
+    expect(page).to have_link('Supporter Levels', href: "/admin/conference/#{conference1.short_title}/supporter_levels")
+    expect(page).to have_link('E-Mails', href: "/admin/conference/#{conference1.short_title}/emails")
+    expect(page).to have_link('Call for papers', href: "/admin/conference/#{conference1.short_title}/callforpapers")
+    expect(page).to have_link('Tracks', href: "/admin/conference/#{conference1.short_title}/tracks")
+    expect(page).to have_link('Event types', href: "/admin/conference/#{conference1.short_title}/event_types")
+    expect(page).to have_link('Difficulty levels', href: "/admin/conference/#{conference1.short_title}/difficulty_levels")
+    expect(page).to have_link('Questions', href: "/admin/conference/#{conference1.short_title}/questions")
+    expect(page).to have_link('Roles', href: "/admin/conference/#{conference1.short_title}/roles")
 
     visit edit_admin_conference_path(conference1.short_title)
     expect(current_path).to eq(edit_admin_conference_path(conference1.short_title))
@@ -81,20 +90,29 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference2.short_title)
 
-    expect(page.has_content?('Basics')).to be true
-    expect(page.has_content?('Dashboard')).to be true
-#     expect(page.has_content?('Registrations')).to be false
-    expect(page.has_content?('Events')).to be true
-    expect(page.has_content?('Schedule')).to be true
-#     expect(page.has_content?('Campaigns')).to be false
-    expect(page.has_content?('Targets')).to be false
-    expect(page.has_content?('Venue')).to be true
-    expect(page.has_content?('Sponsorship')).to be false
-    expect(page.has_content?('Supporter Levels')).to be false
-    expect(page.has_content?('E-Mails')).to be true
-    expect(page.has_content?('Call for papers')).to be true
-    expect(page.has_content?('Questions')).to be false
-    expect(page.has_content?('Commercials')).to be true
+    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_link('Basics', href: "/admin/conference/#{conference2.short_title}/edit")
+    expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference2.short_title}/contact/edit")
+    expect(page).to have_link('Commercials', href: "/admin/conference/#{conference2.short_title}/commercials")
+    expect(page).to_not have_link('Photos', href: "/admin/conference/#{conference2.short_title}/photos")
+    expect(page).to have_link('Events', href: "/admin/conference/#{conference2.short_title}/events")
+    expect(page).to_not have_link('Registrations', href: "/admin/conference/#{conference2.short_title}/registrations")
+    expect(page).to have_link('Schedule', href: "/admin/conference/#{conference2.short_title}/schedule")
+    expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference2.short_title}/campaigns")
+    expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference2.short_title}/targets")
+    expect(page).to have_link('Venue', href: "/admin/conference/#{conference2.short_title}/venue")
+    expect(page).to have_link('Rooms', href: "/admin/conference/#{conference2.short_title}/rooms")
+    expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference2.short_title}/lodgings")
+    expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference2.short_title}/sponsorship_levels")
+    expect(page).to_not have_link('Sponsors', href: "/admin/conference/#{conference2.short_title}/sponsors")
+    expect(page).to_not have_link('Supporter Levels', href: "/admin/conference/#{conference2.short_title}/supporter_levels")
+    expect(page).to have_link('E-Mails', href: "/admin/conference/#{conference2.short_title}/emails")
+    expect(page).to have_link('Call for papers', href: "/admin/conference/#{conference2.short_title}/callforpapers")
+    expect(page).to have_link('Tracks', href: "/admin/conference/#{conference2.short_title}/tracks")
+    expect(page).to have_link('Event types', href: "/admin/conference/#{conference2.short_title}/event_types")
+    expect(page).to have_link('Difficulty levels', href: "/admin/conference/#{conference2.short_title}/difficulty_levels")
+    expect(page).to_not have_link('Questions', href: "/admin/conference/#{conference2.short_title}/questions")
+    expect(page).to_not have_link('Roles', href: "/admin/conference/#{conference2.short_title}/roles")
 
     visit edit_admin_conference_path(conference2.short_title)
     expect(current_path).to eq(root_path)
@@ -135,28 +153,37 @@ feature 'Has correct abilities' do
     visit admin_conference_questions_path(conference2.short_title)
     expect(current_path).to eq(root_path)
 
-    visit admin_conference_commercials_path(conference3.short_title)
-    expect(current_path).to eq(admin_conference_commercials_path(conference3.short_title))
+    visit admin_conference_commercials_path(conference2.short_title)
+    expect(current_path).to eq(admin_conference_commercials_path(conference2.short_title))
   end
 
   scenario 'when user is info desk' do
     sign_in user
     visit admin_conference_path(conference3.short_title)
 
-    expect(page.has_content?('Basics')).to be true
-    expect(page.has_content?('Dashboard')).to be true
-    expect(page.has_content?('Registrations')).to be true
-    expect(page.has_content?('Events')).to be false
-    expect(page.has_content?('Schedule')).to be false
-#     expect(page.has_content?('Campaigns')).to be false
-    expect(page.has_content?('Targets')).to be false
-    expect(page.has_content?('Venue')).to be false
-    expect(page.has_content?('Sponsorship')).to be false
-    expect(page.has_content?('Supporter Levels')).to be false
-    expect(page.has_content?('E-Mails')).to be false
-    expect(page.has_content?('Call for papers')).to be false
-    expect(page.has_content?('Questions')).to be true
-#     expect(page.has_content?('Commercials')).to be true
+    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_link('Basics', href: "/admin/conference/#{conference3.short_title}/edit")
+    expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference3.short_title}/contact/edit")
+    expect(page).to have_link('Commercials', href: "/admin/conference/#{conference3.short_title}/commercials")
+    expect(page).to_not have_link('Photos', href: "/admin/conference/#{conference3.short_title}/photos")
+    expect(page).to_not have_link('Events', href: "/admin/conference/#{conference3.short_title}/events")
+    expect(page).to have_link('Registrations', href: "/admin/conference/#{conference3.short_title}/registrations")
+    expect(page).to_not have_link('Schedule', href: "/admin/conference/#{conference3.short_title}/schedule")
+    expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference3.short_title}/campaigns")
+    expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference3.short_title}/targets")
+    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference3.short_title}/venue")
+    expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference3.short_title}/rooms")
+    expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference3.short_title}/lodgings")
+    expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference3.short_title}/sponsorship_levels")
+    expect(page).to_not have_link('Sponsors', href: "/admin/conference/#{conference3.short_title}/sponsors")
+    expect(page).to_not have_link('Supporter Levels', href: "/admin/conference/#{conference3.short_title}/supporter_levels")
+    expect(page).to_not have_link('E-Mails', href: "/admin/conference/#{conference3.short_title}/emails")
+    expect(page).to_not have_link('Call for papers', href: "/admin/conference/#{conference3.short_title}/callforpapers")
+    expect(page).to_not have_link('Tracks', href: "/admin/conference/#{conference3.short_title}/tracks")
+    expect(page).to_not have_link('Event types', href: "/admin/conference/#{conference3.short_title}/event_types")
+    expect(page).to_not have_link('Difficulty levels', href: "/admin/conference/#{conference3.short_title}/difficulty_levels")
+    expect(page).to have_link('Questions', href: "/admin/conference/#{conference3.short_title}/questions")
+    expect(page).to_not have_link('Roles', href: "/admin/conference/#{conference3.short_title}/roles")
 
     visit edit_admin_conference_path(conference3.short_title)
     expect(current_path).to eq(root_path)
@@ -206,20 +233,29 @@ feature 'Has correct abilities' do
     sign_in user
     visit admin_conference_path(conference4.short_title)
 
-    expect(page.has_content?('Basics')).to be true
-    expect(page.has_content?('Dashboard')).to be true
-#     expect(page.has_content?('Registrations')).to be false
-    expect(page.has_content?('Events')).to be false
-    expect(page.has_content?('Schedule')).to be false
-#     expect(page.has_content?('Campaigns')).to be false
-    expect(page.has_content?('Targets')).to be false
-    expect(page.has_content?('Venue')).to be false
-    expect(page.has_content?('Sponsorship')).to be false
-    expect(page.has_content?('Supporter Levels')).to be false
-    expect(page.has_content?('E-Mails')).to be false
-    expect(page.has_content?('Call for papers')).to be false
-    expect(page.has_content?('Questions')).to be false
-    expect(page.has_content?('Commercials')).to be true
+    expect(page).to have_selector( 'li.nav-header.nav-header-bigger a', text: 'Dashboard')
+    expect(page).to have_link('Basics', href: "/admin/conference/#{conference4.short_title}/edit")
+    expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference4.short_title}/contact/edit")
+    expect(page).to have_link('Commercials', href: "/admin/conference/#{conference4.short_title}/commercials")
+    expect(page).to_not have_link('Photos', href: "/admin/conference/#{conference4.short_title}/photos")
+    expect(page).to_not have_link('Events', href: "/admin/conference/#{conference4.short_title}/events")
+    expect(page).to_not have_link('Registrations', href: "/admin/conference/#{conference4.short_title}/registrations")
+    expect(page).to_not have_link('Schedule', href: "/admin/conference/#{conference4.short_title}/schedule")
+    expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference4.short_title}/campaigns")
+    expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference4.short_title}/targets")
+    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference4.short_title}/venue")
+    expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference4.short_title}/rooms")
+    expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference4.short_title}/lodgings")
+    expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference4.short_title}/sponsorship_levels")
+    expect(page).to_not have_link('Sponsors', href: "/admin/conference/#{conference4.short_title}/sponsors")
+    expect(page).to_not have_link('Supporter Levels', href: "/admin/conference/#{conference4.short_title}/supporter_levels")
+    expect(page).to_not have_link('E-Mails', href: "/admin/conference/#{conference4.short_title}/emails")
+    expect(page).to_not have_link('Call for papers', href: "/admin/conference/#{conference4.short_title}/callforpapers")
+    expect(page).to_not have_link('Tracks', href: "/admin/conference/#{conference4.short_title}/tracks")
+    expect(page).to_not have_link('Event types', href: "/admin/conference/#{conference4.short_title}/event_types")
+    expect(page).to_not have_link('Difficulty levels', href: "/admin/conference/#{conference4.short_title}/difficulty_levels")
+    expect(page).to_not have_link('Questions', href: "/admin/conference/#{conference4.short_title}/questions")
+    expect(page).to_not have_link('Roles', href: "/admin/conference/#{conference4.short_title}/roles")
 
     visit edit_admin_conference_path(conference4.short_title)
     expect(current_path).to eq(root_path)
@@ -260,7 +296,7 @@ feature 'Has correct abilities' do
     visit admin_conference_questions_path(conference4.short_title)
     expect(current_path).to eq(root_path)
 
-    visit admin_conference_commercials_path(conference3.short_title)
-    expect(current_path).to eq(admin_conference_commercials_path(conference3.short_title))
+    visit admin_conference_commercials_path(conference4.short_title)
+    expect(current_path).to eq(admin_conference_commercials_path(conference4.short_title))
   end
 end

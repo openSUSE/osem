@@ -69,11 +69,6 @@
         %span.glyphicon.glyphicon-bullhorn
         Campaigns
   %hr
-  - if can? :update, @conference
-    %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
-      = link_to(edit_admin_conference_path(@conference.short_title)) do
-        %span.glyphicon.glyphicon-cog
-        Settings
   - if can? :update, @conference.targets.build
     %li{:class=> "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
       = link_to(admin_conference_targets_path(@conference.short_title)) do
