@@ -37,6 +37,8 @@ class Conference < ActiveRecord::Base
   has_many :supporter_levels, dependent: :destroy
   has_many :dietary_choices, dependent: :destroy
   has_many :events, dependent: :destroy
+  has_many :event_users, through: :events
+  has_many :speakers, -> { distinct }, through: :event_users, source: :user
   has_many :event_types, dependent: :destroy
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
