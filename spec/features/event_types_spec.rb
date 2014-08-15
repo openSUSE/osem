@@ -1,19 +1,18 @@
 require 'spec_helper'
 
 feature EventType do
-  # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
-  let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'event types' do |user|
+  shared_examples 'event types' do
     scenario 'adds and updates event type', feature: true, js: true do
-      conference = create(:conference)
-      sign_in create(user)
-      visit admin_conference_eventtypes_path(
+
+      sign_in organizer
+      visit admin_conference_event_types_path(
                 conference_id: conference.short_title)
 
-      expect(page.all('div.nested-fields').count == 2).to be true 
+      expect(page.all('div.nested-fields').count == 2).to be true
       # Add event type
       click_link 'Add event_type'
       expect(page.all('div.nested-fields').count == 3).to be true
@@ -55,11 +54,7 @@ feature EventType do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'event types', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'event types', :organizer
+    it_behaves_like 'event types'
   end
 end

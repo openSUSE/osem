@@ -1,6 +1,7 @@
 module Admin
-  class ConferenceController < ApplicationController
-    before_filter :verify_organizer
+  class ConferenceController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_resource :user, only: [:remove_user]
 
     def index
       # Redirect to new form if there is no conference
@@ -63,8 +64,11 @@ module Admin
 
     def create
       @conference = Conference.new(params[:conference])
+
       if @conference.valid?
         @conference.save
+        # user that creates the conference becomes organizer of that conference
+        current_user.add_role :organizer, @conference
         redirect_to(admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully created.')
       else
@@ -108,6 +112,7 @@ module Admin
       if @conference.update_attributes(params[:conference])
         Mailbot.delay.conference_date_update_mail(@conference) if notify_on_conf_dates_updates
         Mailbot.delay.conference_registration_date_update_mail(@conference) if notify_on_conf_reg_dates_updates
+
         redirect_to(edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.')
       else
@@ -186,12 +191,47 @@ module Admin
 
     def edit
       @conferences = Conference.all
-      @conference = Conference.find_by(short_title: params[:id])
       @date_string = date_string(@conference.start_date, @conference.end_date)
       respond_to do |format|
         format.html
         format.json { render json: @conference.to_json }
       end
+    end
+
+    def roles
+      @user = User.new
+      @roles = Role::ACTIONABLES + Role::LABELS
+
+      params[:user] ? (@selection = params[:user][:roles].parameterize.underscore) : (@selection = 'organizer')
+      @role_users = get_users(@selection)
+    end
+
+    def add_user
+      @user = User.find_by(email: params[:user][:email])
+      @selection = params[:role].parameterize.underscore
+      @user.add_role @selection.to_sym, @conference
+
+      @role_users = get_users(@selection)
+      render 'roles', formats: [:js]
+    end
+
+    def remove_user
+      @selection = params[:role]
+      @user.revoke @selection.to_sym, @conference
+
+      @role_users = get_users(@selection)
+      render 'roles', formats: [:js]
+    end
+
+    protected
+
+    def get_users(role_name)
+      @role_users = {}
+      # Initialize @role variable, so that view can show the role description
+      @role = Role.where(name: role_name, resource: @conference)
+      @role.blank? ? @role_users[role_name] = @role : @role_users[role_name] = @role.first.users
+
+      @role_users
     end
   end
 end

@@ -1,16 +1,12 @@
 require 'spec_helper'
 
 feature Conference do
+  let!(:user) { create(:admin) }
 
-  # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
-  let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
-
-  shared_examples 'add and update conference' do |user|
+  shared_examples 'add and update conference' do
     scenario 'adds a new conference', feature: true, js: true do
       expected_count = Conference.count + 1
-      sign_in create(user)
+      sign_in user
 
       visit new_admin_conference_path
       fill_in 'conference_title', with: 'Example Con'
@@ -31,12 +27,18 @@ feature Conference do
       expect(flash).
           to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
+
+      expect(user.has_role? :organizer, Conference.last).to eq(true)
     end
 
     scenario 'update conference', feature: true, js: true do
       conference = create(:conference)
+      organizer_role = create(:organizer_role, resource: conference)
+      organizer = create(:user, role_ids: [organizer_role.id])
+
       expected_count = Conference.count
-      sign_in create(user)
+
+      sign_in organizer
 
       visit edit_admin_conference_path(conference.short_title)
       click_link 'Edit'
@@ -63,11 +65,6 @@ feature Conference do
   end
 
   describe 'admin' do
-    it_behaves_like 'add and update conference', :admin
+    it_behaves_like 'add and update conference'
   end
-
-  describe 'organizer' do
-    it_behaves_like 'add and update conference', :organizer
-  end
-
 end

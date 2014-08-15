@@ -2,16 +2,15 @@ require 'spec_helper'
 
 feature Photo do
 
-  # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
-  let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
 
-  shared_examples 'add and update photo' do |user|
+  shared_examples 'add and update photo' do
     scenario 'adds a new photo', feature: true, js: true do
       expected_count = Photo.count + 1
-      conference = create(:conference)
-      sign_in create(user)
+
+      sign_in organizer
 
       visit new_admin_conference_photo_path(conference.short_title)
 
@@ -28,9 +27,8 @@ feature Photo do
 
     scenario 'updates a photo', feature: true, js: true do
       expected_count = Photo.count + 1
-      conference = create(:conference)
-      photo = create(:photo)
-      sign_in create(user)
+      photo = create(:photo, conference_id: conference.id)
+      sign_in organizer
 
       visit edit_admin_conference_photo_path(conference.short_title, photo.id)
 
@@ -47,8 +45,7 @@ feature Photo do
 
     scenario 'adds a text file', feature: true, js: true do
       expected_count = Photo.count
-      conference = create(:conference)
-      sign_in create(user)
+      sign_in organizer
 
       visit new_admin_conference_photo_path(conference.short_title)
 
@@ -64,12 +61,8 @@ feature Photo do
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'add and update photo', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'add and update photo', :organizer
+    it_behaves_like 'add and update photo'
   end
 
 end

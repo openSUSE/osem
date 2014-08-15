@@ -1,0 +1,22 @@
+.row
+  .col-md-6
+    = semantic_form_for(:user, url: roles_admin_conference_path(@conference.short_title), remote: true) do |f|
+      %h4
+        = f.input :roles, collection: @roles, label: 'Show users for role: '
+
+= render partial: 'roles'
+
+:javascript
+
+  $("#user_roles_input").change(function () {
+
+    var url = document.forms[0].action;
+    var selected_role = $(this).find('option:selected').attr('value');
+
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {user: { roles: selected_role } },
+      dataType: "script"
+    });
+  });

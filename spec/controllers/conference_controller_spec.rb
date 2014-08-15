@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe ConferenceController do
-  let(:conference) { create(:conference) }
+  let(:conference) { create(:conference, make_conference_public: true) }
+
   describe 'GET #show' do
     context 'conference made public' do
       it 'assigns the requested conference to conference' do
@@ -24,7 +25,7 @@ describe ConferenceController do
 
       it 'renders flash saying conference not ready' do
         get :show, id: conference.short_title
-        expect(flash[:notice]).to eq("Conference not ready yet!!")
+        expect(flash[:alert]).to eq('You are not authorized to access this page.')
       end
     end
     context 'gallery photos for splash' do

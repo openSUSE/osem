@@ -1,5 +1,5 @@
 class Track < ActiveRecord::Base
-  attr_accessible :name, :description, :color
+  attr_accessible :name, :description, :color, :conference_id
 
   belongs_to :conference
 

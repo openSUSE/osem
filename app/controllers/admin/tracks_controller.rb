@@ -1,6 +1,11 @@
 module Admin
-  class TracksController < ApplicationController
-    before_filter :verify_organizer
+  class TracksController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource through: :conference
+
+    def index
+      authorize! :index, Track.new(conference_id: @conference.id)
+    end
 
     def show
       respond_to do |format|

@@ -1,7 +1,7 @@
 module Admin
-  class CommercialsController < ApplicationController
-    before_action :set_conference
-    before_action :set_commercial, only: [:edit, :update, :destroy]
+  class CommercialsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource through: :conference, except: [:new, :create]
 
     def index
       @commercials = @conference.commercials
@@ -9,13 +9,14 @@ module Admin
 
     def new
       @commercial = @conference.commercials.build
+      authorize! :create, @conference.commercials.new
     end
 
-    def edit
-    end
+    def edit; end
 
     def create
       @commercial = @conference.commercials.build(commercial_params)
+      authorize! :create, @commercial
 
       if @commercial.save
         redirect_to admin_conference_commercials_path,
@@ -42,14 +43,6 @@ module Admin
     end
 
     private
-
-    def set_commercial
-      @commercial = @conference.commercials.find(params[:id])
-    end
-
-    def set_conference
-      @conference = Conference.find_by(short_title: params[:conference_id])
-    end
 
     def commercial_params
       #params.require(:commercial).permit(:commercial_id, :commercial_type)

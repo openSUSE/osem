@@ -1,6 +1,7 @@
 module Admin
-  class EventsController < ApplicationController
-    before_filter :verify_organizer
+  class EventsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource :event, through: :conference
 
     before_action :get_event, except: [:index, :create]
 
@@ -13,6 +14,8 @@ module Admin
     end
 
     def index
+      authorize! :index, @conference.events.build
+      @conference = Conference.find_by(short_title: params[:conference_id])
       @events = @conference.events
       @tracks = @conference.tracks
       @machine_states = @events.state_machine.states.map
@@ -121,8 +124,7 @@ module Admin
       redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
     end
 
-    def create
-    end
+    def create; end
 
     def accept
       send_mail = @event.conference.email_settings.send_on_accepted

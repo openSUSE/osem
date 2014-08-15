@@ -1,16 +1,12 @@
 FactoryGirl.define do
   factory :role do
 
-    factory :admin_role do
-      name 'Admin'
-    end
-
     factory :organizer_role do
-      name 'Organizer'
+      name 'organizer'
     end
 
-    factory :participant_role do
-      name 'Participant'
+    factory :cfp_role do
+      name 'cfp'
     end
   end
 end

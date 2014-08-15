@@ -68,8 +68,8 @@ describe 'conference/show.html.haml' do
     expect(view).to render_template('conference/_social_media')
     expect(view.content_for(:splash)).to include('http://www.fbexample.com')
     expect(view.content_for(:splash)).to include('http://www.google-example.com')
-    expect(view.content_for(:splash)).to include("http://instagram.com")
-    expect(view.content_for(:splash)).to include("http://twitter.com")
+    expect(view.content_for(:splash)).to include('http://instagram.com')
+    expect(view.content_for(:splash)).to include('http://twitter.com')
   end
 
   it 'renders location partial' do

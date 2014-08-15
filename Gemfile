@@ -23,6 +23,8 @@ gem 'omniauth-github'
 
 # Use cancancan as authorization framework
 gem 'cancancan'
+# Use rolify to set roles
+gem 'rolify'
 
 # Use transitions as state machine
 gem 'transitions', :require => %w( transitions active_record/transitions )

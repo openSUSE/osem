@@ -1,12 +1,13 @@
 module Admin
-  class ContactsController < ApplicationController
-    before_action :set_conference
-    before_action :set_conference
-    before_action :set_contact, only: [:edit, :update]
+  class ContactsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource through: :conference, singleton: true
+
+    # GET /:conference/contact
+    def show; end
 
     # GET /:conference/contact/edit
-    def edit
-    end
+    def edit; end
 
     # PATCH/PUT /:conference/contact
     def update
@@ -18,15 +19,6 @@ module Admin
     end
 
     private
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact
-      @contact = @conference.contact
-    end
-
-    def set_conference
-      @conference = Conference.find_by(short_title: params[:conference_id])
-    end
 
     # Only allow a trusted parameter "white list" through.
     def contact_params

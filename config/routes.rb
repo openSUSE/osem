@@ -8,6 +8,12 @@ Osem::Application.routes.draw do
     resources :users
     resources :people
     resources :conference do
+      member do
+        get :roles
+        post :roles
+        post :add_user
+        delete :remove_user
+      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :photos, except: [:show]
       resource :schedule, only: [:show, :update]
@@ -40,7 +46,7 @@ Osem::Application.routes.draw do
 
       resources :campaigns
 
-      resources :eventtypes, only: [:show, :index] do
+      resources :event_types, only: [:show, :index] do
         collection do
           patch :update
         end
@@ -92,10 +98,11 @@ Osem::Application.routes.draw do
     resource :schedule, only: [] do
       get "/" => "schedule#index"
     end
+
+    get "/register" => "conference_registration#register"
+    patch "/register" => "conference_registration#update"
+    delete "/register" => "conference_registration#unregister"
     member do
-      get "/register" => "conference_registration#register"
-      patch "/register" => "conference_registration#update"
-      delete "/register" => "conference_registration#unregister"
       get "gallery_photos"
       patch "subscription" => "conference#subscribe"
       delete "subscription" => "conference#unsubscribe"

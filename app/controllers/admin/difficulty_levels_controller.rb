@@ -1,9 +1,10 @@
 module Admin
-  class DifficultyLevelsController < ApplicationController
-    before_filter :verify_organizer
+  class DifficultyLevelsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource through: :conference
 
     def index
-      @conference = Conference.find_by(short_title: params[:conference_id])
+      authorize! :index, DifficultyLevel.new(conference_id: @conference.id)
     end
 
     def update

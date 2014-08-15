@@ -1,0 +1,29 @@
+#myroles.roles
+  - unless @role.blank?
+    %p.text-muted
+      = @role.first.description
+
+  %hr
+  .row
+    .col-md-6
+      = semantic_form_for(:user, url: add_user_admin_conference_path(@conference.short_title, role: @selection), remote: true) do |f|
+        %h4
+          = f.input :email, label: "Add role '#{@selection.humanize.titleize}' to user: ", placeholder: "User's email", input_html: { required: 'required' }
+        = f.action :submit, as: :button, label: 'Add User', button_html: {value: 'Add', class: 'btn btn-primary'}
+  .row
+    .col-md-12
+      %h3 Users with role #{@selection.humanize.titleize}
+      %table.table.table-striped.table-bordered.table-hover
+        %thead
+          %th ID
+          %th Name
+          %th Email
+        %tbody
+          - @role_users[@selection].each do |user|
+            %tr
+              %td
+                = link_to remove_user_admin_conference_path(@conference.short_title, user_id: user.id, role: @selection), method: :delete, remote: true, title: 'Remove user' do
+                  %i{class: 'fa fa-times'}
+                = user.id
+                %td= user.name
+                %td= user.email

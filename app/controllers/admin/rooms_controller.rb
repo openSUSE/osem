@@ -1,6 +1,11 @@
 module Admin
-  class RoomsController < ApplicationController
-    before_filter :verify_organizer
+  class RoomsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource through: :conference
+
+    def index
+      authorize! :index, Room.new(conference_id: @conference.id)
+    end
 
     def show
       render :rooms_list

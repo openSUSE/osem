@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'admin/eventtypes/index' do
+describe 'admin/event_types/index' do
 
   it 'renders event types' do
     @event_type = create(:event_type)

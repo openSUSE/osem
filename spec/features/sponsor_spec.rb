@@ -1,17 +1,16 @@
 require 'spec_helper'
 
 feature Sponsor do
-  # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
-  let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'sponsors' do |user|
+  shared_examples 'sponsors' do
     scenario 'adds and updates sponsors', feature: true, js: true do
       path = "#{Rails.root}/app/assets/images/rails.png"
-      conference = create(:conference)
+
       conference.sponsorship_levels << create(:sponsorship_level, conference: conference)
-      sign_in create(user)
+      sign_in organizer
 
       visit admin_conference_sponsors_path(
                 conference_id: conference.short_title)
@@ -63,17 +62,15 @@ feature Sponsor do
       # Remove sponsor
       click_link 'Remove sponsor'
       expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
+
+      find('button', text: 'Update Conference').trigger('click')
+
       expect(flash).to eq('Sponsorships were successfully updated.')
       expect(page.all('div.nested-fields').count == 0).to be true
     end
   end
 
-  describe 'admin' do
-    it_behaves_like 'sponsors', :admin
-  end
-
   describe 'organizer' do
-    it_behaves_like 'sponsors', :organizer
+    it_behaves_like 'sponsors'
   end
 end

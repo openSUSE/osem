@@ -1,5 +1,5 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :size, :public
+  attr_accessible :name, :size, :public, :conference_id
 
   belongs_to :conference
   has_many :events

@@ -1,6 +1,7 @@
 module Admin
-  class SocialEventsController < ApplicationController
-    before_filter :verify_organizer
+  class SocialEventsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource :social_event, through: :conference
 
     def show
       render :social_events_list

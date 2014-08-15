@@ -1,7 +1,5 @@
 require 'spec_helper'
 describe Admin::UsersController do
-  let!(:admin_role) { create(:admin_role) }
-  let!(:participant_role) { create(:participant_role) }
   let(:admin) { create(:admin) }
   let(:user) { create(:user) }
   before(:each) do
@@ -31,13 +29,13 @@ describe Admin::UsersController do
           :user, email: 'example@incoherent.de', id: user.id).email).
               to eq('example@incoherent.de')
       end
-      it "redirects to the updated user" do
+      it 'redirects to the updated user' do
         patch :update, id: user.id
         expect(response).to redirect_to admin_users_path
       end
     end
   end
-  describe 'DELETE #destroy' do 
+  describe 'DELETE #destroy' do
     before :each do
       @user = create(:user)
     end

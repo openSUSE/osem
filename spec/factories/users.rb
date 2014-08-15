@@ -15,12 +15,8 @@ FactoryGirl.define do
       gravida.
     EOS
 
-    factory :participant do
-      after(:create) { |user| user.role_ids = create(:participant_role).id }
-    end
-
     factory :admin do
-      after(:create) { |user| user.role_ids = create(:admin_role).id }
+      is_admin true
     end
 
     factory :organizer do

@@ -137,14 +137,6 @@ module ApplicationHelper
     render "shared/dynamic_association", association_name: association_name, title: title, f: form_builder, hint: options[:hint]
   end
 
-  def has_role?(current_user, role)
-    if current_user.nil?
-      return false
-    end
-
-    return !!current_user.role?(role.to_s.camelize)
-  end
-
   # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
   def redirect_back_or_to(options = {}, response_status = {})
     if request.env["HTTP_REFERER"]
@@ -203,5 +195,20 @@ module ApplicationHelper
       end
     end
     return providers
+  end
+
+  # Receives a hash, generated from User model, function get_roles
+  # Outputs the roles of a user, including the conferences for which the user has the roles
+  # Eg. organizer(oSC13, oSC14), cfp(oSC12, oSC13)
+  def show_roles(roles)
+    roles.map { |x| x[0].titleize + ' ' + x[1] }.join ', '
+  end
+
+  def can_manage_volunteers(conference)
+    if (current_user.has_role? :organizer, conference) || (current_user.has_role? :volunteer_coordinator, conference)
+      true
+    else
+      false
+    end
   end
 end

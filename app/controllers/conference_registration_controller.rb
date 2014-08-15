@@ -1,9 +1,9 @@
 class ConferenceRegistrationController < ApplicationController
   before_filter :verify_user
+  load_resource :conference, find_by: :short_title
+  authorize_resource :conference_registration, class: Registration
 
   def register
-    # TODO Figure out how to change the route's id from :id to :conference_id
-    @conference = Conference.find_by(short_title: params[:id])
     @workshops = @conference.events.where('require_registration = ? AND state LIKE ?',
                                           true, 'confirmed')
     @user = current_user
@@ -23,9 +23,8 @@ class ConferenceRegistrationController < ApplicationController
 
   # TODO this is ugly
   def update
-    conference = Conference.find_by(short_title: params[:id])
     user = current_user
-    registration = user.registrations.where(conference_id: conference.id).first
+    registration = user.registrations.where(conference_id: @conference.id).first
     update_registration = true
     # First verify that the supporter code is legit
     if !params[:registration][:supporter_registration_attributes].nil? &&
@@ -35,7 +34,7 @@ class ConferenceRegistrationController < ApplicationController
 
       if regs.count != 0
         if regs.where(email: user.email).count == 0
-          redirect_to(register_conference_path(id: conference.short_title),
+          redirect_to(conference_register_path(conference_id: @conference.short_title),
                       alert: "This code is already in use.
                                  Please contact #{conference.contact.email} for assistance.")
           return
@@ -50,7 +49,7 @@ class ConferenceRegistrationController < ApplicationController
         supporter_reg = params[:registration][:supporter_registration_attributes]
         params[:registration].delete :supporter_registration_attributes
         registration = user.registrations.new(registration_params)
-        if conference.use_supporter_levels? && !supporter_reg.nil?
+        if @conference.use_supporter_levels? && !supporter_reg.nil?
           if !supporter_reg[:id].blank?
             # Means that their supporter registration was entered ahead of time, by an admin
             registration.supporter_registration = SupporterRegistration.find(supporter_reg[:id])
@@ -58,15 +57,15 @@ class ConferenceRegistrationController < ApplicationController
               raise 'Invalid code'
             end
           else
-            registration.supporter_registration = conference.
+            registration.supporter_registration = @conference.
                 supporter_registrations.new(registration_params[:supporter_registration_attributes])
           end
         end
 
-        registration.conference_id = conference.id
+        registration.conference_id = @conference.id
         registration.save!
-        if user.subscriptions.where(conference: conference).blank?
-          subscription = Subscription.new(conference_id: conference.id, user_id: user.id)
+        if user.subscriptions.where(conference: @conference).blank?
+          subscription = Subscription.new(conference_id: @conference.id, user_id: user.id)
           redirect_message = subscription.save ? 'You are now Registered and will be receiving Email Notifications.' : 'You are now Registered.'
         end
       else
@@ -74,7 +73,7 @@ class ConferenceRegistrationController < ApplicationController
       end
     rescue => e
       Rails.logger.debug e.backtrace.join('\n')
-      redirect_to(register_conference_path(id: conference.short_title),
+      redirect_to(conference_register_path(conference_id: @conference.short_title),
                   alert: 'Registration failed:' + e.message)
       return
     end
@@ -84,19 +83,18 @@ class ConferenceRegistrationController < ApplicationController
     else
       # Track ahoy event
       ahoy.track 'Registered', title: 'New registration'
-      if conference.email_settings.send_on_registration?
-        Mailbot.delay.registration_mail(conference, current_user)
+      if @conference.email_settings.send_on_registration?
+        Mailbot.delay.registration_mail(@conference, current_user)
       end
     end
-    redirect_to(register_conference_path(id: conference.short_title),
+    redirect_to(conference_register_path(conference_id: @conference.short_title),
                 notice: redirect_message)
   end
 
   def unregister
-    conference = Conference.find_by(short_title: params[:id])
     user = current_user
-    registration = user.registrations.where(conference_id: conference.id).first
-    subscription = user.subscriptions.where(conference: conference)
+    registration = user.registrations.where(conference_id: @conference.id).first
+    subscription = user.subscriptions.where(conference: @conference)
     unless subscription.blank?
       subscription.first.destroy
     end

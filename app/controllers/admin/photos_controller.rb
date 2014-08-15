@@ -1,7 +1,7 @@
 module Admin
-  class PhotosController < ApplicationController
-    before_action :set_conference
-    before_action :set_photo, only: [:edit, :update, :destroy]
+  class PhotosController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource through: :conference
 
 # GET /admin/photos
     def index
@@ -14,8 +14,7 @@ module Admin
     end
 
 # GET /admin/photos/1/edit
-    def edit
-    end
+    def edit; end
 
 # POST /admin/photos
     def create
@@ -45,16 +44,6 @@ module Admin
     end
 
     private
-
-# Use callbacks to share common setup or constraints between actions.
-    def set_conference
-      @conference = Conference.find_by(short_title: params[:conference_id])
-    end
-
-# Use callbacks to share common setup or constraints between actions.
-    def set_photo
-      @photo = Photo.find_by(id: params[:id])
-    end
 
 # Only allow a trusted parameter "white list" through.
     def photo_params

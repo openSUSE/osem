@@ -2,18 +2,16 @@ require 'spec_helper'
 
 feature Contact do
 
-  # It is necessary to use bang version of let to build roles before user
-  let!(:organizer_role) { create(:organizer_role) }
-  let!(:participant_role) { create(:participant_role) }
-  let!(:admin_role) { create(:admin_role) }
+  let!(:conference) { create(:conference) }
+  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
 
-  shared_examples 'update a contact' do |user|
+  shared_examples 'update a contact' do
 
     scenario 'sucessfully', feature: true, js: true do
-      conference = create(:conference)
       contact = conference.contact
       expected_count = Contact.count
-      sign_in create(user)
+      sign_in organizer
 
       visit edit_admin_conference_contact_path(conference.short_title)
       click_link 'Edit'
@@ -37,10 +35,6 @@ feature Contact do
       expect(contact.googleplus).to eq('http:\\www.google.com')
       expect(Contact.count).to eq(expected_count)
     end
-  end
-
-  describe 'admin' do
-    it_behaves_like 'update a contact', :admin
   end
 
   describe 'organizer' do

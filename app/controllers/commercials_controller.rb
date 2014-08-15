@@ -1,17 +1,18 @@
 class CommercialsController < ApplicationController
-  before_action :set_conference
+  load_and_authorize_resource :conference, find_by: :short_title
   before_action :set_event
-  before_action :set_commercial, only: [:edit, :update, :destroy]
+  load_and_authorize_resource through: @event, except: [:new, :create]
 
   def new
     @commercial = @event.commercials.build
+    authorize! :new, @commercial
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @commercial = @event.commercials.build(commercial_params)
+    authorize! :create, @commercial
 
     if @commercial.save
       redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id),
@@ -39,14 +40,6 @@ class CommercialsController < ApplicationController
   end
 
   private
-
-  def set_commercial
-    @commercial = @event.commercials.find(params[:id])
-  end
-
-  def set_conference
-    @conference = Conference.find_by(short_title: params[:conference_id])
-  end
 
   def set_event
     @event = @conference.events.find(params[:proposal_id])

@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_filter :respond_to_options
+  skip_authorization_check
 
   def index
     @today = Date.current

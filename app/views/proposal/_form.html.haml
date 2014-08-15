@@ -26,11 +26,14 @@
                       = commercial.commercial_type
                     .flexvideo
                       = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
-                    = link_to 'Edit', edit_conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id), class: 'btn btn-primary'
-                    = link_to 'Delete', conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
+                    - if can? :update, commercial
+                      = link_to 'Edit', edit_conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id), class: 'btn btn-primary'
+                    - if can? :destrooy, commercial
+                      = link_to 'Delete', conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
                       :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
-          %hr
-          = link_to 'Add Commercial', new_conference_proposal_commercial_path(@conference.short_title, @event.id), class: 'btn btn-primary'
+          - if can? :create, @event.commercials.new
+            %hr
+            = link_to 'Add Commercial', new_conference_proposal_commercial_path(@conference.short_title, @event.id), class: 'btn btn-primary'
 
         #attachment-content.tab-pane
           = form_for EventAttachment.new, :url => conference_proposal_event_attachment_index_path(@conference.short_title, @event), :html => { :multipart => true, :id => "fileupload"  } do |f|

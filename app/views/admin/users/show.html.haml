@@ -1,7 +1,14 @@
+- if can? :edit, @user
+  .pull-right
+    = link_to "Edit", edit_admin_user_path(@user), class: 'btn btn-primary'
 %table.table
   - @show_attributes.each do |attr|
     %tr
-      %td
+      %td{class: 'table20'}
         %b
           = attr.capitalize.gsub('_', ' ')
-      %td= @user.send(attr)
+      - if attr == 'roles'
+        %td
+          = show_roles(@user.get_roles)
+      - else
+        %td= @user.send(attr)

@@ -1,5 +1,6 @@
 = semantic_form_for [:admin, @user] do |f|
-  = f.inputs "Basic Information" do
+  = f.inputs 'Basic Information' do
+    = f.input :is_admin, hint: 'An admin can create a new conference, manage users and make other users admins.'
     = f.input :name, :as => :string
     = f.input :email
     = f.input :affiliation, :as => :string

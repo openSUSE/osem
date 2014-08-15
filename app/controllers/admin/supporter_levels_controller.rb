@@ -1,6 +1,11 @@
 module Admin
-  class SupporterLevelsController < ApplicationController
-    before_filter :verify_organizer
+  class SupporterLevelsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    authorize_resource through: :conference
+
+    def index
+      authorize! :update, SupporterLevel.new(conference_id: @conference.id)
+    end
 
     def show
       render :supporter_levels

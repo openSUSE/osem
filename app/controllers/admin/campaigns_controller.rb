@@ -1,16 +1,15 @@
 module Admin
-  class CampaignsController < ApplicationController
-    before_filter :verify_organizer
+  class CampaignsController < Admin::BaseController
+    load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource :campaign, through: :conference
 
     def index
-      @conference = Conference.find_by(short_title: params[:conference_id])
+      authorize! :index, Campaign.new(conference_id: @conference.id)
       @campaigns = @conference.campaigns
     end
 
     def create
-      @conference = Conference.find_by(short_title: params[:conference_id])
-      @campaign = @conference.campaigns.new(params[:campaign])
-      @campaign.conference_id = @conference.id
+      @campaign.attributes = params[:campaign]
 
       if @conference.save
         redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title),
@@ -22,20 +21,11 @@ module Admin
       end
     end
 
-    def new
-      @conference = Conference.find_by(short_title: params[:conference_id])
-      @campaign = @conference.campaigns.new
-    end
+    def new; end
 
-    def edit
-      @conference = Conference.find_by(short_title: params[:conference_id])
-      @campaign = Campaign.find(params[:id])
-    end
+    def edit; end
 
     def update
-      @conference = Conference.find_by(short_title: params[:conference_id])
-      @campaign = Campaign.find(params[:id])
-
       if @campaign.update_attributes(params[:campaign])
         redirect_to(admin_conference_campaigns_path(
                         conference_id: @conference.short_title),
@@ -50,8 +40,6 @@ module Admin
     end
 
     def destroy
-      @conference = Conference.find_by(short_title: params[:conference_id])
-      @campaign = Campaign.find(params[:id])
       if @campaign.destroy
         redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title),
                     notice: "Campaign '#{@campaign.name}' successfully deleted.")
