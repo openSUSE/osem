@@ -7,10 +7,11 @@ describe Admin::ConferenceController do
   let!(:first_user) { create(:user) }
   let!(:organizer_role) { create(:role, name: 'organizer', resource: conference) }
 
-  let(:organizer) { create(:user, role_ids: organizer_role.id, is_admin: true) }
+  let(:organizer) { create(:user, role_ids: organizer_role.id) }
+  let(:organizer2) { create(:user, email: 'organizer2@email.osem', role_ids: organizer_role.id) }
   let(:participant) { create(:user) }
 
-  shared_examples 'access as administration' do
+  shared_examples 'access as organizer' do
 
     describe 'PATCH #update' do
 
@@ -211,15 +212,139 @@ describe Admin::ConferenceController do
         expect(response).to render_template :new
       end
     end
+
+    describe 'GET #roles' do
+      before(:each) do
+        get :roles, id: conference.short_title
+      end
+
+      it 'assigns default value to selection' do
+        expect(assigns(:selection)).to eq('organizer')
+      end
+
+      it 'finds the correct role' do
+        expect(assigns(:role)).to eq([organizer_role])
+      end
+
+      it 'properly assigns role_users hash' do
+        expect(assigns(:role_users)).to eq('organizer' => [organizer, organizer2])
+      end
+
+      it 'properly assigns roles variable' do
+        expect(assigns(:roles)).to eq(['Organizer', 'CfP', 'Info Desk', 'Volunteers Coordinator', 'Attendee', 'Volunteer', 'Speaker', 'Sponsor', 'Press', 'Keynote Speaker', ])
+      end
+    end
+
+    describe 'POST #roles' do
+      before(:each) do
+        post :roles, id: conference.short_title, user: { roles: 'CfP' }
+      end
+
+      it 'assigns selected value to selection' do
+        expect(assigns(:selection)).to eq('cfp')
+      end
+
+      it 'sets role variable' do
+        post :roles, id: conference.short_title, user: { roles: 'Organizer' }
+        role = Role.where(name: 'organizer', resource: conference)
+        expect(assigns(:role)).to eq(role)
+      end
+
+      it 'sets role variable (returns blank for nil role)' do
+        expect(assigns(:role)).to eq([])
+      end
+
+      it 'sets role_users hash with blank' do
+        expect(assigns(:role_users)).to eq('cfp' => [])
+      end
+
+      it 'sets role_users has with data' do
+        organizer.add_role :cfp, conference
+        post :roles, id: conference.short_title, user: { roles: 'CfP' }
+        expect(assigns(:role_users)).to eq('cfp' => [organizer])
+      end
+
+      it 'sets roles variable' do
+        expect(assigns(:roles)).to eq(['Organizer', 'CfP', 'Info Desk', 'Volunteers Coordinator', 'Attendee', 'Volunteer', 'Speaker', 'Sponsor', 'Press', 'Keynote Speaker', ])
+      end
+    end
+
+    describe 'POST #add_user' do
+      before(:each) do
+        @new_user = create(:user, email: 'new_user@email.osem')
+        post :add_user, id: conference.short_title, user: { email: 'new_user@email.osem' }, role: 'organizer'
+      end
+
+      it 'finds correct user' do
+        expect(assigns(:user)).to eq(@new_user)
+      end
+
+      it 'sets role_users variable' do
+        expect(assigns(:role_users)).to eq('organizer' => organizer_role.users)
+
+        post :add_user, id: conference.short_title, user: { email: 'new_user@email.osem' }, role: 'cfp'
+        expect(assigns(:role_users)).to eq('cfp' => [@new_user])
+      end
+
+      it 'assigns role to user' do
+        expect(@new_user.roles).to eq([organizer_role])
+      end
+
+      it 'assigns second role to user' do
+        post :add_user, id: conference.short_title, user: { email: @new_user.email }, role: 'cfp'
+        cfp_role = Role.find_by(name: 'cfp', resource: conference)
+        expect(@new_user.roles).to eq([organizer_role, cfp_role])
+      end
+    end
+
+    describe 'DELETE #remove_user' do
+      before(:each) do
+
+      end
+
+      it 'sets selection variable' do
+        delete :remove_user, id: conference.short_title, user_id: organizer2.id, role: 'organizer'
+        expect(assigns(:selection)).to eq('organizer')
+      end
+
+      it 'sets role_users hash' do
+        delete :remove_user, id: conference.short_title, user_id: organizer2.id, role: 'organizer'
+        expect(assigns(:role_users)).to eq('organizer' => [organizer])
+      end
+
+      it 'removes role from user' do
+        delete :remove_user, id: conference.short_title, user_id: organizer2.id, role: 'organizer'
+        organizer2.reload
+        expect(organizer2.roles).to eq([])
+      end
+
+      it 'removes second role from user' do
+        # Add cfp role
+        organizer2.add_role :cfp, conference
+        cfp_role = Role.find_by(name: 'cfp', resource: conference)
+        # Remove role organizer
+        delete :remove_user, id: conference.short_title, user_id: organizer2.id, role: 'organizer'
+
+        organizer2.reload
+        expect(organizer2.roles).to include(cfp_role)
+        expect(organizer2.roles[0]).to eq(cfp_role)
+        expect(organizer2.roles.count).to eq(1)
+        expect(assigns(:role_users)).to eq('organizer' => [organizer])
+
+        delete :remove_user, id: conference.short_title, user_id: organizer2.id, role: 'cfp'
+        organizer2.reload
+        expect(organizer2.roles).to eq([])
+      end
+    end
   end
 
-  describe 'administrator access' do
+  describe 'organizer access' do
 
     before do
       sign_in(organizer)
     end
 
-    it_behaves_like 'access as administration'
+    it_behaves_like 'access as organizer'
 
   end
 
