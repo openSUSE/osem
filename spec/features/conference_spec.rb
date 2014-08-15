@@ -52,6 +52,13 @@ feature Conference do
       click_link 'Edit'
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
+      day = Date.today + 10
+      page.
+          execute_script("$('#conference-start-datepicker').val('" +
+                             "#{day.strftime('%d/%m/%Y')}')")
+      page.
+          execute_script("$('#conference-end-datepicker').val('" +
+                             "#{(day + 7).strftime('%d/%m/%Y')}')")
 
       click_button 'Update Conference'
       expect(flash).
