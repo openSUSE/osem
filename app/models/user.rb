@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-         :omniauthable, omniauth_providers: [:suse, :google, :facebook]
+         :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github]
 
   has_and_belongs_to_many :roles
   has_many :openids

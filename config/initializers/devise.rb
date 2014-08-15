@@ -14,6 +14,7 @@ Devise.setup do |config|
                   name: 'google',
                   scope: 'email'
   config.omniauth :facebook, Rails.application.secrets.facebook_key, Rails.application.secrets.facebook_secret
+  config.omniauth :github, Rails.application.secrets.github_key, Rails.application.secrets.github_secret
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
