@@ -2,7 +2,7 @@ defaults: &defaults
   # The name of your instance
   name: OSEM
   # The sender address of emails
-  devise_mail_sender: "no-reply@localhost"
+  sender_for_emails: "no-reply@localhost"
   # The hostname to be used when building the URL in the emails
   url_for_emails: "localhost:3000"
   # errbit configuration, get your own instance: https://github.com/errbit/errbit
