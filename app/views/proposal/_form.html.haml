@@ -55,7 +55,7 @@
 
             .row-fluid.fileupload-buttonbar
               .btn.btn-success.fileinput-button
-                %span.glyphicon.glyphicon-icon-plus.icon-white
+                %span.fa.fa-plus
                 Add files...
                 = f.file_field :attachment
                 = f.hidden_field :event_id, :value => @event.id
@@ -100,7 +100,7 @@
       {% } else if (o.files.valid && !i) { %}
       <td class="start">{% if (!o.options.autoUpload) { %}
         <button class="btn btn-primary">
-          <span class="glyphicon glyphicon-upload"></span>
+          <span class="fa fa-upload"></span>
           <span>{%=locale.fileupload.start%}</span>
         </button>
         {% } %}</td>
@@ -109,7 +109,7 @@
       {% } %}
       <td class="cancel">{% if (!i) { %}
         <button class="btn btn-warning">
-          <span class="glyphicon glyphicon-circle"></span>
+          <span class="fa fa-times"></span>
           <span>{%=locale.fileupload.cancel%}</span>
         </button>
         {% } %}</td>
@@ -138,7 +138,7 @@
           {% } %}
         <td class="delete" colspan="2">
           <button class="btn btn-danger pull-right" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-            <span class="glyphicon glyphicon-trash"></i>
+            <span class="fa fa-trash-o"></i>
             <span>{%=locale.fileupload.destroy%}</span>
           </button>
         </td>
