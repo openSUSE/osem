@@ -1,29 +1,29 @@
 %li
   = link_to(edit_user_registration_path) do
-    %span.glyphicon.glyphicon-wrench
+    %span.fa.fa-wrench
     Edit Account
 -if @conference and @conference.id
   %li
     = link_to(conference_proposal_index_path(@conference.short_title)) do
-      %span.glyphicon.glyphicon-comment
+      %span.fa.fa-comment
       My Submissions
 %li
   = link_to(destroy_user_session_path, :method=>'delete') do
-    %span.glyphicon.glyphicon-minus
+    %span.fa.fa-minus
     Sign out
 - if can? :index, Conference
   %li.divider
     %li
       = link_to(admin_conference_index_path()) do
         - if Conference.any?
-          %span.glyphicon.glyphicon-home
+          %span.fa.fa-home
             Administration
         - else
-          %span.glyphicon.glyphicon-plus
+          %span.fa.fa-plus
           Create Conference
     -if @conference and @conference.id and can? :show, @conference
       %li
         = link_to(admin_conference_path(@conference.short_title)) do
-          %span.glyphicon.glyphicon-cog
+          %span.fa.fa-cog
           Manage
           = @conference.short_title

@@ -29,16 +29,16 @@
           - if current_page?(new_registration_path('user'))
             %li.active
               = link_to(new_registration_path('user')) do
-                %span.glyphicon.glyphicon-heart
+                %span.fa.fa-heart
                 Sign Up
           - else
             %li
               = link_to(new_registration_path('user')) do
-                %span.glyphicon.glyphicon-heart
+                %span.fa.fa-heart
                 Sign Up
           %li.dropdown.visible-desktop
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              %span.glyphicon.glyphicon-user
+              %span.fa.fa-user
               Sign In
               %span.caret
             .dropdown-menu{:style => "padding: 17px;"}
