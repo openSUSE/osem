@@ -3,33 +3,33 @@
   Dashboard for #{@conference.title}
 %hr
 .row
-  .col-sm-4
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.fa.fa-user.fa-lg
-      .text
-        %label.text-muted total registrations: #{@total_reg}
-        %label.text-muted new registrations: #{@new_reg}
-        .row
-          = render partial: 'targets', locals: { targets: @registration_targets, name: 'registrations' }
-  .col-sm-4
+      %span.fa.fa-user.fa-lg
+      %span.fa.fa-lg
+        = @total_user
+      %p
+        %small
+          #{'Registration'.pluralize(@registration_targets)}
+
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.fa.fa-check-square.fa-lg
-      .text
-        %label.text-muted total submissions: #{@total_submissions}
-        %label.text-muted new submissions: #{@new_submissions}
-        .row
-          = render partial: 'targets', locals: { targets: @submission_targets, name: 'submissions'  }
-  .col-sm-4
+      %span.fa.fa-check-square.fa-lg
+      %span.fa.fa-lg
+        = @total_reg
+      %p
+        %small
+          #{'Submission'.pluralize(@submission_targets)}
+
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.fa.fa-file-text.fa-lg
-      .text
-        %label.text-muted program: #{@program_length} min
-        %label.text-muted new program: #{@new_program_length} min
-        .row
-          = render partial: 'targets', locals: { targets: @program_minutes_targets, name: 'program_hours' }
+      %span.fa.fa-file-text.fa-lg
+      %span.fa.fa-lg
+        = @total_submissions
+      %p
+        %small
+          #{'Hour'.pluralize(@program_minutes_targets)}
+
 .row
   .col-md-12
     .row
