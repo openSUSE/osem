@@ -60,9 +60,9 @@ module ApplicationHelper
 
   def icon_for_todo(bool)
     if bool
-      return 'glyphicon glyphicon-ok'
+      return 'fa fa-check'
     else
-      return 'glyphicon glyphicon-remove'
+      return 'fa fa-times'
     end
   end
 
