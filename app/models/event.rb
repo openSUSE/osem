@@ -13,7 +13,7 @@ class Event < ActiveRecord::Base
   has_many :event_attachments, dependent: :destroy
   has_many :users, through: :event_users
   has_many :speakers, through: :event_users, source: :user
-  has_many :votes
+  has_many :votes, dependent: :destroy
   has_many :voters, through: :votes, source: :user
   has_many :commercials, as: :commercialable, dependent: :destroy
   belongs_to :event_type
