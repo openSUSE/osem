@@ -4,7 +4,8 @@ describe Admin::ConferenceController do
 
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference) }
-  let!(:first_user) { create(:user) }
+  let!(:deleted_user) { create(:deleted_user) }
+  let!(:admin_user) { create(:user) } # Second user. Automatically becomes admin.
   let!(:organizer_role) { create(:role, name: 'organizer', resource: conference) }
 
   let(:organizer) { create(:user, role_ids: organizer_role.id) }
