@@ -67,7 +67,7 @@ class Ability
 
     signed_in(user) # Inherit abilities from signed user
     # User with role
-    can :manage, User if user.is_admin # ??? || (user.has_role? :organizer, :any)
+    can :manage, User if user.is_admin || (user.has_role? :organizer, :any)
     can [:new, :create], Conference if user.is_admin || (user.has_role? :organizer, :any)
     can [:index, :show, :gallery_photos], Conference
     can :manage, Conference, id: conf_ids_for_organizer
