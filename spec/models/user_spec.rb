@@ -3,8 +3,8 @@ require 'spec_helper'
 describe User do
 
   # It is necessary to use bang version of let to build roles before user
-  let!(:user_admin) { create(:user) }
-  let!(:admin) { create(:admin) }
+  let!(:deleted_user) { create(:deleted_user) }
+  let!(:admin_user) { create(:user) } # Second user. Automatically becomes admin.
   let!(:participant) { create(:user) }
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
@@ -13,7 +13,7 @@ describe User do
   let!(:user) { create(:user) }
 
   it 'returns the correct role' do
-    expect(user_admin.is_admin).to eq(true)
+    expect(admin_user.is_admin).to eq(true)
     expect(organizer.roles.first).to eq(organizer_role)
   end
 
