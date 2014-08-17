@@ -19,7 +19,6 @@ class ProposalController < ApplicationController
   def edit
     authorize! :edit, @event
     @url = conference_proposal_path(@conference.short_title, params[:id])
-    @attachments = @event.event_attachments
   end
 
   def create
