@@ -79,7 +79,7 @@ class Datatable
       sort_by << "#{sort_column(colnum)} #{sort_direction(colnum)}"
       colnum += 1
     end
-    sort_by.join(", ")
+    sort_by.join(', ')
   end
 
   def sorted? index=0
@@ -93,6 +93,6 @@ class Datatable
 
   def sort_direction index=0
     index = "sSortDir_#{index}"
-    params[index] == "desc" ? "desc" : "asc"
+    params[index] == 'desc' ? 'desc' : 'asc'
   end
 end

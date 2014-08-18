@@ -111,11 +111,8 @@ Style/CaseEquality:
 Style/ClassAndModuleChildren:
   Enabled: true
 
-# Offense count: 577
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
 Style/StringLiterals:
-  Enabled: false
+  Enabled: true
 
 Style/TrailingBlankLines:
   Enabled: true

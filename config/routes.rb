@@ -69,7 +69,7 @@ Osem::Application.routes.draw do
         end
       end
 
-      patch "/questions/update_conference" => "questions#update_conference"
+      patch '/questions/update_conference' => 'questions#update_conference'
       resources :questions
 
       resources :events do
@@ -91,7 +91,7 @@ Osem::Application.routes.draw do
   resources :conference, only: [:show] do
     resources :proposal do
       resources :commercials, except: [:show, :index]
-      resources :event_attachment, controller: "event_attachments"
+      resources :event_attachment, controller: 'event_attachments'
       member do
         patch '/confirm' => 'proposal#confirm'
         patch '/restart' => 'proposal#restart'
@@ -103,13 +103,13 @@ Osem::Application.routes.draw do
     resources :ticket_purchases, only: [:create, :destroy]
 
     resource :schedule, only: [] do
-      get "/" => "schedule#index"
+      get '/' => 'schedule#index'
     end
 
     member do
-      get "gallery_photos"
-      patch "subscription" => "conference#subscribe"
-      delete "subscription" => "conference#unsubscribe"
+      get 'gallery_photos'
+      patch 'subscription' => 'conference#subscribe'
+      delete 'subscription' => 'conference#unsubscribe'
     end
   end
 
@@ -129,7 +129,7 @@ Osem::Application.routes.draw do
     end
   end
 
-  get "/admin" => redirect("/admin/conference")
+  get '/admin' => redirect('/admin/conference')
 
   root to: 'home#index', via: [:get, :options]
 end

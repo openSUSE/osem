@@ -8,7 +8,7 @@ guard_opts = {
   cmd: 'spring rspec'
 }
 
-def model_specs       ; "spec/models"       end
+def model_specs       ; 'spec/models'       end
 
 def model_spec(model)
   "spec/models/#{model}_spec.rb"

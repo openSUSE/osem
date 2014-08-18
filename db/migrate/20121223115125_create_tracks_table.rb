@@ -5,7 +5,7 @@ class CreateTracksTable < ActiveRecord::Migration
       t.references :conference
       t.string :name, null: false
       t.text :description
-      t.string :color, default: "#ffffff"
+      t.string :color, default: '#ffffff'
 
       t.timestamps
     end

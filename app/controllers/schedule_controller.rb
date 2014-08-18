@@ -1,6 +1,6 @@
 class ScheduleController < ApplicationController
   authorize_resource class: false
-  layout "application"
+  layout 'application'
 
   def index
     @conference = Conference.
@@ -11,9 +11,9 @@ class ScheduleController < ApplicationController
     @dates = @conference.start_date..@conference.end_date
 
     if @dates == Date.current
-      @today = Date.current.strftime("%Y-%m-%d")
+      @today = Date.current.strftime('%Y-%m-%d')
     else
-      @today = @conference.start_date.strftime("%Y-%m-%d")
+      @today = @conference.start_date.strftime('%Y-%m-%d')
     end
   end
 end
