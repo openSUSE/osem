@@ -106,6 +106,7 @@ class Ability
     can :manage, Contact, conference_id: conf_ids_for_organizer
     can :manage, Campaign, conference_id: conf_ids_for_organizer
     can :manage, Photo, conference_id: conf_ids_for_organizer
+    can :manage, RegistrationPeriod, conference_id: conf_ids_for_organizer
   end
 
   def guest

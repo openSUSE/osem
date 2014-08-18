@@ -19,8 +19,6 @@ class EmailSettings < ActiveRecord::Base
       'conference' => conference.title,
       'conference_start_date' => conference.start_date,
       'conference_end_date' => conference.end_date,
-      'registration_start_date' => conference.registration_start_date,
-      'registration_end_date' => conference.registration_end_date,
       'venue' => conference.venue.name,
       'venue_address' => conference.venue.address,
       'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(
@@ -32,6 +30,11 @@ class EmailSettings < ActiveRecord::Base
       'schedule_link' => Rails.application.routes.url_helpers.conference_schedule_url(
                          conference.short_title, host: CONFIG['url_for_emails'])
     }
+
+    if conference.registration_period
+      h['registration_start_date'] = conference.registration_period.start_date
+      h['registration_end_date'] = conference.registration_period.end_date
+    end
 
     if !event.nil?
       h['eventtitle'] = event.title

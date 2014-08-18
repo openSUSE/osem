@@ -8,8 +8,8 @@
         = conference_progress['process'] + '%'
   %li{'class'=>class_for_todo(conference_progress['registration'])}
     %span{'class'=>icon_for_todo(conference_progress['registration'])}
-    - if can? :update, @conference.registrations.build
-      = link_to 'Set up registration period', edit_admin_conference_path(conference_progress['short_title'], :anchor => 'conference-end-datepicker')
+    - if can? :update, @conference
+      = link_to 'Set up registration period', edit_admin_conference_registration_period_path(conference_progress['short_title'])
     - else
       Set up registration period
   %li{'class'=>class_for_todo(conference_progress['cfp'])}

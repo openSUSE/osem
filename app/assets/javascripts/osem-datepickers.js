@@ -7,12 +7,12 @@ $(function () {
       pickTime: false,
       format: "YYYY-MM-DD"
   });
-  $("#conference-reg-start-datepicker").datetimepicker({
+  $("#registration-period-start-datepicker").datetimepicker({
       format: "YYYY-MM-DD",
       pickTime: false,
       pickSeconds: false
   });
-  $("#conference-reg-end-datepicker").datetimepicker({
+  $("#registration-period-end-datepicker").datetimepicker({
       format: "YYYY-MM-DD",
       pickTime: false,
       pickSeconds: false

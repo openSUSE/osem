@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140801170430) do
+ActiveRecord::Schema.define(version: 20140812065531) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -94,8 +94,6 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "registration_start_date"
-    t.date     "registration_end_date"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -109,17 +107,16 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.boolean  "use_volunteers"
     t.string   "color"
     t.text     "description"
-    t.text     "registration_description"
     t.text     "ticket_description"
     t.text     "sponsor_description"
     t.string   "sponsor_email"
     t.text     "lodging_description"
-    t.boolean  "make_conference_public",          default: false
     t.boolean  "include_registrations_in_splash", default: false
     t.boolean  "include_sponsors_in_splash",      default: false
     t.boolean  "include_tracks_in_splash",        default: false
     t.boolean  "include_tickets_in_splash",       default: false
     t.boolean  "include_program_in_splash",       default: false
+    t.boolean  "make_conference_public",          default: false
     t.string   "banner_photo_file_name"
     t.string   "banner_photo_content_type"
     t.integer  "banner_photo_file_size"
@@ -213,12 +210,12 @@ ActiveRecord::Schema.define(version: 20140801170430) do
 
   create_table "event_attachments", force: true do |t|
     t.integer  "event_id"
-    t.string   "title",                                  null: false
+    t.string   "title",                                   null: false
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.boolean  "public",                  default: true
+    t.boolean  "public",                  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -332,6 +329,15 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.datetime "updated_at"
   end
 
+  create_table "registration_periods", force: true do |t|
+    t.integer  "conference_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "registrations", force: true do |t|
     t.integer  "conference_id"
     t.boolean  "attending_social_events",     default: true
@@ -363,11 +369,11 @@ ActiveRecord::Schema.define(version: 20140801170430) do
 
   create_table "roles", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "description"
     t.integer  "resource_id"
     t.string   "resource_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
@@ -463,8 +469,8 @@ ActiveRecord::Schema.define(version: 20140801170430) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -514,8 +520,8 @@ ActiveRecord::Schema.define(version: 20140801170430) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name"
-    t.text     "address"
+    t.text     "name",                       limit: 255
+    t.text     "address",                    limit: 255
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"
@@ -526,8 +532,8 @@ ActiveRecord::Schema.define(version: 20140801170430) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "include_venue_in_splash",    default: false
-    t.boolean  "include_lodgings_in_splash", default: false
+    t.boolean  "include_venue_in_splash",                default: false
+    t.boolean  "include_lodgings_in_splash",             default: false
   end
 
   create_table "versions", force: true do |t|

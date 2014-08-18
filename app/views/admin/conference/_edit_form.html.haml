@@ -20,9 +20,6 @@
         = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
       = f.inputs name: 'Registration' do
         = f.input :include_registrations_in_splash, hint: 'On setting this true you will enable the registrations to be displayed on the splash page'
-        = f.input :registration_start_date, :as => :string, :input_html => { :id => "conference-reg-start-datepicker", :readonly => "readonly"  }
-        = f.input :registration_end_date, :as => :string, :input_html => { :id => "conference-reg-end-datepicker", :readonly => "readonly"  }
-        = f.input :registration_description, hint: markdown_hint("This description will appear in registration segment of the splash."), input_html: { rows: 5, data: { provide: "markdown-editable" } }
       = f.input :ticket_description, hint: markdown_hint("This will appear in the Tickets segment of the splash."), input_html: { rows: 5, data: { provide: "markdown-editable" } }
       = f.input :sponsor_description, hint: markdown_hint("This will appear in the sponsor segment of the splash."), input_html: { rows: 5, data: { provide: "markdown-editable" } }
       = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
