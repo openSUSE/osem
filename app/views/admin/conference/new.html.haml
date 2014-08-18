@@ -9,6 +9,6 @@
       = f.inputs 'Scheduling' do
         = f.input :timezone, as: :time_zone, hint: 'Please select in what time zone your conference will take place.'
         = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', required: 'required' }
-        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker', required: 'required'  }
+        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker', required: 'required' }
       = f.actions do
         = f.action :submit, button_html: {class: 'btn btn-success pull-right'}

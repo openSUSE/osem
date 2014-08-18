@@ -9,7 +9,11 @@ $(function () {
             $("#" + id).toggle();
         });
     });
-
+    $("#commercial_commercial_type").change(function () {
+        $(".media-type").hide();
+        $('#' + $(this).val().toLowerCase() + '-help').show();
+    });
+    $('.dropdown-toggle').dropdown();
     /**
      * Adds the default template as value to the regarding email textarea field.
      */
@@ -69,78 +73,7 @@ $(function () {
         $('#' + $(this).data('name')).toggle();
     });
 
-    /**
-     * Appends the datetimepicker to new injected nested target fields.
-     */
-    $('a:contains("Add target")').click(function () {
-        setTimeout(function () {
-            $('.target-due-date-datepicker').not('.hasDatepicker').datepicker({
-                dateFormat: 'yy/mm/dd',
-                numberOfMonths: 1
-            });
-        },
-        5)
-    });
-
-
-    $("#commercial_commercial_type").change(function () {
-        $(".media-type").hide();
-        $('#' + $(this).val().toLowerCase() + '-help').show();
-    });
-
-    $('.dropdown-toggle').dropdown();
-    $("#conference-start-datepicker").datepicker({
-        dateFormat: 'yy/mm/dd',
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-            $("#conference-end-datepicker").datepicker("option","minDate", selected)
-        }
-    });
-    $("#conference-end-datepicker").datepicker({
-        dateFormat: 'yy/mm/dd',
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-            $("#conference-start-datepicker").datepicker("option","maxDate", selected)
-            $("#cfp-hard-datepicker").datepicker("option","minDate", selected)
-
-        }
-    });
-
-    $(".target-due-date-datepicker").datepicker({
-        dateFormat: 'yy/mm/dd',
-        numberOfMonths: 1
-    });
-
-    $("#cfp-hard-datepicker").datepicker({
-        dateFormat: 'yy/mm/dd',
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-            $("#conference-end-datepicker").datepicker("option","maxDate", selected)
-            $("#conference-start-datepicker").datepicker("option","maxDate", selected)
-
-        }
-    });
-
-    $("#conference-reg-start-datepicker").datetimepicker({
-        dateFormat: "yy-mm-dd",
-        timeFormat: "HH:mm",
-        showSecond: false,
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-            $("#conference-reg-end-datepicker").datepicker("option","minDate", selected)
-        }
-    });
-
-    $("#conference-reg-end-datepicker").datetimepicker({
-        dateFormat: "yy-mm-dd",
-        timeFormat: "HH:mm",
-        showSecond: false,
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-            $("#conference-reg-start-datepicker").datepicker("option","maxDate", selected)
-        }
-    });
-
+ 
     $(".comment-reply-link").click(function(){
         $(".comment-reply", $(this).parent()).toggle();
         return false;

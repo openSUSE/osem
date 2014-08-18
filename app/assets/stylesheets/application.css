@@ -1,9 +1,7 @@
 /*
  *= require strap-on
  *= require formtastic-bootstrap
- *= require jquery.ui.all
  *= require jquery.fileupload-ui
- *= require jquery-ui-timepicker-addon
  *= require jquery.dataTables_themeroller
  *= require osem
  *= require osem-rating
@@ -13,4 +11,5 @@
  *= require osem-fonts
  *= require font-awesome
  *= require bootstrap-markdown.min
+ *= require bootstrap-datetimepicker
 */

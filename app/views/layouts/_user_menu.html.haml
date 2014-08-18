@@ -15,8 +15,12 @@
   %li.divider
     %li
       = link_to(admin_conference_index_path()) do
-        %span.glyphicon.glyphicon-home
-        Administration
+        - if Conference.any?
+          %span.glyphicon.glyphicon-home
+            Administration
+        - else
+          %span.glyphicon.glyphicon-plus
+          Create Conference
     -if @conference and @conference.id and can? :show, @conference
       %li
         = link_to(admin_conference_path(@conference.short_title)) do
