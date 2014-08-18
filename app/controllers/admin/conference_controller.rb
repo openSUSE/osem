@@ -80,12 +80,10 @@ module Admin
       @conference = Conference.find_by(short_title: params[:id])
       short_title = @conference.short_title
       @conference.assign_attributes(params[:conference])
-      send_mail_on_conf_update = @conference.notify_on_dates_change?
-      send_mail_on_reg_update = @conference.notify_on_registration_dates_changed?
+      send_mail_on_conf_update = @conference.notify_on_dates_changed?
 
       if @conference.update_attributes(params[:conference])
         Mailbot.delay.conference_date_update_mail(@conference) if send_mail_on_conf_update
-        Mailbot.delay.conference_registration_date_update_mail(@conference) if send_mail_on_reg_update
         redirect_to(edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.')
       else

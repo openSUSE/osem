@@ -48,6 +48,11 @@
             = link_to(admin_conference_photos_path(@conference.short_title)) do
               %span.fa.fa-picture-o
               Photos
+  - if can? :update, @conference
+    %li{:class=> active_nav_li( admin_conference_registration_period_path (@conference.short_title))}
+      = link_to( admin_conference_registration_period_path (@conference.short_title)) do
+        %span.fa.fa-male
+        Registration Period
   - if can? :update, @conference.events.build
     %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
       = link_to(admin_conference_events_path(@conference.short_title)) do

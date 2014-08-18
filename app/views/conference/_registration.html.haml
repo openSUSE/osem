@@ -4,14 +4,14 @@
 %div.container.text-center
   %div.row
     %h1 Registration
-  - if !@conference.registration_description.blank?
+  - if @conference.registration_period && !@conference.registration_period.description.blank?
     .lead
-      = markdown(@conference.registration_description)
+      = markdown(@conference.registration_period.description)
   - if @conference.registration_dates_given?
-    -if @conference.registration_end_date >= Date.today
-      %h4 Registration period #{ date_string(@conference.registration_start_date, @conference.registration_end_date) }
+    -if @conference.registration_period.end_date >= Date.today
+      %h4 Registration period #{ date_string(@conference.registration_period.start_date, @conference.registration_period.end_date) }
     -else
-      %h4 Registration is Closed, it was from #{ date_string(@conference.registration_start_date, @conference.registration_end_date) }
+      %h4 Registration is Closed, it was from #{ date_string(@conference.registration_period.start_date, @conference.registration_period.end_date) }
   - if @conference.registration_open?
     = link_to "Register for #{@conference.short_title}", conference_register_path(@conference.short_title), :class =>"btn btn-success btn-lg", target: '_blank'
   - if @conference.use_supporter_levels?

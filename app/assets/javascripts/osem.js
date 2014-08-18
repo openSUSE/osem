@@ -73,7 +73,6 @@ $(function () {
         $('#' + $(this).data('name')).toggle();
     });
 
- 
     $(".comment-reply-link").click(function(){
         $(".comment-reply", $(this).parent()).toggle();
         return false;

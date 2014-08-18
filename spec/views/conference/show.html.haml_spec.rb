@@ -2,24 +2,26 @@ require 'spec_helper'
 describe 'conference/show.html.haml' do
   before(:each) do
     allow(view).to receive(:date_string).and_return("January 17 - 21 2014")
-    @conference = create(:conference, registration_description: 'Lorem Ipsum Dolor',
-                                      registration_start_date: Date.today,
-                                      registration_end_date: Date.tomorrow,
-                                      description: 'Lorem Ipsum',
-                                      sponsor_description: 'Lorem Ipsum Dolor',
-                                      sponsor_email: 'example@example.com',
-                                      include_registrations_in_splash: true,
-                                      include_program_in_splash: true,
-                                      include_sponsors_in_splash: true,
-                                      include_tracks_in_splash: true,
-                                      include_tickets_in_splash: true,
-                                      include_banner_in_splash: true)
+    @conference = create(:conference,
+                         description: 'Lorem Ipsum',
+                         sponsor_description: 'Lorem Ipsum Dolor',
+                         sponsor_email: 'example@example.com',
+                         include_registrations_in_splash: true,
+                         include_program_in_splash: true,
+                         include_sponsors_in_splash: true,
+                         include_tracks_in_splash: true,
+                         include_tickets_in_splash: true,
+                         include_banner_in_splash: true)
     @conference.contact.update(facebook: 'http://www.fbexample.com',
                                googleplus: 'http://www.google-example.com',
                                instagram: 'http://instagram.com',
                                twitter: 'http://twitter.com',
                                public: true
                                )
+    @conference.registration_period = create(:registration_period,
+                                             description: 'Lorem Ipsum Dolor',
+                                             start_date: Date.today,
+                                             end_date: Date.tomorrow)
     @conference.call_for_papers = create(:call_for_papers, conference: @conference,
                                                            include_cfp_in_splash: true)
     @conference.call_for_papers = create(:call_for_papers, conference: @conference,
@@ -45,7 +47,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders registration partial' do
-    expect(view.content_for(:splash)).to include("#{@conference.registration_description}")
+    expect(view.content_for(:splash)).to include("#{@conference.registration_period.description}")
     expect(view).to render_template(partial: 'conference/_registration')
   end
 

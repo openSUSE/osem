@@ -48,16 +48,6 @@ describe Admin::ConferenceController do
           conference.reload
           allow(Mailbot).to receive(:conference_date_update_mail).and_return(mailer)
         end
-
-        it 'sends email notification on conference registration date update' do
-          mailer = double
-          allow(mailer).to receive(:deliver)
-          conference.email_settings = create(:email_settings)
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, registration_start_date: Date.today + 2.days, registration_end_date: Date.today + 4.days)
-          conference.reload
-          allow(Mailbot).to receive(:conference_registration_date_update_mail).and_return(mailer)
-        end
       end
 
       context 'invalid attributes' do
@@ -141,13 +131,13 @@ describe Admin::ConferenceController do
 
     describe 'GET #edit' do
       it 'assigns the requested conference to conference' do
-        get :show, id: conference.short_title
+        get :edit, id: conference.short_title
         expect(assigns(:conference)).to eq conference
       end
 
       it 'renders the show template' do
-        get :show, id: conference.short_title
-        expect(response).to render_template :show
+        get :edit, id: conference.short_title
+        expect(response).to render_template :edit
       end
     end
 

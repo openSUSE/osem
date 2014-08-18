@@ -1,0 +1,27 @@
+%h1 Registration Period
+- if @registration_period
+  .row
+    .col-md-6
+      %dl.dl-horizontal
+        %dt
+          Start Date
+        %dd
+          = @registration_period.start_date
+        %dt
+          End Date
+        %dd
+          = @registration_period.end_date
+        %dt
+          Description
+        %dd
+          - if !@conference.registration_period.description.blank?
+            = markdown(@conference.registration_period.description)
+
+  - if can? :update, @registration_period
+    = link_to 'Edit', edit_admin_conference_registration_period_path, class: 'btn btn-primary'
+  - if can? :destroy, @registration_period
+    = link_to 'Delete', admin_conference_registration_period_path,
+                        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- else
+  - if can? :create, @conference
+    = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'
