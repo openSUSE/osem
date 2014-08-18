@@ -29,7 +29,7 @@ as fast as we can. There are some things which we embrace
 
 # Issues
 
-please refer to our [CONTRIBUTING.md](CONTRIBUTING guide)
+please refer to our [CONTRIBUTING guide](CONTRIBUTING.md)
 
 ## Documentation
 OSEM is extensively (some would say maniacally ;-) documented. You can generate a nice HTML documentation with ''rdoc''
@@ -52,7 +52,7 @@ by Coveralls in your PR.
 
 ## Style
 We are using [rubocop](https://github.com/bbatsov/rubocop) as a style checker. It is running each time
-Travis run its testing routine. If you want to run it locally just `bundle exec rubocop`. 
+Travis run its testing routine. If you want to run it locally just `bundle exec rubocop`.
 You can read through current enabled rules in `.rubocop.yml` file. Explanations of the defined [rules](http://rubydoc.info/github/bbatsov/rubocop/master/frames) can be found in modules [Cop::Lint](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Lint) and [Cop::Style](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Style).
 Additionally you can read through [community ruby style-guide](https://github.com/bbatsov/ruby-style-guide) to better understand core principles.
 
