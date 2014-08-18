@@ -108,6 +108,21 @@ Style/BracesAroundHashParameters:
 Style/CaseEquality:
   Enabled: true
 
+Style/ClassAndModuleChildren:
+  Enabled: true
+
+# Offense count: 577
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, SupportedStyles.
+Style/StringLiterals:
+  Enabled: false
+
+Style/TrailingBlankLines:
+  Enabled: true
+
+Style/TrailingWhitespace:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'
@@ -115,3 +130,4 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
+    - 'bundle/**/*'
