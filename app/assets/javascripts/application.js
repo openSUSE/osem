@@ -11,10 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery.ui.all
 //= require jquery_ujs
 //= require jquery-fileupload
-//= require jquery-ui-timepicker-addon
 //= require jquery.dataTables
 //= require cocoon
 //= require bootstrap
@@ -27,6 +25,10 @@
 //= require bootstrap-markdown
 //= require to-markdown
 //= require markdown
+//= require moment
+//= require bootstrap-datetimepicker
+//= require osem-datepickers
+
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
         return false;

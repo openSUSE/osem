@@ -46,11 +46,11 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 2.3.0.rc3'
-
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'jquery-fileupload-rails'
 gem 'cocoon'
 
