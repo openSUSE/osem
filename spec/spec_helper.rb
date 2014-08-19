@@ -19,6 +19,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 # Add poltergeist to use it as JS driver
 require 'capybara/poltergeist'
+require 'phantomjs'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -65,7 +66,7 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, js_errors: false)
+    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false)
   end
 
   # Includes helpers and connect them to specific types of tests

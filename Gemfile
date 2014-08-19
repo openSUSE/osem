@@ -130,6 +130,7 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'poltergeist'
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   # Set of rails validations matchers to describe models
   gem 'shoulda'
   # Extracted from RSpec 3 stub_model and mock_model
