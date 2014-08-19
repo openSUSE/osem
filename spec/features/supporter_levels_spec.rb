@@ -34,7 +34,7 @@ feature SupporterLevel do
       # Remove supporter level
       click_link 'Remove supporter_level'
       expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
+      find('button', text: 'Update Conference').trigger('click')
       expect(flash).to eq('Supporter levels were successfully updated.')
       expect(page.all('div.nested-fields').count == 0).to be true
     end
