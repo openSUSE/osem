@@ -92,6 +92,7 @@ feature Event do
       # Delete a commercial
       click_link 'Commercials'
       click_link 'Delete'
+      page.driver.network_traffic
       expect(flash).to eq('Commercial was successfully destroyed.')
       expect(event.commercials.count).to eq(expected_count_commercial - 1)
 
