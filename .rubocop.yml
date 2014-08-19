@@ -128,3 +128,4 @@ AllCops:
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
     - 'bundle/**/*'
+    - 'config/**/*'
