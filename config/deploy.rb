@@ -36,9 +36,10 @@ task deploy: :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    invoke :'dump_db'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :notify_errbit
+    #invoke :notify_errbit
 
     to :launch do
       queue "sudo /etc/init.d/apache2 restart"
@@ -54,4 +55,9 @@ task :notify_errbit do
   revision = `git rev-parse HEAD`.strip
   user = ENV['USER']
   queue "bundle exec rake hoptoad:deploy TO=#{rails_env} REVISION=#{revision} REPO=#{repository} USER=#{user}"
+end
+
+desc 'Back ups the database'
+task :dump_db do
+  queue "bundle exec rake dump_db"
 end
