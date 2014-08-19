@@ -28,6 +28,10 @@ end
 
 desc 'Deploys the current version to the server.'
 task deploy: :environment do
+  to :prepare do
+    queue "cd #{deploy_to}/current && RAILS_ENV=production script/delayed_job stop"
+  end
+
   deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
@@ -38,8 +42,9 @@ task deploy: :environment do
 
     to :launch do
       queue "sudo /etc/init.d/apache2 restart"
+      queue "cd #{deploy_to}/current && RAILS_ENV=production script/delayed_job start"
     end
-    
+
     invoke :'deploy:cleanup'
   end
 end
