@@ -1,35 +1,35 @@
 %h1
-  %span.glyphicon.glyphicon-dashboard
+  %span.fa.fa-tachometer
   Dashboard for #{@conference.title}
 %hr
 .row
-  .col-sm-4
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.glyphicon.glyphicon-star
-      .text
-        %label.text-muted total registrations: #{@total_reg}
-        %label.text-muted new registrations: #{@new_reg}
-        .row
-          = render partial: 'targets', locals: { targets: @registration_targets, name: 'registrations' }
-  .col-sm-4
+      %span.fa.fa-user.fa-lg
+      %span.fa.fa-lg
+        = @total_user
+      %p
+        %small
+          #{'Registration'.pluralize(@registration_targets)}
+
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.glyphicon.glyphicon-comment
-      .text
-        %label.text-muted total submissions: #{@total_submissions}
-        %label.text-muted new submissions: #{@new_submissions}
-        .row
-          = render partial: 'targets', locals: { targets: @submission_targets, name: 'submissions'  }
-  .col-sm-4
+      %span.fa.fa-check-square.fa-lg
+      %span.fa.fa-lg
+        = @total_reg
+      %p
+        %small
+          #{'Submission'.pluralize(@submission_targets)}
+
+  .col-sm-4.col-xs-4
     .dashbox.text-center
-      .icon
-        %i.glyphicon.glyphicon-user
-      .text
-        %label.text-muted program: #{@program_length} min
-        %label.text-muted new program: #{@new_program_length} min
-        .row
-          = render partial: 'targets', locals: { targets: @program_minutes_targets, name: 'program_hours' }
+      %span.fa.fa-file-text.fa-lg
+      %span.fa.fa-lg
+        = @total_submissions
+      %p
+        %small
+          #{'Hour'.pluralize(@program_minutes_targets)}
+
 .row
   .col-md-12
     .row
@@ -61,11 +61,11 @@
     %ul.nav.nav-tabs#doughnut_tabs
       %li.active
         %a{:href=>"#distribution_all", "data-toggle"=>"tab"}
-          %span.glyphicon.glyphicon-star
+          %span.fa.fa-star
           All
       %li
         %a{:href=>"#distribution_confirmed", "data-toggle"=>"tab"}
-          %span.glyphicon.glyphicon-comment
+          %span.fa.fa-comment
           Confirmed
     .tab-content
       .tab-pane.active#distribution_all
@@ -90,11 +90,11 @@
     %ul.nav.nav-tabs#recentTable
       %li.active
         %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
-          %span.glyphicon.glyphicon-star
+          %span.fa.fa-user
           Recent Registrations
       %li
         %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
-          %span.glyphicon.glyphicon-comment
+          %span.fa.fa-file-text
           Recent Submissions
     .tab-content
       .tab-pane.active#recent_reg
@@ -107,7 +107,7 @@
   .col-md-12
     %h3
       %span
-        %i.glyphicon.glyphicon-flag
+        %i.fa.fa-flag
         Campaigns
     = render partial: 'campaigns', locals: {campaigns: @campaigns, name: 'campaigns'}
 

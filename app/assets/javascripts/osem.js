@@ -104,11 +104,11 @@ $(function () {
             //Hide all except this
             $siblings = $(this).siblings().find("ul:visible");
             $siblings.hide();
-            $siblings.parent().find('span:nth-child(2)').toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
+            $siblings.parent().find('span:nth-child(2)').toggleClass("fa-chevron-down fa-chevron-right");
 
             //show this
             $(this).find("ul").show();
-            $(this).find('span:nth-child(2)').toggleClass("glyphicon-chevron-down glyphicon-chevron-right");
+            $(this).find('span:nth-child(2)').toggleClass("fa-chevron-down fa-chevron-right");
         }
     });
 

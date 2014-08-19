@@ -54,7 +54,7 @@
 							  :style => "padding:8px;" %>
                     <%- end %>
                     <h5>
-                      <span class="glyphicon glyphicon-comment"></span>
+                      <span class="fa fa-comment"></span>
                       <%= event[0].title %>
                       <% unless event[0].subtitle.blank? %>
 			<span class="schedule-subtitle">
@@ -64,12 +64,12 @@
                     </h5>
 		      </span>
                       <span class="schedule-speaker">
-                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="fa fa-user"></span>
                         <%= "#{speaker.name}" %>
                       </span>
                       <% if event[0].track%>
                         <span class="schedule-track">
-                          <span class="glyphicon glyphicon-road"></span>
+                          <span class="fa fa-road"></span>
                           <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
                         </span>
                         <% end -%>
@@ -94,18 +94,18 @@
   </div>
 
 <%= javascript_tag do %>
-  jQuery( function($) { 
-    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) { 
+  jQuery( function($) {
+    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) {
       if(e.which===1)
       {
-        window.location = $(this).attr('data-href'); 
+        window.location = $(this).attr('data-href');
       }
       else if(e.which===2)
       {
       window.open($(this).attr('data-href'), '_blank');
       }
-    }); 
-}); 
+    });
+});
 
 $(function() {
   // add a hash to the URL when the user clicks on a tab
