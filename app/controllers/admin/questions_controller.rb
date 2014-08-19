@@ -24,7 +24,7 @@ module Admin
         if @conference.save
           format.html { redirect_to admin_conference_questions_path, notice: 'Question was successfully created.' }
         else
-          flash[:error] = "Oops, couldn't save. Question and answer(s) have titles?"
+          flash[:error] = "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}"
           format.html { redirect_to admin_conference_questions_path }
         end
       end
@@ -42,7 +42,7 @@ module Admin
       if @question.update_attributes(params[:question])
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
+        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}")
       end
     end
 
