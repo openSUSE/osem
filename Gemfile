@@ -102,6 +102,9 @@ gem 'activeuuid'
 # We use whenever for recurring jobs
 gem 'whenever', :require => false
 
+# We use daemons to run scripts
+gem 'daemons' 
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules
