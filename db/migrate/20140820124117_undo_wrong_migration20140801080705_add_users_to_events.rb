@@ -19,7 +19,7 @@ class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration
   end
 
   def up
-    if ActiveRecord::Migrator.get_all_versions.include?20140801080705
+    if ActiveRecord::Migrator.get_all_versions.include? 20140801080705
       user_deleted = TempUser.find_by(email: 'deleted@localhost.osem')
 
       TempEvent.all.each do |event|
