@@ -16,13 +16,8 @@ class AssignUsersToEvents < ActiveRecord::Migration
   end
 
   def up
-    unless (user_deleted = TempUser.find_by(email: 'deleted@localhost.osem'))
-      user_deleted = TempUser.new(email: 'deleted@localhost.osem', name: 'User deleted',
-                                  biography: 'Data is no longer available for deleted user.',
-                                  password: Devise.friendly_token[0, 20])
-      user_deleted.skip_confirmation!
-      user_deleted.save!
-    end
+    user_deleted = TempUser.find_or_create_by(email: 'deleted@localhost.osem', name: 'User deleted',
+                                              biography: 'Data is no longer available for deleted user.')
 
     TempEvent.all.each do |event|
       event_users = TempEventUser.where(event_id: event)
