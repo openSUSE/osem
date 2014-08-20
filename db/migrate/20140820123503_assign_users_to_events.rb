@@ -5,6 +5,7 @@ class AssignUsersToEvents < ActiveRecord::Migration
 
   class TempUser < ActiveRecord::Base
     self.table_name = 'users'
+    attr_accessible :email, :name, :biography, :password
   end
 
   class TempEventUser < ActiveRecord::Base
