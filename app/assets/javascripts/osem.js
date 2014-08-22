@@ -1,5 +1,18 @@
 $(function () {
     /**
+     * Displays a modal with the questions of the registration.
+     */
+    $(document).ready(function(){
+        $(".question-btn").click(function(){
+            var id = $(this).data('id');
+            $("#question-modal-body").empty();
+            $("#question-modal-body").html($(".question" + id).clone().show());
+            $("#question-modal-header").text('Questions for ' + $(this).data('name'));
+            $('#questions').modal('show');
+        });
+    });
+
+    /**
      * Toggles email template help below email body textarea field.
      */
     $(document).ready( function() {

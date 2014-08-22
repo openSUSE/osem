@@ -4,28 +4,35 @@
       Edit registration of #{@user.name} (#{@user.email}) for #{@conference.title}
       %br
 .row
-  .col-md-12
+  .col-md-8
     = semantic_form_for(@registration, :url => admin_conference_registration_path(@conference.short_title, @registration)) do |f|
-      = f.inputs "Personal Information" do
+      = f.inputs 'Personal Information' do
         = f.fields_for :user do |u|
-          = u.input :nickname, :as => :string
-          = u.input :affiliation, :placeholder => "Company/User Group/nothing", :as => :string
-      = f.inputs "Registration Information" do
+          = u.input :name, as: :string
+          = u.input :nickname, as: :string
+          = u.input :affiliation, placeholder: 'Company/User Group/nothing', as: :string
+      = f.inputs 'Registration Information' do
         - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
           = f.semantic_fields_for :supporter_registration do |reg|
-            = reg.input :supporter_level, :as => :select, :collection => @conference.supporter_levels
-            = reg.input :code, :label => "Confirmation or registration code (if applicable)"
+            = reg.input :supporter_level, as: :select, collection: @conference.supporter_levels
             %span#supporter-link.help-block
-        = f.input :attending_with_partner, :label => false
-        = f.input :using_affiliated_lodging, :label => false
-        = f.input :handicapped_access_required, :label => false
-        = f.input :other_special_needs, :label => "Any other special needs?", :input_html => {:rows => 2, :class => "span6"}
+        - @conference.questions.each do |q|
+          %h5
+            = "Q: #{q.title}"
+          - if q.question_type.id == 1  || q.question_type.id == 2 # yes/no or single choice
+            = f.input :qanswers, :collection => q.qanswers, :as => :select, :input_html => { :multiple => false }, :label => false, :include_blank => "Please make your choice",
+                      :member_label => Proc.new {|a| a.answer.title}
+          - if q.question_type.id == 3  # multiple choice
+            = f.input :qanswers, :collection => q.qanswers, :as => :check_boxes, :label => false,
+                      :member_label => Proc.new {|a| a.answer.title}
+
+      -# Not necessary
       - if @conference.social_events.count > 0
-        = f.inputs "Are you planning to attend any of the parties?" do
+        = f.inputs 'Are you planning to attend any of the parties?' do
           %br Yes, I'll be attending...
           %br
-          = f.input :social_events, :as => :check_boxes, :label => false, :collection => @conference.social_events
-      = f.action :submit, :button_html => { :value => "Edit Registration", :class => "btn btn-primary" }
+          = f.input :social_events, as: :check_boxes, label: false, collection: @conference.social_events
+      = f.action :submit, button_html: { value: 'Edit Registration', class: 'btn btn-primary' }
 :javascript
     $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {
       var str = "";
@@ -33,25 +40,3 @@
       $("#supporter-link").html(str);
     })
     .trigger('change');
-
-    $("#registration-arrival-datepicker").datetimepicker({
-        dateFormat: "yy-mm-dd",
-        timeFormat: "HH:mm",
-        showSecond: false,
-        numberOfMonths: 1,
-        defaultDate: '#{@conference.start_date.yesterday.strftime('%Y-%m-%d')}',
-        onSelect: function(selected) {
-            $("#registration-departure-datepicker").datepicker("option","minDate", selected)
-        }
-    });
-
-    $("#registration-departure-datepicker").datetimepicker({
-        dateFormat: "yy-mm-dd",
-        timeFormat: "HH:mm",
-        showSecond: false,
-        numberOfMonths: 1,
-        defaultDate: '#{@conference.end_date.tomorrow.strftime('%Y-%m-%d')}',
-        onSelect: function(selected) {
-            $("#registration-arrival-datepicker").datepicker("option","maxDate", selected)
-        }
-    });

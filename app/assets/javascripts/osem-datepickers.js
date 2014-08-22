@@ -1,4 +1,12 @@
 $(function () {
+  $("#registration-arrival-datepicker").datetimepicker({
+      pickTime: true,
+      format: "YYYY-MM-DD hh:mm"
+  });
+  $("#registration-departure-datepicker").datetimepicker({
+      pickTime: true,
+      format: "YYYY-MM-DD hh:mm"
+  });
   $("#conference-start-datepicker").datetimepicker({
       pickTime: false,
       format: "YYYY-MM-DD"

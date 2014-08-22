@@ -8,6 +8,3 @@
   - if q.question_type.id == 3  # multiple choice
     = f.input :qanswers, :collection => q.qanswers, :as => :check_boxes, :label => false,
               :member_label => Proc.new {|a| a.answer.title}
- 
-
-
