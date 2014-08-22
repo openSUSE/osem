@@ -9,10 +9,10 @@
             = image_tag(key.gravatar_url(size: '25'), title: "Yo #{key.name}!", :alt => '', 'class'=>'img-circle img-responsive text-center')
           .col-md-10
             %h4
-              #{key.name}
+              = link_to key.name, admin_user_path(key)
               %div
                 %small
-                  #{pluralize(value, 'submission')}
+                  = link_to pluralize(value, 'submission'), admin_user_path(key, tab: 'submissions-content')
     - else
       %h4.text-warning
         No submissions!
