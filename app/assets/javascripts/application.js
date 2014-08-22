@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.dataTables
+//= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require cocoon
 //= require bootstrap
 //= require Chart
@@ -27,6 +28,7 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require osem-datepickers
+//= require osem-datatables
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

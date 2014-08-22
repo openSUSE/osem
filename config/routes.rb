@@ -27,8 +27,8 @@ Osem::Application.routes.draw do
       get '/volunteers' => 'volunteers#index', as: 'volunteers_info'
       patch '/volunteers' => 'volunteers#update', as: 'volunteers_update'
 
-      patch '/registrations/change_field' => 'registrations#change_field'
-      resources :registrations
+      patch '/registrations/toogle_attended' => 'registrations#toogle_attended'
+      resources :registrations, except: [:create, :new]
 
       resource :registration_period
 
@@ -97,13 +97,13 @@ Osem::Application.routes.draw do
         patch '/restart' => 'proposal#restart'
       end
     end
+
+    resource :conference_registrations, path: 'register'
+
     resource :schedule, only: [] do
       get "/" => "schedule#index"
     end
 
-    get "/register" => "conference_registration#register"
-    patch "/register" => "conference_registration#update"
-    delete "/register" => "conference_registration#unregister"
     member do
       get "gallery_photos"
       patch "subscription" => "conference#subscribe"

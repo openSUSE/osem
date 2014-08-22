@@ -45,15 +45,13 @@ class ProposalController < ApplicationController
       return
     end
 
-    registration = current_user.registrations.where(conference_id: @conference.id).first
     ahoy.track 'Event submission', title: 'New submission'
-    if registration.nil?
-      redirect_to(conference_register_path(@conference.short_title),
-                  alert: 'Event was successfully submitted.
-                 You should register for the conference now.')
-    else
-      redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+    if @conference.user_registered?(current_user)
+      redirect_to(conference_proposal_index_path(@conference.short_title),
                   notice: 'Event was successfully submitted.')
+    else
+      redirect_to(new_conference_conference_registrations_path(conference_id: @conference.short_title),
+                  alert: 'Event was successfully submitted. You should register for the conference now.')
     end
   end
 
@@ -114,13 +112,12 @@ class ProposalController < ApplicationController
       return
     end
 
-    if !@conference.user_registered?(current_user)
-      redirect_to(conference_register_path(@conference.short_title),
-                  alert: 'The proposal was confirmed. Please register to attend the conference.')
-      return
+    if @conference.user_registered?(current_user)
+      redirect_to(conference_proposal_index_path(@conference.short_title),
+                  notice: 'The proposal was confirmed.')
     end
-    redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
-                notice: 'The proposal was confirmed.')
+    redirect_to(new_conference_conference_registrations_path(conference_id: @conference.short_title),
+                alert: 'The proposal was confirmed. Please register to attend the conference.')
   end
 
   def restart

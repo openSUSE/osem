@@ -35,7 +35,7 @@ feature Event do
       click_button 'Create Event'
       expect(flash).to eq('Event was successfully submitted. You should register for the conference now.')
 
-      expect(current_path).to eq(conference_register_path(conference.short_title))
+      expect(current_path).to eq(new_conference_conference_registrations_path(conference.short_title))
 
       expect(Event.count).to eq(expected_count)
 
@@ -128,7 +128,7 @@ feature Event do
 
       # Register for conference
       find('#register').click
-      expect(flash).to eq('You are now Registered and will be receiving Email Notifications.')
+      expect(flash).to eq('You are now registered and will be receiving E-Mail notifications.')
 
       # Withdraw proposal
       visit conference_proposal_index_path(conference.short_title)

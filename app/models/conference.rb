@@ -26,7 +26,7 @@ class Conference < ActiveRecord::Base
 
   has_paper_trail
 
-  has_and_belongs_to_many :questions
+  has_many :questions
 
   has_one :contact, dependent: :destroy
   has_one :registration_period, dependent: :destroy

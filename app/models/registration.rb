@@ -28,6 +28,8 @@ class Registration < ActiveRecord::Base
 
   alias_attribute :other_needs, :other_special_needs
 
+  validates_uniqueness_of :user_id, scope: :conference_id, message: 'already Registered!'
+
   after_create :set_week
 
   def week

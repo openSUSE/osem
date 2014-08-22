@@ -5,25 +5,19 @@
       - if @users
         = "(#{@users.length})"
 
-      = link_to "New User", new_admin_user_path, class: 'btn btn-success pull-right'
-    .well
-      %table.table.table-striped.table-bordered.table-hover#users
-        %thead
-          %th
-            %b ID
-          %th
-            %b State
-          %th
-            %b Email
-          %th
-            %b Name
-          %th
-            %b Attended Conferences
-          %th
-            %b Roles
-          %th
-          %th
-          %th
+      = link_to 'New User', new_admin_user_path, class: 'btn btn-success pull-right'
+    %table.table.table-striped.table-bordered.table-hover#users-datatable
+      %thead
+        %th ID
+        %th State
+        %th Email
+        %th Name
+        %th Attended Conferences
+        %th Roles
+        %th View
+        %th Edit
+        %th Delete
+      %tbody
         - @users.each do |user|
           %tr
             %td
@@ -44,24 +38,19 @@
                 = show_roles(user.get_roles.first(2))
                 - if user.get_roles.count > 2
                   = '...'
+              - else
+                None
             - if can? :show, user
               %td
-                = link_to "View", admin_user_path(user), class: 'btn btn-success'
+                = link_to 'View', admin_user_path(user), class: 'btn btn-success'
             - if can? :update, user
               %td
-                = link_to "Edit", edit_admin_user_path(user), class: 'btn btn-primary'
+                = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-primary'
             - if can? :destroy, user
               %td
                 - if current_user.id == user.id or user.role_ids.include? 3
-                  =link_to 'Delete',admin_user_path(user), :method => :delete , :data => {:confirm => 'Are you sure ?'}, :disabled => true,:class => "btn btn-primary disabled btn-danger",:role => "button"
+                  = link_to 'Delete',admin_user_path(user), :method => :delete , :data => {:confirm => 'Are you sure ?'},
+                  disabled: true, class: 'btn btn-primary disabled btn-danger', role: 'button'
                 - else
-                  =link_to 'Delete',admin_user_path(user), :method=> :delete , :data=> {:confirm => 'Are you sure ?'},:class => "btn btn-primary btn-danger"
-
-
-:javascript
-  $(document).ready(function() {
-      $('#users').dataTable( {
-        "bPaginate": false,
-        "bLengthChange": false
-      } );
-  } );
+                  = link_to 'Delete',admin_user_path(user), method: :delete,
+                  data: { confirm: 'Are you sure ?' }, class: 'btn btn-primary btn-danger'
