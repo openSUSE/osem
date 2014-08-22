@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-fileupload
 //= require jquery.dataTables
 //= require cocoon
 //= require bootstrap

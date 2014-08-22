@@ -140,10 +140,5 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
     # View commercials of confirmed events
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
-
-    can :manage, EventAttachment do |ea|
-      Event.find(ea.event_id).event_users.where(user_id: user.id).present?
-    end
-    can :create, EventAttachment
   end
 end

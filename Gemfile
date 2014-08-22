@@ -51,7 +51,6 @@ gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery-fileupload-rails'
 gem 'cocoon'
 
 # Use gravtastic for user avatars
