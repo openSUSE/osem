@@ -8,9 +8,9 @@ module Api
           users = User.joins(:event_users)
         else
           users = User.joins(event_users: { event: :conference })
-          users = users.where('conferences.guid' => params[:conference_id])
+          users = users.where(conferences: { guid: params[:conference_id] })
         end
-        users = users.where('event_users.event_role' => 'speaker')
+        users = users.where(event_users: {event_role: :speaker})
         render json: users, each_serializer: SpeakerSerializer
       end
     end
