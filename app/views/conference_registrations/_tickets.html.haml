@@ -1,0 +1,26 @@
+= form_tag(conference_ticket_purchases_path, method: :post) do |f|
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Ticket
+        %th Quantity
+        %th Price
+        %th Total
+    %tbody
+      - tickets.each do |ticket|
+        = render partial: 'ticket', f: f, locals: { ticket: ticket }
+      %tr
+        %td
+        %td
+        %td.col-sm-1.col-md-1.text-center
+          %h4
+            Total
+        %td.col-sm-1.col-md-1.text-center
+          %h4
+            %strong
+              %span{ id: 'total_price' }
+                0
+  %p
+    = button_tag(type: 'submit', class: 'btn btn-success btn-lg pull-right') do
+      Support
+      %i.fa.fa-shopping-cart

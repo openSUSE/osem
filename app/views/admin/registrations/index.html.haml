@@ -16,7 +16,6 @@
           %th #
           %th Name
           %th E-Mail
-          %th Ticket
           %th Arrival
           %th Departure
           %th Attended
@@ -32,9 +31,6 @@
               = registration.name
             %td
               = registration.email
-            %td
-              - if registration.supporter_level
-                = registration.supporter_level.title
             %td
               - if registration.arrival
                 = registration.arrival.strftime("%d %b %H:%M")

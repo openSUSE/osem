@@ -195,6 +195,15 @@ GEM
     minitest (5.4.0)
     momentjs-rails (2.8.1)
       railties (>= 3.1)
+    monetize (0.3.0)
+      money (~> 6.1.0.beta1)
+    money (6.1.1)
+      i18n (~> 0.6.4)
+    money-rails (0.12.0)
+      activesupport (>= 3.0)
+      monetize (~> 0.3.0)
+      money (~> 6.1.1)
+      railties (>= 3.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -436,6 +445,7 @@ DEPENDENCIES
   letter_opener
   mina
   momentjs-rails (>= 2.8.1)
+  money-rails
   mysql2
   omniauth
   omniauth-facebook

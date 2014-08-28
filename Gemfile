@@ -103,7 +103,10 @@ gem 'activeuuid'
 gem 'whenever', :require => false
 
 # We use daemons to run scripts
-gem 'daemons' 
+gem 'daemons'
+
+# We use money-rails to encapsulate money in objects
+gem 'money-rails'
 
 # Use guard and spring for testing in development
 group :development do

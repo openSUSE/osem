@@ -102,11 +102,11 @@
         - if can? :update, @conference.sponsors.build
           %li{:class=> active_nav_li(admin_conference_sponsors_path(@conference.short_title))}
             = link_to 'Sponsors', admin_conference_sponsors_path(@conference.short_title)
-  - if can? :update, @conference.supporter_levels.build
-    %li{ class: active_nav_li(admin_conference_supporter_levels_path(@conference.short_title)) }
-      = link_to(admin_conference_supporter_levels_path(@conference.short_title)) do
+  - if can? :update, @conference.tickets.build
+    %li{ class: active_nav_li(admin_conference_tickets_path(@conference.short_title)) }
+      = link_to(admin_conference_tickets_path(@conference.short_title)) do
         %span.fa.fa-usd
-        Supporter Levels
+        Tickets
   - if can? :update, @conference.email_settings
     %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
       = link_to(admin_conference_emails_path(@conference.short_title)) do

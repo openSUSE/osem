@@ -1,0 +1,38 @@
+%h1 Tickets
+%p.lead
+  If you add Tickets to your Conference, people will be redirected after registration to a page where they can purchase tickets.
+- if @conference.tickets.any?
+  .row
+    .col-md-12
+      %table.table
+        %thead
+          %th #
+          %th Title
+          %th Price
+          %th Buyer
+          %th Show
+          %th Edit
+          %th Delete
+        %tbody
+          - @conference.tickets.each_with_index do |ticket, index|
+            %tr
+              %td
+                = index + 1
+              %td
+                = ticket.title
+              %td
+                = humanized_money_with_symbol ticket.price
+              %td
+                = ticket.buyers.count
+              %td
+                = link_to 'Show', admin_conference_ticket_path(@conference.short_title, ticket.id),
+                method: :get, class: 'btn btn-success'
+              %td
+                = link_to 'Edit', edit_admin_conference_ticket_path(@conference.short_title, ticket.id),
+                method: :get, class: 'btn btn-primary'
+              %td
+                = link_to 'Delete', admin_conference_ticket_path(@conference.short_title, ticket.id),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Ticket for #{ticket.title}?" }
+
+= link_to 'Add Ticket', new_admin_conference_ticket_path, class: 'btn btn-success'
+

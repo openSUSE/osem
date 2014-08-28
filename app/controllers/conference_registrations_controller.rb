@@ -2,16 +2,18 @@ class ConferenceRegistrationsController < ApplicationController
   before_filter :verify_user
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
-  before_action :set_registration, only: [:edit, :update, :destroy]
-  before_action :set_workshops, only: [:new, :edit, :update, :create]
+  before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
     @registration = current_user.registrations.build(conference_id: @conference.id)
-    @registration.build_supporter_registration
   end
 
-  def edit
+  def show
+    @workshops = @registration.workshops if @registration
+    @total_price = Ticket.total_price(@conference, current_user)
   end
+
+  def edit; end
 
   def create
     user_attributes = registration_params[:user_attributes]
@@ -24,16 +26,13 @@ class ConferenceRegistrationsController < ApplicationController
       # Trigger ahoy event
       ahoy.track 'Registered', title: 'New registration'
 
-      # Send registration mail
-      if @conference.email_settings.send_on_registration?
-        Mailbot.delay.registration_mail(@conference, current_user)
+      if @conference.tickets.any?
+        redirect_to conference_tickets_path(@conference.short_title),
+                    notice: 'You are now registered and will be receiving E-Mail notifications.'
+      else
+        redirect_to  conference_conference_registrations_path(@conference.short_title),
+                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       end
-
-      # Set subscription for the conference
-      Subscription.create(conference_id: @conference.id, user_id: current_user.id)
-
-      redirect_to edit_conference_conference_registrations_path(@conference.short_title),
-                  notice: 'You are now registered and will be receiving E-Mail notifications.'
     else
       flash[:alert] = "A error prohibited the registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
@@ -42,9 +41,9 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def update
-    if @registration.update(registration_params)
-      redirect_to edit_conference_conference_registrations_path(@conference.short_title),
-                  notice: 'Registration was successfully updated.'
+    if @registration.update_attributes(registration_params)
+      redirect_to  conference_conference_registrations_path(@conference.short_title),
+                   notice: 'Registration was successfully updated.'
     else
       flash[:alert] = "A error prohibited the registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
@@ -53,19 +52,20 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def destroy
-    @registration.destroy
-    redirect_to root_path,
-                notice: "You are not registered for #{@conference.title} anymore!"
+    if @registration.destroy
+      redirect_to root_path,
+                  notice: "You are not registered for #{@conference.title} anymore!"
+    else
+      redirect_to root_path,
+                  alert: "A error prohibited deleting the registration for #{@conference.title}: "\
+                  "#{@registration.errors.full_messages.join('. ')}."
+    end
   end
 
   protected
 
-  def set_workshops
-    @workshops = @conference.events.where('require_registration = ? AND state LIKE ?', true, 'confirmed')
-  end
-
   def set_registration
-    @registration = current_user.registrations.where(conference_id: @conference.id).first
+    @registration = current_user.registrations.find_by(conference_id: @conference.id)
   end
 
   def registration_params
@@ -77,9 +77,7 @@ class ConferenceRegistrationsController < ApplicationController
           qanswers_attributes: [],
           event_ids: [],
           user_attributes: [
-              :id, :name, :tshirt, :mobile, :volunteer_experience, :languages],
-          supporter_registration_attributes: [
-            :id, :supporter_level_id, :code
-          ])
+              :id, :name, :tshirt, :mobile, :volunteer_experience, :languages]
+    )
   end
 end

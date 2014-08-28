@@ -8,8 +8,8 @@ class Conference < ActiveRecord::Base
 
   attr_accessible :title, :short_title, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,
-                  :dietary_choices_attributes, :use_dietary_choices, :use_supporter_levels,
-                  :supporter_levels_attributes, :social_events_attributes, :event_types_attributes,
+                  :dietary_choices_attributes, :use_dietary_choices,
+                  :tickets_attributes, :social_events_attributes, :event_types_attributes,
                   :logo, :questions_attributes,
                   :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
                   :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
@@ -33,12 +33,25 @@ class Conference < ActiveRecord::Base
   has_one :email_settings, dependent: :destroy
   has_one :call_for_papers, dependent: :destroy
   has_many :social_events, dependent: :destroy
-  has_many :supporter_registrations, dependent: :destroy
-  has_many :supporter_levels, dependent: :destroy
+  has_many :ticket_purchases
+  has_many :supporters, through: :ticket_purchases, source: :user
+  has_many :tickets, dependent: :destroy
   has_many :dietary_choices, dependent: :destroy
-  has_many :events, dependent: :destroy
+  has_many :events, dependent: :destroy do
+    def workshops
+      where(require_registration: true, state: :confirmed)
+    end
+
+    def confirmed
+      where(state: :confirmed)
+    end
+  end
   has_many :event_users, through: :events
-  has_many :speakers, -> { distinct }, through: :event_users, source: :user
+  has_many :speakers, -> { distinct }, through: :event_users, source: :user do
+    def confirmed
+      joins(:events).where(events: { state: :confirmed })
+    end
+  end
   has_many :event_types, dependent: :destroy
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
@@ -62,7 +75,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :social_events, allow_destroy: true
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :dietary_choices, allow_destroy: true
-  accepts_nested_attributes_for :supporter_levels, allow_destroy: true
+  accepts_nested_attributes_for :tickets, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
   accepts_nested_attributes_for :sponsors, allow_destroy: true
   accepts_nested_attributes_for :event_types, allow_destroy: true

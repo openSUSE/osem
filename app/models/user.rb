@@ -22,12 +22,21 @@ class User < ActiveRecord::Base
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
   has_many :registrations, dependent: :destroy
+  has_many :ticket_purchases
+  has_many :tickets, through: :ticket_purchases, source: :ticket
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
   accepts_nested_attributes_for :roles
 
   validates :name, presence: true
+
+  # Returns the ticket purchased ticket
+  # ====Returns
+  # * +TicketUser::ActiveRecord_Relation+ -> user
+  def ticket(id)
+    ticket_purchases.where(ticket_id: id).first
+  end
 
   # Searches for user based on email. Returns found user or new user.
   # ====Returns

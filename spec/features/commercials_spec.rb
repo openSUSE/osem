@@ -5,17 +5,15 @@ feature Commercial do
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:participant) { create(:user) }
 
-  shared_examples 'adds and updates a commercial' do
-    scenario 'of a conference',
-             feature: true, js: true do
-
+  context 'in admin area' do
+    scenario 'adds, updates, deletes of a conference', feature: true, js: true do
       expected_count = conference.commercials.count + 1
 
       sign_in organizer
 
       visit admin_conference_commercials_path(conference.short_title)
-
       click_link 'New Commercial'
 
       # Create without an commercial id
@@ -60,7 +58,87 @@ feature Commercial do
     end
   end
 
-  describe 'organizer' do
-    it_behaves_like 'adds and updates a commercial'
+  context 'in public area' do
+    let!(:event) { create(:event, conference: conference, title: 'Example Proposal') }
+
+    before(:each) do
+      event.event_users = [create(:event_user,
+                                  user_id: participant.id,
+                                  event_id: event.id,
+                                  event_role: 'submitter')]
+
+      @expected_count = Commercial.count + 1
+      sign_in participant
+    end
+
+    after(:each) do
+      sign_out
+    end
+
+    scenario 'adds a invalid commercial to an event', feature: true, js: true do
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+
+      click_link 'Commercials'
+      click_link 'Add Commercial'
+
+      select('SlideShare', from: 'commercial_commercial_type')
+      fill_in 'commercial_commercial_id', with: '12345'
+
+      click_button 'Create Commercial'
+      expect(flash).to eq('Commercial was successfully created.')
+      expect(event.commercials.count).to eq(@expected_count)
+    end
+
+    scenario 'adds a valid commercial to an event', feature: true, js: true do
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+      click_link 'Commercials'
+      click_link 'Add Commercial'
+
+      select('SlideShare', from: 'commercial_commercial_type')
+
+      click_button 'Create Commercial'
+      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(event.commercials.count).to eq(@expected_count - 1)
+    end
+
+    scenario 'updates a valid commercial to an event', feature: true, js: true do
+      create(:commercial,
+             commercialable_id: event.id,
+             commercialable_type: 'Event')
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+      click_link 'Commercials'
+      click_link 'Edit'
+      select('SlideShare', from: 'commercial_commercial_type')
+      fill_in 'commercial_commercial_id', with: '56789'
+      click_button 'Update Commercial'
+      expect(flash).to eq('Commercial was successfully updated.')
+      expect(event.commercials.count).to eq(@expected_count)
+    end
+
+    scenario 'updates a invalid commercial to an event', feature: true, js: true do
+      create(:commercial,
+             commercialable_id: event.id,
+             commercialable_type: 'Event')
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+      click_link 'Commercials'
+      click_link 'Edit'
+      select('SlideShare', from: 'commercial_commercial_type')
+      fill_in 'commercial_commercial_id', with: ''
+      click_button 'Update Commercial'
+      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(event.commercials.count).to eq(@expected_count)
+    end
+
+    scenario 'deletes a commercial to an event', feature: true, js: true do
+      create(:commercial,
+             commercialable_id: event.id,
+             commercialable_type: 'Event')
+      visit edit_conference_proposal_path(conference.short_title, event.id)
+      click_link 'Commercials'
+      click_link 'Delete'
+      page.driver.network_traffic
+      expect(flash).to eq('Commercial was successfully destroyed.')
+      expect(event.commercials.count).to eq(@expected_count - 1)
+    end
   end
 end
