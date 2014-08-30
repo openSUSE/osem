@@ -114,8 +114,7 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    self.is_admin = true if User.count == 0
-    roles << Role.where(name: 'Admin') if User.count == 1
+    self.is_admin = true if User.count == 1
   end
 
   # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
