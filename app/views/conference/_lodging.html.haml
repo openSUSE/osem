@@ -1,8 +1,8 @@
 %div.container.text-center
   %h2 Lodgings
-  -unless @conference.lodging_description.blank?
+  -unless @conference.splashpage.lodging_description.blank?
     .lead
-      = markdown(@conference.lodging_description)
+      = markdown(@conference.splashpage.lodging_description)
 
   %div.row.text-center
     - @conference.venue.lodgings.each do |r|

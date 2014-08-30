@@ -1,7 +1,7 @@
 class CommercialsController < ApplicationController
-  load_and_authorize_resource :conference, find_by: :short_title
+  load_resource :conference, find_by: :short_title
   before_action :set_event
-  load_and_authorize_resource through: @event, except: [:new, :create]
+  load_and_authorize_resource through: :event
 
   def new
     @commercial = @event.commercials.build

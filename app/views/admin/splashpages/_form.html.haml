@@ -1,0 +1,27 @@
+%h1 Splashpage
+.row
+  .col-md-8
+    = semantic_form_for(@splashpage, url: admin_conference_splashpage_path(@conference.short_title)) do |f|
+      = f.inputs name: 'Banner' do
+        = f.input :banner_photo, hint: 'This will be the top most component of the splash. This background cover will contain start_date and end_date of the conference and the description.'
+        = f.input :banner_description, hint: markdown_hint('This description will be shown at the bottom of the banner photo of the Splashpage.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
+        = f.input :include_banner, label: 'Display banner on the splashpage?'
+      = f.inputs name: 'Components' do
+        = f.input :ticket_description, hint: markdown_hint('This will appear in the Tickets segment of the splash.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
+        = f.input :include_tickets, label: 'Display tickets on the splashpage?'
+        %br
+        = f.input :sponsor_description, hint: markdown_hint('This will appear in the Sponsors segment of the splash.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
+        = f.input :include_sponsors, label: 'Display sponsors on the splashpage?'
+        %br
+        = f.input :registration_description, hint: markdown_hint(''), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
+        = f.input :include_registrations, label: 'Display the registration period on the splashpage?'
+        %br
+        = f.input :lodging_description, hint: markdown_hint('This will appear in the Lodgings segment of the splash.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
+        = f.input :include_lodgings, label: 'Display the lodgings on the splashpage?'
+        %br
+        = f.input :include_tracks, label: 'Display tracks on the splashpage?'
+        = f.input :include_program, label: 'Display program on the splashpage?'
+        = f.input :include_social_media, label: 'Display social media on the splashpage?'
+        = f.input :include_venue, label: 'Display venue on the splashpage?'
+      = f.input :public, label: 'Make splash page public! (Attention: Please do this only after you have finished the configuration of the conference!)'
+      = f.submit 'Save Splashpage', class: 'btn btn-primary'

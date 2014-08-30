@@ -48,9 +48,9 @@
       = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(conference_progress['short_title'])
     - else
       Add difficulty levels
-  %li{class: class_for_todo(conference_progress['make_conference_public'])}
-    %span{'class'=>icon_for_todo(conference_progress['make_conference_public'])}
+  %li{class: class_for_todo(conference_progress['splashpage'])}
+    %span{'class'=>icon_for_todo(conference_progress['splashpage'])}
     - if can? :update, @conference
-      = link_to 'Make Splash Page Public for Visitors', edit_admin_conference_path(conference_progress['short_title'])
+      = link_to 'Set up a Splashpage', admin_conference_splashpage_path(conference_progress['short_title'])
     - else
-      Make Splash Page Public for Visitors
+      Set up a Splashpage

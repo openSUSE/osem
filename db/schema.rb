@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821103643) do
+ActiveRecord::Schema.define(version: 20140825093132) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -105,22 +105,7 @@ ActiveRecord::Schema.define(version: 20140821103643) do
     t.boolean  "use_difficulty_levels",           default: false
     t.boolean  "use_volunteers"
     t.string   "color"
-    t.text     "description"
-    t.text     "ticket_description"
-    t.text     "sponsor_description"
     t.string   "sponsor_email"
-    t.text     "lodging_description"
-    t.boolean  "include_registrations_in_splash", default: false
-    t.boolean  "include_sponsors_in_splash",      default: false
-    t.boolean  "include_tracks_in_splash",        default: false
-    t.boolean  "include_tickets_in_splash",       default: false
-    t.boolean  "include_program_in_splash",       default: false
-    t.boolean  "make_conference_public",          default: false
-    t.string   "banner_photo_file_name"
-    t.string   "banner_photo_content_type"
-    t.integer  "banner_photo_file_size"
-    t.datetime "banner_photo_updated_at"
-    t.boolean  "include_banner_in_splash",        default: false
     t.text     "events_per_week"
   end
 
@@ -136,7 +121,6 @@ ActiveRecord::Schema.define(version: 20140821103643) do
     t.string   "googleplus"
     t.string   "twitter"
     t.string   "instagram"
-    t.boolean  "public"
     t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -332,7 +316,6 @@ ActiveRecord::Schema.define(version: 20140821103643) do
     t.integer  "conference_id"
     t.date     "start_date"
     t.date     "end_date"
-    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -398,6 +381,31 @@ ActiveRecord::Schema.define(version: 20140821103643) do
     t.string  "title"
     t.text    "description"
     t.date    "date"
+  end
+
+  create_table "splashpages", force: true do |t|
+    t.integer  "conference_id"
+    t.boolean  "public"
+    t.boolean  "include_tracks"
+    t.boolean  "include_program"
+    t.boolean  "include_social_media"
+    t.boolean  "include_banner"
+    t.boolean  "include_venue"
+    t.boolean  "include_tickets"
+    t.text     "ticket_description"
+    t.boolean  "include_registrations"
+    t.text     "registration_description"
+    t.boolean  "include_sponsors"
+    t.text     "sponsor_description"
+    t.boolean  "include_lodgings"
+    t.text     "lodging_description"
+    t.text     "banner_description"
+    t.string   "banner_photo_file_name"
+    t.string   "banner_photo_content_type"
+    t.integer  "banner_photo_file_size"
+    t.datetime "banner_photo_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sponsors", force: true do |t|
@@ -529,8 +537,6 @@ ActiveRecord::Schema.define(version: 20140821103643) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.boolean  "include_venue_in_splash",                default: false
-    t.boolean  "include_lodgings_in_splash",             default: false
   end
 
   create_table "versions", force: true do |t|
