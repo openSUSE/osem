@@ -9,6 +9,10 @@ module Admin
 
     def new
       @commercial = @conference.commercials.build
+      @commercial_types = (CONFIG['commercial_types'].nil? ? [nil] : CONFIG['commercial_types'].values)
+      if @commercial_types.first.nil?
+        flash[:alert] = "You have to include 'commercial_types' in config.yml, look at config.yml.example for example"
+      end
       authorize! :create, @conference.commercials.new
     end
 

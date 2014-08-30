@@ -5,5 +5,9 @@ class Commercial < ActiveRecord::Base
 
   validates :commercial_id, :commercial_type, presence: true
 
-  validates :commercial_type, inclusion: { in: CONFIG['commercial_types'].values }, allow_blank: true
+  validates :commercial_type, inclusion: { in: :get_types_enum }, allow_blank: true
+
+  def get_types_enum
+    CONFIG['commercial_types'].nil? ? nil : CONFIG['commercial_types'].values
+  end
 end
