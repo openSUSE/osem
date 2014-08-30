@@ -9,8 +9,9 @@ describe Admin::UsersController do
     it 'populates an array of users' do
       user1 = create(:user, email: 'user1@email.osem')
       user2 = create(:user, email: 'user2@email.osem')
+      user_deleted = User.find_by(name: 'User deleted')
       get :index
-      expect(assigns(:users)).to match_array([user, admin, user1, user2])
+      expect(assigns(:users)).to match_array([user_deleted, user, admin, user1, user2])
     end
     it 'renders index template' do
       get :index
