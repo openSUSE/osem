@@ -952,7 +952,7 @@ describe Conference do
       @result['tracks'] = true
       @result['event_types'] = true
       @result['difficulty_levels'] = true
-      @result['make_conference_public'] = true
+      @result['splashpage'] = true
 
       # Setup negative result hash
       @result_false = Hash.new
@@ -970,7 +970,7 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -984,7 +984,7 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       @result_false['registration'] = true
       @result_false['process'] = 13.to_s
@@ -1001,7 +1001,7 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
@@ -1020,7 +1020,7 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
@@ -1040,7 +1040,7 @@ describe Conference do
       subject.tracks = []
       subject.event_types = []
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
@@ -1061,7 +1061,7 @@ describe Conference do
       subject.venue = create(:venue)
       subject.event_types = []
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
@@ -1084,7 +1084,7 @@ describe Conference do
       subject.call_for_papers = create(:call_for_papers)
       subject.venue = create(:venue)
       subject.difficulty_levels = []
-      subject.make_conference_public = false
+      subject.splashpage = create(:splashpage, public: false)
 
       @result_false['cfp'] = true
       @result_false['registration'] = true
@@ -1108,7 +1108,7 @@ describe Conference do
       subject.venue = create(:venue)
       subject.call_for_papers = create(:call_for_papers)
       subject.venue = create(:venue)
-      subject.make_conference_public = true
+      subject.splashpage = create(:splashpage, public: true)
 
       expect(subject.get_status).to eq(@result)
     end

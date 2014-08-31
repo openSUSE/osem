@@ -53,6 +53,11 @@
       = link_to( admin_conference_registration_period_path (@conference.short_title)) do
         %span.fa.fa-male
         Registration Period
+  - if can? :update, @conference
+    %li{:class=> active_nav_li( admin_conference_splashpage_path (@conference.short_title))}
+      = link_to( admin_conference_splashpage_path (@conference.short_title)) do
+        %span.fa.fa-globe
+        Splashpage
   - if can? :update, @conference.events.build
     %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
       = link_to(admin_conference_events_path(@conference.short_title)) do

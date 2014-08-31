@@ -1,9 +1,9 @@
 %div.row
   %h3 Tickets
-  -if @conference.ticket_description.present?
+  -if @conference.splashpage.ticket_description.present?
     .lead
-      = markdown(@conference.ticket_description)
-    - @conference.tickets.each do |ticket|
+      = markdown(@conference.splashpage.ticket_description)
+    - @conference.tickets.each do |s|
       %div.col-md-6
         - if ticket.title.present?
           %h4 #{ ticket.title }

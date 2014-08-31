@@ -21,21 +21,21 @@ describe Admin::RegistrationPeriodsController do
 
       context 'valid attributes' do
 
-        it 'locates the requested audience object' do
+        it 'locates the requested registration period object' do
           patch :update, conference_id: conference.short_title, conference: attributes_for(:registration_period)
           expect(assigns(:registration_period)).to eq(conference.registration_period)
         end
 
-        it 'changes audience attributes' do
+        it 'changes registration period attributes' do
+          the_date = 10.days.from_now.to_date
           patch :update, conference_id: conference.short_title, registration_period:
-              attributes_for(:registration_period,
-                             description: 'Test')
+              attributes_for(:registration_period, start_date: the_date)
 
           conference.reload
-          expect(conference.registration_period.description).to eq('Test')
+          expect(conference.registration_period.start_date.to_s).to eq(the_date.to_s)
         end
 
-        it 'redirects to the updated conference' do
+        it 'redirects to the updated registration period' do
           patch :update, conference_id: conference.short_title, registration_period:
               attributes_for(:registration_period)
           conference.reload
@@ -83,7 +83,7 @@ describe Admin::RegistrationPeriodsController do
       end
 
       context 'with invalid attributes' do
-        it 'does not save the conference to the database' do
+        it 'does not save the registration period to the database' do
           expected = expect do
             post :create,
                  conference_id: conference.short_title,
@@ -106,7 +106,7 @@ describe Admin::RegistrationPeriodsController do
     end
 
     describe 'GET #edit' do
-      it 'assigns the requested conference to conference' do
+      it 'assigns the requested registration period to @registration_period' do
         get :edit, conference_id: conference.short_title
         expect(assigns(:registration_period)).to eq conference.registration_period
       end
@@ -118,7 +118,7 @@ describe Admin::RegistrationPeriodsController do
     end
 
     describe 'GET #show' do
-      it 'assigns the requested registration period to registration period' do
+      it 'assigns the requested registration period to @registration_period' do
         get :show, conference_id: conference.short_title
         expect(assigns(:registration_period)).to eq conference.registration_period
       end
@@ -130,7 +130,7 @@ describe Admin::RegistrationPeriodsController do
     end
 
     describe 'GET #new' do
-      it 'assigns a new conference to conference' do
+      it 'assigns a new registration period to @registration_period' do
         get :new, conference_id: conference.short_title
         expect(assigns(:registration_period)).to be_a_new(RegistrationPeriod)
       end

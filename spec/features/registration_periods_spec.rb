@@ -14,7 +14,6 @@ feature RegistrationPeriod do
                 conference_id: conference.short_title)
 
       click_link 'New Registration Period'
-      fill_in 'registration_period_description', with: 'The description'
 
       click_button 'Save Registration Period'
       expect(flash).
@@ -37,7 +36,6 @@ feature RegistrationPeriod do
       registration_period.reload
       expect(registration_period.start_date).to eq(Date.today)
       expect(registration_period.end_date).to eq(Date.today + 7)
-      expect(registration_period.description).to eq('The description')
     end
   end
 

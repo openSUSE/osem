@@ -14,20 +14,15 @@ class Conference < ActiveRecord::Base
                   :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
                   :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
                   :vpositions_attributes, :use_volunteers, :color,
-                  :description, :ticket_description,
                   :sponsorship_levels_attributes, :sponsors_attributes,
-                  :sponsor_description, :sponsor_email, :lodging_description,
-                  :include_registrations_in_splash, :include_sponsors_in_splash,
-                  :include_tracks_in_splash, :include_tickets_in_splash,
-                  :include_program_in_splash,
-                  :make_conference_public, :photos_attributes, :banner_photo,
-                  :include_banner_in_splash, :targets, :targets_attributes, :campaigns,
-                  :campaigns_attributes
+                  :sponsor_email, :photos_attributes, :targets, :targets_attributes,
+                  :campaigns, :campaigns_attributes
 
   has_paper_trail
 
   has_many :questions
 
+  has_one :splashpage, dependent: :destroy
   has_one :contact, dependent: :destroy
   has_one :registration_period, dependent: :destroy
   has_one :email_settings, dependent: :destroy
@@ -94,12 +89,6 @@ class Conference < ActiveRecord::Base
                                     content_type: [/jpg/, /jpeg/, /png/, /gif/],
                                     size: { in: 0..500.kilobytes }
 
-  has_attached_file :banner_photo,
-                    styles: { thumb: '100x100>', large: '1300x700>' }
-
-  validates_attachment_content_type :banner_photo,
-                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { in: 0..500.kilobytes }
   validates_presence_of :title,
                         :short_title,
                         :start_date,
@@ -325,7 +314,7 @@ class Conference < ActiveRecord::Base
     result['tracks'] = tracks_set?
     result['event_types'] = event_types_set?
     result['difficulty_levels'] = difficulty_levels_set?
-    result['make_conference_public'] = make_conference_public?
+    result['splashpage'] = splashpage && splashpage.public?
     result['process'] = calculate_setup_progress(result)
     result['short_title'] = short_title
     result

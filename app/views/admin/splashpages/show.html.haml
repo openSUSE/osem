@@ -1,0 +1,113 @@
+%h1 Splashpage
+%br
+- if @splashpage
+  .row
+    .col-md-8
+      %dl.dl-horizontal
+        %dt
+          Ticket:
+        %dd
+          - unless @splashpage.ticket_description.blank?
+            = markdown(@splashpage.ticket_description)
+        %dt
+          Include Tickets:
+        %dd
+          - if @splashpage.include_tickets
+            Yes
+          - else
+            No
+        %dt
+          Sponsor:
+        %dd
+          - unless @splashpage.sponsor_description.blank?
+            = markdown(@splashpage.sponsor_description)
+        %dt
+          Include Sponsors:
+        %dd
+          - if @splashpage.include_sponsors
+            Yes
+          - else
+            No
+        %dt
+          Registration:
+        %dd
+          - unless @splashpage.registration_description.blank?
+            = markdown(@splashpage.registration_description)
+        %dt
+          Include Registrations:
+        %dd
+          - if @splashpage.include_registrations
+            Yes
+          - else
+            No
+        %dt
+          Lodging:
+        %dd
+          - unless @splashpage.lodging_description.blank?
+            = markdown(@splashpage.lodging_description)
+        %dt
+          Include Tracks:
+        %dd
+          - if @splashpage.include_tracks
+            Yes
+          - else
+            No
+        %dt
+          Include Program:
+        %dd
+          - if @splashpage.include_program
+            Yes
+          - else
+            No
+        %dt
+          Include Social Media:
+        %dd
+          - if @splashpage.include_social_media
+            Yes
+          - else
+            No
+        %dt
+          Public
+        %dd
+          - if @splashpage.public
+            Yes
+          - else
+            No
+
+  .row.row-flex.row-flex-wrap
+    .col-md-4
+      .thumbnail.flex-col
+        %h3.text-center
+          Conference Banner
+        - if @splashpage.banner_photo?
+          = image_tag(@splashpage.banner_photo(:large), class: 'img-responsive')
+          .caption.flex-grow
+          .caption
+            %p
+              %dl.dl-horizontal
+                %dt
+                  Filename
+                %dd
+                  = @splashpage.banner_photo_file_name
+                %dt Description
+                %dd
+                  - unless @splashpage.banner_description.blank?
+                    = markdown(@splashpage.banner_description)
+                %dt Included
+                %dd
+                  - if @splashpage.include_banner
+                    Yes
+                  - else
+                    No
+        - else
+          %h4.text-center
+            Not set!
+  %br
+  - if can? :update, @splashpage
+    = link_to 'Edit', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
+  - if can? :destroy, @splashpage
+    = link_to 'Delete', admin_conference_splashpage_path,
+                        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+- else
+  - if can? :create, @conference
+    = link_to 'Create Splashpage', new_admin_conference_splashpage_path, class: 'btn btn-primary'

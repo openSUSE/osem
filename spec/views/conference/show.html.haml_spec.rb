@@ -3,23 +3,26 @@ describe 'conference/show.html.haml' do
   before(:each) do
     allow(view).to receive(:date_string).and_return("January 17 - 21 2014")
     @conference = create(:conference,
-                         description: 'Lorem Ipsum',
-                         sponsor_description: 'Lorem Ipsum Dolor',
-                         sponsor_email: 'example@example.com',
-                         include_registrations_in_splash: true,
-                         include_program_in_splash: true,
-                         include_sponsors_in_splash: true,
-                         include_tracks_in_splash: true,
-                         include_tickets_in_splash: true,
-                         include_banner_in_splash: true)
+                         sponsor_email: 'example@example.com')
+
+    @conference.splashpage = create(:splashpage,
+                                    banner_description: 'Lorem Ipsum',
+                                    sponsor_description: 'Lorem Ipsum Dolor',
+                                    registration_description: 'Lorem Ipsum Dolor',
+                                    include_registrations: true,
+                                    include_program: true,
+                                    include_sponsors: true,
+                                    include_tracks: true,
+                                    include_tickets: true,
+                                    include_banner: true,
+                                    include_social_media: true,
+                                    include_venue: true,
+                                    include_lodgings: true)
     @conference.contact.update(facebook: 'http://www.fbexample.com',
                                googleplus: 'http://www.google-example.com',
                                instagram: 'http://instagram.com',
-                               twitter: 'http://twitter.com',
-                               public: true
-                               )
+                               twitter: 'http://twitter.com')
     @conference.registration_period = create(:registration_period,
-                                             description: 'Lorem Ipsum Dolor',
                                              start_date: Date.today,
                                              end_date: Date.tomorrow)
     @conference.call_for_papers = create(:call_for_papers, conference: @conference,
@@ -30,15 +33,14 @@ describe 'conference/show.html.haml' do
     @sponsorship_level = @conference.sponsorship_levels.first
     @sponsorship_level.sponsors << create(:sponsor, sponsorship_level: @sponsorship_level,
                                                     conference: @conference)
-    @conference.venue = create(:venue, include_venue_in_splash: true,
-                                       include_lodgings_in_splash: true)
+    @conference.venue = create(:venue)
     @conference.venue.lodgings << create(:lodging, venue: @conference.venue)
     assign :conference, @conference
     render
   end
 
   it 'renders banner component' do
-    expect(view.content_for(:splash)).to include("#{@conference.description}")
+    expect(view.content_for(:splash)).to include("#{@conference.splashpage.banner_description}")
     expect(view.content_for(:splash)).to include("#{@conference.short_title}")
   end
 
@@ -47,7 +49,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders registration partial' do
-    expect(view.content_for(:splash)).to include("#{@conference.registration_period.description}")
+    expect(view.content_for(:splash)).to include("#{@conference.splashpage.registration_description}")
     expect(view).to render_template(partial: 'conference/_registration')
   end
 

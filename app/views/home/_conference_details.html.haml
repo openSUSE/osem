@@ -27,7 +27,7 @@
                 = link_to "Subscribe", subscription_conference_path(conference.short_title), method: "PATCH", class: "btn btn-info btn-group-vertical"
 
             - if !@conference || @conference != conference
-              - if conference.make_conference_public?
+              - if conference.splashpage && conference.splashpage.public
                 = link_to "View Conference", conference_path(conference.short_title), :class =>"btn btn-default"
             - if conference.registration_open?
               - if conference.user_registered?(current_user)

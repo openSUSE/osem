@@ -11,11 +11,6 @@
           End Date
         %dd
           = @registration_period.end_date
-        %dt
-          Description
-        %dd
-          - if !@conference.registration_period.description.blank?
-            = markdown(@conference.registration_period.description)
 
   - if can? :update, @registration_period
     = link_to 'Edit', edit_admin_conference_registration_period_path, class: 'btn btn-primary'

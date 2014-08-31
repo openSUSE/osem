@@ -6,8 +6,8 @@ describe 'User' do
     subject(:ability){ Ability.new(user) }
     let!(:first_user) { create(:user) } # automatically becomes admin
     let(:user){ nil }
-    let(:conference_not_public) { create(:conference, make_conference_public: false) }
-    let(:conference_public) { create(:conference, make_conference_public: true)}
+    let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
+    let(:conference_public) { create(:conference, splashpage: create(:splashpage, public: true)) }
     let(:event_confirmed) { create(:event, state: 'confirmed') }
     let(:someevent) { create(:event) }
 
@@ -113,8 +113,8 @@ describe 'User' do
       let!(:conference2) { create(:conference) } # user is cfp
       let!(:conference3) { create(:conference) } # user is info_desk
       let!(:conference4) { create(:conference) } # user is volunteer coordinator
-      let!(:conference5) { create(:conference, make_conference_public: true) } # user has no role
-      let!(:conference6) { create(:conference, make_conference_public: false) } # user has no role
+      let!(:conference5) { create(:conference, splashpage: create(:splashpage, public: true)) } # user has no role
+      let!(:conference6) { create(:conference, splashpage: create(:splashpage, public: false)) } # user has no role
       let(:role_organizer) { create(:role, name: 'organizer', resource: conference1) }
       let(:role_cfp) { create(:role, name: 'cfp', resource: conference2) }
       let(:role_info_desk) { create(:role, name: 'info_desk', resource: conference3) }

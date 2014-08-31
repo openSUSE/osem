@@ -107,12 +107,13 @@ class Ability
     can :manage, Campaign, conference_id: conf_ids_for_organizer
     can :manage, Photo, conference_id: conf_ids_for_organizer
     can :manage, RegistrationPeriod, conference_id: conf_ids_for_organizer
+    can :manage, Splashpage, conference_id: conf_ids_for_organizer
   end
 
   def guest
     ## Abilities for everyone, even guests (not logged in users)
     can [:show, :gallery_photos], Conference do |conference|
-      conference.make_conference_public == true
+      conference.splashpage && conference.splashpage.public == true
     end
 
     # see commercials too

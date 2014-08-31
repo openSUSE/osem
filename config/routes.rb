@@ -32,6 +32,8 @@ Osem::Application.routes.draw do
 
       resource :registration_period
 
+      resource :splashpage
+
       resources :difficulty_levels, only: [:show, :update, :index]
 
       resources :rooms, only: [:show, :update, :index]
