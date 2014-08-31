@@ -1,7 +1,0 @@
-.row
-  .col-md-8
-    = semantic_form_for(@conference, :url => admin_conference_supporter_level_path(@conference.short_title, @conference.supporter_levels)) do |f|
-      = f.input :use_supporter_levels, :label => false
-      = f.input :include_tickets_in_splash, hint: 'On setting this true you will enable the tickets to be displayed on the splash page'
-      = dynamic_association :supporter_levels, "Supporter Levels", f
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

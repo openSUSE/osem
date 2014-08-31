@@ -1,0 +1,21 @@
+%tr
+  %td.col-sm-8.col-md-6
+    .media
+      .media-body
+        %h4.media-heading
+          = ticket.title
+        %h5.media-heading
+        -if !ticket.description.blank?
+          = markdown(ticket.description)
+  %td.col-sm-1.col-md-1
+    = text_field_tag("tickets[][#{ticket.id}]", 0, type: 'number', min: 0,
+    class: 'form-control quantity', 'data-id' => ticket.id)
+  %td.col-sm-1.col-md-1.text-center
+    = ticket.price.symbol
+    %span{id: "price_#{ticket.id}"}
+      = humanized_money ticket.price
+  %td.col-sm-1.col-md-1.text-center
+    %strong
+      = ticket.price.symbol
+      %span.total_row{id: "total_row_#{ticket.id}"}
+        0

@@ -97,7 +97,7 @@ class Ability
     can :manage, Room, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
-    can :manage, SupporterLevel, conference_id: conf_ids_for_organizer
+    can :manage, Ticket, conference_id: conf_ids_for_organizer
     can :manage, Target, conference_id: conf_ids_for_organizer
     can :index, Commercial, commercialable_type: 'Conference'
     can :manage, Commercial, commercialable_type: 'Conference', commercialable_id: conf_ids_for_organizer

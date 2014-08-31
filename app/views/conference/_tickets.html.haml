@@ -1,16 +1,15 @@
 %div.row
   %h3 Tickets
-  -if !@conference.ticket_description.blank?
+  -if @conference.ticket_description.present?
     .lead
       = markdown(@conference.ticket_description)
-    - @conference.supporter_levels.each do |s|
+    - @conference.tickets.each do |ticket|
       %div.col-md-6
-        - if !s.title.blank?
-          %h4 #{ s.title }
-        -if !s.description.blank?
-          .lead #{ s.description }
-        - if !s.url.blank?
-          %div.btn-group
-            = link_to "Buy Ticket", s.url, class: 'btn btn-success', target: '_blank'
-            - if !s.ticket_price.blank?
-              = button_tag "#{s.ticket_price}", class: 'btn btn-success'
+        - if ticket.title.present?
+          %h4 #{ ticket.title }
+        - if ticket.description.present?
+          .lead
+            = markdown(ticket.description)
+        %div.btn-group
+          = link_to "Buy Ticket", conference_tickets_path(@conference.short_title), class: 'btn btn-success'
+          = button_tag "#{humanized_money_with_symbol ticket.price}", class: 'btn btn-success'

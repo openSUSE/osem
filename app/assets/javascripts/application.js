@@ -29,6 +29,7 @@
 //= require bootstrap-datetimepicker
 //= require osem-datepickers
 //= require osem-datatables
+//= require osem-tickets
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

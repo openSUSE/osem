@@ -12,10 +12,6 @@
           = u.input :nickname, as: :string
           = u.input :affiliation, placeholder: 'Company/User Group/nothing', as: :string
       = f.inputs 'Registration Information' do
-        - if @conference.use_supporter_levels? and @conference.supporter_levels.length > 0
-          = f.semantic_fields_for :supporter_registration do |reg|
-            = reg.input :supporter_level, as: :select, collection: @conference.supporter_levels
-            %span#supporter-link.help-block
         - @conference.questions.each do |q|
           %h5
             = "Q: #{q.title}"
@@ -33,10 +29,3 @@
           %br
           = f.input :social_events, as: :check_boxes, label: false, collection: @conference.social_events
       = f.action :submit, button_html: { value: 'Edit Registration', class: 'btn btn-primary' }
-:javascript
-    $("#registration_supporter_registration_attributes_supporter_level_id").change(function () {
-      var str = "";
-      #{generate_supporter_level_js @conference}
-      $("#supporter-link").html(str);
-    })
-    .trigger('change');

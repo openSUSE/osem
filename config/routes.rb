@@ -56,7 +56,7 @@ Osem::Application.routes.draw do
 
       resources :social_events, only: [:show, :update, :index]
 
-      resources :supporter_levels, only: [:show, :update, :index]
+      resources :tickets
 
       resources :emails, only: [:show, :update, :index]
 
@@ -83,8 +83,6 @@ Osem::Application.routes.draw do
         end
         resource :speaker, only: [:edit, :update]
       end
-
-      resources :supporters
     end
   end
 
@@ -99,6 +97,8 @@ Osem::Application.routes.draw do
     end
 
     resource :conference_registrations, path: 'register'
+    resources :tickets, only: [:index]
+    resources :ticket_purchases, only: [:create, :destroy]
 
     resource :schedule, only: [] do
       get "/" => "schedule#index"

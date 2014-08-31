@@ -206,6 +206,14 @@ class Event < ActiveRecord::Base
     alert
   end
 
+  def speaker_names
+    result = []
+    speakers.each do |speaker|
+      result.push(speaker.name)
+    end
+    result.to_sentence
+  end
+
   private
 
   def abstract_limit

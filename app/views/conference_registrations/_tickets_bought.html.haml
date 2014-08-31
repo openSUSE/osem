@@ -1,0 +1,46 @@
+%table.table.table-hover
+  %thead
+    %tr
+      %th Ticket
+      %th.text-center Quantity
+      %th.text-center Price
+      %th.text-center Total
+      %th
+  %tbody
+    - tickets.each do |ticket|
+      %tr
+        %td.col-sm-8.col-md-6
+          .media
+            .media-body
+              %h4.media-heading
+                = ticket.title
+              %h5.media-heading
+              -if !ticket.description.blank?
+                = markdown(ticket.description)
+        %td.col-sm-1.col-md-1.text-center
+          = ticket.quantity_bought_by(current_user)
+        %td.col-sm-1.col-md-1.text-center
+          = humanized_money_with_symbol ticket.price
+        %td.col-sm-1.col-md-1.text-center
+          %strong
+            = ticket.total_price(current_user)
+        %td.col-sm-1.col-md-1.text-center
+          = link_to conference_ticket_purchase_path(@conference.short_title, ticket.id),
+          method: :delete, class: 'btn btn-danger',
+          data: { confirm: "Do you really want to delete the #{ticket.title} for #{@conference.title}?" } do
+            Delete
+            %i.fa.fa-trash-o
+    %tr
+      %td
+      %td
+      %td
+      %td.col-sm-1.col-md-1.text-center
+        %h4
+          Total
+      %td.col-sm-1.col-md-1.text-center
+        %h4
+          %strong
+            - if @total_price.cents == -1
+              not-calculable
+            - else
+              = humanized_money_with_symbol Ticket.total_price(@conference, current_user)

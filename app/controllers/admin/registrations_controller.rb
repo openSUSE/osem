@@ -17,13 +17,13 @@ module Admin
         flash[:notice] = "Successfully updated Attended for #{@user.email}"
         redirect_to admin_conference_registrations_path(@conference.short_title)
       else
-        flash[:notice] = "Update Attended for #{@user.email} failed!"
+        flash[:notice] = "Update Attended for #{@user.email} failed!" \
+                         "#{@registration.errors.full_messages.join('. ')}"
         redirect_to admin_conference_registrations_path(@conference.short_title)
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       @registration.update_attributes(registration_params)
@@ -51,7 +51,7 @@ module Admin
     protected
 
     def set_user
-      @user = User.where('id = ?', @registration.user_id).first
+      @user = User.find_by(id: @registration.user_id)
     end
 
     def registration_params
@@ -63,10 +63,7 @@ module Admin
           qanswers_attributes: [],
           user_attributes: [
               :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
-              :nickname, :affiliation ],
-          supporter_registration_attributes: [
-              :id, :supporter_level_id, :code
-          ])
+              :nickname, :affiliation ])
     end
   end
 end

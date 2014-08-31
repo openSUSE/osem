@@ -17,6 +17,6 @@
       = link_to "Modify Registration for #{@conference.short_title}", edit_conference_conference_registrations_path(@conference.short_title), class: "btn btn-success btn-lg", target: '_blank'
     - else
       = link_to "Register for #{@conference.short_title}", new_conference_conference_registrations_path(@conference.short_title), class: "btn btn-success btn-lg", target: '_blank'
-  - if @conference.use_supporter_levels?
+  - if @conference.tickets.any?
     - if @conference.include_tickets_in_splash?
       = render 'tickets'
