@@ -9,16 +9,18 @@ class SplitTicketPriceInPriceAndCurrency < ActiveRecord::Migration
 
     TempTicket.all.each do |ticket|
       # Replace currency symbol with ISO Code
-      ticket.ticket_price.gsub!('€', 'EUR')
-      ticket.ticket_price.gsub!('$', 'USD')
-      ticket.ticket_price.gsub!('£', 'GBP')
-      ticket.ticket_price.gsub!('¥', 'CNY')
-      ticket.ticket_price.gsub!('₹', 'INR')
+      if ticket.ticket_price
+        ticket.ticket_price.gsub!('€', 'EUR')
+        ticket.ticket_price.gsub!('$', 'USD')
+        ticket.ticket_price.gsub!('£', 'GBP')
+        ticket.ticket_price.gsub!('¥', 'CNY')
+        ticket.ticket_price.gsub!('₹', 'INR')
 
-      money = ticket.ticket_price.to_money
-      ticket.price_cents = money.cents
-      ticket.price_currency = money.currency_as_string
-      ticket.save
+        money = ticket.ticket_price.to_money
+        ticket.price_cents = money.cents
+        ticket.price_currency = money.currency_as_string
+        ticket.save
+      end
     end
 
     remove_column :tickets, :ticket_price
