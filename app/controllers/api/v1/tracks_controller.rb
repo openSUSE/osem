@@ -8,7 +8,7 @@ module Api
           tracks = Track.all
         else
           tracks = Track.joins(:conference)
-          tracks = tracks.where("conferences.guid" => params[:conference_id])
+          tracks = tracks.where(conferences: { guid: params[:conference_id] })
         end
         respond_with tracks
       end
