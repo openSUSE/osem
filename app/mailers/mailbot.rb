@@ -14,7 +14,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.accepted_subject,
-                conference.email_settings.generate_event_email(event, conference.email_settings.accepted_email_template))
+                conference.email_settings.generate_event_mail(event, conference.email_settings.accepted_email_template))
   end
 
   def rejection_mail(event)
@@ -23,7 +23,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.rejected_subject,
-                conference.email_settings.generate_event_email(event, conference.email_settings.rejected_email_template))
+                conference.email_settings.generate_event_mail(event, conference.email_settings.rejected_email_template))
   end
 
   def confirm_reminder_mail(event)
@@ -32,7 +32,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.confirmed_without_registration_subject,
-                conference.email_settings.generate_event_email(event, conference.email_settings.confirmed_email_template))
+                conference.email_settings.generate_event_mail(event, conference.email_settings.confirmed_email_template))
   end
 
   def conference_date_update_mail(conference)
