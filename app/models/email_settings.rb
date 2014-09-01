@@ -21,7 +21,7 @@ class EmailSettings < ActiveRecord::Base
       'conference_end_date' => conference.end_date,
       'venue' => conference.venue.name,
       'venue_address' => conference.venue.address,
-      'registrationlink' => Rails.application.routes.url_helpers.register_conference_url(
+      'registrationlink' => Rails.application.routes.url_helpers.new_conference_conference_registrations_url(
                             conference.short_title, host: CONFIG['url_for_emails']),
       'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
                                   conference.short_title, host: CONFIG['url_for_emails']),
@@ -38,7 +38,7 @@ class EmailSettings < ActiveRecord::Base
 
     if !event.nil?
       h['eventtitle'] = event.title
-      h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_url(
+      h['proposalslink'] = Rails.application.routes.url_helpers.new_conference_proposal_url(
                            conference.short_title, event, host: CONFIG['url_for_emails'])
     end
     h
