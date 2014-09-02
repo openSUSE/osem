@@ -20,7 +20,7 @@ feature Commercial do
       select('SlideShare', from: 'commercial_commercial_type')
 
       click_button 'Create Commercial'
-      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(conference.commercials.count).to eq(expected_count - 1)
 
       # Create valid commercial
@@ -39,7 +39,7 @@ feature Commercial do
       fill_in 'commercial_commercial_id', with: ''
 
       click_button 'Update Commercial'
-      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(conference.commercials.count).to eq(expected_count)
 
       # Update valid commercial
@@ -97,7 +97,7 @@ feature Commercial do
       select('SlideShare', from: 'commercial_commercial_type')
 
       click_button 'Create Commercial'
-      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(event.commercials.count).to eq(@expected_count - 1)
     end
 
@@ -125,7 +125,7 @@ feature Commercial do
       select('SlideShare', from: 'commercial_commercial_type')
       fill_in 'commercial_commercial_id', with: ''
       click_button 'Update Commercial'
-      expect(flash).to eq("A error prohibited this Commercial from being saved: Commercial can't be blank.")
+      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(event.commercials.count).to eq(@expected_count)
     end
 
