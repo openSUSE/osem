@@ -29,7 +29,7 @@ feature Registration do
         expect(purchase.quantity).to eq(2)
         expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
         expect(flash).
-            to eq('Congratulations, you have successfully purchased a ticket! You can pay it cash on check in! Thank you for supporting ExampleCon!')
+            to eq('Congratulations, you have successfully purchased a ticket! You can pay for it in cash when you arrive! Thank you for supporting ExampleCon!')
         expect(page.has_content?('Business Ticket')).to be true
       end
 
@@ -43,7 +43,7 @@ feature Registration do
         expect(page.has_content?('Business Ticket')).to be true
 
         click_link 'Delete'
-        expect(flash).to eq('Ticket successfully destroyed.')
+        expect(flash).to eq('Ticket successfully deleted.')
         expect(TicketPurchase.count).to eq(0)
       end
     end
