@@ -40,7 +40,7 @@ module Admin
                     notice: 'Ticket successfully destroyed.')
       else
         redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
-                    alert: "Ticket was successfully destroyed." \
+                    alert: 'Ticket was successfully destroyed.' \
                     "#{@ticket.errors.full_messages.join('. ')}.")
       end
     end

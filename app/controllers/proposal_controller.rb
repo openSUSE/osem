@@ -76,7 +76,7 @@ class ProposalController < ApplicationController
     end
 
     redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
-                notice: "Proposal was successfully updated.")
+                notice: 'Proposal was successfully updated.')
   end
 
   def destroy
@@ -92,7 +92,7 @@ class ProposalController < ApplicationController
 
     @event.save(validate: false)
     redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
-                notice: "Proposal was successfully withdrawn.")
+                notice: 'Proposal was successfully withdrawn.')
   end
 
   def confirm

@@ -25,7 +25,7 @@ module Admin
     def update
       if can_manage_volunteers(@conference)
         if @conference.update_attributes(params[:conference])
-          redirect_to(admin_conference_volunteers_info_path(conference_id: params[:conference_id]), notice: "Volunteering options were successfully updated.")
+          redirect_to(admin_conference_volunteers_info_path(conference_id: params[:conference_id]), notice: 'Volunteering options were successfully updated.')
         else
           redirect_to(admin_conference_volunteers_info_path(conference_id: params[:conference_id]), alert: "Volunteering options update failed: #{@conference.errors.full_messages.join '. '}")
         end

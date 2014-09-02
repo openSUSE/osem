@@ -108,6 +108,18 @@ Style/BracesAroundHashParameters:
 Style/CaseEquality:
   Enabled: true
 
+Style/ClassAndModuleChildren:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: true
+
+Style/TrailingBlankLines:
+  Enabled: true
+
+Style/TrailingWhitespace:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'
@@ -115,3 +127,5 @@ AllCops:
   Exclude:
     - 'db/schema.rb'
     - 'vendor/bundle/**/*'
+    - 'bundle/**/*'
+    - 'config/**/*'

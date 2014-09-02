@@ -1,5 +1,5 @@
 class Mailbot < ActionMailer::Base
-  default from: "no-reply@example.com"
+  default from: 'no-reply@example.com'
 
   def registration_mail(conference, person)
     build_email(conference,

@@ -162,4 +162,3 @@ describe Admin::RegistrationPeriodsController do
 
   end
 end
-

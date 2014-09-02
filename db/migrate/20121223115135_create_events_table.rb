@@ -7,8 +7,8 @@ class CreateEventsTable < ActiveRecord::Migration
       t.string :title, null: false
       t.string :subtitle
       t.integer :time_slots
-      t.string :state, null: false, default: "new"
-      t.string :progress, null: false, default: "new"
+      t.string :state, null: false, default: 'new'
+      t.string :progress, null: false, default: 'new'
       t.string :language
       t.datetime :start_time
       t.text :abstract

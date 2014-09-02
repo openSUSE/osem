@@ -28,7 +28,7 @@ module Admin
       else
         redirect_to(admin_conference_callforpapers_path(
                     id: @conference.short_title),
-                    alert: "Updating call for papers failed. #{@cfp.errors.to_a.join(". ")}.")
+                    alert: "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}.")
       end
     end
 
@@ -44,7 +44,7 @@ module Admin
       else
         redirect_to(admin_conference_callforpapers_path(
                     id: @conference.short_title),
-                    alert: "Creating the call for papers failed. #{@cfp.errors.to_a.join(". ")}.")
+                    alert: "Creating the call for papers failed. #{@cfp.errors.to_a.join('. ')}.")
       end
     end
   end

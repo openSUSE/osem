@@ -5,7 +5,7 @@ class UseVdaysVpositionsDefaults < ActiveRecord::Migration
   end
 
   def down
-    change_column :conferences, :use_vpositions, :boolean, default: nil 
-    change_column :conferences, :use_vdays, :boolean, default: nil 
+    change_column :conferences, :use_vpositions, :boolean, default: nil
+    change_column :conferences, :use_vdays, :boolean, default: nil
   end
 end

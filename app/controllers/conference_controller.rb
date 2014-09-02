@@ -9,14 +9,14 @@ class ConferenceController < ApplicationController
       subscription = Subscription.new(user_id: current_user.id, conference_id: conference.id)
       begin
         subscription.save!
-        flash[:success] = "You have been subscribed to receive Email Notifications from this Conference."
+        flash[:success] = 'You have been subscribed to receive Email Notifications from this Conference.'
         redirect_to root_path
       rescue ActiveRecord::RecordInvalid
         flash[:error] = subscription.errors.full_messages.to_sentence
         redirect_to root_path
       end
     else
-      flash[:notice] = "Already Subscribed"
+      flash[:notice] = 'Already Subscribed'
       redirect_to root_path
     end
   end
@@ -25,7 +25,7 @@ class ConferenceController < ApplicationController
     conference = Conference.find_by_short_title(params[:id])
     subscription = current_user.subscriptions.where(conference_id: conference.id).first
     if subscription.blank?
-      flash[:notice] = "Already Unsubscribed"
+      flash[:notice] = 'Already Unsubscribed'
       redirect_to root_path
     else
      begin
@@ -41,6 +41,6 @@ class ConferenceController < ApplicationController
 
   def gallery_photos
     @photos = @conference.photos
-    render "photos", formats: [:js]
+    render 'photos', formats: [:js]
   end
 end

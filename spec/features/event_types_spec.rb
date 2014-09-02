@@ -44,7 +44,7 @@ feature EventType do
                  value).to eq('300')
 
       # Remove event type
-      within("div.nested-fields:nth-of-type(3)") do
+      within('div.nested-fields:nth-of-type(3)') do
 	click_link 'Remove event_type'
       end
       expect(page.all('div.nested-fields').count == 2).to be true

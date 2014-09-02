@@ -14,9 +14,9 @@ user.skip_confirmation!
 user.save!
 
 # Questions
-qtype_yesno = QuestionType.create(title: "Yes/No")
-QuestionType.create(title: "Single Choice")
-QuestionType.create(title: "Multiple Choice")
+qtype_yesno = QuestionType.create(title: 'Yes/No')
+QuestionType.create(title: 'Single Choice')
+QuestionType.create(title: 'Multiple Choice')
 
 answer_yes = Answer.create(title: 'Yes')
 answer_no = Answer.create(title: 'No')

@@ -4,7 +4,7 @@ class Contact < ActiveRecord::Base
 
   validates :conference, presence: true
   # Conferences only have one contact
-  validates :conference_id, uniqueness: {message: "has already contact details"}
+  validates :conference_id, uniqueness: {message: 'has already contact details'}
 
   validates :facebook, :twitter, :googleplus, :instagram,
             format: URI::regexp(%w(http https)), allow_blank: true

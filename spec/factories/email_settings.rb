@@ -15,13 +15,13 @@ FactoryGirl.define do
     updated_conference_registration_dates_subject 'Conference registration dates have been updated'
     updated_conference_registration_dates_template 'Sample Conference\n New Dates: January 17 - 21 2014'
     send_on_venue_update true
-    venue_update_subject "Venue has been updated"
-    venue_update_template "Venue has been Updated to Sample Location"
+    venue_update_subject 'Venue has been updated'
+    venue_update_template 'Venue has been Updated to Sample Location'
     registration_subject 'Lorem Ipsum Dolsum'
     registration_email_template 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
-    call_for_papers_dates_updates_subject "Call for Papers dates have been updated"
-    call_for_papers_dates_updates_template "Please checkout the new updates to submit your proposal for Sample Conference"
-    call_for_papers_schedule_public_subject "Sample Conference Cfp schedule is Public"
-    call_for_papers_schedule_public_template "Call for Papers schedule is Public.Checkout the link"
+    call_for_papers_dates_updates_subject 'Call for Papers dates have been updated'
+    call_for_papers_dates_updates_template 'Please checkout the new updates to submit your proposal for Sample Conference'
+    call_for_papers_schedule_public_subject 'Sample Conference Cfp schedule is Public'
+    call_for_papers_schedule_public_template 'Call for Papers schedule is Public.Checkout the link'
   end
 end

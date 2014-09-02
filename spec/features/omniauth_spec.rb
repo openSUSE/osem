@@ -15,7 +15,7 @@ feature Openid do
       visit '/accounts/sign_in'
 
       mock_auth_new_user
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-google'
       end
       expect(flash).to eq('test-1@gmail.com signed in successfully with google')
@@ -30,7 +30,7 @@ feature Openid do
       visit '/accounts/sign_in'
 
       mock_auth_existing_user_participant
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-google'
       end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
@@ -42,7 +42,7 @@ feature Openid do
       OmniAuth.config.mock_auth[:google] = :invalid_credentials
       visit '/accounts/sign_in'
       expect(page.has_content?('or sign in using')).to be true
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-google'
       end
 
@@ -60,7 +60,7 @@ feature Openid do
       visit '/accounts/edit'
 
       mock_auth_new_user
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-google'
       end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
@@ -77,7 +77,7 @@ feature Openid do
       visit '/accounts/sign_in'
 
       mock_auth_existing_user_participant
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-google'
       end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
@@ -90,7 +90,7 @@ feature Openid do
       visit '/accounts/edit'
 
       mock_auth_new_user
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-google'
       end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with google')
@@ -106,7 +106,7 @@ feature Openid do
 
       visit '/accounts/sign_in'
       mock_auth_new_user_fb
-      within("#openidlinks") do
+      within('#openidlinks') do
         click_link 'omniauth-facebook'
       end
       expect(flash).to eq('test-participant-1@google.com signed in successfully with facebook')

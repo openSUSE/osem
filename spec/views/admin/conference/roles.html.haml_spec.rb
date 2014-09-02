@@ -16,11 +16,11 @@ describe 'admin/conference/roles' do
     expect(rendered).to include("Add role 'Organizer' to user:")
     expect(rendered).to include('Add role')
     expect(rendered).to include('Users with role Organizer')
-    expect(rendered).to have_selector("table thead th:nth-of-type(1)", text: 'ID')
-    expect(rendered).to have_selector("table thead th:nth-of-type(2)", text: 'Name')
-    expect(rendered).to have_selector("table thead th:nth-of-type(3)", text: 'Email')
-    expect(rendered).to have_selector("table tbody tr:nth-of-type(1) td:nth-of-type(1)", text: organizer.id)
-    expect(rendered).to have_selector("table tbody tr:nth-of-type(1) td:nth-of-type(2)", text: 'test name')
-    expect(rendered).to have_selector("table tbody tr:nth-of-type(1) td:nth-of-type(3)", text: 'test@email.com')
+    expect(rendered).to have_selector('table thead th:nth-of-type(1)', text: 'ID')
+    expect(rendered).to have_selector('table thead th:nth-of-type(2)', text: 'Name')
+    expect(rendered).to have_selector('table thead th:nth-of-type(3)', text: 'Email')
+    expect(rendered).to have_selector('table tbody tr:nth-of-type(1) td:nth-of-type(1)', text: organizer.id)
+    expect(rendered).to have_selector('table tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 'test name')
+    expect(rendered).to have_selector('table tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 'test@email.com')
   end
 end

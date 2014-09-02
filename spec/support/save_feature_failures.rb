@@ -3,9 +3,9 @@
 RSpec.configure do |config|
   config.after(:each, type: :feature) do
     ename = RSpec.current_example.full_description
-    ename = ename.gsub " ", "_"
+    ename = ename.gsub ' ', '_'
     ename.downcase!
-    ename = ename + ".html"
+    ename = ename + '.html'
     if RSpec.current_example.exception.present?
       save_page(ename)
     else

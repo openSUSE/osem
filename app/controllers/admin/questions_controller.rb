@@ -33,7 +33,7 @@ module Admin
     # GET questions/1/edit
     def edit
       if @question.global
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), alert: "Sorry, you cannot edit global questions. Create a new one.")
+        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), alert: 'Sorry, you cannot edit global questions. Create a new one.')
       end
     end
 
@@ -73,13 +73,13 @@ module Admin
               flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
             end
           rescue ActiveRecord::RecordInvalid
-            flash[:error] = "Could not delete question."
+            flash[:error] = 'Could not delete question.'
           end
         else
-          flash[:error] = "You cannot delete global questions."
+          flash[:error] = 'You cannot delete global questions.'
         end
       else
-        flash[:error] = "You must be an admin to delete a question."
+        flash[:error] = 'You must be an admin to delete a question.'
       end
 
       @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)

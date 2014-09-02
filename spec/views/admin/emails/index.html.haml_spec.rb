@@ -18,15 +18,15 @@ describe 'admin/emails/index' do
         to include('Conference dates have been updated')
     expect(rendered).
         to include('Conference registration dates have been updated')
-    expect(rendered).to include("Venue has been updated")
-    expect(rendered).to include("Venue has been Updated to Sample Location")
+    expect(rendered).to include('Venue has been updated')
+    expect(rendered).to include('Venue has been Updated to Sample Location')
     expect(rendered).
-        to include("Call for Papers dates have been updated")
+        to include('Call for Papers dates have been updated')
     expect(rendered).
-        to include("Please checkout the new updates to submit your proposal for Sample Conference")
+        to include('Please checkout the new updates to submit your proposal for Sample Conference')
     expect(rendered).
-        to include("Sample Conference Cfp schedule is Public")
+        to include('Sample Conference Cfp schedule is Public')
     expect(rendered).
-        to include("Call for Papers schedule is Public.Checkout the link")
+        to include('Call for Papers schedule is Public.Checkout the link')
   end
 end

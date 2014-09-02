@@ -56,7 +56,7 @@ feature Photo do
       click_button 'Save Photo'
 
       expect(flash).
-          to eq("A error prohibited this Photo from being saved: Picture content type is invalid. Picture is invalid.")
+          to eq('A error prohibited this Photo from being saved: Picture content type is invalid. Picture is invalid.')
       expect(Photo.count).to eq(expected_count)
     end
   end
