@@ -7,7 +7,7 @@ class TicketPurchasesController < ApplicationController
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
       redirect_to conference_conference_registrations_path(@conference.short_title),
-                  notice: "Congratulations, you have successfully purchased a ticket! " \
+                  notice: 'Congratulations, you have successfully purchased a ticket! ' \
                     "You can pay it cash on check in! Thank you for supporting #{@conference.title}!"
     else
       redirect_to conference_conference_registrations_path(@conference.short_title),
@@ -22,7 +22,7 @@ class TicketPurchasesController < ApplicationController
                   notice: 'Ticket successfully destroyed.'
     else
       redirect_to conference_conference_registrations_path(@conference.short_title),
-                  notice: "A error prohibited deleting your purchase! "\
+                  notice: 'A error prohibited deleting your purchase! '\
                         "#{@ticket_purchases.errors.full_messages.join('. ')}."
     end
   end
