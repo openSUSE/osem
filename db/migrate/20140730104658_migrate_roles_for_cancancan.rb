@@ -8,6 +8,7 @@ class MigrateRolesForCancancan < ActiveRecord::Migration
         Conference.all.each do |conference|
           if role.name == 'Admin' || role.name == 'Organizer'
             user.add_role :organizer, conference
+            user.update_columns(is_admin: true)
           else
             user.add_role role.name.parameterize.underscore.to_sym, conference
           end
@@ -22,6 +23,6 @@ class MigrateRolesForCancancan < ActiveRecord::Migration
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration.new('Cannot reverse migration. Deleted events cannot be re-created')
+    raise ActiveRecord::IrreversibleMigration.new('Cannot reverse migration.')
   end
 end
