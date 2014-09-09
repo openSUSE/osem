@@ -22,7 +22,7 @@ module Admin
         redirect_to admin_conference_commercials_path,
                     notice: 'Commercial was successfully created.'
       else
-        flash[:alert] = "A error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
+        flash[:alert] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -32,7 +32,7 @@ module Admin
         redirect_to admin_conference_commercials_path,
                     notice: 'Commercial was successfully updated.'
       else
-        flash[:alert] = "A error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
+        flash[:alert] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
         render :edit
       end
     end

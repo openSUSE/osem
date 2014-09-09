@@ -18,7 +18,7 @@ class CommercialsController < ApplicationController
       redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id),
                   notice: 'Commercial was successfully created.'
     else
-      flash[:alert] = "A error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
+      flash[:alert] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
       render :new
     end
   end
@@ -28,7 +28,7 @@ class CommercialsController < ApplicationController
       redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id),
                   notice: 'Commercial was successfully updated.'
     else
-      flash[:alert] = "A error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
+      flash[:alert] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
       render :edit
     end
   end
