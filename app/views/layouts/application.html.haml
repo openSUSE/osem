@@ -8,6 +8,7 @@
     = stylesheet_link_tag "application", :media => "all"
     = stylesheet_link_tag "splash" if content_for :splash
     = javascript_include_tag "application"
+    = javascript_include_tag "//cdn.transifex.com/live.js"
     = csrf_meta_tags
     :javascript
       $(function() {
