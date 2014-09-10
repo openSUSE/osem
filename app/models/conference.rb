@@ -669,7 +669,7 @@ class Conference < ActiveRecord::Base
         hash[key] = 0
       end
     end
-    hash.sort.to_h
+    Hash[ hash.sort ]
   end
 
   ##
