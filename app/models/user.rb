@@ -130,7 +130,9 @@ class User < ActiveRecord::Base
         if event.start_time.nil? || event.start_time > DateTime.now
           event.destroy
         else
-          EventUser.create_deleted_eventuser(self,event)
+          event_role = event.event_users.where(user: self).first.event_role
+          event.event_users.where(user: self).destroy_all
+          EventUser.create(user: User.find_by(email: 'deleted@localhost.osem'), event: event, event_role: event_role)
         end
       end
       super

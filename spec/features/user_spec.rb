@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature User do
-
   shared_examples 'admin ability' do
     scenario 'deletes a user', feature: true, js: true do
       sign_in(create(:admin))
@@ -17,7 +16,7 @@ feature User do
     scenario 'deletes a user with scheduled events', feature: true, js: true do
       sign_in(create(:admin))
       @user = create(:user)
-      deleted_user = create(:user, email: 'deleted@localhost.osem', name: 'User deleted', biography: 'Data is no longer available for deleted user.')
+      deleted_user = create(:deleted_user, email:'deleted@localhost.osem')
       @user.events << create(:event, start_time: DateTime.now)
       event = @user.events.first
       visit admin_users_path

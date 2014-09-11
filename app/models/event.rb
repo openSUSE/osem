@@ -205,6 +205,7 @@ class Event < ActiveRecord::Base
       end
     alert
   end
+
   private
 
   def abstract_limit
