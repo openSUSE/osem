@@ -22,5 +22,9 @@ FactoryGirl.define do
     factory :organizer do
       after(:create) { |user| user.role_ids = create(:organizer_role).id }
     end
+
+    factory :deleted_user do
+      after(:create) { |user| user.email = 'deleted@localhost.osem', user.name = 'User deleted', user.biography = 'Data is no longer available for deleted user.' }
+    end
   end
 end

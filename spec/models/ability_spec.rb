@@ -4,7 +4,8 @@ require 'cancan/matchers'
 describe 'User' do
   describe 'Abilities' do
     subject(:ability){ Ability.new(user) }
-    let!(:first_user) { create(:user) } # automatically becomes admin
+    let!(:deleted_user) { create(:deleted_user) }
+    let!(:admin_user) { create(:user) } # Second user. Automatically becomes admin.
     let(:user){ nil }
     let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
     let(:conference_public) { create(:conference, splashpage: create(:splashpage, public: true)) }

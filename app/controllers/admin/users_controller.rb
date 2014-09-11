@@ -30,6 +30,7 @@ module Admin
     def edit; end
 
     def destroy
+      sign_out @user
       @user.destroy
       redirect_to admin_users_path, notice: 'User got deleted'
     end

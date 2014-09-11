@@ -54,6 +54,12 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    sign_out current_user
+    current_user.destroy
+    redirect_to root_path
+  end
+
   protected
 
   def after_update_path_for(resource)

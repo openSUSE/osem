@@ -59,8 +59,7 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    self.is_admin = true if User.count == 0
-    roles << Role.where(name: 'Admin') if User.count == 1
+    self.is_admin = true if User.count == 1
   end
 
   # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
@@ -129,6 +128,23 @@ class User < ActiveRecord::Base
       0
     else
       biography.split.size
+    end
+  end
+
+  def destroy
+    if self.events.blank?
+      super
+    else
+      self.events.each do |event|
+        if event.start_time.nil? || event.start_time > DateTime.now
+          event.destroy
+        else
+          event_role = event.event_users.where(user: self).first.event_role
+          event.event_users.where(user: self).destroy_all
+          EventUser.create(user: User.find_by(email: 'deleted@localhost.osem'), event: event, event_role: event_role)
+        end
+      end
+      super
     end
   end
 
