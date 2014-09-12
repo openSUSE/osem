@@ -114,7 +114,9 @@ class User < ActiveRecord::Base
   end
 
   def setup_role
-    self.is_admin = true if User.count == 1
+    if User.count == 1 && User.first.email == 'deleted@localhost.osem'
+      self.is_admin = true
+    end
   end
 
   # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
