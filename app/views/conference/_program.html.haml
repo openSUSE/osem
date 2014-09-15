@@ -12,6 +12,10 @@
           = link_to 'Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
       - else
         %span The schedule is not ready yet. Stay tuned!
+
+  - unless @keynote_speakers.blank?
+    = render 'keynote_speakers'
+
   -unless @conference.tracks.blank?
     - if @conference.splashpage.include_tracks
       = render 'tracks'
