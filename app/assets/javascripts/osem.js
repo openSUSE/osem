@@ -100,31 +100,6 @@ $(function () {
     $(".user-details-popover").popover();
     $("#comments-div").hide();
 
-    $(document).ready(function () {
-        var path = window.location.pathname;
-        $(".myAccordion ul").each(function () {
-            $this = $(this);
-            $this.find("a").each(function () {
-                if ($(this).attr("href") == path) {
-                    $this.show();
-                }
-            })
-        });
-    });
-
-    $( ".myAccordion" ).mouseover(function() {
-        if(!$(this).find("ul").is(':visible')){
-            //Hide all except this
-            $siblings = $(this).siblings().find("ul:visible");
-            $siblings.hide();
-            $siblings.parent().find('span:nth-child(2)').toggleClass("fa-chevron-down fa-chevron-right");
-
-            //show this
-            $(this).find("ul").show();
-            $(this).find('span:nth-child(2)').toggleClass("fa-chevron-down fa-chevron-right");
-        }
-    });
-
     $('a:contains("Add track")').click(function () {
         setTimeout(function () {
                 $("div.nested-fields:last div:nth-of-type(2) input").val(get_color());
