@@ -4,6 +4,11 @@
       = link_to "#{ @contact.email }" do
         %i.fa.fa-envelope.fa-3x
       = @contact.email
+  - unless @contact.sponsor_email.blank?
+    %li
+      = link_to "#{ @contact.sponsor_email }" do
+        %i.fa.fa-money.fa-3x
+      = @contact.sponsor_email
   - unless @contact.social_tag.blank?
     %li
       = link_to "#{ @contact.social_tag }" do

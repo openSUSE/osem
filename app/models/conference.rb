@@ -15,7 +15,7 @@ class Conference < ActiveRecord::Base
                   :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
                   :vpositions_attributes, :use_volunteers, :color,
                   :sponsorship_levels_attributes, :sponsors_attributes,
-                  :sponsor_email, :photos_attributes, :targets, :targets_attributes,
+                  :photos_attributes, :targets, :targets_attributes,
                   :campaigns, :campaigns_attributes
 
   has_paper_trail
