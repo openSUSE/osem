@@ -7,28 +7,40 @@
     .dashbox.text-center
       %span.fa.fa-user.fa-lg
       %span.fa.fa-lg
-        = @total_user
+        = @total_reg
       %p
         %small
-          #{'Registration'.pluralize(@registration_targets)}
+          #{'Registration'.pluralize(@total_reg)}
+        - if @new_reg
+          %span.label.label-success{title: "+#{@new_reg} since you last logged in!"}
+            +
+            = @new_reg
 
   .col-sm-4.col-xs-4
     .dashbox.text-center
       %span.fa.fa-check-square.fa-lg
       %span.fa.fa-lg
-        = @total_reg
+        = @total_submissions
       %p
         %small
-          #{'Submission'.pluralize(@submission_targets)}
+          #{'Submission'.pluralize(@total_submissions)}
+        - if @new_submissions
+          %span.label.label-success{title: "+#{@new_submissions} since you last logged in!"}
+            +
+            = @new_submissions
 
   .col-sm-4.col-xs-4
     .dashbox.text-center
       %span.fa.fa-file-text.fa-lg
       %span.fa.fa-lg
-        = @total_submissions
+        = @program_length
       %p
         %small
-          #{'Hour'.pluralize(@program_minutes_targets)}
+          #{'Hour'.pluralize(@program_length)}
+        - if @new_reg
+          %span.label.label-success{title: "+#{@new_program_length} since you last logged in!"}
+            +
+            = @new_program_length
 
 .row
   .col-md-12
