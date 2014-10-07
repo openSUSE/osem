@@ -67,7 +67,8 @@
                                                         x: @cfp_weeks,
                                                         unit: 'weeks' }
       .col-md-4
-        = render partial: 'todo_list', locals: { conference_progress: @conference_progress }
+        = render partial: 'todo_list', locals: { conference_progress: @conference_progress,
+                                                 conference: @conference }
 .row
   .col-md-12#doughnut
     %ul.nav.nav-tabs#doughnut_tabs
