@@ -173,6 +173,24 @@ function word_count(text, divId, maxcount) {
     }
 };
 
+/* Set the minimum and maximum proposal abstract word length */
+$("#event_event_type_id").change(function () {
+    var $selected = $("#event_event_type_id option:selected")
+    var max = $selected.data("max-words");
+    var min = $selected.data("min-words");
+
+    $("#abstract-maximum-word-count").text(max);
+    $("#abstract-minimum-word-count").text(min);
+    word_count($('#event_abstract').get(0), 'abstract-count', max);
+})
+    .trigger('change');
+
+/* Count the proposal abstract length */
+$("#event_abstract").bind('keyup', function() {
+    var $selected = $("#event_event_type_id option:selected")
+    var max = $selected.data("max-words");
+    word_count(this, 'abstract-count', max);
+} );
 
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {

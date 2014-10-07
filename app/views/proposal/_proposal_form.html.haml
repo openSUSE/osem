@@ -10,7 +10,10 @@
     = f.input :subtitle, :as => :string
   %section#details
     - if can? :update, @event or can? :create, @event
-      = f.input :event_type_id,:as => :select, :collection => @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id]}, :include_blank => false, :label => "Session Type"
+      = f.input :event_type_id, as: :select,
+      collection: @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id,
+      data: { min_words: x.minimum_abstract_length, max_words: x.maximum_abstract_length }]},
+      include_blank: false, label: 'Session Type'
     - else
       Event type: #{@event.event_type.title}
       %br
@@ -45,20 +48,3 @@
           words.  Biographies are limited to 150 words.
   %p.text-right
     = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}
-
-:javascript
-  var maxcount = 0;
-
-  $("#event_event_type_id").change(function () {
-    var str = "";
-    var min_str = ""
-    #{generate_abstract_length_js @conference}
-    $("#abstract-maximum-word-count").text(str);
-    $("#abstract-minimum-word-count").text(min_str);
-    word_count($('#event_abstract').get(0), 'abstract-count', maxcount);
-  })
-  .trigger('change');
-
-  $("#event_abstract").bind('keyup', function() {
-    word_count(this, 'abstract-count', maxcount);
-  } );
