@@ -4,13 +4,10 @@ describe User do
 
   # It is necessary to use bang version of let to build roles before user
   let!(:user_admin) { create(:user) }
-  let!(:admin) { create(:admin) }
-  let!(:participant) { create(:user) }
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:cfp_role) { create(:cfp_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
-  let!(:user) { create(:user) }
 
   it 'User.for_ichain_username raises exception if user is disabled' do
     user.is_disabled = true
@@ -47,14 +44,32 @@ describe User do
       it_behaves_like '#role?', :organizer, 'participant', false
     end
 
-    context 'admin' do
-      it 'assigns second user admin role' do
-        expect(User.second.is_admin).to be true
-      end
-    end
-
     context 'participant' do
       it_behaves_like '#role?', :user, 'adMin', false
+    end
+  end
+
+  describe 'assigns admin attribute' do
+    it 'to second user when first user is deleted_user' do
+      DatabaseCleaner.clean_with(:truncation)
+
+      deleted_user = create(:user, email: 'deleted@localhost.osem', name: 'User deleted')
+      expect(deleted_user.is_admin).to be false
+
+      user_after_deleted = create(:user)
+      expect(user_after_deleted.is_admin).to be true
+    end
+  end
+
+  describe 'does not assign admin attribute' do
+    it 'when first user is not deleted_user' do
+      DatabaseCleaner.clean_with(:truncation)
+
+      first_user = create(:user)
+      expect(first_user.is_admin).to be false
+
+      second_user = create(:user)
+      expect(second_user.is_admin).to be false
     end
   end
 end
