@@ -50,4 +50,51 @@ describe Admin::UsersController do
     end
   end
 
+  describe 'GET #new' do
+    it 'assigns a new user to @user variable' do
+      get :new
+      expect(assigns(:user)).to be_a_new(User)
+    end
+
+    it 'renders the :new template' do
+      get :new
+      expect(response).to render_template :new
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      it 'saves the user to the database' do
+        expected = expect do
+          post :create, user: { name: 'New User', email: 'newuser@osem.localhost' }
+        end
+        expected.to change { User.count }.by 1
+      end
+
+      it 'redirects to users#index' do
+        post :create, user: { name: 'New User', email: 'newuser@osem.localhost' }
+        expect(response).to redirect_to admin_users_path
+      end
+
+      it 'shows success message' do
+        post :create, user: { name: 'New User', email: 'newuser@osem.localhost' }
+        expect(flash[:notice]).to match("User created. Name: New User, email: newuser@osem.localhost")
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the user to the database' do
+        expected = expect do
+          post :create
+        end
+        expected.to_not change { User.count }
+      end
+
+      it 're-renders the new template' do
+        post :create
+
+        expect(response).to be_success
+      end
+    end
+  end
 end
