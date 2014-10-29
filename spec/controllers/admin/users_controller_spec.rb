@@ -78,7 +78,7 @@ describe Admin::UsersController do
 
       it 'shows success message' do
         post :create, user: { name: 'New User', email: 'newuser@osem.localhost' }
-        expect(flash[:notice]).to match("User created. Name: New User, email: newuser@osem.localhost")
+        expect(flash[:notice]).to match('User created. Name: New User, email: newuser@osem.localhost')
       end
     end
 
