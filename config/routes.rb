@@ -109,6 +109,7 @@ Osem::Application.routes.draw do
     resource :conference_registrations, path: 'register'
     resources :tickets, only: [:index]
     resources :ticket_purchases, only: [:create, :destroy]
+    resource :subscriptions, only: [:create, :destroy]
 
     resource :schedule, only: [] do
       get '/' => 'schedule#index'
@@ -116,8 +117,6 @@ Osem::Application.routes.draw do
 
     member do
       get 'gallery_photos'
-      patch 'subscription' => 'conference#subscribe'
-      delete 'subscription' => 'conference#unsubscribe'
     end
   end
 

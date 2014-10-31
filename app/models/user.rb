@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
             },
             presence: true
 
+  def subscribed? conference
+    self.subscriptions.find_by(conference_id: conference.id).present?
+  end
+
   # Returns the ticket purchased ticket
   # ====Returns
   # * +TicketUser::ActiveRecord_Relation+ -> user
