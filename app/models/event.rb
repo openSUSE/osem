@@ -10,7 +10,6 @@ class Event < ActiveRecord::Base
   after_create :set_week
 
   has_many :event_users, dependent: :destroy
-  has_many :event_attachments, dependent: :destroy
   has_many :users, through: :event_users
   has_many :speakers, through: :event_users, source: :user
   has_many :votes, dependent: :destroy
@@ -26,7 +25,6 @@ class Event < ActiveRecord::Base
   belongs_to :conference
 
   accepts_nested_attributes_for :event_users, allow_destroy: true
-  accepts_nested_attributes_for :event_attachments, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :users
   before_create :generate_guid
 
