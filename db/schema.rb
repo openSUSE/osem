@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825093132) do
+ActiveRecord::Schema.define(version: 20141103132913) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -84,13 +84,13 @@ ActiveRecord::Schema.define(version: 20140825093132) do
   end
 
   create_table "conferences", force: true do |t|
-    t.string   "guid",                                            null: false
-    t.string   "title",                                           null: false
-    t.string   "short_title",                                     null: false
-    t.string   "timezone",                                        null: false
+    t.string   "guid",                                  null: false
+    t.string   "title",                                 null: false
+    t.string   "short_title",                           null: false
+    t.string   "timezone",                              null: false
     t.string   "html_export_path"
-    t.date     "start_date",                                      null: false
-    t.date     "end_date",                                        null: false
+    t.date     "start_date",                            null: false
+    t.date     "end_date",                              null: false
     t.integer  "venue_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -98,11 +98,11 @@ ActiveRecord::Schema.define(version: 20140825093132) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.boolean  "use_dietary_choices",             default: false
+    t.boolean  "use_dietary_choices",   default: false
     t.integer  "revision"
-    t.boolean  "use_vpositions",                  default: false
-    t.boolean  "use_vdays",                       default: false
-    t.boolean  "use_difficulty_levels",           default: false
+    t.boolean  "use_vpositions",        default: false
+    t.boolean  "use_vdays",             default: false
+    t.boolean  "use_difficulty_levels", default: false
     t.boolean  "use_volunteers"
     t.string   "color"
     t.string   "sponsor_email"
@@ -504,11 +504,13 @@ ActiveRecord::Schema.define(version: 20140825093132) do
     t.string   "languages"
     t.text     "volunteer_experience"
     t.boolean  "is_admin",               default: false
+    t.string   "username"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["username"], name: "index_users_on_username", unique: true
 
   create_table "vchoices", force: true do |t|
     t.integer "vday_id"
@@ -525,8 +527,8 @@ ActiveRecord::Schema.define(version: 20140825093132) do
 
   create_table "venues", force: true do |t|
     t.string   "guid"
-    t.text     "name",                       limit: 255
-    t.text     "address",                    limit: 255
+    t.text     "name",               limit: 255
+    t.text     "address",            limit: 255
     t.string   "website"
     t.text     "description"
     t.string   "offline_map_url"

@@ -17,7 +17,9 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
                   :name, :email_public, :biography, :nickname, :affiliation, :is_admin,
-                  :tshirt, :mobile, :volunteer_experience, :languages
+                  :tshirt, :mobile, :volunteer_experience, :languages, :username, :login
+
+  attr_accessor :login
 
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
@@ -31,11 +33,25 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
 
+  validates :username,
+            :uniqueness => {
+                :case_sensitive => false
+            }
+
   # Returns the ticket purchased ticket
   # ====Returns
   # * +TicketUser::ActiveRecord_Relation+ -> user
   def ticket(id)
     ticket_purchases.where(ticket_id: id).first
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    else
+      where(conditions).first
+    end
   end
 
   # Searches for user based on email. Returns found user or new user.
