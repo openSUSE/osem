@@ -123,6 +123,7 @@ class Ability
     end
 
     can :index, :schedule # show?
+    can :show, User
   end
 
   def signed_in(user)
@@ -130,6 +131,9 @@ class Ability
 
     # Conference Registration
     can :manage, Registration, user_id: user.id
+
+    can :manage, User, id: user.id
+    can :show, User
 
     ## Proposals
     # Users can manage their own proposals

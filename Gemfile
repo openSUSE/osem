@@ -14,6 +14,8 @@ gem 'paper_trail'
 
 # Use devise as authentification framework
 gem 'devise'
+gem 'devise_ichain_authenticatable'
+
 # Use omniauth to support openID authentication
 gem 'omniauth'
 gem 'omniauth-facebook'
