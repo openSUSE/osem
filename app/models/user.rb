@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   devise_modules = []
 
   if CONFIG['authentication']['ichain']['enabled']
-    devise_modules += [ :ichain_authenticatable, :ichain_registerable ]
+    devise_modules += [ :ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: [] ]
   else
     devise_modules += [:database_authenticatable, :registerable,
                        :recoverable, :rememberable, :trackable, :validatable, :confirmable,
