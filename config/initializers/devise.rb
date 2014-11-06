@@ -246,7 +246,7 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 
   # You will always need to set this parameter.
-  config.ichain_base_url = "https://my.application.org"
+  config.ichain_base_url = "https://events.opensuse.org"
 
   # Paths (relative to ichain_base_url) used by your proxy
   # config.ichain_login_path = "ICSLogin/"
