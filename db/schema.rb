@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104131625) do
+ActiveRecord::Schema.define(version: 20141106141750) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -505,6 +505,7 @@ ActiveRecord::Schema.define(version: 20141104131625) do
     t.text     "volunteer_experience"
     t.boolean  "is_admin",               default: false
     t.string   "username"
+    t.boolean  "is_disabled",            default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
