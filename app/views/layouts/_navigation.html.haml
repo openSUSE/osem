@@ -43,7 +43,7 @@
               %span.caret
             .dropdown-menu{:style => "padding: 17px;"}
               - if CONFIG['authentication']['ichain']['enabled']
-                = form_tag new_user_ichain_session_path do
+                = form_tag User.ichain_login_url do
                   = text_field_tag 'username', nil, id: 'user_ichain_email_dd'
                   = password_field_tag 'password', nil, id: 'user_ichain_password_dd'
                   %button.btn.btn-success.btn-block Sign in
