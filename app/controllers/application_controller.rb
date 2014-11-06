@@ -54,6 +54,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  rescue_from UserDisabled do
+    Rails.logger.debug('User is disabled!')
+    sign_out(current_user)
+    mail = User.admin.first ? User.admin.first.email : 'the admin!'
+    flash[:error] = "This User is disabled. Please contact #{mail}!"
+    redirect_to root_path
+  end
+
   def not_found
     raise ActionController::RoutingError.new('Not Found')
   end

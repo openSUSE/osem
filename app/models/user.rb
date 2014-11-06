@@ -1,6 +1,9 @@
 class IChainRecordNotFound < StandardError
 end
 
+class UserDisabled < StandardError
+end
+
 class User < ActiveRecord::Base
   rolify
   include Gravtastic
@@ -42,6 +45,8 @@ class User < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   accepts_nested_attributes_for :roles
 
+  scope :admin, -> { where(is_admin: true) }
+
   validates :email, presence: true
 
   validates :username,
@@ -59,6 +64,9 @@ class User < ActiveRecord::Base
 
   def self.for_ichain_username(username, attributes)
     user = find_by(username: username)
+
+    raise UserDisabled if user && user.is_disabled
+
     if user
       user.update_attributes(email: attributes[:email])
     else
