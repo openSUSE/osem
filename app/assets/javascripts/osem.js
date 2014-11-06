@@ -1,4 +1,9 @@
 $(function () {
+
+    $("#user_biography").bind('keyup', function() {
+        word_count(this, 'bio_length', 150);
+    } );
+
     /**
      * Displays a modal with the questions of the registration.
      */

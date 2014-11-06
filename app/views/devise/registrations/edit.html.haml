@@ -1,35 +1,25 @@
+%h1 Edit your Account
 .row
   .col-md-12
     = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-      = f.inputs name: 'Profile' do
-        = f.input :name, as: :string
-        = f.input :nickname, as: :string
-        = f.input :affiliation, as: :string,
-          hint: 'This could be a company, a user group, or nothing at all.'
-        = f.input :biography,  input_html: {rows: 5,
-          'onkeyup' => "word_count(this, 'biography-count', 150)"}
-        You have used
-        %span#biography-count #{current_user.biography_word_count}
-        words.  Biographies are limited to 150 words.
-        %br
-        %br
+      = f.inputs name: 'Account' do
+        = f.input :username, required: false, input_html: { autocomplete: 'off' }
+        = f.input :email, required: false, input_html: { autocomplete: 'off' }
+        = f.input :password, hint: "(Leave blank if you don't want to change it)", input_html: { autocomplete: 'off' }
+        = f.input :password_confirmation, input_html: { autocomplete: 'off' }
       = f.inputs name: 'OpenID' do
         %h4
           Currently the following openIDs are associated with your account
         - @openids.each do |openid|
           %li= "#{openid.provider}:#{openid.email}"
           %br
+        %h4
+          To add an openID with a different email address to your account, sign in with your
+          openID while logged in to OSEM
         - if User.omniauth_providers.present?
-          %h4
-            To add an openID with a different email address to your account, sign in with your
-            openID while logged in to OSEM
           #openidlinks
             = render 'devise/shared/openid'
-
-      = f.inputs name: 'Account' do
-        = f.input :email, required: false, input_html: {autocomplete: "off"}
-        = f.input :password, hint: "(Leave blank if you don't want to change it)", input_html: {autocomplete: 'off'}
-        = f.input :password_confirmation, input_html: {autocomplete: 'off'}
+      = f.inputs name: 'Confirmation' do
         = f.input :current_password, input_html: {autocomplete: 'off'},
-          hint: '(we need your current password to confirm password or email changes)'
-      = f.action :submit, as: :button, label: 'Update', button_html: {class: 'btn btn-primary'}
+                  hint: '(we need your current password to confirm password, email or username changes)'
+      = f.action :submit, as: :button, label: 'Update Account', button_html: {class: 'btn btn-primary'}

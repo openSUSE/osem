@@ -1,3 +1,6 @@
+class IChainRecordNotFound < StandardError
+end
+
 class User < ActiveRecord::Base
   rolify
   include Gravtastic
@@ -8,16 +11,26 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-         :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github]
+  devise_modules = []
+
+  if CONFIG['authentication']['ichain']['enabled']
+    devise_modules += [ :ichain_authenticatable, :ichain_registerable ]
+  else
+    devise_modules += [:database_authenticatable, :registerable,
+                       :recoverable, :rememberable, :trackable, :validatable, :confirmable,
+                       :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github] ]
+  end
+
+  devise(*devise_modules)
 
   has_and_belongs_to_many :roles
   has_many :openids
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
                   :name, :email_public, :biography, :nickname, :affiliation, :is_admin,
-                  :tshirt, :mobile, :volunteer_experience, :languages
+                  :tshirt, :mobile, :volunteer_experience, :languages, :username, :login
+
+  attr_accessor :login
 
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
@@ -29,13 +42,43 @@ class User < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   accepts_nested_attributes_for :roles
 
-  validates :name, presence: true
+  validates :email, presence: true
+
+  validates :username,
+            uniqueness: {
+                case_sensitive: false
+            },
+            presence: true
 
   # Returns the ticket purchased ticket
   # ====Returns
   # * +TicketUser::ActiveRecord_Relation+ -> user
   def ticket(id)
     ticket_purchases.where(ticket_id: id).first
+  end
+
+  def self.for_ichain_username(username, attributes)
+    user = find_by(username: username)
+    if user
+      user.update_attributes(email: attributes[:email])
+    else
+      begin
+        user = create(username: username, email: attributes[:email])
+      rescue ActiveRecord::RecordNotUnique
+        raise IChainRecordNotFound
+      end
+    end
+    user
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    login = conditions.delete(:login)
+    if login
+      where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
+    else
+      where(conditions).first
+    end
   end
 
   # Searches for user based on email. Returns found user or new user.

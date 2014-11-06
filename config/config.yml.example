@@ -16,6 +16,11 @@ defaults: &defaults
                            speakerdeck: 'Speakerdeck',
                            instagram: 'Instagram' }
 
+  # If you want to use iChain to handle registration and authentication enable the next lines
+  authentication:
+    ichain:
+      enabled: false
+
 development:
   <<: *defaults
 

@@ -8,24 +8,29 @@ class ApplicationController < ActionController::Base
   check_authorization unless: :devise_controller?
 
   def store_location
-    session[:return_to] = request.fullpath if request.get? && controller_name != 'user_sessions' && controller_name != 'sessions'
+    # store last url - this is needed for post-login redirect to whatever the user last visited.
+    return unless request.get?
+    if (request.path != '/accounts/sign_in' &&
+        request.path != '/accounts/sign_up' &&
+        request.path != '/accounts/password/new' &&
+        request.path != '/accounts/password/edit' &&
+        request.path != '/accounts/confirmation' &&
+        request.path != '/accounts/sign_out' &&
+        request.path != '/users/ichain_registration/ichain_sign_up' &&
+        !request.path.starts_with?(Devise.ichain_base_url) &&
+        !request.xhr?) # don't store ajax calls
+      session[:return_to] = request.fullpath
+    end
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     if (can? :view, Conference) &&
       (!session[:return_to] ||
       session[:return_to] &&
       session[:return_to] == root_path)
       admin_conference_index_path
     else
-      if session[:return_to] &&
-          !session[:return_to].start_with?(user_registration_path)
-        logger.debug "Returning to #{session[:return_to]}"
-        session[:return_to]
-      else
-        logger.debug "Not returning to #{session[:return_to]} because it would loop"
-        super
-      end
+      session[:return_to] || root_path
     end
   end
 
@@ -51,6 +56,13 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug('Access denied!')
     redirect_to root_path, alert: exception.message
+  end
+
+  rescue_from IChainRecordNotFound do
+    Rails.logger.debug('IChain Record was not Unique!')
+    sign_out(current_user)
+    flash[:error] = 'Your E-Mail adress is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!'
+    redirect_to root_path
   end
 
   def not_found

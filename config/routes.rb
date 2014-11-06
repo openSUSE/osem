@@ -1,8 +1,16 @@
 Osem::Application.routes.draw do
 
-  devise_for :users, controllers: { registrations: :registrations,
-                                    omniauth_callbacks: 'users/omniauth_callbacks' },
-                     path: 'accounts'
+  if CONFIG['authentication']['ichain']['enabled']
+    devise_for :users, controllers: { registrations: :registrations }
+  else
+    devise_for :users,
+               controllers: {
+                   registrations: :registrations,
+                   omniauth_callbacks: 'users/omniauth_callbacks' },
+               path: 'accounts'
+  end
+
+  resources :users, except: [:new, :index, :create, :destroy]
 
   namespace :admin do
     resources :users

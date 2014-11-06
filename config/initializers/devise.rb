@@ -38,7 +38,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [ :email ]
+  config.authentication_keys = [ :login ]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -244,4 +244,35 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
+
+  # You will always need to set this parameter.
+  config.ichain_base_url = "https://my.application.org"
+
+  # Paths (relative to ichain_base_url) used by your proxy
+  # config.ichain_login_path = "ICSLogin/"
+  # config.ichain_registration_path = "ICSLogin/auth-up/"
+  # config.ichain_logout_path = "cmd/ICSLogout/"
+
+  # The header used by your iChain proxy to pass the username.
+  # config.ichain_username_header = "HTTP_X_USERNAME"
+
+  # Additional parameters, beyond the username, provided by the iChain proxy.
+  # HTTP_X_EMAIL is expected by default. Set to {} if no additional attributes
+  # are configured in the proxy.
+  # config.ichain_attributes_header = {:email => "HTTP_X_EMAIL"}
+
+  # Configuration options for requests sent to the iChain proxy
+  # config.ichain_context = "default"
+  # config.ichain_proxypath = "reverse"
+
+  # Activate the test mode, useful when no real iChain is present, like in
+  # testing and development environments
+  # config.ichain_test_mode = true
+
+  # In test mode, you can skip asking for the user information by always
+  # forcing the following username. The user will be permanently signed in.
+  # config.ichain_force_test_username = "testuser"
+
+  # In test mode, force the following additional attributes
+  # config.ichain_force_test_attributes = {:email => "testuser@example.com"}
 end
