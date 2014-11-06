@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     sign_out(current_user)
     mail = User.admin.first ? User.admin.first.email : 'the admin!'
     flash[:error] = "This User is disabled. Please contact #{mail}!"
-    redirect_to root_path
+    redirect_to User.ichain_logout_url
   end
 
   def not_found
