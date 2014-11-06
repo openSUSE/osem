@@ -38,17 +38,6 @@ class ApplicationController < ActionController::Base
     @conferences =Conference.all
   end
 
-  def verify_user
-    :authenticate_user!
-
-    if (current_user.nil?)
-      redirect_to new_user_session_path
-      return false
-    end
-
-    true
-  end
-
   def current_ability
     @current_ability ||= Ability.new(current_user)
   end

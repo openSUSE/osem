@@ -1,5 +1,5 @@
 class TicketPurchasesController < ApplicationController
-  before_filter :verify_user
+  before_filter :authenticate_user!
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
 
