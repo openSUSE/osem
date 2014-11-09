@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe 'admin/venue/venue_info' do
+describe 'admin/venues/edit' do
 
-  it 'renders venue#show' do
+  it 'renders venues#show' do
     @conference = create(:conference)
     @venue = @conference.venue
     @venue.name = 'Croatia'
