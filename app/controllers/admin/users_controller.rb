@@ -9,6 +9,7 @@ module Admin
     def create
       @user = User.new(user_params)
       @user.password = Devise.friendly_token[0, 20]
+      @user.username = @user.email.split('@')[0]
       @user.skip_confirmation!
       if @user.save
         redirect_to admin_users_path, notice: "User created. Name: #{@user.name}, email: #{@user.email}"
