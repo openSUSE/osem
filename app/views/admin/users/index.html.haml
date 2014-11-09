@@ -5,7 +5,7 @@
       - if @users
         = "(#{@users.length})"
 
-      = link_to 'New User', new_admin_user_path, class: 'btn btn-success pull-right'
+      = link_to 'New User', new_admin_user_path, class: 'btn btn-success pull-right' unless CONFIG['authentication']['ichain']['enabled']
     %table.table.table-striped.table-bordered.table-hover#users-datatable
       %thead
         %th ID
