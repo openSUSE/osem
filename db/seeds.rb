@@ -7,19 +7,20 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Create sample user
-user = User.new(email: 'deleted@localhost.osem', name: 'User deleted', username: 'deleted_user',
-                biography: 'Data is no longer available for deleted user.', is_disabled: true,
-                password: Devise.friendly_token[0, 20])
+user = User.find_or_initialize_by(email: 'deleted@localhost.osem', name: 'User deleted',
+                                  username: 'deleted_user', is_disabled: true,
+                                  biography: 'Data is no longer available for deleted user.')
+user.password = Devise.friendly_token[0, 20]
 user.skip_confirmation!
 user.save!
 
 # Questions
-qtype_yesno = QuestionType.create(title: 'Yes/No')
-QuestionType.create(title: 'Single Choice')
-QuestionType.create(title: 'Multiple Choice')
+qtype_yesno = QuestionType.find_or_create_by!(title: 'Yes/No')
+QuestionType.find_or_create_by!(title: 'Single Choice')
+QuestionType.find_or_create_by!(title: 'Multiple Choice')
 
-answer_yes = Answer.create(title: 'Yes')
-answer_no = Answer.create(title: 'No')
+answer_yes = Answer.find_or_create_by!(title: 'Yes')
+answer_no = Answer.find_or_create_by!(title: 'No')
 
 questions_yes_no = ['Do you need handicapped access?',
                     'Will you attend with a partner?',
@@ -27,8 +28,7 @@ questions_yes_no = ['Do you need handicapped access?',
                     'Will you stay at one of the suggested hotels?']
 
 questions_yes_no.each do |i|
-  q = Question.create(title: i, question_type_id: qtype_yesno.id, global: true)
-
-  Qanswer.create(question_id: q.id, answer_id: answer_no.id)
-  Qanswer.create(question_id: q.id, answer_id: answer_yes.id)
+  q = Question.find_or_initialize_by(title: i, question_type_id: qtype_yesno.id, global: true)
+  q.answers = [answer_yes, answer_no]
+  q.save!
 end
