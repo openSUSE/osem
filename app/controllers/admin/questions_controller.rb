@@ -20,6 +20,10 @@ module Admin
       @question.conference_id = @conference.id
       authorize! :create, @question
 
+      if @question.question_type_id == QuestionType.find_by(title: 'Yes/No').id
+        @question.answers = [Answer.find_by(title: 'Yes'), Answer.find_by(title: 'No')]
+      end
+
       respond_to do |format|
         if @conference.save
           format.html { redirect_to admin_conference_questions_path, notice: 'Question was successfully created.' }
