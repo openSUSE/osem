@@ -1,0 +1,16 @@
+.row
+  .col-md-12
+    %ul.nav.nav-tabs{'role'=>'tablist'}
+      %li.active
+        %a{'href'=> '#show', 'role'=>'tab', 'data-toggle'=>'tab'}
+          Show
+      %li
+        %a{'href'=> '#edit', 'role'=>'tab', 'data-toggle'=>'tab'}
+          Edit
+.row
+  .col-md-8
+    .tab-content
+      .tab-pane.active#show
+        = render partial: 'show'
+      .tab-pane#edit
+        = render partial: 'form'

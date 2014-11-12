@@ -10,7 +10,7 @@ feature Conference do
 
       sign_in organizer
 
-      visit admin_conference_venue_info_path(
+      visit edit_admin_conference_venue_path(
                 conference_id: conference.short_title)
 
       expect(page.find("//*[@id='venue_submit_action']").

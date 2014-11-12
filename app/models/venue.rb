@@ -12,6 +12,16 @@ class Venue < ActiveRecord::Base
                                     size: { in: 0..500.kilobytes }
   accepts_nested_attributes_for :lodgings, allow_destroy: true
 
+  after_update :send_mail_notification
+
+  private
+
+  def send_mail_notification
+    conferences.each do |conference|
+      Mailbot.delay.send_email_on_venue_update(conference) if venue_notify?(conference)
+    end
+  end
+
   def venue_notify?(conference)
     (self.name_changed? || self.address_changed?) &&
     (!self.name.blank? && !self.address.blank?) &&
@@ -19,8 +29,6 @@ class Venue < ActiveRecord::Base
     !conference.email_settings.venue_update_subject.blank? &&
     conference.email_settings.venue_update_template)
   end
-
-  private
 
   # TODO: create a module to be mixed into model to perform same operation
   # event.rb has same functionality which can be shared
