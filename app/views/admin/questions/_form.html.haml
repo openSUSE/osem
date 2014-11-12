@@ -5,6 +5,18 @@
     = f.input :question_type
     = f.input :global, label: 'Make Global',
               hint: '(Global questions are available for selection to all conferences)'
-  .col-md-6
+  .col-md-6.hidden{id: 'answers_col'}
     = dynamic_association :answers, 'Answers', f,
                           hint: 'Insert your answers in the order you want them to appear'
+
+:javascript
+  $("#question_question_type_id").change(function () {
+
+    var selected_type = $(this).find('option:selected').text();
+
+    if (selected_type == 'Yes/No')
+      $('#answers_col').addClass('hidden');
+    else
+      $('#answers_col').removeClass('hidden');
+    end
+  });
