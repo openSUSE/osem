@@ -1,6 +1,9 @@
 class Lodging < ActiveRecord::Base
   attr_accessible :name, :description, :photo, :website_link, :venue_id
   belongs_to :venue
+
+  validates :name, presence: true
+
   has_attached_file :photo,
                     styles: { thumb: '100x100>', large: '300x300>' }
 

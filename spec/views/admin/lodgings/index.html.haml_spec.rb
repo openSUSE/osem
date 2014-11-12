@@ -8,7 +8,5 @@ describe 'admin/lodgings/index' do
     assign :venue, @conference.venue
     render
     expect(rendered).to include('Example Hotel')
-    expect(rendered).to include('Lorem Ipsum Dolor')
-    expect(rendered).to include('http://www.example.com')
   end
 end
