@@ -129,6 +129,9 @@ class Ability
   def signed_in(user)
     guest # Inherits abilities of guest
 
+    # Can subscribe, unsubscribe to a conference
+    can [:create, :destroy], Subscription, user_id: user.id
+
     # Conference Registration
     can :manage, Registration, user_id: user.id
 
