@@ -105,7 +105,6 @@ ActiveRecord::Schema.define(version: 20141106141750) do
     t.boolean  "use_difficulty_levels", default: false
     t.boolean  "use_volunteers"
     t.string   "color"
-    t.string   "sponsor_email"
     t.text     "events_per_week"
   end
 
@@ -124,6 +123,7 @@ ActiveRecord::Schema.define(version: 20141106141750) do
     t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sponsor_email"
   end
 
   create_table "delayed_jobs", force: true do |t|

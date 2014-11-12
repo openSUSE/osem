@@ -16,6 +16,7 @@ feature Contact do
       visit edit_admin_conference_contact_path(conference.short_title)
       click_link 'Edit'
       fill_in 'contact_email', with: 'example@example.com'
+      fill_in 'contact_sponsor_email', with: 'sponsor@example.com'
       fill_in 'contact_social_tag', with: 'example'
       fill_in 'contact_facebook', with: 'http:\\www.facebook.com'
       fill_in 'contact_twitter', with: 'http:\\www.twitter.com'
@@ -28,6 +29,7 @@ feature Contact do
 
       contact.reload
       expect(contact.email).to eq('example@example.com')
+      expect(contact.sponsor_email).to eq('sponsor@example.com')
       expect(contact.social_tag).to eq('example')
       expect(contact.facebook).to eq('http:\\www.facebook.com')
       expect(contact.twitter).to eq('http:\\www.twitter.com')

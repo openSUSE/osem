@@ -1,5 +1,7 @@
 class Contact < ActiveRecord::Base
-  attr_accessible :conference_id, :social_tag, :email, :facebook, :googleplus, :twitter, :instagram, :public
+  attr_accessible :conference_id, :social_tag, :email, :facebook, :googleplus, :twitter,
+                  :instagram, :public, :sponsor_email
+
   belongs_to :conference
 
   validates :conference, presence: true

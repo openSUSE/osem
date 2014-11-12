@@ -8,8 +8,8 @@
       -if !@conference.splashpage.sponsor_description.blank?
         .lead
         = markdown(@conference.splashpage.sponsor_description)
-      -if !@conference.sponsor_email.blank?
-        %h3= mail_to "#{ @conference.sponsor_email }", 'Become a Sponsor'
+      -if @conference.contact && @conference.contact.sponsor_email.present?
+        %h3= mail_to "#{ @conference.contact.sponsor_email }", 'Become a Sponsor'
   - if !@conference.sponsorship_levels.blank?
     - @conference.sponsorship_levels.each do |l|
       - if !l.sponsors.blank?
