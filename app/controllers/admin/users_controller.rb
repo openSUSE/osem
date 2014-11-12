@@ -6,6 +6,19 @@ module Admin
       @user = User.new
     end
 
+    def create
+      @user = User.new(user_params)
+      @user.password = Devise.friendly_token[0, 20]
+      @user.username = @user.email.split('@')[0]
+      @user.skip_confirmation!
+      if @user.save
+        redirect_to admin_users_path, notice: "User created. Name: #{@user.name}, email: #{@user.email}"
+      else
+        flash[:error] = "An error prohibited this user from being saved: #{@user.errors.full_messages.join('. ')}."
+        render :new
+      end
+    end
+
     def index
       @users = User.all
     end
@@ -32,6 +45,14 @@ module Admin
     def destroy
       @user.destroy
       redirect_to admin_users_path, notice: 'User got deleted'
+    end
+
+    private
+
+    # Only allow a trusted parameter "white list" through.
+    def user_params
+      # params.require(:user).permit(:email, :name, :affiliation, :biography)
+      params[:user]
     end
   end
 end
