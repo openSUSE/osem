@@ -1,5 +1,5 @@
 window.liveSettings = {
-  api_key: "cf866a61277842b39c897c5a0b5ec075",
+  api_key: CONFIG['transifex_live_api_key'],
   picker: "bottom-right",
   detectlang: true,
   autocollect: true
