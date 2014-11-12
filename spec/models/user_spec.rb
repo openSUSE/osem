@@ -8,6 +8,7 @@ describe User do
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:cfp_role) { create(:cfp_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:user) { create(:user) }
 
   it 'User.for_ichain_username raises exception if user is disabled' do
     user.is_disabled = true
