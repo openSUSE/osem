@@ -85,8 +85,8 @@
         %span.fa.fa-flag
         Targets
   - if can? :index, @conference.venue
-    %li{:class=> "#{active_nav_li(admin_conference_venue_info_path(@conference.short_title))} myAccordion"}
-      = link_to(admin_conference_venue_info_path(@conference.short_title)) do
+    %li{:class=> "#{active_nav_li(edit_admin_conference_venue_path(@conference.short_title))} myAccordion"}
+      = link_to(edit_admin_conference_venue_path(@conference.short_title)) do
         %span.fa.fa-road
         Venue
         %span.small.fa.fa-chevron-right

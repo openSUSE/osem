@@ -29,7 +29,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Schedule', href: "/admin/conference/#{conference1.short_title}/schedule")
     expect(page).to have_link('Campaigns', href: "/admin/conference/#{conference1.short_title}/campaigns")
     expect(page).to have_link('Targets', href: "/admin/conference/#{conference1.short_title}/targets")
-    expect(page).to have_link('Venue', href: "/admin/conference/#{conference1.short_title}/venue")
+    expect(page).to have_link('Venue', href: "/admin/conference/#{conference1.short_title}/venue/edit")
     expect(page).to have_link('Rooms', href: "/admin/conference/#{conference1.short_title}/rooms")
     expect(page).to have_link('Lodgings', href: "/admin/conference/#{conference1.short_title}/lodgings")
     expect(page).to have_link('Sponsorship', href: "/admin/conference/#{conference1.short_title}/sponsorship_levels")
@@ -64,8 +64,8 @@ feature 'Has correct abilities' do
     visit admin_conference_targets_path(conference1.short_title)
     expect(current_path).to eq(admin_conference_targets_path(conference1.short_title))
 
-    visit admin_conference_venue_info_path(conference1.short_title)
-    expect(current_path).to eq(admin_conference_venue_info_path(conference1.short_title))
+    visit edit_admin_conference_venue_path(conference1.short_title)
+    expect(current_path).to eq(edit_admin_conference_venue_path(conference1.short_title))
 
     visit admin_conference_sponsorship_levels_path(conference1.short_title)
     expect(current_path).to eq(admin_conference_sponsorship_levels_path(conference1.short_title))
@@ -100,7 +100,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Schedule', href: "/admin/conference/#{conference2.short_title}/schedule")
     expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference2.short_title}/campaigns")
     expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference2.short_title}/targets")
-    expect(page).to have_link('Venue', href: "/admin/conference/#{conference2.short_title}/venue")
+    expect(page).to have_link('Venue', href: "/admin/conference/#{conference2.short_title}/venue/edit")
     expect(page).to have_link('Rooms', href: "/admin/conference/#{conference2.short_title}/rooms")
     expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference2.short_title}/lodgings")
     expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference2.short_title}/sponsorship_levels")
@@ -135,7 +135,7 @@ feature 'Has correct abilities' do
     visit admin_conference_targets_path(conference2.short_title)
     expect(current_path).to eq(root_path)
 
-    visit admin_conference_venue_info_path(conference2.short_title)
+    visit edit_admin_conference_venue_path(conference2.short_title)
     expect(current_path).to eq(root_path)
 
     visit admin_conference_sponsorship_levels_path(conference2.short_title)
@@ -171,7 +171,7 @@ feature 'Has correct abilities' do
     expect(page).to_not have_link('Schedule', href: "/admin/conference/#{conference3.short_title}/schedule")
     expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference3.short_title}/campaigns")
     expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference3.short_title}/targets")
-    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference3.short_title}/venue")
+    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference3.short_title}/venue/edit")
     expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference3.short_title}/rooms")
     expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference3.short_title}/lodgings")
     expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference3.short_title}/sponsorship_levels")
@@ -206,7 +206,7 @@ feature 'Has correct abilities' do
     visit admin_conference_targets_path(conference3.short_title)
     expect(current_path).to eq(root_path)
 
-    visit admin_conference_venue_info_path(conference3.short_title)
+    visit edit_admin_conference_venue_path(conference3.short_title)
     expect(current_path).to eq(root_path)
 
     visit admin_conference_sponsorship_levels_path(conference3.short_title)
@@ -243,7 +243,7 @@ feature 'Has correct abilities' do
     expect(page).to_not have_link('Schedule', href: "/admin/conference/#{conference4.short_title}/schedule")
     expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference4.short_title}/campaigns")
     expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference4.short_title}/targets")
-    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference4.short_title}/venue")
+    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference4.short_title}/venue/edit")
     expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference4.short_title}/rooms")
     expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference4.short_title}/lodgings")
     expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference4.short_title}/sponsorship_levels")
@@ -278,7 +278,7 @@ feature 'Has correct abilities' do
     visit admin_conference_targets_path(conference4.short_title)
     expect(current_path).to eq(root_path)
 
-    visit admin_conference_venue_info_path(conference4.short_title)
+    visit edit_admin_conference_venue_path(conference4.short_title)
     expect(current_path).to eq(root_path)
 
     visit admin_conference_sponsorship_levels_path(conference4.short_title)
