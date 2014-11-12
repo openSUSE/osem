@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_filter :verify_user
+  before_filter :authenticate_user!
   load_and_authorize_resource :conference, find_by: :short_title
   load_and_authorize_resource only: [:create, :destroy], through: :conference
 
