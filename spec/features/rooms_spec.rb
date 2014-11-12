@@ -6,39 +6,47 @@ feature Room do
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
   shared_examples 'rooms' do
-    scenario 'adds and updates rooms', feature: true, js: true do
-
+    scenario 'adds a room', feature: true, js: true do
       sign_in organizer
       visit admin_conference_rooms_path(
                 conference_id: conference.short_title)
 
+      expect(page.has_content?('Room Name')).to be false
+      expect(page.has_content?('100')).to be false
+
       # Add room
-      click_link 'Add room'
-      expect(page.all('div.nested-fields').count == 1).to be true
+      click_link 'New Room'
 
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example room')
+      fill_in 'room_name', with: 'Room Name'
+      fill_in 'room_size', with: '100'
 
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
-          set('100')
-
-      click_button 'Update Conference'
+      click_button 'Create Room'
 
       # Validations
-      expect(flash).to eq('Rooms were successfully updated.')
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-                 value).to eq('Example room')
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
-                 value).to eq('100')
+      expect(flash).to eq('Room successfully created.')
 
-      # Remove room
-      click_link 'Remove room'
-      expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
-      expect(flash).to eq('Rooms were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
+      expect(page.has_content?('Room Name')).to be true
+      expect(page.has_content?('100')).to be true
+    end
+
+    scenario 'updates a room', feature: true, js: true do
+      room = create(:room, conference_id: conference.id)
+      sign_in organizer
+      visit edit_admin_conference_room_path(
+                conference_id: conference.short_title, id: room.id)
+
+      fill_in 'room_name', with: 'Room Name'
+      fill_in 'room_size', with: '100'
+
+      click_button 'Update Room'
+
+      # Validations
+      expect(flash).to eq('Room successfully updated.')
+      expect(page.has_content?('Room Name')).to be true
+      expect(page.has_content?('100')).to be true
+      room.reload
+      expect(room.name).to eq('Room Name')
+      expect(room.size).to eq(100)
     end
   end
 
