@@ -58,6 +58,7 @@ RSpec.configure do |config|
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
+      load "#{Rails.root}/db/seeds.rb"
       example.run
     end
   end
