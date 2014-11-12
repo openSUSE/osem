@@ -229,7 +229,7 @@ class Event < ActiveRecord::Base
 
   def name_and_biography_exists
     errors.add(:biography, "cant' be blank") if submitter.biography.blank?
-    errors.add(:username, " can't be blank") if submitter.name.blank?
+    errors.add(:name, " can't be blank") if submitter.name.blank?
   end
 
   # TODO: create a module to be mixed into model to perform same operation
