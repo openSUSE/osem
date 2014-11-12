@@ -211,4 +211,20 @@ module ApplicationHelper
       false
     end
   end
+
+  def sign_in_path
+    if CONFIG['authentication']['ichain']['enabled']
+      new_user_ichain_session_path
+    else
+      new_user_session_path
+    end
+  end
+
+  def sign_up_path
+    if CONFIG['authentication']['ichain']['enabled']
+      new_user_ichain_registration_path
+    else
+      new_user_registration_path
+    end
+  end
 end

@@ -4,7 +4,7 @@ module Admin
 
     def verify_user_admin
       if (current_user.nil?)
-        redirect_to new_user_session_path
+        redirect_to sign_in_path
         return false
       end
       unless (current_user.has_role? :organizer, :any) || (current_user.has_role? :cfp, :any) ||
