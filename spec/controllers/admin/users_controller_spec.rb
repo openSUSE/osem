@@ -7,8 +7,8 @@ describe Admin::UsersController do
   end
   describe 'GET #index' do
     it 'populates an array of users' do
-      user1 = create(:user, email: 'gopesh.7500@gmail.com')
-      user2 = create(:user, email: 'gopesh_750@gmail.com')
+      user1 = create(:user, email: 'user1@email.osem')
+      user2 = create(:user, email: 'user2@email.osem')
       get :index
       expect(assigns(:users)).to match_array([user, admin, user1, user2])
     end
@@ -26,8 +26,8 @@ describe Admin::UsersController do
       it 'changes @users attributes' do
         patch :update, id: user.id
         expect(build(
-          :user, email: 'example@incoherent.de', id: user.id).email).
-              to eq('example@incoherent.de')
+          :user, email: 'new@email.osem', id: user.id).email).
+              to eq('new@email.osem')
       end
       it 'redirects to the updated user' do
         patch :update, id: user.id

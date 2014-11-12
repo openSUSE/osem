@@ -20,8 +20,15 @@ module Admin
     end
 
     def update
+      message = ''
+      if params[:user] && !params[:user][:email].nil?
+        if (new_email = params[:user][:email]) != @user.email
+          message = " Confirmation email sent to #{new_email}. The new email needs to be confirmed before it can be used."
+        end
+      end
+
       if @user.update_attributes(params[:user])
-        redirect_to admin_users_path, notice: "Updated #{@user.name} (#{@user.email})!"
+        redirect_to admin_users_path, notice: "Updated #{@user.name} (#{@user.email})!" + message
       else
         redirect_to admin_users_path, alert: "Could not update #{@user.name} (#{@user.email}). #{@user.errors.full_messages.join('. ')}."
       end
