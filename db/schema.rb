@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106141750) do
+ActiveRecord::Schema.define(version: 20141109172204) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -369,11 +369,11 @@ ActiveRecord::Schema.define(version: 20141106141750) do
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id"
 
   create_table "rooms", force: true do |t|
-    t.string  "guid",                         null: false
+    t.string  "guid",                          null: false
     t.integer "conference_id"
-    t.string  "name",                         null: false
+    t.string  "name",                          null: false
     t.integer "size"
-    t.boolean "public",        default: true
+    t.boolean "public",        default: false
   end
 
   create_table "social_events", force: true do |t|

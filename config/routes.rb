@@ -44,7 +44,7 @@ Osem::Application.routes.draw do
 
       resources :difficulty_levels, only: [:show, :update, :index]
 
-      resources :rooms, only: [:show, :update, :index]
+      resources :rooms, except: [:show]
 
       resources :tracks, only: [:show, :update, :index]
 
