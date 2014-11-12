@@ -5,57 +5,84 @@ feature Lodging do
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'lodgings' do
-    scenario 'adds and updates lodgings', feature: true, js: true do
-      path = "#{Rails.root}/app/assets/images/rails.png"
+  scenario 'Add a lodging', feature: true, js: true do
+    path = "#{Rails.root}/app/assets/images/rails.png"
 
-      conference.venue = create(:venue)
-      sign_in organizer
-      visit admin_conference_lodgings_path(
-                conference_id: conference.short_title)
-      # Add lodging
-      click_link 'Add lodging'
-      expect(page.all('div.nested-fields').count == 1).to be true
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example Hotel')
+    conference.venue = create(:venue)
+    sign_in organizer
+    visit admin_conference_lodgings_path(
+              conference_id: conference.short_title)
+    # Add lodging
+    click_link 'Add Lodging'
 
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
-          set('Lorem Ipsum Dolor')
+    fill_in 'lodging_name', with: 'New lodging'
+    fill_in 'lodging_description', with: 'This is the lodging description'
+    fill_in 'lodging_website_link', with: 'http:\\www.google.com'
+    attach_file 'Photo', path
 
-      attach_file 'Photo', path
+    click_button 'Create Lodging'
 
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
-          set('http://www.example.com')
-
-      click_button 'Update Venue'
-
-      # Validations
-      expect(flash).to eq('Lodgings were successfully updated.')
-
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-                 value).to eq('Example Hotel')
-
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
-                 value).to eq('Lorem Ipsum Dolor')
-
-      expect(page).to have_selector("img[src*='rails.png']")
-
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
-                 value).to eq('http://www.example.com')
-
-      # Remove room
-      click_link 'Remove lodging'
-      expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Venue'
-      expect(flash).to eq('Lodgings were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
-    end
+    # Validations
+    expect(flash).to eq('Lodging successfully created.')
+    expect(page.has_content?('New lodging')).to be true
+    expect(page.has_content?('This is the lodging description')).to be true
+    expect(page.has_content?('Go to Website')).to be true
+    expect(Lodging.count).to eq(1)
   end
 
-  describe 'organizer' do
-    it_behaves_like 'lodgings'
+  scenario 'Update a lodging', feature: true, js: true do
+    path = "#{Rails.root}/app/assets/images/rails.png"
+
+    venue = create(:venue)
+    lodging = create(:lodging, venue: conference.venue)
+    conference.venue = venue
+
+    sign_in organizer
+    visit admin_conference_lodgings_path(
+              conference_id: conference.short_title)
+
+    expect(page.has_content?('Example Hotel')).to be true
+
+    # Add lodging
+    click_link 'Example Hotel'
+    click_link 'Edit'
+
+    fill_in 'lodging_name', with: 'New lodging'
+    fill_in 'lodging_description', with: 'This is the lodging description'
+    fill_in 'lodging_website_link', with: 'http:\\www.google.com'
+    attach_file 'Photo', path
+
+    click_button 'Update Lodging'
+
+    # Validations
+    expect(flash).to eq('Lodging successfully updated.')
+    expect(page.has_content?('New lodging')).to be true
+    expect(page.has_content?('This is the lodging description')).to be true
+    expect(page.has_content?('Go to Website')).to be true
+    lodging.reload
+    expect(lodging.name).to eq('New lodging')
+    expect(lodging.description).to eq('This is the lodging description')
+    expect(lodging.website_link).to eq('http:\\www.google.com')
+    expect(Lodging.count).to eq(1)
+  end
+
+  scenario 'Delete a lodging', feature: true, js: true do
+    venue = create(:venue)
+    create(:lodging, venue: conference.venue)
+    conference.venue = venue
+
+    sign_in organizer
+    visit admin_conference_lodgings_path(
+              conference_id: conference.short_title)
+
+    expect(page.has_content?('Example Hotel')).to be true
+
+    # Add lodging
+    click_link 'Delete'
+
+    # Validations
+    expect(flash).to eq('Lodging successfully deleted.')
+    expect(page.has_content?('Example Hotel')).to be false
+    expect(Lodging.count).to eq(0)
   end
 end

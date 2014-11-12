@@ -1,0 +1,16 @@
+%h1
+  = @lodging.name
+- unless @lodging.photo.blank? || @lodging.description.blank? || @lodging.website_link.blank?
+  .div.thumbnail
+    - unless @lodging.photo.blank?
+      = image_tag @lodging.photo(:large), class: 'img-responsive'
+    - unless @lodging.description.blank?
+      .lead.text-center #{ markdown(@lodging.description) }
+    - unless @lodging.website_link.blank?
+      .text-center
+        = link_to 'Go to Website', @lodging.website_link
+
+= link_to 'Edit', edit_admin_conference_lodging_path(@conference.short_title, @lodging.id),
+  method: :get, class: 'btn btn-primary'
+
+= link_to 'Back', admin_conference_lodgings_path(@conference.short_title)

@@ -1,5 +1,26 @@
-.row
-  .col-md-8
-    = semantic_form_for(@venue, :url => admin_conference_lodging_path(@conference.short_title, @conference.venue.lodgings), :html => {:multipart => true}) do |f|
-      = dynamic_association :lodgings, "Lodgings", f
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+%h1 Lodgings
+- if @venue.lodgings.any?
+  .row
+    .col-md-12
+      %table.table
+        %thead
+          %th #
+          %th Name
+          %th Edit
+          %th Delete
+        %tbody
+          - @venue.lodgings.each_with_index do |lodging, index|
+            %tr
+              %td
+                = index + 1
+              %td
+                = link_to lodging.name, admin_conference_lodging_path(@conference.short_title, lodging.id)
+              %td
+                = link_to 'Edit', edit_admin_conference_lodging_path(@conference.short_title, lodging.id),
+                method: :get, class: 'btn btn-primary'
+              %td
+                = link_to 'Delete', admin_conference_lodging_path(@conference.short_title, lodging.id),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the lodging #{lodging.name}?" }
+
+= link_to 'Add Lodging', new_admin_conference_lodging_path(@conference.short_title), class: 'btn btn-success'
+

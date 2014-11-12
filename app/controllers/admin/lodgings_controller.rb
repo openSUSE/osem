@@ -2,7 +2,7 @@ module Admin
   class LodgingsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :venue, through: :conference, singleton: true
-    authorize_resource :lodging, through: :venue
+    load_and_authorize_resource :lodging, through: :venue
 
     def index
       authorize! :update, Lodging.new(venue_id: @venue.id)
@@ -10,14 +10,48 @@ module Admin
 
     def show; end
 
+    def new
+      @lodging = @venue.lodgings.new
+    end
+
+    def create
+      @lodging = @venue.lodgings.new(lodging_params)
+      if @lodging.save
+        redirect_to(admin_conference_lodging_path(conference_id: @conference.short_title, id: @lodging.id),
+                    notice: 'Lodging successfully created.')
+      else
+        flash[:error] = "Creating Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
+        render :new
+      end
+    end
+
+    def edit; end
+
     def update
-      if @venue.update_attributes(params[:venue])
+      if @lodging.update_attributes(lodging_params)
+        redirect_to(admin_conference_lodging_path(conference_id: @conference.short_title, id: @lodging.id),
+                    notice: 'Lodging successfully updated.')
+      else
+        flash[:error] = "Update Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
+        render :edit
+      end
+    end
+
+    def destroy
+      if @lodging.destroy
         redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
-                    notice: 'Lodgings were successfully updated.')
+                    notice: 'Lodging successfully deleted.')
       else
         redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
-                    notice: 'Updating lodgings failed!')
+                    error: 'Deleting lodging failed.' \
+                    "#{@lodging.errors.full_messages.join('. ')}.")
       end
+    end
+
+    private
+
+    def lodging_params
+      params[:lodging]
     end
   end
 end

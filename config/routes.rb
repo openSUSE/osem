@@ -52,7 +52,7 @@ Osem::Application.routes.draw do
 
       resources :sponsors, only: [:show, :update, :index]
 
-      resources :lodgings, only: [:show, :update, :index]
+      resources :lodgings
 
       resources :targets, only: [:update, :index]
 
