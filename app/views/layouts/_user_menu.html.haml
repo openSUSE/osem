@@ -37,3 +37,8 @@
           %span.fa.fa-cog
           Manage
           = @conference.short_title
+- if can? :index, User
+  %li
+    = link_to(admin_users_path) do
+      %span.fa.fa-user
+      Users
