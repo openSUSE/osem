@@ -27,8 +27,6 @@ Osem::Application.routes.draw do
       resource :schedule, only: [:show, :update]
       resources :commercials, except: [:show]
       get '/stats' => 'stats#index'
-      get '/venue' => 'venue#show', as: 'venue_info'
-      patch '/venue' => 'venue#update', as: 'venue_update'
       get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
       patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
       get '/volunteers_list' => 'volunteers#show'
@@ -41,6 +39,8 @@ Osem::Application.routes.draw do
       resource :registration_period
 
       resource :splashpage
+
+      resource :venue, only: [:edit, :update]
 
       resources :difficulty_levels, only: [:show, :update, :index]
 
