@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
                   :name, :email_public, :biography, :nickname, :affiliation, :is_admin,
-                  :tshirt, :mobile, :volunteer_experience, :languages, :username, :login
+                  :tshirt, :mobile, :volunteer_experience, :languages, :username, :login, :is_disabled
 
   attr_accessor :login
 

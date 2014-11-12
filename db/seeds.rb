@@ -7,8 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Create sample user
-user = User.new(email: 'deleted@localhost.osem', name: 'User deleted',
-                biography: 'Data is no longer available for deleted user.',
+user = User.new(email: 'deleted@localhost.osem', name: 'User deleted', username: 'deleted_user',
+                biography: 'Data is no longer available for deleted user.', is_disabled: true,
                 password: Devise.friendly_token[0, 20])
 user.skip_confirmation!
 user.save!
