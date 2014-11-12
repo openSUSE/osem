@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
       user.update_attributes(email: attributes[:email])
     else
       begin
-        user = create(username: username, email: attributes[:email])
+        user = create!(username: username, email: attributes[:email])
       rescue ActiveRecord::RecordNotUnique
         raise IChainRecordNotFound
       end
