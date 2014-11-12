@@ -12,6 +12,12 @@ describe User do
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
   let!(:user) { create(:user) }
 
+  it 'User.for_ichain_username raises exception if user is disabled' do
+    user.is_disabled = true
+    user.save
+    expect{User.for_ichain_username(user.username, email: user.email)}.to raise_error(UserDisabled)
+  end
+
   it 'returns the correct role' do
     expect(user_admin.is_admin).to eq(true)
     expect(organizer.roles.first).to eq(organizer_role)
