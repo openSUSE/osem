@@ -252,6 +252,10 @@ GEM
       slop (~> 3.4, >= 3.4.5)
     pdf-core (0.2.5)
     phantomjs (1.9.7.1)
+    piwik_analytics (1.0.2)
+      actionpack
+      activesupport
+      rails (>= 3.0.0)
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -453,6 +457,7 @@ DEPENDENCIES
   paper_trail
   paperclip
   phantomjs
+  piwik_analytics (~> 1.0.1)
   poltergeist
   prawn_rails
   protected_attributes
