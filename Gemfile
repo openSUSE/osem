@@ -1,113 +1,114 @@
 source 'https://rubygems.org'
 
-# Use rails as framework
+# as web framework
 gem 'rails', '~> 4.1'
 
-# Use mysql as the database for Active Record
+# as the database for Active Record
 gem 'mysql2'
 
-# Use rails-observers for observing records
+# for observing records
 gem 'rails-observers'
 
-# User paper_trail for tracking data changes
+# for tracking data changes
 gem 'paper_trail'
 
-# Use devise as authentification framework
+# as authentification framework
 gem 'devise'
 gem 'devise_ichain_authenticatable'
 
-# Use omniauth to support openID authentication
+# to support openID authentication
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-openid'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 
-# Use cancancan as authorization framework
+# as authorization framework
 gem 'cancancan'
-# Use rolify to set roles
+# to set roles
 gem 'rolify'
 
-# Use transitions as state machine
+# as state machine
 gem 'transitions', :require => %w( transitions active_record/transitions )
 
-# Use acts_as_commentable_with_threading for comments
+# for comments
 gem 'awesome_nested_set', '~> 3.0.0.rc.5'
 gem 'acts_as_commentable_with_threading'
 
-# Use haml as templating language
+# as templating language
 gem 'haml-rails'
 
-# Use SCSS for stylesheets
+# for stylesheets
 gem 'sass-rails', '>= 4.0.2'
 
-# Use Uglifier as compressor for JavaScript assets
+# as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
-# Use bootstrap as the front-end framework
+# as the front-end framework
 gem 'bootstrap-sass'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 2.3.0.rc3'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 
-# Use jquery as the JavaScript library
+# as the JavaScript library
 gem 'jquery-rails'
 gem 'cocoon'
 gem 'jquery-datatables-rails', '~> 2.2.1'
 
-# Use gravtastic for user avatars
+# for user avatars
 gem 'gravtastic'
 
-# Use paperclip for upload management
+# for upload management
 gem 'paperclip'
 
-# Use prawn as PDF generator
+# as PDF generator
 gem 'prawn_rails'
 
-# Use axlsx_rails to render XLS spreadsheets
+# to render XLS spreadsheets
 gem 'axlsx_rails'
 
-# Use d3js for building our statistics
+# for charts
 gem 'd3_rails'
 gem 'chart-js-rails'
 
-# Use a self-hosted errbit with the old notifier
+# as error catcher
 gem 'hoptoad_notifier', '~> 2.3'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+# to make links faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
-# Use active_model_serializers for JSON serializatioin our API
+# for JSON serialization of our API
 gem 'active_model_serializers'
 
-# Use FontAwesome for splash themes
+# for icon fonts
 gem 'font-awesome-rails'
 
-#Use Redcarpet for Markdown in description
+# for Markdown in description
 gem 'redcarpet'
 
 # FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/
 gem 'protected_attributes'
 
-# We use this bootstrap/html5 rdoc generator
+# as rdoc generator
 gem 'rdoc-generator-fivefish'
 
-# We use factory_girl for seeds
+# for seeds
 gem 'factory_girl_rails'
 
-gem 'delayed_job_active_record'
-# We use ahoy for visitor tracking
+# for visitor tracking
 gem 'ahoy_matey'
 gem 'activeuuid'
+gem 'piwik_analytics', '~> 1.0.1'
 
-# We use whenever for recurring jobs
+# for recurring jobs
 gem 'whenever', :require => false
+gem 'delayed_job_active_record'
 
-# We use daemons to run scripts
+# to run scripts
 gem 'daemons'
 
-# We use money-rails to encapsulate money in objects
+# to encapsulate money in objects
 gem 'money-rails'
 
 # Use guard and spring for testing in development
