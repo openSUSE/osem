@@ -14,6 +14,6 @@ class Question < ActiveRecord::Base
   private
 
   def existing_answers
-    errors.add(:base, 'The question must have answers') if self.answers.blank?
+    errors.add(:base, 'Must have answers') if self.answers.blank?
   end
 end
