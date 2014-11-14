@@ -322,18 +322,14 @@ ActiveRecord::Schema.define(version: 20141109172204) do
 
   create_table "registrations", force: true do |t|
     t.integer  "conference_id"
-    t.boolean  "attending_social_events",     default: true
-    t.boolean  "attending_with_partner",      default: false
-    t.boolean  "using_affiliated_lodging",    default: false
     t.datetime "arrival"
     t.datetime "departure"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "dietary_choice_id"
     t.text     "other_dietary_choice"
-    t.boolean  "handicapped_access_required", default: false
     t.text     "other_special_needs"
-    t.boolean  "attended",                    default: false
+    t.boolean  "attended",             default: false
     t.boolean  "volunteer"
     t.integer  "user_id"
     t.integer  "week"
