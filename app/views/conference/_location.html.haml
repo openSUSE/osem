@@ -2,25 +2,19 @@
   %li
     %a.smoothscroll{ href: '#location' } Location
 
-
-%div.banner-disp{ style: ("background-image: url(#{@conference.venue.photo})" unless @conference.venue.photo.blank?), class:('with-background' unless @conference.venue.photo.blank?) }
-  %div.container.text-center
-    .div.row.col-md-12
+.container
+  .row
+    .col-md-12.text-center
       - unless @conference.venue.name.blank?
         %h1
           %strong #{ @conference.venue.name }
       - unless @conference.venue.address.blank?
-        %h2
-          %strong #{ @conference.venue.address }
+        = link_to("http://maps.google.com/maps?q=#{@conference.venue.address}") do
+          %h2
+            #{ @conference.venue.address }
       - unless @conference.venue.description.blank?
         .lead
           = markdown(@conference.venue.description)
-      %ul.location-links
-        - unless @conference.venue.address.blank?
-          %li
-            %b
-              = link_to 'View in Google Maps', "http://maps.google.com/maps?q=#{@conference.venue.address}", target: '_blank'
-        - unless @conference.venue.website.blank?
-          %li
-            %b
-              = link_to 'Visit Venue Website', @conference.venue.website, target: '_blank'
+      - unless @conference.venue.website.blank?
+        %p.lead
+          = link_to(@conference.venue.website, @conference.venue.website)

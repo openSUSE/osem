@@ -1,60 +1,51 @@
-= content_for :splash do
+#splash
   - if @conference.splashpage
-    .splash
-      - if @conference.splashpage.include_banner?
-        %section{ id: 'splash-banner' }
-          %div.banner-disp{ style: ("background-image: url(#{@conference.splashpage.banner_photo})" unless @conference.splashpage.banner_photo.blank?), class:('with-background' unless @conference.splashpage.banner_photo.blank?) }
-            %div.container.text-center.banner-text
-              .row
-                %h1
-                  = @conference.title
+    - if @conference.splashpage.include_banner?
+      #splash-banner{ style: ("background-image: url(#{@conference.splashpage.banner_photo})" unless @conference.splashpage.banner_photo.blank?) }
+        .container
+          .row
+            .col-md-12.text-center
+              %h1= @conference.title
               - if @conference.start_date && @conference.end_date
-                .row
-                  %h3
-                    = date_string(@conference.start_date, @conference.end_date)
-
+                %h3= date_string(@conference.start_date, @conference.end_date)
               - unless @conference.splashpage.banner_description.blank?
-                .row-fluid
-                  .col-md-12.lead
-                    .lead
-                      = markdown(@conference.splashpage.banner_description)
+                %p.lead
+                  = markdown(@conference.splashpage.banner_description)
               -unless @conference.photos.blank?
                 = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
                 = render 'gallery'
-      - if @conference.splashpage.include_program
-        %section{ id: 'program' }
-          .pad
-            = render 'program'
-
-      - if @conference.splashpage.include_registrations
-        %section{ id: 'registration' }
-          .pad
-            = render 'registration'
-
-
-      -unless @conference.call_for_papers.blank?
-        - if @conference.call_for_papers.include_cfp_in_splash?
-          %section{ id:'callforpapers' }
-            .pad
-              = render 'call_for_papers'
-
-      -unless @conference.venue.blank?
-        - if @conference.splashpage.include_venue
-          %section{ id: 'location' }
-            .pad
-              = render 'location'
-          - unless @conference.venue.lodgings.empty?
-            - if @conference.splashpage.include_lodgings
-              = render 'lodging'
-
-      - if @conference.splashpage.include_sponsors
-        %section{ id: 'sponsors' }
-          .pad
-            = render 'sponsor'
-
-      - if @conference.splashpage.include_social_media
-        %section{ id: 'social-media' }
-          .pad
-            = render 'social_media'
-
-      = render 'footer'
+  
+    - if @conference.splashpage.include_program
+      %section#program
+        = render 'program'
+  
+    - if @conference.cfp_open? and @conference.call_for_papers.include_cfp_in_splash?
+      %section#callforpapers
+        = render 'call_for_papers'
+  
+    - if @conference.venue and @conference.splashpage.include_venue
+      #location{ style: ("background-image: url(#{@conference.venue.photo})" unless @conference.venue.photo.blank?) }
+        = render 'location'
+  
+    - if @conference.registration_open? and @conference.splashpage.include_registrations
+      %section#registration
+        = render 'registration'
+  
+    - if @conference.tickets.any? and @conference.splashpage.include_tickets
+      %section#tickets
+        = render 'tickets'
+  
+    - if @conference.venue.lodgings.any? and @conference.splashpage.include_lodgings
+      %section#lodging
+        = render 'lodging'
+  
+    - if @conference.sponsors.any? and @conference.splashpage.include_sponsors
+      %section#sponsors
+        = render 'sponsors'
+  
+    - if @conference.splashpage.include_social_media
+      %section#social-media
+        = render 'social_media'
+  
+    // grmbl
+    = render 'footer'

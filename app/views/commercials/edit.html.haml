@@ -1,8 +1,10 @@
-%h1 Editing Commercial
-
-.row
-  .col-md-8
-    = semantic_form_for @commercial, url: conference_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event.id, id: @commercial.id) do |f|
-      = render 'form', f: f
-
-= link_to 'Back', edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id)
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1 Editing Commercial
+  .row
+    .col-md-12
+      = semantic_form_for @commercial, url: conference_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event.id, id: @commercial.id) do |f|
+        = render 'form', f: f
+      = link_to 'Back', edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id)

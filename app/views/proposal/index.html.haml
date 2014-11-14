@@ -1,46 +1,47 @@
-.row
-  .col-md-12.page-header
-    %h1
-      = "My Proposals for #{@conference.title}"
-    - if @conference.cfp_open? || (current_user.has_role? :organizer, @conference)
-      = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-success pull-right"
-- if current_user.proposal_count(@conference) > 0
+.container
   .row
-    .col-md-12
-      %table.table.table-bordered.table-striped
-        %thead
-          %th
-            %b Title
-          %th
-            %b Status
-          %th
-        - @events.each do |event|
-          %tr
-            %td
-              = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
-            %td
-              - if event.state == 'new'
-                Review pending
-              - else
-                = event.state.humanize
-              - if event.state == 'confirmed' && event.require_registration == true
-                (Pre-registered: #{pre_registered(event).count})
-              - if event.confirmed? && !@conference.user_registered?(current_user)
-                %br
-                = link_to "Register to attend", new_conference_conference_registrations_path(@conference.short_title), :style => "font-size:10px;"
-            %td
-              .pull-right
-                - if event.transition_possible? :confirm
-                  = link_to 'Confirm',
-                  confirm_conference_proposal_path(@conference.short_title, event),
-                  method: :patch, class: 'btn btn-mini btn-success', id: "confirm_proposal_#{event.id}"
-                = link_to 'Edit', edit_conference_proposal_path(@conference.short_title, event.id),
-                class: 'btn btn-mini btn-primary', id: "edit_proposal_#{event.id}"
-                - if event.transition_possible? :withdraw
-                  = link_to 'Withdraw', conference_proposal_path(@conference.short_title, event.id), method: :delete,
-                              confirm: 'Are you sure you want to withdraw this proposal?', class: 'btn btn-mini btn-warning',
-                              id: "delete_proposal_#{event.id}"
-                - if event.state == 'withdrawn' || event.state == 'rejected'
-                  = link_to 'Re-Submit',
-                  restart_conference_proposal_path(@conference.short_title, event.id),
-                  method: :patch, class: 'btn btn-mini btn-success', id: "review_event_#{event.id}"
+    .col-md-12.page-header
+      %h1
+        = "My Proposals for #{@conference.title}"
+      - if @conference.cfp_open? || (current_user.has_role? :organizer, @conference)
+        = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-success pull-right"
+  - if current_user.proposal_count(@conference) > 0
+    .row
+      .col-md-12
+        %table.table.table-bordered.table-striped
+          %thead
+            %th
+              %b Title
+            %th
+              %b Status
+            %th
+          - @events.each do |event|
+            %tr
+              %td
+                = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
+              %td
+                - if event.state == 'new'
+                  Review pending
+                - else
+                  = event.state.humanize
+                - if event.state == 'confirmed' && event.require_registration == true
+                  (Pre-registered: #{pre_registered(event).count})
+                - if event.confirmed? && !@conference.user_registered?(current_user)
+                  %br
+                  = link_to "Register to attend", new_conference_conference_registrations_path(@conference.short_title), :style => "font-size:10px;"
+              %td
+                .pull-right
+                  - if event.transition_possible? :confirm
+                    = link_to 'Confirm',
+                    confirm_conference_proposal_path(@conference.short_title, event),
+                    method: :patch, class: 'btn btn-mini btn-success', id: "confirm_proposal_#{event.id}"
+                  = link_to 'Edit', edit_conference_proposal_path(@conference.short_title, event.id),
+                  class: 'btn btn-mini btn-primary', id: "edit_proposal_#{event.id}"
+                  - if event.transition_possible? :withdraw
+                    = link_to 'Withdraw', conference_proposal_path(@conference.short_title, event.id), method: :delete,
+                                confirm: 'Are you sure you want to withdraw this proposal?', class: 'btn btn-mini btn-warning',
+                                id: "delete_proposal_#{event.id}"
+                  - if event.state == 'withdrawn' || event.state == 'rejected'
+                    = link_to 'Re-Submit',
+                    restart_conference_proposal_path(@conference.short_title, event.id),
+                    method: :patch, class: 'btn btn-mini btn-success', id: "review_event_#{event.id}"

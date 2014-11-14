@@ -111,6 +111,9 @@ gem 'daemons'
 # to encapsulate money in objects
 gem 'money-rails'
 
+# for lists
+gem 'acts_as_list'
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules
