@@ -96,7 +96,7 @@ Osem::Application.routes.draw do
     end
   end
 
-  resources :conference, only: [:show] do
+  resources :conference, only: [:index, :show] do
     resources :proposal do
       resources :commercials, except: [:show, :index]
       resources :event_attachment, controller: 'event_attachments'
@@ -138,5 +138,5 @@ Osem::Application.routes.draw do
 
   get '/admin' => redirect('/admin/conference')
 
-  root to: 'home#index', via: [:get, :options]
+  root to: 'conference#index', via: [:get, :options]
 end
