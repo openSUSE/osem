@@ -8,14 +8,22 @@
     = stylesheet_link_tag "application", :media => "all"
     = stylesheet_link_tag "splash" if content_for :splash
     = javascript_include_tag "application"
-    = javascript_include_tag "//cdn.transifex.com/live.js"
     = csrf_meta_tags
     :javascript
+      window.liveSettings = {
+        api_key: "<%= CONFIG['transifex_live_api_key'] %>",
+        picker: "bottom-right",
+        detectlang: true,
+        autocollect: true
+      };
+
       $(function() {
         $('.dropdown input, .dropdown label').click(function(e) {
         e.stopPropagation();
         });
       });
+
+    = javascript_include_tag "//cdn.transifex.com/live.js"
     = yield(:head)
   %body{ data: (content_for?(:splash_nav) ? {spy: 'scroll', offset: 0, target: 'splash-nav'} : {} ) }
     = render 'layouts/navigation'

@@ -30,7 +30,6 @@
 //= require osem-datepickers
 //= require osem-datatables
 //= require osem-tickets
-//= require transifex-live
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
