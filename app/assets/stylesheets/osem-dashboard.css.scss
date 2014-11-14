@@ -12,3 +12,48 @@
     font-size: 5em;
   }
 }
+
+.dashbox {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.dashbox .icon {
+    padding-left: 8px;
+    display: block;
+    font-size: 3.8em;
+}
+
+.dashbox label {
+    display: block;
+    font-size: 1.1em;
+}
+
+.todolist-missing span {
+    color: #ff0000;
+}
+
+.todolist-ok {
+    text-decoration: line-through;
+}
+
+.todolist-ok span {
+    color: #02A10F;
+}
+
+.top-submitter img {
+    margin: 0 auto;
+}
+
+#doughnut .tab-content {
+    padding-bottom: 20px;
+}
+
+#submissions {
+    padding-bottom: 20px;
+}
+
+.conferenceCheckboxes div {
+    display: inline-block;
+    padding: 0px 10px 0px 0px;
+}

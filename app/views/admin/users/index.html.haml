@@ -1,12 +1,14 @@
 .row
   .col-md-12
-    %h2
-      Users
-      - if @users
-        = "(#{@users.length})"
-
-      = link_to 'New User', new_admin_user_path, class: 'btn btn-success pull-right'
-    %table.table.table-striped.table-bordered.table-hover#users-datatable
+    .page-header
+      %h2
+        Users
+        - if @users
+          = "(#{@users.length})"
+        = link_to 'New User', new_admin_user_path, class: 'btn btn-success pull-right'
+.row
+  .col-md-12
+    %table.table.table-striped.table-bordered.table-hover.datatable
       %thead
         %th ID
         %th State

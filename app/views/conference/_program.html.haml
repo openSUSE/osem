@@ -1,22 +1,36 @@
 = content_for :splash_nav do
   %li
-    %a.smoothscroll{ href: '#program' } Program
+    =link_to('#program', class: 'smoothscroll') do
+      Program
 
-%div.container.text-center
-  %div.row
-    %div.col-md-12
+.container
+  .row
+    .col-md-12.text-center
       %h1 Program
-      - if @conference.call_for_papers and @conference.call_for_papers.schedule_public
-        %span You can check out our
-        %span
-          = link_to 'Schedule', conference_schedule_path(@conference.short_title), target: '_blank'
-      - else
-        %span The schedule is not ready yet. Stay tuned!
-
-  - unless @keynote_speakers.blank?
-    = render 'keynote_speakers'
-
-  -unless @conference.tracks.blank?
-    - if @conference.splashpage.include_tracks
-      = render 'tracks'
-
+    - if @conference.splashpage and @conference.splashpage.include_tracks
+      .row
+        .col-md-12
+          - @conference.tracks.each do |t|
+            .tracks{ class: (@conference.tracks.count.to_i <= 2 ? "col-md-#{12/@conference.tracks.count.to_i}" : "col-md-4") }
+              %h4.text-center
+                = t.name
+              %p
+                = markdown(t.description)
+    - if @conference.call_for_papers and @conference.call_for_papers.schedule_public
+      .row
+        .col-md-12
+          %p.text-center
+            Check out our
+            = link_to 'Schedule', conference_schedule_path(@conference.short_title)
+    - if !@keynote_speakers.blank?
+      %div.row.text-center
+        %div.col-md-12
+          %h3 Keynote Speakers
+        - @keynote_speakers.each do |k|
+          %div{ class: (@keynote_speakers.count.to_i <= 2 ? "col-md-#{12/@keynote_speakers.count.to_i}" : "col-md-4") }
+            = image_tag(k.gravatar_url(size: '80'), class: 'img-circle') unless k.gravatar_url.blank?
+            %h4
+              = k.name
+            -unless k.biography.blank?
+              %p
+                = k.biography

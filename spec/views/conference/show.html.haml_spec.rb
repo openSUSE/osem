@@ -5,9 +5,9 @@ describe 'conference/show.html.haml' do
     @conference = create(:conference)
 
     @conference.splashpage = create(:splashpage,
-                                    banner_description: 'Lorem Ipsum',
-                                    sponsor_description: 'Lorem Ipsum Dolor',
-                                    registration_description: 'Lorem Ipsum Dolor',
+                                    banner_description: 'Banner Description',
+                                    sponsor_description: 'Sponsor Description',
+                                    registration_description: 'Registration Description',
                                     include_registrations: true,
                                     include_program: true,
                                     include_sponsors: true,
@@ -19,13 +19,13 @@ describe 'conference/show.html.haml' do
                                     include_lodgings: true)
 
     @conference.contact.update(sponsor_email: 'example@example.com',
-                               facebook: 'http://www.fbexample.com',
-                               googleplus: 'http://www.google-example.com',
+                               facebook: 'http://facebook.com',
+                               googleplus: 'http://google.com',
                                instagram: 'http://instagram.com',
                                twitter: 'http://twitter.com')
 
     @conference.registration_period = create(:registration_period,
-                                             start_date: Date.today,
+                                             start_date: Date.yesterday,
                                              end_date: Date.tomorrow)
 
     @conference.call_for_papers = create(:call_for_papers, conference: @conference,
@@ -43,8 +43,8 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders banner component' do
-    expect(view.content_for(:splash)).to include("#{@conference.splashpage.banner_description}")
-    expect(view.content_for(:splash)).to include("#{@conference.short_title}")
+    expect(rendered).to match(/#{@conference.splashpage.banner_description}/)
+    expect(rendered).to match(/#{@conference.short_title}/)
   end
 
   it 'renders program partial' do
@@ -52,45 +52,43 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders registration partial' do
-    expect(view.content_for(:splash)).to include("#{@conference.splashpage.registration_description}")
     expect(view).to render_template(partial: 'conference/_registration')
   end
 
   it 'renders call_for_papers partial' do
-    expect(view.content_for(:splash)).to include("#{@conference.call_for_papers.description}")
+    expect(rendered).to match(/#{@conference.call_for_papers.description}/)
   end
 
   it 'renders sponsors partial' do
-    expect(view).to render_template(partial: 'conference/_sponsor')
-    expect(view.content_for(:splash)).to include('Lorem Ipsum Dolor')
-    expect(view.content_for(:splash)).to include('example@example.com')
-    expect(view.content_for(:splash)).to include('Platin')
-    expect(view.content_for(:splash)).to include('Example sponsor')
-    expect(view.content_for(:splash)).to include('http://www.example.com')
-    expect(view.content_for(:splash)).to include('Lorem Ipsum Dolor')
-    expect(view.content_for(:splash)).to include('rails.jpg')
+    expect(view).to render_template(partial: 'conference/_sponsors')
+    expect(rendered).to match(/example@example.com/)
+    expect(rendered).to match(/Platin/)
+    expect(rendered).to match(/Example sponsor/)
+    expect(rendered).to match(/www.example.com/)
+    expect(rendered).to match(/Lorem Ipsum Dolor/)
+    expect(rendered).to match(/rails.jpg/)
   end
 
   it 'renders social media partial' do
     expect(view).to render_template('conference/_social_media')
-    expect(view.content_for(:splash)).to include('http://www.fbexample.com')
-    expect(view.content_for(:splash)).to include('http://www.google-example.com')
-    expect(view.content_for(:splash)).to include('http://instagram.com')
-    expect(view.content_for(:splash)).to include('http://twitter.com')
+    expect(rendered).to match(/facebook.com/)
+    expect(rendered).to match(/google.com/)
+    expect(rendered).to match(/instagram.com/)
+    expect(rendered).to match(/twitter.com/)
   end
 
   it 'renders location partial' do
     expect(view).to render_template(partial: 'conference/_location')
-    expect(view.content_for(:splash)).to include('Suse Office')
-    expect(view.content_for(:splash)).to include('Maxfeldstrasse 5 \n90409 Nuremberg')
-    expect(view.content_for(:splash)).to include('www.opensuse.org')
-    expect(view.content_for(:splash)).to include('Lorem Ipsum Dolor')
+    expect(rendered).to match(/Suse Office/)
+    expect(rendered).to match(/Maxfeldstrasse 5/)
+    expect(rendered).to match(/www.opensuse.org/)
+    expect(rendered).to match(/Lorem Ipsum Dolor/)
   end
 
   it 'renders lodging partial' do
     expect(view).to render_template(partial: 'conference/_lodging')
-    expect(view.content_for(:splash)).to include('Example Hotel')
-    expect(view.content_for(:splash)).to include('Lorem Ipsum Dolor')
-    expect(view.content_for(:splash)).to include('http://www.example.com')
+    expect(rendered).to match(/Example Hotel/)
+    expect(rendered).to match(/Lorem Ipsum Dolor/)
+    expect(rendered).to match(/www.example.com/)
   end
 end

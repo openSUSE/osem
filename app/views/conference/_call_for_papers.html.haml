@@ -2,41 +2,36 @@
   %li
     %a.smoothscroll{ href: '#callforpapers' } Call For Papers
 
-%div.container#callforpapers.text-center
-  %div.row
-    %div.col-md-12
+.container
+  .row
+    .col-md-12.text-center
       %h1
         Call For Papers
       - if !@conference.call_for_papers.description.blank?
-        .lead
-          = markdown(@conference.call_for_papers.description)
+        = markdown(@conference.call_for_papers.description)
+  .row
+    .col-md-12.text-center
+      .lead
+        = link_to "Submit Your Proposals Today", conference_proposal_index_path(@conference.short_title), class: 'btn btn-info', target: '_blank'
       - if !@conference.call_for_papers.start_date.blank? && !@conference.call_for_papers.end_date.blank?
-        .lead Proposals will be accepted between
-        #cfp-date
+        %p
+          Proposals will be accepted between
+        %p#cfp-date
           = date_string(@conference.call_for_papers.start_date, @conference.call_for_papers.end_date)
-    - if @conference.cfp_open?
-      - if @conference.call_for_papers.end_date.to_time < Time.now
-        .lead Today is the last day. Hurry Up!
-      - else
-        .row
-          .col-md-8.col-md-offset-3
-            %div.col-md-2.timer-box
-              %h2#days
-              .lead Days
-            %div.col-md-2.timer-box
-              %h2#hours
-              .lead Hours
-            %div.col-md-2.timer-box
-              %h2#minutes
-              .lead Minutes
-            %div.col-md-2.timer-box
-              %h2#seconds
-              .lead Seconds
-      .row
-        .lead
-          = link_to "Submit Your Proposals Today", conference_proposal_index_path(@conference.short_title), class: 'btn btn-info', target: '_blank'
-    -else
-      %h3 Call for Papers is currently closed!
+    .row
+      .col-md-8.col-md-offset-3.text-center
+        %div.col-md-2.timer-box
+          %h2#days
+          .lead Days
+        %div.col-md-2.timer-box
+          %h2#hours
+          .lead Hours
+        %div.col-md-2.timer-box
+          %h2#minutes
+          .lead Minutes
+        %div.col-md-2.timer-box
+          %h2#seconds
+          .lead Seconds
 
 :javascript
   $( document ).ready(function(){

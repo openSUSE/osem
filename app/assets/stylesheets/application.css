@@ -8,6 +8,7 @@
  *= require osem-schedule-print
  *= require osem-dashboard
  *= require osem-fonts
+ *= require osem-splash
  *= require font-awesome
  *= require bootstrap-markdown.min
  *= require bootstrap-datetimepicker

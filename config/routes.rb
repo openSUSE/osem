@@ -48,7 +48,12 @@ Osem::Application.routes.draw do
 
       resources :tracks, only: [:show, :update, :index]
 
-      resources :sponsorship_levels, only: [:show, :update, :index]
+      resources :sponsorship_levels, except: [:show] do
+	member do
+	  patch :up
+	  patch :down
+	end
+      end
 
       resources :sponsors, only: [:show, :update, :index]
 

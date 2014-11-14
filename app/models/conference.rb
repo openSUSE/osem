@@ -57,7 +57,7 @@ class Conference < ActiveRecord::Base
   has_many :participants, through: :registrations, source: :user
   has_many :vdays, dependent: :destroy
   has_many :vpositions, dependent: :destroy
-  has_many :sponsorship_levels, dependent: :destroy
+  has_many :sponsorship_levels, -> { order('position ASC') }, dependent: :destroy
   has_many :sponsors, dependent: :destroy
   has_many :photos, dependent: :destroy
   has_many :targets, dependent: :destroy
