@@ -1,16 +1,24 @@
-%h1
-  = @user.name
-%h4
-  = @user.biography
-
-- if @user.events.confirmed.any?
-  %h3
-    = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
-  %ul.list-unstyled
-    - @user.events.confirmed.each do |event|
-      %li
-        %h4
-          = link_to event.title, conference_proposal_path(event.conference.short_title, event.id)
-          %strong
-            at
-          = event.conference.title
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          = image_tag(current_user.gravatar_url(size: '48'), title: "Yo #{current_user.name}!", :alt => '')
+          = @user.name
+          %small
+            = @user.nickname
+      %p
+        = @user.biography
+  .row
+    .col-md-12
+      - if @user.events.confirmed.any?
+        %h3
+          = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
+        %ul.list-unstyled
+          - @user.events.confirmed.each do |event|
+            %li
+              %h4
+                = link_to event.title, conference_proposal_path(event.conference.short_title, event.id)
+                %strong
+                  at
+                = event.conference.title

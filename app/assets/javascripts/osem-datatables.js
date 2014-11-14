@@ -1,14 +1,11 @@
 $(function () {
-    $(document).ready(function() {
-        $('#registrations-datatable').dataTable();
+  $(document).ready(function() {
+    $('.datatable').DataTable({
+      // ajax: ...,
+      autoWidth: false,
+      pagingType: 'full_numbers'
     });
-    $(document).ready(function() {
-        $('#users-datatable').dataTable();
-    });
-    $(document).ready(function() {
-        $('#events-datatable').dataTable();
-    });
-    $(document).ready(function() {
-        $('#buyers-datatable').dataTable();
-    });
-} );
+  });
+});
+
+

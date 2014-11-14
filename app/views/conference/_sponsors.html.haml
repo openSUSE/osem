@@ -1,0 +1,33 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#sponsors' } Sponsors
+
+.container
+  .row
+    .col-md-12
+      %h2 Sponsors
+      %p.lead
+        whom without,
+        = @conference.short_title
+        wouldn't be possible! 
+  - @conference.sponsorship_levels.each do |sponsorship_level|
+    -if sponsorship_level.sponsors.any?
+      .row
+        .col-md-12.text-center
+          %h3
+            = sponsorship_level.title
+      - sponsorship_level.sponsors.each_slice(3) do |slice|
+        .row
+          - slice.each do |sponsor|
+            .col-md-4
+              = link_to("http://#{sponsor.website_url}", class: 'thumbnail') do
+                = image_tag(sponsor.logo(:large), alt: "#{sponsor.name} Logo", title: "#{sponsor.description}")
+  -if @conference.contact and !@conference.contact.sponsor_email.blank?
+    .row
+      .col-md-12
+        %p.text-muted.text-center
+          %small
+            Want to sponsor #{@conference.short_title}?
+            = link_to("mailto: #{@conference.contact.sponsor_email}?subject=#{@conference.short_title}%20Sponsorship") do
+              Please contact us!
+

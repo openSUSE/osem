@@ -5,37 +5,51 @@ feature SponsorshipLevel do
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
-  shared_examples 'sponsorship levels' do
-    scenario 'adds and updates sponsorship level', feature: true, js: true do
-
+  shared_examples 'sponsorship_levels' do
+    scenario 'adds a sponsorship level', feature: true, js: true do
       sign_in organizer
       visit admin_conference_sponsorship_levels_path(
                 conference_id: conference.short_title)
-      # Add sponsorship level
-      click_link 'Add sponsorship_level'
-      expect(page.all('div.nested-fields').count == 1).to be true
 
-      page.
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example sponsorship level')
+      expect(page.has_no_table?('#sponsorship_levels')).to be true
 
-      click_button 'Update Conference'
+      # Add SponsorshipLevel
+      click_link 'New Sponsorship Level'
+
+      fill_in 'sponsorship_level_title', with: 'Platin'
+
+      click_button 'Create Sponsorship level'
 
       # Validations
-      expect(flash).to eq('Sponsorship levels were successfully updated.')
-      expect(find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-                 value).to eq('Example sponsorship level')
+      expect(flash).to eq('Sponsorship level successfully created.')
+      within('table#sponsorship_levels') do
+        expect(page.has_content?('Platin')).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
+    end
 
-      # Remove sponsorship level
-      click_link 'Remove sponsorship_level'
-      expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
-      expect(flash).to eq('Sponsorship levels were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
+    scenario 'updates a sponsorship level', feature: true, js: true do
+      level = create(:sponsorship_level, conference_id: conference.id)
+      sign_in organizer
+      visit edit_admin_conference_sponsorship_level_path(
+                conference_id: conference.short_title, id: level.id)
+
+      fill_in 'sponsorship_level_title', with: 'Gold'
+
+      click_button 'Update Sponsorship level'
+
+      # Validations
+      expect(flash).to eq('Sponsorship level successfully updated.')
+      within('table#sponsorship_levels') do
+        expect(page.has_content?('Gold')).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
+      level.reload
+      expect(level.title).to eq('Gold')
     end
   end
 
   describe 'organizer' do
-    it_behaves_like 'sponsorship levels'
+    it_behaves_like 'sponsorship_levels'
   end
 end

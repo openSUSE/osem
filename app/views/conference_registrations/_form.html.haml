@@ -1,22 +1,23 @@
-.row
-  .col-md-12
-    = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
-      .tabbable
-        %ul.nav.nav-tabs
-          %li.active
-            = link_to 'Register', '#register-content', 'data-toggle' => 'tab'
-          - if @conference.use_volunteers
-            %li
-              = link_to 'Volunteer', '#volunteer-content', 'data-toggle' => 'tab'
-        .tab-content
-          #register-content.tab-pane.active
-            = render 'conference_registrations/registration', f: f
-          - if @conference.use_volunteers
-            #volunteer-content.tab-pane
-              = render 'conference_registrations/volunteer', f: f
-      - if @conference.user_registered?(current_user)
-        = f.action :submit, button_html: { value: 'Update Registration', class: 'btn btn-primary' }
-        = link_to 'Unregister', conference_conference_registrations_path(@conference.short_title),
-        method: :delete, class: 'btn btn-danger', confirm: 'Are you sure you want to unregister?'
-      - else
-        = f.action :submit, button_html: { value: 'Register', class: 'btn btn-primary', id: 'register' }
+.container
+  .row
+    .col-md-12
+      = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
+        .tabbable
+          %ul.nav.nav-tabs
+            %li.active
+              = link_to 'Register', '#register-content', 'data-toggle' => 'tab'
+            - if @conference.use_volunteers
+              %li
+                = link_to 'Volunteer', '#volunteer-content', 'data-toggle' => 'tab'
+          .tab-content
+            #register-content.tab-pane.active
+              = render 'conference_registrations/registration', f: f
+            - if @conference.use_volunteers
+              #volunteer-content.tab-pane
+                = render 'conference_registrations/volunteer', f: f
+        - if @conference.user_registered?(current_user)
+          = f.action :submit, button_html: { value: 'Update Registration', class: 'btn btn-primary' }
+          = link_to 'Unregister', conference_conference_registrations_path(@conference.short_title),
+          method: :delete, class: 'btn btn-danger', confirm: 'Are you sure you want to unregister?'
+        - else
+          = f.action :submit, button_html: { value: 'Register', class: 'btn btn-primary', id: 'register' }

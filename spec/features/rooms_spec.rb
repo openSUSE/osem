@@ -11,22 +11,22 @@ feature Room do
       visit admin_conference_rooms_path(
                 conference_id: conference.short_title)
 
-      expect(page.has_content?('Room Name')).to be false
-      expect(page.has_content?('100')).to be false
+      expect(page.has_no_table?('#rooms')).to be true
 
       # Add room
       click_link 'New Room'
 
-      fill_in 'room_name', with: 'Room Name'
+      fill_in 'room_name', with: 'Auditorium'
       fill_in 'room_size', with: '100'
 
       click_button 'Create Room'
 
       # Validations
       expect(flash).to eq('Room successfully created.')
-
-      expect(page.has_content?('Room Name')).to be true
-      expect(page.has_content?('100')).to be true
+      within('table#rooms') do
+        expect(page.has_content?('Auditorium')).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
     end
 
     scenario 'updates a room', feature: true, js: true do
@@ -35,17 +35,19 @@ feature Room do
       visit edit_admin_conference_room_path(
                 conference_id: conference.short_title, id: room.id)
 
-      fill_in 'room_name', with: 'Room Name'
+      fill_in 'room_name', with: 'Auditorium'
       fill_in 'room_size', with: '100'
 
       click_button 'Update Room'
 
       # Validations
       expect(flash).to eq('Room successfully updated.')
-      expect(page.has_content?('Room Name')).to be true
-      expect(page.has_content?('100')).to be true
+      within('table#rooms') do
+        expect(page.has_content?('Auditorium')).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
       room.reload
-      expect(room.name).to eq('Room Name')
+      expect(room.name).to eq('Auditorium')
       expect(room.size).to eq(100)
     end
   end
