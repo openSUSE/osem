@@ -1,37 +1,38 @@
-.row
-  .col-sm-12.col-md-10.col-md-offset-1
-    %h1
-      Tickets
-    %p.lead
-      Please buy a ticket if you want to support
-      %b
-        = @conference.title
-        !
-    =form_tag(conference_ticket_purchases_path, method: :post) do |f|
-      %table.table.table-hover
-        %thead
-          %tr
-            %th Ticket
-            %th Quantity
-            %th Price
-            %th Total
-        %tbody
-          - @conference.tickets.each do |ticket|
-            = render partial: 'ticket', f: f, locals: {ticket: ticket}
-          %tr
-            %td
-            %td
-            %td.col-sm-1.col-md-1.text-center
-              %h4
-                Total
-            %td.col-sm-1.col-md-1.text-center
-              %h4
-                %strong
-                  %span{id: 'total_price'}
-                    0
-      .pull-right
-        = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
-          Support
-          %i.fa.fa-shopping-cart
-        = link_to 'Continue without a Ticket!', conference_conference_registrations_path(@conference.short_title),
-        class: 'btn btn-danger btn-sm'
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          Tickets
+      %p.lead
+        Please buy a ticket to support
+        %b
+          = @conference.title
+      =form_tag(conference_ticket_purchases_path, method: :post) do |f|
+        %table.table.table-hover
+          %thead
+            %tr
+              %th Ticket
+              %th Quantity
+              %th Price
+              %th Total
+          %tbody
+            - @conference.tickets.each do |ticket|
+              = render partial: 'ticket', f: f, locals: {ticket: ticket}
+            %tr
+              %td
+              %td
+              %td.col-sm-1.col-md-1.text-center
+                %h4
+                  Total
+              %td.col-sm-1.col-md-1.text-center
+                %h4
+                  %strong
+                    %span{id: 'total_price'}
+                      0
+        .pull-right
+          = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
+            Support
+            %i.fa.fa-shopping-cart
+          = link_to 'Continue without a Ticket!', conference_conference_registrations_path(@conference.short_title),
+          class: 'btn btn-danger btn-sm'

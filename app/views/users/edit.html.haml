@@ -1,8 +1,11 @@
-%h1 Edit your profile
-.row
-  .col-md-12
-    = semantic_form_for(@user, url: user_path(@user.id)) do |f|
-      = f.inputs name: 'Profile' do
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1 Edit your profile
+  .row
+    .col-md-12
+      = semantic_form_for(@user, url: user_path(@user.id)) do |f|
         = f.input :name, as: :string
         = f.input :nickname, as: :string
         = f.input :affiliation, as: :string,
@@ -14,4 +17,4 @@
         words.  Biographies are limited to 150 words.
         %br
         %br
-      = f.action :submit, as: :button, label: 'Update', button_html: {class: 'btn btn-primary'}
+        = f.action :submit, as: :button, label: 'Update', button_html: {class: 'btn btn-primary'}

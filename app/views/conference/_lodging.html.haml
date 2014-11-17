@@ -1,10 +1,10 @@
-%div.container.text-center
-  %h2 Lodging
-  -unless @conference.splashpage.lodging_description.blank?
-    .lead
-      = markdown(@conference.splashpage.lodging_description)
-
-  %div.row.text-center
+.container
+  .row
+    .col-md-12.text-center
+      %h2 Accommodation Deals
+      %p.lead
+        We have prepared affordable accommodation deals for your visit.
+  .row
     - @conference.venue.lodgings.each do |r|
       %div{ class: (@conference.venue.lodgings.count.to_i <= 2 ? "col-md-#{12/@conference.venue.lodgings.count.to_i}" : "col-md-4") }
         .div.thumbnail

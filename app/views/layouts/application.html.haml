@@ -6,7 +6,6 @@
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
     = stylesheet_link_tag "application", :media => "all"
-    = stylesheet_link_tag "splash" if content_for :splash
     = javascript_include_tag "application"
     = csrf_meta_tags
     :javascript
@@ -25,23 +24,16 @@
 
     = javascript_include_tag "//cdn.transifex.com/live.js"
     = yield(:head)
-  %body{ data: (content_for?(:splash_nav) ? {spy: 'scroll', offset: 0, target: 'splash-nav'} : {} ) }
+  %body
     = render 'layouts/navigation'
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'
     -else
-      .container#messages
-        .row
-          .col-md-12
-            = render 'layouts/messages'
-      - if content_for :splash
-        #content
-          = yield :splash
-      -else
-        .container#content
-          = yield
-
+      #messages
+        = render 'layouts/messages'
+      #content
+        = yield
     #footer
       .container
         %p.muted.text-center
