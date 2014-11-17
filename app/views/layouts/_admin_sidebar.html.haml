@@ -43,8 +43,8 @@
           %li{:class=> "#{active_nav_li(admin_conference_photos_path(@conference.short_title))}"}
             = link_to 'Photos', admin_conference_photos_path(@conference.short_title)
         - if can? :update, @conference
-          %li{:class=> active_nav_li(admin_conference_splashpage_path(@conference.short_title))}
-            = link_to 'Splashpage', admin_conference_splashpage_path(@conference.short_title)
+          %li{:class=> active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
+            = link_to 'Splashpage', edit_admin_conference_splashpage_path(@conference.short_title)
   - if can? :index, @conference.venue
     %li{:class=> "#{active_nav_li(edit_admin_conference_venue_path(@conference.short_title))}"}
       = link_to(edit_admin_conference_venue_path(@conference.short_title)) do

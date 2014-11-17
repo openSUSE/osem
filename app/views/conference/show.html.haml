@@ -1,20 +1,27 @@
 #splash
   - if @conference.splashpage
-    - if @conference.splashpage.include_banner?
-      #splash-banner{ style: ("background-image: url(#{@conference.splashpage.banner_photo})" unless @conference.splashpage.banner_photo.blank?) }
+    #splash-banner
+      .container
+        .row
+          .col-md-8.col-md-offset-2#splash-header
+            .row
+              .col-md-4
+                = image_tag(@conference.logo(:original), class: 'img-responsive', id: 'splash-logo') if @conference.logo?
+              .col-md-8
+                %h1
+                  = @conference.title
+                %p.lead
+                  - if @conference.start_date && @conference.end_date
+                    = date_string(@conference.start_date, @conference.end_date)
+
+    - unless @conference.description.blank?
+      %section#about
         .container
           .row
-            .col-md-12.text-center
-              %h1= @conference.title
-              - if @conference.start_date && @conference.end_date
-                %h3= date_string(@conference.start_date, @conference.end_date)
-              - unless @conference.splashpage.banner_description.blank?
-                %p.lead
-                  = markdown(@conference.splashpage.banner_description)
-              -unless @conference.photos.blank?
-                = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
-                = render 'gallery'
-  
+            .col-md-8.col-md-offset-2
+              %h3.text-center
+                = markdown(@conference.description)
+
     - if @conference.splashpage.include_program
       %section#program
         = render 'program'
@@ -49,3 +56,8 @@
   
     // grmbl
     = render 'footer'
+
+- content_for :script_head do
+  :javascript
+    var triangle_tcs = tinycolor("#{@conference.color}").monochromatic();
+    var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });

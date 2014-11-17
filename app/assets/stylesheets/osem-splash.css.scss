@@ -15,32 +15,18 @@
 }
 
 #splash-banner{
-  background: none;
   background-repeat: no-repeat;
   background-position: center center;
-  width: 100%;
   background-size: cover;
-  min-height: 700px;
   margin-top: -10px;
+  padding-top: 100px;
+  padding-bottom: 100px;
   .container {
-    padding-top: 60px;
-  }
-  h1, h3{
-    color:#3399CC;
-  }
-  h3{
-    font-family: 'Coustard', serif;
-    font-weight: 600;
-    text-shadow: 0.2em 0.2em 0 #4A4F6A;
-  }
-  h1{
-    font-size: 5em;
-    font-weight: 700;
-    text-shadow:0.04em 0.04em 0 black;
-  }
-  p {
-    color: #fff;
-    font-weight: 500;
+    #splash-header  {
+      background-color: rgba(224, 224, 224,.80);
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
   }
 }
 

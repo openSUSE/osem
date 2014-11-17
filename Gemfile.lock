@@ -59,7 +59,7 @@ GEM
       axlsx (>= 2.0.1)
       rails (>= 3.1)
     bcrypt (3.1.7)
-    bootstrap-sass (3.1.1.1)
+    bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
     bootstrap3-datetimepicker-rails (3.0.3)
       momentjs-rails (>= 2.8.1)

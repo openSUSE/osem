@@ -13,33 +13,15 @@ feature Splashpage do
     visit admin_conference_splashpage_path(conference.short_title)
 
     click_link 'Create Splashpage'
-
-    fill_in 'splashpage_banner_description', with: 'banner description'
-    fill_in 'splashpage_ticket_description', with: 'ticket description'
-    fill_in 'splashpage_sponsor_description', with: 'sponsor description'
-    fill_in 'splashpage_registration_description', with: 'registration description'
-    fill_in 'splashpage_lodging_description', with: 'lodging description'
-
     click_button 'Save Splashpage'
 
     expect(flash).to eq('Splashpage successfully created.')
     expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
 
     splashpage = Splashpage.find_by(conference_id: conference.id)
-    splashpage.reload
-    expect(splashpage.banner_description).to eq('banner description')
-    expect(splashpage.ticket_description).to eq('ticket description')
-    expect(splashpage.sponsor_description).to eq('sponsor description')
-    expect(splashpage.registration_description).to eq('registration description')
-    expect(splashpage.lodging_description).to eq('lodging description')
   end
 
   context 'splashpage already created' do
-    # before(:each) do
-    #   @splashpage = create(:splashpage)
-    #   conference.splashpage = @splashpage
-    # end
-    #
     let!(:splashpage) { create(:splashpage, conference: conference, public: false)}
 
     scenario 'update a valid splashpage', js: true do
@@ -47,24 +29,14 @@ feature Splashpage do
       visit admin_conference_splashpage_path(conference.short_title)
 
       click_link 'Edit'
-
-      fill_in 'splashpage_banner_description', with: 'banner description'
-      fill_in 'splashpage_ticket_description', with: 'ticket description'
-      fill_in 'splashpage_sponsor_description', with: 'sponsor description'
-      fill_in 'splashpage_registration_description', with: 'registration description'
-      fill_in 'splashpage_lodging_description', with: 'lodging description'
-
+      check('Make splash page public')
       click_button 'Save Splashpage'
 
       expect(flash).to eq('Splashpage successfully updated.')
       expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
 
-      splashpage.reload
-      expect(splashpage.banner_description).to eq('banner description')
-      expect(splashpage.ticket_description).to eq('ticket description')
-      expect(splashpage.sponsor_description).to eq('sponsor description')
-      expect(splashpage.registration_description).to eq('registration description')
-      expect(splashpage.lodging_description).to eq('lodging description')
+      click_link 'Edit'
+      expect(page.has_checked_field?('Make splash page public?')).to be true
     end
 
     scenario 'delete the splashpage', js: true do

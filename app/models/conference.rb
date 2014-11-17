@@ -8,7 +8,7 @@ class Conference < ActiveRecord::Base
 
   default_scope { order('start_date DESC') }
 
-  attr_accessible :title, :short_title, :timezone, :html_export_path,
+  attr_accessible :title, :short_title, :description, :timezone, :html_export_path,
                   :start_date, :end_date, :rooms_attributes, :tracks_attributes,
                   :dietary_choices_attributes, :use_dietary_choices,
                   :tickets_attributes, :social_events_attributes, :event_types_attributes,

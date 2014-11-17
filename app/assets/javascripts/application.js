@@ -22,6 +22,8 @@
 //= require dashboard
 //= require ahoy
 //= require smoothscroll
+//= require trianglify.min
+//= require tinycolor
 //= require bootstrap-markdown
 //= require to-markdown
 //= require markdown
@@ -30,6 +32,7 @@
 //= require osem-datepickers
 //= require osem-datatables
 //= require osem-tickets
+//= require osem-splash
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

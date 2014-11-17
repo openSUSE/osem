@@ -2,18 +2,14 @@ require 'spec_helper'
 describe 'conference/show.html.haml' do
   before(:each) do
     allow(view).to receive(:date_string).and_return('January 17 - 21 2014')
-    @conference = create(:conference)
+    @conference = create(:conference, description: 'Lorem Ipsum')
 
     @conference.splashpage = create(:splashpage,
-                                    banner_description: 'Banner Description',
-                                    sponsor_description: 'Sponsor Description',
-                                    registration_description: 'Registration Description',
                                     include_registrations: true,
                                     include_program: true,
                                     include_sponsors: true,
                                     include_tracks: true,
                                     include_tickets: true,
-                                    include_banner: true,
                                     include_social_media: true,
                                     include_venue: true,
                                     include_lodgings: true)
@@ -43,8 +39,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders banner component' do
-    expect(rendered).to match(/#{@conference.splashpage.banner_description}/)
-    expect(rendered).to match(/#{@conference.short_title}/)
+    expect(rendered).to match(/#{@conference.description}/)
   end
 
   it 'renders program partial' do
