@@ -6,7 +6,7 @@
           .col-md-8.col-md-offset-2#header
             .row
               .col-md-4
-                = image_tag(@conference.logo(:original), class: 'img-responsive', id: 'splash-logo') if @conference.logo?
+                = image_tag(@conference.logo(:original), class: 'img-responsive img-center', id: 'splash-logo') if @conference.logo?
               .col-md-8
                 %h1
                   = @conference.title

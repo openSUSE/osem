@@ -1,3 +1,5 @@
+@import "breakpoints.css.scss";
+
 #splash {
   // Counter the general padding for #content
   margin-bottom: -60px;
@@ -65,8 +67,26 @@
   }
 
   #lodging {
-    .img-lodging {
-      max-height: 200px;
+    @include breakpoint(xs) {
+      .img-lodging{
+        max-width: 280px;
+      }
+    }
+    @include breakpoint(sm) {
+      .img-lodging{
+        max-width: 200px;
+      }
+    }
+    @include breakpoint(sm) {
+      .img-lodging{
+        max-width: 260px;
+      }
+    }
+    @include breakpoint(lg) {
+      .img-lodging{
+        max-width: 300px;
+        max-height: 200px;
+      }
     }
   }
   
@@ -82,6 +102,12 @@
     }
     .img-sponsor-3 {
       max-height: 120px;
+    }
+    @include breakpoint(xs) {
+      .img-sponsor, .img-sponsor-1, .img-sponsor-3, .img-sponsor-3{
+        max-height: unset;
+        max-width: 280px;
+      }
     }
   }
 
@@ -100,6 +126,11 @@
     }
     a:nth-child(-n+1) {
       padding-left: 0px;
+    }
+    @include breakpoint(xs) {
+      a{
+        padding-left: 10px;
+      }
     }
   }
   

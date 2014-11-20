@@ -7,7 +7,7 @@
   - @conference.lodgings.each_slice(3) do |slice|
     .row.row-centered
       - slice.each do |lodging|
-        .col-md-4.ticket.col-centered.col-top
+        .col-md-4.col-sm-4.ticket.col-centered.col-top
           .thumbnail
             - if lodging.photo.blank?
               %p.text-center

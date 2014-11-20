@@ -12,7 +12,7 @@
         - @conference.tracks.each_slice(3) do |slice|
           .row.row-centered
             - slice.each do |track|
-              .col-md-4.col-centered.col-top.track
+              .col-md-4.col-sm-4.col-centered.col-top.track
                 %h4.text-center
                   = track.name
                 = markdown(track.description)

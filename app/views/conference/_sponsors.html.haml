@@ -15,7 +15,7 @@
       - sponsorship_level.sponsors.each_slice(3) do |slice|
         .row.row-centered
           - slice.each do |sponsor|
-            .col-md-4.col-centered.col-top
+            .col-md-4.col-sm-4.col-centered.col-top
               .thumbnail
                 - if sponsor.logo.blank?
                   %h3.text-center
