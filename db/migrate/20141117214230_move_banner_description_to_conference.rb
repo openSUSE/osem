@@ -20,6 +20,6 @@ class MoveBannerDescriptionToConference < ActiveRecord::Migration
       end
     end
 
-    remove_column :splashpages, :banner_description, :text 
+    remove_column :splashpages, :banner_description, :text
   end
 end

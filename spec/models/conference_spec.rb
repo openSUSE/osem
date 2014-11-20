@@ -980,6 +980,7 @@ describe Conference do
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.call_for_papers = nil
+      subject.venue = nil
       subject.rooms = []
       subject.tracks = []
       subject.event_types = []
@@ -997,6 +998,7 @@ describe Conference do
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.call_for_papers = create(:call_for_papers)
+      subject.venue = nil
       subject.rooms = []
       subject.tracks = []
       subject.event_types = []

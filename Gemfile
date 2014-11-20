@@ -59,6 +59,12 @@ gem 'jquery-datatables-rails', '~> 2.2.1'
 # for user avatars
 gem 'gravtastic'
 
+# for maps
+gem 'leaflet-rails', '~> 0.7.4'
+
+# for country selects
+gem 'country_select', github: 'stefanpenner/country_select'
+
 # for upload management
 gem 'paperclip'
 

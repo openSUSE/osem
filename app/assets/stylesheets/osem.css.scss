@@ -5,9 +5,13 @@ html {
 
 body {
     /* Margin bottom by 2 times the footer height */
-    margin-bottom: 120px;
+    margin-bottom: 60px;
     /* Margin bottom by navbar height */
     padding-top: 60px;
+}
+
+#content {
+  padding-bottom: 60px;
 }
 
 #footer {
@@ -28,4 +32,21 @@ body {
 
 .img-center {
     margin: 0 auto;
+}
+
+/* centered columns styles */
+.row-centered {
+  text-align:center;
+}
+.col-centered {
+  display:inline-block;
+  float:none;
+  /* reset the text-align */
+  text-align:left;
+  /* inline-block space fix */
+  margin-right:-4px;
+}
+
+.col-top {
+  vertical-align:top;
 }

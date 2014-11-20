@@ -40,7 +40,7 @@ Osem::Application.routes.draw do
 
       resource :splashpage
 
-      resource :venue, only: [:edit, :update]
+      resource :venue
 
       resources :difficulty_levels, only: [:show, :update, :index]
 

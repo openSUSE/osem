@@ -45,16 +45,16 @@
         - if can? :update, @conference
           %li{:class=> active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
             = link_to 'Splashpage', edit_admin_conference_splashpage_path(@conference.short_title)
-  - if can? :index, @conference.venue
-    %li{:class=> "#{active_nav_li(edit_admin_conference_venue_path(@conference.short_title))}"}
-      = link_to(edit_admin_conference_venue_path(@conference.short_title)) do
+  - if can? :index, Venue.new(conference_id: @conference.id)
+    %li{:class=> "#{active_nav_li(admin_conference_venue_path(@conference.short_title))}"}
+      = link_to(admin_conference_venue_path(@conference.short_title)) do
         %span.fa.fa-road
         Venue
       %ul
         - if can? :update, @conference.rooms.build
           %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
             = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
-        - if can? :update, @conference.venue.lodgings.build
+        - if can? :update, @conference.lodgings.build
           %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
             = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
     %li

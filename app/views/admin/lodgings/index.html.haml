@@ -1,5 +1,5 @@
 %h1 Lodgings
-- if @venue.lodgings.any?
+- if @conference.lodgings.any?
   .row
     .col-md-12
       %table.table
@@ -9,7 +9,7 @@
           %th Edit
           %th Delete
         %tbody
-          - @venue.lodgings.each_with_index do |lodging, index|
+          - @conference.lodgings.each_with_index do |lodging, index|
             %tr
               %td
                 = index + 1

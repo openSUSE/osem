@@ -33,7 +33,7 @@ describe 'conference/show.html.haml' do
                                                     conference: @conference)
 
     @conference.venue = create(:venue)
-    @conference.venue.lodgings << create(:lodging, venue: @conference.venue)
+    @conference.lodgings << create(:lodging)
     assign :conference, @conference
     render
   end
@@ -51,13 +51,12 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders call_for_papers partial' do
-    expect(rendered).to match(/#{@conference.call_for_papers.description}/)
+    expect(rendered).to match(/We are ready to accept your proposals for sessions!/)
   end
 
   it 'renders sponsors partial' do
     expect(view).to render_template(partial: 'conference/_sponsors')
     expect(rendered).to match(/example@example.com/)
-    expect(rendered).to match(/Platin/)
     expect(rendered).to match(/Example sponsor/)
     expect(rendered).to match(/www.example.com/)
     expect(rendered).to match(/Lorem Ipsum Dolor/)
@@ -72,8 +71,8 @@ describe 'conference/show.html.haml' do
     expect(rendered).to match(/twitter.com/)
   end
 
-  it 'renders location partial' do
-    expect(view).to render_template(partial: 'conference/_location')
+  it 'renders venue partial' do
+    expect(view).to render_template(partial: 'conference/_venue')
     expect(rendered).to match(/Suse Office/)
     expect(rendered).to match(/Maxfeldstrasse 5/)
     expect(rendered).to match(/www.opensuse.org/)

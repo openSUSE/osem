@@ -29,6 +29,7 @@ class Conference < ActiveRecord::Base
   has_one :registration_period, dependent: :destroy
   has_one :email_settings, dependent: :destroy
   has_one :call_for_papers, dependent: :destroy
+  has_one :venue, dependent: :destroy
   has_many :social_events, dependent: :destroy
   has_many :ticket_purchases
   has_many :supporters, through: :ticket_purchases, source: :user
@@ -53,6 +54,7 @@ class Conference < ActiveRecord::Base
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
   has_many :rooms, dependent: :destroy
+  has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
   has_many :participants, through: :registrations, source: :user
   has_many :vdays, dependent: :destroy
@@ -64,7 +66,6 @@ class Conference < ActiveRecord::Base
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  belongs_to :venue
 
   accepts_nested_attributes_for :rooms, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :tracks, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
@@ -99,7 +100,6 @@ class Conference < ActiveRecord::Base
   validates_uniqueness_of :short_title
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid
-  before_create :create_venue
   before_create :create_event_types
   before_create :create_email_settings
   before_create :add_color
@@ -727,14 +727,13 @@ class Conference < ActiveRecord::Base
     rooms.count > 0
   end
 
-  ##
-  # Checks if venue has a name, address and website.
+  # Checks if the conference has a venue object.
   #
   # ====Returns
-  # * +True+ -> If venue has a name, address and website.
-  # * +False+ -> venue has a no name, address or website.
+  # * +True+ -> If conference has a venue object.
+  # * +False+ -> IF conference has no venue object.
   def venue_set?
-    !!venue && !!venue.name && !!venue.address && !!venue.website
+    !!venue
   end
 
   ##
@@ -883,14 +882,6 @@ class Conference < ActiveRecord::Base
       end
     end
     result
-  end
-
-  ##
-  # Creates a Venue for this Conference. Used as before_create.
-  #
-  def create_venue
-    self.venue_id = Venue.create.id
-    true
   end
 
   ##

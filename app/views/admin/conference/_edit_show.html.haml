@@ -12,7 +12,8 @@
       %dt
         Description
       %dd
-        = markdown(@conference.description)
+        - unless @conference.description.blank?
+          = markdown(@conference.description)
       %dt
         Date
       %dd

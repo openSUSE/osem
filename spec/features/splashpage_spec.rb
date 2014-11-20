@@ -17,8 +17,6 @@ feature Splashpage do
 
     expect(flash).to eq('Splashpage successfully created.')
     expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
-
-    splashpage = Splashpage.find_by(conference_id: conference.id)
   end
 
   context 'splashpage already created' do

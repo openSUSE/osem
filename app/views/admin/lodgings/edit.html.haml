@@ -1,6 +1,0 @@
-%h1
-  Edit Lodging
-.row
-  .col-md-8
-    = semantic_form_for(@lodging, :url => admin_conference_lodging_path(@conference.short_title, @lodging)) do |f|
-      = render partial: 'form', locals: { f: f }

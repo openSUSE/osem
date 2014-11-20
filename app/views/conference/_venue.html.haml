@@ -1,0 +1,43 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#venue' } Venue
+-if !@conference.venue.latitude.blank? and !@conference.venue.longitude.blank?
+  #map{style: "height: 500px;" }
+  - popup = "<h3>#{@conference.venue.name}</h3><br>#{@conference.venue.street}<br>#{@conference.venue.postalcode}, #{@conference.venue.city}<br>#{@conference.venue.country_name}"
+  - content_for(:script_body) do
+    :javascript
+      // create a map in the "map" div, set the view to a given place and zoom
+      var map = L.map('map', {scrollWheelZoom: false}).setView([#{@conference.venue.longitude}, #{@conference.venue.latitude}], 11);
+      // add an OpenStreetMap tile layer
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 18
+      }).addTo(map);
+      // add a marker in the given location, attach some popup content to it and open the popup
+      L.marker([#{@conference.venue.longitude}, #{@conference.venue.latitude}]).addTo(map)
+        .bindPopup("#{popup}")
+        .openPopup();
+-else
+  .container
+    .row
+      .col-md-12
+        %h2.text-center
+          = "#{@conference.venue.city} / #{@conference.venue.country_name}"
+      .col-md-6
+        .thumbnail
+          =image_tag(@conference.venue.photo, class: 'img-responsive img-rounded') unless @conference.venue.photo.blank?
+          .caption
+            - unless @conference.venue.description.blank?
+              = markdown(@conference.venue.description)
+      .col-md-6
+        %address
+          %h1
+            = @conference.venue.name
+          = @conference.venue.street
+          %br
+          = "#{@conference.venue.postalcode}, #{@conference.venue.city}"
+          %br
+          = @conference.venue.country_name
+          - if @conference.venue.website
+            %br
+            =link_to @conference.venue.website, @conference.venue.website

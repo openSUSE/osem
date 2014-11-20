@@ -28,11 +28,11 @@
 //= require to-markdown
 //= require markdown
 //= require moment
+//= require leaflet
 //= require bootstrap-datetimepicker
 //= require osem-datepickers
 //= require osem-datatables
 //= require osem-tickets
-//= require osem-splash
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

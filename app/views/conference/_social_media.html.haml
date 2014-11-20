@@ -2,21 +2,18 @@
   %li
     %a.smoothscroll{ href: '#social-media' } Social Media
 
-%div.container#social-media.text-center
-  %div.row
-    - unless @conference.contact.facebook.blank?
-      %div.col-md-3
+.container
+  .row
+    .col-md-12.text-center
+      - unless @conference.contact.facebook.blank?
         = link_to "#{ @conference.contact.facebook }" do
           %i.fa.fa-facebook-square.fa-4x
-    - unless @conference.contact.twitter.blank?
-      %div.col-md-3
+      - unless @conference.contact.twitter.blank?
         = link_to "#{ @conference.contact.twitter }" do
           %i.fa.fa-twitter.fa-4x
-    - unless @conference.contact.instagram.blank?
-      %div.col-md-3
+      - unless @conference.contact.instagram.blank?
         = link_to "#{ @conference.contact.instagram }" do
           %i.fa.fa-instagram.fa-4x
-    - unless @conference.contact.googleplus.blank?
-      %div.col-md-3
+      - unless @conference.contact.googleplus.blank?
         = link_to "#{ @conference.contact.googleplus }" do
           %i.fa.fa-google-plus-square.fa-4x
