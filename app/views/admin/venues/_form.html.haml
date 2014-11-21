@@ -1,8 +1,7 @@
 = semantic_form_for(@venue, url: admin_conference_venue_path(@conference.short_title)) do |f|
-  = f.input :name, input_html: { rows: 1 }
-  = f.input :address, input_html: { rows: 1 }
-  = f.input :website
+  = f.inputs :name, :website
   = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint
+  = f.inputs :street, :postalcode, :city, :country, :longitude, :latitude
   - unless @venue.photo.blank?
     = image_tag @venue.photo(:thumb)
   = f.input :photo

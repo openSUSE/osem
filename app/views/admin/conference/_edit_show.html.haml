@@ -10,6 +10,11 @@
       %dd
         = @conference.short_title
       %dt
+        Description
+      %dd
+        - unless @conference.description.blank?
+          = markdown(@conference.description)
+      %dt
         Date
       %dd
         = @date_string

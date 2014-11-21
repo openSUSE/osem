@@ -1,0 +1,25 @@
+-if @venue
+  .row
+    .col-md-6
+      =image_tag(@conference.venue.photo, class: 'img-responsive img-rounded') unless @conference.venue.photo.blank?
+    .col-md-6
+      %address
+        %strong
+          = @venue.name
+        %br
+        = @venue.street
+        %br
+        = "#{@venue.postalcode}, #{@venue.city}"
+        %br
+        = @venue.country_name
+  .row
+    .col-md-12
+      = link_to(edit_admin_conference_venue_path(@conference.short_title), class: 'btn btn-primary') do
+        Edit Venue
+      = link_to(admin_conference_venue_path(@conference.short_title), method: 'delete', class: 'btn btn-danger') do
+        Delete Venue
+-else
+  .row
+    .col-md-12
+      = link_to(new_admin_conference_venue_path(@conference.short_title), class: 'btn btn-success') do
+        Create Venue

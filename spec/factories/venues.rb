@@ -2,7 +2,10 @@
 FactoryGirl.define do
   factory :venue do
     name 'Suse Office'
-    address 'Maxfeldstrasse 5 \n90409 Nuremberg'
+    street 'Maxfeldstrasse 5'
+    city 'Nuremberg'
+    postalcode '90489'
+    country 'DE'
     website 'www.opensuse.org'
     description 'Lorem Ipsum Dolor'
   end

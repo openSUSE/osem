@@ -22,10 +22,13 @@
 //= require dashboard
 //= require ahoy
 //= require smoothscroll
+//= require trianglify.min
+//= require tinycolor
 //= require bootstrap-markdown
 //= require to-markdown
 //= require markdown
 //= require moment
+//= require leaflet
 //= require bootstrap-datetimepicker
 //= require osem-datepickers
 //= require osem-datatables

@@ -4,16 +4,23 @@
       %h2 Accommodation Deals
       %p.lead
         We have prepared affordable accommodation deals for your visit.
-  .row
-    - @conference.venue.lodgings.each do |r|
-      %div{ class: (@conference.venue.lodgings.count.to_i <= 2 ? "col-md-#{12/@conference.venue.lodgings.count.to_i}" : "col-md-4") }
-        .div.thumbnail
-          -unless r.photo.blank?
-            = image_tag r.photo(:large), class: 'img-responsive'
-          -unless r.name.blank?
-            %h4.text-center #{ r.name }
-          -unless r.description.blank?
-            .lead.text-left #{ markdown(r.description) }
-          - unless r.website_link.blank?
-            .text-center
-              = link_to 'Go to Website', r.website_link
+  - @conference.lodgings.each_slice(3) do |slice|
+    .row.row-centered
+      - slice.each do |lodging|
+        .col-md-4.col-sm-4.ticket.col-centered.col-top
+          .thumbnail
+            - if lodging.photo.blank?
+              %p.text-center
+                %i.fa.fa-home.fa-5x
+            - else
+              -if lodging.website_link.present?
+                = link_to(lodging.website_link, class: 'thumbnail') do
+                  = image_tag lodging.photo(:large), class: 'img-responsive img-lodging'
+              - else
+                = image_tag lodging.photo(:large), class: 'img-responsive img-lodging'
+            .caption
+              %h3.text-center
+                = lodging.name
+              -if lodging.description.present?
+                = markdown(lodging.description)
+

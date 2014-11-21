@@ -15,14 +15,9 @@
         detectlang: true,
         autocollect: true
       };
-
-      $(function() {
-        $('.dropdown input, .dropdown label').click(function(e) {
-        e.stopPropagation();
-        });
-      });
-
+    = content_for(:script_head)
     = javascript_include_tag "//cdn.transifex.com/live.js"
+
     = yield(:head)
   %body
     = render 'layouts/navigation'
@@ -31,7 +26,8 @@
       = render 'layouts/admin'
     -else
       #messages
-        = render 'layouts/messages'
+        .container
+          = render 'layouts/messages'
       #content
         = yield
     #footer
@@ -45,4 +41,5 @@
             You can run, copy, distribute, study, change and improve it.
             The source code and the developers are on
             =link_to "github.", "https://github.com/openSUSE/osem"
+    = content_for(:script_body)
     = piwik_tracking_tag

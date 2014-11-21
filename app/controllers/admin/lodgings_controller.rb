@@ -1,23 +1,21 @@
 module Admin
   class LodgingsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource :venue, through: :conference, singleton: true
-    load_and_authorize_resource :lodging, through: :venue
+    load_and_authorize_resource :lodging, through: :conference
 
     def index
-      authorize! :update, Lodging.new(venue_id: @venue.id)
     end
 
     def show; end
 
     def new
-      @lodging = @venue.lodgings.new
+      @lodging = @conference.lodgings.new
     end
 
     def create
-      @lodging = @venue.lodgings.new(lodging_params)
+      @lodging = @conference.lodgings.new(lodging_params)
       if @lodging.save
-        redirect_to(admin_conference_lodging_path(conference_id: @conference.short_title, id: @lodging.id),
+        redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
                     notice: 'Lodging successfully created.')
       else
         flash[:error] = "Creating Lodging failed: #{@lodging.errors.full_messages.join('. ')}."

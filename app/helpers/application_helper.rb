@@ -171,6 +171,34 @@ module ApplicationHelper
     result
   end
 
+  def event_types(conference)
+    all = conference.event_types.map { |et | et.title.pluralize }
+    first = all[0...-1]
+    last = all[-1]
+    ets = ''
+    if all.length > 1
+      ets << first.join(', ')
+      ets << " and #{last}"
+    else
+      ets = all.join
+    end
+    return ets
+  end
+
+  def tracks(conference)
+    all = conference.tracks.map {|t| t.name}
+    first = all[0...-1]
+    last = all[-1]
+    ts = ''
+    if all.length > 1
+      ts << first.join(', ')
+      ts << " and #{last}"
+    else
+      ts = all.join
+    end
+    return ts
+  end
+
   def markdown(text)
     options = {
       autolink: true,

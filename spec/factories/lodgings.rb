@@ -5,6 +5,5 @@ FactoryGirl.define do
     name 'Example Hotel'
     description 'Lorem Ipsum Dolor'
     website_link 'http://www.example.com'
-    venue
   end
 end

@@ -1,51 +1,73 @@
 #splash
   - if @conference.splashpage
-    - if @conference.splashpage.include_banner?
-      #splash-banner{ style: ("background-image: url(#{@conference.splashpage.banner_photo})" unless @conference.splashpage.banner_photo.blank?) }
+    #banner
+      .container
+        .row
+          .col-md-8.col-md-offset-2#header
+            .row
+              .col-md-4
+                = image_tag(@conference.logo(:original), class: 'img-responsive img-center', id: 'splash-logo') if @conference.logo?
+              .col-md-8
+                %h1
+                  = @conference.title
+                %p.lead
+                  - if @conference.venue
+                    = "#{@conference.venue.city} / #{@conference.venue.country_name}"
+                  - if @conference.start_date && @conference.end_date
+                    %br
+                    = date_string(@conference.start_date, @conference.end_date)
+
+    - unless @conference.description.blank?
+      %section#about
         .container
           .row
-            .col-md-12.text-center
-              %h1= @conference.title
-              - if @conference.start_date && @conference.end_date
-                %h3= date_string(@conference.start_date, @conference.end_date)
-              - unless @conference.splashpage.banner_description.blank?
-                %p.lead
-                  = markdown(@conference.splashpage.banner_description)
-              -unless @conference.photos.blank?
-                = link_to 'Gallery', gallery_photos_conference_path(@conference.short_title), class: 'btn btn-primary btn-lg', id: 'gallery-btn', remote: true
-                = render 'gallery'
-  
-    - if @conference.splashpage.include_program
-      %section#program
-        = render 'program'
-  
-    - if @conference.cfp_open? and @conference.call_for_papers.include_cfp_in_splash?
-      %section#callforpapers
-        = render 'call_for_papers'
-  
-    - if @conference.venue and @conference.splashpage.include_venue
-      #location{ style: ("background-image: url(#{@conference.venue.photo})" unless @conference.venue.photo.blank?) }
-        = render 'location'
-  
+            .col-md-8.col-md-offset-2
+              %h3.text-center
+                = markdown(@conference.description)
+
     - if @conference.registration_open? and @conference.splashpage.include_registrations
       %section#registration
         = render 'registration'
-  
+
+    - if @conference.splashpage.include_program
+      %section#program
+        = render 'program'
+
+    - if @conference.cfp_open? and @conference.call_for_papers.include_cfp_in_splash?
+      %section#callforpapers
+        = render 'call_for_papers'
+
+    - if @conference.venue and @conference.splashpage.include_venue
+      %section#venue
+        = render 'venue'
+
+    - if @conference.lodgings.any? and @conference.splashpage.include_lodgings
+      %section#lodging
+        = render 'lodging'
+
     - if @conference.tickets.any? and @conference.splashpage.include_tickets
       %section#tickets
         = render 'tickets'
-  
-    - if @conference.venue.lodgings.any? and @conference.splashpage.include_lodgings
-      %section#lodging
-        = render 'lodging'
-  
+
     - if @conference.sponsors.any? and @conference.splashpage.include_sponsors
       %section#sponsors
         = render 'sponsors'
-  
-    - if @conference.splashpage.include_social_media
+
+    - if @conference.splashpage.include_social_media and @conference.contact.has_social_media?
       %section#social-media
         = render 'social_media'
-  
+
     // grmbl
     = render 'footer'
+
+- content_for :script_head do
+  :javascript
+    var triangle_tcs = tinycolor("#{@conference.color}").monochromatic();
+    var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
+    $(function () {
+      $(document).ready(function() {
+        var t = new Trianglify({cellsize: 100, x_gradient: triangle_colors });
+        var pattern = t.generate(document.body.clientWidth, ($( "#banner" ).height() + 200 ));
+        $('#banner').css('background-image', pattern.dataUrl);
+      });
+    });

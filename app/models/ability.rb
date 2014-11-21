@@ -43,21 +43,15 @@ class Ability
 
   def user_with_roles(user)
     conf_ids_for_organizer = []
-    venue_ids_for_organizer = []
     conf_ids_for_cfp = []
-    venue_ids_for_cfp = []
     conf_ids_for_info_desk = []
     conf_ids_for_volunteer_coordinator = []
 
     # Ids of all the conferences for which the user has an 'organizer' role
     conf_ids_for_organizer =
         Conference.with_role(:organizer, user).pluck(:id) if user.has_role? :organizer, :any
-    venue_ids_for_organizer =
-        Conference.with_role(:organizer, user).pluck(:venue_id) if user.has_role? :organizer, :any
     conf_ids_for_cfp =
       Conference.with_role(:cfp, user).pluck(:id) if user.has_role? :cfp, :any
-    venue_ids_for_cfp =
-        Conference.with_role(:cfp, user).pluck(:venue_id) if user.has_role? :cfp, :any
     # Ids of all the conferences for which the user has an 'info_desk' role
     conf_ids_for_info_desk =
         Conference.with_role(:info_desk, user).pluck(:id) if user.has_role? :info_desk, :any
@@ -74,8 +68,6 @@ class Ability
 #     can :manage, Conference do |conference|
 #       conference.id = conf_ids_for_organizer
 #     end
-    can :manage, Venue, id: venue_ids_for_organizer
-    can :index, Venue, id: venue_ids_for_cfp
     can :manage, Registration, conference_id: conf_ids_for_organizer + conf_ids_for_info_desk
     can :manage, Question, conference_id: conf_ids_for_organizer + conf_ids_for_info_desk
     cannot [:edit, :update, :destroy], Question, global: true
@@ -92,7 +84,9 @@ class Ability
     can :manage, DifficultyLevel, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, EmailSettings, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Campaign, conference_id: conf_ids_for_organizer
-    can :manage, Lodging, venue_id: venue_ids_for_organizer
+    can :manage, Venue, conference_id: conf_ids_for_organizer
+    can :index, Venue, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
+    can :manage, Lodging, conference_id: conf_ids_for_organizer
     can :manage, Photo, conference_id: conf_ids_for_organizer
     can :manage, Room, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
