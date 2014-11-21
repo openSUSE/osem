@@ -53,7 +53,7 @@
       %section#sponsors
         = render 'sponsors'
 
-    - if @conference.splashpage.include_social_media
+    - if @conference.splashpage.include_social_media and @conference.contact.has_social_media?
       %section#social-media
         = render 'social_media'
 

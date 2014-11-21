@@ -6,7 +6,7 @@
       %p.lead.text-center
         = @conference.short_title
         has the most awesome program ever!
-        - if @conference.splashpage and @conference.splashpage.include_tracks
+        - if @conference.splashpage and @conference.tracks.any? and @conference.splashpage.include_tracks
           See rock-star speakers cover the topics of
       - if @conference.splashpage and @conference.splashpage.include_tracks
         - @conference.tracks.each_slice(3) do |slice|
