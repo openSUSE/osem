@@ -33,10 +33,10 @@ feature Campaign do
       expect(flash).
           to eq('Campaign successfully created.')
 
-      expect(find('#name_0').text).to eq('Test Campaign')
-      expect(find('#visits_0').text).to eq('0')
-      expect(find('#registrations_0').text).to eq('0')
-      expect(find('#submissions_0').text).to eq('0')
+      expect(find('#name_1').text).to eq('Test Campaign')
+      expect(find('#visits_1').text).to eq('0')
+      expect(find('#registrations_1').text).to eq('0')
+      expect(find('#submissions_1').text).to eq('0')
 
       expect(Campaign.count).to eq(expected_count)
 

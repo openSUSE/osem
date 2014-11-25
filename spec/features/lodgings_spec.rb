@@ -38,7 +38,6 @@ feature Lodging do
     expect(page.has_content?('Example Hotel')).to be true
 
     # Add lodging
-    click_link 'Example Hotel'
     click_link 'Edit'
 
     fill_in 'lodging_name', with: 'New lodging'

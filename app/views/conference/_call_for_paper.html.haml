@@ -21,12 +21,12 @@
           = "#{tracks(@conference)}."
         The submission period has begun
         %em
-          = @conference.call_for_papers.start_date.strftime('%A, %B %-d. %Y')
+          = @conference.call_for_paper.start_date.strftime('%A, %B %-d. %Y')
         and closes
         %em
-          = @conference.call_for_papers.end_date.strftime('%A, %B %-d. %Y.')
+          = @conference.call_for_paper.end_date.strftime('%A, %B %-d. %Y.')
         That means you have only
-        - days = (@conference.call_for_papers.end_date - Date.today).to_i
+        - days = (@conference.call_for_paper.end_date - Date.today).to_i
         %b
           = pluralize(days, 'days')
           left!

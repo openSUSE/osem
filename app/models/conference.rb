@@ -28,7 +28,7 @@ class Conference < ActiveRecord::Base
   has_one :contact, dependent: :destroy
   has_one :registration_period, dependent: :destroy
   has_one :email_settings, dependent: :destroy
-  has_one :call_for_papers, dependent: :destroy
+  has_one :call_for_paper, dependent: :destroy
   has_one :venue, dependent: :destroy
   has_many :social_events, dependent: :destroy
   has_many :ticket_purchases
@@ -161,7 +161,7 @@ class Conference < ActiveRecord::Base
   # * +true+ -> If today is in the CFP period.
   def cfp_open?
     today = Date.current
-    cfp = self.call_for_papers
+    cfp = self.call_for_paper
     if !cfp.nil? && (cfp.start_date.. cfp.end_date).cover?(today)
       return true
     end
@@ -177,10 +177,10 @@ class Conference < ActiveRecord::Base
   def get_submissions_per_week
     result = []
 
-    if call_for_papers && events
+    if call_for_paper && events
       submissions = events.group(:week).count
-      start_week = call_for_papers.start_week
-      weeks = call_for_papers.weeks
+      start_week = call_for_paper.start_week
+      weeks = call_for_paper.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
     end
     result
@@ -194,10 +194,10 @@ class Conference < ActiveRecord::Base
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
     result = {}
-    if call_for_papers && events
+    if call_for_paper && events
       result = get_events_per_week_by_state
 
-      start_week = call_for_papers.start_week
+      start_week = call_for_paper.start_week
       end_week = end_date.strftime('%W').to_i
       weeks = weeks(start_week, end_week)
 
@@ -260,8 +260,8 @@ class Conference < ActiveRecord::Base
   # * +Integer+ -> weeks
   def cfp_weeks
     result = 0
-    if call_for_papers
-      result = call_for_papers.weeks
+    if call_for_paper
+      result = call_for_paper.weeks
     end
     result
   end
@@ -743,7 +743,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a cfp object.
   # * +False+ -> If conference has no cfp object.
   def cfp_set?
-    !!call_for_papers
+    !!call_for_paper
   end
 
   ##

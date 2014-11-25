@@ -1,5 +1,39 @@
 .row
-  .col-md-8
-    = semantic_form_for(@conference, url: admin_conference_event_types_path(@conference.short_title, @conference.event_types)) do |f|
-      = dynamic_association :event_types, "Event Types", f
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+  .col-md-12
+    .page-header
+      %h1 Event Types
+      %p.text-muted
+        The character of events in your conference
+.row
+  .col-md-12
+    %table.table.table-hover#event_types
+      %thead
+        %th Title
+        %th Length
+        %th Abstract Length
+        %th Color
+        %th Actions
+      %tbody
+        - @conference.event_types.each do |event_type|
+          %tr
+            %td
+              = event_type.title
+            %td
+              = event_type.length
+              Minutes
+            %td
+              = "#{event_type.minimum_abstract_length}:#{event_type.maximum_abstract_length}"
+              Words
+            %td
+              %span.label{style: "background-color: #{event_type.color};"}
+                = event_type.color
+            %td
+              .btn-group{role: "group"}
+                = link_to 'Edit', edit_admin_conference_event_type_path(@conference.short_title, event_type.id),
+                method: :get, class: 'btn btn-primary'
+                = link_to 'Delete', admin_conference_event_type_path(@conference.short_title, event_type.id),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{event_type.name}?" }
+.row
+  .col-md-12.text-right
+    = link_to 'Add Event Type', new_admin_conference_event_type_path(@conference.short_title), class: 'btn btn-primary'
+

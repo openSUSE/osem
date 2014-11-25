@@ -8,7 +8,7 @@ feature Event do
   let!(:participant_without_bio) { create(:user, biography: '') }
 
   before(:each) do
-    conference.call_for_papers = create(:call_for_papers)
+    conference.call_for_paper = create(:call_for_paper)
     conference.event_types = [create(:event_type)]
 
     @options = {}

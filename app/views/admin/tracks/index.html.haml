@@ -1,5 +1,36 @@
 .row
-  .col-md-8
-    = semantic_form_for(@conference, :url => admin_conference_track_path(@conference.short_title, @conference.tracks)) do |f|
-      = dynamic_association :tracks, "Tracks", f
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+  .col-md-12
+    .page-header
+      %h1 Tracks
+      %p.text-muted
+        Categorize events in your conference
+.row
+  .col-md-12
+    %table.table.table-hover#tracks
+      %thead
+        %th Name
+        %th Description
+        %th Color
+        %th Actions
+      %tbody
+        - @conference.tracks.each do |track|
+          %tr
+            %td
+              = link_to(admin_conference_track_path(@conference.short_title, track)) do
+                = track.name
+            %td
+              %p
+                = truncate(track.description)
+            %td
+              %span.label{style: "background-color: #{track.color};"}
+                = track.color
+            %td
+              .btn-group{role: "group"}
+                = link_to 'Edit', edit_admin_conference_track_path(@conference.short_title, track.id),
+                method: :get, class: 'btn btn-primary'
+                = link_to 'Delete', admin_conference_track_path(@conference.short_title, track.id),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{track.name}?" }
+.row
+  .col-md-12.text-right
+    = link_to 'New Track', new_admin_conference_track_path(@conference.short_title), class: 'btn btn-success'
+

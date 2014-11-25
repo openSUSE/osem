@@ -33,20 +33,29 @@ Osem::Application.routes.draw do
       get '/volunteers' => 'volunteers#index', as: 'volunteers_info'
       patch '/volunteers' => 'volunteers#update', as: 'volunteers_update'
 
-      patch '/registrations/toogle_attended' => 'registrations#toogle_attended'
-      resources :registrations, except: [:create, :new]
+      resources :registrations, except: [:create, :new] do
+        member do
+          patch :present
+          patch :absent
+        end
+      end
 
+      # Singletons
+      resource :splashpage
+      resource :call_for_paper
+      resource :venue
       resource :registration_period
 
-      resource :splashpage
-
-      resource :venue
-
-      resources :difficulty_levels, only: [:show, :update, :index]
-
+      resources :tickets
+      resources :tracks
+      resources :event_types
+      resources :difficulty_levels
       resources :rooms, except: [:show]
-
-      resources :tracks, only: [:show, :update, :index]
+      resources :sponsors, except: [:show]
+      resources :lodgings, except: [:show]
+      resources :targets, except: [:show]
+      resources :campaigns, except: [:show]
+      resources :emails, only: [:show, :update, :index]
 
       resources :sponsorship_levels, except: [:show] do
 	member do
@@ -55,35 +64,11 @@ Osem::Application.routes.draw do
 	end
       end
 
-      resources :sponsors, only: [:show, :update, :index]
-
-      resources :lodgings
-
-      resources :targets, only: [:update, :index]
-
-      resources :campaigns
-
-      resources :event_types, only: [:show, :index] do
+      resources :questions do
         collection do
-          patch :update
+          patch :update_conference
         end
       end
-
-      resources :social_events, only: [:show, :update, :index]
-
-      resources :tickets
-
-      resources :emails, only: [:show, :update, :index]
-
-      resources :callforpapers, only: [:create] do
-        collection do
-          patch :update
-          get :show
-        end
-      end
-
-      patch '/questions/update_conference' => 'questions#update_conference'
-      resources :questions
 
       resources :events do
         member do

@@ -22,18 +22,6 @@ describe ConferenceController do
         expect(response).to render_template :show
       end
     end
-
-    context 'gallery photos for splash' do
-      it 'return conference photos' do
-        xhr :get, :gallery_photos, id: conference.short_title
-        expect(assigns(:photos)).to eq conference.photos
-      end
-
-      it 'renders photos template' do
-        xhr :get, :gallery_photos, id: conference.short_title
-       expect(response).to render_template :photos
-      end
-    end
   end
 
   describe 'OPTIONS #index' do

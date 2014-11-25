@@ -1,5 +1,5 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :size, :public, :conference_id
+  attr_accessible :name, :size, :conference_id
 
   belongs_to :conference
   has_many :events
@@ -9,8 +9,6 @@ class Room < ActiveRecord::Base
   validates :name, presence: true
 
   validates :size, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
-
-  validates :size, presence: true, if: :public?
 
   private
 

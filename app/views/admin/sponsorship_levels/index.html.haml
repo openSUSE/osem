@@ -1,9 +1,13 @@
-%h1 Sponsorship Levels
-
+.row
+  .col-md-12
+    .page-header
+      %h1 Sponsorship Levels
+      %p.text-muted
+        Classify your sponsors
 - if @conference.sponsorship_levels.any?
   .row
     .col-md-12
-      %table.table#sponsorship_levels
+      %table.table.table-hover#sponsorship_levels
         %thead
           %th Title
           %th Position
@@ -25,5 +29,6 @@
                 method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_conference_sponsorship_level_path(@conference.short_title, sponsorship_level.id),
                 method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsorship level #{sponsorship_level.title}?" }
-
-= link_to 'New Sponsorship Level', new_admin_conference_sponsorship_level_path(@conference.short_title), class: 'btn btn-success'
+.row
+  .col-md-12
+    = link_to 'New Sponsorship Level', new_admin_conference_sponsorship_level_path(@conference.short_title), class: 'btn btn-success pull-right'

@@ -8,11 +8,11 @@
             = date_string(@conference.start_date, @conference.end_date)
   .row
     .col-md-6
-      - if @conference.venue.name and @conference.venue.website and @conference.venue.street
+      - if @conference.venue
         %p
           %small
             at
-            = link_to @conference.venue.name, @conference.venue.website
+            = link_to @conference.venue.name
             ,
             = link_to @conference.venue.address, "http://maps.google.com/maps?q=#{@conference.venue.address}"
     .col-md-4

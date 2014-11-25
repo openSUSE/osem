@@ -1,3 +1,9 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Venue
+      %p.text-muted
+        The place where your conference takes place
 -if @venue
   .row
     .col-md-6
@@ -20,6 +26,6 @@
         Delete Venue
 -else
   .row
-    .col-md-12
-      = link_to(new_admin_conference_venue_path(@conference.short_title), class: 'btn btn-success') do
+    .col-md-12.text-right
+      = link_to(new_admin_conference_venue_path(@conference.short_title), class: 'btn btn-primary') do
         Create Venue

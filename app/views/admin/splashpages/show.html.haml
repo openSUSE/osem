@@ -1,5 +1,11 @@
-%h1 Splashpage
-%br
+.row
+  .col-md-12
+    .page-header
+      %h1 Splashpage
+      %p.text-muted
+        Build a 
+        = link_to "splash page", conference_path(@conference.short_title)
+        with all the information for your conference
 - if @splashpage
   .row
     .col-md-8
@@ -53,13 +59,15 @@
             Yes
           - else
             No
-
-  %br
-  - if can? :update, @splashpage
-    = link_to 'Edit', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
-  - if can? :destroy, @splashpage
-    = link_to 'Delete', admin_conference_splashpage_path,
-                        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+  .row
+    .col-md-12
+    - if can? :update, @splashpage
+      = link_to 'Edit', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
+    - if can? :destroy, @splashpage
+      = link_to 'Delete', admin_conference_splashpage_path,
+                          method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
-  - if can? :create, @conference
-    = link_to 'Create Splashpage', new_admin_conference_splashpage_path, class: 'btn btn-primary'
+  .row
+    .col-md-12.text-right
+      - if can? :create, @conference
+        = link_to 'Create Splashpage', new_admin_conference_splashpage_path, class: 'btn btn-primary'

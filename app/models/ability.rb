@@ -78,16 +78,12 @@ class Ability
     # the user can also vote
     can :manage, Event, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :create, Event
-    can :manage, CallForPapers, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, EventType, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Track, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, DifficultyLevel, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, EmailSettings, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Campaign, conference_id: conf_ids_for_organizer
-    can :manage, Venue, conference_id: conf_ids_for_organizer
-    can :index, Venue, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Lodging, conference_id: conf_ids_for_organizer
-    can :manage, Photo, conference_id: conf_ids_for_organizer
     can :manage, Room, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
@@ -99,14 +95,16 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(conference_id: conf_ids_for_organizer + conf_ids_for_cfp).pluck(:id)
     can :manage, Contact, conference_id: conf_ids_for_organizer
     can :manage, Campaign, conference_id: conf_ids_for_organizer
-    can :manage, Photo, conference_id: conf_ids_for_organizer
     can :manage, RegistrationPeriod, conference_id: conf_ids_for_organizer
     can :manage, Splashpage, conference_id: conf_ids_for_organizer
+    can :manage, CallForPaper, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
+    can :manage, Venue, conference_id: conf_ids_for_organizer
+    can :index, Venue, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
   end
 
   def guest
     ## Abilities for everyone, even guests (not logged in users)
-    can [:index, :show, :gallery_photos], Conference do |conference|
+    can [:index, :show], Conference do |conference|
       conference.splashpage && conference.splashpage.public == true
     end
 

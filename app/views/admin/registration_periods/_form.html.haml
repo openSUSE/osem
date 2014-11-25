@@ -1,7 +1,11 @@
-%h1 Registration Period
+.row
+  .col-md-12
+    .page-header
+      %h1 Registration Period
 .row
   .col-md-8
     = semantic_form_for(@registration_period, url: admin_conference_registration_period_path(@conference.short_title)) do |f|
       = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', readonly: 'readonly'  }
       = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly'  }
-      = f.submit 'Save Registration Period', class: 'btn btn-primary'
+      %p.text-right
+        = f.submit 'Save Registration Period', class: 'btn btn-primary'

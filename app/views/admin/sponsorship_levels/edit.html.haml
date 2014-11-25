@@ -1,8 +1,0 @@
-%h1 Editing Sponsorship Level
-
-.row
-  .col-md-8
-    = semantic_form_for @sponsorship_level, url: admin_conference_sponsorship_level_path(conference_id: @conference.short_title, id: @sponsorship_level.id) do |f|
-      = render 'form', f: f
-
-= link_to 'Back', admin_conference_sponsorship_levels_path

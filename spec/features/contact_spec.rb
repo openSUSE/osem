@@ -14,7 +14,7 @@ feature Contact do
       sign_in organizer
 
       visit edit_admin_conference_contact_path(conference.short_title)
-      click_link 'Edit'
+
       fill_in 'contact_email', with: 'example@example.com'
       fill_in 'contact_sponsor_email', with: 'sponsor@example.com'
       fill_in 'contact_social_tag', with: 'example'
@@ -24,9 +24,9 @@ feature Contact do
       fill_in 'contact_googleplus', with: 'http:\\www.google.com'
 
       click_button 'Update Contact'
+
       expect(flash).
           to eq('Contact details were successfully updated.')
-
       contact.reload
       expect(contact.email).to eq('example@example.com')
       expect(contact.sponsor_email).to eq('sponsor@example.com')

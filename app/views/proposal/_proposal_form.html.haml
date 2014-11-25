@@ -18,7 +18,7 @@
       Event type: #{@event.event_type.title}
       %br
       %br
-    = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.use_difficulty_levels
+    = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.difficulty_levels.any?
     = f.input :require_registration
     = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
       :required => true, :label => "Session Abstract"

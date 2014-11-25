@@ -39,9 +39,8 @@ feature Conference do
       expected_count = Conference.count
 
       sign_in organizer
-
       visit edit_admin_conference_path(conference.short_title)
-      click_link 'Edit'
+
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: ''
 
@@ -49,9 +48,9 @@ feature Conference do
       expect(flash).
           to eq("Updating conference failed. Short title can't be blank.")
 
-      click_link 'Edit'
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
+
       day = Date.today + 10
       page.
           execute_script("$('#conference-start-datepicker').val('" +

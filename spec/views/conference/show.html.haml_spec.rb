@@ -24,8 +24,8 @@ describe 'conference/show.html.haml' do
                                              start_date: Date.yesterday,
                                              end_date: Date.tomorrow)
 
-    @conference.call_for_papers = create(:call_for_papers, conference: @conference,
-                                                           include_cfp_in_splash: true)
+    @conference.call_for_paper = create(:call_for_paper, conference: @conference,
+                                                         include_cfp_in_splash: true)
 
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
     @sponsorship_level = @conference.sponsorship_levels.first
@@ -50,7 +50,7 @@ describe 'conference/show.html.haml' do
     expect(view).to render_template(partial: 'conference/_registration')
   end
 
-  it 'renders call_for_papers partial' do
+  it 'renders call_for_paper partial' do
     expect(rendered).to match(/We are ready to accept your proposals for sessions!/)
   end
 

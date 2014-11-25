@@ -25,7 +25,7 @@
                 = link_to "Modify Registration", edit_conference_conference_registrations_path(conference.short_title), :class =>"btn btn-default"
               - else
                 = link_to "Register", new_conference_conference_registrations_path(conference.short_title), :class =>"btn btn-success"
-            = link_to "Schedule", conference_schedule_path(conference.short_title), :class =>"btn btn-default" if conference.call_for_papers and conference.call_for_papers.schedule_public
+            = link_to "Schedule", conference_schedule_path(conference.short_title), :class =>"btn btn-default" if conference.call_for_paper and conference.call_for_paper.schedule_public
             - if !current_user.nil? && current_user.proposal_count(conference) > 0
               = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class =>"btn btn-default"
             - elsif conference.cfp_open?

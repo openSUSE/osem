@@ -94,7 +94,7 @@ describe 'User' do
       let(:user) { create(:user, role_ids: role.id) }
       let(:event) { create(:event, conference_id: conference1.id) }
       let(:someevent) { create(:event, conference_id: conference2.id) }
-      let(:cfp) { create(:call_for_papers, conference: conference1) }
+      let(:cfp) { create(:call_for_paper, conference: conference1) }
 
       it{ should_not be_able_to(:manage, conference1) }
       it{ should_not be_able_to(:manage, conference2) }

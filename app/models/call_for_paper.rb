@@ -1,8 +1,8 @@
-class CallForPapers < ActiveRecord::Base
-  attr_accessible :start_date, :end_date,
-                  :description, :schedule_changes, :rating,
-                  :schedule_public, :include_cfp_in_splash, :conference_id
+class CallForPaper < ActiveRecord::Base
   belongs_to :conference
+  attr_accessible :start_date, :end_date,
+                  :schedule_changes, :rating,
+                  :schedule_public, :include_cfp_in_splash, :conference_id
 
   validates_presence_of :start_date, :end_date
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }

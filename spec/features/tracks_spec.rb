@@ -6,47 +6,60 @@ feature Track do
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
   shared_examples 'tracks' do
-    scenario 'adds and updates tracks', feature: true, js: true do
+    scenario 'adds a track', feature: true, js: true do
 
       sign_in organizer
 
-      visit admin_conference_tracks_path(
-                conference_id: conference.short_title)
+      visit admin_conference_tracks_path(conference_id: conference.short_title)
+      click_link 'New Track'
 
-      # Add track
-      click_link 'Add track'
-      expect(page.all('div.nested-fields').count == 1).to be true
+      fill_in 'track_name', with: 'Distribution'
+      page.find('#track_color').set('#B94D4D')
+      fill_in 'track_description', with: 'Events about our Linux distribution'
+      click_button 'Create Track'
 
-      page.
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example track')
-      page.
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
-          set('#ff0000')
-      page.
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(3) textarea').
-          set('Example room description')
+      expect(flash).to eq('Track successfully created.')
+      within('table#tracks') do
+        expect(page.has_content?('Distribution')).to be true
+        expect(page.has_content?('Events about our Linux')).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
+    end
 
-      click_button 'Update Conference'
+    scenario 'deletes a track', feature: true, js: true do
+      track = create(:track, conference_id: conference.id)
+      sign_in organizer
 
-      # Validations
-      expect(flash).to eq('Tracks were successfully updated.')
-      expect(
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-                 value).to eq('Example track')
-      expect(
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) input').
-                 value).to eq('#ff0000')
-      expect(
-          find('div.nested-fields:nth-of-type(1) div:nth-of-type(3) textarea').
-                 value).to eq('Example room description')
+      visit admin_conference_tracks_path(conference_id: conference.short_title)
 
-      # Remove track
-      click_link 'Remove track'
-      expect(page.all('div.nested-fields').count == 0).to be true
-      click_button 'Update Conference'
-      expect(flash).to eq('Tracks were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
+      click_link 'Delete'
+
+      expect(flash).to eq('Track successfully deleted.')
+      within('table#tracks') do
+        expect(page.has_content?(track.name)).to be false
+        expect(page.has_content?(track.description)).to be false
+        expect(page.assert_selector('tr', count: 1)).to be true
+      end
+    end
+
+    scenario 'updates a track', feature: true, js: true do
+      create(:track, conference_id: conference.id)
+      sign_in organizer
+
+      visit admin_conference_tracks_path(conference_id: conference.short_title)
+      click_link 'Edit'
+
+      fill_in 'track_name', with: 'Distribution'
+      page.find('#track_color').set('#B94D4D')
+      fill_in 'track_description', with: 'Events about our Linux distribution'
+      click_button 'Update Track'
+
+      expect(flash).to eq('Track successfully updated.')
+      within('table#tracks') do
+        expect(page.has_content?('Distribution')).to be true
+        expect(page.has_content?('Events about our Linux')).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
     end
   end
 

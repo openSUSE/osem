@@ -39,12 +39,9 @@
         - if can? :index, @conference.commercials.build
           %li{:class=> "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
             = link_to 'Commercials', admin_conference_commercials_path(@conference.short_title)
-        - if can? :update, @conference.photos.build
-          %li{:class=> "#{active_nav_li(admin_conference_photos_path(@conference.short_title))}"}
-            = link_to 'Photos', admin_conference_photos_path(@conference.short_title)
         - if can? :update, @conference
           %li{:class=> active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
-            = link_to 'Splashpage', edit_admin_conference_splashpage_path(@conference.short_title)
+            = link_to 'Splashpage', admin_conference_splashpage_path(@conference.short_title)
   - if can? :index, Venue.new(conference_id: @conference.id)
     %li{:class=> "#{active_nav_li(admin_conference_venue_path(@conference.short_title))}"}
       = link_to(admin_conference_venue_path(@conference.short_title)) do
@@ -65,9 +62,9 @@
         - if can? :update, @conference.events.build
           %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
             = link_to 'Events', admin_conference_events_path(@conference.short_title)
-        - if can? :update, CallForPapers.new(conference_id: @conference.id)
-          %li{:class=> "#{active_nav_li(admin_conference_callforpapers_path(@conference.short_title))}"}
-            = link_to 'Call for Papers', admin_conference_callforpapers_path(@conference.short_title)
+        - if can? :update, CallForPaper.new(conference_id: @conference.id)
+          %li{:class=> "#{active_nav_li(admin_conference_call_for_paper_path(@conference.short_title))}"}
+            = link_to 'Call for Papers', admin_conference_call_for_paper_path(@conference.short_title)
         - if can? :update, @conference.tracks.build
           %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
             = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)

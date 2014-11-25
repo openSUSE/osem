@@ -1,32 +1,30 @@
-%h1 Rooms
+.row
+  .col-md-12
+    .page-header
+      %h1 Rooms
+      %p.text-muted
+        The rooms of your conference venue
 
 - if @conference.rooms.any?
   .row
     .col-md-12
-      %table.table#rooms
+      %table.table.table-hover#rooms
         %thead
-          %th #
           %th Name
           %th Size
-          %th Public
-          %th Edit
-          %th Delete
+          %th Actions
         %tbody
           - @conference.rooms.each_with_index do |room, index|
             %tr
-              %td
-                = index + 1
               %td
                 = room.name
               %td
                 = room.size
               %td
-                = room.public
-              %td
                 = link_to 'Edit', edit_admin_conference_room_path(@conference.short_title, room.id),
                 method: :get, class: 'btn btn-primary'
-              %td
                 = link_to 'Delete', admin_conference_room_path(@conference.short_title, room.id),
                 method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{room.name}?" }
-
-= link_to 'New Room', new_admin_conference_room_path(@conference.short_title), class: 'btn btn-success'
+.row
+  .col-md-12.text-right
+    = link_to 'Add Room', new_admin_conference_room_path(@conference.short_title), class: 'btn btn-primary'

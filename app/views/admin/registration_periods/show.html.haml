@@ -1,7 +1,12 @@
-%h1 Registration Period
+.row
+  .col-md-12
+    .page-header
+      %h1 Registration Period
+      %p.text-muted
+        The stretch of time where people can register to your conference
 - if @registration_period
   .row
-    .col-md-6
+    .col-md-8
       %dl.dl-horizontal
         %dt
           Start Date
@@ -11,12 +16,14 @@
           End Date
         %dd
           = @registration_period.end_date
-
-  - if can? :update, @registration_period
-    = link_to 'Edit', edit_admin_conference_registration_period_path, class: 'btn btn-primary'
-  - if can? :destroy, @registration_period
-    = link_to 'Delete', admin_conference_registration_period_path,
-                        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-- else
-  - if can? :create, @conference
-    = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'
+.row
+  .col-md-12.text-right
+    - if @registration_period
+      - if can? :update, @registration_period
+        = link_to 'Edit', edit_admin_conference_registration_period_path, class: 'btn btn-primary'
+      - if can? :destroy, @registration_period
+        = link_to 'Delete', admin_conference_registration_period_path,
+        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+    - else
+      - if can? :create, @conference
+        = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'

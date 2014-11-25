@@ -1,32 +1,31 @@
 .row
   .col-md-12
     .page-header
-      %h2
+      %h1
         Registrations
-        - if @registrations
-          = "(#{@registrations.length})"
-        = " - Attended (#{@attended})"
+        = "(#{@registrations.length})" if @registrations
         .btn-group.pull-right
           - if can? :read, Registration
             = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-default"
             = link_to "Export XLS", {:format => :xlsx}, :class => "btn btn-default"
-    %table.table.table-bordered.table-striped.table-hover#registrations-datatable
+      %p.text-muted
+        All the people who registered to your event
+    %table.table.table-hover.datatable#registrations
       %thead
         %tr
-          %th #
+          %th ID#
           %th Name
           %th E-Mail
           %th Arrival
           %th Departure
-          %th Attended
-          %th Questions
-          %th Edit
-          %th Delete
+          - if @conference.questions.any?
+            %th Questions
+          %th Actions
       %tbody
         - @registrations.each_with_index do |registration, index|
           %tr
             %td
-              = index + 1
+              = registration.id
             %td
               = registration.name
             %td
@@ -41,17 +40,32 @@
                 = registration.departure.strftime("%d %b %H:%M")
               - else
                 n/a
+            -if @conference.questions.any?
+              %td
+                = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
             %td
-              = link_to "#{registration.attended}", admin_conference_registrations_toogle_attended_path(@conference.short_title, id: registration.id),
-              method: :patch, class: 'btn btn-success'
-            %td
-              = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
-            %td
-              = link_to 'Edit', edit_admin_conference_registration_path(@conference.short_title, id: registration),
-              method: :get, class: 'btn btn-primary'
-            %td
-              = link_to 'Delete', admin_conference_registration_path(@conference.short_title, registration),
-              method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Registration for #{registration.name}?" }
+              .btn-group
+                .btn-group
+                  - if registration.attended
+                    - btnclass = 'btn-success'
+                  - else
+                    - btnclass = 'btn-warning'
+                  %button{type: "button", class: "btn #{btnclass} dropdown-toggle", "data-toggle" => "dropdown", "aria-expanded" => "false"}
+                    - if registration.attended
+                      Present
+                    - else
+                      Absent
+                    %span.caret
+                  %ul.dropdown-menu{role: "menu"}
+                    %li
+                      = link_to "Present", present_admin_conference_registration_path(@conference.short_title, id: registration.id),
+                      method: :patch
+                      = link_to "Absent" , absent_admin_conference_registration_path(@conference.short_title, id: registration.id),
+                      method: :patch
+                = link_to 'Edit', edit_admin_conference_registration_path(@conference.short_title, id: registration),
+                method: :get, class: 'btn btn-primary'
+                = link_to 'Delete', admin_conference_registration_path(@conference.short_title, registration),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Registration for #{registration.name}?" }
   - @registrations.each_with_index do |registration, index|
     .questions{class: "question#{index}", style: 'display:none;'}
       = render partial: 'questions', locals: { registration: registration }
