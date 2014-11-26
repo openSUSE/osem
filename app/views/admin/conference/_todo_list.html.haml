@@ -17,8 +17,8 @@
       Set up registration period
   %li{'class'=>class_for_todo(conference_progress['cfp'])}
     %span{'class'=>icon_for_todo(conference_progress['cfp'])}
-    - if can? :update, CallForPapers.new(conference_id: @conference.id)
-      = link_to 'Set up call for papers', admin_conference_callforpapers_path(conference_progress['short_title'])
+    - if can? :update, CallForPaper.new(conference_id: @conference.id)
+      = link_to 'Set up call for papers', admin_conference_call_for_paper_path(conference_progress['short_title'])
     - else
       Set up call for papers
   %li{'class'=>class_for_todo(conference_progress['venue'])}

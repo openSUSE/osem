@@ -33,9 +33,9 @@
       %section#program
         = render 'program'
 
-    - if @conference.cfp_open? and @conference.call_for_papers.include_cfp_in_splash?
+    - if @conference.cfp_open? and @conference.call_for_paper.include_cfp_in_splash?
       %section#callforpapers
-        = render 'call_for_papers'
+        = render 'call_for_paper'
 
     - if @conference.venue and @conference.splashpage.include_venue
       %section#venue

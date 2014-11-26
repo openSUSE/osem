@@ -14,7 +14,7 @@ feature Room do
       expect(page.has_no_table?('#rooms')).to be true
 
       # Add room
-      click_link 'New Room'
+      click_link 'Add Room'
 
       fill_in 'room_name', with: 'Auditorium'
       fill_in 'room_size', with: '100'

@@ -1,25 +1,54 @@
 module Admin
   class TargetsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    authorize_resource through: :conference
+    load_and_authorize_resource :target, through: :conference
 
     def index
-      authorize! :index, Target.new(conference_id: @conference.id)
+      authorize! :update, Target.new(conference_id: @conference.id)
     end
 
-    def update
-      authorize! :update, @conference => Target
+    def new
+      @target = @conference.targets.new
+    end
 
-      if @conference.update_attributes(params[:conference])
-        redirect_to(admin_conference_targets_path(
-                    conference_id: @conference.short_title),
-                    notice: 'Targets were successfully updated.')
+    def create
+      @target = @conference.targets.new(target_params)
+      if @target.save(target_params)
+        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
+                    notice: 'Target successfully created.')
       else
-        redirect_to(admin_conference_targets_path(
-                    conference_id: @conference.short_title),
-                    alert: 'Targets update failed: ' \
-                    "#{@conference.errors.full_messages.join('. ')}")
+        flash[:alert] = "Creating target failed: #{@target.errors.full_messages.join('. ')}."
+        render :new
       end
+    end
+
+    def edit; end
+
+    def update
+      if @target.update_attributes(target_params)
+        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
+                    notice: 'Target successfully updated.')
+      else
+        flash[:alert] = "Target update failed: #{@target.errors.full_messages.join('. ')}."
+        render :edit
+      end
+    end
+
+    def destroy
+      if @target.destroy
+        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
+                    notice: 'Target successfully destroyed.')
+      else
+        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
+                    alert: 'Target was successfully destroyed.' \
+                    "#{@target.errors.full_messages.join('. ')}.")
+      end
+    end
+
+    private
+
+    def target_params
+      params[:target]
     end
   end
 end

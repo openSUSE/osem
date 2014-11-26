@@ -1,18 +1,21 @@
-= render :partial => "events_stats"
-
 .row
   .col-md-12
-    %h2
-      Events
-      - if @events
-        = "(#{@events.length})"
+    .page-header
+      %h1
+        Events
+        - if @events.any?
+          = "(#{@events.length})"
+      %p.text-muted
+        All the submissions of your speakers
+.row
+  .col-md-12
     %table.table.table-striped.table-bordered.table-hover.datatable
       %thead
         %th
           %b ID
         %th
           %b Title
-        - if @conference.call_for_papers && @conference.call_for_papers.rating && @conference.call_for_papers.rating > 0
+        - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
           %th
             %b Rating
         %th
@@ -34,21 +37,21 @@
           %td
             =link_to event.title, admin_conference_event_path(@conference.short_title, event)
 
-          - if @conference.call_for_papers && @conference.call_for_papers.rating && @conference.call_for_papers.rating > 0
+          - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
             %td{:style => "width:96px"}
               - if event.average_rating.to_f > 0
-                #{event.average_rating}/#{@conference.call_for_papers.rating}
+                #{event.average_rating}/#{@conference.call_for_paper.rating}
                 %br
                 #{pluralize(event.voters.length, 'voter')}
                 %br
-                - @conference.call_for_papers.rating.times do |counter|
+                - @conference.call_for_paper.rating.times do |counter|
                   - if event.average_rating.to_f.round == counter+1
                     = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
                     = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
                   - else
                     = label_tag "label_rating", "", :class => "avgrating"
               - else
-                0/#{@conference.call_for_papers.rating}
+                0/#{@conference.call_for_paper.rating}
               %br
 
           - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
@@ -94,7 +97,7 @@
                   %li= link_to track.name, admin_conference_event_path(@conference.short_title, event, :track_id => track.id) ,
                     :method => :put, :track_id => track.id
           %td
-            = event.difficulty_level.title if @conference.use_difficulty_levels && event.difficulty_level
+            = event.difficulty_level.title if event.difficulty_level
           %td
             - if event.state == "withdrawn"
               Withdrawn

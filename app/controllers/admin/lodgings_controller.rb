@@ -6,8 +6,6 @@ module Admin
     def index
     end
 
-    def show; end
-
     def new
       @lodging = @conference.lodgings.new
     end
@@ -27,7 +25,7 @@ module Admin
 
     def update
       if @lodging.update_attributes(lodging_params)
-        redirect_to(admin_conference_lodging_path(conference_id: @conference.short_title, id: @lodging.id),
+        redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
                     notice: 'Lodging successfully updated.')
       else
         flash[:error] = "Update Lodging failed: #{@lodging.errors.full_messages.join('. ')}."

@@ -1,32 +1,55 @@
 module Admin
   class DifficultyLevelsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    authorize_resource through: :conference
+    load_and_authorize_resource :difficulty_level, through: :conference
 
     def index
       authorize! :index, DifficultyLevel.new(conference_id: @conference.id)
     end
 
-    def update
-      if @conference.update_attributes(params[:conference])
-        if !(@conference.difficulty_levels.count > 0) && @conference.use_difficulty_levels == true
-          begin
-            @conference.use_difficulty_levels = false
-            @conference.save!
-            flash[:error] = 'You cannot enable the usage of difficulty levels without having set any levels.'
-            redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
-          rescue ActiveRecord::RecordInvalid
-            flash[:error] = 'Something went wrong. Difficulty Levels update failed.'
-            redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
-          end
-        else
-          flash[:notice] = 'Difficulty Levels were successfully updated.'
-          redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
-        end
+    def edit; end
+
+    def new
+      @difficulty_level = @conference.difficulty_levels.new
+    end
+
+    def create
+      @difficulty_level = @conference.difficulty_levels.new(difficulty_level_params)
+      if @difficulty_level.save
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title),
+                    notice: 'Difficulty level successfully created.')
       else
-        flash[:error] = 'Difficulty Levels update failed.'
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
+        flash[:error] = "Creating difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
+        render :new
       end
+    end
+
+    def update
+      if @difficulty_level.update_attributes(difficulty_level_params)
+        redirect_to(admin_conference_difficulty_levels_path(
+                    conference_id: @conference.short_title),
+                    notice: 'Difficulty level successfully updated.')
+      else
+        flash[:error] = "Update difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
+        render :edit
+      end
+    end
+
+    def destroy
+      if @difficulty_level.destroy
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title),
+                    notice: 'Difficulty level successfully deleted.')
+      else
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title),
+                    error: 'Deleting difficulty level type failed! ' \
+                    "#{@difficulty_level.errors.full_messages.join('. ')}.")
+      end
+    end
+
+    private
+
+    def difficulty_level_params
+      params[:difficulty_level]
     end
   end
 end

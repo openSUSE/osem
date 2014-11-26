@@ -1,0 +1,31 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        = @track.name
+        Track
+      %p.text-muted
+        Events in this track
+.row
+  .col-md-12
+    %table.table.table-hover.datatable
+      %thead
+        %th Title
+        %th Type
+        %th Submitter
+        %th State
+        %th Time
+      %tbody
+        - @track.events.each_with_index do |event|
+          %tr
+            %td
+              =link_to event.title, admin_conference_event_path(@conference.short_title, event)
+            %td
+              = event.event_type.title
+            %td
+              =link_to event.submitter.name, admin_user_path(event.submitter)
+            %td
+              = event.state
+            %td
+              = event.start_time
+

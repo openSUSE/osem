@@ -15,58 +15,30 @@ feature Sponsor do
       visit admin_conference_sponsors_path(
                 conference_id: conference.short_title)
       # Add sponsors
-      click_link 'Add sponsor'
+      click_link 'Add Sponsor'
 
-      expect(page.all('div.nested-fields').count == 1).to be true
-
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) input').
-          set('Example sponsor')
-
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(2) textarea').
-          set('Lorem Ipsum')
-
+      fill_in 'sponsor_name', with: 'SUSE'
+      fill_in 'sponsor_description', with: 'The original provider of the enterprise Linux distribution'
       attach_file 'Logo', path
+      fill_in 'sponsor_website_url', with: 'http://www.suse.com'
+      select('Platin', from: 'sponsor_sponsorship_level_id')
 
-      page.
-      find('div.nested-fields:nth-of-type(1) div:nth-of-type(4) input').
-          set('http://www.example.com')
+      click_button 'Create Sponsor'
 
-      find(:css, "select[id^='conference_sponsors_attributes_']"\
-                 "[id$='_sponsorship_level_id']").
-                      find(:option, 'Platin').select_option
-
-      click_button 'Update Conference'
-
-      expect(flash).to eq('Sponsorships were successfully updated.')
-
-      expect(find('div.nested-fields:nth-of-type(1)'\
-                  ' div:nth-of-type(1) input').
-                      value).to eq('Example sponsor')
-
-      expect(find('div.nested-fields:nth-of-type(1)'\
-                  ' div:nth-of-type(2) textarea').
-                      value).to eq('Lorem Ipsum')
-
-      expect(page).to have_selector("img[src*='rails.png']")
-
-      expect(find('div.nested-fields:nth-of-type(1)'\
-                  ' div:nth-of-type(4) input').
-                      value).to eq('http://www.example.com')
-
-      expect(find('div.nested-fields:nth-of-type(1)'\
-                  ' div:nth-of-type(5) select:nth-of-type(1)').find('option[selected]').
-                      text).to eq('Platin')
+      expect(flash).to eq('Sponsor successfully created.')
+      within('table#sponsors') do
+        expect(page.has_content?('SUSE')).to be true
+        expect(page.has_content?('The original provider')).to be true
+        expect(page.has_content?('http://www.suse.com')).to be true
+        expect(page.has_content?('Platin')).to be true
+        expect(page).to have_selector("img[src*='rails.png']")
+        expect(page.assert_selector('tr', count: 2)).to be true
+      end
 
       # Remove sponsor
-      click_link 'Remove sponsor'
-      expect(page.all('div.nested-fields').count == 0).to be true
-
-      find('button', text: 'Update Conference').trigger('click')
-
-      expect(flash).to eq('Sponsorships were successfully updated.')
-      expect(page.all('div.nested-fields').count == 0).to be true
+      click_link 'Delete'
+      expect(flash).to eq('Sponsor successfully deleted.')
+      expect(page).to_not have_selector('table#sponsors')
     end
   end
 

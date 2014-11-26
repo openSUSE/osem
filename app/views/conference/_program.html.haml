@@ -17,7 +17,7 @@
                   = track.name
                 = markdown(track.description)
 
-  - if @conference.call_for_papers and @conference.call_for_papers.schedule_public
+  - if @conference.call_for_paper and @conference.call_for_paper.schedule_public
     .row
       .col-md-12
         %p.cta-button.text-center

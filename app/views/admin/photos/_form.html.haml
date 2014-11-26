@@ -1,7 +1,0 @@
-= f.inputs do
-  - if !f.object.errors
-    = image_tag(f.object.picture(:thumb)) unless f.object.picture.blank?
-  = f.input :picture, hint: 'This photo will appear in the gallery of the splash so please give photos of banner sizes.'
-  = f.input :description, :input_html => {:rows => 2 }, hint: 'This description will appear at the bottom of each photo.'
-  .actions
-  = f.button 'Save Photo', :class => 'btn btn-primary'

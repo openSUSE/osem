@@ -1,4 +1,7 @@
-%h1 Splashpage
+.row
+  .col-md-12
+    .page-header
+      %h1 Splashpage
 .row
   .col-md-8
     = semantic_form_for(@splashpage, url: admin_conference_splashpage_path(@conference.short_title)) do |f|
@@ -11,5 +14,7 @@
         = f.input :include_lodgings, label: 'Display the lodgings on the splashpage?'
         = f.input :include_sponsors, label: 'Display sponsors on the splashpage?'
         = f.input :include_social_media, label: 'Display social media on the splashpage?'
-      = f.input :public, label: 'Make splash page public?'
-      = f.submit 'Save Splashpage', class: 'btn btn-primary'
+      = f.inputs name: 'Access' do
+        = f.input :public, label: 'Make splash page public?'
+      %p.text-right
+        = f.submit 'Save Splashpage', class: 'btn btn-primary'

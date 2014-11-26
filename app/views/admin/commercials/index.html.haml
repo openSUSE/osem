@@ -1,10 +1,11 @@
-%h1 Commercials
-
-%p.text-muted
-  You can add commercials for your conference. These commercials will be displayed on the event detail site if
-  the event submitter doesn't add a commercial. Currently supported commercial types are YouTube, Vimeo, Instagram
-  Flickr, Speakerdeck and SlideShare.
-
+.row
+  .col-md-12
+    .page-header
+      %h1 Commercials
+      %p.text-muted
+        Conference commercials will be displayed on the events in the
+        = link_to "schedule,", conference_schedule_path(@conference.short_title)
+        if the event speaker didn't add an event commercial.
 - @commercials.each_slice(3) do |slice|
   .row
     - slice.each do |commercial|
@@ -14,11 +15,13 @@
             = commercial.commercial_type
           .flexvideo
             = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
-          - if can? :update, commercial
-            = link_to 'Edit', edit_admin_conference_commercial_path(@conference.short_title, commercial.id), class: 'btn btn-primary'
-          - if can? :destroy, commercial
-            = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
-              method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-- if can? :create, @conference.commercials.new
-  %br
-  = link_to 'New Commercial', new_admin_conference_commercial_path, class: 'btn btn-primary'
+          .caption
+            - if can? :update, commercial
+              = link_to 'Edit', edit_admin_conference_commercial_path(@conference.short_title, commercial.id), class: 'btn btn-primary'
+            - if can? :destroy, commercial
+              = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
+                method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+.row
+  .col-md-12.text-right
+    - if can? :create, @conference.commercials.new
+      = link_to 'Add Commercial', new_admin_conference_commercial_path, class: 'btn btn-primary'

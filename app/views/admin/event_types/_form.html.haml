@@ -1,0 +1,18 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        - if @event_type.new_record?
+          New
+        Event Type
+        = @event_type.title
+.row
+  .col-md-12
+    = semantic_form_for(@event_type, :url => (@event_type.new_record? ? admin_conference_event_types_path : admin_conference_event_type_path(@conference.short_title, @event_type))) do |f|
+      = f.input :title
+      = f.input :length, :input_html => {:size => 3}
+      = f.input :minimum_abstract_length, :input_html => {:size => 3}
+      = f.input :maximum_abstract_length, :input_html => {:size => 3}
+      = f.input :color, :input_html => { :size => 6, :type => 'color' }
+      %p.text-right
+        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

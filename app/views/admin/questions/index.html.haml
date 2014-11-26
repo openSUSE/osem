@@ -1,17 +1,21 @@
 .row
-  .col-md-8
-    .pull-right
-      - if can? :create, Question.new(conference_id: @conference.id)
-        %b= link_to 'Create New Question','#', 'data-toggle' => 'modal',
-                    'data-target' => '#new-question', class: 'btn btn-success'
-      %br
-      %br
+  .col-md-12
+    .page-header
+      %h1 
+        Questions
+        - if can? :create, Question.new(conference_id: @conference.id)
+          = link_to 'Create New Question','#', 'data-toggle' => 'modal',
+            'data-target' => '#new-question', class: 'btn btn-success pull-right'
+      %p.text-muted
+        People will have to answer your questions during registration to your conference
+.row
+  .col-md-12
     - if @questions.count > 0
-      = semantic_form_for(@conference, url: admin_conference_questions_update_conference_path(@conference.short_title)) do |f|
+      = semantic_form_for(@conference, url: update_conference_admin_conference_questions_path(@conference.short_title)) do |f|
         .questions{id: 'myquestions'}
           = render partial: 'questions'
         - if can? :update, @conference
-          = f.submit "Update Questions for #{@conference.short_title}", class: 'btn btn-primary',
+          = f.submit "Save Questions", class: 'btn btn-primary pull-right',
                       confirm: 'Are you sure you want to make these changes?'
 
     .modal.fade{id: 'new-question', 'role' => 'dialog', 'aria-hidden' => 'true'}

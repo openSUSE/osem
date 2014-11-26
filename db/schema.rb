@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118162030) do
+ActiveRecord::Schema.define(version: 20141121102656) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -32,16 +32,15 @@ ActiveRecord::Schema.define(version: 20141118162030) do
   end
 
   create_table "call_for_papers", force: true do |t|
-    t.date     "start_date",                                             null: false
-    t.date     "end_date",                                               null: false
-    t.text     "description",           limit: 16777215,                 null: false
+    t.date     "start_date",                            null: false
+    t.date     "end_date",                              null: false
     t.integer  "conference_id"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
-    t.boolean  "schedule_changes",                       default: false
-    t.integer  "rating",                                 default: 3
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "schedule_changes",      default: false
+    t.integer  "rating",                default: 3
     t.boolean  "schedule_public"
-    t.boolean  "include_cfp_in_splash",                  default: false
+    t.boolean  "include_cfp_in_splash", default: false
   end
 
   create_table "campaigns", force: true do |t|
@@ -388,11 +387,10 @@ ActiveRecord::Schema.define(version: 20141118162030) do
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id"
 
   create_table "rooms", force: true do |t|
-    t.string  "guid",                          null: false
+    t.string  "guid",          null: false
     t.integer "conference_id"
-    t.string  "name",                          null: false
+    t.string  "name",          null: false
     t.integer "size"
-    t.boolean "public",        default: false
   end
 
   create_table "social_events", force: true do |t|

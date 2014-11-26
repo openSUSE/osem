@@ -12,45 +12,40 @@ feature EventType do
       visit admin_conference_event_types_path(
                 conference_id: conference.short_title)
 
-      expect(page.all('div.nested-fields').count == 2).to be true
+      within('table#event_types') do
+        expect(page.assert_selector('tr', count: 3)).to be true
+      end
+
       # Add event type
-      click_link 'Add event_type'
-      expect(page.all('div.nested-fields').count == 3).to be true
+      click_link 'Add Event Type'
 
-      page.
-          find('div.nested-fields:nth-of-type(3) div:nth-of-type(1) input').
-          set('Example event type')
-      page.
-          find('div.nested-fields:nth-of-type(3) div:nth-of-type(2) input').
-          set('60')
-      page.
-          find('div.nested-fields:nth-of-type(3) div:nth-of-type(3) input').
-          set('0')
-      page.
-          find('div.nested-fields:nth-of-type(3) div:nth-of-type(4) input').
-          set('300')
+      fill_in 'event_type_title', with: 'Party'
+      fill_in 'event_type_length', with: '240'
+      fill_in 'event_type_minimum_abstract_length', with: '0'
+      fill_in 'event_type_maximum_abstract_length', with: '13042'
+      page.find('#event_type_color').set('#e4e4e4')
 
-      click_button 'Update Conference'
+      click_button 'Create Event type'
 
       # Validations
-      expect(flash).to eq('Event types were successfully updated.')
-      expect(find('div.nested-fields:nth-of-type(3) div:nth-of-type(1) input').
-                 value).to eq('Example event type')
-      expect(find('div.nested-fields:nth-of-type(3) div:nth-of-type(2) input').
-                 value).to eq('60')
-      expect(find('div.nested-fields:nth-of-type(3) div:nth-of-type(3) input').
-                 value).to eq('0')
-      expect(find('div.nested-fields:nth-of-type(3) div:nth-of-type(4) input').
-                 value).to eq('300')
+      expect(flash).to eq('Event type successfully created.')
+      within('table#event_types') do
+        expect(page.has_content?('Party')).to be true
+        expect(page.has_content?('13042')).to be true
+        expect(page.has_content?('#e4e4e4')).to be true
+        expect(page.assert_selector('tr', count: 4)).to be true
+      end
 
       # Remove event type
-      within('div.nested-fields:nth-of-type(3)') do
-	click_link 'Remove event_type'
+      within('tr', text: 'Party') do
+	click_link 'Delete'
       end
-      expect(page.all('div.nested-fields').count == 2).to be true
-      click_button 'Update Conference'
-      expect(flash).to eq('Event types were successfully updated.')
-      expect(page.all('div.nested-fields').count == 2).to be true
+      expect(flash).to eq('Event type successfully deleted.')
+
+      within('table#event_types') do
+        expect(page.assert_selector('tr', count: 3)).to be true
+        expect(page.has_content?('Party')).to be false
+      end
     end
   end
 

@@ -1,33 +1,35 @@
-%h1
-  = @ticket.title
-  %small
-    = humanized_money_with_symbol @ticket.price
-- if @ticket.description.present?
-  %p.lead
-    = markdown(@ticket.description)
+.row
+  .col-md-12
+    .page-header
+      %h1
+        = @ticket.title
+        Ticket
+        %small
+          = humanized_money_with_symbol @ticket.price
+      %p.text-muted
+        People who bought this ticket
+.row
+  .col-md-12
+    %table.table.table-hover.datatable
+      %thead
+        %th #
+        %th Name
+        %th E-Mail
+        %th Affiliation
+        %th Paid
+      %tbody
+        - @ticket.buyers.each_with_index do |buyer, index|
+          %tr
+            %td
+              = index + 1
+            %td
+              = buyer.name
+              %span.label.label-success
+                = buyer.ticket_purchases.find_by(ticket_id: @ticket.id).quantity
+            %td
+              = buyer.email
+            %td
+              = buyer.affiliation
+            %td
+              = @ticket.paid?(buyer)
 
-%h4 The following persons bought this ticket:
-%table.table.table-striped.table-bordered.table-hover.datatable
-  %thead
-    %th #
-    %th Name
-    %th E-Mail
-    %th Affiliation
-    %th Paid
-  %tbody
-    - @ticket.buyers.each_with_index do |buyer, index|
-      %tr
-        %td
-          = index + 1
-        %td
-          = buyer.name
-          %span.label.label-success
-            = buyer.ticket_purchases.find_by(ticket_id: @ticket.id).quantity
-        %td
-          = buyer.email
-        %td
-          = buyer.affiliation
-        %td
-          = @ticket.paid?(buyer)
-= link_to 'Edit', edit_admin_conference_ticket_path(@conference.short_title, @ticket.id),
-  method: :get, class: 'btn btn-primary'

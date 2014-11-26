@@ -165,9 +165,9 @@ describe Admin::ConferenceController do
         it 'assigns cfp_max an array with maximum weeks' do
           conference
           date = Date.new(2014, 05, 26)
-          conference.call_for_papers = create(:call_for_papers,
-                                              start_date: date,
-                                              end_date: date + 14)
+          conference.call_for_paper = create(:call_for_paper,
+                                             start_date: date,
+                                             end_date: date + 14)
           get :index
           expect(assigns(:cfp_weeks)).to match_array([1, 2, 3])
         end

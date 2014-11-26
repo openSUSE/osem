@@ -1,6 +1,0 @@
-%h1
-  New Ticket
-.row
-  .col-md-8
-    = semantic_form_for(@ticket, :url => admin_conference_tickets_path(@conference.short_title, @ticket)) do |f|
-      = render partial: 'form', locals: { f: f }

@@ -14,7 +14,7 @@ feature Commercial do
       sign_in organizer
 
       visit admin_conference_commercials_path(conference.short_title)
-      click_link 'New Commercial'
+      click_link 'Add Commercial'
 
       # Create without an commercial id
       select('SlideShare', from: 'commercial_commercial_type')
