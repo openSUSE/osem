@@ -24,9 +24,9 @@
           = link_to(conference_schedule_path(@conference.short_title), class: 'btn btn-default btn-lg') do
             Full Schedule
 
-
   %h3.text-center
     Don't miss out!
+  %br
   - if @conference.highlights.any?
     .row
       .col-md-12

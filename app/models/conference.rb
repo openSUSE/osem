@@ -566,8 +566,8 @@ class Conference < ActiveRecord::Base
     email_settings.updated_conference_registration_dates_template
   end
 
-  def keynote_speakers
-    User.with_role(:keynote_speaker, self)
+  def keynotes
+    events.where(state: 'confirmed').select { |e| e.event_type.title == 'Keynote'}
   end
 
   ##
