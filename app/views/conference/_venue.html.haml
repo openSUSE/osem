@@ -3,7 +3,7 @@
     %a.smoothscroll{ href: '#venue' } Venue
 -if !@conference.venue.latitude.blank? and !@conference.venue.longitude.blank?
   #map{style: "height: 500px;" }
-  - popup = "<h3>#{@conference.venue.name}</h3><br>#{@conference.venue.street}<br>#{@conference.venue.postalcode}, #{@conference.venue.city}<br>#{@conference.venue.country_name}"
+  - popup = "<h3>#{@conference.venue.name}</h3><br>#{@conference.venue.street}<br>#{@conference.venue.city}<br>#{@conference.venue.country_name}"
   - content_for(:script_body) do
     :javascript
       // create a map in the "map" div, set the view to a given place and zoom
@@ -17,6 +17,25 @@
       L.marker([#{@conference.venue.longitude}, #{@conference.venue.latitude}]).addTo(map)
         .bindPopup("#{popup}")
         .openPopup();
+      // Turn scrollwheel on when user clicks
+      map.on('focus', function(e) {
+        map.scrollWheelZoom.enable();
+      });
+      // Turn scrollwheel off once the map isn't in the viewport anymore
+      $('#map').waypoint({
+        handler: function(direction) {
+          map.scrollWheelZoom.disable();
+          //alert('map');
+        },
+        offset: '90%'
+      });
+      $('#map').waypoint({
+        handler: function(direction) {
+          map.scrollWheelZoom.disable();
+          //alert('map');
+        },
+        offset: '10%'
+      });
 -else
   .container
     .row

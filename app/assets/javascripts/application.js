@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require waypoints
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require cocoon
