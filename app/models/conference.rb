@@ -562,6 +562,14 @@ class Conference < ActiveRecord::Base
     User.with_role(:keynote_speaker, self)
   end
 
+  ##
+  #
+  # ====Returns
+  # * +Array+  ->  Events with attribute 'is_highlight'
+  def highlights
+    events.where(is_highlight: true)
+  end
+
   private
 
   after_create do

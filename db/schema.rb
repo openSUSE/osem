@@ -32,15 +32,14 @@ ActiveRecord::Schema.define(version: 20141130182139) do
   end
 
   create_table "call_for_papers", force: true do |t|
-    t.date     "start_date",                            null: false
-    t.date     "end_date",                              null: false
+    t.date     "start_date",                       null: false
+    t.date     "end_date",                         null: false
     t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "schedule_changes",      default: false
-    t.integer  "rating",                default: 3
+    t.boolean  "schedule_changes", default: false
+    t.integer  "rating",           default: 3
     t.boolean  "schedule_public"
-    t.boolean  "include_cfp_in_splash", default: false
   end
 
   create_table "campaigns", force: true do |t|
@@ -234,6 +233,7 @@ ActiveRecord::Schema.define(version: 20141130182139) do
     t.boolean  "require_registration"
     t.integer  "difficulty_level_id"
     t.integer  "week"
+    t.boolean  "is_highlight",                 default: false
   end
 
   create_table "events_registrations", id: false, force: true do |t|
@@ -334,11 +334,11 @@ ActiveRecord::Schema.define(version: 20141130182139) do
 
   create_table "roles", force: true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "description"
     t.integer  "resource_id"
     t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
@@ -378,6 +378,7 @@ ActiveRecord::Schema.define(version: 20141130182139) do
     t.boolean  "include_lodgings"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "include_cfp",           default: false
   end
 
   create_table "sponsors", force: true do |t|
