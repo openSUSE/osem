@@ -56,6 +56,8 @@ GEM
       uuidtools
     arel (5.0.1.20140414130214)
     ast (2.0.0)
+    autoprefixer-rails (4.0.1)
+      execjs
     awesome_nested_set (3.0.0.rc.5)
       activerecord (>= 4.0.0, < 5)
     axlsx (2.0.1)
@@ -432,6 +434,7 @@ DEPENDENCIES
   acts_as_commentable_with_threading
   acts_as_list
   ahoy_matey
+  autoprefixer-rails
   awesome_nested_set (~> 3.0.0.rc.5)
   axlsx_rails
   bootstrap-sass
