@@ -101,12 +101,8 @@ Osem::Application.routes.draw do
     resources :ticket_purchases, only: [:create, :destroy]
     resource :subscriptions, only: [:create, :destroy]
 
-    resource :schedule, only: [] do
-      get '/' => 'schedule#index'
-    end
-
     member do
-      get 'gallery_photos'
+      get :schedule
     end
   end
 

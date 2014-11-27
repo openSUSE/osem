@@ -104,7 +104,7 @@ class Ability
 
   def guest
     ## Abilities for everyone, even guests (not logged in users)
-    can [:index, :show], Conference do |conference|
+    can [:index, :show, :schedule], Conference do |conference|
       conference.splashpage && conference.splashpage.public == true
     end
 

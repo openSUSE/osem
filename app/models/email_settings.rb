@@ -27,7 +27,7 @@ class EmailSettings < ActiveRecord::Base
                                   conference.short_title, host: CONFIG['url_for_emails']),
       'cfp_start_date' => conference.call_for_papers.start_date,
       'cfp_end_date' => conference.call_for_papers.end_date,
-      'schedule_link' => Rails.application.routes.url_helpers.conference_schedule_url(
+      'schedule_link' => Rails.application.routes.url_helpers.schedule_conference_url(
                          conference.short_title, host: CONFIG['url_for_emails'])
     }
 
