@@ -24,10 +24,27 @@
           = link_to(conference_schedule_path(@conference.short_title), class: 'btn btn-default btn-lg') do
             Full Schedule
 
-  - #FIXME: Display keynotes https://github.com/openSUSE/osem/issues/544
+  - if @conference.keynotes.any?
+    .row
+      .col-md12
+        %h3.text-center
+          Keynote Talks!
+    .row
+      .col-md-12
+        - @conference.keynotes.each_slice(3) do |slice|
+          .row.row-centered
+            - slice.each do |event|
+              .col-md-6.col-centered
+                .thumbnail
+                  %p.text-center
+                    %b= event.title
+                  %h5.text-center
+                    = simple_format truncate(event.abstract, length: 500, separator: ' ')
+                    = link_to "Read More", conference_proposal_path(@conference.short_title, event)
 
   %h3.text-center
     Don't miss out!
+  %br
   - if @conference.highlights.any?
     .row
       .col-md-12

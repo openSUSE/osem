@@ -558,8 +558,8 @@ class Conference < ActiveRecord::Base
     email_settings.updated_conference_registration_dates_template
   end
 
-  def keynote_speakers
-    User.with_role(:keynote_speaker, self)
+  def keynotes
+    events.where(state: 'confirmed').select { |e| e.event_type.title == 'Keynote'}
   end
 
   ##
@@ -900,6 +900,9 @@ class Conference < ActiveRecord::Base
                                     minimum_abstract_length: 0,
                                     maximum_abstract_length: 500)
     event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF',
+                                    minimum_abstract_length: 0,
+                                    maximum_abstract_length: 500)
+    event_types << EventType.create(title: 'Keynote', length: 60, color: '#00FF00',
                                     minimum_abstract_length: 0,
                                     maximum_abstract_length: 500)
     true
