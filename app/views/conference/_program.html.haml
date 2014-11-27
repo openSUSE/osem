@@ -24,31 +24,13 @@
           = link_to(conference_schedule_path(@conference.short_title), class: 'btn btn-default btn-lg') do
             Full Schedule
 
-  - if @conference.events.keynotes.any?
-    .row
-      .col-md12
-        %h3.text-center
-          Keynote Talks!
-    .row
-      .col-md-12
-        - @conference.events.keynotes.each_slice(3) do |slice|
-          .row.row-centered
-            - slice.each do |event|
-              .col-md-6.col-centered
-                .thumbnail
-                  %p.text-center
-                    %b= event.title
-                  %h5.text-center
-                    = simple_format truncate(event.abstract, length: 500, separator: ' ')
-                    = link_to "Read More", conference_proposal_path(@conference.short_title, event)
 
   %h3.text-center
     Don't miss out!
-  %br
-  - if @conference.events.highlights.any?
+  - if @conference.highlights.any?
     .row
       .col-md-12
-        - @conference.events.highlights.each_slice(2) do |slice|
+        - @conference.highlights.each_slice(2) do |slice|
           .row.row-centered
             - slice.each do |event|
               .col-md-6.col-centered.col-top.highlights

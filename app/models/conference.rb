@@ -566,6 +566,18 @@ class Conference < ActiveRecord::Base
     email_settings.updated_conference_registration_dates_template
   end
 
+  def keynote_speakers
+    User.with_role(:keynote_speaker, self)
+  end
+
+  ##
+  #
+  # ====Returns
+  # * +Array+  ->  Events with attribute 'is_highlight'
+  def highlights
+    events.where(is_highlight: true)
+  end
+
   private
 
   after_create do
