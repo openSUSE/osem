@@ -43,6 +43,14 @@ class Conference < ActiveRecord::Base
     def confirmed
       where(state: :confirmed)
     end
+
+    def keynotes
+      where(state: :confirmed).select { |e| e.event_type.title == 'Keynote'}
+    end
+
+    def highlights
+      where(is_highlight: true)
+    end
   end
   has_many :event_users, through: :events
   has_many :speakers, -> { distinct }, through: :event_users, source: :user do
@@ -556,18 +564,6 @@ class Conference < ActiveRecord::Base
     email_settings.send_on_updated_conference_registration_dates &&
     !email_settings.updated_conference_registration_dates_subject.blank? &&
     email_settings.updated_conference_registration_dates_template
-  end
-
-  def keynotes
-    events.where(state: 'confirmed').select { |e| e.event_type.title == 'Keynote'}
-  end
-
-  ##
-  #
-  # ====Returns
-  # * +Array+  ->  Events with attribute 'is_highlight'
-  def highlights
-    events.where(is_highlight: true)
   end
 
   private

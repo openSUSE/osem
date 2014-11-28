@@ -24,14 +24,14 @@
           = link_to(conference_schedule_path(@conference.short_title), class: 'btn btn-default btn-lg') do
             Full Schedule
 
-  - if @conference.keynotes.any?
+  - if @conference.events.keynotes.any?
     .row
       .col-md12
         %h3.text-center
           Keynote Talks!
     .row
       .col-md-12
-        - @conference.keynotes.each_slice(3) do |slice|
+        - @conference.events.keynotes.each_slice(3) do |slice|
           .row.row-centered
             - slice.each do |event|
               .col-md-6.col-centered
@@ -45,10 +45,10 @@
   %h3.text-center
     Don't miss out!
   %br
-  - if @conference.highlights.any?
+  - if @conference.events.highlights.any?
     .row
       .col-md-12
-        - @conference.highlights.each_slice(2) do |slice|
+        - @conference.events.highlights.each_slice(2) do |slice|
           .row.row-centered
             - slice.each do |event|
               .col-md-6.col-centered.col-top.highlights
