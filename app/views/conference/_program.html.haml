@@ -27,10 +27,10 @@
   %h3.text-center
     Don't miss out!
   %br
-  - if @conference.highlights.any?
+  - if @conference.events.highlights.any?
     .row
       .col-md-12
-        - @conference.highlights.each_slice(2) do |slice|
+        - @conference.events.highlights.each_slice(2) do |slice|
           .row.row-centered
             - slice.each do |event|
               .col-md-6.col-centered.col-top.highlights

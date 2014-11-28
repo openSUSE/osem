@@ -566,18 +566,6 @@ class Conference < ActiveRecord::Base
     email_settings.updated_conference_registration_dates_template
   end
 
-  def keynotes
-    events.where(state: 'confirmed').select { |e| e.event_type.title == 'Keynote'}
-  end
-
-  ##
-  #
-  # ====Returns
-  # * +Array+  ->  Events with attribute 'is_highlight'
-  def highlights
-    events.where(is_highlight: true)
-  end
-
   private
 
   after_create do
