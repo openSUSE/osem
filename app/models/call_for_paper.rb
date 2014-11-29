@@ -6,6 +6,8 @@ class CallForPaper < ActiveRecord::Base
 
   validates_presence_of :start_date, :end_date
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
+  validate :before_end_of_conference
+  validate :start_after_end_date
 
   ##
   # Calculates how many weeks the call for paper is.
@@ -59,5 +61,20 @@ class CallForPaper < ActiveRecord::Base
     && self.conference.email_settings.send_on_call_for_papers_dates_updates\
     && !self.conference.email_settings.call_for_papers_dates_updates_subject.blank?\
     && !self.conference.email_settings.call_for_papers_dates_updates_template.blank?
+  end
+
+  private
+
+  def before_end_of_conference
+    errors.
+    add(:end_date, "can't be after the conference end date (#{conference.end_date})") if conference && conference.end_date && end_date && (end_date > conference.end_date)
+
+    errors.
+    add(:start_date, "can't be after the conference end date (#{conference.end_date})") if conference && conference.end_date && start_date && (start_date > conference.end_date)
+  end
+
+  def start_after_end_date
+    errors.
+    add(:start_date, "can't be after the end date") if start_date && end_date && start_date > end_date
   end
 end

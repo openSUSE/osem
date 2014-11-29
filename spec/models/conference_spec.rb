@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Conference do
 
-  let(:subject) { create(:conference) }
+  let(:subject) { create(:conference, end_date: '2014-06-30') }
 
   describe '#write_event_distribution_to_db' do
 

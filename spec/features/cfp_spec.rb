@@ -24,7 +24,7 @@ feature Conference do
       page.execute_script(
       "$('#conference-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
       page.execute_script(
-      "$('#conference-end-datepicker').val('#{(today + 7).strftime('%d/%m/%Y')}')")
+      "$('#conference-end-datepicker').val('#{(today + 6).strftime('%d/%m/%Y')}')")
 
       fill_in 'call_for_paper_rating', with: '4'
 
@@ -34,7 +34,7 @@ feature Conference do
       expect(flash).
           to eq('Call for papers successfully created.')
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
-      expect(find('#end_date').text).to eq((today + 7).strftime('%A, %B %-d. %Y'))
+      expect(find('#end_date').text).to eq((today + 6).strftime('%A, %B %-d. %Y'))
       expect(find('#rating').text).to eq('4')
 
       expect(CallForPaper.count).to eq(expected_count)
@@ -57,7 +57,7 @@ feature Conference do
                     "Start date can't be blank.")
 
       # Fill in date
-      today = Date.today - 7
+      today = Date.today - 9
       page.execute_script(
         "$('#conference-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
       page.execute_script(
