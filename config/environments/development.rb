@@ -46,7 +46,8 @@ Osem::Application.configure do
                               uid: 'facebook-test-uid-1',
                               info: {
                                 name: 'admin admin',
-                                email: 'admin@email.com'
+                                email: 'admin@email.com',
+                                username: 'admin_admin'
                               },
                               credentials: {
                                 token: 'fb_mock_token',
@@ -60,7 +61,8 @@ Osem::Application.configure do
                               uid: 'google-test-uid-1',
                               info: {
                                 name: 'simple user',
-                                email: 'user0@email.com'
+                                email: 'user0@email.com',
+                                username: 'simple_user0'
                               },
                               credentials: {
                                 token: 'google_mock_token',
@@ -74,7 +76,8 @@ Osem::Application.configure do
                               uid: 'suse-test-uid-1',
                               info: {
                                 name: 'another user',
-                                email: 'user1@email.com'
+                                email: 'user1@email.com',
+                                username: 'another_user'
                               },
                               credentials: {
                                 token: 'suse_mock_token',
