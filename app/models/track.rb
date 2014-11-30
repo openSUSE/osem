@@ -5,6 +5,8 @@ class Track < ActiveRecord::Base
 
   before_create :generate_guid
 
+  validates :name, presence: true
+
   private
 
   def generate_guid

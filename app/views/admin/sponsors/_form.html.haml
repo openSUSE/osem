@@ -1,9 +1,9 @@
 .row
   .col-md-12
     .page-header
-      -if @sponsor.new_record?
-        New
       %h1
+        -if @sponsor.new_record?
+          New
         Sponsor
         = @sponsor.name
 .row

@@ -15,9 +15,8 @@ module Admin
         redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title),
                     notice: 'Campaign successfully created.')
       else
-        redirect_to(new_admin_conference_campaign_path(conference_id: @conference.short_title),
-                    alert: "Creating of Campaign for #{@conference.short_title} failed." \
-                    "#{@campaign.errors.full_messages.join('. ')}.")
+	flash[:error] = 'Campaign creation failed. ' + @campaign.errors.full_messages.to_sentence
+	render action: 'new'
       end
     end
 
@@ -31,11 +30,8 @@ module Admin
                         conference_id: @conference.short_title),
                     notice: "Campaign '#{@campaign.name}' successfully updated.")
       else
-        redirect_to(edit_admin_conference_campaign_path(
-                        conference_id: @conference.short_title,
-                        id: @campaign.id),
-                    alert: "Update of Campaign for #{@conference.short_title} failed." \
-                    "#{@campaign.errors.full_messages.join('. ')}.")
+	flash[:error] = 'Campaign update failed. ' + @campaign.errors.full_messages.to_sentence
+	render action: 'edit'
       end
     end
 
