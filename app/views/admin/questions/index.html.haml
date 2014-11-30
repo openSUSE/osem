@@ -1,7 +1,7 @@
 .row
   .col-md-12
     .page-header
-      %h1 
+      %h1
         Questions
         - if can? :create, Question.new(conference_id: @conference.id)
           = link_to 'Create New Question','#', 'data-toggle' => 'modal',
@@ -14,7 +14,7 @@
       = semantic_form_for(@conference, url: update_conference_admin_conference_questions_path(@conference.short_title)) do |f|
         .questions{id: 'myquestions'}
           = render partial: 'questions'
-        - if can? :update, @conference
+        - if can? :update, Question.new(conference_id: @conference.id)
           = f.submit "Save Questions", class: 'btn btn-primary pull-right',
                       confirm: 'Are you sure you want to make these changes?'
 
