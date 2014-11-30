@@ -17,7 +17,7 @@ module Admin
         redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
                     notice: 'Ticket successfully created.')
       else
-        flash[:alert] = "Creating Ticket failed: #{@ticket.errors.full_messages.join('. ')}."
+        flash[:error] = "Creating Ticket failed: #{@ticket.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -29,7 +29,7 @@ module Admin
         redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
                     notice: 'Ticket successfully updated.')
       else
-        flash[:alert] = "Ticket update failed: #{@ticket.errors.full_messages.join('. ')}."
+        flash[:error] = "Ticket update failed: #{@ticket.errors.full_messages.join('. ')}."
         render :edit
       end
     end
@@ -40,7 +40,7 @@ module Admin
                     notice: 'Ticket successfully destroyed.')
       else
         redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
-                    alert: 'Ticket was successfully destroyed.' \
+                    error: 'Ticket was successfully destroyed.' \
                     "#{@ticket.errors.full_messages.join('. ')}.")
       end
     end

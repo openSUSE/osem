@@ -22,7 +22,7 @@ module Admin
         redirect_to(admin_conference_tracks_path(conference_id: @conference.short_title),
                     notice: 'Track successfully created.')
       else
-        flash[:alert] = "Creating Track failed: #{@track.errors.full_messages.join('. ')}."
+        flash[:error] = "Creating Track failed: #{@track.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -34,7 +34,7 @@ module Admin
         redirect_to(admin_conference_tracks_path(conference_id: @conference.short_title),
                     notice: 'Track successfully updated.')
       else
-        flash[:alert] = "Track update failed: #{@track.errors.full_messages.join('. ')}."
+        flash[:error] = "Track update failed: #{@track.errors.full_messages.join('. ')}."
         render :edit
       end
     end
@@ -45,7 +45,7 @@ module Admin
                     notice: 'Track successfully deleted.')
       else
         redirect_to(admin_conference_tracks_path(conference_id: @conference.short_title),
-                    alert: 'Track couldn\'t be deleted.' \
+                    error: 'Track couldn\'t be deleted.' \
                     "#{@track.errors.full_messages.join('. ')}.")
       end
     end

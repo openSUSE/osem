@@ -17,7 +17,7 @@ module Admin
         redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
                     notice: 'Target successfully created.')
       else
-        flash[:alert] = "Creating target failed: #{@target.errors.full_messages.join('. ')}."
+        flash[:error] = "Creating target failed: #{@target.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -29,7 +29,7 @@ module Admin
         redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
                     notice: 'Target successfully updated.')
       else
-        flash[:alert] = "Target update failed: #{@target.errors.full_messages.join('. ')}."
+        flash[:error] = "Target update failed: #{@target.errors.full_messages.join('. ')}."
         render :edit
       end
     end
@@ -40,7 +40,7 @@ module Admin
                     notice: 'Target successfully destroyed.')
       else
         redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
-                    alert: 'Target was successfully destroyed.' \
+                    error: 'Target was successfully destroyed.' \
                     "#{@target.errors.full_messages.join('. ')}.")
       end
     end

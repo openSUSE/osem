@@ -18,7 +18,7 @@ module Admin
         redirect_to admin_conference_call_for_paper_path,
                     notice: 'Call for papers successfully created.'
       else
-        flash[:alert] = "Creating the call for papers failed. #{@call_for_paper.errors.full_messages.join('. ')}."
+        flash[:error] = "Creating the call for papers failed. #{@call_for_paper.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -37,7 +37,7 @@ module Admin
         redirect_to(admin_conference_call_for_paper_path(@conference.short_title),
                     notice: 'Call for papers successfully updated.')
       else
-        flash[:alert] = "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}."
+        flash[:error] = "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}."
         render :new
       end
     end
@@ -46,7 +46,7 @@ module Admin
       if @call_for_paper.destroy
         redirect_to admin_conference_call_for_paper_path, notice: 'Call for Papers was successfully deleted.'
       else
-        redirect_to admin_conference_call_for_paper_path, alert: 'An error prohibited this Call for Papers from being destroyed: '\
+        redirect_to admin_conference_call_for_paper_path, error: 'An error prohibited this Call for Papers from being destroyed: '\
         "#{@call_for_paper.errors.full_messages.join('. ')}."
       end
     end
