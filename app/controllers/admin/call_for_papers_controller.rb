@@ -46,7 +46,7 @@ module Admin
       if @call_for_paper.destroy
         redirect_to admin_conference_call_for_paper_path, notice: 'Call for Papers was successfully deleted.'
       else
-        redirect_to admin_conference_call_for_paper_path, alert: 'A error prohibited this Call for Papers from being destroyed: '\
+        redirect_to admin_conference_call_for_paper_path, alert: 'An error prohibited this Call for Papers from being destroyed: '\
         "#{@call_for_paper.errors.full_messages.join('. ')}."
       end
     end
