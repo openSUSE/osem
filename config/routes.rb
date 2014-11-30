@@ -5,7 +5,7 @@ Osem::Application.routes.draw do
   else
     devise_for :users,
                controllers: {
-                   registrations: :registrations,
+                   registrations: :registrations, confirmations: :confirmations,
                    omniauth_callbacks: 'users/omniauth_callbacks' },
                path: 'accounts'
   end
