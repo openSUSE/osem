@@ -1,7 +1,7 @@
 class ConfirmationsController < Devise::ConfirmationsController
   protected
 
-  def after_confirmation_path_for(resource_name, resource)
+  def after_confirmation_path_for(_resource_name, resource)
     if signed_in?
       signed_in_root_path(resource)
     else
