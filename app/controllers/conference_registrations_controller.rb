@@ -34,7 +34,7 @@ class ConferenceRegistrationsController < ApplicationController
                      notice: 'You are now registered and will be receiving E-Mail notifications.'
       end
     else
-      flash[:alert] = "A error prohibited the registration for #{@conference.title}: "\
+      flash[:error] = "An error prohibited the registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
       render :new
     end
@@ -45,7 +45,7 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to  conference_conference_registrations_path(@conference.short_title),
                    notice: 'Registration was successfully updated.'
     else
-      flash[:alert] = "A error prohibited the registration for #{@conference.title}: "\
+      flash[:error] = "An error prohibited the registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
       render :edit
     end
@@ -57,7 +57,7 @@ class ConferenceRegistrationsController < ApplicationController
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
       redirect_to root_path,
-                  alert: "A error prohibited deleting the registration for #{@conference.title}: "\
+                  error: "An error prohibited deleting the registration for #{@conference.title}: "\
                   "#{@registration.errors.full_messages.join('. ')}."
     end
   end

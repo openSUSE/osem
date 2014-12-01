@@ -18,7 +18,7 @@ feature Campaign do
       click_button 'Create Campaign'
 
       expect(flash).
-          to eq("Creating of Campaign for osc14 failed.Name can't be blank. Utm campaign can't be blank.")
+	  to eq("Campaign creation failed. Name can't be blank and Utm campaign can't be blank")
 
       fill_in 'campaign_name', with: 'Test Campaign'
       fill_in 'campaign_utm_campaign', with: 'campaign'

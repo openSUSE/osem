@@ -36,7 +36,7 @@ module Admin
       if @venue.destroy
         redirect_to admin_conference_venue_path, notice: 'Venue was successfully deleted.'
       else
-        redirect_to admin_conference_venue_path, alert: 'A error prohibited this Venue from being destroyed: '\
+        redirect_to admin_conference_venue_path, alert: 'An error prohibited this Venue from being destroyed: '\
         "#{@venue.errors.full_messages.join('. ')}."
       end
     end

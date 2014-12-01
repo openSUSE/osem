@@ -17,7 +17,7 @@ feature RegistrationPeriod do
 
       click_button 'Save Registration Period'
       expect(flash).
-          to eq('A error prohibited the Registration Period from being saved: ' \
+          to eq('An error prohibited the Registration Period from being saved: ' \
           "Start date can't be blank. End date can't be blank.")
 
       page.

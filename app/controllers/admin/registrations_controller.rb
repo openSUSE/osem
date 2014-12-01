@@ -19,7 +19,7 @@ module Admin
         redirect_to admin_conference_registrations_path(@conference.short_title),
                     notice: 'Successfully updated registration!'
       else
-        flash[:alert] = "A error prohibited the Registration for #{@conference.title}: "\
+        flash[:error] = "An error prohibited the Registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
         render :edit
       end
@@ -32,7 +32,7 @@ module Admin
                     notice: "Deleted registration for #{@user.name}!"
       else
         redirect_to(admin_conference_registrations_path(@conference.short_title),
-                    alert: 'You must be an admin to delete a registration.')
+                    error: 'You must be an admin to delete a registration.')
       end
     end
 
