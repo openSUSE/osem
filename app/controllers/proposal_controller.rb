@@ -39,16 +39,6 @@ class ProposalController < ApplicationController
     @event.event_users.new(user: current_user,
                            event_role: 'speaker')
 
-    type_id = params[:event][:event_type_id].to_f
-    keynote_ids = EventType.where(title: 'Keynote').pluck(:id)
-
-    if keynote_ids.include? type_id
-      @event.errors.add(:event_type_id, 'You are not allowed to create a Keynote!')
-      flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
-      return
-    end
-
     if !@event.save
       flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'new'
