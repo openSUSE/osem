@@ -7,7 +7,7 @@ describe 'admin/call_for_papers/show' do
     assign :call_for_paper, create(:call_for_paper)
     render
     expect(rendered).to include(1.day.ago.strftime('%A, %B %-d. %Y'))
-    expect(rendered).to include(7.days.from_now.strftime('%A, %B %-d. %Y'))
+    expect(rendered).to include(6.days.from_now.strftime('%A, %B %-d. %Y'))
   end
 
 end
