@@ -6,9 +6,12 @@ class TicketPurchasesController < ApplicationController
   def create
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
-      redirect_to conference_conference_registrations_path(@conference.short_title),
-                  notice: 'Congratulations, you have successfully purchased a ticket! ' \
-                    "You can pay for it in cash when you arrive! Thank you for supporting #{@conference.title}!"
+      if current_user.ticket_purchases.any?
+        redirect_to conference_conference_registrations_path(@conference.short_title),
+                    notice: "Thank you for supporting #{@conference.title} by purchasing a ticket."
+      else
+        redirect_to conference_conference_registrations_path(@conference.short_title)
+      end
     else
       redirect_to conference_conference_registrations_path(@conference.short_title),
                   alert: "Oops, something went wrong with your purchase! #{message}"
@@ -16,7 +19,7 @@ class TicketPurchasesController < ApplicationController
   end
 
   def destroy
-    @ticket_purchases = current_user.ticket_purchases.find_by(ticket_id: params[:id])
+    @ticket_purchases = current_user.ticket_purchases.find(params[:id])
     if @ticket_purchases.destroy
       redirect_to conference_conference_registrations_path(@conference.short_title),
                   notice: 'Ticket successfully deleted.'

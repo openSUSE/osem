@@ -45,7 +45,7 @@
       %section#lodging
         = render 'lodging'
 
-    - if @conference.tickets.any? and @conference.splashpage.include_tickets
+    - if @conference.tickets.any? and @conference.splashpage.include_tickets and @conference.pending?
       %section#tickets
         = render 'tickets'
 

@@ -7,7 +7,7 @@ describe 'User' do
     let!(:first_user) { create(:user) } # automatically becomes admin
     let(:user){ nil }
     let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
-    let(:conference_public) { create(:conference, splashpage: create(:splashpage, public: true)) }
+    let(:conference_public) { create(:conference, splashpage: create(:splashpage, public: true), call_for_paper: create(:call_for_paper, schedule_public: true)) }
     let(:event_confirmed) { create(:event, state: 'confirmed') }
     let(:someevent) { create(:event) }
 
@@ -19,7 +19,7 @@ describe 'User' do
       it{ should be_able_to(:show, event_confirmed)}
       it{ should_not be_able_to(:show, someevent)}
 
-      it{ should be_able_to(:index, :schedule)}
+      it{ should be_able_to(:schedule, conference_public)}
 
       it{ should_not be_able_to(:create, Event)}
       it{ should_not be_able_to(:manage, Event)}

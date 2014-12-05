@@ -105,7 +105,14 @@ class Ability
   # Abilities for everyone, even guests (not logged in users)
   def guest
     # can view conferences
-    can [:index, :show, :schedule], Conference 
+    can [:index], Conference
+    can [:show], Conference do |conference|
+      conference.splashpage && conference.splashpage.public == true
+    end
+    can [:schedule], Conference do |conference|
+      conference.call_for_paper && conference.call_for_paper.schedule_public
+    end
+
     # can view confirmed Events
     can :show, Event do |event|
       event.state == 'confirmed'

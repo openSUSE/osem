@@ -4,6 +4,7 @@ class Track < ActiveRecord::Base
   has_many :events
 
   before_create :generate_guid
+  validates :name, presence: true
 
   private
 

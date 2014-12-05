@@ -1,9 +1,13 @@
 .container
   .row
     .col-md-12.text-center
-      %h2 Accommodation Deals
+      %h2
+        Where to stay
+        - if @conference.venue
+          in
+          = @conference.venue.city
       %p.lead
-        We have prepared affordable accommodation deals for your visit.
+        We recommend these affordable lodging accommodations for your visit.
   - @conference.lodgings.each_slice(3) do |slice|
     .row.row-centered
       - slice.each do |lodging|

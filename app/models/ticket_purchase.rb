@@ -13,11 +13,18 @@ class TicketPurchase < ActiveRecord::Base
                           scope: :ticket_id,
                           message: 'already bought this ticket!'
 
+  delegate :title, to: :ticket
+  delegate :description, to: :ticket
+  delegate :price, to: :ticket
+  delegate :price_cents, to: :ticket
+  delegate :price_currency, to: :ticket
+
   def self.purchase(conference, user, purchases)
     errors = []
     ActiveRecord::Base.transaction do
       conference.tickets.each do |ticket|
         quantity = purchases[ticket.id.to_s].to_i
+        # if the user bought the ticket, just update the quantity
         if ticket.bought?(user)
           purchase = update_quantity(conference, quantity, ticket, user)
         else

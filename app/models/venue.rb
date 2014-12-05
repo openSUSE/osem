@@ -17,7 +17,7 @@ class Venue < ActiveRecord::Base
   after_update :send_mail_notification
 
   def address
-    "#{conference.venue.street}, #{conference.venue.postalcode} #{conference.venue.city}, #{conference.venue.country}"
+    "#{street}, #{city}, #{country_name}"
   end
 
   def country_name

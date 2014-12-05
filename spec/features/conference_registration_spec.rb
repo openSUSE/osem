@@ -18,21 +18,22 @@ feature Registration do
 
       scenario 'updates conference registration', feature: true, js: true do
         visit root_path
-        click_link 'Modify Registration'
+        click_link 'My Registration'
+        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
 
+        click_link 'Edit your Registration'
         expect(current_path).to eq(edit_conference_conference_registrations_path(conference.short_title))
-        click_button 'Update Registration'
 
+        click_button 'Update Registration'
         expect(conference.user_registered?(participant)).to be(true)
       end
 
       scenario 'unregisters for a conference', feature: true, js: true do
         visit root_path
-        click_link 'Modify Registration'
+        click_link 'My Registration'
+        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
 
-        expect(current_path).to eq(edit_conference_conference_registrations_path(conference.short_title))
         click_link 'Unregister'
-
         expect(conference.user_registered?(participant)).to be(false)
       end
     end

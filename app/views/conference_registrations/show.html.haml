@@ -3,117 +3,136 @@
     .col-md-12
       .page-header
         %h1
+          Registration for
           = @conference.title
+        %p.text-muted
+          -if @conference.venue
+            at
+            %strong
+              = "#{@conference.venue.name},"
+            = "#{@conference.venue.street},"
+            = "#{@conference.venue.city} / #{@conference.venue.country_name}."
           %small
             = date_string(@conference.start_date, @conference.end_date)
   .row
-    .col-md-6
-      - if @conference.venue
-        %p
-          %small
-            at
-            = link_to @conference.venue.name
-            ,
-            = link_to @conference.venue.address, "http://maps.google.com/maps?q=#{@conference.venue.address}"
-    .col-md-4
-      - if @conference.contact.facebook.present?
-        = link_to "#{ @conference.contact.facebook }" do
-          %i.fa.fa-facebook-square
-      - if @conference.contact.twitter.present?
-        = link_to "#{ @conference.contact.twitter }" do
-          %i.fa.fa-twitter
-      - if @conference.contact.instagram.present?
-        = link_to "#{ @conference.contact.instagram }" do
-          %i.fa.fa-instagram
-      - if @conference.contact.googleplus.present?
-        = link_to "#{ @conference.contact.googleplus }" do
-          %i.fa.fa-google-plus-square
-  .row
     .col-md-12
-      - if @conference.tickets.any?
-        %h3
-          Tickets
-        - if current_user.tickets.any?
-          %p
-            You have purchased the following tickets:
-          = render partial: 'tickets_bought', locals: { tickets: current_user.tickets }
-        - else
-          = render partial: 'tickets', locals: { tickets: @conference.tickets }
-        %p
-          If you would like to buy more tickets, please click
-          = link_to 'here', conference_tickets_path(@conference.short_title)
-  .row
-    .col-md-12
-      - if @conference.speakers.confirmed.any?
-        %h3
-          = pluralize(@conference.speakers.confirmed.count, 'Speaker')
-        - @conference.speakers.confirmed.limit(12).each_slice(4) do |slice|
-          .row
-            - slice.each do |speaker|
-              .col-md-3
-                .row
-                  .col-md-3
-                    = image_tag(speaker.gravatar_url(size: '25'),
-                    title: "Yo #{speaker.name}!",
-                    alt: '', 'class' => 'img-circle img-responsive text-center')
-                  .col-md-9
-                    %h4
-                      = speaker.name
-  .row
-    .col-md-12
-      - if @conference.events.confirmed.any?
-        %h3
-          = pluralize(@conference.events.confirmed.count, 'Event')
-        %ul.list-unstyled
-          - @conference.events.confirmed.limit(10).each do |event|
-            %li
-              %h4
-                = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
-                %strong
-                  presented by
-                = event.speaker_names
-  .row
-    .col-md-12
-      - if @conference.participants.any?
-        %h3
-          = pluralize(@conference.participants.count, 'Participant')
-        - @conference.participants.limit(36).each_slice(12) do |slice|
-          .row
-            - slice.each do |participant|
-              .col-md-1
-                = image_tag(participant.gravatar_url(size: '25'),
-                title: "Yo #{participant.name}!",
-                alt: '', 'class' => 'img-circle img-responsive text-center')
-  .row
-    .col-md-12
-      - if @registration
-        %h2
-          Congratulations! You are now registered for
-          = "#{@conference.title}!"
-        - if @conference.questions.any?
-          %h3 Your answers to the registrations questions are:
+      %h4
+        %span.fa-stack
+          %i.fa.fa-square-o.fa-stack-2x
+          %i.fa.fa-plane.fa-stack-1x
+        Travel Schedule
+      %ul
+        %li
+          - if @registration.arrival.present?
+            arrive at
+            %strong
+              = @registration.arrival.strftime('%A, %B %-d. %Y %H:%m')
+          - else
+            You haven't scheduled your arrival
+        %li
+          - if @registration.departure.present?
+            depart at
+            %strong
+              = @registration.departure.strftime('%A, %B %-d. %Y %H:%m')
+          - else
+            You haven't scheduled your departure
+  - if @conference.questions.any?
+    .row
+      .col-md-12
+        %h4
+          %span.fa-stack
+            %i.fa.fa-square-o.fa-stack-2x
+            %i.fa.fa-info.fa-stack-1x
+          Additional Info
+        %ul
           - @conference.questions.each do |q|
-            %p
-              %b Question:
-              = q.title
-              %b Your Answer:
-              - @registration.qanswers.where(:question_id => q.id).each do |qa|
-                = qa.answer.title
-        - if @workshops.any?
-          %h3 You are registered for the following workshops:
-          %ul.list-unstyled
-            - @workshops.each do |workshop|
-              %li
-                %h4
-                  = link_to workshop.title, conference_proposal_path(@conference.short_title, workshop.id)
-                  %strong
-                    presented by
-                  = workshop.speaker_names
-        %div
-          = link_to 'Modify your Registration', edit_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-success'
+            %li
+              %strong
+                = q.title
+              - if @registration.qanswers.any?
+                - @registration.qanswers.where(:question_id => q.id).each do |qa|
+                  = qa.answer.title
+              - else
+                You haven't answered
+  - if @workshops.any?
+    .row
+      .col-md-12
+        %h4
+          %span.fa-stack
+            %i.fa.fa-square-o.fa-stack-2x
+            %i.fa.fa-check.fa-stack-1x
+          Event Registrations
+        %ul
+          - @workshops.each do |workshop|
+            %li
+              = link_to workshop.title, conference_proposal_path(@conference.short_title, workshop.id)
+  .row
+    .col-md-12
+      %h4
+        %span.fa-stack
+          %i.fa.fa-square-o.fa-stack-2x
+          %i.fa.fa-ticket.fa-stack-1x
+        Tickets
+        -if @tickets.any?
+          = "(#{@total_price} #{@tickets.first.price.symbol})"
+      %ul
+        - @tickets.each do |ticket|
+          %li
+            = ticket.quantity
+            = ticket.title
+            = word_pluralize(ticket.quantity, 'Ticket')
+            for
+            = humanized_money ticket.price
+            = ticket.price.symbol
+            = link_to conference_ticket_purchase_path(@conference.short_title, ticket.id), method: :delete,
+                                                                                           id: "ticket-#{ticket.id}-delete",
+                                                                                           class: 'btn btn-danger btn-xs',
+                                                                                           data: { confirm: "Do you really want to delete the #{ticket.title} ticket for #{@conference.title}?" } do
+              %i.fa.fa-trash-o
+
+        %li
+          - if @tickets.any?
+            = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title)
+          - else
+            You haven't bought any tickets.
+            = link_to 'Please buy some tickets to support us!', conference_tickets_path(@conference.short_title)
+
+  .row
+    .col-md-12
+      -if @registration
+        .btn-group-vertical.pull-right
+          = link_to 'Edit your Registration', edit_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-success'
           = link_to 'Unregister', conference_conference_registrations_path(@conference.short_title),
-                  method: :delete, class: 'btn btn-danger', confirm: 'Are you sure you want to unregister?'
+          method: :delete, class: 'btn btn-danger btn-xs', confirm: 'Are you sure you want to unregister?'
       - else
-        %p.lead
-          = "Unfortunately you are not registered for #{@conference.title}. If you want to register click"
-          = link_to 'here.', new_conference_conference_registrations_path(@conference.short_title)
+        = link_to 'Register', new_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-success btn-lg pull-right'
+
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          %small
+            Meet the people of
+            = @conference.short_title
+    .col-md-4
+      - if @conference.participants.any?
+        %h4
+          %span.fa-stack
+            %i.fa.fa-square-o.fa-stack-2x
+            %i.fa.fa-group.fa-stack-1x
+          = @conference.participants.count
+          Registered
+          = word_pluralize(@conference.participants.count, 'Attendees')
+        - @conference.participants.each do |participant|
+          = image_tag(participant.gravatar_url(size: '25'), title: "#{participant.name}!", class: 'img-circle')
+    .col-md-4.col-md-offset-2
+      - if @conference.speakers.any?
+        %h4
+          %span.fa-stack
+            %i.fa.fa-square-o.fa-stack-2x
+            %i.fa.fa-microphone.fa-stack-1x
+          = @conference.speakers.count
+          Confirmed
+          = word_pluralize(@conference.speakers.count, 'Speaker')
+        - @conference.speakers.each do |speaker|
+          = image_tag(speaker.gravatar_url(size: '25'), title: "#{speaker.name}!", class: 'img-circle')
