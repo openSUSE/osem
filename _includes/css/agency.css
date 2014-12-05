@@ -266,7 +266,7 @@ header {
     text-align: center;
     color: #79BD8F;
     background-attachment: scroll;
-    background-image: url(../img/fosdem.jpg);
+    background-image: url(img/fosdem.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -656,7 +656,7 @@ aside.clients img {
 section#contact {
     color: #fff;
     background-color: #222;
-    background-image: url(../img/tools.jpg);
+    background-image: url(img/tools.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-background-size: cover;
