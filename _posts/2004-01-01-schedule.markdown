@@ -1,0 +1,11 @@
+---
+title: Schedule
+subtitle: Give an overview about your content
+layout: default
+modal-id: 2
+img: schedule.jpg
+thumbnail: schedule-thumbnail.png
+alt: Picture of the schedule of a typical event in OSEM
+description: Provide an event schedule with detailed information about your program.
+
+---

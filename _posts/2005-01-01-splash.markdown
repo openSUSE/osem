@@ -1,0 +1,11 @@
+---
+title: Splash Page
+subtitle: Marketing for your event
+layout: default
+modal-id: 1
+img: splash.jpg
+thumbnail: splash-thumbnail.png
+alt: An image of an event splash page
+description: Build a splash page for your event. Let visitors know what will happen!
+
+---
