@@ -11,8 +11,8 @@
   %section#details
     - if can? :update, @event or can? :create, @event
       = f.input :event_type_id, as: :select,
-      collection: @conference.event_types.reject { |type| type.title == 'Keynote'}.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-      data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
+      collection: @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id,
+      data: { min_words: x.minimum_abstract_length, max_words: x.maximum_abstract_length }]},
       include_blank: false, label: 'Session Type'
     - else
       Event type: #{@event.event_type.title}
