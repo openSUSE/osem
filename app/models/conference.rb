@@ -45,11 +45,13 @@ class Conference < ActiveRecord::Base
     end
 
     def keynotes
-      where(state: :confirmed).select { |e| e.event_type.title == 'Keynote'}
+      where(state: :confirmed).
+      select { |e| e.event_type.is_keynote == true}
     end
 
     def highlights
-      where(is_highlight: true)
+      where(state: :confirmed).where(is_highlight: true).
+      select { |e| e.event_type.is_keynote != true} # No duplication, if event is a keynote
     end
   end
   has_many :event_users, through: :events
@@ -900,7 +902,8 @@ class Conference < ActiveRecord::Base
                                     maximum_abstract_length: 500)
     event_types << EventType.create(title: 'Keynote', length: 60, color: '#00FF00',
                                     minimum_abstract_length: 0,
-                                    maximum_abstract_length: 500)
+                                    maximum_abstract_length: 500,
+                                    is_keynote: true)
     true
   end
 

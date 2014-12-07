@@ -30,12 +30,13 @@
   - if @conference.events.highlights.any?
     .row
       .col-md-12
-        - @conference.events.highlights.each_slice(2) do |slice|
+        - @conference.events.highlights.each_slice(3) do |slice|
           .row.row-centered
             - slice.each do |event|
-              .col-md-6.col-centered.col-top.highlights
+              .col-md-4.col-centered.col-top.highlights
                 %p.text-center
                   %b= event.title
+                  by #{event.speakers.first.name}
                 %h5.text-center
                   = simple_format truncate(event.abstract, length: 500, separator: ' ')
                   = link_to "Read More", conference_proposal_path(@conference.short_title, event)

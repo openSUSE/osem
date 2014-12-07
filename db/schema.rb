@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130182139) do
+ActiveRecord::Schema.define(version: 20141207115535) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -191,11 +191,12 @@ ActiveRecord::Schema.define(version: 20141130182139) do
 
   create_table "event_types", force: true do |t|
     t.integer "conference_id"
-    t.string  "title",                                 null: false
+    t.string  "title",                                   null: false
     t.integer "length",                  default: 30
     t.integer "minimum_abstract_length", default: 0
     t.integer "maximum_abstract_length", default: 500
     t.string  "color"
+    t.boolean "is_keynote",              default: false
   end
 
   create_table "event_users", force: true do |t|
@@ -334,11 +335,11 @@ ActiveRecord::Schema.define(version: 20141130182139) do
 
   create_table "roles", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "description"
     t.integer  "resource_id"
     t.string   "resource_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
