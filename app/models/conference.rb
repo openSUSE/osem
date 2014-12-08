@@ -44,10 +44,6 @@ class Conference < ActiveRecord::Base
       where(state: :confirmed)
     end
 
-    def keynotes
-      where(state: :confirmed).select { |e| e.event_type.title == 'Keynote'}
-    end
-
     def highlights
       where(is_highlight: true)
     end
@@ -898,10 +894,6 @@ class Conference < ActiveRecord::Base
     event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF',
                                     minimum_abstract_length: 0,
                                     maximum_abstract_length: 500)
-    event_types << EventType.create(title: 'Keynote', length: 60, color: '#00FF00',
-                                    minimum_abstract_length: 0,
-                                    maximum_abstract_length: 500,
-                                    is_keynote: true)
     true
   end
 
