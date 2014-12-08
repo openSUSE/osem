@@ -12,7 +12,8 @@ describe 'conference/show.html.haml' do
                                     include_tickets: true,
                                     include_social_media: true,
                                     include_venue: true,
-                                    include_lodgings: true)
+                                    include_lodgings: true,
+                                    include_cfp: true)
 
     @conference.contact.update(sponsor_email: 'example@example.com',
                                facebook: 'http://facebook.com',
@@ -24,8 +25,7 @@ describe 'conference/show.html.haml' do
                                              start_date: Date.yesterday,
                                              end_date: Date.tomorrow)
 
-    @conference.call_for_paper = create(:call_for_paper, conference: @conference,
-                                                         include_cfp_in_splash: true)
+    @conference.call_for_paper = create(:call_for_paper, conference: @conference)
 
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
     @sponsorship_level = @conference.sponsorship_levels.first

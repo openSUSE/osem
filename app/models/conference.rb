@@ -43,6 +43,10 @@ class Conference < ActiveRecord::Base
     def confirmed
       where(state: :confirmed)
     end
+
+    def highlights
+      where(is_highlight: true)
+    end
   end
   has_many :event_users, through: :events
   has_many :speakers, -> { distinct }, through: :event_users, source: :user do
@@ -556,10 +560,6 @@ class Conference < ActiveRecord::Base
     email_settings.send_on_updated_conference_registration_dates &&
     !email_settings.updated_conference_registration_dates_subject.blank? &&
     email_settings.updated_conference_registration_dates_template
-  end
-
-  def keynote_speakers
-    User.with_role(:keynote_speaker, self)
   end
 
   private
