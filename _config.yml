@@ -1,5 +1,5 @@
-# url: http://localhost:3000
-baseurl: /osem
+url: http://osem.io
+#baseurl: /
 
 # Site settings
 title: Open Source Event Manager
