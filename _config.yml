@@ -62,6 +62,17 @@ people:
     - title: linkedin
       url: http://de.linkedin.com/in/achernikov
 
+- name: James Mason
+  pic: james
+  position: Developer
+  social:
+    - title: globe 
+      url: http://bear454.com
+    - title: twitter
+      url: http://twitter.com/bear454
+    - title: github 
+      url: https://github.com/bear454 
+
 - name: Matt Barringer
   pic: matt
   position: Founder/Developer
