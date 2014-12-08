@@ -11,7 +11,6 @@
         %th Title
         %th Length
         %th Abstract Length
-        %th Keynote
         %th Color
         %th Actions
       %tbody
@@ -25,7 +24,6 @@
             %td
               = "#{event_type.minimum_abstract_length} - #{event_type.maximum_abstract_length}"
               Words
-            %td= event_type.is_keynote
             %td
               %span.label{style: "background-color: #{event_type.color};"}
                 = event_type.color

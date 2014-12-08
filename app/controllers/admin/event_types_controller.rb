@@ -49,10 +49,7 @@ module Admin
     private
 
     def event_type_params
-      params.require(:event_type).permit(:title, :length,
-                                         :minimum_abstract_length,
-                                         :maximum_abstract_length,
-                                         :color, :is_keynote)
+      params[:event_type]
     end
   end
 end
