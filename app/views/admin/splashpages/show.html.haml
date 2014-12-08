@@ -3,7 +3,7 @@
     .page-header
       %h1 Splashpage
       %p.text-muted
-        Build a 
+        Build a
         = link_to "splash page", conference_path(@conference.short_title)
         with all the information for your conference
 - if @splashpage
@@ -42,6 +42,13 @@
           Include Program:
         %dd
           - if @splashpage.include_program
+            Yes
+          - else
+            No
+        %dt
+          Include CFP:
+        %dd
+          - if @splashpage.include_cfp
             Yes
           - else
             No

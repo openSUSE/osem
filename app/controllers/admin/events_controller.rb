@@ -113,6 +113,9 @@ module Admin
       if params.has_key? :difficulty_level_id
         @event.update_attribute(:difficulty_level_id, params[:difficulty_level_id])
       end
+      if params.has_key? :is_highlight
+        @event.update_attribute(:is_highlight, params[:is_highlight])
+      end
 
       if @event.submitter.update_attributes!(params[:user]) && @event.
                                                                update_attributes!(params[:event])

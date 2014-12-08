@@ -27,6 +27,19 @@
                   :method => :put, :event_type_id => type.id
       %tr
         %td
+          %b Highlight
+        %td
+          = link_to "#{@event.is_highlight}".capitalize,
+          admin_conference_event_path(@conference.short_title,
+                                      @event,
+                                      is_highlight: !@event.is_highlight),
+          method: :put, is_highlight: !@event.is_highlight
+          - if @event.is_highlight
+            (the event is as a highlight and will appear in the splashpage)
+          - else
+            (mark as true to make the event a highlight that appears in the splashpage)
+      %tr
+        %td
           %b State
         %td
           .dropdown
