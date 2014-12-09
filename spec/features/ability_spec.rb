@@ -16,6 +16,7 @@ feature 'Has correct abilities' do
   let(:user) { create(:user, role_ids: [role_organizer.id, role_cfp.id, role_info_desk.id, role_volunteer_coordinator.id]) }
 
   scenario 'when user is organizer' do
+    user.is_admin = false
     sign_in user
     visit admin_conference_path(conference1.short_title)
 
@@ -86,6 +87,7 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is cfp' do
+    user.is_admin = false
     sign_in user
     visit admin_conference_path(conference2.short_title)
 
@@ -156,6 +158,7 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is info desk' do
+    user.is_admin = false
     sign_in user
     visit admin_conference_path(conference3.short_title)
 
@@ -227,6 +230,7 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is volunteer coordinator' do
+    user.is_admin = false
     sign_in user
     visit admin_conference_path(conference4.short_title)
 

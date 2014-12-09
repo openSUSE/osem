@@ -5,9 +5,10 @@
         %h1
           Tickets
       %p.lead
-        Please buy a ticket to support
-        %b
+        Support
+        %strong
           = @conference.title
+        by buying a ticket
       =form_tag(conference_ticket_purchases_path, method: :post) do |f|
         %table.table.table-hover
           %thead
@@ -17,8 +18,8 @@
               %th Price
               %th Total
           %tbody
-            - @conference.tickets.each do |ticket|
-              = render partial: 'ticket', f: f, locals: {ticket: ticket}
+          - @conference.tickets.each do |ticket|
+            = render partial: 'ticket', f: f, locals: {ticket: ticket}
             %tr
               %td
               %td
@@ -28,11 +29,18 @@
               %td.col-sm-1.col-md-1.text-center
                 %h4
                   %strong
+                    = @conference.tickets.first.price.symbol
                     %span{id: 'total_price'}
                       0
         .pull-right
-          = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
-            Support
-            %i.fa.fa-shopping-cart
-          = link_to 'Continue without a Ticket!', conference_conference_registrations_path(@conference.short_title),
-          class: 'btn btn-danger btn-sm'
+          .btn-group-vertical
+            = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
+              Support
+              %i.fa.fa-shopping-cart
+            = link_to 'Continue without a Ticket!', conference_conference_registrations_path(@conference.short_title),
+            class: 'btn btn-danger btn-sm'
+  .row
+    .col-md-13
+      %p.text-muted.text-center
+        %small
+          Checkout will be at the conference registration

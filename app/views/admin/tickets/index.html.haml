@@ -10,6 +10,7 @@
       %table.table.table-hover#tickets
         %thead
           %th Title
+          %th Description
           %th Price
           %th Sold
           %th Actions
@@ -19,6 +20,8 @@
               %td
                 = link_to(admin_conference_ticket_path(@conference.short_title, ticket.id)) do
                   = ticket.title
+              %td
+                = truncate(ticket.description)
               %td
                 = humanized_money_with_symbol ticket.price
               %td

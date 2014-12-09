@@ -59,11 +59,15 @@ class User < ActiveRecord::Base
     self.subscriptions.find_by(conference_id: conference.id).present?
   end
 
-  # Returns the ticket purchased ticket
+  # Returns the purchased ticket
   # ====Returns
   # * +TicketUser::ActiveRecord_Relation+ -> user
   def ticket(id)
     ticket_purchases.where(ticket_id: id).first
+  end
+
+  def supports? conference
+    ticket_purchases.find_by(conference_id: conference.id).present?
   end
 
   def self.for_ichain_username(username, attributes)

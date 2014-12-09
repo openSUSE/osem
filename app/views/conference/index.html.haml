@@ -18,12 +18,13 @@
       - @antiquated.each do |conference|
         = render :partial => "conference_details", :locals => {:conference => conference}
 
-:javascript
-  $('#antiquated').on('hidden.bs.collapse', function () {
-    $( ".fa-chevron-down" ).hide();
-    $( ".fa-chevron-right" ).show();
-  })
-  $('#antiquated').on('shown.bs.collapse', function () {
-    $( ".fa-chevron-down" ).show();
-    $( ".fa-chevron-right" ).hide();
-  })
+-content_for :script_body do
+  :javascript
+    $('#antiquated').on('hidden.bs.collapse', function () {
+      $( ".fa-chevron-down" ).hide();
+      $( ".fa-chevron-right" ).show();
+    })
+    $('#antiquated').on('shown.bs.collapse', function () {
+      $( ".fa-chevron-down" ).show();
+      $( ".fa-chevron-right" ).hide();
+    })

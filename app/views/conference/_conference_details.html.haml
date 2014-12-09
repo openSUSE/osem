@@ -10,25 +10,26 @@
             %small
               %b
               = date_string(conference.start_date, conference.end_date)
+          - if conference.venue
+            %p
+              = "#{conference.venue.city}/#{conference.venue.country_name}"
         .col-md-2
           .btn-group-vertical
-            - if current_user.nil? || !current_user.subscribed?(conference)
-              = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-info btn-group-vertical'
-            - else
-              = link_to 'Unsubscribe', conference_subscriptions_path(conference.short_title), method: :delete, class: 'btn btn-danger btn-group-vertical'
-
             - if !@conference || @conference != conference
               - if conference.splashpage && conference.splashpage.public
                 = link_to "View Conference", conference_path(conference.short_title), :class =>"btn btn-default"
+            - if conference.call_for_paper and conference.call_for_paper.schedule_public
+              = link_to "Schedule", schedule_conference_path(conference.short_title), :class =>"btn btn-default"
             - if conference.registration_open?
               - if conference.user_registered?(current_user)
-                = link_to "Modify Registration", edit_conference_conference_registrations_path(conference.short_title), :class =>"btn btn-default"
+                = link_to "My Registration", conference_conference_registrations_path(conference.short_title), :class =>"btn btn-default"
               - else
-                = link_to "Register", new_conference_conference_registrations_path(conference.short_title), :class =>"btn btn-success"
-            = link_to "Schedule", conference_schedule_path(conference.short_title), :class =>"btn btn-default" if conference.call_for_paper and conference.call_for_paper.schedule_public
+                = link_to "Register", new_conference_conference_registrations_path(conference.short_title), :class =>"btn btn-default"
             - if !current_user.nil? && current_user.proposal_count(conference) > 0
-              = link_to "View My Proposals", conference_proposal_index_path(conference.short_title), :class =>"btn btn-default"
+              = link_to "My Proposals", conference_proposal_index_path(conference.short_title), :class =>"btn btn-default"
             - elsif conference.cfp_open?
               = link_to "Submit Proposal", conference_proposal_index_path(conference.short_title), :class =>"btn btn-default"
-            - if !current_user.nil? && conference.tickets.any?
-              = link_to 'Support', conference_tickets_path(conference.short_title), class: 'btn btn-default'
+            - if current_user.nil? || !current_user.subscribed?(conference)
+              = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-default'
+            - else
+              = link_to 'Unsubscribe', conference_subscriptions_path(conference.short_title), method: :delete, class: 'btn btn-default'

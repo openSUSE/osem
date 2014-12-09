@@ -46,6 +46,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # as the front-end framework
 gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 2.3.0.rc3'
 gem 'momentjs-rails', '>= 2.8.1'

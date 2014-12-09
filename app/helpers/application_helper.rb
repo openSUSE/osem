@@ -199,6 +199,17 @@ module ApplicationHelper
     return ts
   end
 
+  # rubocop:disable Lint/EndAlignment
+  def word_pluralize(count, singular, plural = nil)
+    word = if (count == 1 || count =~ /^1(\.0+)?$/)
+      singular
+    else
+      plural || singular.pluralize
+    end
+
+    "#{word}"
+  end
+
   def markdown(text)
     options = {
       autolink: true,

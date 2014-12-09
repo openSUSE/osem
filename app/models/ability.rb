@@ -61,7 +61,6 @@ class Ability
 
     signed_in(user) # Inherit abilities from signed user
     # User with role
-    can :manage, User if user.is_admin # ??? || (user.has_role? :organizer, :any)
     can [:new, :create], Conference if user.is_admin || (user.has_role? :organizer, :any)
     can [:index, :show, :gallery_photos], Conference
     can :manage, Conference, id: conf_ids_for_organizer
@@ -100,45 +99,47 @@ class Ability
     can :manage, CallForPaper, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
     can :manage, Venue, conference_id: conf_ids_for_organizer
     can :index, Venue, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
+    can :manage, :all if user.is_admin
   end
 
+  # Abilities for everyone, even guests (not logged in users)
   def guest
-    ## Abilities for everyone, even guests (not logged in users)
-    can [:index, :show], Conference do |conference|
+    # can view conferences
+    can [:index], Conference
+    can [:show], Conference do |conference|
       conference.splashpage && conference.splashpage.public == true
     end
+    can [:schedule], Conference do |conference|
+      conference.call_for_paper && conference.call_for_paper.schedule_public
+    end
 
-    # see commercials too
-
+    # can view confirmed Events
     can :show, Event do |event|
       event.state == 'confirmed'
     end
-
-    can :index, :schedule # show?
+    # can view Commercials of confirmed Events
+    can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
+    # can view others
     can :show, User
   end
 
   def signed_in(user)
     guest # Inherits abilities of guest
 
-    # Can subscribe, unsubscribe to a conference
+    # subscribe, unsubscribe to a Conference
     can [:create, :destroy], Subscription, user_id: user.id
 
-    # Conference Registration
+    # can manage their own Registration
     can :manage, Registration, user_id: user.id
 
+    # can manage their own User
     can :manage, User, id: user.id
-    can :show, User
 
-    ## Proposals
-    # Users can manage their own proposals
+    # can manage their own Event
     can :manage, Event, id: user.events.pluck(:id)
-
-    # Submit proposals only for conferences that are not over yet
+    # can submit Events for conferences that are not over yet
     can :create, Event, conference_id: Conference.where('end_date >= ?', Date.today).pluck(:id)
-    # Users can manage their own commercials
+    # can manage their own commercials
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
-    # View commercials of confirmed events
-    can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
   end
 end

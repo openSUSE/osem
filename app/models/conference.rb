@@ -101,6 +101,7 @@ class Conference < ActiveRecord::Base
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
   before_create :generate_guid
   before_create :create_event_types
+  before_create :create_difficulty_levels
   before_create :create_email_settings
   before_create :add_color
 
@@ -894,6 +895,22 @@ class Conference < ActiveRecord::Base
     event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF',
                                     minimum_abstract_length: 0,
                                     maximum_abstract_length: 500)
+    true
+  end
+
+  ##
+  # Creates default DifficultyLevels for this Conference. Used as before_create.
+  #
+  def create_difficulty_levels
+    difficulty_levels << DifficultyLevel.create(title: 'Easy',
+                                                description: 'Events are understandable for everyone without knowledge of the topic.',
+                                                color: '#70EF69')
+    difficulty_levels << DifficultyLevel.create(title: 'Medium',
+                                                description: 'Events require a basic understanding of the topic.',
+                                                color: '#EEEF69')
+    difficulty_levels << DifficultyLevel.create(title: 'Hard',
+                                                description: 'Events require expert knowledge of the topic.',
+                                                color: '#EF6E69')
     true
   end
 

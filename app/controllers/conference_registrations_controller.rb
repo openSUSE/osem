@@ -9,24 +9,22 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def show
-    @workshops = @registration.workshops if @registration
+    @workshops = @registration.workshops
     @total_price = Ticket.total_price(@conference, current_user)
+    @tickets = current_user.ticket_purchases.where(conference_id: @conference.id)
   end
 
   def edit; end
 
   def create
-    user_attributes = registration_params[:user_attributes]
-    params[:registration].delete :user_attributes
-
     @registration = current_user.registrations.build(registration_params)
     @registration.conference_id = @conference.id
 
-    if @registration.save && current_user.update_attributes(user_attributes)
+    if @registration.save
       # Trigger ahoy event
       ahoy.track 'Registered', title: 'New registration'
 
-      if @conference.tickets.any?
+      if @conference.tickets.any? && !current_user.supports?(@conference)
         redirect_to conference_tickets_path(@conference.short_title),
                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       else
@@ -66,6 +64,9 @@ class ConferenceRegistrationsController < ApplicationController
 
   def set_registration
     @registration = current_user.registrations.find_by(conference_id: @conference.id)
+    if !@registration
+      redirect_to new_conference_conference_registrations_path(@conference.short_title)
+    end
   end
 
   def registration_params

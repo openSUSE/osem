@@ -58,10 +58,10 @@ Osem::Application.routes.draw do
       resources :emails, only: [:show, :update, :index]
 
       resources :sponsorship_levels, except: [:show] do
-	member do
-	  patch :up
-	  patch :down
-	end
+        member do
+          patch :up
+          patch :down
+        end
       end
 
       resources :questions do
@@ -101,12 +101,8 @@ Osem::Application.routes.draw do
     resources :ticket_purchases, only: [:create, :destroy]
     resource :subscriptions, only: [:create, :destroy]
 
-    resource :schedule, only: [] do
-      get '/' => 'schedule#index'
-    end
-
     member do
-      get 'gallery_photos'
+      get :schedule
     end
   end
 
