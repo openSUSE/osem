@@ -3,11 +3,11 @@
 
 @font-face {
   font-family: "suse-icons";
-  src:url("fonts/suse-icons.eot");
-  src:url("fonts/suse-icons.eot?#iefix") format("embedded-opentype"),
-    url("fonts/suse-icons.woff") format("woff"),
-    url("fonts/suse-icons.ttf") format("truetype"),
-    url("fonts/suse-icons.svg#suse-icons") format("svg");
+  src:font-url("suse-icons.eot");
+  src:font-url("suse-icons.eot?#iefix") format("embedded-opentype"),
+    font-url("suse-icons.woff") format("woff"),
+    font-url("suse-icons.ttf") format("truetype"),
+    font-url("suse-icons.svg#suse-icons") format("svg");
   font-weight: normal;
   font-style: normal;
 
@@ -22,8 +22,7 @@
   text-transform: none !important;
   speak: none;
   line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
 }
 
 /* We have to repeat this for every symbol that extends font awesome. So if
@@ -38,8 +37,7 @@
   text-transform: none !important;
   speak: none;
   line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
 }
 
 .fa-suse:before {

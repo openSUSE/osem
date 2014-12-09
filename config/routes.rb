@@ -58,10 +58,10 @@ Osem::Application.routes.draw do
       resources :emails, only: [:show, :update, :index]
 
       resources :sponsorship_levels, except: [:show] do
-	member do
-	  patch :up
-	  patch :down
-	end
+        member do
+          patch :up
+          patch :down
+        end
       end
 
       resources :questions do
