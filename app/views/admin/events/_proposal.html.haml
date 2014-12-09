@@ -23,8 +23,11 @@
               <b class="caret"></b>
             %ul.dropdown-menu
               - @event_types.each do |type|
-                %li= link_to type.title, admin_conference_event_path(@conference.short_title, @event, :event_type_id => type.id) ,
-                  :method => :put, :event_type_id => type.id
+                %li= link_to type.title,
+                admin_conference_event_path(@conference.short_title,
+                                            @event,
+                                            event: { event_type_id: type.id }),
+                method: :patch
       %tr
         %td
           %b Highlight
@@ -32,8 +35,8 @@
           = link_to "#{@event.is_highlight}".capitalize,
           admin_conference_event_path(@conference.short_title,
                                       @event,
-                                      is_highlight: !@event.is_highlight),
-          method: :put, is_highlight: !@event.is_highlight
+                                      event: { is_highlight: !@event.is_highlight }),
+          method: :patch
           - if @event.is_highlight
             (the event is as a highlight and will appear in the splashpage)
           - else
@@ -61,8 +64,11 @@
               <b class="caret"></b>
             %ul.dropdown-menu
               - @tracks.each do |track|
-                %li= link_to track.name, admin_conference_event_path(@conference.short_title, @event, :track_id => track.id) ,
-                  :method => :put, :track_id => track.id
+                %li= link_to track.name,
+                admin_conference_event_path(@conference.short_title,
+                                            @event,
+                                            event: { track_id: track.id }),
+                method: :patch
       %tr
         %td
           %b Difficulty
@@ -76,8 +82,10 @@
               <b class="caret"></b>
             %ul.dropdown-menu
               - @difficulty_levels.each do |difficulty|
-                %li= link_to difficulty.title, admin_conference_event_path(@conference.short_title, @event, :difficulty_level_id => difficulty.id) ,
-                  :method => :put, :difficulty_level_id => difficulty.id
+                %li= link_to difficulty.title, admin_conference_event_path(@conference.short_title,
+                                            @event,
+                                            event: { difficulty_level_id: difficulty.id }),
+                method: :patch
       - if !@event.room.nil?
         %tr
           %td

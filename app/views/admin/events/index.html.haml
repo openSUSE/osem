@@ -80,8 +80,11 @@
                 %span.caret
               %ul.dropdown-menu
                 - @event_types.each do |type|
-                  %li= link_to type.title, admin_conference_event_path(@conference.short_title, event, :event_type_id => type.id) ,
-                    :method => :put, :event_type_id => type.id
+                  %li= link_to type.title,
+                  admin_conference_event_path(@conference.short_title,
+                                              event,
+                                              event: { event_type_id: type.id }),
+                  method: :patch
           %td
             .btn-group
               %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
@@ -92,10 +95,27 @@
                 %span.caret
               %ul.dropdown-menu
                 - @tracks.each do |track|
-                  %li= link_to track.name, admin_conference_event_path(@conference.short_title, event, :track_id => track.id) ,
-                    :method => :put, :track_id => track.id
+                  %li= link_to track.name,
+                  admin_conference_event_path(@conference.short_title,
+                                              event,
+                                              event: { track_id: track.id }),
+                  method: :patch
           %td
-            = event.difficulty_level.title if event.difficulty_level
+            .btn-group
+              %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                - if event.difficulty_level.nil?
+                  Difficulty
+                - else
+                  = event.difficulty_level.title
+                %span.caret
+              %ul.dropdown-menu
+                - @difficulty_levels.each do |difficulty_level|
+                  %li= link_to difficulty_level.title,
+                  admin_conference_event_path(@conference.short_title,
+                                              event,
+                                              event: { difficulty_level_id: difficulty_level.id }),
+                  method: :patch
+
           %td
             - if event.state == "withdrawn"
               Withdrawn
