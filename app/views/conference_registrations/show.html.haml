@@ -131,8 +131,8 @@
           %span.fa-stack
             %i.fa.fa-square-o.fa-stack-2x
             %i.fa.fa-microphone.fa-stack-1x
-          = @conference.speakers.count
+          = @conference.speakers.confirmed.count
           Confirmed
-          = word_pluralize(@conference.speakers.count, 'Speaker')
+          = word_pluralize(@conference.speakers.confirmed.count, 'Speaker')
         - @conference.speakers.each do |speaker|
           = image_tag(speaker.gravatar_url(size: '25'), title: "#{speaker.name}!", class: 'img-circle')
