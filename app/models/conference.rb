@@ -45,7 +45,7 @@ class Conference < ActiveRecord::Base
     end
 
     def highlights
-      where(is_highlight: true)
+      where(state: :confirmed, is_highlight: true)
     end
   end
   has_many :event_users, through: :events
