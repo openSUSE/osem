@@ -134,6 +134,7 @@ class Ability
 
     # can manage their own User
     can :manage, User, id: user.id
+    cannot :index, User
 
     # can manage their own Event
     can :manage, Event, id: user.events.pluck(:id)
