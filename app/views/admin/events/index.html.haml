@@ -70,8 +70,6 @@
               = link_to speaker.name, admin_user_path(speaker)
             - else
               Unknown speaker
-            - l = link_to "Change", edit_admin_conference_event_speaker_path(@conference.short_title, event), :remote => true
-            = "(#{l})".html_safe
           %td
             .btn-group
               %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
