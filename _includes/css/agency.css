@@ -176,7 +176,6 @@ fieldset[disabled] .btn-xl.active {
 }
 
 .navbar-default .navbar-brand {
-    font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
     color: #{{ site.color.primary }};
 }
 
@@ -325,9 +324,9 @@ section {
     padding: 100px 0;
 }
 
-section h2.section-heading {
+section h3.section-heading {
     margin-top: 0;
-    margin-bottom: 15px;
+    padding-bottom: 40px;
     font-size: 40px;
 }
 
@@ -349,6 +348,10 @@ section h3.section-subheading {
 .service-heading {
     margin: 15px 0;
     text-transform: none;
+}
+
+#about p {
+    padding: 0 30px 0 30px;
 }
 
 #portfolio .portfolio-item {
@@ -866,4 +869,14 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #{{ site.color.primary }};
+}
+
+.ribbon {
+  background: url("img/lines.png") repeat-x scroll center center rgba(0, 0, 0, 0);
+}
+
+.ribbon h4 span {
+  padding-left: 15px;
+  padding-right: 15px;
+  background: none repeat scroll 0 0 #ffffff;
 }
