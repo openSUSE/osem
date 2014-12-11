@@ -21,7 +21,7 @@
     = link_to(destroy_user_session_path, :method=>'delete') do
       %span.fa.fa-minus
       Sign out
-- if can? :index, Conference
+- if can? :manage, Conference
   %li.divider
     %li
       = link_to(admin_conference_index_path()) do
