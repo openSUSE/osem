@@ -121,6 +121,9 @@ gem 'money-rails'
 # for lists
 gem 'acts_as_list'
 
+# for switch checkboxes
+gem 'bootstrap-switch-rails', '~> 3.0.0'
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules

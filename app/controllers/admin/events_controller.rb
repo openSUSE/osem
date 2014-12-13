@@ -106,9 +106,14 @@ module Admin
 
     def update
       if @event.submitter.update_attributes(params[:user]) &&
-          @event.update_attributes(params[:event])
+        @event.update_attributes(params[:event])
+
+        if request.xhr?
+          render js: 'index'
+        else
           flash[:notice] = "Successfully updated event with ID #{@event.id}."
           redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
+        end
       else
         @url = admin_conference_event_path(@conference.short_title, @event)
         flash[:notice] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
