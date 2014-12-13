@@ -16,9 +16,7 @@
         %th Name
         %th Attended Conferences
         %th Roles
-        %th View
-        %th Edit
-        %th Delete
+        %th Actions
       %tbody
         - @users.each do |user|
           %tr
@@ -42,17 +40,16 @@
                   = '...'
               - else
                 None
-            - if can? :show, user
-              %td
-                = link_to 'View', admin_user_path(user), class: 'btn btn-success'
-            - if can? :update, user
-              %td
-                = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-primary'
-            - if can? :destroy, user
-              %td
-                - if current_user.id == user.id or user.role_ids.include? 3
-                  = link_to 'Delete',admin_user_path(user), :method => :delete , :data => {:confirm => 'Are you sure ?'},
-                  disabled: true, class: 'btn btn-primary disabled btn-danger', role: 'button'
-                - else
-                  = link_to 'Delete',admin_user_path(user), method: :delete,
-                  data: { confirm: 'Are you sure ?' }, class: 'btn btn-primary btn-danger'
+            %td{width: '170px'}
+              .btn-group
+                - if can? :show, user
+                  = link_to 'View', admin_user_path(user), class: 'btn btn-success'
+                - if can? :update, user
+                  = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-primary'
+                - if can? :destroy, user
+                  - if current_user.id == user.id
+                    = link_to 'Delete',admin_user_path(user), method: :delete, data: {confirm: 'Are you sure ?'},
+                    disabled: true, class: 'btn btn-primary disabled btn-danger', role: 'button'
+                  - else
+                    = link_to 'Delete',admin_user_path(user), method: :delete,
+                    data: { confirm: 'Are you sure ?' }, class: 'btn btn-primary btn-danger'
