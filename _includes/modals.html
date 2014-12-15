@@ -1,26 +1,147 @@
- <!-- Portfolio Modals -->
- {% for post in site.posts %}
-    <div class="portfolio-modal modal fade" id="portfolioModal{{ post.modal-id }}" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
+<div class="portfolio-modal modal fade" id="splashModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
-                        <div class="modal-body">
-                            <h2>{{ post.title }}</h2>
-                            <p>{{ post.description }}</p>
-                            <hr class="star-primary">
-                            <img src="img/portfolio/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <h2>Splash Pages</h2>
+                        <p>
+                            Build a splash page for your event. Let visitors know what will happen when, how and where!
+                        </p>
+                        <hr class="star-primary">
+                        <img src="img/portfolio/splash.jpg" class="img-responsive img-centered" alt="An event splash page">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{% endfor %}
+</div>
+
+<div class="portfolio-modal modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <h2>Schedules</h2>
+                        <p>
+                            Provide an event schedule with detailed information about your program.
+                        </p>
+                        <hr class="star-primary">
+                        <img src="img/portfolio/schedule.jpg" class="img-responsive img-centered" alt="Schedule of a typical event in OSEM">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="sessionModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <h2>Sesssion Pages</h2>
+                        <p>Show visitors all the details of your sessions.</p>
+                        <hr class="star-primary">
+                        <img src="img/portfolio/events.jpg" class="img-responsive img-centered" alt="A detailed session page">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="cfpModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <h2>Paper Submission</h2>
+                        <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret.</p>
+                        <hr class="star-primary">
+                        <img src="img/portfolio/cfp.jpg" class="img-responsive img-centered" alt="Screenshots of the paper submission workflow">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <h2>Visitor Registration</h2>
+                        <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret.</p>
+                        <hr class="star-primary">
+                        <img src="img/portfolio/registration.jpg" class="img-responsive img-centered" alt="Screenshots of the registration workflow">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="adminModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <h2>Administration</h2>
+                        <p>Lorem ipsum dolor sit amet, usu cu alterum nominavi lobortis. At duo novum diceret.</p>
+                        <hr class="star-primary">
+                        <img src="img/portfolio/dashboard.png" class="img-responsive img-centered" alt="An administration dashboard">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
