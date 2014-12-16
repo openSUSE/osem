@@ -13,6 +13,9 @@
           - if conference.venue
             %p
               = "#{conference.venue.city}/#{conference.venue.country_name}"
+          - if !conference.description.blank?
+            %p
+              = markdown(conference.description)
         .col-md-2
           .btn-group-vertical
             - if !@conference || @conference != conference
