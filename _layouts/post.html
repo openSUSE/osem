@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body id="page-top" class="post">
+  <div id="post-nav">
+    {% include navigation.html %}
+  </div>
+
+    {% if page.image %}
+      <section id="post-header" style="background-image: url(/img/posts/{{ page.image }});">
+    {% else %}
+      <section id="post-header">
+    {% endif %}
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div id="post-title">
+              <h1>
+                <span class="span-bg">{{ page.title }}</span>
+              </h1>
+              <p class="text-muted">
+                  by {{ page.author }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="post-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            {{ content }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="post-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            Footer
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% include footer.html %}
+  {% include js.html %}
+  </body>
+</html>

@@ -1,95 +1,13 @@
-url: http://osem.io
-#baseurl: /
-
-# Site settings
-title: Open Source Event Manager
-description: "Event management tailored for Free and Open Source community conferences."
-
-# Color settings (hex-codes without the leading hash-tag)
-color:
-  primary: 00A388
-  secondary: FF6138
-  secondary-dark: 333
-
-# Team names, titles and social links
-people:
-- name: Stella Rouzi 
-  pic: stella
-  position: Developer
-  social:
-    - title: github
-      url: https://github.com/differentreality
-    - title: linkedin
-      url: http://gr.linkedin.com/pub/stella-rouzi/14/354/123 
-
-- name: Christian Bruckmayer
-  pic: chris
-  position: Developer
-  social:
-    - title: github
-      url: https://github.com/ChrisBr
-
-- name: Henne Vogelsang
-  pic: henne
-  position: Developer
-  social:
-    - title: globe
-      url: http://www.hennevogel.de
-    - title: twitter
-      url: https://twitter.com/henne 
-    - title: github
-      url: https://github.com/hennevogel
-    - title: linkedin
-      url: https://de.linkedin.com/in/hennevogel
-
-- name: Gopesh Tulsyan
-  pic: gopesh
-  position: Developer
-  social:
-    - title: globe
-      url: http://www.67street.in
-    - title: github 
-      url: https://github.com/gopesht
-
-- name: Artem Chernikov
-  pic: artem
-  position: Developer
-  social:
-    - title: twitter
-      url: http://twitter.com/skullzeek
-    - title: github 
-      url: https://github.com/kalabiyau 
-    - title: linkedin
-      url: http://de.linkedin.com/in/achernikov
-
-- name: James Mason
-  pic: james
-  position: Developer
-  social:
-    - title: globe 
-      url: http://bear454.com
-    - title: twitter
-      url: http://twitter.com/bear454
-    - title: github 
-      url: https://github.com/bear454 
-
-- name: Matt Barringer
-  pic: matt
-  position: Founder/Developer
-  social:
-    - title: globe
-      url: http://incoherent.de/
-    - title: google-plus
-      url: https://plus.google.com/+MattBarringer
-    - title: github
-      url: https://github.com/mbarringer
-    - title: linkedin
-      url: http://de.linkedin.com/in/mattbarringer
-
-social:
-  - title: github
-    url: http://github.com/jekyll
-
 # Build settings
 markdown: kramdown
-permalink: pretty
+permalink: :title
+highlighter: pygments
+gems:
+  - jemoji
+  - jekyll-sitemap
+
+# Site settings
+url: http://osem.io
+title: Open Source Event Manager
+description: "Event management tailored for Free and Open Source community conferences."
+excerpt_separator: <!-- more -->
