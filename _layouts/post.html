@@ -18,7 +18,7 @@
               <h1>
                 <span class="span-bg">{{ page.title }}</span>
               </h1>
-              <p class="text-muted">
+              <p>
                   by {{ page.author }}
               </p>
             </div>
@@ -37,11 +37,29 @@
       </div>
     </section>
 
+    <section id="comments">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div id="disqus_thread"></div>
+            <script>
+                var disqus_shortname = 'osemio';
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          </div>
+        </div>
+      </div>
+  </section>
+
     <div id="post-footer">
       <div class="container">
         <div class="row">
           <div class="col-md-4">
-            Footer
           </div>
         </div>
       </div>

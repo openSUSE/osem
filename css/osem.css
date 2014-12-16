@@ -1,9 +1,14 @@
 section.post:nth-of-type(1) {
   margin-top: 160px;
 }
+
 section.post {
-  padding: 10px 0;
+  padding: 20px 0;
 }
+
+section#comments {
+  padding: 40px 0;
+ }
 
 .post-img {
   border: 5px solid #ecf0f1;
@@ -24,8 +29,7 @@ section.post {
 }
 
 #post-header {
-    margin-top: 100px;
-    min-height: 600px;
+    min-height: 300px;
     color: #79BD8F;
     background-color: #333;
     background-attachment: scroll;
@@ -37,6 +41,13 @@ section.post {
     -o-background-size: cover;
 }
 
+@media(min-width:767px) {
+  #post-header {
+    margin-top: 100px;
+    min-height: 600px;
+  }
+}
+
 #post-title {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -46,14 +57,21 @@ section.post {
   color: #fff;
   background-color: rgba(0, 0, 0,.70);
   padding: 10px;
+  line-height: 1.75
+}
+#post-title p {
+  color: #fff;
 }
 
+
 #post-body {
-  padding-top: 15px;
+  padding: 15px 0;
 }
 
 #post-body p {
     font-family: Lora,serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 @media(min-width:767px) {
