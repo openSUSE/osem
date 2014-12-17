@@ -16,3 +16,10 @@
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+    <script>
+        $('.portfolio-modal').on('show.bs.modal', function (e) {
+            var imgtarget = $( '#' + $( this ).data( 'imgtarget' ));
+            var imgsrc = imgtarget.data('imgsrc');
+            imgtarget.attr("src", imgsrc);
+        })
+    </script>
