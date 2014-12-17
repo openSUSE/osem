@@ -19,17 +19,30 @@ class EmailSettings < ActiveRecord::Base
       'conference' => conference.title,
       'conference_start_date' => conference.start_date,
       'conference_end_date' => conference.end_date,
-      'venue' => conference.venue.name,
-      'venue_address' => conference.venue.address,
-      'registrationlink' => Rails.application.routes.url_helpers.new_conference_conference_registrations_url(
+      'registrationlink' => Rails.application.routes.url_helpers.conference_conference_registrations_path(
                             conference.short_title, host: CONFIG['url_for_emails']),
       'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
                                   conference.short_title, host: CONFIG['url_for_emails']),
-      'cfp_start_date' => conference.call_for_paper.start_date,
-      'cfp_end_date' => conference.call_for_paper.end_date,
+
       'schedule_link' => Rails.application.routes.url_helpers.schedule_conference_url(
                          conference.short_title, host: CONFIG['url_for_emails'])
     }
+
+    if conference.call_for_paper
+      h['cfp_start_date'] = conference.call_for_paper.start_date
+      h['cfp_end_date'] = conference.call_for_paper.end_date
+    else
+      h['cfp_start_date'] = 'Unknown'
+      h['cfp_end_date'] = 'Unknown'
+    end
+
+    if conference.venue
+      h['venue'] = conference.venue.name
+      h['venue_address'] = conference.venue.address
+    else
+      h['venue'] = 'Unknown'
+      h['venue_address'] = 'Unknown'
+    end
 
     if conference.registration_period
       h['registration_start_date'] = conference.registration_period.start_date
