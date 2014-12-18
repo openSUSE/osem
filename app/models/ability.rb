@@ -131,6 +131,8 @@ class Ability
 
     # can manage their own Registration
     can :manage, Registration, user_id: user.id
+    can :index, Ticket
+    can :manage, TicketPurchase, user_id: user.id
 
     # can manage their own User
     can :manage, User, id: user.id
