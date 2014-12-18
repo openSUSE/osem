@@ -3,6 +3,7 @@ class EventType < ActiveRecord::Base
                   :conference_id
 
   belongs_to :conference
+  has_many :events, dependent: :restrict_with_error
 
   validates :title, presence: true
   validates :length, numericality: {greater_than: 0}

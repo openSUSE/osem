@@ -16,8 +16,8 @@ module Admin
     def create
       @room = @conference.rooms.new(room_params)
       if @room.save
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title),
-                    notice: 'Room successfully created.')
+        flash[:notice] = 'Room successfully created.'
+        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Creating Room failed: #{@room.errors.full_messages.join('. ')}."
         render :new
@@ -26,9 +26,8 @@ module Admin
 
     def update
       if @room.update_attributes(room_params)
-        redirect_to(admin_conference_rooms_path(
-                    conference_id: @conference.short_title),
-                    notice: 'Room successfully updated.')
+        flash[:notice] = 'Room successfully updated.'
+        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Update Room failed: #{@room.errors.full_messages.join('. ')}."
         render :edit
@@ -37,12 +36,11 @@ module Admin
 
     def destroy
       if @room.destroy
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title),
-                    notice: 'Room successfully deleted.')
+        flash[:notice] = 'Room successfully deleted.'
+        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
       else
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title),
-                    error: 'Destroying room failed! ' \
-                    "#{@room.errors.full_messages.join('. ')}.")
+        flash[:error] = "Destroying room failed! #{@room.errors.full_messages.join('. ')}."
+        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
       end
     end
 

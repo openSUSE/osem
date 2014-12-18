@@ -16,8 +16,8 @@ module Admin
     def create
       @difficulty_level = @conference.difficulty_levels.new(difficulty_level_params)
       if @difficulty_level.save
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title),
-                    notice: 'Difficulty level successfully created.')
+        flash[:notice] = 'Difficulty level successfully created.'
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Creating difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
         render :new
@@ -26,9 +26,8 @@ module Admin
 
     def update
       if @difficulty_level.update_attributes(difficulty_level_params)
-        redirect_to(admin_conference_difficulty_levels_path(
-                    conference_id: @conference.short_title),
-                    notice: 'Difficulty level successfully updated.')
+        flash[:notice] = 'Difficulty level successfully updated.'
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Update difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
         render :edit
@@ -37,12 +36,12 @@ module Admin
 
     def destroy
       if @difficulty_level.destroy
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title),
-                    notice: 'Difficulty level successfully deleted.')
+        flash[:notice] = 'Difficulty level successfully deleted.'
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
       else
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title),
-                    error: 'Deleting difficulty level type failed! ' \
-                    "#{@difficulty_level.errors.full_messages.join('. ')}.")
+        flash[:error] = 'Deleting difficulty level type failed! ' \
+        "#{@difficulty_level.errors.full_messages.join('. ')}."
+        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
       end
     end
 

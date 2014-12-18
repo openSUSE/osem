@@ -12,11 +12,11 @@ module Admin
       @campaign.attributes = params[:campaign]
 
       if @conference.save
-        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title),
-                    notice: 'Campaign successfully created.')
+        flash[:notice] = 'Campaign successfully created.'
+        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title))
       else
-	flash[:error] = 'Campaign creation failed. ' + @campaign.errors.full_messages.to_sentence
-	render action: 'new'
+        flash[:error] = 'Campaign creation failed. ' + @campaign.errors.full_messages.to_sentence
+        render action: 'new'
       end
     end
 
@@ -26,23 +26,22 @@ module Admin
 
     def update
       if @campaign.update_attributes(params[:campaign])
-        redirect_to(admin_conference_campaigns_path(
-                        conference_id: @conference.short_title),
-                    notice: "Campaign '#{@campaign.name}' successfully updated.")
+        flash[:notice] = "Campaign '#{@campaign.name}' successfully updated."
+        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title))
       else
-	flash[:error] = 'Campaign update failed. ' + @campaign.errors.full_messages.to_sentence
-	render action: 'edit'
+        flash[:error] = "Campaign update failed.  #{@campaign.errors.full_messages.to_sentence}"
+        render action: 'edit'
       end
     end
 
     def destroy
       if @campaign.destroy
-        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title),
-                    notice: "Campaign '#{@campaign.name}' successfully deleted.")
+        flash[:notice] = "Campaign '#{@campaign.name}' successfully deleted."
+        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title))
       else
-        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title),
-                    alert: "Delete of Campaign for #{@conference.short_title} failed." \
-                    "#{@campaign.errors.full_messages.join('. ')}.")
+        flash[:error] = "Delete of Campaign for #{@conference.short_title} failed." \
+                    "#{@campaign.errors.full_messages.join('. ')}."
+        redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title))
       end
     end
   end

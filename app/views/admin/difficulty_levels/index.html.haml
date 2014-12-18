@@ -27,7 +27,8 @@
                 = link_to 'Edit', edit_admin_conference_difficulty_level_path(@conference.short_title, difficulty_level.id),
                 method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_conference_difficulty_level_path(@conference.short_title, difficulty_level.id),
-                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{difficulty_level.title}?" }
+                method: :delete, class: 'btn btn-danger',
+                data: { confirm: "Do you really want to delete #{difficulty_level.title}? Attention: This difficulty level will be removed from all Events that have it set" }
 .row
   .col-md-12.text-right
     = link_to 'Add Difficulty Level', new_admin_conference_difficulty_level_path(@conference.short_title), class: 'btn btn-primary'
