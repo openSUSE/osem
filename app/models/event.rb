@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
   before_create :generate_guid
 
   validate :abstract_limit
-  validate :before_end_of_conference
+  validate :before_end_of_conference, on: :create
   validate :name_and_biography_exists
   validates :title, presence: true
   validates :abstract, presence: true

@@ -1,7 +1,7 @@
 class Track < ActiveRecord::Base
   attr_accessible :name, :description, :color, :conference_id
   belongs_to :conference
-  has_many :events
+  has_many :events, dependent: :nullify
 
   before_create :generate_guid
   validates :name, presence: true

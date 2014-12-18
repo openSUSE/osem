@@ -4,7 +4,7 @@ class Campaign < ActiveRecord::Base
 
   validates :name, :utm_campaign, presence: true
 
-  has_many :targets
+  has_many :targets, dependent: :nullify
   belongs_to :conference
 
   ##
