@@ -40,7 +40,7 @@
                   = '...'
               - else
                 None
-            %td{width: '170px'}
+            %td.col-actions
               .btn-group
                 - if can? :show, user
                   = link_to 'View', admin_user_path(user), class: 'btn btn-success'
