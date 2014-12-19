@@ -17,9 +17,10 @@
     - else
       Event type: #{@event.event_type.title}
 
-    %br
-    = f.label :is_highlight
-    = f.check_box :is_highlight, class: 'switch-checkbox', data: { size: "small" }
+    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
+      = f.label :is_highlight
+      %br
+      = f.check_box :is_highlight, class: 'switch-checkbox', data: { size: "small" }
 
     %br
     = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.difficulty_levels.any?
