@@ -72,7 +72,7 @@
               = link_to speaker.name, admin_user_path(speaker)
             - else
               Unknown speaker
-          %td
+          %td{'data-order' => "#{event.is_highlight}"}
             = check_box_tag @conference.short_title, event.id, event.is_highlight, class: 'switch-checkbox',
             data: { size: "small" }
 
