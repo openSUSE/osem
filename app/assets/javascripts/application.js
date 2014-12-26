@@ -34,6 +34,7 @@
 //= require osem-datepickers
 //= require osem-datatables
 //= require osem-tickets
+//= require osem-translation
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

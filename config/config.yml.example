@@ -31,5 +31,3 @@ production:
   <<: *defaults
 
   # If you add more providers that do not require a key, you still have to create the 2 variables with sample data
-
-  transifex_live_api_key: ''

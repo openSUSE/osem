@@ -8,15 +8,8 @@
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-    :javascript
-      window.liveSettings = {
-        api_key: "<%= CONFIG['transifex_live_api_key'] %>",
-        picker: "bottom-right",
-        detectlang: true,
-        autocollect: true
-      };
     = content_for(:script_head)
-    =# javascript_include_tag "//cdn.transifex.com/live.js"
+    = javascript_include_tag "//cdn.transifex.com/live.js"
 
     = yield(:head)
   %body
