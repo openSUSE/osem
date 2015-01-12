@@ -107,7 +107,8 @@ describe 'User' do
     end
 
     context 'when user has the role organizer' do
-      let(:role) { create(:organizer_role, resource: my_conference) }
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { Role.find_by(name: 'organizer', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
 
       it{ should_not be_able_to(:destroy, my_conference.program) }
@@ -172,7 +173,8 @@ describe 'User' do
     end
 
     context 'when user has the role cfp' do
-      let(:role) { create(:cfp_role, resource: my_conference) }
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { Role.find_by(name: 'cfp', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
 
       it{ should_not be_able_to([:create, :new], Conference.new) }
@@ -226,7 +228,8 @@ describe 'User' do
     end
 
     context 'when user has the role info_desk' do
-      let(:role) { create(:info_desk_role, resource: my_conference) }
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { Role.find_by(name: 'info_desk', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
 
       it{ should_not be_able_to([:create, :new], Conference.new) }
@@ -280,7 +283,8 @@ describe 'User' do
     end
 
     context 'when user has the role volunteers_coordinator' do
-      let(:role) { create(:volunteers_coordinator_role, resource: my_conference) }
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { Role.find_by(name: 'volunteers_coordinator', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
 
       it{ should_not be_able_to([:create, :new], Conference.new) }

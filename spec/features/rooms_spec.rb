@@ -3,7 +3,7 @@ require 'spec_helper'
 feature Room do
   let!(:conference) { create(:conference) }
   let!(:venue) { create(:venue, conference: conference) }
-  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
   shared_examples 'rooms' do

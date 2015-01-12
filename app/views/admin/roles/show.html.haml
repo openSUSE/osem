@@ -1,0 +1,27 @@
+.unobtrusive-flash-container
+.row
+  .col-md-12
+    .page-header
+      %h2
+        Role
+        = @role.name.titleize
+        - if can? :edit, @role
+          = link_to 'Edit', edit_admin_conference_role_path(@conference.short_title, @role.name), class: 'btn btn-primary pull-right'
+      .text-muted
+        = @role.description
+
+.row.col-md-3
+  - if ( can? :toggle_user, @role ) && !@role.new_record?
+
+    = semantic_form_for :user, url: toggle_user_admin_conference_role_path(@conference.short_title, @role.name), method: :post do |u|
+
+      = u.label 'Add user by email: '
+      .input-group
+        = u.input :email, label: false, placeholder: "User's email"
+        .input-group-btn
+          = u.submit 'Add', id: 'user-add', class: 'btn btn-primary'
+
+.row
+  .col-md-12
+    #users_area
+      = render partial: 'users', locals: { users: @users }

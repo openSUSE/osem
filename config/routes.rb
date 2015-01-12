@@ -17,12 +17,6 @@ Osem::Application.routes.draw do
     resources :people
     resources :comments, only: [:index]
     resources :conference do
-      member do
-        get :roles
-        post :roles
-        post :add_user
-        delete :remove_user
-      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :photos, except: [:show]
       resource :schedule, only: [:show, :update]
@@ -74,6 +68,11 @@ Osem::Application.routes.draw do
       resources :targets, except: [:show]
       resources :campaigns, except: [:show]
       resources :emails, only: [:show, :update, :index]
+      resources :roles, except: [ :new, :create ] do
+        member do
+          post :toggle_user
+        end
+      end
 
       resources :sponsorship_levels, except: [:show] do
         member do

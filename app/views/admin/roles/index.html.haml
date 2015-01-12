@@ -1,0 +1,31 @@
+.row
+  .col-md-12.page-header
+    %h2
+      Roles
+
+    .text-muted
+      The available roles for the conference
+
+  .col-md-12
+    %table.table.table-bordered.table-striped.table-hover.datatable#roles
+      %thead
+        %th ID
+        %th Name
+        %th Description
+        %th Users
+        %th Actions
+      %tbody
+        - @roles.each do |role|
+          %tr
+            %td= role.id
+            %td= role.name.titleize
+            %td= role.description
+            %td
+              = role.users.pluck(:name).first(5).join ', '
+              - if role.users.count > 5
+                = link_to '...', admin_conference_role_path(@conference.short_title, role.name)
+            %td
+              .btn-group
+                = link_to 'Users', admin_conference_role_path(@conference.short_title, role.name), class: 'btn btn-success'
+                - if can? :edit, role
+                  = link_to 'Edit', edit_admin_conference_role_path(@conference.short_title, role.name), class: 'btn btn-primary'
