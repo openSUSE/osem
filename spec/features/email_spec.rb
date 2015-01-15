@@ -14,12 +14,12 @@ feature EmailSettings do
       sign_in organizer
 
       visit admin_conference_emails_path(conference.short_title)
-
+      click_link 'Onboarding'
       fill_in 'email_settings_registration_subject',
               with: 'Registration subject'
       fill_in 'email_settings_registration_email_template',
               with: 'Registration email body'
-
+      click_link 'Proposal'
       fill_in 'email_settings_accepted_subject',
               with: 'Accepted subject'
       fill_in 'email_settings_accepted_email_template',
@@ -35,6 +35,7 @@ feature EmailSettings do
       fill_in 'email_settings_confirmed_email_template',
               with: 'Confirmed without registration email body'
 
+      click_link 'Update Notifications'
       fill_in 'email_settings_updated_conference_dates_subject',
               with: 'Updated conference dates subject'
       fill_in 'email_settings_updated_conference_dates_template',
@@ -59,6 +60,7 @@ feature EmailSettings do
                  value).to eq('Registration subject')
       expect(find('#email_settings_registration_email_template').
                  value).to eq('Registration email body')
+      click_link 'Proposal'
       expect(find('#email_settings_accepted_subject').
                  value).to eq('Accepted subject')
       expect(find('#email_settings_accepted_email_template').
@@ -71,6 +73,7 @@ feature EmailSettings do
                  value).to eq('Confirmed without registration subject')
       expect(find('#email_settings_confirmed_email_template').
                  value).to eq('Confirmed without registration email body')
+      click_link 'Update Notifications'
       expect(find('#email_settings_updated_conference_dates_subject').
                  value).to eq('Updated conference dates subject')
       expect(find('#email_settings_updated_conference_dates_template').
