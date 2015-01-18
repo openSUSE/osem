@@ -35,10 +35,5 @@ module Admin
     end
 
     def edit; end
-
-    def destroy
-      @user.destroy
-      redirect_to admin_users_path, notice: 'User got deleted'
-    end
   end
 end
