@@ -21,6 +21,9 @@ defaults: &defaults
     ichain:
       enabled: false
 
+  # Enter your key, provided by transifex live settings, in the quotes
+  transifex_live_api_key: ''
+
 development:
   <<: *defaults
 
@@ -31,5 +34,3 @@ production:
   <<: *defaults
 
   # If you add more providers that do not require a key, you still have to create the 2 variables with sample data
-
-  transifex_live_api_key: ''
