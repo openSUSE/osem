@@ -21,6 +21,9 @@ defaults: &defaults
     ichain:
       enabled: false
 
+  # Enter your key, provided by transifex live settings, in the quotes
+  transifex_live_api_key: ''
+
 development:
   <<: *defaults
 
