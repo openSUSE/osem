@@ -33,7 +33,10 @@
           %b Highlight
         %td
           = check_box_tag @conference.short_title, @event.id, @event.is_highlight, class: 'switch-checkbox',
-            data: { size: "small" }
+            data: { size: "small",
+                    off_color: 'warning',
+                    on_text: 'Yes',
+                    off_text: 'No' }
 
       %tr
         %td

@@ -7,6 +7,7 @@
     %meta{:content => "", :name => "author"}
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
+
     = csrf_meta_tags
     :javascript
       window.liveSettings = {
@@ -15,23 +16,6 @@
         detectlang: true,
         autocollect: true
       };
-
-      $(document).ready(function() {
-        $("[class='switch-checkbox']").bootstrapSwitch();
-      });
-
-      $(document).ready(function() {
-        $('input[class="switch-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-          url = "/admin/conference/" + this.name + "/events/" + this.value
-
-          $.ajax({
-            url: url,
-            type: 'PATCH',
-            data: { event: { is_highlight: state } },
-            dataType: "script"
-          });
-        });
-      });
     = content_for(:script_head)
     =# javascript_include_tag "//cdn.transifex.com/live.js"
 
