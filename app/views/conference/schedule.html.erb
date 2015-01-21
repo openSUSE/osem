@@ -97,13 +97,19 @@
 <%= javascript_tag do %>
   jQuery( function($) {
     $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) {
-      if(e.which===1)
-      {
-        window.location = $(this).attr('data-href');
+      var url = $(this).attr('data-href');
+      if (e.which === 1 && e.ctrlKey){
+      var win = window.open(url, '_blank');
+      win.focus();
       }
-      else if(e.which===2)
+      else if(e.which === 1)
       {
-      window.open($(this).attr('data-href'), '_blank');
+        window.location = url;
+      }
+      else if(e.which === 2)
+      {
+      var win = window.open(url, '_blank');
+      win.focus();
       }
     });
 });
