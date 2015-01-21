@@ -36,19 +36,4 @@ describe Admin::UsersController do
       end
     end
   end
-  describe 'DELETE #destroy' do
-    before :each do
-      @user = create(:user)
-    end
-    context 'valid attributes' do
-      it 'it deletes the contact' do
-        expect { delete :destroy, id: @user.id }.to change(User, :count).by(-1)
-      end
-      it 'redirects to users#index' do
-        delete :destroy, id: @user
-        expect(response).to redirect_to admin_users_path
-      end
-    end
-  end
-
 end
