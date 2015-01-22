@@ -33,7 +33,7 @@
       %section#program
         = render 'program'
 
-    - if @conference.cfp_open? and @conference.call_for_paper.include_cfp_in_splash?
+    - if @conference.cfp_open? and @conference.splashpage.include_cfp
       %section#callforpapers
         = render 'call_for_paper'
 
@@ -53,7 +53,7 @@
       %section#sponsors
         = render 'sponsors'
 
-    - if @conference.splashpage.include_social_media and @conference.contact.has_social_media?
+    - if @conference.contact.has_social_media? and @conference.splashpage.include_social_media
       %section#social-media
         = render 'social_media'
 

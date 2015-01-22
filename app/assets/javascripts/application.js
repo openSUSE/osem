@@ -34,6 +34,8 @@
 //= require osem-datepickers
 //= require osem-datatables
 //= require osem-tickets
+//= require bootstrap-switch
+//= require osem-switch
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

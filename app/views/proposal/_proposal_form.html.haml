@@ -11,13 +11,18 @@
   %section#details
     - if can? :update, @event or can? :create, @event
       = f.input :event_type_id, as: :select,
-      collection: @conference.event_types.map {|x| ["#{x.title} - #{show_time(x.length)}", x.id,
-      data: { min_words: x.minimum_abstract_length, max_words: x.maximum_abstract_length }]},
+      collection: @conference.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
+      data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
       include_blank: false, label: 'Session Type'
     - else
       Event type: #{@event.event_type.title}
+
+    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
+      = f.label :is_highlight
       %br
-      %br
+      = f.check_box :is_highlight, class: 'switch-checkbox', data: { size: "small" }
+
+    %br
     = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.difficulty_levels.any?
     = f.input :require_registration
     = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},

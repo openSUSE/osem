@@ -70,6 +70,7 @@ GEM
     bcrypt (3.1.7)
     bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
+    bootstrap-switch-rails (3.0.2)
     bootstrap3-datetimepicker-rails (3.0.3)
       momentjs-rails (>= 2.8.1)
     browser (0.6.0)
@@ -438,6 +439,7 @@ DEPENDENCIES
   awesome_nested_set (~> 3.0.0.rc.5)
   axlsx_rails
   bootstrap-sass
+  bootstrap-switch-rails (~> 3.0.0)
   bootstrap3-datetimepicker-rails (~> 3.0.2)
   byebug
   cancancan

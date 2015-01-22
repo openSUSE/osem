@@ -18,6 +18,7 @@ module Admin
       @conference = Conference.find_by(short_title: params[:conference_id])
       @events = @conference.events
       @tracks = @conference.tracks
+      @difficulty_levels = @conference.difficulty_levels
       @machine_states = @events.state_machine.states.map
       @event_types = @conference.event_types
 
@@ -104,24 +105,20 @@ module Admin
     end
 
     def update
-      if params.has_key? :track_id
-        @event.update_attribute(:track_id, params[:track_id])
-      end
-      if params.has_key? :event_type_id
-        @event.update_attribute(:event_type_id, params[:event_type_id])
-      end
-      if params.has_key? :difficulty_level_id
-        @event.update_attribute(:difficulty_level_id, params[:difficulty_level_id])
-      end
+      if @event.submitter.update_attributes(params[:user]) &&
+        @event.update_attributes(params[:event])
 
-      if @event.submitter.update_attributes!(params[:user]) && @event.
-                                                               update_attributes!(params[:event])
-        flash[:notice] = "Successfully updated #{@event.title}."
+        if request.xhr?
+          render js: 'index'
+        else
+          flash[:notice] = "Successfully updated event with ID #{@event.id}."
+          redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
+        end
       else
-        flash[:notice] = 'Update not successful.'
+        @url = admin_conference_event_path(@conference.short_title, @event)
+        flash[:notice] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
+        render :edit
       end
-
-      redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
     end
 
     def create; end
@@ -183,11 +180,11 @@ module Admin
       alert = @event.update_state(transition, mail, subject, send_mail, params[:send_mail].blank?)
 
       if !alert.blank?
-        return redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                           alert: alert) && return
+        flash[:error] = error
+        return redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
       else
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
-                    notice: notice) && return
+        flash[:notice] = notice
+        redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
       end
     end
   end

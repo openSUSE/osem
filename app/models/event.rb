@@ -1,9 +1,9 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
   has_paper_trail
-  attr_accessible :title, :subtitle, :abstract, :description, :event_type_id, :users_attributes,
-                  :user, :proposal_additional_speakers, :track_id,
-                  :require_registration, :difficulty_level_id
+  attr_accessible :title, :subtitle, :abstract, :description, :user, :users_attributes,
+                  :proposal_additional_speakers, :event_type_id, :track_id,
+                  :difficulty_level_id, :require_registration, :is_highlight
 
   acts_as_commentable
 

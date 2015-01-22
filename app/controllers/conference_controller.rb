@@ -7,9 +7,7 @@ class ConferenceController < ApplicationController
     @antiquated = @conferences - @current
   end
 
-  def show
-    @keynote_speakers = @conference.keynote_speakers
-  end
+  def show; end
 
   def schedule
     @rooms = @conference.rooms

@@ -30,13 +30,6 @@
         %dd
           = tracks(@conference)
         %dt
-          Public
-        %dd#cfp_in_splash
-          - if @call_for_paper.include_cfp_in_splash
-            True
-          - else
-            False
-        %dt
           Public Schedule
         %dd#schedule_public
           - if @call_for_paper.schedule_public
