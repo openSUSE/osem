@@ -3,7 +3,6 @@ prawn_document(:force_download=>true, :filename => @pdf_filename) do |pdf|
   header_array = ["   ",
                   "Name",
                   "Email",
-                  "Attending Social Events",
                   "Attending With Partner",
                   "Arrival Date",
                   "Departure Date"]
@@ -13,10 +12,6 @@ prawn_document(:force_download=>true, :filename => @pdf_filename) do |pdf|
     row << ""
     row << registration.name
     row << registration.email
-    if registration.attending_social_events
-      row << "X"
-    else
-      row << " "
     end
 
     if registration.attending_with_partner.to_s
