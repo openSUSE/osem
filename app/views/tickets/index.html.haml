@@ -5,10 +5,10 @@
         %h1
           Tickets
       %p.lead
-        Support
+        If you like, support
         %strong
           = @conference.title
-        by buying a ticket
+        by buying a ticket*
       =form_tag(conference_ticket_purchases_path, method: :post) do |f|
         %table.table.table-hover
           %thead
@@ -43,4 +43,4 @@
     .col-md-13
       %p.text-muted.text-center
         %small
-          Checkout will be at the conference registration
+          * Buying a ticket is not mandatory. Checkout will be at the conference registration.
