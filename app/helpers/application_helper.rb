@@ -146,31 +146,6 @@ module ApplicationHelper
     end
   end
 
-  # TODO Output better html
-  def format_comments(comment, padding = 0)
-    result = ''
-    result += "<div style='padding-left:#{padding}px'>"
-    result += "<div class='well'>"
-    result += "<b>#{comment.user.name}</b> <i>#{comment.created_at}</i><br><br>"
-    result += comment.body
-    result += "<br><div><a href='#' class='pull-right comment-reply-link'>Reply</a><br><br>"
-    result += "<div class='comment-reply'>"
-    result += "<form method='post' action='#{comment_admin_conference_event_path(@conference.short_title, comment.commentable_id)}'>"
-    result += "<input type=hidden name=parent value='#{comment.id}'/>"
-    result += "<input name='authenticity_token' type='hidden' value='#{form_authenticity_token}' />"
-    result += "<textarea name='comment'></textarea>"
-    result += "<button class='btn btn-primary pull-right' name='button' type='submit'>Add Reply</button>"
-    result += '</form></div></div>'
-    result += '</div>'
-    #result += edit_admin_conference_event_path(@conference.short_title, @event)
-    comment.children.each do |child|
-      result += format_comments(child, 50)
-      result += '</div>'
-    end
-
-    result
-  end
-
   def event_types(conference)
     all = conference.event_types.map { |et | et.title.pluralize }
     first = all[0...-1]
