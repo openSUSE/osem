@@ -1,13 +1,13 @@
 module ApplicationHelper
   def target_progress_color(progress)
     progress = progress.to_i
-    if progress > 90
-      result = 'green'
-    elsif progress < 90 && progress > 80
-      result = 'orange'
-    else
-      result = 'red'
+    result =
+    case
+    when progress >= 90 then 'green'
+    when progress < 90 && progress >= 80 then 'orange'
+    else 'red'
     end
+
     result
   end
 
