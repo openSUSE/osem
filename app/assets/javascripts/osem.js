@@ -125,6 +125,13 @@ $(function () {
             },
             5)
     });
+
+    /* Count the proposal abstract length */
+    $("#event_abstract").bind('keyup', function() {
+        var $selected = $("#event_event_type_id option:selected")
+        var max = $selected.data("max-words");
+        word_count(this, 'abstract-count', max);
+    } );
 });
 
 function get_color() {
@@ -164,13 +171,6 @@ $("#event_event_type_id").change(function () {
     word_count($('#event_abstract').get(0), 'abstract-count', max);
 })
     .trigger('change');
-
-/* Count the proposal abstract length */
-$("#event_abstract").bind('keyup', function() {
-    var $selected = $("#event_event_type_id option:selected")
-    var max = $selected.data("max-words");
-    word_count(this, 'abstract-count', max);
-} );
 
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
