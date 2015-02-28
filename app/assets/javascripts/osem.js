@@ -169,7 +169,7 @@ $("#event_event_type_id").change(function () {
 $("#event_abstract").bind('keyup', function() {
     var $selected = $("#event_event_type_id option:selected")
     var max = $selected.data("max-words");
-    word_count(this, 'abstract-count', max);
+    word_count($('#event_abstract').get(0), 'abstract-count', max);
 } );
 
 /* Set the defaults for DataTables initialisation */
