@@ -387,25 +387,43 @@ class Conference < ActiveRecord::Base
   end
 
   ##
-  # Calculates the overall programm hours
+  # Calculates the overall program minutes
   #
   # ====Returns
-  # * +hash+ -> Fixnum hours
-  def current_program_hours
+  # * +hash+ -> Fixnum minutes
+  def current_program_minutes
     events_grouped = events.group(:event_type_id)
     events_counted = events_grouped.count
-    calculate_program_hours(events_grouped, events_counted)
+    calculate_program_minutes(events_grouped, events_counted)
   end
 
   ##
-  # Calculates the overall programm hours since date
+  # Calculates the overall program hours
   #
   # ====Returns
-  # * +hash+ -> Fixnum hours
-  def new_program_hours(date)
+  # * +Fixnum+ -> Fixnum hours. Example: 1.5 gets rounded to 2. 1.3 gets rounded 1.
+  def current_program_hours
+    (current_program_minutes / 60.to_f).round
+  end
+
+  ##
+  # Calculates the overall program minutes since date
+  #
+  # ====Returns
+  # * +hash+ -> Fixnum minutes
+  def new_program_minutes(date)
     events_grouped = events.where('created_at > ?', date).group(:event_type_id)
     events_counted = events_grouped.count
-    calculate_program_hours(events_grouped, events_counted)
+    calculate_program_minutes(events_grouped, events_counted)
+  end
+
+  ##
+  # Calculates the overall program hours since date
+  #
+  # ====Returns
+  # * +Fixnum+ -> Fixnum hours
+  def new_program_hours(date)
+    (new_program_minutes(date) / 60.to_f).round
   end
 
   ##
@@ -812,11 +830,11 @@ class Conference < ActiveRecord::Base
   end
 
   ##
-  # Helper method to calculate the program hours.
+  # Helper method to calculate the program minutes.
   #
   # ====Returns
-  # * +Fixnums+ summed programm hours
-  def calculate_program_hours(events_grouped, events_counted)
+  # * +Fixnums+ summed program minutes
+  def calculate_program_minutes(events_grouped, events_counted)
     result = 0
     events_grouped.each do |event|
       result += events_counted[event.event_type_id] * event.event_type.length

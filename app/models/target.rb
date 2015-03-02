@@ -34,7 +34,7 @@ class Target < ActiveRecord::Base
     elsif unit == Target.units[:registrations]
       numerator = conference.registrations.where('created_at < ?', due_date).count
     elsif unit == Target.units[:program_minutes]
-      numerator = conference.current_program_hours
+      numerator = conference.current_program_minutes
     end
     (numerator / target_count.to_f  * 100).round(0).to_s
   end
@@ -51,7 +51,7 @@ class Target < ActiveRecord::Base
     elsif unit == Target.units[:registrations]
       numerator = campaign.registrations_count
     elsif unit == Target.units[:program_minutes]
-      numerator = conference.current_program_hours
+      numerator = conference.current_program_minutes
     end
 
     progress = (numerator / target_count.to_f  * 100).round(0).to_s
