@@ -11,11 +11,11 @@
         #user-info-content.tab-pane{class: "#{'active' unless params[:tab] == 'submissions-content'}"}
           - if can? :edit, @user
             .pull-right
-              = link_to "Edit", edit_admin_user_path(@user), class: 'btn btn-primary'
+              = link_to 'Edit', edit_admin_user_path(@user), class: 'btn btn-primary'
           %table.table
             - @show_attributes.each do |attr|
               %tr
-                %td{class: 'table20'}
+                %td.col-md-2
                   %b
                     = attr.capitalize.gsub('_', ' ')
                 - if attr == 'roles'
