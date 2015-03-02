@@ -141,4 +141,4 @@
         %br
         - @comments.each do |comment|
           %div
-            = raw format_comments(comment)
+            = render "nested_comments", comment: comment, padding: 0
