@@ -1,0 +1,137 @@
+<div id="schedule-content">
+    <h1 class="text-center"> Schedule for <%= @conference.title %></h1>
+    <ul class="nav nav-tabs">
+      <% @dates.each do |date| %>
+        <li <%= "class=active" if @dates.first == date %>>
+          <%= link_to date, "#" + "#{date}", "data-toggle" => "tab" %>
+        </li>
+    <% end %>
+    </ul>
+
+    <div class="tab-content">
+      <% @dates.each do |date| %>
+        <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
+          <table class="table table-bordered" id="schedule" width="100%">
+            <tr>
+              <th>Time</th>
+              <% @rooms.each do |room| %>
+                <th><%= room.name %></th>
+              <% end %>
+            </tr>
+
+                <% span = {} %>
+                <% @rooms.each do |room| %>
+                  <% span[room.id] = 1 %>
+                <% end %>
+
+            <% conf_start = DateTime.parse("#{date} 09:00") %>
+            <% conf_end = DateTime.parse("#{date} 19:00") %>
+
+            <% while conf_start < conf_end %>
+              <%-
+                start_hour = conf_start.hour
+                start_min = conf_start.min %>
+
+              <tr>
+                <td style="width:5%">
+                  <%= conf_start.strftime("%H:%M") %>
+                </td>
+
+                <% @rooms.each do |room| %>
+                  <% events_for_date = @events.find_all {|e| e.room_id == room.id && e.start_time && e.start_time.to_date == date } %>
+                  <% event = events_for_date.find_all{|e| e.start_time.hour == start_hour && e.start_time.min == start_min } %>
+                  <% if !event.empty? %>
+                    <!-- There is an event, calculate the span and show it -->
+                    <% span[room.id] = event[0].event_type.length / 15 %>
+                    <td style="width: <%= 95 / @rooms.length %>%; cursor:pointer"
+                          rowspan ="<%= span[room.id] %>"
+                          class="event" role="button"
+                          data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
+                      <%- if speaker = event[0].speakers.first %>
+                        <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right",
+							   :alt => speaker.name,
+							   :title => speaker.name,
+							   :style => "padding:8px;" %>
+                      <%- end %>
+                      <h5>
+                        <span class="fa fa-comment"></span>
+                        <%= event[0].title %>
+                        <% unless event[0].subtitle.blank? %>
+			 <span class="schedule-subtitle">
+			   <%= event[0].subtitle %>
+                          <span>
+                        <% end %>
+                      </h5>
+		        </span>
+                        <span class="schedule-speaker">
+                          <span class="fa fa-user"></span>
+                          <%= "#{speaker.name}" %>
+                        </span>
+                        <% if event[0].track%>
+                          <span class="schedule-track">
+                            <span class="fa fa-road"></span>
+                            <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+                          </span>
+                          <% end -%>
+                    </td>
+                    <% span[room.id] = span[room.id] + 1 %>
+                    <% elsif  span[room.id] > 1 %>
+                      <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
+                      <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
+                    <% end %>
+                    <% if span[room.id] == 1 %>
+                      <!-- span equals 1 show an empty td -->
+                      <td style="width: <%= 95 / @rooms.length %>%">
+                      </td>
+                    <% end %>
+                <%end %>
+              </tr>
+              <% conf_start += 15.minutes %>
+            <%end %>
+          </table>
+        </div>
+      <% end %>
+    </div>
+</div>
+<%= javascript_tag do %>
+  jQuery( function($) {
+    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) {
+      var url = $(this).attr('data-href');
+      if (e.which === 1 && e.ctrlKey){
+      var win = window.open(url, '_blank');
+      win.focus();
+      }
+      else if(e.which === 1)
+      {
+        window.location = url;
+      }
+      else if(e.which === 2)
+      {
+      var win = window.open(url, '_blank');
+      win.focus();
+      }
+    });
+});
+
+$(function() {
+  // add a hash to the URL when the user clicks on a tab
+  $('a[data-toggle="tab"]').on('click', function(e) {
+    history.pushState(null, null, $(this).attr('href'));
+  });
+  // navigate to a tab when the history changes
+  window.addEventListener("popstate", function(e) {
+    var activeTab = $('[href=' + location.hash + ']');
+    if (activeTab.length) {
+      activeTab.tab('show');
+    } else {
+      $('.nav-tabs a[href=#<%= j @today %>]').tab('show');
+    }
+  });
+});
+
+$(function() {
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+});
+
+<% end %>

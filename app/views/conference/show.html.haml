@@ -31,7 +31,7 @@
 
     - if @conference.splashpage.include_program
       %section#program
-        = render 'program'
+        = render 'schedule_splashpage'
 
     - if @conference.cfp_open? and @conference.splashpage.include_cfp
       %section#callforpapers

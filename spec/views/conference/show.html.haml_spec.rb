@@ -43,7 +43,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders program partial' do
-    expect(view).to render_template(partial: 'conference/_program')
+    expect(view).to render_template(partial: 'conference/_schedule_splashpage')
   end
 
   it 'renders registration partial' do
