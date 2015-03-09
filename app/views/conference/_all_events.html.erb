@@ -1,0 +1,19 @@
+<h1 class="text-center">Program for <%= @conference.title %></h1>
+<% @conference.events.confirmed.each do |event| %>
+    <div>
+        <h3>
+          <%= link_to event.title, conference_proposal_path(@conference.short_title, event.id) %>
+          <br>
+          <small>
+            <%= event.subtitle %>
+          </small>
+        </h3>
+        <h4>
+          presented by <%= event.speaker_names %>
+        </h4>
+        <p>
+          <%= truncate(event.abstract, :length => 400) -%>
+          <%= link_to 'more', conference_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400 %>
+        </p>
+    </div>
+<% end %>

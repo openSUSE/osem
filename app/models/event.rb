@@ -205,11 +205,11 @@ class Event < ActiveRecord::Base
   end
 
   def speaker_names
-    result = []
+    result = Set.new
     speakers.each do |speaker|
-      result.push(speaker.name)
+      result.add(speaker.name)
     end
-    result.to_sentence
+    result.to_a.to_sentence
   end
 
   private

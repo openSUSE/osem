@@ -57,10 +57,8 @@
           .col-md-8
             %h3
               by
-              = @speaker.name
-              (
-              = @speaker.email
-              )
+              = link_to @speaker.name, user_path(@speaker.id)
+              = "(#{@speaker.email})"
               - if @speaker.affiliation?
                 %br
                 %span.muted
