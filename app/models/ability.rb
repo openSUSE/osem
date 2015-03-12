@@ -122,7 +122,7 @@ class Ability
     # can view others
     can :show, User
     # can register
-    can [:show, :create], Registration do |registration|
+    can [:read, :create], Registration do |registration|
         registration.new_record?
     end
   end

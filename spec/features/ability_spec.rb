@@ -13,11 +13,14 @@ feature 'Has correct abilities' do
   let(:role_info_desk) { create(:role, name: 'info_desk', resource: conference3) }
   let(:role_volunteer_coordinator) { create(:role, name: 'volunteer_coordinator', resource: conference4) }
 
-  let(:user) { create(:user, role_ids: [role_organizer.id, role_cfp.id, role_info_desk.id, role_volunteer_coordinator.id]) }
+  let(:user_organizer) { create(:user, role_ids: [role_organizer.id]) }
+  let(:user_cfp) { create(:user, role_ids: [role_cfp.id]) }
+  let(:user_info_desk) { create(:user, role_ids: [role_info_desk.id]) }
+  let(:user_volunteer_coordinator) { create(:user, role_ids: [role_volunteer_coordinator.id]) }
 
   scenario 'when user is organizer' do
-    user.is_admin = false
-    sign_in user
+    user_organizer.is_admin = false
+    sign_in user_organizer
     visit admin_conference_path(conference1.short_title)
 
     expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
@@ -87,8 +90,8 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is cfp' do
-    user.is_admin = false
-    sign_in user
+    user_cfp.is_admin = false
+    sign_in user_cfp
     visit admin_conference_path(conference2.short_title)
 
     expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
@@ -121,7 +124,7 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(admin_conference_path(conference2.short_title))
 
     visit admin_conference_registrations_path(conference2.short_title)
-    expect(current_path).to eq(root_path)
+    expect(current_path).to eq(admin_conference_registrations_path(conference2.short_title))
 
     visit admin_conference_events_path(conference2.short_title)
     expect(current_path).to eq(admin_conference_events_path(conference2.short_title))
@@ -158,8 +161,8 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is info desk' do
-    user.is_admin = false
-    sign_in user
+    user_info_desk.is_admin = false
+    sign_in user_info_desk
     visit admin_conference_path(conference3.short_title)
 
     expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
@@ -226,77 +229,5 @@ feature 'Has correct abilities' do
 
     visit admin_conference_commercials_path(conference3.short_title)
     expect(current_path).to eq(admin_conference_commercials_path(conference3.short_title))
-
-  end
-
-  scenario 'when user is volunteer coordinator' do
-    user.is_admin = false
-    sign_in user
-    visit admin_conference_path(conference4.short_title)
-
-    expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
-    expect(page).to have_link('Basics', href: "/admin/conference/#{conference4.short_title}/edit")
-    expect(page).to_not have_link('Contact', href: "/admin/conference/#{conference4.short_title}/contact/edit")
-    expect(page).to have_link('Commercials', href: "/admin/conference/#{conference4.short_title}/commercials")
-    expect(page).to_not have_link('Events', href: "/admin/conference/#{conference4.short_title}/events")
-    expect(page).to_not have_link('Registrations', href: "/admin/conference/#{conference4.short_title}/registrations")
-    expect(page).to_not have_link('Schedule', href: "/admin/conference/#{conference4.short_title}/schedule")
-    expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference4.short_title}/campaigns")
-    expect(page).to_not have_link('Goals', href: "/admin/conference/#{conference4.short_title}/targets")
-    expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference4.short_title}/venue")
-    expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference4.short_title}/rooms")
-    expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference4.short_title}/lodgings")
-    expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference4.short_title}/sponsorship_levels")
-    expect(page).to_not have_link('Sponsors', href: "/admin/conference/#{conference4.short_title}/sponsors")
-    expect(page).to_not have_link('Supporter Levels', href: "/admin/conference/#{conference4.short_title}/supporter_levels")
-    expect(page).to_not have_link('E-Mails', href: "/admin/conference/#{conference4.short_title}/emails")
-    expect(page).to_not have_link('Call for Papers', href: "/admin/conference/#{conference4.short_title}/call_for_paper")
-    expect(page).to_not have_link('Tracks', href: "/admin/conference/#{conference4.short_title}/tracks")
-    expect(page).to_not have_link('Event Types', href: "/admin/conference/#{conference4.short_title}/event_types")
-    expect(page).to_not have_link('Difficulty Levels', href: "/admin/conference/#{conference4.short_title}/difficulty_levels")
-    expect(page).to_not have_link('Questions', href: "/admin/conference/#{conference4.short_title}/questions")
-    expect(page).to_not have_link('Roles', href: "/admin/conference/#{conference4.short_title}/roles")
-
-    visit edit_admin_conference_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_path(conference4.short_title)
-    expect(current_path).to eq(admin_conference_path(conference4.short_title))
-
-    visit admin_conference_registrations_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_events_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_schedule_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_campaigns_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_targets_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit edit_admin_conference_venue_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_sponsorship_levels_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_tickets_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_emails_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit new_admin_conference_call_for_paper_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_questions_path(conference4.short_title)
-    expect(current_path).to eq(root_path)
-
-    visit admin_conference_commercials_path(conference4.short_title)
-    expect(current_path).to eq(admin_conference_commercials_path(conference4.short_title))
   end
 end
