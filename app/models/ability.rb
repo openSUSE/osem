@@ -121,6 +121,10 @@ class Ability
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
     # can view others
     can :show, User
+    # can register
+    can [:show, :create], Registration do |registration|
+        registration.new_record?
+    end
   end
 
   def signed_in(user)

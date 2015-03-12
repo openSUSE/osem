@@ -24,7 +24,6 @@ module ApplicationHelper
   end
 
   def bootstrap_class_for(flash_type)
-    logger.debug "flash_type is #{flash_type}"
     case flash_type
     when 'success'
       'alert-success'
@@ -35,7 +34,7 @@ module ApplicationHelper
     when 'notice'
       'alert-info'
     else
-      flash_type.to_s
+      'alert-warning'
     end
   end
 
