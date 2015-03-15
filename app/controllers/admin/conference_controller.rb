@@ -179,8 +179,8 @@ module Admin
 
     def add_user
       @user = User.find_by(email: params[:user][:email])
-      @selection = params[:role].parameterize.underscore
-      @user.add_role @selection.to_sym, @conference
+      @selection = params[:role]
+      @user.add_role @selection, @conference
 
       @role_users = get_users(@selection)
       render 'roles', formats: [:js]
@@ -188,7 +188,7 @@ module Admin
 
     def remove_user
       @selection = params[:role]
-      @user.revoke @selection.to_sym, @conference
+      @user.revoke @selection, @conference
 
       @role_users = get_users(@selection)
       render 'roles', formats: [:js]
