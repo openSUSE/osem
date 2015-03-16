@@ -364,41 +364,47 @@ describe Conference do
     end
   end
 
-  describe 'program hours' do
+  describe 'program hours and minutes' do
     before(:each) do
       @long = create(:event_type, length: 100)
       @short = create(:event_type, length: 10)
     end
 
-    describe '#actual_program_hours' do
+    describe '#actual_program_minutes' do
       it 'calculates correct values with events' do
         create(:event, conference: subject, event_type: @long)
         create(:event, conference: subject, event_type: @long)
         create(:event, conference: subject, event_type: @short)
         create(:event, conference: subject, event_type: @short)
-        result = 220
-        expect(subject.current_program_hours).to eq(result)
+        result_in_hours = 4
+        result_in_minutes = 220
+        expect(subject.current_program_hours).to eq(result_in_hours)
+        expect(subject.current_program_minutes).to eq(result_in_minutes)
       end
 
       it 'calculates correct values without events' do
         result = 0
+        expect(subject.current_program_minutes).to eq(result)
         expect(subject.current_program_hours).to eq(result)
       end
     end
 
-    describe '#new_program_hours' do
+    describe '#new_program_minutes' do
       it 'calculates correct values with events' do
 
         create(:event, conference: subject, event_type: @long, created_at: Time.now - 3.days)
         create(:event, conference: subject, event_type: @long)
         create(:event, conference: subject, event_type: @short, created_at: Time.now - 3.days)
         create(:event, conference: subject, event_type: @short)
-        result = 110
-        expect(subject.new_program_hours(Time.now - 5.minutes)).to eq(result)
+        result_in_hours = 2
+        result_in_minutes = 110
+        expect(subject.new_program_hours(Time.now - 5.minutes)).to eq(result_in_hours)
+        expect(subject.new_program_minutes(Time.now - 5.minutes)).to eq(result_in_minutes)
       end
 
       it 'calculates correct values without events' do
         result = 0
+        expect(subject.new_program_minutes(Time.now - 5.minutes)).to eq(result)
         expect(subject.new_program_hours(Time.now - 5.minutes)).to eq(result)
       end
     end
