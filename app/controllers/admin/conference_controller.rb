@@ -149,7 +149,6 @@ module Admin
       # get targets
       @registration_targets = @conference.get_targets(Target.units[:registrations])
       @submission_targets = @conference.get_targets(Target.units[:submissions])
-      @program_minutes_targets = @conference.get_targets(Target.units[:program_minutes])
 
       # get campaigns
       @campaigns = @conference.get_campaigns

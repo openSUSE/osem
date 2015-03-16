@@ -344,23 +344,23 @@ describe Conference do
       expect(subject.get_targets(Target.units[:submissions])).to eq(result)
     end
 
-    it 'returns 0 if there is no program minute' do
-      target = build(:target, target_count: 300, unit: Target.units[:program_minutes])
+    it 'returns 0 if there is no program hour' do
+      target = build(:target, target_count: 5, unit: Target.units[:program_hours])
       subject.targets = [target]
       result = {
-        "300 Program minutes by #{target.due_date}" => '0'
+        "5 Program hours by #{target.due_date}" => '0'
       }
-      expect(subject.get_targets(Target.units[:program_minutes])).to eq(result)
+      expect(subject.get_targets(Target.units[:program_hours])).to eq(result)
     end
 
-    it 'returns 10 if there is 30 program minutes of 300' do
-      target = build(:target, target_count: 300, unit: Target.units[:program_minutes])
+    it 'returns 10 if there is 1 program hour of 10' do
+      target = build(:target, target_count: 10, unit: Target.units[:program_hours])
       subject.targets = [target]
       subject.events = [create(:event)]
       result = {
-        "300 Program minutes by #{target.due_date}" => '10'
+        "10 Program hours by #{target.due_date}" => '10'
       }
-      expect(subject.get_targets(Target.units[:program_minutes])).to eq(result)
+      expect(subject.get_targets(Target.units[:program_hours])).to eq(result)
     end
   end
 
