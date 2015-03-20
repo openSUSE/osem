@@ -1,8 +1,8 @@
-- @conference.questions.each do |q|
-  = f.inputs 'Additional Info' do
+= f.inputs 'Additional Info' do
+  - @conference.questions.each do |q|
     - if q.question_type.id == 1  || q.question_type.id == 2 # yes/no or single choice
       = f.input :qanswers, :collection => q.qanswers, :as => :select, :input_html => { :multiple => false, class: 'col-sm-10' }, label: q.title, :include_blank => "Please make your choice",
                 :member_label => Proc.new {|a| a.answer.title}
     - if q.question_type.id == 3  # multiple choice
-      = f.input :qanswers, :collection => q.qanswers, :as => :check_boxes, :input_html => { class: 'col-sm-2' }, :label => false,
+      = f.input :qanswers, :collection => q.qanswers, :as => :check_boxes, :input_html => { class: 'col-sm-2' }, :label => q.title,
                 :member_label => Proc.new {|a| a.answer.title}
