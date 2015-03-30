@@ -6,18 +6,62 @@
           Registration for
           = @conference.title
   .row
-    .col-md-8
-      = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
-        - if @conference.questions.any?
-          = render partial: 'questions', locals: { f: f }
-        - if @conference.events.workshops.any?
-          =f.inputs 'Register to Workshops' do
-            = f.input :events, as: :check_boxes, label: false, collection: @conference.events.workshops
-        = f.inputs 'Your Travel Info' do
-          = f.input :arrival, as: :string, label: 'Your arrival time', input_html: { value: (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), id: 'registration-arrival-datepicker', readonly: 'readonly'  }
-          = f.input :departure, as: :string, label: 'Your departure time', input_html: { value: (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.departure.nil?), id: 'registration-departure-datepicker', readonly: 'readonly'  }
-        %p.pull-right
-          - if @conference.user_registered?(current_user)
-            = f.action :submit, button_html: { value: 'Update Registration', class: 'btn btn-primary' }
-          - else
-            = f.action :submit, button_html: { value: 'Register', class: 'btn btn-primary', id: 'register' }
+    .col-md-6
+      - if !current_user
+        %legend
+          %span
+            =link_to('#signup', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
+              = CONFIG['name']
+              Account
+          %span.pull-right#account-already
+            =link_to('#signin', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
+              Already have an account?
+      .tab-content
+        .tab-pane.active{role: 'tabpanel', id: 'signup'}
+          = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
+            - if !current_user
+              = f.fields_for :user do |u|
+                = u.input :username, input_html: {required: 'required', autocomplete: 'off'}
+                = u.input :email, input_html: {required: 'required', autocomplete: 'off'}
+                = u.input :password, input_html: {required: 'required', autocomplete: 'off'}
+                = u.input :password_confirmation, :required => true, input_html: {required: 'required', autocomplete: 'off'}
+            - if @conference.questions.any?
+              = render partial: 'questions', locals: { f: f }
+            - if @conference.events.workshops.any?
+              =f.inputs 'Register to Workshops' do
+                = f.input :events, as: :check_boxes, label: false, collection: @conference.events.workshops
+            = f.inputs 'Your Travel Info' do
+              = f.input :arrival, as: :string, label: 'Your arrival time', input_html: { value: (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), id: 'registration-arrival-datepicker', readonly: 'readonly'  }
+              = f.input :departure, as: :string, label: 'Your departure time', input_html: { value: (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.departure.nil?), id: 'registration-departure-datepicker', readonly: 'readonly'  }
+            %p.pull-right
+              - if @conference.user_registered?(current_user)
+                = f.action :submit, button_html: { value: 'Update Registration', class: 'btn btn-primary' }
+              - else
+                = f.action :submit, button_html: { value: 'Register', class: 'btn btn-primary', id: 'register' }
+        .tab-pane{role: 'tabpanel', id: 'signin'}
+          - if !CONFIG['authentication']['ichain']['enabled']
+            = form_tag(new_user_session_path, class: 'form-horizontal') do
+              %legend
+                %span
+                  Sign In
+              .form-group
+                %label{for: "user[login]", class: 'col-sm-2 control-label'}
+                  Username
+                .col-sm-10
+                  = text_field_tag 'user[login]', nil, placeholder: 'Username', class: 'form-control', required: 'required'
+              .form-group
+                %label{for: "user[password]", class: 'col-sm-2 control-label'}
+                  Password
+                .col-sm-10
+                  = password_field_tag 'user[password]', nil, placeholder: 'Password', class: 'form-control', required: 'required'
+              .form-group
+                .col-sm-12
+                  %button.btn.btn-success.pull-right
+                    Sign in
+              - unless omniauth_configured.empty?
+                .form-group
+                  %hr
+                  %p.text-center
+                    or sign in using
+                  .text-center
+                    = render 'devise/shared/openid'

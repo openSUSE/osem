@@ -1,7 +1,7 @@
 module Admin
   class RegistrationsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference
+    load_and_authorize_resource :registration, through: :conference
     before_filter :set_user, except: [:index]
 
     def index

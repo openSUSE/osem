@@ -1,5 +1,7 @@
 class Registration < ActiveRecord::Base
   belongs_to :user
+  validates :user, presence: true
+  accepts_nested_attributes_for :user
   belongs_to :conference
   belongs_to :dietary_choice
 

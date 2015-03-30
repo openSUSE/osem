@@ -1,11 +1,16 @@
 class ConferenceRegistrationsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:new, :create]
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
-    @registration = current_user.registrations.build(conference_id: @conference.id)
+    # ichain does not allow us to create users during registration
+    if CONFIG['authentication']['ichain']['enabled'] && !current_user
+      redirect_to root_path, alert: 'You need to sign in or sign up before continuing.'
+    end
+    @registration = Registration.new
+    @registration.build_user
   end
 
   def show
@@ -17,19 +22,24 @@ class ConferenceRegistrationsController < ApplicationController
   def edit; end
 
   def create
-    @registration = current_user.registrations.build(registration_params)
-    @registration.conference_id = @conference.id
+    @registration = Registration.new(registration_params)
+    @registration.conference = @conference
+    @registration.user = current_user if current_user
 
     if @registration.save
       # Trigger ahoy event
       ahoy.track 'Registered', title: 'New registration'
 
+      # Sign in the new user
+      if !current_user
+        sign_in(@registration.user)
+      end
+
+      flash[:notice] = 'You are now registered and will be receiving E-Mail notifications.'
       if @conference.tickets.any? && !current_user.supports?(@conference)
-        redirect_to conference_tickets_path(@conference.short_title),
-                    notice: 'You are now registered and will be receiving E-Mail notifications.'
+        redirect_to conference_tickets_path(@conference.short_title)
       else
-        redirect_to  conference_conference_registrations_path(@conference.short_title),
-                     notice: 'You are now registered and will be receiving E-Mail notifications.'
+        redirect_to  conference_conference_registrations_path(@conference.short_title)
       end
     else
       flash[:error] = "An error prohibited the registration for #{@conference.title}: "\
@@ -63,8 +73,9 @@ class ConferenceRegistrationsController < ApplicationController
   protected
 
   def set_registration
-    @registration = current_user.registrations.find_by(conference_id: @conference.id)
+    @registration = Registration.find_by(conference: @conference, user: current_user)
     if !@registration
+      flash[:alert] = "Can't find a registration for #{@conference.title} for you. Please register."
       redirect_to new_conference_conference_registrations_path(@conference.short_title)
     end
   end
@@ -78,7 +89,7 @@ class ConferenceRegistrationsController < ApplicationController
           qanswers_attributes: [],
           event_ids: [],
           user_attributes: [
-              :id, :name, :tshirt, :mobile, :volunteer_experience, :languages]
+            :username, :email, :name, :password, :password_confirmation]
     )
   end
 end
