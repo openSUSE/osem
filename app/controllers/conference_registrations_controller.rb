@@ -5,9 +5,14 @@ class ConferenceRegistrationsController < ApplicationController
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
+    # Redirect to registration edit when user is already registered
+    if @conference.user_registered?(current_user)
+      redirect_to edit_conference_conference_registrations_path(@conference.short_title)
+      return
     # ichain does not allow us to create users during registration
-    if CONFIG['authentication']['ichain']['enabled'] && !current_user
+    elsif CONFIG['authentication']['ichain']['enabled'] && !current_user
       redirect_to root_path, alert: 'You need to sign in or sign up before continuing.'
+      return
     end
     @registration = Registration.new
     @registration.build_user
