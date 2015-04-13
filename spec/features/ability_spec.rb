@@ -13,10 +13,20 @@ feature 'Has correct abilities' do
   let(:role_info_desk) { create(:role, name: 'info_desk', resource: conference3) }
   let(:role_volunteer_coordinator) { create(:role, name: 'volunteer_coordinator', resource: conference4) }
 
+  let(:user) { create(:user) }
   let(:user_organizer) { create(:user, role_ids: [role_organizer.id]) }
   let(:user_cfp) { create(:user, role_ids: [role_cfp.id]) }
   let(:user_info_desk) { create(:user, role_ids: [role_info_desk.id]) }
   let(:user_volunteer_coordinator) { create(:user, role_ids: [role_volunteer_coordinator.id]) }
+
+  scenario 'when user has no role' do
+    user_organizer.is_admin = false
+    sign_in user
+
+    visit admin_conference_path(conference1.short_title)
+    expect(current_path).to eq root_path
+    expect(flash).to eq 'You are not authorized to access this area!'
+  end
 
   scenario 'when user is organizer' do
     user_organizer.is_admin = false

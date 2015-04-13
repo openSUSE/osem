@@ -3,74 +3,85 @@ require 'cancan/matchers'
 
 describe 'User' do
   describe 'Abilities' do
+    # automatically becomes admin
+    let!(:first_user) { create(:user) }
+
+    # see https://github.com/CanCanCommunity/cancancan/wiki/Testing-Abilities
     subject(:ability){ Ability.new(user) }
-    let!(:first_user) { create(:user) } # automatically becomes admin
     let(:user){ nil }
+
     let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
     let(:conference_public) { create(:conference, splashpage: create(:splashpage, public: true), call_for_paper: create(:call_for_paper, schedule_public: true)) }
-    let(:event_confirmed) { create(:event, state: 'confirmed') }
-    let(:someevent) { create(:event) }
 
-    context 'when user is a guest' do  # Test abilities for guest users
+    let(:event_confirmed) { create(:event, state: 'confirmed') }
+    let(:event_unconfirmed) { create(:event) }
+
+    let(:commercial_event_confirmed) { create(:commercial, commercialable: event_confirmed) }
+    let(:commercial_event_unconfirmed) { create(:commercial, commercialable: event_unconfirmed) }
+
+    let(:registration) { create(:registration) }
+
+    # Test abilities for not signed in users
+    context 'when user is not signed in' do
+      it{ should be_able_to(:index, Conference)}
 
       it{ should be_able_to(:show, conference_public)}
       it{ should_not be_able_to(:show, conference_not_public)}
 
-      it{ should be_able_to(:show, event_confirmed)}
-      it{ should_not be_able_to(:show, someevent)}
-
       it{ should be_able_to(:schedule, conference_public)}
+      it{ should_not be_able_to(:schedule, conference_not_public)}
 
-      it{ should_not be_able_to(:create, Event)}
-      it{ should_not be_able_to(:manage, Event)}
-      it{ should_not be_able_to(:manage, Conference)}
+      it{ should be_able_to(:show, event_confirmed)}
+      it{ should_not be_able_to(:show, event_unconfirmed)}
+
+      it{ should be_able_to(:show, commercial_event_confirmed)}
+      it{ should_not be_able_to(:show, commercial_event_unconfirmed)}
+
+      it{ should be_able_to(:show, User)}
+
+      it{ should be_able_to(:create, Registration)}
+      it{ should be_able_to(:show, Registration.new)}
+      it{ should_not be_able_to(:manage, registration)}
+
       it{ should_not be_able_to(:manage, :any)}
     end
 
-    context 'when user is a Signed In User' do # Test abilities for signed in users (without any role)
+    # Test abilities for signed in users (without any role)
+    context 'when user is a Signed In User' do
       let(:user) { create(:user) }
-      let(:registration1) { create(:registration, conference: conference_public, user: user) }
-      let(:registration2) { create(:registration, conference: conference_not_public, user: user) }
+      let(:user2) { create(:user) }
+      let(:subscription) { create(:subscription, user: user) }
+      let(:registration_public) { create(:registration, conference: conference_public, user: user) }
+      let(:registration_not_public) { create(:registration, conference: conference_not_public, user: user) }
+
+      let(:my_event) { create(:event, users: [user]) }
+
+      let(:commercial) { create(:commercial, commercialable: event_unconfirmed) }
+      let(:my_commercial) { create(:commercial, commercialable: my_event) }
+
+      it{ should be_able_to(:manage, user) }
+
+      it{ should be_able_to(:manage, registration_public) }
+      it{ should be_able_to(:manage, registration_not_public) }
+
+      it{ should be_able_to(:index, Ticket) }
+      it{ should be_able_to(:manage, TicketPurchase.new(user_id: user.id)) }
+
+      it{ should be_able_to(:create, Subscription.new(user_id: user.id)) }
+      it{ should be_able_to(:destroy, subscription) }
 
       it{ should be_able_to(:create, Event) }
-      it{ should be_able_to(:index, Event) }
-      it{ should_not be_able_to(:manage, Event.new) }
-      it{ should be_able_to(:show, event_confirmed) }
+      it{ should be_able_to(:manage, my_event) }
+      it{ should_not be_able_to(:manage, event_unconfirmed) }
 
-      it{ should be_able_to(:manage, registration1) }
-      it{ should be_able_to(:manage, registration2) }
-
-      it{ should be_able_to(:show, conference_public)}
-      it{ should_not be_able_to(:show, conference_not_public)}
-      it{ should_not be_able_to(:manage, Conference) }
+      it{ should be_able_to(:create, my_event.commercials.new) }
+      it{ should be_able_to(:manage, my_commercial) }
+      it{ should_not be_able_to(:manage, commercial) }
     end
 
     context 'user #is_admin?' do
       let(:user) { create(:admin) }
-      it{ should be_able_to(:manage, User) }
-      it{ should be_able_to(:create, Conference) }
-    end
-
-    context 'signed in users can manage their events' do
-      let(:user) { create(:user) }
-      let(:user2) { create(:user) }
-      let(:myevent) { create(:event, users: [user]) }
-      let(:someevent) { create(:event, users: [user2]) }
-      let(:commercial_myevent) { create(:commercial, commercialable: myevent) }
-      let(:commercial_someevent) { create(:commercial, commercialable: someevent) }
-
-      # Users are able to update and destroy their own events
-      it{ should be_able_to(:update, myevent) }
-      it{ should be_able_to(:destroy, myevent) }
-      it{ should be_able_to(:manage, myevent) }
-      it{ should be_able_to(:create, myevent.commercials.new) }
-      it{ should be_able_to(:manage, commercial_myevent) }
-
-      # Users are not able to update and destroy other users events
-      it{ should_not be_able_to(:update, someevent) }
-      it{ should_not be_able_to(:destroy, someevent) }
-      it{ should_not be_able_to(:manage, someevent) }
-      it{ should_not be_able_to(:manage, commercial_someevent) }
+      it{ should be_able_to(:manage, :all) }
     end
 
     context 'when user is an organizer' do
@@ -79,11 +90,11 @@ describe 'User' do
       let(:role) { create(:organizer_role, resource: conference1) }
       let(:user) { create(:user, role_ids: [role.id]) }
       let(:someuser) { create(:user) }
-      let(:registration1) { create(:registration, user: someuser, conference_id: conference1.id) }
+      let(:registration_public) { create(:registration, user: someuser, conference_id: conference1.id) }
 
       it{ should be_able_to(:manage, conference1) }
       it{ should_not be_able_to(:manage, conference2) }
-      it{ should be_able_to(:manage, registration1) }
+      it{ should be_able_to(:manage, registration_public) }
       it{ should be_able_to(:create, Registration) }
     end
 
@@ -93,7 +104,7 @@ describe 'User' do
       let(:role) { create(:role, name: 'cfp', resource: conference1) }
       let(:user) { create(:user, role_ids: role.id) }
       let(:event) { create(:event, conference_id: conference1.id) }
-      let(:someevent) { create(:event, conference_id: conference2.id) }
+      let(:event_unconfirmed) { create(:event, conference_id: conference2.id) }
       let(:cfp) { create(:call_for_paper, conference: conference1) }
 
       it{ should_not be_able_to(:manage, conference1) }
@@ -102,7 +113,7 @@ describe 'User' do
       it{ should be_able_to(:show, conference1) }
 
       it{ should be_able_to(:manage, event) }
-      it{ should_not be_able_to(:manage, someevent) }
+      it{ should_not be_able_to(:manage, event_unconfirmed) }
 
       it{ should be_able_to(:manage, cfp) }
       it{ should be_able_to(:manage, create(:event_type, conference: conference1)) }
