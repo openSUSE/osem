@@ -83,62 +83,95 @@ class Ability
     # Abilities from not_signed_in and signed_in are also inherited
     signed_in(user)
 
-    conf_ids_for_organizer = []
-    conf_ids_for_cfp = []
-    conf_ids_for_info_desk = []
-    conf_ids_for_volunteer_coordinator = []
+    signed_in_with_organizer_role(user)
+    signed_in_with_cfp_role(user)
+    signed_in_with_info_desk_role(user)
+    signed_in_with_volunteers_coordinator_role(user)
 
-    # Ids of all the conferences for which the user has an 'organizer' role
+    # for users with any role
+    can [:show], Conference
+    can :index, Commercial, commercialable_type: 'Conference'
+    cannot [:edit, :update, :destroy], Question, global: true
+    # for admins
+    can :manage, :all if user.is_admin
+  end
+
+  def signed_in_with_organizer_role(user)
+    # ids of all the conferences for which the user has the 'organizer' role
+    conf_ids_for_organizer = []
     conf_ids_for_organizer =
         Conference.with_role(:organizer, user).pluck(:id) if user.has_role? :organizer, :any
-    conf_ids_for_cfp =
-      Conference.with_role(:cfp, user).pluck(:id) if user.has_role? :cfp, :any
-    # Ids of all the conferences for which the user has an 'info_desk' role
-    conf_ids_for_info_desk =
-        Conference.with_role(:info_desk, user).pluck(:id) if user.has_role? :info_desk, :any
-    # Ids of all the conferences for which the user has a 'volunteer_coordinator' role
-    conf_ids_for_volunteer_coordinator =
-        Conference.with_role(:volunteer_coordinator, user).pluck(:id) if user.has_role? :volunteer_coordinator, :any
 
-    # User with role
-    can [:new, :create], Conference if user.is_admin || (user.has_role? :organizer, :any)
-    can [:index, :show, :gallery_photos], Conference
+    can [:new, :create], Conference if user.has_role?(:organizer, :any)
     can :manage, Conference, id: conf_ids_for_organizer
-#     can :manage, Conference do |conference|
-#       conference.id = conf_ids_for_organizer
-#     end
-    can :manage, Registration, conference_id: conf_ids_for_organizer + conf_ids_for_info_desk
-    can :manage, Question, conference_id: conf_ids_for_organizer + conf_ids_for_info_desk
-    cannot [:edit, :update, :destroy], Question, global: true
-    can :manage, Vposition, conference_id: conf_ids_for_organizer + conf_ids_for_volunteer_coordinator
-    can :manage, Vday, conference_id: conf_ids_for_organizer + conf_ids_for_volunteer_coordinator
-    # The ability to manage an Event means that:
-    # the user can also edit the schedule and that
-    # the user can also vote
-    can :manage, Event, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
-    can :create, Event
-    can :manage, EventType, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
-    can :manage, Track, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
-    can :manage, DifficultyLevel, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
-    can :manage, EmailSettings, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
+    can :manage, Splashpage, conference_id: conf_ids_for_organizer
+    can :manage, Contact, conference_id: conf_ids_for_organizer
+    can :manage, EmailSettings, conference_id: conf_ids_for_organizer
     can :manage, Campaign, conference_id: conf_ids_for_organizer
+    can :manage, Target, conference_id: conf_ids_for_organizer
+    can :manage, Commercial, commercialable_type: 'Conference',
+                             commercialable_id: conf_ids_for_organizer
+    can :manage, Registration, conference_id: conf_ids_for_organizer
+    can :manage, RegistrationPeriod, conference_id: conf_ids_for_organizer
+    can :manage, Question, conference_id: conf_ids_for_organizer
+    can :manage, Question do |question|
+      !(question.conferences.pluck(:id) & conf_ids_for_organizer).empty?
+    end
+    can :manage, Vposition, conference_id: conf_ids_for_organizer
+    can :manage, Vday, conference_id: conf_ids_for_organizer
+    can :manage, CallForPaper, conference_id: conf_ids_for_organizer
+    can :manage, Event, conference_id: conf_ids_for_organizer
+    can :manage, EventType, conference_id: conf_ids_for_organizer
+    can :manage, Track, conference_id: conf_ids_for_organizer
+    can :manage, DifficultyLevel, conference_id: conf_ids_for_organizer
+    can :manage, Commercial, commercialable_type: 'Event',
+                             commercialable_id: Event.where(conference_id: conf_ids_for_organizer).pluck(:id)
+    can :manage, Venue, conference_id: conf_ids_for_organizer
     can :manage, Lodging, conference_id: conf_ids_for_organizer
-    can :manage, Room, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
+    can :manage, Room, conference_id: conf_ids_for_organizer
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
     can :manage, Ticket, conference_id: conf_ids_for_organizer
-    can :manage, Target, conference_id: conf_ids_for_organizer
-    can :index, Commercial, commercialable_type: 'Conference'
-    can :manage, Commercial, commercialable_type: 'Conference', commercialable_id: conf_ids_for_organizer
-    # Manage commercials for events that belong to a conference of which user is organizer
-    can :manage, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(conference_id: conf_ids_for_organizer + conf_ids_for_cfp).pluck(:id)
-    can :manage, Contact, conference_id: conf_ids_for_organizer
-    can :manage, Campaign, conference_id: conf_ids_for_organizer
-    can :manage, RegistrationPeriod, conference_id: conf_ids_for_organizer
-    can :manage, Splashpage, conference_id: conf_ids_for_organizer
-    can :manage, CallForPaper, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
-    can :manage, Venue, conference_id: conf_ids_for_organizer
-    can :index, Venue, conference_id: conf_ids_for_organizer + conf_ids_for_cfp
-    can :manage, :all if user.is_admin
+  end
+
+  def signed_in_with_cfp_role(user)
+    # ids of all the conferences for which the user has the 'cfp' role
+    conf_ids_for_cfp = []
+    conf_ids_for_cfp =
+      Conference.with_role(:cfp, user).pluck(:id) if user.has_role? :cfp, :any
+
+    can :manage, Event, conference_id: conf_ids_for_cfp
+    can :manage, EventType, conference_id: conf_ids_for_cfp
+    can :manage, Track, conference_id: conf_ids_for_cfp
+    can :manage, DifficultyLevel, conference_id: conf_ids_for_cfp
+    can :manage, EmailSettings, conference_id: conf_ids_for_cfp
+    can :manage, Room, conference_id: conf_ids_for_cfp
+    can :index, Venue, conference_id: conf_ids_for_cfp
+    can :manage, CallForPaper, conference_id: conf_ids_for_cfp
+    can :manage, Commercial, commercialable_type: 'Event',
+                             commercialable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
+  end
+
+  def signed_in_with_info_desk_role(user)
+    # ids of all the conferences for which the user has the 'info_desk' role
+    conf_ids_for_info_desk = []
+    conf_ids_for_info_desk =
+        Conference.with_role(:info_desk, user).pluck(:id) if user.has_role? :info_desk, :any
+
+    can :manage, Registration, conference_id: conf_ids_for_info_desk
+    can :manage, Question, conference_id: conf_ids_for_info_desk
+    can :manage, Question do |question|
+      !(question.conferences.pluck(:id) & conf_ids_for_info_desk).empty?
+    end
+  end
+
+  def signed_in_with_volunteers_coordinator_role(user)
+    # ids of all the conferences for which the user has the 'volunteers_coordinator' role
+    conf_ids_for_volunteers_coordinator = []
+    conf_ids_for_volunteers_coordinator =
+        Conference.with_role(:volunteer_coordinator, user).pluck(:id) if user.has_role? :volunteer_coordinator, :any
+
+    can :manage, Vposition, conference_id: conf_ids_for_volunteers_coordinator
+    can :manage, Vday, conference_id: conf_ids_for_volunteers_coordinator
   end
 end

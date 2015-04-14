@@ -16,7 +16,7 @@ module Admin
 
       if @venue.save
         redirect_to admin_conference_venue_path,
-                    notice: 'Venue successfully created.'
+                    notice: 'Venue was successfully created.'
       else
         render :new
       end

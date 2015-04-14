@@ -143,3 +143,5 @@ class ProposalController < ApplicationController
                 notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
   end
 end
+
+# FIXME: Introduce strong_parameters pronto!

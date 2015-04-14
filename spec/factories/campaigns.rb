@@ -4,5 +4,6 @@ FactoryGirl.define do
   factory :campaign do
     name 'Test Campaign'
     utm_campaign 'testcampaign'
+    conference
   end
 end

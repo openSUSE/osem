@@ -5,5 +5,6 @@ FactoryGirl.define do
     due_date { 14.days.from_now }
     target_count 100
     unit Target.units[:submissions]
+    conference
   end
 end

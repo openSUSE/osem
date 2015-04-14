@@ -510,13 +510,13 @@ describe Conference do
   describe 'event type distribution' do
     before do
       subject.email_settings = create(:email_settings)
-      @workshop = create(:event_type, title: 'Workshop', color: '#000000')
-      @lecture = create(:event_type, title: 'Lecture', color: '#ffffff')
+      @workshop = create(:event_type, title: 'Workshop', color: '#000000', conference: subject)
+      @lecture = create(:event_type, title: 'Lecture', color: '#ffffff', conference: subject)
     end
 
     describe '#event_type_distribution' do
       it 'calculates correct for different event types' do
-        create(:event, conference: subject, event_type: @workshop)
+        blah = create(:event, conference: subject, event_type: @workshop)
         create(:event, conference: subject, event_type: @workshop)
         create(:event, conference: subject, event_type: @lecture)
         result = {}
@@ -1506,10 +1506,6 @@ describe Conference do
 
       it 'has an email setting after creation' do
         expect(subject.email_settings).not_to be_nil
-      end
-
-      it 'has a venue after creation' do
-        expect(subject.venue).not_to be_nil
       end
 
       it 'has a guid after creation' do
