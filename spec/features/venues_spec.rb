@@ -10,12 +10,10 @@ feature Conference do
 
       sign_in organizer
 
-      visit edit_admin_conference_venue_path(
+      # create the venue
+      visit admin_conference_venue_path(
                 conference_id: conference.short_title)
-
-      expect(page.find("//*[@id='venue_submit_action']").
-                 text).to eq('Update Venue')
-
+      click_link 'Create Venue'
       fill_in 'venue_name', with: 'Example University'
       fill_in 'venue_street', with: 'Example Street 42'
       fill_in 'venue_city', with: 'Example City'
@@ -25,12 +23,9 @@ feature Conference do
       fill_in 'venue_description',
               with: 'Lorem ipsum dolor sit amet, consetetur' \
               'sadipscing elitr, sed diam nonumy eirmod tempor'
-
-      click_button 'Update Venue'
-
+      click_button 'Create Venue'
       expect(flash).
-          to eq('Venue was successfully updated.')
-
+          to eq('Venue was successfully created.')
       venue = Conference.find(conference.id).venue
       expect(venue.name).to eq('Example University')
       expect(venue.street).to eq('Example Street 42')
@@ -38,16 +33,16 @@ feature Conference do
       expect(venue.description).to eq('Lorem ipsum dolor sit amet, consetetur' \
               'sadipscing elitr, sed diam nonumy eirmod tempor')
 
+      # edit the venue
       click_link 'Edit Venue'
+      expect(page.find("//*[@id='venue_submit_action']").
+                 text).to eq('Update Venue')
       fill_in 'venue_name', with: 'Example University new'
       fill_in 'venue_website', with: 'www.example.com new'
-      fill_in 'venue_description',
-              with: 'new'
-
+      fill_in 'venue_description', with: 'new'
       click_button 'Update Venue'
       expect(flash).
           to eq('Venue was successfully updated.')
-
       venue.reload
       expect(venue.name).to eq('Example University new')
       expect(venue.website).to eq('www.example.com new')

@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :splashpage do
-    public  false
+  factory :question_type do
+    title 'Multiple Choice'
   end
 end

@@ -11,7 +11,7 @@ describe 'User' do
     let(:user){ nil }
 
     let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
-    let(:conference_public) { create(:conference, splashpage: create(:splashpage, public: true), call_for_paper: create(:call_for_paper, schedule_public: true)) }
+    let(:conference_public) { create(:full_conference, splashpage: create(:splashpage, public: true), call_for_paper: create(:call_for_paper, schedule_public: true)) }
 
     let(:event_confirmed) { create(:event, state: 'confirmed') }
     let(:event_unconfirmed) { create(:event) }
@@ -47,7 +47,7 @@ describe 'User' do
     end
 
     # Test abilities for signed in users (without any role)
-    context 'when user is a Signed In User' do
+    context 'when user is signed in' do
       let(:user) { create(:user) }
       let(:user2) { create(:user) }
       let(:subscription) { create(:subscription, user: user) }
@@ -84,91 +84,233 @@ describe 'User' do
       it{ should be_able_to(:manage, :all) }
     end
 
-    context 'when user is an organizer' do
-      let!(:conference1) { create(:conference) }
-      let!(:conference2) { create(:conference) }
-      let(:role) { create(:organizer_role, resource: conference1) }
-      let(:user) { create(:user, role_ids: [role.id]) }
-      let(:someuser) { create(:user) }
-      let(:registration_public) { create(:registration, user: someuser, conference_id: conference1.id) }
+    context 'when user has the role organizer' do
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { create(:organizer_role, resource: my_conference) }
+      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:registration) { create(:registration, conference: my_conference) }
+      let(:other_registration) { create(:registration, conference: conference_public) }
+      let(:event) { create(:event_full, conference: my_conference) }
+      let(:other_event) { create(:event_full, conference: conference_public) }
 
-      it{ should be_able_to(:manage, conference1) }
-      it{ should_not be_able_to(:manage, conference2) }
-      it{ should be_able_to(:manage, registration_public) }
-      it{ should be_able_to(:create, Registration) }
-    end
+      it{ should be_able_to([:create, :new], Conference) }
+      it{ should be_able_to(:manage, my_conference) }
+      it{ should_not be_able_to(:manage, conference_public) }
+      it{ should be_able_to(:manage, my_conference.splashpage) }
+      it{ should_not be_able_to(:manage, conference_public.splashpage) }
+      it{ should be_able_to(:manage, my_conference.contact) }
+      it{ should_not be_able_to(:manage, conference_public.contact) }
+      it{ should be_able_to(:manage, my_conference.email_settings) }
+      it{ should_not be_able_to(:manage, conference_public.email_settings) }
+      it{ should be_able_to(:manage, my_conference.campaigns.first) }
+      it{ should_not be_able_to(:manage, conference_public.campaigns.first) }
+      it{ should be_able_to(:manage, my_conference.targets.first) }
+      it{ should_not be_able_to(:manage, conference_public.targets.first) }
+      it{ should be_able_to(:manage, my_conference.commercials.first) }
+      it{ should_not be_able_to(:manage, conference_public.commercials.first) }
+      it{ should be_able_to(:manage, my_conference.registration_period) }
+      it{ should_not be_able_to(:manage, conference_public.registration_period) }
+      it{ should be_able_to(:manage, my_conference.questions.first) }
+      it{ should_not be_able_to(:manage, conference_public.questions.first) }
+      it{ should be_able_to(:manage, my_conference.call_for_paper) }
+      it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
+      it{ should be_able_to(:manage, my_conference.venue) }
+      it{ should_not be_able_to(:manage, conference_public.venue) }
+      it{ should be_able_to(:manage, my_conference.lodgings.first) }
+      it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
+      it{ should be_able_to(:manage, my_conference.sponsors.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsors.first) }
+      it{ should be_able_to(:manage, my_conference.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsorship_levels.first) }
+      it{ should be_able_to(:manage, my_conference.tickets.first) }
+      it{ should_not be_able_to(:manage, conference_public.tickets.first) }
 
-    context 'when user is part of cfp' do
-      let!(:conference1) { create(:conference) }
-      let!(:conference2) { create(:conference) }
-      let(:role) { create(:role, name: 'cfp', resource: conference1) }
-      let(:user) { create(:user, role_ids: role.id) }
-      let(:event) { create(:event, conference_id: conference1.id) }
-      let(:event_unconfirmed) { create(:event, conference_id: conference2.id) }
-      let(:cfp) { create(:call_for_paper, conference: conference1) }
-
-      it{ should_not be_able_to(:manage, conference1) }
-      it{ should_not be_able_to(:manage, conference2) }
-      it{ should be_able_to(:index, conference1) }
-      it{ should be_able_to(:show, conference1) }
+      it{ should be_able_to(:manage, registration) }
+      it{ should_not be_able_to(:manage, other_registration) }
 
       it{ should be_able_to(:manage, event) }
-      it{ should_not be_able_to(:manage, event_unconfirmed) }
-
-      it{ should be_able_to(:manage, cfp) }
-      it{ should be_able_to(:manage, create(:event_type, conference: conference1)) }
+      it{ should_not be_able_to(:manage, other_event) }
+      it{ should be_able_to(:manage, event.event_type) }
+      it{ should_not be_able_to(:manage, other_event.event_type) }
+      it{ should be_able_to(:manage, event.track) }
+      it{ should_not be_able_to(:manage, other_event.track) }
+      it{ should be_able_to(:manage, event.difficulty_level) }
+      it{ should_not be_able_to(:manage, other_event.difficulty_level) }
+      it{ should be_able_to(:manage, event.commercials.first) }
+      it{ should_not be_able_to(:manage, other_event.commercials.first) }
     end
 
-    context 'when user has multiple roles' do
-      let!(:conference1) { create(:conference) } # user is organizer
-      let!(:conference2) { create(:conference) } # user is cfp
-      let!(:conference3) { create(:conference) } # user is info_desk
-      let!(:conference4) { create(:conference) } # user is volunteer coordinator
-      let!(:conference5) { create(:conference, splashpage: create(:splashpage, public: true)) } # user has no role
-      let!(:conference6) { create(:conference, splashpage: create(:splashpage, public: false)) } # user has no role
-      let(:role_organizer) { create(:role, name: 'organizer', resource: conference1) }
-      let(:role_cfp) { create(:role, name: 'cfp', resource: conference2) }
-      let(:role_info_desk) { create(:role, name: 'info_desk', resource: conference3) }
-      let(:role_volunteer_coordinator) { create(:role, name: 'volunteer_coordinator', resource: conference4) }
-      let(:user) { create(:user, role_ids: [role_cfp.id, role_organizer.id, role_cfp.id, role_info_desk.id, role_volunteer_coordinator.id]) }
-      let(:admin) { create(:admin) }
+    context 'when user has the role cfp' do
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { create(:cfp_role, resource: my_conference) }
+      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:registration) { create(:registration, conference: my_conference) }
+      let(:other_registration) { create(:registration, conference: conference_public) }
+      let(:event) { create(:event_full, conference: my_conference) }
+      let(:other_event) { create(:event_full, conference: conference_public) }
 
-      it{ should be_able_to(:manage, conference1) }
-      it{ should_not be_able_to(:update, conference2) }
-      it{ should_not be_able_to(:update, conference3) }
-      it{ should_not be_able_to(:update, conference4) }
-      it{ should_not be_able_to(:update, conference5) }
+      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:manage, my_conference) }
+      it{ should_not be_able_to(:manage, conference_public) }
+      it{ should_not be_able_to(:manage, my_conference.splashpage) }
+      it{ should_not be_able_to(:manage, conference_public.splashpage) }
+      it{ should_not be_able_to(:manage, my_conference.contact) }
+      it{ should_not be_able_to(:manage, conference_public.contact) }
+      it{ should be_able_to(:manage, my_conference.email_settings) }
+      it{ should_not be_able_to(:manage, conference_public.email_settings) }
+      it{ should_not be_able_to(:manage, my_conference.campaigns.first) }
+      it{ should_not be_able_to(:manage, conference_public.campaigns.first) }
+      it{ should_not be_able_to(:manage, my_conference.targets.first) }
+      it{ should_not be_able_to(:manage, conference_public.targets.first) }
+      it{ should_not be_able_to(:manage, my_conference.commercials.first) }
+      it{ should_not be_able_to(:manage, conference_public.commercials.first) }
+      it{ should_not be_able_to(:manage, my_conference.registration_period) }
+      it{ should_not be_able_to(:manage, conference_public.registration_period) }
+      it{ should_not be_able_to(:manage, my_conference.questions.first) }
+      it{ should_not be_able_to(:manage, conference_public.questions.first) }
+      it{ should be_able_to(:manage, my_conference.call_for_paper) }
+      it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
+      it{ should_not be_able_to(:manage, my_conference.venue) }
+      it{ should be_able_to(:index, my_conference.venue) }
+      it{ should_not be_able_to(:manage, conference_public.venue) }
+      it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
+      it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsors.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsors.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, my_conference.tickets.first) }
+      it{ should_not be_able_to(:manage, conference_public.tickets.first) }
 
-      it{ should be_able_to(:show, conference1) }
-      it{ should be_able_to(:show, conference2) }
-      it{ should be_able_to(:show, conference3) }
-      it{ should be_able_to(:show, conference4) }
-      it{ should be_able_to(:show, conference5) }
-      it{ should be_able_to(:show, conference6) }
+      it{ should_not be_able_to(:manage, registration) }
+      it{ should_not be_able_to(:manage, other_registration) }
 
-      it{ should be_able_to(:manage, conference1.venue) }
-      it{ should_not be_able_to(:manage, conference2.venue) }
-      it{ should_not be_able_to(:manage, conference3.venue) }
-      it{ should_not be_able_to(:manage, conference4.venue) }
-      it{ should_not be_able_to(:manage, conference5.venue) }
+      it{ should be_able_to(:manage, event) }
+      it{ should_not be_able_to(:manage, other_event) }
+      it{ should be_able_to(:manage, event.event_type) }
+      it{ should_not be_able_to(:manage, other_event.event_type) }
+      it{ should be_able_to(:manage, event.track) }
+      it{ should_not be_able_to(:manage, other_event.track) }
+      it{ should be_able_to(:manage, event.difficulty_level) }
+      it{ should_not be_able_to(:manage, other_event.difficulty_level) }
+      it{ should be_able_to(:manage, event.commercials.first) }
+      it{ should_not be_able_to(:manage, other_event.commercials.first) }
+    end
 
-      it{ should be_able_to(:manage, conference1.registrations.new) }
-      it{ should_not be_able_to(:manage, conference2.registrations.new) }
-      it{ should be_able_to(:manage, conference3.registrations.new) }
-      it{ should_not be_able_to(:manage, conference4.registrations.new) }
-      it{ should_not be_able_to(:manage, conference5.registrations.new) }
+    context 'when user has the role info_desk' do
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { create(:info_desk_role, resource: my_conference) }
+      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:registration) { create(:registration, conference: my_conference) }
+      let(:other_registration) { create(:registration, conference: conference_public) }
+      let(:event) { create(:event_full, conference: my_conference) }
+      let(:other_event) { create(:event_full, conference: conference_public) }
 
-      it{ should be_able_to(:manage, conference1.events.new) }
-      it{ should be_able_to(:manage, conference2.events.new) }
-      it{ should_not be_able_to(:manage, conference3.events.new) }
-      it{ should_not be_able_to(:manage, conference4.events.new) }
-      it{ should_not be_able_to(:manage, conference5.events.new) }
+      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:manage, my_conference) }
+      it{ should_not be_able_to(:manage, conference_public) }
+      it{ should_not be_able_to(:manage, my_conference.splashpage) }
+      it{ should_not be_able_to(:manage, conference_public.splashpage) }
+      it{ should_not be_able_to(:manage, my_conference.contact) }
+      it{ should_not be_able_to(:manage, conference_public.contact) }
+      it{ should_not be_able_to(:manage, my_conference.email_settings) }
+      it{ should_not be_able_to(:manage, conference_public.email_settings) }
+      it{ should_not be_able_to(:manage, my_conference.campaigns.first) }
+      it{ should_not be_able_to(:manage, conference_public.campaigns.first) }
+      it{ should_not be_able_to(:manage, my_conference.targets.first) }
+      it{ should_not be_able_to(:manage, conference_public.targets.first) }
+      it{ should_not be_able_to(:manage, my_conference.commercials.first) }
+      it{ should_not be_able_to(:manage, conference_public.commercials.first) }
+      it{ should_not be_able_to(:manage, my_conference.registration_period) }
+      it{ should_not be_able_to(:manage, conference_public.registration_period) }
+      it{ should be_able_to(:manage, my_conference.questions.first) }
+      it{ should_not be_able_to(:manage, conference_public.questions.first) }
+      it{ should_not be_able_to(:manage, my_conference.call_for_paper) }
+      it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
+      it{ should_not be_able_to(:manage, my_conference.venue) }
+      it{ should_not be_able_to(:index, my_conference.venue) }
+      it{ should_not be_able_to(:manage, conference_public.venue) }
+      it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
+      it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsors.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsors.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, my_conference.tickets.first) }
+      it{ should_not be_able_to(:manage, conference_public.tickets.first) }
 
-      it{ should be_able_to(:manage, Question.new(conference_id: conference1.id)) }
-      it{ should_not be_able_to(:manage, Question.new(conference_id: conference2.id)) }
-      it{ should be_able_to(:manage, Question.new(conference_id: conference3.id)) }
-      it{ should_not be_able_to(:manage, Question.new(conference_id: conference4.id)) }
-      it{ should_not be_able_to(:manage, Question.new(conference_id: conference5.id)) }
+      it{ should be_able_to(:manage, registration) }
+      it{ should_not be_able_to(:manage, other_registration) }
+
+      it{ should_not be_able_to(:manage, event) }
+      it{ should_not be_able_to(:manage, other_event) }
+      it{ should_not be_able_to(:manage, event.event_type) }
+      it{ should_not be_able_to(:manage, other_event.event_type) }
+      it{ should_not be_able_to(:manage, event.track) }
+      it{ should_not be_able_to(:manage, other_event.track) }
+      it{ should_not be_able_to(:manage, event.difficulty_level) }
+      it{ should_not be_able_to(:manage, other_event.difficulty_level) }
+      it{ should_not be_able_to(:manage, event.commercials.first) }
+      it{ should_not be_able_to(:manage, other_event.commercials.first) }
+    end
+
+    context 'when user has the role volunteers_coordinator' do
+      let!(:my_conference) { create(:full_conference) }
+      let(:role) { create(:volunteers_coordinator_role, resource: my_conference) }
+      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:registration) { create(:registration, conference: my_conference) }
+      let(:other_registration) { create(:registration, conference: conference_public) }
+      let(:event) { create(:event_full, conference: my_conference) }
+      let(:other_event) { create(:event_full, conference: conference_public) }
+
+      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:manage, my_conference) }
+      it{ should_not be_able_to(:manage, conference_public) }
+      it{ should_not be_able_to(:manage, my_conference.splashpage) }
+      it{ should_not be_able_to(:manage, conference_public.splashpage) }
+      it{ should_not be_able_to(:manage, my_conference.contact) }
+      it{ should_not be_able_to(:manage, conference_public.contact) }
+      it{ should_not be_able_to(:manage, my_conference.email_settings) }
+      it{ should_not be_able_to(:manage, conference_public.email_settings) }
+      it{ should_not be_able_to(:manage, my_conference.campaigns.first) }
+      it{ should_not be_able_to(:manage, conference_public.campaigns.first) }
+      it{ should_not be_able_to(:manage, my_conference.targets.first) }
+      it{ should_not be_able_to(:manage, conference_public.targets.first) }
+      it{ should_not be_able_to(:manage, my_conference.commercials.first) }
+      it{ should_not be_able_to(:manage, conference_public.commercials.first) }
+      it{ should_not be_able_to(:manage, my_conference.registration_period) }
+      it{ should_not be_able_to(:manage, conference_public.registration_period) }
+      it{ should_not be_able_to(:manage, my_conference.questions.first) }
+      it{ should_not be_able_to(:manage, conference_public.questions.first) }
+      it{ should_not be_able_to(:manage, my_conference.call_for_paper) }
+      it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
+      it{ should_not be_able_to(:manage, my_conference.venue) }
+      it{ should_not be_able_to(:index, my_conference.venue) }
+      it{ should_not be_able_to(:manage, conference_public.venue) }
+      it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
+      it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsors.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsors.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, my_conference.tickets.first) }
+      it{ should_not be_able_to(:manage, conference_public.tickets.first) }
+
+      it{ should_not be_able_to(:manage, registration) }
+      it{ should_not be_able_to(:manage, other_registration) }
+
+      it{ should_not be_able_to(:manage, event) }
+      it{ should_not be_able_to(:manage, other_event) }
+      it{ should_not be_able_to(:manage, event.event_type) }
+      it{ should_not be_able_to(:manage, other_event.event_type) }
+      it{ should_not be_able_to(:manage, event.track) }
+      it{ should_not be_able_to(:manage, other_event.track) }
+      it{ should_not be_able_to(:manage, event.difficulty_level) }
+      it{ should_not be_able_to(:manage, other_event.difficulty_level) }
+      it{ should_not be_able_to(:manage, event.commercials.first) }
+      it{ should_not be_able_to(:manage, other_event.commercials.first) }
+      it 'should be_able to :manage Vposition'
+      it 'should be_able to :manage Vday'
     end
   end
 end

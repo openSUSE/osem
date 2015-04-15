@@ -2,11 +2,11 @@ require 'spec_helper'
 
 feature 'Has correct abilities' do
   # It is necessary to use bang version of let to build roles before user
-  let(:conference1) { create(:conference) } # user is organizer
-  let(:conference2) { create(:conference) } # user is cfp
-  let(:conference3) { create(:conference) } # user is info_desk
-  let(:conference4) { create(:conference) } # user is volunteer coordinator
-  let(:conference5) { create(:conference) } # user has no role
+  let(:conference1) { create(:conference, venue: create(:venue)) } # user is organizer
+  let(:conference2) { create(:conference, venue: create(:venue)) } # user is cfp
+  let(:conference3) { create(:conference, venue: create(:venue)) } # user is info_desk
+  let(:conference4) { create(:conference, venue: create(:venue)) } # user is volunteer coordinator
+  let(:conference5) { create(:conference, venue: create(:venue)) } # user has no role
 
   let(:role_organizer) { create(:role, name: 'organizer', resource: conference1) }
   let(:role_cfp) { create(:role, name: 'cfp', resource: conference2) }

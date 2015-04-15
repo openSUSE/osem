@@ -3,9 +3,7 @@
 FactoryGirl.define do
   factory :event do
     sequence(:title) { |n| "The ##{n} talk you'll ever attend." }
-    event_type
     conference
-    association :room, factory: :room_for_100
     abstract <<-EOS
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ante
       lacus, mollis non urna vitae, varius semper leo. Nulla ac nibh dui. Mauris
@@ -33,7 +31,24 @@ FactoryGirl.define do
       libero quis porta ultricies. Fusce pulvinar accumsan lobortis.
     EOS
     after(:build) do |event|
-      event.event_users << build(:submitter, event: event)
+      event.event_users << build(:submitter)
+      # set an event_type if none is passed to the factory.
+      # needs to be created here because otherwise it doesn't belong to the
+      # same conference as the event
+      event.event_type ||= build(:event_type, conference: event.conference)
     end
+
+    factory :event_full do
+      difficulty_level
+      track
+      room
+      after(:build) do |event|
+        event.commercials << build(:event_commercial, commercialable: event)
+        event.difficulty_level = build(:difficulty_level, conference: event.conference)
+        event.track = build(:track, conference: event.conference)
+        event.room = build(:room, conference: event.conference)
+      end
+    end
+
   end
 end

@@ -1,19 +1,15 @@
 require 'spec_helper'
 
 feature Event do
-  let!(:conference) { create(:conference) }
+  let!(:conference) { create(:conference, call_for_paper: create(:call_for_paper)) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
   let!(:participant) { create(:user) }
   let!(:participant_without_bio) { create(:user, biography: '') }
 
   before(:each) do
-    conference.call_for_paper = create(:call_for_paper)
-    conference.event_types = [create(:event_type)]
-
     @options = {}
     @options[:send_mail] = 'false'
-
     @event = create(:event, conference: conference, title: 'Example Proposal')
   end
 
@@ -101,7 +97,7 @@ feature Event do
       expect(page.has_content?('Unconfirmed')).to be true
       click_link "confirm_proposal_#{@event.id}"
       expect(flash).
-          to eq('The proposal was confirmed. Please register to attend the conference.')
+        to eq('The proposal was confirmed. Please register to attend the conference.')
       @event.reload
       expect(@event.state).to eq('confirmed')
     end
