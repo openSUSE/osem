@@ -516,7 +516,7 @@ describe Conference do
 
     describe '#event_type_distribution' do
       it 'calculates correct for different event types' do
-        blah = create(:event, conference: subject, event_type: @workshop)
+        create(:event, conference: subject, event_type: @workshop)
         create(:event, conference: subject, event_type: @workshop)
         create(:event, conference: subject, event_type: @lecture)
         result = {}
