@@ -52,6 +52,10 @@ class Ability
     can [:show, :create], Registration do |registration|
       registration.new_record?
     end
+
+    can [:show, :create], Event do |event|
+      event.new_record?
+    end
   end
 
   # Abilities for signed in users

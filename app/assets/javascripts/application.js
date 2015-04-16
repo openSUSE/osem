@@ -36,6 +36,7 @@
 //= require osem-tickets
 //= require bootstrap-switch
 //= require osem-switch
+//= require osem-bootstrap
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

@@ -12,10 +12,10 @@
             = render 'proposal/proposal_form'
           #commercials-content.tab-pane
             %p.text-muted
-              You can add commercials for your event. These commercials will be displayed on the event detail site.
+              You can add commercials for your proposal. These commercials will be displayed on the
+              = link_to 'public proposal page.', conference_proposal_path(@conference.short_title, @event)
               If you don't add a commercial, the conference commercial will be displayed!
-              We currently support the following commercial types: YouTube, Vimeo, Instagram, Flickr, Speakerdeck and SlideShare.
-  
+
             - @event.commercials.each_slice(3) do |slice|
               .row
                 - slice.each do |commercial|

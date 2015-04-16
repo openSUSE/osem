@@ -1,5 +1,5 @@
 class ProposalController < ApplicationController
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_and_authorize_resource :event, parent: false, through: :conference
 
@@ -13,6 +13,7 @@ class ProposalController < ApplicationController
   end
 
   def new
+    @user = User.new
     @url = conference_proposal_index_path(@conference.short_title)
   end
 
@@ -24,35 +25,37 @@ class ProposalController < ApplicationController
   def create
     @url = conference_proposal_index_path(@conference.short_title)
 
+    unless current_user
+      @user = User.new(params[:user])
+      if @user.save
+        sign_in(@user)
+      else
+        flash[:error] = "Could not save user: #{@user.errors.full_messages.join(', ')}"
+        render action: 'new'
+        return
+      end
+    end
+
     params[:event].delete :user
+
     @event = Event.new(params[:event])
     @event.conference = @conference
-
-    # First, update the submitter's info, if they've changed anything
-    current_user.assign_attributes(params[:user])
-    if current_user.changed?
-      current_user.save
-    end
 
     @event.event_users.new(user: current_user,
                            event_role: 'submitter')
     @event.event_users.new(user: current_user,
                            event_role: 'speaker')
 
-    if !@event.save
+    unless @event.save
       flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'new'
       return
     end
 
     ahoy.track 'Event submission', title: 'New submission'
-    if @conference.user_registered?(current_user)
-      redirect_to(conference_proposal_index_path(@conference.short_title),
-                  notice: 'Event was successfully submitted.')
-    else
-      redirect_to(new_conference_conference_registrations_path(conference_id: @conference.short_title),
-                  alert: 'Event was successfully submitted. You should register for the conference now.')
-    end
+
+    flash[:notice] = 'Proposal was successfully submitted.'
+    redirect_to conference_proposal_index_path(@conference.short_title)
   end
 
   def update

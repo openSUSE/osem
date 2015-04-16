@@ -911,10 +911,10 @@ class Conference < ActiveRecord::Base
   # Creates default EventTypes for this Conference. Used as before_create.
   #
   def create_event_types
-    event_types << EventType.create(title: 'Talk', length: 30, color: '#FF0000',
+    event_types << EventType.create(title: 'Talk', length: 30, color: '#FF0000', description: 'Presentation in lecture format',
                                     minimum_abstract_length: 0,
                                     maximum_abstract_length: 500)
-    event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF',
+    event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF', description: 'Interactive hands-on practice',
                                     minimum_abstract_length: 0,
                                     maximum_abstract_length: 500)
     true

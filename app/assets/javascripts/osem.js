@@ -27,11 +27,15 @@ $(function () {
             $("#" + id).toggle();
         });
     });
-    $("#commercial_commercial_type").change(function () {
-        $(".media-type").hide();
-        $('#' + $(this).val().toLowerCase() + '-help').show();
+
+    $(".select-help-toggle").change(function () {
+        var id = $(this).attr('id');
+        $('.' + id).collapse('hide');
+
+        $('#' + $(this).val() + '-help.' + id).collapse('show');
     });
     $('.dropdown-toggle').dropdown();
+
     /**
      * Adds the default template as value to the regarding email textarea field.
      */

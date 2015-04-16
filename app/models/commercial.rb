@@ -3,7 +3,8 @@ class Commercial < ActiveRecord::Base
 
   attr_accessible :commercial_id, :commercial_type
 
-  validates :commercial_id, :commercial_type, presence: true
+  validates :commercial_id, presence: true
+  validates :commercial_type, presence: true
 
-  validates :commercial_type, inclusion: { in: CONFIG['commercial_types'].values }, allow_blank: true
+  validates :commercial_type, inclusion: { in: CONFIG['commercial_types'].values }
 end

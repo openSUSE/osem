@@ -26,17 +26,18 @@ class Event < ActiveRecord::Base
 
   accepts_nested_attributes_for :event_users, allow_destroy: true
   accepts_nested_attributes_for :users
+
   before_create :generate_guid
 
   validate :abstract_limit
   validate :before_end_of_conference, on: :create
-  validate :name_and_biography_exists
   validates :title, presence: true
   validates :abstract, presence: true
   validates :event_type, presence: true
   validates :conference, presence: true
 
   scope :confirmed, -> { where(state: 'confirmed') }
+  scope :highlighted, -> { where(is_highlight: true) }
 
   state_machine initial: :new do
     state :new
@@ -212,6 +213,32 @@ class Event < ActiveRecord::Base
     result.to_a.to_sentence
   end
 
+  ##
+  #
+  # Returns +Hash+
+  def progress_status
+    {
+      registered: self.conference.user_registered?(self.submitter),
+      commercials: self.commercials.any?,
+      biography: !self.submitter.biography.blank?,
+      subtitle: !self.subtitle.blank?,
+      difficulty_level: !self.difficulty_level.blank?,
+      title: true,
+      abstract: true
+    }.with_indifferent_access
+  end
+
+  ##
+  # Returns the progress of the proposal's set up
+  #
+  # ====Returns
+  # * +Fixnum+ -> Progress in Percent
+  def calculate_progress
+    result = self.progress_status
+    true_items = result.select { |_key, value| value }.length
+    (true_items / result.length.to_f * 100).round(0).to_s
+  end
+
   private
 
   def abstract_limit
@@ -223,11 +250,6 @@ class Event < ActiveRecord::Base
 
     errors.add(:abstract, "cannot have less than #{min_words} words") if len < min_words
     errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
-  end
-
-  def name_and_biography_exists
-    errors.add(:biography, "cant' be blank") if submitter.biography.blank?
-    errors.add(:name, " can't be blank") if submitter.name.blank?
   end
 
   # TODO: create a module to be mixed into model to perform same operation

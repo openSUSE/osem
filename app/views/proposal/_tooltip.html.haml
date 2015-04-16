@@ -1,0 +1,36 @@
+- progress_status = event.progress_status
+%ul.list-unstyled
+  %li{'class'=>class_for_todo(progress_status['registered'])}
+    %span{'class'=>icon_for_todo(progress_status['registered'])}
+      - if progress_status['registered']
+        = link_to 'Edit your registration', edit_conference_conference_registrations_path(event.conference.short_title)
+      - else
+        = link_to 'Register to the conference', new_conference_conference_registrations_path(event.conference.short_title)
+
+  %li{'class'=>class_for_todo(progress_status['biography'])}
+    %span{'class'=>icon_for_todo(progress_status['biography'])}
+      - if progress_status['biography']
+        = link_to 'Edit your biography', edit_user_path(event.submitter)
+      - else
+        = link_to 'Fill out your biography', edit_user_path(event.submitter)
+
+  %li{'class'=>class_for_todo(progress_status['subtitle'])}
+    %span{'class'=>icon_for_todo(progress_status['subtitle'])}
+      - if progress_status['subtitle']
+        = link_to 'Edit the subtitle', edit_conference_proposal_path(event.conference.short_title, event)
+      - else
+        = link_to 'Add a subtitle', edit_conference_proposal_path(event.conference.short_title, event)
+
+  %li{'class'=>class_for_todo(progress_status['commercials'])}
+    %span{'class'=>icon_for_todo(progress_status['commercials'])}
+      - if progress_status['commercials']
+        = link_to 'Edit the commercials', edit_conference_proposal_path(event.conference.short_title, event, anchor: 'commercials-content')
+      - else
+        = link_to 'Add a commercial', new_conference_proposal_commercial_path(event.conference.short_title, event)
+
+  %li{'class'=>class_for_todo(progress_status['difficulty_level'])}
+    %span{'class'=>icon_for_todo(progress_status['difficulty_level'])}
+      - if progress_status['difficulty_level']
+        = link_to 'Change the difficulty level', edit_conference_proposal_path(event.conference.short_title, event)
+      - else
+        = link_to 'Add a difficulty level', edit_conference_proposal_path(event.conference.short_title, event)
