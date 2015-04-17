@@ -73,15 +73,15 @@ describe Target do
 
     it 'returns zero if there are no program minutes' do
       conference = build(:conference)
-      target = build(:target, target_count: 10, unit: Target.units[:program_minutes])
+      target = build(:target, target_count: 10, unit: Target.units[:program_hours])
       conference.targets = [target]
 
       expect(target.get_progress).to eq('0')
     end
 
-    it 'returns 10 if there are 30 program minutes of 300' do
+    it 'returns 10 if there are 1 program hour of 10' do
       conference = create(:conference)
-      target = create(:target, target_count: 300, unit: Target.units[:program_minutes])
+      target = create(:target, target_count: 10, unit: Target.units[:program_hours])
       event = create(:event)
 
       conference.targets = [target]
