@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304135935) do
+ActiveRecord::Schema.define(version: 20150415121038) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(version: 20150304135935) do
     t.integer "minimum_abstract_length", default: 0
     t.integer "maximum_abstract_length", default: 500
     t.string  "color"
+    t.string  "description"
   end
 
   create_table "event_users", force: true do |t|
@@ -275,8 +276,8 @@ ActiveRecord::Schema.define(version: 20150304135935) do
   end
 
   create_table "qanswers", force: true do |t|
-    t.integer "question_id"
-    t.integer "answer_id"
+    t.integer  "question_id"
+    t.integer  "answer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

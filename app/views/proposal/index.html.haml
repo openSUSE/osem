@@ -3,45 +3,99 @@
     .col-md-12.page-header
       %h1
         = "My Proposals for #{@conference.title}"
-      - if @conference.cfp_open? || (current_user.has_role? :organizer, @conference)
-        = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-success pull-right"
-  - if current_user.proposal_count(@conference) > 0
+
+  .row
+    .col-md-12
+      = render partial: 'encouragement_text'
+  - if @events.any?
+    - if @events.highlighted.any?
+      .row
+        .col-md-12
+
+          %p.lead
+            %strong
+              Congratulations!
+            Some of your proposals have been selected as a highlight of #{@conference.title}!
+            %ul
+              - @events.highlighted.each do |event|
+                %li= link_to event.title, conference_proposal_path(@conference.short_title, event)
+
+
     .row
       .col-md-12
-        %table.table.table-bordered.table-striped
-          %thead
-            %th
-              %b Title
-            %th
-              %b Status
-            %th
+        %p.text-right
+          = link_to '#status-help', class: 'btn btn-default',  "data-toggle"=>"collapse" do
+            Help?
+        .collapse#status-help
+          %p
+            %strong
+              What happens next with my proposal?
+          %p
+            If you submit a proposal, the conference organizers will review it and either accept or reject it.
+            %br
+            If your proposal is accepted, the conference organizers expect you to confirm that you will be able to hold it.
+            %br
+            If your proposal is rejected, you can either live with that or adapt it and resubmit it for review again.
+            %br
+            If something changes and you can't hold the presentation any more, you should withdraw it.
+
+          %p
+            %strong
+              Why do I need to add more information?
+          %p
+            The more information you add to your proposal, the more likely it is that the conference organizers accept your proposal.
+            %br
+            It will also be more likely that visitors find your proposal interesting enough to attend.
+
+          %p
+            %strong
+              Why do I need to register to the conference?
+          %p
+            Knowing the number of visitors for the conference helps the organizers plan better.
+
+        %table.table.table-striped
           - @events.each do |event|
             %tr
-              %td
+              %td{style: "padding:20px 8px 20px 8px;"}
+                %span{ title: event.state.humanize, class: "fa #{event_status_icon(event)}" }
+
+              %td.col-md-7{style: "padding:20px 8px 20px 8px;"}
                 = link_to event.title, conference_proposal_path(@conference.short_title, event.id)
-              %td
-                - if event.state == 'new'
-                  Review pending
-                - else
-                  = event.state.humanize
-                - if event.state == 'confirmed' && event.require_registration == true
-                  (Pre-registered: #{pre_registered(event).count})
-                - if event.confirmed? && !@conference.user_registered?(current_user)
-                  %br
-                  = link_to "Register to attend", new_conference_conference_registrations_path(@conference.short_title), :style => "font-size:10px;"
-              %td
+                %br
+                %small.text-muted
+                  = event.event_type.title
+                  = "(#{event.event_type.length} min)"
+                  - if event.state == 'confirmed' && event.require_registration == true
+                    ,
+                    Pre-registered: #{pre_registered(event).count}
+
+              %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
+                = link_to 'Complete your todo list', 'javascript: void(0)', "type"=>"button", "data-trigger"=>"focus", "data-toggle"=>"popover", "title"=>"Your todo list", "data-content"=>"#{render partial: 'tooltip', locals: { event: event} }"
+
+                - progress_percentage = event.calculate_progress
+                .progress
+                  %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}
+                    = event.progress_status.reject{ |_key, value| value }.length
+                    left
+
+              %td.col-md-3{style: "padding:20px 0px 20px 0px;"}
                 .pull-right
                   - if event.transition_possible? :confirm
                     = link_to 'Confirm',
                     confirm_conference_proposal_path(@conference.short_title, event),
                     method: :patch, class: 'btn btn-mini btn-success', id: "confirm_proposal_#{event.id}"
-                  = link_to 'Edit', edit_conference_proposal_path(@conference.short_title, event.id),
-                  class: 'btn btn-mini btn-primary', id: "edit_proposal_#{event.id}"
+
                   - if event.transition_possible? :withdraw
                     = link_to 'Withdraw', conference_proposal_path(@conference.short_title, event.id), method: :delete,
-                                confirm: 'Are you sure you want to withdraw this proposal?', class: 'btn btn-mini btn-warning',
+                                data: { confirm: 'Are you sure you want to withdraw this proposal?' }, class: 'btn btn-mini btn-warning',
                                 id: "delete_proposal_#{event.id}"
                   - if event.state == 'withdrawn' || event.state == 'rejected'
                     = link_to 'Re-Submit',
                     restart_conference_proposal_path(@conference.short_title, event.id),
                     method: :patch, class: 'btn btn-mini btn-success', id: "review_event_#{event.id}"
+                  = link_to 'Edit', edit_conference_proposal_path(@conference.short_title, event.id),
+                  class: 'btn btn-default', id: "edit_proposal_#{event.id}"
+  .row
+    .col-md-12
+      - if @conference.cfp_open? || (current_user.has_role? :organizer, @conference)
+        = link_to "New Proposal", new_conference_proposal_path(@conference.short_title), :class => "btn btn-success pull-right"

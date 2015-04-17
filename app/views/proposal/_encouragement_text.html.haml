@@ -1,0 +1,23 @@
+%p.lead
+  - if @conference.event_types.any?
+    You can submit proposals for
+    = "#{event_types(@conference)}."
+  - if @conference.tracks.any?
+    Proposals should fit in one of the
+    = "#{pluralize(@conference.tracks.count, 'track')}:"
+    = "#{tracks(@conference)}."
+  - if @conference.call_for_paper
+    The submission period has begun
+    %em
+      = @conference.call_for_paper.start_date.strftime('%A, %B %-d. %Y')
+    and closes
+    %em
+      = @conference.call_for_paper.end_date.strftime('%A, %B %-d. %Y.')
+    That means you have only
+    - days = (@conference.call_for_paper.end_date - Date.today).to_i
+    %b
+      = pluralize(days, 'days')
+      left!
+  Remember
+  = @conference.title
+  will only be as good as the content you present. Submit early, submit often!

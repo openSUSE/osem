@@ -43,6 +43,9 @@ describe 'User' do
       it{ should be_able_to(:show, Registration.new)}
       it{ should_not be_able_to(:manage, registration)}
 
+      it{ should be_able_to(:create, Event)}
+      it{ should be_able_to(:show, Event.new)}
+
       it{ should_not be_able_to(:manage, :any)}
     end
 

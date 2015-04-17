@@ -7,11 +7,7 @@
             Sign Up
         .panel-body
           = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-            = f.input :username, required: true
-            = f.input :email
-            = f.input :name, required: true
-            = f.input :password
-            = f.input :password_confirmation
+            = render partial: 'devise/shared/sign_up_fields', locals: { u: f}
             %p.text-right
               = f.action :submit, as: :button, label: 'Sign Up', button_html: {class: 'btn btn-success' }
           - unless omniauth_configured.empty?

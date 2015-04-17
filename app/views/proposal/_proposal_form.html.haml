@@ -1,55 +1,53 @@
-= semantic_form_for(@event, :url => @url) do |f|
-  %section#basic
-  = f.inputs :name => "Session Information" do
-    - if can? :update, @event or can? :create, @event
-      = f.input :title, :as => :string, :required => true
-    - else
-      Title: #{@event.title}
-      %br
-      %br
-    = f.input :subtitle, :as => :string
-  %section#details
-    - if can? :update, @event or can? :create, @event
-      = f.input :event_type_id, as: :select,
+= semantic_form_for(@event, url: @url) do |f|
+  = f.inputs name: 'Proposal Information' do
+    = f.input :title, as: :string, required: true
+
+    = f.input :subtitle, as: :string
+
+    = f.input :event_type_id, as: :select,
       collection: @conference.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
       data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
-      include_blank: false, label: 'Session Type'
-    - else
-      Event type: #{@event.event_type.title}
+      include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
+
+    - @conference.event_types.each do |event_type|
+      %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
+        = event_type.description
+
+    :javascript
+      $("##{@conference.event_types.first.id}-help").collapse('show');
+
+    = f.input :difficulty_level, as: :select, collection: @conference.difficulty_levels, input_html: { class: 'select-help-toggle' },
+      include_blank: '(Please select)' if @conference.difficulty_levels.any?
+
+    - @conference.difficulty_levels.each do |difficulty_level|
+      %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
+        = difficulty_level.description
+
+    = f.input :abstract, input_html: { rows: 5 },
+      required: true, hint: link_to('Tips to improve your presentations', 'http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx')
+
+    %p
+      You have used
+      %span#abstract-count #{@event.abstract_word_count}
+      words.  Abstracts must be between
+      %span#abstract-minimum-word-count
+        0
+      and
+      %span#abstract-maximum-word-count
+        250
+      words.
+
+    = f.input :require_registration, label: 'Require participants to register to your event'
 
     - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
-      = f.label :is_highlight
-      %br
-      = f.check_box :is_highlight, class: 'switch-checkbox', data: { size: "small" }
+      = f.input :is_highlight
 
-    %br
-    = f.input :difficulty_level, :as => :select, :collection => @conference.difficulty_levels, :include_blank => "(Please select)" if @conference.difficulty_levels.any?
-    = f.input :require_registration
-    = f.input :abstract, :input_html => {:rows => 5, :class => "span11"},
-      :required => true, :label => "Session Abstract"
-    You have used
-    %span#abstract-count #{@event.abstract_word_count}
-    words.  Abstracts must be between
-    %span#abstract-minimum-word-count
-      0
-    and
-    %span#abstract-maximum-word-count
-      250
-    words.
-    %br
-    %br
-    = f.input :description, :input_html => {:rows => 5, :class=> "span11"}, :hint => "This will only be shown to organizers, not to attendees."
+    %p.text-right
+      = link_to '#description',  "data-toggle"=>"collapse" do
+        Do you require something special?
+    .collapse#description
+      = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
-  %section#information
-  - if current_user.name.blank? || current_user.biography.blank?
-    = f.inputs :name => "Your Information" do
-      = semantic_fields_for current_user do |u|
-        - if current_user.name.blank?
-          = u.input :name, :as => :string, :required => true
-        - if current_user.biography.blank?
-          = u.input :biography, :required => true, :input_html => {:rows => 5, :class => 'span11', "onkeyup" => "word_count(this, 'biography-count', 150)"}
-          You have used
-          %span#biography-count #{current_user.biography_word_count}
-          words.  Biographies are limited to 150 words.
+
   %p.text-right
-    = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}
+    = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}, label: 'Update Proposal'

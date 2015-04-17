@@ -67,26 +67,60 @@ feature Event do
                                    event_role: 'submitter')]
     end
 
-    scenario 'submits a valid proposal', feature: true, js: true do
+    scenario 'not signed_in user submits proposal' do
+      expected_count_event = Event.count + 1
+      expected_count_user = User.count + 1
+
+      visit new_conference_proposal_path(conference.short_title)
+
+      fill_in 'user_username', with: 'Test User'
+      fill_in 'user_email', with: 'testuser@osem.io'
+      fill_in 'password_inline', with: 'testuserpassword'
+      fill_in 'user_password_confirmation', with: 'testuserpassword'
+
+      fill_in 'event_title', with: 'Example Proposal'
+      select('Example Event Type', from: 'event[event_type_id]')
+      fill_in 'event_abstract', with: 'Lorem ipsum abstract'
+
+      click_button 'Create Proposal'
+      expect(flash).to eq('Proposal was successfully submitted.')
+
+      expect(Event.count).to eq(expected_count_event)
+      expect(User.count).to eq(expected_count_user)
+    end
+
+    scenario 'update a proposal' do
+      proposal = create(:event)
+
+      sign_in proposal.submitter
+
+      visit edit_conference_proposal_path(proposal.conference.short_title, proposal)
+
+      fill_in 'event_subtitle', with: 'My event subtitle'
+      select('Easy', from: 'event[difficulty_level_id]')
+
+      click_button 'Update Proposal'
+      expect(flash).to eq('Proposal was successfully updated.')
+    end
+
+    scenario 'signed_in user submits a valid proposal', feature: true, js: true do
       sign_in participant_without_bio
       expected_count = Event.count + 1
       visit conference_proposal_index_path(conference.short_title)
       click_link 'New Proposal'
 
       fill_in 'event_title', with: 'Example Proposal'
-      fill_in 'event_subtitle', with: 'Example Proposal Subtitle'
 
       select('Example Event Type', from: 'event[event_type_id]')
 
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
+      click_link 'description_link'
       fill_in 'event_description', with: 'Lorem ipsum description'
 
-      fill_in 'user_biography', with: 'Lorem ipsum biography'
+      click_button 'Create Proposal'
+      expect(flash).to eq('Proposal was successfully submitted.')
 
-      click_button 'Create Event'
-      expect(flash).to eq('Event was successfully submitted. You should register for the conference now.')
-
-      expect(current_path).to eq(new_conference_conference_registrations_path(conference.short_title))
+      expect(current_path).to eq(conference_proposal_index_path(conference.short_title))
       expect(Event.count).to eq(expected_count)
     end
 
@@ -94,7 +128,7 @@ feature Event do
       sign_in participant
       visit conference_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
-      expect(page.has_content?('Unconfirmed')).to be true
+      expect(@event.state).to eq('unconfirmed')
       click_link "confirm_proposal_#{@event.id}"
       expect(flash).
         to eq('The proposal was confirmed. Please register to attend the conference.')
@@ -107,7 +141,6 @@ feature Event do
       @event.confirm!
       visit conference_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
-      expect(page.has_content?('Confirmed')).to be true
       click_link "delete_proposal_#{@event.id}"
       expect(flash).to eq('Proposal was successfully withdrawn.')
       @event.reload

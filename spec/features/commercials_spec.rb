@@ -75,7 +75,7 @@ feature Commercial do
       sign_out
     end
 
-    scenario 'adds a invalid commercial to an event', feature: true, js: true do
+    scenario 'adds a valid commercial to an event', feature: true, js: true do
       visit edit_conference_proposal_path(conference.short_title, event.id)
 
       click_link 'Commercials'
@@ -89,7 +89,7 @@ feature Commercial do
       expect(event.commercials.count).to eq(@expected_count)
     end
 
-    scenario 'adds a valid commercial to an event', feature: true, js: true do
+    scenario 'adds an invalid commercial to an event', feature: true, js: true do
       visit edit_conference_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       click_link 'Add Commercial'
@@ -97,7 +97,6 @@ feature Commercial do
       select('SlideShare', from: 'commercial_commercial_type')
 
       click_button 'Create Commercial'
-      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(event.commercials.count).to eq(@expected_count - 1)
     end
 
@@ -125,7 +124,6 @@ feature Commercial do
       select('SlideShare', from: 'commercial_commercial_type')
       fill_in 'commercial_commercial_id', with: ''
       click_button 'Update Commercial'
-      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(event.commercials.count).to eq(@expected_count)
     end
 

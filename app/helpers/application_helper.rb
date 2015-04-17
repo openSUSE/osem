@@ -1,4 +1,34 @@
 module ApplicationHelper
+  def pluralize_without_count(count, noun, text = nil)
+    if count != 0
+      count == 1 ? "#{noun}#{text}" : "#{noun.pluralize}#{text}"
+    end
+  end
+
+  def event_status_icon(event)
+    case event.state
+    when 'new'
+      'fa-eye'
+    when 'unconfirmed'
+      'fa-check text-muted'
+    when 'confirmed'
+      'fa-check text-success'
+    when 'rejected', 'withdrawn', 'canceled'
+      'fa-ban'
+    end
+  end
+
+  def event_progress_color(progress)
+    progress = progress.to_i
+
+    case progress
+    when 100 then 'progress-bar-success'
+    when 86 then 'progress-bar-info'
+    when 71 then 'progress-bar-warning'
+    when 14, 29, 43, 57 then 'progress-bar-danger'
+    end
+  end
+
   def target_progress_color(progress)
     progress = progress.to_i
     result =
@@ -67,9 +97,9 @@ module ApplicationHelper
 
   def class_for_todo(bool)
     if bool
-      return 'list-group-item todolist-ok'
+      return 'todolist-ok'
     else
-      return 'list-group-item todolist-missing'
+      return 'todolist-missing'
     end
   end
 

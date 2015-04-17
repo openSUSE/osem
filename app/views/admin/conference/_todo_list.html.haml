@@ -6,7 +6,7 @@
       .progress-bar{ 'role'=>'progressbar', 'aria-valuenow'=>"#{conference_progress['process']}", 'aria-valuemin'=>'0',
                     'aria-valuemax'=>'100', 'style'=>"width: #{conference_progress['process']}%;" }
         = conference_progress['process'] + '%'
-  %li{'class'=>class_for_todo(conference_progress['registration'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['registration'])}"}
     %span{'class'=>icon_for_todo(conference_progress['registration'])}
     - if can? :update, @conference
       - if conference.registration_period
@@ -15,43 +15,43 @@
         = link_to 'Set up registration period', new_admin_conference_registration_period_path(conference_progress['short_title'])
     - else
       Set up registration period
-  %li{'class'=>class_for_todo(conference_progress['cfp'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['cfp'])}"}
     %span{'class'=>icon_for_todo(conference_progress['cfp'])}
     - if can? :update, CallForPaper.new(conference_id: @conference.id)
       = link_to 'Set up call for papers', admin_conference_call_for_paper_path(conference_progress['short_title'])
     - else
       Set up call for papers
-  %li{'class'=>class_for_todo(conference_progress['venue'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['venue'])}"}
     %span{'class'=>icon_for_todo(conference_progress['venue'])}
     - if can? :update, @conference.venue
       = link_to 'Add venue', edit_admin_conference_venue_path(conference_progress['short_title'])
     - else
       Add venue
-  %li{'class'=>class_for_todo(conference_progress['rooms'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['rooms'])}"}
     %span{'class'=>icon_for_todo(conference_progress['rooms'])}
     - if can? :update, @conference.rooms.build
       = link_to 'Add rooms', admin_conference_rooms_path(conference_progress['short_title'])
     - else
       Add rooms
-  %li{'class'=>class_for_todo(conference_progress['tracks'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['tracks'])}"}
     %span{'class'=>icon_for_todo(conference_progress['tracks'])}
     - if can? :update, @conference.tracks.build
       = link_to 'Add tracks', admin_conference_tracks_path(conference_progress['short_title'])
     - else
       Add tracks
-  %li{'class'=>class_for_todo(conference_progress['event_types'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['event_types'])}"}
     %span{'class'=>icon_for_todo(conference_progress['event_types'])}
     - if can? :update, @conference.event_types.build
       = link_to 'Add event types', admin_conference_event_types_path(conference_progress['short_title'])
     - else
       Add event types
-  %li{'class'=>class_for_todo(conference_progress['difficulty_levels'])}
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['difficulty_levels'])}"}
     %span{'class'=>icon_for_todo(conference_progress['difficulty_levels'])}
     - if can? :update, @conference.difficulty_levels.build
       = link_to 'Add difficulty levels', admin_conference_difficulty_levels_path(conference_progress['short_title'])
     - else
       Add difficulty levels
-  %li{class: class_for_todo(conference_progress['splashpage'])}
+  %li{class: "list-group-item #{class_for_todo(conference_progress['splashpage'])}"}
     %span{'class'=>icon_for_todo(conference_progress['splashpage'])}
     - if can? :update, @conference
       = link_to 'Set up a Splashpage', admin_conference_splashpage_path(conference_progress['short_title'])

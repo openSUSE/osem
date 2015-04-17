@@ -21,10 +21,7 @@
           = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
             - if !current_user
               = f.fields_for :user do |u|
-                = u.input :username, input_html: {required: 'required', autocomplete: 'off'}
-                = u.input :email, input_html: {required: 'required', autocomplete: 'off'}
-                = u.input :password, input_html: {required: 'required', autocomplete: 'off'}
-                = u.input :password_confirmation, :required => true, input_html: {required: 'required', autocomplete: 'off'}
+                = render partial: 'devise/shared/sign_up_fields', locals: { u: u}
             - if @conference.questions.any?
               = render partial: 'questions', locals: { f: f }
             - if @conference.events.workshops.any?

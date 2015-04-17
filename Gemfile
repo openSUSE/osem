@@ -45,7 +45,7 @@ gem 'sass-rails', '>= 4.0.2'
 gem 'uglifier', '>= 1.3.0'
 
 # as the front-end framework
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 2.3.0.rc3'

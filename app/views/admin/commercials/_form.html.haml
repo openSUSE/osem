@@ -8,13 +8,8 @@
 .row
   .col-md-8
     = semantic_form_for(@commercial, :url => (@commercial.new_record? ? admin_conference_commercials_path : admin_conference_commercial_path(@conference.short_title, @commercial))) do |f|
-      = f.input :commercial_type, as: :select, label: 'Conference Promo Media Type', class: 'form-control', collection: CONFIG['commercial_types'].values, include_blank: false, hint: 'This media-item will be used to represent this conference at various places in OSEM.'
+      = f.input :commercial_type, as: :select, label: 'Conference Promo Media Type', input_html: { class: 'select-help-toggle' }, collection: CONFIG['commercial_types'].values, include_blank: false, hint: 'This media-item will be used to represent this conference at various places in OSEM.'
       = f.input :commercial_id, label: 'Conference Promo Media ID', as: :string
-      %p{ class: 'help-block media-type', id: 'youtube-help' } Go to your YouTube video, click on "share" and copy everything behind http://youtu.be/"
-      %p{ class: 'help-block media-type', id: 'slideshare-help', style: 'display:none' } Go to your SlideShare, click on "share" -> "embed" and copy the id
-      %p{ class: 'help-block media-type', id: 'flickr-help', style: 'display:none' } Go to your flickr image, click on "Grab the link" -> "Show short url" and copy everything behind https://flic.kr/p/
-      %p{ class: 'help-block media-type', id: 'vimeo-help', style: 'display:none' } Go to your vimeo video, click on "share" and copy everything behind http://vimeo.com/
-      %p{ class: 'help-block media-type', id: 'speakerdeck-help', style: 'display:none' } Go to your SpeakerDeck, click on "share" -> "embed" and copy the data-id
-      %p{ class: 'help-block media-type', id: 'instagram-help', style: 'display:none' } Go to your Instagram photo page and copy everything behind instagram.com/p/ (without trailing /# hash symbol)
+      = render partial: 'commercials/commercial_help'
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
