@@ -149,22 +149,16 @@ class Event < ActiveRecord::Base
   end
 
   def self.get_state_color(state)
-    case state
-    when 'new' # blue
-      '#0000FF'
-    when 'withdrawn' # orange
-      '#FF8000'
-    when 'confirmed' # green
-      '#00FF00'
-    when 'unconfirmed' # yellow
-      '#FFFF00'
-    when 'rejected' # red
-      '#FF0000'
-    when 'canceled' # grey
-      '#848484'
-    else
-      '#00FFFF' # azure
-    end
+    color = {
+      new:         '#0000FF', # blue
+      withdrawn:   '#FF8000', # orange
+      confirmed:   '#00FF00', # green
+      unconfirmed: '#FFFF00', # yellow
+      rejected:    '#FF0000', # red
+      canceled:    '#848484'  # grey
+    }[state.to_sym]
+
+    color || '#00FFFF' # azure
   end
 
   def update_state(transition, mail = false, subject = false, send_mail = false, send_mail_param)
