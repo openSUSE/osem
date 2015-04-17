@@ -994,7 +994,7 @@ describe Conference do
       subject.splashpage = create(:splashpage, public: false)
 
       @result_false['registration'] = true
-      @result_false['process'] = 13.to_s
+      @result_false['process'] = 12.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -1033,7 +1033,7 @@ describe Conference do
       @result_false['cfp'] = true
       @result_false['registration'] = true
       @result_false['venue'] = true
-      @result_false['process'] = 38.to_s
+      @result_false['process'] = 37.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
@@ -1076,7 +1076,7 @@ describe Conference do
       @result_false['venue'] = true
       @result_false['rooms'] = true
       @result_false['tracks'] = true
-      @result_false['process'] = 63.to_s
+      @result_false['process'] = 62.to_s
 
       expect(subject.get_status).to eq(@result_false)
     end
