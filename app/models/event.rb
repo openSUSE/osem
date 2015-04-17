@@ -155,11 +155,7 @@ class Event < ActiveRecord::Base
   end
 
   def abstract_word_count
-    if abstract.nil?
-      0
-    else
-      abstract.split.size
-    end
+    abstract.to_s.split.size
   end
 
   def week
