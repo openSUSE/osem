@@ -99,23 +99,9 @@ class Event < ActiveRecord::Base
   def as_json(options)
     json = super(options)
 
-    if room.nil?
-      json[:room_guid] = nil
-    else
-      json[:room_guid] = room.guid
-    end
-
-    if track.nil?
-      json[:track_color]  = '#ffffff'
-    else
-      json[:track_color] = track.color
-    end
-
-    if event_type.nil?
-      json[:length] = 25
-    else
-      json[:length] = event_type.length
-    end
+    json[:room_guid] = room.try(:guid)
+    json[:track_color] = track.try(:color) || '#ffffff'
+    json[:length] = event_type.try(:length) || 25
 
     json
   end
