@@ -28,7 +28,6 @@ class Target < ActiveRecord::Base
   # ====Returns
   # * +String+ -> progress in percent
   def get_progress
-    numerator = 0
     case unit
     when Target.units[:submissions]
       numerator = conference.events.where('created_at < ?', due_date).count
@@ -36,6 +35,8 @@ class Target < ActiveRecord::Base
       numerator = conference.registrations.where('created_at < ?', due_date).count
     when Target.units[:program_minutes]
       numerator = conference.current_program_minutes
+    else
+      numerator = 0
     end
     (100 * numerator / target_count).to_s
   end
