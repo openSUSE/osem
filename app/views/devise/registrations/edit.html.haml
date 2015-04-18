@@ -21,7 +21,7 @@
             openID while logged in to OSEM
           - if User.omniauth_providers.present?
             #openidlinks
-              = render 'devise/shared/openid'
+              = render 'devise/shared/openid_links'
         = f.inputs name: 'Confirmation' do
           = f.input :current_password, input_html: {autocomplete: 'off'},
                     hint: '(we need your current password to confirm password, email or username changes)'

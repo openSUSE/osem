@@ -14,21 +14,5 @@
               = f.check_box :remember_me
           %p.text-right
             = f.action :submit, as: :button, label: 'Sign In', button_html: {class: 'btn btn-success'}
-        - unless omniauth_configured.empty?
-          .row
-            .col-md-4
-              %hr
-            .col-md-4
-              %h4.text-center
-                or sign in using
-            .col-md-4
-              %hr
-          .row
-            .col-md-12
-              #openidlinks
-                = render 'devise/shared/openid'
-              %p.text-right
-                %a.small{"data-toggle" => "collapse", "data-target" =>  "#devise-help"}
-                  Need Help?
-                #devise-help.collapse
-                  = render 'devise/shared/links'
+        = render partial: 'devise/shared/openid'
+        = render partial: 'devise/shared/help'

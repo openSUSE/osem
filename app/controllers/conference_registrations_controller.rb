@@ -14,8 +14,14 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to root_path, alert: 'You need to sign in or sign up before continuing.'
       return
     end
+
+    # avoid openid sign_in to redirect to register/new when the sign_in user had already a registration
+    if current_user && @conference.user_registered?(current_user)
+      redirect_to edit_conference_conference_registrations_path(@conference.short_title)
+    end
+
     @registration = Registration.new
-    @registration.build_user
+    @user = @registration.build_user
   end
 
   def show
@@ -27,9 +33,8 @@ class ConferenceRegistrationsController < ApplicationController
   def edit; end
 
   def create
-    @registration = Registration.new(registration_params)
-    @registration.conference = @conference
-    @registration.user = current_user if current_user
+    @registration = @conference.registrations.new(registration_params)
+    @registration.user = current_user || ( @user = @registration.build_user(user_params) )
 
     if @registration.save
       # Trigger ahoy event
@@ -47,7 +52,7 @@ class ConferenceRegistrationsController < ApplicationController
         redirect_to  conference_conference_registrations_path(@conference.short_title)
       end
     else
-      flash[:error] = "An error prohibited the registration for #{@conference.title}: "\
+      flash[:error] = "Could not create your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
       render :new
     end
@@ -58,7 +63,7 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to  conference_conference_registrations_path(@conference.short_title),
                    notice: 'Registration was successfully updated.'
     else
-      flash[:error] = "An error prohibited the registration for #{@conference.title}: "\
+      flash[:error] = "Could not update your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
       render :edit
     end
@@ -70,7 +75,7 @@ class ConferenceRegistrationsController < ApplicationController
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
       redirect_to root_path,
-                  error: "An error prohibited deleting the registration for #{@conference.title}: "\
+                  error: "Could not update your registration for #{@conference.title}: "\
                   "#{@registration.errors.full_messages.join('. ')}."
     end
   end
@@ -83,6 +88,10 @@ class ConferenceRegistrationsController < ApplicationController
       flash[:alert] = "Can't find a registration for #{@conference.title} for you. Please register."
       redirect_to new_conference_conference_registrations_path(@conference.short_title)
     end
+  end
+
+  def user_params
+    params.require(:user).permit(:username, :email, :name, :password, :password_confirmation)
   end
 
   def registration_params

@@ -1,7 +1,5 @@
 class Registration < ActiveRecord::Base
   belongs_to :user
-  validates :user, presence: true
-  accepts_nested_attributes_for :user
   belongs_to :conference
   belongs_to :dietary_choice
 
@@ -28,6 +26,8 @@ class Registration < ActiveRecord::Base
   delegate :username, to: :user
 
   alias_attribute :other_needs, :other_special_needs
+
+  validates :user, presence: true
 
   validates_uniqueness_of :user_id, scope: :conference_id, message: 'already Registered!'
 

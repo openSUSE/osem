@@ -22,9 +22,8 @@
 
           = semantic_form_for(@event, url: @url) do |f|
 
-            - unless current_user
-              = semantic_fields_for @user do |u|
-                = render partial: 'devise/shared/sign_up_fields', locals: { u: u }
+            = render partial: 'devise/shared/sign_up_form_embedded'
+
             = f.inputs name: 'Proposal Information' do
               = f.input :title, as: :string, required: true
               = f.input :event_type_id, as: :select,
@@ -64,30 +63,4 @@
             %p.text-right
               = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}, label: 'Create Proposal'
         .tab-pane{role: 'tabpanel', id: 'signin'}
-          - if !CONFIG['authentication']['ichain']['enabled']
-            = form_tag(new_user_session_path, class: 'form-horizontal') do
-              %legend
-                %span
-                  Sign In
-              .form-group
-                %label{for: "user[login]", class: 'col-sm-2 control-label'}
-                  Username
-                .col-sm-10
-                  = text_field_tag 'user[login]', nil, placeholder: 'Username', class: 'form-control', required: 'required'
-              .form-group
-                %label{for: "user[password]", class: 'col-sm-2 control-label'}
-                  Password
-                .col-sm-10
-                  = password_field_tag 'user[password]', nil, placeholder: 'Password', class: 'form-control', required: 'required'
-              .form-group
-                .col-sm-12
-                  %button.btn.btn-success.pull-right
-                    Sign in
-              - unless omniauth_configured.empty?
-                .form-group
-                  %hr
-                  %p.text-center
-                    or sign in using
-                  .text-center
-                    = render 'devise/shared/openid'
-
+          = render partial: 'devise/shared/sign_in_form_embedded'
