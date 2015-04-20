@@ -34,7 +34,7 @@ class ConferenceRegistrationsController < ApplicationController
 
   def create
     @registration = @conference.registrations.new(registration_params)
-    @registration.user = current_user || ( @user = @registration.build_user(user_params) )
+    @registration.user = current_user || ( @user = @registration.build_user(user_params))
 
     if @registration.save
       # Trigger ahoy event
