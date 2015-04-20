@@ -72,7 +72,7 @@ module Admin
       respond_to do |format|
         format.html
         # Explicity call #to_json to avoid the use of EventSerializer
-        format.json { render json: Event.where(state: :confirmed).to_json }
+        format.json { render json: Event.where(state: :confirmed, conference: @conference).to_json }
       end
     end
 
