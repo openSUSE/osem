@@ -705,9 +705,9 @@ class Conference < ActiveRecord::Base
   # Returns the progress of the set up conference list in percent
   #
   # ====Returns
-  # * +Fixnum+ -> Progress in Percent
+  # * +String+ -> Progress in Percent
   def calculate_setup_progress(result)
-    (result.select { |_k, v| v }.length / result.length.to_f * 100).round(0).to_s
+    (100 * result.values.count(true) / result.values.count).to_s
   end
 
   ##
