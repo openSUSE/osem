@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-md-6.col-md-offset-3
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            Forgot your password?
+        .panel-body
+          = semantic_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+            = f.input :email, input_html: { autofocus: true, required: true}
+            %p.text-right
+              = f.action :submit, as: :button, label: 'Send me reset password instructions', button_html: { class: 'btn btn-success' }
+              
+          = render partial: 'devise/shared/help'

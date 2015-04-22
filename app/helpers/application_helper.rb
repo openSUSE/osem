@@ -1,8 +1,10 @@
 module ApplicationHelper
+  # Set resource_name for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposal#new)
   def resource_name
     :user
   end
 
+  # Set devise_mapping for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposal#new)
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
