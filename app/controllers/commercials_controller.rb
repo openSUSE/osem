@@ -3,13 +3,6 @@ class CommercialsController < ApplicationController
   before_action :set_event
   load_and_authorize_resource through: :event
 
-  def new
-    @commercial = @event.commercials.build
-    authorize! :new, @commercial
-  end
-
-  def edit; end
-
   def create
     @commercial = @event.commercials.build(commercial_params)
     authorize! :create, @commercial
@@ -35,8 +28,12 @@ class CommercialsController < ApplicationController
 
   def destroy
     @commercial.destroy
-    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id),
+    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
                 notice: 'Commercial was successfully destroyed.'
+  end
+
+  def get_html
+    render text: Commercial.get_content(params[:url])
   end
 
   private

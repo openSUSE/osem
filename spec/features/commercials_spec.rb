@@ -14,41 +14,24 @@ feature Commercial do
       sign_in organizer
 
       visit admin_conference_commercials_path(conference.short_title)
-      click_link 'Add Commercial'
-
-      # Create without an commercial id
-      select('SlideShare', from: 'commercial_commercial_type')
 
       click_button 'Create Commercial'
-      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
       expect(conference.commercials.count).to eq(expected_count - 1)
 
       # Create valid commercial
-      select('SlideShare', from: 'commercial_commercial_type')
-      fill_in 'commercial_commercial_id', with: '12345'
-
+      fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=12345'
       click_button 'Create Commercial'
       expect(flash).to eq('Commercial was successfully created.')
       expect(conference.commercials.count).to eq(expected_count)
-      expect(page.has_content?('SlideShare')).to be true
 
-      click_link 'Edit'
+      commercial = conference.commercials.where(url: 'https://www.youtube.com/watch?v=12345').first
+      fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=6789'
+      click_button 'Update'
 
-      # Update without an commercial id
-      select('YouTube', from: 'commercial_commercial_type')
-      fill_in 'commercial_commercial_id', with: ''
-
-      click_button 'Update Commercial'
-      expect(flash).to eq("An error prohibited this Commercial from being saved: Commercial can't be blank.")
-      expect(conference.commercials.count).to eq(expected_count)
-
-      # Update valid commercial
-      select('YouTube', from: 'commercial_commercial_type')
-      fill_in 'commercial_commercial_id', with: '678910'
-
-      click_button 'Update Commercial'
       expect(flash).to eq('Commercial was successfully updated.')
       expect(conference.commercials.count).to eq(expected_count)
+      commercial.reload
+      expect(commercial.url).to eq 'https://www.youtube.com/watch?v=6789'
 
       # Delete commercial
       click_link 'Delete'
@@ -75,59 +58,30 @@ feature Commercial do
       sign_out
     end
 
-    scenario 'adds a valid commercial to an event', feature: true, js: true do
+    scenario 'adds a commercial of an event', feature: true, js: true do
       visit edit_conference_proposal_path(conference.short_title, event.id)
-
       click_link 'Commercials'
-      click_link 'Add Commercial'
-
-      select('SlideShare', from: 'commercial_commercial_type')
-      fill_in 'commercial_commercial_id', with: '12345'
-
+      fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=12345'
       click_button 'Create Commercial'
       expect(flash).to eq('Commercial was successfully created.')
       expect(event.commercials.count).to eq(@expected_count)
     end
 
-    scenario 'adds an invalid commercial to an event', feature: true, js: true do
+    scenario 'updates a commercial of an event', feature: true, js: true do
+      commercial = create(:commercial,
+                          commercialable_id: event.id,
+                          commercialable_type: 'Event')
       visit edit_conference_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
-      click_link 'Add Commercial'
-
-      select('SlideShare', from: 'commercial_commercial_type')
-
-      click_button 'Create Commercial'
-      expect(event.commercials.count).to eq(@expected_count - 1)
-    end
-
-    scenario 'updates a valid commercial to an event', feature: true, js: true do
-      create(:commercial,
-             commercialable_id: event.id,
-             commercialable_type: 'Event')
-      visit edit_conference_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
-      click_link 'Edit'
-      select('SlideShare', from: 'commercial_commercial_type')
-      fill_in 'commercial_commercial_id', with: '56789'
-      click_button 'Update Commercial'
+      fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=6789'
+      click_button 'Update'
       expect(flash).to eq('Commercial was successfully updated.')
       expect(event.commercials.count).to eq(@expected_count)
+      commercial.reload
+      expect(commercial.url).to eq('https://www.youtube.com/watch?v=6789')
     end
 
-    scenario 'updates a invalid commercial to an event', feature: true, js: true do
-      create(:commercial,
-             commercialable_id: event.id,
-             commercialable_type: 'Event')
-      visit edit_conference_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
-      click_link 'Edit'
-      select('SlideShare', from: 'commercial_commercial_type')
-      fill_in 'commercial_commercial_id', with: ''
-      click_button 'Update Commercial'
-      expect(event.commercials.count).to eq(@expected_count)
-    end
-
-    scenario 'deletes a commercial to an event', feature: true, js: true do
+    scenario 'deletes a commercial of an event', feature: true, js: true do
       create(:commercial,
              commercialable_id: event.id,
              commercialable_type: 'Event')

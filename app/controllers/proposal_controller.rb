@@ -20,6 +20,8 @@ class ProposalController < ApplicationController
   def edit
     authorize! :edit, @event
     @url = conference_proposal_path(@conference.short_title, params[:id])
+    @commercial = @event.commercials.build
+    authorize! :new, @commercial
   end
 
   def create

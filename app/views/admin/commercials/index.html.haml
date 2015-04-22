@@ -6,22 +6,33 @@
         Conference commercials will be displayed on the events in the
         = link_to "schedule,", schedule_conference_path(@conference.short_title)
         if the event speaker didn't add an event commercial.
+- if can? :create, @conference.commercials.new
+  .row
+    .col-md-6
+      = semantic_form_for @commercial, url: admin_conference_commercials_path(conference_id: @conference.short_title) do |f|
+        = f.input :url, label: 'URL', as: :string, input_html: { required: 'required' }, hint: 'Just paste the url of your video/photo provider'
+        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right' }
+    .col-md-6
+      #resource-content
+  %hr
+
 - @commercials.each_slice(3) do |slice|
   .row
     - slice.each do |commercial|
-      .col-md-4
-        .thumbnail
-          %h3.text-center
-            = commercial.commercial_type
-          .flexvideo
-            = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
-          .caption
-            - if can? :update, commercial
-              = link_to 'Edit', edit_admin_conference_commercial_path(@conference.short_title, commercial.id), class: 'btn btn-primary'
-            - if can? :destroy, commercial
-              = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
-                method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-.row
-  .col-md-12.text-right
-    - if can? :create, @conference.commercials.new
-      = link_to 'Add Commercial', new_admin_conference_commercial_path, class: 'btn btn-primary'
+      - if commercial.persisted?
+        .col-md-4
+          .thumbnail
+            .flexvideo{ id: "resource-content-#{commercial.id}"}
+              -# This is for backward compatibility
+              - if commercial.url
+                = Commercial.get_content(commercial.url).html_safe
+              - else
+                = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
+            .caption
+              - if can? :update, commercial
+                = semantic_form_for commercial, url: admin_conference_commercial_path(conference_id: @conference.short_title, id: commercial) do |f|
+                  = f.input :url, label: 'URL', as: :string, input_html: { id: "commercial_url_#{commercial.id}", required: 'required' }, hint: 'Just paste the url of your video/photo provider'
+                  = f.action :submit, as: :button, button_html: { class: 'btn btn-success' }, label: 'Update'
+                  - if can? :destroy, commercial
+                    = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
+                      method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

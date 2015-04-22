@@ -37,6 +37,7 @@
 //= require bootstrap-switch
 //= require osem-switch
 //= require osem-bootstrap
+//= require osem-commercials
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

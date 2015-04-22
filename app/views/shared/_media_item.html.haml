@@ -1,12 +1,12 @@
--if commercial_type == CONFIG['commercial_types']['slideshare']
+-if commercial_type == Commercial.provider['slideshare']
   %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "www.slideshare.net/slideshow/embed_code/#{commercial_id}"}
--elsif commercial_type == CONFIG['commercial_types']['flickr']
+-elsif commercial_type == Commercial.provider['flickr']
   %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "flic.kr/p/#{commercial_id}/player/268a054da2"}
--elsif commercial_type == CONFIG['commercial_types']['vimeo']
+-elsif commercial_type == Commercial.provider['vimeo']
   %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//player.vimeo.com/video/#{commercial_id}"}
--elsif commercial_type == CONFIG['commercial_types']['speakerdeck']
+-elsif commercial_type == Commercial.provider['speakerdeck']
   %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> "//speakerdeck.com/player/#{commercial_id}?"}
--elsif commercial_type == CONFIG['commercial_types']['instagram']
+-elsif commercial_type == Commercial.provider['instagram']
   %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :scrolling =>"no", :allowtransparency=>"true", :src=> "//instagram.com/p/#{commercial_id}/embed/"}
 -else
   %iframe{:width=>"560", :height=>"315", :frameborder=>"0", :allowfullscreen=>"true", :src=> (request.ssl? ? "https://" : "http://") + "www.youtube.com/embed/#{commercial_id}?rel=0"}
