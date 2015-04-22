@@ -3,13 +3,6 @@ class CommercialsController < ApplicationController
   before_action :set_event
   load_and_authorize_resource through: :event
 
-  def new
-    @commercial = @event.commercials.build
-    authorize! :new, @commercial
-  end
-
-  def edit; end
-
   def create
     @commercial = @event.commercials.build(commercial_params)
     authorize! :create, @commercial
@@ -19,7 +12,7 @@ class CommercialsController < ApplicationController
                   notice: 'Commercial was successfully created.'
     else
       flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
-      render :new
+      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content')
     end
   end
 
@@ -29,14 +22,23 @@ class CommercialsController < ApplicationController
                   notice: 'Commercial was successfully updated.'
     else
       flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
-      render :edit
+      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content')
     end
   end
 
   def destroy
     @commercial.destroy
-    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id),
+    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
                 notice: 'Commercial was successfully destroyed.'
+  end
+
+  def render_commercial
+    result = Commercial.render_from_url(params[:url])
+    if result[:error]
+      render text: result[:error], status: 400
+    else
+      render text: result[:html]
+    end
   end
 
   private
@@ -46,6 +48,6 @@ class CommercialsController < ApplicationController
   end
 
   def commercial_params
-    params.require(:commercial).permit(:commercial_id, :commercial_type)
+    params.require(:commercial).permit(:url)
   end
 end

@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :commercial do
-    commercial_type 'YouTube'
-    commercial_id 'test'
+    url 'https://www.youtube.com/watch?v=BTTygyxuGj8'
 
     factory :conference_commercial do
       association :commercialable, factory: :conference

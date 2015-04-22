@@ -15,21 +15,31 @@
               You can add commercials for your proposal. These commercials will be displayed on the
               = link_to 'public proposal page.', conference_proposal_path(@conference.short_title, @event)
               If you don't add a commercial, the conference commercial will be displayed!
-
+            - if can? :create, @event.commercials.new
+              .row
+                .col-md-6
+                  #resource-content
+                  #resource-placeholder{ style: 'background-color:#d3d3d3; float: left; width: 400px; height: 250px; margin: 5px; border-width: 1px; border-style: solid; border-color: rgba(0,0,0,.2);' }
+              .row
+                .col-md-6
+                  = semantic_form_for(@event.commercials.build, url: conference_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event)) do |f|
+                    = f.input :url, label: 'URL', as: :string, input_html: { required: 'required', type: 'url' },
+                    hint: 'Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.'
+                    = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right', disabled: true }
+              %hr
             - @event.commercials.each_slice(3) do |slice|
               .row
                 - slice.each do |commercial|
-                  .col-md-4
-                    .thumbnail
-                      %h3.text-center
-                        = commercial.commercial_type
-                      .flexvideo
-                        = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
-                      - if can? :update, commercial
-                        = link_to 'Edit', edit_conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id), class: 'btn btn-primary'
-                      - if can? :destroy, commercial
-                        = link_to 'Delete', conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
-                        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-            - if can? :create, @event.commercials.new
-              %hr
-              = link_to 'Add Commercial', new_conference_proposal_commercial_path(@conference.short_title, @event.id), class: 'btn btn-primary'
+                  - if commercial.persisted?
+                    .col-md-4
+                      .thumbnail
+                        .flexvideo{ id: "resource-content-#{commercial.id}"}
+                          = render partial: 'shared/media_item', locals: { commercial: commercial }
+                        .caption
+                          - if can? :update, commercial
+                            = semantic_form_for commercial, url: conference_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event, id: commercial) do |f|
+                              = f.input :url, label: 'URL', as: :string, input_html: { id: "commercial_url_#{commercial.id}", required: 'required', type: 'url' }
+                              = f.action :submit, as: :button, button_html: { class: 'btn btn-success' }, label: 'Update'
+                              - if can? :destroy, commercial
+                                = link_to 'Delete', conference_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
+                                :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'

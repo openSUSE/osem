@@ -9,12 +9,6 @@ defaults: &defaults
   #errbit_key: See config/secrets.yml
   #errbit_host: errbit.exmaple.com
   # These are the currently supported commercial types for conference and events
-  commercial_types: { youtube: 'YouTube',
-                           slideshare: 'SlideShare',
-                           flickr: 'Flickr',
-                           vimeo: 'Vimeo',
-                           speakerdeck: 'Speakerdeck',
-                           instagram: 'Instagram' }
 
   # If you want to use iChain to handle registration and authentication enable the next lines
   authentication:

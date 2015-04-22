@@ -5,14 +5,10 @@ module Admin
 
     def index
       @commercials = @conference.commercials
-    end
 
-    def new
       @commercial = @conference.commercials.build
       authorize! :create, @conference.commercials.new
     end
-
-    def edit; end
 
     def create
       @commercial = @conference.commercials.build(commercial_params)
@@ -23,7 +19,8 @@ module Admin
                     notice: 'Commercial was successfully created.'
       else
         flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
-        render :new
+        redirect_to admin_conference_commercials_path
+
       end
     end
 
@@ -33,7 +30,7 @@ module Admin
                     notice: 'Commercial was successfully updated.'
       else
         flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
-        render :edit
+        redirect_to admin_conference_commercials_path
       end
     end
 
@@ -42,10 +39,19 @@ module Admin
       redirect_to admin_conference_commercials_path, notice: 'Commercial was successfully destroyed.'
     end
 
+    def render_commercial
+      result = Commercial.render_from_url(params[:url])
+      if result[:error]
+        render text: result[:error], status: 400
+      else
+        render text: result[:html]
+      end
+    end
+
     private
 
     def commercial_params
-      params.require(:commercial).permit(:commercial_id, :commercial_type)
+      params.require(:commercial).permit(:url)
     end
   end
 end

@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.string   "commercialable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "url"
   end
 
   create_table "conferences", force: true do |t|
