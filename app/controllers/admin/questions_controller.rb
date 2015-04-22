@@ -10,6 +10,10 @@ module Admin
       @new_question = @conference.questions.new
     end
 
+    def show
+      @registrations = @conference.registrations.joins(:qanswers).uniq
+    end
+
     def new
       @question = Question.new(conference_id: @conference.id)
       authorize! :create, @question
