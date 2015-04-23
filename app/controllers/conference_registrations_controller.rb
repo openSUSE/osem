@@ -21,6 +21,8 @@ class ConferenceRegistrationsController < ApplicationController
     end
 
     @registration = Registration.new
+
+    # @user variable needs to be set so that _sign_up_form_embedded works properly
     @user = @registration.build_user
   end
 
@@ -34,7 +36,15 @@ class ConferenceRegistrationsController < ApplicationController
 
   def create
     @registration = @conference.registrations.new(registration_params)
-    @registration.user = current_user || ( @user = @registration.build_user(user_params))
+
+    if current_user == nil
+      # @user variable needs to be set so that _sign_up_form_embedded works properly
+      @user = @registration.build_user(user_params)
+    else
+      @user = current_user
+    end
+
+    @registration.user = @user
 
     if @registration.save
       # Trigger ahoy event
