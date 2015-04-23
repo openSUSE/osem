@@ -85,4 +85,12 @@ Osem::Application.configure do
                               }
                             )
 
+
+  config.after_initialize do
+    Devise.setup do |devise_config|
+      # Enable ichain test mode
+      devise_config.ichain_test_mode = true
+    end
+  end
+
 end
