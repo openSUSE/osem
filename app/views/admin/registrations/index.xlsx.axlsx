@@ -1,23 +1,30 @@
 wb = xlsx_package.workbook
-wb.add_worksheet(:name => "registrations") do |sheet|
-  bold_style = wb.styles.add_style(:b => true)
-  row = ["Attended", "Name", "Nickname", "Affilation", "Email", "Social events",
-    "With partner", "Needs access", "Other needs", "Arrival", "Departure"]
+wb.add_worksheet(name: 'registrations') do |sheet|
+  bold_style = wb.styles.add_style(b: true)
+  row = ['Attended', 'Name', 'Nickname', 'Affilιation', 'Email', 'Arrival', 'Departure']
+
+  @conference.questions.each do |question|
+    row << question.title
+  end
+
   sheet.add_row row, :style => bold_style
 
-  @registrations.each do |reg|
+  @registrations.each do |registration|
     row = []
-    row << reg.attended
-    row << reg.name
-    row << reg.nickname
-    row << reg.affiliation
-    row << reg.email
-    row << reg.attending_social_events
-    row << reg.attending_with_partner
-    row << reg.handicapped_access_required
-    row << reg.other_needs
-    row << reg.arrival
-    row << reg.departure
+    row << ( registration.attended ? 'X' : '' )
+    row << registration.name
+    row << registration.nickname
+    row << registration.affiliation
+    row << registration.email
+    row << registration.arrival.to_s
+    row << registration.departure.to_s
+    @conference.questions.each do |question|
+      qa = registration.qanswers.find_by(question: question)
+      answer = ( qa ? qa.answer.title : '' )
+
+      row << answer
+    end
+
     sheet.add_row row
   end
   sheet.column_info[8].width = [sheet.column_info[8].width, 30].min
