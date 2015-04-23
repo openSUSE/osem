@@ -10,6 +10,13 @@
             = render partial: 'devise/shared/sign_up_fields', locals: { u: f}
             %p.text-right
               = f.action :submit, as: :button, label: 'Sign Up', button_html: {class: 'btn btn-success' }
+          .row
+            .col-md-12
+              %p.text-right
+                %a.small{"data-toggle" => "collapse", "data-target" =>  "#devise-help"}
+                  Need Help?
+                #devise-help.collapse
+                  = render 'devise/shared/links'
           - unless omniauth_configured.empty?
             .row
               .col-md-4
@@ -23,8 +30,3 @@
               .col-md-12
                 #openidlinks
                   = render 'devise/shared/openid'
-                %p.text-right
-                  %a.small{"data-toggle" => "collapse", "data-target" =>  "#devise-help"}
-                    Need Help?
-                  #devise-help.collapse
-                    = render 'devise/shared/links'
