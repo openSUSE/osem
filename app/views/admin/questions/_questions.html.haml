@@ -19,6 +19,7 @@
 
       %td
         .btn-group
+          = link_to 'Show', admin_conference_question_path(@conference.short_title, q), class: 'btn btn-success'
           = link_to 'Edit', edit_admin_conference_question_path(@conference.short_title, q),
                     class: 'btn btn-primary', disabled: !(can? :update, q)
           = link_to 'Delete', admin_conference_question_path(@conference.short_title, q),

@@ -25,6 +25,7 @@ class Registration < ActiveRecord::Base
   delegate :email, to: :user
   delegate :nickname, to: :user
   delegate :affiliation, to: :user
+  delegate :username, to: :user
 
   alias_attribute :other_needs, :other_special_needs
 

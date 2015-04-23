@@ -1,0 +1,26 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1= @question.title
+        - @question.answers.each do |answer|
+          = answer.title
+          (#{answer.qanswers.find_by(question: @question).registrations.where(conference: @conference).count})
+
+
+  .row
+    .col-md-12
+
+      %table.table.table-border.table-hover.datatable#question_users
+        %thead
+          %th Name
+          %th Username
+          %th Email
+          %th Answer
+        %tbody
+          - @registrations.each do |registration|
+            %tr
+              %td= registration.name
+              %td= registration.username
+              %td= registration.email
+              %td= registration.qanswers.find_by(question: @question).answer.title
