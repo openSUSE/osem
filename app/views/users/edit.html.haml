@@ -8,7 +8,10 @@
       = semantic_form_for(@user, url: user_path(@user.id)) do |f|
         = f.input :name, as: :string
         = f.input :nickname, as: :string
-        = link_to 'Change your avatar here', 'https://secure.gravatar.com'
+        .control-label
+          = "Avatar"
+        = image_tag(@user.gravatar_url(size: '48'), title: "Yo #{@user.name}!", :alt => '')
+        = link_to 'Change your avatar here', 'https://gravatar.com'
         = f.input :affiliation, as: :string,
           hint: 'This could be a company, a user group, or nothing at all.'
         = f.input :biography,  input_html: { rows: 5, 'onkeyup' => "word_count(this, 'biography-count', 150)" }
