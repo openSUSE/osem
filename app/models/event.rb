@@ -99,23 +99,9 @@ class Event < ActiveRecord::Base
   def as_json(options)
     json = super(options)
 
-    if room.nil?
-      json[:room_guid] = nil
-    else
-      json[:room_guid] = room.guid
-    end
-
-    if track.nil?
-      json[:track_color]  = '#ffffff'
-    else
-      json[:track_color] = track.color
-    end
-
-    if event_type.nil?
-      json[:length] = 25
-    else
-      json[:length] = event_type.length
-    end
+    json[:room_guid] = room.try(:guid)
+    json[:track_color] = track.try(:color) || '#ffffff'
+    json[:length] = event_type.try(:length) || 25
 
     json
   end
@@ -155,11 +141,7 @@ class Event < ActiveRecord::Base
   end
 
   def abstract_word_count
-    if abstract.nil?
-      0
-    else
-      abstract.split.size
-    end
+    abstract.to_s.split.size
   end
 
   def week
@@ -167,23 +149,16 @@ class Event < ActiveRecord::Base
   end
 
   def self.get_state_color(state)
-    # default azure
-    result = '#00FFFF'
-    case state
-    when 'new' # blue
-      result = '#0000FF'
-    when 'withdrawn' # orange
-      result = '#FF8000'
-    when 'confirmed' # green
-      result = '#00FF00'
-    when 'unconfirmed' # yellow
-      result = '#FFFF00'
-    when 'rejected' # red
-      result = '#FF0000'
-    when 'canceled' # grey
-      result = '#848484'
-    end
-    result
+    color = {
+      new:         '#0000FF', # blue
+      withdrawn:   '#FF8000', # orange
+      confirmed:   '#00FF00', # green
+      unconfirmed: '#FFFF00', # yellow
+      rejected:    '#FF0000', # red
+      canceled:    '#848484'  # grey
+    }[state.to_sym]
+
+    color || '#00FFFF' # azure
   end
 
   def update_state(transition, mail = false, subject = false, send_mail = false, send_mail_param)
