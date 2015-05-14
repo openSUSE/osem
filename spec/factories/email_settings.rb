@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :email_settings do
     send_on_registration true
+    send_on_$ACTION false
     send_on_accepted false
     send_on_rejected false
     send_on_confirmed_without_registration false
@@ -18,6 +19,9 @@ FactoryGirl.define do
     venue_update_subject 'Venue has been updated'
     venue_update_template 'Venue has been Updated to Sample Location'
     registration_subject 'Lorem Ipsum Dolsum'
+    $ACTION_subject 'You can add a specific subject'
+    registration_body 'I want to be here'
+    $ACTION_body 'Add more informations'
     registration_email_template 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
     call_for_papers_dates_updates_subject 'Call for Papers dates have been updated'
     call_for_papers_dates_updates_template 'Please checkout the new updates to submit your proposal for Sample Conference'
