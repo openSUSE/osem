@@ -49,30 +49,30 @@
                           data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
                       <%- if speaker = event[0].speakers.first %>
                         <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right",
-							   :alt => speaker.name,
-							   :title => speaker.name,
-							   :style => "padding:8px;" %>
+                                                           :alt => speaker.name,
+                                                           :title => speaker.name,
+                                                           :style => "padding:8px;" %>
                       <%- end %>
                       <h5>
                         <span class="fa fa-comment"></span>
                         <%= event[0].title %>
                         <% unless event[0].subtitle.blank? %>
-			 <span class="schedule-subtitle">
-			   <%= event[0].subtitle %>
+                          <span class="schedule-subtitle">
+                            <%= event[0].subtitle %>
                           <span>
                         <% end %>
                       </h5>
-		        </span>
-                        <span class="schedule-speaker">
-                          <span class="fa fa-user"></span>
-                          <%= "#{speaker.name}" %>
+                      </span>
+                      <span class="schedule-speaker">
+                        <span class="fa fa-user"></span>
+                        <%= "#{speaker.name}" %>
+                      </span>
+                      <% if event[0].track%>
+                        <span class="schedule-track">
+                          <span class="fa fa-road"></span>
+                          <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
                         </span>
-                        <% if event[0].track%>
-                          <span class="schedule-track">
-                            <span class="fa fa-road"></span>
-                            <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
-                          </span>
-                          <% end -%>
+                      <% end -%>
                     </td>
                     <% span[room.id] = span[room.id] + 1 %>
                     <% elsif  span[room.id] > 1 %>
