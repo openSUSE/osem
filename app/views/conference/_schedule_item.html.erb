@@ -1,52 +1,32 @@
 <td style="width: <%= 95 / @rooms.length %>%; cursor:pointer"
       rowspan ="<%= span[room.id] %>"
-      class="event" role="button"
-      data-href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>">
-  <%- if speaker = event[0].speakers.first %>
-    <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right",
-                                       :alt => speaker.name,
-                                       :title => speaker.name,
-                                       :style => "padding:8px;" %>
-  <%- end %>
-  <h5>
-    <span class="fa fa-comment"></span>
-    <%= event[0].title %>
-    <% unless event[0].subtitle.blank? %>
-      <span class="schedule-subtitle">
-        <%= event[0].subtitle %>
-      <span>
-    <% end %>
-  </h5>
-  <span class="schedule-speaker">
-    <span class="fa fa-user"></span>
-    <%= "#{speaker.name}" %>
-  </span>
-  <% if event[0].track%>
-    <span class="schedule-track">
-      <span class="fa fa-road"></span>
-      <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+      class="event" role="button">
+  <a class="unstyled-link" href="<%= url_for(conference_proposal_path(@conference.short_title, event[0].id)) %>" >
+    <%- if speaker = event[0].speakers.first %>
+      <%= image_tag speaker.gravatar_url, :class => "img-circle pull-right",
+                                         :alt => speaker.name,
+                                         :title => speaker.name,
+                                         :style => "padding:8px;" %>
+    <%- end %>
+    <h5>
+      <span class="fa fa-comment"></span>
+      <%= event[0].title %>
+      <% unless event[0].subtitle.blank? %>
+        <span class="schedule-subtitle">
+          <%= event[0].subtitle %>
+        <span>
+      <% end %>
+    </h5>
+    <span class="schedule-speaker">
+      <span class="fa fa-user"></span>
+      <%= "#{speaker.name}" %>
     </span>
-  <% end -%>
+    <% if event[0].track%>
+      <span class="schedule-track">
+        <span class="fa fa-road"></span>
+        <span class="label" style="background-color:<%= event[0].track.color if event[0].track %>"><%= event[0].track.name %></span>
+      </span>
+    <% end -%>
+  </a>
 </td>
 
-<%= javascript_tag do %>
-  jQuery( function($) {
-    $('tbody tr td[data-href]').addClass('clickable').mouseup(function(e) {
-      var url = $(this).attr('data-href');
-      if (e.which === 1 && e.ctrlKey){
-      var win = window.open(url, '_blank');
-      win.focus();
-      }
-      else if(e.which === 1)
-      {
-        window.location = url;
-      }
-      else if(e.which === 2)
-      {
-      var win = window.open(url, '_blank');
-      win.focus();
-      }
-    });
-});
-
-<% end %>
