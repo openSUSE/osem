@@ -211,7 +211,7 @@ class Event < ActiveRecord::Base
   def calculate_progress
     result = self.progress_status
     true_items = result.select { |_key, value| value }.length
-    (true_items / result.length.to_f * 100).round(0).to_s
+    (100 * true_items / result.length).to_s
   end
 
   private
