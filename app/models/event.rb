@@ -207,7 +207,7 @@ class Event < ActiveRecord::Base
   # Returns the progress of the proposal's set up
   #
   # ====Returns
-  # * +Fixnum+ -> Progress in Percent
+  # * +String+ -> Progress in Percent
   def calculate_progress
     result = self.progress_status
     true_items = result.select { |_key, value| value }.length
