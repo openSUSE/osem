@@ -210,8 +210,7 @@ class Event < ActiveRecord::Base
   # * +String+ -> Progress in Percent
   def calculate_progress
     result = self.progress_status
-    true_items = result.select { |_key, value| value }.length
-    (100 * true_items / result.length).to_s
+    (100 * result.values.count(true) / result.values.count).to_s
   end
 
   private
