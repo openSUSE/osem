@@ -122,13 +122,7 @@ class Conference < ActiveRecord::Base
   # * +false+ -> If the user is registered
   # * +true+ - If the user isn't registered
   def user_registered? user
-    return false if user.nil?
-
-    if registrations.where(user_id: user.id).count == 0
-      return false
-    else
-      return true
-    end
+    user.present? && registrations.where(user_id: user.id).count > 0
   end
 
   ##

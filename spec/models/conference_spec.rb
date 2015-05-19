@@ -1463,6 +1463,12 @@ describe Conference do
       end
     end
 
+    context 'user is nil' do
+      it '#user_registered? is false' do
+        expect(subject.user_registered? user).to be false
+      end
+    end
+
     context 'user registered' do
       before do
         registration = create(:registration)
