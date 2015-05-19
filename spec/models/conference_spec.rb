@@ -1464,7 +1464,15 @@ describe Conference do
     end
 
     context 'user registered' do
-      pending "isn't tested yet"
+      before do
+        registration = create(:registration)
+        subject.registrations << registration
+        user.registrations << registration
+      end
+
+      it '#user_registered? is true' do
+        expect(subject.user_registered? user).to be true
+      end
     end
   end
 
