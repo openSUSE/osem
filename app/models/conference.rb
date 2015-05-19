@@ -164,7 +164,7 @@ class Conference < ActiveRecord::Base
   def cfp_open?
     today = Date.current
     cfp = self.call_for_paper
-    if !cfp.nil? && (cfp.start_date.. cfp.end_date).cover?(today)
+    if cfp && (cfp.start_date.. cfp.end_date).cover?(today)
       return true
     end
 
