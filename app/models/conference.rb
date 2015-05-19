@@ -119,11 +119,10 @@ class Conference < ActiveRecord::Base
   # ====Args
   # * +user+ -> The user we check for
   # ====Returns
-  # * +nil+ -> If the user doesn't exist
   # * +false+ -> If the user is registered
   # * +true+ - If the user isn't registered
   def user_registered? user
-    return nil if user.nil?
+    return false if user.nil?
 
     if registrations.where(user_id: user.id).count == 0
       return false
