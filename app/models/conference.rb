@@ -306,18 +306,21 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> true -> filled / false -> missing
   def get_status
-    result = {}
-    result['registration'] = registration_date_set?
-    result['cfp'] = cfp_set?
-    result['venue'] = venue_set?
-    result['rooms'] = rooms_set?
-    result['tracks'] = tracks_set?
-    result['event_types'] = event_types_set?
-    result['difficulty_levels'] = difficulty_levels_set?
-    result['splashpage'] = splashpage && splashpage.public?
-    result['process'] = calculate_setup_progress(result)
-    result['short_title'] = short_title
-    result
+    result = {
+      registration: registration_date_set?,
+      cfp: cfp_set?,
+      venue: venue_set?,
+      rooms: rooms_set?,
+      tracks: tracks_set?,
+      event_types: event_types_set?,
+      difficulty_levels: difficulty_levels_set?,
+      splashpage: splashpage && splashpage.public?
+    }
+
+    result.update(
+      process: calculate_setup_progress(result),
+      short_title: short_title
+    ).with_indifferent_access
   end
 
   ##
@@ -487,11 +490,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +List+
   def self.get_event_state_line_colors
-    result = []
-    result.push(short_title: 'Submitted', color: 'blue')
-    result.push(short_title: 'Confirmed', color: 'green')
-    result.push(short_title: 'Unconfirmed', color: 'orange')
-    result
+    [
+      { short_title: 'Submitted', color: 'blue' },
+      { short_title: 'Confirmed', color: 'green' },
+      { short_title: 'Unconfirmed', color: 'orange' }
+    ]
   end
 
   ##
