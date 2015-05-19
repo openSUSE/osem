@@ -162,13 +162,9 @@ class Conference < ActiveRecord::Base
   # * +false+ -> If the CFP is not set or today isn't in the CFP period.
   # * +true+ -> If today is in the CFP period.
   def cfp_open?
-    today = Date.current
     cfp = self.call_for_paper
-    if cfp && (cfp.start_date.. cfp.end_date).cover?(today)
-      return true
-    end
 
-    return false
+    cfp.present? && (cfp.start_date..cfp.end_date).cover?(Date.current)
   end
 
   ##
