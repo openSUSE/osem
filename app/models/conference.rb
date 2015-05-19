@@ -257,11 +257,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> weeks
   def cfp_weeks
-    result = 0
     if call_for_paper
-      result = call_for_paper.weeks
+      call_for_paper.weeks
+    else
+      0
     end
-    result
   end
 
   ##
@@ -270,11 +270,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> start week
   def get_registration_start_week
-    result = -1
     if registration_period
-      result = registration_period.start_date.strftime('%W').to_i
+      registration_period.start_date.strftime('%W').to_i
+    else
+      -1
     end
-    result
   end
 
   ##
@@ -283,11 +283,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> start week
   def get_registration_end_week
-    result = -1
     if registration_period
-      result = registration_period.end_date.strftime('%W').to_i
+      registration_period.end_date.strftime('%W').to_i
+    else
+      -1
     end
-    result
   end
 
   ##
