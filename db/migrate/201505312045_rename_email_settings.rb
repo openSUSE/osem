@@ -1,19 +1,15 @@
 class RenameEmailSettings < ActiveRecord::Migration
   def up
-    change_table :email_settings do |t|
-      t.rename :registration_email_template, :registration_body
-      t.rename :accepted_email_template, :accepted_body
-      t.rename :rejected_email_template, :rejected_body
-      t.rename :confirmed_email_template, :confirmed_body
-    end
+    rename_column(:email_settings, :registration_email_template, :registration_body)
+    rename_column(:email_settings, :accepted_email_template, :accepted_body)
+    rename_column(:email_settings, :rejected_email_template, :rejected_body)
+    rename_column(:email_settings, :confirmed_email_template, :confirmed_body)
   end
 
   def down
-    change_table :email_settings do |t|
-      t.rename :registration_body, :registration_email_template
-      t.rename :accepted_body, :accepted_email_template
-      t.rename :rejected_body, :rejected_email_template
-      t.rename :confirmed_body, :confirmed_email_template
-    end
+    rename_column(:email_settings, :registration_body, :registration_email_template)
+    rename_column(:email_settings, :accepted_body, :accepted_email_template)
+    rename_column(:email_settings, :rejected_body, :rejected_email_template)
+    rename_column(:email_settings, :confirmed_body, :confirmed_email_template)
   end
 end
