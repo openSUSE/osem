@@ -1,4 +1,4 @@
-class rename_email_settings < ActiveRecord::Migration
+class RenameEmailSettings < ActiveRecord::Migration
   def up
     change_table :email_settings do |t|
       t.rename :registration_email_template, :registration_body
