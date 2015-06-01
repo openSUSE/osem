@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415121038) do
+ActiveRecord::Schema.define(version: 20150417050953) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20150415121038) do
     t.datetime "time"
   end
 
+  add_index "ahoy_events", ["id"], name: "sqlite_autoindex_ahoy_events_1", unique: true
   add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
   add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
   add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
@@ -162,10 +163,10 @@ ActiveRecord::Schema.define(version: 20150415121038) do
     t.boolean  "send_on_accepted",                               default: false
     t.boolean  "send_on_rejected",                               default: false
     t.boolean  "send_on_confirmed_without_registration",         default: false
-    t.text     "registration_email_template"
-    t.text     "accepted_email_template"
-    t.text     "rejected_email_template"
-    t.text     "confirmed_email_template"
+    t.text     "registration_body"
+    t.text     "accepted_body"
+    t.text     "rejected_body"
+    t.text     "confirmed_body"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "registration_subject"
@@ -558,6 +559,7 @@ ActiveRecord::Schema.define(version: 20150415121038) do
     t.datetime "started_at"
   end
 
+  add_index "visits", ["id"], name: "sqlite_autoindex_visits_1", unique: true
   add_index "visits", ["user_id"], name: "index_visits_on_user_id"
 
   create_table "votes", force: true do |t|
