@@ -37,7 +37,7 @@ class ConferenceRegistrationsController < ApplicationController
   def create
     @registration = @conference.registrations.new(registration_params)
 
-    if current_user == nil
+    if current_user.nil?
       # @user variable needs to be set so that _sign_up_form_embedded works properly
       @user = @registration.build_user(user_params)
     else
