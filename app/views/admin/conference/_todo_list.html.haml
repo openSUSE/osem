@@ -24,7 +24,10 @@
   %li{'class'=>"list-group-item #{class_for_todo(conference_progress['venue'])}"}
     %span{'class'=>icon_for_todo(conference_progress['venue'])}
     - if can? :update, @conference.venue
-      = link_to 'Add venue', edit_admin_conference_venue_path(conference_progress['short_title'])
+      - if conference.venue
+        = link_to 'Add venue', edit_admin_conference_venue_path(conference_progress['short_title'])
+      - else
+        = link_to 'Add venue', new_admin_conference_venue_path(conference_progress['short_title'])
     - else
       Add venue
   %li{'class'=>"list-group-item #{class_for_todo(conference_progress['rooms'])}"}
