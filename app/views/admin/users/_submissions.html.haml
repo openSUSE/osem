@@ -4,7 +4,7 @@
       Submissions (#{@user.events.length}) for #{@user.name}
   .col-md-12
     .well
-      %table.table.table-bordered.table-striped.table-hover#submissions
+      %table.table.table-bordered.table-striped.table-hover.datatable#submissions
         %thead
           %th ID
           %th Conference
@@ -30,10 +30,3 @@
                     - else
                       = label_tag 'label_rating', '', class: 'avgrating'
               %td= event.created_at
-
-:javascript
-  $(document).ready(function() {
-      $('#submissions').dataTable( {
-        "bPaginate": false
-      } );
-  } );

@@ -5,14 +5,15 @@
 .avgrating.bright { background-image: image-url("star-bright.png"); }
 .avgrating {
   background: image-url("star.png") 0 0;
-  width: 26px;
-  height: 26px;
+  margin-right: -2px;
+  width: 24px;
+  height: 24px;
   display: inline-block;
 }
 .myrating, .othersrating {
   background: image-url("star.png") 0 0;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   float: left;
 }
 
