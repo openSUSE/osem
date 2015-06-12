@@ -60,11 +60,12 @@
                     .divider
                     %h6.text-center
                       or
-                    = render 'devise/shared/openid'
+                    = render 'devise/shared/openid_links'
                   %p.text-right
-                    %a.small{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
+                    %br
+                    %a.small.btn.btn-xs.btn-default{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
                       Need Help?
                     #navbar-devise-help.collapse
-                      = link_to "Forgot your password?", new_password_path(User.new)
+                      = render 'devise/shared/links'
                   %li.hidden-lg
                     = link_to('Sign In', new_user_session_path)

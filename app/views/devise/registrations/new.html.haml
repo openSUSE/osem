@@ -7,24 +7,13 @@
             Sign Up
         .panel-body
           = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-            = render partial: 'devise/shared/sign_up_fields', locals: { u: f}
+            = f.input :username, input_html: { required: true }
+            = f.input :email, input_html: { required: true }
+            = f.input :name, input_html: { required: true }
+            = f.input :password, input_html: { required: true }
+            = f.input :password_confirmation, input_html: { required: true }
             %p.text-right
-              = f.action :submit, as: :button, label: 'Sign Up', button_html: {class: 'btn btn-success' }
-          - unless omniauth_configured.empty?
-            .row
-              .col-md-4
-                %hr
-              .col-md-4
-                %h4.text-center
-                  or sign up using
-              .col-md-4
-                %hr
-            .row
-              .col-md-12
-                #openidlinks
-                  = render 'devise/shared/openid'
-                %p.text-right
-                  %a.small{"data-toggle" => "collapse", "data-target" =>  "#devise-help"}
-                    Need Help?
-                  #devise-help.collapse
-                    = render 'devise/shared/links'
+              = f.action :submit, as: :button, label: 'Sign Up', button_html: { class: 'btn btn-success' }
+
+          = render partial: 'devise/shared/openid'
+          = render partial: 'devise/shared/help'

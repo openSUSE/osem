@@ -1,0 +1,8 @@
+- unless current_user
+  = semantic_fields_for @user do |u|
+    = u.input :username, input_html: { required: 'required', autocomplete: 'off' }
+    = u.input :email, input_html: { required: 'required', autocomplete: 'off' }
+    = u.input :password, input_html: { required: 'required', autocomplete: 'off', id: 'password_inline' }
+    = u.input :password_confirmation, input_html: { required: 'required', autocomplete: 'off' }
+  = render partial: 'devise/shared/openid'
+  = render partial: 'devise/shared/help'
