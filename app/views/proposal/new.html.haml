@@ -7,7 +7,7 @@
     .col-md-12
       = render partial: 'encouragement_text'
   .row
-    .col-md-8
+    .col-md-12
       - if !current_user
         %legend
           %span
@@ -19,48 +19,7 @@
               Already have an account?
       .tab-content
         .tab-pane.active{role: 'tabpanel', id: 'signup'}
+          = render partial: 'proposal_form'
 
-          = semantic_form_for(@event, url: @url) do |f|
-
-            = render partial: 'devise/shared/sign_up_form_embedded'
-
-            = f.inputs name: 'Proposal Information' do
-              = f.input :title, as: :string, required: true
-              = f.input :event_type_id, as: :select,
-                collection: @conference.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
-                include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
-
-              - @conference.event_types.each do |event_type|
-                %span{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help" }
-                  = event_type.description
-
-              :javascript
-                $("##{@conference.event_types.first.id}-help").collapse('show');
-
-              = f.input :abstract, input_html: { rows: 5 },
-                required: true, hint: link_to('Tips to improve your presentations', 'http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx')
-
-              %p
-                You have used
-                %span#abstract-count #{@event.abstract_word_count}
-                words.  Abstracts must be between
-                %span#abstract-minimum-word-count
-                  0
-                and
-                %span#abstract-maximum-word-count
-                  250
-                words.
-
-              = f.input :require_registration, label: 'Require participants to register to your event'
-
-              %p.text-right
-                = link_to '#description',  "data-toggle"=>"collapse", id: 'description_link' do
-                  Do you require something special?
-              .collapse#description
-                = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
-
-            %p.text-right
-              = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}, label: 'Create Proposal'
         .tab-pane{role: 'tabpanel', id: 'signin'}
           = render partial: 'devise/shared/sign_in_form_embedded'
