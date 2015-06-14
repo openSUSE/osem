@@ -1,4 +1,8 @@
 = semantic_form_for(@event, url: @url) do |f|
+
+  - if current_user.nil?
+    = render partial: 'devise/shared/sign_up_form_embedded'
+
   = f.inputs name: 'Proposal Information' do
     = f.input :title, as: :string, required: true
 
@@ -39,8 +43,10 @@
 
     = f.input :require_registration, label: 'Require participants to register to your event'
 
-    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
-      = f.input :is_highlight
+    -# We have to verify current_user in this context as this partial form is used both for new proposals and editing existing proposals
+    - if current_user
+      - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
+        = f.input :is_highlight
 
     %p.text-right
       = link_to '#description',  "data-toggle"=>"collapse" do
@@ -48,6 +54,5 @@
     .collapse#description
       = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
-
   %p.text-right
-    = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}, label: 'Update Proposal'
+    = f.action :submit, :as => :button, :button_html => {:class => "btn btn-success"}, label: @event.new_record? ? 'Create Proposal' : 'Update Proposal'
