@@ -356,7 +356,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> hash
   def self.event_distribution
-    calculate_event_distribution_hash(Event.group(:state).count)
+    calculate_event_distribution_hash(Event.select(:state).group(:state).count)
   end
 
   ##
@@ -365,7 +365,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> hash
   def event_distribution
-    Conference.calculate_event_distribution_hash(events.group(:state).count)
+    Conference.calculate_event_distribution_hash(events.select(:state).group(:state).count)
   end
 
   ##
@@ -390,7 +390,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> Fixnum minutes
   def current_program_minutes
-    events_grouped = events.group(:event_type_id)
+    events_grouped = events.select(:event_type_id).group(:event_type_id)
     events_counted = events_grouped.count
     calculate_program_minutes(events_grouped, events_counted)
   end
@@ -410,7 +410,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> Fixnum minutes
   def new_program_minutes(date)
-    events_grouped = events.where('created_at > ?', date).group(:event_type_id)
+    events_grouped = events.select(:event_type_id).where('created_at > ?', date).group(:event_type_id)
     events_counted = events_grouped.count
     calculate_program_minutes(events_grouped, events_counted)
   end
@@ -449,9 +449,9 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> track => {color, value}
   def tracks_distribution(state = nil)
     if state
-      tracks_grouped = events.where('state = ?', state).group(:track_id)
+      tracks_grouped = events.select(:track_id).where('state = ?', state).group(:track_id)
     else
-      tracks_grouped = events.group(:track_id)
+      tracks_grouped = events.select(:track_id).group(:track_id)
     end
     tracks_counted = tracks_grouped.count
 
@@ -624,7 +624,7 @@ class Conference < ActiveRecord::Base
     this_week = Date.today.end_of_week.strftime('%W').to_i
     result['Confirmed'][this_week] = events.where('state = ?', :confirmed).count
     result['Unconfirmed'][this_week] = events.where('state = ?', :unconfirmed).count
-    result['Submitted'] = events.group(:week).count
+    result['Submitted'] = events.select(:week).group(:week).count
     result['Submitted'][this_week] = events.where(week: this_week).count
     result
   end
@@ -779,9 +779,9 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
     if state
-      grouped = events.where('state = ?', 'confirmed').group(group_by_id)
+      grouped = events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
     else
-      grouped = events.group(group_by_id)
+      grouped = events.select(group_by_id).group(group_by_id)
     end
     counted = grouped.count
 
