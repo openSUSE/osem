@@ -4,42 +4,60 @@ about rails and what it can do, see the [rails guides.](http://guides.rubyonrail
 
 ### Run OSEM in development
 1. Clone the git repository to the directory you want Apache to serve the content from.
-```
-git clone https://github.com/openSUSE/osem.git
-```
+
+  ```
+  git clone https://github.com/openSUSE/osem.git
+  ```
+
 2. Install all the ruby gems.
-```
-bundle install
-```
+
+  ```
+  bundle install
+  ```
+
 3. Install ImageMagick from your distribution repository
+
 4. Generate secret key for devise and the rails app with
-```
-rake secret
-```
-Look at config/config.yml.example.
+
+  ```
+  rake secret
+  ```
 
 5. Copy the sample configuration files and adapt them
-```
-cp config/config.yml.example config/config.yml
-cp config/database.yml.example config/database.yml
-cp config/secrets.yml.example config/secrets.yml
-```
+
+  ```
+  cp config/config.yml.example config/config.yml
+  cp config/database.yml.example config/database.yml
+  cp config/secrets.yml.example config/secrets.yml
+  ```
+
 6. Setup the database
-```
-bundle exec rake db:setup
-```
+
+  ```
+  bundle exec rake db:setup
+  ```
 
 7. Run OSEM
-```
-rails server
-```
+
+  ```
+  rails server
+  ```
+
 8. Visit the APP at
-```
-http://localhost:3000
-```
+
+  ```
+  http://localhost:3000
+  ```
 9. Sign up, the first user will be automatically assigned the admin role.
 
-10. Use openID
+10. Hack!
+
+### Run OSEM in production
+We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
+and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
+base operating systems. Check Google ;-)
+
+#### Use openID
 In order to use the OpenID feature you need to register your application with the providers
 (Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
 
@@ -61,12 +79,8 @@ That is required so that the check in app/views/devise/shared/_openid.html.haml 
 the image-link to login using the provider will be shown.
 
 
-11. Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
+#### Email Notifications
+Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 rake jobs:work
 ```
-
-### Run OSEM in production
-We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
-and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
-base operating systems. Check Google ;-)
