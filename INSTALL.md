@@ -15,7 +15,7 @@ about rails and what it can do, see the [rails guides.](http://guides.rubyonrail
   bundle install
   ```
 
-3. Install ImageMagick from your distribution repository
+3. Install [ImageMagick](http://imagemagick.org/script/binary-releases.php)
 
 4. Generate secret key for devise and the rails app with
 
