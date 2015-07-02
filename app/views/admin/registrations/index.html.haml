@@ -44,8 +44,8 @@
               %td
                 = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
             %td
-              = check_box_tag class:'switch-checkbox',
-            data: { size: "large",
+              = check_box_tag @conference.short_title, registration.id, true, class: 'switch-checkbox', method: :patch,
+                data: { size: "large",
                     on_color: 'success',
                     off_color: 'warning',
                     on_text: 'Present',
