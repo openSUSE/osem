@@ -119,17 +119,10 @@ class Conference < ActiveRecord::Base
   # ====Args
   # * +user+ -> The user we check for
   # ====Returns
-  # * +nil+ -> If the user doesn't exist
   # * +false+ -> If the user is registered
   # * +true+ - If the user isn't registered
   def user_registered? user
-    return nil if user.nil?
-
-    if registrations.where(user_id: user.id).count == 0
-      return false
-    else
-      return true
-    end
+    user.present? && registrations.where(user_id: user.id).count > 0
   end
 
   ##
@@ -163,13 +156,9 @@ class Conference < ActiveRecord::Base
   # * +false+ -> If the CFP is not set or today isn't in the CFP period.
   # * +true+ -> If today is in the CFP period.
   def cfp_open?
-    today = Date.current
     cfp = self.call_for_paper
-    if !cfp.nil? && (cfp.start_date.. cfp.end_date).cover?(today)
-      return true
-    end
 
-    return false
+    cfp.present? && (cfp.start_date..cfp.end_date).cover?(Date.current)
   end
 
   ##
@@ -262,11 +251,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> weeks
   def cfp_weeks
-    result = 0
     if call_for_paper
-      result = call_for_paper.weeks
+      call_for_paper.weeks
+    else
+      0
     end
-    result
   end
 
   ##
@@ -275,11 +264,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> start week
   def get_registration_start_week
-    result = -1
     if registration_period
-      result = registration_period.start_date.strftime('%W').to_i
+      registration_period.start_date.strftime('%W').to_i
+    else
+      -1
     end
-    result
   end
 
   ##
@@ -288,11 +277,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> start week
   def get_registration_end_week
-    result = -1
     if registration_period
-      result = registration_period.end_date.strftime('%W').to_i
+      registration_period.end_date.strftime('%W').to_i
+    else
+      -1
     end
-    result
   end
 
   ##
@@ -311,18 +300,21 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> true -> filled / false -> missing
   def get_status
-    result = {}
-    result['registration'] = registration_date_set?
-    result['cfp'] = cfp_set?
-    result['venue'] = venue_set?
-    result['rooms'] = rooms_set?
-    result['tracks'] = tracks_set?
-    result['event_types'] = event_types_set?
-    result['difficulty_levels'] = difficulty_levels_set?
-    result['splashpage'] = splashpage && splashpage.public?
-    result['process'] = calculate_setup_progress(result)
-    result['short_title'] = short_title
-    result
+    result = {
+      registration: registration_date_set?,
+      cfp: cfp_set?,
+      venue: venue_set?,
+      rooms: rooms_set?,
+      tracks: tracks_set?,
+      event_types: event_types_set?,
+      difficulty_levels: difficulty_levels_set?,
+      splashpage: splashpage && splashpage.public?
+    }
+
+    result.update(
+      process: calculate_setup_progress(result),
+      short_title: short_title
+    ).with_indifferent_access
   end
 
   ##
@@ -492,11 +484,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +List+
   def self.get_event_state_line_colors
-    result = []
-    result.push(short_title: 'Submitted', color: 'blue')
-    result.push(short_title: 'Confirmed', color: 'green')
-    result.push(short_title: 'Unconfirmed', color: 'orange')
-    result
+    [
+      { short_title: 'Submitted', color: 'blue' },
+      { short_title: 'Confirmed', color: 'green' },
+      { short_title: 'Unconfirmed', color: 'orange' }
+    ]
   end
 
   ##
