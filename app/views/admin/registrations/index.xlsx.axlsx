@@ -27,6 +27,5 @@ wb.add_worksheet(name: 'registrations') do |sheet|
 
     sheet.add_row row
   end
-  sheet.column_info[8].width = [sheet.column_info[8].width, 30].min
 end
 
