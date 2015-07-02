@@ -5,7 +5,7 @@
       %br
       %small
         = @event.subtitle
-      = link_to "Edit", edit_admin_conference_event_path(@conference.short_title, @event), :class => "btn btn-mini btn-default pull-right"
+      = link_to 'Edit', edit_admin_conference_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary pull-right'
 
 .row
   .col-md-12
@@ -15,12 +15,12 @@
           %b Type
         %td
           .dropdown
-            = link_to "#", :class => "dropdown-toggle", :id => "type-dropdown" do
+            = link_to '#', class: 'dropdown-toggle', id: 'type-dropdown' do
               - if @event.event_type.nil?
                 Event Type
               - else
                 = @event.event_type.title
-              <b class="caret"></b>
+              <b class='caret'></b>
             %ul.dropdown-menu
               - @event_types.each do |type|
                 %li= link_to type.title,
@@ -32,20 +32,21 @@
         %td
           %b Highlight
         %td
-          = check_box_tag @conference.short_title, @event.id, @event.is_highlight, class: 'switch-checkbox',
-            data: { size: "small",
-                    off_color: 'warning',
-                    on_text: 'Yes',
-                    off_text: 'No' }
+          = check_box_tag @conference.short_title, @event.id, @event.is_highlight,
+            method: :patch, url: "/admin/conference/#{@conference.short_title}/events/#{@event.id}?event[is_highlight]=",
+            class: 'switch-checkbox', data: { size: 'small',
+                                              off_color: 'warning',
+                                              on_text: 'Yes',
+                                              off_text: 'No' }
 
       %tr
         %td
           %b State
         %td
           .dropdown
-            = link_to "#", :class => "dropdown-toggle" do
+            = link_to '#', class: 'dropdown-toggle' do
               = @event.state.humanize
-              <b class="caret"></b>
+              <b class='caret'></b>
             %ul.dropdown-menu
               = render 'change_state_dropdown', event: @event
       %tr
@@ -53,7 +54,7 @@
           %b Track
         %td
           .dropdown
-            = link_to "#", :class => "dropdown-toggle", :id => "track-dropdown" do
+            = link_to '#', class: 'dropdown-toggle', id: 'track-dropdown' do
               - if @event.track.nil?
                 Track
               - else
@@ -71,7 +72,7 @@
           %b Difficulty
         %td
           .dropdown
-            = link_to "#", :class => "dropdown-toggle", :id => "difficulty-dropdown" do
+            = link_to '#', class: 'dropdown-toggle', id: 'difficulty-dropdown' do
               - if @event.difficulty_level.nil?
                 Difficulty Level
               - else
@@ -83,6 +84,17 @@
                                             @event,
                                             event: { difficulty_level_id: difficulty.id }),
                 method: :patch
+      %tr
+        %td
+          %b Requires Registration
+        %td
+          = check_box_tag @conference.short_title, @event.id, @event.require_registration,
+            method: :patch, url: "/admin/conference/#{@conference.short_title}/events/#{@event.id}?event[require_registration]=",
+            class: 'switch-checkbox', data: { size: 'small',
+                                              off_color: 'warning',
+                                              on_text: 'Yes',
+                                              off_text: 'No' }
+
       - if !@event.room.nil?
         %tr
           %td
@@ -126,18 +138,18 @@
         %td= simple_format(@event.description)
 
       - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
-        = render :partial => "voting"
+        = render partial: 'voting'
 
 .row
-  = link_to "Comments (#{@comment_count})", "#", :id => "event-comment-link"
+  = link_to "Comments (#{@comment_count})", '#', id: 'event-comment-link'
   #comments-div
     %hr
     %ul.media
       %div
         .row-fluid
-          = form_tag(comment_admin_conference_event_path(@conference.short_title, @event.id), :method => :post) do
-            = text_area_tag(:comment, "")
-            = submit_tag "Add Comment", :class => "btn btn-primary pull-right"
+          = form_tag(comment_admin_conference_event_path(@conference.short_title, @event.id), method: :post) do
+            = text_area_tag(:comment, '')
+            = submit_tag 'Add Comment', class: 'btn btn-primary pull-right'
         %br
         - @comments.each do |comment|
           %div
