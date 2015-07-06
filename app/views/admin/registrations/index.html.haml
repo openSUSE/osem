@@ -43,13 +43,15 @@
             -if @conference.questions.any?
               %td
                 = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
-            %td
-              = check_box_tag @conference.short_title, registration.id, true, class: 'switch-checkbox', method: :patch,
+            %td{'data-order' => "#{registration.attended}"}
+              = check_box_tag "#{@conference.short_title}_#{registration.id}", registration.id, registration.attended, class: 'switch-checkbox',
+                method: :patch, url: toggle_attendance_admin_conference_registration_path(@conference.short_title, id: registration.id)+"?attended=",
                 data: { size: "large",
                     on_color: 'success',
                     off_color: 'warning',
                     on_text: 'Present',
                     off_text: 'Absent' }
+            %td
               .btn-group
                 .btn-group
                 = link_to 'Edit', edit_admin_conference_registration_path(@conference.short_title, id: registration),

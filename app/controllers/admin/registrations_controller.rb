@@ -36,6 +36,7 @@ module Admin
       end
     end
 
+=begin
     def present
       @registration.attended = true
       if @registration.save
@@ -59,6 +60,22 @@ module Admin
         redirect_to admin_conference_registrations_path(@conference.short_title)
       end
     end
+=end
+
+    def toggle_attendance
+      if params[:attended] == "true"
+        flash[:notice] = "#{@user.email} is attended."
+        @registration.attended = true
+      elsif params[:attended] == "false"
+        flash[:notice] = "#{@user.email} is not attended."
+        @registration.attended = false
+      end
+      unless @registration.save
+        flash[:notice] = "Update Attended for #{@user.email} failed!" \
+                         "#{@registration.errors.full_messages.join('. ')}"
+      end
+      render json: {attended: @registration.attended}
+    end
 
     protected
 
@@ -77,5 +94,6 @@ module Admin
               :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
               :nickname, :affiliation ])
     end
+
   end
 end
