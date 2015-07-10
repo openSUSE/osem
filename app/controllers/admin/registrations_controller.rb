@@ -36,27 +36,12 @@ module Admin
       end
     end
 
-    def present
-      @registration.attended = true
+    def toggle_attendance
+      @registration.attended = !@registration.attended
       if @registration.save
-        flash[:notice] = "#{@user.email} has attended"
-        redirect_to admin_conference_registrations_path(@conference.short_title)
+        head :ok
       else
-        flash[:notice] = "Update Attended for #{@user.email} failed!" \
-                         "#{@registration.errors.full_messages.join('. ')}"
-        redirect_to admin_conference_registrations_path(@conference.short_title)
-      end
-    end
-
-    def absent
-      @registration.attended = false
-      if @registration.save
-        flash[:notice] = "#{@user.email} has not attended"
-        redirect_to admin_conference_registrations_path(@conference.short_title)
-      else
-        flash[:notice] = "Update Attended for #{@user.email} failed!" \
-                         "#{@registration.errors.full_messages.join('. ')}"
-        redirect_to admin_conference_registrations_path(@conference.short_title)
+        head :unprocessable_entity
       end
     end
 
@@ -69,13 +54,13 @@ module Admin
     def registration_params
       params.require(:registration).
           permit(
-          :conference_id, :arrival, :departure,
-          :volunteer,
-          vchoice_ids: [], qanswer_ids: [],
-          qanswers_attributes: [],
-          user_attributes: [
-              :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
-              :nickname, :affiliation ])
+              :conference_id, :arrival, :departure,
+              :volunteer,
+              vchoice_ids: [], qanswer_ids: [],
+              qanswers_attributes: [],
+              user_attributes: [
+                  :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
+                  :nickname, :affiliation])
     end
   end
 end
