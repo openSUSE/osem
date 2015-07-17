@@ -49,7 +49,7 @@ class EmailSettings < ActiveRecord::Base
       h['registration_end_date'] = conference.registration_period.end_date
     end
 
-    if !event.nil?
+    if event
       h['eventtitle'] = event.title
       h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_index_url(
                            conference.short_title, host: CONFIG['url_for_emails'])
@@ -66,6 +66,8 @@ class EmailSettings < ActiveRecord::Base
     values = get_values(conference, user)
     parse_template(conf_update_template, values)
   end
+
+  private
 
   def parse_template(text, values)
     values.each do |key, value|

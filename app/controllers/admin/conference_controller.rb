@@ -27,7 +27,6 @@ module Admin
       @recent_users = User.limit(5).order(created_at: :desc)
       @recent_events = Event.limit(5).order(created_at: :desc)
       @recent_registrations = Registration.limit(5).order(created_at: :desc)
-
       @top_submitter = Conference.get_top_submitter
 
       @submissions = {}

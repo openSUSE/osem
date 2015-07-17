@@ -1,0 +1,23 @@
+%h1 Comments
+.row
+  .col-lg-12
+    %ul.nav.nav-tabs#commentsTable
+      %li.active
+        %a{:href=>"#unread_comments", "data-toggle"=>"tab"}
+          %span.fa.fa-comment
+          Unread comments
+      %li
+        %a{:href=>"#all_comments", "data-toggle"=>"tab"}
+          %span.fa.fa-comments-o
+          Comments
+      %li
+        %a{:href=>"#posted_comments", "data-toggle"=>"tab"}
+          %span.fa.fa-pencil
+          Posted Comments
+    .tab-content
+      .tab-pane.active#unread_comments
+        = render partial: 'unread_comments'
+      .tab-pane#all_comments
+        = render partial: 'all_comments'
+      .tab-pane#posted_comments
+        = render partial: 'posted_comments'

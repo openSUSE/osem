@@ -278,4 +278,8 @@ module ApplicationHelper
       new_user_registration_path
     end
   end
+
+  def unread_notifications(user)
+    @unread_notifications = Comment.find_since_last_login(user)
+  end
 end
