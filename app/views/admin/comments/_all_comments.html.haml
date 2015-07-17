@@ -1,0 +1,16 @@
+.panel.well
+  -@ordered_events.each do |event|
+    - if event.comment_threads.count > 0
+      %panel
+        %panel.panel-header
+          %h4.title
+            = link_to event.title, admin_conference_event_path(event.conference.short_title, event)
+          %hr
+        -event.comment_threads.order(created_at: :desc).each do |comment|
+          %panel-body
+            %ul.list-unstyled
+              %li= comment.body
+              %ul.list-inline
+                %li Posted by: #{comment.user.name}
+                %li Created at: #{comment.created_at}
+        %hr
