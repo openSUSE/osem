@@ -42,7 +42,7 @@
             =link_to event.title, admin_conference_event_path(@conference.short_title, event)
 
           - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
-            %td.col-md-1
+            %td.col-md-1{'data-order' => "#{event.average_rating}"}
               - if event.average_rating.to_f > 0
                 #{event.average_rating}/#{@conference.call_for_paper.rating}
                 %br
