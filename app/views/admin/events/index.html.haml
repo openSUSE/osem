@@ -34,6 +34,8 @@
           %b Difficulty
         %th
           %b State
+        %th
+          %b Voted?
       - @events.each do |event|
         %tr
           %td
@@ -147,3 +149,14 @@
                   %span.caret
                 %ul.dropdown-menu{:role=>"menu"}
                   = render 'change_state_dropdown', event: event
+
+          - if event.voted?(event, current_user)
+            - bgcolor = ""
+          - else
+            - bgcolor = "#F7819F"
+          %td{:style=>"background-color: #{bgcolor}"}
+            - if event.voted?(event, current_user)
+              Yes
+            - else
+              Not yet
+
