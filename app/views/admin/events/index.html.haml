@@ -57,9 +57,11 @@
                 %br
                 - voted = event.voted?(event, current_user)
                 - if voted
-                  Your rating: #{voted.rating}
+                  %span.label.label-success
+                    Your rating: #{voted.rating}
                 - else
-                  Not rated
+                  %span.label.label-danger
+                    Not rated
               - else
                 0/#{@conference.call_for_paper.rating}
               %br
