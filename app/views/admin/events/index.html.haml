@@ -56,6 +56,12 @@
                     = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
                   - else
                     = label_tag "label_rating", "", :class => "avgrating"
+                %br
+                - voted = event.voted?(event, current_user)
+                - if voted
+                  Your rating: #{voted.rating}
+                - else
+                  Not rated
               - else
                 0/#{@conference.call_for_paper.rating}
               %br
@@ -149,14 +155,3 @@
                   %span.caret
                 %ul.dropdown-menu{:role=>"menu"}
                   = render 'change_state_dropdown', event: event
-
-          - if event.voted?(event, current_user)
-            - bgcolor = ""
-          - else
-            - bgcolor = "#F7819F"
-          %td{:style=>"background-color: #{bgcolor}"}
-            - if event.voted?(event, current_user)
-              Yes
-            - else
-              Not yet
-
