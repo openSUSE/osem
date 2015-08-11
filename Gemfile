@@ -76,7 +76,6 @@ gem 'prawn_rails'
 gem 'axlsx_rails'
 
 # for charts
-gem 'd3_rails'
 gem 'chart-js-rails'
 
 # as error catcher
