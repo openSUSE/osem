@@ -25,14 +25,15 @@
         and closes
         %em
           = @conference.call_for_paper.end_date.strftime('%A, %B %-d. %Y.')
-        That means you have only
-        - days = (@conference.call_for_paper.end_date - Date.today).to_i
-        %b
-          = pluralize(days, 'days')
+        - if @conference.cfp_open?
+          That means you have only
+          %b= pluralize(@conference.call_for_paper.remaining_days, 'day')
           left!
-        Remember
-        = @conference.short_title
-        will only be as good as the sessions you present. Submit early, submit often!
+          Remember
+          = @conference.short_title
+          will only be as good as the sessions you present. Submit early, submit often!
+        - else
+          The submission period is closed.
   .row
     .col-md-12.text-center
       %p.cta-button

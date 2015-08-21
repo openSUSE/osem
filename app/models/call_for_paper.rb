@@ -63,6 +63,11 @@ class CallForPaper < ActiveRecord::Base
     && !self.conference.email_settings.call_for_papers_dates_updates_template.blank?
   end
 
+  def remaining_days(date = Date.today)
+    result = (self.end_date - date).to_i
+    result > 0 ? result : 0
+  end
+
   private
 
   def before_end_of_conference
