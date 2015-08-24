@@ -77,7 +77,7 @@ class Event < ActiveRecord::Base
       @total_rating = @total_rating + vote.rating
     end
     @total = votes.size
-    number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true)
+    @total_rating > 0 ? number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true) : 0
   end
 
   def submitter
