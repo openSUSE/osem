@@ -280,6 +280,6 @@ module ApplicationHelper
   end
 
   def unread_notifications(user)
-    @unread_notifications = Comment.find_since_last_login(user)
+    Comment.find_since_last_login(user)
   end
 end
