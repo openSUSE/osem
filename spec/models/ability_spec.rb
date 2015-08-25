@@ -141,6 +141,7 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.difficulty_level) }
       it{ should be_able_to(:manage, event.commercials.first) }
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
+      it{ should be_able_to([:read, :create], event.comment_threads.first) }
     end
 
     context 'when user has the role cfp' do
