@@ -25,7 +25,7 @@
                 %b.caret
               %ul.dropdown-menu
                 = render 'layouts/user_menu'
-          - if can? :read, Comment
+          - if can? :index, Comment #TODO modify condition
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "unread-comments-preview"}
