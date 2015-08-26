@@ -137,9 +137,8 @@ class Ability
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
     can :manage, Ticket, conference_id: conf_ids_for_organizer
-    can [:read, :create], Comment, commentable_type: 'Event',
-        commentable_id: Event.where(conference_id: conf_ids_for_organizer).pluck(:id)
-
+    can [:index, :create], Comment, commentable_type: 'Event',
+                                    commentable_id: Event.where(conference_id: conf_ids_for_organizer).pluck(:id)
   end
 
   def signed_in_with_cfp_role(user)
@@ -158,8 +157,8 @@ class Ability
     can :manage, CallForPaper, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',
                              commercialable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
-    can [:read, :create], Comment, commentable_type: 'Event',
-                                   commentable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
+    can [:index, :create], Comment, commentable_type: 'Event',
+                                    commentable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
   end
 
   def signed_in_with_info_desk_role(user)
