@@ -263,6 +263,10 @@ module ApplicationHelper
     end
   end
 
+  def can_manage_comments(conference)
+    (current_user.has_role? :organizer, conference) || (current_user.has_role? :cfp, conference)
+  end
+
   def sign_in_path
     if CONFIG['authentication']['ichain']['enabled']
       new_user_ichain_session_path
