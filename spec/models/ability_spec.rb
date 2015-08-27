@@ -141,8 +141,8 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.difficulty_level) }
       it{ should be_able_to(:manage, event.commercials.first) }
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
-      it{ should be_able_to(:create, event.comment_threads.first) }
       it{ should be_able_to(:index, event.comment_threads.first) }
+      it{ should_not be_able_to(:index, other_event.comment_threads.first) }
     end
 
     context 'when user has the role cfp' do
@@ -200,8 +200,8 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.difficulty_level) }
       it{ should be_able_to(:manage, event.commercials.first) }
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
-      it{ should be_able_to(:create, event.comment_threads.first) }
       it{ should be_able_to(:index, event.comment_threads.first) }
+      it{ should_not be_able_to(:index, other_event.comment_threads.first) }
     end
 
     context 'when user has the role info_desk' do
@@ -259,8 +259,8 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.difficulty_level) }
       it{ should_not be_able_to(:manage, event.commercials.first) }
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
-      it{ should_not be_able_to(:create, event.comment_threads.first) }
       it{ should_not be_able_to(:index, event.comment_threads.first) }
+      it{ should_not be_able_to(:index, other_event.comment_threads.first) }
     end
 
     context 'when user has the role volunteers_coordinator' do
@@ -318,8 +318,8 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.difficulty_level) }
       it{ should_not be_able_to(:manage, event.commercials.first) }
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
-      it{ should_not be_able_to(:create, event.comment_threads.first) }
       it{ should_not be_able_to(:index, event.comment_threads.first) }
+      it{ should_not be_able_to(:index, other_event.comment_threads.first) }
       it 'should be_able to :manage Vposition'
       it 'should be_able to :manage Vday'
     end
