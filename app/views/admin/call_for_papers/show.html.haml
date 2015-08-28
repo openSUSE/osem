@@ -19,8 +19,7 @@
         %dt
           Days Left:
         %dd
-          - days = (@call_for_paper.end_date - Date.today).to_i
-          = pluralize(days, 'days')
+          = pluralize(@call_for_paper.remaining_days, 'day')
         %dt
           Event types:
         %dd
