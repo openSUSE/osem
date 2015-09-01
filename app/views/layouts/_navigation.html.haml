@@ -25,7 +25,7 @@
                 %b.caret
               %ul.dropdown-menu
                 = render 'layouts/user_menu'
-          - if can_manage_comments(@conference)
+          - if can? :index, Comment
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "unread-comments-preview"}
