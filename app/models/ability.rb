@@ -88,10 +88,10 @@ class Ability
     # Abilities from not_signed_in and signed_in are also inherited
     signed_in(user)
 
-    signed_in_with_organizer_role(user)
-    signed_in_with_cfp_role(user)
-    signed_in_with_info_desk_role(user)
-    signed_in_with_volunteers_coordinator_role(user)
+    signed_in_with_organizer_role(user) if user.has_role? :organizer, :any
+    signed_in_with_cfp_role(user) if user.has_role? :cfp, :any
+    signed_in_with_info_desk_role(user) if user.has_role? :info_desk, :any
+    signed_in_with_volunteers_coordinator_role(user) if user.has_role? :volunteer_coordinator, :any
 
     # for users with any role
     can [:show], Conference
