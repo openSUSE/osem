@@ -1,6 +1,6 @@
 .panel.well
   %ul
-  - @another_comments.each do |conference, events|
+  - @comments.each do |conference, events|
     %li= conference.title
     - events.each do |event, comments|
       %li= event.title
