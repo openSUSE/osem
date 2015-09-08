@@ -1,9 +1,9 @@
 .panel.well
   %ul
   - @comments.each do |conference, events|
-    %li= conference.title
+    %i.li= conference.title
     - events.each do |event, comments|
-      %li= event.title
+      %b.li= event.title
       - comments.each do |comment|
         %li= comment.body
         %li= comment.user.name
