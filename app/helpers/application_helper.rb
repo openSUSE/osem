@@ -280,7 +280,6 @@ module ApplicationHelper
   end
 
   def unread_notifications(user)
-    available_conferences_ids = Conference.with_roles([:admin, :organizer, :cfp], user).pluck(:id)
-    Comment.find_since_last_login(user).where(commentable_type: 'Event', commentable_id: Event.where(conference_id: available_conferences_ids))
+    Comment.accessible_by(current_ability).find_since_last_login(current_user).limit(5)
   end
 end

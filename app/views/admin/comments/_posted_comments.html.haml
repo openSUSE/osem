@@ -1,2 +1,10 @@
 .panel.well
- Some text
+  %ul
+  - @posted_comments.each do |conference, events|
+    %i.li= conference.title
+    - events.each do |event, comments|
+      %b.li= event.title
+      - comments.each do |comment|
+        %li= comment.body
+        %li= comment.user.name
+        %li= comment.created_at
