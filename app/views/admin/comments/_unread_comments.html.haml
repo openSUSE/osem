@@ -1,10 +1,16 @@
-.panel.well
-  %ul
-  - @unread_comments.each do |conference, events|
-    %i.li= conference.title
+- @unread_comments.each do |conference, events|
+  .well
+    %p.h4= conference.title
     - events.each do |event, comments|
-      %b.li= event.title
-      - comments.each do |comment|
-        %li= comment.body
-        %li= comment.user.name
-        %li= comment.created_at
+      %h3.title
+        = link_to event.title, admin_conference_event_path(event.conference.short_title, event)
+      %body
+        - comments.each do |comment|
+          %hr
+          %ul.list-unstyled
+            %ul.list-inline
+              %li
+                %h5.strong Posted by: #{comment.user.name}
+              %li
+                %h5.strong Created at: #{comment.created_at}
+            %li= comment.body
