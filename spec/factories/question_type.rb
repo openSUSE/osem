@@ -2,6 +2,18 @@
 
 FactoryGirl.define do
   factory :question_type do
-    title 'Multiple Choice'
+    title 'A type for question'
+
+    factory :yes_no do
+      title 'Yes/No'
+    end
+
+    factory :single_choice do
+      title 'Single Choice'
+    end
+
+    factory :multiple_choice do
+      title 'Multiple Choice'
+    end
   end
 end

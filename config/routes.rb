@@ -66,8 +66,8 @@ Osem::Application.routes.draw do
       end
 
       resources :questions do
-        collection do
-          patch :update_conference
+        member do
+          patch :toggle_question
         end
       end
 

@@ -1,17 +1,16 @@
 module Admin
   class QuestionsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference, except: [:new, :create]
+    load_and_authorize_resource except: [:create]
 
     def index
       authorize! :index, Question.new(conference_id: @conference.id)
-      @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
-      @questions_conference = @conference.questions
-      @new_question = @conference.questions.new
+      @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id) | @conference.questions
+      @question = @conference.questions.new
     end
 
     def show
-      @registrations = @conference.registrations.joins(:qanswers).uniq
+      @registrations = @conference.registrations.joins(:qanswers).where(qanswers: { question: @question })
     end
 
     def new
@@ -22,14 +21,19 @@ module Admin
     def create
       @question = @conference.questions.new(params[:question])
       @question.conference_id = @conference.id
+
+      # We need to authorize the @question after a conference_id has been associated with the question,
+      # because authorization in ability.rb is based on existence of conference_id attribute
+      # (and the controller does not authorize through conference)
       authorize! :create, @question
 
-      if @question.question_type_id == QuestionType.find_by(title: 'Yes/No').id
-        @question.answers = [Answer.find_by(title: 'Yes'), Answer.find_by(title: 'No')]
+      if @question.question_type == QuestionType.find_by(title: 'Yes/No')
+        @question.answers = [ Answer.find_or_create_by(title: 'Yes'), Answer.find_or_create_by(title: 'No') ]
       end
 
       respond_to do |format|
-        if @conference.save
+        # Do not automatically associate newly created question with the conference. The new question shall be enabled for the conference manually.
+        if @question.save
           format.html { redirect_to admin_conference_questions_path, notice: 'Question was successfully created.' }
         else
           flash[:error] = "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}"
@@ -39,28 +43,50 @@ module Admin
     end
 
     # GET questions/1/edit
-    def edit
-      if @question.global
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), alert: 'Sorry, you cannot edit global questions. Create a new one.')
-      end
-    end
+    def edit; end
 
     # PUT questions/1
     def update
-      if @question.update_attributes(params[:question])
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
+      @question.assign_attributes(params[:question])
+
+      if @question.question_type == QuestionType.find_by(title: 'Yes/No')
+        @question.answers = [ Answer.find_or_create_by(title: 'Yes'), Answer.find_or_create_by(title: 'No') ]
+      end
+
+      if @question.save
+        if @question.answers.blank?
+          # A question without answers cannot be enabled for a conference
+          @conference.questions.delete(@question)
+        end
+
+        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} updated successfully.")
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}")
+        flash[:error] = "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}"
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title)
       end
     end
 
     # Update questions used for the conference
-    def update_conference
+    def toggle_question
       authorize! :update, Question.new(conference_id: @conference.id)
-      if @conference.update_attributes(params[:conference])
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated.")
+
+      ids = @conference.question_ids
+      if params[:enable] == 'true'
+        ids = ids.push(@question.id)
+      elsif params[:enable] == 'false'
+        ids.delete(@question.id)
+      end
+
+      if @conference.update_attributes(question_ids: ids)
+        flash[:notice] = "Questions for #{@conference.short_title} successfully updated. Note: Only questions with answers can be enabled for a conference."
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
+        flash[:error] = "Update of questions for #{@conference.short_title} failed."
+      end
+
+      if request.xhr?
+            render js: 'index'
+        else
+          redirect_to admin_conference_questions_path(conference_id: @conference.short_title)
       end
     end
 
@@ -68,30 +94,31 @@ module Admin
     def destroy
       if can? :destroy, @question
         # Do not delete global questions
-        if !@question.global
+        if !@question.global || @question.conferences.blank?
 
           # Delete question and its answers
           begin
             Question.transaction do
 
-              @question.destroy
               @question.answers.each do |a|
-                a.destroy
+                a.destroy unless a.questions.any?
               end
-              flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
+
+              @question.destroy
+              flash[:notice] = "Deleted question: #{@question.title}"
             end
           rescue ActiveRecord::RecordInvalid
             flash[:error] = 'Could not delete question.'
           end
         else
-          flash[:error] = 'You cannot delete global questions.'
+          flash[:error] = 'You cannot delete global questions that are currently being used for a conference.'
         end
       else
         flash[:error] = 'You must be an admin to delete a question.'
       end
 
-      @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
-      @questions_conference = @conference.questions
+      @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id) | @conference.questions
+      redirect_to admin_conference_questions_path(@conference.short_title)
     end
   end
 end

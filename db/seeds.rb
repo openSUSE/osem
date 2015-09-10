@@ -7,9 +7,11 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # Create sample user
-user = User.find_or_initialize_by(email: 'deleted@localhost.osem', name: 'User deleted',
-                                  username: 'deleted_user', is_disabled: true,
-                                  biography: 'Data is no longer available for deleted user.')
+user = User.find_or_initialize_by(email: 'deleted@localhost.osem')
+user.name = 'User deleted'
+user.username = 'deleted_user'
+user.is_disabled = true
+user.biography = 'Data is no longer available for deleted user.'
 user.password = Devise.friendly_token[0, 20]
 user.skip_confirmation!
 user.save!
@@ -27,8 +29,8 @@ questions_yes_no = ['Do you need handicapped access?',
                     'Will you attend the social event(s)?',
                     'Will you stay at one of the suggested hotels?']
 
-questions_yes_no.each do |i|
-  q = Question.find_or_initialize_by(title: i, question_type_id: qtype_yesno.id, global: true)
-  q.answers = [answer_yes, answer_no]
+questions_yes_no.each do |question_title|
+  q = Question.find_or_initialize_by(title: question_title, question_type_id: qtype_yesno.id, global: true)
+  q.answers = [ answer_yes, answer_no ]
   q.save!
 end
