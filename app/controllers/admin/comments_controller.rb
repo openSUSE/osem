@@ -8,6 +8,8 @@ module Admin
       @posted_comments = grouped_comments(accessible_ordered_comments.find_comments_by_user(current_user))
     end
 
+    private
+
     def accessible_ordered_comments
       Comment.accessible_by(current_ability).joins('INNER JOIN events ON commentable_id = events.id').order('events.title', 'comments.created_at DESC')
     end
