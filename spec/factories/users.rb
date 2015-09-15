@@ -6,7 +6,6 @@ FactoryGirl.define do
     sequence(:username) { |n| "username#{n}" }
     password 'changeme'
     password_confirmation 'changeme'
-    last_sign_in_at  { Time.now - 10.days }
     confirmed_at { Time.now }
     biography <<-EOS
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim

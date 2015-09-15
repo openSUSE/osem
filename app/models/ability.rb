@@ -94,6 +94,7 @@ class Ability
     signed_in_with_volunteers_coordinator_role(user) if user.has_role? :volunteer_coordinator, :any
 
     # for users with any role
+    can :access, Admin
     can [:show], Conference
     can :index, Commercial, commercialable_type: 'Conference'
     cannot [:edit, :update, :destroy], Question, global: true
