@@ -21,10 +21,7 @@
     = link_to(destroy_user_session_path, :method=>'delete') do
       %span.fa.fa-minus
       Sign out
-- if current_user.is_admin || (current_user.has_any_role? :admin, { :name => :organizer, :resource => :any },
-                                                          { :name => :cfp, :resource => :any },
-                                                          { :name => :info_desk, :resource => :any },
-                                                          { :name => :volunteer_coordinator, :resource => :any })
+- if can? :access, Admin
   %li.divider
     %li
       = link_to(admin_conference_index_path()) do
