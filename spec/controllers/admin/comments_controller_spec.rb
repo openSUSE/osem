@@ -24,10 +24,10 @@ describe Admin::CommentsController, type: :controller do
   context 'logged in as admin, organizer or cfp' do
     before :each do
       sign_in(organizer)
+      comment
     end
     describe 'GET #index' do
       it 'populates a hash with comments' do
-        comment
         get :index
         expect(assigns(:comments)).to be_a(Hash)
         # assigns(:comments).first returns an array of first pair key-value from hash.
@@ -35,12 +35,10 @@ describe Admin::CommentsController, type: :controller do
         expect(assigns(:comments).first.first.title).to eq(comment.commentable.conference.title)
       end
       it 'has status 200: OK' do
-        comment
         get :index
         expect(response).to have_http_status(:ok)
       end
       it 'renders the :index template' do
-        comment
         get :index
         expect(response).to render_template(:index)
       end
