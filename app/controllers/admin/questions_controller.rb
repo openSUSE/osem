@@ -34,10 +34,10 @@ module Admin
       respond_to do |format|
         # Do not automatically associate newly created question with the conference. The new question shall be enabled for the conference manually.
         if @question.save
-          format.html { redirect_to admin_conference_questions_path, notice: 'Question was successfully created.' }
+          format.html { redirect_to admin_conference_questions_path(@conference.short_title), notice: 'Question was successfully created.' }
         else
           flash[:error] = "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}"
-          format.html { redirect_to admin_conference_questions_path }
+          format.html { redirect_to admin_conference_questions_path(@conference.short_title) }
         end
       end
     end
@@ -59,10 +59,11 @@ module Admin
           @conference.questions.delete(@question)
         end
 
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} updated successfully.")
+        flash[:notice] = "Question '#{@question.title}' for #{@conference.short_title} updated successfully."
+        redirect_to admin_conference_questions_path(@conference.short_title)
       else
         flash[:error] = "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}"
-        redirect_to admin_conference_questions_path(conference_id: @conference.short_title)
+        redirect_to admin_conference_questions_path(@conference.short_title)
       end
     end
 
@@ -77,16 +78,19 @@ module Admin
         ids.delete(@question.id)
       end
 
-      if @conference.update_attributes(question_ids: ids)
-        flash[:notice] = "Questions for #{@conference.short_title} successfully updated. Note: Only questions with answers can be enabled for a conference."
+      if @conference.update(question_ids: ids)
+        flash[:notice] = "Question '#{@question.title}' #{params[:enable]=='true' ? 'enabled' : 'disabled'} for #{@conference.title}."
       else
-        flash[:error] = "Update of questions for #{@conference.short_title} failed."
+        flash[:error] = "Failed to #{params[:enable]=='true' ? 'enable' : 'disable'} question '#{@question.title}' for #{@conference.title}. Note: Only questions with answers can be enabled for a conference."
       end
 
-      if request.xhr?
-            render js: 'index'
-        else
-          redirect_to admin_conference_questions_path(conference_id: @conference.short_title)
+      respond_to do |format|
+        format.html do
+          redirect_to admin_conference_questions_path(@conference.short_title)
+        end
+        format.js do
+          render js: 'index'
+        end
       end
     end
 
@@ -114,7 +118,7 @@ module Admin
           flash[:error] = 'You cannot delete global questions that are currently being used for a conference.'
         end
       else
-        flash[:error] = 'You must be an admin to delete a question.'
+        flash[:error] = 'You cannot delete the question. Do you have the necessary permissions?'
       end
 
       @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id) | @conference.questions

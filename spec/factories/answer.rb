@@ -4,11 +4,11 @@ FactoryGirl.define do
   factory :answer do
     title 'I do'
 
-    factory :answer1 do
+    factory :first_answer do
       title 'First Answer'
     end
 
-    factory :answer2 do
+    factory :second_answer do
       title 'Second Answer'
     end
 

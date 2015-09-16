@@ -9,8 +9,8 @@ FactoryGirl.define do
       title 'Which do you choose?'
 
       after(:build) do |question|
-        question.answers << build(:answer1)
-        question.answers << build(:answer2)
+        question.answers << build(:first_answer)
+        question.answers << build(:second_answer)
       end
     end
 
