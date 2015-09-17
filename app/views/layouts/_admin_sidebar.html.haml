@@ -29,9 +29,14 @@
         Dashboard
   - if can? :show, @conference
     %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
-      = link_to(edit_admin_conference_path(@conference.short_title)) do
-        %span.fa.fa-home
-        Basics
+      - if can? :edit, @conference
+        = link_to(edit_admin_conference_path(@conference.short_title)) do
+          %span.fa.fa-home
+          Basics
+      - else
+        %a
+          %span.fa.fa-home
+          Basics
       %ul
         - if can? :update, Contact.new(conference_id: @conference.id)
           %li{:class=> "#{active_nav_li(edit_admin_conference_contact_path(@conference.short_title))}"}

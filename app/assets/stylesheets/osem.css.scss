@@ -1,13 +1,13 @@
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
 
 body {
-    /* Margin bottom by 2 times the footer height */
-    margin-bottom: 60px;
-    /* Margin bottom by navbar height */
-    padding-top: 60px;
+  /* Margin bottom by 2 times the footer height */
+  margin-bottom: 60px;
+  /* Margin bottom by navbar height */
+  padding-top: 60px;
 }
 
 #content {
@@ -15,23 +15,23 @@ body {
 }
 
 #footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    background-color: #f5f5f5;
-    .container {
-      padding: 15px;
-    }
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+  .container {
+    padding: 15px;
+  }
 }
 
 .nav-tabs {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .img-center {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 /* centered columns styles */
@@ -55,7 +55,9 @@ fieldset {
   margin: 20px 0 20px 0;
 }
 
-.bootstrap-switch { height: 1.7em }
+.bootstrap-switch {
+  height: 1.7em
+}
 
 .comment-reply{
   padding-top: 40px;
@@ -71,4 +73,14 @@ p.comment-body {
 
 #account-already {
   font-size: 0.6em;
+}
+
+/* comments views pane: use padding-bottom before next comment box */
+.panel.panel-default .panel-body .notifications {
+  padding-bottom: 20px;
+}
+
+/* comments views pane: use padding-bottom after each comment */
+.panel.panel-default .panel-body .notifications p {
+  padding-bottom: 20px;
 }

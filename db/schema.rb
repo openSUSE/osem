@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150415121038) do
+ActiveRecord::Schema.define(version: 20150929142405) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -515,7 +515,7 @@ ActiveRecord::Schema.define(version: 20150415121038) do
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.string   "street"
-    t.integer  "postalcode"
+    t.string   "postalcode"
     t.string   "city"
     t.string   "country"
     t.string   "latitude"

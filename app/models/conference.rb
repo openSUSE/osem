@@ -114,17 +114,17 @@ class Conference < ActiveRecord::Base
   before_create :add_color
 
   def date_range_string
-    startstr = "Unknown - "
-    endstr = "Unknown"
+    startstr = 'Unknown - '
+    endstr = 'Unknown'
     if start_date.month == end_date.month && start_date.year == end_date.year
-      startstr = start_date.strftime("%B %d - ")
-      endstr = end_date.strftime("%d, %Y")
+      startstr = start_date.strftime('%B %d - ')
+      endstr = end_date.strftime('%d, %Y')
     elsif start_date.month != end_date.month && start_date.year == end_date.year
-      startstr = start_date.strftime("%B %d - ")
-      endstr = end_date.strftime("%B %d, %Y")
+      startstr = start_date.strftime('%B %d - ')
+      endstr = end_date.strftime('%B %d, %Y')
     else
-      startstr = start_date.strftime("%B %d, %Y - ")
-      endstr = end_date.strftime("%B %d, %Y")
+      startstr = start_date.strftime('%B %d, %Y - ')
+      endstr = end_date.strftime('%B %d, %Y')
     end
 
     result = startstr + endstr

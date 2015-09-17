@@ -35,6 +35,9 @@ Osem::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+  # Randomize/sort the order test cases are executed.
+  config.active_support.test_order = :sorted # or `:random`
+
   # Set the detault url for action mailer
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
