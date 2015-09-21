@@ -280,6 +280,6 @@ module ApplicationHelper
   end
 
   def unread_notifications(user)
-    Comment.accessible_by(current_ability).find_since_last_login(user).limit(5)
+    Comment.accessible_by(current_ability).find_since_last_login(user)
   end
 end

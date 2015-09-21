@@ -1,16 +1,12 @@
 - @comments.each do |conference, events|
-  .well
-    %p.h4= conference.title
-    - events.each do |event, comments|
-      %h3.title
-        = link_to event.title, admin_conference_event_path(event.conference.short_title, event)
-      %body
-        - comments.each do |comment|
+  .panel.panel-default
+    .panel-heading
+      %h4.title.panel-title= conference.title
+    .panel-body
+      - events.each do |event, comments|
+        .box
+          %h4.title= link_to event.title, admin_conference_event_path(event.conference.short_title, event)
           %hr
-          %ul.list-unstyled
-            %ul.list-inline
-              %li
-                %h5.strong Posted by: #{comment.user.name}
-              %li
-                %h5.strong Created at: #{comment.created_at}
-            %li= comment.body
+          - comments.each do |comment|
+            %h5.strong Posted by: #{comment.user.name} | Created at: #{comment.created_at}
+            %p= comment.body
