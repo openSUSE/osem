@@ -47,6 +47,7 @@ FactoryGirl.define do
         event.difficulty_level = build(:difficulty_level, conference: event.conference)
         event.track = build(:track, conference: event.conference)
         event.room = build(:room, conference: event.conference)
+        event.comment_threads << build(:comment, commentable: event)
       end
     end
 

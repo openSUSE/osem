@@ -1,0 +1,12 @@
+- @unread_comments.each do |conference, events|
+  .panel.panel-default
+    .panel-heading
+      %h4.title.panel-title= conference.title
+    .panel-body
+      - events.each do |event, comments|
+        .notifications
+          %h4.title= link_to event.title, admin_conference_event_path(event.conference.short_title, event)
+          %hr
+          - comments.each do |comment|
+            %h5.strong Posted by: #{comment.user.name} | Created at: #{comment.created_at}
+            %p= comment.body

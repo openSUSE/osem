@@ -21,14 +21,15 @@
     = link_to(destroy_user_session_path, :method=>'delete') do
       %span.fa.fa-minus
       Sign out
-- if can? :manage, Conference
+- if can? :access, Admin
   %li.divider
     %li
-      = link_to(admin_conference_index_path()) do
-        - if Conference.any?
+      - if Conference.any?
+        = link_to(admin_conference_index_path()) do
           %span.fa.fa-home
-            Administration
-        - else
+          Administration
+      - if can? :create, Conference
+        =link_to(new_admin_conference_path) do
           %span.fa.fa-plus
           Create Conference
     -if @conference and @conference.id and can? :show, @conference
