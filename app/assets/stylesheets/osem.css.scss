@@ -74,11 +74,11 @@ p.comment-body {
 }
 
 /* comments views pane: use padding-bottom before next comment box */
-.panel.panel-default .panel-body .box {
+.panel.panel-default .panel-body .notifications {
   padding-bottom: 20px;
 }
 
 /* comments views pane: use padding-bottom after each comment */
-.panel.panel-default .panel-body .box p {
+.panel.panel-default .panel-body .notifications p {
   padding-bottom: 20px;
 }
