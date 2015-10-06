@@ -5,7 +5,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.registration_subject,
-                conference.email_settings.generate_email_on_conf_updates(conference, person, conference.email_settings.registration_email_template))
+                conference.email_settings.generate_email_on_conf_updates(conference, person, conference.email_settings.registration_body))
   end
 
   def acceptance_mail(event)
@@ -14,7 +14,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.accepted_subject,
-                conference.email_settings.generate_event_mail(event, conference.email_settings.accepted_email_template))
+                conference.email_settings.generate_event_mail(event, conference.email_settings.accepted_body))
   end
 
   def rejection_mail(event)
@@ -23,7 +23,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.rejected_subject,
-                conference.email_settings.generate_event_mail(event, conference.email_settings.rejected_email_template))
+                conference.email_settings.generate_event_mail(event, conference.email_settings.rejected_body))
   end
 
   def confirm_reminder_mail(event)
@@ -32,7 +32,7 @@ class Mailbot < ActionMailer::Base
     build_email(conference,
                 person.email,
                 conference.email_settings.confirmed_without_registration_subject,
-                conference.email_settings.generate_event_mail(event, conference.email_settings.confirmed_email_template))
+                conference.email_settings.generate_event_mail(event, conference.email_settings.confirmed_without_registration_body))
   end
 
   def conference_date_update_mail(conference)
@@ -40,7 +40,7 @@ class Mailbot < ActionMailer::Base
       build_email(conference,
                   user.email,
                   conference.email_settings.updated_conference_dates_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_dates_template))
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_dates_body))
     end
   end
 
@@ -49,7 +49,7 @@ class Mailbot < ActionMailer::Base
       build_email(conference,
                   user.email,
                   conference.email_settings.updated_conference_registration_dates_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_registration_dates_template))
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_registration_dates_body))
     end
   end
 
@@ -58,7 +58,7 @@ class Mailbot < ActionMailer::Base
       build_email(conference,
                   user.email,
                   conference.email_settings.venue_update_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.venue_update_template))
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.venue_update_body))
     end
   end
 
@@ -67,7 +67,7 @@ class Mailbot < ActionMailer::Base
       build_email(conference,
                   user.email,
                   conference.email_settings.call_for_papers_schedule_public_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_schedule_public_template))
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_schedule_public_body))
     end
   end
 
@@ -76,7 +76,7 @@ class Mailbot < ActionMailer::Base
       build_email(conference,
                   user.email,
                   conference.email_settings.call_for_papers_dates_updates_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_dates_updates_template))
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_dates_updates_body))
     end
   end
 

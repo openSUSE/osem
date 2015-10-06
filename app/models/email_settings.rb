@@ -1,16 +1,13 @@
 class EmailSettings < ActiveRecord::Base
-  attr_accessible :send_on_registration, :send_on_accepted, :send_on_rejected,
-                  :send_on_confirmed_without_registration, :registration_email_template,
-                  :accepted_email_template, :rejected_email_template, :confirmed_email_template,
-                  :registration_subject, :accepted_subject, :rejected_subject,
-                  :confirmed_without_registration_subject,
-                  :send_on_updated_conference_dates, :updated_conference_dates_subject,
-                  :updated_conference_dates_template, :send_on_updated_conference_registration_dates,
-                  :updated_conference_registration_dates_subject, :updated_conference_registration_dates_template,
-                  :send_on_venue_update, :venue_update_subject, :venue_update_template,
-                  :send_on_call_for_papers_dates_updates, :send_on_call_for_papers_schedule_public,
-                  :call_for_papers_schedule_public_subject, :call_for_papers_dates_updates_subject,
-                  :call_for_papers_schedule_public_template, :call_for_papers_dates_updates_template
+  attr_accessible :send_on_registration, :registration_subject, :registration_body,
+                  :send_on_accepted, :accepted_subject, :accepted_body,
+                  :send_on_rejected, :rejected_subject, :rejected_body,
+                  :send_on_confirmed_without_registration, :confirmed_without_registration_subject, :confirmed_without_registration_body,
+                  :send_on_updated_conference_dates, :updated_conference_dates_subject, :updated_conference_dates_body,
+                  :send_on_updated_conference_registration_dates, :updated_conference_registration_dates_subject, :updated_conference_registration_dates_body,
+                  :send_on_venue_update, :venue_update_subject, :venue_update_body,
+                  :send_on_call_for_papers_dates_updates, :call_for_papers_dates_updates_subject, :call_for_papers_dates_updates_body,
+                  :send_on_call_for_papers_schedule_public, :call_for_papers_schedule_public_subject, :call_for_papers_schedule_public_body
 
   def get_values(conference, user, event = nil)
     h = {

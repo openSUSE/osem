@@ -572,7 +572,7 @@ class Conference < ActiveRecord::Base
     (self.start_date_changed? || self.end_date_changed?) &&
     self.email_settings.send_on_updated_conference_dates &&
     !self.email_settings.updated_conference_dates_subject.blank? &&
-    self.email_settings.updated_conference_dates_template
+    self.email_settings.updated_conference_dates_body
   end
 
   ##
@@ -586,7 +586,7 @@ class Conference < ActiveRecord::Base
     (registration_period.start_date_changed? || registration_period.end_date_changed?) &&
     email_settings.send_on_updated_conference_registration_dates &&
     !email_settings.updated_conference_registration_dates_subject.blank? &&
-    email_settings.updated_conference_registration_dates_template
+    email_settings.updated_conference_registration_dates_body
   end
 
   private

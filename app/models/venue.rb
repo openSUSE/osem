@@ -36,7 +36,7 @@ class Venue < ActiveRecord::Base
     (!self.name.blank? && !self.street.blank?) &&
     (conference.email_settings.send_on_venue_update &&
     !conference.email_settings.venue_update_subject.blank? &&
-    conference.email_settings.venue_update_template)
+    conference.email_settings.venue_update_body)
   end
 
   # TODO: create a module to be mixed into model to perform same operation
