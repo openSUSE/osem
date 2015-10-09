@@ -1,4 +1,0 @@
-= f.input :commercial_type, as: :select, label: 'Type', input_html: { class: 'form-control select-help-toggle' }, collection: CONFIG['commercial_types'].values, include_blank: false, hint: 'This media-item will be used to represent this conference at various places in OSEM.'
-= f.input :commercial_id, label: 'ID', as: :string, input_html: { required: 'required' }
-= render partial: 'commercial_help'
-= f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right' }

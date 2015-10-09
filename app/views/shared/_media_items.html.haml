@@ -1,25 +1,37 @@
 - unless commercials.empty?
   - if commercials.length == 1
     .flexvideo
-      = render partial: 'shared/media_item', locals: { commercial_type: commercials.first.commercial_type, commercial_id: commercials.first.commercial_id }
+      -# This is for backward compatibility
+      - if commercials.first.url
+        = Commercial.get_content(commercials.first.url).html_safe
+      - else
+        = render partial: 'shared/media_item', locals: { commercial_type: commercials.first.commercial_type, commercial_id: commercials.first.commercial_id }
   - else
     %ul.nav.nav-tabs{ 'role'=>'tablist' }
-      - commercials.each_with_index do  |commercial, index|
-        - if index == 0
+      - commercials.each.with_index(1) do  |commercial, index|
+        - if index == 1
           %li.active
             %a{ 'href'=>"##{index}", 'role'=>'tab', 'data-toggle'=>'tab' }
-              = commercial.commercial_type
+              = index
         - else
           %li
             %a{ 'href'=>"##{index}",' "role"'=>'tab', 'data-toggle'=>'tab' }
-              = commercial.commercial_type
+              = index
     .tab-content
-      - commercials.each_with_index do  |commercial, index|
-        - if index == 0
+      - commercials.each.with_index(1) do  |commercial, index|
+        - if index == 1
           %div.tab-pane.active{'id'=>"#{index}"}
             .flexvideo
-              = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
+              -# This is for backward compatibility
+              - if commercial.url
+                = Commercial.get_content(commercial.url).html_safe
+              - else
+                = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
         - else
           %div.tab-pane{'id'=>"#{index}"}
             .flexvideo
-              = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }
+              -# This is for backward compatibility
+              - if commercial.url
+                = Commercial.get_content(commercial.url).html_safe
+              - else
+                = render partial: 'shared/media_item', locals: { commercial_type: commercial.commercial_type, commercial_id: commercial.commercial_id }

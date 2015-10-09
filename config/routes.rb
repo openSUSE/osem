@@ -26,7 +26,8 @@ Osem::Application.routes.draw do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :photos, except: [:show]
       resource :schedule, only: [:show, :update]
-      resources :commercials, except: [:show]
+      get 'commercials/get_html' => 'commercials#get_html'
+      resources :commercials, only: [:index, :create, :update, :destroy]
       get '/stats' => 'stats#index'
       get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
       patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
@@ -89,7 +90,8 @@ Osem::Application.routes.draw do
 
   resources :conference, only: [:index, :show] do
     resources :proposal do
-      resources :commercials, except: [:show, :index]
+      get 'commercials/get_html' => 'commercials#get_html'
+      resources :commercials, only: [:create, :update, :destroy]
       resources :event_attachment, controller: 'event_attachments'
       member do
         patch '/confirm' => 'proposal#confirm'
