@@ -132,6 +132,73 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Builds out the model for returning a json response
+  #
+  #
+  def as_json(_options={})
+    super(
+        only: [
+            :description,
+            :end_date,
+            :logo,
+            :short_title,
+            :start_date,
+            :title,
+            ],
+        include: {
+            difficulty_levels: {
+                only: [
+                    :description,
+                    :id,
+                    :title,
+                ]
+            },
+            event_types: {
+                only: [
+                    :description,
+                    :id,
+                    :length,
+                    :title,
+                ]
+            },
+            rooms: {
+                only: [
+                    :name,
+                    :size,
+                ],
+                include: {
+                    events: {
+                        only: [
+                            :abstract,
+                            :description,
+                            :difficulty_level_id,
+                            :event_type_id,
+                            :guid,
+                            :is_highlight,
+                            :require_registration,
+                            :start_time,
+                            :subtitle,
+                            :title,
+                            :track_id,
+                            ],
+                        methods: [
+                            :speaker_names,
+                            ],
+                    },
+                },
+            },
+            tracks: {
+                only: [
+                    :description,
+                    :id,
+                    :name,
+                ]
+            },
+        }
+        )
+  end
+
+  ##
   # Checks if the user is registered to the conference
   #
   # ====Args
