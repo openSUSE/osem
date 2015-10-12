@@ -13,6 +13,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 
 require 'rspec/rails'
+require 'shoulda/matchers'
 # To avoid confusion on missed migrations - use Rails 4 checker to ensure
 # all migrations applied
 ActiveRecord::Migration.maintain_test_schema!
