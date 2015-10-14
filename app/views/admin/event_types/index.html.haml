@@ -9,6 +9,7 @@
     %table.table.table-hover#event_types
       %thead
         %th Title
+        %th Description
         %th Length
         %th Abstract Length
         %th Color
@@ -18,6 +19,8 @@
           %tr
             %td
               = event_type.title
+            %td
+              = event_type.description
             %td
               = event_type.length
               Minutes

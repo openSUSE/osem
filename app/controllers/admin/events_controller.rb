@@ -179,12 +179,12 @@ module Admin
     def update_state(transition, notice, mail = false, subject = false, send_mail = false)
       alert = @event.update_state(transition, mail, subject, send_mail, params[:send_mail].blank?)
 
-      if !alert.blank?
-        flash[:error] = error
-        return redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
-      else
+      if alert.blank?
         flash[:notice] = notice
         redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
+      else
+        flash[:error] = alert
+        return redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
       end
     end
   end

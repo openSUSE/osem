@@ -2,25 +2,17 @@
   .col-md-12
     .page-header
       %h1
-      Edit registration of #{@user.username} for #{@conference.short_title}
+        Registration for #{@user.username}
 .row
-  .col-md-8
-    = semantic_form_for(@registration, :url => admin_conference_registration_path(@conference.short_title, @registration)) do |f|
+  .col-md-6
+    = semantic_form_for(@registration, url: admin_conference_registration_path(@conference.short_title, @registration)) do |f|
       = f.inputs 'Personal Information' do
         = f.fields_for :user do |u|
           = u.input :name, as: :string
           = u.input :nickname, as: :string
           = u.input :affiliation, placeholder: 'Company/User Group/nothing', as: :string
       = f.inputs 'Registration Information' do
-        - @conference.questions.each do |q|
-          %h5
-            = "Q: #{q.title}"
-          - if q.question_type.id == 1  || q.question_type.id == 2 # yes/no or single choice
-            = f.input :qanswers, :collection => q.qanswers, :as => :select, :input_html => { :multiple => false }, :label => false, :include_blank => "Please make your choice",
-                      :member_label => Proc.new {|a| a.answer.title}
-          - if q.question_type.id == 3  # multiple choice
-            = f.input :qanswers, :collection => q.qanswers, :as => :check_boxes, :label => false,
-                      :member_label => Proc.new {|a| a.answer.title}
+        = render partial: 'conference_registrations/registration_info', locals: { f: f }
 
       -# Not necessary
       - if @conference.social_events.count > 0
@@ -28,4 +20,4 @@
           %br Yes, I'll be attending...
           %br
           = f.input :social_events, as: :check_boxes, label: false, collection: @conference.social_events
-      = f.action :submit, button_html: { value: 'Edit Registration', class: 'btn btn-primary' }
+      = f.action :submit, button_html: { class: 'btn btn-primary' }
