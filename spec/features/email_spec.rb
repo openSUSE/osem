@@ -36,19 +36,19 @@ feature EmailSettings do
               with: 'Confirmed without registration email body'
 
       click_link 'Update Notifications'
-      fill_in 'email_settings_updated_conference_dates_subject',
+      fill_in 'email_settings_conference_dates_updated_subject',
               with: 'Updated conference dates subject'
-      fill_in 'email_settings_updated_conference_dates_body',
+      fill_in 'email_settings_conference_dates_updated_body',
               with: 'Updated conference dates email template'
 
-      fill_in 'email_settings_updated_conference_registration_dates_subject',
+      fill_in 'email_settings_conference_registration_dates_updated_subject',
               with: 'Updated conference registration dates subject'
-      fill_in 'email_settings_updated_conference_registration_dates_body',
+      fill_in 'email_settings_conference_registration_dates_updated_body',
               with: 'Updated conference registration dates template'
 
-      fill_in 'email_settings_venue_update_subject',
+      fill_in 'email_settings_venue_updated_subject',
               with: 'Updated conference venue subject'
-      fill_in 'email_settings_venue_update_body',
+      fill_in 'email_settings_venue_updated_body',
               with: 'Updated conference venue template'
 
       click_button 'Update Email settings'
@@ -74,17 +74,17 @@ feature EmailSettings do
       expect(find('#email_settings_confirmed_without_registration_body').
                  value).to eq('Confirmed without registration email body')
       click_link 'Update Notifications'
-      expect(find('#email_settings_updated_conference_dates_subject').
+      expect(find('#email_settings_conference_dates_updated_subject').
                  value).to eq('Updated conference dates subject')
-      expect(find('#email_settings_updated_conference_dates_body').
+      expect(find('#email_settings_conference_dates_updated_body').
                  value).to eq('Updated conference dates email template')
-      expect(find('#email_settings_updated_conference_registration_dates_subject').
+      expect(find('#email_settings_conference_registration_dates_updated_subject').
                  value).to eq('Updated conference registration dates subject')
-      expect(find('#email_settings_updated_conference_registration_dates_body').
+      expect(find('#email_settings_conference_registration_dates_updated_body').
                  value).to eq('Updated conference registration dates template')
-      expect(find('#email_settings_venue_update_subject').
+      expect(find('#email_settings_venue_updated_subject').
                  value).to eq('Updated conference venue subject')
-      expect(find('#email_settings_venue_update_body').
+      expect(find('#email_settings_venue_updated_body').
                  value).to eq('Updated conference venue template')
 
       expect(EmailSettings.count).to eq(expected_count)

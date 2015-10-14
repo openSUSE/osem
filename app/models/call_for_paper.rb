@@ -45,9 +45,9 @@ class CallForPaper < ActiveRecord::Base
   def notify_on_cfp_date_update?
     !self.end_date.blank? && !self.start_date.blank?\
     && (self.start_date_changed? || self.end_date_changed?)\
-    && self.conference.email_settings.send_on_call_for_papers_dates_updates\
-    && !self.conference.email_settings.call_for_papers_dates_updates_subject.blank?\
-    && !self.conference.email_settings.call_for_papers_dates_updates_body.blank?
+    && self.conference.email_settings.send_on_call_for_papers_dates_updated\
+    && !self.conference.email_settings.call_for_papers_dates_updated_subject.blank?\
+    && !self.conference.email_settings.call_for_papers_dates_updated_body.blank?
   end
   ##
   # Checks whether cfp dates is updated
@@ -58,9 +58,9 @@ class CallForPaper < ActiveRecord::Base
   def notify_on_schedule_public?
     !self.end_date.blank? && !self.start_date.blank?\
     && (self.start_date_changed? || self.end_date_changed?)\
-    && self.conference.email_settings.send_on_call_for_papers_dates_updates\
-    && !self.conference.email_settings.call_for_papers_dates_updates_subject.blank?\
-    && !self.conference.email_settings.call_for_papers_dates_updates_body.blank?
+    && self.conference.email_settings.send_on_call_for_papers_dates_updated\
+    && !self.conference.email_settings.call_for_papers_dates_updated_subject.blank?\
+    && !self.conference.email_settings.call_for_papers_dates_updated_body.blank?
   end
 
   def remaining_days(date = Date.today)

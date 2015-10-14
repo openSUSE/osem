@@ -39,8 +39,8 @@ class Mailbot < ActionMailer::Base
     User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.updated_conference_dates_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_dates_body))
+                  conference.email_settings.conference_dates_updated_subject,
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.conference_dates_updated_body))
     end
   end
 
@@ -48,17 +48,17 @@ class Mailbot < ActionMailer::Base
     User.joins(:subscriptions).merge(conference.subscriptions).uniq.joins('INNER JOIN registrations ON registrations.user_id != users.id').merge(conference.registrations) do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.updated_conference_registration_dates_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.updated_conference_registration_dates_body))
+                  conference.email_settings.conference_registration_dates_updated_subject,
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.conference_registration_dates_updated_body))
     end
   end
 
-  def send_email_on_venue_update(conference)
+  def send_email_on_venue_updated(conference)
     User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.venue_update_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.venue_update_body))
+                  conference.email_settings.venue_updated_subject,
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.venue_updated_body))
     end
   end
 
@@ -71,12 +71,12 @@ class Mailbot < ActionMailer::Base
     end
   end
 
-  def send_on_call_for_papers_dates_updates(conference)
+  def send_on_call_for_papers_dates_updated(conference)
     User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.call_for_papers_dates_updates_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_dates_updates_body))
+                  conference.email_settings.call_for_papers_dates_updated_subject,
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_dates_updated_body))
     end
   end
 

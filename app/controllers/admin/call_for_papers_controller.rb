@@ -29,10 +29,10 @@ module Admin
       @cfp.assign_attributes(params[:call_for_paper])
       send_mail_on_schedule_public = @cfp.notify_on_schedule_public?
 
-      send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?
+      send_mail_on_cfp_dates_updated = @cfp.notify_on_cfp_date_update?
 
       if @cfp.update_attributes(params[:call_for_paper])
-        Mailbot.delay.send_on_call_for_papers_dates_updates(@conference) if send_mail_on_cfp_dates_updates
+        Mailbot.delay.send_on_call_for_papers_dates_updated(@conference) if send_mail_on_cfp_dates_updated
         Mailbot.delay.send_on_schedule_public(@conference) if send_mail_on_schedule_public
         redirect_to(admin_conference_call_for_paper_path(@conference.short_title),
                     notice: 'Call for papers successfully updated.')

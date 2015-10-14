@@ -570,9 +570,9 @@ class Conference < ActiveRecord::Base
   # * +False+ -> Either conference is not updated or one or more parameter is not set
   def notify_on_dates_changed?
     (self.start_date_changed? || self.end_date_changed?) &&
-    self.email_settings.send_on_updated_conference_dates &&
-    !self.email_settings.updated_conference_dates_subject.blank? &&
-    self.email_settings.updated_conference_dates_body
+    self.email_settings.send_on_conference_dates_updated &&
+    !self.email_settings.conference_dates_updated_subject.blank? &&
+    self.email_settings.conference_dates_updated_body
   end
 
   ##
@@ -584,9 +584,9 @@ class Conference < ActiveRecord::Base
   def notify_on_registration_dates_changed?
     registration_period &&
     (registration_period.start_date_changed? || registration_period.end_date_changed?) &&
-    email_settings.send_on_updated_conference_registration_dates &&
-    !email_settings.updated_conference_registration_dates_subject.blank? &&
-    email_settings.updated_conference_registration_dates_body
+    email_settings.send_on_conference_registration_dates_updated &&
+    !email_settings.conference_registration_dates_updated_subject.blank? &&
+    email_settings.conference_registration_dates_updated_body
   end
 
   private

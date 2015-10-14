@@ -28,15 +28,15 @@ class Venue < ActiveRecord::Base
   private
 
   def send_mail_notification
-    Mailbot.delay.send_email_on_venue_update(conference) if venue_notify?(conference)
+    Mailbot.delay.send_email_on_venue_updated(conference) if venue_notify?(conference)
   end
 
   def venue_notify?(conference)
     (self.name_changed? || self.street_changed?) &&
     (!self.name.blank? && !self.street.blank?) &&
-    (conference.email_settings.send_on_venue_update &&
-    !conference.email_settings.venue_update_subject.blank? &&
-    conference.email_settings.venue_update_body)
+    (conference.email_settings.send_on_venue_updated &&
+    !conference.email_settings.venue_updated_subject.blank? &&
+    conference.email_settings.venue_updated_body)
   end
 
   # TODO: create a module to be mixed into model to perform same operation
