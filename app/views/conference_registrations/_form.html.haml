@@ -21,14 +21,7 @@
           = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
             = render partial: 'devise/shared/sign_up_form_embedded'
 
-            - if @conference.questions.any?
-              = render partial: 'questions', locals: { f: f }
-            - if @conference.events.workshops.any?
-              =f.inputs 'Register to Workshops' do
-                = f.input :events, as: :check_boxes, label: false, collection: @conference.events.workshops
-            = f.inputs 'Your Travel Info' do
-              = f.input :arrival, as: :string, label: 'Your arrival time', input_html: { value: (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), id: 'registration-arrival-datepicker', readonly: 'readonly'  }
-              = f.input :departure, as: :string, label: 'Your departure time', input_html: { value: (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.departure.nil?), id: 'registration-departure-datepicker', readonly: 'readonly'  }
+            = render partial: 'registration_info', locals: { f: f }
             .row
               .col-md-12
                 %p.pull-right
