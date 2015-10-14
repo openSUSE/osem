@@ -54,6 +54,14 @@
                     = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
                   - else
                     = label_tag "label_rating", "", :class => "avgrating"
+                %br
+                - voted = event.voted?(event, current_user)
+                - if voted
+                  %span.label.label-success
+                    Your rating: #{voted.rating}
+                - else
+                  %span.label.label-danger
+                    Not rated
               - else
                 0/#{@conference.call_for_paper.rating}
               %br

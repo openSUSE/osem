@@ -6,8 +6,8 @@
         = "(#{@registrations.length})" if @registrations
         .btn-group.pull-right
           - if can? :read, Registration
-            = link_to "Export PDF", admin_conference_registrations_path(@conference.short_title, :format => :pdf), :class => "btn btn-default"
-            = link_to "Export XLS", {:format => :xlsx}, :class => "btn btn-default"
+            = link_to 'Export PDF', admin_conference_registrations_path(@conference.short_title, format: :pdf), class: 'btn btn-success'
+            = link_to 'Export XLS', {format: :xlsx}, class: 'btn btn-success'
       %p.text-muted
         All the people who registered to your event
     %table.table.table-hover.datatable#registrations
@@ -32,12 +32,12 @@
               = registration.email
             %td
               - if registration.arrival
-                = registration.arrival.strftime("%d %b %H:%M")
+                = registration.arrival.strftime('%d %b %H:%M')
               - else
                 n/a
             %td
               - if registration.departure
-                = registration.departure.strftime("%d %b %H:%M")
+                = registration.departure.strftime('%d %b %H:%M')
               - else
                 n/a
             -if @conference.questions.any?
@@ -47,7 +47,7 @@
               = check_box_tag "#{@conference.short_title}_#{registration.id}", registration.id, registration.attended,
                 class: 'switch-checkbox', method: :patch,
                 url: toggle_attendance_admin_conference_registration_path(@conference.short_title, id: registration.id)+"?attended=",
-                data: { size: "small",
+                data: { size: 'small',
                         on_color: 'success',
                         off_color: 'warning',
                         on_text: 'Present',
@@ -61,7 +61,7 @@
     .questions{class: "question#{index}", style: 'display:none;'}
       = render partial: 'questions', locals: { registration: registration }
 
-.modal.fade{ id: "questions", 'role' => 'dialog', 'aria-hidden' => 'true' }
+.modal.fade{ id: 'questions', 'role' => 'dialog', 'aria-hidden' => 'true' }
   .modal-dialog
     .modal-content
       .modal-header
