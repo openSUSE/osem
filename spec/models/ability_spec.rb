@@ -176,7 +176,7 @@ describe 'User' do
       it{ should be_able_to(:manage, my_conference.call_for_paper) }
       it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
       it{ should_not be_able_to(:manage, my_conference.venue) }
-      it{ should be_able_to(:index, my_conference.venue) }
+      it{ should be_able_to(:show, my_conference.venue) }
       it{ should_not be_able_to(:manage, conference_public.venue) }
       it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
       it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
@@ -235,7 +235,7 @@ describe 'User' do
       it{ should_not be_able_to(:manage, my_conference.call_for_paper) }
       it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
       it{ should_not be_able_to(:manage, my_conference.venue) }
-      it{ should_not be_able_to(:index, my_conference.venue) }
+      it{ should_not be_able_to(:show, my_conference.venue) }
       it{ should_not be_able_to(:manage, conference_public.venue) }
       it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
       it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
@@ -294,7 +294,7 @@ describe 'User' do
       it{ should_not be_able_to(:manage, my_conference.call_for_paper) }
       it{ should_not be_able_to(:manage, conference_public.call_for_paper) }
       it{ should_not be_able_to(:manage, my_conference.venue) }
-      it{ should_not be_able_to(:index, my_conference.venue) }
+      it{ should_not be_able_to(:show, my_conference.venue) }
       it{ should_not be_able_to(:manage, conference_public.venue) }
       it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
       it{ should_not be_able_to(:manage, conference_public.lodgings.first) }

@@ -47,7 +47,7 @@
         - if can? :update, @conference
           %li{:class=> active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
             = link_to 'Splashpage', admin_conference_splashpage_path(@conference.short_title)
-  - if can? :index, Venue.new(conference_id: @conference.id)
+  - if can? :show, Venue.new(conference_id: @conference.id)
     %li{:class=> "#{active_nav_li(admin_conference_venue_path(@conference.short_title))}"}
       = link_to(admin_conference_venue_path(@conference.short_title)) do
         %span.fa.fa-road
@@ -59,14 +59,14 @@
         - if can? :update, @conference.lodgings.build
           %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
             = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
+  - if can? :update, @conference.events.build
     %li
       %a
         %span.fa.fa-calendar
         Program
       %ul
-        - if can? :update, @conference.events.build
-          %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
-            = link_to 'Events', admin_conference_events_path(@conference.short_title)
+        %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
+          = link_to 'Events', admin_conference_events_path(@conference.short_title)
         - if can? :update, CallForPaper.new(conference_id: @conference.id)
           %li{:class=> "#{active_nav_li(admin_conference_call_for_paper_path(@conference.short_title))}"}
             = link_to 'Call for Papers', admin_conference_call_for_paper_path(@conference.short_title)
