@@ -15,8 +15,8 @@ module Admin
       @call_for_paper = @conference.build_call_for_paper(call_for_paper_params)
 
       if @call_for_paper.save
-        redirect_to admin_conference_call_for_paper_path,
-                    notice: 'Call for papers successfully created.'
+        flash[:notice] = 'Call for papers successfully created.'
+        redirect_to admin_conference_call_for_paper_path
       else
         flash[:error] = "Creating the call for papers failed. #{@call_for_paper.errors.full_messages.join('. ')}."
         render :new
@@ -34,8 +34,9 @@ module Admin
       if @cfp.update_attributes(params[:call_for_paper])
         Mailbot.delay.send_on_call_for_papers_dates_updates(@conference) if send_mail_on_cfp_dates_updates
         Mailbot.delay.send_on_schedule_public(@conference) if send_mail_on_schedule_public
-        redirect_to(admin_conference_call_for_paper_path(@conference.short_title),
-                    notice: 'Call for papers successfully updated.')
+
+        flash[:notice] = 'Call for papers successfully updated.'
+        redirect_to admin_conference_call_for_paper_path(@conference.short_title)
       else
         flash[:error] = "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}."
         render :new
@@ -44,10 +45,12 @@ module Admin
 
     def destroy
       if @call_for_paper.destroy
-        redirect_to admin_conference_call_for_paper_path, notice: 'Call for Papers was successfully deleted.'
+        flash[:notice] = 'Call for Papers was successfully deleted.'
+        redirect_to admin_conference_call_for_paper_path
       else
-        redirect_to admin_conference_call_for_paper_path, error: 'An error prohibited this Call for Papers from being destroyed: '\
-        "#{@call_for_paper.errors.full_messages.join('. ')}."
+        flash[:error] = 'An error prohibited this Call for Papers from being destroyed: '\
+                         "#{@call_for_paper.errors.full_messages.join('. ')}."
+        redirect_to admin_conference_call_for_paper_path
       end
     end
 

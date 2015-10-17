@@ -27,7 +27,6 @@ Osem::Application.routes.draw do
       resources :photos, except: [:show]
       resource :schedule, only: [:show, :update]
       resources :commercials, except: [:show]
-      get '/stats' => 'stats#index'
       get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
       patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
       get '/volunteers_list' => 'volunteers#show'

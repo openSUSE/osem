@@ -16,8 +16,8 @@ module Admin
     def create
       @sponsorship_level = @conference.sponsorship_levels.new(sponsorship_level_params)
       if @sponsorship_level.save
-        redirect_to(admin_conference_sponsorship_levels_path(conference_id: @conference.short_title),
-                    notice: 'Sponsorship level successfully created.')
+        flash[:notice] = 'Sponsorship level successfully created.'
+        redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Creating Sponsorship Level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."
         render :new
@@ -26,9 +26,8 @@ module Admin
 
     def update
       if @sponsorship_level.update_attributes(sponsorship_level_params)
-        redirect_to(admin_conference_sponsorship_levels_path(
-                    conference_id: @conference.short_title),
-                    notice: 'Sponsorship level successfully updated.')
+        flash[:notice] = 'Sponsorship level successfully updated.'
+        redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Update Sponsorship level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."
         render :edit
@@ -37,23 +36,23 @@ module Admin
 
     def destroy
       if @sponsorship_level.destroy
-        redirect_to(admin_conference_sponsorship_levels_path(conference_id: @conference.short_title),
-                    notice: 'Sponsorship level successfully deleted.')
+        flash[:notice] = 'Sponsorship level successfully deleted.'
+        redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title)
       else
-        redirect_to(admin_conference_sponsorship_levels_path(conference_id: @conference.short_title),
-                    error: 'Deleting sponsorship level failed! ' \
-                    "#{@sponsorship_level.errors.full_messages.join('. ')}.")
+        flash[:error] = 'Deleting sponsorship level failed! ' \
+                        "#{@sponsorship_level.errors.full_messages.join('. ')}."
+        redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title)
       end
     end
 
     def up
       @sponsorship_level.move_higher
-      redirect_to(admin_conference_sponsorship_levels_path(conference_id: @conference.short_title))
+      redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title)
     end
 
     def down
       @sponsorship_level.move_lower
-      redirect_to(admin_conference_sponsorship_levels_path(conference_id: @conference.short_title))
+      redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title)
     end
 
     private

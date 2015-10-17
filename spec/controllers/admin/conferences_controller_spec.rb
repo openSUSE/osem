@@ -57,7 +57,7 @@ describe Admin::ConferenceController do
                                           short_title: nil)
 
           conference.reload
-          expect(flash[:alert]).
+          expect(flash[:error]).
               to eq("Updating conference failed. Short title can't be blank.")
           expect(conference.title).to eq('The dog and pony show')
           expect(conference.short_title).to eq("#{conference.short_title}")
@@ -68,7 +68,7 @@ describe Admin::ConferenceController do
               attributes_for(:conference, title: 'Example Con',
                                           short_title: nil)
 
-          expect(flash[:alert]).
+          expect(flash[:error]).
               to eq("Updating conference failed. Short title can't be blank.")
           expect(response).to redirect_to edit_admin_conference_path(
                                               conference.short_title)

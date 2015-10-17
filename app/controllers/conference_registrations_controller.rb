@@ -95,7 +95,7 @@ class ConferenceRegistrationsController < ApplicationController
   def set_registration
     @registration = Registration.find_by(conference: @conference, user: current_user)
     if !@registration
-      flash[:alert] = "Can't find a registration for #{@conference.title} for you. Please register."
+      flash[:error] = "Can't find a registration for #{@conference.title} for you. Please register."
       redirect_to new_conference_conference_registrations_path(@conference.short_title)
     end
   end

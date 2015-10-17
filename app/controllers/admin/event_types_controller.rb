@@ -17,7 +17,7 @@ module Admin
       @event_type = @conference.event_types.new(event_type_params)
       if @event_type.save
         flash[:notice] = 'Event type successfully created.'
-        redirect_to(admin_conference_event_types_path(conference_id: @conference.short_title))
+        redirect_to admin_conference_event_types_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Creating event type failed: #{@event_type.errors.full_messages.join('. ')}."
         render :new
@@ -27,7 +27,7 @@ module Admin
     def update
       if @event_type.update_attributes(event_type_params)
         flash[:notice] = 'Event type successfully updated.'
-        redirect_to(admin_conference_event_types_path(conference_id: @conference.short_title))
+        redirect_to admin_conference_event_types_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Update event type failed: #{@event_type.errors.full_messages.join('. ')}."
         render :edit
@@ -37,11 +37,11 @@ module Admin
     def destroy
       if @event_type.destroy
         flash[:notice] = 'Event type successfully deleted.'
-        redirect_to(admin_conference_event_types_path(conference_id: @conference.short_title))
+        redirect_to admin_conference_event_types_path(conference_id: @conference.short_title)
       else
         flash[:error] = 'Destroying event type failed! ' \
-        "#{@event_type.errors.full_messages.join('. ')}."
-        redirect_to(admin_conference_event_types_path(conference_id: @conference.short_title))
+                        "#{@event_type.errors.full_messages.join('. ')}."
+        redirect_to admin_conference_event_types_path(conference_id: @conference.short_title)
       end
     end
 

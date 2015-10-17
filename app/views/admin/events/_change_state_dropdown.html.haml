@@ -1,23 +1,37 @@
 - if event.transition_possible? :accept
-  %li= link_to 'Accept event',
-  accept_admin_conference_event_path(@conference.short_title, event),
-  method: :patch, id: "accept_event_#{event.id}"
-
   - if @conference.email_settings.send_on_accepted?
+    %li= link_to 'Accept event (with email)',
+    accept_admin_conference_event_path(@conference.short_title, event, send_mail: true),
+    hint: 'Accept this event and send an automated email.',
+    method: :patch, id: "accept_event_#{event.id}"
+
     %li= link_to 'Accept event (without email)',
     accept_admin_conference_event_path(@conference.short_title, event, send_mail: false),
-    method: :patch, hint: 'Accept this event without sending an automated email.',
-    id: "accept_event_without_mail_#{event.id}"
+    hint: 'Accept this event without sending an automated email.',
+    method: :patch, id: "accept_event_without_mail_#{event.id}"
+  - else
+    %li= link_to 'Accept event (without email)',
+    accept_admin_conference_event_path(@conference.short_title, event),
+    hint: 'Accept this event without sending an automated email. You have not set an email template.',
+    method: :patch, id: "accept_event_#{event.id}"
+
 
 - if event.transition_possible? :reject
-  %li= link_to 'Reject event',
-  reject_admin_conference_event_path(@conference.short_title, event),
-  method: :patch, confirm: 'Are you sure?', id: "reject_event_#{event.id}"
-
   - if @conference.email_settings.send_on_rejected?
+    %li= link_to 'Reject event (with email)',
+    reject_admin_conference_event_path(@conference.short_title, event, send_mail: true),
+    hint: 'Reject this event and send an automated email.',
+    method: :patch, confirm: 'Are you sure?', id: "reject_event_#{event.id}"
+
     %li= link_to 'Reject event (without email)',
     reject_admin_conference_event_path(@conference.short_title, event, send_mail: false),
+    hint: 'Reject this event without sending an automated email.',
     method: :patch, confirm: 'Are you sure?', id: "reject_event_without_mail_#{event.id}"
+  - else
+    %li= link_to 'Reject event (without email)',
+    reject_admin_conference_event_path(@conference.short_title, event),
+    hint: 'Reject this event without sending an automated email. You have not set an email template.',
+    method: :patch, confirm: 'Are you sure?', id: "reject_event_#{event.id}"
 
 - if event.transition_possible? :restart
   %li= link_to 'Start review',

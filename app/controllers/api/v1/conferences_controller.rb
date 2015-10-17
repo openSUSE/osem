@@ -7,7 +7,7 @@ module Api
         if params[:conference_id].blank?
           conferences = Conference.all
         else
-          conferences = Conference.find_all_by_guid(params[:conference_id])
+          conferences = Conference.find_by(short_title: params[:conference_id])
         end
         render json: conferences, serializer: ConferencesArraySerializer
       end

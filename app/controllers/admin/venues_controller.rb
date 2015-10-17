@@ -15,8 +15,8 @@ module Admin
       @venue = @conference.build_venue(venue_params)
 
       if @venue.save
-        redirect_to admin_conference_venue_path,
-                    notice: 'Venue was successfully created.'
+        flash[:notice] = 'Venue was successfully created.'
+        redirect_to admin_conference_venue_path
       else
         render :new
       end
@@ -24,8 +24,8 @@ module Admin
 
     def update
       if @venue.update_attributes(venue_params)
-        redirect_to(admin_conference_venue_path(conference_id: @conference.short_title),
-                    notice: 'Venue was successfully updated.')
+        flash[:notice] = 'Venue was successfully updated.'
+        redirect_to admin_conference_venue_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Update venue failed: #{@venue.errors.full_messages.join('. ')}."
         render :edit
@@ -34,10 +34,12 @@ module Admin
 
     def destroy
       if @venue.destroy
-        redirect_to admin_conference_venue_path, notice: 'Venue was successfully deleted.'
+        flash[:notice] = 'Venue was successfully deleted.'
+        redirect_to admin_conference_venue_path
       else
-        redirect_to admin_conference_venue_path, alert: 'An error prohibited this Venue from being destroyed: '\
-        "#{@venue.errors.full_messages.join('. ')}."
+        flash[:error] = 'An error prohibited this Venue from being destroyed: '\
+                        "#{@venue.errors.full_messages.join('. ')}."
+        redirect_to admin_conference_venue_path
       end
     end
 
