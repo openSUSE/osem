@@ -27,7 +27,7 @@ module Admin
     def update
       if @sponsor.update_attributes(sponsor_params)
         redirect_to(admin_conference_sponsors_path(
-                    conference_id: @conference.short_title),
+                      conference_id: @conference.short_title),
                     notice: 'Sponsor successfully updated.')
       else
         flash[:error] = "Update sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."

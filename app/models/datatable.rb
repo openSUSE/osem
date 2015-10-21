@@ -74,7 +74,7 @@ class Datatable
   def sort_order
     colnum = 0
     sort_by = []
-    while true
+    loop do
       break if !sorted?(colnum)
       sort_by << "#{sort_column(colnum)} #{sort_direction(colnum)}"
       colnum += 1

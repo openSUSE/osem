@@ -42,9 +42,9 @@ class MigratingSupporterRegistrationsToTicketUsers < ActiveRecord::Migration
     # Sum up if a user has bought more than one ticket
     TempSupporterRegistrations.all.each do |s|
       sup_reg = TempSupporterRegistrations.where(
-          ticket_id: s.ticket_id,
-          user_id: s.user_id,
-          conference_id: s.conference_id)
+        ticket_id: s.ticket_id,
+        user_id: s.user_id,
+        conference_id: s.conference_id)
       quantity = sup_reg.count
 
       if quantity > 1

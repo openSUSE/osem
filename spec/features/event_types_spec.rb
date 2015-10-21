@@ -7,10 +7,9 @@ feature EventType do
 
   shared_examples 'event types' do
     scenario 'adds and updates event type', feature: true, js: true do
-
       sign_in organizer
       visit admin_conference_event_types_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title)
 
       within('table#event_types') do
         expect(page.assert_selector('tr', count: 3)).to be true

@@ -38,7 +38,7 @@ class Ticket < ActiveRecord::Base
       tickets.each do |ticket|
         price = ticket.total_price(user)
         if result
-          result +=  price unless price.zero?
+          result += price unless price.zero?
         else
           result = price
         end

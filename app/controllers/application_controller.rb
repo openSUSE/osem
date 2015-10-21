@@ -25,9 +25,9 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_resource)
     if (can? :view, Conference) &&
-      (!session[:return_to] ||
-      session[:return_to] &&
-      session[:return_to] == root_path)
+       (!session[:return_to] ||
+       session[:return_to] &&
+       session[:return_to] == root_path)
       admin_conference_index_path
     else
       session[:return_to] || root_path

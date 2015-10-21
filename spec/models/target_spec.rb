@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Target do
-
   describe 'validations' do
     it 'has a valid factory' do
       expect(build(:target)).to be_valid

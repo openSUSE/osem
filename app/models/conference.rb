@@ -1,6 +1,6 @@
 ##
 # This class represents a conference
-# rubocop:disable Style/ClassLength
+# rubocop:disable Metrics/ClassLength
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
@@ -218,7 +218,7 @@ class Conference < ActiveRecord::Base
           result[state] = pad_array_left_not_kumulative(start_week, values)
         end
       end
-      result['Weeks'] =  weeks > 0 ? (1..weeks).to_a : 0
+      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
     end
     result
   end
@@ -232,9 +232,9 @@ class Conference < ActiveRecord::Base
     result = []
 
     if registrations &&
-        registration_period &&
-        registration_period.start_date &&
-        registration_period.end_date
+       registration_period &&
+       registration_period.start_date &&
+       registration_period.end_date
 
       reg = registrations.group(:week).count
       start_week = get_registration_start_week
@@ -253,10 +253,10 @@ class Conference < ActiveRecord::Base
     result = 0
     weeks = 0
     if registration_period &&
-        registration_period.start_date &&
-        registration_period.end_date
+       registration_period.start_date &&
+       registration_period.end_date
       weeks = Date.new(registration_period.start_date.year, 12, 31).
-          strftime('%W').to_i
+              strftime('%W').to_i
 
       result = get_registration_end_week - get_registration_start_week + 1
     end
@@ -353,8 +353,8 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
     submitter = EventUser.joins(:event).
-        where('event_role = ? and conference_id = ?', 'submitter', id).
-        limit(limit).group(:user_id)
+                where('event_role = ? and conference_id = ?', 'submitter', id).
+                limit(limit).group(:user_id)
     counter = submitter.order('count_all desc').count
     Conference.calculate_user_submission_hash(submitter, counter)
   end
@@ -476,12 +476,12 @@ class Conference < ActiveRecord::Base
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
     result = Conference.where('start_date > ?', Time.now).
-        select('id, short_title, color, start_date')
+             select('id, short_title, color, start_date')
 
     if result.length == 0
       result = Conference.
-          select('id, short_title, color, start_date').limit(2).
-          order(start_date: :desc)
+               select('id, short_title, color, start_date').limit(2).
+               order(start_date: :desc)
     end
     result
   end
@@ -570,9 +570,9 @@ class Conference < ActiveRecord::Base
   # * +False+ -> Either conference is not updated or one or more parameter is not set
   def notify_on_dates_changed?
     (self.start_date_changed? || self.end_date_changed?) &&
-    self.email_settings.send_on_updated_conference_dates &&
-    !self.email_settings.updated_conference_dates_subject.blank? &&
-    self.email_settings.updated_conference_dates_template
+      self.email_settings.send_on_updated_conference_dates &&
+      !self.email_settings.updated_conference_dates_subject.blank? &&
+      self.email_settings.updated_conference_dates_template
   end
 
   ##
@@ -583,10 +583,10 @@ class Conference < ActiveRecord::Base
   # * +False+ -> Either registration date is not updated or one or more parameter is not set
   def notify_on_registration_dates_changed?
     registration_period &&
-    (registration_period.start_date_changed? || registration_period.end_date_changed?) &&
-    email_settings.send_on_updated_conference_registration_dates &&
-    !email_settings.updated_conference_registration_dates_subject.blank? &&
-    email_settings.updated_conference_registration_dates_template
+      (registration_period.start_date_changed? || registration_period.end_date_changed?) &&
+      email_settings.send_on_updated_conference_registration_dates &&
+      !email_settings.updated_conference_registration_dates_subject.blank? &&
+      email_settings.updated_conference_registration_dates_template
   end
 
   private
