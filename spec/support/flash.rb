@@ -5,7 +5,7 @@ module Flash
       return 'none'
     end
     if results.count > 1
-      texts = results.map { |r| r.text }
+      texts = results.map(&:text)
       fail "One flash expected, but we had #{texts.inspect}"
     end
     results.first.text

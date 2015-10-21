@@ -15,7 +15,6 @@ feature Registration do
     end
 
     context 'who is not registered' do
-
       scenario 'purchases a ticket', feature: true, js: true do
         visit root_path
         click_link 'Register'
@@ -32,7 +31,7 @@ feature Registration do
         expect(purchase.quantity).to eq(2)
         expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
         expect(flash).
-            to eq("Thank you for supporting #{conference.title} by purchasing a ticket.")
+          to eq("Thank you for supporting #{conference.title} by purchasing a ticket.")
         expect(page.has_content?('2 Business Ticket Tickets for 10')).to be true
       end
 

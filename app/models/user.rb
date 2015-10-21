@@ -134,7 +134,7 @@ class User < ActiveRecord::Base
     result = {}
     Role::ACTIONABLES.each do |role|
       resources = self.roles.where(name: role.parameterize.underscore).map{ |myrole| Conference.find(myrole.resource_id).short_title }.join ', '
-      result[role.parameterize.underscore] = "(#{ resources })" unless resources.blank?
+      result[role.parameterize.underscore] = "(#{resources})" unless resources.blank?
     end
     result
   end

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 feature Openid do
   shared_examples 'sign in with openid' do
-
     scenario 'has option to log in with Google account' do
       visit '/accounts/sign_in'
       expect(page.has_content?('or sign in using')).to be true

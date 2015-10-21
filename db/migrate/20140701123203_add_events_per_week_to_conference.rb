@@ -42,12 +42,12 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
         end
 
         if event_version.object_changes &&
-            event_version.event == 'create'
+           event_version.event == 'create'
 
           # Increment the new state
           conference.events_per_week[week][:new] += 1
         elsif event_version.object_changes &&
-            event_version.object_changes[:state]
+              event_version.object_changes[:state]
 
           prev_state = event_version.object_changes[:state][0].to_sym
           next_state = event_version.object_changes[:state][1].to_sym
@@ -55,7 +55,7 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
           # Backward compatibility: deprecated state :review now :new
           if prev_state == :review
             prev_state = :new
-          elsif  next_state == :review
+          elsif next_state == :review
             next_state = :new
           end
 

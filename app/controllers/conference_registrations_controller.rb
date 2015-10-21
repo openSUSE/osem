@@ -59,7 +59,7 @@ class ConferenceRegistrationsController < ApplicationController
       if @conference.tickets.any? && !current_user.supports?(@conference)
         redirect_to conference_tickets_path(@conference.short_title)
       else
-        redirect_to  conference_conference_registrations_path(@conference.short_title)
+        redirect_to conference_conference_registrations_path(@conference.short_title)
       end
     else
       flash[:error] = "Could not create your registration for #{@conference.title}: "\
@@ -106,14 +106,14 @@ class ConferenceRegistrationsController < ApplicationController
 
   def registration_params
     params.require(:registration).
-        permit(
-          :conference_id, :arrival, :departure,
-          :volunteer,
-          vchoice_ids: [], qanswer_ids: [],
-          qanswers_attributes: [],
-          event_ids: [],
-          user_attributes: [
-            :username, :email, :name, :password, :password_confirmation]
-    )
+      permit(
+        :conference_id, :arrival, :departure,
+        :volunteer,
+        vchoice_ids: [], qanswer_ids: [],
+        qanswers_attributes: [],
+        event_ids: [],
+        user_attributes: [
+          :username, :email, :name, :password, :password_confirmation]
+      )
   end
 end

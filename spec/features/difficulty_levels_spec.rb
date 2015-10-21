@@ -7,10 +7,9 @@ feature DifficultyLevel do
 
   shared_examples 'difficulty levels' do
     scenario 'adds difficulty level', feature: true, js: true do
-
       sign_in organizer
       visit admin_conference_difficulty_levels_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title)
 
       # Add difficulty level
       click_link 'Add Difficulty Level'
@@ -31,11 +30,10 @@ feature DifficultyLevel do
     end
 
     scenario 'updates difficulty level', feature: true, js: true do
-
       conference.difficulty_levels << create(:difficulty_level)
       sign_in organizer
       visit admin_conference_difficulty_levels_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title)
 
       # Remove difficulty level
       within('table tr:nth-of-type(4)') do
@@ -51,7 +49,6 @@ feature DifficultyLevel do
         expect(page.has_content?('Hard Events')).to be true
       end
     end
-
   end
 
   describe 'organizer' do

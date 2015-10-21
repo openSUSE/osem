@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'admin/tracks/index' do
-
   it 'renders tracks' do
     @track = create(:track)
     assign :conference, @track.conference

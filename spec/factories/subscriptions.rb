@@ -3,5 +3,4 @@ FactoryGirl.define do
     user
     conference
   end
-
 end

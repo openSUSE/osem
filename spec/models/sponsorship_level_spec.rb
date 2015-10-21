@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe SponsorshipLevel do
   describe 'validations' do
-
     it 'has a valid factory' do
       expect(build(:sponsorship_level)).to be_valid
     end

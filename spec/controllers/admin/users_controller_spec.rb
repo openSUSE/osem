@@ -28,7 +28,7 @@ describe Admin::UsersController do
         patch :update, id: user.id
         expect(build(
           :user, email: 'new@email.osem', id: user.id).email).
-              to eq('new@email.osem')
+          to eq('new@email.osem')
       end
       it 'redirects to the updated user' do
         patch :update, id: user.id
