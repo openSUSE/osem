@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :splashpage do
-    public  false
+    public false
   end
 end

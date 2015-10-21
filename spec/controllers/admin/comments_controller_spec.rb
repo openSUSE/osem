@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Admin::CommentsController, type: :controller do
-
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference) }
   let!(:first_user) { create(:user) }

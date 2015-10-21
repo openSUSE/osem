@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Admin::ConferenceController do
-
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference, end_date: Date.new(2014, 05, 26) + 15) }
   let!(:first_user) { create(:user) }
@@ -12,11 +11,8 @@ describe Admin::ConferenceController do
   let(:participant) { create(:user) }
 
   shared_examples 'access as organizer' do
-
     describe 'PATCH #update' do
-
       context 'valid attributes' do
-
         it 'locates the requested conference' do
           patch :update, id: conference.short_title, conference: attributes_for(:conference, title: 'Example Con')
           expect(assigns(:conference)).to eq(conference)
@@ -37,7 +33,7 @@ describe Admin::ConferenceController do
               attributes_for(:conference, title: 'Example Con')
           conference.reload
           expect(response).to redirect_to edit_admin_conference_path(
-                                              conference.short_title)
+            conference.short_title)
         end
 
         it 'sends email notification on conference date update' do
@@ -58,7 +54,7 @@ describe Admin::ConferenceController do
 
           conference.reload
           expect(flash[:alert]).
-              to eq("Updating conference failed. Short title can't be blank.")
+            to eq("Updating conference failed. Short title can't be blank.")
           expect(conference.title).to eq('The dog and pony show')
           expect(conference.short_title).to eq("#{conference.short_title}")
         end
@@ -69,9 +65,9 @@ describe Admin::ConferenceController do
                                           short_title: nil)
 
           expect(flash[:alert]).
-              to eq("Updating conference failed. Short title can't be blank.")
+            to eq("Updating conference failed. Short title can't be blank.")
           expect(response).to redirect_to edit_admin_conference_path(
-                                              conference.short_title)
+            conference.short_title)
         end
       end
     end
@@ -91,7 +87,7 @@ describe Admin::ConferenceController do
               attributes_for(:conference, short_title: 'dps15')
 
           expect(response).to redirect_to admin_conference_path(
-                                              assigns[:conference].short_title)
+            assigns[:conference].short_title)
         end
       end
 
@@ -181,9 +177,7 @@ describe Admin::ConferenceController do
 
       context 'no conferences' do
         it 'redirect to new conference' do
-          Conference.all.each do |c|
-            c.destroy
-          end
+          Conference.all.each(&:destroy)
           sign_in create(:admin)
           get :index
           expect(response).to redirect_to new_admin_conference_path
@@ -289,7 +283,6 @@ describe Admin::ConferenceController do
 
     describe 'DELETE #remove_user' do
       before(:each) do
-
       end
 
       it 'sets selection variable' do
@@ -329,13 +322,11 @@ describe Admin::ConferenceController do
   end
 
   describe 'organizer access' do
-
     before do
       sign_in(organizer)
     end
 
     it_behaves_like 'access as organizer'
-
   end
 
   shared_examples 'access as participant or guest' do |path, message|
@@ -399,12 +390,9 @@ describe Admin::ConferenceController do
     end
 
     it_behaves_like 'access as participant or guest', :root_path, 'You are not authorized to access this area!'
-
   end
 
   describe 'guest access' do
-
     it_behaves_like 'access as participant or guest', :new_user_session_path
-
   end
 end

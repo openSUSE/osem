@@ -7,7 +7,6 @@ feature Track do
 
   shared_examples 'tracks' do
     scenario 'adds a track', feature: true, js: true do
-
       sign_in organizer
 
       visit admin_conference_tracks_path(conference_id: conference.short_title)

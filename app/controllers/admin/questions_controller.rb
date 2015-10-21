@@ -73,12 +73,9 @@ module Admin
           # Delete question and its answers
           begin
             Question.transaction do
-
               @question.destroy
-              @question.answers.each do |a|
-                a.destroy
-              end
-              flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
+              @question.answers.each(&:destroy)
+              flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map(&:title).join ','}"
             end
           rescue ActiveRecord::RecordInvalid
             flash[:error] = 'Could not delete question.'

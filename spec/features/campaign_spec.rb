@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature Campaign do
-
   let!(:conference) { create(:conference, short_title: 'osc14') }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
@@ -18,7 +17,7 @@ feature Campaign do
       click_button 'Create Campaign'
 
       expect(flash).
-	  to eq("Campaign creation failed. Name can't be blank and Utm campaign can't be blank")
+	       to eq("Campaign creation failed. Name can't be blank and Utm campaign can't be blank")
 
       fill_in 'campaign_name', with: 'Test Campaign'
       fill_in 'campaign_utm_campaign', with: 'campaign'
@@ -31,7 +30,7 @@ feature Campaign do
 
       # Validations
       expect(flash).
-          to eq('Campaign successfully created.')
+        to eq('Campaign successfully created.')
 
       expect(find('#name_1').text).to eq('Test Campaign')
       expect(find('#visits_1').text).to eq('0')
@@ -46,7 +45,7 @@ feature Campaign do
       fill_in 'campaign_name', with: 'Test Campaign 42'
       click_button 'Update Campaign'
       expect(flash).
-          to eq("Campaign 'Test Campaign 42' successfully updated.")
+        to eq("Campaign 'Test Campaign 42' successfully updated.")
     end
   end
 

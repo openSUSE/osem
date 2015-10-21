@@ -50,6 +50,5 @@ FactoryGirl.define do
         event.comment_threads << build(:comment, commentable: event)
       end
     end
-
   end
 end

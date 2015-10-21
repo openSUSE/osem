@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature Splashpage do
-
   # It is necessary to use bang version of let to build roles before user
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }

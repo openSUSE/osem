@@ -9,7 +9,7 @@ feature Room do
     scenario 'adds a room', feature: true, js: true do
       sign_in organizer
       visit admin_conference_rooms_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title)
 
       expect(page.has_no_table?('#rooms')).to be true
 
@@ -33,7 +33,7 @@ feature Room do
       room = create(:room, conference_id: conference.id)
       sign_in organizer
       visit edit_admin_conference_room_path(
-                conference_id: conference.short_title, id: room.id)
+        conference_id: conference.short_title, id: room.id)
 
       fill_in 'room_name', with: 'Auditorium'
       fill_in 'room_size', with: '100'

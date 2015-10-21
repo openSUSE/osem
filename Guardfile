@@ -8,7 +8,7 @@ guard_opts = {
   cmd: 'spring rspec'
 }
 
-def model_specs       ; 'spec/models'       end
+def model_specs ; 'spec/models' end
 
 def model_spec(model)
   "spec/models/#{model}_spec.rb"
@@ -44,7 +44,7 @@ end
 def rspec_guards
   watch(%r{^spec/factories/.+\.rb$})        { all_specs }
   watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^app/(.+)\.rb$})                 { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^app/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end
 
 group :rspec do

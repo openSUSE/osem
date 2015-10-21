@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'admin/conference/edit' do
-
   it 'renders conference details which are editable' do
     @conference = create(:conference, title: 'openSUSE')
     assign :conference, @conference

@@ -6,7 +6,7 @@ describe 'admin/sponsors/index' do
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
     @conference.sponsors << create(:sponsor, conference: @conference,
                                              sponsorship_level: @conference.sponsorship_levels.first
-                                             )
+                                  )
     assign :conference, @conference
     render
     expect(rendered).to include('Example sponsor')
