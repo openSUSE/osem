@@ -10,7 +10,7 @@ feature Lodging do
 
     sign_in organizer
     visit admin_conference_lodgings_path(
-              conference_id: conference.short_title)
+      conference_id: conference.short_title)
     # Add lodging
     click_link 'Add Lodging'
 
@@ -33,7 +33,7 @@ feature Lodging do
 
     sign_in organizer
     visit admin_conference_lodgings_path(
-              conference_id: conference.short_title)
+      conference_id: conference.short_title)
 
     expect(page.has_content?('Example Hotel')).to be true
 
@@ -61,7 +61,7 @@ feature Lodging do
 
     sign_in organizer
     visit admin_conference_lodgings_path(
-              conference_id: conference.short_title)
+      conference_id: conference.short_title)
 
     expect(page.has_content?('Example Hotel')).to be true
 

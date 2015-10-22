@@ -21,13 +21,12 @@ module Admin
 
       @active_conferences = Conference.get_active_conferences_for_dashboard # pending or the last two
       @deactive_conferences = Conference.
-          get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
+                              get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
       @conferences = @active_conferences + @deactive_conferences
 
       @recent_users = User.limit(5).order(created_at: :desc)
       @recent_events = Event.limit(5).order(created_at: :desc)
       @recent_registrations = Registration.limit(5).order(created_at: :desc)
-
       @top_submitter = Conference.get_top_submitter
 
       @submissions = {}
@@ -102,7 +101,7 @@ module Admin
 
       @total_submissions = @conference.events.count
       @new_submissions = @conference.events.
-          where('created_at > ?', current_user.last_sign_in_at).count
+                         where('created_at > ?', current_user.last_sign_in_at).count
 
       @program_length = @conference.current_program_hours
       @new_program_length = @conference.new_program_hours(current_user.last_sign_in_at)
@@ -135,7 +134,7 @@ module Admin
 
       @difficulty_levels_distribution = @conference.difficulty_levels_distribution
       @difficulty_levels_distribution_confirmed = @conference.
-          difficulty_levels_distribution(:confirmed)
+                                                  difficulty_levels_distribution(:confirmed)
 
       @tracks_distribution = @conference.tracks_distribution
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)

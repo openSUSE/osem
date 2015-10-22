@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 feature User do
-
   shared_examples 'admin ability' do
-
   end
 
   describe 'admin' do

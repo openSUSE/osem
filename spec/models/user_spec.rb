@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe User do
-
   # It is necessary to use bang version of let to build roles before user
   let!(:user_admin) { create(:user) }
   let!(:conference) { create(:conference) }

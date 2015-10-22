@@ -184,7 +184,7 @@ module ApplicationHelper
   end
 
   def event_types(conference)
-    all = conference.event_types.map { |et | et.title.pluralize }
+    all = conference.event_types.map { |et| et.title.pluralize }
     first = all[0...-1]
     last = all[-1]
     ets = ''
@@ -198,7 +198,7 @@ module ApplicationHelper
   end
 
   def tracks(conference)
-    all = conference.tracks.map {|t| t.name}
+    all = conference.tracks.map(&:name)
     first = all[0...-1]
     last = all[-1]
     ts = ''
@@ -215,7 +215,7 @@ module ApplicationHelper
   def word_pluralize(count, singular, plural = nil)
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
       singular
-    else
+           else
       plural || singular.pluralize
     end
 

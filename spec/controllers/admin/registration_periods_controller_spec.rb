@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Admin::RegistrationPeriodsController do
-
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference) }
   let!(:first_user) { create(:user) }
@@ -12,15 +11,12 @@ describe Admin::RegistrationPeriodsController do
   let(:participant) { create(:user) }
 
   shared_examples 'access as administration or organizer' do
-
     before do
       conference.registration_period = create(:registration_period)
     end
 
     describe 'PATCH #update' do
-
       context 'valid attributes' do
-
         it 'locates the requested registration period object' do
           patch :update, conference_id: conference.short_title, conference: attributes_for(:registration_period)
           expect(assigns(:registration_period)).to eq(conference.registration_period)
@@ -40,7 +36,7 @@ describe Admin::RegistrationPeriodsController do
               attributes_for(:registration_period)
           conference.reload
           expect(response).to redirect_to admin_conference_registration_period_path(
-                                              conference.short_title)
+            conference.short_title)
         end
 
         it 'sends email notification on conference registration date update' do
@@ -78,7 +74,7 @@ describe Admin::RegistrationPeriodsController do
                registration_period: attributes_for(:registration_period)
 
           expect(response).to redirect_to admin_conference_registration_period_path(
-                                              assigns[:conference].short_title)
+            assigns[:conference].short_title)
         end
       end
 
@@ -153,12 +149,10 @@ describe Admin::RegistrationPeriodsController do
   end
 
   describe 'organizer access' do
-
     before(:each) do
       sign_in(organizer)
     end
 
     it_behaves_like 'access as administration or organizer'
-
   end
 end

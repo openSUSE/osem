@@ -58,7 +58,7 @@ class Target < ActiveRecord::Base
       numerator = conference.current_program_minutes
     end
 
-    progress = (numerator / target_count.to_f  * 100).round(0).to_s
+    progress = (numerator / target_count.to_f * 100).round(0).to_s
     result = {
       'target_name' => to_s,
       'campaign_name' => campaign.name,

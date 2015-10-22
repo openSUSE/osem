@@ -53,14 +53,14 @@ module Admin
 
     def registration_params
       params.require(:registration).
-          permit(
-              :conference_id, :arrival, :departure,
-              :volunteer,
-              vchoice_ids: [], qanswer_ids: [], event_ids: [],
-              qanswers_attributes: [],
-              user_attributes: [
-                  :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
-                  :nickname, :affiliation])
+        permit(
+          :conference_id, :arrival, :departure,
+          :volunteer,
+          vchoice_ids: [], qanswer_ids: [], event_ids: [],
+          qanswers_attributes: [],
+          user_attributes: [
+              :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
+              :nickname, :affiliation])
     end
   end
 end

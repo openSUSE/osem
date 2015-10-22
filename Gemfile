@@ -1,7 +1,11 @@
 source 'https://rubygems.org'
 
 # as web framework
-gem 'rails', '~> 4.1'
+gem 'rails', '~> 4.2', '>= 4.2.4'
+
+# A set of Rails responders to dry up your application
+# required for respond_with and the class-level respond_to methods in rails 4.2
+gem 'responders', '~> 2.0'
 
 # as the database for Active Record
 gem 'mysql2'
@@ -124,6 +128,9 @@ gem 'acts_as_list'
 # for switch checkboxes
 gem 'bootstrap-switch-rails', '~> 3.0.0'
 
+# responsible for comparing HTML doms and asserting that DOM elements are present in Rails applications
+gem 'rails-dom-testing'
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules
@@ -139,6 +146,8 @@ group :development do
   gem 'letter_opener'
   # mina is a blazing fast deployment system
   gem 'mina'
+  # debugging tool for your Ruby on Rails applications
+  gem 'web-console', '~> 2.0'
 end
 
 # Use rspec and capybara as testing framework

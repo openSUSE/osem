@@ -19,16 +19,16 @@ feature Conference do
         select("#{Date.today.strftime('%Y')}")
       page.
         find('div.nested-fields:nth-of-type(1) select:nth-of-type(2)').
-          select("#{Date.today.strftime('%B')}")
+        select("#{Date.today.strftime('%B')}")
       page.
         find('div.nested-fields:nth-of-type(1) select:nth-of-type(3)').
-          select("#{Date.today.strftime('%-d')}")
+        select("#{Date.today.strftime('%-d')}")
       page.
         find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
-          set('Example Person')
+        set('Example Person')
       click_button 'Update Conference'
       expect(flash).
-      to eq('Volunteering options were successfully updated.')
+        to eq('Volunteering options were successfully updated.')
 
       # Validations
       expect(find('div.nested-fields:nth-of-type(1) select:nth-of-type(1)').
@@ -62,7 +62,7 @@ feature Conference do
       expect(page.all('div.nested-fields').count == 1).to be true
       page.
         find('div.nested-fields:nth-of-type(1) select:nth-of-type(1)').
-          select("#{Date.today.strftime('%Y')}")
+        select("#{Date.today.strftime('%Y')}")
       page.
         find('div.nested-fields:nth-of-type(1) select:nth-of-type(2)').
         select("#{Date.today.strftime('%B')}")
@@ -74,7 +74,7 @@ feature Conference do
         set('Example Person')
       click_button 'Update Conference'
       expect(flash).
-      to eq('Volunteering options were successfully updated.')
+        to eq('Volunteering options were successfully updated.')
 
       # Add vposition
       check('Use vpositions')
@@ -82,16 +82,16 @@ feature Conference do
       expect(page.all('div.nested-fields').count == 2).to be true
       page.find('div.vpositions div.nested-fields:nth-of-type(1)'\
                 ' div:nth-of-type(1) input').
-                    set('Example Position')
+        set('Example Position')
       page.find('div.vpositions div.nested-fields:nth-of-type(1)'\
                 ' div:nth-of-type(2) textarea').
-                    set('Example Description')
+        set('Example Description')
       find(:css, "select[id^='conference_vpositions_attributes_']"\
                  "[id$='_vday_ids']").
-                      find(:option, "#{Date.today.strftime}").select_option
+        find(:option, "#{Date.today.strftime}").select_option
       click_button 'Update Conference'
       expect(flash).
-      to eq('Volunteering options were successfully updated.')
+        to eq('Volunteering options were successfully updated.')
 
       # Validations
       expect(find('div.vpositions div.nested-fields:nth-of-type(1)'\

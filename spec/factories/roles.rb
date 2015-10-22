@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :role do
-
     factory :organizer_role do
       name 'organizer'
     end

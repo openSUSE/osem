@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature RegistrationPeriod do
-
   # It is necessary to use bang version of let to build roles before user
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
@@ -11,20 +10,20 @@ feature RegistrationPeriod do
     scenario 'create and update registration period', js: true do
       sign_in organizer
       visit admin_conference_registration_period_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title)
 
       click_link 'New Registration Period'
 
       click_button 'Save Registration Period'
       expect(flash).
-          to eq('An error prohibited the Registration Period from being saved: ' \
+        to eq('An error prohibited the Registration Period from being saved: ' \
           "Start date can't be blank. End date can't be blank.")
 
       page.
-          execute_script("$('#registration-period-start-datepicker').val('" +
+        execute_script("$('#registration-period-start-datepicker').val('" +
                              "#{Date.today.strftime('%d/%m/%Y')}')")
       page.
-          execute_script("$('#registration-period-end-datepicker').val('" +
+        execute_script("$('#registration-period-end-datepicker').val('" +
                              "#{(Date.today + 7).strftime('%d/%m/%Y')}')")
 
       click_button 'Save Registration Period'

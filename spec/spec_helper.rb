@@ -92,7 +92,6 @@ RSpec.configure do |config|
   # Types of tests (controller, feature, model) will
   # be inferred from subfolder name
   config.infer_spec_type_from_file_location!
-
 end
 
 OmniAuth.config.test_mode = true
