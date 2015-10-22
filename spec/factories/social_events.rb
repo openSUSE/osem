@@ -5,5 +5,4 @@ FactoryGirl.define do
     date { Date.today }
     conference
   end
-
 end

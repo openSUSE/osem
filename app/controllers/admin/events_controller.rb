@@ -106,7 +106,7 @@ module Admin
 
     def update
       if @event.submitter.update_attributes(params[:user]) &&
-        @event.update_attributes(params[:event])
+         @event.update_attributes(params[:event])
 
         if request.xhr?
           render js: 'index'

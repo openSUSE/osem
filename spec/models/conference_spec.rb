@@ -3,11 +3,9 @@
 require 'spec_helper'
 
 describe Conference do
-
   let(:subject) { create(:conference, end_date: '2014-06-30') }
 
   describe '#write_event_distribution_to_db' do
-
     it 'updates pending conferences' do
       create(:conference,
              start_date: Date.today - 2.weeks,
@@ -298,7 +296,6 @@ describe Conference do
       expect(subject.get_top_submitter.values).to eq([3, 1])
       expect(subject.get_top_submitter.keys).to eq([e2.submitter, e1.submitter])
     end
-
   end
 
   describe '#get_targets' do
@@ -391,7 +388,6 @@ describe Conference do
 
     describe '#new_program_minutes' do
       it 'calculates correct values with events' do
-
         create(:event, conference: subject, event_type: @long, created_at: Time.now - 3.days)
         create(:event, conference: subject, event_type: @long)
         create(:event, conference: subject, event_type: @short, created_at: Time.now - 3.days)
@@ -418,7 +414,6 @@ describe Conference do
     end
 
     describe '#difficulty_levels_distribution' do
-
       it 'calculates correct for different difficulty levels' do
         create(:event, conference: subject, difficulty_level: @easy)
         create(:event, conference: subject, difficulty_level: @easy)
@@ -700,7 +695,6 @@ describe Conference do
   end
 
   describe '#get_active_conferences' do
-
     it 'returns pending conferences' do
       a = create(:conference,
                  short_title: 'a', start_date: Time.now + 14.days,
@@ -744,7 +738,7 @@ describe Conference do
       result = [a, b, c]
 
       expect(Conference.get_conferences_without_active_for_dashboard([subject])).
-          to match_array(result)
+        to match_array(result)
     end
 
     it 'returns all conferences if there are no active conferences' do
@@ -762,7 +756,7 @@ describe Conference do
     end
 
     it 'return no conferences if there are only two conferences and no pending' do
-      a = create(:conference,  start_date: Time.now - 2.year, end_date: Time.now - 720.days)
+      a = create(:conference, start_date: Time.now - 2.year, end_date: Time.now - 720.days)
       b = create(:conference, start_date: Time.now - 1.year, end_date: Time.now - 360.days)
       expect(Conference.get_conferences_without_active_for_dashboard([a, b])).to match_array([])
     end
@@ -779,11 +773,10 @@ describe Conference do
   end
 
   describe '#event_distribution' do
-
     before(:each) do
       @conference = create(
-          :conference,
-          email_settings: create(:email_settings))
+        :conference,
+        email_settings: create(:email_settings))
       @conference.email_settings = create(:email_settings)
 
       @options = {}
@@ -947,7 +940,6 @@ describe Conference do
   end
 
   describe '#get_status' do
-
     before(:each) do
       # Setup positive result hash
       @result = {}
@@ -961,7 +953,7 @@ describe Conference do
       @result['splashpage'] = true
 
       # Setup negative result hash
-      @result_false = Hash.new
+      @result_false = {}
       @result.each { |key, value| @result_false[key] = !value }
 
       @result['short_title'] = @result_false['short_title'] = subject.short_title
@@ -1123,7 +1115,6 @@ describe Conference do
   end
 
   describe '#registration_weeks' do
-
     it 'calculates new year' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2013, 12, 31),
@@ -1154,7 +1145,6 @@ describe Conference do
   end
 
   describe '#cfp_weeks' do
-
     it 'calculates new year' do
       cfp = create(:call_for_paper)
       cfp.start_date = Date.new(2013, 12, 30)
@@ -1189,7 +1179,6 @@ describe Conference do
   end
 
   describe '#get_submissions_per_week' do
-
     it 'does calculate correct if cfp start date is altered' do
       cfp = create(:call_for_paper)
       cfp.start_date = Date.new(2014, 05, 26)
@@ -1278,7 +1267,6 @@ describe Conference do
   end
 
   describe '#get_registrations_per_week' do
-
     it 'pads with zeros if there are no registrations' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
@@ -1384,9 +1372,7 @@ describe Conference do
   end
 
   describe '#pending?' do
-
     context 'is pending' do
-
       it '#pending? is true' do
         subject.start_date = Date.today + 10
         expect(subject.pending?).to be true
@@ -1394,7 +1380,6 @@ describe Conference do
     end
 
     context 'is not pending' do
-
       it '#pending? is false' do
         subject.start_date = Date.today - 10
         expect(subject.pending?).to be false
@@ -1403,16 +1388,13 @@ describe Conference do
   end
 
   describe '#registration_open?' do
-
     context 'closed registration' do
-
       it '#registration_open? is false' do
         expect(subject.registration_open?).to be false
       end
     end
 
     context 'open registration' do
-
       before do
         enrollment = create(:registration_period,
                             start_date: Date.today - 1,
@@ -1427,17 +1409,13 @@ describe Conference do
   end
 
   describe '#cfp_open?' do
-
     context 'closed cfp' do
-
       it '#cfp_open? is false' do
         expect(subject.cfp_open?).to be false
       end
-
     end
 
     context 'open cfp' do
-
       before do
         subject.call_for_paper = create(:call_for_paper)
       end
@@ -1449,7 +1427,6 @@ describe Conference do
   end
 
   describe '#user_registered?' do
-
     # It is necessary to use bang version of let to build roles before user
     let!(:conference) { create(:conference) }
     let!(:organizer_role) { create(:organizer_role, resource: conference) }
@@ -1483,7 +1460,6 @@ describe Conference do
   end
 
   describe 'validations' do
-
     it 'has a valid factory' do
       expect(build(:conference)).to be_valid
     end
@@ -1517,7 +1493,6 @@ describe Conference do
     end
 
     describe 'before create callbacks' do
-
       it 'has an email setting after creation' do
         expect(subject.email_settings).not_to be_nil
       end

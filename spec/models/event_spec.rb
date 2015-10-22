@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Event do
-
   describe 'abstract_word_count' do
     it 'counts words in abstract' do
       event = build(:event)

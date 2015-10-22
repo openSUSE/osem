@@ -17,9 +17,7 @@ class MigrateRolesForCancancan < ActiveRecord::Migration
     end
 
     # Delete old roles
-    Role.first(old_roles).each do |role|
-      role.destroy
-    end
+    Role.first(old_roles).each(&:destroy)
   end
 
   def down

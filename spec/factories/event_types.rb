@@ -8,5 +8,4 @@ FactoryGirl.define do
     maximum_abstract_length 500
     conference
   end
-
 end

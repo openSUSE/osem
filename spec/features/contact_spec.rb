@@ -1,13 +1,11 @@
 require 'spec_helper'
 
 feature Contact do
-
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
 
   shared_examples 'update a contact' do
-
     scenario 'sucessfully', feature: true, js: true do
       contact = conference.contact
       expected_count = Contact.count
@@ -26,7 +24,7 @@ feature Contact do
       click_button 'Update Contact'
 
       expect(flash).
-          to eq('Contact details were successfully updated.')
+        to eq('Contact details were successfully updated.')
       contact.reload
       expect(contact.email).to eq('example@example.com')
       expect(contact.sponsor_email).to eq('sponsor@example.com')
@@ -42,5 +40,4 @@ feature Contact do
   describe 'organizer' do
     it_behaves_like 'update a contact', :organizer
   end
-
 end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ConferenceController do
-  let(:conference) { create(:conference,  splashpage: create(:splashpage, public: true)) }
+  let(:conference) { create(:conference, splashpage: create(:splashpage, public: true)) }
 
   describe 'GET #index' do
     it 'Response code is 200' do
@@ -30,5 +30,4 @@ describe ConferenceController do
       expect(response.response_code).to eq(200)
     end
   end
-
 end

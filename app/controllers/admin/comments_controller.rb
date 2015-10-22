@@ -22,7 +22,7 @@ module Admin
 
 # Grouping all comments by conference, and by event. It returns {:conference => {:event => [{comment_2}, {comment_1 }]}}
     def grouped_comments(remarks)
-      remarks.group_by{ |comment| comment.commentable.conference }.map {|conference, comments| [conference, comments.group_by{|comment| comment.commentable}]}.to_h
+      remarks.group_by{ |comment| comment.commentable.conference }.map {|conference, comments| [conference, comments.group_by(&:commentable)]}.to_h
     end
   end
 end

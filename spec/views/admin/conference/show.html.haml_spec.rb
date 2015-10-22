@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'admin/conference/show' do
-
   it 'renders conference dashboard' do
     conference = create(:conference, title: 'openSUSE')
     assign :conference, conference

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe TicketPurchase do
-
   describe 'validations' do
     it 'has a valid factory' do
       expect(build(:ticket_purchase)).to be_valid
@@ -34,7 +33,6 @@ describe TicketPurchase do
     it 'is valid with a quantity greater than zero' do
       should allow_value(1).for(:quantity)
     end
-
   end
 
   describe 'self#purchase' do
