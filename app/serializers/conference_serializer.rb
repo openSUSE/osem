@@ -1,5 +1,53 @@
 class ConferenceSerializer < ActiveModel::Serializer
-  attributes :guid, :name, :description, :year, :socialtag, :date_range, :url, :revision
+  attributes :short_title, :title, :description, :start_date, :end_date, :logo,
+             :difficulty_levels, :event_types, :rooms, :tracks,
+             :date_range, :revision
+
+  def difficulty_levels
+    object.difficulty_levels.map do |difficulty_level| { id: difficulty_level.id,
+                                                         title: difficulty_level.title,
+                                                         description: difficulty_level.description
+                                                       }
+    end
+  end
+
+  def event_types
+    object.event_types.map do |event_type| { id: event_type.id,
+                                             title: event_type.title,
+                                             length: event_type.length,
+                                             description: event_type.description
+                                           }
+    end
+  end
+
+  def rooms
+    object.rooms.includes(:events).map do |room| { id: room.id,
+                                                   size: room.size,
+                                                   events: room.events.map do |event| { guid: event.title,
+                                                                                        title:  event.title,
+                                                                                        subtitle: event.subtitle,
+                                                                                        abstract: event.abstract,
+                                                                                        description: event.description,
+                                                                                        is_highlight: event.is_highlight,
+                                                                                        require_registration:  event.require_registration,
+                                                                                        start_time: event.start_time,
+                                                                                        event_type_id: event.event_type.id,
+                                                                                        difficulty_level_id: event.difficulty_level_id,
+                                                                                        track_id: event.track_id,
+                                                                                        speaker_names: event.speaker_names
+                                                                                      }
+                                                           end
+                                                 }
+    end
+  end
+
+  def tracks
+    object.tracks.map do |track| { 'id' => track.id,
+                                   'name' => track.name,
+                                   'description' => track.description
+                                 }
+    end
+  end
 
   def name
     object.title
@@ -20,16 +68,18 @@ class ConferenceSerializer < ActiveModel::Serializer
   # FIXME: adjusting the format the DIRTY way, for oSC13.
   # If you think this is ugly, don't look at the methods below
   def date_range
-    object.date_range_string.try(:split, ',').try(:first)
+    if defined? object.date_range_string
+        object.date_range_string.try(:split, ',').try(:first)
+    end
   end
 
-  # FIXME: just giving suseconferenceclient something to play with
-  def description
-    'openSUSE Conference 2013 - Power to the Geeko'
-  end
-
-  # FIXME: same than the former
-  def url
-    'https://conference.opensuse.org/'
-  end
+#   # FIXME: just giving suseconferenceclient something to play with
+#   def description
+#     'openSUSE Conference 2013 - Power to the Geeko'
+#   end
+#
+#   # FIXME: same than the former
+#   def url
+#     'https://conference.opensuse.org/'
+#   end
 end
