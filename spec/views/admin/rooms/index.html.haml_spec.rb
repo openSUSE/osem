@@ -1,9 +1,11 @@
 require 'spec_helper'
+
 describe 'admin/rooms/index' do
 
   it 'renders rooms list' do
-    @room = create(:room)
-    assign :conference, @room.conference
+    conference = create(:conference)
+    create(:room, name: 'Example Room', size: 4, program: conference.program)
+    assign :conference, conference
     render
     expect(rendered).to include('Example Room')
     expect(rendered).to include('4')

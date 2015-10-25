@@ -8,7 +8,7 @@ describe Admin::CommentsController, type: :controller do
   let!(:organizer_role) { create(:role, name: 'organizer', resource: conference) }
   let(:organizer) { create(:user, role_ids: organizer_role.id, last_sign_in_at: Time.now - 1.day) }
   let(:participant) { create(:user) }
-  let(:event) { create(:event, conference: conference) }
+  let(:event) { create(:event, program: conference.program) }
   let(:comment) { create(:comment, commentable_type: 'Event', commentable_id: event.id) }
 
   context 'not logged in user' do
@@ -32,7 +32,7 @@ describe Admin::CommentsController, type: :controller do
         expect(assigns(:comments)).to be_a(Hash)
         # assigns(:comments).first returns an array of first pair key-value from hash.
         # Calling again 'first' returns the key, meaning the Conference object.
-        expect(assigns(:comments).first.first.title).to eq(comment.commentable.conference.title)
+        expect(assigns(:comments).first.first.title).to eq(comment.commentable.program.conference.title)
       end
       it 'has status 200: OK' do
         get :index

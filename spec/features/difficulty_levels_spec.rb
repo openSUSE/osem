@@ -9,7 +9,7 @@ feature DifficultyLevel do
     scenario 'adds difficulty level', feature: true, js: true do
 
       sign_in organizer
-      visit admin_conference_difficulty_levels_path(
+      visit admin_conference_program_difficulty_levels_path(
                 conference_id: conference.short_title)
 
       # Add difficulty level
@@ -32,9 +32,9 @@ feature DifficultyLevel do
 
     scenario 'updates difficulty level', feature: true, js: true do
 
-      conference.difficulty_levels << create(:difficulty_level)
+      conference.program.difficulty_levels << create(:difficulty_level)
       sign_in organizer
-      visit admin_conference_difficulty_levels_path(
+      visit admin_conference_program_difficulty_levels_path(
                 conference_id: conference.short_title)
 
       # Remove difficulty level

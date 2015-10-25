@@ -15,9 +15,9 @@ class EmailSettings < ActiveRecord::Base
                          conference.short_title, host: CONFIG['url_for_emails'])
     }
 
-    if conference.call_for_paper
-      h['cfp_start_date'] = conference.call_for_paper.start_date
-      h['cfp_end_date'] = conference.call_for_paper.end_date
+    if conference.program.cfp
+      h['cfp_start_date'] = conference.program.cfp.start_date
+      h['cfp_end_date'] = conference.program.cfp.end_date
     else
       h['cfp_start_date'] = 'Unknown'
       h['cfp_end_date'] = 'Unknown'

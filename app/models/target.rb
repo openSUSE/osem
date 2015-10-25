@@ -29,7 +29,7 @@ class Target < ActiveRecord::Base
     numerator =
       case unit
       when Target.units[:submissions]
-        conference.events.where('created_at < ?', due_date).count
+        conference.program.events.where('created_at < ?', due_date).count
       when Target.units[:registrations]
         conference.registrations.where('created_at < ?', due_date).count
       when Target.units[:program_minutes]

@@ -5,7 +5,7 @@
       %br
       %small
         = @event.subtitle
-      = link_to 'Edit', edit_admin_conference_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary pull-right'
+      = link_to 'Edit', edit_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary pull-right'
 
 .row
   .col-md-12
@@ -24,7 +24,7 @@
             %ul.dropdown-menu
               - @event_types.each do |type|
                 %li= link_to type.title,
-                admin_conference_event_path(@conference.short_title,
+                admin_conference_program_event_path(@conference.short_title,
                                             @event,
                                             event: { event_type_id: type.id }),
                 method: :patch
@@ -33,7 +33,7 @@
           %b Highlight
         %td
           = check_box_tag @conference.short_title, @event.id, @event.is_highlight,
-            method: :patch, url: "/admin/conference/#{@conference.short_title}/events/#{@event.id}?event[is_highlight]=",
+            method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{@event.id}?event[is_highlight]=",
             class: 'switch-checkbox', data: { size: 'small',
                                               off_color: 'warning',
                                               on_text: 'Yes',
@@ -63,7 +63,7 @@
             %ul.dropdown-menu
               - @tracks.each do |track|
                 %li= link_to track.name,
-                admin_conference_event_path(@conference.short_title,
+                admin_conference_program_event_path(@conference.short_title,
                                             @event,
                                             event: { track_id: track.id }),
                 method: :patch
@@ -80,7 +80,7 @@
               <b class="caret"></b>
             %ul.dropdown-menu
               - @difficulty_levels.each do |difficulty|
-                %li= link_to difficulty.title, admin_conference_event_path(@conference.short_title,
+                %li= link_to difficulty.title, admin_conference_program_event_path(@conference.short_title,
                                             @event,
                                             event: { difficulty_level_id: difficulty.id }),
                 method: :patch
@@ -89,7 +89,7 @@
           %b Requires Registration
         %td
           = check_box_tag @conference.short_title, @event.id, @event.require_registration,
-            method: :patch, url: "/admin/conference/#{@conference.short_title}/events/#{@event.id}?event[require_registration]=",
+            method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{@event.id}?event[require_registration]=",
             class: 'switch-checkbox', data: { size: 'small',
                                               off_color: 'warning',
                                               on_text: 'Yes',
@@ -137,7 +137,7 @@
           %b Description
         %td= simple_format(@event.description)
 
-      - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
+      - if @conference.program && @conference.program.rating && @conference.program.rating > 0
         = render partial: 'voting'
 
 .row
@@ -147,7 +147,7 @@
     %ul.media
       %div
         .row-fluid
-          = form_tag(comment_admin_conference_event_path(@conference.short_title, @event.id), method: :post) do
+          = form_tag(comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post) do
             = text_area_tag(:comment, '')
             = submit_tag 'Add Comment', class: 'btn btn-primary pull-right'
         %br

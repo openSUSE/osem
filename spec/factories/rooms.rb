@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :room do
     name 'Example Room'
     size 4
-    conference
+    program
 
     factory :room_for_100 do
       name 'Room for 100'

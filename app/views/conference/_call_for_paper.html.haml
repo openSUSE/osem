@@ -12,22 +12,22 @@
   .row
     .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
       %p
-        - if @conference.event_types.any?
+        - if @program.event_types.any?
           You can submit proposals for
           = "#{event_types(@conference)}."
-        - if @conference.tracks.any?
+        - if @program.tracks.any?
           Proposals should fit in one of the
-          = "#{pluralize(@conference.tracks.count, 'track')}:"
+          = "#{pluralize(@program.tracks.count, 'track')}:"
           = "#{tracks(@conference)}."
         The submission period has begun
         %em
-          = @conference.call_for_paper.start_date.strftime('%A, %B %-d. %Y')
+          = @program.cfp.start_date.strftime('%A, %B %-d. %Y')
         and closes
         %em
-          = @conference.call_for_paper.end_date.strftime('%A, %B %-d. %Y.')
-        - if @conference.cfp_open?
+          = @program.cfp.end_date.strftime('%A, %B %-d. %Y.')
+        - if @program.cfp_open?
           That means you have only
-          %b= pluralize(@conference.call_for_paper.remaining_days, 'day')
+          %b= pluralize(@program.cfp.remaining_days, 'day')
           left!
           Remember
           = @conference.short_title
@@ -37,4 +37,4 @@
   .row
     .col-md-12.text-center
       %p.cta-button
-        = link_to "Submit your paper now", conference_proposal_index_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'
+        = link_to "Submit your paper now", conference_program_proposal_index_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'

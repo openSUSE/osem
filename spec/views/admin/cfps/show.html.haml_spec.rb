@@ -1,10 +1,12 @@
 require 'spec_helper'
 
-describe 'admin/call_for_papers/show' do
+describe 'admin/cfps/show' do
 
   it 'renders call for papers details' do
-    assign :conference, create(:conference)
-    assign :call_for_paper, create(:call_for_paper)
+    conference = create(:conference)
+    assign :conference, conference
+    assign :program, conference.program
+    assign :cfp, create(:cfp, program: conference.program)
     render
     expect(rendered).to include('Start Date')
     expect(rendered).to include('End Date')

@@ -15,7 +15,7 @@
           %b ID
         %th
           %b Title
-        - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
+        - if @program.rating_enabled?
           %th
             %b Rating
         %th
@@ -39,16 +39,16 @@
           %td
             = event.id
           %td
-            =link_to event.title, admin_conference_event_path(@conference.short_title, event)
+            =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
 
-          - if @conference.call_for_paper && @conference.call_for_paper.rating && @conference.call_for_paper.rating > 0
+          - if @program.rating_enabled?
             %td.col-md-1{'data-order' => "#{event.average_rating}"}
               - if event.average_rating.to_f > 0
-                #{event.average_rating}/#{@conference.call_for_paper.rating}
+                #{event.average_rating}/#{@program.rating}
                 %br
                 #{pluralize(event.voters.length, 'voter')}
                 %br
-                - @conference.call_for_paper.rating.times do |counter|
+                - @program.cfp.rating.times do |counter|
                   - if event.average_rating.to_f.round == counter+1
                     = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
                     = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
@@ -63,7 +63,7 @@
                   %span.label.label-danger
                     Not rated
               - else
-                0/#{@conference.call_for_paper.rating}
+                0/#{@program.rating}
               %br
 
           - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
@@ -85,7 +85,7 @@
 
           %td{'data-order' => "#{event.require_registration}"}
             = check_box_tag @conference.short_title, event.id, event.require_registration,
-              method: :patch, url: "/admin/conference/#{@conference.short_title}/events/#{event.id}?event[require_registration]=",
+              method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
               class: 'switch-checkbox', data: { size: 'small',
                                                 off_color: 'warning',
                                                 on_text: 'Yes',
@@ -93,7 +93,7 @@
 
           %td{'data-order' => "#{event.is_highlight}"}
             = check_box_tag @conference.short_title, event.id, event.is_highlight,
-              method: :patch, url: "/admin/conference/#{@conference.short_title}/events/#{event.id}?event[is_highlight]=",
+              method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
               class: 'switch-checkbox', data: { size: 'small',
                                                 off_color: 'warning',
                                                 on_text: 'Yes',
@@ -110,7 +110,7 @@
               %ul.dropdown-menu
                 - @event_types.each do |type|
                   %li= link_to type.title,
-                  admin_conference_event_path(@conference.short_title,
+                  admin_conference_program_event_path(@conference.short_title,
                                               event,
                                               event: { event_type_id: type.id }),
                   method: :patch
@@ -125,7 +125,7 @@
               %ul.dropdown-menu
                 - @tracks.each do |track|
                   %li= link_to track.name,
-                  admin_conference_event_path(@conference.short_title,
+                  admin_conference_program_event_path(@conference.short_title,
                                               event,
                                               event: { track_id: track.id }),
                   method: :patch
@@ -140,7 +140,7 @@
               %ul.dropdown-menu
                 - @difficulty_levels.each do |difficulty_level|
                   %li= link_to difficulty_level.title,
-                  admin_conference_event_path(@conference.short_title,
+                  admin_conference_program_event_path(@conference.short_title,
                                               event,
                                               event: { difficulty_level_id: difficulty_level.id }),
                   method: :patch

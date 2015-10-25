@@ -8,7 +8,7 @@ feature Room do
   shared_examples 'rooms' do
     scenario 'adds a room', feature: true, js: true do
       sign_in organizer
-      visit admin_conference_rooms_path(
+      visit admin_conference_program_rooms_path(
                 conference_id: conference.short_title)
 
       expect(page.has_no_table?('#rooms')).to be true
@@ -30,9 +30,9 @@ feature Room do
     end
 
     scenario 'updates a room', feature: true, js: true do
-      room = create(:room, conference_id: conference.id)
+      room = create(:room, program_id: conference.program.id)
       sign_in organizer
-      visit edit_admin_conference_room_path(
+      visit edit_admin_conference_program_room_path(
                 conference_id: conference.short_title, id: room.id)
 
       fill_in 'room_name', with: 'Auditorium'

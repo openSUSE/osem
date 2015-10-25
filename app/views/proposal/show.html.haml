@@ -9,7 +9,7 @@
             = @event.subtitle
         = link_to "Schedule", schedule_conference_path(@conference.short_title), :class =>"btn btn-success pull-right"
         - if can? :edit, @event
-          = link_to "Edit", edit_admin_conference_event_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary pull-right"
+          = link_to "Edit", edit_admin_conference_program_event_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary pull-right"
   .row
     .col-md-3
       %p
@@ -24,7 +24,7 @@
           - if @event.room_id
             = @event.room.name
         %dt Conference:
-        %dd= @event.conference.title
+        %dd= @event.program.conference.title
         %dt Language:
         %dd= @event.language if @event.language
         %dt Track:

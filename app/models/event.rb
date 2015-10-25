@@ -19,7 +19,7 @@ class Event < ActiveRecord::Base
   belongs_to :track
   belongs_to :room
   belongs_to :difficulty_level
-  belongs_to :conference
+  belongs_to :program
 
   accepts_nested_attributes_for :event_users, allow_destroy: true
   accepts_nested_attributes_for :users
@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
   validates :title, presence: true
   validates :abstract, presence: true
   validates :event_type, presence: true
-  validates :conference, presence: true
+  validates :program, presence: true
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :highlighted, -> { where(is_highlight: true) }
@@ -108,9 +108,9 @@ class Event < ActiveRecord::Base
   end
 
   def process_confirmation
-    if conference.email_settings.send_on_confirmed_without_registration? &&
-        conference.email_settings.confirmed_without_registration_body &&
-        conference.email_settings.confirmed_without_registration_subject
+    if program.conference.email_settings.send_on_confirmed_without_registration? &&
+        program.conference.email_settings.confirmed_without_registration_body  &&
+        program.conference.email_settings.confirmed_without_registration_subject
       if conference.registrations.where(user_id: submitter.id).first.nil?
         Mailbot.delay.confirm_reminder_mail(self)
       end
@@ -118,9 +118,9 @@ class Event < ActiveRecord::Base
   end
 
   def process_acceptance(options)
-    if conference.email_settings.send_on_accepted &&
-        conference.email_settings.accepted_body &&
-        conference.email_settings.accepted_subject &&
+    if program.conference.email_settings.send_on_accepted &&
+        program.conference.email_settings.accepted_body &&
+        program.conference.email_settings.accepted_subject &&
         !options[:send_mail].blank?
       Rails.logger.debug 'Sending event acceptance mail'
       Mailbot.delay.acceptance_mail(self)
@@ -128,9 +128,9 @@ class Event < ActiveRecord::Base
   end
 
   def process_rejection(options)
-    if conference.email_settings.send_on_rejected &&
-        conference.email_settings.rejected_body &&
-        conference.email_settings.rejected_subject &&
+    if program.conference.email_settings.send_on_rejected &&
+        program.conference.email_settings.rejected_body &&
+        program.conference.email_settings.rejected_subject &&
         !options[:send_mail].blank?
       Rails.logger.debug 'Sending rejected mail'
       Mailbot.delay.rejection_mail(self)
@@ -190,7 +190,7 @@ class Event < ActiveRecord::Base
   # Returns +Hash+
   def progress_status
     {
-      registered: self.conference.user_registered?(self.submitter),
+      registered: self.program.conference.user_registered?(self.submitter),
       commercials: self.commercials.any?,
       biography: !self.submitter.biography.blank?,
       subtitle: !self.subtitle.blank?,
@@ -241,7 +241,7 @@ class Event < ActiveRecord::Base
 
   def before_end_of_conference
     errors.
-        add(:created_at, "can't be after the conference end date!") if conference.end_date &&
-        (Date.today > conference.end_date)
+        add(:created_at, "can't be after the conference end date!") if program.conference && program.conference.end_date &&
+        (Date.today > program.conference.end_date)
   end
 end

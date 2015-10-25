@@ -1,6 +1,7 @@
 module Admin
   class ConferenceController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
+    load_resource :program, through: :conference, singleton: true, except: :index
     load_resource :user, only: [:remove_user]
 
     def index
@@ -94,14 +95,17 @@ module Admin
     end
 
     def show
-      @conference = Conference.find_by(short_title: params[:id])
+      @program = @conference.program
+      unless @conference.program
+        @program = Program.new(conference_id: @conference.id)
+      end
 
       # Overview and since last login information
       @total_reg = @conference.registrations.count
       @new_reg = @conference.registrations.where('created_at > ?', current_user.last_sign_in_at).count
 
-      @total_submissions = @conference.events.count
-      @new_submissions = @conference.events.
+      @total_submissions = @program.events.count
+      @new_submissions = @program.events.
           where('created_at > ?', current_user.last_sign_in_at).count
 
       @program_length = @conference.current_program_hours
@@ -141,7 +145,7 @@ module Admin
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
 
       # Recent actions information
-      @recent_events = @conference.events.limit(5).order(created_at: :desc)
+      @recent_events = @conference.program.events.limit(5).order(created_at: :desc)
       @recent_registrations = @conference.registrations.limit(5).order(created_at: :desc)
 
       @top_submitter = @conference.get_top_submitter

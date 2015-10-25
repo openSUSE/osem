@@ -7,11 +7,12 @@ FactoryGirl.define do
     timezone 'Amsterdam'
     start_date { Date.today }
     end_date { 6.days.from_now }
+    program
+
     factory :full_conference do
       venue
       splashpage
       registration_period
-      call_for_paper
 
       after(:build) do |conference|
         conference.commercials << build(:conference_commercial, commercialable: conference)

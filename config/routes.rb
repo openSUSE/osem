@@ -44,15 +44,30 @@ Osem::Application.routes.draw do
 
       # Singletons
       resource :splashpage
-      resource :call_for_paper
       resource :venue
       resource :registration_period
+      resource :program do
+        resource :cfp
+        resources :tracks
+        resources :event_types
+        resources :difficulty_levels
+        resources :rooms, except: [:show]
+        resources :events do
+          member do
+            post :comment
+            patch :accept
+            patch :confirm
+            patch :cancel
+            patch :reject
+            patch :unconfirm
+            patch :restart
+            get :vote
+          end
+          resource :speaker, only: [:edit, :update]
+        end
+      end
 
       resources :tickets
-      resources :tracks
-      resources :event_types
-      resources :difficulty_levels
-      resources :rooms, except: [:show]
       resources :sponsors, except: [:show]
       resources :lodgings, except: [:show]
       resources :targets, except: [:show]
@@ -71,31 +86,19 @@ Osem::Application.routes.draw do
           patch :update_conference
         end
       end
-
-      resources :events do
-        member do
-          post :comment
-          patch :accept
-          patch :confirm
-          patch :cancel
-          patch :reject
-          patch :unconfirm
-          patch :restart
-          get :vote
-        end
-        resource :speaker, only: [:edit, :update]
-      end
     end
   end
 
   resources :conference, only: [:index, :show] do
-    resources :proposal do
-      get 'commercials/render_commercial' => 'commercials#render_commercial'
-      resources :commercials, only: [:create, :update, :destroy]
-      resources :event_attachment, controller: 'event_attachments'
-      member do
-        patch '/confirm' => 'proposal#confirm'
-        patch '/restart' => 'proposal#restart'
+    resource :program, except: :destroy do
+      resources :proposal do
+        get 'commercials/render_commercial' => 'commercials#render_commercial'
+        resources :commercials, only: [:create, :update, :destroy]
+        resources :event_attachment, controller: 'event_attachments'
+        member do
+          patch '/confirm' => 'proposal#confirm'
+          patch '/restart' => 'proposal#restart'
+        end
       end
     end
 

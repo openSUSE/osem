@@ -8,7 +8,7 @@
         = @room.name
 .row
   .col-md-8
-    = semantic_form_for(@room, :url => (@room.new_record? ? admin_conference_rooms_path : admin_conference_room_path(@conference.short_title, @room))) do |f|
+    = semantic_form_for(@room, :url => (@room.new_record? ? admin_conference_program_rooms_path : admin_conference_program_room_path(@conference.short_title, @room))) do |f|
       = f.input :name
       = f.input :size, :input_html => {:size => 5}
       %p.text-right

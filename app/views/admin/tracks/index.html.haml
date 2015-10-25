@@ -13,10 +13,10 @@
         %th Color
         %th Actions
       %tbody
-        - @conference.tracks.each do |track|
+        - @tracks.each do |track|
           %tr
             %td
-              = link_to(admin_conference_track_path(@conference.short_title, track)) do
+              = link_to(admin_conference_program_track_path(@conference.short_title, track)) do
                 = track.name
             %td
               %p
@@ -26,12 +26,12 @@
                 = track.color
             %td
               .btn-group{role: "group"}
-                = link_to 'Edit', edit_admin_conference_track_path(@conference.short_title, track.id),
+                = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track.id),
                 method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_track_path(@conference.short_title, track.id),
+                = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track.id),
                 method: :delete, class: 'btn btn-danger',
                 data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
 .row
   .col-md-12.text-right
-    = link_to 'New Track', new_admin_conference_track_path(@conference.short_title), class: 'btn btn-success'
+    = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-success'
 

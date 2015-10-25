@@ -1,23 +1,22 @@
 module Admin
   class RoomsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference
+    load_and_authorize_resource :program, through: :conference, singleton: true
+    load_and_authorize_resource through: :program
 
-    def index
-      authorize! :index, Room.new(conference_id: @conference.id)
-    end
+    def index; end
 
     def edit; end
 
     def new
-      @room = @conference.rooms.new
+      @room = @program.rooms.new
     end
 
     def create
-      @room = @conference.rooms.new(room_params)
+      @room = @program.rooms.new(room_params)
       if @room.save
         flash[:notice] = 'Room successfully created.'
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
+        redirect_to(admin_conference_program_rooms_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Creating Room failed: #{@room.errors.full_messages.join('. ')}."
         render :new
@@ -27,7 +26,7 @@ module Admin
     def update
       if @room.update_attributes(room_params)
         flash[:notice] = 'Room successfully updated.'
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
+        redirect_to(admin_conference_program_rooms_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Update Room failed: #{@room.errors.full_messages.join('. ')}."
         render :edit
@@ -37,10 +36,10 @@ module Admin
     def destroy
       if @room.destroy
         flash[:notice] = 'Room successfully deleted.'
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
+        redirect_to(admin_conference_program_rooms_path(conference_id: @conference.short_title))
       else
         flash[:error] = "Destroying room failed! #{@room.errors.full_messages.join('. ')}."
-        redirect_to(admin_conference_rooms_path(conference_id: @conference.short_title))
+        redirect_to(admin_conference_program_rooms_path(conference_id: @conference.short_title))
       end
     end
 
