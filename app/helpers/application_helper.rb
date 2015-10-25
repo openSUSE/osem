@@ -159,7 +159,7 @@ module ApplicationHelper
   end
 
   def pre_registered(event)
-    @conference.events.joins(:registrations).where('events.id = ?', event.id)
+    @conference.program.events.joins(:registrations).where('events.id = ?', event.id)
   end
 
   def add_association_link(association_name, form_builder, div_class, html_options = {})
@@ -184,7 +184,7 @@ module ApplicationHelper
   end
 
   def event_types(conference)
-    all = conference.event_types.map { |et | et.title.pluralize }
+    all = conference.program.event_types.map { |et | et.title.pluralize }
     first = all[0...-1]
     last = all[-1]
     ets = ''
@@ -198,7 +198,21 @@ module ApplicationHelper
   end
 
   def tracks(conference)
-    all = conference.tracks.map {|t| t.name}
+    all = conference.program.tracks.map {|t| t.name}
+    first = all[0...-1]
+    last = all[-1]
+    ts = ''
+    if all.length > 1
+      ts << first.join(', ')
+      ts << " and #{last}"
+    else
+      ts = all.join
+    end
+    return ts
+  end
+
+  def difficulty_levels(conference)
+    all = conference.program.difficulty_levels.map {|t| t.title}
     first = all[0...-1]
     last = all[-1]
     ts = ''

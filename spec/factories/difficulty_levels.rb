@@ -3,7 +3,6 @@ FactoryGirl.define do
     title 'Example Difficulty Level'
     description 'Lorem Ipsum dolsum'
     color '#ffffff'
-    conference
+    program
   end
-
 end

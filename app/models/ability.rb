@@ -39,7 +39,7 @@ class Ability
     end
     # Can view the schedule
     can [:schedule], Conference do |conference|
-      conference.call_for_paper && conference.call_for_paper.schedule_public
+      conference.program.cfp && conference.program.schedule_public
     end
 
     can :show, Event do |event|
@@ -53,8 +53,12 @@ class Ability
       can [:show, :create], Registration do |registration|
         registration.new_record?
       end
-      can [:show, :create], Event do |event|
+      can :show, Event do |event|
         event.new_record?
+      end
+
+      can [:new, :create], Event do |event|
+        event.program.cfp_open? && event.new_record?
       end
     end
   end
@@ -77,7 +81,7 @@ class Ability
       event.users.include?(user)
     end
     # can create an event until the last day of a conference
-    can :create, Event, conference_id: Conference.where('end_date >= ?', Date.today).pluck(:id)
+    can :create, Event, program_id: Conference.where('end_date >= ?', Date.today).map { |conference| conference.program.id}.compact
 
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
@@ -100,6 +104,8 @@ class Ability
     cannot [:edit, :update, :destroy], Question, global: true
     # for admins
     can :manage, :all if user.is_admin
+
+    cannot :destroy, Program
   end
 
   def signed_in_with_organizer_role(user)
@@ -125,21 +131,22 @@ class Ability
     end
     can :manage, Vposition, conference_id: conf_ids_for_organizer
     can :manage, Vday, conference_id: conf_ids_for_organizer
-    can :manage, CallForPaper, conference_id: conf_ids_for_organizer
-    can :manage, Event, conference_id: conf_ids_for_organizer
-    can :manage, EventType, conference_id: conf_ids_for_organizer
-    can :manage, Track, conference_id: conf_ids_for_organizer
-    can :manage, DifficultyLevel, conference_id: conf_ids_for_organizer
+    can :manage, Program, conference_id: conf_ids_for_organizer
+    can :manage, Cfp, program: { conference_id: conf_ids_for_organizer}
+    can :manage, Event, program: { conference_id: conf_ids_for_organizer}
+    can :manage, EventType, program: { conference_id: conf_ids_for_organizer}
+    can :manage, Track, program: { conference_id: conf_ids_for_organizer}
+    can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_organizer}
     can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id: Event.where(conference_id: conf_ids_for_organizer).pluck(:id)
+                             commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
     can :manage, Venue, conference_id: conf_ids_for_organizer
     can :manage, Lodging, conference_id: conf_ids_for_organizer
-    can :manage, Room, conference_id: conf_ids_for_organizer
+    can :manage, Room, program: { conference_id: conf_ids_for_organizer}
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
     can :manage, Ticket, conference_id: conf_ids_for_organizer
     can :index, Comment, commentable_type: 'Event',
-                         commentable_id: Event.where(conference_id: conf_ids_for_organizer).pluck(:id)
+                         commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
   end
 
   def signed_in_with_cfp_role(user)
@@ -148,18 +155,19 @@ class Ability
     conf_ids_for_cfp =
       Conference.with_role(:cfp, user).pluck(:id) if user.has_role? :cfp, :any
 
-    can :manage, Event, conference_id: conf_ids_for_cfp
-    can :manage, EventType, conference_id: conf_ids_for_cfp
-    can :manage, Track, conference_id: conf_ids_for_cfp
-    can :manage, DifficultyLevel, conference_id: conf_ids_for_cfp
+    can :manage, Event, program: { conference_id: conf_ids_for_cfp }
+    can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
+    can :manage, Track, program: { conference_id: conf_ids_for_cfp }
+    can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_cfp }
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
-    can :manage, Room, conference_id: conf_ids_for_cfp
-    can :show, Venue, conference_id: conf_ids_for_cfp
-    can :manage, CallForPaper, conference_id: conf_ids_for_cfp
+    can :manage, Room, program: { conference_id: conf_ids_for_cfp }
+    can :index, Venue, conference_id: conf_ids_for_cfp
+    can :manage, Cfp, program: { conference_id: conf_ids_for_cfp }
+    can :manage, Program, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
+                             commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
     can :index, Comment, commentable_type: 'Event',
-                         commentable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
+                         commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
   end
 
   def signed_in_with_info_desk_role(user)

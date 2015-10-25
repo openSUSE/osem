@@ -1,0 +1,11 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Call for Papers
+.row
+  .col-md-8
+    = semantic_form_for(@cfp, :url => admin_conference_program_cfp_path(@conference.short_title),:html => {:multipart => true}) do |f|
+      = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
+      = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
+      %p.text-right
+        = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

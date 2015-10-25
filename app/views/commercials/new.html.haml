@@ -1,0 +1,9 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1 New Commercial
+  .row
+    .col-md-12
+      = semantic_form_for @commercial, url: conference_program_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event.id) do |f|
+        = render 'form', f: f

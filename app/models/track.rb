@@ -1,5 +1,5 @@
 class Track < ActiveRecord::Base
-  belongs_to :conference
+  belongs_to :program
   has_many :events, dependent: :nullify
 
   before_create :generate_guid

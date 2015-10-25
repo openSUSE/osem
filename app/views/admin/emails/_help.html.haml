@@ -41,14 +41,14 @@
       %tr
         %td {venue_address}
         %td The address of the venue
-    - unless @conference.call_for_paper.blank? || @conference.call_for_paper.start_date.blank? || @conference.call_for_paper.end_date.blank?
+    - unless @conference.program.cfp.blank? || @conference.program.cfp.start_date.blank? || @conference.program.cfp.end_date.blank?
       %tr
         %td {cfp_start_date}
         %td The call for papers start date
       %tr
         %td {cfp_end_date}
         %td The call for papers end date
-      -if @conference.call_for_paper.schedule_public
+      -if @conference.program.schedule_public
         %td {schedule_link}
         %td The link to complete schedule of the conference
     - if @conference.splashpage && @conference.splashpage.public

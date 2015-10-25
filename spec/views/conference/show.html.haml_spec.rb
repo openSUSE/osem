@@ -3,6 +3,7 @@ describe 'conference/show.html.haml' do
   before(:each) do
     allow(view).to receive(:date_string).and_return('January 17 - 21 2014')
     @conference = create(:conference, description: 'Lorem Ipsum')
+    @program = @conference.program
 
     @conference.splashpage = create(:splashpage,
                                     include_registrations: true,
@@ -25,7 +26,7 @@ describe 'conference/show.html.haml' do
                                              start_date: Date.yesterday,
                                              end_date: Date.tomorrow)
 
-    @conference.call_for_paper = create(:call_for_paper, conference: @conference)
+    @conference.program.cfp = create(:cfp, program: @conference.program)
 
     @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
     @sponsorship_level = @conference.sponsorship_levels.first

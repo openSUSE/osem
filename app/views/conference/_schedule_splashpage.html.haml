@@ -6,10 +6,10 @@
       %p.lead.text-center
         = @conference.short_title
         has the most awesome program ever!
-        - if @conference.splashpage and @conference.tracks.any? and @conference.splashpage.include_tracks
+        - if @conference.splashpage and @conference.program.tracks.any? and @conference.splashpage.include_tracks
           See rock-star speakers cover the topics of
       - if @conference.splashpage and @conference.splashpage.include_tracks
-        - @conference.tracks.each_slice(3) do |slice|
+        - @conference.program.tracks.each_slice(3) do |slice|
           .row.row-centered
             - slice.each do |track|
               .col-md-4.col-sm-4.col-centered.col-top.track
@@ -17,7 +17,7 @@
                   = track.name
                 = markdown(track.description)
 
-  - if @conference.call_for_paper and @conference.call_for_paper.schedule_public
+  - if @conference.program and @conference.program.schedule_public
     .row
       .col-md-12
         %p.cta-button.text-center
@@ -28,10 +28,10 @@
   %h3.text-center
     Don't miss out!
   %br
-  - if @conference.events.highlights.any?
+  - if @conference.program.events.highlights.any?
     .row
       .col-md-12
-        - @conference.events.highlights.each_slice(2) do |slice|
+        - @conference.program.events.highlights.each_slice(2) do |slice|
           .row.row-centered
             - slice.each do |event|
               .col-md-6.col-centered.col-top.highlights
@@ -39,7 +39,7 @@
                   %b= event.title
                 %h5.text-center
                   = simple_format truncate(event.abstract, length: 500, separator: ' ')
-                  = link_to "Read More", conference_proposal_path(@conference.short_title, event)
+                  = link_to "Read More", conference_program_proposal_path(@conference.short_title, event)
 
   = content_for :splash_nav do
     %li

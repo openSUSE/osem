@@ -42,7 +42,7 @@ feature Commercial do
   end
 
   context 'in public area' do
-    let!(:event) { create(:event, conference: conference, title: 'Example Proposal') }
+    let!(:event) { create(:event, program: conference.program, title: 'Example Proposal') }
 
     before(:each) do
       event.event_users = [create(:event_user,
@@ -58,8 +58,8 @@ feature Commercial do
       sign_out
     end
 
-    scenario 'adds a commercial of an event', feature: true, js: true do
-      visit edit_conference_proposal_path(conference.short_title, event.id)
+    scenario 'adds a valid commercial of an event', feature: true, js: true do
+      visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
 
@@ -75,7 +75,7 @@ feature Commercial do
       commercial = create(:commercial,
                           commercialable_id: event.id,
                           commercialable_type: 'Event')
-      visit edit_conference_proposal_path(conference.short_title, event.id)
+      visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
       click_button 'Update'
@@ -89,7 +89,7 @@ feature Commercial do
       create(:commercial,
              commercialable_id: event.id,
              commercialable_type: 'Event')
-      visit edit_conference_proposal_path(conference.short_title, event.id)
+      visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       click_link 'Delete'
       page.driver.network_traffic

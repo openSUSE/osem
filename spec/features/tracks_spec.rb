@@ -10,7 +10,7 @@ feature Track do
 
       sign_in organizer
 
-      visit admin_conference_tracks_path(conference_id: conference.short_title)
+      visit admin_conference_program_tracks_path(conference_id: conference.short_title)
       click_link 'New Track'
 
       fill_in 'track_name', with: 'Distribution'
@@ -27,10 +27,10 @@ feature Track do
     end
 
     scenario 'deletes a track', feature: true, js: true do
-      track = create(:track, conference_id: conference.id)
+      track = create(:track, program_id: conference.program.id)
       sign_in organizer
 
-      visit admin_conference_tracks_path(conference_id: conference.short_title)
+      visit admin_conference_program_tracks_path(conference_id: conference.short_title)
 
       click_link 'Delete'
 
@@ -43,10 +43,10 @@ feature Track do
     end
 
     scenario 'updates a track', feature: true, js: true do
-      create(:track, conference_id: conference.id)
+      create(:track, program_id: conference.program.id)
       sign_in organizer
 
-      visit admin_conference_tracks_path(conference_id: conference.short_title)
+      visit admin_conference_program_tracks_path(conference_id: conference.short_title)
       click_link 'Edit'
 
       fill_in 'track_name', with: 'Distribution'

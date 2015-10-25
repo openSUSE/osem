@@ -1,0 +1,61 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Program
+- if @program
+  .row
+    .col-md-8
+      %dl.dl-horizontal
+        - if @cfp
+          %dt
+            Start Date:
+          %dd#start_date
+            = @cfp.start_date.strftime('%A, %B %-d. %Y')
+          %dt
+            End Date:
+          %dd#end_date
+            = @cfp.end_date.strftime('%A, %B %-d. %Y')
+          %dt
+            Days Left:
+          %dd
+            = pluralize(@cfp.remaining_days, 'day')
+        %dt
+          Event types:
+        %dd
+          = event_types(@conference)
+        %dt
+          Tracks:
+        %dd
+          = tracks(@conference)
+        %dt
+          Difficulty Levels:
+        %dd
+          = difficulty_levels(@conference)
+        %dt
+          Public Schedule
+        %dd#schedule_public
+          - if @program.schedule_public
+            Yes
+          - else
+            No
+        %dt
+          Schedule changeable?
+        %dd#schedule_changes
+          - if @program.schedule_fluid
+            Yes
+          - else
+            No
+        %dt
+          Rating Levels
+        %dd#rating
+          = @program.rating
+
+
+  .row
+    .col-md-12.text-right
+      - if can? :edit, @progam
+        = link_to edit_admin_conference_program_path(@conference.short_title), class: 'btn btn-primary' do
+          Edit
+      - if can? :destroy, @program
+        = link_to admin_conference_program_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this program?' } do
+          Delete

@@ -66,17 +66,17 @@ class Mailbot < ActionMailer::Base
     User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.call_for_papers_schedule_public_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_schedule_public_body))
+                  conference.email_settings.program_schedule_public_subject,
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.program_schedule_public_body))
     end
   end
 
-  def send_on_call_for_papers_dates_updated(conference)
+  def send_on_cfp_dates_updates(conference)
     User.joins(:subscriptions).merge(conference.subscriptions) do |user|
       build_email(conference,
                   user.email,
-                  conference.email_settings.call_for_papers_dates_updated_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.call_for_papers_dates_updated_body))
+                  conference.email_settings.cfp_dates_updated_subject,
+                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.cfp_dates_updated_body))
     end
   end
 

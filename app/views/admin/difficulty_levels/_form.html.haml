@@ -8,7 +8,7 @@
         = @difficulty_level.title
 .row
   .col-md-8
-    = semantic_form_for(@difficulty_level, :url => (@difficulty_level.new_record? ? admin_conference_difficulty_levels_path : admin_conference_difficulty_level_path(@conference.short_title, @difficulty_level))) do |f|
+    = semantic_form_for(@difficulty_level, :url => (@difficulty_level.new_record? ? admin_conference_program_difficulty_levels_path : admin_conference_program_difficulty_level_path(@conference.short_title, @difficulty_level))) do |f|
       = f.input :title, :required => true
       = f.input :description, :input_html => {:rows => 3, :class => "span6"}
       = f.input :color, :input_html => {:size => 6, :type => "color"}

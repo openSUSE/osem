@@ -4,11 +4,11 @@
       %b Rating
     %td
       - if @event.average_rating.to_f > 0
-        #{@event.average_rating}/#{@conference.call_for_paper.rating}
+        #{@event.average_rating}/#{@conference.program.rating}
       - else
-        Rating: 0/#{@conference.call_for_paper.rating}
+        Rating: 0/#{@conference.program.rating}
 
-      - @conference.call_for_paper.rating.times do |counter|
+      - @conference.program.rating.times do |counter|
         - if @event.average_rating.to_f.round == counter+1
           = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
           = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
@@ -27,12 +27,12 @@
     %td
       %b Your vote
     %td
-      - @conference.call_for_paper.rating.times do |counter|
+      - @conference.program.rating.times do |counter|
         - voted = @event.voted?(@event, current_user)
         - if voted && voted.rating == counter+1
-          = link_to "", vote_admin_conference_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating", :voted => true
+          = link_to "", vote_admin_conference_program_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating", :voted => true
         - else
-          = link_to "", vote_admin_conference_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating"
+          = link_to "", vote_admin_conference_program_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating"
       %br
 
   - if @ratings.length > 0
@@ -42,7 +42,7 @@
           %td
             = rate.name
           %td
-            - @conference.call_for_paper.rating.times do |counter|
+            - @conference.program.rating.times do |counter|
               - voted = @event.voted?(@event, rate.user)
               - if voted && voted.rating == counter+1
                 = label_tag "label#{counter+1}", "", :class => "othersrating", :voted => true

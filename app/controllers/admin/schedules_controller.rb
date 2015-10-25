@@ -3,23 +3,24 @@ module Admin
     # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to
     # the schedule of a conference, which should not be accessed in the first place
     load_and_authorize_resource :conference, find_by: :short_title
+    load_and_authorize_resource :program, through: :conference, singleton: true
 
     skip_before_filter :verify_authenticity_token, only: [:update]
     layout 'schedule'
 
     def show
-      authorize! :update, @conference.events.new
+      authorize! :update, @program.events.new
       if @conference.nil?
         redirect_to admin_conference_index_path
         return
       end
       @dates = @conference.start_date..@conference.end_date
-      @rooms = @conference.rooms
+      @rooms = @program.rooms
     end
 
     def update
-      authorize! :update, @conference.events.new
-      event = Event.where(guid: event_params).first
+      authorize! :update, @program.events.new
+      event = Event.where(guid: params[:event]).first
       error_message = nil
       if event.nil?
         error_message = "Could not find event GUID: #{params[:event]}"

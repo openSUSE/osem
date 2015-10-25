@@ -53,33 +53,33 @@
         %span.fa.fa-road
         Venue
       %ul
-        - if can? :update, @conference.rooms.build
-          %li{:class=> active_nav_li(admin_conference_rooms_path(@conference.short_title))}
-            = link_to 'Rooms', admin_conference_rooms_path(@conference.short_title)
+        - if can? :update, @conference.program.rooms.build
+          %li{:class=> active_nav_li(admin_conference_program_rooms_path(@conference.short_title))}
+            = link_to 'Rooms', admin_conference_program_rooms_path(@conference.short_title)
         - if can? :update, @conference.lodgings.build
           %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
             = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
-  - if can? :update, @conference.events.build
-    %li
-      %a
+    %li{:class=> "#{active_nav_li(admin_conference_program_path(@conference.short_title))}"}
+      = link_to admin_conference_program_path(@conference.short_title) do
         %span.fa.fa-calendar
         Program
       %ul
-        %li{:class=> active_nav_li(admin_conference_events_path(@conference.short_title))}
-          = link_to 'Events', admin_conference_events_path(@conference.short_title)
-        - if can? :update, CallForPaper.new(conference_id: @conference.id)
-          %li{:class=> "#{active_nav_li(admin_conference_call_for_paper_path(@conference.short_title))}"}
-            = link_to 'Call for Papers', admin_conference_call_for_paper_path(@conference.short_title)
-        - if can? :update, @conference.tracks.build
-          %li{:class=> active_nav_li(admin_conference_tracks_path(@conference.short_title))}
-            = link_to 'Tracks', admin_conference_tracks_path(@conference.short_title)
-        - if can? :update, @conference.event_types.build
-          %li{:class=> active_nav_li(admin_conference_event_types_path(@conference.short_title))}
-            = link_to 'Event Types', admin_conference_event_types_path(@conference.short_title)
-        - if can? :update, @conference.difficulty_levels.build, conference_id: @conference.id
-          %li{:class=> active_nav_li(admin_conference_difficulty_levels_path(@conference.short_title))}
-            = link_to 'Difficulty Levels', admin_conference_difficulty_levels_path(@conference.short_title)
-        - if can? :update, @conference.events.build
+        - if can? :update, Cfp.new(program_id: @conference.program.id)
+          %li{:class=> active_nav_li(admin_conference_program_cfp_path(@conference.short_title))}
+            = link_to 'Call for Papers', admin_conference_program_cfp_path(@conference.short_title)
+        - if can? :update, @conference.program.events.build
+          %li{:class=> active_nav_li(admin_conference_program_events_path(@conference.short_title))}
+            = link_to 'Events', admin_conference_program_events_path(@conference.short_title)
+        - if can? :update, @conference.program.tracks.build
+          %li{:class=> active_nav_li(admin_conference_program_tracks_path(@conference.short_title))}
+            = link_to 'Tracks', admin_conference_program_tracks_path(@conference.short_title)
+        - if can? :update, @conference.program.event_types.build
+          %li{:class=> active_nav_li(admin_conference_program_event_types_path(@conference.short_title))}
+            = link_to 'Event Types', admin_conference_program_event_types_path(@conference.short_title)
+        - if can? :update, @conference.program.difficulty_levels.build, conference_id: @conference.id
+          %li{:class=> active_nav_li(admin_conference_program_difficulty_levels_path(@conference.short_title))}
+            = link_to 'Difficulty Levels', admin_conference_program_difficulty_levels_path(@conference.short_title)
+        - if can? :update, @conference.program.events.build
           %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
             = link_to 'Schedule', admin_conference_schedule_path(@conference.short_title), target: '_blank'
 

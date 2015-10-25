@@ -177,7 +177,7 @@ class User < ActiveRecord::Base
   end
 
   def proposals(conference)
-    events.where('conference_id = ? AND event_users.event_role=?', conference.id, 'submitter')
+    events.where('program_id = ? AND event_users.event_role=?', conference.program.id, 'submitter')
   end
 
   def proposal_count(conference)

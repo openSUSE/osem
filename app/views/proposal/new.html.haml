@@ -27,16 +27,16 @@
             = f.inputs name: 'Proposal Information' do
               = f.input :title, as: :string, required: true, input_html: { required: true }
               = f.input :event_type_id, as: :select,
-                collection: @conference.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
+                collection: @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
                 data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
                 include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
-              - @conference.event_types.each do |event_type|
+              - @program.event_types.each do |event_type|
                 %span{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help" }
                   = event_type.description
 
               :javascript
-                $("##{@conference.event_types.first.id}-help").collapse('show');
+                $("##{@program.event_types.first.id}-help").collapse('show');
 
               = f.input :abstract, input_html: { rows: 5, required: true },
                 required: true, hint: link_to('Tips to improve your presentations', 'http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx')

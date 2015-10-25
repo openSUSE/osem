@@ -17,13 +17,13 @@
           - @user.events.each do |event|
             %tr
               %td= event.id
-              %td= link_to event.conference.short_title, admin_conference_path(event.conference.short_title)
-              %td= link_to event.title, admin_conference_event_path(event.conference.short_title, event)
+              %td= link_to event.program.conference.short_title, admin_conference_path(event.program.conference.short_title)
+              %td= link_to event.title, admin_conference_program_event_path(event.program.conference.short_title, event)
               %td= event.state
               %td= "#{event.event_type.title} (#{show_time(event.event_type.length)})"
               %td
-                - if event.conference.call_for_paper && event.conference.call_for_paper.rating && event.conference.call_for_paper.rating > 0
-                  - event.conference.call_for_paper.rating.times do |counter|
+                - if event.program && event.program.rating && event.program.rating > 0
+                  - event.program.rating.times do |counter|
                     - if event.average_rating.to_f.round == counter+1
                       = label_tag 'label_rating', '', class: 'avgrating', avgrate: true
                       = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
