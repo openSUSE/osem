@@ -151,7 +151,7 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   # Set of rails validations matchers to describe models
-  gem 'shoulda'
+  gem 'shoulda-matchers', require: false
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
   gem 'timecop'
