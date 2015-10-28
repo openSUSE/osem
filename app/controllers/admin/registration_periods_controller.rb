@@ -8,7 +8,7 @@ module Admin
     end
 
     def create
-      @registration_period = @conference.build_registration_period(registration_period)
+      @registration_period = @conference.build_registration_period(registration_period_params)
       send_mail_on_reg_update = @conference.notify_on_registration_dates_changed?
 
       if @registration_period.save
@@ -28,10 +28,10 @@ module Admin
     end
 
     def update
-      @registration_period.assign_attributes(registration_period)
+      @registration_period.assign_attributes(registration_period_params)
       send_mail_on_reg_update = @conference.notify_on_registration_dates_changed?
 
-      if @registration_period.update(registration_period)
+      if @registration_period.update(registration_period_params)
         Mailbot.delay.conference_registration_date_update_mail(@conference) if send_mail_on_reg_update
         redirect_to admin_conference_registration_period_path(@conference.short_title),
                     notice: 'Registration Period successfully updated.'
@@ -50,8 +50,8 @@ module Admin
 
     private
 
-    def registration_period
-      params[:registration_period]
+    def registration_period_params
+      params.require(:registration_period).permit(:start_date, :end_date)
     end
   end
 end

@@ -1,5 +1,4 @@
 class Track < ActiveRecord::Base
-  attr_accessible :name, :description, :color, :conference_id
   belongs_to :conference
   has_many :events, dependent: :nullify
 

@@ -1,5 +1,4 @@
 class Photo < ActiveRecord::Base
-  attr_accessible :picture, :description
   belongs_to :conference
   validates_presence_of :picture
   has_attached_file :picture,

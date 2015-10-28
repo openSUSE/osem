@@ -1,7 +1,6 @@
 class MoveBannerDescriptionToConference < ActiveRecord::Migration
   class TempConference < ActiveRecord::Base
     self.table_name = 'conferences'
-    attr_accessible :description
   end
 
   class TempSplashpage < ActiveRecord::Base

@@ -29,4 +29,10 @@ class TicketPurchasesController < ApplicationController
                         "#{@ticket_purchases.errors.full_messages.join('. ')}."
     end
   end
+
+  private
+
+  def ticket_purchase_params
+    params.require(:ticket_purchase).permit(:ticket_id, :user_id, :conference_id, :quantity)
+  end
 end

@@ -11,10 +11,6 @@ class Registration < ActiveRecord::Base
   has_many :events_registrations
   has_many :workshops, through: :events_registrations, source: :event
 
-  attr_accessible :user_id, :conference_id, :arrival, :departure, :user_attributes, :attended,
-                  :other_dietary_choice, :dietary_choice_id, :social_event_ids, :other_special_needs,
-                  :event_ids, :volunteer, :vchoice_ids, :qanswer_ids, :qanswers_attributes
-
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :social_events
   accepts_nested_attributes_for :qanswers

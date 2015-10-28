@@ -1,7 +1,4 @@
 class Campaign < ActiveRecord::Base
-  attr_accessible :name, :utm_source, :utm_medium, :utm_term,
-                  :utm_content, :utm_campaign, :target_ids, :conference_id
-
   validates :name, :utm_campaign, presence: true
 
   has_many :targets, dependent: :nullify

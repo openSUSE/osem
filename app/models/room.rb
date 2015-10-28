@@ -1,6 +1,4 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :size, :conference_id
-
   belongs_to :conference
   has_many :events, dependent: :nullify
 

@@ -1,17 +1,14 @@
 class MigratingSupporterRegistrationsToTicketUsers < ActiveRecord::Migration
   class TempSupporterRegistrations < ActiveRecord::Base
     self.table_name = 'supporter_registrations'
-    attr_accessible :conference_id, :supporter_level_id, :registration_id, :user_id
   end
 
   class TempUser < ActiveRecord::Base
     self.table_name = 'users'
-    attr_accessible :user_id
   end
 
   class TempRegistration < ActiveRecord::Base
     self.table_name = 'registrations'
-    attr_accessible :user_id
   end
 
   def change

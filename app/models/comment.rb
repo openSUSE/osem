@@ -1,6 +1,5 @@
 class Comment < ActiveRecord::Base
   acts_as_nested_set scope: [:commentable_id, :commentable_type]
-  attr_accessible :commentable, :body, :user_id
   validates_presence_of :body
   validates_presence_of :user
   after_create :send_notification

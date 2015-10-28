@@ -27,7 +27,7 @@ module Admin
         end
       end
 
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes(user_params)
         redirect_to admin_users_path, notice: "Updated #{@user.name} (#{@user.email})!" + message
       else
         redirect_to admin_users_path, alert: "Could not update #{@user.name} (#{@user.email}). #{@user.errors.full_messages.join('. ')}."
@@ -35,5 +35,12 @@ module Admin
     end
 
     def edit; end
+
+    private
+
+    def user_params
+      params.require(:user).permit(:email, :name, :email_public, :biography, :nickname, :affiliation, :is_admin, :username, :login, :is_disabled,
+                                   :tshirt, :mobile, :volunteer_experience, :languages, role_ids: [])
+    end
   end
 end

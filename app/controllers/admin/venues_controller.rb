@@ -44,7 +44,7 @@ module Admin
     private
 
     def venue_params
-      params[:venue]
+      params.require(:venue).permit(:name, :street, :postalcode, :city, :country, :longitude, :latitude, :description, :website, :photo, :lodgings_attributes, :conference_id)
     end
   end
 end

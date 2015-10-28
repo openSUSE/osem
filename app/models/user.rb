@@ -32,10 +32,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
   has_many :openids
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :role_ids,
-                  :name, :email_public, :biography, :nickname, :affiliation, :is_admin,
-                  :tshirt, :mobile, :volunteer_experience, :languages, :username, :login, :is_disabled
-
   attr_accessor :login
 
   has_many :event_users, dependent: :destroy

@@ -19,7 +19,7 @@ module Admin
 
     def update
       authorize! :update, @conference.events.new
-      event = Event.where(guid: params[:event]).first
+      event = Event.where(guid: event_params).first
       error_message = nil
       if event.nil?
         error_message = "Could not find event GUID: #{params[:event]}"
@@ -32,7 +32,7 @@ module Admin
         render json: { 'status' => 'ok' }
         return
       end
-      room = Room.where(guid: params[:room]).first
+      room = Room.where(guid: room_params).first
       if room.nil?
         error_message = "Could not find room GUID: #{params[:room]}"
       end
@@ -54,6 +54,16 @@ module Admin
       event.start_time = start_time
       event.save!
       render json: { 'status' => 'ok' }
+    end
+
+    private
+
+    def event_params
+      params.require(:event).permit(:guid)
+    end
+
+    def room_params
+      params.require(:room).permit(:guid)
     end
   end
 end

@@ -20,18 +20,19 @@ describe Admin::UsersController do
   end
   describe 'PATCH #update' do
     context 'valid attributes' do
+      before :each do
+        patch :update, id: user.id, user: { name: 'new name', email: 'new_email@osem.io' }
+      end
+
       it 'locates requested @user' do
-        patch :update, id: user.id
         expect(build(:user, id: user.id)).to eq(user)
       end
       it 'changes @users attributes' do
-        patch :update, id: user.id
         expect(build(
-          :user, email: 'new@email.osem', id: user.id).email).
-              to eq('new@email.osem')
+          :user, email: 'email_new@osem.io', id: user.id).email).
+              to eq('email_new@osem.io')
       end
       it 'redirects to the updated user' do
-        patch :update, id: user.id
         expect(response).to redirect_to admin_users_path
       end
     end

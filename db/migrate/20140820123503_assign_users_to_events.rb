@@ -5,14 +5,12 @@ class AssignUsersToEvents < ActiveRecord::Migration
 
   class TempUser < ActiveRecord::Base
     self.table_name = 'users'
-    attr_accessible :email, :name, :biography, :password
   end
 
   class TempEventUser < ActiveRecord::Base
     self.table_name = 'event_users'
     belongs_to :temp_event
     belongs_to :temp_user
-    attr_accessible :event_id, :user_id, :event_role
   end
 
   def up

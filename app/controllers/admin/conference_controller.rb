@@ -63,7 +63,7 @@ module Admin
     end
 
     def create
-      @conference = Conference.new(params[:conference])
+      @conference = Conference.new(conference_params)
 
       if @conference.valid?
         @conference.save
@@ -79,10 +79,10 @@ module Admin
     def update
       @conference = Conference.find_by(short_title: params[:id])
       short_title = @conference.short_title
-      @conference.assign_attributes(params[:conference])
+      @conference.assign_attributes(conference_params)
       send_mail_on_conf_update = @conference.notify_on_dates_changed?
 
-      if @conference.update_attributes(params[:conference])
+      if @conference.update_attributes(conference_params)
         Mailbot.delay.conference_date_update_mail(@conference) if send_mail_on_conf_update
         redirect_to(edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.')
@@ -194,7 +194,21 @@ module Admin
       render 'roles', formats: [:js]
     end
 
-    protected
+    private
+
+    def conference_params
+      params.require(:conference).permit(:title, :short_title, :description, :timezone, :html_export_path,
+                                         :start_date, :end_date, :rooms_attributes, :tracks_attributes,
+                                         :dietary_choices_attributes, :use_dietary_choices,
+                                         :tickets_attributes, :social_events_attributes, :event_types_attributes,
+                                         :logo, :questions_attributes,
+                                         :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
+                                         :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
+                                         :vpositions_attributes, :use_volunteers, :color,
+                                         :sponsorship_levels_attributes, :sponsors_attributes,
+                                         :photos_attributes, :targets, :targets_attributes,
+                                         :campaigns, :campaigns_attributes)
+    end
 
     def get_users(role_name)
       @role_users = {}

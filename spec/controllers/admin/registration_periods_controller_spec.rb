@@ -22,7 +22,7 @@ describe Admin::RegistrationPeriodsController do
       context 'valid attributes' do
 
         it 'locates the requested registration period object' do
-          patch :update, conference_id: conference.short_title, conference: attributes_for(:registration_period)
+          patch :update, conference_id: conference.short_title, registration_period: attributes_for(:registration_period)
           expect(assigns(:registration_period)).to eq(conference.registration_period)
         end
 

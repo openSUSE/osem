@@ -5,7 +5,6 @@ class MoveConferenceRegistrationDataToRegistrationPeriods < ActiveRecord::Migrat
 
   class TempRegistrationPeriod < ActiveRecord::Base
     self.table_name = 'registration_periods'
-    attr_accessible :conference_id, :start_date, :end_date, :description
   end
 
   def up

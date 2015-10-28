@@ -11,7 +11,6 @@ class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration
     self.table_name = 'event_users'
     belongs_to :temp_event
     belongs_to :temp_user
-    attr_accessible :event_id, :user_id, :event_role
   end
 
   class Version < ActiveRecord::Base

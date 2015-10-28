@@ -5,7 +5,6 @@ class MoveConferenceContactDetailsToContact < ActiveRecord::Migration
 
   class TempContact < ActiveRecord::Base
     self.table_name = 'contacts'
-    attr_accessible :conference_id, :social_tag, :email, :facebook, :googleplus, :twitter, :instagram, :public
   end
 
   def change

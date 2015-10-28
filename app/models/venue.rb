@@ -3,7 +3,6 @@ class Venue < ActiveRecord::Base
   has_many :lodgings
   before_create :generate_guid
 
-  attr_accessible :name, :street, :postalcode, :city, :country, :longitude, :latitude, :description, :website, :photo, :lodgings_attributes, :conference_id
   validates :name, :street, :city, :country, presence: true
 
   has_attached_file :photo,

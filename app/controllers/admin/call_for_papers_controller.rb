@@ -26,12 +26,12 @@ module Admin
     def update
       authorize! :update, @conference.call_for_paper
       @cfp = @conference.call_for_paper
-      @cfp.assign_attributes(params[:call_for_paper])
+      @cfp.assign_attributes(call_for_paper_params)
       send_mail_on_schedule_public = @cfp.notify_on_schedule_public?
 
       send_mail_on_cfp_dates_updated = @cfp.notify_on_cfp_date_update?
 
-      if @cfp.update_attributes(params[:call_for_paper])
+      if @cfp.update_attributes(call_for_paper_params)
         Mailbot.delay.send_on_call_for_papers_dates_updated(@conference) if send_mail_on_cfp_dates_updated
         Mailbot.delay.send_on_schedule_public(@conference) if send_mail_on_schedule_public
         redirect_to(admin_conference_call_for_paper_path(@conference.short_title),
@@ -54,7 +54,7 @@ module Admin
     private
 
     def call_for_paper_params
-      params[:call_for_paper]
+      params.require(:call_for_paper).permit(:start_date, :end_date, :schedule_changes, :rating, :schedule_public, :include_cfp_in_splash, :conference_id)
     end
   end
 end

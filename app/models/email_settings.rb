@@ -1,14 +1,4 @@
 class EmailSettings < ActiveRecord::Base
-  attr_accessible :send_on_registration, :registration_subject, :registration_body,
-                  :send_on_accepted, :accepted_subject, :accepted_body,
-                  :send_on_rejected, :rejected_subject, :rejected_body,
-                  :send_on_confirmed_without_registration, :confirmed_without_registration_subject, :confirmed_without_registration_body,
-                  :send_on_conference_dates_updated, :conference_dates_updated_subject, :conference_dates_updated_body,
-                  :send_on_conference_registration_dates_updated, :conference_registration_dates_updated_subject, :conference_registration_dates_updated_body,
-                  :send_on_venue_updated, :venue_updated_subject, :venue_updated_body,
-                  :send_on_call_for_papers_dates_updated, :call_for_papers_dates_updated_subject, :call_for_papers_dates_updated_body,
-                  :send_on_call_for_papers_schedule_public, :call_for_papers_schedule_public_subject, :call_for_papers_schedule_public_body
-
   def get_values(conference, user, event = nil)
     h = {
       'email' => user.email,

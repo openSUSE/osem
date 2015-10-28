@@ -1,5 +1,4 @@
 class Sponsor < ActiveRecord::Base
-  attr_accessible :name, :description, :website_url, :logo, :sponsorship_level_id, :conference_id
   belongs_to :sponsorship_level
   belongs_to :conference
   has_attached_file :logo,

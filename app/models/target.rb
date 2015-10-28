@@ -1,8 +1,6 @@
 class Target < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
 
-  attr_accessible :due_date, :target_count, :unit, :conference_id
-
   default_scope { order('due_date ASC') }
 
   def self.units
