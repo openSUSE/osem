@@ -179,12 +179,12 @@ ActiveRecord::Schema.define(version: 20151021113015) do
     t.boolean  "send_on_venue_updated",                                          default: false
     t.string   "venue_updated_subject"
     t.text     "venue_updated_body"
-    t.boolean  "send_on_cfp_dates_updates",                                      default: false
+    t.boolean  "send_on_cfp_dates_updated",                                      default: false
     t.boolean  "send_on_program_schedule_public",                                default: false
     t.string   "program_schedule_public_subject"
-    t.string   "cfp_dates_updates_subject"
-    t.text     "program_schedule_public_template"
-    t.text     "cfp_dates_updates_template"
+    t.string   "cfp_dates_updated_subject"
+    t.text     "program_schedule_public_body"
+    t.text     "cfp_dates_updated_body"
   end
 
   create_table "event_types", force: true do |t|
