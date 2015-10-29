@@ -19,9 +19,9 @@ class Cfp < ActiveRecord::Base
   def notify_on_cfp_date_update?
     !self.end_date.blank? && !self.start_date.blank?\
     && (self.start_date_changed? || self.end_date_changed?)\
-    && self.program.conference.email_settings.send_on_cfp_dates_updates\
-    && !self.program.conference.email_settings.cfp_dates_updates_subject.blank?\
-    && !self.program.conference.email_settings.cfp_dates_updates_template.blank?
+    && self.program.conference.email_settings.send_on_cfp_dates_updated\
+    && !self.program.conference.email_settings.cfp_dates_updated_subject.blank?\
+    && !self.program.conference.email_settings.cfp_dates_updated_body.blank?
   end
 
   ##

@@ -38,9 +38,9 @@ describe Cfp do
   describe '#notify_on_cfp_date_update?' do
     before :each do
       email_settings = conference.email_settings
-      email_settings.send_on_cfp_dates_updates = true
-      email_settings.cfp_dates_updates_subject = 'subject'
-      email_settings.cfp_dates_updates_template = 'body text'
+      email_settings.send_on_cfp_dates_updated = true
+      email_settings.cfp_dates_updated_subject = 'subject'
+      email_settings.cfp_dates_updated_body = 'body text'
       email_settings.save!
 
       cfp.save!
@@ -70,7 +70,7 @@ describe Cfp do
       end
 
       it 'when send_on_cfp_dates_updates is not set' do
-        conference.email_settings.send_on_cfp_dates_updates = false
+        conference.email_settings.send_on_cfp_dates_updated = false
         conference.email_settings.save!
         cfp.end_date = Date.today
 
@@ -79,7 +79,7 @@ describe Cfp do
       end
 
       it 'when cfp_dates_updates_subject is not set' do
-        conference.email_settings.cfp_dates_updates_subject = ''
+        conference.email_settings.cfp_dates_updated_subject = ''
         conference.email_settings.save!
         cfp.end_date = Date.today
 
@@ -88,7 +88,7 @@ describe Cfp do
       end
 
       it 'when cfp_dates_updates_template is not set' do
-        conference.email_settings.cfp_dates_updates_template = ''
+        conference.email_settings.cfp_dates_updated_body = ''
         conference.email_settings.save!
         cfp.end_date = Date.today
 
