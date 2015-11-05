@@ -79,6 +79,7 @@ RSpec.configure do |config|
   config.include Flash, type: :feature
   config.include Sidebar, type: :view
   config.include Devise::TestHelpers, type: :view
+  config.include Capybara::DSL
 
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
