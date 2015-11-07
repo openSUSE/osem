@@ -19,7 +19,7 @@ class ChangeConferenceIdToVenueIdInRooms < ActiveRecord::Migration
   end
 
   def up
-    add_column :rooms, :venue_id, :integer, null: false
+    add_column :rooms, :venue_id, :integer
 
     TempRoom.all.each do |room|
       venue = TempVenue.find_by(conference_id: room.conference_id)
@@ -32,11 +32,12 @@ class ChangeConferenceIdToVenueIdInRooms < ActiveRecord::Migration
       room.save!
     end
 
+    change_column :rooms, :venue_id, :integer, null: false
     remove_column :rooms, :conference_id
   end
 
   def down
-    add_column :rooms, :conference_id, :integer, null: false
+    add_column :rooms, :conference_id, :integer
 
     TempRoom.all.each do |room|
       venue = TempVenue.find(room.venue_id)
@@ -49,6 +50,7 @@ class ChangeConferenceIdToVenueIdInRooms < ActiveRecord::Migration
       room.save!
     end
 
+    change_column :rooms, :conference_id, :integer, null: false
     remove_column :rooms, :venue_id
   end
 end
