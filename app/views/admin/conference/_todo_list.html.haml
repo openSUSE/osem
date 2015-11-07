@@ -32,8 +32,8 @@
       Add venue
   %li{'class'=>"list-group-item #{class_for_todo(conference_progress['rooms'])}"}
     %span{'class'=>icon_for_todo(conference_progress['rooms'])}
-    - if can? :update, @conference.program.rooms.build
-      = link_to 'Add rooms', admin_conference_program_rooms_path(conference_progress['short_title'])
+    - if @conference.venue && (can? :update, @conference.venue.rooms.build)
+      = link_to 'Add rooms', admin_conference_venue_rooms_path(conference_progress['short_title'])
     - else
       Add rooms
   %li{'class'=>"list-group-item #{class_for_todo(conference_progress['tracks'])}"}

@@ -21,6 +21,7 @@ class CreateProgramsTable< ActiveRecord::Migration
       t.integer :rating, default: 0
       t.boolean :schedule_public, default: false
       t.boolean :schedule_fluid, default: false
+      t.timestamps
     end
 
     add_column :call_for_papers, :program_id, :integer

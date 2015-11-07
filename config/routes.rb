@@ -44,14 +44,15 @@ Osem::Application.routes.draw do
 
       # Singletons
       resource :splashpage
-      resource :venue
+      resource :venue do
+        resources :rooms, except: [:show]
+      end
       resource :registration_period
       resource :program do
         resource :cfp
         resources :tracks
         resources :event_types
         resources :difficulty_levels
-        resources :rooms, except: [:show]
         resources :events do
           member do
             post :comment

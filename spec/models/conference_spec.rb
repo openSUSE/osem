@@ -972,7 +972,6 @@ describe Conference do
     it 'calculates correct for new conference' do
       subject.program.cfp = nil
       subject.venue = nil
-      subject.program.rooms = []
       subject.program.tracks = []
       subject.program.event_types = []
       subject.program.difficulty_levels = []
@@ -1005,7 +1004,6 @@ describe Conference do
                                            end_date: Date.today + 14)
       subject.program.cfp = create(:cfp)
       subject.venue = nil
-      subject.program.rooms = []
       subject.program.tracks = []
       subject.program.event_types = []
       subject.program.difficulty_levels = []
@@ -1023,8 +1021,8 @@ describe Conference do
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.program.cfp = create(:cfp)
-      subject.venue = create(:venue)
-      subject.program.rooms = []
+      subject.venue = create(:venue, conference: subject)
+      subject.venue.rooms = []
       subject.program.tracks = []
       subject.program.event_types = []
       subject.program.difficulty_levels = []
@@ -1039,12 +1037,12 @@ describe Conference do
     end
 
     it 'calculates correct for conference with registration, cfp, venue, rooms' do
-      subject.program.rooms = [create(:room)]
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.program.cfp = create(:cfp)
-      subject.venue = create(:venue)
+      subject.venue = create(:venue, conference: subject)
+      subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.program.tracks = []
       subject.program.event_types = []
       subject.program.difficulty_levels = []
@@ -1060,13 +1058,13 @@ describe Conference do
     end
 
     it 'calculates correct for conference with registration, cfp, venue, rooms, tracks' do
-      subject.program.rooms = [create(:room)]
+      subject.venue = create(:venue, conference: subject)
+      subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.program.tracks = [create(:track)]
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.program.cfp = create(:cfp)
-      subject.venue = create(:venue)
       subject.program.event_types = []
       subject.program.difficulty_levels = []
       subject.splashpage = create(:splashpage, public: false)
@@ -1083,14 +1081,14 @@ describe Conference do
 
     it 'calculates correct for conference with registration, cfp,
                                       venue, rooms, tracks, event_types' do
-      subject.program.rooms = [create(:room)]
       subject.program.tracks = [create(:track)]
       subject.program.event_types = [create(:event_type)]
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.program.cfp = create(:cfp)
-      subject.venue = create(:venue)
+      subject.venue = create(:venue, conference: subject)
+      subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.program.difficulty_levels = []
       subject.splashpage = create(:splashpage, public: false)
 
@@ -1106,7 +1104,6 @@ describe Conference do
     end
 
     it 'calculates correct for conference with all mandatory options' do
-      subject.program.rooms = [create(:room)]
       subject.program.tracks = [create(:track)]
       subject.program.event_types = [create(:event_type)]
       subject.program.difficulty_levels = [create(:difficulty_level)]
@@ -1114,7 +1111,8 @@ describe Conference do
                                            start_date: Date.today,
                                            end_date: Date.today + 14)
       subject.program.cfp = create(:cfp)
-      subject.venue = create(:venue)
+      subject.venue = create(:venue, conference: subject)
+      subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.splashpage = create(:splashpage, public: true)
 
       expect(subject.get_status).to eq(@result)

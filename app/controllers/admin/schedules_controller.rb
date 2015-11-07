@@ -4,6 +4,7 @@ module Admin
     # the schedule of a conference, which should not be accessed in the first place
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
+    load_resource :venue, through: :conference, singleton: true
 
     skip_before_filter :verify_authenticity_token, only: [:update]
     layout 'schedule'
@@ -15,7 +16,7 @@ module Admin
         return
       end
       @dates = @conference.start_date..@conference.end_date
-      @rooms = @program.rooms
+      @rooms = @venue.rooms
     end
 
     def update

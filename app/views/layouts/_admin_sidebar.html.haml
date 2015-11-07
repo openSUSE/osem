@@ -53,9 +53,9 @@
         %span.fa.fa-road
         Venue
       %ul
-        - if can? :update, @conference.program.rooms.build
-          %li{:class=> active_nav_li(admin_conference_program_rooms_path(@conference.short_title))}
-            = link_to 'Rooms', admin_conference_program_rooms_path(@conference.short_title)
+        - if @conference.venue && @conference.venue.persisted? && (can? :update, @conference.venue.rooms.build)
+          %li{:class=> active_nav_li(admin_conference_venue_rooms_path(@conference.short_title))}
+            = link_to 'Rooms', admin_conference_venue_rooms_path(@conference.short_title)
         - if can? :update, @conference.lodgings.build
           %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
             = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)

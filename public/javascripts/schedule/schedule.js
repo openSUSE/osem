@@ -30,7 +30,7 @@ var scheduleDayEvents = {};
 var Schedule = {
     loadEvents: function(conference_id, start_date) {
         var eventDates = {};
-        var url = '/admin/conference/' + conference_id + '/events';
+        var url = '/admin/conference/' + conference_id + '/program/events';
         var params = { start: $('#start').text(), end: $('#end').text()};
         var callback = function(data) {
             $.each(data, function(key, val) {

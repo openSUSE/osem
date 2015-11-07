@@ -8,7 +8,7 @@ module Api
           rooms = Room.all
         else
           conference = Conference.find_by_guid(params[:conference_id])
-          rooms = conference.rooms
+          rooms = conference.venue.rooms if conference.venue
         end
         respond_with rooms
       end

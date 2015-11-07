@@ -5,7 +5,7 @@
       %p.text-muted
         The rooms of your conference venue
 
-- if @conference.program.rooms.any?
+- if @rooms.any?
   .row
     .col-md-12
       %table.table.table-hover#rooms
@@ -14,18 +14,18 @@
           %th Size
           %th Actions
         %tbody
-          - @conference.program.rooms.each_with_index do |room, index|
+          - @rooms.each_with_index do |room, index|
             %tr
               %td
                 = room.name
               %td
                 = room.size
               %td
-                = link_to 'Edit', edit_admin_conference_program_room_path(@conference.short_title, room.id),
+                = link_to 'Edit', edit_admin_conference_venue_room_path(@conference.short_title, room.id),
                 method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_program_room_path(@conference.short_title, room.id),
+                = link_to 'Delete', admin_conference_venue_room_path(@conference.short_title, room.id),
                 method: :delete, class: 'btn btn-danger',
                 data: { confirm: "Do you really want to delete #{room.name}? Attention: This room will be removed from all Events that have it set"}
 .row
   .col-md-12.text-right
-    = link_to 'Add Room', new_admin_conference_program_room_path(@conference.short_title), class: 'btn btn-primary'
+    = link_to 'Add Room', new_admin_conference_venue_room_path(@conference.short_title), class: 'btn btn-primary'

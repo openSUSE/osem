@@ -707,7 +707,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> One room or more
   # * +False+ -> No room
   def rooms_set?
-    program.rooms.count > 0
+    venue.present? && venue.rooms.count > 0
   end
 
   # Checks if the conference has a venue object.

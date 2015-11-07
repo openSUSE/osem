@@ -2,11 +2,11 @@ require 'spec_helper'
 
 feature 'Has correct abilities' do
   # It is necessary to use bang version of let to build roles before user
-  let(:conference1) { create(:conference) } # user is organizer
-  let(:conference2) { create(:conference) } # user is cfp
-  let(:conference3) { create(:conference) } # user is info_desk
-  let(:conference4) { create(:conference) } # user is volunteer coordinator
-  let(:conference5) { create(:conference) } # user has no role
+  let(:conference1) { create(:full_conference) } # user is organizer
+  let(:conference2) { create(:full_conference) } # user is cfp
+  let(:conference3) { create(:full_conference) } # user is info_desk
+  let(:conference4) { create(:full_conference) } # user is volunteer coordinator
+  let(:conference5) { create(:full_conference) } # user has no role
 
   let(:role_organizer) { create(:role, name: 'organizer', resource: conference1) }
   let(:role_cfp) { create(:role, name: 'cfp', resource: conference2) }
@@ -43,7 +43,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Campaigns', href: "/admin/conference/#{conference1.short_title}/campaigns")
     expect(page).to have_link('Goals', href: "/admin/conference/#{conference1.short_title}/targets")
     expect(page).to have_link('Venue', href: "/admin/conference/#{conference1.short_title}/venue")
-    expect(page).to have_link('Rooms', href: "/admin/conference/#{conference1.short_title}/program/rooms")
+    expect(page).to have_link('Rooms', href: "/admin/conference/#{conference1.short_title}/venue/rooms")
     expect(page).to have_link('Lodgings', href: "/admin/conference/#{conference1.short_title}/lodgings")
     expect(page).to have_link('Sponsorship', href: "/admin/conference/#{conference1.short_title}/sponsorship_levels")
     expect(page).to have_link('Sponsors', href: "/admin/conference/#{conference1.short_title}/sponsors")
@@ -120,7 +120,7 @@ feature 'Has correct abilities' do
     expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference2.short_title}/campaigns")
     expect(page).to_not have_link('Goals', href: "/admin/conference/#{conference2.short_title}/targets")
     expect(page).to have_link('Venue', href: "/admin/conference/#{conference2.short_title}/venue")
-    expect(page).to have_link('Rooms', href: "/admin/conference/#{conference2.short_title}/program/rooms")
+    expect(page).to have_link('Rooms', href: "/admin/conference/#{conference2.short_title}/venue/rooms")
     expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference2.short_title}/lodgings")
     expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference2.short_title}/sponsorship_levels")
     expect(page).to_not have_link('Sponsors', href: "/admin/conference/#{conference2.short_title}/sponsors")
@@ -193,7 +193,7 @@ feature 'Has correct abilities' do
     expect(page).to_not have_link('Campaigns', href: "/admin/conference/#{conference3.short_title}/campaigns")
     expect(page).to_not have_link('Targets', href: "/admin/conference/#{conference3.short_title}/targets")
     expect(page).to_not have_link('Venue', href: "/admin/conference/#{conference3.short_title}/venue")
-    expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference3.short_title}/program/rooms")
+    expect(page).to_not have_link('Rooms', href: "/admin/conference/#{conference3.short_title}/venue/rooms")
     expect(page).to_not have_link('Lodgings', href: "/admin/conference/#{conference3.short_title}/lodgings")
     expect(page).to_not have_link('Sponsorship', href: "/admin/conference/#{conference3.short_title}/sponsorship_levels")
     expect(page).to_not have_link('Sponsors', href: "/admin/conference/#{conference3.short_title}/sponsors")
