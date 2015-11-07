@@ -106,6 +106,10 @@ class Ability
     can :manage, :all if user.is_admin
 
     cannot :destroy, Program
+    # Do not delete venue, when there are rooms being used
+    cannot :destroy, Venue do |venue|
+      venue.conference.program.events.where.not(room_id: nil).any?
+    end
   end
 
   def signed_in_with_organizer_role(user)
@@ -141,7 +145,7 @@ class Ability
                              commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
     can :manage, Venue, conference_id: conf_ids_for_organizer
     can :manage, Lodging, conference_id: conf_ids_for_organizer
-    can :manage, Room, program: { conference_id: conf_ids_for_organizer}
+    can :manage, Room, venue: { conference_id: conf_ids_for_organizer}
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
     can :manage, SponsorshipLevel, conference_id: conf_ids_for_organizer
     can :manage, Ticket, conference_id: conf_ids_for_organizer
@@ -160,7 +164,7 @@ class Ability
     can :manage, Track, program: { conference_id: conf_ids_for_cfp }
     can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_cfp }
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
-    can :manage, Room, program: { conference_id: conf_ids_for_cfp }
+    can :manage, Room, venue: { conference_id: conf_ids_for_cfp }
     can :index, Venue, conference_id: conf_ids_for_cfp
     can :manage, Cfp, program: { conference_id: conf_ids_for_cfp }
     can :manage, Program, conference_id: conf_ids_for_cfp

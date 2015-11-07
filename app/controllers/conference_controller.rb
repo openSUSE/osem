@@ -11,7 +11,7 @@ class ConferenceController < ApplicationController
   def show; end
 
   def schedule
-    @rooms = @conference.program.rooms
+    @rooms = @conference.venue.rooms if @conference.venue
     @events = @conference.program.events
     @dates = @conference.start_date..@conference.end_date
 

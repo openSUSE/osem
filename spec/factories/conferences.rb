@@ -7,22 +7,21 @@ FactoryGirl.define do
     timezone 'Amsterdam'
     start_date { Date.today }
     end_date { 6.days.from_now }
-    program
 
     factory :full_conference do
-      venue
       splashpage
       registration_period
 
-      after(:build) do |conference|
-        conference.commercials << build(:conference_commercial, commercialable: conference)
-        conference.campaigns << build(:campaign, conference: conference)
-        conference.targets << build(:target, conference: conference)
-        conference.questions << build(:question, conference_id: conference.id)
-        conference.lodgings << build(:lodging, conference: conference)
-        conference.sponsors << build(:sponsor, conference: conference)
-        conference.sponsorship_levels << build(:sponsorship_level, conference: conference)
-        conference.tickets << build(:ticket, conference: conference)
+      after :create do |conference|
+        create(:venue, conference_id: conference.id)
+        conference.commercials << create(:conference_commercial, commercialable: conference)
+        conference.campaigns << create(:campaign, conference: conference)
+        conference.targets << create(:target, conference: conference)
+        conference.questions << create(:question, conference_id: conference.id)
+        conference.lodgings << create(:lodging, conference: conference)
+        conference.sponsors << create(:sponsor, conference: conference)
+        conference.sponsorship_levels << create(:sponsorship_level, conference: conference)
+        conference.tickets << create(:ticket, conference: conference)
       end
     end
   end

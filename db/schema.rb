@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151021113015) do
+ActiveRecord::Schema.define(version: 20151031092713) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -274,10 +274,12 @@ ActiveRecord::Schema.define(version: 20151021113015) do
   end
 
   create_table "programs", force: true do |t|
-    t.integer "conference_id"
-    t.integer "rating",          default: 0
-    t.boolean "schedule_public", default: false
-    t.boolean "schedule_fluid",  default: false
+    t.integer  "conference_id"
+    t.integer  "rating",          default: 0
+    t.boolean  "schedule_public", default: false
+    t.boolean  "schedule_fluid",  default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "qanswers", force: true do |t|
@@ -360,10 +362,10 @@ ActiveRecord::Schema.define(version: 20151021113015) do
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", using: :btree
 
   create_table "rooms", force: true do |t|
-    t.string  "guid",       null: false
-    t.string  "name",       null: false
+    t.string  "guid",     null: false
+    t.string  "name",     null: false
     t.integer "size"
-    t.integer "program_id"
+    t.integer "venue_id", null: false
   end
 
   create_table "social_events", force: true do |t|

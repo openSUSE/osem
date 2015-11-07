@@ -8,5 +8,6 @@ FactoryGirl.define do
     country 'DE'
     website 'www.opensuse.org'
     description 'Lorem Ipsum Dolor'
+    conference
   end
 end

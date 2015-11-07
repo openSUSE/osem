@@ -1,4 +1,4 @@
-class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveRecord::Migration
+class RenameConferenceIdToProgramIdInEventsTracksDifficultyLevels < ActiveRecord::Migration
   class TempConference < ActiveRecord::Base
     self.table_name = 'conferences'
   end
@@ -19,10 +19,6 @@ class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveR
     self.table_name = 'difficulty_levels'
   end
 
-  class TempRoom < ActiveRecord::Base
-    self.table_name = 'rooms'
-  end
-
   class TempProgram < ActiveRecord::Base
     self.table_name = 'programs'
   end
@@ -32,7 +28,6 @@ class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveR
     add_column :event_types, :program_id, :integer
     add_column :tracks, :program_id, :integer
     add_column :difficulty_levels, :program_id, :integer
-    add_column :rooms, :program_id, :integer
 
     TempConference.all.each do |conference|
       program = Program.find_by(conference_id: conference.id)
@@ -56,18 +51,12 @@ class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveR
         difficulty_level.program_id = program.id
         difficulty_level.save!
       end
-
-      TempRoom.where(conference_id: conference.id).each do |room|
-        room.program_id = program.id
-        room.save!
-      end
     end
 
     remove_column :events, :conference_id
     remove_column :event_types, :conference_id
     remove_column :tracks, :conference_id
     remove_column :difficulty_levels, :conference_id
-    remove_column :rooms, :conference_id
   end
 
   def down
@@ -75,7 +64,6 @@ class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveR
     add_column :event_types, :conference_id, :integer
     add_column :tracks, :conference_id, :integer
     add_column :difficulty_levels, :conference_id, :integer
-    add_column :rooms, :conference_id, :integer
 
     TempConference.all.each do |conference|
       program = TempProgram.find_by(conference_id: conference.id)
@@ -100,11 +88,6 @@ class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveR
           difficulty_level.conference_id = conference.id
           difficulty_level.save!
         end
-
-        TempRoom.where(program_id: program.id).each do |room|
-          room.conference_id = conference.id
-          room.save!
-        end
       end
     end
 
@@ -112,6 +95,5 @@ class RenameConferenceIdToProgramIdInEventsRoomsTracksDifficultyLevels < ActiveR
     remove_column :event_types, :program_id
     remove_column :tracks, :program_id
     remove_column :difficulty_levels, :program_id
-    remove_column :rooms, :program_id
   end
 end

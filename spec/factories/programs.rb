@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :program do
     schedule_public false
     schedule_fluid false
-#     conference
+    conference
   end
 end
