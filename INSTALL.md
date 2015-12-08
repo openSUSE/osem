@@ -3,54 +3,49 @@ You can run rails apps in different modes (development, production). For more in
 about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
 
 ### Run OSEM in development
-1. Clone the git repository to the directory you want Apache to serve the content from.
+We are using [Vagrant](https://www.vagrantup.com/) to create our development environments.
 
-  ```
-  git clone https://github.com/openSUSE/osem.git
-  ```
+1. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Both tools support Linux, MacOS and Windows.
 
-2. Install all the ruby gems.
+2. Install [vagrant-exec](https://github.com/p0deje/vagrant-exec):
 
-  ```
-  bundle install
-  ```
+    ```
+    vagrant plugin install vagrant-exec
+    vagrant plugin install vagrant-reload
+    ```
 
-3. Install [ImageMagick](http://imagemagick.org/script/binary-releases.php)
+3. Clone this code repository:
 
-4. Generate secret key for devise and the rails app with
+    ```
+    git clone https://github.com/openSUSE/osem.git
+    ```
 
-  ```
-  rake secret
-  ```
+4. Execute Vagrant:
 
-5. Copy the sample configuration files and adapt them
+    ```
+    vagrant up
+    ```
 
-  ```
-  cp config/config.yml.example config/config.yml
-  cp config/database.yml.example config/database.yml
-  cp config/secrets.yml.example config/secrets.yml
-  ```
+7. Start your OSEM rails app:
 
-6. Setup the database
+    ```
+    vagrant exec rails s
+    ```
 
-  ```
-  bundle exec rake db:setup
-  ```
+8. Check out your OSEM rails app:
+You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
 
-7. Run OSEM
+9. Changed something? Test your changes!:
 
-  ```
-  rails server
-  ```
+    ```
+    vagrant exec rake test
+    ```
 
-8. Visit the APP at
+10. Explore the development environment:
 
-  ```
-  http://localhost:3000
-  ```
-9. Sign up, the first user will be automatically assigned the admin role.
-
-10. Hack!
+    ```
+    vagrant ssh
+    ```
 
 ### Run OSEM in production
 We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
