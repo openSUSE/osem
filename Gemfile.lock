@@ -186,7 +186,7 @@ GEM
     jquery-datatables-rails (2.2.3)
       jquery-rails
       sass-rails
-    jquery-rails (3.1.2)
+    jquery-rails (3.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
