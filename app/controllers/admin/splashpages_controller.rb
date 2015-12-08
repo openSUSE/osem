@@ -15,9 +15,11 @@ module Admin
       @splashpage = @conference.build_splashpage(splashpage_params)
 
       if @splashpage.save
-        redirect_to admin_conference_splashpage_path,
-                    notice: 'Splashpage successfully created.'
+        flash[:notice] = 'Splashpage successfully created.'
+        redirect_to admin_conference_splashpage_path
       else
+        flash[:error] = 'Splashpage could not be created.'\
+                        "#{@splashpage.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -33,10 +35,12 @@ module Admin
 
     def destroy
       if @splashpage.destroy
-        redirect_to admin_conference_splashpage_path, notice: 'Splashpage was successfully destroyed.'
+        flash[:notice] = 'Splashpage was successfully destroyed.'
+        redirect_to admin_conference_splashpage_path
       else
-        redirect_to admin_conference_splashpage_path, alert: 'An error prohibited this Splashpage from being destroyed: '\
-        "#{@splashpage.errors.full_messages.join('. ')}."
+        flash[:error] = 'An error prohibited this Splashpage from being destroyed: '\
+                        "#{@splashpage.errors.full_messages.join('. ')}."
+        redirect_to admin_conference_splashpage_path
       end
     end
 

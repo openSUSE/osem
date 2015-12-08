@@ -5,9 +5,9 @@ module Admin
 
     def update
       @conference.email_settings.update_attributes(params[:email_settings])
-      redirect_to(admin_conference_emails_path(
-                  @conference.short_title),
-                  notice: 'Settings have been successfully updated.')
+
+      flash[:notice] = 'Settings have been successfully updated.'
+      redirect_to admin_conference_emails_path(@conference.short_title)
     end
 
     def index

@@ -9,7 +9,7 @@
 .row
   .col-md-8
     = semantic_form_for(@ticket, :url => (@ticket.new_record? ? admin_conference_tickets_path : admin_conference_ticket_path(@conference.short_title, @ticket))) do |f|
-      = f.input :title
+      = f.input :title, input_html: { required: true, autofocus: true }
       = f.input :description, input_html: { rows: 5, data: { provide: "markdown-editable" } }
       = f.input :price
       = f.input :price_currency, as: :select, class: 'form-control', collection: ['USD', 'EUR', 'GBP', 'INR', 'CNY'], include_blank: false

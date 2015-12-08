@@ -9,7 +9,8 @@ class TicketsController < ApplicationController
 
   def check_load_resource
     if @tickets.empty?
-      redirect_to root_path, notice: "There are no tickets available for #{@conference.title}!"
+      flash[:notice] = "There are no tickets available for #{@conference.title}!"
+      redirect_to root_path
     end
   end
 end

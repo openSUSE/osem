@@ -15,8 +15,8 @@ class CommercialsController < ApplicationController
     authorize! :create, @commercial
 
     if @commercial.save
-      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
-                  notice: 'Commercial was successfully created.'
+      flash[:notice] = 'Commercial was successfully created.'
+      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content')
     else
       flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
       render :new
@@ -25,8 +25,8 @@ class CommercialsController < ApplicationController
 
   def update
     if @commercial.update(commercial_params)
-      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
-                  notice: 'Commercial was successfully updated.'
+      flash[:notice] = 'Commercial was successfully updated.'
+      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content')
     else
       flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
       render :edit
@@ -35,8 +35,8 @@ class CommercialsController < ApplicationController
 
   def destroy
     @commercial.destroy
-    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id),
-                notice: 'Commercial was successfully destroyed.'
+    flash[:notice] = 'Commercial was successfully destroyed.'
+    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id)
   end
 
   private
@@ -46,7 +46,6 @@ class CommercialsController < ApplicationController
   end
 
   def commercial_params
-    #params.require(:commercial).permit(:commercial_id, :commercial_type)
-    params[:commercial]
+    params.require(:commercial).permit(:commercial_id, :commercial_type)
   end
 end

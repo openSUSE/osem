@@ -16,8 +16,8 @@ module Admin
     def update
       @registration.update_attributes(registration_params)
       if @registration.save
-        redirect_to admin_conference_registrations_path(@conference.short_title),
-                    notice: "Successfully updated registration for #{@registration.user.email}!"
+        flash[:notice] = "Successfully updated registration for #{@registration.user.email}!"
+        redirect_to admin_conference_registrations_path(@conference.short_title)
       else
         flash[:error] = "An error prohibited the Registration for #{@registration.user.email}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
@@ -28,11 +28,12 @@ module Admin
     def destroy
       if can? :destroy, @registration
         @registration.destroy
-        redirect_to admin_conference_registrations_path(@conference.short_title),
-                    notice: "Deleted registration for #{@user.name}!"
+
+        flash[:notice] = "Deleted registration for #{@user.name}!"
+        redirect_to admin_conference_registrations_path(@conference.short_title)
       else
-        redirect_to(admin_conference_registrations_path(@conference.short_title),
-                    error: 'You must be an admin to delete a registration.')
+        flash[:error] = 'You must be an admin to delete a registration.'
+        redirect_to admin_conference_registrations_path(@conference.short_title)
       end
     end
 

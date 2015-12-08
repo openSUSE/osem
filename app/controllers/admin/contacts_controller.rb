@@ -12,8 +12,10 @@ module Admin
     # PATCH/PUT /:conference/contact
     def update
       if @contact.update(contact_params)
-        redirect_to edit_admin_conference_contact_path, notice: 'Contact details were successfully updated.'
+        flash[:notice] = 'Contact details were successfully updated.'
+        redirect_to edit_admin_conference_contact_path
       else
+        flash[:error] = 'Contact details were not updated.'
         render :edit
       end
     end

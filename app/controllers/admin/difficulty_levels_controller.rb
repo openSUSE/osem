@@ -17,7 +17,7 @@ module Admin
       @difficulty_level = @conference.difficulty_levels.new(difficulty_level_params)
       if @difficulty_level.save
         flash[:notice] = 'Difficulty level successfully created.'
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
+        redirect_to admin_conference_difficulty_levels_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Creating difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
         render :new
@@ -27,7 +27,7 @@ module Admin
     def update
       if @difficulty_level.update_attributes(difficulty_level_params)
         flash[:notice] = 'Difficulty level successfully updated.'
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
+        redirect_to admin_conference_difficulty_levels_path(conference_id: @conference.short_title)
       else
         flash[:error] = "Update difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
         render :edit
@@ -37,11 +37,11 @@ module Admin
     def destroy
       if @difficulty_level.destroy
         flash[:notice] = 'Difficulty level successfully deleted.'
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
+        redirect_to admin_conference_difficulty_levels_path(conference_id: @conference.short_title)
       else
         flash[:error] = 'Deleting difficulty level type failed! ' \
-        "#{@difficulty_level.errors.full_messages.join('. ')}."
-        redirect_to(admin_conference_difficulty_levels_path(conference_id: @conference.short_title))
+                         "#{@difficulty_level.errors.full_messages.join('. ')}."
+        redirect_to admin_conference_difficulty_levels_path(conference_id: @conference.short_title)
       end
     end
 

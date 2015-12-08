@@ -28,9 +28,11 @@ module Admin
       end
 
       if @user.update_attributes(params[:user])
-        redirect_to admin_users_path, notice: "Updated #{@user.name} (#{@user.email})!" + message
+        flash[:notice] = "Updated #{@user.name} (#{@user.email})!" + message
+        redirect_to admin_users_path
       else
-        redirect_to admin_users_path, alert: "Could not update #{@user.name} (#{@user.email}). #{@user.errors.full_messages.join('. ')}."
+        flash[:error] = "Could not update #{@user.name} (#{@user.email}). #{@user.errors.full_messages.join('. ')}."
+        render :edit
       end
     end
 

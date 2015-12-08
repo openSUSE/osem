@@ -19,8 +19,8 @@ module Admin
       authorize! :create, @commercial
 
       if @commercial.save
-        redirect_to admin_conference_commercials_path,
-                    notice: 'Commercial was successfully created.'
+        flash[:notice] = 'Commercial was successfully created.'
+        redirect_to admin_conference_commercials_path
       else
         flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
         render :new
@@ -29,8 +29,8 @@ module Admin
 
     def update
       if @commercial.update(commercial_params)
-        redirect_to admin_conference_commercials_path,
-                    notice: 'Commercial was successfully updated.'
+        flash[:notice] = 'Commercial was successfully updated.'
+        redirect_to admin_conference_commercials_path
       else
         flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
         render :edit
@@ -38,8 +38,14 @@ module Admin
     end
 
     def destroy
-      @commercial.destroy
-      redirect_to admin_conference_commercials_path, notice: 'Commercial was successfully destroyed.'
+      if @commercial.destroy
+        flash[:notice] = 'Commercial was successfully destroyed.'
+        redirect_to admin_conference_commercials_path
+      else
+        flash[:error] = 'Commercial was not destroyed.'\
+                        "#{@commercial.errors.full_messages.join('. ')}"
+        redirect_to admin_conference_commercials_path
+      end
     end
 
     private
