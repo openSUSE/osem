@@ -173,6 +173,7 @@ class Ability
     can :manage, Question do |question|
       !(question.conferences.pluck(:id) & conf_ids_for_info_desk).empty?
     end
+    can [ :show, :toggle_question ], Question, global: true
   end
 
   def signed_in_with_volunteers_coordinator_role(user)

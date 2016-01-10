@@ -2,11 +2,27 @@
 
 FactoryGirl.define do
   factory :question do
-    title 'blah'
+    title 'Do you?'
     question_type
-    after(:build) do |question|
-      question.answers << build(:answer)
-      question.conferences << build(:conference)
+
+    factory :question_with_answers do
+      title 'Which do you choose?'
+
+      after(:build) do |question|
+        question.answers << build(:first_answer)
+        question.answers << build(:second_answer)
+      end
+    end
+
+    factory :attending_with_partner do
+      title 'Will you attend with a partner?'
+      association :question_type, factory: :yes_no
+      global true
+
+      after(:build) do |question|
+        question.answers << build(:answer_yes)
+        question.answers << build(:answer_no)
+      end
     end
   end
 end

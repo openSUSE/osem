@@ -11,24 +11,50 @@
 .row
   .col-md-12
     - if @questions.count > 0
-      = semantic_form_for(@conference, url: update_conference_admin_conference_questions_path(@conference.short_title)) do |f|
-        .questions{id: 'myquestions'}
-          = render partial: 'questions'
-        - if can? :update, Question.new(conference_id: @conference.id)
-          = f.submit "Save Questions", class: 'btn btn-primary pull-right',
-                      confirm: 'Are you sure you want to make these changes?'
+
+      .questions
+        %table.table.table-hover.datatable#questions
+          %thead
+            %th Enabled
+            %th Title
+            %th Type
+            %th Answers
+            %th Actions
+          %tbody
+            - @questions.each do |question|
+              %tr
+                %td
+                  = check_box_tag @conference.short_title, question.id, (@conference.questions.include? question),
+                    method: :patch, url: "/admin/conference/#{@conference.short_title}/questions/#{question.id}/toggle_question?enable=",
+                    disabled: question.answers.blank? || !(can? :update, Question.new(conference_id: @conference.id) ), class: 'switch-checkbox', data: { size: 'small',
+                                                      off_color: 'warning',
+                                                      on_text: 'Yes',
+                                                      off_text: 'No' }
+
+
+                %td
+                  = question.title
+                %td
+                  = question.question_type.title
+                %td
+                  = question.answers.map {|answer| "#{answer.title} (#{answer.sum_replies question, @conference})"}.join(', ')
+
+                %td
+                  .btn-group
+                    = link_to 'Show', admin_conference_question_path(@conference.short_title, question), class: 'btn btn-success', disabled: !(can? :show, question)
+                    = link_to 'Edit', edit_admin_conference_question_path(@conference.short_title, question),
+                              class: 'btn btn-primary', disabled: !(can? :update, question)
+                    = link_to 'Delete', admin_conference_question_path(@conference.short_title, question),
+                              method: :delete, class: 'btn btn-danger',
+                              data: { confirm: "Delete question '#{question.title}'?" }, disabled: !(can? :destroy, question)
+
+
 
     .modal.fade{id: 'new-question', 'role' => 'dialog', 'aria-hidden' => 'true'}
       .modal-dialog
         .modal-content
           .modal-header
             %h3{id: 'new-question-header'}
-              Add new question
+              Create Question
           .modal-body
-            = semantic_form_for(@new_question, url: admin_conference_questions_path(@conference.short_title), method: :post) do |f|
-              = render partial: 'form', locals: {f: f}
-              %button{class: 'btn btn-primary'}
-                Save
-              .pull-right
-                %button{class: 'btn btn-danger', 'data-dismiss'=> 'modal', 'aria-hidden'=>'true'}
-                  Cancel
+            = render partial: 'form'

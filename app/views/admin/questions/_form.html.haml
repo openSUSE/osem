@@ -1,22 +1,45 @@
 .row
-  .col-md-6
-    %legend Question
-    = f.input :title, label: 'Your Question'
-    = f.input :question_type
-    = f.input :global, label: 'Make Global',
-              hint: '(Global questions are available for selection to all conferences)'
-  .col-md-6.hidden{id: 'answers_col'}
-    = dynamic_association :answers, 'Answers', f,
-                          hint: 'Insert your answers in the order you want them to appear'
+  .col-md-12
+    - unless @question.new_record?
+      .page-header
+        %h2
+          Edit Question
+        .text-muted
+          = @question.title
+.row
+  = semantic_form_for(@question, url: @question.new_record? ? admin_conference_questions_path(@conference.short_title) : admin_conference_question_path(@conference.short_title, @question.id)) do |f|
+    .col-md-6
+      %br
+      %legend Question
+      = f.input :title, label: 'Your Question', input_html: { autofocus: true }
+      = f.input :question_type
+      = f.input :global, label: 'Make Global',
+                hint: '(Global questions are available for selection to all conferences)'
+      = f.submit 'Save', class: 'btn btn-primary'
+    .col-md-6.hidden{id: 'answers_col'}
+      = dynamic_association :answers, 'Answers', f,
+                              hint: 'Insert your answers in the order you want them to appear'
 
 :javascript
+  $(document).ready(function(){
+    var selected_type_original = $("#question_question_type_id").find('option:selected').text();
+
+    if ( selected_type_original == 'Yes/No' ) {
+      $('#answers_col').addClass('hidden');
+    }
+    else {
+      $('#answers_col').removeClass('hidden');
+    }
+  });
+
   $("#question_question_type_id").change(function () {
 
     var selected_type = $(this).find('option:selected').text();
 
-    if (selected_type == 'Yes/No')
+    if ( selected_type == 'Yes/No' ) {
       $('#answers_col').addClass('hidden');
-    else
+    }
+    else {
       $('#answers_col').removeClass('hidden');
-    end
+    }
   });
