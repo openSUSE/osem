@@ -1,6 +1,4 @@
 class Question < ActiveRecord::Base
-  attr_accessible :title, :global, :answers_attributes, :answer_ids, :question_type_id, :conference_id
-
   belongs_to :question_type
   has_and_belongs_to_many :conferences
 

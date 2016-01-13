@@ -9,7 +9,6 @@ class ChangeLodgingAssociationToConference < ActiveRecord::Migration
 
   class TempLodging < ActiveRecord::Base
     self.table_name = 'lodgings'
-    attr_accessible :conference_id
   end
 
   def change

@@ -47,7 +47,7 @@ module Admin
     private
 
     def lodging_params
-      params[:lodging]
+      params.require(:lodging).permit(:name, :description, :photo, :website_link, :conference_id)
     end
   end
 end

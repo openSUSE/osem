@@ -52,7 +52,7 @@ module Admin
     private
 
     def track_params
-      params[:track]
+      params.require(:track).permit(:name, :description, :color)
     end
   end
 end

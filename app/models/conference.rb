@@ -8,18 +8,6 @@ class Conference < ActiveRecord::Base
 
   default_scope { order('start_date DESC') }
 
-  attr_accessible :title, :short_title, :description, :timezone, :html_export_path,
-                  :start_date, :end_date, :rooms_attributes, :tracks_attributes,
-                  :dietary_choices_attributes, :use_dietary_choices,
-                  :tickets_attributes, :social_events_attributes, :event_types_attributes,
-                  :logo, :questions_attributes,
-                  :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
-                  :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
-                  :vpositions_attributes, :use_volunteers, :color,
-                  :sponsorship_levels_attributes, :sponsors_attributes,
-                  :photos_attributes, :targets, :targets_attributes,
-                  :campaigns, :campaigns_attributes
-
   has_paper_trail
 
   has_and_belongs_to_many :questions

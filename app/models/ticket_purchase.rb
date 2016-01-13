@@ -3,8 +3,6 @@ class TicketPurchase < ActiveRecord::Base
   belongs_to :user
   belongs_to :conference
 
-  attr_accessible :ticket_id, :user_id, :conference_id, :paid, :quantity
-
   validates :ticket_id, :user_id, :conference_id, :quantity, presence: true
 
   validates_numericality_of :quantity, greater_than: 0

@@ -1,7 +1,6 @@
 class SplitTicketPriceInPriceAndCurrency < ActiveRecord::Migration
   class TempTicket < ActiveRecord::Base
     self.table_name = 'tickets'
-    attr_accessible :ticket_price, :price_cents, :price_currency
   end
 
   def change

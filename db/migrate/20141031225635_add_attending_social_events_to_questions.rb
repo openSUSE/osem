@@ -2,7 +2,6 @@ class AddAttendingSocialEventsToQuestions < ActiveRecord::Migration
   class TempRegistration < ActiveRecord::Base
     self.table_name = 'registrations'
 
-    attr_accessible :attending_social_events
     belongs_to :temp_conference
   end
 
@@ -16,14 +15,12 @@ class AddAttendingSocialEventsToQuestions < ActiveRecord::Migration
   class TempQuestionType < ActiveRecord::Base
     self.table_name = 'question_types'
 
-    attr_accessible :title
     has_many :temp_questions
   end
 
   class TempQuestion < ActiveRecord::Base
     self.table_name = 'questions'
 
-    attr_accessible :title, :global, :question_type_id
     has_many :temp_qanswers
     has_many :temp_answers, through: :temp_qanswers
     belongs_to :temp_question_type
@@ -33,7 +30,6 @@ class AddAttendingSocialEventsToQuestions < ActiveRecord::Migration
   class TempAnswer < ActiveRecord::Base
     self.table_name = 'answers'
 
-    attr_accessible :title
     has_many :temp_qanswers
     has_many :temp_questions, through: :temp_qanswers
   end
@@ -41,21 +37,16 @@ class AddAttendingSocialEventsToQuestions < ActiveRecord::Migration
   class TempQanswer < ActiveRecord::Base
     self.table_name = 'qanswers'
 
-    attr_accessible :question_id, :answer_id
     belongs_to :temp_question
     belongs_to :temp_answer
   end
 
   class TempConferencesQuestions < ActiveRecord::Base
     self.table_name = 'conferences_questions'
-
-    attr_accessible :question_id, :conference_id
   end
 
   class TempQanswerRegistration < ActiveRecord::Base
     self.table_name = 'qanswers_registrations'
-
-    attr_accessible :registration_id, :qanswer_id
   end
 
   def change

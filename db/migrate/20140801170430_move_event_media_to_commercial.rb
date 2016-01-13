@@ -5,7 +5,6 @@ class MoveEventMediaToCommercial < ActiveRecord::Migration
 
   class TempCommercial < ActiveRecord::Base
     self.table_name = 'commercials'
-    attr_accessible :commercial_id, :commercial_type, :commercialable_id, :commercialable_type
   end
 
   def change

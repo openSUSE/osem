@@ -1,7 +1,4 @@
 class EventType < ActiveRecord::Base
-  attr_accessible :title, :length, :minimum_abstract_length, :maximum_abstract_length, :color,
-                  :conference_id, :description
-
   belongs_to :conference
   has_many :events, dependent: :restrict_with_error
 

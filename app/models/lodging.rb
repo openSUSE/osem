@@ -1,5 +1,4 @@
 class Lodging < ActiveRecord::Base
-  attr_accessible :name, :description, :photo, :website_link, :conference_id
   belongs_to :conference
 
   validates :name, presence: true

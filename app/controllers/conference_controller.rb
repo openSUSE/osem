@@ -28,9 +28,9 @@ class ConferenceController < ApplicationController
 
   private
 
-    def respond_to_options
-      respond_to do |format|
-        format.html { head :ok }
-      end if request.options?
-    end
+  def respond_to_options
+    respond_to do |format|
+      format.html { head :ok }
+    end if request.options?
+  end
 end

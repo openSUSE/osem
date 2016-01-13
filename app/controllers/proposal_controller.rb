@@ -26,7 +26,7 @@ class ProposalController < ApplicationController
     @url = conference_proposal_index_path(@conference.short_title)
 
     unless current_user
-      @user = User.new(params[:user])
+      @user = User.new(user_params)
       if @user.save
         sign_in(@user)
       else
@@ -38,7 +38,7 @@ class ProposalController < ApplicationController
 
     params[:event].delete :user
 
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
     @event.conference = @conference
 
     @event.event_users.new(user: current_user,
@@ -62,17 +62,7 @@ class ProposalController < ApplicationController
     authorize! :update, @event
     @url = conference_proposal_path(@conference.short_title, params[:id])
 
-    # First, update the submitter's info, if they've changed anything
-    current_user.assign_attributes(params[:user])
-    if current_user.changed?
-      current_user.save
-    end
-
-    # FIXME: Hmmmmm
-    params[:event].delete :users_attributes
-    params[:event].delete :user
-
-    if !@event.update(params[:event])
+    if !@event.update(event_params)
       flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'new'
       return
@@ -144,6 +134,16 @@ class ProposalController < ApplicationController
 
     redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
                 notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
+  end
+
+  private
+
+  def event_params
+    params.require(:event).permit(:title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id)
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :username)
   end
 end
 

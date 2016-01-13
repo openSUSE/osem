@@ -5,7 +5,6 @@ class ChangeVenueConferenceAssociation < ActiveRecord::Migration
 
   class TempVenue < ActiveRecord::Base
     self.table_name = 'venues'
-    attr_accessible :conference_id
   end
 
   def change

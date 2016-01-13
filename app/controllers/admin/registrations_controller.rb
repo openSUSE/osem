@@ -45,22 +45,17 @@ module Admin
       end
     end
 
-    protected
+    private
 
     def set_user
       @user = User.find_by(id: @registration.user_id)
     end
 
     def registration_params
-      params.require(:registration).
-          permit(
-              :conference_id, :arrival, :departure,
-              :volunteer,
-              vchoice_ids: [], qanswer_ids: [], event_ids: [],
-              qanswers_attributes: [],
-              user_attributes: [
-                  :id, :name, :tshirt, :mobile, :volunteer_experience, :languages,
-                  :nickname, :affiliation])
+      params.require(:registration).permit(:user_id, :conference_id, :arrival, :departure, :attended,
+                                           :volunteer, :other_special_needs,
+                                           vchoice_ids: [], qanswer_ids: [], qanswers_attributes: [], event_ids: [],
+                                           user_attributes: [:nickname, :name, :affiliation, :tshirt, :mobile, :volunteer_experience, :languages])
     end
   end
 end

@@ -1,6 +1,4 @@
 class Vposition < ActiveRecord::Base
-  attr_accessible :title, :description, :vday_ids
-
   belongs_to :conference
 
   has_many :vchoices

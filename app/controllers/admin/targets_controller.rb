@@ -48,7 +48,7 @@ module Admin
     private
 
     def target_params
-      params[:target]
+      params.require(:target).permit(:due_date, :target_count, :unit, :conference_id)
     end
   end
 end

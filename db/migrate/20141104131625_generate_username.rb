@@ -1,7 +1,6 @@
 class GenerateUsername < ActiveRecord::Migration
   class TempUser < ActiveRecord::Base
     self.table_name = 'users'
-    attr_accessible :username, :email
   end
 
   def change

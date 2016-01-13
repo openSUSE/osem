@@ -17,10 +17,6 @@ class MoveSplashpageAttributesFromConferenceToSplashpage < ActiveRecord::Migrati
 
   class TempSplashpage < ActiveRecord::Base
     self.table_name = 'splashpages'
-    attr_accessible :conference_id, :public, :include_registrations, :include_tracks, :include_program,
-                    :include_social_media, :include_banner, :include_tickets, :ticket_description, :include_sponsors,
-                    :sponsor_description, :lodging_description, :banner_photo_file_name, :banner_photo_content_type,
-                    :banner_photo_file_size, :banner_photo_updated_at, :banner_description
   end
 
   def change

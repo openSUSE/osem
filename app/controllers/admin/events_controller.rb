@@ -95,7 +95,7 @@ module Admin
     end
 
     def comment
-      comment = Comment.build_from(@event, current_user.id, params[:comment])
+      comment = Comment.build_from(@event, current_user.id, comment_params)
       comment.save!
       if !params[:parent].nil?
         comment.move_to_child_of(params[:parent])
@@ -105,8 +105,7 @@ module Admin
     end
 
     def update
-      if @event.submitter.update_attributes(params[:user]) &&
-        @event.update_attributes(params[:event])
+      if @event.update_attributes(event_params)
 
         if request.xhr?
           render js: 'index'
@@ -166,6 +165,20 @@ module Admin
     end
 
     private
+
+    def event_params
+      params.require(:event).permit(
+                                    # Set also in proposals controller
+                                    :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
+                                    # Set only in admin/events controller
+                                    :track_id, :state, :language, :start_time, :is_highlight,
+                                    # Not used anymore?
+                                    :proposal_additional_speakers, :user, :users_attributes)
+    end
+
+    def comment_params
+      params.require(:comment).permit(:commentable, :body, :user_id)
+    end
 
     def get_event
       @event = @conference.events.find_by_id(params[:id])

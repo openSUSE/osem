@@ -94,9 +94,6 @@ gem 'font-awesome-rails'
 # for Markdown in description
 gem 'redcarpet'
 
-# FIXME: We should use http://weblog.rubyonrails.org/2012/3/21/strong-parameters/
-gem 'protected_attributes'
-
 # as rdoc generator
 gem 'rdoc-generator-fivefish'
 

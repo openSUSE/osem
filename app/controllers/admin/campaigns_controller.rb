@@ -9,7 +9,7 @@ module Admin
     end
 
     def create
-      @campaign.attributes = params[:campaign]
+      @campaign.attributes = campaign_params
 
       if @conference.save
         flash[:notice] = 'Campaign successfully created.'
@@ -25,7 +25,7 @@ module Admin
     def edit; end
 
     def update
-      if @campaign.update_attributes(params[:campaign])
+      if @campaign.update_attributes(campaign_params)
         flash[:notice] = "Campaign '#{@campaign.name}' successfully updated."
         redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title))
       else
@@ -43,6 +43,12 @@ module Admin
                     "#{@campaign.errors.full_messages.join('. ')}."
         redirect_to(admin_conference_campaigns_path(conference_id: @conference.short_title))
       end
+    end
+
+    private
+
+    def campaign_params
+      params.require(:campaign).permit(:name, :utm_source, :utm_medium, :utm_term, :utm_content, :utm_campaign, :target_ids, :conference_id)
     end
   end
 end

@@ -45,8 +45,7 @@ module Admin
     private
 
     def commercial_params
-      #params.require(:commercial).permit(:commercial_id, :commercial_type)
-      params[:commercial]
+      params.require(:commercial).permit(:commercial_id, :commercial_type)
     end
   end
 end

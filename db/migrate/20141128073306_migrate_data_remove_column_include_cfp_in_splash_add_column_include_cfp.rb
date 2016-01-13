@@ -9,7 +9,6 @@ class MigrateDataRemoveColumnIncludeCfpInSplashAddColumnIncludeCfp < ActiveRecor
 
   class TempSplashpage < ActiveRecord::Base
     self.table_name = 'splashpages'
-    attr_accessible :conference_id
   end
 
   def up

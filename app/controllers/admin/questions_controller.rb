@@ -20,7 +20,7 @@ module Admin
     end
 
     def create
-      @question = @conference.questions.new(params[:question])
+      @question = @conference.questions.new(question_params)
       @question.conference_id = @conference.id
       authorize! :create, @question
 
@@ -47,7 +47,7 @@ module Admin
 
     # PUT questions/1
     def update
-      if @question.update_attributes(params[:question])
+      if @question.update_attributes(question_params)
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
       else
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}")
@@ -57,7 +57,7 @@ module Admin
     # Update questions used for the conference
     def update_conference
       authorize! :update, Question.new(conference_id: @conference.id)
-      if @conference.update_attributes(params[:conference])
+      if @conference.update_attributes(conference_params)
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated.")
       else
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
@@ -92,6 +92,16 @@ module Admin
 
       @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
       @questions_conference = @conference.questions
+    end
+
+    private
+
+    def question_params
+      params.require(:question).permit(:title, :global, :answers_attributes, :answer_ids, :question_type_id, :conference_id)
+    end
+
+    def conference_params
+      params.require(:conference).permit(question_ids: [])
     end
   end
 end
