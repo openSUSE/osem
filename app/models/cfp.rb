@@ -3,8 +3,6 @@
 class Cfp < ActiveRecord::Base
   belongs_to :program
 
-  attr_accessible :start_date, :end_date, :program_id
-
   validates :program_id, presence: true, uniqueness: true
   validates :start_date, :end_date, presence: true
   validate :before_end_of_conference

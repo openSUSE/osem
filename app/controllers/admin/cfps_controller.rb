@@ -26,11 +26,11 @@ module Admin
 
     def update
       @cfp = @program.cfp
-      @cfp.assign_attributes(params[:cfp])
+      @cfp.assign_attributes(cfp_params)
 
       send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?
 
-      if @cfp.update_attributes(params[:cfp])
+      if @cfp.update_attributes(cfp_params)
         Mailbot.delay.send_on_cfps_dates_updates(@conference) if send_mail_on_cfp_dates_updates
         redirect_to(admin_conference_program_cfp_path(@conference.short_title),
                     notice: 'Call for papers successfully updated.')
@@ -52,7 +52,7 @@ module Admin
     private
 
     def cfp_params
-      params[:cfp]
+      params.require(:cfp).permit(:start_date, :end_date)
     end
   end
 end

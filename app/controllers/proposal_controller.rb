@@ -39,7 +39,7 @@ class ProposalController < ApplicationController
 
     params[:event].delete :user
 
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
     @event.program = @program
 
     @event.event_users.new(user: current_user,

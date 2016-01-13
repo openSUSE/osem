@@ -10,10 +10,10 @@ module Admin
     def update
       authorize! :update, @conference.program
       @program = @conference.program
-      @program.assign_attributes(params[:program])
+      @program.assign_attributes(program_params)
 #       send_mail_on_schedule_public = @program.notify_on_schedule_public?
 
-      if @program.update_attributes(params[:program])
+      if @program.update_attributes(program_params)
 #         Mailbot.delay.send_on_schedule_public(@conference) if send_mail_on_schedule_public
         redirect_to(admin_conference_program_path(@conference.short_title),
                     notice: 'The program was successfully updated.')
@@ -26,7 +26,7 @@ module Admin
     private
 
     def program_params
-      params[:program]
+      params.require(:program).permit(:rating, :schedule_public, :schedule_fluid)
     end
   end
 end
