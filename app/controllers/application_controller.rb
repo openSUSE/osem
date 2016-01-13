@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
-  protect_from_forgery
+  protect_from_forgery with: :exception
   before_filter :get_conferences
   before_filter :store_location
   helper_method :date_string
