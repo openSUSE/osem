@@ -20,7 +20,9 @@ class ConferenceSerializer < ActiveModel::Serializer
   # FIXME: adjusting the format the DIRTY way, for oSC13.
   # If you think this is ugly, don't look at the methods below
   def date_range
-    object.date_range_string.try(:split, ',').try(:first)
+    if defined? object.date_range_string
+        object.date_range_string.try(:split, ',').try(:first)
+    end
   end
 
   # FIXME: just giving suseconferenceclient something to play with
