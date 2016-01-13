@@ -36,10 +36,6 @@ class Program < ActiveRecord::Base
   accepts_nested_attributes_for :tracks, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :difficulty_levels, allow_destroy: true
 
-  attr_accessible :schedule_fluid, :rating,
-                  :schedule_public, :include_cfp_in_splash, :conference_id,
-                  :event_types_attributes, :difficulty_levels_attributes, :tracks_attributes
-
 #   validates :conference_id, presence: true, uniqueness: true
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
 
