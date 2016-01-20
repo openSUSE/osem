@@ -95,6 +95,9 @@ class Conference < ActiveRecord::Base
 
   validates_uniqueness_of :short_title
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
+
+  # This validation is needed since a conference with a start date greater than the end date is not possible
+  validate :valid_date_range?
   before_create :generate_guid
   before_create :create_event_types
   before_create :create_difficulty_levels
@@ -581,6 +584,14 @@ class Conference < ActiveRecord::Base
 
   after_create do
     self.create_contact
+  end
+
+  ##
+  # Checks if start date of the conference is greater than the end date
+  #
+  # Reports an error when such a condition is found
+  def valid_date_range?
+    errors.add(:start_date, "Start date is greater than End date") if start_date > end_date
   end
 
   ##
