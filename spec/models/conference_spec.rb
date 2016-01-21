@@ -1516,6 +1516,13 @@ describe Conference do
       should_not allow_value('&%§!?äÄüÜ/()').for(:short_title)
     end
 
+    describe 'valid_date_range?' do
+
+      it 'is not valid if start date is greater than end date' do
+        expect(subject.start_date).to be <= subject.end_date
+      end
+    end
+
     describe 'before create callbacks' do
 
       it 'has an email setting after creation' do
