@@ -26,7 +26,7 @@
       - if progress_status['commercials']
         = link_to 'Edit the commercials', edit_conference_program_proposal_path(event.program.conference.short_title, event, anchor: 'commercials-content')
       - else
-        = link_to 'Add a commercial', edit_conference_program_proposal_path(event.conference.short_title, event, anchor: 'commercials-content')
+        = link_to 'Add a commercial', edit_conference_program_proposal_path(event.program.conference.short_title, event, anchor: 'commercials-content')
   %li{'class'=>class_for_todo(progress_status['difficulty_level'])}
     %span{'class'=>icon_for_todo(progress_status['difficulty_level'])}
       - if progress_status['difficulty_level']
