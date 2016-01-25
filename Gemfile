@@ -1,7 +1,11 @@
 source 'https://rubygems.org'
 
 # as web framework
-gem 'rails', '~> 4.1'
+gem 'rails', '~> 4.2', '>= 4.2.4'
+
+# A set of Rails responders to dry up your application
+# required for respond_with and the class-level respond_to methods in rails 4.2
+gem 'responders', '~> 2.0'
 
 # as the database for Active Record
 gem 'mysql2'
@@ -129,7 +133,7 @@ group :development do
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
   # Get HoundCi comments locally
-  gem 'rubocop'
+  gem 'rubocop', '0.24.1'
   # Silence rack assests messages
   gem 'quiet_assets'
   # Use sqlite3 as the database in development
@@ -150,7 +154,7 @@ group :test do
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
   # Set of rails validations matchers to describe models
-  gem 'shoulda-matchers', require: false
+  gem 'shoulda'
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
   gem 'timecop'

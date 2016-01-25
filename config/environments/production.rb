@@ -15,7 +15,7 @@ Osem::Application.configure do
   config.eager_load = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_files = false
   # Compress JavaScripts and CSS
   config.assets.compress = true
 
@@ -35,8 +35,9 @@ Osem::Application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
-  # See everything in the log (default is :info)
-  # config.log_level = :debug
+  # See everything in the log. Set to `:info` to match the current default, or set to `:debug` to opt-into
+  # the future default.
+  config.log_level = :info
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
