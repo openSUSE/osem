@@ -154,7 +154,7 @@ class Ability
     can :manage, DifficultyLevel, conference_id: conf_ids_for_cfp
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
     can :manage, Room, conference_id: conf_ids_for_cfp
-    can :index, Venue, conference_id: conf_ids_for_cfp
+    can :show, Venue, conference_id: conf_ids_for_cfp
     can :manage, CallForPaper, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',
                              commercialable_id: Event.where(conference_id: conf_ids_for_cfp).pluck(:id)
