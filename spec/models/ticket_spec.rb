@@ -68,11 +68,11 @@ describe Ticket do
              user: user,
              ticket: ticket,
              quantity: 20)
-      expect(ticket.total_price(user)).to eq(20 * 50)
+      expect(ticket.total_price(user)).to eq(Money.new(20 * ticket.price_cents, 'USD'))
     end
 
     it 'returns zero if the user has not bought this ticket' do
-      expect(ticket.total_price(user)).to eq(0)
+      expect(ticket.total_price(user)).to eq(Money.new(0, 'USD'))
     end
   end
 
@@ -82,11 +82,11 @@ describe Ticket do
              user: user,
              ticket: ticket,
              quantity: 20)
-      expect(Ticket.total_price(conference, user)).to eq(20 * 50)
+      expect(Ticket.total_price(conference, user)).to eq(Money.new(20 * ticket.price_cents, 'USD'))
     end
 
     it 'returns zero if the user has not bought this ticket' do
-      expect(Ticket.total_price(conference, user)).to eq(0)
+      expect(Ticket.total_price(conference, user)).to eq(Money.new(0, 'USD'))
     end
   end
 end

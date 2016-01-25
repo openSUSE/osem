@@ -1,7 +1,11 @@
 source 'https://rubygems.org'
 
 # as web framework
-gem 'rails', '~> 4.1'
+gem 'rails', '~> 4.2'
+
+# respond_to methods have been extracted to the responders gem
+# http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
+gem 'responders', '~> 2.0'
 
 # as the database for Active Record
 gem 'mysql2'
@@ -138,6 +142,7 @@ group :development do
   gem 'letter_opener'
   # mina is a blazing fast deployment system
   gem 'mina'
+  gem 'web-console', '~> 2.0'
 end
 
 # Use rspec and capybara as testing framework
