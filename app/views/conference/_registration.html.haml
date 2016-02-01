@@ -6,19 +6,25 @@
   .row
     .col-md-12.text-center
       %h1 Registration
-      - if @conference.tickets.empty?
-        %p.lead
-          Going to
-          = @conference.short_title
-          is free of charge.
+
+      - if @conference.registration_limit_exceeded?
         %p
-          We only ask you to register yourself until
-          = @conference.registration_period.end_date.strftime('%A, %B %-d. %Y')
-          so we can plan for the right amount of people.
+          Sorry, the conference registration limit has exceeded
       - else
-        %p
-          The registration period ends on
-          = @conference.registration_period.end_date.strftime('%A, %B %-d. %Y')
-      %p.cta-button
+        - if @conference.tickets.empty?
+          %p.lead
+            Going to
+            = @conference.short_title
+            is free of charge.
+          %p
+            We only ask you to register yourself until
+            = @conference.registration_period.end_date.strftime('%A, %B %-d. %Y')
+            so we can plan for the right amount of people.
+            %p.cta-button
+        - else
+          %p
+            The registration period ends on
+            = @conference.registration_period.end_date.strftime('%A, %B %-d. %Y')
+          %p.cta-button
         = link_to(new_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-lg btn-success') do
           Register Now
