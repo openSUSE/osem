@@ -19,3 +19,6 @@ before_script:
 script:
   - 'bundle exec rspec --color --format documentation'
   - 'bundle exec rubocop -Dc .rubocop.yml'
+addons:
+  artifacts: true
+  s3_region: "us-east-1"
