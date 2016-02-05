@@ -29,7 +29,7 @@ We are using [Vagrant](https://www.vagrantup.com/) to create our development env
 7. Start your OSEM rails app:
 
     ```
-    vagrant exec rails s
+    vagrant exec rails server -b 0.0.0.0
     ```
 
 8. Check out your OSEM rails app:
