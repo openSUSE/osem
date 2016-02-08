@@ -165,7 +165,7 @@ class Ability
     can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_cfp }
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
     can :manage, Room, venue: { conference_id: conf_ids_for_cfp }
-    can :index, Venue, conference_id: conf_ids_for_cfp
+    can :show, Venue, conference_id: conf_ids_for_cfp
     can :manage, Cfp, program: { conference_id: conf_ids_for_cfp }
     can :manage, Program, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',
