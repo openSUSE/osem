@@ -11,6 +11,11 @@ notifications:
   email:
     on_success: change
     on_failure: change
+  irc:
+    channels:
+      - "chat.freenode.net#osem"
+    on_success: change
+    on_failure: change
 before_script:
   - cp config/database.yml.example config/database.yml
   - cp config/config.yml.example config/config.yml
@@ -19,6 +24,3 @@ before_script:
 script:
   - 'bundle exec rspec --color --format documentation'
   - 'bundle exec rubocop -Dc .rubocop.yml'
-addons:
-  artifacts: true
-  s3_region: "us-east-1"
