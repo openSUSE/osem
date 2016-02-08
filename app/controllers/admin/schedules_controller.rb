@@ -16,7 +16,11 @@ module Admin
         return
       end
       @dates = @conference.start_date..@conference.end_date
-      @rooms = @venue.rooms
+      if @venue && @venue.rooms.any?
+        @rooms = @venue.rooms
+      else
+        @rooms = [ Room.new(name: 'No Rooms!', size: 0) ]
+      end
     end
 
     def update
