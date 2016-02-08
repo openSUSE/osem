@@ -23,6 +23,10 @@ class Venue < ActiveRecord::Base
     name.name if name
   end
 
+  def location?
+    !(latitude.blank? || longitude.blank?)
+  end
+
   private
 
   def send_mail_notification

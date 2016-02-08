@@ -25,10 +25,11 @@
         = @venue.country_name
   .row
     .col-md-12
-      = link_to(edit_admin_conference_venue_path(@conference.short_title), class: 'btn btn-primary', disabled: !(can? :update, @venue) ) do
-        Edit Venue
-      = link_to(admin_conference_venue_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', disabled: !(can? :destroy, @venue)) do
-        Delete Venue
+      %p.text-right
+        = link_to(edit_admin_conference_venue_path(@conference.short_title), class: 'btn btn-primary', disabled: !(can? :update, @venue) ) do
+          Edit Venue
+        = link_to(admin_conference_venue_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', disabled: !(can? :destroy, @venue)) do
+          Delete Venue
 -else
   .row
     .col-md-12.text-right
