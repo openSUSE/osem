@@ -46,6 +46,7 @@ Osem::Application.configure do
     # Set Time.now to May 1, 2014 00:01:00 AM (at this instant), but allow it to move forward
     t = Time.local(2014, 05, 01, 00, 01, 00)
     Timecop.travel(t)
+    ActiveSupport::Deprecation.silenced = true
   end
 
 end
