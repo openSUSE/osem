@@ -69,7 +69,7 @@ module Admin
     end
 
     def room_params
-      params.require(:room).permit(:guid)
+      params.require(:room)
     end
   end
 end
