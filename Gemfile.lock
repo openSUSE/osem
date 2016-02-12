@@ -166,10 +166,10 @@ GEM
     font-awesome-rails (4.1.0.0)
       railties (>= 3.2, < 5.0)
     formatador (0.2.4)
-    formtastic (2.3.0.rc3)
-      actionpack (>= 3.0)
-    formtastic-bootstrap (3.0.0)
-      formtastic (>= 2.2)
+    formtastic (3.1.3)
+      actionpack (>= 3.2.13)
+    formtastic-bootstrap (3.1.1)
+      formtastic (>= 3.0)
     geocoder (1.2.2)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -504,7 +504,7 @@ DEPENDENCIES
   devise_ichain_authenticatable
   factory_girl_rails
   font-awesome-rails
-  formtastic (~> 2.3.0.rc3)
+  formtastic (~> 3.1.1)
   formtastic-bootstrap
   gravtastic
   guard-rspec (~> 4.2.8)
