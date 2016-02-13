@@ -1,6 +1,7 @@
 class Venue < ActiveRecord::Base
   belongs_to :conference
   has_many :rooms, dependent: :destroy
+  has_many :venue_photos, dependent: :destroy
   before_create :generate_guid
 
   validates :name, :street, :city, :country, presence: true

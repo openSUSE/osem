@@ -127,6 +127,9 @@ gem 'bootstrap-switch-rails', '~> 3.0.0'
 
 gem 'ruby-oembed'
 
+# for zoom in images
+gem 'fancybox2-rails'
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules
