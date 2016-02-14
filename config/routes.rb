@@ -46,6 +46,7 @@ Osem::Application.routes.draw do
       resource :splashpage
       resource :venue do
         resources :rooms, except: [:show]
+        resources :venue_photos, only: [:destroy], as: :photos
       end
       resource :registration_period
       resource :program do

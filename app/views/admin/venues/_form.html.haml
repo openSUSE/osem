@@ -11,4 +11,15 @@
       - unless @venue.photo.blank?
         = image_tag @venue.photo(:thumb)
       = f.input :photo
+      %label
+        Additional photos
+      - @venue.venue_photos.in_groups_of(4, false).each do |photo_group|
+        .row
+          - photo_group.each do |photo|
+            .col-md-3
+              = image_tag photo.photo(:thumb)
+              = link_to "Delete", admin_conference_venue_photo_path(@conference.short_title, photo), method: :delete, class: 'btn btn-default', data: { confirm: 'really delete this photo ?' }
+      %br
+      = file_field_tag "venue_photos[]", type: :file, multiple: true
+      %br
       = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

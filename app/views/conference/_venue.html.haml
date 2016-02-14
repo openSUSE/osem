@@ -60,3 +60,8 @@
           - if @conference.venue.website
             %br
             =link_to @conference.venue.website, @conference.venue.website
+    - @conference.venue.venue_photos.in_groups_of(4, false).each do |photo_group|
+      .row
+        - photo_group.each do |photo|
+          .col-md-3
+            = link_to image_tag(photo.photo(:thumb), class: 'img-rounded'), photo.photo(:large), class: 'fancybox'

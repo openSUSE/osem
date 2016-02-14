@@ -38,9 +38,14 @@
 //= require osem-switch
 //= require osem-bootstrap
 //= require osem-commercials
+//= require fancybox
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
         return false;
     });
+});
+
+$(document).ready(function() {
+  $("a.fancybox").fancybox();
 });
