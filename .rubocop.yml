@@ -129,3 +129,4 @@ AllCops:
     - 'vendor/bundle/**/*'
     - 'bundle/**/*'
     - 'config/**/*'
+    - 'bin/*'
