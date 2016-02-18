@@ -53,19 +53,43 @@ gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 2.3.0.rc3'
-gem 'momentjs-rails', '>= 2.8.1'
-gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
+gem 'cocoon'
+
+# frontend javascripts
 
 # as the JavaScript library
 gem 'jquery-rails'
-gem 'cocoon'
+
+source 'https://rails-assets.org' do
+  # for placeholder images
+  gem 'rails-assets-holderjs'
+  # for formating dates
+  gem 'rails-assets-date.format'
+  # for or parsing, validating, manipulating, and formatting dates.
+  gem 'rails-assets-momentjs'
+  # for smooth scrolling
+  gem 'rails-assets-jquery-smooth-scroll'
+  # as color picker
+  gem 'rails-assets-spectrum'
+  # for color manipulation
+  gem 'rails-assets-tinycolor'
+  # for drawing triangle backgrounds
+  gem 'rails-assets-trianglify'
+  # for scroll way points
+  gem 'rails-assets-waypoints'
+  # for displaying maps
+  gem 'rails-assets-leaflet'
+end
+
+# as date picker
+gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 gem 'jquery-datatables-rails', '~> 2.2.1'
+# for charts
+gem 'd3_rails'
+gem 'chart-js-rails'
 
 # for user avatars
 gem 'gravtastic'
-
-# for maps
-gem 'leaflet-rails', '~> 0.7.4'
 
 # for country selects
 gem 'country_select', github: 'stefanpenner/country_select'
@@ -78,10 +102,6 @@ gem 'prawn_rails'
 
 # to render XLS spreadsheets
 gem 'axlsx_rails'
-
-# for charts
-gem 'd3_rails'
-gem 'chart-js-rails'
 
 # as error catcher
 gem 'hoptoad_notifier', '~> 2.3'
@@ -125,6 +145,7 @@ gem 'acts_as_list'
 # for switch checkboxes
 gem 'bootstrap-switch-rails', '~> 3.0.0'
 
+# for parsing OEmbed data
 gem 'ruby-oembed'
 
 # Use guard and spring for testing in development
