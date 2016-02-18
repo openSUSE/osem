@@ -20,6 +20,11 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to edit_conference_conference_registrations_path(@conference.short_title)
     end
 
+    if @conference.registration_limit_exceeded?
+      redirect_to root_path, alert: "Sorry, registration limit exceeded for #{@conference.title}"
+      return
+    end
+
     @registration = Registration.new
 
     # @user variable needs to be set so that _sign_up_form_embedded works properly

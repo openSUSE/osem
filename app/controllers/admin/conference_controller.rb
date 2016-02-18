@@ -211,7 +211,7 @@ module Admin
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :photos_attributes, :targets, :targets_attributes,
-                                         :campaigns, :campaigns_attributes)
+                                         :campaigns, :campaigns_attributes, :registration_limit)
     end
 
     def get_users(role_name)

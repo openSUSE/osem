@@ -26,6 +26,7 @@ class Registration < ActiveRecord::Base
   validates :user, presence: true
 
   validates_uniqueness_of :user_id, scope: :conference_id, message: 'already Registered!'
+  validate :registration_limit_not_exceed, on: :create
 
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
 
@@ -48,5 +49,11 @@ class Registration < ActiveRecord::Base
   def set_week
     self.week = created_at.strftime('%W')
     save!
+  end
+
+  def registration_limit_not_exceed
+    if self.conference.registration_limit>0 && self.conference.registrations(:reload).count >= self.conference.registration_limit
+      errors.add(:base, 'Registration limit exceeded')
+    end
   end
 end

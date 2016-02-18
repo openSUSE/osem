@@ -1479,6 +1479,48 @@ describe Conference do
     end
   end
 
+  describe 'registration_limit_exceeded?' do
+    context 'limit less than 0' do
+      before do
+        subject.registration_limit = -1
+      end
+      it '#registration_limit_exceeded? is false' do
+        expect(subject.registration_limit_exceeded?).to be false
+      end
+    end
+
+    context 'limit is 0' do
+      before do
+        subject.registration_limit = 0
+      end
+      it '#registration_limit_exceeded? is false' do
+        expect(subject.registration_limit_exceeded?).to be false
+      end
+    end
+
+    context 'limit is 1' do
+      before do
+        subject.registration_limit = 1
+      end
+      context 'there are no registration' do
+        it '#registration_limit_exceeded? is false' do
+          expect(subject.registration_limit_exceeded?).to be false
+        end
+      end
+
+      context 'there are 1 registration' do
+        before do
+          registration1 = create(:registration)
+          subject.registrations << registration1
+        end
+
+        it '#registration_limit_exceeded? is true' do
+          expect(subject.registration_limit_exceeded?).to be true
+        end
+      end
+    end
+  end
+
   describe 'validations' do
 
     it 'has a valid factory' do
@@ -1511,6 +1553,14 @@ describe Conference do
 
     it 'is not valid with a short title that contains special characters' do
       should_not allow_value('&%§!?äÄüÜ/()').for(:short_title)
+    end
+
+    it 'is not valid with a registration limit as float' do
+      should_not allow_value(0.5).for(:registration_limit)
+    end
+
+    it 'is not valid with a negative registration limit' do
+      should_not allow_value(-1).for(:registration_limit)
     end
 
     describe 'valid_date_range?' do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031092713) do
+ActiveRecord::Schema.define(version: 20160201221411) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20151031092713) do
     t.string   "color"
     t.text     "events_per_week"
     t.text     "description"
+    t.integer  "registration_limit",    default: 0
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
