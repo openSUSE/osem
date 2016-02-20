@@ -15,6 +15,10 @@ defaults: &defaults
     ichain:
       enabled: false
 
+  # Set it to false if you don't want FactoryGirl lint to run before every test suit.
+  # You can run lint manually with: bundle exec rake factory_girl:lint
+  factory_girl_lint: true
+
 development:
   <<: *defaults
 
