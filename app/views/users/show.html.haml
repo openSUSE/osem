@@ -18,7 +18,7 @@
           - @user.events.confirmed.each do |event|
             %li
               %h4
-                = link_to event.title, conference_proposal_path(event.conference.short_title, event.id)
+                = link_to event.title, conference_program_proposal_path(event.program.conference.short_title, event.id)
                 %strong
                   at
-                = event.conference.title
+                = event.program.conference.title
