@@ -6,7 +6,6 @@ module Admin
     def index
       authorize! :index, Question.new(conference_id: @conference.id)
       @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
-      @questions_conference = @conference.questions
       @new_question = @conference.questions.new
     end
 
@@ -14,14 +13,8 @@ module Admin
       @registrations = @conference.registrations.joins(:qanswers).uniq
     end
 
-    def new
-      @question = Question.new(conference_id: @conference.id)
-      authorize! :create, @question
-    end
-
     def create
       @question = @conference.questions.new(question_params)
-      @question.conference_id = @conference.id
       authorize! :create, @question
 
       if @question.question_type_id == QuestionType.find_by(title: 'Yes/No').id
@@ -45,12 +38,13 @@ module Admin
       end
     end
 
-    # PUT questions/1
+    # PATCH questions/1
     def update
       if @question.update_attributes(question_params)
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}")
+        flash[:error] = "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}"
+        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title))
       end
     end
 
@@ -60,7 +54,7 @@ module Admin
       if @conference.update_attributes(conference_params)
         redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated.")
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
+        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), flash: { error: "Update of questions for #{@conference.short_title} failed." })
       end
     end
 
@@ -69,7 +63,6 @@ module Admin
       if can? :destroy, @question
         # Do not delete global questions
         if !@question.global
-
           # Delete question and its answers
           begin
             Question.transaction do
@@ -84,7 +77,7 @@ module Admin
             flash[:error] = 'Could not delete question.'
           end
         else
-          flash[:error] = 'You cannot delete global questions.'
+          flash[:alert] = 'You cannot delete global questions.'
         end
       else
         flash[:error] = 'You must be an admin to delete a question.'
