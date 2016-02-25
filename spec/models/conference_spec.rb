@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Conference do
 
-  let(:subject) { create(:conference, end_date: '2014-06-30') }
+  let(:subject) { create(:conference, start_date: Date.new(2014, 06, 30), end_date: Date.new(2014, 06, 30)) }
 
   describe '#write_event_distribution_to_db' do
 
@@ -982,8 +982,8 @@ describe Conference do
 
     it 'calculates correct for conference with registration' do
       subject.registration_period = create(:registration_period,
-                                           start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           start_date: subject.end_date - 14,
+                                           end_date: subject.end_date, conference: subject)
       subject.program.cfp = nil
       subject.venue = nil
       subject.program.event_types = []
@@ -1000,8 +1000,8 @@ describe Conference do
 
     it 'calculates correct for conference with registration, cfp' do
       subject.registration_period = create(:registration_period,
-                                           start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           start_date: subject.end_date - 14,
+                                           end_date: subject.end_date, conference: subject)
       subject.program.cfp = create(:cfp)
       subject.venue = nil
       subject.program.tracks = []
@@ -1017,9 +1017,10 @@ describe Conference do
     end
 
     it 'calculates correct for conference with registration, cfp, venue' do
+      expect(subject.end_date).to eq Date.new(2014, 06, 30)
       subject.registration_period = create(:registration_period,
-                                           start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           start_date: subject.end_date - 14,
+                                           end_date: subject.end_date, conference: subject)
       subject.program.cfp = create(:cfp)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = []
@@ -1039,7 +1040,7 @@ describe Conference do
     it 'calculates correct for conference with registration, cfp, venue, rooms' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           end_date: Date.today + 14, conference: subject)
       subject.program.cfp = create(:cfp)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = [create(:room, venue: subject.venue)]
@@ -1063,7 +1064,7 @@ describe Conference do
       subject.program.tracks = [create(:track)]
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           end_date: Date.today + 14, conference: subject)
       subject.program.cfp = create(:cfp)
       subject.program.event_types = []
       subject.program.difficulty_levels = []
@@ -1085,7 +1086,7 @@ describe Conference do
       subject.program.event_types = [create(:event_type)]
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           end_date: Date.today + 14, conference: subject)
       subject.program.cfp = create(:cfp)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = [create(:room, venue: subject.venue)]
@@ -1109,7 +1110,7 @@ describe Conference do
       subject.program.difficulty_levels = [create(:difficulty_level)]
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
-                                           end_date: Date.today + 14)
+                                           end_date: Date.today + 14, conference: subject)
       subject.program.cfp = create(:cfp)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = [create(:room, venue: subject.venue)]
@@ -1131,21 +1132,21 @@ describe Conference do
     it 'is one if start and end are 6 days apart' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 6)
+                                           end_date: Date.new(2014, 05, 26) + 6, conference: subject)
       expect(subject.registration_weeks).to eq(1)
     end
 
     it 'is one if start and end date are the same' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26))
+                                           end_date: Date.new(2014, 05, 26), conference: subject)
       expect(subject.registration_weeks).to eq(1)
     end
 
     it 'is two if start and end are 10 days apart' do
       subject.registration_period = create(:registration_period,
-                                           start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 10)
+                                           start_date: Date.new(2014, 05, 17),
+                                           end_date: Date.new(2014, 05, 15) + 10, conference: subject)
       expect(subject.registration_weeks).to eq(2)
     end
   end
@@ -1279,7 +1280,7 @@ describe Conference do
     it 'pads with zeros if there are no registrations' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 21)
+                                           end_date: Date.new(2014, 05, 26) + 21, conference: subject)
 
       expect(subject.get_registrations_per_week).to eq([0, 0, 0, 0])
     end
@@ -1287,7 +1288,7 @@ describe Conference do
     it 'summarized correct if there are no registrations in one week' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 28)
+                                           end_date: Date.new(2014, 05, 26) + 28, conference: subject)
 
       create(:registration, conference: subject,
                             created_at: Date.new(2014, 05, 26) + 7)
@@ -1302,7 +1303,7 @@ describe Conference do
     it 'returns [1] if there is one registration on the first day' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 7)
+                                           end_date: Date.new(2014, 05, 26) + 7, conference: subject)
 
       create(:registration, conference: subject,
                             created_at: Date.new(2014, 05, 26))
@@ -1312,7 +1313,7 @@ describe Conference do
     it 'summarized correct if there are registrations every week' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 21)
+                                           end_date: Date.new(2014, 05, 26) + 21, conference: subject)
 
       create(:registration, conference: subject, created_at: Date.new(2014, 05, 26))
       create(:registration, conference: subject,
@@ -1326,7 +1327,7 @@ describe Conference do
     it 'summarized correct if there are registrations every week except the first' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 28)
+                                           end_date: Date.new(2014, 05, 26) + 28, conference: subject)
 
       create(:registration, conference: subject,
                             created_at: Date.new(2014, 05, 26) + 7)
@@ -1341,7 +1342,7 @@ describe Conference do
     it 'pads left' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 35)
+                                           end_date: Date.new(2014, 05, 26) + 35, conference: subject)
 
       create(:registration, conference: subject,
                             created_at: Date.new(2014, 05, 26) + 21)
@@ -1356,7 +1357,7 @@ describe Conference do
     it 'pads middle' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 35)
+                                           end_date: Date.new(2014, 05, 26) + 35, conference: subject)
 
       create(:registration, conference: subject,
                             created_at: Date.new(2014, 05, 26))
@@ -1369,7 +1370,7 @@ describe Conference do
     it 'pads right' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2014, 05, 26),
-                                           end_date: Date.new(2014, 05, 26) + 35)
+                                           end_date: Date.new(2014, 05, 26) + 35, conference: subject)
 
       create(:registration, conference: subject,
                             created_at: Date.new(2014, 05, 26))
@@ -1411,9 +1412,10 @@ describe Conference do
     context 'open registration' do
 
       before do
+        subject.end_date = Date.today + 7
         enrollment = create(:registration_period,
                             start_date: Date.today - 1,
-                            end_date: Date.today + 7)
+                            end_date: Date.today + 7, conference: subject)
         subject.registration_period = enrollment
       end
 

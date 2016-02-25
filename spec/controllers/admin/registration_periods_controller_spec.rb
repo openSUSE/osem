@@ -27,7 +27,7 @@ describe Admin::RegistrationPeriodsController do
         end
 
         it 'changes registration period attributes' do
-          the_date = 10.days.from_now.to_date
+          the_date = conference.end_date - 10
           patch :update, conference_id: conference.short_title, registration_period:
               attributes_for(:registration_period, start_date: the_date)
 

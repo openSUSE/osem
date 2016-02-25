@@ -25,7 +25,7 @@ feature RegistrationPeriod do
                              "#{Date.today.strftime('%d/%m/%Y')}')")
       page.
           execute_script("$('#registration-period-end-datepicker').val('" +
-                             "#{(Date.today + 7).strftime('%d/%m/%Y')}')")
+                             "#{(Date.today + 5).strftime('%d/%m/%Y')}')")
 
       click_button 'Save Registration Period'
 
@@ -35,7 +35,7 @@ feature RegistrationPeriod do
       registration_period = RegistrationPeriod.where(conference_id: conference.id).first
       registration_period.reload
       expect(registration_period.start_date).to eq(Date.today)
-      expect(registration_period.end_date).to eq(Date.today + 7)
+      expect(registration_period.end_date).to eq(Date.today + 5)
     end
   end
 
