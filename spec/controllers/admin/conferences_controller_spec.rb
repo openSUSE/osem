@@ -7,8 +7,8 @@ describe Admin::ConferenceController do
   let!(:first_user) { create(:user) }
   let!(:organizer_role) { create(:role, name: 'organizer', resource: conference) }
 
-  let(:organizer) { create(:user, role_ids: organizer_role.id) }
-  let(:organizer2) { create(:user, email: 'organizer2@email.osem', role_ids: organizer_role.id) }
+  let!(:organizer) { create(:user, role_ids: organizer_role.id) }
+  let!(:organizer2) { create(:user, email: 'organizer2@email.osem', role_ids: organizer_role.id) }
   let(:participant) { create(:user) }
 
   shared_examples 'access as organizer' do
@@ -214,7 +214,7 @@ describe Admin::ConferenceController do
       end
 
       it 'finds the correct role' do
-        expect(assigns(:role)).to eq([organizer_role])
+        expect(assigns(:role)).to eq(organizer_role)
       end
 
       it 'properly assigns role_users hash' do
@@ -237,8 +237,7 @@ describe Admin::ConferenceController do
 
       it 'sets role variable' do
         post :roles, id: conference.short_title, user: { roles: 'Organizer' }
-        role = Role.where(name: 'organizer', resource: conference)
-        expect(assigns(:role)).to eq(role)
+        expect(assigns(:role)).to eq(organizer_role)
       end
 
       it 'sets role variable (returns blank for nil role)' do
@@ -271,7 +270,7 @@ describe Admin::ConferenceController do
       end
 
       it 'sets role_users variable' do
-        expect(assigns(:role_users)).to eq('organizer' => organizer_role.users)
+        expect(assigns(:role_users)).to eq('organizer' => [organizer, organizer2, @new_user])
 
         post :add_user, id: conference.short_title, user: { email: 'new_user@email.osem' }, role: 'cfp'
         expect(assigns(:role_users)).to eq('cfp' => [@new_user])
