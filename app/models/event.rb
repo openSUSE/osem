@@ -141,10 +141,6 @@ class Event < ActiveRecord::Base
     abstract.to_s.split.size
   end
 
-  def week
-    created_at.strftime('%W').to_i
-  end
-
   def self.get_state_color(state)
     color = {
       new:         '#0000FF', # blue
@@ -214,7 +210,7 @@ class Event < ActiveRecord::Base
 
   def abstract_limit
     # If we don't have an event type, there is no need to count anything
-    return unless event_type
+    return unless event_type && abstract
     len = abstract.split.size
     max_words = event_type.maximum_abstract_length
     min_words = event_type.minimum_abstract_length
