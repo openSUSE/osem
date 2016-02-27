@@ -53,7 +53,7 @@ describe Target do
     end
 
     it 'returns zero if there are no submissions' do
-      conference = build(:conference)
+      conference = create(:conference)
       target = build(:target, target_count: 10, unit: Target.units[:submissions])
       conference.targets = [target]
 
@@ -66,13 +66,13 @@ describe Target do
       event = create(:event)
 
       conference.targets = [target]
-      conference.events = [event]
+      conference.program.events = [event]
 
       expect(target.get_progress).to eq('10')
     end
 
     it 'returns zero if there are no program minutes' do
-      conference = build(:conference)
+      conference = create(:conference)
       target = build(:target, target_count: 10, unit: Target.units[:program_minutes])
       conference.targets = [target]
 
@@ -85,7 +85,7 @@ describe Target do
       event = create(:event)
 
       conference.targets = [target]
-      conference.events = [event]
+      conference.program.events = [event]
 
       expect(target.get_progress).to eq('10')
     end

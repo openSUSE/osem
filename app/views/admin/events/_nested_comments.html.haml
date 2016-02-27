@@ -6,7 +6,7 @@
     %div
       %a.pull-right.comment-reply-link{href: "#"} Reply
       .comment-reply
-        = form_tag "#{comment_admin_conference_event_path(@conference.short_title, comment.commentable_id)}", method: :post do
+        = form_tag "#{comment_admin_conference_program_event_path(@conference.short_title, comment.commentable_id)}", method: :post do
           %input{name: "parent", type: "hidden", value: "#{comment.id}"}
           %input{name: "authenticity_token", type: "hidden", value: "#{form_authenticity_token}"}
           %textarea{name: "comment"}

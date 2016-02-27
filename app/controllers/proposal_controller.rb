@@ -1,7 +1,8 @@
 class ProposalController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
-  load_and_authorize_resource :event, parent: false, through: :conference
+  load_resource :program, through: :conference, singleton: true
+  load_and_authorize_resource :event, parent: false, through: :program
 
   def index
     @events = current_user.proposals(@conference)
@@ -14,16 +15,16 @@ class ProposalController < ApplicationController
 
   def new
     @user = User.new
-    @url = conference_proposal_index_path(@conference.short_title)
+    @url = conference_program_proposal_index_path(@conference.short_title)
   end
 
   def edit
     authorize! :edit, @event
-    @url = conference_proposal_path(@conference.short_title, params[:id])
+    @url = conference_program_proposal_path(@conference.short_title, params[:id])
   end
 
   def create
-    @url = conference_proposal_index_path(@conference.short_title)
+    @url = conference_program_proposal_index_path(@conference.short_title)
 
     unless current_user
       @user = User.new(user_params)
@@ -39,7 +40,7 @@ class ProposalController < ApplicationController
     params[:event].delete :user
 
     @event = Event.new(event_params)
-    @event.conference = @conference
+    @event.program = @program
 
     @event.event_users.new(user: current_user,
                            event_role: 'submitter')
@@ -55,12 +56,12 @@ class ProposalController < ApplicationController
     ahoy.track 'Event submission', title: 'New submission'
 
     flash[:notice] = 'Proposal was successfully submitted.'
-    redirect_to conference_proposal_index_path(@conference.short_title)
+    redirect_to conference_program_proposal_index_path(@conference.short_title)
   end
 
   def update
     authorize! :update, @event
-    @url = conference_proposal_path(@conference.short_title, params[:id])
+    @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     if !@event.update(event_params)
       flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
@@ -68,13 +69,13 @@ class ProposalController < ApplicationController
       return
     end
 
-    redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
                 notice: 'Proposal was successfully updated.')
   end
 
   def destroy
     authorize! :destroy, @event
-    @url = conference_proposal_path(@conference.short_title, params[:id])
+    @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     begin
       @event.withdraw
@@ -84,13 +85,13 @@ class ProposalController < ApplicationController
     end
 
     @event.save(validate: false)
-    redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
                 notice: 'Proposal was successfully withdrawn.')
   end
 
   def confirm
     authorize! :update, @event
-    @url = conference_proposal_path(@conference.short_title, params[:id])
+    @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     begin
       @event.confirm!
@@ -106,7 +107,7 @@ class ProposalController < ApplicationController
     end
 
     if @conference.user_registered?(current_user)
-      redirect_to(conference_proposal_index_path(@conference.short_title),
+      redirect_to(conference_program_proposal_index_path(@conference.short_title),
                   notice: 'The proposal was confirmed.')
     else
       redirect_to(new_conference_conference_registrations_path(conference_id: @conference.short_title),
@@ -116,12 +117,12 @@ class ProposalController < ApplicationController
 
   def restart
     authorize! :update, @event
-    @url = conference_proposal_path(@conference.short_title, params[:id])
+    @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     begin
       @event.restart
     rescue Transitions::InvalidTransition
-      redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
                   error: "The proposal can't be re-submitted.")
       return
     end
@@ -132,7 +133,7 @@ class ProposalController < ApplicationController
       return
     end
 
-    redirect_to(conference_proposal_index_path(conference_id: @conference.short_title),
+    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
                 notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
   end
 

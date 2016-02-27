@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20151005161518) do
+ActiveRecord::Schema.define(version: 20160201221411) do
 
   create_table "ahoy_events", force: true do |t|
     t.uuid     "visit_id"
@@ -32,17 +31,6 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.datetime "updated_at"
   end
 
-  create_table "call_for_papers", force: true do |t|
-    t.date     "start_date",                       null: false
-    t.date     "end_date",                         null: false
-    t.integer  "conference_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "schedule_changes", default: false
-    t.integer  "rating",           default: 3
-    t.boolean  "schedule_public"
-  end
-
   create_table "campaigns", force: true do |t|
     t.integer  "conference_id"
     t.string   "name"
@@ -53,6 +41,14 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.string   "utm_campaign"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "cfps", force: true do |t|
+    t.date     "start_date", null: false
+    t.date     "end_date",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "program_id"
   end
 
   create_table "comments", force: true do |t|
@@ -106,6 +102,7 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.string   "color"
     t.text     "events_per_week"
     t.text     "description"
+    t.integer  "registration_limit",    default: 0
   end
 
   create_table "conferences_questions", id: false, force: true do |t|
@@ -150,12 +147,12 @@ ActiveRecord::Schema.define(version: 20151005161518) do
   end
 
   create_table "difficulty_levels", force: true do |t|
-    t.integer  "conference_id"
     t.string   "title"
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "program_id"
   end
 
   create_table "email_settings", force: true do |t|
@@ -183,22 +180,22 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.boolean  "send_on_venue_updated",                         default: false
     t.string   "venue_updated_subject"
     t.text     "venue_updated_body"
-    t.boolean  "send_on_call_for_papers_dates_updated",         default: false
-    t.boolean  "send_on_call_for_papers_schedule_public",       default: false
-    t.string   "call_for_papers_schedule_public_subject"
-    t.string   "call_for_papers_dates_updated_subject"
-    t.text     "call_for_papers_schedule_public_body"
-    t.text     "call_for_papers_dates_updated_body"
+    t.boolean  "send_on_cfp_dates_updated",                     default: false
+    t.boolean  "send_on_program_schedule_public",               default: false
+    t.string   "program_schedule_public_subject"
+    t.string   "cfp_dates_updated_subject"
+    t.text     "program_schedule_public_body"
+    t.text     "cfp_dates_updated_body"
   end
 
   create_table "event_types", force: true do |t|
-    t.integer "conference_id"
     t.string  "title",                                 null: false
     t.integer "length",                  default: 30
     t.integer "minimum_abstract_length", default: 0
     t.integer "maximum_abstract_length", default: 500
     t.string  "color"
     t.string  "description"
+    t.integer "program_id"
   end
 
   create_table "event_users", force: true do |t|
@@ -212,7 +209,6 @@ ActiveRecord::Schema.define(version: 20151005161518) do
 
   create_table "events", force: true do |t|
     t.string   "guid",                                         null: false
-    t.integer  "conference_id"
     t.integer  "event_type_id"
     t.string   "title",                                        null: false
     t.string   "subtitle"
@@ -237,6 +233,7 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.integer  "difficulty_level_id"
     t.integer  "week"
     t.boolean  "is_highlight",                 default: false
+    t.integer  "program_id"
   end
 
   create_table "events_registrations", id: false, force: true do |t|
@@ -273,6 +270,15 @@ ActiveRecord::Schema.define(version: 20151005161518) do
     t.integer  "picture_file_size"
     t.datetime "picture_updated_at"
     t.integer  "conference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "programs", force: true do |t|
+    t.integer  "conference_id"
+    t.integer  "rating",          default: 0
+    t.boolean  "schedule_public", default: false
+    t.boolean  "schedule_fluid",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -357,10 +363,10 @@ ActiveRecord::Schema.define(version: 20151005161518) do
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id"
 
   create_table "rooms", force: true do |t|
-    t.string  "guid",          null: false
-    t.integer "conference_id"
-    t.string  "name",          null: false
+    t.string  "guid",     null: false
+    t.string  "name",     null: false
     t.integer "size"
+    t.integer "venue_id", null: false
   end
 
   create_table "social_events", force: true do |t|
@@ -443,13 +449,13 @@ ActiveRecord::Schema.define(version: 20151005161518) do
   end
 
   create_table "tracks", force: true do |t|
-    t.string   "guid",          null: false
-    t.integer  "conference_id"
-    t.string   "name",          null: false
+    t.string   "guid",        null: false
+    t.string   "name",        null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "program_id"
   end
 
   create_table "users", force: true do |t|

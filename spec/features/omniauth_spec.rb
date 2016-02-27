@@ -46,7 +46,7 @@ feature Openid do
         click_link 'omniauth-google'
       end
 
-      expect(flash).to eq("Could not authenticate you from Google because \"Invalid credentials\".")
+      expect(flash).to eq('Could not authenticate you from Google because "Invalid credentials".')
     end
 
     scenario 'adds openid to existing user' do

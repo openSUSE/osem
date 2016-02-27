@@ -9,7 +9,7 @@ feature EventType do
     scenario 'adds and updates event type', feature: true, js: true do
 
       sign_in organizer
-      visit admin_conference_event_types_path(
+      visit admin_conference_program_event_types_path(
                 conference_id: conference.short_title)
 
       within('table#event_types') do

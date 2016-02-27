@@ -36,7 +36,7 @@
       %section#program
         = render 'schedule_splashpage'
 
-    - if @conference.cfp_open? and @conference.splashpage.include_cfp
+    - if @program.cfp_open? and @conference.splashpage.include_cfp
       %section#callforpapers
         = render 'call_for_paper'
 
@@ -69,8 +69,13 @@
     var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
     $(function () {
       $(document).ready(function() {
-        var t = new Trianglify({cellsize: 100, x_gradient: triangle_colors });
-        var pattern = t.generate(document.body.clientWidth, ($( "#banner" ).height() + 200 ));
-        $('#banner').css('background-image', pattern.dataUrl);
+        var triangle_width = document.body.clientWidth;
+        var triangle_height = ($( "#banner" ).height() + 200 );
+        var pattern = Trianglify({ width: triangle_width,
+                                   height: triangle_height,
+                                   cell_size: 100,
+                                   x_colors: triangle_colors
+                                  });
+        $('#banner').css('background-image', 'url("' + pattern.png() + '")');
       });
     });

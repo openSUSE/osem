@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 feature Event do
-  let!(:conference) { create(:conference, call_for_paper: create(:call_for_paper)) }
+  let!(:conference) { create(:conference) }
+  let!(:cfp) { create(:cfp, program_id: conference.program.id) }
   let!(:organizer_role) { create(:organizer_role, resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
   let!(:participant) { create(:user) }
@@ -10,7 +11,7 @@ feature Event do
   before(:each) do
     @options = {}
     @options[:send_mail] = 'false'
-    @event = create(:event, conference: conference, title: 'Example Proposal')
+    @event = create(:event, program: conference.program, title: 'Example Proposal')
   end
 
   after(:each) do
@@ -23,7 +24,7 @@ feature Event do
     end
 
     scenario 'rejects a proposal', feature: true, js: true do
-      visit admin_conference_events_path(conference.short_title)
+      visit admin_conference_program_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
       click_button 'New'
@@ -34,7 +35,7 @@ feature Event do
     end
 
     scenario 'accepts a proposal', feature: true, js: true do
-      visit admin_conference_events_path(conference.short_title)
+      visit admin_conference_program_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
       click_button 'New'
@@ -47,7 +48,7 @@ feature Event do
 
     scenario 'restarts review of a proposal', feature: true, js: true do
       @event.reject!(@options)
-      visit admin_conference_events_path(conference.short_title)
+      visit admin_conference_program_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
 
       click_button 'Rejected'
@@ -71,7 +72,7 @@ feature Event do
       expected_count_event = Event.count + 1
       expected_count_user = User.count + 1
 
-      visit new_conference_proposal_path(conference.short_title)
+      visit new_conference_program_proposal_path(conference.short_title)
 
       fill_in 'user_username', with: 'Test User'
       fill_in 'user_email', with: 'testuser@osem.io'
@@ -90,11 +91,12 @@ feature Event do
     end
 
     scenario 'update a proposal' do
-      proposal = create(:event)
+      conference = create(:conference)
+      proposal = create(:event, program: conference.program)
 
       sign_in proposal.submitter
 
-      visit edit_conference_proposal_path(proposal.conference.short_title, proposal)
+      visit edit_conference_program_proposal_path(proposal.program.conference.short_title, proposal)
 
       fill_in 'event_subtitle', with: 'My event subtitle'
       select('Easy', from: 'event[difficulty_level_id]')
@@ -106,7 +108,7 @@ feature Event do
     scenario 'signed_in user submits a valid proposal', feature: true, js: true do
       sign_in participant_without_bio
       expected_count = Event.count + 1
-      visit conference_proposal_index_path(conference.short_title)
+      visit conference_program_proposal_index_path(conference.short_title)
       click_link 'New Proposal'
 
       fill_in 'event_title', with: 'Example Proposal'
@@ -120,13 +122,13 @@ feature Event do
       click_button 'Create Proposal'
       expect(flash).to eq('Proposal was successfully submitted.')
 
-      expect(current_path).to eq(conference_proposal_index_path(conference.short_title))
+      expect(current_path).to eq(conference_program_proposal_index_path(conference.short_title))
       expect(Event.count).to eq(expected_count)
     end
 
     scenario 'confirms a proposal', feature: true, js: true do
       sign_in participant
-      visit conference_proposal_index_path(conference.short_title)
+      visit conference_program_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
       expect(@event.state).to eq('unconfirmed')
       click_link "confirm_proposal_#{@event.id}"
@@ -139,7 +141,7 @@ feature Event do
     scenario 'withdraw a proposal', feature: true, js: true do
       sign_in participant
       @event.confirm!
-      visit conference_proposal_index_path(conference.short_title)
+      visit conference_program_proposal_index_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
       click_link "delete_proposal_#{@event.id}"
       expect(flash).to eq('Proposal was successfully withdrawn.')

@@ -1,10 +1,10 @@
 class Room < ActiveRecord::Base
-  belongs_to :conference
+  belongs_to :venue
   has_many :events, dependent: :nullify
 
   before_create :generate_guid
 
-  validates :name, presence: true
+  validates :name, :venue_id, presence: true
 
   validates :size, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 

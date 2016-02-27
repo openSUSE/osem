@@ -1,5 +1,5 @@
 class EventType < ActiveRecord::Base
-  belongs_to :conference
+  belongs_to :program
   has_many :events, dependent: :restrict_with_error
 
   validates :title, presence: true

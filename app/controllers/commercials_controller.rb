@@ -8,7 +8,7 @@ class CommercialsController < ApplicationController
     authorize! :create, @commercial
 
     if @commercial.save
-      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
+      redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
                   notice: 'Commercial was successfully created.'
     else
       flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
@@ -18,7 +18,7 @@ class CommercialsController < ApplicationController
 
   def update
     if @commercial.update(commercial_params)
-      redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
+      redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
                   notice: 'Commercial was successfully updated.'
     else
       flash[:error] = "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
@@ -28,7 +28,7 @@ class CommercialsController < ApplicationController
 
   def destroy
     @commercial.destroy
-    redirect_to edit_conference_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
+    redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id),
                 notice: 'Commercial was successfully destroyed.'
   end
 
@@ -44,7 +44,7 @@ class CommercialsController < ApplicationController
   private
 
   def set_event
-    @event = @conference.events.find(params[:proposal_id])
+    @event = @conference.program.events.find(params[:proposal_id])
   end
 
   def commercial_params

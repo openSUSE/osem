@@ -1,7 +1,7 @@
 %td.event{ style: "width: #{95 / @rooms.length}%; cursor:pointer", |
            rowspan: span[room.id], |
            role: "button" } |
-  %a.unstyled-link{href: url_for(conference_proposal_path(@conference.short_title, event[0].id))}
+  %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event[0].id))}
     - if speaker = event[0].speakers.first
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right", |
                                          :alt => speaker.name, |

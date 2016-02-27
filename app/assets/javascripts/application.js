@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require waypoints
+//= require waypoints/jquery.waypoints
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require cocoon
@@ -20,15 +20,15 @@
 //= require Chart
 //= require d3
 //= require osem
-//= require dashboard
+//= require osem-dashboard
 //= require ahoy
-//= require smoothscroll
-//= require trianglify.min
+//= require jquery-smooth-scroll
+//= require trianglify
 //= require tinycolor
 //= require bootstrap-markdown
 //= require to-markdown
 //= require markdown
-//= require moment
+//= require momentjs
 //= require leaflet
 //= require bootstrap-datetimepicker
 //= require osem-datepickers
@@ -42,5 +42,9 @@
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
         return false;
+    });
+
+    $('body').smoothScroll({
+        delegateSelector: 'a.smoothscroll'
     });
 });

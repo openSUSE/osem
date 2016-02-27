@@ -3,7 +3,7 @@ FactoryGirl.define do
     name 'Example Track'
     description 'Lorem Ipsum dolsum'
     color '#ffffff'
-    conference
+    program
   end
 
 end

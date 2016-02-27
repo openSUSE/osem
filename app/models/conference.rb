@@ -1,6 +1,5 @@
 ##
 # This class represents a conference
-# rubocop:disable Style/ClassLength
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
@@ -16,40 +15,14 @@ class Conference < ActiveRecord::Base
   has_one :contact, dependent: :destroy
   has_one :registration_period, dependent: :destroy
   has_one :email_settings, dependent: :destroy
-  has_one :call_for_paper, dependent: :destroy
+  has_one :program, dependent: :destroy
   has_one :venue, dependent: :destroy
   has_many :social_events, dependent: :destroy
   has_many :ticket_purchases, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
   has_many :tickets, dependent: :destroy
   has_many :dietary_choices, dependent: :destroy
-  has_many :events, dependent: :destroy do
-    def workshops
-      where(require_registration: true, state: :confirmed)
-    end
 
-    def confirmed
-      where(state: :confirmed)
-    end
-
-    def scheduled
-      where.not(start_time: nil)
-    end
-
-    def highlights
-      where(state: :confirmed, is_highlight: true)
-    end
-  end
-  has_many :event_users, through: :events
-  has_many :speakers, -> { distinct }, through: :event_users, source: :user do
-    def confirmed
-      joins(:events).where(events: { state: :confirmed })
-    end
-  end
-  has_many :event_types, dependent: :destroy
-  has_many :tracks, dependent: :destroy
-  has_many :difficulty_levels, dependent: :destroy
-  has_many :rooms, dependent: :destroy
   has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
   has_many :participants, through: :registrations, source: :user
@@ -63,16 +36,12 @@ class Conference < ActiveRecord::Base
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
-  accepts_nested_attributes_for :rooms, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
-  accepts_nested_attributes_for :tracks, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
-  accepts_nested_attributes_for :difficulty_levels, allow_destroy: true
   accepts_nested_attributes_for :social_events, allow_destroy: true
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :dietary_choices, allow_destroy: true
   accepts_nested_attributes_for :tickets, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
   accepts_nested_attributes_for :sponsors, allow_destroy: true
-  accepts_nested_attributes_for :event_types, allow_destroy: true
   accepts_nested_attributes_for :email_settings
   accepts_nested_attributes_for :questions, allow_destroy: true
   accepts_nested_attributes_for :vdays, allow_destroy: true
@@ -95,14 +64,13 @@ class Conference < ActiveRecord::Base
 
   validates_uniqueness_of :short_title
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
+  validates :registration_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # This validation is needed since a conference with a start date greater than the end date is not possible
   validate :valid_date_range?
   before_create :generate_guid
-  before_create :create_event_types
-  before_create :create_difficulty_levels
-  before_create :create_email_settings
   before_create :add_color
+  before_create :create_email_settings
 
   def date_range_string
     startstr = 'Unknown - '
@@ -159,18 +127,6 @@ class Conference < ActiveRecord::Base
   end
 
   ##
-  # Checks if the call for papers for the conference is currently open
-  #
-  # ====Returns
-  # * +false+ -> If the CFP is not set or today isn't in the CFP period.
-  # * +true+ -> If today is in the CFP period.
-  def cfp_open?
-    cfp = self.call_for_paper
-
-    cfp.present? && (cfp.start_date..cfp.end_date).cover?(Date.current)
-  end
-
-  ##
   # Returns an array with the summarized event submissions per week.
   #
   # ====Returns
@@ -178,10 +134,10 @@ class Conference < ActiveRecord::Base
   def get_submissions_per_week
     result = []
 
-    if call_for_paper && events
-      submissions = events.group(:week).count
-      start_week = call_for_paper.start_week
-      weeks = call_for_paper.weeks
+    if program && program.cfp && program.events
+      submissions = program.events.group(:week).count
+      start_week = program.cfp.start_week
+      weeks = program.cfp.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
     end
     result
@@ -195,10 +151,10 @@ class Conference < ActiveRecord::Base
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
     result = {}
-    if call_for_paper && events
+    if program && program.cfp && program.events
       result = get_events_per_week_by_state
 
-      start_week = call_for_paper.start_week
+      start_week = program.cfp.start_week
       end_week = end_date.strftime('%W').to_i
       weeks = weeks(start_week, end_week)
 
@@ -260,8 +216,8 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +Integer+ -> weeks
   def cfp_weeks
-    if call_for_paper
-      call_for_paper.weeks
+    if program
+      program.cfp.weeks
     else
       0
     end
@@ -344,7 +300,7 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
     submitter = EventUser.joins(:event).
-        where('event_role = ? and conference_id = ?', 'submitter', id).
+        where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id).
         limit(limit).group(:user_id)
     counter = submitter.order('count_all desc').count
     Conference.calculate_user_submission_hash(submitter, counter)
@@ -366,7 +322,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> hash
   def event_distribution
-    Conference.calculate_event_distribution_hash(events.select(:state).group(:state).count)
+    Conference.calculate_event_distribution_hash(program.events.select(:state).group(:state).count)
   end
 
   ##
@@ -391,7 +347,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> Fixnum minutes
   def current_program_minutes
-    events_grouped = events.select(:event_type_id).group(:event_type_id)
+    events_grouped = program.events.select(:event_type_id).group(:event_type_id)
     events_counted = events_grouped.count
     calculate_program_minutes(events_grouped, events_counted)
   end
@@ -411,7 +367,7 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> Fixnum minutes
   def new_program_minutes(date)
-    events_grouped = events.select(:event_type_id).where('created_at > ?', date).group(:event_type_id)
+    events_grouped = program.events.select(:event_type_id).where('created_at > ?', date).group(:event_type_id)
     events_counted = events_grouped.count
     calculate_program_minutes(events_grouped, events_counted)
   end
@@ -450,9 +406,9 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> track => {color, value}
   def tracks_distribution(state = nil)
     if state
-      tracks_grouped = events.select(:track_id).where('state = ?', state).group(:track_id)
+      tracks_grouped = program.events.select(:track_id).where('state = ?', state).group(:track_id)
     else
-      tracks_grouped = events.select(:track_id).group(:track_id)
+      tracks_grouped = program.events.select(:track_id).group(:track_id)
     end
     tracks_counted = tracks_grouped.count
 
@@ -539,7 +495,7 @@ class Conference < ActiveRecord::Base
     Conference.where('end_date > ?', Date.today).each do |conference|
       result = {}
       Event.state_machine.states.each do |state|
-        count = conference.events.where('state = ?', state.name).count
+        count = conference.program.events.where('state = ?', state.name).count
         result[state.name] = count
       end
 
@@ -580,10 +536,15 @@ class Conference < ActiveRecord::Base
     email_settings.conference_registration_dates_updated_body
   end
 
+  def registration_limit_exceeded?
+    registration_limit > 0 && registrations.count >= registration_limit
+  end
+
   private
 
   after_create do
     self.create_contact
+    self.create_program
   end
 
   ##
@@ -631,10 +592,10 @@ class Conference < ActiveRecord::Base
 
     # Actual week
     this_week = Date.today.end_of_week.strftime('%W').to_i
-    result['Confirmed'][this_week] = events.where('state = ?', :confirmed).count
-    result['Unconfirmed'][this_week] = events.where('state = ?', :unconfirmed).count
-    result['Submitted'] = events.select(:week).group(:week).count
-    result['Submitted'][this_week] = events.where(week: this_week).count
+    result['Confirmed'][this_week] = program.events.where('state = ?', :confirmed).count
+    result['Unconfirmed'][this_week] = program.events.where('state = ?', :unconfirmed).count
+    result['Submitted'] = program.events.select(:week).group(:week).count
+    result['Submitted'][this_week] = program.events.where(week: this_week).count
     result
   end
 
@@ -720,7 +681,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> One difficulty level or more
   # * +False+ -> No diffculty level
   def difficulty_levels_set?
-    difficulty_levels.count > 0
+    program.difficulty_levels.count > 0
   end
 
   ##
@@ -730,7 +691,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> One difficulty level or more
   # * +False+ -> No diffculty level
   def event_types_set?
-    event_types.count > 0
+    program.event_types.count > 0
   end
 
   ##
@@ -740,7 +701,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> One track or more
   # * +False+ -> No track
   def tracks_set?
-    tracks.count > 0
+    program.tracks.count > 0
   end
 
   ##
@@ -750,7 +711,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> One room or more
   # * +False+ -> No room
   def rooms_set?
-    rooms.count > 0
+    venue.present? && venue.rooms.count > 0
   end
 
   # Checks if the conference has a venue object.
@@ -769,7 +730,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a cfp object.
   # * +False+ -> If conference has no cfp object.
   def cfp_set?
-    !!call_for_paper
+    !!program.cfp
   end
 
   ##
@@ -788,9 +749,9 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
     if state
-      grouped = events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
+      grouped = program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
     else
-      grouped = events.select(group_by_id).group(group_by_id)
+      grouped = program.events.select(group_by_id).group(group_by_id)
     end
     counted = grouped.count
 
@@ -908,35 +869,6 @@ class Conference < ActiveRecord::Base
       end
     end
     result
-  end
-
-  ##
-  # Creates default EventTypes for this Conference. Used as before_create.
-  #
-  def create_event_types
-    event_types << EventType.create(title: 'Talk', length: 30, color: '#FF0000', description: 'Presentation in lecture format',
-                                    minimum_abstract_length: 0,
-                                    maximum_abstract_length: 500)
-    event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF', description: 'Interactive hands-on practice',
-                                    minimum_abstract_length: 0,
-                                    maximum_abstract_length: 500)
-    true
-  end
-
-  ##
-  # Creates default DifficultyLevels for this Conference. Used as before_create.
-  #
-  def create_difficulty_levels
-    difficulty_levels << DifficultyLevel.create(title: 'Easy',
-                                                description: 'Events are understandable for everyone without knowledge of the topic.',
-                                                color: '#70EF69')
-    difficulty_levels << DifficultyLevel.create(title: 'Medium',
-                                                description: 'Events require a basic understanding of the topic.',
-                                                color: '#EEEF69')
-    difficulty_levels << DifficultyLevel.create(title: 'Hard',
-                                                description: 'Events require expert knowledge of the topic.',
-                                                color: '#EF6E69')
-    true
   end
 
   ##

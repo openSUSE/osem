@@ -19,7 +19,7 @@
         - @track.events.each_with_index do |event|
           %tr
             %td
-              =link_to event.title, admin_conference_event_path(@conference.short_title, event)
+              =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
             %td
               = event.event_type.title
             %td

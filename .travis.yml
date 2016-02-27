@@ -1,14 +1,17 @@
 language: ruby
+cache: bundler
 rvm:
   - 2.1.1
 before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
-branches:
-  only:
-    - master
 notifications:
   email:
+    on_success: change
+    on_failure: change
+  irc:
+    channels:
+      - "chat.freenode.net#osem"
     on_success: change
     on_failure: change
 before_script:

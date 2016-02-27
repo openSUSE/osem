@@ -1,13 +1,16 @@
 module Api
   module V1
     class EventsController < Api::BaseController
+      load_resource :conference, find_by: :short_title
       respond_to :json
 
       def index
         events = Event.includes(:conference, :track, :room, :event_type, event_users: :user)
-        unless params[:conference_id].blank?
-          events = events.where(conferences: { guid: params[:conference_id] })
+
+        if @conference
+          events = events.where(conference: @conference)
         end
+
         respond_with events.confirmed
       end
     end

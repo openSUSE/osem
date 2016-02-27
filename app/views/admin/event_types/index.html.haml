@@ -15,7 +15,7 @@
         %th Color
         %th Actions
       %tbody
-        - @conference.event_types.each do |event_type|
+        - @conference.program.event_types.each do |event_type|
           %tr
             %td
               = event_type.title
@@ -32,11 +32,11 @@
                 = event_type.color
             %td
               .btn-group{role: "group"}
-                = link_to 'Edit', edit_admin_conference_event_type_path(@conference.short_title, event_type.id),
+                = link_to 'Edit', edit_admin_conference_program_event_type_path(@conference.short_title, event_type.id),
                 method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_event_type_path(@conference.short_title, event_type.id),
+                = link_to 'Delete', admin_conference_program_event_type_path(@conference.short_title, event_type.id),
                 method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{event_type.name}?" }
 .row
   .col-md-12.text-right
-    = link_to 'Add Event Type', new_admin_conference_event_type_path(@conference.short_title), class: 'btn btn-primary'
+    = link_to 'Add Event Type', new_admin_conference_program_event_type_path(@conference.short_title), class: 'btn btn-primary'
 

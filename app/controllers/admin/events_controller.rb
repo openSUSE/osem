@@ -1,7 +1,8 @@
 module Admin
   class EventsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource :event, through: :conference
+    load_and_authorize_resource :program, through: :conference, singleton: true
+    load_and_authorize_resource :event, through: :program
 
     before_action :get_event, except: [:index, :create]
 
@@ -14,13 +15,11 @@ module Admin
     end
 
     def index
-      authorize! :index, @conference.events.build
-      @conference = Conference.find_by(short_title: params[:conference_id])
-      @events = @conference.events
-      @tracks = @conference.tracks
-      @difficulty_levels = @conference.difficulty_levels
+      @events = @program.events
+      @tracks = @program.tracks
+      @difficulty_levels = @program.difficulty_levels
       @machine_states = @events.state_machine.states.map
-      @event_types = @conference.event_types
+      @event_types = @program.event_types
 
       @mystates = []
       @mytypes = []
@@ -72,26 +71,26 @@ module Admin
       respond_to do |format|
         format.html
         # Explicity call #to_json to avoid the use of EventSerializer
-        format.json { render json: Event.where(state: :confirmed, conference: @conference).to_json }
+        format.json { render json: Event.where(state: :confirmed, program: @program).to_json }
       end
     end
 
     def show
-      @tracks = @conference.tracks
-      @event_types = @conference.event_types
+      @tracks = @program.tracks
+      @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @ratings = @event.votes.includes(:user)
-      @difficulty_levels = @conference.difficulty_levels
+      @difficulty_levels = @program.difficulty_levels
     end
 
     def edit
-      @event_types = @conference.event_types
+      @event_types = @program.event_types
       @tracks = Track.all
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
-      @url = admin_conference_event_path(@conference.short_title, @event)
+      @url = admin_conference_program_event_path(@conference.short_title, @event)
     end
 
     def comment
@@ -101,7 +100,7 @@ module Admin
         comment.move_to_child_of(params[:parent])
       end
 
-      redirect_to admin_conference_event_path(conference_id: @conference.short_title)
+      redirect_to admin_conference_program_event_path(@conference.short_title, @event)
     end
 
     def update
@@ -111,10 +110,10 @@ module Admin
           render js: 'index'
         else
           flash[:notice] = "Successfully updated event with ID #{@event.id}."
-          redirect_back_or_to(admin_conference_event_path(@conference.short_title, @event))
+          redirect_back_or_to(admin_conference_program_event_path(@conference.short_title, @event))
         end
       else
-        @url = admin_conference_event_path(@conference.short_title, @event)
+        @url = admin_conference_program_event_path(@conference.short_title, @event)
         flash[:notice] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
         render :edit
       end
@@ -123,8 +122,8 @@ module Admin
     def create; end
 
     def accept
-      send_mail = @event.conference.email_settings.send_on_accepted
-      subject = @event.conference.email_settings.accepted_subject.blank?
+      send_mail = @event.program.conference.email_settings.send_on_accepted
+      subject = @event.program.conference.email_settings.accepted_subject.blank?
       update_state(:accept, 'Event accepted!', true, subject, send_mail)
     end
 
@@ -137,8 +136,8 @@ module Admin
     end
 
     def reject
-      send_mail = @event.conference.email_settings.send_on_rejected
-      subject = @event.conference.email_settings.rejected_subject.blank?
+      send_mail = @event.program.conference.email_settings.send_on_rejected
+      subject = @event.program.conference.email_settings.rejected_subject.blank?
       update_state(:reject, 'Event rejected!', true, subject, send_mail)
     end
 
@@ -159,7 +158,7 @@ module Admin
       end
 
       respond_to do |format|
-        format.html { redirect_to admin_conference_event_path(@conference.short_title, @event) }
+        format.html { redirect_to admin_conference_program_event_path(@conference.short_title, @event) }
         format.js
       end
     end
@@ -181,9 +180,9 @@ module Admin
     end
 
     def get_event
-      @event = @conference.events.find_by_id(params[:id])
+      @event = @conference.program.events.find(params[:id])
       if !@event
-        redirect_to(admin_conference_events_path(conference_id: @conference.short_title),
+        redirect_to(admin_conference_program_events_path(conference_id: @conference.short_title),
                     alert: 'Error! Could not find event!') && return
       end
       @event
@@ -194,10 +193,10 @@ module Admin
 
       if alert.blank?
         flash[:notice] = notice
-        redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
+        redirect_back_or_to(admin_conference_program_events_path(conference_id: @conference.short_title)) && return
       else
         flash[:error] = alert
-        return redirect_back_or_to(admin_conference_events_path(conference_id: @conference.short_title)) && return
+        return redirect_back_or_to(admin_conference_program_events_path(conference_id: @conference.short_title)) && return
       end
     end
   end

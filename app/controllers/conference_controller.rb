@@ -1,6 +1,7 @@
 class ConferenceController < ApplicationController
   before_filter :respond_to_options
   load_and_authorize_resource find_by: :short_title
+  load_resource :program, through: :conference, singleton: true, except: :index
 
   def index
     @current = Conference.where('end_date >= ?', Date.current).order('start_date ASC')
@@ -10,8 +11,8 @@ class ConferenceController < ApplicationController
   def show; end
 
   def schedule
-    @rooms = @conference.rooms
-    @events = @conference.events
+    @rooms = @conference.venue.rooms if @conference.venue
+    @events = @conference.program.events
     @dates = @conference.start_date..@conference.end_date
 
     if @dates == Date.current

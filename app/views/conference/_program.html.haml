@@ -1,0 +1,40 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#callforpapers' } Call For Papers
+
+.container
+  .row
+    .col-md-12.text-center
+      %h2
+        Call for Papers
+      %p.lead
+        We are ready to accept your proposals for sessions!
+  .row
+    .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
+      %p
+        - if @conference.program.event_types.any?
+          You can submit proposals for
+          = "#{event_types(@conference)}."
+        - if @conference.tracks.any?
+          Proposals should fit in one of the
+          = "#{pluralize(@conference.tracks.count, 'track')}:"
+          = "#{tracks(@conference)}."
+        The submission period has begun
+        %em
+          = @program.cfp.start_date.strftime('%A, %B %-d. %Y')
+        and closes
+        %em
+          = @program.cfp.end_date.strftime('%A, %B %-d. %Y.')
+        - if @conference.cfp_open?
+          That means you have only
+          %b= pluralize(@program.cfp.remaining_days, 'day')
+          left!
+          Remember
+          = @conference.short_title
+          will only be as good as the sessions you present. Submit early, submit often!
+        - else
+          The submission period is closed.
+  .row
+    .col-md-12.text-center
+      %p.cta-button
+        = link_to "Submit your paper now", conference_proposal_index_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'
