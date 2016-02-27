@@ -85,7 +85,6 @@ end
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 gem 'jquery-datatables-rails', '~> 2.2.1'
 # for charts
-gem 'd3_rails'
 gem 'chart-js-rails'
 
 # for user avatars

@@ -18,7 +18,6 @@
 //= require cocoon
 //= require bootstrap
 //= require Chart
-//= require d3
 //= require osem
 //= require osem-dashboard
 //= require ahoy
