@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 feature Registration do
+  let!(:first_user) { create(:user) } # first user is admin
   let!(:conference) { create(:conference, registration_period: create(:registration_period, start_date: 3.days.ago)) }
   let!(:participant) { create(:user) }
 
@@ -28,13 +29,29 @@ feature Registration do
         expect(conference.user_registered?(participant)).to be(true)
       end
 
-      scenario 'unregisters for a conference', feature: true, js: true do
-        visit root_path
-        click_link 'My Registration'
-        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
+      context 'unregisters for a conference', feature: true, js: true do
+        before do
+          visit root_path
+          click_link 'My Registration'
+        end
 
-        click_link 'Unregister'
-        expect(conference.user_registered?(participant)).to be(false)
+        scenario 'deletion of registration is successful' do
+          expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
+
+          click_link 'Unregister'
+          expect(conference.user_registered?(participant)).to be(false)
+          expect(current_path).to eq root_path
+          expect(flash).to eq "You are not registered for #{conference.title} anymore!"
+        end
+
+        scenario 'deletion of registration is unsuccessful' do
+          allow_any_instance_of(Registration).to receive(:destroy).and_return(false)
+
+          click_link 'Unregister'
+          expect(conference.user_registered?(participant)).to be(true)
+          expect(current_path).to eq conference_conference_registrations_path(conference.short_title)
+          expect(flash).to eq "Could not delete your registration for #{conference.title}: #{registration.errors.full_messages.join('. ')}."
+        end
       end
     end
 
@@ -54,7 +71,6 @@ feature Registration do
       let(:conference_with_closed_registration) { create(:conference, registration_period: create(:registration_period)) }
 
       scenario 'registers for a conference', feature: true do
-        participant.is_admin = false
         visit new_conference_conference_registrations_path(conference_with_closed_registration.short_title)
         expect(current_path).to eq(root_path)
         expect(flash).to eq 'You are not authorized to access this page.'
