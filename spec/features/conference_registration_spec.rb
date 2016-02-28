@@ -49,5 +49,16 @@ feature Registration do
         expect(conference.user_registered?(participant)).to be(true)
       end
     end
+
+    context 'registration is closed' do
+      let(:conference_with_closed_registration) { create(:conference, registration_period: create(:registration_period)) }
+
+      scenario 'registers for a conference', feature: true do
+        participant.is_admin = false
+        visit new_conference_conference_registrations_path(conference_with_closed_registration.short_title)
+        expect(current_path).to eq(root_path)
+        expect(flash).to eq 'You are not authorized to access this page.'
+      end
+    end
   end
 end

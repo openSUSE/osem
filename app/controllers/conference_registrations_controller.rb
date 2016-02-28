@@ -1,7 +1,7 @@
 class ConferenceRegistrationsController < ApplicationController
   before_filter :authenticate_user!, except: [:new, :create]
   load_resource :conference, find_by: :short_title
-  authorize_resource :conference_registrations, class: Registration
+  authorize_resource :conference_registrations, class: Registration, except: [:new, :create]
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
@@ -25,8 +25,9 @@ class ConferenceRegistrationsController < ApplicationController
       return
     end
 
-    @registration = Registration.new
-
+    @registration = Registration.new(conference_id: @conference.id)
+    # make sure that conference is open for registration
+    authorize! :new, @registration
     # @user variable needs to be set so that _sign_up_form_embedded works properly
     @user = @registration.build_user
   end
@@ -50,6 +51,7 @@ class ConferenceRegistrationsController < ApplicationController
     end
 
     @registration.user = @user
+    authorize! :create, @registration
 
     if @registration.save
       # Trigger ahoy event
