@@ -64,7 +64,7 @@ class Target < ActiveRecord::Base
       'unit' => unit,
       'created_at' => created_at,
       'progress' => progress,
-      'days_left' => days_left,
+      'days_left' => days_left
     }
     result
   end
