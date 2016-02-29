@@ -3,9 +3,7 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :target, through: :conference
 
-    def index
-      authorize! :update, Target.new(conference_id: @conference.id)
-    end
+    def index; end
 
     def new
       @target = @conference.targets.new
@@ -39,9 +37,9 @@ module Admin
         redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
                     notice: 'Target successfully destroyed.')
       else
-        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
-                    error: 'Target was successfully destroyed.' \
-                    "#{@target.errors.full_messages.join('. ')}.")
+        redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
+                    flash:  { error: "Could not delete target for #{@conference.title}: "\
+                    "#{@target.errors.full_messages.join('. ')}." }
       end
     end
 
