@@ -1,18 +1,12 @@
 $(function () {
-  $("#registration-arrival-datepicker").datetimepicker({
+  $("#registration-arrival-datepicker, #registration-departure-datepicker").datetimepicker({
       pickTime: true,
       useCurrent: false,
       minuteStepping: 15,
       sideBySide: true,
       format: "YYYY-MM-DD HH:mm"
   });
-  $("#registration-departure-datepicker").datetimepicker({
-      pickTime: true,
-      useCurrent: false,
-      minuteStepping: 15,
-      sideBySide: true,
-      format: "YYYY-MM-DD HH:mm"
-  });
+
   $("#registration-arrival-datepicker").on("dp.change",function (e) {
       console.log (e.date)
       $('#registration-departure-datepicker').data("DateTimePicker").setDate(e.date);
@@ -23,16 +17,14 @@ $(function () {
   });
 
 
-  $("#conference-start-datepicker").datetimepicker({
+  const $datetimepickers = $("#conference-start-datepicker, #conference-end-datepicker, #registration-period-start-datepicker, #registration-period-end-datepicker");
+
+  $datetimepickers.datetimepicker({
       pickTime: false,
       useCurrent: false,
       format: "YYYY-MM-DD"
   });
-  $("#conference-end-datepicker").datetimepicker({
-      pickTime: false,
-      useCurrent: false,
-      format: "YYYY-MM-DD"
-  });
+
   $("#conference-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
       $('#conference-end-datepicker').data("DateTimePicker").setDate(e.date);
@@ -42,18 +34,6 @@ $(function () {
       $('#conference-start-datepicker').data("DateTimePicker").setMaxDate(e.date);
   });
 
-  $("#registration-period-start-datepicker").datetimepicker({
-      format: "YYYY-MM-DD",
-      useCurrent: false,
-      pickTime: false,
-      pickSeconds: false
-  });
-  $("#registration-period-end-datepicker").datetimepicker({
-      format: "YYYY-MM-DD",
-      useCurrent: false,
-      pickTime: false,
-      pickSeconds: false
-  });
   $("#registration-period-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
       $('#registration-period-end-datepicker').data("DateTimePicker").setDate(e.date);
