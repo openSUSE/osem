@@ -131,8 +131,6 @@ GEM
       term-ansicolor
       thor
     currencies (0.4.2)
-    d3_rails (3.4.6)
-      railties (>= 3.1.0)
     daemons (1.1.9)
     database_cleaner (1.3.0)
     debug_inspector (0.0.2)
@@ -496,7 +494,6 @@ DEPENDENCIES
   cocoon
   country_select!
   coveralls
-  d3_rails
   daemons
   database_cleaner
   delayed_job_active_record
