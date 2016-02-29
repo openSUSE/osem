@@ -44,11 +44,13 @@ $(function () {
 
   $("#registration-period-start-datepicker").datetimepicker({
       format: "YYYY-MM-DD",
+      useCurrent: false,
       pickTime: false,
       pickSeconds: false
   });
   $("#registration-period-end-datepicker").datetimepicker({
       format: "YYYY-MM-DD",
+      useCurrent: false,
       pickTime: false,
       pickSeconds: false
   });
