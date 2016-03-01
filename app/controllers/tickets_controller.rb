@@ -4,6 +4,8 @@ class TicketsController < ApplicationController
   load_resource :ticket, through: :conference
   authorize_resource :conference_registrations, class: Registration
   before_filter :check_load_resource, only: :index
+  add_flash_types :error
+  add_flash_types :alert
 
   def index; end
 
