@@ -13,8 +13,13 @@
 
 ActiveRecord::Schema.define(version: 20160201221411) do
 
+<<<<<<< HEAD
+  create_table "ahoy_events", force: true do |t|
+    t.uuid     "visit_id"
+=======
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
+>>>>>>> upstream/master
     t.integer  "user_id"
     t.string   "name"
     t.text     "properties"
@@ -31,7 +36,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "campaigns", force: true do |t|
+=======
   create_table "campaigns", force: :cascade do |t|
+>>>>>>> upstream/master
     t.integer  "conference_id"
     t.string   "name"
     t.string   "utm_source"
@@ -43,7 +52,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "cfps", force: true do |t|
+=======
   create_table "cfps", force: :cascade do |t|
+>>>>>>> upstream/master
     t.date     "start_date", null: false
     t.date     "end_date",   null: false
     t.datetime "created_at"
@@ -51,7 +64,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.integer  "program_id"
   end
 
+<<<<<<< HEAD
+  create_table "comments", force: true do |t|
+=======
   create_table "comments", force: :cascade do |t|
+>>>>>>> upstream/master
     t.string   "title",            limit: 50, default: ""
     t.text     "body"
     t.integer  "commentable_id"
@@ -146,7 +163,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "difficulty_levels", force: true do |t|
+=======
   create_table "difficulty_levels", force: :cascade do |t|
+>>>>>>> upstream/master
     t.string   "title"
     t.text     "description"
     t.string   "color"
@@ -188,7 +209,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.text     "cfp_dates_updated_body"
   end
 
+<<<<<<< HEAD
+  create_table "event_types", force: true do |t|
+=======
   create_table "event_types", force: :cascade do |t|
+>>>>>>> upstream/master
     t.string  "title",                                 null: false
     t.integer "length",                  default: 30
     t.integer "minimum_abstract_length", default: 0
@@ -274,7 +299,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "programs", force: true do |t|
+=======
   create_table "programs", force: :cascade do |t|
+>>>>>>> upstream/master
     t.integer  "conference_id"
     t.integer  "rating",          default: 0
     t.boolean  "schedule_public", default: false
@@ -283,7 +312,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "qanswers", force: true do |t|
+=======
   create_table "qanswers", force: :cascade do |t|
+>>>>>>> upstream/master
     t.integer  "question_id"
     t.integer  "answer_id"
     t.datetime "created_at"
@@ -362,7 +395,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
 
   add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id"
 
+<<<<<<< HEAD
+  create_table "rooms", force: true do |t|
+=======
   create_table "rooms", force: :cascade do |t|
+>>>>>>> upstream/master
     t.string  "guid",     null: false
     t.string  "name",     null: false
     t.integer "size"
@@ -448,7 +485,11 @@ ActiveRecord::Schema.define(version: 20160201221411) do
     t.string  "price_currency", default: "USD", null: false
   end
 
+<<<<<<< HEAD
+  create_table "tracks", force: true do |t|
+=======
   create_table "tracks", force: :cascade do |t|
+>>>>>>> upstream/master
     t.string   "guid",        null: false
     t.string   "name",        null: false
     t.text     "description"

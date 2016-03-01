@@ -2,6 +2,8 @@ class TicketPurchasesController < ApplicationController
   before_filter :authenticate_user!
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
+  add_flash_types :error
+  add_flash_types :alert
 
   def create
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])

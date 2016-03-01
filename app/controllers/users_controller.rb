@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
+  add_flash_types :error
+  add_flash_types :alert
 
   # GET /users/1
   def show
@@ -15,8 +17,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to @user, notice: 'User was successfully updated.'
     else
-      flash[:error] = "An error prohibited your Profile from being saved: #{@user.errors.full_messages.join('. ')}."
-      render :edit
+      render :edit, error: "An error prohibited your Profile from being saved: #{@user.errors.full_messages.join('. ')}."
     end
   end
 

@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_filter :get_conferences
   before_filter :store_location
   helper_method :date_string
+  add_flash_types :error
+  add_flash_types :alert
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
 
@@ -52,16 +54,14 @@ class ApplicationController < ActionController::Base
   rescue_from IChainRecordNotFound do
     Rails.logger.debug('IChain Record was not Unique!')
     sign_out(current_user)
-    flash[:error] = 'Your E-Mail adress is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!'
-    redirect_to root_path
+    redirect_to root_path(@ user), error: "Your E-Mail adress is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!"
   end
 
   rescue_from UserDisabled do
     Rails.logger.debug('User is disabled!')
     sign_out(current_user)
     mail = User.admin.first ? User.admin.first.email : 'the admin!'
-    flash[:error] = "This User is disabled. Please contact #{mail}!"
-    redirect_to User.ichain_logout_url
+    redirect_to User.ichain_logout_url(@ user), error: "This User is disabled. Please contact #{mail}!"
   end
 
   def not_found

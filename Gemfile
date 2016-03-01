@@ -52,7 +52,11 @@ gem 'uglifier', '>= 1.3.0'
 gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
+<<<<<<< HEAD
+gem 'formtastic', '~> 2.3.0.rc3'
+=======
 gem 'formtastic', '~> 3.1.1'
+>>>>>>> upstream/master
 gem 'cocoon'
 
 # frontend javascripts
@@ -85,6 +89,10 @@ end
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 gem 'jquery-datatables-rails', '~> 2.2.1'
 # for charts
+<<<<<<< HEAD
+gem 'd3_rails'
+=======
+>>>>>>> upstream/master
 gem 'chart-js-rails'
 
 # for user avatars

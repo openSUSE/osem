@@ -3,6 +3,8 @@ class ConferenceRegistrationsController < ApplicationController
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
+  add_flash_types :error
+  add_flash_types :alert
 
   def new
     # Redirect to registration edit when user is already registered
@@ -60,16 +62,14 @@ class ConferenceRegistrationsController < ApplicationController
         sign_in(@registration.user)
       end
 
-      flash[:notice] = 'You are now registered and will be receiving E-Mail notifications.'
       if @conference.tickets.any? && !current_user.supports?(@conference)
-        redirect_to conference_tickets_path(@conference.short_title)
+        redirect_to conference_tickets_path(@conference.short_title), notice: 'You are now registered and will be receiving E-Mail notifications.'
       else
-        redirect_to  conference_conference_registrations_path(@conference.short_title)
+        redirect_to  conference_conference_registrations_path(@conference.short_title), notice: 'You are now registered and will be receiving E-Mail notifications.'
       end
     else
-      flash[:error] = "Could not create your registration for #{@conference.title}: "\
+        render :new, error: "Could not create your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
-      render :new
     end
   end
 
@@ -78,9 +78,8 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to  conference_conference_registrations_path(@conference.short_title),
                    notice: 'Registration was successfully updated.'
     else
-      flash[:error] = "Could not update your registration for #{@conference.title}: "\
+      render :edit, error: "Could not update your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
-      render :edit
     end
   end
 
@@ -100,8 +99,7 @@ class ConferenceRegistrationsController < ApplicationController
   def set_registration
     @registration = Registration.find_by(conference: @conference, user: current_user)
     if !@registration
-      flash[:alert] = "Can't find a registration for #{@conference.title} for you. Please register."
-      redirect_to new_conference_conference_registrations_path(@conference.short_title)
+      redirect_to new_conference_conference_registrations_path(@conference.short_title), alert: "Can't find a registration for #{@conference.title} for you. Please register."
     end
   end
 
