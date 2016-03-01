@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :date_string
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
+  add_flash_types :error, :alert
 
   def store_location
     # store last url - this is needed for post-login redirect to whatever the user last visited.
@@ -52,16 +53,14 @@ class ApplicationController < ActionController::Base
   rescue_from IChainRecordNotFound do
     Rails.logger.debug('IChain Record was not Unique!')
     sign_out(current_user)
-    flash[:error] = 'Your E-Mail adress is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!'
-    redirect_to root_path
+    redirect_to root_path, error: 'Your E-Mail adress is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!'
   end
 
   rescue_from UserDisabled do
     Rails.logger.debug('User is disabled!')
     sign_out(current_user)
     mail = User.admin.first ? User.admin.first.email : 'the admin!'
-    flash[:error] = "This User is disabled. Please contact #{mail}!"
-    redirect_to User.ichain_logout_url
+    redirect_to User.ichain_logout_url, error: "This User is disabled. Please contact #{mail}!"
   end
 
   def not_found
