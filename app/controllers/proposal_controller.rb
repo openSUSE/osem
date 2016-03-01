@@ -3,6 +3,7 @@ class ProposalController < ApplicationController
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
   load_and_authorize_resource :event, parent: false, through: :program
+  add_flash_types :error, :alert
 
   def index
     @events = current_user.proposals(@conference)
@@ -31,8 +32,7 @@ class ProposalController < ApplicationController
       if @user.save
         sign_in(@user)
       else
-        flash[:error] = "Could not save user: #{@user.errors.full_messages.join(', ')}"
-        render action: 'new'
+        render action: 'new', error: "Could not save user: #{@user.errors.full_messages.join(', ')}"
         return
       end
     end
@@ -48,15 +48,13 @@ class ProposalController < ApplicationController
                            event_role: 'speaker')
 
     unless @event.save
-      flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
+      render action: 'new', error: "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
       return
     end
 
     ahoy.track 'Event submission', title: 'New submission'
 
-    flash[:notice] = 'Proposal was successfully submitted.'
-    redirect_to conference_program_proposal_index_path(@conference.short_title)
+    redirect_to conference_program_proposal_index_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
   end
 
   def update
@@ -64,8 +62,8 @@ class ProposalController < ApplicationController
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     if !@event.update(event_params)
-      flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
+        render action: 'new', error: "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
+
       return
     end
 
@@ -101,8 +99,7 @@ class ProposalController < ApplicationController
     end
 
     if !@event.save
-      flash[:error] = "Could not confirm proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
+      render action: 'new', error: "Could not confirm proposal: #{@event.errors.full_messages.join(', ')}"
       return
     end
 
@@ -128,8 +125,7 @@ class ProposalController < ApplicationController
     end
 
     if !@event.save
-      flash[:error] = "Could not re-submit proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
+      render action: 'new', error: "Could not re-submit proposal: #{@event.errors.full_messages.join(', ')}"
       return
     end
 
