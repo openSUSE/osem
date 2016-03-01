@@ -63,9 +63,9 @@ class ConferenceRegistrationsController < ApplicationController
 
       notice = 'You are now registered and will be receiving E-Mail notifications.'
       if @conference.tickets.any? && !current_user.supports?(@conference)
-          redirect_to conference_tickets_path(@conference.short_title), notice: notice
+        redirect_to conference_tickets_path(@conference.short_title), notice: notice
       else
-      redirect_to  conference_conference_registrations_path(@conference.short_title), notice: notice
+        redirect_to  conference_conference_registrations_path(@conference.short_title), notice: notice
       end
     else
       render :new, error: "Could not create your registration for #{@conference.title}: "\

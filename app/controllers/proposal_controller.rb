@@ -54,7 +54,8 @@ class ProposalController < ApplicationController
 
     ahoy.track 'Event submission', title: 'New submission'
 
-    redirect_to conference_program_proposal_index_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
+    redirect_to conference_program_proposal_index_path(@conference.short_title),
+                notice: 'Proposal was successfully submitted.'
   end
 
   def update
@@ -62,8 +63,7 @@ class ProposalController < ApplicationController
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     if !@event.update(event_params)
-        render action: 'new', error: "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
-
+      render action: 'new', error: "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
       return
     end
 
