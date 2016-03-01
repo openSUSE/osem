@@ -5,6 +5,14 @@ class ConferenceRegistrationsController < ApplicationController
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
+    # Check if conference is over
+    # Display error if yes
+    if @conference.end_date < Date.today
+      flash[:alert] = "Sorry, the conference is already over."
+      redirect_to root_path
+      return
+    end
+    
     # Redirect to registration edit when user is already registered
     if @conference.user_registered?(current_user)
       redirect_to edit_conference_conference_registrations_path(@conference.short_title)
