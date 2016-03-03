@@ -179,6 +179,8 @@ group :test do
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
   gem 'timecop'
+  # Mock external requests
+  gem 'webmock'
 end
 
 group :development, :test do
