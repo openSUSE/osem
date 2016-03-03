@@ -217,8 +217,8 @@ module Admin
     def get_users(role_name)
       @role_users = {}
       # Initialize @role variable, so that view can show the role description
-      @role = Role.find_by(name: role_name, resource: @conference) || []
-      @role.blank? ? @role_users[role_name] = [] : (@role_users[role_name] = (User.with_role @role.name, @role.resource).to_a)
+      @role = Role.where(name: role_name, resource: @conference) || []
+      @role.blank? ? @role_users[role_name] = [] : (@role_users[role_name] = (User.with_role @role.first.name, @role.first.resource).to_a)
 
       @role_users
     end

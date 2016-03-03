@@ -214,7 +214,7 @@ describe Admin::ConferenceController do
       end
 
       it 'finds the correct role' do
-        expect(assigns(:role)).to eq(organizer_role)
+        expect(assigns(:role)).to eq([organizer_role])
       end
 
       it 'properly assigns role_users hash' do
@@ -237,7 +237,7 @@ describe Admin::ConferenceController do
 
       it 'sets role variable' do
         post :roles, id: conference.short_title, user: { roles: 'Organizer' }
-        expect(assigns(:role)).to eq(organizer_role)
+        expect(assigns(:role)).to eq([organizer_role])
       end
 
       it 'sets role variable (returns blank for nil role)' do
