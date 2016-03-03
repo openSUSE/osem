@@ -16,7 +16,7 @@ background-image: -webkit-gradient(
 }
 
 #schedule td.event:hover
-{ 
+{
 background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
 background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
 background-image: -moz-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(83,171,74) 97%, rgb(83,171,74) 100%);
@@ -64,4 +64,14 @@ a.unstyled-link {
     text-decoration: none;
     color: #333333;
     outline: 0;
+}
+
+#schedule td.event {
+  background-image: linear-gradient(to top, #f7faf2 24%, #c2e8be 97%,
+#c2e8be 100%);
+}
+
+#schedule td.event:hover {
+  background-image: linear-gradient(to top, #f7faf2 24%, #53ab4a 97%,
+#53ab4a 100%);
 }
