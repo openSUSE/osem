@@ -1,6 +1,10 @@
 #!/bin/bash
+pushd /vagrant
+
 echo -e "\ninstalling required software packages...\n"
-zypper -q -n install update-alternatives ruby-devel make gcc gcc-c++ libxml2-devel libxslt-devel nodejs screen mariadb libmysqld-devel sqlite3-devel imagemagick
+zypper -q -n install update-alternatives ruby-devel make gcc gcc-c++ \
+             libxml2-devel libxslt-devel nodejs screen mariadb \
+             libmysqld-devel sqlite3-devel imagemagick
 
 echo -e "\ndisabling versioned gem binary names...\n"
 echo 'install: --no-format-executable' >> /etc/gemrc
@@ -22,12 +26,10 @@ fi
 
 # Configure the app if it isn't
 if [ ! -f /vagrant/config/secrets.yml ] && [ -f /vagrant/config/secrets.yml.example ]; then
-  echo "Configuring your app in config/secrets.yml..."
-  echo -e "\n\nWARNING: The keys in the generated secrets.yml are NOT secure!"
-  echo -e "\n\nWARNING: Please generate new secret keys with 'rake secret' and copy them to the secrets.yml if you run this app in production."
+  echo "Configuring your secrets in config/secrets.yml..."
   cp config/secrets.yml.example config/secrets.yml
 else
-  echo -e "\n\nWARNING: You have already configured your app in config/secrets.yml."
+  echo -e "\n\nWARNING: You have already configured your secrets in config/secrets.yml."
   echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n"
 fi
 
@@ -35,11 +37,16 @@ fi
 if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.example ]; then
   echo -e "\nSetting up your database from config/database.yml...\n"
   cp config/database.yml.example config/database.yml
-  bundle exec rake db:setup
+  if [ ! -f db/development.sqlite3 ] && [ -f db/test.sqlite3 ]; then
+    bundle exec rake db:setup
+  else
+    echo -e "\n\nWARNING: You have already have a development/test database."
+    echo -e "WARNING: Please make sure this database works in this vagrant box!\n\n"
+  fi 
 else
   echo -e "\nnWARNING: You have already configured your database in config/database.yml." 
   echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n" 
 fi
 
 echo -e "\nProvisioning of your OSEM rails app done!"
-echo -e "To start your development OSEM run: vagrant exec rails s\n"
+echo -e "To start your development OSEM run: vagrant exec rails server -b 0.0.0.0\n"
