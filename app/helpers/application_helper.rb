@@ -296,4 +296,17 @@ module ApplicationHelper
   def unread_notifications(user)
     Comment.accessible_by(current_ability).find_since_last_login(user)
   end
+
+  def create_user_if_not_signed_in
+    unless current_user
+      @user = User.new(user_params)
+      if @user.save
+        sign_in(@user)
+      else
+        flash[:error] = "Could not save user: #{@user.errors.full_messages.join(', ')}"
+        render action: 'new'
+        return
+      end
+    end
+  end
 end

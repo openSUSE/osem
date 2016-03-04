@@ -1,5 +1,6 @@
 class ProposalController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :new, :create]
+  before_action :create_user_if_not_signed_in, only: [:create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
   load_and_authorize_resource :event, parent: false, through: :program
@@ -25,8 +26,6 @@ class ProposalController < ApplicationController
 
   def create
     @url = conference_program_proposal_index_path(@conference.short_title)
-
-    create_user_if_not_signed_in
 
     params[:event].delete :user
 
@@ -124,19 +123,6 @@ class ProposalController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :username)
-  end
-
-  def create_user_if_not_signed_in
-    unless current_user
-      @user = User.new(user_params)
-      if @user.save
-        sign_in(@user)
-      else
-        flash[:error] = "Could not save user: #{@user.errors.full_messages.join(', ')}"
-        render action: 'new'
-        return
-      end
-    end
   end
 
   def proposal_submission
