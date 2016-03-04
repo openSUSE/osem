@@ -3,7 +3,7 @@ require 'spec_helper'
 feature Event do
   let!(:conference) { create(:conference) }
   let!(:cfp) { create(:cfp, program_id: conference.program.id) }
-  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
   let!(:participant) { create(:user) }
   let!(:participant_without_bio) { create(:user, biography: '') }

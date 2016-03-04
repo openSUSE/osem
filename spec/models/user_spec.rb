@@ -5,8 +5,9 @@ describe User do
   # It is necessary to use bang version of let to build roles before user
   let!(:user_admin) { create(:user) }
   let!(:conference) { create(:conference) }
-  let!(:organizer_role) { create(:organizer_role, resource: conference) }
-  let!(:cfp_role) { create(:cfp_role, resource: conference) }
+  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
+  let!(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
+  let!(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
   let!(:user) { create(:user) }
 
@@ -33,20 +34,21 @@ describe User do
   end
 
   describe '#has_role?' do
-    shared_examples '#role?' do |user, role, expected|
-      it "returns #{expected} for #{role}" do
-        user_obj = create(user)
-        expect(user_obj.has_role?(role.downcase, conference)).to be expected
+    describe 'when user has a role' do
+      it 'returns true when the user has the role' do
+        user = create(:user, role_ids: organizer_role.id)
+        expect(user.has_role?('organizer', conference)).to be true
+      end
+
+      it 'returns false when the user does not have the role' do
+        user = create(:user, role_ids: cfp_role.id)
+        expect(user.has_role?('organizer', conference)).to be false
       end
     end
 
-    context 'organizer' do
-      it_behaves_like '#role?', :organizer, 'organizer', true
-      it_behaves_like '#role?', :organizer, 'participant', false
-    end
-
-    context 'participant' do
-      it_behaves_like '#role?', :user, 'adMin', false
+    it 'returns false when the user does not have a role' do
+      user = create(:user, role_ids: [])
+      expect(user.has_role?('organizer', conference)).to be false
     end
   end
 

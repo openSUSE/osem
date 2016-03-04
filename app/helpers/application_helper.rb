@@ -37,6 +37,10 @@ module ApplicationHelper
     end
   end
 
+  def format_role(role)
+    role.parameterize.underscore
+  end
+
   def target_progress_color(progress)
     progress = progress.to_i
     result =

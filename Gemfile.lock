@@ -458,6 +458,8 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unicode-display_width (0.3.1)
+    unobtrusive_flash (3.1.0)
+      railties
     user_agent_parser (2.1.5)
     uuidtools (2.1.5)
     warden (1.2.4)
@@ -558,9 +560,7 @@ DEPENDENCIES
   transitions
   turbolinks
   uglifier (>= 1.3.0)
+  unobtrusive_flash (>= 3)
   web-console (~> 2.0)
   webmock
   whenever
-
-BUNDLED WITH
-   1.11.2

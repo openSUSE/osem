@@ -4,9 +4,9 @@ feature Splashpage do
 
   # It is necessary to use bang version of let to build roles before user
   let!(:conference) { create(:conference) }
-  let!(:organizer_role) { create(:organizer_role, resource: conference) }
+  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
-  let!(:participant) { create(:user, biography: '') }
+  let!(:participant) { create(:user, biography: '', is_admin: false) }
 
   scenario 'create a valid splashpage', js: true do
     sign_in organizer

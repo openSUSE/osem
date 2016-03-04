@@ -3,7 +3,8 @@
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
-  resourcify # Needed to call 'Conference.with_role' in /models/ability.rb
+  # Needed to call 'Conference.with_role' in /models/ability.rb
+  resourcify
 
   default_scope { order('start_date DESC') }
 
@@ -545,6 +546,18 @@ class Conference < ActiveRecord::Base
   after_create do
     self.create_contact
     self.create_program
+    create_roles
+  end
+
+  ##
+  # Creates the roles of the conference
+  # after the conference has been successfully created
+  # Will create 4 new records for roles
+  def create_roles
+    Role.where(name: 'organizer', resource: self).first_or_create(description: 'For the organizers of the conference (who shall have full access)')
+    Role.where(name: 'cfp', resource: self).first_or_create(description: 'For the members of the CfP team')
+    Role.where(name: 'info_desk', resource: self).first_or_create(description: 'For the members of the Info Desk team')
+    Role.where(name: 'volunteers_coordinator', resource: self).first_or_create(description: 'For the people in charge of volunteers')
   end
 
   ##

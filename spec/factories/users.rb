@@ -19,9 +19,5 @@ FactoryGirl.define do
     factory :admin do
       is_admin true
     end
-
-    factory :organizer do
-      after(:create) { |user| user.role_ids = create(:organizer_role).id }
-    end
   end
 end

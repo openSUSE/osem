@@ -1,9 +1,10 @@
 class Role < ActiveRecord::Base
-  has_and_belongs_to_many :users
   belongs_to :resource, polymorphic: true
+  has_and_belongs_to_many :users
 
   scopify
 
-  LABELS = ['Attendee', 'Volunteer', 'Speaker', 'Sponsor', 'Press', 'Keynote Speaker']
-  ACTIONABLES = ['Organizer', 'CfP', 'Info Desk', 'Volunteers Coordinator']
+  validates :name, presence: true
+
+  validates :name, uniqueness: { scope: :resource }
 end

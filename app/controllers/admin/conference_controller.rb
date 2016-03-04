@@ -66,13 +66,15 @@ module Admin
     def create
       @conference = Conference.new(conference_params)
 
-      if @conference.valid?
-        @conference.save
+      if @conference.save
+        flash[:notice] = 'Conference was successfully created.'
+
         # user that creates the conference becomes organizer of that conference
         current_user.add_role :organizer, @conference
-        redirect_to(admin_conference_path(id: @conference.short_title),
-                    notice: 'Conference was successfully created.')
+
+        redirect_to admin_conference_path(id: @conference.short_title)
       else
+        flash[:error] = 'Could not create conference. ' + @conference.errors.full_messages.to_sentence
         render action: 'new'
       end
     end
@@ -173,31 +175,6 @@ module Admin
       end
     end
 
-    def roles
-      @user = User.new
-      @roles = Role::ACTIONABLES + Role::LABELS
-
-      params[:user] ? (@selection = params[:user][:roles].parameterize.underscore) : (@selection = 'organizer')
-      @role_users = get_users(@selection)
-    end
-
-    def add_user
-      @user = User.find_by(email: params[:user][:email])
-      @selection = params[:role]
-      @user.add_role @selection, @conference
-
-      @role_users = get_users(@selection)
-      render 'roles', formats: [:js]
-    end
-
-    def remove_user
-      @selection = params[:role]
-      @user.revoke @selection, @conference
-
-      @role_users = get_users(@selection)
-      render 'roles', formats: [:js]
-    end
-
     private
 
     def conference_params
@@ -212,15 +189,6 @@ module Admin
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :photos_attributes, :targets, :targets_attributes,
                                          :campaigns, :campaigns_attributes, :registration_limit)
-    end
-
-    def get_users(role_name)
-      @role_users = {}
-      # Initialize @role variable, so that view can show the role description
-      @role = Role.where(name: role_name, resource: @conference)
-      @role.blank? ? @role_users[role_name] = @role : @role_users[role_name] = @role.first.users
-
-      @role_users
     end
   end
 end

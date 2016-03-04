@@ -8,10 +8,10 @@ feature 'Has correct abilities' do
   let(:conference4) { create(:full_conference) } # user is volunteer coordinator
   let(:conference5) { create(:full_conference) } # user has no role
 
-  let(:role_organizer) { create(:role, name: 'organizer', resource: conference1) }
-  let(:role_cfp) { create(:role, name: 'cfp', resource: conference2) }
-  let(:role_info_desk) { create(:role, name: 'info_desk', resource: conference3) }
-  let(:role_volunteer_coordinator) { create(:role, name: 'volunteer_coordinator', resource: conference4) }
+  let(:role_organizer) { Role.find_by(name: 'organizer', resource: conference1) }
+  let(:role_cfp) { Role.find_by(name: 'cfp', resource: conference2) }
+  let(:role_info_desk) { Role.find_by(name: 'info_desk', resource: conference3) }
+  let(:role_volunteer_coordinator) { Role.find_by(name: 'volunteers_coordinator', resource: conference4) }
 
   let(:user) { create(:user) }
   let(:user_organizer) { create(:user, role_ids: [role_organizer.id]) }
@@ -20,7 +20,7 @@ feature 'Has correct abilities' do
   let(:user_volunteer_coordinator) { create(:user, role_ids: [role_volunteer_coordinator.id]) }
 
   scenario 'when user has no role' do
-    user_organizer.is_admin = false
+    user.is_admin = false
     sign_in user
 
     visit admin_conference_path(conference1.short_title)
@@ -31,7 +31,9 @@ feature 'Has correct abilities' do
   scenario 'when user is organizer' do
     user_organizer.is_admin = false
     sign_in user_organizer
+
     visit admin_conference_path(conference1.short_title)
+    expect(current_path).to eq(admin_conference_path(conference1.short_title))
 
     expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to have_link('Basics', href: "/admin/conference/#{conference1.short_title}/edit")
@@ -107,7 +109,9 @@ feature 'Has correct abilities' do
   scenario 'when user is cfp' do
     user_cfp.is_admin = false
     sign_in user_cfp
+
     visit admin_conference_path(conference2.short_title)
+    expect(current_path).to eq(admin_conference_path(conference2.short_title))
 
     expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to_not have_link('Basics', href: "/admin/conference/#{conference2.short_title}/edit")
@@ -132,7 +136,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Event Types', href: "/admin/conference/#{conference2.short_title}/program/event_types")
     expect(page).to have_link('Difficulty Levels', href: "/admin/conference/#{conference2.short_title}/program/difficulty_levels")
     expect(page).to_not have_link('Questions', href: "/admin/conference/#{conference2.short_title}/questions")
-    expect(page).to_not have_link('Roles', href: "/admin/conference/#{conference2.short_title}/roles")
+    expect(page).to have_link('Roles', href: "/admin/conference/#{conference2.short_title}/roles")
 
     visit edit_admin_conference_path(conference2.short_title)
     expect(current_path).to eq(root_path)
@@ -180,7 +184,9 @@ feature 'Has correct abilities' do
   scenario 'when user is info desk' do
     user_info_desk.is_admin = false
     sign_in user_info_desk
+
     visit admin_conference_path(conference3.short_title)
+    expect(current_path).to eq(admin_conference_path(conference3.short_title))
 
     expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
     expect(page).to_not have_link('Basics', href: "/admin/conference/#{conference2.short_title}/edit")
@@ -205,7 +211,7 @@ feature 'Has correct abilities' do
     expect(page).to_not have_link('Event types', href: "/admin/conference/#{conference3.short_title}/program/event_types")
     expect(page).to_not have_link('Difficulty levels', href: "/admin/conference/#{conference3.short_title}/program/difficulty_levels")
     expect(page).to have_link('Questions', href: "/admin/conference/#{conference3.short_title}/questions")
-    expect(page).to_not have_link('Roles', href: "/admin/conference/#{conference3.short_title}/roles")
+    expect(page).to have_link('Roles', href: "/admin/conference/#{conference3.short_title}/roles")
 
     visit edit_admin_conference_path(conference3.short_title)
     expect(current_path).to eq(root_path)

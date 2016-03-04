@@ -32,6 +32,9 @@ gem 'cancancan'
 # to set roles
 gem 'rolify'
 
+# to show flash messages from ajax requests
+gem 'unobtrusive_flash', '>=3'
+
 # as state machine
 gem 'transitions', :require => %w( transitions active_record/transitions )
 
