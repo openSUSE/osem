@@ -30,19 +30,7 @@ class ProposalController < ApplicationController
 
     params[:event].delete :user
 
-    @event = Event.new(event_params)
-    @event.program = @program
-
-    @event.event_users.new(user: current_user,
-                           event_role: 'submitter')
-    @event.event_users.new(user: current_user,
-                           event_role: 'speaker')
-
-    unless @event.save
-      flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
-      return
-    end
+    proposal_submission
 
     ahoy.track 'Event submission', title: 'New submission'
 
@@ -148,6 +136,22 @@ class ProposalController < ApplicationController
         render action: 'new'
         return
       end
+    end
+  end
+
+  def proposal_submission
+    @event = Event.new(event_params)
+    @event.program = @program
+
+    @event.event_users.new(user: current_user,
+                           event_role: 'submitter')
+    @event.event_users.new(user: current_user,
+                           event_role: 'speaker')
+
+    unless @event.save
+      flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
+      render action: 'new'
+      return
     end
   end
 end
