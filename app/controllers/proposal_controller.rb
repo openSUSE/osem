@@ -148,11 +148,9 @@ class ProposalController < ApplicationController
     @event.event_users.new(user: current_user,
                            event_role: 'speaker')
 
-    unless @event.save
-      flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
-      return
-    end
+    return unless !@event.save
+    flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
+    render action: 'new'
   end
 end
 
