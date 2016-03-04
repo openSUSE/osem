@@ -7,7 +7,12 @@
 -if @venue
   .row
     .col-md-6
-      =image_tag(@conference.venue.photo, class: 'img-responsive img-rounded') unless @conference.venue.photo.blank?
+      - if @conference.venue.location?
+        = render 'conference/venue_map'
+      - elsif @conference.venue.photo.blank?
+        %img{ "data-src" => "holder.js/300x200?text=No Image Set", class: 'img-responsive img-rounded' }
+      - elsif !@conference.venue.photo.blank?
+        =image_tag(@conference.venue.photo, class: 'img-responsive img-rounded')
     .col-md-6
       %address
         %strong
@@ -20,10 +25,11 @@
         = @venue.country_name
   .row
     .col-md-12
-      = link_to(edit_admin_conference_venue_path(@conference.short_title), class: 'btn btn-primary', disabled: !(can? :update, @venue) ) do
-        Edit Venue
-      = link_to(admin_conference_venue_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', disabled: !(can? :destroy, @venue)) do
-        Delete Venue
+      %p.text-right
+        = link_to(edit_admin_conference_venue_path(@conference.short_title), class: 'btn btn-primary', disabled: !(can? :update, @venue) ) do
+          Edit Venue
+        = link_to(admin_conference_venue_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', disabled: !(can? :destroy, @venue)) do
+          Delete Venue
 -else
   .row
     .col-md-12.text-right
