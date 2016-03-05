@@ -45,7 +45,7 @@ class EmailSettings < ActiveRecord::Base
   end
 
   def generate_event_mail(event, event_template)
-    values = get_values(event.conference, event.submitter, event)
+    values = get_values(event.program.conference, event.submitter, event)
     parse_template(event_template, values)
   end
 
