@@ -16,7 +16,7 @@ echo -e "\ninstalling your bundle...\n"
 su - vagrant -c "cd /vagrant/; bundle install --quiet"
 
 # Configure the app if it isn't
-if [ ! -f /vagrant/config/options.yml ] && [ -f /vagrant/config/options.yml.example ]; then
+if [ ! -f /vagrant/config/config.yml ] && [ -f /vagrant/config/config.yml.example ]; then
   echo "Configuring your app in config/options.yml..." 
   cp config/config.yml.example config/config.yml
 else
@@ -37,7 +37,7 @@ fi
 if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.example ]; then
   echo -e "\nSetting up your database from config/database.yml...\n"
   cp config/database.yml.example config/database.yml
-  if [ ! -f db/development.sqlite3 ] && [ -f db/test.sqlite3 ]; then
+  if [ ! -f db/development.sqlite3 ] && [ ! -f db/test.sqlite3 ]; then
     bundle exec rake db:setup
   else
     echo -e "\n\nWARNING: You have already have a development/test database."
