@@ -16,7 +16,7 @@ echo -e "\ninstalling your bundle...\n"
 su - vagrant -c "cd /vagrant/; bundle install --quiet"
 
 # Configure the app if it isn't
-if [ ! -f /vagrant/config/options.yml ] && [ -f /vagrant/config/options.yml.example ]; then
+if [ ! -f /vagrant/config/config.yml ] && [ -f /vagrant/config/config.yml.example ]; then
   echo "Configuring your app in config/options.yml..." 
   cp config/config.yml.example config/config.yml
 else
