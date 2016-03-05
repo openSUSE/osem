@@ -37,7 +37,7 @@ fi
 if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.example ]; then
   echo -e "\nSetting up your database from config/database.yml...\n"
   cp config/database.yml.example config/database.yml
-  if [ ! -f db/development.sqlite3 ] && [ -f db/test.sqlite3 ]; then
+  if [ ! -f db/development.sqlite3 ] && [ ! -f db/test.sqlite3 ]; then
     bundle exec rake db:setup
   else
     echo -e "\n\nWARNING: You have already have a development/test database."
