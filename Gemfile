@@ -163,6 +163,8 @@ group :development do
   gem 'sqlite3'
   # Use letter_opener to open mails in development
   gem 'letter_opener'
+  # Use letter_opener_web to open mails in browser (e.g. necessary for Vagrant)
+  gem 'letter_opener_web'
   # mina is a blazing fast deployment system
   gem 'mina'
   gem 'web-console', '~> 2.0'
