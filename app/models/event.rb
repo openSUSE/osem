@@ -190,6 +190,7 @@ class Event < ActiveRecord::Base
       commercials: self.commercials.any?,
       biography: !self.submitter.biography.blank?,
       subtitle: !self.subtitle.blank?,
+      track: !self.track.blank?,
       difficulty_level: !self.difficulty_level.blank?,
       title: true,
       abstract: true

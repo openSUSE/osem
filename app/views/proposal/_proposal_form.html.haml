@@ -4,6 +4,11 @@
 
     = f.input :subtitle, as: :string
 
+    - if @program.tracks.any?
+      = f.input :track_id, as: :select,
+                collection: @program.tracks.map {|track| ["#{track.name}", track.id] },
+                include_blank: true
+
     = f.input :event_type_id, as: :select,
       collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
       data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
