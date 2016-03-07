@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226133808) do
+ActiveRecord::Schema.define(version: 20160201221411) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -26,12 +26,9 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id", using: :btree
 
   create_table "answers", force: :cascade do |t|
-    t.string   "title",       limit: 255
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.integer  "question_id", limit: 4
-    t.text     "options",     limit: 65535,             null: false
-    t.integer  "answer_type", limit: 4,     default: 0, null: false
+    t.string   "title",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -358,6 +355,13 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
+  create_table "roles_users", id: false, force: :cascade do |t|
+    t.integer "role_id", limit: 4
+    t.integer "user_id", limit: 4
+  end
+
+  add_index "roles_users", ["user_id", "role_id"], name: "index_roles_users_on_user_id_and_role_id", using: :btree
+
   create_table "rooms", force: :cascade do |t|
     t.string  "guid",     limit: 255, null: false
     t.string  "name",     limit: 255, null: false
@@ -493,13 +497,6 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
-
-  create_table "users_roles", id: false, force: :cascade do |t|
-    t.integer "role_id", limit: 4
-    t.integer "user_id", limit: 4
-  end
-
-  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
   create_table "vchoices", force: :cascade do |t|
     t.integer "vday_id",      limit: 4
