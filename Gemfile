@@ -94,7 +94,7 @@ gem 'chart-js-rails'
 gem 'gravtastic'
 
 # for country selects
-gem 'country_select', github: 'stefanpenner/country_select'
+gem 'country_select'
 
 # for upload management
 gem 'paperclip'
