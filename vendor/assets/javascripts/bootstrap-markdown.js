@@ -143,8 +143,9 @@
       this.$textarea
         .on('focus',    $.proxy(this.focus, this))
         .on('keypress', $.proxy(this.keypress, this))
-        .on('keyup',    $.proxy(this.keyup, this))
-        .on('change',   $.proxy(this.change, this))
+        /* options muted to repair markdown editable issue */
+        //.on('keyup',    $.proxy(this.keyup, this))
+        //.on('change',   $.proxy(this.change, this))
 
       if (this.eventSupported('keydown')) {
         this.$textarea.on('keydown', $.proxy(this.keydown, this))
