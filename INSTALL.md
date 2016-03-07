@@ -47,6 +47,11 @@ You can access the app [localhost:3000](http://localhost:3000). Whatever you cha
     vagrant ssh
     ```
 
+**Note**: We use [letter_opener](https://github.com/ryanb/letter_opener) in development environment.
+However, letter_opener uses launchy to present the emails in your browser which doesn't work in combination with Vagrant.
+Therefore we use [letter_open_web](https://github.com/fgrehm/letter_opener_web).
+You can check out your mails by visiting [localhost:3000/letter_opener](http://localhost:3000/letter_opener) if you use Vagrant.
+
 ### Run OSEM in production
 We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
