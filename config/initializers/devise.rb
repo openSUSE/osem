@@ -4,6 +4,7 @@
 Devise.setup do |config|
   # ==> Secret key, generate one with `rake secret`
   config.secret_key = Rails.application.secrets.devise_secret_key
+  config.secret_key = '0014809cd45aa9fc57a29118bbbc374437095fed0b39549b69aef61b9ad994f0e71a0bf54e66a5acec3d67d293495c1b6f4235e8b6415e4fe2bafb8f517121ea'
 
   # ==> openIDs configuration
   # Define the available openID providers that can be used to log in

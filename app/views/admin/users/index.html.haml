@@ -1,22 +1,21 @@
 .row
-  .col-md-12
+  .col-md-12z
     .page-header
       %h2
         Users
         - if @users
           = "(#{@users.length})"
-.row
-  .col-md-12
-    %table.table.table-striped.table-bordered.table-hover.datatable
-      %thead
-        %th ID
-        %th State
-        %th Email
-        %th Name
-        %th Attended Conferences
-        %th Roles
-        %th View
-        %th Edit
+.table-responsive
+  %table.table.table-striped.table-bordered.table-hover.datatable
+    %thead
+      %th ID
+      %th State
+      %th Email
+      %th Name
+      %th Attended Conferences
+      %th Roles
+      %th View
+      %th Edit
       %tbody
         - @users.each do |user|
           %tr
