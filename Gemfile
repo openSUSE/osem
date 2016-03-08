@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+# rails-assets requires >= 1.8.4
+if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
+  abort "Bundler version >= 1.8.4 is required"
+end
+
 # as web framework
 gem 'rails', '~> 4.2'
 
@@ -82,6 +87,10 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-waypoints'
   # for displaying maps
   gem 'rails-assets-leaflet'
+  # for markdown editors
+  gem 'rails-assets-bootstrap-markdown'
+  gem 'rails-assets-to-markdown'
+  gem 'rails-assets-markdown'
 end
 
 # as date picker
