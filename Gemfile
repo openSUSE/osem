@@ -82,6 +82,10 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-waypoints'
   # for displaying maps
   gem 'rails-assets-leaflet'
+  # for markdown editors
+  gem 'rails-assets-bootstrap-markdown'
+  gem 'rails-assets-to-markdown'
+  gem 'rails-assets-markdown'
 end
 
 # as date picker
