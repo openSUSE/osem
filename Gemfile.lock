@@ -506,6 +506,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.4.1)
   bootstrap-switch-rails (~> 3.0.0)
   bootstrap3-datetimepicker-rails (~> 3.0.2)
+  bundler (>= 1.8.4)
   byebug
   cancancan
   capybara

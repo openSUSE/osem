@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# rails-assets requires >= 1.8.4
+gem 'bundler', '>= 1.8.4'
+
 # as web framework
 gem 'rails', '~> 4.2'
 
