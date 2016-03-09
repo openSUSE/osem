@@ -53,7 +53,7 @@
 
   .row
     .col-md-12.text-right
-      - if can? :edit, @progam
+      - if can? :edit, @program
         = link_to edit_admin_conference_program_path(@conference.short_title), class: 'btn btn-primary' do
           Edit
       - if can? :destroy, @program
