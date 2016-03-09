@@ -3,7 +3,7 @@ require 'spec_helper'
 describe User do
 
   # It is necessary to use bang version of let to build roles before user
-  let!(:user_admin) { create(:user) }
+  let!(:user_admin) { create(:admin) }
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
@@ -59,7 +59,7 @@ describe User do
       deleted_user = create(:user, email: 'deleted@localhost.osem', name: 'User deleted')
       expect(deleted_user.is_admin).to be false
 
-      user_after_deleted = create(:user)
+      user_after_deleted = create(:admin)
       expect(user_after_deleted.is_admin).to be true
     end
   end
