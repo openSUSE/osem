@@ -159,6 +159,9 @@ gem 'bootstrap-switch-rails', '~> 3.0.0'
 # for parsing OEmbed data
 gem 'ruby-oembed'
 
+# for mocking external requests
+gem 'webmock'
+
 # Use guard and spring for testing in development
 group :development do
   # rspec Guard rules
@@ -193,8 +196,6 @@ group :test do
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
   gem 'timecop'
-  # Mock external requests
-  gem 'webmock'
 end
 
 group :development, :test do
