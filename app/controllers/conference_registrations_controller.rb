@@ -87,7 +87,9 @@ class ConferenceRegistrationsController < ApplicationController
   def destroy
     tickets_purchased = TicketPurchase.find_by(conference_id: @registration.conference_id)
     if @registration.destroy
-      tickets_purchased.destroy
+      if tickets_purchased
+        tickets_purchased.destroy
+      end
       redirect_to root_path,
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
