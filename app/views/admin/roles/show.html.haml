@@ -16,8 +16,8 @@
     = semantic_form_for :user, url: toggle_user_admin_conference_role_path(@conference.short_title, @role.name), method: :post do |u|
 
       = u.label 'Add user by email: '
-      .input-group
-        = u.input :email, label: false, placeholder: "User's email"
+      .input-group.add-user-role
+        = u.input :email, label: false, :collection => User.pluck(:email), :input_html => { class: "selectpicker", data: { live_search: "true", size: "10" } ,title: "Select User's email" }
         .input-group-btn
           = u.submit 'Add', id: 'user-add', class: 'btn btn-primary'
 
