@@ -31,8 +31,8 @@ module Admin
         redirect_to admin_conference_registrations_path(@conference.short_title),
                     notice: "Deleted registration for #{@user.name}!"
       else
-        redirect_to(admin_conference_registrations_path(@conference.short_title),
-                    error: 'You must be an admin to delete a registration.')
+        redirect_to admin_conference_registrations_path(@conference.short_title),
+                    error: 'You must be an admin to delete a registration.'
       end
     end
 

@@ -35,14 +35,16 @@ module Admin
       state = user_params[:state]
 
       unless user
-        redirect_to(admin_conference_role_path(@conference.short_title, @role.name),
-                    error: 'Could not find user. Please provide a valid email!') && return
+        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+                    error: 'Could not find user. Please provide a valid email!'
+        return
       end
 
       # The conference must have at least 1 organizer
       if @role.name == 'organizer' && state == 'false' && @role.users.count == 1
-        redirect_to(admin_conference_role_path(@conference.short_title, @role.name),
-                    error: 'The conference must have at least 1 organizer!') && return
+        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+                    error: 'The conference must have at least 1 organizer!'
+        return
       end
 
       # Remove user

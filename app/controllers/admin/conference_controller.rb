@@ -86,12 +86,12 @@ module Admin
 
       if @conference.update_attributes(conference_params)
         Mailbot.delay.conference_date_update_mail(@conference) if send_mail_on_conf_update
-        redirect_to(edit_admin_conference_path(id: @conference.short_title),
-                    notice: 'Conference was successfully updated.')
+        redirect_to edit_admin_conference_path(id: @conference.short_title),
+                    notice: 'Conference was successfully updated.'
       else
-        redirect_to(edit_admin_conference_path(id: short_title),
+        redirect_to edit_admin_conference_path(id: short_title),
                     alert: 'Updating conference failed. ' \
-                    "#{@conference.errors.full_messages.join('. ')}.")
+                    "#{@conference.errors.full_messages.join('. ')}."
       end
     end
 

@@ -12,8 +12,8 @@ module Admin
     def create
       @target = @conference.targets.new(target_params)
       if @target.save(target_params)
-        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
-                    notice: 'Target successfully created.')
+        redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
+                    notice: 'Target successfully created.'
       else
         flash[:error] = "Creating target failed: #{@target.errors.full_messages.join('. ')}."
         render :new
@@ -24,8 +24,8 @@ module Admin
 
     def update
       if @target.update_attributes(target_params)
-        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
-                    notice: 'Target successfully updated.')
+        redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
+                    notice: 'Target successfully updated.'
       else
         flash[:error] = "Target update failed: #{@target.errors.full_messages.join('. ')}."
         render :edit
@@ -34,8 +34,8 @@ module Admin
 
     def destroy
       if @target.destroy
-        redirect_to(admin_conference_targets_path(conference_id: @conference.short_title),
-                    notice: 'Target successfully destroyed.')
+        redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
+                    notice: 'Target successfully destroyed.'
       else
         redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
                     error: "Could not delete target for #{@conference.title}: "\
