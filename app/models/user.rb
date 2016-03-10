@@ -74,7 +74,9 @@ class User < ActiveRecord::Base
     raise UserDisabled if user && user.is_disabled
 
     if user
-      user.update_attributes(email: attributes[:email])
+      user.update_attributes(email: attributes[:email],
+                             last_sign_in_at: user.current_sign_in_at,
+                             current_sign_in_at: Time.current)
     else
       begin
         user = create!(username: username, email: attributes[:email])
