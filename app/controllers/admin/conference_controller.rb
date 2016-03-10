@@ -67,12 +67,11 @@ module Admin
       @conference = Conference.new(conference_params)
 
       if @conference.save
-        flash[:notice] = 'Conference was successfully created.'
-
         # user that creates the conference becomes organizer of that conference
         current_user.add_role :organizer, @conference
 
-        redirect_to admin_conference_path(id: @conference.short_title)
+        redirect_to admin_conference_path(id: @conference.short_title),
+                    notice: 'Conference was successfully created.'
       else
         flash[:error] = 'Could not create conference. ' + @conference.errors.full_messages.to_sentence
         render action: 'new'

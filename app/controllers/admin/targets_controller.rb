@@ -38,8 +38,8 @@ module Admin
                     notice: 'Target successfully destroyed.')
       else
         redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
-                    flash:  { error: "Could not delete target for #{@conference.title}: "\
-                    "#{@target.errors.full_messages.join('. ')}." }
+                    error: "Could not delete target for #{@conference.title}: "\
+                    "#{@target.errors.full_messages.join('. ')}."
       end
     end
 

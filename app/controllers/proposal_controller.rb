@@ -55,8 +55,7 @@ class ProposalController < ApplicationController
 
     ahoy.track 'Event submission', title: 'New submission'
 
-    flash[:notice] = 'Proposal was successfully submitted.'
-    redirect_to conference_program_proposal_index_path(@conference.short_title)
+    redirect_to conference_program_proposal_index_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
   end
 
   def update

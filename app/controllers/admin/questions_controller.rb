@@ -32,8 +32,7 @@ module Admin
         if @conference.save
           format.html { redirect_to admin_conference_questions_path, notice: 'Question was successfully created.' }
         else
-          flash[:error] = "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}"
-          format.html { redirect_to admin_conference_questions_path }
+          format.html { redirect_to admin_conference_questions_path, error: "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}" }
         end
       end
     end
