@@ -1,9 +1,6 @@
 Osem::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  # Use letter_opener
-  config.action_mailer.delivery_method = :letter_opener
-
   # Use letter_opener_web for Vagrant (launchy won't work)
   config.action_mailer.delivery_method = ENV['USER'] == 'vagrant' ? :letter_opener_web : :letter_opener
 
