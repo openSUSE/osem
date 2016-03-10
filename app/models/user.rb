@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
             },
             presence: true
 
+  def name
+    self[:name] || username
+  end
+
   def subscribed? conference
     self.subscriptions.find_by(conference_id: conference.id).present?
   end
