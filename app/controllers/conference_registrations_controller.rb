@@ -85,7 +85,7 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def destroy
-    tickets_purchased = TicketPurchase.find_by(conference_id: @registration.conference_id)
+    tickets_purchased = TicketPurchase.where(conference_id: @registration.conference_id)
     if @registration.destroy
       if tickets_purchased
         tickets_purchased.destroy
