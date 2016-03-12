@@ -22,4 +22,17 @@ describe 'Registration' do
       end
     end
   end
+  describe 'after destroy' do
+    it 'destroys purchased tickets' do
+      conference = build(:conference)
+      registration1 = build(:registration, conference: conference)
+      registration1.save
+      ticket_purchase = build(:ticket_purchase, conference: conference)
+      ticket_purchase.save
+      expect(conference.ticket_purchases.size).to be 1
+      registration1.destroy
+      expect(conference.registrations.size).to be 0
+      expect(conference.ticket_purchases.size).to be 0
+    end
+  end
 end
