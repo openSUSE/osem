@@ -29,12 +29,20 @@ class Registration < ActiveRecord::Base
   validate :registration_limit_not_exceed, on: :create
 
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
+  after_destroy :destroy_purchased_tickets
 
   def week
     created_at.strftime('%W').to_i
   end
 
   private
+
+  def destroy_purchased_tickets
+    ticket_purchased = TicketPurchase.where(conference_id: conference_id)
+    unless ticket_purchased.empty?
+      ticket_purchased.destroy_all
+    end
+  end
 
   def subscribe_to_conference
     Subscription.create(conference_id: conference.id, user_id: user.id)
