@@ -41,7 +41,7 @@ feature Registration do
           click_link 'Unregister'
           expect(conference.user_registered?(participant)).to be(false)
           expect(current_path).to eq root_path
-          expect(flash).to eq "You are not registered for #{conference.title} anymore!"
+          expect(flash).to eq 'You are not registered for The dog and pony show anymore!'
         end
 
         scenario 'deletion of registration is unsuccessful' do

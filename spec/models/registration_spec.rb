@@ -59,7 +59,7 @@ describe Registration do
     describe '#subscribe_to_conference' do
       it 'subscribes to conference' do
         expect(subject).to receive(:subscribe_to_conference)
-        expect(subject.user.subscribed?(subject.conference)).to be_truthy
+        expect(subject.user.subscribed?(subject.conference)).to be true
       end
     end
 
