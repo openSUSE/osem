@@ -46,31 +46,28 @@ class ProposalController < ApplicationController
                            event_role: 'submitter')
     @event.event_users.new(user: current_user,
                            event_role: 'speaker')
+    if @event.save
+      ahoy.track 'Event submission', title: 'New submission'
 
-    unless @event.save
+      flash[:notice] = 'Proposal was successfully submitted.'
+      redirect_to conference_program_proposal_index_path(@conference.short_title)
+    else
       flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'new'
-      return
     end
-
-    ahoy.track 'Event submission', title: 'New submission'
-
-    flash[:notice] = 'Proposal was successfully submitted.'
-    redirect_to conference_program_proposal_index_path(@conference.short_title)
   end
 
   def update
     authorize! :update, @event
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
-    if !@event.update(event_params)
+    if @event.update(event_params)
+      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
+                  notice: 'Proposal was successfully updated.')
+    else
       flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'new'
-      return
+      render action: 'edit'
     end
-
-    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                notice: 'Proposal was successfully updated.')
   end
 
   def destroy
@@ -80,7 +77,8 @@ class ProposalController < ApplicationController
     begin
       @event.withdraw
     rescue Transitions::InvalidTransition
-      redirect_to(:back, error: "Event can't be withdrawn")
+      flash[:error] = "Event can't be withdrawn"
+      redirect_to(:back)
       return
     end
 
@@ -96,7 +94,8 @@ class ProposalController < ApplicationController
     begin
       @event.confirm!
     rescue Transitions::InvalidTransition
-      redirect_to(:back, error: "Event can't be confirmed")
+      flash[:error] = "Event can't be confirmed"
+      redirect_to(:back)
       return
     end
 
@@ -122,19 +121,18 @@ class ProposalController < ApplicationController
     begin
       @event.restart
     rescue Transitions::InvalidTransition
-      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                  error: "The proposal can't be re-submitted.")
+      flash[:error] = "The proposal can't be re-submitted."
+      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title))
       return
     end
 
-    if !@event.save
+    if @event.save
+      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
+                  notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
+    else
       flash[:error] = "Could not re-submit proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'new'
-      return
     end
-
-    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
   end
 
   private
@@ -147,5 +145,3 @@ class ProposalController < ApplicationController
     params.require(:user).permit(:email, :password, :password_confirmation, :username)
   end
 end
-
-# FIXME: Introduce strong_parameters pronto!
