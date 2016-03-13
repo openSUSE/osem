@@ -5,7 +5,7 @@ module Api
       respond_to :json
 
       def index
-        @conference ? (tracks = @conference.program.tracks) : (tracks = Track.all)
+        tracks = @conference ? @conference.program.tracks : Track.all
 
         respond_with tracks
       end

@@ -5,12 +5,11 @@ module Api
       respond_to :json
 
       def index
-        if params[:conference_id].blank?
-          rooms = Room.all
+        if @conference
+          respond_with @conference.venue ? @conference.venue.rooms : Room.none
         else
-          @conference.venue ? (rooms = @conference.venue.rooms) : (rooms = [])
+          respond_with Room.all
         end
-        respond_with rooms
       end
     end
   end
