@@ -33,6 +33,13 @@ describe User do
     expect(another_user.roles[1]).to eq(cfp_role)
   end
 
+  describe '#name' do
+    it 'returns the username as name if there is not name' do
+      user = create(:user, name: nil)
+      expect(user.name).to eq(user.username)
+    end
+  end
+
   describe '#has_role?' do
     describe 'when user has a role' do
       it 'returns true when the user has the role' do
