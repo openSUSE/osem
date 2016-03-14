@@ -160,6 +160,9 @@ module Admin
       # get campaigns
       @campaigns = @conference.get_campaigns
 
+      # get withdrawn events
+      @withdrawn_events = @conference.program.events.where(state: :withdrawn)
+
       respond_to do |format|
         format.html
         format.json { render json: @conference.to_json }
