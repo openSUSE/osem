@@ -33,13 +33,13 @@ describe 'User' do
 
     let(:registration) { create(:registration) }
 
+    let(:conference_with_open_registration) { create(:conference) }
+    let!(:open_registration_period) { create(:registration_period, conference: conference_with_open_registration, start_date: Date.current - 6.days) }
+    let(:conference_with_closed_registration) { create(:conference) }
+    let!(:closed_registration_period) { create(:registration_period, conference: conference_with_closed_registration, start_date: Date.current - 6.days, end_date: Date.current - 6.days) }
+
     # Test abilities for not signed in users
     context 'when user is not signed in' do
-      let(:conference_with_open_registration) { create(:conference) }
-      let!(:open_registration_period) { create(:registration_period, conference: conference_with_open_registration, start_date: Date.current - 6.days) }
-      let(:conference_with_closed_registration) { create(:conference) }
-      let!(:closed_registration_period) { create(:registration_period, conference: conference_with_closed_registration, start_date: Date.current - 6.days, end_date: Date.current - 6.days) }
-
       it{ should be_able_to(:index, Conference)}
 
       it{ should be_able_to(:show, conference_public)}
@@ -88,6 +88,8 @@ describe 'User' do
 
       it{ should be_able_to(:manage, registration_public) }
       it{ should be_able_to(:manage, registration_not_public) }
+      it{ should_not be_able_to(:new, Registration.new(conference_id: conference_with_closed_registration.id))}
+      it{ should_not be_able_to(:create, Registration.new(conference_id: conference_with_closed_registration.id))}
 
       it{ should be_able_to(:index, Ticket) }
       it{ should be_able_to(:manage, TicketPurchase.new(user_id: user.id)) }

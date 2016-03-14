@@ -72,6 +72,10 @@ class Ability
 
     can :manage, Registration, user_id: user.id
 
+    can [:new, :create], Registration do |registration|
+      registration.conference.registration_open?
+    end
+
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
 
