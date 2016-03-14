@@ -1,9 +1,9 @@
-- if !@withdrawn_events.empty?
+- if !withdrawn_events?(@conference)
   .alert.alert-warning.alert-dismissible{role: 'alert'}
     %button.close{data: {dismiss: 'alert'}, aria: {label: 'Close'}, type: 'button'}
       %span{aria: {hidden: 'true'}}
         &times;
-    Sadly #{pluralize(@withdrawn_events.count, 'event')} #{'was'.pluralize(@withdrawn_events.count)} withdrawn.
+    Sadly #{pluralize(withdrawn_events_count(@conference), 'event')} #{'was'.pluralize(withdrawn_events_count(@conference))} withdrawn.
     = link_to 'Click here', admin_conference_program_events_path(@conference.short_title)
 
 %h1
