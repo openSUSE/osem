@@ -3,8 +3,7 @@ require 'cancan/matchers'
 
 describe 'User' do
   describe 'Abilities' do
-    # automatically becomes admin
-    let!(:first_user) { create(:user) }
+    let!(:admin) { create(:admin) }
 
     # see https://github.com/CanCanCommunity/cancancan/wiki/Testing-Abilities
     subject(:ability){ Ability.new(user) }
@@ -13,7 +12,7 @@ describe 'User' do
     let!(:my_conference) { create(:full_conference) }
     let!(:my_cfp) { create(:cfp, program: my_conference.program) }
     let(:my_venue) { my_conference.venue || create(:venue, conference: my_conference) }
-    let(:my_registration) { create(:registration, conference: my_conference, user: first_user) }
+    let(:my_registration) { create(:registration, conference: my_conference, user: admin) }
 
     let(:other_registration) { create(:registration, conference: conference_public) }
     let(:my_event) { create(:event_full, program: my_conference.program) }
@@ -109,7 +108,7 @@ describe 'User' do
     context 'when user has the role organizer' do
       let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'organizer', resource: my_conference) }
-      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:user) { create(:user, role_ids: [role.id]) }
 
       it{ should_not be_able_to(:destroy, my_conference.program) }
       it 'when there is a room assigned to an event' do
@@ -175,7 +174,7 @@ describe 'User' do
     context 'when user has the role cfp' do
       let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'cfp', resource: my_conference) }
-      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:user) { create(:user, role_ids: [role.id]) }
 
       it{ should_not be_able_to([:create, :new], Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
@@ -230,7 +229,7 @@ describe 'User' do
     context 'when user has the role info_desk' do
       let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'info_desk', resource: my_conference) }
-      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:user) { create(:user, role_ids: [role.id]) }
 
       it{ should_not be_able_to([:create, :new], Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
@@ -285,7 +284,7 @@ describe 'User' do
     context 'when user has the role volunteers_coordinator' do
       let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'volunteers_coordinator', resource: my_conference) }
-      let(:user) { create(:user, role_ids: [role.id], is_admin: false) }
+      let(:user) { create(:user, role_ids: [role.id]) }
 
       it{ should_not be_able_to([:create, :new], Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }

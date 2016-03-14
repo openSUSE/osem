@@ -20,7 +20,6 @@ feature 'Has correct abilities' do
   let(:user_volunteer_coordinator) { create(:user, role_ids: [role_volunteer_coordinator.id]) }
 
   scenario 'when user has no role' do
-    user.is_admin = false
     sign_in user
 
     visit admin_conference_path(conference1.short_title)
@@ -29,7 +28,6 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is organizer' do
-    user_organizer.is_admin = false
     sign_in user_organizer
 
     visit admin_conference_path(conference1.short_title)
@@ -107,7 +105,6 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is cfp' do
-    user_cfp.is_admin = false
     sign_in user_cfp
 
     visit admin_conference_path(conference2.short_title)
@@ -182,7 +179,6 @@ feature 'Has correct abilities' do
   end
 
   scenario 'when user is info desk' do
-    user_info_desk.is_admin = false
     sign_in user_info_desk
 
     visit admin_conference_path(conference3.short_title)
