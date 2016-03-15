@@ -6,12 +6,12 @@ describe Api::V1::RoomsController do
   let!(:conference_room) { create(:room, name: 'Conference Room', venue: venue) }
   let!(:room) { create(:room, name: 'Test Room') }
 
-  context 'GET #index' do
+  describe 'GET #index' do
     context 'without conference scope' do
       it 'returns all rooms' do
 
         get :index, format: :json
-        json = JSON.parse(response.body)
+        json = JSON.parse(response.body)['rooms']
 
         expect(response).to be_success
 
@@ -25,7 +25,7 @@ describe Api::V1::RoomsController do
       it 'returns all rooms of conference' do
 
         get :index, conference_id: conference.short_title, format: :json
-        json = JSON.parse(response.body)
+        json = JSON.parse(response.body)['rooms']
 
         expect(response).to be_success
 
