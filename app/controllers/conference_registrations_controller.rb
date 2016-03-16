@@ -21,7 +21,7 @@ class ConferenceRegistrationsController < ApplicationController
     end
 
     if @conference.registration_limit_exceeded?
-      redirect_to root_path, alert: "Sorry, registration limit exceeded for #{@conference.title}"
+      redirect_to root_path, error: "Sorry, registration limit exceeded for #{@conference.title}"
       return
     end
 
@@ -102,7 +102,7 @@ class ConferenceRegistrationsController < ApplicationController
     @registration = Registration.find_by(conference: @conference, user: current_user)
     if !@registration
       redirect_to new_conference_conference_registrations_path(@conference.short_title),
-                  alert: "Can't find a registration for #{@conference.title} for you. Please register."
+                  error: "Can't find a registration for #{@conference.title} for you. Please register."
     end
   end
 

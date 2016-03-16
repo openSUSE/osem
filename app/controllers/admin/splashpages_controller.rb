@@ -35,7 +35,7 @@ module Admin
       if @splashpage.destroy
         redirect_to admin_conference_splashpage_path, notice: 'Splashpage was successfully destroyed.'
       else
-        redirect_to admin_conference_splashpage_path, alert: 'An error prohibited this Splashpage from being destroyed: '\
+        redirect_to admin_conference_splashpage_path, error: 'An error prohibited this Splashpage from being destroyed: '\
         "#{@splashpage.errors.full_messages.join('. ')}."
       end
     end

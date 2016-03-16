@@ -40,7 +40,7 @@ module Admin
     # GET questions/1/edit
     def edit
       if @question.global
-        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), alert: 'Sorry, you cannot edit global questions. Create a new one.'
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), error: 'Sorry, you cannot edit global questions. Create a new one.'
       end
     end
 

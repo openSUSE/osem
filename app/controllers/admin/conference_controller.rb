@@ -90,7 +90,7 @@ module Admin
                     notice: 'Conference was successfully updated.'
       else
         redirect_to edit_admin_conference_path(id: short_title),
-                    alert: 'Updating conference failed. ' \
+                    error: 'Updating conference failed. ' \
                     "#{@conference.errors.full_messages.join('. ')}."
       end
     end

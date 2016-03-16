@@ -183,7 +183,7 @@ module Admin
       @event = @conference.program.events.find(params[:id])
       if !@event
         redirect_to admin_conference_program_events_path(conference_id: @conference.short_title),
-                    alert: 'Error! Could not find event!'
+                    error: 'Error! Could not find event!'
         return
       end
       @event
