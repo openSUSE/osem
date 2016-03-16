@@ -14,8 +14,8 @@ module Admin
     def create
       @ticket = @conference.tickets.new(ticket_params)
       if @ticket.save(ticket_params)
-        redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
-                    notice: 'Ticket successfully created.')
+        redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
+                    notice: 'Ticket successfully created.'
       else
         flash[:error] = "Creating Ticket failed: #{@ticket.errors.full_messages.join('. ')}."
         render :new
@@ -26,8 +26,8 @@ module Admin
 
     def update
       if @ticket.update_attributes(ticket_params)
-        redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
-                    notice: 'Ticket successfully updated.')
+        redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
+                    notice: 'Ticket successfully updated.'
       else
         flash[:error] = "Ticket update failed: #{@ticket.errors.full_messages.join('. ')}."
         render :edit
@@ -36,12 +36,12 @@ module Admin
 
     def destroy
       if @ticket.destroy
-        redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
-                    notice: 'Ticket successfully destroyed.')
+        redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
+                    notice: 'Ticket successfully destroyed.'
       else
-        redirect_to(admin_conference_tickets_path(conference_id: @conference.short_title),
+        redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
                     error: 'Ticket was successfully destroyed.' \
-                    "#{@ticket.errors.full_messages.join('. ')}.")
+                    "#{@ticket.errors.full_messages.join('. ')}."
       end
     end
 

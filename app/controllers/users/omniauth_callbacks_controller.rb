@@ -28,8 +28,8 @@ module Users
         openid.save!
 
         sign_in user
-        flash[:notice] = "#{user.email} signed in successfully with #{provider}"
-        redirect_to request.env['omniauth.origin'] || root_path
+        redirect_to request.env['omniauth.origin'] || root_path,
+                    notice: "#{user.email} signed in successfully with #{provider}"
       rescue => e
         flash[:error] = e.message
         redirect_back_or_to new_user_registration_path

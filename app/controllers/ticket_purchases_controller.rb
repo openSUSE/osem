@@ -14,7 +14,7 @@ class TicketPurchasesController < ApplicationController
       end
     else
       redirect_to conference_conference_registrations_path(@conference.short_title),
-                  alert: "Oops, something went wrong with your purchase! #{message}"
+                  error: "Oops, something went wrong with your purchase! #{message}"
     end
   end
 
@@ -25,7 +25,7 @@ class TicketPurchasesController < ApplicationController
                   notice: 'Ticket successfully deleted.'
     else
       redirect_to conference_conference_registrations_path(@conference.short_title),
-                  alert: 'An error prohibited deleting your purchase! '\
+                  error: 'An error prohibited deleting your purchase! '\
                         "#{@ticket_purchases.errors.full_messages.join('. ')}."
     end
   end

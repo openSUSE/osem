@@ -55,8 +55,7 @@ class ProposalController < ApplicationController
 
     ahoy.track 'Event submission', title: 'New submission'
 
-    flash[:notice] = 'Proposal was successfully submitted.'
-    redirect_to conference_program_proposal_index_path(@conference.short_title)
+    redirect_to conference_program_proposal_index_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
   end
 
   def update
@@ -69,8 +68,8 @@ class ProposalController < ApplicationController
       return
     end
 
-    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                notice: 'Proposal was successfully updated.')
+    redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+                notice: 'Proposal was successfully updated.'
   end
 
   def destroy
@@ -80,13 +79,13 @@ class ProposalController < ApplicationController
     begin
       @event.withdraw
     rescue Transitions::InvalidTransition
-      redirect_to(:back, error: "Event can't be withdrawn")
+      redirect_to :back, error: "Event can't be withdrawn"
       return
     end
 
     @event.save(validate: false)
-    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                notice: 'Proposal was successfully withdrawn.')
+    redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+                notice: 'Proposal was successfully withdrawn.'
   end
 
   def confirm
@@ -96,7 +95,7 @@ class ProposalController < ApplicationController
     begin
       @event.confirm!
     rescue Transitions::InvalidTransition
-      redirect_to(:back, error: "Event can't be confirmed")
+      redirect_to :back, error: "Event can't be confirmed"
       return
     end
 
@@ -107,11 +106,11 @@ class ProposalController < ApplicationController
     end
 
     if @conference.user_registered?(current_user)
-      redirect_to(conference_program_proposal_index_path(@conference.short_title),
-                  notice: 'The proposal was confirmed.')
+      redirect_to conference_program_proposal_index_path(@conference.short_title),
+                  notice: 'The proposal was confirmed.'
     else
-      redirect_to(new_conference_conference_registrations_path(conference_id: @conference.short_title),
-                  alert: 'The proposal was confirmed. Please register to attend the conference.')
+      redirect_to new_conference_conference_registrations_path(conference_id: @conference.short_title),
+                  alert: 'The proposal was confirmed. Please register to attend the conference.'
     end
   end
 
@@ -122,8 +121,8 @@ class ProposalController < ApplicationController
     begin
       @event.restart
     rescue Transitions::InvalidTransition
-      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                  error: "The proposal can't be re-submitted.")
+      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+                  error: "The proposal can't be re-submitted."
       return
     end
 
@@ -133,8 +132,8 @@ class ProposalController < ApplicationController
       return
     end
 
-    redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
+    redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+                notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again."
   end
 
   private

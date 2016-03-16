@@ -21,8 +21,8 @@ module Admin
       role_name = @role.name
 
       if @role.update_attributes(role_params)
-        flash[:notice] = 'Successfully updated role ' + @role.name
-        redirect_to admin_conference_role_path(@conference.short_title, @role.name)
+        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+                    notice: 'Successfully updated role ' + @role.name
       else
         @role.name = role_name
         flash[:error] = 'Could not update role! ' + @role.errors.full_messages.to_sentence
@@ -35,14 +35,16 @@ module Admin
       state = user_params[:state]
 
       unless user
-        flash[:error] = 'Could not find user. Please provide a valid email!'
-        redirect_to(admin_conference_role_path(@conference.short_title, @role.name)) && return
+        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+                    error: 'Could not find user. Please provide a valid email!'
+        return
       end
 
       # The conference must have at least 1 organizer
       if @role.name == 'organizer' && state == 'false' && @role.users.count == 1
-        flash[:error] = 'The conference must have at least 1 organizer!'
-        redirect_to(admin_conference_role_path(@conference.short_title, @role.name)) && return
+        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+                    error: 'The conference must have at least 1 organizer!'
+        return
       end
 
       # Remove user

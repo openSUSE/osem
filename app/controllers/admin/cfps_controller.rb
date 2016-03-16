@@ -32,8 +32,8 @@ module Admin
 
       if @cfp.update_attributes(cfp_params)
         Mailbot.delay.send_on_cfps_dates_updates(@conference) if send_mail_on_cfp_dates_updates
-        redirect_to(admin_conference_program_cfp_path(@conference.short_title),
-                    notice: 'Call for papers successfully updated.')
+        redirect_to admin_conference_program_cfp_path(@conference.short_title),
+                    notice: 'Call for papers successfully updated.'
       else
         flash[:error] = "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}."
         render :new
