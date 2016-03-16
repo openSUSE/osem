@@ -2,6 +2,7 @@ require 'spec_helper'
 
 feature Event do
   let!(:conference) { create(:conference) }
+  let!(:registration_period) { create(:registration_period, conference: conference, start_date: Date.current) }
   let!(:cfp) { create(:cfp, program_id: conference.program.id) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
@@ -134,6 +135,7 @@ feature Event do
       click_link "confirm_proposal_#{@event.id}"
       expect(flash).
         to eq('The proposal was confirmed. Please register to attend the conference.')
+      expect(current_path).to eq(new_conference_conference_registrations_path(conference.short_title))
       @event.reload
       expect(@event.state).to eq('confirmed')
     end

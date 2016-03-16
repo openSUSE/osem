@@ -1,10 +1,13 @@
 class ConferenceRegistrationsController < ApplicationController
   before_filter :authenticate_user!, except: [:new, :create]
   load_resource :conference, find_by: :short_title
-  authorize_resource :conference_registrations, class: Registration
+  authorize_resource :conference_registrations, class: Registration, except: [:new, :create]
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
+    @registration = Registration.new(conference_id: @conference.id)
+    authorize! :new, @registration
+
     # Redirect to registration edit when user is already registered
     if @conference.user_registered?(current_user)
       redirect_to edit_conference_conference_registrations_path(@conference.short_title)
@@ -15,17 +18,10 @@ class ConferenceRegistrationsController < ApplicationController
       return
     end
 
-    # avoid openid sign_in to redirect to register/new when the sign_in user had already a registration
-    if current_user && @conference.user_registered?(current_user)
-      redirect_to edit_conference_conference_registrations_path(@conference.short_title)
-    end
-
     if @conference.registration_limit_exceeded?
       redirect_to root_path, error: "Sorry, registration limit exceeded for #{@conference.title}"
       return
     end
-
-    @registration = Registration.new
 
     # @user variable needs to be set so that _sign_up_form_embedded works properly
     @user = @registration.build_user
@@ -50,6 +46,7 @@ class ConferenceRegistrationsController < ApplicationController
     end
 
     @registration.user = @user
+    authorize! :create, @registration
 
     if @registration.save
       # Trigger ahoy event
@@ -90,9 +87,9 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to root_path,
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
-      redirect_to root_path,
-                  error: "Could not update your registration for #{@conference.title}: "\
-                  "#{@registration.errors.full_messages.join('. ')}."
+      redirect_to conference_conference_registrations_path(@conference.short_title),
+                  flash: { error: "Could not delete your registration for #{@conference.title}: "\
+                  "#{@registration.errors.full_messages.join('. ')}." }
     end
   end
 
