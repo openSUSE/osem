@@ -190,7 +190,7 @@ class Event < ActiveRecord::Base
       commercials: self.commercials.any?,
       biography: !self.submitter.biography.blank?,
       subtitle: !self.subtitle.blank?,
-      track: !self.track.blank?,
+      track: (!self.track.blank? unless self.program.tracks.empty?),
       difficulty_level: !self.difficulty_level.blank?,
       title: true,
       abstract: true
@@ -204,7 +204,7 @@ class Event < ActiveRecord::Base
   # * +String+ -> Progress in Percent
   def calculate_progress
     result = self.progress_status
-    (100 * result.values.count(true) / result.values.count).to_s
+    (100 * result.values.count(true) / result.values.compact.count).to_s
   end
 
   private

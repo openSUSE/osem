@@ -29,11 +29,15 @@ module ApplicationHelper
   end
 
   def event_progress_color(progress)
-    case progress.to_i
-    when 100 then 'progress-bar-success'
-    when 85 then 'progress-bar-info'
-    when 71 then 'progress-bar-warning'
-    when 14, 28, 42, 57 then 'progress-bar-danger'
+    progress = progress.to_i
+    if progress == 100
+      'progress-bar-success'
+    elsif progress >= 85
+      'progress-bar-info'
+    elsif progress >= 71
+      'progress-bar-warning'
+    else
+      'progress-bar-danger'
     end
   end
 
