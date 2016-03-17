@@ -34,6 +34,10 @@ describe 'User' do
 
     let(:program_with_cfp) { create(:program, cfp: create(:cfp)) }
     let(:program_without_cfp) { create(:program) }
+    let(:conference_with_open_registration) { create(:conference) }
+    let!(:open_registration_period) { create(:registration_period, conference: conference_with_open_registration, start_date: Date.current - 6.days) }
+    let(:conference_with_closed_registration) { create(:conference) }
+    let!(:closed_registration_period) { create(:registration_period, conference: conference_with_closed_registration, start_date: Date.current - 6.days, end_date: Date.current - 6.days) }
 
     # Test abilities for not signed in users
     context 'when user is not signed in' do
@@ -57,8 +61,11 @@ describe 'User' do
 
       it{ should be_able_to(:show, User)}
 
-      it{ should be_able_to(:create, Registration)}
       it{ should be_able_to(:show, Registration.new)}
+      it{ should be_able_to(:create, Registration.new(conference_id: conference_with_open_registration.id))}
+      it{ should be_able_to(:new, Registration.new(conference_id: conference_with_open_registration.id))}
+      it{ should_not be_able_to(:new, Registration.new(conference_id: conference_with_closed_registration.id))}
+      it{ should_not be_able_to(:create, Registration.new(conference_id: conference_with_closed_registration.id))}
       it{ should_not be_able_to(:manage, registration)}
 
       it{ should be_able_to(:new, Event.new(program: program_with_cfp)) }
@@ -86,6 +93,8 @@ describe 'User' do
 
       it{ should be_able_to(:manage, registration_public) }
       it{ should be_able_to(:manage, registration_not_public) }
+      it{ should_not be_able_to(:new, Registration.new(conference_id: conference_with_closed_registration.id))}
+      it{ should_not be_able_to(:create, Registration.new(conference_id: conference_with_closed_registration.id))}
 
       it{ should be_able_to(:index, Ticket) }
       it{ should be_able_to(:manage, TicketPurchase.new(user_id: user.id)) }
