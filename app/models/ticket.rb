@@ -48,6 +48,14 @@ class Ticket < ActiveRecord::Base
     result ? result : Money.new(0, 'USD')
   end
 
+  def tickets_sold
+    ticket_purchases.sum(:quantity)
+  end
+
+  def tickets_turnover
+    tickets_sold * price
+  end
+
   private
 
   def tickets_of_conference_have_same_currency

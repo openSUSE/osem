@@ -22,4 +22,7 @@ $( document ).ready(function() {
     $('.quantity').change(function() {
         update_price($(this));
     });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
 });
