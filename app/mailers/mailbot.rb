@@ -9,7 +9,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def acceptance_mail(event)
-    conference = event.conference
+    conference = event.program.conference
     person = event.submitter
     build_email(conference,
                 person.email,
@@ -18,7 +18,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def rejection_mail(event)
-    conference = event.conference
+    conference = event.program.conference
     person = event.submitter
     build_email(conference,
                 person.email,
@@ -27,7 +27,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def confirm_reminder_mail(event)
-    conference = event.conference
+    conference = event.program.conference
     person = event.submitter
     build_email(conference,
                 person.email,
@@ -83,7 +83,7 @@ class Mailbot < ActionMailer::Base
   def send_notification_email_for_comment(comment)
     @comment = comment
     @event = @comment.commentable
-    @conference = @event.conference
+    @conference = @event.program.conference
     recipients = User.comment_notifiable(@conference) # with scope
     recipients.each do |user|
       @user = user
