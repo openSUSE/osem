@@ -56,6 +56,9 @@ Travis run its testing routine. If you want to run it locally just `bundle exec 
 You can read through current enabled rules in `.rubocop.yml` file. Explanations of the defined [rules](http://rubydoc.info/github/bbatsov/rubocop/master/frames) can be found in modules [Cop::Lint](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Lint) and [Cop::Style](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Style).
 Additionally you can read through [community ruby style-guide](https://github.com/bbatsov/ruby-style-guide) to better understand core principles.
 
+# Translation
+Please refer to our [TRANSLATION guide] (TRANSLATION.md)
+
 # Communication
 GitHub issues are the primary way for communicating about specific proposed
 changes to this project. If you have other questions feel free to subscribe to
