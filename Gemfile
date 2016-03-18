@@ -40,6 +40,12 @@ gem 'rolify'
 # to show flash messages from ajax requests
 gem 'unobtrusive_flash', '>=3'
 
+
+# Internationalizing gem , use gem according to version of your rails application
+# gem 'rails-i18n', '~> 5.0.0.beta1' # For 5.0.0.beta1
+gem 'rails-i18n', '~> 4.0.0' # For 4.0.x
+# gem 'rails-i18n', '~> 3.0.0' # For 3.x
+
 # as state machine
 gem 'transitions', :require => %w( transitions active_record/transitions )
 
