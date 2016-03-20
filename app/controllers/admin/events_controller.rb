@@ -94,7 +94,9 @@ module Admin
     end
 
     def comment
-      comment = Comment.build_from(@event, current_user.id, comment_params)
+      comment = Comment.new(comment_params)
+      comment.commentable = @event
+      comment.user_id = current_user.id
       comment.save!
       if !params[:parent].nil?
         comment.move_to_child_of(params[:parent])
