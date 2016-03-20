@@ -98,6 +98,14 @@
                                               off_text: 'No' }
           - if @event.require_registration
             = registered_text(@event)
+
+      -if @program.languages.present?
+        %tr
+          %td
+            %b Language
+          %td
+            = @event.language
+
       - if !@event.room.nil?
         %tr
           %td

@@ -80,6 +80,9 @@ gem 'cocoon'
 # as the JavaScript library
 gem 'jquery-rails'
 
+# for languages validation
+gem 'iso-639'
+
 # frontend javascripts
 source 'https://rails-assets.org' do
   # for placeholder images

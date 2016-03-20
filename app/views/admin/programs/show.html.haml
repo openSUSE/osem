@@ -32,6 +32,10 @@
         %dd
           = difficulty_levels(@conference)
         %dt
+          Languages:
+        %dd
+          = @program.languages
+        %dt
           Public Schedule
         %dd#schedule_public
           - if @program.schedule_public

@@ -22,6 +22,9 @@
           %b Submitter
         %th
           %b Speaker
+        -if @program.languages.present?
+          %th
+            %b Language
         %th
           %b Requires Registration
         %th
@@ -82,6 +85,10 @@
               = link_to speaker.name, admin_user_path(speaker)
             - else
               Unknown speaker
+
+          -if @program.languages.present?
+            %td
+              = event.language
 
           %td.text-center{'data-order' => "#{event.require_registration}"}
             = check_box_tag @conference.short_title, event.id, event.require_registration,
