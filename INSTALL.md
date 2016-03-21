@@ -67,8 +67,8 @@ base operating systems. Check Google ;-)
 In order to use the OpenID feature you need to register your application with the providers
 (Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
 
-You can register as a devoloper with Google from https://code.google.com/apis/console#:access
-You can register as a devoloper with Facebook from https://developers.facebook.com/,
+You can register as a developer with Google from https://code.google.com/apis/console#:access
+You can register as a developer with Facebook from https://developers.facebook.com/,
 by selecting from the top menu the option 'Apps' -> 'Create a New App'
 
 Unless you add the key and secret for each provider, you will not be able to see the image that
