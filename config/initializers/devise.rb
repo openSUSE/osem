@@ -2,24 +2,21 @@
 # Many of these configuration options can be set straight in your model.
 
 Devise.setup do |config|
-  # ==> Secret key, generate one with `rake secret`
-  config.secret_key = Rails.application.secrets.devise_secret_key
-
   # ==> openIDs configuration
   # Define the available openID providers that can be used to log in
   # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
 
   config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
-  config.omniauth :google_oauth2, Rails.application.secrets.google_key, Rails.application.secrets.google_secret,
+  config.omniauth :google_oauth2, (ENV['OSEM_GOOGLE_KEY'] || Rails.application.secrets.google_key), (ENV['OSEM_GOOGLE_SECRET'] || Rails.application.secrets.google_secret),
                   name: 'google',
                   scope: 'email'
-  config.omniauth :facebook, Rails.application.secrets.facebook_key, Rails.application.secrets.facebook_secret
-  config.omniauth :github, Rails.application.secrets.github_key, Rails.application.secrets.github_secret
+  config.omniauth :facebook, (ENV['OSEM_FACEBOOK_KEY'] || Rails.application.secrets.facebook_key), (ENV['OSEM_FACEBOOK_SECRET'] || Rails.application.secrets.facebook_secret)
+  config.omniauth :github, (ENV['OSEM_GITHUB_KEY'] || Rails.application.secrets.github_key), (ENV['OSEM_GITHUB_SECRET'] || Rails.application.secrets.github_secret)
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = CONFIG['sender_for_emails']
+  config.mailer_sender = ENV['OSEM_EMAIL_ADDRESS'] || 'no-reply@localhost'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

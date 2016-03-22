@@ -67,7 +67,7 @@ Osem::Application.configure do
   config.active_support.deprecation = :notify
 
   # Set the detault url for action mailer
-  config.action_mailer.default_url_options = { host: CONFIG['url_for_emails'] }
+  config.action_mailer.default_url_options = { host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000') }
 
   # Set the smtp configuration of your service provider
   # For further details of each configuration checkout: http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
@@ -78,4 +78,7 @@ Osem::Application.configure do
     password:             CONFIG['MAIL_PASSWORD'],
     authentication:       CONFIG['MAIL_AUTHENTICATION']
   }
+
+  # Set the secret_key_base from the env, if not set by any other means
+  config.secret_key_base ||= ENV["SECRET_KEY_BASE"]
 end

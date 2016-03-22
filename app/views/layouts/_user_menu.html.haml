@@ -1,4 +1,4 @@
-- unless CONFIG['authentication']['ichain']['enabled']
+- unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
   %li
     = link_to(edit_user_registration_path) do
       %span.fa.fa-wrench
@@ -13,7 +13,7 @@
       %span.fa.fa-comment
       My Submissions
 %li
-  - if CONFIG['authentication']['ichain']['enabled']
+  - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     = link_to(destroy_user_ichain_session_path, :method=>'delete') do
       %span.fa.fa-minus
       Sign out

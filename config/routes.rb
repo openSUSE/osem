@@ -1,6 +1,6 @@
 Osem::Application.routes.draw do
 
-  if CONFIG['authentication']['ichain']['enabled']
+  if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
     devise_for :users,

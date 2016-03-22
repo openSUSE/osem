@@ -274,8 +274,10 @@ module ApplicationHelper
       unless Rails.application.secrets.send(provider_key).blank? || Rails.application.secrets.send(provider_secret).blank?
         providers << provider
       end
+      providers << provider if !ENV["OSEM_#{provider.upcase}_KEY"].blank? && !ENV["OSEM_#{provider.upcase}_SECRET"].blank?
     end
-    return providers
+
+    return providers.uniq
   end
 
   # Receives a hash, generated from User model, function get_roles
@@ -294,7 +296,7 @@ module ApplicationHelper
   end
 
   def sign_in_path
-    if CONFIG['authentication']['ichain']['enabled']
+    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
       new_user_ichain_session_path
     else
       new_user_session_path
@@ -302,7 +304,7 @@ module ApplicationHelper
   end
 
   def sign_up_path
-    if CONFIG['authentication']['ichain']['enabled']
+    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
       new_user_ichain_registration_path
     else
       new_user_registration_path

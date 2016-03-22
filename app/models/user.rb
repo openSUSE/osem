@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise_modules = []
 
-  if CONFIG['authentication']['ichain']['enabled']
+  if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_modules += [ :ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: [] ]
   else
     devise_modules += [:database_authenticatable, :registerable,

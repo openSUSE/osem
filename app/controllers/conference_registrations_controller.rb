@@ -13,7 +13,7 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to edit_conference_conference_registrations_path(@conference.short_title)
       return
     # ichain does not allow us to create users during registration
-    elsif CONFIG['authentication']['ichain']['enabled'] && !current_user
+    elsif (ENV['OSEM_ICHAIN_ENABLED'] == 'true') && !current_user
       redirect_to root_path, alert: 'You need to sign in or sign up before continuing.'
       return
     end

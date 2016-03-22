@@ -9,12 +9,12 @@ class EmailSettings < ActiveRecord::Base
       'conference_start_date' => conference.start_date,
       'conference_end_date' => conference.end_date,
       'registrationlink' => Rails.application.routes.url_helpers.conference_conference_registrations_url(
-                            conference.short_title, host: CONFIG['url_for_emails']),
+                            conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
       'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
-                                  conference.short_title, host: CONFIG['url_for_emails']),
+                                  conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
 
       'schedule_link' => Rails.application.routes.url_helpers.schedule_conference_url(
-                         conference.short_title, host: CONFIG['url_for_emails'])
+                         conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
     }
 
     if conference.program.cfp
@@ -41,7 +41,7 @@ class EmailSettings < ActiveRecord::Base
     if event
       h['eventtitle'] = event.title
       h['proposalslink'] = Rails.application.routes.url_helpers.conference_program_proposal_index_url(
-                           conference.short_title, host: CONFIG['url_for_emails'])
+                           conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
     end
     h
   end
