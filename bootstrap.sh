@@ -15,24 +15,6 @@ gem install bundler
 echo -e "\ninstalling your bundle...\n"
 su - vagrant -c "cd /vagrant/; bundle install --quiet"
 
-# Configure the app if it isn't
-if [ ! -f /vagrant/config/config.yml ] && [ -f /vagrant/config/config.yml.example ]; then
-  echo "Configuring your app in config/options.yml..." 
-  cp config/config.yml.example config/config.yml
-else
-  echo -e "\n\nWARNING: You have already configured your app in config/options.yml." 
-  echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n" 
-fi 
-
-# Configure the app if it isn't
-if [ ! -f /vagrant/config/secrets.yml ] && [ -f /vagrant/config/secrets.yml.example ]; then
-  echo "Configuring your secrets in config/secrets.yml..."
-  cp config/secrets.yml.example config/secrets.yml
-else
-  echo -e "\n\nWARNING: You have already configured your secrets in config/secrets.yml."
-  echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n"
-fi
-
 # Configure the database if it isn't
 if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.example ]; then
   echo -e "\nSetting up your database from config/database.yml...\n"
