@@ -27,7 +27,6 @@ Osem::Application.routes.draw do
       resource :schedule, only: [:show, :update]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
-      get '/stats' => 'stats#index'
       get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
       patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
       get '/volunteers_list' => 'volunteers#show'
