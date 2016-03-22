@@ -10,7 +10,7 @@ set :repository, 'https://github.com/openSUSE/osem.git'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, %w{ config/database.yml log public/system config/secrets.yml config/config.yml config/piwik.yml tmp}
+set :shared_paths, %w{ config/database.yml log public/system config/secrets.yml config/piwik.yml tmp}
 
 task setup: :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
