@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226133808) do
+ActiveRecord::Schema.define(version: 20160309183052) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -21,14 +21,14 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.datetime "time"
   end
 
-  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time"
-  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id"
-  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id"
+  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time", using: :btree
+  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id", using: :btree
+  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id", using: :btree
 
   create_table "answers", force: :cascade do |t|
     t.string   "title",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -46,28 +46,28 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   create_table "cfps", force: :cascade do |t|
     t.date     "start_date",           null: false
     t.date     "end_date",             null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "program_id", limit: 4
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string   "title",            limit: 50,       default: ""
-    t.text     "body",             limit: 16777215
+    t.string   "title",            limit: 50,    default: ""
+    t.text     "body",             limit: 65535
     t.integer  "commentable_id",   limit: 4
     t.string   "commentable_type", limit: 255
     t.integer  "user_id",          limit: 4
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "subject",          limit: 255
     t.integer  "parent_id",        limit: 4
     t.integer  "lft",              limit: 4
     t.integer  "rgt",              limit: 4
   end
 
-  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id"
-  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type"
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "commercials", force: :cascade do |t|
     t.string   "commercial_id",       limit: 255
@@ -84,16 +84,14 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.string   "title",                 limit: 255,                   null: false
     t.string   "short_title",           limit: 255,                   null: false
     t.string   "timezone",              limit: 255,                   null: false
-    t.string   "html_export_path",      limit: 255
     t.date     "start_date",                                          null: false
     t.date     "end_date",                                            null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "logo_file_name",        limit: 255
     t.string   "logo_content_type",     limit: 255
     t.integer  "logo_file_size",        limit: 4
     t.datetime "logo_updated_at"
-    t.boolean  "use_dietary_choices",                 default: false
     t.integer  "revision",              limit: 4
     t.boolean  "use_vpositions",                      default: false
     t.boolean  "use_vdays",                           default: false
@@ -137,51 +135,44 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
-
-  create_table "dietary_choices", force: :cascade do |t|
-    t.integer  "conference_id", limit: 4
-    t.string   "title",         limit: 255, null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "difficulty_levels", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.text     "description", limit: 65535
     t.string   "color",       limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "program_id",  limit: 4
   end
 
   create_table "email_settings", force: :cascade do |t|
     t.integer  "conference_id",                                 limit: 4
-    t.boolean  "send_on_registration",                                           default: false
-    t.boolean  "send_on_accepted",                                               default: false
-    t.boolean  "send_on_rejected",                                               default: false
-    t.boolean  "send_on_confirmed_without_registration",                         default: false
-    t.text     "registration_body",                             limit: 16777215
-    t.text     "accepted_body",                                 limit: 16777215
-    t.text     "rejected_body",                                 limit: 16777215
-    t.text     "confirmed_without_registration_body",           limit: 16777215
-    t.datetime "created_at",                                                                     null: false
-    t.datetime "updated_at",                                                                     null: false
+    t.boolean  "send_on_registration",                                        default: false
+    t.boolean  "send_on_accepted",                                            default: false
+    t.boolean  "send_on_rejected",                                            default: false
+    t.boolean  "send_on_confirmed_without_registration",                      default: false
+    t.text     "registration_body",                             limit: 65535
+    t.text     "accepted_body",                                 limit: 65535
+    t.text     "rejected_body",                                 limit: 65535
+    t.text     "confirmed_without_registration_body",           limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "registration_subject",                          limit: 255
     t.string   "accepted_subject",                              limit: 255
     t.string   "rejected_subject",                              limit: 255
     t.string   "confirmed_without_registration_subject",        limit: 255
-    t.boolean  "send_on_conference_dates_updated",                               default: false
+    t.boolean  "send_on_conference_dates_updated",                            default: false
     t.string   "conference_dates_updated_subject",              limit: 255
     t.text     "conference_dates_updated_body",                 limit: 65535
-    t.boolean  "send_on_conference_registration_dates_updated",                  default: false
+    t.boolean  "send_on_conference_registration_dates_updated",               default: false
     t.string   "conference_registration_dates_updated_subject", limit: 255
     t.text     "conference_registration_dates_updated_body",    limit: 65535
-    t.boolean  "send_on_venue_updated",                                          default: false
+    t.boolean  "send_on_venue_updated",                                       default: false
     t.string   "venue_updated_subject",                         limit: 255
     t.text     "venue_updated_body",                            limit: 65535
-    t.boolean  "send_on_cfp_dates_updated",                                      default: false
-    t.boolean  "send_on_program_schedule_public",                                default: false
+    t.boolean  "send_on_cfp_dates_updated",                                   default: false
+    t.boolean  "send_on_program_schedule_public",                             default: false
     t.string   "program_schedule_public_subject",               limit: 255
     t.string   "cfp_dates_updated_subject",                     limit: 255
     t.text     "program_schedule_public_body",                  limit: 65535
@@ -208,31 +199,31 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.string   "guid",                         limit: 255,                      null: false
+    t.string   "guid",                         limit: 255,                   null: false
     t.integer  "event_type_id",                limit: 4
-    t.string   "title",                        limit: 255,                      null: false
+    t.string   "title",                        limit: 255,                   null: false
     t.string   "subtitle",                     limit: 255
     t.integer  "time_slots",                   limit: 4
-    t.string   "state",                        limit: 255,      default: "new", null: false
-    t.string   "progress",                     limit: 255,      default: "new", null: false
+    t.string   "state",                        limit: 255,   default: "new", null: false
+    t.string   "progress",                     limit: 255,   default: "new", null: false
     t.string   "language",                     limit: 255
     t.datetime "start_time"
-    t.text     "abstract",                     limit: 16777215
-    t.text     "description",                  limit: 16777215
-    t.boolean  "public",                                        default: true
+    t.text     "abstract",                     limit: 65535
+    t.text     "description",                  limit: 65535
+    t.boolean  "public",                                     default: true
     t.string   "logo_file_name",               limit: 255
     t.string   "logo_content_type",            limit: 255
     t.integer  "logo_file_size",               limit: 4
     t.datetime "logo_updated_at"
-    t.text     "proposal_additional_speakers", limit: 16777215
+    t.text     "proposal_additional_speakers", limit: 65535
     t.integer  "track_id",                     limit: 4
     t.integer  "room_id",                      limit: 4
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "require_registration"
     t.integer  "difficulty_level_id",          limit: 4
     t.integer  "week",                         limit: 4
-    t.boolean  "is_highlight",                                  default: false
+    t.boolean  "is_highlight",                               default: false
     t.integer  "program_id",                   limit: 4
   end
 
@@ -297,8 +288,8 @@ ActiveRecord::Schema.define(version: 20160226133808) do
 
   create_table "question_types", force: :cascade do |t|
     t.string   "title",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -306,8 +297,8 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.integer  "question_type_id", limit: 4
     t.integer  "conference_id",    limit: 4
     t.boolean  "global"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "registration_periods", force: :cascade do |t|
@@ -319,23 +310,16 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.integer  "conference_id",        limit: 4
+    t.integer  "conference_id",       limit: 4
     t.datetime "arrival"
     t.datetime "departure"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
-    t.integer  "dietary_choice_id",    limit: 4
-    t.text     "other_dietary_choice", limit: 16777215
-    t.text     "other_special_needs",  limit: 16777215
-    t.boolean  "attended",                              default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "other_special_needs", limit: 65535
+    t.boolean  "attended",                          default: false
     t.boolean  "volunteer"
-    t.integer  "user_id",              limit: 4
-    t.integer  "week",                 limit: 4
-  end
-
-  create_table "registrations_social_events", id: false, force: :cascade do |t|
-    t.integer "registration_id", limit: 4
-    t.integer "social_event_id", limit: 4
+    t.integer  "user_id",             limit: 4
+    t.integer  "week",                limit: 4
   end
 
   create_table "registrations_vchoices", id: false, force: :cascade do |t|
@@ -345,28 +329,21 @@ ActiveRecord::Schema.define(version: 20160226133808) do
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",          limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "description",   limit: 255
     t.integer  "resource_id",   limit: 4
     t.string   "resource_type", limit: 255
   end
 
-  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
-  add_index "roles", ["name"], name: "index_roles_on_name"
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "rooms", force: :cascade do |t|
     t.string  "guid",     limit: 255, null: false
     t.string  "name",     limit: 255, null: false
     t.integer "size",     limit: 4
     t.integer "venue_id", limit: 4,   null: false
-  end
-
-  create_table "social_events", force: :cascade do |t|
-    t.integer "conference_id", limit: 4
-    t.string  "title",         limit: 255
-    t.text    "description",   limit: 65535
-    t.date    "date"
   end
 
   create_table "splashpages", force: :cascade do |t|
@@ -442,12 +419,12 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",        limit: 255,      null: false
-    t.string   "name",        limit: 255,      null: false
-    t.text     "description", limit: 16777215
+    t.string   "guid",        limit: 255,   null: false
+    t.string   "name",        limit: 255,   null: false
+    t.text     "description", limit: 65535
     t.string   "color",       limit: 255
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "program_id",  limit: 4
   end
 
@@ -466,8 +443,8 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email",      limit: 255
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name",                   limit: 255
     t.boolean  "email_public"
     t.text     "biography",              limit: 65535
@@ -486,17 +463,17 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.boolean  "is_disabled",                          default: false
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   create_table "users_roles", id: false, force: :cascade do |t|
     t.integer "role_id", limit: 4
     t.integer "user_id", limit: 4
   end
 
-  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
   create_table "vchoices", force: :cascade do |t|
     t.integer "vday_id",      limit: 4
@@ -507,8 +484,8 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.integer  "conference_id", limit: 4
     t.date     "day"
     t.text     "description",   limit: 65535
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "venues", force: :cascade do |t|
@@ -516,8 +493,8 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.string   "name",               limit: 255
     t.string   "website",            limit: 255
     t.text     "description",        limit: 65535
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "photo_file_name",    limit: 255
     t.string   "photo_content_type", limit: 255
     t.integer  "photo_file_size",    limit: 4
@@ -532,16 +509,16 @@ ActiveRecord::Schema.define(version: 20160226133808) do
   end
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",      limit: 255,      null: false
-    t.integer  "item_id",        limit: 4,        null: false
-    t.string   "event",          limit: 255,      null: false
+    t.string   "item_type",      limit: 255,   null: false
+    t.integer  "item_id",        limit: 4,     null: false
+    t.string   "event",          limit: 255,   null: false
     t.string   "whodunnit",      limit: 255
-    t.text     "object",         limit: 16777215
-    t.text     "object_changes", limit: 16777215
+    t.text     "object",         limit: 65535
+    t.text     "object_changes", limit: 65535
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "visits", force: :cascade do |t|
     t.uuid     "visitor_id",       limit: 16
@@ -566,13 +543,13 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.datetime "started_at"
   end
 
-  add_index "visits", ["user_id"], name: "index_visits_on_user_id"
+  add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
 
   create_table "votes", force: :cascade do |t|
     t.integer  "event_id",   limit: 4
     t.integer  "rating",     limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "user_id",    limit: 4
   end
 
@@ -580,8 +557,8 @@ ActiveRecord::Schema.define(version: 20160226133808) do
     t.integer  "conference_id", limit: 4
     t.string   "title",         limit: 255,   null: false
     t.text     "description",   limit: 65535
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
