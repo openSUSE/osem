@@ -2,9 +2,11 @@ class ProposalController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
-  load_and_authorize_resource :event, parent: false, through: :program
+  load_and_authorize_resource :event, parent: false, through: :program, except: [:new, :create]
 
   def index
+    @event = @program.events.new
+    @event.event_users.new(user: current_user, event_role: 'submitter')
     @events = current_user.proposals(@conference)
   end
 
@@ -14,6 +16,9 @@ class ProposalController < ApplicationController
   end
 
   def new
+    @event = @program.events.new
+    @event.event_users.new(user: current_user, event_role: 'submitter') if current_user
+    authorize! :new, @event
     @user = User.new
     @url = conference_program_proposal_index_path(@conference.short_title)
   end
@@ -46,6 +51,7 @@ class ProposalController < ApplicationController
                            event_role: 'submitter')
     @event.event_users.new(user: current_user,
                            event_role: 'speaker')
+    authorize! :new, @event
 
     unless @event.save
       flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"

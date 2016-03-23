@@ -76,8 +76,12 @@ class Ability
     can :manage, Event do |event|
       event.users.include?(user)
     end
-    # can create an event until the last day of a conference
-    can :create, Event, program_id: Conference.where('end_date >= ?', Date.today).map { |conference| conference.program.id}.compact
+
+    # cannot create an event if program does not have open cfp
+    cannot [:new, :create], Event do |event|
+      user_inclusion = event.event_users.map { |event_user| event_user.user.id }.compact.include? user.id
+      !event.program.cfp_open? || !event.new_record? || !user_inclusion
+    end
 
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
