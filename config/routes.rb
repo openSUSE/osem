@@ -95,11 +95,12 @@ Osem::Application.routes.draw do
 
   resources :conference, only: [:index, :show] do
     resource :program, except: :destroy do
-      resources :proposal do
+      resources :proposal, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'
         resources :commercials, only: [:create, :update, :destroy]
         resources :event_attachment, controller: 'event_attachments'
         member do
+          patch '/withdraw' => 'proposal#withdraw'
           patch '/confirm' => 'proposal#confirm'
           patch '/restart' => 'proposal#restart'
         end
