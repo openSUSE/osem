@@ -1,9 +1,7 @@
 class Registration < ActiveRecord::Base
   belongs_to :user
   belongs_to :conference
-  belongs_to :dietary_choice
 
-  has_and_belongs_to_many :social_events
   has_and_belongs_to_many :events
   has_and_belongs_to_many :qanswers
   has_and_belongs_to_many :vchoices
@@ -12,7 +10,6 @@ class Registration < ActiveRecord::Base
   has_many :workshops, through: :events_registrations, source: :event
 
   accepts_nested_attributes_for :user
-  accepts_nested_attributes_for :social_events
   accepts_nested_attributes_for :qanswers
 
   delegate :name, to: :user

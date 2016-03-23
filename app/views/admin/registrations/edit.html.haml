@@ -13,11 +13,4 @@
           = u.input :affiliation, placeholder: 'Company/User Group/nothing', as: :string
       = f.inputs 'Registration Information' do
         = render partial: 'conference_registrations/registration_info', locals: { f: f }
-
-      -# Not necessary
-      - if @conference.social_events.count > 0
-        = f.inputs 'Are you planning to attend any of the parties?' do
-          %br Yes, I'll be attending...
-          %br
-          = f.input :social_events, as: :check_boxes, label: false, collection: @conference.social_events
       = f.action :submit, button_html: { class: 'btn btn-primary' }

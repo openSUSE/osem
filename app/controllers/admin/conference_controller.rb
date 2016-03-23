@@ -177,10 +177,9 @@ module Admin
     private
 
     def conference_params
-      params.require(:conference).permit(:title, :short_title, :description, :timezone, :html_export_path,
+      params.require(:conference).permit(:title, :short_title, :description, :timezone,
                                          :start_date, :end_date, :rooms_attributes, :tracks_attributes,
-                                         :dietary_choices_attributes, :use_dietary_choices,
-                                         :tickets_attributes, :social_events_attributes, :event_types_attributes,
+                                         :tickets_attributes, :event_types_attributes,
                                          :logo, :questions_attributes,
                                          :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
                                          :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
