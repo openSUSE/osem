@@ -90,8 +90,8 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to root_path,
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
-      redirect_to root_path,
-                  error: "Could not update your registration for #{@conference.title}: "\
+      redirect_to conference_conference_registrations_path(@conference.short_title),
+                  error: "Could not delete your registration for #{@conference.title}: "\
                   "#{@registration.errors.full_messages.join('. ')}."
     end
   end
