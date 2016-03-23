@@ -357,6 +357,9 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-i18n (4.0.8)
+      i18n (~> 0.7)
+      railties (~> 4.0)
     rails-observers (0.1.2)
       activemodel (~> 4.0)
     railties (4.2.5.2)
@@ -558,6 +561,7 @@ DEPENDENCIES
   rails-assets-to-markdown!
   rails-assets-trianglify!
   rails-assets-waypoints!
+  rails-i18n (~> 4.0.0)
   rails-observers
   rdoc-generator-fivefish
   redcarpet
@@ -579,3 +583,6 @@ DEPENDENCIES
   web-console (~> 2.0)
   webmock
   whenever
+
+BUNDLED WITH
+   1.11.2
