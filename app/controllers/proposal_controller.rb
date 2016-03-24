@@ -71,8 +71,8 @@ class ProposalController < ApplicationController
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     if @event.update(event_params)
-      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                  notice: 'Proposal was successfully updated.')
+      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+                  notice: 'Proposal was successfully updated.'
     else
       flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'edit'
@@ -138,8 +138,8 @@ class ProposalController < ApplicationController
     end
 
     if @event.save
-      redirect_to(conference_program_proposal_index_path(conference_id: @conference.short_title),
-                  notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again.")
+      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+                  notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again."
     else
       redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
                   error: "Could not re-submit proposal: #{@event.errors.full_messages.join(', ')}"
