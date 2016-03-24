@@ -34,6 +34,7 @@ class ProposalController < ApplicationController
     # If user is not signed in then first create new user and then sign them in
     unless current_user
       @user = User.new(user_params)
+      authorize! :create, @user
       if @user.save
         sign_in(@user)
       else

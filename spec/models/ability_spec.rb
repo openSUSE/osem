@@ -56,6 +56,7 @@ describe 'User' do
       it{ should_not be_able_to(:show, commercial_event_unconfirmed)}
 
       it{ should be_able_to(:show, User)}
+      it{ should be_able_to(:create, User)}
 
       it{ should be_able_to(:create, Registration)}
       it{ should be_able_to(:show, Registration.new)}
