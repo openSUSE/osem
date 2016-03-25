@@ -89,7 +89,7 @@ var Schedule = {
             snapMode: "inner",
             zIndex: 2
         });
-        if (date == "none") {
+        if (date == "none" || vars["room_id"] == null) {
             $('#unscheduled').append(newEvent);
         } else {
             if (!scheduleDayEvents.hasOwnProperty(date)) {
