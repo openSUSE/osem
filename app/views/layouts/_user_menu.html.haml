@@ -37,7 +37,8 @@
         = link_to(admin_conference_path(@conference.short_title)) do
           %span.fa.fa-cog
           Manage
-          = @conference.short_title
+          %span.notranslate
+            = @conference.short_title
 - if can? :manage, User.new
   %li
     = link_to(admin_users_path) do

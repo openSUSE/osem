@@ -8,7 +8,8 @@
       %h2 Sponsors
       %p.lead
         whom without,
-        = @conference.short_title
+        %span.notranslate
+          = @conference.short_title
         wouldn't be possible! 
   - @conference.sponsorship_levels.each do |sponsorship_level|
     -if sponsorship_level.sponsors.any?

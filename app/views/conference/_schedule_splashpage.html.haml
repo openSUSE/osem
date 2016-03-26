@@ -4,7 +4,8 @@
       %h2.text-center
         Program
       %p.lead.text-center
-        = @conference.short_title
+        %span.notranslate
+          = @conference.short_title
         has the most awesome program ever!
         - if @conference.splashpage and @conference.program.tracks.any? and @conference.splashpage.include_tracks
           See rock-star speakers cover the topics of
