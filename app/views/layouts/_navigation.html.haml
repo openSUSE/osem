@@ -8,6 +8,10 @@
         %span.icon-bar
         %span.icon-bar
       = link_to CONFIG['name'], root_path, class: 'navbar-brand', title: 'Open Source Event Manager'
+      %button.pull-left{"data-target"=>".mySidebar", "data-toggle"=>"collapse", :class=>"navbar-toggle", :type=>"button"}
+        %span.sr-only
+          Toggle navigation
+        %span.fa.fa-sun-o
     .collapse.navbar-collapse
       - if content_for :splash_nav
         %ul.nav.navbar-nav#splash-nav
