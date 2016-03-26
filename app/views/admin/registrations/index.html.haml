@@ -28,6 +28,10 @@
               = registration.id
             %td
               = registration.name
+              - @conference.roles.each do |role|
+                - role.users.each do |user|
+                  - if user == registration.user
+                    %span.label.label-info= role.name.titleize
             %td
               = registration.email
             %td
