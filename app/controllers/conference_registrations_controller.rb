@@ -21,7 +21,7 @@ class ConferenceRegistrationsController < ApplicationController
     end
 
     if @conference.registration_limit_exceeded?
-      redirect_to root_path, alert: "Sorry, registration limit exceeded for #{@conference.title}"
+      redirect_to root_path, error: "Sorry, registration limit exceeded for #{@conference.title}"
       return
     end
 
@@ -60,11 +60,12 @@ class ConferenceRegistrationsController < ApplicationController
         sign_in(@registration.user)
       end
 
-      flash[:notice] = 'You are now registered and will be receiving E-Mail notifications.'
       if @conference.tickets.any? && !current_user.supports?(@conference)
-        redirect_to conference_tickets_path(@conference.short_title)
+        redirect_to conference_tickets_path(@conference.short_title),
+                    notice: 'You are now registered and will be receiving E-Mail notifications.'
       else
-        redirect_to  conference_conference_registrations_path(@conference.short_title)
+        redirect_to conference_conference_registrations_path(@conference.short_title),
+                    notice: 'You are now registered and will be receiving E-Mail notifications.'
       end
     else
       flash[:error] = "Could not create your registration for #{@conference.title}: "\
@@ -89,8 +90,8 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to root_path,
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
-      redirect_to root_path,
-                  error: "Could not update your registration for #{@conference.title}: "\
+      redirect_to conference_conference_registrations_path(@conference.short_title),
+                  error: "Could not delete your registration for #{@conference.title}: "\
                   "#{@registration.errors.full_messages.join('. ')}."
     end
   end
@@ -100,8 +101,8 @@ class ConferenceRegistrationsController < ApplicationController
   def set_registration
     @registration = Registration.find_by(conference: @conference, user: current_user)
     if !@registration
-      flash[:alert] = "Can't find a registration for #{@conference.title} for you. Please register."
-      redirect_to new_conference_conference_registrations_path(@conference.short_title)
+      redirect_to new_conference_conference_registrations_path(@conference.short_title),
+                  error: "Can't find a registration for #{@conference.title} for you. Please register."
     end
   end
 

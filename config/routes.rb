@@ -10,6 +10,11 @@ Osem::Application.routes.draw do
                path: 'accounts'
   end
 
+  # Use letter_opener_web to open mails in browser (e.g. necessary for Vagrant)
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+
   resources :users, except: [:new, :index, :create, :destroy]
 
   namespace :admin do
@@ -22,7 +27,6 @@ Osem::Application.routes.draw do
       resource :schedule, only: [:show, :update]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
-      get '/stats' => 'stats#index'
       get '/dietary_choices' => 'dietchoices#show', as: 'dietary_list'
       patch '/dietary_choices' => 'dietchoices#update', as: 'dietary_update'
       get '/volunteers_list' => 'volunteers#show'
@@ -102,6 +106,7 @@ Osem::Application.routes.draw do
       end
     end
 
+    # TODO: change conference_registrations to singular resource
     resource :conference_registrations, path: 'register'
     resources :tickets, only: [:index]
     resources :ticket_purchases, only: [:create, :destroy]

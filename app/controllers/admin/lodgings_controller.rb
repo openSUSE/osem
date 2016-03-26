@@ -13,8 +13,8 @@ module Admin
     def create
       @lodging = @conference.lodgings.new(lodging_params)
       if @lodging.save
-        redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
-                    notice: 'Lodging successfully created.')
+        redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
+                    notice: 'Lodging successfully created.'
       else
         flash[:error] = "Creating Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
         render :new
@@ -25,8 +25,8 @@ module Admin
 
     def update
       if @lodging.update_attributes(lodging_params)
-        redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
-                    notice: 'Lodging successfully updated.')
+        redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
+                    notice: 'Lodging successfully updated.'
       else
         flash[:error] = "Update Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
         render :edit
@@ -35,12 +35,12 @@ module Admin
 
     def destroy
       if @lodging.destroy
-        redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
-                    notice: 'Lodging successfully deleted.')
+        redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
+                    notice: 'Lodging successfully deleted.'
       else
-        redirect_to(admin_conference_lodgings_path(conference_id: @conference.short_title),
+        redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
                     error: 'Deleting lodging failed.' \
-                    "#{@lodging.errors.full_messages.join('. ')}.")
+                    "#{@lodging.errors.full_messages.join('. ')}."
       end
     end
 

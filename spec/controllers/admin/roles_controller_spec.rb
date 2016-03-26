@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Admin::RolesController do
 
   let(:conference) { create(:conference) }
-  let!(:first_user) { create(:user) }
   let(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
   let(:admin) { create(:admin) }

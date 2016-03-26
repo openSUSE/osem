@@ -147,10 +147,11 @@
     %ul.media
       %div
         .row-fluid
-          = form_tag(comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post) do
-            = text_area_tag(:comment, '')
-            = submit_tag 'Add Comment', class: 'btn btn-primary pull-right'
+          = semantic_form_for :comment, url: comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post do |f|
+            = f.input :body
+            = f.submit 'Add Comment', class: 'btn btn-primary pull-right'
+        %br
         %br
         - @comments.each do |comment|
           %div
-            = render "nested_comments", comment: comment, padding: 0
+            = render partial: 'nested_comments', locals: { comment: comment, padding: 0}

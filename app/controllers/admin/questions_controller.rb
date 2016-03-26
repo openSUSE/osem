@@ -32,8 +32,7 @@ module Admin
         if @conference.save
           format.html { redirect_to admin_conference_questions_path, notice: 'Question was successfully created.' }
         else
-          flash[:error] = "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}"
-          format.html { redirect_to admin_conference_questions_path }
+          format.html { redirect_to admin_conference_questions_path, error: "Oops, couldn't save Question. #{@question.errors.full_messages.join('. ')}" }
         end
       end
     end
@@ -41,16 +40,16 @@ module Admin
     # GET questions/1/edit
     def edit
       if @question.global
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), alert: 'Sorry, you cannot edit global questions. Create a new one.')
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), error: 'Sorry, you cannot edit global questions. Create a new one.'
       end
     end
 
     # PUT questions/1
     def update
       if @question.update_attributes(question_params)
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated.")
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated."
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}")
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}"
       end
     end
 
@@ -58,9 +57,9 @@ module Admin
     def update_conference
       authorize! :update, Question.new(conference_id: @conference.id)
       if @conference.update_attributes(conference_params)
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated.")
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated."
       else
-        redirect_to(admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed.")
+        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed."
       end
     end
 

@@ -23,7 +23,6 @@ feature 'BaseController' do
       end
 
       it 'not an admin it redirects to root_path' do
-        user.is_admin = false
         visit admin_conference_index_path
         expect(current_path).to eq root_path
         expect(flash).to eq 'You are not authorized to access this area!'
@@ -36,28 +35,24 @@ feature 'BaseController' do
       end
 
       it 'an organizer he can access the admin area' do
-        user.is_admin = false
         user.role_ids = organizer_role.id
         visit admin_conference_index_path
         expect(current_path).to eq admin_conference_index_path
       end
 
       it 'a volunteers_coordinator he can access the admin area' do
-        user.is_admin = false
         user.role_ids = volunteers_coordinator_role.id
         visit admin_conference_index_path
         expect(current_path).to eq admin_conference_index_path
       end
 
       it 'a cfp he can access the admin area' do
-        user.is_admin = false
         user.role_ids = cfp_role.id
         visit admin_conference_index_path
         expect(current_path).to eq admin_conference_index_path
       end
 
       it 'an info_desk he can access the admin area' do
-        user.is_admin = false
         user.role_ids = info_desk_role.id
         visit admin_conference_index_path
         expect(current_path).to eq admin_conference_index_path

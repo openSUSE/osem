@@ -2,10 +2,11 @@
   .col-md-12
     .page-header
       %h1
-        = @ticket.title
-        Ticket
-        %small
-          = humanized_money_with_symbol @ticket.price
+        %div{"data-placement" => "left", "data-toggle" => "tooltip", :title => @ticket.description}
+          = @ticket.title
+          Ticket
+          %small
+            = humanized_money_with_symbol @ticket.price
       %p.text-muted
         People who bought this ticket
 .row

@@ -18,7 +18,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def paid?(user)
-    ticket_purchases.where(user_id: user.id, paid: false).count == 0
+    ticket_purchases.find_by(user: user, paid: true).present?
   end
 
   def quantity_bought_by(user)
@@ -48,11 +48,19 @@ class Ticket < ActiveRecord::Base
     result ? result : Money.new(0, 'USD')
   end
 
+  def tickets_sold
+    ticket_purchases.sum(:quantity)
+  end
+
+  def tickets_turnover
+    tickets_sold * price
+  end
+
   private
 
   def tickets_of_conference_have_same_currency
     unless Ticket.where(conference_id: conference_id).all?{|t| t.price_currency == self.price_currency }
-      errors.add(:price_currency, 'Currency is different from the exist ticktes of this conference.')
+      errors.add(:price_currency, 'is different from the existing tickets of this conference.')
     end
   end
 end

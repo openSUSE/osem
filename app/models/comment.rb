@@ -41,7 +41,11 @@ class Comment < ActiveRecord::Base
   }
 
   scope :find_since_last_login, lambda { |user|
-    where(created_at: (user.last_sign_in_at..Time.now)).order(created_at: :desc)
+    if user.last_sign_in_at
+      where(created_at: (user.last_sign_in_at..Time.now)).order(created_at: :desc)
+    else
+      none
+    end
   }
   # Helper class method to look up a commentable object
   # given the commentable class name and id

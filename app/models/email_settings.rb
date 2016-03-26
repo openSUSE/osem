@@ -38,14 +38,14 @@ class EmailSettings < ActiveRecord::Base
 
     if event
       h['eventtitle'] = event.title
-      h['proposalslink'] = Rails.application.routes.url_helpers.conference_proposal_index_url(
+      h['proposalslink'] = Rails.application.routes.url_helpers.conference_program_proposal_index_url(
                            conference.short_title, host: CONFIG['url_for_emails'])
     end
     h
   end
 
   def generate_event_mail(event, event_template)
-    values = get_values(event.conference, event.submitter, event)
+    values = get_values(event.program.conference, event.submitter, event)
     parse_template(event_template, values)
   end
 

@@ -26,26 +26,37 @@ We are using [Vagrant](https://www.vagrantup.com/) to create our development env
     vagrant up
     ```
 
-7. Start your OSEM rails app:
+5. Start your OSEM rails app:
 
     ```
     vagrant exec rails server -b 0.0.0.0
     ```
 
-8. Check out your OSEM rails app:
+6. Check out your OSEM rails app:
 You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
 
-9. Changed something? Test your changes!:
+7. Changed something? Test your changes!:
 
     ```
     vagrant exec rake test
     ```
 
-10. Explore the development environment:
+8. Explore the development environment:
 
     ```
     vagrant ssh
     ```
+
+9. Or issue any standard `rails`/`rake`/`bundler` command by prepending `vagrant exec`
+
+    ```
+    vagrant exec rake db:migrate
+    ```
+
+**Note**: We use [letter_opener](https://github.com/ryanb/letter_opener) in development environment.
+However, letter_opener uses launchy to present the emails in your browser which doesn't work in combination with Vagrant.
+Therefore we use [letter_open_web](https://github.com/fgrehm/letter_opener_web).
+You can check out your mails by visiting [localhost:3000/letter_opener](http://localhost:3000/letter_opener) if you use Vagrant.
 
 ### Run OSEM in production
 We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
@@ -56,8 +67,8 @@ base operating systems. Check Google ;-)
 In order to use the OpenID feature you need to register your application with the providers
 (Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
 
-You can register as a devoloper with Google from https://code.google.com/apis/console#:access
-You can register as a devoloper with Facebook from https://developers.facebook.com/,
+You can register as a developer with Google from https://code.google.com/apis/console#:access
+You can register as a developer with Facebook from https://developers.facebook.com/,
 by selecting from the top menu the option 'Apps' -> 'Create a New App'
 
 Unless you add the key and secret for each provider, you will not be able to see the image that

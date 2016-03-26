@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
 
   devise(*devise_modules)
 
-  has_and_belongs_to_many :roles
   has_many :openids
 
   attr_accessor :login
@@ -54,6 +53,10 @@ class User < ActiveRecord::Base
             },
             presence: true
 
+  def name
+    self[:name] || username
+  end
+
   def subscribed? conference
     self.subscriptions.find_by(conference_id: conference.id).present?
   end
@@ -75,7 +78,9 @@ class User < ActiveRecord::Base
     raise UserDisabled if user && user.is_disabled
 
     if user
-      user.update_attributes(email: attributes[:email])
+      user.update_attributes(email: attributes[:email],
+                             last_sign_in_at: user.current_sign_in_at,
+                             current_sign_in_at: Time.current)
     else
       begin
         user = create!(username: username, email: attributes[:email])

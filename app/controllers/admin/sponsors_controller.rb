@@ -16,8 +16,8 @@ module Admin
     def create
       @sponsor = @conference.sponsors.new(sponsor_params)
       if @sponsor.save
-        redirect_to(admin_conference_sponsors_path(conference_id: @conference.short_title),
-                    notice: 'Sponsor successfully created.')
+        redirect_to admin_conference_sponsors_path(conference_id: @conference.short_title),
+                    notice: 'Sponsor successfully created.'
       else
         flash[:error] = "Creating sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
         render :new
@@ -26,9 +26,9 @@ module Admin
 
     def update
       if @sponsor.update_attributes(sponsor_params)
-        redirect_to(admin_conference_sponsors_path(
+        redirect_to admin_conference_sponsors_path(
                     conference_id: @conference.short_title),
-                    notice: 'Sponsor successfully updated.')
+                    notice: 'Sponsor successfully updated.'
       else
         flash[:error] = "Update sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
         render :edit
@@ -37,12 +37,12 @@ module Admin
 
     def destroy
       if @sponsor.destroy
-        redirect_to(admin_conference_sponsors_path(conference_id: @conference.short_title),
-                    notice: 'Sponsor successfully deleted.')
+        redirect_to admin_conference_sponsors_path(conference_id: @conference.short_title),
+                    notice: 'Sponsor successfully deleted.'
       else
-        redirect_to(admin_conference_sponsors_path(conference_id: @conference.short_title),
+        redirect_to admin_conference_sponsors_path(conference_id: @conference.short_title),
                     error: 'Deleting sponsor failed! ' \
-                    "#{@sponsor.errors.full_messages.join('. ')}.")
+                    "#{@sponsor.errors.full_messages.join('. ')}."
       end
     end
 

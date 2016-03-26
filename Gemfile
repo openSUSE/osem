@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+# rails-assets requires >= 1.8.4
+if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
+  abort "Bundler version >= 1.8.4 is required"
+end
+
 # as web framework
 gem 'rails', '~> 4.2'
 
@@ -82,6 +87,10 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-waypoints'
   # for displaying maps
   gem 'rails-assets-leaflet'
+  # for markdown editors
+  gem 'rails-assets-bootstrap-markdown'
+  gem 'rails-assets-to-markdown'
+  gem 'rails-assets-markdown'
 end
 
 # as date picker
@@ -94,7 +103,7 @@ gem 'chart-js-rails'
 gem 'gravtastic'
 
 # for country selects
-gem 'country_select', github: 'stefanpenner/country_select'
+gem 'country_select'
 
 # for upload management
 gem 'paperclip'
@@ -163,6 +172,8 @@ group :development do
   gem 'sqlite3'
   # Use letter_opener to open mails in development
   gem 'letter_opener'
+  # Use letter_opener_web to open mails in browser (e.g. necessary for Vagrant)
+  gem 'letter_opener_web'
   # mina is a blazing fast deployment system
   gem 'mina'
   gem 'web-console', '~> 2.0'
@@ -182,7 +193,7 @@ group :test do
   # Extracted from RSpec 3 stub_model and mock_model
   gem 'rspec-activemodel-mocks'
   gem 'timecop'
-  # Mock external requests
+  # for mocking external requests
   gem 'webmock'
 end
 
