@@ -98,7 +98,6 @@ Osem::Application.routes.draw do
       resources :proposal do
         get 'commercials/render_commercial' => 'commercials#render_commercial'
         resources :commercials, only: [:create, :update, :destroy]
-        resources :event_attachment, controller: 'event_attachments'
         member do
           patch '/confirm' => 'proposal#confirm'
           patch '/restart' => 'proposal#restart'
