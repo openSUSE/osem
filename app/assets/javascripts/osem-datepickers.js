@@ -1,3 +1,5 @@
+// get current_date
+var today = new Date().toISOString().slice(0, 10);
 $(function () {
   $("#registration-arrival-datepicker").datetimepicker({
       pickTime: true,
@@ -5,7 +7,10 @@ $(function () {
       minuteStepping: 15,
       sideBySide: true,
       format: "YYYY-MM-DD HH:mm",
-      defaultDate :   $("#registration-arrival-datepicker").attr('start_date')
+      // current_date <= arrival_date <= end_date
+      maxDate : $("#registration-arrival-datepicker").attr('end_date'),
+      minDate : today,
+      defaultDate :   $("#registration-arrival-datepicker").attr('start_date'),
   });
   $("#registration-departure-datepicker").datetimepicker({
       pickTime: true,
@@ -13,14 +18,27 @@ $(function () {
       minuteStepping: 15,
       sideBySide: true,
       format: "YYYY-MM-DD HH:mm",
-      defaultDate :   $("#registration-arrival-datepicker").attr('end_date')
+      // departure_date > start_date
+      minDate : $("#registration-arrival-datepicker").attr('start_date'),
+      defaultDate :   $("#registration-arrival-datepicker").attr('end_date'),
   });
 
   $("#registration-arrival-datepicker").on("dp.change",function (e) {
-      console.log (e.date)
-      $('#registration-departure-datepicker').data("DateTimePicker").setDate(e.date);
-      $('#registration-departure-datepicker').data("DateTimePicker").setMinDate(e.date);
+    //   $('#registration-departure-datepicker').data("DateTimePicker").setDate(e.date);
+    // console.log(new Date(e.date).getTime() ,new Date($("#registration-arrival-datepicker").attr('start_date')).getTime())
+
+    // departure_date > start_date,arrival_date
+    if ((new Date(e.date).getTime()) > (new Date($("#registration-arrival-datepicker").attr('start_date')).getTime())){
+            // console.log (e.date, "arrival")
+          $('#registration-departure-datepicker').data("DateTimePicker").setMinDate(e.date);
+    }
+    else{
+        //   console.log ($("#registration-arrival-datepicker").attr('start_date'),"start_date")
+        $('#registration-departure-datepicker').data("DateTimePicker").setMinDate($("#registration-arrival-datepicker").attr('start_date'));
+    }
+
   });
+  
   $("#conference-end-datepicker").on("dp.change",function (e) {
       $('#registration-arrival-datepicker').data("DateTimePicker").setMaxDate(e.date);
   });
