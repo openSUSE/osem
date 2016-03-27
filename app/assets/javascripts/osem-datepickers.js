@@ -68,7 +68,7 @@ $(function () {
       format: "YYYY-MM-DD",
       minDate : today,
       maxDate : $("#registration-period-start-datepicker").attr('end_date'),
-      defaultDate : today,
+    //   defaultDate : today,
   });
   
   $("#registration-period-end-datepicker").datetimepicker({
@@ -77,7 +77,7 @@ $(function () {
       format: "YYYY-MM-DD",
       minDate: today,
       maxDate : $("#registration-period-start-datepicker").attr('end_date'),
-      defaultDate : $("#registration-period-start-datepicker").attr('end_date'),
+    //   defaultDate : $("#registration-period-start-datepicker").attr('end_date'),
   });
 
   //   end_date_conference >= registration-period-Start_date >= Current_date
