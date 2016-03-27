@@ -39,17 +39,45 @@ $(function () {
 
   });
   
-  $("#conference-end-datepicker").on("dp.change",function (e) {
-      $('#registration-arrival-datepicker').data("DateTimePicker").setMaxDate(e.date);
-  });
+  // departure_date >= arrival_date
+   $("#registration-departure-datepicker").on("dp.change",function (e) {
 
+       $('#registration-arrival-datepicker').data("DateTimePicker").setMaxDate(e.date);
 
-  const $datetimepickers = $("#conference-start-datepicker, #conference-end-datepicker");
-
-  $datetimepickers.datetimepicker({
+   });
+  
+  $("#conference-start-datepicker").datetimepicker({
       pickTime: false,
       useCurrent: false,
-      format: "YYYY-MM-DD"
+      format: "YYYY-MM-DD",
+      // conference-start-day >= Current_date
+      minDate : today ,
+  });
+  
+  $("#conference-end-datepicker").datetimepicker({
+      pickTime: false,
+      useCurrent: false,
+      format: "YYYY-MM-DD",
+  });
+
+  //   end_date_conference >= registration-period-Start_date >= Current_date
+  //   registration-period-Start_date <= registration-period-End_date <= End_date (of conference)
+  $("#registration-period-start-datepicker").datetimepicker({
+      pickTime: false,
+      useCurrent: false,
+      format: "YYYY-MM-DD",
+      minDate : today,
+      maxDate : $("#registration-period-start-datepicker").attr('end_date'),
+      defaultDate : today,
+  });
+  
+  $("#registration-period-end-datepicker").datetimepicker({
+      pickTime: false,
+      useCurrent: false,
+      format: "YYYY-MM-DD",
+      minDate: today,
+      maxDate : $("#registration-period-start-datepicker").attr('end_date'),
+      defaultDate : $("#registration-period-start-datepicker").attr('end_date'),
   });
 
   //   end_date_conference >= registration-period-Start_date >= Current_date
@@ -73,7 +101,7 @@ $(function () {
 
   $("#conference-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
-      $('#conference-end-datepicker').data("DateTimePicker").setDate(e.date);
+    //   $('#conference-end-datepicker').data("DateTimePicker").setDate(e.date);
       $('#conference-end-datepicker').data("DateTimePicker").setMinDate(e.date);
   });
   $("#conference-end-datepicker").on("dp.change",function (e) {
