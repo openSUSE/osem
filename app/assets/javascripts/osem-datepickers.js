@@ -44,13 +44,32 @@ $(function () {
   });
 
 
-  const $datetimepickers = $("#conference-start-datepicker, #conference-end-datepicker, #registration-period-start-datepicker, #registration-period-end-datepicker");
+  const $datetimepickers = $("#conference-start-datepicker, #conference-end-datepicker");
 
   $datetimepickers.datetimepicker({
       pickTime: false,
       useCurrent: false,
       format: "YYYY-MM-DD"
   });
+
+  //   end_date_conference >= registration-period-Start_date >= Current_date
+  //   registration-period-Start_date <= registration-period-End_date <= End_date (of conference)
+  $("#registration-period-start-datepicker").datetimepicker({
+      pickTime: false,
+      useCurrent: false,
+      format: "YYYY-MM-DD",
+      minDate : today,
+      maxDate : $("#registration-period-start-datepicker").attr('end_date'),
+  });
+  
+  $("#registration-period-end-datepicker").datetimepicker({
+      pickTime: false,
+      useCurrent: false,
+      format: "YYYY-MM-DD",
+      minDate: today,
+      maxDate : $("#registration-period-start-datepicker").attr('end_date'),
+  });
+
 
   $("#conference-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
@@ -63,7 +82,7 @@ $(function () {
 
   $("#registration-period-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
-      $('#registration-period-end-datepicker').data("DateTimePicker").setDate(e.date);
+    //   $('#registration-period-end-datepicker').data("DateTimePicker").setDate(e.date);
       $('#registration-period-end-datepicker').data("DateTimePicker").setMinDate(e.date);
   });
   $("#registration-period-end-datepicker").on("dp.change",function (e) {
