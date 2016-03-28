@@ -24,16 +24,13 @@ $(function () {
   });
 
   $("#registration-arrival-datepicker").on("dp.change",function (e) {
-    //   $('#registration-departure-datepicker').data("DateTimePicker").setDate(e.date);
-    // console.log(new Date(e.date).getTime() ,new Date($("#registration-arrival-datepicker").attr('start_date')).getTime())
-
     // departure_date > start_date,arrival_date
     if ((new Date(e.date).getTime()) > (new Date($("#registration-arrival-datepicker").attr('start_date')).getTime())){
-            // console.log (e.date, "arrival")
+            console.log (e.date, "arrival")
           $('#registration-departure-datepicker').data("DateTimePicker").setMinDate(e.date);
     }
     else{
-        //   console.log ($("#registration-arrival-datepicker").attr('start_date'),"start_date")
+          console.log ($("#registration-arrival-datepicker").attr('start_date'),"start_date")
         $('#registration-departure-datepicker').data("DateTimePicker").setMinDate($("#registration-arrival-datepicker").attr('start_date'));
     }
 
@@ -41,9 +38,7 @@ $(function () {
   
   // departure_date >= arrival_date
    $("#registration-departure-datepicker").on("dp.change",function (e) {
-
        $('#registration-arrival-datepicker').data("DateTimePicker").setMaxDate(e.date);
-
    });
   
   $("#conference-start-datepicker").datetimepicker({
@@ -68,7 +63,6 @@ $(function () {
       format: "YYYY-MM-DD",
       minDate : today,
       maxDate : $("#registration-period-start-datepicker").attr('end_date'),
-    //   defaultDate : today,
   });
   
   $("#registration-period-end-datepicker").datetimepicker({
@@ -77,7 +71,6 @@ $(function () {
       format: "YYYY-MM-DD",
       minDate: today,
       maxDate : $("#registration-period-start-datepicker").attr('end_date'),
-    //   defaultDate : $("#registration-period-start-datepicker").attr('end_date'),
   });
 
   //   end_date_conference >= registration-period-Start_date >= Current_date
@@ -101,7 +94,6 @@ $(function () {
 
   $("#conference-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
-    //   $('#conference-end-datepicker').data("DateTimePicker").setDate(e.date);
       $('#conference-end-datepicker').data("DateTimePicker").setMinDate(e.date);
   });
   $("#conference-end-datepicker").on("dp.change",function (e) {
@@ -110,7 +102,6 @@ $(function () {
 
   $("#registration-period-start-datepicker").on("dp.change",function (e) {
       console.log (e.date)
-    //   $('#registration-period-end-datepicker').data("DateTimePicker").setDate(e.date);
       $('#registration-period-end-datepicker').data("DateTimePicker").setMinDate(e.date);
   });
   $("#registration-period-end-datepicker").on("dp.change",function (e) {
