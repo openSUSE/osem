@@ -4,7 +4,8 @@ class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
   # Needed to call 'Conference.with_role' in /models/ability.rb
-  resourcify
+  # Dependent destroy will fail as roles#destroy will be cancelled,hence delete_all
+  resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
 
