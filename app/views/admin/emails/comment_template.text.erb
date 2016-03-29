@@ -4,7 +4,7 @@ User <%= @comment.user.name %> posted a new comment for event <%= @event.title %
 
 "<%= @comment.body %>"
 
-To reply to this comment, please go to <%=  h( admin_conference_event_url(@conference.short_title, @event)) %>
+To reply to this comment, please go to <%=  h(admin_conference_program_event_url(@conference.short_title, @event, only_path: false)) %>
 
 Best wishes,
 <%= @conference.title %> Team
