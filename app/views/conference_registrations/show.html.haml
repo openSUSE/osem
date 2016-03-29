@@ -65,7 +65,7 @@
         %ul
           - @workshops.each do |workshop|
             %li
-              = link_to workshop.title, conference_proposal_path(@conference.short_title, workshop.id)
+              = link_to workshop.title, conference_program_proposal_path(@conference.short_title, workshop.id)
   - if @conference.tickets.any?
     .row
       .col-md-12
