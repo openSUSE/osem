@@ -46,9 +46,14 @@ class Ability
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
     can :show, User
     unless CONFIG['authentication']['ichain']['enabled']
-      can [:show, :create], Registration do |registration|
+      can :show, Registration do |registration|
         registration.new_record?
       end
+
+      can [:new, :create], Registration do |registration|
+        registration.conference.registration_open? && registration.new_record?
+      end
+
       can :show, Event do |event|
         event.new_record?
       end
@@ -67,6 +72,10 @@ class Ability
     can :manage, User, id: user.id
 
     can :manage, Registration, user_id: user.id
+
+    can [:new, :create], Registration do |registration|
+      registration.conference.registration_open?
+    end
 
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
