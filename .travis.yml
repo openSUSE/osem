@@ -20,5 +20,5 @@ before_script:
   - cp config/secrets.yml.example config/secrets.yml
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 script:
-  - 'bundle exec rspec --color --format documentation'
   - 'bundle exec rubocop -Dc .rubocop.yml'
+  - 'bundle exec rspec --color --format documentation'
