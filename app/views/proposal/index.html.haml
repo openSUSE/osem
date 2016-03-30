@@ -76,7 +76,7 @@
                 - progress_percentage = event.calculate_progress
                 .progress
                   %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}
-                    = event.progress_status.reject{ |_key, value| value }.length
+                    = event.progress_status.reject{ |_key, value| value || value.nil? }.length
                     left
 
               %td.col-md-3{style: "padding:20px 0px 20px 0px;"}
