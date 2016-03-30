@@ -21,6 +21,9 @@ gem 'rails-observers'
 # for tracking data changes
 gem 'paper_trail'
 
+# Internationalizing gem , use gem according to version of your rails application
+gem 'rails-i18n', '~> 4.0.0' # For 4.0.x
+
 # as authentification framework
 gem 'devise'
 gem 'devise_ichain_authenticatable'

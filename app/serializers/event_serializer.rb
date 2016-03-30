@@ -5,7 +5,7 @@ class EventSerializer < ActiveModel::Serializer
 
   def date
     t = object.start_time
-    t.blank? ? '' : %{ #{t.time.strftime('%Y-%m-%dT%H:%M:%S')}#{t.formatted_offset(false)} }
+    t.blank? ? '' : %{ #{l t, format: :short}#{t.formatted_offset(false)} }
   end
 
   def speaker_ids

@@ -3,3 +3,6 @@
 
 en:
   hello: "Hello world"
+  time:
+      formats:
+          short: "%Y-%m-%dT%H:%M:%S"
