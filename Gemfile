@@ -56,6 +56,9 @@ gem 'sass-rails', '>= 4.0.2'
 # as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
+# for correct time zones at some environments
+gem 'tzinfo-data'
+
 # as the front-end framework
 gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'

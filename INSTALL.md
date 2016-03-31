@@ -52,6 +52,57 @@ You can access the app [localhost:3000](http://localhost:3000). Whatever you cha
     ```
     vagrant exec rake db:migrate
     ```
+### Run OSEM in Docker containter using Docker Compose tool
+
+1. Install [Docker](https://docs.docker.com/linux/step_one/) and [Docker-Compose](https://docs.docker.com/compose/install/). It is better run on Linux, but you can run it on MacOS or Windows with Docker-Machine. Don't forget to add your user to ```docker``` group.
+
+2. Clone this code repository:
+
+    ```
+    git clone https://github.com/openSUSE/osem.git
+    ```
+
+3. Change current directory to OSEM project:
+
+    ```
+    cd osem/
+    ```
+
+4. Start building your OSEM rails app container:
+
+    ```
+    docker-compose build
+    ```
+
+5. Run your OSEM rails app container for the first time:
+
+    ```
+    docker-compose up
+    ```
+
+6. In another terminal change directory to your OSEM rails app and make a create db and make migrations:
+
+    ```
+    docker-compose run web rake db:create db:migrate
+    ```
+
+7. Press ```Ctrl-C``` in previous terminal to stop running container and start container again:
+
+    ```
+    docker-compose start
+    ```
+
+8. Check that new OSEM rails app container is running:
+
+    ```
+    docker-compose ps
+    ```
+
+9. Now you can look at browser by passing url ```http:\\localhost:8080\```. Stop container with
+
+    ```
+    docker-compose stop
+    ```
 
 **Note**: We use [letter_opener](https://github.com/ryanb/letter_opener) in development environment.
 However, letter_opener uses launchy to present the emails in your browser which doesn't work in combination with Vagrant.
