@@ -51,3 +51,9 @@ You can view OSEM in other languages by selecting the language you want from the
         autocollect: true
       };
 ```
+## 5. Strings with dynamic contents
+
+Strings containing dynamic content should be tagged in the haml file with "notranslate" classes as described in:
+
+http://docs.transifex.com/live/webmasters/#how-to-handle-inline-block-variables
+
