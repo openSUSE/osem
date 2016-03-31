@@ -64,6 +64,14 @@ class Program < ActiveRecord::Base
     cfp.present? && (cfp.start_date..cfp.end_date).cover?(Date.current)
   end
 
+  def notify_on_schedule_public?
+    return false unless conference.email_settings.send_on_program_schedule_public
+    # do not notify if the schedule is not public
+    return false unless schedule_public
+    # do not notify unless the mail content is set up
+    (!conference.email_settings.program_schedule_public_subject.blank? && !conference.email_settings.program_schedule_public_body.blank?)
+  end
+
   private
 
   ##

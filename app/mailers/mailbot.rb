@@ -97,6 +97,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def build_email(conference, to, subject, body)
+    logger.debug "Sending mail about #{subject} to #{to}"
     mail(to: to,
          from: conference.contact.email,
          reply_to: conference.contact.email,

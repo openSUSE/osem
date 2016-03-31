@@ -122,7 +122,6 @@ class Event < ActiveRecord::Base
         program.conference.email_settings.accepted_body &&
         program.conference.email_settings.accepted_subject &&
         !options[:send_mail].blank?
-      Rails.logger.debug 'Sending event acceptance mail'
       Mailbot.delay.acceptance_mail(self)
     end
   end
@@ -132,7 +131,6 @@ class Event < ActiveRecord::Base
         program.conference.email_settings.rejected_body &&
         program.conference.email_settings.rejected_subject &&
         !options[:send_mail].blank?
-      Rails.logger.debug 'Sending rejected mail'
       Mailbot.delay.rejection_mail(self)
     end
   end
