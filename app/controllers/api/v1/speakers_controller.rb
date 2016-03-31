@@ -6,7 +6,7 @@ module Api
 
       def index
         if @conference
-          users = User.joins(event_users: { event: :conference })
+          users = User.joins(event_users: { event: { program: :conference} })
           users = users.where(conferences: { short_title: @conference.short_title })
         else
           users = User.joins(:event_users)
