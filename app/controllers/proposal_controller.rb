@@ -110,18 +110,17 @@ class ProposalController < ApplicationController
       return
     end
 
-    unless @event.save
+    if @event.save
+      if @conference.user_registered?(current_user)
+        redirect_to conference_program_proposal_index_path(@conference.short_title),
+                    notice: 'The proposal was confirmed.'
+      else
+        redirect_to new_conference_conference_registrations_path(conference_id: @conference.short_title),
+                    alert: 'The proposal was confirmed. Please register to attend the conference.'
+      end
+    else
       redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
                   error: "Could not confirm proposal: #{@event.errors.full_messages.join(', ')}"
-      return
-    end
-
-    if @conference.user_registered?(current_user)
-      redirect_to conference_program_proposal_index_path(@conference.short_title),
-                  notice: 'The proposal was confirmed.'
-    else
-      redirect_to new_conference_conference_registrations_path(conference_id: @conference.short_title),
-                  alert: 'The proposal was confirmed. Please register to attend the conference.'
     end
   end
 
