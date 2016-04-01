@@ -71,6 +71,20 @@ feature Commercial do
       expect(event.commercials.count).to eq(@expected_count)
     end
 
+    scenario 'does not add an invalid commercial of an event', feature: true, js: true do
+      visit edit_conference_program_proposal_path(conference.short_title, event.id)
+      click_link 'Commercials'
+      fill_in 'commercial_url', with: 'invalid_commercial_url'
+
+      # Workaround to enable the 'Create Commercial' button
+      page.execute_script("$('#commercial_submit_action').prop('disabled', false)")
+
+      click_button 'Create Commercial'
+      expect(flash).to include('An error prohibited this Commercial from being saved:')
+      expect(current_path).to eq edit_conference_program_proposal_path(conference.short_title, event.id)
+      expect(event.commercials.count).to eq 0
+    end
+
     scenario 'updates a commercial of an event', feature: true, js: true do
       commercial = create(:commercial,
                           commercialable_id: event.id,
@@ -83,6 +97,20 @@ feature Commercial do
       expect(event.commercials.count).to eq(@expected_count)
       commercial.reload
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=M9bq_alk-sw')
+    end
+
+    scenario 'does not update a commercial of an event with invalid data', feature: true, js: true do
+      commercial = create(:commercial,
+                          commercialable_id: event.id,
+                          commercialable_type: 'Event')
+      visit edit_conference_program_proposal_path(conference.short_title, event.id)
+      click_link 'Commercials'
+      fill_in "commercial_url_#{commercial.id}", with: 'invalid_commercial_url'
+      click_button 'Update'
+      expect(flash).to include('An error prohibited this Commercial from being saved:')
+      expect(current_path).to eq edit_conference_program_proposal_path(conference.short_title, event.id)
+      commercial.reload
+      expect(commercial.url).to eq('https://www.youtube.com/watch?v=BTTygyxuGj8')
     end
 
     scenario 'deletes a commercial of an event', feature: true, js: true do
