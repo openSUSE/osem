@@ -2,7 +2,7 @@ class ProposalController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
-  load_and_authorize_resource :event, parent: false, through: :program, except: [:new, :create]
+  load_and_authorize_resource :event, parent: false, through: :program
 
   def index
     @event = @program.events.new
@@ -16,8 +16,8 @@ class ProposalController < ApplicationController
   end
 
   def new
-    @event = @program.events.new
     @event.event_users.new(user: current_user, event_role: 'submitter') if current_user
+    @event.event_users.new(user: current_user, event_role: 'speaker') if current_user
     authorize! :new, @event
     @user = User.new
     @url = conference_program_proposal_index_path(@conference.short_title)
@@ -45,18 +45,7 @@ class ProposalController < ApplicationController
     end
 
     params[:event].delete :user
-
-    @event = Event.new(event_params)
-    @event.program = @program
-
-    # User which creates the proposal is both `submitter` and `speaker` of proposal
-    # by default.
-    # TODO: Allow submitter to add speakers to proposals
-    @event.event_users.new(user: current_user,
-                           event_role: 'submitter')
-    @event.event_users.new(user: current_user,
-                           event_role: 'speaker')
-    authorize! :new, @event
+    authorize! :create, @event
 
     if @event.save
       ahoy.track 'Event submission', title: 'New submission'
@@ -152,7 +141,7 @@ class ProposalController < ApplicationController
   def event_params
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :description,
-                                  :require_registration, :max_attendees)
+                                  :require_registration, :max_attendees, event_users_attributes: [:user_id, :event_role])
   end
 
   def user_params

@@ -34,6 +34,7 @@ describe 'User' do
 
     let(:program_with_cfp) { create(:program, cfp: create(:cfp)) }
     let(:program_without_cfp) { create(:program) }
+    let(:program_with_cfp_in_the_past) { create(:program, cfp: create(:cfp, start_date: 2.day.ago, end_date: 1.day.ago)) }
     let(:conference_with_open_registration) { create(:conference) }
     let!(:open_registration_period) { create(:registration_period, conference: conference_with_open_registration, start_date: Date.current - 6.days) }
     let(:conference_with_closed_registration) { create(:conference) }
@@ -70,8 +71,8 @@ describe 'User' do
       it{ should_not be_able_to(:manage, registration)}
 
       it{ should be_able_to(:new, Event.new(program: program_with_cfp)) }
-      it{ should_not be_able_to(:new, Event.new(program: program_without_cfp)) }
-      it{ should_not be_able_to(:create, Event.new(program: program_without_cfp))}
+      it{ should_not be_able_to(:create, Event.new(program: program_without_cfp)) }
+      it{ should_not be_able_to(:create, Event.new(program: program_with_cfp_in_the_past)) }
       it{ should be_able_to(:show, Event.new)}
 
       it{ should_not be_able_to(:manage, :any)}
@@ -81,6 +82,7 @@ describe 'User' do
     context 'when user is signed in' do
       let(:user) { create(:user) }
       let(:user2) { create(:user) }
+      let(:event_user) { create(:submitter, user: user) }
       let(:event_user2) { create(:submitter, user: user2) }
 
       let(:subscription) { create(:subscription, user: user) }
@@ -103,13 +105,20 @@ describe 'User' do
       it{ should be_able_to(:create, Subscription.new(user_id: user.id)) }
       it{ should be_able_to(:destroy, subscription) }
 
-      it{ should be_able_to(:manage, user_event_with_cfp) }
-      it{ should_not be_able_to(:new, Event.new(program: program_without_cfp)) }
-      it{ should_not be_able_to(:create, Event.new(program: program_without_cfp)) }
-      it{ should_not be_able_to(:new, Event.new(program: program_with_cfp, event_users: [event_user2])) }
-      it{ should_not be_able_to(:create, Event.new(program: program_with_cfp, event_users: [event_user2])) }
+      it{ should be_able_to(:read, user_event_with_cfp) }
+      it{ should be_able_to(:update, user_event_with_cfp) }
+      it{ should be_able_to(:destroy, user_event_with_cfp) }
+      it{ should be_able_to(:create, Event.new(program: program_with_cfp, event_users: [event_user])) }
+      it{ should be_able_to(:new, Event.new(program: program_with_cfp, event_users: [event_user])) }
 
-      it{ should_not be_able_to(:manage, event_unconfirmed) }
+      it{ should_not be_able_to(:read, create(:event, event_users: [event_user2])) }
+      it{ should_not be_able_to(:update, create(:event, event_users: [event_user2])) }
+      it{ should_not be_able_to(:delete, create(:event, event_users: [event_user2])) }
+      it{ should_not be_able_to(:create, Event.new(program: program_without_cfp, event_users: [event_user])) }
+      it{ should_not be_able_to(:create, Event.new(program: program_with_cfp_in_the_past, event_users: [event_user])) }
+      it{ should_not be_able_to(:create, Event.new(program: program_with_cfp, event_users: [event_user2])) }
+      it{ should_not be_able_to(:new, Event.new(program: program_without_cfp)) }
+      it{ should_not be_able_to(:new, Event.new(program: program_with_cfp_in_the_past)) }
 
       it{ should be_able_to(:create, user_event_with_cfp.commercials.new) }
       it{ should be_able_to(:manage, user_commercial) }

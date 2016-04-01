@@ -58,7 +58,7 @@ class Ability
         event.new_record?
       end
 
-      can [:new, :create], Event do |event|
+      can :new, Event do |event|
         event.program.cfp_open? && event.new_record?
       end
     end
@@ -82,14 +82,19 @@ class Ability
 
     can [:create, :destroy], Subscription, user_id: user.id
 
-    can :manage, Event do |event|
+    can [:read, :update, :destroy], Event do |event|
       event.users.include?(user)
     end
 
-    # cannot create an event if program does not have open cfp
-    cannot [:new, :create], Event do |event|
-      user_inclusion = event.event_users.map { |event_user| event_user.user.id }.compact.include? user.id
-      !event.program.cfp_open? || !event.new_record? || !user_inclusion
+    can [:new], Event do |event|
+      event.program.cfp_open? && event.new_record?
+    end
+
+    can [:create], Event do |event|
+      # event.users.include?(user) doesn't work here because the event_user object isn't saved when we call authorize!
+      # Checks that only the current_user is in event_users
+      user_inclusion = event.event_users.map { |event_user| event_user.user_id }.uniq - [ user.id ]
+      user_inclusion.empty? && event.program.cfp_open? && event.new_record?
     end
 
     # can manage the commercials of their own events
