@@ -1,10 +1,19 @@
 $(function () {
-  $("#registration-arrival-datepicker, #registration-departure-datepicker").datetimepicker({
+  $("#registration-arrival-datepicker").datetimepicker({
       pickTime: true,
       useCurrent: false,
       minuteStepping: 15,
       sideBySide: true,
-      format: "YYYY-MM-DD HH:mm"
+      format: "YYYY-MM-DD HH:mm",
+      defaultDate :   $("#registration-arrival-datepicker").attr('start_date')
+  });
+  $("#registration-departure-datepicker").datetimepicker({
+      pickTime: true,
+      useCurrent: false,
+      minuteStepping: 15,
+      sideBySide: true,
+      format: "YYYY-MM-DD HH:mm",
+      defaultDate :   $("#registration-arrival-datepicker").attr('end_date')
   });
 
   $("#registration-arrival-datepicker").on("dp.change",function (e) {
