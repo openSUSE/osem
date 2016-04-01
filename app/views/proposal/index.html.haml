@@ -87,7 +87,7 @@
                     method: :patch, class: 'btn btn-mini btn-success', id: "confirm_proposal_#{event.id}"
 
                   - if event.transition_possible? :withdraw
-                    = link_to 'Withdraw', conference_program_proposal_path(@conference.short_title, event.id), method: :delete,
+                    = link_to 'Withdraw', withdraw_conference_program_proposal_path(@conference.short_title, event.id), method: :patch,
                                 data: { confirm: 'Are you sure you want to withdraw this proposal?' }, class: 'btn btn-mini btn-warning',
                                 id: "delete_proposal_#{event.id}"
                   - if event.state == 'withdrawn' || event.state == 'rejected'

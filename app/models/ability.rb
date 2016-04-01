@@ -44,7 +44,7 @@ class Ability
 
     # can view Commercials of confirmed Events
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
-    can :show, User
+    can [:show, :create], User
     unless CONFIG['authentication']['ichain']['enabled']
       can :show, Registration do |registration|
         registration.new_record?
