@@ -1,0 +1,7 @@
+web:
+  build: .
+  command: bash -c "bundle exec rails s -p 8080 -b '0.0.0.0'"
+  volumes:
+    - ./:/osem
+  ports:
+    - "8080:8080"
