@@ -2,7 +2,6 @@
 - popup = "<h3>#{@conference.venue.name}</h3><br>#{@conference.venue.street}<br>#{@conference.venue.city}<br>#{@conference.venue.country_name}"
 - content_for(:script_body) do
   :javascript
-    L.Icon.Default.imagePath = '/assets/leaflet/';
     // create a map in the "map" div, set the view to a given place and zoom
     var map = L.map('map', { scrollWheelZoom: false }).setView([#{@conference.venue.latitude}, #{@conference.venue.longitude}], 11);
     // add an OpenStreetMap tile layer

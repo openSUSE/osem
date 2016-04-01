@@ -88,8 +88,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-trianglify'
   # for scroll way points
   gem 'rails-assets-waypoints'
-  # for displaying maps
-  gem 'rails-assets-leaflet'
   # for markdown editors
   gem 'rails-assets-bootstrap-markdown'
   gem 'rails-assets-to-markdown'
@@ -101,6 +99,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 gem 'jquery-datatables-rails', '~> 2.2.1'
 # for charts
 gem 'chart-js-rails'
+# for displaying maps
+gem 'leaflet-rails'
 
 # for user avatars
 gem 'gravtastic'
