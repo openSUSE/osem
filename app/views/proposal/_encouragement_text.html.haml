@@ -8,16 +8,17 @@
     = "#{tracks(@conference)}."
   - if @program.cfp_open?
     The submission period has begun
-    %em
+    %em.notranslate
       = @program.cfp.start_date.strftime('%A, %B %-d. %Y')
     and closes
-    %em
+    %em.notranslate
       = @program.cfp.end_date.strftime('%A, %B %-d. %Y.')
     That means you have
-    %b= pluralize(@program.cfp.remaining_days, 'day')
+    %b.notranslate= pluralize(@program.cfp.remaining_days, 'day')
     left!
     Remember
-    = @conference.title
+    %span.notranslate
+      = @conference.title
     will only be as good as the content you present. Submit early, submit often!
   -else
     The submission period is closed now.
