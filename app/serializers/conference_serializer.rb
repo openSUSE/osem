@@ -7,7 +7,7 @@ class ConferenceSerializer < ActiveModel::Serializer
     object.program.difficulty_levels.map do |difficulty_level| { id: difficulty_level.id,
                                                                  title: difficulty_level.title,
                                                                  description: difficulty_level.description
-                                                       }
+                                                               }
     end
   end
 
@@ -16,7 +16,7 @@ class ConferenceSerializer < ActiveModel::Serializer
                                                      title: event_type.title,
                                                      length: event_type.length,
                                                      description: event_type.description
-                                           }
+                                                   }
     end
   end
 
@@ -36,9 +36,9 @@ class ConferenceSerializer < ActiveModel::Serializer
                                                                                                 difficulty_level_id: event.difficulty_level_id,
                                                                                                 track_id: event.track_id,
                                                                                                 speaker_names: event.speaker_names
-                                                                                        }
+                                                                                              }
                                                                    end
-                                                   }
+                                                         }
       end
     else
       []
@@ -49,20 +49,8 @@ class ConferenceSerializer < ActiveModel::Serializer
     object.program.tracks.map do |track| { 'id' => track.id,
                                            'name' => track.name,
                                            'description' => track.description
-                                 }
+                                         }
     end
-  end
-
-  def name
-    object.title
-  end
-
-  def year
-    object.start_date.try(:year)
-  end
-
-  def socialtag
-    object.contact.social_tag
   end
 
   def revision
