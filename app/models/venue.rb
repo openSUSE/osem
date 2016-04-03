@@ -1,5 +1,6 @@
 class Venue < ActiveRecord::Base
   belongs_to :conference
+  has_one :commercial, as: :commercialable, dependent: :destroy
   has_many :rooms, dependent: :destroy
   before_create :generate_guid
 
