@@ -43,7 +43,7 @@ Osem::Application.routes.draw do
       # Singletons
       resource :splashpage
       resource :venue do
-        get 'venue_commercial/render_commercial' => 'venue_commercial#render_commercial'
+        get 'venue_commercial/render_commercial' => 'venue_commercials#render_commercial'
         resource :venue_commercial, only: [:create, :update, :destroy]
         resources :rooms, except: [:show]
       end

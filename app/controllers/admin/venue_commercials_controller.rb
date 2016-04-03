@@ -1,11 +1,11 @@
 module Admin
-  class CommercialsController < Admin::BaseController
+  class VenueCommercialsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :venue ,through: :conference, singelton: true
     before_action :set_venue
 
     def create
-      @commercial = @venue.commercial.build(commercial_params)
+      @commercial = @venue.build_commercial(commercial_params)
       authorize! :create, @commercial
 
       #FIXME redirect to tab#commercial
