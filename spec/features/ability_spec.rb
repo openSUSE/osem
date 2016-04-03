@@ -11,13 +11,13 @@ feature 'Has correct abilities' do
   let(:role_organizer) { Role.find_by(name: 'organizer', resource: conference1) }
   let(:role_cfp) { Role.find_by(name: 'cfp', resource: conference2) }
   let(:role_info_desk) { Role.find_by(name: 'info_desk', resource: conference3) }
-  let(:role_volunteer_coordinator) { Role.find_by(name: 'volunteers_coordinator', resource: conference4) }
+  let(:role_volunteers_coordinator) { Role.find_by(name: 'volunteers_coordinator', resource: conference4) }
 
   let(:user) { create(:user) }
   let(:user_organizer) { create(:user, role_ids: [role_organizer.id]) }
   let(:user_cfp) { create(:user, role_ids: [role_cfp.id]) }
   let(:user_info_desk) { create(:user, role_ids: [role_info_desk.id]) }
-  let(:user_volunteer_coordinator) { create(:user, role_ids: [role_volunteer_coordinator.id]) }
+  let(:user_volunteers_coordinator) { create(:user, role_ids: [role_volunteers_coordinator.id]) }
 
   scenario 'when user has no role' do
     sign_in user

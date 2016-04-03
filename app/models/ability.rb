@@ -9,7 +9,7 @@ class Ability
     # user.is_organizer? or user.has_role? :organizer
     # user.is_cfp_of? Conference or user.has_role? :cfp, Conference
     # user.is_info_desk_of? Conference
-    # user.is_volunteer_coordinator_of? Conference
+    # user.is_volunteers_coordinator_of? Conference
     # user.is_attendee_of? Conference
     # The following is wrong because a user will only have 'cfp' role for a specific conference
     # user.is_cfp? # This is always false
@@ -104,7 +104,7 @@ class Ability
     signed_in_with_organizer_role(user) if user.has_role? :organizer, :any
     signed_in_with_cfp_role(user) if user.has_role? :cfp, :any
     signed_in_with_info_desk_role(user) if user.has_role? :info_desk, :any
-    signed_in_with_volunteers_coordinator_role(user) if user.has_role? :volunteer_coordinator, :any
+    signed_in_with_volunteers_coordinator_role(user) if user.has_role? :volunteers_coordinator, :any
 
     # for users with any role
     can :access, Admin
@@ -240,7 +240,7 @@ class Ability
     # ids of all the conferences for which the user has the 'volunteers_coordinator' role
     conf_ids_for_volunteers_coordinator = []
     conf_ids_for_volunteers_coordinator =
-        Conference.with_role(:volunteer_coordinator, user).pluck(:id) if user.has_role? :volunteer_coordinator, :any
+        Conference.with_role(:volunteers_coordinator, user).pluck(:id) if user.has_role? :volunteers_coordinator, :any
 
     can :manage, Vposition, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vday, conference_id: conf_ids_for_volunteers_coordinator
