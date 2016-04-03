@@ -10,10 +10,10 @@ module Admin
 
       #FIXME redirect to tab#commercial
       if @commercial.save
-        redirect_to admin_conference_venue_path,
+        redirect_to edit_admin_conference_venue_path,
                     notice: 'Commercial was successfully created.'
       else
-        redirect_to admin_conference_venue_path,
+        redirect_to edit_admin_conference_venue_path,
                     error: 'An error prohibited this Commercial from being saved: '\
                     "#{@commercial.errors.full_messages.join('. ')}."
 
@@ -22,10 +22,10 @@ module Admin
 
     def update
       if @commercial.update(commercial_params)
-        redirect_to admin_conference_venue_path,
+        redirect_to edit_admin_conference_venue_path,
                     notice: 'Commercial was successfully updated.'
       else
-        redirect_to admin_conference_venue_path,
+        redirect_to edit_admin_conference_venue_path,
                     error: 'An error prohibited this Commercial from being saved: '\
                     "#{@commercial.errors.full_messages.join('. ')}."
       end
@@ -33,7 +33,7 @@ module Admin
 
     def destroy
       @commercial.destroy
-      redirect_to admin_conference_venue_path, notice: 'Commercial was successfully destroyed.'
+      redirect_to edit_admin_conference_venue_path, notice: 'Commercial was successfully destroyed.'
     end
 
     def render_commercial
