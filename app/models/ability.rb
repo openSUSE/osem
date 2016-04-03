@@ -123,9 +123,7 @@ class Ability
 
   def signed_in_with_organizer_role(user)
     # ids of all the conferences for which the user has the 'organizer' role
-    conf_ids_for_organizer = []
-    conf_ids_for_organizer =
-        Conference.with_role(:organizer, user).pluck(:id) if user.has_role? :organizer, :any
+    conf_ids_for_organizer = Conference.with_role(:organizer, user).pluck(:id)
 
     can [:new, :create], Conference if user.has_role?(:organizer, :any)
     can :manage, Conference, id: conf_ids_for_organizer
@@ -162,24 +160,15 @@ class Ability
                          commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
 
     # Abilities for Role (Conference resource)
-    can :index, Role
-    can :manage, Role do |role|
+    can [:index, :show], Role
+    can [:edit, :update, :toggle_user], Role do |role|
       role.resource_type == 'Conference' && (conf_ids_for_organizer.include? role.resource_id)
-    end
-
-    # Can add or remove users from role, when user has that same role for the conference
-    # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
-    can :toggle_user, Role do |role|
-      role.resource_type == 'Conference' &&
-      (Conference.with_role(role.name.parameterize.underscore.to_sym, user).pluck(:id).include? role.resource_id)
     end
   end
 
   def signed_in_with_cfp_role(user)
     # ids of all the conferences for which the user has the 'cfp' role
-    conf_ids_for_cfp = []
-    conf_ids_for_cfp =
-      Conference.with_role(:cfp, user).pluck(:id) if user.has_role? :cfp, :any
+    conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
 
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
@@ -196,66 +185,52 @@ class Ability
                          commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
 
     # Abilities for Role (Conference resource)
-    can :index, Role
-
-    can :manage, Role do |role|
-      role.resource_type == 'Conference' && (conf_ids_for_cfp.include? role.resource_id)
-    end
+    can [:index, :show], Role
 
     # Can add or remove users from role, when user has that same role for the conference
     # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
     can :toggle_user, Role do |role|
-      role.resource_type == 'Conference' &&
-      (Conference.with_role(role.name.parameterize.underscore.to_sym, user).pluck(:id).include? role.resource_id)
+      role.resource_type == 'Conference' && role.name == 'cfp' &&
+      (Conference.with_role(:cfp, user).pluck(:id).include? role.resource_id)
     end
   end
 
   def signed_in_with_info_desk_role(user)
     # ids of all the conferences for which the user has the 'info_desk' role
-    conf_ids_for_info_desk = []
-    conf_ids_for_info_desk =
-        Conference.with_role(:info_desk, user).pluck(:id) if user.has_role? :info_desk, :any
+    conf_ids_for_info_desk = Conference.with_role(:info_desk, user).pluck(:id)
 
     can :manage, Registration, conference_id: conf_ids_for_info_desk
     can :manage, Question, conference_id: conf_ids_for_info_desk
     can :manage, Question do |question|
       !(question.conferences.pluck(:id) & conf_ids_for_info_desk).empty?
     end
-    # Abilities for Role (Conference resource)
-    can :index, Role
 
-    can :manage, Role do |role|
-      role.resource_type == 'Conference' && (conf_ids_for_info_desk.include? role.resource_id)
-    end
+    # Abilities for Role (Conference resource)
+    can [:index, :show], Role
 
     # Can add or remove users from role, when user has that same role for the conference
     # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
     can :toggle_user, Role do |role|
-      role.resource_type == 'Conference' &&
-      (Conference.with_role(role.name.parameterize.underscore.to_sym, user).pluck(:id).include? role.resource_id)
+      role.resource_type == 'Conference' && role.name == 'info_desk' &&
+      (Conference.with_role(:info_desk, user).pluck(:id).include? role.resource_id)
     end
   end
 
   def signed_in_with_volunteers_coordinator_role(user)
     # ids of all the conferences for which the user has the 'volunteers_coordinator' role
-    conf_ids_for_volunteers_coordinator = []
-    conf_ids_for_volunteers_coordinator =
-        Conference.with_role(:volunteers_coordinator, user).pluck(:id) if user.has_role? :volunteers_coordinator, :any
+    conf_ids_for_volunteers_coordinator = Conference.with_role(:volunteers_coordinator, user).pluck(:id)
 
     can :manage, Vposition, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vday, conference_id: conf_ids_for_volunteers_coordinator
-    # Abilities for Role (Conference resource)
-    can :index, Role
 
-    can :manage, Role do |role|
-      role.resource_type == 'Conference' && (conf_ids_for_volunteers_coordinator.include? role.resource_id)
-    end
+    # Abilities for Role (Conference resource)
+    can [:index, :show], Role
 
     # Can add or remove users from role, when user has that same role for the conference
     # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
     can :toggle_user, Role do |role|
-      role.resource_type == 'Conference' &&
-      (Conference.with_role(role.name.parameterize.underscore.to_sym, user).pluck(:id).include? role.resource_id)
+      role.resource_type == 'Conference' && role.name == 'volunteers_coordinator' &&
+      (Conference.with_role(:volunteers_coordinator, user).pluck(:id).include? role.resource_id)
     end
   end
 end

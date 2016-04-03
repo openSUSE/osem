@@ -2,11 +2,13 @@ module Admin
   class RolesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     before_action :set_selection
+    authorize_resource :role, except: :index
     # Show flash message with ajax calls
     after_action :prepare_unobtrusive_flash, only: :toggle_user
 
     def index
       @roles = Role.where(resource: @conference)
+      authorize! :index, @role
     end
 
     def show
