@@ -3,6 +3,7 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :venue ,through: :conference, singelton: true
     before_action :set_venue
+    before_action :set_commercial , only: [:update , :destroy]
 
     def create
       @commercial = @venue.build_commercial(commercial_params)
@@ -53,6 +54,10 @@ module Admin
     
     def set_venue
       @venue = @conference.venue
+    end
+    
+    def set_commercial
+      @commercial = Commercial.find params[:id]
     end
   end
 end
