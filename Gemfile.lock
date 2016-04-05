@@ -291,7 +291,7 @@ GEM
     parser (2.3.0.3)
       ast (~> 2.2)
     pdf-core (0.2.5)
-    phantomjs (1.9.7.1)
+    phantomjs (2.1.1.0)
     piwik_analytics (1.0.2)
       actionpack
       activesupport
