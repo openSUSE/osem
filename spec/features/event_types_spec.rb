@@ -6,14 +6,14 @@ feature EventType do
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
   shared_examples 'event types' do
-    scenario 'adds and updates event type', feature: true, js: true do
+    scenario 'adds and updates event type', feature: true do
 
       sign_in organizer
       visit admin_conference_program_event_types_path(
                 conference_id: conference.short_title)
 
       within('table#event_types') do
-        expect(page.assert_selector('tr', count: 3)).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
       end
 
       # Add event type
@@ -33,7 +33,7 @@ feature EventType do
         expect(page.has_content?('Party')).to be true
         expect(page.has_content?('13042')).to be true
         expect(page.has_content?('#e4e4e4')).to be true
-        expect(page.assert_selector('tr', count: 4)).to be true
+        expect(page.assert_selector('tr', count: 3)).to be true
       end
 
       # Remove event type
@@ -43,7 +43,7 @@ feature EventType do
       expect(flash).to eq('Event type successfully deleted.')
 
       within('table#event_types') do
-        expect(page.assert_selector('tr', count: 3)).to be true
+        expect(page.assert_selector('tr', count: 2)).to be true
         expect(page.has_content?('Party')).to be false
       end
     end

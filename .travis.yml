@@ -1,7 +1,9 @@
+sudo: required
+dist: trusty
 language: ruby
 cache: bundler
 rvm:
-  - 2.1.1
+  - 2.2.3
 before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
