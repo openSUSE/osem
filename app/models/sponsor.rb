@@ -6,6 +6,8 @@ class Sponsor < ActiveRecord::Base
 
   validates_attachment_content_type :logo,
                                     content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { in: 0..500.kilobytes }
+                                    size: { in: 0..500.kilobytes },
+                                    presence: true
+
   validates_presence_of :name, :website_url, :sponsorship_level
 end

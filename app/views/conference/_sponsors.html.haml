@@ -6,28 +6,17 @@
   .row
     .col-md-12
       %h2 Sponsors
-      %p.lead
-        whom without,
-        %span.notranslate
-          = @conference.short_title
-        wouldn't be possible! 
   - @conference.sponsorship_levels.each do |sponsorship_level|
     -if sponsorship_level.sponsors.any?
+      %h4
+        = sponsorship_level.title
       - sponsorship_level.sponsors.each_slice(3) do |slice|
-        .row.row-centered
+        .row
           - slice.each do |sponsor|
-            .col-md-4.col-sm-4.col-centered.col-top
-              .thumbnail
-                - if sponsor.logo.blank?
-                  %h3.text-center
-                    = link_to(sponsor.website_url, title: "#{sponsor.name}") do
-                      = sponsor.name
-                - else
-                  = link_to(sponsor.website_url, class: 'thumbnail') do
-                    = image_tag sponsor.logo, class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}", title: "#{sponsor.name}"
-                .caption
-                  -if sponsor.description.present?
-                    = markdown(sponsor.description)
+            .col-md-4.col-sm-4.col-top
+              - if sponsor.logo.present?
+                = link_to(sponsor.website_url, class: 'thumbnail') do
+                  = image_tag sponsor.logo, class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}", title: "#{sponsor.description}"
   -if @conference.contact and !@conference.contact.sponsor_email.blank?
     .row
       .col-md-12
