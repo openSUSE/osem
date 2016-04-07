@@ -58,7 +58,6 @@ describe 'conference/show.html.haml' do
   it 'renders sponsors partial' do
     expect(view).to render_template(partial: 'conference/_sponsors')
     expect(rendered).to match(/example@example.com/)
-    expect(rendered).to match(/Example sponsor/)
     expect(rendered).to match(/www.example.com/)
     expect(rendered).to match(/Lorem Ipsum Dolor/)
     expect(rendered).to match(/rails.jpg/)
