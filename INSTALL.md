@@ -86,6 +86,15 @@ the image-link to login using the provider will be shown.
 
 
 #### Email Notifications
+Check your service provider smtp settings and set the following variables in `config.yml` file:
+```
+mail_address: 'smtp.host.com'
+mail_port: 587
+mail_username: 'username@host.com'
+mail_password: 'password'
+mail_authentication: 'plain'
+```
+
 Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 rake jobs:work
