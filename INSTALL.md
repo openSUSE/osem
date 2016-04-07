@@ -90,3 +90,17 @@ Open a separate terminal and go into the directory where the rails app is presen
 ```
 rake jobs:work
 ```
+### Using iChain in test mode
+[devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) comes with
+test mode, which can be useful in development phase in which an iChain proxy is not usually configured or even available. You can enable ichain authentication by setting `CONFIG['authentication']['ichain']['enabled']` equal to `true` in `config.yml` file. You would also need to set following options in `devise.rb`:
+
+```Ruby
+# Activate the test mode
+config.ichain_test_mode = true
+
+# 'testuser' user will be permanently signed in.
+config.ichain_force_test_username = "testuser"
+
+# set email of 'testuser'
+config.ichain_force_test_attributes = {:email => "testuser@example.com"}
+```
