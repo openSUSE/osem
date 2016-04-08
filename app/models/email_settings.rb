@@ -1,4 +1,6 @@
 class EmailSettings < ActiveRecord::Base
+  belongs_to :conference
+
   def get_values(conference, user, event = nil)
     h = {
       'email' => user.email,

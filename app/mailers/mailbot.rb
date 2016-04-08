@@ -36,7 +36,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def conference_date_update_mail(conference)
-    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions).each do |user|
       build_email(conference,
                   user.email,
                   conference.email_settings.conference_dates_updated_subject,
@@ -45,7 +45,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def conference_registration_date_update_mail(conference)
-    User.joins(:subscriptions).merge(conference.subscriptions).uniq.joins('INNER JOIN registrations ON registrations.user_id != users.id').merge(conference.registrations) do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions).uniq.joins('INNER JOIN registrations ON registrations.user_id != users.id').merge(conference.registrations).each do |user|
       build_email(conference,
                   user.email,
                   conference.email_settings.conference_registration_dates_updated_subject,
@@ -54,7 +54,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def send_email_on_venue_updated(conference)
-    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions).each do |user|
       build_email(conference,
                   user.email,
                   conference.email_settings.venue_updated_subject,
@@ -63,7 +63,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def send_on_schedule_public(conference)
-    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions).each do |user|
       build_email(conference,
                   user.email,
                   conference.email_settings.program_schedule_public_subject,
@@ -72,7 +72,7 @@ class Mailbot < ActionMailer::Base
   end
 
   def send_on_cfp_dates_updates(conference)
-    User.joins(:subscriptions).merge(conference.subscriptions) do |user|
+    User.joins(:subscriptions).merge(conference.subscriptions).each do |user|
       build_email(conference,
                   user.email,
                   conference.email_settings.cfp_dates_updated_subject,
