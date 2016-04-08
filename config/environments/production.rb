@@ -68,4 +68,14 @@ Osem::Application.configure do
 
   # Set the detault url for action mailer
   config.action_mailer.default_url_options = { host: CONFIG['url_for_emails'] }
+
+  # Set the smtp configuration of your service provider
+  # For further details of each configuration checkout: http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+  config.action_mailer.smtp_settings = {
+    address:              CONFIG['MAIL_ADDRESS'],
+    port:                 CONFIG['MAIL_PORT'],
+    user_name:            CONFIG['MAIL_USERNAME'],
+    password:             CONFIG['MAIL_PASSWORD'],
+    authentication:       CONFIG['MAIL_AUTHENTICATION']
+  }
 end

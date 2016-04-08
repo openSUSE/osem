@@ -86,7 +86,30 @@ the image-link to login using the provider will be shown.
 
 
 #### Email Notifications
+Check your service provider smtp settings and set the following variables in `config.yml` file:
+```
+mail_address: 'smtp.host.com'
+mail_port: 587
+mail_username: 'username@host.com'
+mail_password: 'password'
+mail_authentication: 'plain'
+```
+
 Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 rake jobs:work
+```
+### Using iChain in test mode
+[devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) comes with
+test mode, which can be useful in development phase in which an iChain proxy is not usually configured or even available. You can enable ichain authentication by setting `CONFIG['authentication']['ichain']['enabled']` equal to `true` in `config.yml` file. You would also need to set following options in `devise.rb`:
+
+```Ruby
+# Activate the test mode
+config.ichain_test_mode = true
+
+# 'testuser' user will be permanently signed in.
+config.ichain_force_test_username = "testuser"
+
+# set email of 'testuser'
+config.ichain_force_test_attributes = {:email => "testuser@example.com"}
 ```

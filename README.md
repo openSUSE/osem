@@ -8,7 +8,7 @@ The Open Source Event Manager. An event management tool tailored to Free and Ope
 
 ## Installation and production usage
 
-please refer to [INSTALL](INSTALL.md) documentation file
+Please refer to [INSTALL](INSTALL.md) documentation file
 
 ## Development discipline
 
@@ -23,16 +23,16 @@ as fast as we can. There are some things which we embrace
 * we do planning of next sprint tasks. It is a commitment. We will do our best to deliver what we agreed on
 * we use [waffle.io](https://waffle.io/opensuse/osem) to track current GH issues/pull requests
 * what is planned for current sprint is observable in `ready` column (each issue marked with label with same name)
-* what is delivered is in done columnt
+* what is delivered is in done column
 * what is in progress lives in respecitive column
-* each person assigned in ready column to an issue is acting on his task
+* each person assigned in ready column to an issue is acting on their task
 
 # Issues
 
-please refer to our [CONTRIBUTING guide](CONTRIBUTING.md)
+Please refer to our [CONTRIBUTING guide](CONTRIBUTING.md)
 
 ## Documentation
-OSEM is extensively (some would say maniacally ;-) documented. You can generate a nice HTML documentation with ''rdoc''
+OSEM is extensively (some would say maniacally ;-) ) documented. You can generate a nice HTML documentation with ''rdoc''
 ```
 bundle exec rdoc --op doc/app --all -f fivefish app
 xdg-open doc/app/index.html
@@ -46,9 +46,7 @@ bundle exec guard
 This uses [spring](https://github.com/rails/spring) to provide a
 [fast feedback loop for the red/green cycle](http://bitzesty.com/blog/2013/05/enable-tdd-with-faster-ruby-on-rails-stack-reloading/).
 
-Generally, no PR with decreased test coverage should be accepted. Please look closely on comments which been provided
-by Coveralls in your PR.
-
+Generally, no PR with decreased test coverage should be accepted. Please look closely on status report provided by Coveralls in your PR.
 
 ## Style
 We are using [rubocop](https://github.com/bbatsov/rubocop) as a style checker. It is running each time

@@ -31,3 +31,11 @@ production:
   # If you add more providers that do not require a key, you still have to create the 2 variables with sample data
 
   transifex_live_api_key: ''
+
+  # Set the smtp configuration of your service provider
+  # For further details of each configuration checkout: http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+  mail_address: 'smtp.host.com'
+  mail_port: 587
+  mail_username: 'username@host.com'
+  mail_password: 'password'
+  mail_authentication: 'plain'
