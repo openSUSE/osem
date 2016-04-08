@@ -1,9 +1,8 @@
 module Admin
   class VenueCommercialsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource :venue, through: :conference, singelton: true
-    before_action :set_venue
-    before_action :set_commercial, only: [:update, :destroy]
+    load_and_authorize_resource :venue, through: :conference, singleton: true
+    load_and_authorize_resource :commercial, through: :venue, singleton: true
 
     def create
       @commercial = @venue.build_commercial(commercial_params)
@@ -49,14 +48,6 @@ module Admin
 
     def commercial_params
       params.require(:commercial).permit(:url)
-    end
-
-    def set_venue
-      @venue = @conference.venue
-    end
-
-    def set_commercial
-      @commercial = Commercial.find params[:id]
     end
   end
 end
