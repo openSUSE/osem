@@ -13,33 +13,22 @@
           = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary pull-right"
   .row
     .col-md-3
-      %p
-        = simple_format(@event.abstract)
-      %dl
-        %dt Date:
-        %dd= @event.start_time.strftime("%Y %B %e %H:%M") if @event.start_time
-        %dt Duration:
-        %dd= show_time(@event.event_type.length)
-        %dt Room:
-        %dd
-          - if @event.room_id
-            = @event.room.name
-        %dt Conference:
-        %dd= @event.program.conference.title
-        %dt Language:
-        %dd= @event.language if @event.language
-        %dt Track:
-        %dd
-          - if @event.track_id
-            %span.label{:style =>"background-color: #{@event.track.color};"}
-              = @event.track.name
-        %dt Difficulty:
-        %dd
-          - if @event.difficulty_level_id
-            %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
-              = @event.difficulty_level.title
-      - if @event.require_registration
-        = link_to "Registration required!", new_conference_conference_registrations_path(@conference.short_title), :class => "btn btn-xs btn-warning"
+      .speakerinfo
+        .col-md-12
+          = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"
+        .col-md-12
+          %h3
+            by
+            = link_to @speaker.name, user_path(@speaker.id)
+            = "(#{@speaker.email})"
+            - if @speaker.affiliation?
+              %br
+              %span.muted
+                from
+                = @speaker.affiliation
+          -if @speaker.biography?
+            = simple_format(@speaker.biography)
+
     .col-md-9
       .row
         .col-md-12
@@ -54,18 +43,38 @@
             %p
             = render partial: 'shared/media_items', locals: { commercials: @event.commercials }
       .row
-        .speakerinfo
-          .col-md-8
-            %h3
-              by
-              = link_to @speaker.name, user_path(@speaker.id)
-              = "(#{@speaker.email})"
-              - if @speaker.affiliation?
-                %br
-                %span.muted
-                  from
-                  = @speaker.affiliation
-            -if @speaker.biography?
-              = simple_format(@speaker.biography)
-          .col-md-4
-            = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"
+        .col-md-12
+          %p
+            = simple_format(@event.abstract)
+        %dl#proposal-info
+          .col-md-12
+            %dt Date:
+            %dd= @event.start_time.strftime("%Y %B %e %H:%M") if @event.start_time
+          .col-md-12
+            %dt Duration:
+            %dd= show_time(@event.event_type.length)
+          .col-md-12
+            %dt Room:
+            %dd
+              - if @event.room_id
+                = @event.room.name
+          .col-md-12
+            %dt Conference:
+            %dd= @event.program.conference.title
+          .col-md-12
+            %dt Language:
+            %dd= @event.language if @event.language
+          .col-md-12
+            %dt Track:
+            %dd
+              - if @event.track_id
+                %span.label{:style =>"background-color: #{@event.track.color};"}
+                  = @event.track.name
+          .col-md-12
+            %dt Difficulty:
+            %dd
+              - if @event.difficulty_level_id
+                %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
+                  = @event.difficulty_level.title
+            - if @event.require_registration
+              = link_to "Registration required!", new_conference_conference_registrations_path(@conference.short_title), :class => "btn btn-xs btn-warning"
