@@ -12,7 +12,7 @@
 # in table 'conferences' looks like a more simple and straightforward solution
 #
 class RevisionObserver < ActiveRecord::Observer
-  observe :conference, :event, :room, :social_event, :track
+  observe :conference, :event, :room, :track
 
   def after_save(model)
     begin
