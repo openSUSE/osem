@@ -61,13 +61,6 @@ class User < ActiveRecord::Base
     self.subscriptions.find_by(conference_id: conference.id).present?
   end
 
-  # Returns the purchased ticket
-  # ====Returns
-  # * +TicketUser::ActiveRecord_Relation+ -> user
-  def ticket(id)
-    ticket_purchases.where(ticket_id: id).first
-  end
-
   def supports? conference
     ticket_purchases.find_by(conference_id: conference.id).present?
   end
@@ -122,12 +115,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def setup_role
-    if User.count == 1 && User.first.email == 'deleted@localhost.osem'
-      self.is_admin = true
-    end
-  end
-
   # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
   # ====Returns
   # * +Hash+ * ->  e.g. 'organizer' =>  "(conf1, conf2)"
@@ -138,20 +125,6 @@ class User < ActiveRecord::Base
       result[role.name] = "(#{ resources })" unless resources.blank?
     end
     result
-  end
-
-  def self.prepare(params)
-    email = params['email']
-    user = User.where(email: email).first_or_initialize
-
-    # If there is a new user, add the necessary attributes
-    if user.new_record?
-      user.password = Devise.friendly_token[0, 20]
-      user.skip_confirmation!
-      user.attributes = params
-    end
-
-    user
   end
 
   def registered
@@ -176,11 +149,6 @@ class User < ActiveRecord::Base
     !confirmed_at.nil?
   end
 
-  def attending_conference?(conference)
-    Registration.where(conference_id: conference.id,
-                       user_id: id).count
-  end
-
   def proposals(conference)
     events.where('program_id = ? AND event_users.event_role=?', conference.program.id, 'submitter')
   end
@@ -189,18 +157,11 @@ class User < ActiveRecord::Base
     proposals(conference).count
   end
 
-  def biography_word_count
-    if biography.nil?
-      0
-    else
-      biography.split.size
-    end
-  end
-
   private
 
-  def biography_limit
-    errors.add(:abstract, 'cannot have more than 150 words') if biography &&
-                                                                biography.split.size > 150
+  def setup_role
+    if User.count == 1 && User.first.email == 'deleted@localhost.osem'
+      self.is_admin = true
+    end
   end
 end
