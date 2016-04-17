@@ -117,12 +117,16 @@ class User < ActiveRecord::Base
 
   # Gets the roles of the user, groups them by role.name and returns the resource(s) of each role
   # ====Returns
-  # * +Hash+ * ->  e.g. 'organizer' =>  "(conf1, conf2)"
+  # * +Hash+ * ->  e.g. 'organizer' =>  [conf1, conf2]
   def get_roles
     result = {}
-    Role.all.find_each do |role|
-      resources = self.roles.map{ |myrole| Conference.find(myrole.resource_id).short_title }.join ', '
-      result[role.name] = "(#{ resources })" unless resources.blank?
+    roles.each do |role|
+      resource = Conference.find(role.resource_id).short_title
+      if result[role.name].nil?
+        result[role.name] = [resource]
+      else
+        result[role.name] << resource
+      end
     end
     result
   end
