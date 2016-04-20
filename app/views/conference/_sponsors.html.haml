@@ -14,8 +14,25 @@
         .row
           - slice.each do |sponsor|
             .col-md-4.col-sm-4.col-top
-              = link_to(sponsor.website_url, class: 'thumbnail') do
-                = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}", title: "#{sponsor.description}"
+              %a{ href: '#', data: { toggle: 'modal', target: "#modal_#{sponsor.id}" } }
+                = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}"
+
+            %div.modal.fade{ id: "modal_#{sponsor.id}" }
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button.close{ data: { dismiss: 'modal' } }
+                      x
+                    .modal-title
+                      = sponsor.name
+                  .modal-body.text-center
+                    .logo
+                      = link_to sponsor.website_url, target: '_blank' do
+                        = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}"
+                    .description
+                      = sponsor.description
+                  .modal-footer
+                    = link_to nil, "#{sponsor.website_url}", target: '_blank'
   -if @conference.contact and !@conference.contact.sponsor_email.blank?
     .row
       .col-md-12
