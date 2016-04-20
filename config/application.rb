@@ -64,5 +64,6 @@ module Osem
     # Errors raised within `after_rollback`/`after_commit` propagate normally
     # like in other Active Record callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    config.active_job.queue_adapter = :delayed_job
   end
 end

@@ -31,7 +31,7 @@ module Admin
       send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?
 
       if @cfp.update_attributes(cfp_params)
-        Mailbot.delay.send_on_cfp_dates_updates(@conference) if send_mail_on_cfp_dates_updates
+        Mailbot.send_on_cfp_dates_updates(@conference).deliver_later if send_mail_on_cfp_dates_updates
         redirect_to admin_conference_program_cfp_path(@conference.short_title),
                     notice: 'Call for papers successfully updated.'
       else

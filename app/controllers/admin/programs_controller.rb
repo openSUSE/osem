@@ -14,7 +14,7 @@ module Admin
       send_mail_on_schedule_public = @program.notify_on_schedule_public?
 
       if @program.update_attributes(program_params)
-        Mailbot.delay.send_on_schedule_public(@conference) if send_mail_on_schedule_public
+        Mailbot.send_on_schedule_public(@conference).deliver_later if send_mail_on_schedule_public
         redirect_to admin_conference_program_path(@conference.short_title),
                     notice: 'The program was successfully updated.'
       else

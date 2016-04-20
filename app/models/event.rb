@@ -112,7 +112,7 @@ class Event < ActiveRecord::Base
         program.conference.email_settings.confirmed_without_registration_body  &&
         program.conference.email_settings.confirmed_without_registration_subject
       if program.conference.registrations.where(user_id: submitter.id).first.nil?
-        Mailbot.delay.confirm_reminder_mail(self)
+        Mailbot.confirm_reminder_mail(self).deliver_later
       end
     end
   end
@@ -122,7 +122,7 @@ class Event < ActiveRecord::Base
         program.conference.email_settings.accepted_body &&
         program.conference.email_settings.accepted_subject &&
         !options[:send_mail].blank?
-      Mailbot.delay.acceptance_mail(self)
+      Mailbot.acceptance_mail(self).deliver_later
     end
   end
 
@@ -131,7 +131,7 @@ class Event < ActiveRecord::Base
         program.conference.email_settings.rejected_body &&
         program.conference.email_settings.rejected_subject &&
         !options[:send_mail].blank?
-      Mailbot.delay.rejection_mail(self)
+      Mailbot.rejection_mail(self).deliver_later
     end
   end
 
