@@ -94,13 +94,23 @@
                                               off_color: 'warning',
                                               on_text: 'Yes',
                                               off_text: 'No' }
-
+      - if @event.require_registration
+        %tr
+          %td
+            %b Registrations
+          %td
+            = @event.registrations.size
       - if !@event.room.nil?
         %tr
           %td
             %b Room
           %td
             = @event.room.name
+        %tr
+          %td
+            %b Room size
+          %td
+            = @event.room.size
       - if !@event.start_time.nil?
         %tr
           %td

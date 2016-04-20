@@ -25,6 +25,8 @@
         %th
           %b Pre-registration
         %th
+          %b Registrations
+        %th
           %b Highlight
         %th
           %b Type
@@ -90,7 +92,9 @@
                                                 off_color: 'warning',
                                                 on_text: 'Yes',
                                                 off_text: 'No' }
-
+          %td
+            - if event.require_registration
+              = event.registrations.size
           %td{'data-order' => "#{event.is_highlight}"}
             = check_box_tag @conference.short_title, event.id, event.is_highlight,
               method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
