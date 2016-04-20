@@ -14,9 +14,8 @@
         .row
           - slice.each do |sponsor|
             .col-md-4.col-sm-4.col-top
-              - if sponsor.logo.present?
-                = link_to(sponsor.website_url, class: 'thumbnail') do
-                  = image_tag sponsor.logo, class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}", title: "#{sponsor.description}"
+              = link_to(sponsor.website_url, class: 'thumbnail') do
+                = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}", title: "#{sponsor.description}"
   -if @conference.contact and !@conference.contact.sponsor_email.blank?
     .row
       .col-md-12
