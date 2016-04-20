@@ -2,60 +2,319 @@ require 'spec_helper'
 
 describe User do
 
-  # It is necessary to use bang version of let to build roles before user
-  let!(:user_admin) { create(:admin) }
-  let!(:conference) { create(:conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
-  let!(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
-  let!(:user) { create(:user) }
+  let(:user_admin) { create(:admin) }
+  let(:conference) { create(:conference, short_title: 'oSC16', title: 'openSUSE Conference 2016') }
+  let(:conference2) { create(:conference, short_title: 'oSC15', title: 'openSUSE Conference 2015') }
+  let(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
+  let(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
+  let(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
+  let(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let(:user) { create(:user) }
 
-  it 'User.for_ichain_username raises exception if user is disabled' do
-    user.is_disabled = true
-    user.save
-    expect{User.for_ichain_username(user.username, email: user.email)}.to raise_error(UserDisabled)
+  describe 'validation' do
+    it 'has a valid factory' do
+      expect(build(:user)).to be_valid
+    end
+
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:username) }
+    it { is_expected.to validate_uniqueness_of(:username) }
   end
 
-  it 'returns the correct role' do
-    expect(user_admin.is_admin).to eq(true)
-    expect(organizer.roles.first).to eq(organizer_role)
+  describe 'association' do
+    it { is_expected.to have_many(:openids) }
+    it { is_expected.to have_many(:event_users).dependent(:destroy) }
+    it { is_expected.to have_many(:events).through(:event_users) }
+    it { is_expected.to have_many(:registrations).dependent(:destroy) }
+    it { is_expected.to have_many(:ticket_purchases).dependent(:destroy) }
+    it { is_expected.to have_many(:tickets).through(:ticket_purchases) }
+    it { is_expected.to have_many(:votes).dependent(:destroy) }
+    it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
   end
 
-  it 'returns the correct roles' do
-    roles = [organizer_role.id, cfp_role.id]
-    another_user = create(:user, email: 'participant@example.de')
-    another_user.role_ids = roles
-    another_user.save
+  describe 'scope and nested attribute' do
+    it { should accept_nested_attributes_for :roles }
 
-    expect(another_user.roles.length).to eq(2)
-    expect(another_user.roles[0]).to eq(organizer_role)
-    expect(another_user.roles[1]).to eq(cfp_role)
-  end
+    describe '.admin' do
+      it 'includes users with admin flag' do
+        expect(User.admin).to include(user_admin)
+      end
 
-  describe '#name' do
-    it 'returns the username as name if there is not name' do
-      user = create(:user, name: nil)
-      expect(user.name).to eq(user.username)
+      it 'excludes users without admin flag' do
+        expect(User.admin).not_to include(user)
+      end
+    end
+
+    describe '.comment_notifiable' do
+      let(:cfp_user) { create(:user, role_ids: [cfp_role.id]) }
+
+      it 'includes organizer and cfp user' do
+        expect(User.comment_notifiable(conference)).to include(organizer, cfp_user)
+      end
+
+      it 'excludes ordinary user' do
+        expect(User.comment_notifiable(conference)).not_to include(user)
+      end
     end
   end
 
-  describe '#has_role?' do
-    describe 'when user has a role' do
-      it 'returns true when the user has the role' do
-        user = create(:user, role_ids: organizer_role.id)
-        expect(user.has_role?('organizer', conference)).to be true
+  describe 'methods' do
+    describe '#name' do
+      it 'returns the username as name if there is not name' do
+        user = create(:user, name: nil)
+        expect(user.name).to eq(user.username)
+      end
+    end
+
+    describe '#subscribed?' do
+      context 'user has subscribed to conference' do
+        before { create(:subscription, user: user, conference: conference) }
+
+        it 'returns true' do
+          expect(user.subscribed?(conference)).to be true
+        end
       end
 
-      it 'returns false when the user does not have the role' do
-        user = create(:user, role_ids: cfp_role.id)
+      context 'user has not subscribed to conference' do
+        it 'return false' do
+          expect(user.subscribed?(conference)).to be false
+        end
+      end
+    end
+
+    describe '.supports?' do
+      context 'user has bought tickets' do
+        before { create(:ticket_purchase, user: user, conference: conference) }
+
+        it 'returns true' do
+          expect(user.supports?(conference)).to be true
+        end
+      end
+
+      context 'user has not bought any ticket' do
+        it 'return false' do
+          expect(user.supports?(conference)).to be false
+        end
+      end
+    end
+
+    describe '.for_ichain_username' do
+      before { user.update_attributes(current_sign_in_at: Date.new(2014, 12, 12)) }
+
+      context 'user exists' do
+        it 'updates last_sign_in_at of user' do
+          expect do
+            User.for_ichain_username(user.username, email: user.email)
+            user.reload
+          end.to change { user.last_sign_in_at }
+        end
+
+        it 'updates current_sign_in_at of user' do
+          expect do
+            User.for_ichain_username(user.username, email: user.email)
+            user.reload
+          end.to change { user.current_sign_in_at }
+        end
+      end
+
+      context 'user is disabled' do
+        before { user.update_attributes(is_disabled: true) }
+
+        it 'User.for_ichain_username raises exception if user is disabled' do
+          expect{ User.for_ichain_username(user.username, email: user.email) }
+            .to raise_error(UserDisabled)
+        end
+      end
+    end
+
+    describe '.find_for_database_authentication' do
+      context 'login with username' do
+        it 'can find user by jumbled username' do
+          scrambled_username = user.username.chars.map{|c| rand > 0.5 ? c.capitalize : c}.join
+          expect(User.find_for_database_authentication(login: scrambled_username)).to eq(user)
+        end
+      end
+
+      context 'login with email' do
+        it 'can find user by jumbled email' do
+          scrambled_email = user.email.chars.map{|c| rand > 0.5 ? c.capitalize : c}.join
+          expect(User.find_for_database_authentication(login: scrambled_email)).to eq(user)
+        end
+      end
+    end
+
+    describe '.find_for_auth' do
+      let(:auth) do
+        OmniAuth::AuthHash.new(provider: 'google',
+                               uid: 'google-test-uid-1',
+                               info: {
+                                 name: 'new user name',
+                                 email: 'test-1@gmail.com',
+                                 username: 'newuser'
+                               },
+                               credentials: {
+                                 token: 'mock_token',
+                                 secret: 'mock_secret'
+                               }
+                              )
+      end
+
+      context 'user is not signed in' do
+        context 'first visit to website' do
+          before { @auth_user = User.find_for_auth(auth, nil) }
+
+          it 'initializes new user' do
+            expect(@auth_user.new_record?).to be true
+          end
+
+          it 'sets name, email, username and password' do
+            regex_base64 = %r{^(?:[A-Za-z_\-0-9+\/]{4}\n?)*(?:[A-Za-z_\-0-9+\/]{2}|[A-Za-z_\-0-9+\/]{3}=)?$}
+            expect(@auth_user.name).to eq 'new user name'
+            expect(@auth_user.email).to eq 'test-1@gmail.com'
+            expect(@auth_user.username).to eq 'newuser'
+            expect(@auth_user.password).to match regex_base64
+          end
+        end
+
+        context 'user returns to website' do
+          let!(:auth_user) { create(:user, email: 'test-1@gmail.com') }
+
+          it 'finds corresponding user' do
+            expect(User.find_for_auth(auth, nil)).to eq auth_user
+          end
+        end
+      end
+    end
+
+    describe '#get_roles' do
+      let(:conf2_organizer_role) { Role.find_by(name: 'organizer', resource: conference2) }
+
+      before do
+        user.update_attributes(role_ids: [organizer_role.id, cfp_role.id, conf2_organizer_role.id])
+      end
+
+      it 'returns hash of role and conference' do
+        expected_hash = {
+          'organizer' => ['oSC16', 'oSC15'],
+          'cfp' => ['oSC16']
+        }
+
+        expect(user.get_roles).to eq expected_hash
+      end
+    end
+
+    describe '#registered' do
+      context 'user has not registered to any conference' do
+        it 'returns None' do
+          expect(user.registered).to eq 'None'
+        end
+      end
+
+      context 'user has registered to conferences' do
+        before do
+          create(:registration, user: user, conference: conference)
+          create(:registration, user: user, conference: conference2)
+        end
+
+        it 'returns registered conferences title' do
+          expect(user.registered).to eq('openSUSE Conference 2016, openSUSE Conference 2015')
+        end
+      end
+    end
+
+    describe '#attended' do
+      context 'user has not attended any conference' do
+        it 'returns None' do
+          expect(user.attended).to eq 'None'
+        end
+      end
+
+      context 'user has attended conferences' do
+        before do
+          create(:registration, user: user, conference: conference, attended: true)
+          create(:registration, user: user, conference: conference2, attended: true)
+        end
+
+        it 'returns attended conferences title' do
+          expect(user.attended).to eq('openSUSE Conference 2016, openSUSE Conference 2015')
+        end
+      end
+    end
+
+    describe '#confirmed?' do
+      context 'confirmed user' do
+        it 'returns true' do
+          expect(user.confirmed?).to eq true
+        end
+      end
+
+      context 'unconfirmed user' do
+        before { user.update_attributes(confirmed_at: nil) }
+
+        it 'returns false' do
+          expect(user.confirmed?).to eq false
+        end
+      end
+    end
+
+    describe 'proposals methods' do
+      let(:submitter) { create(:submitter, user: user) }
+      let(:event1) { create(:event, program: conference.program) }
+      let(:event2) { create(:event, program: conference.program) }
+
+      before do
+        event1.event_users << create(:event_user, user: user, event_role: 'submitter')
+        event2.event_users << create(:event_user, user: user, event_role: 'submitter')
+      end
+
+      describe '#proposals' do
+        it 'returns events submitted by user' do
+          expect(user.proposals(conference)).to match [event1, event2]
+        end
+      end
+
+      describe '#proposal_count' do
+        it 'returns number of events submitted by user' do
+          expect(user.proposal_count(conference)).to eq 2
+        end
+      end
+    end
+  end
+
+  describe 'rolify' do
+    it 'returns the correct role' do
+      expect(user_admin.is_admin).to eq(true)
+      expect(organizer.roles.first).to eq(organizer_role)
+    end
+
+    it 'returns the correct roles' do
+      roles = [organizer_role.id, cfp_role.id]
+      another_user = create(:user, email: 'participant@example.de')
+      another_user.role_ids = roles
+      another_user.save
+
+      expect(another_user.roles.length).to eq(2)
+      expect(another_user.roles[0]).to eq(organizer_role)
+      expect(another_user.roles[1]).to eq(cfp_role)
+    end
+
+    describe '#has_role?' do
+      describe 'when user has a role' do
+        it 'returns true when the user has the role' do
+          user = create(:user, role_ids: organizer_role.id)
+          expect(user.has_role?('organizer', conference)).to be true
+        end
+
+        it 'returns false when the user does not have the role' do
+          user = create(:user, role_ids: cfp_role.id)
+          expect(user.has_role?('organizer', conference)).to be false
+        end
+      end
+
+      it 'returns false when the user does not have a role' do
+        user = create(:user, role_ids: [])
         expect(user.has_role?('organizer', conference)).to be false
       end
-    end
-
-    it 'returns false when the user does not have a role' do
-      user = create(:user, role_ids: [])
-      expect(user.has_role?('organizer', conference)).to be false
     end
   end
 

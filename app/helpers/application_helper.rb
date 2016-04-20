@@ -274,7 +274,7 @@ module ApplicationHelper
   # Outputs the roles of a user, including the conferences for which the user has the roles
   # Eg. organizer(oSC13, oSC14), cfp(oSC12, oSC13)
   def show_roles(roles)
-    roles.map { |x| x[0].titleize + ' ' + x[1] }.join ', '
+    roles.map{ |x| x[0].titleize + ' (' + x[1].join(', ') + ')' }.join ', '
   end
 
   def can_manage_volunteers(conference)
