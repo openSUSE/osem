@@ -44,13 +44,13 @@ class Mailbot < ActionMailer::Base
                                                                         conference.email_settings.conference_dates_updated_body))
   end
 
-  def conference_registration_date_update_mail(conference)
-    User.joins(:subscriptions).merge(conference.subscriptions).uniq.joins('INNER JOIN registrations ON registrations.user_id != users.id').merge(conference.registrations).each do |user|
-      build_email(conference,
-                  user.email,
-                  conference.email_settings.conference_registration_dates_updated_subject,
-                  conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.conference_registration_dates_updated_body))
-    end
+  def conference_registration_date_update_mail(conference, user)
+    mail(to: user.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.conference_registration_dates_updated_subject,
+         body: conference.email_settings.generate_email_on_conf_updates(conference,
+                                                                        user,
+                                                                        conference.email_settings.conference_registration_dates_updated_body))
   end
 
   def send_email_on_venue_updated(conference)

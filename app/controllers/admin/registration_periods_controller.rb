@@ -12,7 +12,7 @@ module Admin
       send_mail_on_reg_update = @conference.notify_on_registration_dates_changed?
 
       if @registration_period.save
-        Mailbot.conference_registration_date_update_mail(@conference).deliver_later if send_mail_on_reg_update
+        ConferenceRegistrationDateUpdateMailJob.perform_later(@conference) if send_mail_on_reg_update
         redirect_to admin_conference_registration_period_path(@conference.short_title),
                     notice: 'Registration Period successfully updated.'
       else
@@ -32,7 +32,7 @@ module Admin
       send_mail_on_reg_update = @conference.notify_on_registration_dates_changed?
 
       if @registration_period.update(registration_period_params)
-        Mailbot.conference_registration_date_update_mail(@conference).deliver_later if send_mail_on_reg_update
+        ConferenceRegistrationDateUpdateMailJob.perform_later(@conference) if send_mail_on_reg_update
         redirect_to admin_conference_registration_period_path(@conference.short_title),
                     notice: 'Registration Period successfully updated.'
       else
