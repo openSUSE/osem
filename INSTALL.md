@@ -63,6 +63,15 @@ We recommend to run OSEM in production with [mod_passenger](https://www.phusionp
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
 base operating systems. Check Google ;-)
 
+#### ImageMagick
+We use imagemagic for image manipulation of sponsor logo. You can get it from [direct install](http://software.opensuse.org/package/ImageMagick) page of the package or else check out [Download page](http://www.imagemagick.org/script/binary-releases.php) of ImageMagick.
+
+If you are upgrading your osem instance and would like to resize the exisiting logos, you would need to `reprocess!` the images:
+```
+$ rails c
+> Sponsor.find_each { |s| s.logo.reprocess! }
+```
+
 #### Use openID
 In order to use the OpenID feature you need to register your application with the providers
 (Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
