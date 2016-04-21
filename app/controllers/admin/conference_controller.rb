@@ -85,7 +85,7 @@ module Admin
       send_mail_on_conf_update = @conference.notify_on_dates_changed?
 
       if @conference.update_attributes(conference_params)
-        Mailbot.conference_date_update_mail(@conference).deliver_later if send_mail_on_conf_update
+        ConferenceDateUpdateMailJob.perform_later(@conference) if send_mail_on_conf_update
         redirect_to edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.'
       else
