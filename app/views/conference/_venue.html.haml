@@ -6,11 +6,7 @@
 -else
   .container
     .row
-      - if @conference.venue.commercial.nil?
-        .col-md-6
-          %img{ "data-src" => "holder.js/500x300?text=No Commercial Set", class: 'img-responsive img-rounded' }
-
-      -else @conference.venue.commercial.persisted?
+      - if @conference.venue.commercial.present? and @conference.venue.commercial.persisted?
         .col-md-5
           .thumbnail
             .flexvideo{ id: "resource-content-#{@conference.venue.commercial.id}"}
