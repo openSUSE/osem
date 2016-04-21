@@ -12,7 +12,7 @@ class Venue < ActiveRecord::Base
                                     content_type: [/jpg/, /jpeg/, /png/, /gif/],
                                     size: { in: 0..500.kilobytes }
 
-  after_update :send_mail_notification
+  before_save :send_mail_notification
 
   def address
     "#{street}, #{city}, #{country_name}"
@@ -30,7 +30,7 @@ class Venue < ActiveRecord::Base
   private
 
   def send_mail_notification
-    Mailbot.send_email_on_venue_updated(conference).deliver_later if notify_on_venue_changed?
+    ConferenceVenueUpdateMailJob.perform_later(conference) if notify_on_venue_changed?
   end
 
   def notify_on_venue_changed?
