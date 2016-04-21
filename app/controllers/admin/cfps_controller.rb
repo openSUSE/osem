@@ -14,8 +14,10 @@ module Admin
 
     def create
       @cfp = @program.build_cfp(cfp_params)
+      send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?
 
       if @cfp.save
+        ConferenceCfpUpdateMailJob.perform_later(@conference) if send_mail_on_cfp_dates_updates
         redirect_to admin_conference_program_cfp_path,
                     notice: 'Call for papers successfully created.'
       else
@@ -31,7 +33,7 @@ module Admin
       send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?
 
       if @cfp.update_attributes(cfp_params)
-        Mailbot.send_on_cfp_dates_updates(@conference).deliver_later if send_mail_on_cfp_dates_updates
+        ConferenceCfpUpdateMailJob.perform_later(@conference) if send_mail_on_cfp_dates_updates
         redirect_to admin_conference_program_cfp_path(@conference.short_title),
                     notice: 'Call for papers successfully updated.'
       else
