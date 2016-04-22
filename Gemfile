@@ -171,6 +171,10 @@ gem 'ruby-oembed'
 # for uploading images to the cloud
 gem 'cloudinary'
 
+# for setting app configuration in the environment
+gem 'dotenv-rails'
+
+# Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec', '~> 4.2.8'

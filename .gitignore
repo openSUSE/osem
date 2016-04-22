@@ -31,3 +31,8 @@ pickle-email-*.html
 /doc/app
 .ruby-version
 .vagrant/
+.env
+.env.production
+.env.development
+.env.test
+.env.local
