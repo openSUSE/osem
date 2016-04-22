@@ -1,0 +1,36 @@
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      .page-header
+        %h1
+          Registrations (#{@event.events_registrations.length}/#{@event.max_attendees})
+        .text-muted
+          for
+          = @event.title
+
+      .well
+        %table.table.table-hover.table-borderd.table-striped.datatable#registrations
+          %thead
+            %th
+            %th Name
+            %th Email
+            %th Created AT
+            %th Attended
+            %th Attended Conference
+          %tbody
+            - @event.events_registrations.each.with_index(1) do |event_registration, index|
+              %tr
+                %td= index
+                %td= event_registration.name
+                %td= event_registration.email
+                %td= event_registration.created_at
+                %td.text-center
+                  - if event_registration.attended
+                    %i.fa.fa-check.text-success
+                  - else
+                    %i.fa.fa-times.text-danger
+                %td
+                  - if event_registration.registration.attended
+                    %i.fa.fa-check.text-success
+                  -else
+                    %i.fa.fa-times.text-danger

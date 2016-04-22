@@ -1,0 +1,40 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Registrations (#{@event_registrations.length}/#{@event.max_attendees})
+      .text-muted
+        for
+        = @event.title
+
+    - if @event.room && (@event_registrations.length > @event.room.size)
+      %b Attention:
+      You have more registrations than the capacity of the room!
+
+    .well
+      %table.table.table-hover.table-borderd.table-striped.datatable#registrations
+        %thead
+          %th
+          %th Name
+          %th Email
+          %th Created At
+          %th Attended
+          %th Attended Conference
+        %tbody
+          - @event_registrations.each.with_index(1) do |event_registration, index|
+            %tr
+              %td= index
+              %td= event_registration.name
+              %td= event_registration.email
+              %td= event_registration.created_at
+              %td
+                = check_box_tag @conference.short_title, @event.id, event_registration.attended, class: 'switch-checkbox', method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{@event.id}/toggle_attendance?events_registration_id=#{event_registration.id}&&event_registration[attended]=",
+                  data: { size: 'small',
+                          off_color: 'danger',
+                          on_text: 'Yes',
+                          off_text: 'No' }
+              %td
+                - if event_registration.registration.attended
+                  %i.fa.fa-check.text-success
+                -else
+                  %i.fa.fa-close.text-danger

@@ -10,17 +10,20 @@ describe ConferenceRegistrationsController, type: :controller do
     describe 'GET #show' do
       before do
         @registration = create(:registration, conference: conference, user: user)
+        @event_with_registration = create(:event, program: conference.program, require_registration: true, max_attendees: 5, state: 'confirmed')
+        @event_without_registration = create(:event, program: conference.program, require_registration: true, max_attendees: 5, state: 'confirmed')
+        @registration.events << @event_with_registration
       end
 
       context 'successful request' do
         before do
           get :show, conference_id: conference.short_title
+
         end
 
-        it 'assigns conference, registration and workshops variables' do
+        it 'assigns variables' do
           expect(assigns(:conference)).to eq conference
           expect(assigns(:registration)).to eq @registration
-          expect(assigns(:workshops)).to eq @registration.workshops
         end
 
         it 'renders the show template' do

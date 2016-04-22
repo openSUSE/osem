@@ -4,7 +4,7 @@ describe 'Registration' do
   subject { create(:registration) }
   let!(:user) { create(:user) }
   let!(:conference) { create(:conference) }
-  let!(:registration1) { create(:registration, conference: conference, user: user) }
+  let!(:registration) { create(:registration, conference: conference, user: user) }
 
   describe 'validation' do
     it 'has a valid factory' do
@@ -33,7 +33,7 @@ describe 'Registration' do
     it { is_expected.to have_and_belong_to_many(:qanswers) }
     it { is_expected.to have_and_belong_to_many(:vchoices) }
     it { is_expected.to have_many(:events_registrations) }
-    it { is_expected.to have_many(:workshops) }
+    it { is_expected.to have_many(:events) }
   end
 
   describe 'after create' do
@@ -69,12 +69,34 @@ describe 'Registration' do
     end
   end
 
+  describe 'registration_to_events_only_if_present' do
+    context 'valid' do
+      it 'when user registers for events happening while user is at the conference' do
+        registration.arrival = conference.start_date
+        registration.departure = conference.end_date
+        registration.events << create(:event, program: conference.program, start_time: conference.end_date)
+
+        expect(registration.valid?).to eq true
+      end
+    end
+
+    context 'invalid' do
+      it 'when user registers for events happening while user is not at the conference' do
+        registration.arrival = conference.start_date
+        registration.departure = conference.start_date
+        registration.events << create(:event, program: conference.program, start_time: conference.end_date)
+
+        expect(registration.valid?).to eq false
+      end
+    end
+  end
+
   describe '#destroy_purchased_tickets' do
     it 'destroys purchased tickets if tickets are purchased' do
       create(:ticket_purchase, conference: conference, user: user)
       expect(user.registrations.size).to be 1
       expect(user.ticket_purchases.size).to be 1
-      registration1.destroy
+      registration.destroy
       expect(user.registrations.size).to be 0
       expect(user.ticket_purchases.size).to be 0
     end
@@ -82,7 +104,7 @@ describe 'Registration' do
     it 'destroys no tickets if no tickets are purchased' do
       expect(user.registrations.size).to be 1
       expect(user.ticket_purchases.size).to be 0
-      registration1.destroy
+      registration.destroy
       expect(user.registrations.size).to be 0
       expect(user.ticket_purchases.size).to be 0
     end

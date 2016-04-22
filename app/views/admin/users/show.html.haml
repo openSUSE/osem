@@ -7,6 +7,8 @@
         - unless @user.events.blank?
           %li{class: "#{'active' if params[:tab] == 'submissions-content'}"}
             = link_to 'Submissions', '#submissions-content', 'data-toggle'=>'tab'
+        %li{class: "#{'active' if params[:tab] == 'event_registrations-content'}"}
+          = link_to 'Event Registrations', '#event_registrations', 'data-toggle'=>'tab'
       .tab-content
         #user-info-content.tab-pane{class: "#{'active' unless params[:tab] == 'submissions-content'}"}
           - if can? :edit, @user
@@ -31,3 +33,5 @@
                   %td= @user.send(attr)
         #submissions-content.tab-pane{class: "#{'active' if params[:tab] == 'submissions-content'}"}
           = render 'submissions'
+        #event_registrations.tab-pane{class: "#{'active' if params[:tab] == 'event_registrations'}"}
+          = render 'event_registrations'

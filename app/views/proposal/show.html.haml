@@ -7,10 +7,13 @@
           %br
           %small
             = @event.subtitle
-        - if can? :schedule, @conference
-          = link_to "Schedule", schedule_conference_path(@conference.short_title), :class =>"btn btn-success pull-right"
-        - if can? :edit, @event
-          = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary pull-right"
+        .btn-group.pull-right
+          - if can? :update, @event
+            = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
+          - if can? :edit, @event
+            = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary"
+          - if can? :schedule, @conference
+            = link_to "Schedule", schedule_conference_path(@conference.short_title), :class =>"btn btn-success"
   .row
     .col-md-3
       .speakerinfo
@@ -28,7 +31,6 @@
                 = @speaker.affiliation
           -if @speaker.biography?
             = simple_format(@speaker.biography)
-
     .col-md-9
       .row
         .col-md-12
@@ -76,5 +78,9 @@
               - if @event.difficulty_level_id
                 %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
                   = @event.difficulty_level.title
-            - if @event.require_registration
-              = link_to "Registration required!", new_conference_conference_registrations_path(@conference.short_title), :class => "btn btn-xs btn-warning"
+
+          - if @event.require_registration
+            .col-md-12
+              %dt Requires Registration:
+              %dd
+                = link_to "Yes (#{registered_text(@event)})", new_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-xs btn-danger', disabled: !@event.registration_possible?

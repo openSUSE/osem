@@ -23,7 +23,7 @@
         %th
           %b Speaker
         %th
-          %b Pre-registration
+          %b Requires Registration
         %th
           %b Highlight
         %th
@@ -83,15 +83,18 @@
             - else
               Unknown speaker
 
-          %td{'data-order' => "#{event.require_registration}"}
+          %td.text-center{'data-order' => "#{event.require_registration}"}
             = check_box_tag @conference.short_title, event.id, event.require_registration,
               method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
               class: 'switch-checkbox', data: { size: 'small',
                                                 off_color: 'warning',
                                                 on_text: 'Yes',
                                                 off_text: 'No' }
+            - if event.require_registration
+              %br
+              = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
 
-          %td{'data-order' => "#{event.is_highlight}"}
+          %td.text-center{'data-order' => "#{event.is_highlight}"}
             = check_box_tag @conference.short_title, event.id, event.is_highlight,
               method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
               class: 'switch-checkbox', data: { size: 'small',

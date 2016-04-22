@@ -2,7 +2,7 @@
   .row
     .col-md-12.page-header
       %h1
-        Proposals for 
+        Proposals for
         %span.notranslate
           = @conference.title
 
@@ -68,9 +68,9 @@
                   = event.event_type.title
                   = "(#{event.event_type.length} min)"
                   = "in #{event.track.name}" if event.track
-                  - if event.state == 'confirmed' && event.require_registration == true
-                    ,
-                    Pre-registered: #{pre_registered(event).count}
+                  - if event.require_registration
+                    %br
+                    = link_to registered_text(event), registrations_conference_program_proposal_path(@conference.short_title, event), class: 'btn btn-xs btn-danger'
 
               %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
                 = link_to 'Complete your proposal', 'javascript: void(0)', "type"=>"button", "data-trigger"=>"focus", "data-toggle"=>"popover", "title"=>"Your todo list", "data-content"=>"#{render partial: 'tooltip', locals: { event: event} }"

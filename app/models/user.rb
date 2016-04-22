@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
   has_many :registrations, dependent: :destroy
+  has_many :events_registrations, through: :registrations
   has_many :ticket_purchases, dependent: :destroy
   has_many :tickets, through: :ticket_purchases, source: :ticket
   has_many :votes, dependent: :destroy
@@ -53,8 +54,31 @@ class User < ActiveRecord::Base
             },
             presence: true
 
+  ##
+  # Checkes if the user attended the event
+  # This is used for events that require registration
+  # The user must have registered to attend the event
+  # Gets an event
+  # === Returns
+  # * +true+ if the user attended the event
+  # * +false+ if the user did not attend the event
+  def attended_event? event
+    event_registration = event.events_registrations.find_by(registration: self.registrations)
+
+    return false unless event_registration.present?
+    event_registration.attended
+  end
+
   def name
     self[:name] || username
+  end
+
+  ##
+  # Checks if a user has registered to an event
+  # ====Returns
+  # * +true+ or +false+
+  def registered_to_event? event
+    event.registrations.pluck(:id).include? self.registrations.find_by(conference_id: event.program.conference.id).id
   end
 
   def subscribed? conference

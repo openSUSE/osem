@@ -1,4 +1,12 @@
 module ApplicationHelper
+  ##
+  # ====Returns
+  # * +String+ -> number of registrations / max allowed registrations
+  def registered_text(event)
+    return "Registered: #{event.registrations.count}/#{event.max_attendees}" if event.max_attendees
+    "Registered: #{event.registrations.count}"
+  end
+
   # Set resource_name for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposal#new)
   def resource_name
     :user
