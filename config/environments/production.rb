@@ -76,7 +76,9 @@ Osem::Application.configure do
     port:                 ENV['OSEM_SMTP_PORT'],
     user_name:            ENV['OSEM_SMTP_USERNAME'],
     password:             ENV['OSEM_SMTP_PASSWORD'],
-    authentication:       ENV['OSEM_SMTP_AUTHENTICATION']
+    authentication:       ENV['OSEM_SMTP_AUTHENTICATION'].to_sym,
+    domain:		  ENV['OSEM_SMTP_DOMAIN'],
+    enable_starttls_auto: true
   }
 
   # Set the secret_key_base from the env, if not set by any other means
