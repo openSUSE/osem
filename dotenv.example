@@ -41,6 +41,13 @@ OSEM_GITHUB_SECRET=''
 # Speeds up turn around times of tests
 OSEM_FACTORY_LINT="false"
 
+# The smtp configuration. See the rails guides for more
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+OSEM_SMTP_ADDRESS=""
+OSEM_SMTP_PORT=""
+OSEM_SMTP_USERNAME=""
+OSEM_SMTP_PASSWORD=""
+OSEM_SMTP_AUTHENTICATION=""
 
 # Enable the usage of the devise ichain plugin
 OSEM_ICHAIN_ENABLED=false

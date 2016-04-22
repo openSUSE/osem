@@ -72,11 +72,11 @@ Osem::Application.configure do
   # Set the smtp configuration of your service provider
   # For further details of each configuration checkout: http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
   config.action_mailer.smtp_settings = {
-    address:              CONFIG['MAIL_ADDRESS'],
-    port:                 CONFIG['MAIL_PORT'],
-    user_name:            CONFIG['MAIL_USERNAME'],
-    password:             CONFIG['MAIL_PASSWORD'],
-    authentication:       CONFIG['MAIL_AUTHENTICATION']
+    address:              ENV['OSEM_SMTP_ADDRESS'],
+    port:                 ENV['OSEM_SMTP_PORT'],
+    user_name:            ENV['OSEM_SMTP_USERNAME'],
+    password:             ENV['OSEM_SMTP_PASSWORD'],
+    authentication:       ENV['OSEM_SMTP_AUTHENTICATION']
   }
 
   # Set the secret_key_base from the env, if not set by any other means
