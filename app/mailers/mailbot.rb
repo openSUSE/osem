@@ -1,4 +1,5 @@
 class Mailbot < ActionMailer::Base
+
   def registration_mail(conference, user)
     mail(to: user.email,
          from: conference.contact.email,
@@ -81,19 +82,15 @@ class Mailbot < ActionMailer::Base
                                                                         conference.email_settings.cfp_dates_updated_body))
   end
 
-  def send_notification_email_for_comment(comment)
+  def event_comment_mail(comment, user)
     @comment = comment
     @event = @comment.commentable
     @conference = @event.program.conference
-    recipients = User.comment_notifiable(@conference) # with scope
-    recipients.each do |user|
-      @user = user
-      mail(to: @user.email,
-           from: @conference.contact.email,
-           reply_to: @conference.contact.email,
-           template_path: 'admin/emails',
-           template_name: 'comment_template',
-           subject: "New comment has been posted for #{@event.title}")
-    end
+    @user = user
+
+    mail(to: @user.email,
+         from: @conference.contact.email,
+         template_name: 'comment_template',
+         subject: "New comment has been posted for #{@event.title}")
   end
 end
