@@ -54,14 +54,8 @@ class User < ActiveRecord::Base
             },
             presence: true
 
-  ##
-  # Checkes if the user attended the event
-  # This is used for events that require registration
-  # The user must have registered to attend the event
-  # Gets an event
-  # === Returns
-  # * +true+ if the user attended the event
-  # * +false+ if the user did not attend the event
+  validate :check_biography_length
+  
   def attended_event? event
     event_registration = event.events_registrations.find_by(registration: self.registrations)
 
@@ -190,6 +184,15 @@ class User < ActiveRecord::Base
   def setup_role
     if User.count == 1 && User.first.email == 'deleted@localhost.osem'
       self.is_admin = true
+    end
+  end
+
+  ##
+  # Check if biography has an allowed number of words. Used as validation.
+  #
+  def check_biography_length
+    if self.biography.present?
+      errors.add(:biography, 'is limited to 150 words.') unless self.biography.split.length <= 150
     end
   end
 end
