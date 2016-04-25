@@ -66,10 +66,9 @@ base operating systems. Check Google ;-)
 #### ImageMagick
 We use imagemagic for image manipulation of sponsor logo. You can get it from [direct install](http://software.opensuse.org/package/ImageMagick) page of the package or else check out [Download page](http://www.imagemagick.org/script/binary-releases.php) of ImageMagick.
 
-If you are upgrading your osem instance and would like to resize the exisiting logos, you would need to `reprocess!` the images:
+If you are upgrading your osem instance and would like to resize the exisiting logos, you would need to `reprocess!` the images. You can do it by running the following rake task:
 ```
-$ rails c
-> Sponsor.find_each { |s| s.logo.reprocess! }
+$ rake logo:reprocess
 ```
 
 #### Use openID
