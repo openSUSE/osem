@@ -126,6 +126,34 @@ describe 'User' do
       it{ should_not be_able_to(:destroy, my_venue) }
     end
 
+    shared_examples 'user with any role' do
+      before do
+        @other_conference = create(:conference)
+      end
+
+      %w(organizer cfp  info_desk volunteers_coordinator).each do |role|
+        it{ should_not be_able_to(:toggle_user, Role.find_by(name: role, resource: @other_conference)) }
+        it{ should_not be_able_to(:update, Role.find_by(name: role, resource: @other_conference)) }
+        it{ should_not be_able_to(:edit, Role.find_by(name: role, resource: @other_conference)) }
+        it{ should be_able_to(:show, Role.find_by(name: role, resource: @other_conference)) }
+        it{ should be_able_to(:index, Role.find_by(name: role, resource: @other_conference)) }
+      end
+    end
+
+    shared_examples 'user with non-organizer role' do |role_name|
+      %w(organizer cfp  info_desk volunteers_coordinator).each do |role|
+        if role == role_name
+          it{ should be_able_to(:toggle_user, Role.find_by(name: role, resource: my_conference)) }
+        else
+          it{ should_not be_able_to(:toggle_user, Role.find_by(name: role, resource: my_conference)) }
+        end
+        it{ should_not be_able_to(:update, Role.find_by(name: role, resource: my_conference)) }
+        it{ should_not be_able_to(:edit, Role.find_by(name: role, resource: my_conference)) }
+        it{ should be_able_to(:show, Role.find_by(name: role, resource: my_conference)) }
+        it{ should be_able_to(:index, Role.find_by(name: role, resource: my_conference)) }
+      end
+    end
+
     context 'when user has the role organizer' do
       let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'organizer', resource: my_conference) }
@@ -190,6 +218,16 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
       it{ should be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
+
+      %w(organizer cfp info_desk volunteers_coordinator).each do |role|
+        it{ should be_able_to(:toggle_user, Role.find_by(name: role, resource: my_conference)) }
+        it{ should be_able_to(:edit, Role.find_by(name: role, resource: my_conference)) }
+        it{ should be_able_to(:update, Role.find_by(name: role, resource: my_conference)) }
+        it{ should be_able_to(:show, Role.find_by(name: role, resource: my_conference)) }
+        it{ should be_able_to(:index, Role.find_by(name: role, resource: my_conference)) }
+      end
+
+      it_behaves_like 'user with any role'
     end
 
     context 'when user has the role cfp' do
@@ -245,6 +283,9 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
       it{ should be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
+
+      it_behaves_like 'user with any role'
+      it_behaves_like 'user with non-organizer role', 'cfp'
     end
 
     context 'when user has the role info_desk' do
@@ -300,6 +341,9 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
       it{ should_not be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
+
+      it_behaves_like 'user with any role'
+      it_behaves_like 'user with non-organizer role', 'info_desk'
     end
 
     context 'when user has the role volunteers_coordinator' do
@@ -357,6 +401,9 @@ describe 'User' do
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
       it 'should be_able to :manage Vposition'
       it 'should be_able to :manage Vday'
+
+      it_behaves_like 'user with any role'
+      it_behaves_like 'user with non-organizer role', 'volunteers_coordinator'
     end
   end
 end
