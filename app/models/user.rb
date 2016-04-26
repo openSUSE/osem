@@ -56,6 +56,14 @@ class User < ActiveRecord::Base
 
   validate :biography_limit
 
+  ##
+  # Checkes if the user attended the event
+  # This is used for events that require registration
+  # The user must have registered to attend the event
+  # Gets an event
+  # === Returns
+  # * +true+ if the user attended the event
+  # * +false+ if the user did not attend the event
   def attended_event? event
     event_registration = event.events_registrations.find_by(registration: self.registrations)
 
