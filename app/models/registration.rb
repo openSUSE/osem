@@ -45,7 +45,7 @@ class Registration < ActiveRecord::Base
 
   def send_registration_mail
     if conference.email_settings.send_on_registration?
-      Mailbot.delay.registration_mail(conference, user)
+      Mailbot.registration_mail(conference, user).deliver_later
     end
   end
 

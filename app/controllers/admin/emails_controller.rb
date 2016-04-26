@@ -4,10 +4,15 @@ module Admin
     load_and_authorize_resource class: EmailSettings
 
     def update
-      @conference.email_settings.update_attributes(email_params)
-      redirect_to admin_conference_emails_path(
-                  @conference.short_title),
-                  notice: 'Settings have been successfully updated.'
+      if @conference.email_settings.update(email_params)
+        redirect_to admin_conference_emails_path(
+                    @conference.short_title),
+                    notice: 'Email settings have been successfully updated.'
+      else
+        redirect_to admin_conference_emails_path(
+                    @conference.short_title),
+                    error: "Updating email settings failed. #{@conference.email_settings.errors.to_a.join('. ')}."
+      end
     end
 
     def index
@@ -24,8 +29,8 @@ module Admin
                                              :send_on_conference_dates_updated, :conference_dates_updated_subject, :conference_dates_updated_body,
                                              :send_on_conference_registration_dates_updated, :conference_registration_dates_updated_subject, :conference_registration_dates_updated_body,
                                              :send_on_venue_updated, :venue_updated_subject, :venue_updated_body,
-                                             :send_on_call_for_papers_dates_updated, :call_for_papers_dates_updated_subject, :call_for_papers_dates_updated_body,
-                                             :send_on_call_for_papers_schedule_public, :call_for_papers_schedule_public_subject, :call_for_papers_schedule_public_body)
+                                             :send_on_cfp_dates_updated, :cfp_dates_updated_subject, :cfp_dates_updated_body,
+                                             :send_on_program_schedule_public, :program_schedule_public_subject, :program_schedule_public_body)
     end
   end
 end

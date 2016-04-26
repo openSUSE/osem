@@ -514,10 +514,11 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference is updated and all other parameters are set
   # * +False+ -> Either conference is not updated or one or more parameter is not set
   def notify_on_dates_changed?
-    (self.start_date_changed? || self.end_date_changed?) &&
-    self.email_settings.send_on_conference_dates_updated &&
-    !self.email_settings.conference_dates_updated_subject.blank? &&
-    self.email_settings.conference_dates_updated_body
+    return false unless self.email_settings.send_on_conference_dates_updated
+    # do not notify unless one of the dates changed
+    return false unless self.start_date_changed? || self.end_date_changed?
+    # do not notify unless the mail content is set up
+    (!email_settings.conference_dates_updated_subject.blank? && !email_settings.conference_dates_updated_body.blank?)
   end
 
   ##
@@ -527,11 +528,13 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If registration dates is updated and all other parameters are set
   # * +False+ -> Either registration date is not updated or one or more parameter is not set
   def notify_on_registration_dates_changed?
-    registration_period &&
-    (registration_period.start_date_changed? || registration_period.end_date_changed?) &&
-    email_settings.send_on_conference_registration_dates_updated &&
-    !email_settings.conference_registration_dates_updated_subject.blank? &&
-    email_settings.conference_registration_dates_updated_body
+    return false unless self.email_settings.send_on_conference_registration_dates_updated
+    # do not notify unless we allow a registration
+    return false unless self.registration_period
+    # do not notify unless one of the dates changed
+    return false unless registration_period.start_date_changed? || registration_period.end_date_changed?
+    # do not notify unless the mail content is set up
+    (!email_settings.conference_registration_dates_updated_subject.blank? && !email_settings.conference_registration_dates_updated_body.blank?)
   end
 
   def registration_limit_exceeded?

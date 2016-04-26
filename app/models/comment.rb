@@ -56,6 +56,6 @@ class Comment < ActiveRecord::Base
   private
 
   def send_notification
-    Mailbot.delay.send_notification_email_for_comment(self)
+    EventCommentMailJob.perform_later(self)
   end
 end

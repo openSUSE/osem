@@ -54,7 +54,7 @@ feature EmailSettings do
       click_button 'Update Email settings'
 
       expect(flash).
-          to eq('Settings have been successfully updated.')
+          to eq('Email settings have been successfully updated.')
 
       expect(find('#email_settings_registration_subject').
                  value).to eq('Registration subject')

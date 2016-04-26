@@ -19,17 +19,20 @@ describe Mailbot do
       it 'assigns the email receiver, sender, reply_to' do
         expect(mail.to).to eq ['user@example.com']
         expect(mail.from).to eq ['conf@domain.com']
-        expect(mail.reply_to).to eq ['conf@domain.com']
       end
 
       it 'assigns the email body' do
         expect(mail.body).to eq 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
       end
+
+      it 'delivers the email' do
+        expect(ActionMailer::Base.deliveries).to include(mail)
+      end
     end
 
     describe '.registration_mail' do
       include_examples 'mailer actions' do
-        let(:mail) { Mailbot.registration_mail conference, user }
+        let(:mail) { Mailbot.registration_mail(conference, user).deliver_now }
       end
     end
 
@@ -41,7 +44,7 @@ describe Mailbot do
       end
 
       include_examples 'mailer actions' do
-        let(:mail) { Mailbot.acceptance_mail event }
+        let(:mail) { Mailbot.acceptance_mail(event).deliver_now }
       end
     end
 
@@ -53,7 +56,7 @@ describe Mailbot do
       end
 
       include_examples 'mailer actions' do
-        let(:mail) { Mailbot.rejection_mail event }
+        let(:mail) { Mailbot.rejection_mail(event).deliver_now }
       end
     end
 
@@ -65,13 +68,7 @@ describe Mailbot do
       end
 
       include_examples 'mailer actions' do
-        let(:mail) { Mailbot.confirm_reminder_mail event }
-      end
-    end
-
-    describe '.build_email' do
-      include_examples 'mailer actions' do
-        let(:mail) { Mailbot.build_email conference, 'user@example.com', 'Lorem Ipsum Dolsum', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit' }
+        let(:mail) { Mailbot.confirm_reminder_mail(event).deliver_now }
       end
     end
   end
