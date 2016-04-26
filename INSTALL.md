@@ -10,11 +10,11 @@ We use [ImageMagick](http://imagemagick.org/) for image manipulation so it needs
 If you would like to resize exisiting logos in your OSEM installation you can do so by running the following rake task:
 
 ```shell
-$ rake logo:reprocess
+$ bundle exec rake logo:reprocess
 ```
 
 ## Using openID
-In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), GitHub or [Facebook](https://developers.facebook.com/)) and enter their API keys in `config/secrets.yml` file, changing the existing sample values.
+In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in `config/secrets.yml` file, changing the existing sample values.
 
 
 ## Reocuring Jobs
