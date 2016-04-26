@@ -4,30 +4,33 @@
 
 .container
   .row
-    .col-md-12
+    .col-md-12.text-center
       %h2 Sponsors
-      %p.lead
-        whom without,
-        %span.notranslate
-          = @conference.short_title
-        wouldn't be possible! 
   - @conference.sponsorship_levels.each do |sponsorship_level|
     -if sponsorship_level.sponsors.any?
       - sponsorship_level.sponsors.each_slice(3) do |slice|
         .row.row-centered
           - slice.each do |sponsor|
             .col-md-4.col-sm-4.col-centered.col-top
-              .thumbnail
-                - if sponsor.logo.blank?
-                  %h3.text-center
-                    = link_to(sponsor.website_url, title: "#{sponsor.name}") do
+              %a{ href: '#', data: { toggle: 'modal', target: "#modal_#{sponsor.id}" } }
+                = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}"
+
+            %div.modal.fade{ id: "modal_#{sponsor.id}" }
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    %button.close{ data: { dismiss: 'modal' } }
+                      x
+                    .modal-title
                       = sponsor.name
-                - else
-                  = link_to(sponsor.website_url, class: 'thumbnail') do
-                    = image_tag sponsor.logo, class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}", title: "#{sponsor.name}"
-                .caption
-                  -if sponsor.description.present?
-                    = markdown(sponsor.description)
+                  .modal-body.text-center
+                    .logo
+                      = link_to sponsor.website_url, target: '_blank' do
+                        = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}"
+                    .description
+                      = sponsor.description
+                  .modal-footer
+                    = link_to nil, "#{sponsor.website_url}", target: '_blank'
   -if @conference.contact and !@conference.contact.sponsor_email.blank?
     .row
       .col-md-12
@@ -36,4 +39,3 @@
             Want to sponsor #{@conference.short_title}?
             = link_to("mailto: #{@conference.contact.sponsor_email}?subject=#{@conference.short_title}%20Sponsorship") do
               Please contact us!
-
