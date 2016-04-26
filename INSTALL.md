@@ -1,7 +1,7 @@
 # Install Open Source Event Manager
 OSEM is a *Ruby on Rails* application. We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
-base operating systems. Check Google ;-)
+base operating systems. [Check Google](https://encrypted.google.com/search?hl=en&q=ruby%20on%20rails%20apache%20passenger) ;-)
 
 For more information about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
 
