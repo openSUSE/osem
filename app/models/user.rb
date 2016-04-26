@@ -54,8 +54,8 @@ class User < ActiveRecord::Base
             },
             presence: true
 
-  validate :check_biography_length
-  
+  validate :biography_limit
+
   def attended_event? event
     event_registration = event.events_registrations.find_by(registration: self.registrations)
 
@@ -190,9 +190,9 @@ class User < ActiveRecord::Base
   ##
   # Check if biography has an allowed number of words. Used as validation.
   #
-  def check_biography_length
+  def biography_limit
     if self.biography.present?
-      errors.add(:biography, 'is limited to 150 words.') unless self.biography.split.length <= 150
+      errors.add(:biography, 'is limited to 150 words.') if self.biography.split.length > 150
     end
   end
 end
