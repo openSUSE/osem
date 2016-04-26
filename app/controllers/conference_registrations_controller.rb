@@ -33,7 +33,6 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def show
-    @workshops = @registration.workshops
     @total_price = Ticket.total_price(@conference, current_user)
     @tickets = current_user.ticket_purchases.where(conference_id: @conference.id)
   end

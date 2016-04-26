@@ -20,7 +20,7 @@ describe 'admin/events/index' do
     expect(rendered).to have_selector('table thead th:nth-of-type(2)', text: 'Title')
     expect(rendered).to have_selector('table thead th:nth-of-type(3)', text: 'Submitter')
     expect(rendered).to have_selector('table thead th:nth-of-type(4)', text: 'Speaker')
-    expect(rendered).to have_selector('table thead th:nth-of-type(5)', text: 'Pre-registration')
+    expect(rendered).to have_selector('table thead th:nth-of-type(5)', text: 'Requires Registration')
     expect(rendered).to have_selector('table thead th:nth-of-type(6)', text: 'Highlight')
     expect(rendered).to have_selector('table thead th:nth-of-type(7)', text: 'Type')
     expect(rendered).to have_selector('table thead th:nth-of-type(8)', text: 'Track')

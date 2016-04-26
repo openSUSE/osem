@@ -10,6 +10,8 @@ describe Event do
   describe 'association' do
     it { is_expected.to belong_to :program }
     it { is_expected.to belong_to :event_type }
+    it { is_expected.to have_many :events_registrations }
+    it { is_expected.to have_many :registrations }
   end
 
   describe 'validation' do
@@ -21,6 +23,51 @@ describe Event do
     it { is_expected.to validate_presence_of(:abstract) }
     it { is_expected.to validate_presence_of(:program) }
     it { is_expected.to validate_presence_of(:event_type) }
+
+    describe '#max_attendees_and_require_registration' do
+      it 'allows user to set max_attendees, only if require_registration is set' do
+        event.require_registration = true
+        event.max_attendees = 2
+
+        expect(event.valid?).to eq true
+      end
+
+      it 'does not allow max_attendees to be set without require_registration' do
+        event.max_attendees = 2
+
+        expect(event.valid?).to eq false
+        expect(event.errors[:require_registration]).to eq ['must be enabled, when you set max_attendees']
+      end
+
+      it 'does not allow require_registration to be set without max_attendees' do
+        event.require_registration = true
+        event.max_attendees = nil
+
+        expect(event.valid?).to eq false
+        expect(event.errors[:max_attendees]).to eq ['must be enabled, when you set require_registration']
+      end
+    end
+
+    describe 'max_attendees_no_more_than_room_size' do
+      before :each do
+        event.room = create(:room, size: 3)
+        event.require_registration = true
+      end
+
+      it 'it is valid, if max_attendees is less than room size' do
+        event.max_attendees = 2
+
+        expect(event.valid?).to eq true
+        expect(event.errors.full_messages).to eq []
+      end
+
+      it 'it is not valid, if max_attendees attribute is bigger than size of room' do
+        event.max_attendees = 4
+
+        expect(event.valid?).to eq false
+        expect(event.errors[:max_attendees]).to eq ['cannot be more than the room\'s capacity (3)']
+      end
+    end
 
     describe '#abstract_limit' do
       before :each do
@@ -85,6 +132,41 @@ describe Event do
         my_event = create(:event, is_highlight: true, program: conference.program)
 
         expect(conference.program.events.highlighted).to eq [my_event]
+      end
+    end
+  end
+
+  describe '#scheduled?' do
+    it { expect(event.scheduled?).to eq false }
+    it 'returns true if the event is scheduled' do
+      event.room = create(:room)
+      event.start_time = conference.start_date.to_time
+      expect(event.scheduled?).to eq true
+    end
+  end
+
+  describe '#registration_possible?' do
+    describe 'when the event requires registration' do
+      before :each do
+        event.require_registration = true
+        event.max_attendees = 3
+        event.registrations << create(:registration)
+      end
+
+      it 'returns true, if the limit has not been reached' do
+        expect(event.registration_possible?).to eq true
+      end
+
+      it 'returns false, if the limit has been reached' do
+        event.registrations << create(:registration)
+        event.registrations << create(:registration)
+        expect(event.registration_possible?).to eq false
+      end
+    end
+
+    describe 'when the event does not require registration' do
+      it 'returns false' do
+        expect(event.registration_possible?).to eq false
       end
     end
   end

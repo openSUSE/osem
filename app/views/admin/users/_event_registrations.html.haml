@@ -1,0 +1,25 @@
+.row
+  .col-md-12.page-header
+    %h2
+      Registrations to Events
+
+  .col-md-12
+    .well
+      %table.table.table-bordered.table-striped.table-hover.datatable#event_registrations
+        %thead
+          %th ID
+          %th Conference
+          %th Title
+          %th Attended
+        %tbody
+          - @user.events_registrations.each do |event_registration|
+            - event = event_registration.event
+            %tr
+              %td= event.id
+              %td= link_to event.program.conference.short_title, admin_conference_path(event.program.conference.short_title)
+              %td= link_to event.title, admin_conference_program_event_path(event.program.conference.short_title, event)
+              %td
+                - if @user.attended_event?(event)
+                  %i.fa.fa-check.text-success
+                - else
+                  %i.fa.fa-times.text-danger

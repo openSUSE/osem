@@ -5,7 +5,9 @@
       %br
       %small
         = @event.subtitle
-      = link_to 'Edit', edit_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary pull-right'
+      .btn-group.pull-right
+        = link_to 'Registrations', registrations_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-success'
+        = link_to 'Edit', edit_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
 
 .row
   .col-md-12
@@ -94,7 +96,8 @@
                                               off_color: 'warning',
                                               on_text: 'Yes',
                                               off_text: 'No' }
-
+          - if @event.require_registration
+            = registered_text(@event)
       - if !@event.room.nil?
         %tr
           %td

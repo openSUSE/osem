@@ -14,7 +14,8 @@ class Event < ActiveRecord::Base
   has_many :commercials, as: :commercialable, dependent: :destroy
   belongs_to :event_type
 
-  has_and_belongs_to_many :registrations
+  has_many :events_registrations
+  has_many :registrations, through: :events_registrations
 
   belongs_to :track
   belongs_to :room
@@ -32,6 +33,10 @@ class Event < ActiveRecord::Base
   validates :abstract, presence: true
   validates :event_type, presence: true
   validates :program, presence: true
+  validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
+
+  validate :max_attendees_and_require_registration
+  validate :max_attendees_no_more_than_room_size
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :highlighted, -> { where(is_highlight: true) }
@@ -62,6 +67,19 @@ class Event < ActiveRecord::Base
     event :reject do
       transitions to: :rejected, from: [:new], on_transition: :process_rejection
     end
+  end
+
+  ##
+  # Checkes if the event has a start_time and a room
+  # ====Returns
+  # * +true+ or +false+
+  def scheduled?
+    room && start_time ? true : false
+  end
+
+  def registration_possible?
+    return false unless max_attendees
+    registrations.count < max_attendees
   end
 
   def voted?(event, user)
@@ -206,6 +224,21 @@ class Event < ActiveRecord::Base
   end
 
   private
+
+  ##
+  # If max_attendees variable is set (higher than 0)
+  # variable require_registration must also be set
+  def max_attendees_and_require_registration
+    errors.add(:require_registration, 'must be enabled, when you set max_attendees') if max_attendees && !require_registration
+    errors.add(:max_attendees, 'must be enabled, when you set require_registration') if require_registration && max_attendees.nil?
+  end
+
+  ##
+  # Do not allow, for the event, more attendees than the size of the room
+  def max_attendees_no_more_than_room_size
+    return unless room && max_attendees_changed?
+    errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
+  end
 
   def abstract_limit
     # If we don't have an event type, there is no need to count anything

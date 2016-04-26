@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309183052) do
+ActiveRecord::Schema.define(version: 20160403214841) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -225,11 +225,14 @@ ActiveRecord::Schema.define(version: 20160309183052) do
     t.integer  "week"
     t.boolean  "is_highlight",                 default: false
     t.integer  "program_id"
+    t.integer  "max_attendees"
   end
 
-  create_table "events_registrations", id: false, force: :cascade do |t|
-    t.integer "registration_id"
-    t.integer "event_id"
+  create_table "events_registrations", force: :cascade do |t|
+    t.integer  "registration_id"
+    t.integer  "event_id"
+    t.boolean  "attended",        default: false, null: false
+    t.datetime "created_at"
   end
 
   create_table "lodgings", force: :cascade do |t|

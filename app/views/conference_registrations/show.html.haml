@@ -54,18 +54,34 @@
                   = qa.answer.title
               - else
                 You haven't answered
-  - if @workshops.any?
+  - if @registration.events.any?
     .row
       .col-md-12
         %h4
           %span.fa-stack
             %i.fa.fa-square-o.fa-stack-2x
             %i.fa.fa-check.fa-stack-1x
-          Event Registrations
+          Registered to the following event(s)
         %ul
-          - @workshops.each do |workshop|
+          - @registration.events.each do |event|
             %li
-              = link_to workshop.title, conference_program_proposal_path(@conference.short_title, workshop.id)
+              = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
+              = '(' + registered_text(event) + ')'
+
+  - if @registration.conference.program.events.remaining_for_registration(@registration).any?
+    .row
+      .col-md-12
+        %h4
+          %span.fa-stack
+            %i.fa.fa-square-o.fa-stack-2x
+            %i.fa.fa-question.fa-stack-1x
+          Events that require registration
+        %ul
+          - @registration.conference.program.events.remaining_for_registration(@registration).each do |event|
+            %li
+              = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
+              = '(' + registered_text(event) + ')'
+
   - if @conference.tickets.any?
     .row
       .col-md-12

@@ -53,6 +53,8 @@ Osem::Application.routes.draw do
         resources :difficulty_levels
         resources :events do
           member do
+            patch :toggle_attendance
+            get :registrations
             post :comment
             patch :accept
             patch :confirm
@@ -99,7 +101,9 @@ Osem::Application.routes.draw do
         get 'commercials/render_commercial' => 'commercials#render_commercial'
         resources :commercials, only: [:create, :update, :destroy]
         member do
+          get :registrations
           patch '/withdraw' => 'proposal#withdraw'
+          get :registrations
           patch '/confirm' => 'proposal#confirm'
           patch '/restart' => 'proposal#restart'
         end

@@ -3,6 +3,7 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_and_authorize_resource :event, through: :program
+    load_and_authorize_resource :events_registration, only: :toggle_attendance
 
     before_action :get_event, except: [:index, :create]
 
@@ -116,7 +117,7 @@ module Admin
         end
       else
         @url = admin_conference_program_event_path(@conference.short_title, @event)
-        flash[:notice] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
+        flash[:error] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
         render :edit
       end
     end
@@ -165,6 +166,20 @@ module Admin
       end
     end
 
+    def registrations
+      @event_registrations = @event.events_registrations
+    end
+
+    def toggle_attendance
+      @events_registration.attended = !@events_registration.attended
+
+      if @events_registration.save
+        head :ok
+      else
+        head :unprocessable_entity
+      end
+    end
+
     private
 
     def event_params
@@ -172,7 +187,7 @@ module Admin
                                     # Set also in proposals controller
                                     :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
                                     # Set only in admin/events controller
-                                    :track_id, :state, :language, :start_time, :is_highlight,
+                                    :track_id, :state, :language, :start_time, :is_highlight, :max_attendees,
                                     # Not used anymore?
                                     :proposal_additional_speakers, :user, :users_attributes)
     end

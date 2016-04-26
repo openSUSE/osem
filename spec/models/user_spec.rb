@@ -11,6 +11,10 @@ describe User do
   let(:organizer) { create(:user, role_ids: [organizer_role.id]) }
   let(:user) { create(:user) }
 
+  let(:event1) { create(:event, program: conference.program) }
+  let(:another_conference) { create(:conference) }
+  let(:event2) { create(:event, program: another_conference.program) }
+
   describe 'validation' do
     it 'has a valid factory' do
       expect(build(:user)).to be_valid
@@ -26,6 +30,7 @@ describe User do
     it { is_expected.to have_many(:event_users).dependent(:destroy) }
     it { is_expected.to have_many(:events).through(:event_users) }
     it { is_expected.to have_many(:registrations).dependent(:destroy) }
+    it { is_expected.to have_many(:events_registrations).through(:registrations) }
     it { is_expected.to have_many(:ticket_purchases).dependent(:destroy) }
     it { is_expected.to have_many(:tickets).through(:ticket_purchases) }
     it { is_expected.to have_many(:votes).dependent(:destroy) }
@@ -339,6 +344,19 @@ describe User do
 
       second_user = create(:user)
       expect(second_user.is_admin).to be false
+    end
+  end
+
+  describe 'has_many events_registrations' do
+    before :each do
+      registration1 = create(:registration, user: user, conference: conference)
+      registration2 = create(:registration, user: user, conference: another_conference)
+      @events_registration1 = create(:events_registration, registration: registration1, event: event1)
+      @events_registration2 = create(:events_registration, registration: registration2, event: event2)
+    end
+
+    it 'returns all the events the user registered to' do
+      expect(user.events_registrations).to eq [@events_registration1, @events_registration2]
     end
   end
 end

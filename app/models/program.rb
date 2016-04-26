@@ -8,8 +8,19 @@ class Program < ActiveRecord::Base
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
   has_many :events, dependent: :destroy do
-    def workshops
+    def require_registration
       where(require_registration: true, state: :confirmed)
+    end
+
+    def with_registration_open
+      where(require_registration: true, state: :confirmed).
+      map { |e| e if e.max_attendees > e.registrations.count }.compact
+    end
+
+    # All confirmed events of the conference with attribute require_registration
+    # excluding the events the user has already registered to
+    def remaining_for_registration(registration)
+      require_registration - registration.events
     end
 
     def confirmed

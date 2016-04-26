@@ -145,10 +145,14 @@ class ProposalController < ApplicationController
     end
   end
 
+  def registrations; end
+
   private
 
   def event_params
-    params.require(:event).permit(:title, :subtitle, :track_id, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id)
+    params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
+                                  :title, :subtitle, :abstract, :description,
+                                  :require_registration, :max_attendees)
   end
 
   def user_params
