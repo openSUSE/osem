@@ -1,123 +1,24 @@
-## Install OSEM
-You can run rails apps in different modes (development, production). For more information
-about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
-
-### Run OSEM in development
-We are using [Vagrant](https://www.vagrantup.com/) to create our development environments.
-
-1. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Both tools support Linux, MacOS and Windows.
-
-2. Install [vagrant-exec](https://github.com/p0deje/vagrant-exec):
-
-    ```
-    vagrant plugin install vagrant-exec
-    vagrant plugin install vagrant-reload
-    ```
-
-3. Clone this code repository:
-
-    ```
-    git clone https://github.com/openSUSE/osem.git
-    ```
-
-4. Execute Vagrant:
-
-    ```
-    vagrant up
-    ```
-
-5. Start your OSEM rails app:
-
-    ```
-    vagrant exec rails server -b 0.0.0.0
-    ```
-
-6. Check out your OSEM rails app:
-You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
-
-7. Changed something? Test your changes!:
-
-    ```
-    vagrant exec rake test
-    ```
-
-8. Explore the development environment:
-
-    ```
-    vagrant ssh
-    ```
-
-9. Or issue any standard `rails`/`rake`/`bundler` command by prepending `vagrant exec`
-
-    ```
-    vagrant exec rake db:migrate
-    ```
-
-**Note**: We use [letter_opener](https://github.com/ryanb/letter_opener) in development environment.
-However, letter_opener uses launchy to present the emails in your browser which doesn't work in combination with Vagrant.
-Therefore we use [letter_open_web](https://github.com/fgrehm/letter_opener_web).
-You can check out your mails by visiting [localhost:3000/letter_opener](http://localhost:3000/letter_opener) if you use Vagrant.
-
-### Run OSEM in production
-We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
+# Install Open Source Event Manager
+OSEM is a *Ruby on Rails* application. We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
 base operating systems. Check Google ;-)
 
-#### ImageMagick
-We use imagemagic for image manipulation of sponsor logo. You can get it from [direct install](http://software.opensuse.org/package/ImageMagick) page of the package or else check out [Download page](http://www.imagemagick.org/script/binary-releases.php) of ImageMagick.
+For more information about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
 
-If you are upgrading your osem instance and would like to resize the exisiting logos, you would need to `reprocess!` the images. You can do it by running the following rake task:
-```
+## Dependency for ImageMagick
+We use [ImageMagick](http://imagemagick.org/) for image manipulation so it needs to be available in your installation.
+If you would like to resize exisiting logos in your OSEM installation you can do so by running the following rake task:
+
+```shell
 $ rake logo:reprocess
 ```
 
-#### Use openID
-In order to use the OpenID feature you need to register your application with the providers
-(Google and Facebook) and enter their API keys in config/secrets.yml file, changing the existing sample values.
-
-You can register as a developer with Google from https://code.google.com/apis/console#:access
-You can register as a developer with Facebook from https://developers.facebook.com/,
-by selecting from the top menu the option 'Apps' -> 'Create a New App'
-
-Unless you add the key and secret for each provider, you will not be able to see the image that
-redirects to the login page of the provider.
-
-If you add a provider that does not require developers to register their application, you still need
-to create two (2) variables, in config/secrets.yml
-with the format of providername_key and providername_secret and add some sample text as their values.
-Example:
-myprovider_key = 'sample data'
-myprovider_secret = 'sample data'
-
-That is required so that the check in app/views/devise/shared/_openid.html.haml will pass and
-the image-link to login using the provider will be shown.
+## Using openID
+In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), GitHub or [Facebook](https://developers.facebook.com/)) and enter their API keys in `config/secrets.yml` file, changing the existing sample values.
 
 
-#### Email Notifications
-Check your service provider smtp settings and set the following variables in `config.yml` file:
-```
-mail_address: 'smtp.host.com'
-mail_port: 587
-mail_username: 'username@host.com'
-mail_password: 'password'
-mail_authentication: 'plain'
-```
-
+## Reocuring Jobs
 Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
-rake jobs:work
-```
-### Using iChain in test mode
-[devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) comes with
-test mode, which can be useful in development phase in which an iChain proxy is not usually configured or even available. You can enable ichain authentication by setting `CONFIG['authentication']['ichain']['enabled']` equal to `true` in `config.yml` file. You would also need to set following options in `devise.rb`:
-
-```Ruby
-# Activate the test mode
-config.ichain_test_mode = true
-
-# 'testuser' user will be permanently signed in.
-config.ichain_force_test_username = "testuser"
-
-# set email of 'testuser'
-config.ichain_force_test_attributes = {:email => "testuser@example.com"}
+bundle exec rake jobs:work
 ```
