@@ -7,8 +7,77 @@ In particular, this community seeks the following types of contributions:
 * ideas: participate in an issues thread or start your own to have your voice heard.
 * copy editing: fix typos, clarify language, and generally improve the quality of the content of OSEM
 
+### Runing OSEM for development
+We are using [Vagrant](https://www.vagrantup.com/) to create our development environments.
+
+1. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Both tools support Linux, MacOS and Windows.
+
+2. Install [vagrant-exec](https://github.com/p0deje/vagrant-exec):
+
+    ```
+    vagrant plugin install vagrant-exec
+    vagrant plugin install vagrant-reload
+    ```
+
+3. Clone this code repository:
+
+    ```
+    git clone https://github.com/openSUSE/osem.git
+    ```
+
+4. Execute Vagrant:
+
+    ```
+    vagrant up
+    ```
+
+5. Start your OSEM rails app:
+
+    ```
+    vagrant exec rails server -b 0.0.0.0
+    ```
+
+6. Check out your OSEM rails app:
+You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
+
+7. Changed something? Test your changes!:
+
+    ```
+    vagrant exec rspec spec
+    ```
+
+8. Explore the development environment:
+
+    ```
+    vagrant ssh
+    ```
+
+9. Or issue any standard `rails`/`rake`/`bundler` command by prepending `vagrant exec`
+
+    ```
+    vagrant exec rake db:migrate
+    ```
+
+### Email Notifications
+**Note**: We use [letter_opener](https://github.com/ryanb/letter_opener) in development environment. You can check out your mails by visiting [localhost:3000/letter_opener](http://localhost:3000/letter_opener).
+
+### Using iChain in test mode
+[devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) comes with
+test mode, which can be useful in development phase in which an iChain proxy is not usually configured or even available. You can enable ichain authentication by setting `CONFIG['authentication']['ichain']['enabled']` equal to `true` in `config.yml` file. You would also need to set following options in `devise.rb`:
+
+```Ruby
+# Activate the test mode
+config.ichain_test_mode = true
+
+# 'testuser' user will be permanently signed in.
+config.ichain_force_test_username = "testuser"
+
+# set email of 'testuser'
+config.ichain_force_test_attributes = {:email => "testuser@example.com"}
+```
+
 ## How to contribute
-* Prerequisites: familiarity with [GitHub Pull Requests](https://help.github.com/articles/using-pull-requests) and issues.
+* Prerequisite: familiarity with [GitHub Pull Requests](https://help.github.com/articles/using-pull-requests) and issues.
 * Fork the repository and make a pull-request with your changes
   * Make sure that the test suite passes before you request a pull and that you comply to our ruby styleguide.
   * Please increase code coverage by your pull request (coveralls or simplecov locally will give you insight)
@@ -32,6 +101,7 @@ We are using [rspec](http://rspec.info/)+[capybara](http://jnicklas.github.io/ca
 ```shell
 bundle exec rspec
 ```
+
 ## Code of Conduct
 OSEM is part of the openSUSE project. We follow all the [openSUSE Guiding Principles!](http://en.opensuse.org/openSUSE:Guiding_principles) If you think someone doesn't do that, please let us know at maintainers@osem.io
 
