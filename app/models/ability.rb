@@ -151,6 +151,8 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event',
                              commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
     can :manage, Venue, conference_id: conf_ids_for_organizer
+    can :manage, Commercial, commercialable_type: 'Venue',
+                             commercialable_id: Venue.where(conference_id: conf_ids_for_organizer).pluck(:id)
     can :manage, Lodging, conference_id: conf_ids_for_organizer
     can :manage, Room, venue: { conference_id: conf_ids_for_organizer}
     can :manage, Sponsor, conference_id: conf_ids_for_organizer
@@ -177,6 +179,7 @@ class Ability
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
     can :manage, Room, venue: { conference_id: conf_ids_for_cfp }
     can :show, Venue, conference_id: conf_ids_for_cfp
+    can :show, Commercial, commercialable_type: 'Venue', commercialable_id: Venue.where(conference_id: conf_ids_for_cfp).pluck(:id)
     can :manage, Cfp, program: { conference_id: conf_ids_for_cfp }
     can :manage, Program, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',

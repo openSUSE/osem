@@ -1,8 +1,10 @@
 class Venue < ActiveRecord::Base
   belongs_to :conference
+  has_one :commercial, as: :commercialable, dependent: :destroy
   has_many :rooms, dependent: :destroy
   before_create :generate_guid
 
+  accepts_nested_attributes_for :commercial, allow_destroy: true
   validates :name, :street, :city, :country, presence: true
   validates :conference_id, presence: true, uniqueness: true
 
