@@ -5,6 +5,11 @@ class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::Compatibility::Paperclip
   include CarrierWave::BombShelter
 
+  # use cloudinary if it's configured
+  if Cloudinary.config.cloud_name
+    include Cloudinary::CarrierWave
+  end
+
   def paperclip_path
     "system/#{object_class_name}/#{extra_store_dir}/#{id_partition}/:style/:basename.:extension"
   end
