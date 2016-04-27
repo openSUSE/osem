@@ -19,7 +19,7 @@
           - @conference.sponsors.each do |sponsor|
             %tr
               %td
-                = image_tag(sponsor.logo(:thumb), width: '20%')
+                = image_tag(sponsor.picture.thumb.url, width: '20%')
               %td
                 = sponsor.name
               %td
