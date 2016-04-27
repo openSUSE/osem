@@ -10,15 +10,15 @@
     - slice.each do |lodging|
       .col-md-4
         .thumbnail
-          - if lodging.photo.blank?
+          - if !lodging.picture?
             %p.text-center
               %i.fa.fa-home.fa-5x
           - else
             -if lodging.website_link.present?
               = link_to(lodging.website_link, class: 'thumbnail') do
-                = image_tag lodging.photo(:thumb), class: 'img-responsive img-lodging'
+                = image_tag lodging.picture.thumb, class: 'img-responsive img-lodging'
             - else
-              = image_tag lodging.photo(:thumb), class: 'img-responsive img-lodging'
+              = image_tag lodging.picture.thumb, class: 'img-responsive img-lodging'
           .caption
             %h3.text-center
               = lodging.name
