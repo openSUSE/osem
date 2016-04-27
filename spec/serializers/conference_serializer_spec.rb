@@ -16,7 +16,7 @@ describe ConferenceSerializer, type: :serializer do
         description: 'Lorem ipsum dolor sit',
         start_date: '2014-03-04',
         end_date: '2014-03-10',
-        logo: '/logos/original/missing.png',
+        picture_url: nil,
         difficulty_levels:
           [{id: 1,
             title: 'Easy',

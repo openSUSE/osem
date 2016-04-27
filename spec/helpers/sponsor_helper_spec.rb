@@ -11,7 +11,7 @@ describe SponsorsHelper, type: :helper do
       end
 
       it 'returns correct url' do
-        expect(get_logo(sponsor)).to match %r{.*(\bfirst/rails.jpg\b)}
+        expect(get_logo(sponsor)).to match %r{.*(\bfirst/rails.png\b)}
       end
     end
 
@@ -22,7 +22,7 @@ describe SponsorsHelper, type: :helper do
       end
 
       it 'returns correct url' do
-        expect(get_logo(sponsor)).to match %r{.*(\bsecond/rails.jpg\b)}
+        expect(get_logo(sponsor)).to match %r{.*(\bsecond/rails.png\b)}
       end
     end
 
@@ -33,7 +33,7 @@ describe SponsorsHelper, type: :helper do
       end
 
       it 'returns correct url' do
-        expect(get_logo(sponsor)).to match %r{.*(\bothers/rails.jpg\b)}
+        expect(get_logo(sponsor)).to match %r{.*(\bothers/rails.png\b)}
       end
     end
   end

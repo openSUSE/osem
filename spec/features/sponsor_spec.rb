@@ -19,7 +19,7 @@ feature Sponsor do
 
       fill_in 'sponsor_name', with: 'SUSE'
       fill_in 'sponsor_description', with: 'The original provider of the enterprise Linux distribution'
-      attach_file 'Logo', path
+      attach_file 'Picture', path
       fill_in 'sponsor_website_url', with: 'http://www.suse.com'
       select('Platin', from: 'sponsor_sponsorship_level_id')
 
