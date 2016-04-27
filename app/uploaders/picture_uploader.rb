@@ -3,6 +3,7 @@
 class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::Compatibility::Paperclip
+  include CarrierWave::BombShelter
 
   def paperclip_path
     "system/#{object_class_name}/#{extra_store_dir}/#{id_partition}/:style/:basename.:extension"

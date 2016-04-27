@@ -99,6 +99,10 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    carrierwave-bombshelter (0.1.1.6)
+      activesupport (>= 3.2.0)
+      carrierwave
+      fastimage
     celluloid (0.15.2)
       timers (~> 1.1.0)
     celluloid-io (0.15.0)
@@ -167,6 +171,8 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    fastimage (2.0.0)
+      addressable (~> 2)
     ffi (1.9.3)
     font-awesome-rails (4.1.0.0)
       railties (>= 3.2, < 5.0)
@@ -522,6 +528,7 @@ DEPENDENCIES
   cancancan
   capybara
   carrierwave
+  carrierwave-bombshelter
   chart-js-rails
   cloudinary
   cocoon
