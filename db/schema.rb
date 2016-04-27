@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427101444) do
+ActiveRecord::Schema.define(version: 20160427104236) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20160427101444) do
     t.text     "events_per_week"
     t.text     "description"
     t.integer  "registration_limit",    default: 0
+    t.string   "picture"
   end
 
   create_table "conferences_questions", id: false, force: :cascade do |t|
@@ -246,6 +247,7 @@ ActiveRecord::Schema.define(version: 20160427101444) do
     t.datetime "updated_at"
     t.string   "website_link"
     t.integer  "conference_id"
+    t.string   "picture"
   end
 
   create_table "openids", force: :cascade do |t|
@@ -366,6 +368,7 @@ ActiveRecord::Schema.define(version: 20160427101444) do
     t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "picture"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|
@@ -498,6 +501,7 @@ ActiveRecord::Schema.define(version: 20160427101444) do
     t.string   "latitude"
     t.string   "longitude"
     t.integer  "conference_id"
+    t.string   "picture"
   end
 
   create_table "versions", force: :cascade do |t|

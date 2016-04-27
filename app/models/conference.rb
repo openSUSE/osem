@@ -46,12 +46,7 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :targets, allow_destroy: true
   accepts_nested_attributes_for :campaigns, allow_destroy: true
 
-  has_attached_file :logo,
-                    styles: { thumb: '100x100>', large: '300x300>' }
-
-  validates_attachment_content_type :logo,
-                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { in: 0..500.kilobytes }
+  mount_uploader :picture, PictureUploader, mount_on: :logo_file_name
 
   validates_presence_of :title,
                         :short_title,
