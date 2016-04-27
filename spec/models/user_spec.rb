@@ -23,6 +23,29 @@ describe User do
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:username) }
     it { is_expected.to validate_uniqueness_of(:username) }
+
+    it 'biography can not have more than 150 words' do
+      # Text with 151 words
+      long_text = <<-EOS
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+        vestibulum, augue ut accumsan feugiat, mauris eros accumsan nunc,
+        volutpat vulputate eros orci quis nulla. Cum sociis natoque penatibus
+        et magnis dis parturient montes, nascetur ridiculus mus. Sed varius
+        orci ut lectus convallis, et ultrices ex finibus. Praesent orci augue,
+        aliquet at cursus at, placerat id ligula. Vestibulum a mauris non
+        felis pretium laoreet. Cras vel nisl convallis, pharetra ipsum at,
+        mattis erat. Praesent in lectus felis. Fusce eros mauris, euismod
+        lobortis metus id, tristique scelerisque nisl. Suspendisse potenti.
+        Suspendisse ac metus magna. Integer lobortis pharetra eros euismod
+        fringilla. Phasellus vitae orci vel magna laoreet mattis non eu neque.
+        Mauris ac dictum leo. Nullam dapibus convallis molestie. Integer
+        dignissim massa at odio feugiat tempus. Pellentesque ultrices rutrum
+        eros, a pellentesque lorem auctor in. Suspendisse sollicitudin dolor
+        vitae justo dignissim, a condimentum turpis molestie. Aenean
+        scelerisque, arcu eu congue mollis, nibh nulla finibus.
+      EOS
+      expect(build(:user, biography: long_text)).to_not be_valid
+    end
   end
 
   describe 'association' do

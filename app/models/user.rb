@@ -54,6 +54,8 @@ class User < ActiveRecord::Base
             },
             presence: true
 
+  validate :biography_limit
+
   ##
   # Checkes if the user attended the event
   # This is used for events that require registration
@@ -190,6 +192,15 @@ class User < ActiveRecord::Base
   def setup_role
     if User.count == 1 && User.first.email == 'deleted@localhost.osem'
       self.is_admin = true
+    end
+  end
+
+  ##
+  # Check if biography has an allowed number of words. Used as validation.
+  #
+  def biography_limit
+    if self.biography.present?
+      errors.add(:biography, 'is limited to 150 words.') if self.biography.split.length > 150
     end
   end
 end
