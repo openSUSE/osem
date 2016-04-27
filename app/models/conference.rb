@@ -30,7 +30,6 @@ class Conference < ActiveRecord::Base
   has_many :vpositions, dependent: :destroy
   has_many :sponsorship_levels, -> { order('position ASC') }, dependent: :destroy
   has_many :sponsors, dependent: :destroy
-  has_many :photos, dependent: :destroy
   has_many :targets, dependent: :destroy
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
@@ -44,7 +43,6 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :questions, allow_destroy: true
   accepts_nested_attributes_for :vdays, allow_destroy: true
   accepts_nested_attributes_for :vpositions, allow_destroy: true
-  accepts_nested_attributes_for :photos, allow_destroy: true
   accepts_nested_attributes_for :targets, allow_destroy: true
   accepts_nested_attributes_for :campaigns, allow_destroy: true
 

@@ -185,7 +185,7 @@ module Admin
                                          :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
-                                         :photos_attributes, :targets, :targets_attributes,
+                                         :targets, :targets_attributes,
                                          :campaigns, :campaigns_attributes, :registration_limit)
     end
   end

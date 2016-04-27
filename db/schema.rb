@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160403214841) do
+ActiveRecord::Schema.define(version: 20160427101444) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -253,17 +253,6 @@ ActiveRecord::Schema.define(version: 20160403214841) do
     t.string   "email"
     t.string   "uid"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "photos", force: :cascade do |t|
-    t.text     "description"
-    t.string   "picture_file_name"
-    t.string   "picture_content_type"
-    t.integer  "picture_file_size"
-    t.datetime "picture_updated_at"
-    t.integer  "conference_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

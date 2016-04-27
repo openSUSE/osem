@@ -23,11 +23,6 @@ class ConferenceController < ApplicationController
     end
   end
 
-  def gallery_photos
-    @photos = @conference.photos
-    render 'photos', formats: [:js]
-  end
-
   private
 
   def respond_to_options
