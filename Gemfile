@@ -22,7 +22,7 @@ gem 'rails-observers'
 gem 'paper_trail'
 
 # for upload management
-gem 'paperclip'
+gem 'carrierwave'
 
 # for internationalizing
 gem 'rails-i18n', '~> 4.0.0'
