@@ -17,7 +17,7 @@ $ bundle exec rake logo:reprocess
 In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in `config/secrets.yml` file, changing the existing sample values.
 
 
-## Reocuring Jobs
+## Recurring Jobs
 Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 bundle exec rake jobs:work
