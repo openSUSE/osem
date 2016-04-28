@@ -17,12 +17,6 @@ module ApplicationHelper
     @devise_mapping ||= Devise.mappings[:user]
   end
 
-  def pluralize_without_count(count, noun, text = nil)
-    if count != 0
-      count == 1 ? "#{noun}#{text}" : "#{noun.pluralize}#{text}"
-    end
-  end
-
   def event_status_icon(event)
     case event.state
     when 'new'
@@ -47,10 +41,6 @@ module ApplicationHelper
     else
       'progress-bar-danger'
     end
-  end
-
-  def format_role(role)
-    role.parameterize.underscore
   end
 
   def target_progress_color(progress)
@@ -143,22 +133,6 @@ module ApplicationHelper
     end
   end
 
-  def getdatetime(registration, field)
-    if registration.send(field.to_sym).kind_of?(String)
-      DateTime.parse(registration.send(field.to_sym)).strftime('%d %b %H:%M') if registration.send(field.to_sym)
-    else
-      registration.send(field.to_sym).strftime('%d %b %H:%M') if registration.send(field.to_sym)
-    end
-  end
-
-  def getdate(var)
-    if var.kind_of?(String)
-      DateTime.parse(var).strftime('%a, %d %b')
-    else
-      var.strftime('%a, %d %b')
-    end
-  end
-
   def show_time(length)
     h = length / 60
     min = length - h * 60
@@ -172,10 +146,6 @@ module ApplicationHelper
     else
       "#{min} min"
     end
-  end
-
-  def pre_registered(event)
-    @conference.program.events.joins(:registrations).where('events.id = ?', event.id)
   end
 
   def add_association_link(association_name, form_builder, div_class, html_options = {})
@@ -300,14 +270,6 @@ module ApplicationHelper
       new_user_ichain_session_path
     else
       new_user_session_path
-    end
-  end
-
-  def sign_up_path
-    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-      new_user_ichain_registration_path
-    else
-      new_user_registration_path
     end
   end
 
