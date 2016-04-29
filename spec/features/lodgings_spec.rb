@@ -16,7 +16,7 @@ feature Lodging do
 
     fill_in 'lodging_name', with: 'New lodging'
     fill_in 'lodging_website_link', with: 'http:\\www.google.com'
-    attach_file 'Photo', path
+    attach_file 'Picture', path
 
     click_button 'Create Lodging'
 
@@ -42,7 +42,7 @@ feature Lodging do
 
     fill_in 'lodging_name', with: 'New lodging'
     fill_in 'lodging_website_link', with: 'http:\\www.google.com'
-    attach_file 'Photo', path
+    attach_file 'Picture', path
 
     click_button 'Update Lodging'
 

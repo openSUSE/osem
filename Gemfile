@@ -21,14 +21,19 @@ gem 'rails-observers'
 # for tracking data changes
 gem 'paper_trail'
 
-# Internationalizing gem , use gem according to version of your rails application
-gem 'rails-i18n', '~> 4.0.0' # For 4.0.x
+# for upload management
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'carrierwave-bombshelter'
+
+# for internationalizing
+gem 'rails-i18n', '~> 4.0.0'
 
 # as authentification framework
 gem 'devise'
 gem 'devise_ichain_authenticatable'
 
-# to support openID authentication
+# for openID authentication
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-openid'
@@ -37,7 +42,8 @@ gem 'omniauth-github'
 
 # as authorization framework
 gem 'cancancan'
-# to set roles
+
+# for roles
 gem 'rolify'
 
 # to show flash messages from ajax requests
@@ -66,17 +72,16 @@ gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 3.1.1'
 gem 'cocoon'
 
-# frontend javascripts
-
 # as the JavaScript library
 gem 'jquery-rails'
 
+# frontend javascripts
 source 'https://rails-assets.org' do
   # for placeholder images
   gem 'rails-assets-holderjs'
   # for formating dates
   gem 'rails-assets-date.format'
-  # for or parsing, validating, manipulating, and formatting dates.
+  # for or parsing, validating, manipulating, and formatting dates
   gem 'rails-assets-momentjs'
   # for smooth scrolling
   gem 'rails-assets-jquery-smooth-scroll'
@@ -97,8 +102,10 @@ end
 # as date picker
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
 gem 'jquery-datatables-rails', '~> 2.2.1'
+
 # for charts
 gem 'chart-js-rails'
+
 # for displaying maps
 gem 'leaflet-rails'
 
@@ -107,9 +114,6 @@ gem 'gravtastic'
 
 # for country selects
 gem 'country_select'
-
-# for upload management
-gem 'paperclip'
 
 # as PDF generator
 gem 'prawn_rails'
@@ -120,23 +124,20 @@ gem 'axlsx_rails'
 # as error catcher
 gem 'hoptoad_notifier', '~> 2.3'
 
-# to make links faster. Read more: https://github.com/rails/turbolinks
+# to make links faster
 gem 'turbolinks'
 
 # for JSON serialization of our API
 gem 'active_model_serializers'
 
-# for icon fonts
+# as icon font
 gem 'font-awesome-rails'
 
-# for Markdown in description
+# for markdown
 gem 'redcarpet'
 
 # as rdoc generator
 gem 'rdoc-generator-fivefish'
-
-# for seeds
-gem 'factory_girl_rails'
 
 # for visitor tracking
 gem 'ahoy_matey'
@@ -162,44 +163,51 @@ gem 'bootstrap-switch-rails', '~> 3.0.0'
 # for parsing OEmbed data
 gem 'ruby-oembed'
 
-# Use guard and spring for testing in development
+# for uploading images to the cloud
+gem 'cloudinary'
+
 group :development do
-  # rspec Guard rules
+  # to launch specs when files are modified
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
-  # Get HoundCi comments locally
+  # for static code analisys
   gem 'rubocop'
-  # Silence rack assests messages
+  # to silence rack assests messages
   gem 'quiet_assets'
-  # Use sqlite3 as the database in development
+  # as database
   gem 'sqlite3'
-  # Use letter_opener to open mails in development
+  # to open mails
   gem 'letter_opener'
-  # Use letter_opener_web to open mails in browser (e.g. necessary for Vagrant)
+  # to open mails in browser
   gem 'letter_opener_web'
-  # mina is a blazing fast deployment system
+  # as deployment system
   gem 'mina'
+  # as debugger on error pages
   gem 'web-console', '~> 2.0'
 end
 
-# Use rspec and capybara as testing framework
 group :test do
-  # We use coveralls for measuring test coverage
-  gem 'coveralls', require: false
+  # as test framework
   gem 'rspec-rails'
-  gem 'capybara'
   gem 'database_cleaner'
+  gem 'capybara'
   gem 'poltergeist'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
-  # Set of rails validations matchers to describe models
+  # for measuring test coverage
+  gem 'coveralls', require: false
+  # for describing models
   gem 'shoulda-matchers', require: false
-  # Extracted from RSpec 3 stub_model and mock_model
+  # for stubing/mocking models
   gem 'rspec-activemodel-mocks'
+  # to freeze time
   gem 'timecop'
   # for mocking external requests
   gem 'webmock'
 end
 
 group :development, :test do
+  # as debugger
   gem 'byebug'
+  # for seeds
+  gem 'factory_girl_rails'
 end

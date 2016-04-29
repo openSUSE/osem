@@ -8,11 +8,7 @@ class Venue < ActiveRecord::Base
   validates :name, :street, :city, :country, presence: true
   validates :conference_id, presence: true, uniqueness: true
 
-  has_attached_file :photo,
-                    styles: { thumb: '100x100>', large: '300x300>' }
-  validates_attachment_content_type :photo,
-                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { in: 0..500.kilobytes }
+  mount_uploader :picture, PictureUploader, mount_on: :photo_file_name
 
   before_save :send_mail_notification
 

@@ -30,7 +30,6 @@ class Conference < ActiveRecord::Base
   has_many :vpositions, dependent: :destroy
   has_many :sponsorship_levels, -> { order('position ASC') }, dependent: :destroy
   has_many :sponsors, dependent: :destroy
-  has_many :photos, dependent: :destroy
   has_many :targets, dependent: :destroy
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
@@ -44,16 +43,10 @@ class Conference < ActiveRecord::Base
   accepts_nested_attributes_for :questions, allow_destroy: true
   accepts_nested_attributes_for :vdays, allow_destroy: true
   accepts_nested_attributes_for :vpositions, allow_destroy: true
-  accepts_nested_attributes_for :photos, allow_destroy: true
   accepts_nested_attributes_for :targets, allow_destroy: true
   accepts_nested_attributes_for :campaigns, allow_destroy: true
 
-  has_attached_file :logo,
-                    styles: { thumb: '100x100>', large: '300x300>' }
-
-  validates_attachment_content_type :logo,
-                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { in: 0..500.kilobytes }
+  mount_uploader :picture, PictureUploader, mount_on: :logo_file_name
 
   validates_presence_of :title,
                         :short_title,

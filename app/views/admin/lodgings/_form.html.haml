@@ -12,8 +12,8 @@
       = f.input :name
       = f.input :website_link
       = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint
-      - unless @lodging.photo.blank?
-        = image_tag @lodging.photo(:thumb)
-      = f.input :photo
+      - if @lodging.picture?
+        = image_tag @lodging.picture.thumb.url
+      = f.input :picture
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

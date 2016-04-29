@@ -3,10 +3,5 @@ class Lodging < ActiveRecord::Base
 
   validates :name, presence: true
 
-  has_attached_file :photo,
-                    styles: { thumb: '100x100>', large: '300x300>' }
-
-  validates_attachment_content_type :photo,
-                                    content_type: [/jpg/, /jpeg/, /png/, /gif/],
-                                    size: { in: 0..500.kilobytes }
+  mount_uploader :picture, PictureUploader, mount_on: :photo_file_name
 end

@@ -60,7 +60,7 @@ describe 'conference/show.html.haml' do
     expect(rendered).to match(/example@example.com/)
     expect(rendered).to match(/www.example.com/)
     expect(rendered).to match(/Lorem Ipsum Dolor/)
-    expect(rendered).to match(/rails.jpg/)
+    expect(rendered).to match(/rails.png/)
   end
 
   it 'renders social media partial' do

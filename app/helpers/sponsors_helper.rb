@@ -2,11 +2,11 @@ module SponsorsHelper
   # returns the url to be used for logo on basis of sponsorship level position
   def get_logo(sponsor)
     if sponsor.sponsorship_level.position == 1
-      sponsor.logo.url(:first)
+      sponsor.picture.first.url
     elsif sponsor.sponsorship_level.position == 2
-      sponsor.logo.url(:second)
+      sponsor.picture.second.url
     else
-      sponsor.logo.url(:others)
+      sponsor.picture.others.url
     end
   end
 end

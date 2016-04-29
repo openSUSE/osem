@@ -11,9 +11,12 @@
       = f.input :short_title, :hint => "A short title, e.g. 'oSC14', to be used in URLs"
       = f.input :description, hint: markdown_hint('A description of the conference.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :color, :hint => "The color will be used eg for the dashboard.", :input_html => {:size => 6, :type => "color"}
-      - if !@conference.logo.blank?
-        = image_tag @conference.logo(:thumb)
-      = f.input :logo, :label => "Conference Logo", :hint => "This will be displayed on the front page."
+      = f.label 'Conference Logo'
+      %br
+      - if @conference.picture?
+        = image_tag @conference.picture.thumb.url
+      = f.input :picture, :label => false, :hint => "This will be displayed on the front page."
+      = f.hidden_field :picture_cache
       = f.inputs :name => "Scheduling" do
         = f.input :timezone, :as => :time_zone, :hint => "The conference time zone"
         = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }

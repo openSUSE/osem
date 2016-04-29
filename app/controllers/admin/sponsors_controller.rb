@@ -49,7 +49,7 @@ module Admin
     private
 
     def sponsor_params
-      params.require(:sponsor).permit(:name, :description, :website_url, :logo, :sponsorship_level_id, :conference_id)
+      params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id)
     end
   end
 end

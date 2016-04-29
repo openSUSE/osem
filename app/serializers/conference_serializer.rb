@@ -1,5 +1,5 @@
 class ConferenceSerializer < ActiveModel::Serializer
-  attributes :short_title, :title, :description, :start_date, :end_date, :logo,
+  attributes :short_title, :title, :description, :start_date, :end_date, :picture_url,
              :difficulty_levels, :event_types, :rooms, :tracks,
              :date_range, :revision
 
