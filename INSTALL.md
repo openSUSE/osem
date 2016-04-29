@@ -27,6 +27,7 @@ There are a couple of environment variables you can set to configure OSEM.
 | OSEM_SMTP_PASSWORD		| *string*			| The password for the smtp server
 | OSEM_SMTP_AUTHENTICATION	| plain, login or cram_md5      | The auth method for the smtp server
 | OSEM_SMTP_DOMAIN		| opensuse.org			| The HELO domain for the smtp server
+| CLOUDINARY_URL		| *sting*			| Configure your cloudinary.com cloud name and api key/secret
 
 ## Dependencies
 
