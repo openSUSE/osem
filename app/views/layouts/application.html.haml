@@ -2,7 +2,7 @@
   %head
     %meta{:charset => "utf-8"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
-    %title= content_for?(:title) ? yield(:title) : CONFIG['name']
+    %title= content_for?(:title) ? yield(:title) : (ENV['OSEM_NAME'] || 'OSEM')
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
     = stylesheet_link_tag "application", :media => "all"
@@ -11,7 +11,7 @@
     = csrf_meta_tags
     :javascript
       window.liveSettings = {
-        api_key: "#{CONFIG['transifex_live_api_key']}",
+        api_key: "#{ENV['OSEM_TRANSIFEX_APIKEY']}",
         picker: "bottom-right",
         detectlang: true,
         autocollect: true

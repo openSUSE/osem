@@ -1,0 +1,54 @@
+# Set environment variables for OSEM in this file
+# and copy it to .env or .env.rails_environment
+# (like env.production or env.development)
+#
+# The following is a list of variables and default
+# values that OSEM uses to configure some aspects
+# of the app
+
+# The name of your page
+OSEM_NAME="OSEM"
+
+# The host this OSEM instance runs on. Used for
+# generating urls in emails sent
+OSEM_HOSTNAME="localhost:3000"
+
+# The address OSEM uses for sending mails
+OSEM_EMAIL_ADDRESS="no-reply@localhost"
+
+# The api key for transifex.com.
+# See TRANSLATION.md for details
+OSEM_TRANSIFEX_APIKEY=""
+
+# The errbit host to post exceptions to
+OSEM_ERRBIT_HOST=""
+# The api key for the errbit host
+OSEM_ERRBIT_APIKEY=""
+
+# OMNIAUTH Developer Key/Secret for GOOGLE
+OSEM_GOOGLE_KEY=''
+OSEM_GOOGLE_SECRET=''
+
+# OMNIAUTH Developer Key/Secret for Facebook
+OSEM_FACEBOOK_KEY=''
+OSEM_FACEBOOK_SECRET=''
+
+# OMNIAUTH Developer Key/Secret for GitHub
+OSEM_GITHUB_KEY=''
+OSEM_GITHUB_SECRET=''
+
+# Disable linting of factories in the test suite.
+# Speeds up turn around times of tests
+OSEM_FACTORY_LINT="false"
+
+# The smtp configuration. See the rails guides for more
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
+OSEM_SMTP_ADDRESS=""
+OSEM_SMTP_PORT=""
+OSEM_SMTP_USERNAME=""
+OSEM_SMTP_PASSWORD=""
+OSEM_SMTP_AUTHENTICATION=""
+OSEM_SMTP_DOMAIN=""
+
+# Enable the usage of the devise ichain plugin
+OSEM_ICHAIN_ENABLED=false

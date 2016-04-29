@@ -162,6 +162,10 @@ GEM
     docile (1.1.5)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
+    dotenv (2.1.1)
+    dotenv-rails (2.1.1)
+      dotenv (= 2.1.1)
+      railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     execjs (2.6.0)
     factory_girl (4.5.0)
@@ -372,6 +376,11 @@ GEM
       railties (~> 4.0)
     rails-observers (0.1.2)
       activemodel (~> 4.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.4)
+    rails_stdout_logging (0.0.3)
     railties (4.2.5.2)
       actionpack (= 4.2.5.2)
       activesupport (= 4.2.5.2)
@@ -539,6 +548,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   devise_ichain_authenticatable
+  dotenv-rails
   factory_girl_rails
   font-awesome-rails
   formtastic (~> 3.1.1)
@@ -581,6 +591,7 @@ DEPENDENCIES
   rails-assets-waypoints!
   rails-i18n (~> 4.0.0)
   rails-observers
+  rails_12factor
   rdoc-generator-fivefish
   redcarpet
   responders (~> 2.0)

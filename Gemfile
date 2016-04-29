@@ -8,6 +8,11 @@ end
 # as web framework
 gem 'rails', '~> 4.2'
 
+# enables serving assets in production and setting your logger to standard out
+# both of which are required to run an application on a twelve-factor provider
+# like heroku.com
+gem 'rails_12factor', group: :production
+
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
 gem 'responders', '~> 2.0'
@@ -166,6 +171,10 @@ gem 'ruby-oembed'
 # for uploading images to the cloud
 gem 'cloudinary'
 
+# for setting app configuration in the environment
+gem 'dotenv-rails'
+
+# Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec', '~> 4.2.8'
