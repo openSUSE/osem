@@ -10,7 +10,7 @@ WARNING: The OSEM configuration file
 
 #{path}
 
-is deprecated. Please use the environment environment variables
+is deprecated. Please use the environment variables
 explained in INSTALL.md instead.
 
 
