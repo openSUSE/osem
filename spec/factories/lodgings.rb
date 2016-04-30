@@ -2,9 +2,8 @@
 
 FactoryGirl.define do
   factory :lodging do
-    name 'Example Hotel'
-    description 'Lorem Ipsum Dolor'
-    website_link 'http://www.example.com'
-    conference
+    name { "#{Faker::App.name} Hotel" }
+    description { Faker::Lorem.paragraph }
+    website_link { Faker::Internet.url }
   end
 end

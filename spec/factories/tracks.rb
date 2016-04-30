@@ -1,9 +1,7 @@
 FactoryGirl.define do
   factory :track do
-    name 'Example Track'
-    description 'Lorem Ipsum dolsum'
-    color '#ffffff'
-    program
+    name { Faker::Commerce.department(2, true) }
+    description { Faker::Lorem.sentence }
+    color { Faker::Color.hex_color }
   end
-
 end

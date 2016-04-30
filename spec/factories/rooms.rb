@@ -1,8 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 FactoryGirl.define do
   factory :room do
-    name 'Example Room'
+    name { "Room #{Faker::Address.country}" }
     size 4
+
     venue
 
     factory :room_for_100 do
