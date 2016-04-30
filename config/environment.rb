@@ -13,6 +13,10 @@ WARNING: The OSEM configuration file
 is deprecated. Please use the environment variables
 explained in INSTALL.md instead.
 
+There is a rake task to migrate your settings. For instance
+to migrate your settings for production:
+
+bundle exec rake data:migrate:config2dotenv RAILS_ENV=production
 
 "
 end
