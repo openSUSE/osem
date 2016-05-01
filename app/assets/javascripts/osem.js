@@ -1,13 +1,4 @@
 $(function () {
-
-  /**
-   * Show the number of words in the biography text field when opening the
-   * profile edit page
-   */
-    $(document).ready(function(){
-        word_count($("#user_biography")[0], 'bio_length', 150);
-    });
-
     /**
     * Update the number of words in the biography text field every time the user
     * releases a key on the keyboard

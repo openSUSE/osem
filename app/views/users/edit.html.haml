@@ -17,7 +17,7 @@
         = f.input :biography,  input_html: { rows: 5, 'onkeyup' => "word_count(this, 'biography-count', 150)" }
         You have used
         %span#bio_length
-          0
+          = @user.biography.split.length
         words.  Biographies are limited to 150 words.
         %br
         %br
