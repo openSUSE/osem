@@ -14,6 +14,9 @@ module Admin
     def edit; end
 
     def update
+      @user.update_attributes(registration_params[:user_attributes])
+      params[:registration].delete :user_attributes
+
       @registration.update_attributes(registration_params)
       if @registration.save
         redirect_to admin_conference_registrations_path(@conference.short_title),

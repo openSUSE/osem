@@ -40,9 +40,9 @@
                   = '...'
               - else
                 None
-            - if can? :show, user
-              %td
+            %td
+              - if can? :show, user
                 = link_to 'View', admin_user_path(user), class: 'btn btn-success'
-            - if can? :update, user
-              %td
+            %td
+              - if can? :update, user
                 = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-primary'

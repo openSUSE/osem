@@ -2,7 +2,9 @@
   .col-md-12
     .page-header
       %h1
-        Registration for #{@user.username}
+        Registration for #{@user.username} (#{@user.email})
+
+        = link_to 'Edit User', edit_admin_user_path(@user), class: 'btn btn-primary pull-right' if can? :edit, @user
 .row
   .col-md-6
     = semantic_form_for(@registration, url: admin_conference_registration_path(@conference.short_title, @registration)) do |f|
