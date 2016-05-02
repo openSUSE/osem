@@ -1,9 +1,6 @@
 {
   "name": "osem",
   "description": "Open Source Event Manager",
-  "scripts": {
-    "postdeploy": "rake data:demo"
-  },
   "env": {
     "CLOUDINARY_URL": {
       "required": true
