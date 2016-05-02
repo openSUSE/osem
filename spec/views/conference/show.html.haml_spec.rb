@@ -9,7 +9,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders banner component' do
-    expect(rendered).to match(conference.description)
+    expect(rendered).to match(CGI.escapeHTML(conference.description))
   end
 
   it 'renders program partial' do
@@ -28,7 +28,7 @@ describe 'conference/show.html.haml' do
     expect(view).to render_template(partial: 'conference/_sponsors')
     expect(rendered).to match(conference.contact.email)
     expect(rendered).to match(conference.sponsors.first.website_url)
-    expect(rendered).to match(conference.sponsors.first.description)
+    expect(rendered).to match(CGI.escapeHTML(conference.sponsors.first.description))
     expect(rendered).to match(conference.sponsors.first.logo_file_name)
   end
 
@@ -42,16 +42,16 @@ describe 'conference/show.html.haml' do
 
   it 'renders venue partial' do
     expect(view).to render_template(partial: 'conference/_venue')
-    expect(rendered).to match(conference.venue.name)
+    expect(rendered).to match(CGI.escapeHTML(conference.venue.name))
     expect(rendered).to match(conference.venue.street)
     expect(rendered).to match(conference.venue.website)
-    expect(rendered).to match(conference.venue.description)
+    expect(rendered).to match(CGI.escapeHTML(conference.venue.description))
   end
 
   it 'renders lodging partial' do
     expect(view).to render_template(partial: 'conference/_lodging')
-    expect(rendered).to match(conference.lodgings.first.name)
-    expect(rendered).to match(conference.lodgings.first.description)
+    expect(rendered).to match(CGI.escapeHTML(conference.lodgings.first.name))
+    expect(rendered).to match(CGI.escapeHTML(conference.lodgings.first.description))
     # FIXME: Lodging without image doesn't show link
     # expect(rendered).to match(conference.lodgings.first.website_link)
   end

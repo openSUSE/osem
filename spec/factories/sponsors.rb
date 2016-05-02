@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :sponsor do
     name { Faker::Company.name }
     website_url { Faker::Internet.url }
-    description { CGI.escapeHTML(Faker::Lorem.paragraph) }
+    description { Faker::Lorem.paragraph }
 
     sponsorship_level
 

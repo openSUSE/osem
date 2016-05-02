@@ -9,9 +9,9 @@ describe 'admin/sponsors/index' do
                                              )
     assign :conference, @conference
     render
-    expect(rendered).to include(@conference.sponsors.first.name)
+    expect(rendered).to include(CGI.escapeHTML(@conference.sponsors.first.name))
     expect(rendered).to include(@conference.sponsors.first.website_url)
-    expect(rendered).to include(truncate(@conference.sponsors.first.description))
-    expect(rendered).to include(@conference.sponsorship_levels.first.title)
+    expect(rendered).to include(truncate(CGI.escapeHTML(@conference.sponsors.first.description)))
+    expect(rendered).to include(CGI.escapeHTML(@conference.sponsorship_levels.first.title))
   end
 end
