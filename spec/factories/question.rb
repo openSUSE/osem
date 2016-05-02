@@ -5,6 +5,6 @@ FactoryGirl.define do
     title { Faker::Lorem.sentence }
     question_type
     conferences { [create(:conference)] }
-    answers { [create(:answer) ] }
+    answers { [create(:answer)] }
   end
 end

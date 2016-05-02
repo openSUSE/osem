@@ -9,12 +9,9 @@ RSpec.configure do |config|
     example_filename = File.expand_path(example_filename, Capybara.save_and_open_page_path)
     if RSpec.current_example.exception.present?
       save_page(example_filename)
-    else
-      # remove the file if the test starts working again
-      if File.exist?(example_filename)
-        File.unlink(example_filename)
-      end
+    # remove the file if the test starts working again
+    elsif File.exist?(example_filename)
+      File.unlink(example_filename)
     end
   end
 end
-
