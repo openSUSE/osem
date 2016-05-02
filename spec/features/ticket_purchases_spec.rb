@@ -33,7 +33,7 @@ feature Registration do
         expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
         expect(flash).
             to eq("Thank you for supporting #{conference.title} by purchasing a ticket.")
-        expect(page.has_content?('2 Business Ticket Tickets for 10')).to be true
+        expect(page.has_content?("2 #{ticket.title} Tickets for 10")).to be true
       end
 
       scenario 'deletes a purchased ticket', feature: true, js: true do
@@ -41,7 +41,7 @@ feature Registration do
         create(:ticket_purchase, conference: conference, user: participant, ticket: ticket, quantity: 4)
 
         visit conference_conference_registrations_path(conference.short_title)
-        expect(page.has_content?('4 Business Ticket Tickets for 10')).to be true
+        expect(page.has_content?("4 #{ticket.title} Tickets for 10")).to be true
 
         click_link "ticket-#{ticket.id}-delete"
         expect(flash).to eq('Ticket successfully deleted.')

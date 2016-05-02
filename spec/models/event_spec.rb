@@ -221,7 +221,7 @@ describe Event do
   describe '#abstract_word_count' do
     it 'counts words in abstract' do
       event = build(:event)
-      expect(event.abstract_word_count).to eq(233)
+      expect(event.abstract_word_count).to eq(event.abstract.to_s.split.size)
       event.update_attributes!(abstract: 'abstract.')
       expect(event.abstract_word_count).to eq(1)
     end

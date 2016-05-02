@@ -9,7 +9,7 @@ describe EmailSettings do
     {
       'email' => 'john@doe.com',
       'name' => 'John Doe',
-      'conference' => 'The dog and pony show',
+      'conference' => conference.title,
       'conference_start_date' => Date.new(2014, 05, 01),
       'conference_end_date' => Date.new(2014, 05, 06),
       'registrationlink' => 'http://localhost:3000/conference/goto/register',
@@ -62,7 +62,7 @@ describe EmailSettings do
     context 'conference has venue' do
       before do
         conference.update_attributes(venue: create(:venue))
-        venue_hash = { 'venue' => 'Suse Office', 'venue_address' => 'Maxfeldstrasse 5, Nuremberg, Germany' }
+        venue_hash = { 'venue' => conference.venue.name, 'venue_address' => conference.venue.address }
         expected_hash.merge!(venue_hash)
       end
 
@@ -105,7 +105,7 @@ describe EmailSettings do
 
     it 'replaces fillers in template' do
       expected_text = "Dear John Doe\n\nWe are very pleased" \
-        'to inform you that your submission Talk about talks has been accepted for the conference The dog and pony show.'
+        "to inform you that your submission Talk about talks has been accepted for the conference #{conference.title}."
       expect(conference.email_settings.generate_event_mail(event, event_template)).to eq expected_text
     end
   end
@@ -114,7 +114,7 @@ describe EmailSettings do
     let(:conf_update_template) { "Dear {name},\n\nThank you for Registering for the conference {conference}." }
 
     it 'replaces fillers in template' do
-      expected_text = "Dear John Doe,\n\nThank you for Registering for the conference The dog and pony show."
+      expected_text = "Dear John Doe,\n\nThank you for Registering for the conference #{conference.title}."
       expect(conference.email_settings.generate_email_on_conf_updates(conference, user, conf_update_template)).to eq expected_text
     end
   end

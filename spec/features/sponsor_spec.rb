@@ -21,7 +21,7 @@ feature Sponsor do
       fill_in 'sponsor_description', with: 'The original provider of the enterprise Linux distribution'
       attach_file 'Picture', path
       fill_in 'sponsor_website_url', with: 'http://www.suse.com'
-      select('Platin', from: 'sponsor_sponsorship_level_id')
+      select(conference.sponsorship_levels.first.title, from: 'sponsor_sponsorship_level_id')
 
       click_button 'Create Sponsor'
 
@@ -30,7 +30,7 @@ feature Sponsor do
         expect(page.has_content?('SUSE')).to be true
         expect(page.has_content?('The original provider')).to be true
         expect(page.has_content?('http://www.suse.com')).to be true
-        expect(page.has_content?('Platin')).to be true
+        expect(page.has_content?(conference.sponsorship_levels.first.title)).to be true
         expect(page).to have_selector("img[src*='rails.png']")
         expect(page.assert_selector('tr', count: 2)).to be true
       end

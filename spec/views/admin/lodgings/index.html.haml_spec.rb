@@ -7,6 +7,6 @@ describe 'admin/lodgings/index' do
     @conference.lodgings << create(:lodging)
     assign :venue, @conference.venue
     render
-    expect(rendered).to include('Example Hotel')
+    expect(rendered).to include(@conference.lodgings.first.name)
   end
 end
