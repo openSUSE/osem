@@ -11,6 +11,9 @@
     "DATABASE_URL": {
       "required": true
     },
+    "DEPLOY_TASKS": {
+      "required": true
+    },
     "LANG": {
       "required": true
     },
@@ -72,6 +75,12 @@
   "buildpacks": [
     {
       "url": "heroku/ruby"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-ruby"
+    },
+    {
+      "url": "https://github.com/gunpowderlabs/buildpack-ruby-rake-deploy-tasks"
     }
   ]
 }
