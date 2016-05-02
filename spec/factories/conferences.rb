@@ -8,7 +8,7 @@ FactoryGirl.define do
     start_date { Date.today }
     end_date { 6.days.from_now }
     registration_limit 0
-    description { Faker::Hipster.paragraph }
+    description { CGI.escapeHTML(Faker::Hipster.paragraph) }
 
     after(:create) do |conference|
       Role.where(name: 'organizer', resource: conference).first_or_create(description: 'For the organizers of the conference (who shall have full access)')

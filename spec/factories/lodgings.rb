@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :lodging do
     name { "#{Faker::App.name} Hotel" }
-    description { Faker::Lorem.paragraph }
+    description { CGI.escapeHTML(Faker::Lorem.paragraph) }
     website_link { Faker::Internet.url }
   end
 end
