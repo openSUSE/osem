@@ -174,9 +174,11 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
+# Both are not in a group as we use it also for rake data:demo
 # for fake data
-# this is not in a group as we use it also for rake data:demo
 gem 'faker'
+# for seeds
+gem 'factory_girl_rails'
 
 # Use guard and spring for testing in development
 group :development do
@@ -221,6 +223,4 @@ end
 group :development, :test do
   # as debugger
   gem 'byebug'
-  # for seeds
-  gem 'factory_girl_rails'
 end
