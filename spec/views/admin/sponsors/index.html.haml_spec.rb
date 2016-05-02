@@ -9,9 +9,9 @@ describe 'admin/sponsors/index' do
                                              )
     assign :conference, @conference
     render
-    expect(rendered).to include('Example sponsor')
-    expect(rendered).to include('http://www.example.com')
-    expect(rendered).to include('Lorem Ipsum Dolor')
-    expect(rendered).to include('Platin')
+    expect(rendered).to include(@conference.sponsors.first.name)
+    expect(rendered).to include(@conference.sponsors.first.website_url)
+    expect(rendered).to include(truncate(@conference.sponsors.first.description))
+    expect(rendered).to include(@conference.sponsorship_levels.first.title)
   end
 end

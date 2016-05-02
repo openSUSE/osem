@@ -7,7 +7,7 @@ describe RoomSerializer, type: :serializer do
     expected_json = {
       room: {
         guid: room.guid,
-        name: 'Example Room',
+        name: room.name,
         description: ''
       }
     }.to_json

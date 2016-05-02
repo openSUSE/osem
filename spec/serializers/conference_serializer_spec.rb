@@ -12,7 +12,7 @@ describe ConferenceSerializer, type: :serializer do
     {
       conference: {
         short_title: 'goto',
-        title: 'The dog and pony show',
+        title: conference.title,
         description: 'Lorem ipsum dolor sit',
         start_date: '2014-03-04',
         end_date: '2014-03-10',
@@ -61,7 +61,7 @@ describe ConferenceSerializer, type: :serializer do
     before do
       venue = create(:venue, conference: conference)
       _room = create(:room, venue: venue)
-      _track = create(:track, program: conference.program)
+      track = create(:track, program: conference.program)
 
       room_hash = {
         rooms: [{
@@ -74,8 +74,8 @@ describe ConferenceSerializer, type: :serializer do
       track_hash = {
         tracks: [{
             id: 1,
-            name: 'Example Track',
-            description: 'Lorem Ipsum dolsum'
+            name: track.name,
+            description: track.description
           }
         ]
       }

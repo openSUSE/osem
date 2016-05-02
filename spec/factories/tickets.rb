@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :ticket do
-    title 'Business Ticket'
+    title { "#{Faker::Hipster.word} Ticket" }
     price_cents 1000
     price_currency 'USD'
-    conference
   end
 end

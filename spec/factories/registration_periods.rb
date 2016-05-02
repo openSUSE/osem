@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :registration_period do
-    start_date { 3.days.from_now }
+    start_date { 3.days.ago }
     end_date { 5.days.from_now }
-    conference
   end
 end

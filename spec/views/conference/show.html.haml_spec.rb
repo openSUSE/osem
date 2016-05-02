@@ -1,46 +1,15 @@
 require 'spec_helper'
 describe 'conference/show.html.haml' do
+  let!(:conference) { create(:full_conference) }
+
   before(:each) do
     allow(view).to receive(:date_string).and_return('January 17 - 21 2014')
-    @conference = create(:conference, description: 'Lorem Ipsum')
-    @program = @conference.program
-
-    @conference.splashpage = create(:splashpage,
-                                    include_registrations: true,
-                                    include_program: true,
-                                    include_sponsors: true,
-                                    include_tracks: true,
-                                    include_tickets: true,
-                                    include_social_media: true,
-                                    include_venue: true,
-                                    include_lodgings: true,
-                                    include_cfp: true)
-
-    @conference.contact.update(sponsor_email: 'example@example.com',
-                               facebook: 'http://facebook.com',
-                               googleplus: 'http://google.com',
-                               instagram: 'http://instagram.com',
-                               twitter: 'http://twitter.com')
-
-    @conference.registration_period = create(:registration_period,
-                                             start_date: Date.yesterday,
-                                             end_date: Date.tomorrow)
-
-    @conference.program.cfp = create(:cfp, program: @conference.program)
-
-    @conference.sponsorship_levels << create(:sponsorship_level, conference: @conference)
-    @sponsorship_level = @conference.sponsorship_levels.first
-    @sponsorship_level.sponsors << create(:sponsor, sponsorship_level: @sponsorship_level,
-                                                    conference: @conference)
-
-    @conference.venue = create(:venue)
-    @conference.lodgings << create(:lodging)
-    assign :conference, @conference
+    assign :conference, conference
     render
   end
 
   it 'renders banner component' do
-    expect(rendered).to match(/#{@conference.description}/)
+    expect(rendered).to match(conference.description)
   end
 
   it 'renders program partial' do
@@ -57,32 +26,33 @@ describe 'conference/show.html.haml' do
 
   it 'renders sponsors partial' do
     expect(view).to render_template(partial: 'conference/_sponsors')
-    expect(rendered).to match(/example@example.com/)
-    expect(rendered).to match(/www.example.com/)
-    expect(rendered).to match(/Lorem Ipsum Dolor/)
-    expect(rendered).to match(/rails.png/)
+    expect(rendered).to match(conference.contact.email)
+    expect(rendered).to match(conference.sponsors.first.website_url)
+    expect(rendered).to match(conference.sponsors.first.description)
+    expect(rendered).to match(conference.sponsors.first.logo_file_name)
   end
 
   it 'renders social media partial' do
     expect(view).to render_template('conference/_social_media')
-    expect(rendered).to match(/facebook.com/)
-    expect(rendered).to match(/google.com/)
-    expect(rendered).to match(/instagram.com/)
-    expect(rendered).to match(/twitter.com/)
+    expect(rendered).to match(conference.contact.facebook)
+    expect(rendered).to match(conference.contact.googleplus)
+    expect(rendered).to match(conference.contact.instagram)
+    expect(rendered).to match(conference.contact.twitter)
   end
 
   it 'renders venue partial' do
     expect(view).to render_template(partial: 'conference/_venue')
-    expect(rendered).to match(/Suse Office/)
-    expect(rendered).to match(/Maxfeldstrasse 5/)
-    expect(rendered).to match(/www.opensuse.org/)
-    expect(rendered).to match(/Lorem Ipsum Dolor/)
+    expect(rendered).to match(conference.venue.name)
+    expect(rendered).to match(conference.venue.street)
+    expect(rendered).to match(conference.venue.website)
+    expect(rendered).to match(conference.venue.description)
   end
 
   it 'renders lodging partial' do
     expect(view).to render_template(partial: 'conference/_lodging')
-    expect(rendered).to match(/Example Hotel/)
-    expect(rendered).to match(/Lorem Ipsum Dolor/)
-    expect(rendered).to match(/www.example.com/)
+    expect(rendered).to match(conference.lodgings.first.name)
+    expect(rendered).to match(conference.lodgings.first.description)
+    # FIXME: Lodging without image doesn't show link
+    # expect(rendered).to match(conference.lodgings.first.website_link)
   end
 end

@@ -114,7 +114,7 @@ describe ConferenceRegistrationsController, type: :controller do
         end
 
         it 'shows error in flash message' do
-          expect(flash[:error]).to match "Could not update your registration for The dog and pony show: #{@registration.errors.full_messages.join('. ')}."
+          expect(flash[:error]).to match "Could not update your registration for #{conference.title}: #{@registration.errors.full_messages.join('. ')}."
         end
 
         it 'does not update the registration' do
@@ -139,7 +139,7 @@ describe ConferenceRegistrationsController, type: :controller do
         end
 
         it 'shows success message in flash notice', run: true do
-          expect(flash[:notice]).to match('You are not registered for The dog and pony show anymore!')
+          expect(flash[:notice]).to match("You are not registered for #{conference.title} anymore!")
         end
 
         it 'deletes the registration' do
@@ -160,7 +160,7 @@ describe ConferenceRegistrationsController, type: :controller do
         end
 
         it 'shows error in flash message' do
-          expect(flash[:error]).to match "Could not delete your registration for The dog and pony show: #{@registration.errors.full_messages.join('. ')}."
+          expect(flash[:error]).to match "Could not delete your registration for #{conference.title}: #{@registration.errors.full_messages.join('. ')}."
         end
 
         it 'does not delete the registration' do

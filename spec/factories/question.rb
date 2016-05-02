@@ -2,11 +2,9 @@
 
 FactoryGirl.define do
   factory :question do
-    title 'blah'
+    title { Faker::Lorem.sentence }
     question_type
-    after(:build) do |question|
-      question.answers << build(:answer)
-      question.conferences << build(:conference)
-    end
+    conferences { [create(:conference)] }
+    answers { [create(:answer)] }
   end
 end

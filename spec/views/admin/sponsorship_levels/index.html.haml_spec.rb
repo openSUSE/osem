@@ -5,6 +5,6 @@ describe 'admin/sponsorship_levels/index' do
     @sponsorship_level = create(:sponsorship_level)
     assign :conference, @sponsorship_level.conference
     render
-    expect(rendered).to include('Platin')
+    expect(rendered).to include(@sponsorship_level.title)
   end
 end

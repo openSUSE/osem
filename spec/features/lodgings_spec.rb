@@ -35,13 +35,13 @@ feature Lodging do
     visit admin_conference_lodgings_path(
               conference_id: conference.short_title)
 
-    expect(page.has_content?('Example Hotel')).to be true
+    expect(page.has_content?(lodging.name)).to be true
 
     # Add lodging
     click_link 'Edit'
 
     fill_in 'lodging_name', with: 'New lodging'
-    fill_in 'lodging_website_link', with: 'http:\\www.google.com'
+    fill_in 'lodging_website_link', with: 'http://www.google.com'
     attach_file 'Picture', path
 
     click_button 'Update Lodging'
@@ -51,26 +51,26 @@ feature Lodging do
     expect(page.has_content?('New lodging')).to be true
     lodging.reload
     expect(lodging.name).to eq('New lodging')
-    expect(lodging.description).to eq('Lorem Ipsum Dolor')
-    expect(lodging.website_link).to eq('http:\\www.google.com')
+    expect(lodging.description).to eq(lodging.description)
+    expect(lodging.website_link).to eq('http://www.google.com')
     expect(Lodging.count).to eq(1)
   end
 
   scenario 'Delete a lodging', feature: true, js: true do
-    conference.lodgings << create(:lodging)
+    lodging = create(:lodging, conference: conference)
 
     sign_in organizer
     visit admin_conference_lodgings_path(
               conference_id: conference.short_title)
 
-    expect(page.has_content?('Example Hotel')).to be true
+    expect(page.has_content?(lodging.name)).to be true
 
     # Add lodging
     click_link 'Delete'
 
     # Validations
     expect(flash).to eq('Lodging successfully deleted.')
-    expect(page.has_content?('Example Hotel')).to be false
+    expect(page.has_content?(lodging.name)).to be false
     expect(Lodging.count).to eq(0)
   end
 end

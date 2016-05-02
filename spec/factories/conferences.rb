@@ -2,12 +2,13 @@
 
 FactoryGirl.define do
   factory :conference do
-    title 'The dog and pony show'
-    sequence(:short_title) { |n| "dps#{n}14" }
-    timezone 'Amsterdam'
+    title { Faker::Book.title }
+    short_title { SecureRandom.urlsafe_base64(4) }
+    timezone { Faker::Address.time_zone }
     start_date { Date.today }
     end_date { 6.days.from_now }
     registration_limit 0
+    description { CGI.escapeHTML(Faker::Hipster.paragraph) }
 
     after(:create) do |conference|
       Role.where(name: 'organizer', resource: conference).first_or_create(description: 'For the organizers of the conference (who shall have full access)')
@@ -17,19 +18,38 @@ FactoryGirl.define do
     end
 
     factory :full_conference do
-      splashpage
+      association :splashpage, factory: :full_splashpage
       registration_period
+      venue
 
       after :create do |conference|
-        create(:venue, conference_id: conference.id)
         conference.commercials << create(:conference_commercial, commercialable: conference)
-        conference.campaigns << create(:campaign, conference: conference)
-        conference.targets << create(:target, conference: conference)
-        conference.questions << create(:question, conference_id: conference.id)
-        conference.lodgings << create(:lodging, conference: conference)
-        conference.sponsors << create(:sponsor, conference: conference)
-        conference.sponsorship_levels << create(:sponsorship_level, conference: conference)
-        conference.tickets << create(:ticket, conference: conference)
+
+        # Contact/Program is created by Conference callbacks
+        conference.contact.destroy
+        conference.contact = create(:contact, conference: conference)
+        conference.program.update_attributes(schedule_public: true)
+
+        create(:cfp, program: conference.program)
+        create_list(:track, 2, program: conference.program)
+        create_list(:ticket, 3, conference: conference)
+        create_list(:room, 3, venue: conference.venue)
+        create_list(:lodging, 4, conference: conference)
+
+        create_list(:sponsorship_level, 3, conference: conference)
+        create(:sponsor, sponsorship_level: conference.sponsorship_levels.first, conference: conference)
+        create_list(:sponsor, 2, sponsorship_level: conference.sponsorship_levels.second, conference: conference)
+        create_list(:sponsor, 3, sponsorship_level: conference.sponsorship_levels.third, conference: conference)
+
+        create(:campaign, conference: conference)
+        create(:target, conference: conference)
+        create(:question, conferences: [conference])
+
+        # Logo...
+        uploader = PictureUploader.new(conference, :picture)
+        File.open('app/assets/images/rails.png') { |f| uploader.store!(f) }
+        conference.logo_file_name = 'rails.png'
+        conference.save
       end
     end
   end

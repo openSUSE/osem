@@ -6,7 +6,6 @@ class Venue < ActiveRecord::Base
 
   accepts_nested_attributes_for :commercial, allow_destroy: true
   validates :name, :street, :city, :country, presence: true
-  validates :conference_id, presence: true, uniqueness: true
 
   mount_uploader :picture, PictureUploader, mount_on: :photo_file_name
 
@@ -32,7 +31,7 @@ class Venue < ActiveRecord::Base
   end
 
   def notify_on_venue_changed?
-    return false unless conference.email_settings.send_on_venue_updated
+    return false unless conference.try(:email_settings).try(:send_on_venue_updated)
     # do not notify unless the address changed
     return false unless self.name_changed? || self.street_changed? || self.city_changed? || self.country_changed?
     # do not notify unless the mail content is set up

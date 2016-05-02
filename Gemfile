@@ -174,13 +174,17 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
+# for fake data
+# this is not in a group as we use it also for rake data:demo
+gem 'faker'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
   # for static code analisys
-  gem 'rubocop'
+  gem 'rubocop', require: false
   # to silence rack assests messages
   gem 'quiet_assets'
   # as database

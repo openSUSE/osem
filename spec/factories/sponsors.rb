@@ -2,16 +2,17 @@
 
 FactoryGirl.define do
   factory :sponsor do
-    name 'Example sponsor'
-    website_url 'http://www.example.com'
-    description 'Lorem Ipsum Dolor'
+    name { Faker::Company.name }
+    website_url { Faker::Internet.url }
+    description { CGI.escapeHTML(Faker::Lorem.paragraph) }
+
     sponsorship_level
-    conference
 
     after(:create) do |sponsor|
+      logo = "#{1 + rand(13)}.png"
       uploader = PictureUploader.new(sponsor, :picture)
-      File.open('app/assets/images/rails.png') { |f| uploader.store!(f) }
-      sponsor.logo_file_name = 'rails.png'
+      File.open("spec/support/logos/#{logo}") { |f| uploader.store!(f) }
+      sponsor.logo_file_name = logo.to_s
       sponsor.save
     end
   end

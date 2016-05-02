@@ -8,8 +8,8 @@ describe TrackSerializer, type: :serializer do
     expected_json = {
       track: {
         guid: track.guid,
-        name: 'Example Track',
-        color: '#ffffff'
+        name: track.name,
+        color: track.color
       }
     }.to_json
 

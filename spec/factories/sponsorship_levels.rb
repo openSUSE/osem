@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :sponsorship_level do
-    title 'Platin'
+    title { Faker::Hipster.word }
+
     conference
   end
 end
