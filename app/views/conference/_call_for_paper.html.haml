@@ -12,24 +12,24 @@
   .row
     .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
       %p
-        - if @program.event_types.any?
+        - if @conference.program.event_types.any?
           You can submit proposals for
           %span.notranslate
             = "#{event_types(@conference)}."
-        - if @program.tracks.any?
+        - if @conference.program.tracks.any?
           Proposals should fit in one of the
           %span.notranslate
-            = "#{pluralize(@program.tracks.count, 'track')}:"
+            = "#{pluralize(@conference.program.tracks.count, 'track')}:"
             = "#{tracks(@conference)}."
         The submission period has begun
         %em.notranslate
-          = @program.cfp.start_date.strftime('%A, %B %-d. %Y')
+          = @conference.program.cfp.start_date.strftime('%A, %B %-d. %Y')
         and closes
         %em.notranslate
-          = @program.cfp.end_date.strftime('%A, %B %-d. %Y.')
-        - if @program.cfp_open?
+          = @conference.program.cfp.end_date.strftime('%A, %B %-d. %Y.')
+        - if @conference.program.cfp_open?
           That means you have only
-          %b.notranslate= pluralize(@program.cfp.remaining_days, 'day')
+          %b.notranslate= pluralize(@conference.program.cfp.remaining_days, 'day')
           left!
           Remember
           %span.notranslate
