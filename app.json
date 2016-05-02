@@ -1,0 +1,77 @@
+{
+  "name": "osem",
+  "description": "Open Source Event Manager",
+  "scripts": {
+    "postdeploy": "rake data:demo"
+  },
+  "env": {
+    "CLOUDINARY_URL": {
+      "required": true
+    },
+    "DATABASE_URL": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "OSEM_DEVISE_SECRET_KEY": {
+      "required": true
+    },
+    "OSEM_EMAIL_ADDRESS": {
+      "required": true
+    },
+    "OSEM_HOSTNAME": {
+      "required": true
+    },
+    "OSEM_NAME": {
+      "required": true
+    },
+    "OSEM_SMTP_ADDRESS": {
+      "required": true
+    },
+    "OSEM_SMTP_AUTHENTICATION": {
+      "required": true
+    },
+    "OSEM_SMTP_DOMAIN": {
+      "required": true
+    },
+    "OSEM_SMTP_PASSWORD": {
+      "required": true
+    },
+    "OSEM_SMTP_PORT": {
+      "required": true
+    },
+    "OSEM_SMTP_USERNAME": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    },
+    "worker": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "cleardb",
+    "sendgrid"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
