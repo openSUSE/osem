@@ -8,7 +8,5 @@ FactoryGirl.define do
     country { Faker::Address.country_code }
     website { Faker::Internet.url }
     description { Faker::Lorem.sentence }
-
-    conference
   end
 end
