@@ -46,7 +46,7 @@ FactoryGirl.define do
         create(:question, conferences: [conference])
 
         # Logo...
-        File.open("spec/support/logos/#{1 + rand(13)}.png") do |file|
+        File.open('spec/support/logos/OSEM.jpg') do |file|
           conference.picture = file
         end
         conference.save!
