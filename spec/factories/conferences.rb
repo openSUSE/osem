@@ -46,10 +46,10 @@ FactoryGirl.define do
         create(:question, conferences: [conference])
 
         # Logo...
-        uploader = PictureUploader.new(conference, :picture)
-        File.open('app/assets/images/rails.png') { |f| uploader.store!(f) }
-        conference.logo_file_name = 'rails.png'
-        conference.save
+        File.open("spec/support/logos/#{1 + rand(13)}.png") do |file|
+          conference.picture = file
+        end
+        conference.save!
       end
     end
   end
