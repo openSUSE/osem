@@ -7,7 +7,7 @@ We are also using the _Live_ feature of Transifex. That means that all strings f
 ## 1. Translate
   * Start translating:
 
-    1. Navigate to the [project's page] (https://www.transifex.com/organization/opensuse-community/dashboard/osem)
+    1. Navigate to the [project's page] (https://www.transifex.com/opensuse-community/osem)
     2. Click **translation** button
     3. Select **language**
     4. Select **resource** (events.opensuse.org)
