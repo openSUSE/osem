@@ -26,14 +26,14 @@
           - if @registration.arrival.present?
             arrive at
             %strong
-              = @registration.arrival.strftime('%A, %B %-d. %Y %H:%m')
+              = @registration.arrival.strftime('%A, %B %-d. %Y %H:%M')
           - else
             You haven't scheduled your arrival
         %li
           - if @registration.departure.present?
             depart at
             %strong
-              = @registration.departure.strftime('%A, %B %-d. %Y %H:%m')
+              = @registration.departure.strftime('%A, %B %-d. %Y %H:%M')
           - else
             You haven't scheduled your departure
   - if @conference.questions.any?
