@@ -27,10 +27,11 @@
             %td
               = registration.id
             %td
-              = registration.name
-              - registration.user.roles.each do |role|
-                - if role.resource == @conference
-                  %span.label.label-info= role.name.titleize
+              = registration.name.present? ? registration.name : registration.username
+              %br
+              - registration.user.roles.where(resource: @conference).each do |role|
+                %span.label.label-info
+                  = role.name.titleize
             %td
               = registration.email
             %td

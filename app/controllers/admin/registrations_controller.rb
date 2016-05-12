@@ -14,6 +14,8 @@ module Admin
     def edit; end
 
     def update
+      @user.update_attributes(user_params)
+
       @registration.update_attributes(registration_params)
       if @registration.save
         redirect_to admin_conference_registrations_path(@conference.short_title),
@@ -51,11 +53,14 @@ module Admin
       @user = User.find_by(id: @registration.user_id)
     end
 
+    def user_params
+      params.require(:user).permit(:name, :nickname, :affiliation)
+    end
+
     def registration_params
       params.require(:registration).permit(:user_id, :conference_id, :arrival, :departure, :attended,
                                            :volunteer, :other_special_needs,
-                                           vchoice_ids: [], qanswer_ids: [], qanswers_attributes: [], event_ids: [],
-                                           user_attributes: [:nickname, :name, :affiliation, :tshirt, :mobile, :volunteer_experience, :languages])
+                                           vchoice_ids: [], qanswer_ids: [], qanswers_attributes: [], event_ids: [])
     end
   end
 end
