@@ -7,7 +7,14 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # use cloudinary if it's configured
   if Cloudinary.config.cloud_name
+    # use https by default
+    Cloudinary.config.secure = true
+
     include Cloudinary::CarrierWave
+
+    def public_id
+      model.try(:photo_file_name) || model.try(:logo_file_name)
+    end
   end
 
   def paperclip_path

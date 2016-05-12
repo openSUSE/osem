@@ -8,6 +8,6 @@ describe 'admin/conference/index' do
     assign(:conferences, [conference, second_conference])
     render
     expect(rendered).to include('openSUSE Conference 2016')
-    expect(rendered).to include(second_conference.title)
+    expect(rendered).to include(CGI.escapeHTML(second_conference.title))
   end
 end

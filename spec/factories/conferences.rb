@@ -8,7 +8,7 @@ FactoryGirl.define do
     start_date { Date.today }
     end_date { 6.days.from_now }
     registration_limit 0
-    description { CGI.escapeHTML(Faker::Hipster.paragraph) }
+    description { Faker::Hipster.paragraph }
 
     after(:create) do |conference|
       Role.where(name: 'organizer', resource: conference).first_or_create(description: 'For the organizers of the conference (who shall have full access)')
@@ -46,10 +46,10 @@ FactoryGirl.define do
         create(:question, conferences: [conference])
 
         # Logo...
-        uploader = PictureUploader.new(conference, :picture)
-        File.open('app/assets/images/rails.png') { |f| uploader.store!(f) }
-        conference.logo_file_name = 'rails.png'
-        conference.save
+        File.open('spec/support/logos/OSEM.jpg') do |file|
+          conference.picture = file
+        end
+        conference.save!
       end
     end
   end

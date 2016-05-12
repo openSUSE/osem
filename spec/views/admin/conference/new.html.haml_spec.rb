@@ -9,6 +9,6 @@ describe 'admin/conference/new' do
     expect(rendered).to include('Basic Information')
     assign(:conference, conference)
     render
-    expect(rendered).to include(conference.title)
+    expect(rendered).to include(CGI.escapeHTML(conference.title))
   end
 end
