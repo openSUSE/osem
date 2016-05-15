@@ -35,7 +35,6 @@ class Event < ActiveRecord::Base
   validates :program, presence: true
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
-  validate :max_attendees_and_require_registration
   validate :max_attendees_no_more_than_room_size
 
   scope :confirmed, -> { where(state: 'confirmed') }
@@ -78,7 +77,8 @@ class Event < ActiveRecord::Base
   end
 
   def registration_possible?
-    return false unless max_attendees
+    return false unless require_registration && state == 'confirmed'
+    return true if max_attendees.nil?
     registrations.count < max_attendees
   end
 
@@ -224,14 +224,6 @@ class Event < ActiveRecord::Base
   end
 
   private
-
-  ##
-  # If max_attendees variable is set (higher than 0)
-  # variable require_registration must also be set
-  def max_attendees_and_require_registration
-    errors.add(:require_registration, 'must be enabled, when you set max_attendees') if max_attendees && !require_registration
-    errors.add(:max_attendees, 'must be enabled, when you set require_registration') if require_registration && max_attendees.nil?
-  end
 
   ##
   # Do not allow, for the event, more attendees than the size of the room
