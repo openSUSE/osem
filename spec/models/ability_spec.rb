@@ -171,7 +171,8 @@ describe 'User' do
         should be_able_to(:destroy, my_venue)
       end
 
-      it{ should be_able_to([:create, :new], Conference) }
+      it{ should be_able_to(:new, Conference) }
+      it{ should be_able_to(:create, Conference) }
       it{ should be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should be_able_to(:manage, my_conference.splashpage) }
@@ -235,7 +236,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'cfp', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
@@ -293,7 +295,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'info_desk', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
@@ -351,7 +354,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'volunteers_coordinator', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to([:create, :new], Conference.new) }
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
