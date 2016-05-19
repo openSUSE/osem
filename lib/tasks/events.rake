@@ -1,4 +1,4 @@
-namespace :events do
+namespace :data do
   desc 'Nullifies wrong foreign keys for Track, Room, DifficultyLevel'
 
   task fix_wrong_foreign_keys: :environment do
