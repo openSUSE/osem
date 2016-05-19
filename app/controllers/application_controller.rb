@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_filter :set_paper_trail_whodunnit
   include ApplicationHelper
   add_flash_types :error
   protect_from_forgery with: :exception
