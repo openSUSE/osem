@@ -28,6 +28,8 @@ class ProposalController < ApplicationController
 
   def create
     @url = conference_program_proposal_index_path(@conference.short_title)
+    @event = Event.new(event_params)
+    @event.program = @program
 
     # We allow proposal submission and sign up on same page.
     # If user is not signed in then first create new user and then sign them in
