@@ -61,6 +61,10 @@
                 = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
             %p.text-right
+              = f.semantic_fields_for :event_users do |event_user|
+                = event_user.inputs :user, :style => 'display: none'
+                = event_user.inputs :event_role, :style => 'display: none'
+
               = f.submit 'Create Proposal', class: 'btn btn-success'
 
         .tab-pane{role: 'tabpanel', id: 'signin'}

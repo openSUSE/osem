@@ -32,7 +32,7 @@
                   Sorry, no places left
             - if !current_user.nil? && current_user.proposal_count(conference) > 0
               = link_to "My Proposals", conference_program_proposal_index_path(conference.short_title), :class =>"btn btn-default"
-            - elsif conference.program.cfp_open?
+            - elsif can? :new, conference.program.events.new
               = link_to "Submit Proposal", new_conference_program_proposal_path(conference.short_title), :class =>"btn btn-default"
             - if current_user.nil? || !current_user.subscribed?(conference)
               = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-default'
