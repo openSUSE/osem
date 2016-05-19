@@ -13,6 +13,8 @@ feature Event do
     @options = {}
     @options[:send_mail] = 'false'
     @event = create(:event, program: conference.program, title: 'Example Proposal')
+    @event.event_users.create(user: participant, event_role: 'submitter')
+    @event.event_users.create(user: participant, event_role: 'speaker')
   end
 
   after(:each) do
@@ -63,10 +65,6 @@ feature Event do
   context 'as a participant' do
     before(:each) do
       @event.accept!(@options)
-      @event.event_users = [create(:event_user,
-                                   user_id: participant.id,
-                                   event_id: @event.id,
-                                   event_role: 'submitter')]
     end
 
     scenario 'not signed_in user submits proposal' do

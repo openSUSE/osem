@@ -82,14 +82,12 @@ class Ability
 
     can [:create, :destroy], Subscription, user_id: user.id
 
-    can :manage, Event do |event|
-      event.users.include?(user)
+    can [:new, :create], Event do |event|
+      event.program.cfp_open? && event.new_record?
     end
 
-    # cannot create an event if program does not have open cfp
-    cannot [:new, :create], Event do |event|
-      user_inclusion = event.event_users.map { |event_user| event_user.user.id }.compact.include? user.id
-      !event.program.cfp_open? || !event.new_record? || !user_inclusion
+    can [:update, :show, :delete, :index], Event do |event|
+      event.users.include?(user)
     end
 
     # can manage the commercials of their own events

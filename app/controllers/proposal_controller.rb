@@ -2,7 +2,9 @@ class ProposalController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
-  load_and_authorize_resource :event, parent: false, through: :program, except: [:new, :create]
+  load_and_authorize_resource :event, parent: false, through: :program
+  # We authorize manually in these actions
+  skip_authorize_resource :event, only: [:confirm, :restart, :withdraw]
 
   def index
     @event = @program.events.new
@@ -16,9 +18,6 @@ class ProposalController < ApplicationController
   end
 
   def new
-    @event = @program.events.new
-    @event.event_users.new(user: current_user, event_role: 'submitter') if current_user
-    authorize! :new, @event
     @user = User.new
     @url = conference_program_proposal_index_path(@conference.short_title)
   end
@@ -44,11 +43,6 @@ class ProposalController < ApplicationController
       end
     end
 
-    params[:event].delete :user
-
-    @event = Event.new(event_params)
-    @event.program = @program
-
     # User which creates the proposal is both `submitter` and `speaker` of proposal
     # by default.
     # TODO: Allow submitter to add speakers to proposals
@@ -56,8 +50,6 @@ class ProposalController < ApplicationController
                            event_role: 'submitter')
     @event.event_users.new(user: current_user,
                            event_role: 'speaker')
-    authorize! :new, @event
-
     if @event.save
       ahoy.track 'Event submission', title: 'New submission'
       redirect_to conference_program_proposal_index_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
