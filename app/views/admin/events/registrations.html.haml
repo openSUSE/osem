@@ -2,7 +2,11 @@
   .col-md-12
     .page-header
       %h1
-        Registrations (#{@event_registrations.length}/#{@event.max_attendees})
+        Registrations
+        - if @event.max_attendees
+          (#{@event.events_registrations.length}/#{@event.max_attendees})
+        - else
+          (#{@event.events_registrations.length})
       .text-muted
         for
         = @event.title

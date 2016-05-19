@@ -13,8 +13,7 @@ class Program < ActiveRecord::Base
     end
 
     def with_registration_open
-      where(require_registration: true, state: :confirmed).
-      map { |e| e if e.max_attendees > e.registrations.count }.compact
+      select { |e| e if e.registration_possible? }
     end
 
     # All confirmed events of the conference with attribute require_registration
