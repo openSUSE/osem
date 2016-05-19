@@ -58,7 +58,7 @@
           .col-md-12
             %dt Room:
             %dd
-              - if @event.room_id
+              - if @event.room
                 = @event.room.name
           .col-md-12
             %dt Conference:
@@ -69,13 +69,13 @@
           .col-md-12
             %dt Track:
             %dd
-              - if @event.track_id
+              - if @event.track
                 %span.label{:style =>"background-color: #{@event.track.color};"}
                   = @event.track.name
           .col-md-12
             %dt Difficulty:
             %dd
-              - if @event.difficulty_level_id
+              - if @event.difficulty_level
                 %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
                   = @event.difficulty_level.title
 
