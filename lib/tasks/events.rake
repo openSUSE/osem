@@ -1,7 +1,8 @@
 namespace :events do
   desc 'Nullifies wrong foreign keys for Track, Room, DifficultyLevel'
 
-  task fix_wrong_track: :environment do
+  task fix_wrong_foreign_keys: :environment do
+    # Tracks
     events = Event.all.select { |e| e.track_id && Track.find_by(id: e.track_id).nil? }
     puts "Will remove track_id from #{ActionController::Base.helpers.pluralize(events.length, 'event')}."
 
@@ -11,11 +12,10 @@ namespace :events do
         event.track_id = nil
         event.save!
       end
-      puts 'All done!'
+      puts 'Fixed track_id!'
     end
-  end
 
-  task fix_wrong_difficulty_level: :environment do
+    # Difficulty levels
     events = Event.all.select { |e| e.difficulty_level_id && DifficultyLevel.find_by(id: e.difficulty_level_id).nil? }
     puts "Will remove difficulty_level_id from #{ActionController::Base.helpers.pluralize(events.length, 'event')}."
 
@@ -25,11 +25,10 @@ namespace :events do
         event.difficulty_level_id = nil
         event.save!
       end
-      puts 'All done!'
+      puts 'Fixed difficulty_level_id!'
     end
-  end
 
-  task fix_wrong_room: :environment do
+    #Rooms
     events = Event.all.select { |e| e.room_id && Room.find_by(id: e.room_id).nil? }
     puts "Will remove track_id from #{ActionController::Base.helpers.pluralize(events.length, 'event')}."
 
@@ -39,7 +38,7 @@ namespace :events do
         event.room_id = nil
         event.save!
       end
-      puts 'All done!'
+      puts 'Fixed room_id!'
     end
   end
 end
