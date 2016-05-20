@@ -135,9 +135,9 @@ fieldset[disabled] .btn-primary.active {
 .btn-xl:active,
 .btn-xl.active,
 .open .dropdown-toggle.btn-xl {
-    border-color: #00A388;
-    color: #fff;
-    background-color: #FF6138;
+  border-color: #000;
+  color: #fff;
+  background-color: #414042;
 }
 
 .btn-xl:active,
@@ -168,6 +168,11 @@ fieldset[disabled] .btn-xl.active {
 .btn-xl .badge {
     color: #00A388;
     background-color: #fff;
+}
+
+.btn-invert {
+  border-color: #FF6138;
+  background-color: #FF6138;
 }
 
 .navbar-default {
