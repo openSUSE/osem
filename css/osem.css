@@ -1,3 +1,25 @@
+.osem-logo {
+  height: 30px;
+}
+
+.osem-logo-shrink {
+  height: 30px;
+}
+
+@media(min-width:767px) {
+  .osem-logo {
+    height: 60px;
+    margin-left: 25px;
+  }
+}
+
+@media(min-width:1023px) {
+  .osem-logo {
+    height: 120px;
+    margin-left: 25px;
+  }
+}
+
 section.post:nth-of-type(1) {
   margin-top: 160px;
 }
