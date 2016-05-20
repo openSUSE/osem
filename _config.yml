@@ -1,7 +1,7 @@
 # Build settings
 markdown: kramdown
 permalink: :title
-highlighter: pygments
+highlighter: rouge
 gems:
   - jemoji
   - jekyll-sitemap
