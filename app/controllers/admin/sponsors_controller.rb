@@ -2,6 +2,7 @@ module Admin
   class SponsorsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :sponsor, through: :conference
+    before_action :sponsorship_level_required, only: [:index, :new]
 
     def index
       authorize! :index, Sponsor.new(conference_id: @conference.id)
@@ -50,6 +51,12 @@ module Admin
 
     def sponsor_params
       params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id)
+    end
+
+    def sponsorship_level_required
+      return unless @conference.sponsorship_levels.empty?
+      redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title),
+                  alert: 'You need to create atleast one sponsorship level to add a sponsor'
     end
   end
 end
