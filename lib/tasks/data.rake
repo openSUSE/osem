@@ -1,7 +1,7 @@
 namespace :data do
   desc 'Nullify wrong foreign keys'
 
-  task events: :environment do
+  task nullify_nonexistent_foreign_keys_for_events: :environment do
     # Track
     events_track = Event.all.select { |e| e.track_id && Track.find_by(id: e.track_id).nil? }
     nullify_attribute(events_track, 'track_id')
