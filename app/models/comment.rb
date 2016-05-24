@@ -13,6 +13,8 @@ class Comment < ActiveRecord::Base
   # NOTE: Comments belong to a user
   belongs_to :user
 
+  has_paper_trail on: [:create, :destroy], meta: { conference_id: :conference_id }
+
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text
   # example in readme
@@ -57,5 +59,9 @@ class Comment < ActiveRecord::Base
 
   def send_notification
     EventCommentMailJob.perform_later(self)
+  end
+
+  def conference_id
+    commentable.program.conference_id
   end
 end

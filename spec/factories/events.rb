@@ -17,7 +17,6 @@ FactoryGirl.define do
 
     factory :event_full do
       difficulty_level
-      track
       after(:build) do |event|
         event.commercials << build(:event_commercial, commercialable: event)
         event.difficulty_level = build(:difficulty_level, program: event.program)

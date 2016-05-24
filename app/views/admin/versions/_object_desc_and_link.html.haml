@@ -1,0 +1,158 @@
+- if version.item_type == 'UsersRole'
+  - users_role = get_version_object(version)
+  = 'role'
+  = link_to users_role.role.name, admin_conference_role_path(conference_id: Conference.find(version.conference_id).short_title, id: users_role.role.name)
+  = version.event == 'create' ? 'to' : 'from'
+  = 'user'
+  = link_to users_role.user.name, admin_user_path(id: users_role.user.id)
+
+- elsif version.item_type == 'Subscription' || version.item_type == 'Registration'
+  = 'conference'
+  = link_to Conference.find(version.conference_id).title,
+          admin_conference_registrations_path(conference_id: Conference.find(version.conference_id).short_title)
+
+- elsif version.item_type == 'Commercial'
+  - commercial_last_version = get_version_object(PaperTrail::Version.where(item_type: version.item_type, item_id: version.item_id).last)
+  - commercialable_last_version = get_version_object(PaperTrail::Version.where(item_type: commercial_last_version.commercialable_type,
+                                                          item_id: commercial_last_version.commercialable_id).last)
+
+  - case commercial_last_version.commercialable_type
+  - when 'Event'
+    =  link_to 'commercial',
+            edit_admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title,
+                id: commercialable_last_version.id, anchor: 'commercials-content')
+    = "in event #{commercialable_last_version.title}"
+
+  - when 'Venue'
+    - if Venue.find_by(id: commercialable_last_version.id)
+      =  link_to 'commercial',
+              edit_admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title,
+                  id: commercialable_last_version.id, anchor: 'commercials-content')
+    - else
+      = 'commercial'
+    = "in venue #{commercialable_last_version.name}"
+
+  - when 'Conference'
+    = link_to 'commercial',
+            admin_conference_commercials_path(conference_id: Conference.find(version.conference_id).short_title)
+
+- elsif %w(EventsRegistration Comment Vote).include?(version.item_type)
+  = 'event'
+  - event_id = get_version_object(version).try(:event_id) || get_version_object(version).try(:commentable_id)
+  = link_to Event.find(event_id).title,
+          admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_id)
+
+- elsif version.item_type =='Target'
+  = 'target'
+  - if version.item
+    = link_to Target.find(version.item_id).to_s,
+            admin_conference_targets_path(conference_id: Conference.find(version.conference_id).short_title)
+  - else
+    = PaperTrail::Version.where(item_type: 'Target', item_id: version.item_id).last.reify.to_s
+
+- elsif  version.item
+  - case version.item_type
+  - when 'Conference'
+    = 'conference'
+    = link_to Conference.find(version.conference_id).title,
+            edit_admin_conference_path(id: Conference.find(version.conference_id).short_title)
+
+  - when 'RegistrationPeriod'
+    = link_to 'registration period',
+            admin_conference_registration_period_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Contact'
+    = link_to 'contact details',
+            edit_admin_conference_contact_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Program'
+    = link_to 'program',
+            admin_conference_program_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Cfp'
+    = link_to 'cfp',
+            admin_conference_program_cfp_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Track'
+    = 'track'
+    = link_to Track.find(version.item_id).name,
+            admin_conference_program_track_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+
+  - when 'Event'
+    = 'event'
+    = link_to Event.find(version.item_id).title,
+            admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+
+  - when 'EventType'
+    = 'event type'
+    = link_to EventType.find(version.item_id).title,
+            admin_conference_program_event_types_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Role'
+    = 'role'
+    = link_to Role.find(version.item_id).name,
+            admin_conference_role_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item.name)
+
+  - when 'Venue'
+    = 'venue'
+    = link_to Venue.find(version.item_id).name,
+            admin_conference_venue_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Lodging'
+    = 'lodging'
+    = link_to Lodging.find(version.item_id).name,
+            admin_conference_lodgings_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Room'
+    = 'room'
+    = link_to Room.find(version.item_id).name,
+            admin_conference_venue_rooms_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Sponsor'
+    = 'sponsor'
+    = link_to Sponsor.find(version.item_id).name,
+            admin_conference_sponsors_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'SponsorshipLevel'
+    = 'sponsorship level'
+    = link_to SponsorshipLevel.find(version.item_id).title,
+            admin_conference_sponsorship_levels_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'Ticket'
+    = 'ticket'
+    = link_to Ticket.find(version.item_id).title,
+            admin_conference_ticket_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+
+  - when 'Campaign'
+    = 'campaign'
+    = link_to Campaign.find(version.item_id).name,
+            admin_conference_campaigns_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'DifficultyLevel'
+    = 'difficulty level'
+    = link_to DifficultyLevel.find(version.item_id).title,
+            admin_conference_program_difficulty_level_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+
+  - when 'Splashpage'
+    = link_to 'splashpage',
+            admin_conference_splashpage_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'EmailSettings'
+    = link_to 'email settings',
+            admin_conference_emails_path(conference_id: Conference.find(version.conference_id).short_title)
+
+  - when 'User'
+    - if version.event == 'update'
+      = 'user'
+      = link_to User.find(version.item_id).name, admin_user_path(id: version.item_id)
+
+- else
+  = version.item_type.underscore.tr('_', ' ')
+  / The last deleted version's name/title is used to describe all the changes in object
+  - last_deleted_version = PaperTrail::Version.where(item_type: version.item_type, item_id: version.item_id).last.reify
+  = last_deleted_version.try(:title) || last_deleted_version.try(:name)
+
+- unless %w(Conference Subscription Registration User).include?(version.item_type)
+  = "in conference"
+  = link_to Conference.find(version.conference_id).short_title,
+          edit_admin_conference_path(id: Conference.find(version.conference_id).short_title)

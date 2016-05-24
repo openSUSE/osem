@@ -1,4 +1,6 @@
 class Contact < ActiveRecord::Base
+  has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   belongs_to :conference
 
   validates :conference, presence: true

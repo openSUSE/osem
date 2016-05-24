@@ -1,6 +1,8 @@
 # cannot delete program if there are events submitted
 
 class Program < ActiveRecord::Base
+  has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   belongs_to :conference
 
   has_one :cfp, dependent: :destroy
@@ -53,8 +55,8 @@ class Program < ActiveRecord::Base
   validate :voting_start_date_before_end_date
   validate :voting_dates_exist
 
-  before_create :create_event_types
-  before_create :create_difficulty_levels
+  after_create :create_event_types
+  after_create :create_difficulty_levels
   validate :check_languages_format
 
   # Returns all event_schedules for the selected schedule ordered by start_time
@@ -157,12 +159,12 @@ class Program < ActiveRecord::Base
   # Creates default EventTypes for this Conference. Used as before_create.
   #
   def create_event_types
-    event_types << EventType.create(title: 'Talk', length: 30, color: '#FF0000', description: 'Presentation in lecture format',
-                                    minimum_abstract_length: 0,
-                                    maximum_abstract_length: 500)
-    event_types << EventType.create(title: 'Workshop', length: 60, color: '#0000FF', description: 'Interactive hands-on practice',
-                                    minimum_abstract_length: 0,
-                                    maximum_abstract_length: 500)
+    EventType.create(title: 'Talk', length: 30, color: '#FF0000', description: 'Presentation in lecture format',
+                     minimum_abstract_length: 0,
+                     maximum_abstract_length: 500, program_id: self.id)
+    EventType.create(title: 'Workshop', length: 60, color: '#0000FF', description: 'Interactive hands-on practice',
+                     minimum_abstract_length: 0,
+                     maximum_abstract_length: 500, program_id: self.id)
     true
   end
 
@@ -170,15 +172,15 @@ class Program < ActiveRecord::Base
   # Creates default DifficultyLevels for this Conference. Used as before_create.
   #
   def create_difficulty_levels
-    difficulty_levels << DifficultyLevel.create(title: 'Easy',
-                                                description: 'Events are understandable for everyone without knowledge of the topic.',
-                                                color: '#70EF69')
-    difficulty_levels << DifficultyLevel.create(title: 'Medium',
-                                                description: 'Events require a basic understanding of the topic.',
-                                                color: '#EEEF69')
-    difficulty_levels << DifficultyLevel.create(title: 'Hard',
-                                                description: 'Events require expert knowledge of the topic.',
-                                                color: '#EF6E69')
+    DifficultyLevel.create(title: 'Easy',
+                           description: 'Events are understandable for everyone without knowledge of the topic.',
+                           color: '#70EF69', program_id: self.id)
+    DifficultyLevel.create(title: 'Medium',
+                           description: 'Events require a basic understanding of the topic.',
+                           color: '#EEEF69', program_id: self.id)
+    DifficultyLevel.create(title: 'Hard',
+                           description: 'Events require expert knowledge of the topic.',
+                           color: '#EF6E69', program_id: self.id)
     true
   end
 

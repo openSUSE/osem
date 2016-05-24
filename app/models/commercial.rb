@@ -3,6 +3,8 @@ class Commercial < ActiveRecord::Base
 
   belongs_to :commercialable, polymorphic: true
 
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   validates :url, presence: true
   validates :url, format: URI::regexp(%w(http https))
 
@@ -40,5 +42,13 @@ class Commercial < ActiveRecord::Base
         OEmbed::Providers::Instagram,
         speakerdeck
     )
+  end
+
+  def conference_id
+    case commercialable_type
+    when 'Conference' then commercialable_id
+    when 'Event' then Event.find(commercialable_id).program.conference_id
+    when 'Venue' then Venue.find(commercialable_id).conference_id
+    end
   end
 end

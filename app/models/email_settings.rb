@@ -1,6 +1,8 @@
 class EmailSettings < ActiveRecord::Base
   belongs_to :conference
 
+  has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   def get_values(conference, user, event = nil)
     h = {
       'email' => user.email,

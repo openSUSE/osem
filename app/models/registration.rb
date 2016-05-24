@@ -7,7 +7,9 @@ class Registration < ActiveRecord::Base
   has_and_belongs_to_many :vchoices
 
   has_many :events_registrations
-  has_many :events, through: :events_registrations
+  has_many :events, through: :events_registrations, dependent: :destroy
+
+  has_paper_trail ignore: [:updated_at, :week], meta: { conference_id: :conference_id }
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :qanswers
@@ -75,7 +77,9 @@ class Registration < ActiveRecord::Base
 
   def set_week
     self.week = created_at.strftime('%W')
-    save!
+    without_versioning do
+      save!
+    end
   end
 
   def registration_limit_not_exceed

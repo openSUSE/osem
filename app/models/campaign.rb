@@ -4,6 +4,8 @@ class Campaign < ActiveRecord::Base
   has_many :targets, dependent: :nullify
   belongs_to :conference
 
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   ##
   # Returns the utm parameters formatted as url.
   #

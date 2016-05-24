@@ -1,6 +1,8 @@
 class RegistrationPeriod < ActiveRecord::Base
   belongs_to :conference
 
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   validates :start_date, :end_date, presence: true
   validate :before_end_of_conference
   validate :start_date_before_end_date
