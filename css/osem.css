@@ -85,9 +85,11 @@ section#comments {
   color: #fff;
 }
 
-
 #post-body {
   padding: 15px 0;
+}
+#post-body h2 {
+  padding-top: 40px;
 }
 
 #post-body p {
@@ -102,4 +104,10 @@ section#comments {
     letter-spacing: 0.01rem;
     line-height: 1.5;
   }
+}
+
+.img-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

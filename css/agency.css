@@ -175,6 +175,11 @@ fieldset[disabled] .btn-xl.active {
   background-color: #FF6138;
 }
 
+.btn-heroku {
+  border-color: #79589f;
+  background-color: #79589f;
+}
+
 .navbar-default {
     border-color: transparent;
     background-color: #222;
