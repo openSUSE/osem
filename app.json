@@ -54,6 +54,9 @@
       "required": true
     }
   },
+  "scripts": {
+    "postdeploy": "bundle exec rake db:cleardb_env"
+  },
   "formation": {
     "web": {
       "quantity": 1
