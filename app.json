@@ -5,9 +5,6 @@
     "CLOUDINARY_URL": {
       "required": true
     },
-    "DATABASE_URL": {
-      "required": true
-    },
     "DEPLOY_TASKS": {
       "required": true
     },
