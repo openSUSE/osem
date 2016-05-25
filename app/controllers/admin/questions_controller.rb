@@ -5,7 +5,7 @@ module Admin
 
     def index
       authorize! :index, Question.new(conference_id: @conference.id)
-      @questions = Question.where(global: true).all | Question.where(conference_id: @conference.id)
+      @questions = Question.where(global: true) | @conference.questions
       @questions_conference = @conference.questions
       @new_question = @conference.questions.new
     end
