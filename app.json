@@ -5,6 +5,7 @@
     "CLOUDINARY_URL": {
       "required": true
     },
+    "DATABASE_URL": "WILL_NOT_BE_USED",
     "DEPLOY_TASKS": "db:cleardb_env",
     "LANG": {
       "required": true
