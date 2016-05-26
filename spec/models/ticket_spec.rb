@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Ticket do
   let(:conference) { create(:conference) }
-  let(:ticket) { create(:ticket, price: 50, price_currency: 'USD', conference: conference) }
+  let(:ticket) { create(:ticket, price: 50, price_currency: 'USD', payment_mode: 'Online', conference: conference) }
   let(:user) { create(:user) }
 
   describe 'validation' do
@@ -20,6 +20,10 @@ describe Ticket do
 
     it 'is not valid without a price_currency' do
       should validate_presence_of(:price_currency)
+    end
+
+    it 'is not valid without a payment_mode' do
+      should validate_presence_of(:payment_mode)
     end
 
     it 'is not valid with a price_cents equals zero' do
