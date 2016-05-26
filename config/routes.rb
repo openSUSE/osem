@@ -19,11 +19,9 @@ Osem::Application.routes.draw do
 
   namespace :admin do
     resources :users
-    resources :people
     resources :comments, only: [:index]
     resources :conference do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
-      resources :photos, except: [:show]
       resource :schedule, only: [:show, :update]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
@@ -64,7 +62,6 @@ Osem::Application.routes.draw do
             patch :restart
             get :vote
           end
-          resource :speaker, only: [:edit, :update]
         end
       end
 
