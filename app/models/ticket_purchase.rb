@@ -16,6 +16,7 @@ class TicketPurchase < ActiveRecord::Base
   delegate :price, to: :ticket
   delegate :price_cents, to: :ticket
   delegate :price_currency, to: :ticket
+  delegate :payment_mode, to: :ticket
 
   def self.purchase(conference, user, purchases)
     errors = []
