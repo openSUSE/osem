@@ -10,10 +10,10 @@ describe Program do
       expect(program.rating_enabled?).to be true
     end
 
-    it 'returns false if proposals cannot be rated (program.ratinig == 0) ' do
+    it 'returns false if proposals cannot be rated (program.rating == 0) ' do
       program = conference.program
-      program.rating = 3
-      expect(program.rating_enabled?).to be true
+      program.rating = 0
+      expect(program.rating_enabled?).to be false
     end
   end
 
