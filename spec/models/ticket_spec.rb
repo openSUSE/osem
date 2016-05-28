@@ -45,6 +45,11 @@ describe Ticket do
     end
   end
 
+  it 'allows updating currency of ticket if its the only ticket of the conference' do
+    ticket.price_currency = 'INR'
+    expect(ticket).to be_valid
+  end
+
   describe 'association' do
     it { should belong_to(:conference) }
     it { should have_many(:ticket_purchases).dependent(:destroy) }
