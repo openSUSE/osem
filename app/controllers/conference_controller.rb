@@ -15,7 +15,6 @@ class ConferenceController < ApplicationController
     @rooms = @conference.venue.rooms if @conference.venue
     @events = @conference.program.events
     @dates = @conference.start_date..@conference.end_date
-
     if @dates == Date.current
       @today = Date.current.strftime('%Y-%m-%d')
     else
