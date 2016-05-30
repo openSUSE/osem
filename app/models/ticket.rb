@@ -9,7 +9,7 @@ class Ticket < ActiveRecord::Base
   # If we would allow different currencies per conference we also have to handle convertions between currencies!
   validate :tickets_of_conference_have_same_currency
 
-  validates :price_cents, :price_currency, :title, presence: true
+  validates :price_cents, :price_currency, :payment_mode, :title, presence: true
 
   validates_numericality_of :price_cents, greater_than: 0
 

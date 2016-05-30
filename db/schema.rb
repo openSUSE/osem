@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427104236) do
+ActiveRecord::Schema.define(version: 20160526142456) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -411,6 +411,7 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.text    "description"
     t.integer "price_cents",    default: 0,     null: false
     t.string  "price_currency", default: "USD", null: false
+    t.string  "payment_mode"
   end
 
   create_table "tracks", force: :cascade do |t|

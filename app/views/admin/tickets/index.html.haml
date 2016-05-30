@@ -13,6 +13,7 @@
           %th Price
           %th Sold
           %th Turnover
+          %th Payment Mode
           %th Actions
         %tbody
           - @conference.tickets.each do |ticket|
@@ -26,6 +27,8 @@
                 = ticket.tickets_sold
               %td
                 = humanized_money_with_symbol ticket.tickets_turnover
+              %td
+                = ticket.payment_mode
               %td
                 .btn-group
                   = link_to 'Edit', edit_admin_conference_ticket_path(@conference.short_title, ticket.id),
