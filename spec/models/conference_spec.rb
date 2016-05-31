@@ -1545,6 +1545,20 @@ describe Conference do
       should validate_presence_of(:end_date)
     end
 
+    it 'is not valid without payment mode' do
+      should validate_presence_of(:payment_method)
+    end
+
+    it 'is valid with payment mode as Online' do
+      should allow_value('online').for(:payment_method).
+        with_message("'%{value}' is not a valid payment method")
+    end
+
+    it 'is valid with payment mode as Offline' do
+      should allow_value('offline').for(:payment_method).
+        with_message("'%{value}' is not a valid payment method")
+    end
+
     it 'is not valid with a duplicate short title' do
       should validate_uniqueness_of(:short_title)
     end

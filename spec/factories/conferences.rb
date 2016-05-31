@@ -9,6 +9,7 @@ FactoryGirl.define do
     end_date { 6.days.from_now }
     registration_limit 0
     description { Faker::Hipster.paragraph }
+    payment_method 'offline'
 
     after(:create) do |conference|
       Role.where(name: 'organizer', resource: conference).first_or_create(description: 'For the organizers of the conference (who shall have full access)')

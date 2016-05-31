@@ -57,6 +57,9 @@ class Conference < ActiveRecord::Base
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
   validates :registration_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  validates :payment_method, presence: true, null: false, inclusion: {in: %w(online offline),
+                                                                      message: "'%{value}' is not a valid payment method"}
+
   # This validation is needed since a conference with a start date greater than the end date is not possible
   validate :valid_date_range?
   before_create :generate_guid
