@@ -10,7 +10,7 @@
   .col-md-12
     = semantic_form_for(@event_type, :url => (@event_type.new_record? ? admin_conference_program_event_types_path : admin_conference_program_event_type_path(@conference.short_title, @event_type))) do |f|
       = f.input :title
-      = f.input :length, :input_html => {:size => 3}
+      = f.input :length, :input_html => {size: 3, type: 'number', step: EventType::LENGTH_STEP, min: EventType::LENGTH_STEP}
       = f.input :description
       = f.input :minimum_abstract_length, :input_html => {:size => 3}
       = f.input :maximum_abstract_length, :input_html => {:size => 3}
