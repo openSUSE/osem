@@ -13,51 +13,36 @@
         <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
           <table class="table table-bordered" id="schedule" width="100%">
             <tr>
-              <th>Time</th>
-              <% @rooms.each do |room| %>
-                <th><%= room.name %></th>
+              <th>Rooms</th>
+              <% (@start_hour..@end_hour-1).each do |i| %>
+                  <th colspan="4"><%= "#{i}:00" %></th>
               <% end %>
             </tr>
-
-                <% span = {} %>
-                <% @rooms.each do |room| %>
-                  <% span[room.id] = 1 %>
-                <% end %>
-
-            <% conf_start = DateTime.parse("#{date} 09:00") %>
-            <% conf_end = DateTime.parse("#{date} 19:00") %>
-
-            <% while conf_start < conf_end %>
-              <%-
-                start_hour = conf_start.hour
-                start_min = conf_start.min %>
-
+            <% @rooms.each do |room| %>
+              <% span = 1 %>
               <tr>
-                <td style="width:5%">
-                  <%= conf_start.strftime("%H:%M") %>
-                </td>
-
-                <% @rooms.each do |room| %>
-                  <% events_for_date = @events.find_all {|e| e.room_id == room.id && e.start_time && e.start_time.to_date == date } %>
-                  <% event = events_for_date.find_all{|e| e.start_time.hour == start_hour && e.start_time.min == start_min } %>
-                  <% if !event.empty? %>
-                    <!-- There is an event, calculate the span and show it -->
-                    <% span[room.id] = event[0].event_type.length / 15 %>
-                    <%= render partial: 'schedule_item', locals: {event: event, room: room, span: span} %>
-                    <% span[room.id] = span[room.id] + 1 %>
-                    <% elsif  span[room.id] > 1 %>
-                      <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
-                      <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
+                <td><%= room.name %></td>
+                  <% events_for_date = room.events.find_all{ |e| e.start_time.to_date == date } %>
+                  <% start_time = DateTime.parse("#{date} #{@start_hour}:00") %>
+                  <% (1..@intervals).each do |i| %>
+                    <% events_for_time = events_for_date.find_all{|e| e.start_time == start_time} %>
+                    <% if !events_for_time.empty? %>
+                      <% event = events_for_time[0] %>
+                      <!-- There is an event, calculate the span and show it -->
+                      <% span = event.span %>
+                      <%= render partial: 'schedule_item', locals: {event: event, span: span, width: @width} %>
+                      <% span += 1 %>
+                    <% elsif  span > 1 %>
+                      <% span -= 1 %>
                     <% end %>
-                    <% if span[room.id] == 1 %>
+                    <% if span == 1 %>
                       <!-- span equals 1 show an empty td -->
-                      <td style="width: <%= 95 / @rooms.length %>%">
-                      </td>
+                      <td style="width: <%= @width %>%"></td>
                     <% end %>
-                <%end %>
+                    <% start_time += @step_minutes %>
+                  <% end %>
               </tr>
-              <% conf_start += 15.minutes %>
-            <%end %>
+            <% end %>
           </table>
         </div>
       <% end %>
