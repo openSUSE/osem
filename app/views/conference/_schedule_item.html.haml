@@ -1,23 +1,11 @@
-%td.event{ style: "width: #{95 * span / intervals}%; cursor:pointer", |
+%td.event{ style: "width: #{width * span}%; cursor:pointer", |
            colspan: span, |
            role: "button" } |
   %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
+    %h5
+      = event.title
     - if speaker = event.speakers.first
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right", |
                                          :alt => speaker.name, |
                                          :title => speaker.name, |
-                                         :style => "padding:8px;" |
-    %h5
-      %span.fa.fa-comment
-      = event.title
-      - unless event.subtitle.blank?
-        %span.schedule-subtitle
-          = event.subtitle
-    %span.schedule-speaker
-      %span.fa.fa-user
-      = speaker.name
-    - if event.track
-      %span.schedule-track
-        %span.fa.fa-road
-        %span.label{ style: "background-color: #{event.track.color}" }
-          = event[0].track.name
+                                         :style => "padding:2px 0px;" |

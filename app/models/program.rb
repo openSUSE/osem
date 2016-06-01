@@ -26,10 +26,6 @@ class Program < ActiveRecord::Base
       where(state: :confirmed)
     end
 
-    def scheduled
-      where.not(start_time: nil)
-    end
-
     def highlights
       where(state: :confirmed, is_highlight: true)
     end

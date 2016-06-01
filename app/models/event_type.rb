@@ -8,4 +8,7 @@ class EventType < ActiveRecord::Base
   validates :maximum_abstract_length, presence: true
 
   alias_attribute :name, :title
+
+  # If LENGTH_STEP > 60 the public schedule must be changed
+  LENGTH_STEP = 15
 end

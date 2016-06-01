@@ -15,6 +15,12 @@ class ConferenceController < ApplicationController
     @rooms = @conference.venue.rooms if @conference.venue
     @events = @conference.program.events
     @dates = @conference.start_date..@conference.end_date
+    @start_hour = 9
+    @end_hour = 19
+    @intervals = (@end_hour - @start_hour) * 60 / EventType::LENGTH_STEP
+    @width = 95 / @intervals
+    @step_minutes = EventType::LENGTH_STEP.minutes
+
     if @dates == Date.current
       @today = Date.current.strftime('%Y-%m-%d')
     else

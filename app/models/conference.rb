@@ -82,6 +82,16 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Check if there is any event in the program scheduled.
+  #
+  # ====Returns
+  # * +false+ ->  If there aren't schedules events
+  # * +true+ -> If there are schedules events
+  def scheduled?
+    self.program.events.where.not(start_time: nil).any?
+  end
+
+  ##
   # Checks if the user is registered to the conference
   #
   # ====Args
