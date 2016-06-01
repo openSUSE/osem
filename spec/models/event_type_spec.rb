@@ -18,13 +18,16 @@ describe EventType do
     it { is_expected.to validate_presence_of(:minimum_abstract_length) }
     it { is_expected.to validate_presence_of(:maximum_abstract_length) }
 
-    describe 'has a valid length' do
-      it 'length is greater than 0' do
-        should validate_numericality_of(:length).
-        is_greater_than(0)
+    describe 'length' do
+      it 'validates numericality and greater than 0' do
+        is_expected.to validate_numericality_of(:length).is_greater_than(0)
       end
 
-      it 'length is multiple of LENGTH_STEP' do
+      it 'is valid when length is multiple of LENGTH_STEP' do
+        expect(build(:event_type, program: conference.program, length: 30)).to be_valid
+      end
+
+      it 'is not valid when length is not multiple of LENGTH_STEP' do
         expect(build(:event_type, program: conference.program, length: 37)).not_to be_valid
       end
     end
