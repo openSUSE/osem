@@ -6,6 +6,18 @@ class EventType < ActiveRecord::Base
   validates :length, numericality: {greater_than: 0}
   validates :minimum_abstract_length, presence: true
   validates :maximum_abstract_length, presence: true
+  validate :length_step
 
   alias_attribute :name, :title
+
+  LENGTH_STEP = 15
+
+  private
+
+  ##
+  # Check if length is multiple of LENGTH_STEP. Used as validation.
+  #
+  def length_step
+    errors.add(:length, "must be multiple of #{LENGTH_STEP}") if length % LENGTH_STEP != 0
+  end
 end
