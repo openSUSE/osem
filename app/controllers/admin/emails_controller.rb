@@ -30,7 +30,13 @@ module Admin
                                              :send_on_conference_registration_dates_updated, :conference_registration_dates_updated_subject, :conference_registration_dates_updated_body,
                                              :send_on_venue_updated, :venue_updated_subject, :venue_updated_body,
                                              :send_on_cfp_dates_updated, :cfp_dates_updated_subject, :cfp_dates_updated_body,
-                                             :send_on_program_schedule_public, :program_schedule_public_subject, :program_schedule_public_body)
+                                             :send_on_program_schedule_public, :program_schedule_public_subject, :program_schedule_public_body,
+                                             :send_on_updated_max_attendees_automatically,
+                                             :updated_max_attendees_automatically_subject, :updated_max_attendees_automatically_body,
+                                             :send_on_deleted_event_registration_automatically, :deleted_event_registration_automatically_subject,
+                                             :deleted_event_registration_automatically_body,
+                                             :send_on_new_event_registration,
+                                             :new_event_registration_subject, :new_event_registration_body)
     end
   end
 end

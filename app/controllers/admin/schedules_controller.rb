@@ -59,6 +59,21 @@ module Admin
       start_time = DateTime.strptime(time, '%Y-%m-%d %k:%M')
       event.start_time = start_time
       event.save!
+
+      if event.require_registration && (event.registrations.length > room.size)
+        event_registrations = event.events_registrations.order(created_at: :desc).limit(event.registrations.length - room.size)
+
+        event_registrations.each do |er|
+          er.destroy!
+          DeletedEventRegistrationAutomaticallyJob.perform_later(event.program.conference, er.user, er.event) if er.send_email_on_deleted_event_registration_automatically?
+        end
+
+        event.max_attendees = room.size
+        event.save!
+        users_emails = event_registrations.map { |er| er.registration.email }.join(', ')
+        UpdatedMaxAttendeesAutomaticallyJob.perform_later(event, users_emails) if event.send_email_on_updated_max_attendees_automatically?
+      end
+
       render json: { 'status' => 'ok' }
     end
 

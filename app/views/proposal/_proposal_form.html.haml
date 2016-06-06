@@ -48,8 +48,8 @@
       words.
 
     = f.inputs 'Enable pre-registration' do
-      = f.input :require_registration, label: 'Require participants to register to your event'
-      - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
+      = f.input :require_registration, label: 'Require participants to register to your event', input_html: { disabled: @event.registrations.any? }, hint: 'If you enable this option, you must set the max number of attendees. You cannot disable this option, if there are registations.'
+      - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling, organizers might automatically reduce this number based on room capacity.'
       = f.input :max_attendees, hint: 'The maximum number of participants. ' + message
 
     - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }

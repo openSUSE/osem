@@ -51,8 +51,8 @@ class EmailSettings < ActiveRecord::Base
     parse_template(event_template, values)
   end
 
-  def generate_email_on_conf_updates(conference, user, conf_update_template)
-    values = get_values(conference, user)
+  def generate_email_on_conf_updates(conference, user, conf_update_template, event=nil)
+    values = get_values(conference, user, event)
     parse_template(conf_update_template, values)
   end
 

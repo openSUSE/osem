@@ -54,6 +54,9 @@ class Ability
         registration.conference.registration_open? && registration.new_record?
       end
 
+      # Can index Events that require registration
+      can :index, EventsRegistration
+
       can :show, Event do |event|
         event.new_record?
       end
@@ -92,6 +95,19 @@ class Ability
 
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
+
+    # Can register/unregister to an event
+    can :toggle, EventsRegistration do |er|
+      user.registrations.include?(er.registration) && er.event.require_registration
+    end
+
+    # Proposal submitter can:
+    # - see the people who registered to the event
+    # - toggle registration of peope to the event
+    # - toggle their attendance
+    can [:show, :toggle, :toggle_attendance], EventsRegistration do |er|
+      er.event.event_users.pluck(:user_id).include? user.id
+    end
   end
 
   # Abilities for signed in users with roles
@@ -116,6 +132,10 @@ class Ability
     # Do not delete venue, when there are rooms being used
     cannot :destroy, Venue do |venue|
       venue.conference.program.events.where.not(room_id: nil).any?
+    end
+
+    cannot :toggle, EventsRegistration do |er|
+      !er.event.require_registration
     end
   end
 
@@ -148,6 +168,9 @@ class Ability
     can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_organizer}
     can :manage, Commercial, commercialable_type: 'Event',
                              commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
+    can :manage, EventsRegistration do |er|
+      conf_ids_for_organizer.include? er.registration.conference.id
+    end
     can :manage, Venue, conference_id: conf_ids_for_organizer
     can :manage, Commercial, commercialable_type: 'Venue',
                              commercialable_id: Venue.where(conference_id: conf_ids_for_organizer).pluck(:id)
@@ -182,6 +205,9 @@ class Ability
     can :manage, Program, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',
                              commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+    can :manage, EventsRegistration do |er|
+      conf_ids_for_cfp.include? er.registration.conference.id
+    end
     can :index, Comment, commentable_type: 'Event',
                          commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
 

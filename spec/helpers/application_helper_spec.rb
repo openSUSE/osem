@@ -13,15 +13,18 @@ describe ApplicationHelper, type: :helper do
 
   describe '#registered_text' do
     describe 'returns correct string' do
+      before :each do
+        event.require_registration = true
+        event.max_attendees = 3
+      end
+
       it 'when there are no registrations' do
-        expect(registered_text(event)).to eq 'Registered: 0'
+        expect(registered_text(event)).to eq '0/3'
       end
 
       it 'when there is 1 registration' do
-        event.require_registration = true
-        event.max_attendees = 3
-        event.registrations << create(:registration, user: event.submitter)
-        expect(registered_text(event)).to eq 'Registered: 1/3'
+        event.registrations << create(:registration)
+        expect(registered_text(event)).to eq '1/3'
       end
     end
   end

@@ -9,7 +9,7 @@
             = @event.subtitle
         .btn-group.pull-right
           - if can? :update, @event
-            = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
+            = link_to 'Registrations', conference_program_proposal_events_registrations_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
           - if can? :edit, @event
             = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary"
           - if can? :schedule, @conference
@@ -83,4 +83,4 @@
             .col-md-12
               %dt Requires Registration:
               %dd
-                = link_to "Yes (#{registered_text(@event)})", new_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-xs btn-danger', disabled: !@event.registration_possible?
+                = link_to "Yes (Registered: #{registered_text(@event)})", conference_conference_registrations_path(@conference.short_title), class: 'btn btn-xs btn-info', disabled: !@event.registration_possible?
