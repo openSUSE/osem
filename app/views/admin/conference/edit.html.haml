@@ -23,4 +23,13 @@
         = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
       = f.inputs name: "Registrations" do
         = f.input :registration_limit, as: :number, in: 0..9999, hint: "Limit the number of registrations to the conference (0 no limit)"
+      = f.inputs name: "Tickets" do
+        = f.label :payment_method
+        .btn-group{"data-toggle" => :payment_method, class: "pull-right"}
+          %label.btn.btn-default
+            = f.radio_button :payment_method, 'online'
+            Pay Online
+          %label.btn.btn-default
+            = f.radio_button :payment_method, 'offline'
+            Pay at the venue
       = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
