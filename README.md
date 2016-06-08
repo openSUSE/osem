@@ -2,7 +2,9 @@
 [![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
 [![Coverage Status](https://coveralls.io/repos/openSUSE/osem/badge.png)](https://coveralls.io/r/openSUSE/osem)
 [![Security Status](https://hakiri.io/github/openSUSE/osem/master.svg)](https://hakiri.io/github/openSUSE/osem/master)
-
+<a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
+  <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
+</a>
 # Open Source Event Manager
 ![OSEM Logo](https://cdn.brandisty.com/img?id=570f6dc39c992b6b6700000a&format=png&w=300&h=89)
 
