@@ -1,11 +1,30 @@
 # Install Open Source Event Manager
+All the information that you need to install OSEM. If you have any problems with installing don't hesitate to [contact us](https://github.com/openSUSE/osem#contact)
+
+## Versions
+OSEM is an [semantic versioned](http://semver.org/) app. That means given a version number MAJOR.MINOR.PATCH we increment the:
+
+1. MAJOR version when we make incompatible changes,
+2. MINOR version when we add functionality in a backwards-compatible manner
+3. PATCH version when we make backwards-compatible bug fixes
+
+## Download
+You can find the latest OSEM releases on our [release page](https://github.com/openSUSE/osem/releases/latest) ([older release here](https://github.com/openSUSE/osem/releases))
+
+## Deploy
 OSEM is a *Ruby on Rails* application. We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
 base operating systems. [Check Google](https://encrypted.google.com/search?hl=en&q=ruby%20on%20rails%20apache%20passenger) ;-)
 
 For more information about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
 
-## Configuring OSEM
+If you have an heroku account you can also
+
+<a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
+  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+</a>
+
+## Configure
 There are a couple of environment variables you can set to configure OSEM.
 
 | Variable 			| Content 			| Purpose 				|
