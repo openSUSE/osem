@@ -9,15 +9,8 @@ class EventsRegistrationsController < ApplicationController
 
   def index
     @registration = @conference.registrations.find_by(conference: @conference, user: current_user)
-    if @registration
-      @events = @registration.events_ordered
-    else
-      @events = @program.events.require_registration
-    end
-#     unless current_user.registered? @conference
-#       redirect_to conference_conference_registration_path(@conference), alert: 'You got to register to the conf'
-#     end
 
+    @events = @registration ? @registration.events_ordered : @program.events.require_registration
   end
 
   def show
