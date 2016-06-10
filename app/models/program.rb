@@ -30,6 +30,10 @@ class Program < ActiveRecord::Base
       where.not(start_time: nil).where.not(room: nil).order(start_time: :asc)
     end
 
+    def unscheduled
+      confirmed.where('start_time IS NULL OR room_id IS NULL')
+    end
+
     def highlights
       where(state: :confirmed, is_highlight: true)
     end

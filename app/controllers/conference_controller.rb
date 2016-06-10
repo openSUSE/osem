@@ -22,6 +22,7 @@ class ConferenceController < ApplicationController
     @conf_period = conf_end - @conf_start
 
     @scheduled_events = @conference.program.events.scheduled
+    @unscheduled_events = @conference.program.events.unscheduled
 
     if @dates == Date.current
       @today = Date.current.strftime('%Y-%m-%d')

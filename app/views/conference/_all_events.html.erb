@@ -1,5 +1,7 @@
 <h1 class="text-center">Program for <%= @conference.title %></h1>
 <div class="row">
+
+  <!-- scheduled events -->
   <% date = nil %>
   <% time = nil %>
   <% @scheduled_events.each do |event| %>
@@ -25,5 +27,22 @@
         <%= render partial: 'event', locals: {event: event} %>
       </div>
     <% end %>
+  <% end %>
+
+  <!-- confirmed events that are not scheduled -->
+  <% if @unscheduled_events.any? %>
+  <div class='col-xs-12 col-md-12 all-events-title'>
+    <span class='date-title' id='program-unscheduled'>
+      Unscheduled events
+    </span>
+    <a title="Go up" class="pull-right" href="#program">
+      <i class="fa fa-angle-double-up fa-lg" aria-hidden="true"></i>
+    </a>
+  </div>
+  <% end %>
+  <% @unscheduled_events.each do |event| %>
+    <div class='col-xs-12 col-md-12 unscheduled-event'>
+      <%= render partial: 'event', locals: {event: event} %>
+    </div>
   <% end %>
 </div>
