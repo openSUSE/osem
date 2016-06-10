@@ -10,6 +10,7 @@ class EventType < ActiveRecord::Base
 
   alias_attribute :name, :title
 
+  # If LENGTH_STEP > 60 the public schedule must be changed
   LENGTH_STEP = 15
 
   private

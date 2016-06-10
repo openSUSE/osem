@@ -1,24 +1,13 @@
-%td.event{ style: "width: #{95 / @rooms.length}%; cursor:pointer", |
-           rowspan: span[room.id], |
+%td.event{ width: "#{ width * span }%" , |
+           height: "75px" , |
+           colspan: span, |
+           style: "cursor:pointer; padding:0px;" , |
            role: "button" } |
-  %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event[0].id))}
-    - if speaker = event[0].speakers.first
+  %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
+    %div{ class:"event-elipsis break-words", style: "font-size: 11px; height:45px; line-height: 15px; overflow: hidden;"}
+      = event.title
+    - if speaker = event.speakers.first
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right", |
                                          :alt => speaker.name, |
                                          :title => speaker.name, |
-                                         :style => "padding:8px;" |
-    %h5
-      %span.fa.fa-comment
-      = event[0].title
-      - unless event[0].subtitle.blank?
-        %span.schedule-subtitle
-          = event[0].subtitle
-    %span.schedule-speaker
-      %span.fa.fa-user
-      = speaker.name
-    - if event[0].track
-      %span.schedule-track
-        %span.fa.fa-road
-        %span.label{ style: "background-color: #{event[0].track.color}" }
-          = event[0].track.name
-
+                                         :style => "padding:5px 2px; width:25px" |

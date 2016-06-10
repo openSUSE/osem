@@ -1,72 +1,93 @@
 <div id="schedule-content">
-    <h1 class="text-center"> Schedule for <%= @conference.title %></h1>
-    <ul class="nav nav-tabs">
+  <h1 class="text-center"> Schedule for <%= @conference.title %></h1>
+  <div class="dropdown schedule-dropdown">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      <%= @dates.first %>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
       <% @dates.each do |date| %>
-        <li <%= "class=active" if @dates.first == date %>>
+        <li class='li-dropdown-schedule'>
           <%= link_to date, "#" + "#{date}", "data-toggle" => "tab" %>
         </li>
     <% end %>
     </ul>
+  </div>
 
-    <div class="tab-content">
-      <% @dates.each do |date| %>
-        <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
-          <table class="table table-bordered" id="schedule" width="100%">
-            <tr>
-              <th>Time</th>
-              <% @rooms.each do |room| %>
-                <th><%= room.name %></th>
-              <% end %>
-            </tr>
+  <div class="tab-content">
+    <% @dates.each do |date| %>
+      <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
 
-                <% span = {} %>
-                <% @rooms.each do |room| %>
-                  <% span[room.id] = 1 %>
-                <% end %>
-
-            <% conf_start = DateTime.parse("#{date} 09:00") %>
-            <% conf_end = DateTime.parse("#{date} 19:00") %>
-
-            <% while conf_start < conf_end %>
-              <%-
-                start_hour = conf_start.hour
-                start_min = conf_start.min %>
-
-              <tr>
-                <td style="width:5%">
-                  <%= conf_start.strftime("%H:%M") %>
-                </td>
-
-                <% @rooms.each do |room| %>
-                  <% events_for_date = @events.find_all {|e| e.room_id == room.id && e.start_time && e.start_time.to_date == date } %>
-                  <% event = events_for_date.find_all{|e| e.start_time.hour == start_hour && e.start_time.min == start_min } %>
-                  <% if !event.empty? %>
-                    <!-- There is an event, calculate the span and show it -->
-                    <% span[room.id] = event[0].event_type.length / 15 %>
-                    <%= render partial: 'schedule_item', locals: {event: event, room: room, span: span} %>
-                    <% span[room.id] = span[room.id] + 1 %>
-                    <% elsif  span[room.id] > 1 %>
-                      <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
-                      <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
+        <div id="carousel-<%= date %>" class="carousel slide" data-ride="carousel" data-wrap='false' data-interval='false'>
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <% start_time = DateTime.parse("#{date} #{@conf_start}:00") %>
+            <% (0..@carousel_number-1).each do |number| %>
+              <div class="item <%= number == 0 ? 'active first' : ( number == @carousel_number-1 ? 'last' : '') %>">
+                <table class="table table-bordered" id="schedule" width="100%" style="margin:0px; padding:0px;">
+                  <tr>
+                    <th></th>
+                    <% td_start_time = start_time %>
+                    <% (1..@intervals).each do |i| %>
+                        <th style="font-size:12px; padding: 8px 0px 8px 4px;"><%= (td_start_time).strftime("%H:%M") %></th>
+                        <% td_start_time += @step_minutes %>
                     <% end %>
-                    <% if span[room.id] == 1 %>
-                      <!-- span equals 1 show an empty td -->
-                      <td style="width: <%= 95 / @rooms.length %>%">
+                  </tr>
+
+                  <% @rooms.each do |room| %>
+                    <% start_room_time = start_time %>
+                    <% span = 1 %>
+                    <tr>
+                      <td width="15%" height= "70px"; style="padding: 5px;max-width:15%;">
+                        <div class="room-elipsis break-words", style= "font-size: 11px; height:60px; line-height: 15px; overflow: hidden;">
+                          <%= room.name %>
+                        </div>
                       </td>
-                    <% end %>
-                <%end %>
-              </tr>
-              <% conf_start += 15.minutes %>
-            <%end %>
-          </table>
-        </div>
-      <% end %>
-    </div>
+                        <% events = room.events{ |e| e.start_time >= start_time and e.start_time < (start_time + @number_columns.hour)} %>
+                        <% (1..@intervals).each do |i| %>
+                          <% if  span > 1 %>
+                            <% span -= 1 %>
+                          <% else %>
+                            <% event = events.find{|e| e.start_time <= start_room_time and e.end_time > start_room_time} %>
+                            <% if event %>
+                              <!-- There is an event, calculate the span and show it -->
+                              <% event_span =  (event.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP %>
+                              <% span = ((event_span + i - 1 ) > @intervals ? @intervals  + 1 - i : event_span) %>
+                              <%= render partial: 'schedule_item', locals: {event: event, span: span, width: @width} %>
+                            <% else %>
+                              <!-- span equals 1 show an empty td -->
+                              <td width="<%= @width %>%"; height='75px'; style="padding:0px;"></td>
+                            <% end %>
+                          <% end %>
+                          <% start_room_time += @step_minutes %>
+                        <% end %>
+                    </tr>
+                  <% end %>
+                  <% start_time += @number_columns.hour %>
+                </table>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-<%= date %>" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-<%= date %>" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div> <!-- Carousel -->
+
+      </div> <!-- Tab -->
+    <% end %>
+  </div>
 </div>
 <%= javascript_tag do %>
 $(function() {
   // add a hash to the URL when the user clicks on a tab
   $('a[data-toggle="tab"]').on('click', function(e) {
+    $('.li-dropdown-schedule').removeClass('active');
+    $('.schedule-dropdown').find('button').text($(this).text());
     history.pushState(null, null, $(this).attr('href'));
   });
   // navigate to a tab when the history changes
@@ -84,5 +105,22 @@ $(function() {
     var hash = window.location.hash;
     hash && $('ul.nav a[href="' + hash + '"]').tab('show');
 });
+
+$('.carousel').on('slid.bs.carousel', '',
+function(){
+  $(this).children('.left.carousel-control').show();
+  $(this).children('.right.carousel-control').show();
+  if($(this).find('.first').hasClass('active')) {
+    $(this).children('.left.carousel-control').hide();
+  } else if($(this).find('.last').hasClass('active')) {
+    $(this).children('.right.carousel-control').hide();
+  }
+});
+
+
+$(document).ready(function(){
+    $('.carousel').children('.left.carousel-control').hide();
+});
+
 
 <% end %>

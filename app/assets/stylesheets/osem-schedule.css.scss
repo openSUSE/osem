@@ -75,3 +75,50 @@ a.unstyled-link {
   background-image: linear-gradient(to top, #f7faf2 24%, #53ab4a 97%,
 #53ab4a 100%);
 }
+
+.schedule-dropdown{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.schedule-dropdown > button{
+  width: 100%;
+}
+
+.schedule-dropdown > .dropdown-menu{
+  width: 100%;
+}
+
+.event-elipsis{
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* number of lines to show */
+}
+
+.room-elipsis{
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* number of lines to show */
+}
+
+.break-words{
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+   -ms-word-break: break-all;
+   word-break: break-all;
+
+   /* Non standard for webkit */
+   word-break: break-word;
+
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+}

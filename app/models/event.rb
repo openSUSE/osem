@@ -223,6 +223,20 @@ class Event < ActiveRecord::Base
     (100 * result.values.count(true) / result.values.compact.count).to_s
   end
 
+  ##
+  # Returns the number of columns this event should span in the schedule
+  #
+  def span
+    self.event_type.length / EventType::LENGTH_STEP
+  end
+
+  ##
+  # Returns end of the event
+  #
+  def end_time
+    self.start_time + self.event_type.length.minutes
+  end
+
   private
 
   ##
