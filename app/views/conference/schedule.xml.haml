@@ -1,0 +1,11 @@
+%schedule
+  %version=@conference.revision
+  %conference
+    %acronym=@conference.short_title
+    %title=@conference.title
+    %start=@conference.start_date
+    %end=@conference.end_date
+    %days=(@conference.end_date - @conference.start_date).to_i + 1
+    %timeslot_duration="00:15" ## fixme
+  - if not @conference.venue.nil? and @conference.venue.rooms.any?
+    = render 'all_days'

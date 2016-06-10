@@ -223,6 +223,12 @@ class Event < ActiveRecord::Base
     (100 * result.values.count(true) / result.values.compact.count).to_s
   end
 
+  ##
+  # Returns the slug of an event
+  def slugify
+    "#{self.id}-#{self.title.downcase.gsub(/[^a-z1-9]+/, '-').chomp('-')}"
+  end
+
   private
 
   ##

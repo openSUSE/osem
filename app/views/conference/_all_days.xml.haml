@@ -1,0 +1,3 @@
+- @conference.program.events.group_by{ |event| event.start_time.to_date }.each_with_index do | day, index |
+  %day{ :date => day[0], :index => index+1 }
+    =render 'all_rooms', :events => day[1]

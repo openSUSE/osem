@@ -1,0 +1,4 @@
+- events.group_by{ |event| event.room }.each do | room |
+  %room{ :name => room[0].name }
+    - room[1].each do | event |
+      = render 'event', :event => event
