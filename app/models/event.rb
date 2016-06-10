@@ -73,7 +73,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    room && start_time ? true : false
+    room.present? && start_time.present?
   end
 
   def registration_possible?

@@ -149,6 +149,38 @@ td.no-padding{
   padding:0px !important;
 }
 
+.all-events-title{
+  margin-top: 40px;
+  border-bottom: 1px solid #848484;
+}
+
+.date-title{
+  font-size: 23px;
+  font-weight: bold;
+  padding-bottom: 2px;
+  display:inline-block;
+}
+
+.start-time{
+  font-size: 16px;
+  padding-left: 30px;
+  margin-top: 32px;
+}
+
+.new-time-event{
+  margin-top: 20px;
+}
+
+
+.all-speaker-pic{
+  padding: 20px 10px 20px 10px;
+}
+
+.track{
+   padding: 0px 5px 0px 5px;
+   display: inline-block;
+ }
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .room, .event-title{

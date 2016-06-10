@@ -27,7 +27,7 @@ class Program < ActiveRecord::Base
     end
 
     def scheduled
-      where.not(start_time: nil).where.not(room: nil)
+      where.not(start_time: nil).where.not(room: nil).order(start_time: :asc)
     end
 
     def highlights
