@@ -11,6 +11,26 @@
             = link_to 'Export XLS', {format: :xlsx}, class: 'btn btn-success'
       %p.text-muted
         All the people who registered to your event
+.row
+  .col-sm-4.col-xs-4
+    .dashbox.text-center
+      %span.fa.fa-user.fa-lg
+      %span.fa.fa-lg
+        = @registrations.length
+      %p
+        %small
+          #{'Registration'.pluralize(@registrations.length)}
+        - if @new_reg
+          %span.label.label-success{title: "+#{@new_reg} since you last logged in!"}
+            +
+            = @new_reg
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Affiliation', data: @affiliation_distribution}
+  - unless @conference.pending?
+    .col-md-4
+      = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Attended registrations', data: @registration_distribution}
+.row
+  .col-md-12
     %table.table.table-hover.datatable#registrations
       %thead
         %tr
