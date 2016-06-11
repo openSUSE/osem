@@ -8,6 +8,13 @@
       %p.text-muted
         All the submissions of your speakers
 .row
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Events state', data: @event_distribution}
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Confirmed events scheduled', data: @scheduled_event_distribution}
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed}
+.row{ style: "margin-top: 40px;"}
   .col-md-12
     %table.table.table-striped.table-bordered.table-hover.datatable
       %thead

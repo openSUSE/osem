@@ -317,6 +317,20 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Returns a hash with scheduled vs unscheduled events
+  # { "Scheduled" => { value: number of confirmed and scheduled events, color: color },
+  #   "Unscheduled" => { value: number of confirmed and unscheduled events, color: color }
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def scheduled_event_distribution
+    confirmed_events = program.events.where(state: 'confirmed')
+    scheduled_value =  { 'value' => confirmed_events.where('start_time IS NOT NULL').count, 'color' => 'green' }
+    unscheduled_value =  { 'value' => confirmed_events.where('start_time IS NULL').count, 'color' => 'red' }
+    { 'Scheduled' => scheduled_value, 'Unscheduled' => unscheduled_value }
+  end
+
+  ##
   # Returns a hash with user distribution => {value: count of user state, color: color}
   # active: signed in during the last 3 months
   # unconfirmed: registered but not confirmed
