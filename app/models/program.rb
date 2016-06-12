@@ -91,6 +91,17 @@ class Program < ActiveRecord::Base
     self.languages.split(',').map {|l| ISO_639.find(l).english_name} if self.languages.present?
   end
 
+  ##
+  # Checks if there is any event in the program that starts in the given date
+  #
+  # ====Returns
+  # * +True+ -> If there is any event for the given date
+  # * +False+ -> If there is not any event for the given date
+  def any_event_for_this_date?(date)
+    parsed_date = DateTime.parse("#{date} 00:00").utc
+    events.where(start_time: parsed_date..(parsed_date + 1)).any?
+  end
+
   private
 
   ##

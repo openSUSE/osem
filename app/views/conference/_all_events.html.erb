@@ -1,4 +1,24 @@
 <h1 class="text-center">Program for <%= @conference.title %></h1>
+<div class="dropdown program-dropdown">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    Dates
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <% @dates.each do |date| %>
+      <!-- we check if there is any event that day to indicate it appropiately -->
+      <li class='li-dropdown-program'>
+        <%= link_to date, "#program-" + "#{date}", class: "program-selector#{ ' no-events-day' unless @conference.program.any_event_for_this_date?(date) }" %>
+      </li>
+    <% end %>
+    <% if @unscheduled_events.any? %>
+      <li class='li-dropdown-program'>
+        <%= link_to('Unscheduled', "#program-unscheduled", class: 'program-selector') %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
 <div class="row">
 
   <!-- scheduled events -->
@@ -46,3 +66,9 @@
     </div>
   <% end %>
 </div>
+
+<%= javascript_tag do %>
+$('.program-selector').on('click', function(e) {
+  $('.li-dropdown-program').removeClass('active');
+});
+<% end %>

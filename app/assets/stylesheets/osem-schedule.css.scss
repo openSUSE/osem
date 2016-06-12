@@ -184,6 +184,24 @@ td.no-padding{
    display: inline-block;
  }
 
+.program-dropdown{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 40px;
+}
+
+.program-dropdown > button{
+  width: 100%;
+}
+
+.program-dropdown > .dropdown-menu{
+  width: 100%;
+}
+
+.no-events-day{
+  color:  #D8D8D8 !important;
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .room, .event-title{
