@@ -13,6 +13,9 @@ background-image: -webkit-gradient(
     color-stop(0.97, rgb(194,232,190)),
     color-stop(1, rgb(194,232,190))
 );
+
+cursor: pointer;
+padding: 2px;
 }
 
 #schedule td.event:hover
@@ -102,7 +105,7 @@ a.unstyled-link {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4; /* number of lines to show */
+  -webkit-line-clamp: 5; /* number of lines to show */
 }
 
 .break-words{
@@ -121,4 +124,136 @@ a.unstyled-link {
    -moz-hyphens: auto;
    -webkit-hyphens: auto;
    hyphens: auto;
+}
+
+.room {
+  font-size: 11px;
+  height: 70px;
+  line-height: 14px;
+  overflow: hidden;
+}
+
+.event-title{
+  font-size: 11px;
+  height: 42px;
+  line-height: 14px;
+  overflow: hidden;
+}
+
+td.room{
+  width: 15%;
+  padding: 3px !important;
+  height: 77px;
+  max-width:15%;
+}
+
+th.date{
+  font-size: 12px;
+  padding: 8px 0px 8px 1% !important;
+}
+
+.speaker-pic{
+  padding: 5px 2px;
+  width: 25px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .room {
+    font-size: 12px;
+    height: 75px;
+    line-height: 15px;
+  }
+
+  .event-title{
+    font-size: 12px;
+    height: 45px;
+    line-height: 15px;
+  }
+
+  .speaker-pic{
+    padding: 5px 3px;
+    width: 30px;
+  }
+
+  td.room{
+    width: 12%;
+    height: 90px;
+    padding: 5px !important;
+    max-width:12%;
+  }
+
+  th.date{
+    font-size: 13px;
+  }
+
+  td.event{
+    padding: 5px !important;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .room {
+    font-size: 13px;
+    height: 80px;
+    line-height: 16px;
+  }
+
+  .event-title{
+    font-size: 13px;
+    height: 48px;
+    line-height: 16px;
+  }
+
+  .speaker-pic{
+    padding: 5px 4px;
+    width: 35px;
+  }
+
+  td.room{
+    width: 10%;
+    height: 100px;
+    padding: 6px !important;
+    max-width: 10%;
+  }
+
+  td.event{
+    padding: 6px !important;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .room {
+    font-size: 14px;
+    height: 85px;
+    line-height: 17px;
+  }
+
+  .event-title{
+    font-size: 14px;
+    height: 51px;
+    line-height: 17px;
+  }
+
+  .speaker-pic{
+    padding: 5px;
+    width: 39px;
+  }
+
+  td.room{
+    width: 9%;
+    height: 105px;
+    padding: 7px !important;
+    max-width: 9%;
+  }
+
+  td.event{
+    padding: 7px !important;
+  }
+
+  th.date{
+    font-size: 14px;
+  }
 }

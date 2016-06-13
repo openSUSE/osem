@@ -1,13 +1,10 @@
 %td.event{ width: "#{ width * span }%" , |
-           height: "75px" , |
            colspan: span, |
-           style: "cursor:pointer; padding:0px;" , |
            role: "button" } |
   %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
-    %div{ class:"event-elipsis break-words", style: "font-size: 11px; height:45px; line-height: 15px; overflow: hidden;"}
+    %div{ class:"event-elipsis break-words event-title"}
       = event.title
     - if speaker = event.speakers.first
-      = image_tag speaker.gravatar_url, :class => "img-circle pull-right", |
+      = image_tag speaker.gravatar_url, :class => "img-circle pull-right speaker-pic", |
                                          :alt => speaker.name, |
-                                         :title => speaker.name, |
-                                         :style => "padding:5px 2px; width:25px" |
+                                         :title => speaker.name

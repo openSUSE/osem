@@ -224,13 +224,6 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  # Returns the number of columns this event should span in the schedule
-  #
-  def span
-    self.event_type.length / EventType::LENGTH_STEP
-  end
-
-  ##
   # Returns end of the event
   #
   def end_time
