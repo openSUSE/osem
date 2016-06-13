@@ -1,0 +1,20 @@
+- event.public?
+  %event{ :guid => event.guid, :id => event.id }
+    %date=event.start_time.iso8601
+    %start=event.start_time.strftime("%H:%M")
+    %duration=event.event_type.length_timestamp
+    %room=event.room.name
+    %type=event.event_type.name
+    %language="en" ## fix me, add language property to Event/Conference?
+    %slug=event.slugify
+    %title=event.title
+    %subtitle=event.subtitle
+    %track=event.track.name
+    %abstract=event.abstract
+    %recording
+      %license/
+      %optout=false #fixme
+    %persons
+      - event.speakers.uniq.each do | speaker |
+      %person{ :id => speaker.id}= speaker.name
+

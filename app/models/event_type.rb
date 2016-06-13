@@ -12,6 +12,13 @@ class EventType < ActiveRecord::Base
 
   LENGTH_STEP = 15
 
+  ##
+  # Return the length in timestamp format (HH:MM)
+  #
+  def length_timestamp
+    [self.length / 60, self.length % 60].map { |t| t.to_s.rjust(2,'0') }.join(':')
+  end
+
   private
 
   ##
