@@ -14,6 +14,7 @@ class ConferenceController < ApplicationController
   def schedule
     @rooms = @conference.venue.rooms if @conference.venue
     @events = @conference.program.events
+    @events_xml = @conference.program.events.scheduled.group_by{ |event| event.start_time.to_date }
     @dates = @conference.start_date..@conference.end_date
 
     if @dates == Date.current

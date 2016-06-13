@@ -1,0 +1,35 @@
+%schedule
+  %version= @conference.revision
+  %conference
+    %acronym= @conference.short_title
+    %title= @conference.title
+    %start= @conference.start_date
+    %end= @conference.end_date
+    %days= (@conference.end_date - @conference.start_date).to_i + 1
+    %timeslot_duration= '00:15' #FIXME
+
+  - if @events_xml.any?
+    - @events_xml.keys.each.with_index(1) do |day, index|
+      %day{ date: day, index: index }
+        - events_in_rooms = @events_xml[day].group_by(&:room)
+        - @rooms.each do |room|
+          %room{ name: room.name }
+            - events_in_rooms[room].each do |event|
+              %event{ guid: event.guid, id: event.id }
+                %date= event.start_time.iso8601
+                %start= event.start_time.strftime('%H:%M')
+                %duration= event.event_type.length_timestamp
+                %room= event.room.name
+                %type= event.event_type.name
+                %language= 'en' #FIXME
+                %slug= "#{event.id} #{event.title}".parameterize
+                %title= event.title
+                %subtitle= event.subtitle
+                %track= event.track.name if event.track
+                %abstract= event.abstract
+                %recording
+                  %license/
+                  %optout=false #FIXME
+                %persons
+                  - event.speakers.uniq.each do |speaker|
+                    %person{ id: speaker.id }= speaker.name
