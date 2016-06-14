@@ -201,9 +201,14 @@ group :development do
   gem 'web-console', '~> 2.0'
 end
 
-group :test do
+group :development, :test do
   # as test framework
   gem 'rspec-rails'
+  # as debugger
+  gem 'byebug'
+end
+
+group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'poltergeist'
@@ -218,9 +223,4 @@ group :test do
   gem 'timecop'
   # for mocking external requests
   gem 'webmock'
-end
-
-group :development, :test do
-  # as debugger
-  gem 'byebug'
 end

@@ -83,7 +83,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   end
 
   def content_type_whitelist
-    %r{/image\//}
+    /image\//
   end
 
   private
