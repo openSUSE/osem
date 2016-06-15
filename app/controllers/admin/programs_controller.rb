@@ -26,7 +26,7 @@ module Admin
     private
 
     def program_params
-      params.require(:program).permit(:rating, :schedule_public, :schedule_fluid)
+      params.require(:program).permit(:rating, :schedule_public, :schedule_fluid, :languages)
     end
   end
 end

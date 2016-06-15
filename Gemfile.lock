@@ -219,6 +219,7 @@ GEM
     i18n_data (0.7.0)
     inversion (0.12.3)
       loggability (~> 0.4)
+    iso-639 (0.2.5)
     jquery-datatables-rails (2.2.3)
       jquery-rails
       sass-rails
@@ -561,6 +562,7 @@ DEPENDENCIES
   guard-rspec (~> 4.2.8)
   haml-rails
   hoptoad_notifier (~> 2.3)
+  iso-639
   jquery-datatables-rails (~> 2.2.1)
   jquery-rails
   leaflet-rails

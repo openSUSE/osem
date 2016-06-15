@@ -12,5 +12,6 @@ describe 'admin/programs/show' do
     expect(rendered).to have_css('dt', text: 'Tracks:')
     expect(rendered).to have_css('dt', text: 'Difficulty Levels:')
     expect(rendered).to have_css('dd', text: 'Easy, Medium and Hard')
+    expect(rendered).to have_css('dt', text: 'Languages:')
   end
 end

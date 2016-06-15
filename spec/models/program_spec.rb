@@ -58,4 +58,37 @@ describe Program do
       expect(conference.program.difficulty_levels.count).to eq 3
     end
   end
+
+  describe 'languages' do
+    it "is not valid if languages aren't two letters separated by commas" do
+      program.languages = 'eng, De es'
+      expect(program.valid?).to eq false
+      expect(program.errors[:languages]).to eq ['must be two letters separated by commas']
+    end
+
+    it 'is not valid if languages are repeated' do
+      program.languages = 'en,de,es,en'
+      expect(program.valid?).to eq false
+      expect(program.errors[:languages]).to eq ["can't be repeated"]
+    end
+
+    it "is not valid if languages aren't ISO 639-1 valid codes" do
+      program.languages = 'en,hh,yu,zi,oo'
+      expect(program.valid?).to eq false
+      expect(program.errors[:languages]).to eq ['must be ISO 639-1 valid codes']
+    end
+
+    it 'is valid otherwise' do
+      program.languages = 'en,De, ES, ru,el'
+      expect(program.valid?).to eq true
+    end
+  end
+
+  describe '#languages_list' do
+    it 'returns the list of readable languages' do
+      program.languages = 'en,de,fr,ru,zh'
+      expect(program.languages_list).to eq %w(English German French Russian Chinese)
+    end
+  end
+
 end

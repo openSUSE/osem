@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.boolean  "schedule_fluid",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "languages"
   end
 
   create_table "qanswers", force: :cascade do |t|

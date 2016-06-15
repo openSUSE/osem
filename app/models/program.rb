@@ -51,6 +51,7 @@ class Program < ActiveRecord::Base
 
   before_create :create_event_types
   before_create :create_difficulty_levels
+  validate :check_languages_format
 
   ##
   # Checcks if the program has rating enabled
@@ -82,6 +83,10 @@ class Program < ActiveRecord::Base
     (!conference.email_settings.program_schedule_public_subject.blank? && !conference.email_settings.program_schedule_public_body.blank?)
   end
 
+  def languages_list
+    self.languages.split(',').map {|l| ISO_639.find(l).english_name} if self.languages.present?
+  end
+
   private
 
   ##
@@ -111,5 +116,21 @@ class Program < ActiveRecord::Base
                                                 description: 'Events require expert knowledge of the topic.',
                                                 color: '#EF6E69')
     true
+  end
+
+  ##
+  # Check if languages string has the right format. Used as validation.
+  #
+  def check_languages_format
+    return unless self.languages.present?
+    # All white spaces are removed to allow languages to be separated by ',' and ', '. The languages string without spaces is saved
+    self.languages = self.languages.delete(' ').downcase
+    errors.add(:languages, 'must be two letters separated by commas') && return unless
+    self.languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).present?
+    languages_array = self.languages.split(',')
+    # We check that languages are not repeated
+    errors.add(:languages, "can't be repeated") && return unless languages_array.uniq!.nil?
+    # We check if every language is a valid ISO 639-1 language
+    errors.add(:languages, 'must be ISO 639-1 valid codes') unless languages_array.select{ |x| ISO_639.find(x).nil? }.empty?
   end
 end

@@ -31,6 +31,11 @@
                 data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
                 include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
+              - if @program.languages.present?
+                = f.input :language, as: :select,
+                  collection: @languages,
+                  include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
+
               - @program.event_types.each do |event_type|
                 %span{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help" }
                   = event_type.description

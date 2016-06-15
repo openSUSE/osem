@@ -20,10 +20,12 @@ class ProposalController < ApplicationController
   def new
     @user = User.new
     @url = conference_program_proposal_index_path(@conference.short_title)
+    @languages = @program.languages_list
   end
 
   def edit
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
+    @languages = @program.languages_list
   end
 
   def create
@@ -144,7 +146,7 @@ class ProposalController < ApplicationController
   def event_params
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :description,
-                                  :require_registration, :max_attendees)
+                                  :require_registration, :max_attendees, :language)
   end
 
   def user_params
