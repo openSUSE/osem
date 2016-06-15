@@ -92,6 +92,7 @@ module Admin
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
       @url = admin_conference_program_event_path(@conference.short_title, @event)
+      @languages = @program.languages_list
     end
 
     def comment
