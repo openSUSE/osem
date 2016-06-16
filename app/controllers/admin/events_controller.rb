@@ -171,16 +171,6 @@ module Admin
       @event_registrations = @event.events_registrations
     end
 
-    def toggle_attendance
-      @events_registration.attended = !@events_registration.attended
-
-      if @events_registration.save
-        head :ok
-      else
-        head :unprocessable_entity
-      end
-    end
-
     private
 
     def event_params

@@ -92,4 +92,34 @@ class Mailbot < ActionMailer::Base
          template_name: 'comment_template',
          subject: "New comment has been posted for #{@event.title}")
   end
+
+  def updated_max_attendees_automatically(conference, user, event)
+    mail(to: user.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.updated_max_attendees_automatically_subject,
+         body: conference.email_settings.generate_email_on_conf_updates(conference,
+                                                                        user,
+                                                                        conference.email_settings.updated_max_attendees_automatically_body,
+                                                                        event))
+  end
+
+  def deleted_event_registration_automatically(conference, user, event)
+    mail(to: user.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.deleted_event_registration_automatically_subject,
+         body: conference.email_settings.generate_email_on_conf_updates(conference,
+                                                                        user,
+                                                                        conference.email_settings.deleted_event_registration_automatically_body,
+                                                                        event))
+  end
+
+  def event_registration_email(conference, user, event)
+    mail(to: user.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.new_event_registration_subject,
+         body: conference.email_settings.generate_email_on_conf_updates(conference,
+                                                                        user,
+                                                                        conference.email_settings.new_event_registration_body,
+                                                                        event))
+  end
 end

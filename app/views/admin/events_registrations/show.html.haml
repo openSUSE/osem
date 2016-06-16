@@ -1,0 +1,46 @@
+.unobtrusive-flash-container
+.container
+  .row
+    .col-md-10
+      .page-header
+        %h1
+          Registrations (#{@event.registrations.length}/#{@event.max_attendees})
+        .text-muted
+          for
+          = @event.title
+
+      .well
+        %table.table.table-hover.table-borderd.table-striped.datatable#registrations
+          %thead
+            %th
+            %th Registered
+            %th Name
+            %th Email
+            %th Created At
+            %th Attended
+            %th Attended Conference
+          %tbody
+            - @event.registrations.each.with_index(1) do |registration, index|
+              - event_registration = EventsRegistration.find_by(event_id: @event.id, registration_id: registration.id)
+              %tr
+                %td= index
+                %td
+                  = check_box_tag "toggle-#{@conference.short_title}", registration.id, registration.events.include?(@event), method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{@event.id}/registrations/toggle?events_registrations[event_id]=#{@event.id}&&events_registrations[registration_id]=#{registration.id}&&registration_id=#{registration.id}&&state=", class: 'switch-checkbox', data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+
+                %td= event_registration.name
+                %td= event_registration.email
+                %td= event_registration.created_at
+                %td
+                  //We don't send the ID of the events_registration in the url of the switch-checkbox because
+                  //the ID might have changed through the above switch-checkbox (which destroys or creates an events_registration).
+                  //In that case the ID here would be invalid, before we would reload the page (to grab the new ID)
+                  = check_box_tag "toggle_attendance-#{@conference.short_title}", @event.id, event_registration.attended, class: 'switch-checkbox', method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{@event.id}/registrations/toggle_attendance?registration_id=#{registration.id}&&event_registration[attended]=",
+                  data: { size: 'small',
+                          off_color: 'danger',
+                          on_text: 'Yes',
+                          off_text: 'No' }
+                %td
+                  - if event_registration.registration.attended
+                    %i.fa.fa-check.text-success
+                  -else
+                    %i.fa.fa-times.text-danger

@@ -1,6 +1,7 @@
 .container
   .row
     .col-md-12
+      .unobtrusive-flash-container
       .page-header
         %h1
           Registration for
@@ -54,33 +55,9 @@
                   = qa.answer.title
               - else
                 You haven't answered
-  - if @registration.events.any?
-    .row
-      .col-md-12
-        %h4
-          %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-check.fa-stack-1x
-          Registered to the following event(s)
-        %ul
-          - @registration.events.each do |event|
-            %li
-              = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
-              = '(' + registered_text(event) + ')'
-
-  - if @registration.conference.program.events.remaining_for_registration(@registration).any?
-    .row
-      .col-md-12
-        %h4
-          %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-question.fa-stack-1x
-          Events that require registration
-        %ul
-          - @registration.conference.program.events.remaining_for_registration(@registration).each do |event|
-            %li
-              = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
-              = '(' + registered_text(event) + ')'
+  - if @conference.program.events.require_registration.any?
+    .events-with-registration
+      = render partial: 'events_with_registration'
 
   - if @conference.tickets.any?
     .row
@@ -117,6 +94,7 @@
     .col-md-12
       -if @registration
         .btn-group-vertical.pull-right
+
           = link_to 'Edit your Registration', edit_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-success', disabled: @conference.end_date < Date.today
           = link_to 'Unregister', conference_conference_registrations_path(@conference.short_title),
           method: :delete, class: 'btn btn-danger btn-xs', confirm: 'Are you sure you want to unregister?', disabled: @conference.end_date < Date.today

@@ -50,8 +50,11 @@ Osem::Application.routes.draw do
         resources :event_types
         resources :difficulty_levels
         resources :events do
-          member do
+          resource :events_registrations, only: [:index, :show], path: 'registrations' do
+            patch :toggle
             patch :toggle_attendance
+          end
+          member do
             get :registrations
             post :comment
             patch :accept
@@ -94,13 +97,16 @@ Osem::Application.routes.draw do
 
   resources :conference, only: [:index, :show] do
     resource :program, only: [] do
+      resources :events_registrations, only: :index
       resources :proposal, except: :destroy do
+        resource :events_registrations, only: :show, path: 'registrations' do
+          patch :toggle
+          patch :toggle_attendance
+        end
         get 'commercials/render_commercial' => 'commercials#render_commercial'
         resources :commercials, only: [:create, :update, :destroy]
         member do
-          get :registrations
           patch '/withdraw' => 'proposal#withdraw'
-          get :registrations
           patch '/confirm' => 'proposal#confirm'
           patch '/restart' => 'proposal#restart'
         end

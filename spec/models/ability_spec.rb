@@ -90,6 +90,52 @@ describe 'User' do
       let(:user_event_with_cfp) { create(:event, users: [user], program: program_with_cfp) }
       let(:user_commercial) { create(:commercial, commercialable: user_event_with_cfp) }
 
+      let(:event_of_user) do
+        create(:event, program: my_conference.program,
+                       require_registration: true,
+                       max_attendees: 3,
+                       users: [user])
+      end
+      let(:event_of_user2) do
+        create(:event, program: my_conference.program,
+                       require_registration: true,
+                       max_attendees: 3,
+                       users: [user2])
+      end
+      let(:user_registration) { create(:registration, user: user, conference: my_conference) }
+      let(:event_no_require_registration) { create(:event, program: my_conference.program) }
+      let!(:registration_to_event_no_require_registration) do
+        create(:events_registration,
+               event: event_no_require_registration,
+               registration: my_registration)
+      end
+      let(:registration_to_event_of_user) do
+        create(:events_registration,
+               event: event_of_user,
+               registration: my_registration,
+               attended: false)
+      end
+      let(:user_registration_to_event_of_user) do
+        create(:events_registration,
+               event: event_of_user,
+               registration: other_registration,
+               attended: false)
+      end
+
+      let(:registration_to_event_of_user2) do
+        create(:events_registration,
+               event: event_of_user2,
+               registration: my_registration,
+               attended: false)
+      end
+
+      let(:user_registration_to_event_of_user2) do
+        create(:events_registration,
+               event: event_of_user2,
+               registration: user_registration,
+               attended: false)
+      end
+
       it{ should be_able_to(:manage, user) }
 
       it{ should be_able_to(:manage, registration_public) }
@@ -118,6 +164,30 @@ describe 'User' do
       it{ should be_able_to(:create, user_event_with_cfp.commercials.new) }
       it{ should be_able_to(:manage, user_commercial) }
       it{ should_not be_able_to(:manage, commercial_event_unconfirmed) }
+
+      # Submitter can show/toggle/toggle_attendance of registration of another user to his/her event
+      it{ should be_able_to(:show, registration_to_event_of_user) }
+      it{ should be_able_to(:toggle, registration_to_event_of_user) }
+      it{ should be_able_to(:toggle_attendance, registration_to_event_of_user) }
+
+      it{ should be_able_to(:show, user_registration_to_event_of_user) }
+      it{ should be_able_to(:toggle, user_registration_to_event_of_user) }
+      it{ should be_able_to(:toggle_attendance, user_registration_to_event_of_user) }
+
+      # User can only toggle his/her own registration to an event
+      it{ should be_able_to(:toggle, user_registration_to_event_of_user2) }
+      it{ should_not be_able_to(:show, user_registration_to_event_of_user2) }
+      it{ should_not be_able_to(:toggle_attendance, user_registration_to_event_of_user2) }
+
+      # User cannot show/toggle/toggle_attendance of registration of other person to an event he/she is not a submitter of
+      it{ should_not be_able_to(:show, registration_to_event_of_user2) }
+      it{ should_not be_able_to(:toggle, registration_to_event_of_user2) }
+      it{ should_not be_able_to(:toggle_attendance, registration_to_event_of_user2) }
+
+      # User cannot show/toggle/toggle_attendance registration to an event that does not require_registration
+      it{ should_not be_able_to(:show, registration_to_event_no_require_registration) }
+      it{ should_not be_able_to(:toggle, registration_to_event_no_require_registration) }
+      it{ should_not be_able_to(:toggle_attendance, registration_to_event_no_require_registration) }
     end
 
     context 'user #is_admin?' do

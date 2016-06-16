@@ -14,6 +14,9 @@
                 %a{"aria-controls" => "notifications", "data-toggle" => "tab", :href => "#notifications", :role => "tab"} Update Notifications
               %li{:role => "presentation"}
                 %a{"aria-controls" => "cfp", "data-toggle" => "tab", :href => "#cfp", :role => "tab"} Call for Papers
+              %li{:role => "presentation"}
+                %a{"aria-controls" => "events_registration", "data-toggle" => "tab", :href => "#events_registrations", :role => "tab"} Events Registrations
+
             / Tab panes
             .tab-content
               #onboarding.tab-pane.active{:role => "tabpanel"}
@@ -83,6 +86,32 @@
                 "data-name"=>"email_settings_cfp_dates_updated_body"} Load Template
                 %a.btn.btn-link.control_label.template_help_link{"data-name"=>"updated_cfp_help"} Show Help
                 = render partial: 'help', locals: {id: 'updated_cfp_help', show_event_variables: false}
+              #events_registrations.tab-pane{:role => "tabpanel"}
+                = f.input :send_on_updated_max_attendees_automatically, hint: "This will notify event users about automatic changes on max_attendees attribute. This refers to events marked with require_registration"
+                = f.input :updated_max_attendees_automatically_subject
+                = f.input :updated_max_attendees_automatically_body, input_html: { rows: 10, cols: 20 }
+                %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nThe maximum number of attendees that can attend your session {eventtitle} has been modified.\n That is usually due to scheduling your session in a room with less available seats.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+                "data-name"=>"email_settings_updated_max_attendees_automatically_body"} Load Template
+                %a.btn.btn-link.control_label.template_help_link{"data-name"=>"updated_max_attendees_automatically_help"} Show Help
+                = render partial: 'help', locals: { id: 'updated_max_attendees_automatically_help', show_event_variables: true }
+
+                = f.input :send_on_deleted_event_registration_automatically, hint: "This will notify all user that they have been unregistered from an event. This occurs when someone else, except for the user, deletes the registration (eg. event submitter, conference organizer)"
+                = f.input :deleted_event_registration_automatically_subject
+                = f.input :deleted_event_registration_automatically_body, input_html: { rows: 10, cols: 20 }
+
+                %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nWe are sorry to inform you that you have been unregistered from the session {eventtitle}.\n That might have occured due to technical difficulties or room limitations. You can check online for any future changes.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+                "data-name"=>"email_settings_deleted_event_registration_automatically_body"} Load Template
+                %a.btn.btn-link.control_label.template_help_link{"data-name"=>"deleted_event_registration_automatically_help"} Show Help
+                = render partial: 'help', locals: { id: 'deleted_event_registration_automatically_help', show_event_variables: true }
+
+                = f.input :send_on_new_event_registration, hint: "This will notify every user that registers to an event that the registration was successful"
+                = f.input :new_event_registration_subject
+                = f.input :new_event_registration_body, input_html: { rows: 10, cols: 20 }
+
+                %a.btn.btn-link.control_label.load_template{"data-template"=>"Dear {name},\n\nYou have successfully registered to attend session {eventtitle}. This session requires all attendees to register in advance. This is usually due to limited resources needed during the session, or room limitations. If for any reason you cannot make it, please unregister yourself to free up your slot for other visitors that wish to attend.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team",
+                "data-name"=>"email_settings_new_event_registration_body"} Load Template
+                %a.btn.btn-link.control_label.template_help_link{"data-name"=>"new_event_registration_help"} Show Help
+                = render partial: 'help', locals: { id: 'new_event_registration_help', show_event_variables: true }
       .row
         .col-md-12
           = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}

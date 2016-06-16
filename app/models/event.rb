@@ -36,6 +36,7 @@ class Event < ActiveRecord::Base
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
   validate :max_attendees_no_more_than_room_size
+  validate :max_attendees_no_less_than_existing_registrations
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :highlighted, -> { where(is_highlight: true) }
@@ -66,6 +67,11 @@ class Event < ActiveRecord::Base
     event :reject do
       transitions to: :rejected, from: [:new], on_transition: :process_rejection
     end
+  end
+
+  def send_email_on_updated_max_attendees_automatically?
+    program.conference.email_settings.send_on_updated_max_attendees_automatically &&
+    program.conference.email_settings.updated_max_attendees_automatically_subject && program.conference.email_settings.updated_max_attendees_automatically_body
   end
 
   ##
@@ -230,6 +236,13 @@ class Event < ActiveRecord::Base
   def max_attendees_no_more_than_room_size
     return unless room && max_attendees_changed?
     errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
+  end
+
+  ##
+  # The value of max_attendees for an event cannot less than the number of existing registrations to that event
+  def max_attendees_no_less_than_existing_registrations
+    return unless max_attendees && max_attendees_changed?
+    errors.add(:max_attendees, 'cannot be less than existing registrations. You first need to unregister people, if you want to reduce this value.') if max_attendees < self.registrations.count
   end
 
   def abstract_limit

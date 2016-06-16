@@ -1,0 +1,43 @@
+.container
+  .row
+    .col-md-10.col-md-offset-1
+      .unobtrusive-flash-container
+      .page-header
+        %h1
+          Registrations (#{@proposal.registrations.length}/#{@proposal.max_attendees})
+        .text-muted
+          for
+          = @proposal.title
+
+      .well
+        %table.table.table-hover.table-borderd.table-striped.datatable#registrations
+          %thead
+            %th
+            %th Registered
+            %th Name
+            %th Email
+            %th Created At
+            %th Attended
+            %th Attended Conference
+          %tbody
+            - @proposal.registrations.each.with_index(1) do |registration, index|
+              - event_registration = EventsRegistration.find_by(event_id: @proposal.id, registration_id: registration.id)
+              %tr
+                %td= index
+                %td
+                  = check_box_tag "toggle-#{@conference.short_title}", registration.id, registration.events.include?(@proposal), method: :patch, url: "/conference/#{@conference.short_title}/program/proposal/#{@proposal.id}/registrations/toggle?events_registrations[event_id]=#{@proposal.id}&&events_registrations[registration_id]=#{registration.id}&&registration_id=#{registration.id}&&state=", class: 'switch-checkbox', data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+
+                %td= event_registration.name
+                %td= event_registration.email
+                %td= event_registration.created_at
+                %td
+                  = check_box_tag "toggle_attendance-#{@conference.short_title}", @proposal.id, event_registration.attended, class: 'switch-checkbox', method: :patch, url: "/conference/#{@conference.short_title}/program/proposal/#{@proposal.id}/registrations/toggle_attendance?&&registration_id=#{registration.id}&&event_registration[attended]=",
+                  data: { size: 'small',
+                          off_color: 'danger',
+                          on_text: 'Yes',
+                          off_text: 'No' }
+                %td
+                  - if event_registration.registration.attended
+                    %i.fa.fa-check.text-success
+                  -else
+                    %i.fa.fa-times.text-danger

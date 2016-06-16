@@ -1,0 +1,54 @@
+.container
+  .row
+    .col-md-11.col-md-offset-1
+      .unobtrusive-flash-container
+      .page-header
+        %h1
+          Sessions that require registration
+          = "(#{@program.events.require_registration.length})"
+        .text-muted
+          Some of the sessions require participants to pre-register. That gives us an idea about the amount of people interested in a particular session, and helps the speaker prepare for the amount of people that will show up. The speaker can limit the maximum number of attendees at any point, so if you are really interested in a session, go ahead and register for it!
+
+        - unless @registration
+          %br
+          Attention!!
+          You need to #{link_to 'register', new_conference_conference_registrations_path(@conference.short_title)} to attend the conference, before you can register to individual sessions.
+
+      .well
+        %table.table.table-hover.table-borderd.table-striped.datatable#registrations
+          %thead
+            %th
+            %th Registered
+            %th Title
+            %th Total Registrations
+            %th Scheduled
+          %tbody
+            - @events.each.with_index(1) do |event, index|
+              %tr
+                %td= index
+                %td.text-center
+                  - if @registration
+                    = check_box_tag "toggle-#{@conference.short_title}", event.id, event.registrations.include?(@registration), method: :patch, url: "/conference/#{@conference.short_title}/program/proposal/#{event.id}/registrations/toggle?events_registrations[event_id]=#{event.id}&&events_registrations[registration_id]=#{@registration.id}&&registration_id=#{@registration.id}&&state=", class: 'switch-checkbox', data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+                  - else
+                    No
+
+                %td
+                  .col-md-12
+                    = link_to event.title, conference_program_proposal_path(@conference.short_title, event)
+                  .text-muted
+                    .col-md-10
+                      = "by #{event.speakers.first.name}"
+                    .col-md-2
+                      = image_tag event.speakers.first.gravatar_url(size: 25), class: 'img-responsive img-rounded'
+                %td.text-center= registered_text(event)
+                %td
+                  - if event.start_time
+
+                    = event.start_time.strftime('%Y-%m-%d')
+                    %br
+
+                    = event.start_time.strftime('%H:%M')
+                  - if event.room
+                    %br
+                    In room
+                    = event.room.name

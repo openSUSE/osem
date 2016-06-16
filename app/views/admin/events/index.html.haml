@@ -99,7 +99,7 @@
                                                 off_text: 'No' }
             - if event.require_registration
               %br
-              = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
+              = link_to "Registered: #{registered_text(event)}", admin_conference_program_event_events_registrations_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
 
           %td.text-center{'data-order' => "#{event.is_highlight}"}
             = check_box_tag @conference.short_title, event.id, event.is_highlight,
