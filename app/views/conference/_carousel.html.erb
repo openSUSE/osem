@@ -1,13 +1,13 @@
 <% intervals = number_columns * 60 / EventType::LENGTH_STEP + 1 %>
 <% width = 85 / intervals %>
-<% carousel_number = (conf_period / number_columns.to_f).ceil %>
+<% carousel_number = (@conf_period / number_columns.to_f).ceil %>
 <div id="carousel-<%= date %>-<%= number_columns %>" class="carousel slide" data-ride="carousel" data-wrap='false' data-interval='false'>
   <!-- Wrapper for slides -->
   <div class="carousel-inner">
     <% start_time = DateTime.parse("#{date} #{@conf_start}:00") %>
     <% (0..carousel_number-1).each do |number| %>
       <div class="item <%= number == 0 ? 'active first' : ( number == carousel_number-1 ? 'last' : '') %>">
-        <table class="table table-bordered" id="schedule" width="100%" style="margin:0px; padding:0px;">
+        <table class="table table-bordered schedule-table" id="schedule">
           <tr>
             <th></th>
             <% td_start_time = start_time %>
@@ -22,8 +22,8 @@
             <% start_room_time = start_time %>
             <% span = 1 %>
             <tr>
-              <td class="room">
-                <div class="room room-elipsis break-words">
+              <td class="room" style="height: <%= td_height(@rooms) %>px;">
+                <div class="room elipsis break-words" style="-webkit-line-clamp: <%= room_lines(@rooms) %>; height: <%= room_height(@rooms) %>px;">
                   <%= room.name %>
                 </div>
               </td>
@@ -40,7 +40,7 @@
                       <%= render partial: 'schedule_item', locals: {event: event, span: span, width: width} %>
                     <% else %>
                       <!-- span equals 1 show an empty td -->
-                      <td width="<%= width %>%"; style="padding:0px;"></td>
+                      <td class="no-padding" width="<%= width %>%"></td>
                     <% end %>
                   <% end %>
                   <% start_room_time += @step_minutes %>
