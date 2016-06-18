@@ -21,21 +21,31 @@ class Ticket < ActiveRecord::Base
     ticket_purchases.find_by(user: user, paid: true).present?
   end
 
-  def quantity_bought_by(user)
-    result = ticket_purchases.where(user_id: user.id).first
-    result ? result.quantity : 0
+  def quantity_bought_by(user, paid)
+    result = ticket_purchases.where(user_id: user.id, paid: paid)
+    quantity = 0
+    if result
+      result.each do |ticket|
+        quantity += ticket.quantity
+      end
+    end
+    quantity
   end
 
-  def total_price(user)
-    quantity_bought_by(user) * price
+  def unpaid?(user)
+    ticket_purchases.find_by(user: user, paid: false).present?
   end
 
-  def self.total_price(conference, user)
+  def total_price(user, paid)
+    quantity_bought_by(user, paid) * price
+  end
+
+  def self.total_price(conference, user, paid)
     tickets = Ticket.where(conference_id: conference.id)
     result = nil
     begin
       tickets.each do |ticket|
-        price = ticket.total_price(user)
+        price = ticket.total_price(user, paid)
         if result
           result +=  price unless price.zero?
         else

@@ -6,9 +6,8 @@ class TicketPurchasesController < ApplicationController
   def create
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
-      if current_user.ticket_purchases.any?
-        redirect_to conference_conference_registration_path(@conference.short_title),
-                    notice: "Thank you for supporting #{@conference.title} by purchasing a ticket."
+      if current_user.ticket_purchases.where(paid: 'f').any?
+        redirect_to new_conference_payment_path, notice: 'Please pay here to purchase tickets.'
       else
         redirect_to conference_conference_registration_path(@conference.short_title)
       end
