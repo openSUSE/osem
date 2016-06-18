@@ -88,11 +88,11 @@ describe Ticket do
              user: user,
              ticket: ticket,
              quantity: 20)
-      expect(ticket.quantity_bought_by(user)).to eq(20)
+      expect(ticket.quantity_bought_by(user, 'f')).to eq(20)
     end
 
     it 'returns zero if the user has not bought this ticket' do
-      expect(ticket.quantity_bought_by(user)).to eq(0)
+      expect(ticket.quantity_bought_by(user, 'f')).to eq(0)
     end
   end
 
@@ -102,11 +102,11 @@ describe Ticket do
              user: user,
              ticket: ticket,
              quantity: 20)
-      expect(ticket.total_price(user)).to eq(Money.new(100000, 'USD'))
+      expect(ticket.total_price(user, 'f')).to eq(Money.new(100000, 'USD'))
     end
 
     it 'returns zero if the user has not bought this ticket' do
-      expect(ticket.total_price(user)).to eq(Money.new(0, 'USD'))
+      expect(ticket.total_price(user, 'f')).to eq(Money.new(0, 'USD'))
     end
   end
 
@@ -116,7 +116,7 @@ describe Ticket do
     describe 'user has bought' do
       context 'no tickets' do
         it 'returns zero' do
-          expect(Ticket.total_price(conference, user)).to eq(Money.new(0, 'USD'))
+          expect(Ticket.total_price(conference, user, 'f')).to eq(Money.new(0, 'USD'))
         end
       end
 
@@ -126,7 +126,7 @@ describe Ticket do
         end
 
         it 'returns the correct total price' do
-          expect(Ticket.total_price(conference, user)).to eq(Money.new(100000, 'USD'))
+          expect(Ticket.total_price(conference, user, 'f')).to eq(Money.new(100000, 'USD'))
         end
       end
 
@@ -138,7 +138,7 @@ describe Ticket do
 
         it 'returns the correct total price' do
           total_price = Money.new(200000, 'USD')
-          expect(Ticket.total_price(conference, user)).to eq(total_price)
+          expect(Ticket.total_price(conference, user, 'f')).to eq(total_price)
         end
       end
     end

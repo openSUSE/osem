@@ -26,26 +26,34 @@ feature Registration do
         fill_in "tickets__#{ticket.id}", with: '2'
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
 
-        click_button 'Support'
+        click_button 'Continue'
 
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
-        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
+        expect(current_path).to eq(new_conference_payment_path)
         expect(flash).
-            to eq("Thank you for supporting #{conference.title} by purchasing a ticket.")
+            to eq('Please pay here to purchase tickets.')
+
+        fill_in 'first_name', with: 'foo'
+        fill_in 'last_name', with: 'bar'
+        fill_in 'expiration_year', Date.current.year + 2
+        fill_in 'card_verification_value', with: '123'
+        fill_in 'credit_card_number', with: '4242424242424242'
+
+        click_button 'Charge Card'
+
+        payment = Payment.where(user_id: participant, conference_id: conference.id).first
+        expect(payment.amount).to eq(20)
+        expect(payment.status).to eq(1)
+        expect(payment.first_name).to eq('foo')
+        expect(payment.first_name).to eq('bar')
+        expect(payment.last4).not_to be_empty
+        expect(payment.authorization_code).not_to be_empty
+        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
+        expect(flash).
+            to eq('Thanks! You have purchased your tickets successfully.')
+
         expect(page.has_content?("2 #{ticket.title} Tickets for 10")).to be true
-      end
-
-      scenario 'deletes a purchased ticket', feature: true, js: true do
-        create(:registration, conference: conference, user: participant)
-        create(:ticket_purchase, conference: conference, user: participant, ticket: ticket, quantity: 4)
-
-        visit conference_conference_registration_path(conference.short_title)
-        expect(page.has_content?("4 #{ticket.title} Tickets for 10")).to be true
-
-        click_link "ticket-#{ticket.id}-delete"
-        expect(flash).to eq('Ticket successfully deleted.')
-        expect(TicketPurchase.count).to eq(0)
       end
     end
   end
