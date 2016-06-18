@@ -1,0 +1,32 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          Payment Attempts for
+          = @conference.title
+      - if !flash[:notice].blank?
+        .alert.alert-success
+          = flash[:notice]
+      %table.table.table-bordered.table-striped
+        %tr
+          %th First Name
+          %th Last Name
+          %th Last 4
+          %th Amount
+          %th Status
+          %th Authorization Code
+        - if @payments.size > 0
+          - @payments.each do |payment|
+            %tr
+              %td= payment.first_name
+              %td= payment.last_name
+              %td= payment.last4
+              %td= number_to_currency payment.amount
+              %td= payment.status
+              %td= payment.authorization_code
+        - else
+          %tr
+            %td{:colspan => "5"} No payments have been attempted.
+      .pull-right
+        = link_to "Conference Registration", conference_conference_registrations_path(@conference.short_title), class: 'btn btn-primary'
