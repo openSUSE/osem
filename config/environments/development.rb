@@ -97,3 +97,9 @@ Osem::Application.configure do
   end
 
 end
+
+
+ActiveMerchant::Billing::Base.mode = :test
+
+  ::GATEWAY = ActiveMerchant::Billing::StripeGateway.new(
+    :login => ENV['SECRET_KEY'])
