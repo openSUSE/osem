@@ -286,4 +286,16 @@ module ApplicationHelper
   def unread_notifications(user)
     Comment.accessible_by(current_ability).find_since_last_login(user)
   end
+
+  # Returns black or white deppending on what of them contrast more with the
+  # given color. Useful to print text in a coloured background.
+  # hexcolor is a hex color of 7 characters, being the first one '#'.
+  # Reference: https://24ways.org/2010/calculating-color-contrast
+  def contrast_color(hexcolor)
+    r = hexcolor[1..2].to_i(16)
+    g = hexcolor[3..4].to_i(16)
+    b = hexcolor[5..6].to_i(16)
+    yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
+    (yiq >= 128) ? 'black' : 'white'
+  end
 end
