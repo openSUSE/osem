@@ -1,5 +1,15 @@
 module ApplicationHelper
   ##
+  # Gets an EventType object, and returns its length in timestamp format (HH:MM)
+  # ====Gets
+  # * +Integer+ -> 30
+  # ====Returns
+  # * +String+ -> "00:30"
+  def length_timestamp(length)
+    [length / 60, length % 60].map { |t| t.to_s.rjust(2, '0') }.join(':')
+  end
+
+  ##
   # ====Returns
   # * +String+ -> number of registrations / max allowed registrations
   def registered_text(event)

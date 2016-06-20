@@ -29,6 +29,13 @@ FactoryGirl.define do
         event.room = build(:room, venue: venue)
         event.comment_threads << build(:comment, commentable: event)
       end
+
+      factory :event_scheduled do
+        after(:build) do |event|
+          event.state = 'confirmed'
+          event.start_time = event.program.conference.start_date.to_time
+        end
+      end
     end
   end
 end
