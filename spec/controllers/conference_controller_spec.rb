@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe ConferenceController do
-  let(:conference) { create(:full_conference,  splashpage: create(:splashpage, public: true)) }
+  let(:conference) { create(:conference,  splashpage: create(:splashpage, public: true), venue: create(:venue)) }
+  let!(:cfp) { create(:cfp, program: conference.program) }
+  let(:room) { create(:room, venue: conference.venue) }
 
   describe 'GET #index' do
     it 'Response code is 200' do
