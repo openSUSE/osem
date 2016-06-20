@@ -7,6 +7,7 @@ set :port, 2214
 set :user, 'osem'
 set :deploy_to, '/srv/www/vhosts/opensuse.org/events'
 set :repository, 'https://github.com/openSUSE/osem.git'
+set :revision, 'one'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.

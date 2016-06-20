@@ -22,9 +22,9 @@ feature Conference do
 
       today = Date.today - 1
       page.execute_script(
-      "$('#conference-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
+      "$('#registration-period-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
       page.execute_script(
-      "$('#conference-end-datepicker').val('#{(today + 6).strftime('%d/%m/%Y')}')")
+      "$('#registration-period-end-datepicker').val('#{(today + 6).strftime('%d/%m/%Y')}')")
 
       click_button 'Create Cfp'
 
@@ -47,7 +47,7 @@ feature Conference do
 
       # Validate update with empty start date will not saved
       page.execute_script(
-          "$('#conference-start-datepicker').val('')")
+          "$('#registration-period-start-datepicker').val('')")
       click_button 'Update Cfp'
       expect(flash).
           to eq('Updating call for papers failed. ' +
@@ -56,9 +56,9 @@ feature Conference do
       # Fill in date
       today = Date.today - 9
       page.execute_script(
-        "$('#conference-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
+        "$('#registration-period-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
       page.execute_script(
-        "$('#conference-end-datepicker').val('#{(today + 14).strftime('%d/%m/%Y')}')")
+        "$('#registration-period-end-datepicker').val('#{(today + 14).strftime('%d/%m/%Y')}')")
 
       click_button 'Update Cfp'
 
