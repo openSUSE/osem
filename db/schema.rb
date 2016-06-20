@@ -352,9 +352,13 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.boolean  "include_registrations"
     t.boolean  "include_sponsors"
     t.boolean  "include_lodgings"
+    t.string   "banner_photo_file_name"
+    t.string   "banner_photo_content_type"
+    t.integer  "banner_photo_file_size"
+    t.datetime "banner_photo_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "include_cfp",           default: false
+    t.boolean  "include_cfp",               default: false
   end
 
   create_table "sponsors", force: :cascade do |t|
