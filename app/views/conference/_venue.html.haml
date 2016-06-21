@@ -14,7 +14,7 @@
       - elsif @conference.venue.picture.present?
         .col-md-5
           .thumbnail
-            = image_tag @conference.venue.picture.url, alt: "Venue", size: "560x315"
+            = image_tag @conference.venue.picture.url, alt: @conference.venue.name, class:"img-responsive"
       - else
         .col-md-5
           .thumbnail.icon-container
