@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427104236) do
+ActiveRecord::Schema.define(version: 20160624151257) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -89,13 +89,9 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.integer  "revision"
     t.boolean  "use_vpositions",        default: false
     t.boolean  "use_vdays",             default: false
-    t.boolean  "use_difficulty_levels", default: false
     t.boolean  "use_volunteers"
     t.string   "color"
     t.text     "events_per_week"
@@ -204,7 +200,6 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.integer  "event_type_id"
     t.string   "title",                                        null: false
     t.string   "subtitle"
-    t.integer  "time_slots"
     t.string   "state",                        default: "new", null: false
     t.string   "progress",                     default: "new", null: false
     t.string   "language"
@@ -212,10 +207,6 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.text     "abstract"
     t.text     "description"
     t.boolean  "public",                       default: true
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.text     "proposal_additional_speakers"
     t.integer  "track_id"
     t.integer  "room_id"
@@ -362,9 +353,6 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.text     "description"
     t.string   "website_url"
     t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
     t.integer  "sponsorship_level_id"
     t.integer  "conference_id"
     t.datetime "created_at"
@@ -492,9 +480,6 @@ ActiveRecord::Schema.define(version: 20160427104236) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "photo_file_name"
-    t.string   "photo_content_type"
-    t.integer  "photo_file_size"
-    t.datetime "photo_updated_at"
     t.string   "street"
     t.string   "postalcode"
     t.string   "city"

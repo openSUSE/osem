@@ -182,7 +182,7 @@ module Admin
                                          :tickets_attributes, :event_types_attributes,
                                          :picture, :picture_cache, :questions_attributes,
                                          :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
-                                         :use_difficulty_levels, :use_vpositions, :use_vdays, :vdays_attributes,
+                                         :use_vpositions, :use_vdays, :vdays_attributes,
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :targets, :targets_attributes,
