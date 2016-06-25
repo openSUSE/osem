@@ -597,14 +597,18 @@ class Conference < ActiveRecord::Base
 
   private
 
-  # Returns a different html colour for every i. We make use of big prime numbers
-  # to avoid repetition and to make consecutive colors clearly different.
+  # Returns a different html colour for every i and consecutive colors are
+  # clearly different.
   def next_color(i)
-    color = '#000000'
-    color[1..2] = ((i*113)%239 + 16).to_s(16)
-    color[3..4] = ((i*67)%239 + 16).to_s(16)
-    color[5..6] = ((i*151)%239 + 16).to_s(16)
-    color
+    '#' + next_color_component(:r, i) + next_color_component(:g, i) + next_color_component(:b, i)
+  end
+
+  # Auxiliar function which is used in next_color and returns each component of
+  # the color. We make use of big prime numbers to avoid repetition and to make
+  # consecutive colors clearly different.
+  def next_color_component(component, i)
+    big_prime_numbers = {r: 113, g: 67, b: 151}
+    ((i*big_prime_numbers[component])%239 + 16).to_s(16)
   end
 
   after_create do
