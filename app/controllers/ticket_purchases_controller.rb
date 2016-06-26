@@ -4,6 +4,7 @@ class TicketPurchasesController < ApplicationController
   authorize_resource :conference_registrations, class: Registration
 
   def create
+    TicketPurchase.destroy_all(user_id: current_user.id, conference_id: @conference.id, paid: 'f')
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
       if current_user.ticket_purchases.where(paid: 'f').any?

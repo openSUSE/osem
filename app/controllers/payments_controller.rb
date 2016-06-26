@@ -5,7 +5,7 @@ class PaymentsController < ApplicationController
   authorize_resource :conference_registrations, class: Registration
 
   def index
-    @payments = Payment.where(user_id: current_user.id)
+    @payments = current_user.payments
   end
 
   def new
@@ -16,17 +16,23 @@ class PaymentsController < ApplicationController
     @payment = Payment.new(payment_params)
     @total_amount_to_pay = Ticket.total_price(@conference, current_user, 'f')
 
-    if @payment.valid?
-      if @payment.purchase(current_user, @conference)
-        @payment.save
-        @update_ticket_purchases = TicketPurchase.update_paid_ticket_purchases(@conference, current_user, @payment)
-        return redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
-      end
+    if @payment.valid? && @payment.purchase(current_user, @conference, price_in_cents)
+      @payment.save
+      @update_ticket_purchases = TicketPurchase.update_paid_ticket_purchases(@conference, current_user, @payment)
     end
-    render 'new'
+
+    if @payment.save
+      redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
+    else
+      render 'new'
+    end
   end
 
   private
+
+  def price_in_cents
+    (@payment.amount * 100).round
+  end
 
   def payment_params
     params.require(:payment).permit(:first_name, :last_name, :credit_card_number, :expiration_month, :expiration_year, :card_verification_value, :amount)

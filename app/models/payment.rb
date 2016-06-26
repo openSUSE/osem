@@ -17,8 +17,6 @@ class Payment < ActiveRecord::Base
   validates :expiration_year, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }
 
-  validate :validate_card, on: create
-
   enum status: {
     unpaid: 0,
     success: 1,
@@ -36,20 +34,7 @@ class Payment < ActiveRecord::Base
     )
   end
 
-  def validate_card
-    unless credit_card.validate.empty?
-      credit_card.errors.full_messages.each do |message|
-        errors.add(:base, message)
-      end
-    end
-    credit_card.validate.empty?
-  end
-
-  def price_in_cents
-    (amount * 100).round
-  end
-
-  def purchase(user, conference)
+  def purchase(user, conference, price_in_cents)
     begin
       response = GATEWAY.purchase(price_in_cents, credit_card, currency: conference.tickets.first.price_currency)
     rescue
@@ -69,7 +54,7 @@ class Payment < ActiveRecord::Base
     self.conference_id = conference.id
     self.last4 = credit_card.display_number
     self.authorization_code = response.authorization
-    self.status = 1
+    self.status = 'success'
     response.success?
   end
 end

@@ -57,7 +57,9 @@ class TicketPurchase < ActiveRecord::Base
                                                  paid: 'f')
     begin
       paid_ticket_purchases.each do |ticket|
-        ticket.update_columns(paid: 't', payment_id: payment.id)
+        ticket.paid = 't' 
+        ticket.payment_id = payment.id
+        ticket.save
       end
     end
   end
