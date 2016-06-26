@@ -22,7 +22,7 @@
               %p
                 = truncate(track.description)
             %td
-              %span.label{style: "background-color: #{track.color};"}
+              %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
                 = track.color
             %td
               .btn-group{role: "group"}
@@ -34,4 +34,3 @@
 .row
   .col-md-12.text-right
     = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-success'
-

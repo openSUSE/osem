@@ -70,7 +70,7 @@
             %dt Track:
             %dd
               - if @event.track
-                %span.label{:style =>"background-color: #{@event.track.color};"}
+                %span.label{:style =>"background-color: #{@event.track.color}; color: #{ contrast_color(@event.track.color) }"}
                   = @event.track.name
           .col-md-12
             %dt Difficulty:
