@@ -41,19 +41,12 @@ Eg. Assuming you have signed up yourself as a translator for OSEM, to translate 
 You can view OSEM in other languages by selecting the language you want from the language selector icon (bottom right corner).
 
 ## 4. API key
-  When you run your own instance of OSEM, if you want to have the translations available you need to add the necessary [code] (http://docs.transifex.com/live/webmasters/#api) from Transifex:
-  ```
-    :javascript
-      window.liveSettings = {
-        api_key: "cf866a61277842b39c897c5a0b5ec075",
-        picker: "bottom-right",
-        detectlang: true,
-        autocollect: true
-      };
-```
+When you run your own instance of OSEM, if you want to have the translations available you need to add the api key in the `.env.development` file:
+
+`OSEM_TRANSIFEX_APIKEY="cf866a61277842b39c897c5a0b5ec075"`
+
 ## 5. Strings with dynamic contents
 
 Strings containing dynamic content should be tagged in the haml file with "notranslate" classes as described in:
 
 http://docs.transifex.com/live/webmasters/#how-to-handle-inline-block-variables
-
