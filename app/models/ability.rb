@@ -51,7 +51,8 @@ class Ability
       end
 
       can [:new, :create], Registration do |registration|
-        registration.conference.registration_open? && registration.new_record?
+        conference = registration.conference
+        conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
       end
 
       can :show, Event do |event|
@@ -74,7 +75,8 @@ class Ability
     can :manage, Registration, user_id: user.id
 
     can [:new, :create], Registration do |registration|
-      registration.conference.registration_open?
+      conference = registration.conference
+      conference.registration_open? && !conference.registration_limit_exceeded?
     end
 
     can :index, Ticket

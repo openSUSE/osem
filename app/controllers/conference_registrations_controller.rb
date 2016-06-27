@@ -6,7 +6,7 @@ class ConferenceRegistrationsController < ApplicationController
 
   def new
     @registration = Registration.new(conference_id: @conference.id)
-    authorize! :new, @registration
+    authorize! :new, @registration, message: "Sorry, you can not register for #{@conference.title}. Registration limit exceeded or the registration is not open."
 
     # Redirect to registration edit when user is already registered
     if @conference.user_registered?(current_user)
@@ -21,11 +21,6 @@ class ConferenceRegistrationsController < ApplicationController
     # avoid openid sign_in to redirect to register/new when the sign_in user had already a registration
     if current_user && @conference.user_registered?(current_user)
       redirect_to edit_conference_conference_registrations_path(@conference.short_title)
-    end
-
-    if @conference.registration_limit_exceeded?
-      redirect_to root_path, error: "Sorry, registration limit exceeded for #{@conference.title}"
-      return
     end
 
     # @user variable needs to be set so that _sign_up_form_embedded works properly
