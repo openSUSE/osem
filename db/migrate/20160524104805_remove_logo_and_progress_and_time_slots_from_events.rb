@@ -4,7 +4,6 @@ class RemoveLogoAndProgressAndTimeSlotsFromEvents < ActiveRecord::Migration
     remove_column :events, :logo_updated_at
     remove_column :events, :logo_file_size
     remove_column :events, :logo_content_type
-    remove_column :events, :logo_content_type
     remove_column :events, :time_slots
   end
 
