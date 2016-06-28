@@ -482,6 +482,45 @@ ActiveRecord::Schema.define(version: 20180316220446) do
     t.datetime "updated_at"
   end
 
+  create_table "survey_questions", force: :cascade do |t|
+    t.integer "survey_id"
+    t.string  "title"
+    t.integer "kind",             default: 0
+    t.integer "min_choices"
+    t.integer "max_choices"
+    t.text    "possible_answers"
+    t.boolean "mandatory",        default: false
+  end
+
+  create_table "survey_replies", force: :cascade do |t|
+    t.integer  "survey_question_id"
+    t.integer  "user_id"
+    t.text     "text"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "survey_submissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "survey_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "surveyable_id"
+    t.string   "surveyable_type"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "target",          default: 0
+  end
+
+  add_index "surveys", ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id"
+
   create_table "targets", force: :cascade do |t|
     t.integer  "conference_id"
     t.integer  "campaign_id"

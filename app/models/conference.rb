@@ -58,6 +58,16 @@ class Conference < ApplicationRecord
            through: :program,
            source:  :events
   has_many :event_types, through: :program
+
+  has_many :surveys, as: :surveyable, dependent: :destroy do
+    def for_registration
+      where(target: targets[:during_registration])
+    end
+
+    def after_conference
+      where(target: targets[:after_conference])
+    end
+  end
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :tickets, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
@@ -1225,3 +1235,4 @@ class Conference < ApplicationRecord
     result
   end
 end
+# rubocop:enable Metrics/ClassLength

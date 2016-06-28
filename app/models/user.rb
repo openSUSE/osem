@@ -74,6 +74,8 @@ class User < ApplicationRecord
   has_many :booth_requests
   has_many :booth_requests, dependent: :destroy
   has_many :booths, through: :booth_requests
+  has_many :survey_replies
+  has_many :survey_submissions
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }

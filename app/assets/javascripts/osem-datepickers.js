@@ -9,6 +9,13 @@ $(function () {
     format: 'YYYY-MM-DD HH:mm'
   });
 
+  $('.datetimepicker').datetimepicker({
+    pickTime: true,
+    useCurrent: false,
+    sideBySide: true,
+    format: 'YYYY-MM-DD HH:mm'
+  });
+
   $("#registration-arrival-datepicker").datetimepicker({
       pickTime: true,
       useCurrent: false,
