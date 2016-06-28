@@ -34,6 +34,7 @@ class Conference < ActiveRecord::Base
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+  has_many :surveys, as: :surveyable, dependent: :destroy
 
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :tickets, allow_destroy: true

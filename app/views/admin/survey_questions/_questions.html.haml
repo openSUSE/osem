@@ -1,0 +1,27 @@
+%table.table.table-hover#questions
+  %th Enabled
+  %th Question
+  %th Type
+  %th Answers
+  %th Actions
+  - @questions.each do |q|
+    %tr
+      %td
+        = hidden_field_tag "conference[question_ids][]", nil
+        = check_box_tag "conference[question_ids][]", q.id,
+                        @conference.question_ids.include?(q.id), id: dom_id(q)
+      %td
+        = q.title
+      %td
+        = q.question_type.title
+      %td
+        = q.answers.map {|a| a.title}.join(', ')
+
+      %td
+        .btn-group
+          = link_to 'Show', admin_conference_question_path(@conference.short_title, q), class: 'btn btn-success'
+          = link_to 'Edit', edit_admin_conference_question_path(@conference.short_title, q),
+                    class: 'btn btn-primary', disabled: !(can? :update, q)
+          = link_to 'Delete', admin_conference_question_path(@conference.short_title, q),
+                    method: :delete, remote: true, class: 'btn btn-danger',
+                    confirm: "Delete question '#{q.title}'?", disabled: !(can? :destroy, q)

@@ -1,0 +1,32 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Survey Questions
+        = "(#{@survey_questions.length})"
+
+    - if @survey_questions.any?
+      %table.table
+        %thead
+          %th
+          %th Title
+          %th Kind
+          %th Possible Answers
+          %th Mandatory
+          %th Answers
+          %th Actions
+        %tbody
+          - @survey_questions.each.with_index(1) do |survey_question, index|
+            %tr
+              %td= index
+              %td= survey_question.title
+              %td= survey_question.kind
+              %td= survey_question.possible_answers
+              %td= survey_question.mandatory
+              %td
+              %td
+                .btn-group
+                  = link_to 'Edit', edit_admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), class: 'btn btn-primary'
+                  = link_to 'Delete', admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), method: :delete, data: { confirm: 'Are you sure you want to delete this question?' }, class: 'btn btn-danger'
+
+    = link_to 'Add', new_admin_conference_survey_survey_question_path(@conference.short_title, @survey), class: 'btn btn-success pull-right'

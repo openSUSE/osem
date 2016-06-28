@@ -1,0 +1,63 @@
+.row
+  .col-md-12
+    .page-header
+      - if @survey_question.new_record?
+        %h1
+          New Survey Question
+      - else
+        %h1
+          Edit Survey Question
+        .text-muted
+          = @survey_question.title
+
+  .col-md-6
+    = semantic_form_for @survey_question, url: @url do |f|
+
+      .row
+        .col-md-12
+          = f.input :title
+          = f.input :mandatory
+          %div.survey-possible-answers.hidden
+            = f.input :possible_answers, hint: 'Comma separated', input_html: { rows: 3 }
+      %hr
+      .row
+        .col-md-6
+          %label{ required: 'required' }
+            Type of Question:
+          .form-group
+            %select.selectpicker.form-control{ id: 'survey_question_kind', name: 'survey_question[kind]' }
+              - SurveyQuestion.types.each do |type|
+                %option{ id: "#{type.second}", 'data-icon' => "fa fa-#{SurveyQuestion::ICONS[type.first.to_sym]}" }
+                  = type.first
+        .col-md-6
+          .panel.panel-default
+            .panel-body
+              %p
+                What is your answer?
+
+              %div.kinds.boolean
+                %input{type: 'radio', name: 'radio'} Yes
+                %br
+                %input{type: 'radio', name: 'radio'} No
+
+              %div.kinds.choice.hidden
+                %input{ type: 'checkbox', name: 'checkbox' } Choice 1
+                %br
+                %input{ type: 'checkbox', name: 'checkbox' } Choice 2
+                %br
+                %input{ type: 'checkbox', name: 'checkbox' } Choice 3
+
+              %div.kinds.string.hidden
+                %input.form-control
+
+              %div.kinds.text.hidden
+                %textarea.form-control{ rows: 4 }
+
+
+              %div.kinds.datetime.hidden
+                %input.form-control{id: 'registration-arrival-datepicker', readonly: 'readonly'}
+
+              %div.kinds.numeric.hidden
+                %input.form-control{ type: 'number' }
+
+      = f.submit 'Save', class: 'btn btn-primary'
