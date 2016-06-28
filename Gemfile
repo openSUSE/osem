@@ -113,6 +113,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-waypoints'
   # for markdown editors
   gem 'rails-assets-bootstrap-markdown'
+  # for select with icon
+  gem 'rails-assets-bootstrap-select'
   gem 'rails-assets-markdown'
   gem 'rails-assets-to-markdown'
 end

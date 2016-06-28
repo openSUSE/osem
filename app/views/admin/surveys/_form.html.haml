@@ -1,0 +1,18 @@
+.row
+  .col-md-12
+    .page-header
+      - if @survey.new_record?
+        %h1 New Survey
+      - else
+        %h1 Edit Survey: #{ @survey.title }
+
+  .col-md-6
+    = semantic_form_for @survey, url: @url do |f|
+      = f.hidden_field :surveyable_type
+      = f.hidden_field :surveyable_id
+      = f.input :title
+      = f.input :description, input_html: { rows: 3 }
+      = f.input :target, as: :select, collection: Survey.targets.keys, label: "When to ask"
+      = f.input :start_date, as: :string, input_html: { class: 'datetimepicker' }
+      = f.input :end_date, as: :string, input_html: { class: 'datetimepicker' }
+      = f.submit 'Save', class: 'btn btn-primary'

@@ -41,6 +41,9 @@ Osem::Application.routes.draw do
     resource :ticket_scanning, only: [:create]
     resources :comments, only: [:index]
     resources :conferences do
+      resources :surveys do
+        resources :survey_questions, except: :index
+      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, except: [:edit, :update]
       resources :event_schedules, only: [:create, :update, :destroy]
@@ -163,6 +166,11 @@ Osem::Application.routes.draw do
         patch :withdraw
         patch :confirm
         patch :restart
+      end
+    end
+    resources :surveys, only: [:index, :show] do
+      member do
+        post :reply
       end
     end
     resource :program, only: [] do

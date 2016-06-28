@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Survey: #{@survey.title}
+        = link_to 'Edit Survey', edit_admin_conference_survey_path(@conference.short_title, @survey), class: 'btn btn-primary pull-right'
+      %p.text-muted
+        From:
+        = @survey.start_date
+        to
+        = @survey.end_date
+.row
+  .col-md-12
+    = semantic_form_for 'survey_submission', url: '#' do |f|
+      - @survey.survey_questions.each.with_index(1) do |survey_question, question_index|
+        .row
+          .col-md-12
+            - survey_reply = survey_question.survey_replies.new(survey_question_id: survey_question.id, user_id: current_user.id)
+            = render partial: 'survey_question', locals:  { survey_question: survey_question, question_index: question_index, survey_reply: survey_reply }
+    = link_to 'Add Question', new_admin_conference_survey_survey_question_path(@conference.short_title, @survey), class: 'btn btn-success pull-right'

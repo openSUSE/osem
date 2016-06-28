@@ -2,6 +2,26 @@
 
 namespace :data do
   desc 'Create demo data for our local development'
+
+  task survey: :environment do
+    include FactoryGirl::Syntax::Methods
+
+    conference = Conference.find_by(short_title: 'conf_with_survey') || create(:full_conference, short_title: 'conf_with_survey', start_date: Date.today)
+    # active survey
+    survey_after_conference_active = create(:survey, surveyable: conference, target: 0, title: 'Survey about the conference', start_date: conference.start_date - 1.day, end_date: conference.end_date + 5.days )
+    # inactive survey (will be available in 1 day)
+    survey_after_conference_active = create(:survey, surveyable: conference, target: 0, title: 'Survey about the conference', start_date: conference.start_date + 1.day, end_date: conference.end_date + 5.days )
+    survey_on_registration = create(:survey, surveyable: conference, target: 1, title: 'Survey during registation', start_date: conference.registration_period.start_date, end_date: conference.registration_period.end_date )
+    # boolean
+    create(:survey_question, survey: survey_after_conference, title: 'Did you like this conference?', kind: 0)
+    # single choice
+    create(:survey_question, survey: survey_after_conference, title: 'Which keynote did you like best?', kind: 1, min_choices: 1, max_choices: 1, possible_answers: 'Yes, No')
+    # string
+    create(:survey_question, survey: survey_after_conference, title: 'What did you like the most about this conference?', kind: 2)
+    # text
+    create(:survey_question, survey: survey_after_conference, title: 'Anything else you would like to share with us?', kind: 3)
+  end
+
   task test: :environment do
     include FactoryGirl::Syntax::Methods
 

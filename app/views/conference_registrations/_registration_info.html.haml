@@ -9,8 +9,7 @@
     = f.input :accepted_code_of_conduct,
       label: "I have read and accept the #{code_of_conduct_link}".html_safe,
       required: true
-- if @conference.questions.any?
-  = render partial: 'conference_registrations/questions', locals: { f: f }
+
 - if @conference.program.events.with_registration_open.any? || @registration.events.any?
   = f.inputs 'Pre-registration required for the following:' do
 

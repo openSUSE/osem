@@ -47,6 +47,8 @@
 //= require unobtrusive_flash_bootstrap
 //= require countable
 //= require selectize
+//= require bootstrap-select
+//= require osem-survey
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
