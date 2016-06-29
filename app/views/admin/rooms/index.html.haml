@@ -6,6 +6,10 @@
         The rooms of your conference venue
 
 - if @rooms.any?
+  - if @rooms.size > 5
+    .row
+    .col-md-12.text-right
+      = link_to 'Add Room', new_admin_conference_venue_room_path(@conference.short_title), class: 'btn btn-primary'
   .row
     .col-md-12
       %table.table.table-hover#rooms

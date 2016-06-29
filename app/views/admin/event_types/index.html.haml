@@ -4,6 +4,11 @@
       %h1 Event Types
       %p.text-muted
         The character of events in your conference
+
+- if @conference.program.event_types.size > 5
+  .row
+  .col-md-12.text-right
+    = link_to 'Add Event Type', new_admin_conference_program_event_type_path(@conference.short_title), class: 'btn btn-primary'
 .row
   .col-md-12
     %table.table.table-hover#event_types
@@ -39,4 +44,3 @@
 .row
   .col-md-12.text-right
     = link_to 'Add Event Type', new_admin_conference_program_event_type_path(@conference.short_title), class: 'btn btn-primary'
-
