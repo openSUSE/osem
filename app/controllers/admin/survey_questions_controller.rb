@@ -11,13 +11,16 @@ module Admin
     end
 
     def new
-      @survey_question = @survey.survey_questions.new
+      @survey_question = @survey.survey_questions.new(min_choices: 1, max_choices: 1)
       @url = admin_conference_survey_survey_questions_path(@conference.short_title, @survey)
     end
 
     def create
-      @survey.survey_questions.create(survey_question_params)
-      redirect_to admin_conference_survey_survey_questions_path(@conference.short_title, @survey)
+      if @survey.survey_questions.create(survey_question_params)
+        redirect_to admin_conference_survey_path(@conference.short_title, @survey), notice: 'Successfully created Survey Question.'
+      else
+        render :new
+      end
     end
 
     # GET questions/1/edit
@@ -28,14 +31,20 @@ module Admin
     # PUT questions/1
     def update
       if @survey_question.update_attributes(survey_question_params)
-        redirect_to admin_conference_survey_survey_questions_path(@conference.short_title, @survey), notice: 'Successfully updated survey question.'
+        redirect_to admin_conference_survey_path(@conference.short_title, @survey), notice: 'Successfully updated Survey Question.'
       else
+        @url = admin_conference_survey_survey_question_path(@conference.short_title, @survey, @survey_question)
         render :edit
       end
     end
 
     # DELETE questions/1
     def destroy
+      if @survey_question.destroy
+        redirect_to admin_conference_survey_path(@conference.short_title, @survey), notice: 'Successfully deleted Survey Question.'
+      else
+        redirect_to admin_conference_survey_path(@conference.short_title, @survey), error: "Can't delete this Survey Question"
+      end
     end
 
     private

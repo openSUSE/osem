@@ -24,8 +24,12 @@ module Admin
     end
 
     def update
-      @survey.update_attributes(survey_params)
-      redirect_to admin_conference_surveys_path(@conference.short_title)
+      if @survey.update_attributes(survey_params)
+        redirect_to admin_conference_surveys_path(@conference.short_title)
+      else
+        @url = admin_conference_survey_path(@conference.short_title, @survey)
+        render action: :edit
+      end
     end
 
     def destroy

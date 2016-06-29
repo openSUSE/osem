@@ -2,7 +2,8 @@
   .col-md-12
     .page-header
       %h1
-        Survey Questions
+        Questions for survey
+        = link_to @survey.title, admin_conference_survey_path(@conference.short_title, @survey)
         = "(#{@survey_questions.length})"
 
     - if @survey_questions.any?

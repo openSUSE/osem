@@ -133,7 +133,7 @@
         E-Mails
   %li{ class: active_nav_li(admin_conference_surveys_path(@conference.short_title)) }
     = link_to(admin_conference_surveys_path(@conference.short_title)) do
-      %span.fa.fa-group
+      %span.fa.fa-list-alt
       Surveys
   - if can? :index, Role.new(resource: @conference)
     %li{:class=> active_nav_li(admin_conference_roles_path(@conference.short_title))}

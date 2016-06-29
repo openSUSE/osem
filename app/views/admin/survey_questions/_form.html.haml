@@ -17,8 +17,13 @@
         .col-md-12
           = f.input :title
           = f.input :mandatory
-          %div.survey-possible-answers.hidden
+          %div.survey-possible-answers{ class: @survey_question.choice? ? '' : 'hidden'}
             = f.input :possible_answers, hint: 'Comma separated', input_html: { rows: 3 }
+            .row
+              .col-md-6
+                = f.input :min_choices
+              .col-md-6
+                = f.input :max_choices
       %hr
       .row
         .col-md-6
@@ -26,38 +31,62 @@
             Type of Question:
           .form-group
             %select.selectpicker.form-control{ id: 'survey_question_kind', name: 'survey_question[kind]' }
-              - SurveyQuestion.types.each do |type|
-                %option{ id: "#{type.second}", 'data-icon' => "fa fa-#{SurveyQuestion::ICONS[type.first.to_sym]}" }
-                  = type.first
+              - SurveyQuestion.kinds.each do |kind|
+                %option{ id: "#{kind.second}", 'data-icon' => "fa fa-#{SurveyQuestion::ICONS[kind.first.to_sym]}", selected: @survey_question.kind == kind.first }
+                  = kind.first
         .col-md-6
+          %label
+            Preview:
           .panel.panel-default
-            .panel-body
-              %p
-                What is your answer?
+            .panel-body{id: 'survey_question_preview'}
+              %p{id: 'title', style: 'word-wrap: break-word'}
+                = @survey_question.title.blank? ? 'What is your answer?' : @survey_question.title
 
-              %div.kinds.boolean
+              %div.kinds.boolean{ class: @survey_question.boolean? ? '' : 'hidden'}
                 %input{type: 'radio', name: 'radio'} Yes
                 %br
                 %input{type: 'radio', name: 'radio'} No
 
-              %div.kinds.choice.hidden
-                %input{ type: 'checkbox', name: 'checkbox' } Choice 1
-                %br
-                %input{ type: 'checkbox', name: 'checkbox' } Choice 2
-                %br
-                %input{ type: 'checkbox', name: 'checkbox' } Choice 3
+              %div.kinds.choice{ id: '', class: @survey_question.choice? ? '' : 'hidden'}
+                - if @survey_question.possible_answers.blank?
+                  - if @survey_question.single_choice?
+                    %input{ type: 'radio', name: 'radio' } Choice 1
+                    %br
+                    %input{ type: 'radio', name: 'radio' } Choice 2
+                    %br
+                    %input{ type: 'radio', name: 'radio' } Choice 3
+                  - else
+                    %input{ type: 'checkbox', name: 'checkbox' } Choice 1
+                    %br
+                    %input{ type: 'checkbox', name: 'checkbox' } Choice 2
+                    %br
+                    %input{ type: 'checkbox', name: 'checkbox' } Choice 3
+                - else
+                  - @survey_question.possible_answers.split(',').map(&:strip).each do |option|
+                    - if @survey_question.single_choice?
+                      %input{ type: 'radio', name: 'radio' }
+                        = option
+                      %br
+                    - else
+                      %input{ type: 'checkbox', name: 'checkbox' }
+                        = option
+                      %br
 
-              %div.kinds.string.hidden
+              %div.kinds.string{ class: @survey_question.string? ? '' : 'hidden'}
                 %input.form-control
 
-              %div.kinds.text.hidden
+              %div.kinds.text{ class: @survey_question.text? ? '' : 'hidden'}
                 %textarea.form-control{ rows: 4 }
 
 
-              %div.kinds.datetime.hidden
-                %input.form-control{id: 'registration-arrival-datepicker', readonly: 'readonly'}
+              %div.kinds.datetime{ class: @survey_question.datetime? ? '' : 'hidden'}
+                .form-group{class: 'datetimepicker'}
+                  .input-group
+                    .input-group-addon
+                      %span.fa.fa-calendar
+                    %input.form-control{readonly: 'readonly'}
 
-              %div.kinds.numeric.hidden
+              %div.kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden'}
                 %input.form-control{ type: 'number' }
 
       = f.submit 'Save', class: 'btn btn-primary'
