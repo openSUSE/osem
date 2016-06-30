@@ -115,6 +115,7 @@ Osem::Application.routes.draw do
 
     member do
       get :schedule
+      get :events
     end
   end
 

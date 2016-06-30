@@ -34,7 +34,7 @@ class Ability
       conference.splashpage && conference.splashpage.public == true
     end
     # Can view the schedule
-    can [:schedule], Conference do |conference|
+    can [:schedule, :events], Conference do |conference|
       conference.program.cfp && conference.program.schedule_public
     end
 

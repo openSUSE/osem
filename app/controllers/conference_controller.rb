@@ -13,6 +13,10 @@ class ConferenceController < ApplicationController
 
   def schedule
     @rooms = @conference.venue.rooms if @conference.venue
+    unless @conference.program.events.scheduled.any?
+      redirect_to events_conference_path(@conference.short_title)
+    end
+
     @events = @conference.program.events
     @events_xml = @events.scheduled.order(start_time: :asc).group_by{ |event| event.start_time.to_date }
     @dates = @conference.start_date..@conference.end_date
@@ -20,15 +24,13 @@ class ConferenceController < ApplicationController
     @conf_start = 9
     conf_end = 20
     @conf_period = conf_end - @conf_start
+  end
+
+  def events
+    @dates = @conference.start_date..@conference.end_date
 
     @scheduled_events = @conference.program.events.scheduled
     @unscheduled_events = @conference.program.events.unscheduled
-
-    if @dates == Date.current
-      @today = Date.current.strftime('%Y-%m-%d')
-    else
-      @today = @conference.start_date.strftime('%Y-%m-%d')
-    end
   end
 
   private
