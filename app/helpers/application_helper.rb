@@ -298,4 +298,41 @@ module ApplicationHelper
     yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
     (yiq >= 128) ? 'black' : 'white'
   end
+
+  def td_height(rooms)
+    td_height = 500 / rooms.length
+    # we want all least 3 lines in events and td padding = 3px, speaker picture height >= 25px
+    # and line-height = 17px => (17 * 3) + 6 + 25 = 82
+    td_height < 82 ? 82 : td_height
+  end
+
+  def room_height(rooms)
+    room_lines(rooms) * 17
+  end
+
+  def room_lines(rooms)
+    # line-height = 17px, td padding = 3px
+    (td_height(rooms) - 6) / 17
+  end
+
+  def event_height(rooms)
+    event_lines(rooms) * 17
+  end
+
+  def event_lines(rooms)
+    # line-height = 17px, td padding = 3px, speaker picture height >= 25px
+    (td_height(rooms) - 31) / 17
+  end
+
+  def speaker_height(rooms)
+    # td padding = 3px
+    speaker_height = td_height(rooms) - 6 - event_height(rooms)
+    # The speaker picture is a circle and the width must be <= 37 to avoid making the cell widther
+    speaker_height >= 37 ? 37 : speaker_height
+  end
+
+  def speaker_width(rooms)
+    # speaker picture padding: 4px 2px; and we want the picture to be a circle
+    speaker_height(rooms) - 4
+  end
 end

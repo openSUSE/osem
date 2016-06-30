@@ -1,24 +1,12 @@
-%td.event{ style: "width: #{95 / @rooms.length}%; cursor:pointer", |
-           rowspan: span[room.id], |
+%td.event{ width: "#{ width * span }%" , |
+           colspan: span, |
            role: "button" } |
-  %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event[0].id))}
-    - if speaker = event[0].speakers.first
-      = image_tag speaker.gravatar_url, :class => "img-circle pull-right", |
-                                         :alt => speaker.name, |
-                                         :title => speaker.name, |
-                                         :style => "padding:8px;" |
-    %h5
-      %span.fa.fa-comment
-      = event[0].title
-      - unless event[0].subtitle.blank?
-        %span.schedule-subtitle
-          = event[0].subtitle
-    %span.schedule-speaker
-      %span.fa.fa-user
-      = speaker.name
-    - if event[0].track
-      %span.schedule-track
-        %span.fa.fa-road
-        %span.label{ style: "background-color: #{event[0].track.color}" }
-          = event[0].track.name
-
+  %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
+    %div{ class: "elipsis break-words event-title", |
+          style: "-webkit-line-clamp: #{ event_lines(@rooms) }; height: #{ event_height(@rooms) }px;"} |
+      = event.title
+    - if speaker = event.speakers.first
+      = image_tag speaker.gravatar_url, :class => "img-circle pull-right speaker-pic", |
+                                        :alt => speaker.name, |
+                                        :title => speaker.name, |
+                                        :style => "height: #{ speaker_height(@rooms) }px; width: #{ speaker_width(@rooms) }px;"

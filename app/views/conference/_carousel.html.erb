@@ -1,0 +1,63 @@
+<% intervals = number_columns * 60 / EventType::LENGTH_STEP + 1 %>
+<% width = 85 / intervals %>
+<% carousel_number = (@conf_period / number_columns.to_f).ceil %>
+<div id="carousel-<%= date %>-<%= number_columns %>" class="carousel slide" data-ride="carousel" data-wrap='false' data-interval='false'>
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <% start_time = DateTime.parse("#{date} #{@conf_start}:00") %>
+    <% (0..carousel_number-1).each do |number| %>
+      <div class="item <%= number == 0 ? 'active first' : ( number == carousel_number-1 ? 'last' : '') %>">
+        <table class="table table-bordered schedule-table" id="schedule">
+          <tr>
+            <th></th>
+            <% td_start_time = start_time %>
+            <% (1..intervals).each do |i| %>
+                <th class="date"><%= (td_start_time).strftime("%H:%M") %></th>
+                <% td_start_time += @step_minutes %>
+            <% end %>
+          </tr>
+
+          <% start_room_time = start_time %>
+          <% @rooms.each do |room| %>
+            <% start_room_time = start_time %>
+            <% span = 1 %>
+            <tr>
+              <td class="room" style="height: <%= td_height(@rooms) %>px;">
+                <div class="room elipsis break-words" style="-webkit-line-clamp: <%= room_lines(@rooms) %>; height: <%= room_height(@rooms) %>px;">
+                  <%= room.name %>
+                </div>
+              </td>
+                <% events = room.events{ |e| e.start_time >= start_time and e.start_time < (start_time + number_columns.hour)} %>
+                <% (1..intervals).each do |i| %>
+                  <% if  span > 1 %>
+                    <% span -= 1 %>
+                  <% else %>
+                    <% event = events.find{|e| e.start_time <= start_room_time and e.end_time > start_room_time} %>
+                    <% if event %>
+                      <!-- There is an event, calculate the span and show it -->
+                      <% event_span =  (event.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP %>
+                      <% span = ((event_span + i - 1 ) > intervals ? intervals  + 1 - i : event_span) %>
+                      <%= render partial: 'schedule_item', locals: {event: event, span: span, width: width} %>
+                    <% else %>
+                      <!-- span equals 1 show an empty td -->
+                      <td class="no-padding" width="<%= width %>%"></td>
+                    <% end %>
+                  <% end %>
+                  <% start_room_time += @step_minutes %>
+                <% end %>
+            </tr>
+          <% end %>
+          <% start_time = start_room_time - @step_minutes %>
+        </table>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-<%= date %>-<%= number_columns %>" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-<%= date %>-<%= number_columns %>" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div> <!-- Carousel -->

@@ -16,6 +16,10 @@ class ConferenceController < ApplicationController
     @events = @conference.program.events
     @events_xml = @events.scheduled.order(start_time: :asc).group_by{ |event| event.start_time.to_date }
     @dates = @conference.start_date..@conference.end_date
+    @step_minutes = EventType::LENGTH_STEP.minutes
+    @conf_start = 9
+    conf_end = 20
+    @conf_period = conf_end - @conf_start
 
     if @dates == Date.current
       @today = Date.current.strftime('%Y-%m-%d')

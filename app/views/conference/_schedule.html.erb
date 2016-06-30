@@ -1,88 +1,82 @@
 <div id="schedule-content">
-    <h1 class="text-center"> Schedule for <%= @conference.title %></h1>
-    <ul class="nav nav-tabs">
+  <h1 class="text-center"> Schedule for <%= @conference.title %></h1>
+  <div class="dropdown schedule-dropdown">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      <%= @dates.first %>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
       <% @dates.each do |date| %>
-        <li <%= "class=active" if @dates.first == date %>>
-          <%= link_to date, "#" + "#{date}", "data-toggle" => "tab" %>
+        <li class='li-dropdown-schedule'>
+          <%= link_to date, "#" + "#{date}", "data-toggle" => "tab", "class" => "date-tab" %>
         </li>
     <% end %>
     </ul>
+  </div>
 
-    <div class="tab-content">
-      <% @dates.each do |date| %>
-        <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
-          <table class="table table-bordered" id="schedule" width="100%">
-            <tr>
-              <th>Time</th>
-              <% @rooms.each do |room| %>
-                <th><%= room.name %></th>
-              <% end %>
-            </tr>
+  <div class="tab-content">
+    <% @dates.each do |date| %>
+      <div class="tab-pane <%= 'active' if @dates.first == date %>" id ="<%= date %>" >
 
-                <% span = {} %>
-                <% @rooms.each do |room| %>
-                  <% span[room.id] = 1 %>
-                <% end %>
-
-            <% conf_start = DateTime.parse("#{date} 09:00") %>
-            <% conf_end = DateTime.parse("#{date} 19:00") %>
-
-            <% while conf_start < conf_end %>
-              <%-
-                start_hour = conf_start.hour
-                start_min = conf_start.min %>
-
-              <tr>
-                <td style="width:5%">
-                  <%= conf_start.strftime("%H:%M") %>
-                </td>
-
-                <% @rooms.each do |room| %>
-                  <% events_for_date = @events.find_all {|e| e.room_id == room.id && e.start_time && e.start_time.to_date == date } %>
-                  <% event = events_for_date.find_all{|e| e.start_time.hour == start_hour && e.start_time.min == start_min } %>
-                  <% if !event.empty? %>
-                    <!-- There is an event, calculate the span and show it -->
-                    <% span[room.id] = event[0].event_type.length / 15 %>
-                    <%= render partial: 'schedule_item', locals: {event: event, room: room, span: span} %>
-                    <% span[room.id] = span[room.id] + 1 %>
-                    <% elsif  span[room.id] > 1 %>
-                      <!-- span is <%= span[room.id] %> and bigger than 1, substract 1 from span -->
-                      <% span[room.id] = ( span[room.id] - 1 ) if span[room.id] > 1 %>
-                    <% end %>
-                    <% if span[room.id] == 1 %>
-                      <!-- span equals 1 show an empty td -->
-                      <td style="width: <%= 95 / @rooms.length %>%">
-                      </td>
-                    <% end %>
-                <%end %>
-              </tr>
-              <% conf_start += 15.minutes %>
-            <%end %>
-          </table>
+        <div class="visible-xs-inline">
+          <% number_columns = 1 %>
+          <%= render 'carousel', date: date, number_columns: number_columns %>
         </div>
-      <% end %>
-    </div>
+
+        <div class="visible-sm-inline">
+          <% number_columns = 2 %>
+          <%= render 'carousel', date: date, number_columns: number_columns %>
+        </div>
+
+        <div class="visible-md-inline visible-lg-inline">
+          <% number_columns = 3 %>
+          <%= render 'carousel', date: date, number_columns: number_columns %>
+        </div>
+
+      </div> <!-- Tab -->
+    <% end %>
+  </div>
 </div>
 <%= javascript_tag do %>
+// change of active tab and the button title when a date clicked
 $(function() {
-  // add a hash to the URL when the user clicks on a tab
-  $('a[data-toggle="tab"]').on('click', function(e) {
-    history.pushState(null, null, $(this).attr('href'));
-  });
-  // navigate to a tab when the history changes
-  window.addEventListener("popstate", function(e) {
-    var activeTab = $('[href=' + location.hash + ']');
-    if (activeTab.length) {
-      activeTab.tab('show');
-    } else {
-      $('.nav-tabs a[href=#<%= j @today %>]').tab('show');
-    }
+  $('.date-tab').on('click', function(e) {
+    $('.li-dropdown-schedule').removeClass('active');
+    $('.schedule-dropdown').find('button').text($(this).text());
   });
 });
 
+// use the date tag in the url to select a tab and the title of the button
 $(function() {
     var hash = window.location.hash;
-    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+    if(hash && !(hash === '#schedule')){
+      hash && $('ul a[href="' + hash + '"]').tab('show');
+      $('button.dropdown-toggle').text(hash.substr(1));
+    }
 });
 
+// hide the right and left controls when neccesary after moving the carousel
+$('.carousel').on('slid.bs.carousel', '',
+function(){
+  $(this).children('.left.carousel-control').show();
+  $(this).children('.right.carousel-control').show();
+  if($(this).find('.first').hasClass('active')) {
+    $(this).children('.left.carousel-control').hide();
+  } else if($(this).find('.last').hasClass('active')) {
+    $(this).children('.right.carousel-control').hide();
+  }
+});
+
+$(document).ready(function(){
+  // hide the left control when the page is ready
+  $('.carousel').children('.left.carousel-control').hide();
+
+  // carousel swipe
+  $(".carousel-inner").swiperight(function() {
+    $(this).parent().carousel('prev');
+  });
+  $(".carousel-inner").swipeleft(function() {
+    $(this).parent().carousel('next');
+  });
+});
 <% end %>

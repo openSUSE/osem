@@ -13,6 +13,9 @@ background-image: -webkit-gradient(
     color-stop(0.97, rgb(194,232,190)),
     color-stop(1, rgb(194,232,190))
 );
+
+cursor: pointer;
+padding: 3px 2px;
 }
 
 #schedule td.event:hover
@@ -74,4 +77,130 @@ a.unstyled-link {
 #schedule td.event:hover {
   background-image: linear-gradient(to top, #f7faf2 24%, #53ab4a 97%,
 #53ab4a 100%);
+}
+
+.schedule-dropdown{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.schedule-dropdown > button{
+  width: 100%;
+}
+
+.schedule-dropdown > .dropdown-menu{
+  width: 100%;
+}
+
+.elipsis{
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.break-words{
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+   -ms-word-break: break-all;
+   word-break: break-all;
+
+   /* Non standard for webkit */
+   word-break: break-word;
+
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+}
+
+.room, .event-title{
+  font-size: 11px;
+  line-height: 17px;
+  overflow: hidden;
+}
+
+td.room{
+  width: 15%;
+  padding: 3px !important;
+  max-width:15%;
+}
+
+th.date{
+  font-size: 12px;
+  padding: 8px 0px 8px 1% !important;
+}
+
+.speaker-pic{
+  padding: 4px 2px;
+}
+
+.schedule-table{
+  width: 100%;
+  margin:0px;
+  padding:0px;
+}
+
+td.no-padding{
+  padding:0px !important;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .room, .event-title{
+    font-size: 12px;
+  }
+
+  td.room{
+    width: 12%;
+    max-width:12%;
+  }
+
+  th.date{
+    font-size: 13px;
+  }
+
+  td.event{
+    padding: 3px 4px !important;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .room, .event-title{
+    font-size: 13px;
+  }
+
+  td.room{
+    width: 10%;
+    max-width: 10%;
+  }
+
+  td.event{
+    padding: 3px 5px !important;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .room, .event-title{
+    font-size: 14px;
+  }
+
+  td.room{
+    width: 9%;
+    max-width: 9%;
+  }
+
+  td.event{
+    padding: 3px 6px !important;
+  }
+
+  th.date{
+    font-size: 14px;
+  }
 }

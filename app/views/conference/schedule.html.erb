@@ -1,5 +1,5 @@
 <div class="container">
-  <% if @conference.program.events.scheduled.any? %>
+  <% if @rooms.length > 1 and @conference.program.events.scheduled.any? %>
       <div role="tabpanel">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
