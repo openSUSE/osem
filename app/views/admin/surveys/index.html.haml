@@ -14,6 +14,7 @@
       %table.table.table-hover#surveys
         %thead
           %th Title
+          %th When
           %th Start Date
           %th End Date
           %th Actions
@@ -22,6 +23,8 @@
             %tr
               %td
                 = link_to survey.title, admin_conference_survey_path(@conference.short_title, survey)
+              %td
+                = survey.target
               %td
                 = survey.start_date
               %td

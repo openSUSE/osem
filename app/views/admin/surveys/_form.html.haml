@@ -9,6 +9,7 @@
       = f.hidden_field :surveyable_id
       = f.input :title
       = f.input :description, input_html: { rows: 3 }
+      = f.input :target, as: :select, collection: Survey.targets.keys, label: "When to ask"
       = f.input :start_date, as: :string, input_html: { class: 'datetimepicker' }
       = f.input :end_date, as: :string, input_html: { class: 'datetimepicker' }
       = f.submit 'Save', class: 'btn btn-primary'

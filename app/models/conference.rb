@@ -36,7 +36,7 @@ class Conference < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   has_many :surveys, as: :surveyable, dependent: :destroy do
     def for_registration
-      where(target: targets[:registration])
+      where(target: targets[:during_registration])
     end
   end
 

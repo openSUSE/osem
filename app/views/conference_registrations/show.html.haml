@@ -36,24 +36,20 @@
               = @registration.departure.strftime('%A, %B %-d. %Y %H:%M')
           - else
             You haven't scheduled your departure
-  - if @conference.questions.any?
+  - if @conference.surveys.for_registration.any?
     .row
       .col-md-12
         %h4
           %span.fa-stack
             %i.fa.fa-square-o.fa-stack-2x
             %i.fa.fa-info.fa-stack-1x
-          Additional Info
+          Surveys
+
         %ul
-          - @conference.questions.each do |q|
+          - @conference.surveys.for_registration.each do |survey|
             %li
-              %strong
-                = q.title
-              - if @registration.qanswers.any?
-                - @registration.qanswers.where(:question_id => q.id).each do |qa|
-                  = qa.answer.title
-              - else
-                You haven't answered
+              = link_to survey.title, "#"
+
   - if @registration.events.any?
     .row
       .col-md-12
