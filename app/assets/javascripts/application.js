@@ -41,6 +41,8 @@
 //= require osem-commercials
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
+//= require bootstrap-select
+//= require osem-survey
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

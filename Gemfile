@@ -75,7 +75,6 @@ gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 3.1.1'
-gem 'cocoon'
 
 # as the JavaScript library
 gem 'jquery-rails'
@@ -105,6 +104,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap-markdown'
   gem 'rails-assets-to-markdown'
   gem 'rails-assets-markdown'
+  # for select with icon
+  gem 'rails-assets-bootstrap-select'
 end
 
 # as date picker
