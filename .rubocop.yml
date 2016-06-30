@@ -95,7 +95,7 @@ Metrics/BlockNesting:
   Max: 4
 
 Metrics/ClassLength:
-  Max: 550
+  Max: 560
 
 # avoid redundunt curly braces when it is obvious that hash is used
 Style/BracesAroundHashParameters:

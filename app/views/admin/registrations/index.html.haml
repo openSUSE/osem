@@ -11,57 +11,65 @@
             = link_to 'Export XLS', {format: :xlsx}, class: 'btn btn-success'
       %p.text-muted
         All the people who registered to your event
-    %table.table.table-hover.datatable#registrations
-      %thead
-        %tr
-          %th ID#
-          %th Name
-          %th E-Mail
-          %th Arrival
-          %th Departure
-          - if @conference.questions.any?
-            %th Questions
-          %th Actions
-      %tbody
-        - @registrations.each_with_index do |registration, index|
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Affiliation', data: @affiliation_distribution}
+  - unless @conference.pending?
+    .col-md-4
+      = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Attended registrations', data: @registration_distribution}
+.row
+  .col-md-12
+    %div.margin-event-table
+      %table.table.table-hover.datatable#registrations
+        %thead
           %tr
-            %td
-              = registration.id
-            %td
-              = registration.name.present? ? registration.name : registration.username
-              %br
-              - registration.user.roles.where(resource: @conference).each do |role|
-                %span.label.label-info
-                  = role.name.titleize
-            %td
-              = registration.email
-            %td
-              - if registration.arrival
-                = registration.arrival.strftime('%d %b %H:%M')
-              - else
-                n/a
-            %td
-              - if registration.departure
-                = registration.departure.strftime('%d %b %H:%M')
-              - else
-                n/a
-            -if @conference.questions.any?
+            %th ID#
+            %th Name
+            %th E-Mail
+            %th Arrival
+            %th Departure
+            - if @conference.questions.any?
+              %th Questions
+            %th Actions
+        %tbody
+          - @registrations.each_with_index do |registration, index|
+            %tr
               %td
-                = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
-            %td
-              = check_box_tag "#{@conference.short_title}_#{registration.id}", registration.id, registration.attended,
-                class: 'switch-checkbox', method: :patch,
-                url: toggle_attendance_admin_conference_registration_path(@conference.short_title, id: registration.id)+"?attended=",
-                data: { size: 'small',
-                        on_color: 'success',
-                        off_color: 'warning',
-                        on_text: 'Present',
-                        off_text: 'Absent' }
-              .btn-group
-                = link_to 'Edit', edit_admin_conference_registration_path(@conference.short_title, id: registration),
-                method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_registration_path(@conference.short_title, registration),
-                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Registration for #{registration.name}?" }
+                = registration.id
+              %td
+                = registration.name.present? ? registration.name : registration.username
+                %br
+                - registration.user.roles.where(resource: @conference).each do |role|
+                  %span.label.label-info
+                    = role.name.titleize
+              %td
+                = registration.email
+              %td
+                - if registration.arrival
+                  = registration.arrival.strftime('%d %b %H:%M')
+                - else
+                  n/a
+              %td
+                - if registration.departure
+                  = registration.departure.strftime('%d %b %H:%M')
+                - else
+                  n/a
+              -if @conference.questions.any?
+                %td
+                  = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
+              %td
+                = check_box_tag "#{@conference.short_title}_#{registration.id}", registration.id, registration.attended,
+                  class: 'switch-checkbox', method: :patch,
+                  url: toggle_attendance_admin_conference_registration_path(@conference.short_title, id: registration.id)+"?attended=",
+                  data: { size: 'small',
+                          on_color: 'success',
+                          off_color: 'warning',
+                          on_text: 'Present',
+                          off_text: 'Absent' }
+                .btn-group
+                  = link_to 'Edit', edit_admin_conference_registration_path(@conference.short_title, id: registration),
+                  method: :get, class: 'btn btn-primary'
+                  = link_to 'Delete', admin_conference_registration_path(@conference.short_title, registration),
+                  method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Registration for #{registration.name}?" }
   - @registrations.each_with_index do |registration, index|
     .questions{class: "question#{index}", style: 'display:none;'}
       = render partial: 'questions', locals: { registration: registration }

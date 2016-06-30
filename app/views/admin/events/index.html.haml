@@ -8,160 +8,168 @@
       %p.text-muted
         All the submissions of your speakers
 .row
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Events state', data: @event_distribution}
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Confirmed events scheduled', data: @scheduled_event_distribution}
+  .col-md-4
+    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed}
+.row
   .col-md-12
-    %table.table.table-striped.table-bordered.table-hover.datatable
-      %thead
-        %th
-          %b ID
-        %th
-          %b Title
-        - if @program.rating_enabled?
+    %div.margin-event-table
+      %table.table.table-striped.table-bordered.table-hover.datatable
+        %thead
           %th
-            %b Rating
-        %th
-          %b Submitter
-        %th
-          %b Speaker
-        -if @program.languages.present?
+            %b ID
           %th
-            %b Language
-        %th
-          %b Requires Registration
-        %th
-          %b Highlight
-        %th
-          %b Type
-        %th
-          %b Track
-        %th
-          %b Difficulty
-        %th
-          %b State
-      - @events.each do |event|
-        %tr
-          %td
-            = event.id
-          %td
-            =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
-
+            %b Title
           - if @program.rating_enabled?
-            %td.col-md-1{'data-order' => "#{event.average_rating}"}
-              - if event.average_rating.to_f > 0
-                #{event.average_rating}/#{@program.rating}
-                %br
-                #{pluralize(event.voters.length, 'voter')}
-                %br
-                - @program.rating.times do |counter|
-                  - if event.average_rating.to_f.round == counter+1
-                    = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
-                    = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
-                  - else
-                    = label_tag "label_rating", "", :class => "avgrating"
-                %br
-                - voted = event.voted?(event, current_user)
-                - if voted
-                  %span.label.label-success
-                    Your rating: #{voted.rating}
-                - else
-                  %span.label.label-danger
-                    Not rated
-              - else
-                0/#{@program.rating}
-              %br
-
-          - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
-            - bgcolor="#F7819F"
-          - else
-            - bgcolor=""
-          %td{:style=>"background-color: #{bgcolor}"}
-            - if !event.submitter.nil?
-              =link_to event.submitter.name, admin_user_path(event.submitter)
-              - if event.submitter.registrations.count < 1
-                (Unregistered!)
-            - else
-              Unknown submitter
-          %td
-            - if speaker = event.speakers.first
-              = link_to speaker.name, admin_user_path(speaker)
-            - else
-              Unknown speaker
-
+            %th
+              %b Rating
+          %th
+            %b Submitter
+          %th
+            %b Speaker
           -if @program.languages.present?
+            %th
+              %b Language
+          %th
+            %b Requires Registration
+          %th
+            %b Highlight
+          %th
+            %b Type
+          %th
+            %b Track
+          %th
+            %b Difficulty
+          %th
+            %b State
+        - @events.each do |event|
+          %tr
             %td
-              = event.language
+              = event.id
+            %td
+              =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
 
-          %td.text-center{'data-order' => "#{event.require_registration}"}
-            = check_box_tag @conference.short_title, event.id, event.require_registration,
-              method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
-              class: 'switch-checkbox', data: { size: 'small',
-                                                off_color: 'warning',
-                                                on_text: 'Yes',
-                                                off_text: 'No' }
-            - if event.require_registration
-              %br
-              = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
-
-          %td.text-center{'data-order' => "#{event.is_highlight}"}
-            = check_box_tag @conference.short_title, event.id, event.is_highlight,
-              method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
-              class: 'switch-checkbox', data: { size: 'small',
-                                                off_color: 'warning',
-                                                on_text: 'Yes',
-                                                off_text: 'No' }
-
-          %td
-            .btn-group
-              %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
-                - if event.event_type.nil?
-                  Event Type
+            - if @program.rating_enabled?
+              %td.col-md-1{'data-order' => "#{event.average_rating}"}
+                - if event.average_rating.to_f > 0
+                  #{event.average_rating}/#{@program.rating}
+                  %br
+                  #{pluralize(event.voters.length, 'voter')}
+                  %br
+                  - @program.rating.times do |counter|
+                    - if event.average_rating.to_f.round == counter+1
+                      = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
+                      = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
+                    - else
+                      = label_tag "label_rating", "", :class => "avgrating"
+                  %br
+                  - voted = event.voted?(event, current_user)
+                  - if voted
+                    %span.label.label-success
+                      Your rating: #{voted.rating}
+                  - else
+                    %span.label.label-danger
+                      Not rated
                 - else
-                  = event.event_type.title
-                %span.caret
-              %ul.dropdown-menu
-                - @event_types.each do |type|
-                  %li= link_to type.title,
-                  admin_conference_program_event_path(@conference.short_title,
-                                              event,
-                                              event: { event_type_id: type.id }),
-                  method: :patch
-          %td
-            .btn-group
-              %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
-                - if event.track.nil?
-                  Track
-                - else
-                  = event.track.name
-                %span.caret
-              %ul.dropdown-menu
-                - @tracks.each do |track|
-                  %li= link_to track.name,
-                  admin_conference_program_event_path(@conference.short_title,
-                                              event,
-                                              event: { track_id: track.id }),
-                  method: :patch
-          %td
-            .btn-group
-              %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
-                - if event.difficulty_level.nil?
-                  Difficulty
-                - else
-                  = event.difficulty_level.title
-                %span.caret
-              %ul.dropdown-menu
-                - @difficulty_levels.each do |difficulty_level|
-                  %li= link_to difficulty_level.title,
-                  admin_conference_program_event_path(@conference.short_title,
-                                              event,
-                                              event: { difficulty_level_id: difficulty_level.id }),
-                  method: :patch
+                  0/#{@program.rating}
+                %br
 
-          %td
-            - if event.state == "withdrawn"
-              Withdrawn
+            - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
+              - bgcolor="#F7819F"
             - else
+              - bgcolor=""
+            %td{:style=>"background-color: #{bgcolor}"}
+              - if !event.submitter.nil?
+                =link_to event.submitter.name, admin_user_path(event.submitter)
+                - if event.submitter.registrations.count < 1
+                  (Unregistered!)
+              - else
+                Unknown submitter
+            %td
+              - if speaker = event.speakers.first
+                = link_to speaker.name, admin_user_path(speaker)
+              - else
+                Unknown speaker
+
+            -if @program.languages.present?
+              %td
+                = event.language
+
+            %td.text-center{'data-order' => "#{event.require_registration}"}
+              = check_box_tag @conference.short_title, event.id, event.require_registration,
+                method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
+                class: 'switch-checkbox', data: { size: 'small',
+                                                  off_color: 'warning',
+                                                  on_text: 'Yes',
+                                                  off_text: 'No' }
+              - if event.require_registration
+                %br
+                = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
+
+            %td.text-center{'data-order' => "#{event.is_highlight}"}
+              = check_box_tag @conference.short_title, event.id, event.is_highlight,
+                method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
+                class: 'switch-checkbox', data: { size: 'small',
+                                                  off_color: 'warning',
+                                                  on_text: 'Yes',
+                                                  off_text: 'No' }
+
+            %td
               .btn-group
                 %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
-                  = event.state.humanize
+                  - if event.event_type.nil?
+                    Event Type
+                  - else
+                    = event.event_type.title
                   %span.caret
-                %ul.dropdown-menu{:role=>"menu"}
-                  = render 'change_state_dropdown', event: event
+                %ul.dropdown-menu
+                  - @event_types.each do |type|
+                    %li= link_to type.title,
+                    admin_conference_program_event_path(@conference.short_title,
+                                                event,
+                                                event: { event_type_id: type.id }),
+                    method: :patch
+            %td
+              .btn-group
+                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                  - if event.track.nil?
+                    Track
+                  - else
+                    = event.track.name
+                  %span.caret
+                %ul.dropdown-menu
+                  - @tracks.each do |track|
+                    %li= link_to track.name,
+                    admin_conference_program_event_path(@conference.short_title,
+                                                event,
+                                                event: { track_id: track.id }),
+                    method: :patch
+            %td
+              .btn-group
+                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                  - if event.difficulty_level.nil?
+                    Difficulty
+                  - else
+                    = event.difficulty_level.title
+                  %span.caret
+                %ul.dropdown-menu
+                  - @difficulty_levels.each do |difficulty_level|
+                    %li= link_to difficulty_level.title,
+                    admin_conference_program_event_path(@conference.short_title,
+                                                event,
+                                                event: { difficulty_level_id: difficulty_level.id }),
+                    method: :patch
+
+            %td
+              - if event.state == "withdrawn"
+                Withdrawn
+              - else
+                .btn-group
+                  %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                    = event.state.humanize
+                    %span.caret
+                  %ul.dropdown-menu{:role=>"menu"}
+                    = render 'change_state_dropdown', event: event

@@ -9,6 +9,9 @@ module Admin
       @pdf_filename = "#{@conference.title}.pdf"
       @registrations = @conference.registrations.includes(:user).order('registrations.created_at ASC')
       @attended = @conference.registrations.where('attended = ?', true).count
+
+      @registration_distribution = @conference.registration_distribution
+      @affiliation_distribution = @conference.affiliation_distribution
     end
 
     def edit; end

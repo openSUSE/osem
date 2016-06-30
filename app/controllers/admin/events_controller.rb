@@ -21,6 +21,9 @@ module Admin
       @difficulty_levels = @program.difficulty_levels
       @machine_states = @events.state_machine.states.map
       @event_types = @program.event_types
+      @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
+      @event_distribution = @conference.event_distribution
+      @scheduled_event_distribution = @conference.scheduled_event_distribution
 
       @mystates = []
       @mytypes = []

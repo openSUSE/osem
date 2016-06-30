@@ -317,6 +317,67 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Returns a hash with scheduled vs unscheduled events
+  # { "Scheduled" => { value: number of confirmed and scheduled events, color: color },
+  #   "Unscheduled" => { value: number of confirmed and unscheduled events, color: color }
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def scheduled_event_distribution
+    confirmed_events = program.events.where(state: 'confirmed')
+    scheduled_value =  { 'value' => confirmed_events.where.not(start_time: nil).count, 'color' => 'green' }
+    unscheduled_value =  { 'value' => confirmed_events.where(start_time: nil).count, 'color' => 'red' }
+    { 'Scheduled' => scheduled_value, 'Unscheduled' => unscheduled_value }
+  end
+
+  ##
+  # Returns a hash with Registration attended vs. Registration not attended
+  # { "Attended" => { value: number of registration attended, color: color },
+  #   "Not attended" => { value: number of registration not attended, color: color }
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def registration_distribution
+    reg = registrations.includes(:user)
+    attended_value =  { 'value' => reg.where(attended: true).count, 'color' => 'magenta' }
+    not_attended_value =  { 'value' => reg.where.not(attended: true).count, 'color' => 'blue' }
+    { 'Attended' => attended_value, 'Not attended' => not_attended_value }
+  end
+
+  ##
+  # Returns a hash with affiliation =>
+  # {value: count of registration whose user has that affilation, color: color}
+  # In case that the affiliation is blank, it groups them in None and
+  # if the number of persons that have an affiliation are less than the 2% of
+  # the total number of registered people, they are grouped in others.
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def affiliation_distribution
+    counted_affiliations = registrations.joins(:user).group(:affiliation).count
+    result = {}
+    i=1
+    others = 0
+    none = 0
+    counted_affiliations.each do |key, value|
+      if value < 0.02 * registrations.length
+        others += value
+      elsif key.blank?
+        none += value
+      else
+        result[key.capitalize] = { 'value' => value, 'color' => next_color(i) }
+        i += 1
+      end
+    end
+    if others > 0
+      result['Others'] = { 'value' => others, 'color' => next_color(i) }
+      i += 1
+    end
+    result['None'] = { 'value' => none, 'color' => next_color(i) } if none > 0
+    result
+  end
+
+  ##
   # Returns a hash with user distribution => {value: count of user state, color: color}
   # active: signed in during the last 3 months
   # unconfirmed: registered but not confirmed
@@ -535,6 +596,20 @@ class Conference < ActiveRecord::Base
   end
 
   private
+
+  # Returns a different html colour for every i and consecutive colors are
+  # clearly different.
+  def next_color(i)
+    '#' + next_color_component(:r, i) + next_color_component(:g, i) + next_color_component(:b, i)
+  end
+
+  # Auxiliar function which is used in next_color and returns each component of
+  # the color. We make use of big prime numbers to avoid repetition and to make
+  # consecutive colors clearly different.
+  def next_color_component(component, i)
+    big_prime_numbers = {r: 113, g: 67, b: 151}
+    ((i*big_prime_numbers[component])%239 + 16).to_s(16)
+  end
 
   after_create do
     self.create_contact
