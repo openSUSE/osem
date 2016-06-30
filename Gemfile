@@ -105,6 +105,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap-markdown'
   gem 'rails-assets-to-markdown'
   gem 'rails-assets-markdown'
+  # for select with icon
+  gem 'rails-assets-bootstrap-select'
 end
 
 # as date picker

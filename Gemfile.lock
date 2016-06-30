@@ -356,17 +356,19 @@ GEM
       rails-assets-jquery (>= 1.9.1, < 3)
     rails-assets-bootstrap-markdown (2.10.0)
       rails-assets-bootstrap (~> 3)
+    rails-assets-bootstrap-select (1.10.0)
+      rails-assets-jquery (>= 1.8)
     rails-assets-date.format (1.2.3)
     rails-assets-holderjs (2.9.3)
-    rails-assets-jquery (2.2.1)
+    rails-assets-jquery (2.2.4)
     rails-assets-jquery-smooth-scroll (1.7.2)
       rails-assets-jquery (>= 1.4.2)
     rails-assets-markdown (0.5.0)
-    rails-assets-momentjs (2.11.2)
+    rails-assets-momentjs (2.13.0)
     rails-assets-spectrum (1.8.0)
       rails-assets-jquery (>= 1.7.2)
     rails-assets-tinycolor (1.3.0)
-    rails-assets-to-markdown (1.3.0)
+    rails-assets-to-markdown (3.0.0)
     rails-assets-trianglify (0.4.0)
     rails-assets-waypoints (4.0.0)
     rails-deprecated_sanitizer (1.0.3)
@@ -587,6 +589,7 @@ DEPENDENCIES
   quiet_assets
   rails (~> 4.2)
   rails-assets-bootstrap-markdown!
+  rails-assets-bootstrap-select!
   rails-assets-date.format!
   rails-assets-holderjs!
   rails-assets-jquery-smooth-scroll!
@@ -620,6 +623,3 @@ DEPENDENCIES
   web-console (~> 2.0)
   webmock
   whenever
-
-BUNDLED WITH
-   1.12.5
