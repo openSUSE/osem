@@ -29,5 +29,5 @@
       - if event.track
         %span.track
           %span.fa.fa-road
-          %span.label{ style: "background-color: #{event.track.color}" }
+          %span.label{ style: "background-color: #{event.track.color}; color: #{ contrast_color(event.track.color) }" }
             = event.track.name
