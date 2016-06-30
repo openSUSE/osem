@@ -40,7 +40,7 @@ module Admin
     private
 
     def survey_params
-      params.require(:survey).permit(:title, :description, :start_date, :end_date, :surveyable_type, :surveyable_id)
+      params.require(:survey).permit(:title, :description, :target, :start_date, :end_date, :surveyable_type, :surveyable_id)
     end
   end
 end

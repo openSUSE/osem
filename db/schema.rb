@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629145954) do
+ActiveRecord::Schema.define(version: 20160630094850) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -383,6 +383,14 @@ ActiveRecord::Schema.define(version: 20160629145954) do
     t.integer "max_choices"
     t.text    "possible_answers"
     t.boolean "mandatory",        default: false
+  end
+
+  create_table "survey_replies", force: :cascade do |t|
+    t.integer  "survey_question_id"
+    t.integer  "user_id"
+    t.text     "text"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "surveys", force: :cascade do |t|

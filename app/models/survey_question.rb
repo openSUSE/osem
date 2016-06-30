@@ -12,6 +12,8 @@ class SurveyQuestion < ActiveRecord::Base
   validates :max_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
 
   validate :max_choices_greater_than_min
+  has_many :survey_replies
+
 
   def single_choice?
     choice? && max_choices == 1 && min_choices == 1
