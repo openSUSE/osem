@@ -11,7 +11,15 @@
           .thumbnail
             .flexvideo{ id: "resource-content-#{@conference.venue.commercial.id}"}
               = render partial: 'shared/media_item', locals: { commercial: @conference.venue.commercial }
-    
+      - elsif @conference.venue.picture.present?
+        .col-md-5
+          .thumbnail
+            = image_tag @conference.venue.picture.url, alt: @conference.venue.name, class:"img-responsive"
+      - else
+        .col-md-5
+          .thumbnail.icon-container
+            .icon-inner
+              = fa_icon "university"
       .col-md-6
         %h2.text-center
           = "#{@conference.venue.city} / #{@conference.venue.country_name}"
