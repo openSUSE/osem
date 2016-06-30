@@ -96,6 +96,9 @@ Osem::Application.routes.draw do
   end
 
   resources :conference, only: [:index, :show] do
+    resources :survey, only: [:show] do
+      post :reply
+    end
     resource :program, only: [] do
       resources :proposal, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'

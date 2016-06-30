@@ -1,0 +1,18 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Survey #{@survey.title}
+        - if can? :edit, @survey
+          = link_to 'Edit Survey', admin_conference_survey_path(@conference.short_title, @survey), class: 'btn btn-primary pull-right'
+      %p.text-muted
+        From:
+        = @survey.start_date
+        to
+        = @survey.end_date
+.row
+  .col-md-12
+    - @survey.survey_questions.each.with_index(1) do |survey_question, index|
+      .row
+        .col-md-12
+          = render partial: 'admin/surveys/survey_question', locals:  { survey_question: survey_question, index: index }

@@ -48,7 +48,7 @@
         %ul
           - @conference.surveys.for_registration.each do |survey|
             %li
-              = link_to survey.title, "#"
+              = link_to survey.title, conference_survey_path(@conference.short_title, survey)
 
   - if @registration.events.any?
     .row

@@ -14,11 +14,12 @@
       choices )
     - if survey_question.mandatory
       %span.fa.fa-asterisk.text-danger
-    %p.pull-right
-      = link_to edit_admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question) do
-        %span.fa.fa-edit
-      = link_to admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), method: :delete, data: { confirm: 'Are you sure you want to delete this question?' } do
-        %span.fa.fa-times
+    - if can? :edit, @survey
+      %p.pull-right
+        = link_to edit_admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question) do
+          %span.fa.fa-edit
+        = link_to admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), method: :delete, data: { confirm: 'Are you sure you want to delete this question?' } do
+          %span.fa.fa-times
   .panel-body
     - if survey_question.boolean?
       %input{type: 'radio', name: 'radio'}
