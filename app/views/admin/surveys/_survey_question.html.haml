@@ -1,0 +1,50 @@
+.panel.panel-default
+  .panel-heading
+    %span.badge
+      = index
+    = survey_question.title
+    - if survey_question.multiple_choice?
+      ( Select
+      - if survey_question.min_choices != survey_question.max_choices
+        a minimum of
+      = survey_question.min_choices
+      - if survey_question.min_choices != survey_question.max_choices
+        and a maximum of
+        = survey_question.max_choices
+      choices )
+    - if survey_question.mandatory
+      %span.fa.fa-asterisk.text-danger
+    %p.pull-right
+      = link_to edit_admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question) do
+        %span.fa.fa-edit
+      = link_to admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), method: :delete, data: { confirm: 'Are you sure you want to delete this question?' } do
+        %span.fa.fa-times
+  .panel-body
+    - if survey_question.boolean?
+      %input{type: 'radio', name: 'radio'}
+        Yes
+      %br
+      %input{type: 'radio', name: 'radio'}
+        No
+    - elsif survey_question.choice?
+      - survey_question.possible_answers.split(',').map(&:strip).each do |option|
+        - if survey_question.single_choice?
+          %input{ type: 'radio', name: 'radio' }
+            = option
+          %br
+        - else
+          %input{ type: 'checkbox', name: 'checkbox' }
+            = option
+          %br
+    - elsif survey_question.string?
+      %input.form-control
+    - elsif survey_question.text?
+      %textarea.form-control{ rows: 4 }
+    - elsif survey_question.datetime?
+      .form-group{class: 'datetimepicker'}
+        .input-group
+          .input-group-addon
+            %span.fa.fa-calendar
+          %input.form-control{readonly: 'readonly'}
+    - elsif survey_question.numeric?
+      %input.form-control{ type: 'number' }

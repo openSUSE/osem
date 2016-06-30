@@ -1,5 +1,5 @@
-- if @conference.questions.any?
-  = render partial: 'conference_registrations/questions', locals: { f: f }
+- if @conference.surveys.for_registration.any?
+  Something
 - if @conference.program.events.with_registration_open.any? || @registration.events.any?
   = f.inputs 'Pre-registration required for the following:' do
 
