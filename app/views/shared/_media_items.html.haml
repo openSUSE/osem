@@ -16,10 +16,10 @@
     .tab-content
       - commercials.each.with_index(1) do  |commercial, index|
         - if index == 1
-          %div.tab-pane.active{'id'=>"#{index}"}
+          .tab-pane.active{'id'=>"#{index}"}
             .flexvideo
               = render partial: 'shared/media_item', locals: { commercial: commercial }
         - else
-          %div.tab-pane{'id'=>"#{index}"}
+          .tab-pane{'id'=>"#{index}"}
             .flexvideo
               = render partial: 'shared/media_item', locals: { commercial: commercial }
