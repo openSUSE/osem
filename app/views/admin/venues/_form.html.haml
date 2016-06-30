@@ -16,9 +16,6 @@
           = f.inputs :name, :website
           = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint
           = f.inputs :street, :postalcode, :city, :country, :latitude, :longitude
-          - if @venue.picture?
-            = image_tag @venue.picture.thumb.url
-          = f.input :picture
           = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
 
     #commercials-content.tab-pane
