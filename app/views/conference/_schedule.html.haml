@@ -1,0 +1,68 @@
+#schedule-content
+  %h1.text-center
+    Schedule for
+    = @conference.title
+  .dropdown.schedule-dropdown
+    %button{ type: "button", class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown" }
+      = @dates.first
+      %span.caret
+    %ul.dropdown-menu
+      - @dates.each do |date|
+        %li.li-dropdown-schedule
+          = link_to date, "#" + "#{date}", "data-toggle" => "tab", "class" => "date-tab"
+
+  .tab-content
+    - @dates.each do |date|
+      %div{ class: "tab-pane #{ 'active' if @dates.first == date }", id: "#{ date }" }
+
+        .visible-xs-inline
+          = render partial: 'carousel', locals: { date: date, number_columns: 1 }
+
+        .visible-sm-inline
+          = render partial: 'carousel', locals: { date: date, number_columns: 2 }
+
+        .visible-md-inline.visible-lg-inline
+          = render partial: 'carousel', locals: { date: date, number_columns: 3 }
+
+:javascript
+  // change of active tab and the button title when a date clicked
+  $(function() {
+    $('.date-tab').on('click', function(e) {
+      $('.li-dropdown-schedule').removeClass('active');
+      $('.schedule-dropdown').find('button').text($(this).text());
+    });
+  });
+
+  // use the date tag in the url to select a tab and the title of the button
+  $(function() {
+      var hash = window.location.hash;
+      if(hash && !(hash === '#schedule')){
+        hash && $('ul a[href="' + hash + '"]').tab('show');
+        $('button.dropdown-toggle').text(hash.substr(1));
+      }
+  });
+
+  // hide the right and left controls when neccesary after moving the carousel
+  $('.carousel').on('slid.bs.carousel', '',
+  function(){
+    $(this).children('.left.carousel-control').show();
+    $(this).children('.right.carousel-control').show();
+    if($(this).find('.first').hasClass('active')) {
+      $(this).children('.left.carousel-control').hide();
+    } else if($(this).find('.last').hasClass('active')) {
+      $(this).children('.right.carousel-control').hide();
+    }
+  });
+
+  $(document).ready(function(){
+    // hide the left control when the page is ready
+    $('.carousel').children('.left.carousel-control').hide();
+
+    // carousel swipe
+    $(".carousel-inner").swiperight(function() {
+      $(this).parent().carousel('prev');
+    });
+    $(".carousel-inner").swipeleft(function() {
+      $(this).parent().carousel('next');
+    });
+  });
