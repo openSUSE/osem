@@ -21,29 +21,22 @@
         = link_to admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), method: :delete, data: { confirm: 'Are you sure you want to delete this question?' } do
           %span.fa.fa-times
   .panel-body
-    - if survey_question.boolean?
-      = f.input "survey_question_#{survey_question.id}", as: :radio, name: 'Yes'
-      %br
-      = f.input "survey_question_#{survey_question.id}", as: :radio, name: 'No'
-    - elsif survey_question.choice?
-      - survey_question.possible_answers.split(',').map(&:strip).each do |option|
-        - if survey_question.single_choice?
-          %input{ type: 'radio', name: "survey_question_#{survey_question.id}" }
-            = option
-          %br
-        - else
-          %input{ type: 'checkbox', name: "survey_question_#{survey_question.id}" }
-            = option
-          %br
-    - elsif survey_question.string?
-      %input.form-control{ name: "survey_question_#{survey_question.id}" }
-    - elsif survey_question.text?
-      %textarea.form-control{ rows: 4, name: "survey_question_#{survey_question.id}"  }
-    - elsif survey_question.datetime?
-      .form-group{ class: 'datetimepicker' }
-        .input-group
-          .input-group-addon
-            %span.fa.fa-calendar
-          %input.form-control{ readonly: 'readonly', name: "survey_question_#{survey_question.id}" }
-    - elsif survey_question.numeric?
-      %input.form-control{ type: 'number', name: "survey_question_#{survey_question.id}"  }
+    = f.semantic_fields_for :survey_reply do |reply, index|
+      = reply.hidden_field :survey_question_id, value: survey_question.id
+      - if survey_question.boolean?
+        = reply.input :text, as: :radio, label: false
+      - elsif survey_question.choice?
+        - choice_type = survey_question.single_choice? ? :radio : :check_boxes
+        = reply.input :text, as: choice_type, label: false, collection: survey_question.possible_answers.split(',').map(&:strip)
+      - elsif survey_question.string?
+        %input.form-control{ name: "survey_question_#{survey_question.id}" }
+      - elsif survey_question.text?
+        %textarea.form-control{ rows: 4, name: "survey_question_#{survey_question.id}"  }
+      - elsif survey_question.datetime?
+        .form-group{ class: 'datetimepicker' }
+          .input-group
+            .input-group-addon
+              %span.fa.fa-calendar
+            %input.form-control{ readonly: 'readonly', name: "survey_question_#{survey_question.id}" }
+      - elsif survey_question.numeric?
+        %input.form-control{ type: 'number', name: "survey_question_#{survey_question.id}"  }
