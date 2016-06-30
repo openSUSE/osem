@@ -64,6 +64,9 @@
   #venue {
     padding-top: 0px;
     padding-bottom: 0px;
+    #venue-pic {
+      margin-top: 20px;
+    }
   }
 
   #lodging {
@@ -168,21 +171,6 @@
     }
     a {
       color: white;
-    }
-  }
-}
-
-/* Venue icon styles */
-.icon-container {
-  position: relative;
-  height: 60%;
-  .icon-inner {
-    position:absolute;
-    top:50%;
-    left: 50%;
-    transform:translate(-50%,-50%);
-    .fa-university {
-      font-size: 10em;
     }
   }
 }
