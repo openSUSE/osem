@@ -2,30 +2,7 @@
   .row
     .col-md-12
       .page-header
-        %h2 Upcoming Conferences
-  - @current.each do |conference|
-    = render partial: 'conference_details', locals: { conference: conference }
-  -if @antiquated and @antiquated.any?
-    .row
-      .col-md-12
-        %p.text-right
-          %button{ type: 'button', class: 'btn btn-link btn-sm', 'data-toggle' => 'collapse', 'data-target' => '#antiquated', 'aria-expanded' => 'true', 'aria-controls' => 'antiquated'}
-            Older conferences
-            %span.notranslate
-              = "(#{@antiquated.count})"
-            %i.fa.fa-chevron-right
-            %i.fa.fa-chevron-down{ style: 'display: none' }
-    #antiquated.collapse
-      - @antiquated.each do |conference|
-        = render partial: 'conference_details', locals: { conference: conference}
-
--content_for :script_body do
-  :javascript
-    $('#antiquated').on('hidden.bs.collapse', function () {
-      $( ".fa-chevron-down" ).hide();
-      $( ".fa-chevron-right" ).show();
-    })
-    $('#antiquated').on('shown.bs.collapse', function () {
-      $( ".fa-chevron-down" ).show();
-      $( ".fa-chevron-right" ).hide();
-    })
+        %h2 Hack Week Rulez!!1!AOL
+  .row
+    .col-md-12 
+      %img{src: 'https://hackweek.suse.com/assets/hackweek-logo-light-23bdd7fcc1d3463dcdfe50670ebb017990e5ff0f47e9dce8b3bbd59bf18f0b13.png', class: 'img-responsive img-center'}
