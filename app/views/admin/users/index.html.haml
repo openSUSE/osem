@@ -27,6 +27,7 @@
                 confirmed
               - else
                 unconfirmed
+                = link_to 'Confirm', confirm_admin_user_path(user), method: :patch, class: 'btn btn-xs btn-success'
             %td
               = user.email
             %td
