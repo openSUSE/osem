@@ -16,7 +16,6 @@
 //= require waypoints/jquery.waypoints
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-//= require cocoon
 //= require bootstrap
 //= require Chart
 //= require osem
@@ -28,7 +27,6 @@
 //= require bootstrap-markdown
 //= require to-markdown
 //= require markdown
-//= require momentjs
 //= require leaflet
 //= require holderjs
 //= require bootstrap-datetimepicker
