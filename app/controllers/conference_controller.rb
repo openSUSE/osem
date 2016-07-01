@@ -31,6 +31,9 @@ class ConferenceController < ApplicationController
 
     @scheduled_events = @conference.program.events.scheduled
     @unscheduled_events = @conference.program.events.unscheduled
+
+    day = @conference.current_conference_day
+    @tag = day.strftime('%Y-%m-%d') if day
   end
 
   private

@@ -609,6 +609,12 @@ class Conference < ActiveRecord::Base
     next_color(start_index[collection])
   end
 
+  # Returns the current day if it is a day of the schedule or nil otherwise
+  def current_conference_day
+    day = Time.find_zone(timezone).today
+    day if (start_date..end_date).cover? day
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are
