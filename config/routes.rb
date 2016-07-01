@@ -21,6 +21,9 @@ Osem::Application.routes.draw do
     resources :users
     resources :comments, only: [:index]
     resources :conference do
+      resources :surveys do
+        resources :survey_questions
+      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resource :schedule, only: [:show, :update]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
@@ -93,6 +96,9 @@ Osem::Application.routes.draw do
   end
 
   resources :conference, only: [:index, :show] do
+    resources :survey, only: [:show] do
+      post :reply
+    end
     resource :program, only: [] do
       resources :proposal, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'

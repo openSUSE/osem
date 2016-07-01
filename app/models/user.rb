@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
+  has_many :survey_replies
+  has_many :survey_submissions
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
