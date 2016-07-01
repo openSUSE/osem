@@ -11,8 +11,9 @@
         = @survey.end_date
 .row
   .col-md-12
-    - @survey.survey_questions.each.with_index(1) do |survey_question, index|
-      .row
-        .col-md-12
-          = render partial: 'survey_question', locals:  { survey_question: survey_question, index: index }
+    = semantic_form_for 'survey_submission', url: '#' do |f|
+      - @survey.survey_questions.each.with_index(1) do |survey_question, index|
+        .row
+          .col-md-12
+            = render partial: 'survey_question', locals:  { survey_question: survey_question, index: index, f: f }
     = link_to 'Add Question', new_admin_conference_survey_survey_question_path(@conference.short_title, @survey), class: 'btn btn-success pull-right'

@@ -1,8 +1,11 @@
 .panel.panel-default
   .panel-heading
     %span.badge
-      = index
+      = question_index
     = survey_question.title
+    ID
+    = survey_question.id
+
     - if survey_question.multiple_choice?
       ( Select
       - if survey_question.min_choices != survey_question.max_choices
@@ -21,22 +24,37 @@
         = link_to admin_conference_survey_survey_question_path(@conference.short_title, @survey, survey_question), method: :delete, data: { confirm: 'Are you sure you want to delete this question?' } do
           %span.fa.fa-times
   .panel-body
-    = f.semantic_fields_for :survey_reply do |reply, index|
-      = reply.hidden_field :survey_question_id, value: survey_question.id
-      - if survey_question.boolean?
-        = reply.input :text, as: :radio, label: false
-      - elsif survey_question.choice?
-        - choice_type = survey_question.single_choice? ? :radio : :check_boxes
-        = reply.input :text, as: choice_type, label: false, collection: survey_question.possible_answers.split(',').map(&:strip)
-      - elsif survey_question.string?
-        %input.form-control{ name: "survey_question_#{survey_question.id}" }
-      - elsif survey_question.text?
-        %textarea.form-control{ rows: 4, name: "survey_question_#{survey_question.id}"  }
-      - elsif survey_question.datetime?
-        .form-group{ class: 'datetimepicker' }
-          .input-group
-            .input-group-addon
-              %span.fa.fa-calendar
-            %input.form-control{ readonly: 'readonly', name: "survey_question_#{survey_question.id}" }
-      - elsif survey_question.numeric?
-        %input.form-control{ type: 'number', name: "survey_question_#{survey_question.id}"  }
+    %input{ type: 'hidden', name: "survey_question_#{survey_question.id}", value: survey_question.id }
+
+    - if survey_question.boolean?
+      %input{ type: 'radio', name: "survey_question_#{survey_question.id}_reply", value: 'Yes' }
+      Yes
+      %input{ type: 'radio', name: "survey_question_#{survey_question.id}_reply", value: 'No' }
+      No
+
+    - elsif survey_question.choice?
+      - possible_answers = survey_question.possible_answers.split(',').map(&:strip)
+
+      - possible_answers.each do |answer|
+        - if survey_question.single_choice?
+          %input{ type: 'radio', name: "survey_question_#{survey_question.id}_reply", value: answer }
+          = label_tag answer
+          %br
+        - else
+          = hidden_field_tag "survey_submission[survey_question_#{survey_question.id}][survey_reply_ids][]", nil
+          = check_box_tag "survey_submission[survey_question_#{survey_question.id}][survey_reply_ids][]", possible_answers.index, false
+          = answer
+          %br
+    - elsif survey_question.string?
+      %input.form-control{ name: "survey_question_#{survey_question.id}" }
+    - elsif survey_question.text?
+      %textarea.form-control{ rows: 4, name: "survey_question_#{survey_question.id}"  }
+    - elsif survey_question.datetime?
+      .form-group{ class: 'datetimepicker' }
+        .input-group
+          .input-group-addon
+            %span.fa.fa-calendar
+          %input.form-control{ readonly: 'readonly', name: "survey_question_#{survey_question.id}" }
+    - elsif survey_question.numeric?
+      %input.form-control{ type: 'number', name: "survey_question_#{survey_question.id}"  }
+

@@ -96,7 +96,8 @@ Osem::Application.routes.draw do
   end
 
   resources :conference, only: [:index, :show] do
-    resources :survey, only: [:show] do
+    resources :surveys, only: [:show] do
+      resource :survey_submission
       post :reply
     end
     resource :program, only: [] do
