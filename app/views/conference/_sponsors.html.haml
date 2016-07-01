@@ -15,7 +15,7 @@
               %a{ href: '#', data: { toggle: 'modal', target: "#modal_#{sponsor.id}" } }
                 = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}"
 
-            %div.modal.fade{ id: "modal_#{sponsor.id}" }
+            .modal.fade{ id: "modal_#{sponsor.id}" }
               .modal-dialog
                 .modal-content
                   .modal-header
