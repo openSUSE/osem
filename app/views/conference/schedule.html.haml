@@ -7,16 +7,16 @@
       = @conference.title
     .dropdown.schedule-dropdown
       %button{ type: "button", class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown" }
-        = @dates.first
+        = @day
         %span.caret
       %ul.dropdown-menu
         - @dates.each do |date|
-          %li.li-dropdown-schedule
+          %li.li-dropdown-schedule{ class: "#{ 'active' if @day == date }" }
             = link_to date, "#" + "#{date}", "data-toggle" => "tab", "class" => "date-tab"
 
     .tab-content
       - @dates.each do |date|
-        %div{ class: "tab-pane #{ 'active' if @dates.first == date }", id: "#{ date }" }
+        %div{ class: "tab-pane #{ 'active' if @day == date }", id: "#{ date }" }
 
           .visible-xs-inline
             = render partial: 'carousel', locals: { date: date, number_columns: 1 }
@@ -28,7 +28,7 @@
             = render partial: 'carousel', locals: { date: date, number_columns: 3 }
 
 :javascript
-  // change of active tab and the button title when a date clicked
+  // change of active tab and the button title when a date is clicked
   $(function() {
     $('.date-tab').on('click', function(e) {
       $('.li-dropdown-schedule').removeClass('active');
@@ -43,14 +43,22 @@
     $(this).children('.right.carousel-control').show();
     if($(this).find('.first').hasClass('active')) {
       $(this).children('.left.carousel-control').hide();
-    } else if($(this).find('.last').hasClass('active')) {
+    }
+    if($(this).find('.last').hasClass('active')) {
       $(this).children('.right.carousel-control').hide();
     }
   });
 
   $(document).ready(function(){
     // hide the left control when the page is ready
-    $('.carousel').children('.left.carousel-control').hide();
+    $('.carousel').each(function() {
+      if($(this).find('.first').hasClass('active')) {
+        $(this).children('.left.carousel-control').hide();
+      }
+      if($(this).find('.last').hasClass('active')) {
+        $(this).children('.right.carousel-control').hide();
+      }
+    });
 
     // carousel swipe
     $(".carousel-inner").swiperight(function() {
@@ -60,10 +68,14 @@
       $(this).parent().carousel('next');
     });
 
-    // use the date tag in the url to select a tab and the title of the button
-    var hash = window.location.hash;
-    if(hash && !(hash === '#schedule')){
-      hash && $('ul a[href="' + hash + '"]').tab('show');
-      $('button.dropdown-toggle').text(hash.substr(1));
+    var day = "#{@current_day}";
+    // we only go to the date tag in the url if the conference is not taking place now
+    if(day === ""){
+      // use the date tag in the url to select a tab and the title of the button
+      var hash = window.location.hash;
+      if(hash && !(hash === '#schedule')){
+        hash && $('ul a[href="' + hash + '"]').tab('show');
+        $('button.dropdown-toggle').text(hash.substr(1));
+      }
     }
   });

@@ -9,7 +9,7 @@
   .carousel-inner
     - start_time = DateTime.parse("#{date} #{@conf_start}:00")
     - (0..carousel_number-1).each do |number|
-      %div{ class: "item #{ number == 0 ? 'active first' : ( number == carousel_number-1 ? 'last' : '') }" }
+      %div{ class: "#{ carousel_item_class(number, carousel_number, number_columns, @hour_column)}" }
         %table.table.table-bordered.schedule-table#schedule
           %tr
             %th

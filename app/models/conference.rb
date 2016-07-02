@@ -615,6 +615,15 @@ class Conference < ActiveRecord::Base
     day if (start_date..end_date).cover? day
   end
 
+  # Returns the number of hours since the conference start hour (9) to the
+  # current hour, in case that the current hour is beetween the start and the
+  # end hour (20). Otherwise, returns 0
+  def hours_from_start_time(start_hour, end_hour)
+    current_time = Time.find_zone(timezone).now
+    current_hour = current_time.strftime('%H').to_i
+    (start_hour..(end_hour-1)).cover?(current_hour) ? current_hour - start_hour : 0
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are
