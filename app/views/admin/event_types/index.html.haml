@@ -28,7 +28,7 @@
               = "#{event_type.minimum_abstract_length} - #{event_type.maximum_abstract_length}"
               Words
             %td
-              %span.label{style: "background-color: #{event_type.color};"}
+              %span.label{style: "background-color: #{event_type.color}; color: #{ contrast_color(event_type.color) };"}
                 = event_type.color
             %td
               .btn-group{role: "group"}
@@ -39,4 +39,3 @@
 .row
   .col-md-12.text-right
     = link_to 'Add Event Type', new_admin_conference_program_event_type_path(@conference.short_title), class: 'btn btn-primary'
-

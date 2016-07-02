@@ -20,7 +20,7 @@
             %td
               = difficulty_level.description
             %td
-              %span.label{style: "background-color: #{difficulty_level.color};"}
+              %span.label{style: "background-color: #{difficulty_level.color}; color: #{ contrast_color(difficulty_level.color) };"}
                 = difficulty_level.color
             %td
               .btn-group{role: "group"}

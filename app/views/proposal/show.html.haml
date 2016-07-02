@@ -76,7 +76,7 @@
             %dt Difficulty:
             %dd
               - if @event.difficulty_level
-                %span.label{:style =>"background-color: #{@event.difficulty_level.color};"}
+                %span.label{:style =>"background-color: #{@event.difficulty_level.color}; color: #{ contrast_color(@event.difficulty_level.color) };"}
                   = @event.difficulty_level.title
 
           - if @event.require_registration
