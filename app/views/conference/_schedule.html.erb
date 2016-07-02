@@ -55,6 +55,12 @@ $(function() {
     }
 });
 
+// Open current day's schedule by default
+$(function() {
+    today = new Date().toISOString().split('T')[0];
+    $('.date-tab[href="#' + today +'"]').trigger( "click" );
+});
+
 // hide the right and left controls when neccesary after moving the carousel
 $('.carousel').on('slid.bs.carousel', '',
 function(){
