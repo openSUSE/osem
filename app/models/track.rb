@@ -4,6 +4,7 @@ class Track < ActiveRecord::Base
 
   before_create :generate_guid
   validates :name, presence: true
+  validates :color, format: /\A#[0-9a-fA-F]{6}\z/
 
   private
 

@@ -3,4 +3,5 @@ class DifficultyLevel < ActiveRecord::Base
   has_many :events, dependent: :nullify
 
   validates :title, presence: true
+  validates :color, format: /\A#[0-9a-fA-F]{6}\z/
 end

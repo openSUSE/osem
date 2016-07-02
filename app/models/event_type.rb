@@ -7,6 +7,7 @@ class EventType < ActiveRecord::Base
   validates :minimum_abstract_length, presence: true
   validates :maximum_abstract_length, presence: true
   validate :length_step
+  validates :color, format: /\A#[0-9a-fA-F]{6}\z/
 
   alias_attribute :name, :title
 

@@ -9,7 +9,7 @@ module Admin
     def edit; end
 
     def new
-      @event_type = @conference.program.event_types.new
+      @event_type = @conference.program.event_types.new(color: @conference.next_color_for_collection(:types))
     end
 
     def create
