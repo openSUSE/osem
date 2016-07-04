@@ -10,6 +10,6 @@ describe 'admin/tracks/index' do
     render
     expect(rendered).to include('Example Track')
     expect(rendered).to include('Lorem Ipsum dolsum')
-    expect(rendered).to include('#ffffff')
+    expect(rendered).to include('#FFFFFF')
   end
 end

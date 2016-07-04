@@ -9,6 +9,6 @@ describe 'admin/difficulty_levels/index' do
     render
     expect(rendered).to include('Example Difficulty Level')
     expect(rendered).to include('Lorem Ipsum dolsum')
-    expect(rendered).to include('#ffffff')
+    expect(rendered).to include('#FFFFFF')
   end
 end

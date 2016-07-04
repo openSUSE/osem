@@ -32,7 +32,7 @@ feature EventType do
       within('table#event_types') do
         expect(page.has_content?('Party')).to be true
         expect(page.has_content?('13042')).to be true
-        expect(page.has_content?('#e4e4e4')).to be true
+        expect(page.has_content?('#E4E4E4')).to be true
         expect(page.assert_selector('tr', count: 3)).to be true
       end
 

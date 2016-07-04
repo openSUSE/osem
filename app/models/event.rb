@@ -115,7 +115,7 @@ class Event < ActiveRecord::Base
     json = super(options)
 
     json[:room_guid] = room.try(:guid)
-    json[:track_color] = track.try(:color) || '#ffffff'
+    json[:track_color] = track.try(:color) || '#FFFFFF'
     json[:length] = event_type.try(:length) || 25
 
     json

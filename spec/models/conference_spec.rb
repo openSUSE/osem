@@ -426,7 +426,7 @@ describe Conference do
         result = {}
         result['Hard'] = {
           'value' => 1,
-          'color' => '#ffffff',
+          'color' => '#FFFFFF',
         }
         result['Easy'] = {
           'value' => 2,
@@ -476,7 +476,7 @@ describe Conference do
         result = {}
         result['Hard'] = {
           'value' => 1,
-          'color' => '#ffffff'
+          'color' => '#FFFFFF'
         }
         result['Easy'] = {
           'value' => 1,
@@ -526,7 +526,7 @@ describe Conference do
         }
         result['Lecture'] = {
           'value' => 1,
-          'color' => '#ffffff',
+          'color' => '#FFFFFF',
         }
         expect(subject.event_type_distribution).to eq(result)
       end
@@ -572,7 +572,7 @@ describe Conference do
         result = {}
         result['Lecture'] = {
           'value' => 1,
-          'color' => '#ffffff'
+          'color' => '#FFFFFF'
         }
         result['Workshop'] = {
           'value' => 1,
@@ -622,7 +622,7 @@ describe Conference do
         }
         result['Track Two'] = {
           'value' => 1,
-          'color' => '#ffffff',
+          'color' => '#FFFFFF',
         }
         expect(subject.tracks_distribution).to eq(result)
       end
@@ -672,7 +672,7 @@ describe Conference do
         }
         result['Track Two'] = {
           'value' => 1,
-          'color' => '#ffffff'
+          'color' => '#FFFFFF'
         }
         expect(subject.tracks_distribution(:confirmed)).to eq(result)
       end
