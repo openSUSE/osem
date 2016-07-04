@@ -18,7 +18,7 @@
               Already have an account?
       .tab-content
         .tab-pane.active{role: 'tabpanel', id: 'signup'}
-          = semantic_form_for(@registration, url: conference_conference_registrations_path(@conference.short_title)) do |f|
+          = semantic_form_for(@registration, url: conference_conference_registration_path(@conference.short_title)) do |f|
             = render partial: 'devise/shared/sign_up_form_embedded'
 
             = render partial: 'registration_info', locals: { f: f }

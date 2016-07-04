@@ -26,5 +26,5 @@
             The registration period ends on
             = @conference.registration_period.end_date.strftime('%A, %B %-d. %Y')
           %p.cta-button
-        = link_to(new_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-lg btn-success') do
+        = link_to(new_conference_conference_registration_path(@conference.short_title), class: 'btn btn-lg btn-success') do
           Register Now

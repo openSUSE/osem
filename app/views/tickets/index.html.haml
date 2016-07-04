@@ -37,7 +37,7 @@
             = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
               Support
               %i.fa.fa-shopping-cart
-            = link_to 'Continue without a Ticket!', conference_conference_registrations_path(@conference.short_title),
+            = link_to 'Continue without a Ticket!', conference_conference_registration_path(@conference.short_title),
             class: 'btn btn-danger btn-sm'
   .row
     .col-md-13

@@ -20,7 +20,7 @@ feature Registration do
         visit root_path
         click_link 'Register'
 
-        expect(current_path).to eq(new_conference_conference_registrations_path(conference.short_title))
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
         click_button 'Register'
 
         fill_in "tickets__#{ticket.id}", with: '2'
@@ -30,7 +30,7 @@ feature Registration do
 
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
-        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
+        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
         expect(flash).
             to eq("Thank you for supporting #{conference.title} by purchasing a ticket.")
         expect(page.has_content?("2 #{ticket.title} Tickets for 10")).to be true
@@ -40,7 +40,7 @@ feature Registration do
         create(:registration, conference: conference, user: participant)
         create(:ticket_purchase, conference: conference, user: participant, ticket: ticket, quantity: 4)
 
-        visit conference_conference_registrations_path(conference.short_title)
+        visit conference_conference_registration_path(conference.short_title)
         expect(page.has_content?("4 #{ticket.title} Tickets for 10")).to be true
 
         click_link "ticket-#{ticket.id}-delete"

@@ -89,7 +89,7 @@ describe ConferenceRegistrationsController, type: :controller do
         end
 
         it 'redirects to registration show path' do
-          expect(response).to redirect_to conference_conference_registrations_path(conference.short_title)
+          expect(response).to redirect_to conference_conference_registration_path(conference.short_title)
         end
 
         it 'shows success message in flash notice' do
@@ -156,7 +156,7 @@ describe ConferenceRegistrationsController, type: :controller do
         end
 
         it 'redirects to registration show path' do
-          expect(response).to redirect_to conference_conference_registrations_path(conference.short_title)
+          expect(response).to redirect_to conference_conference_registration_path(conference.short_title)
         end
 
         it 'shows error in flash message' do

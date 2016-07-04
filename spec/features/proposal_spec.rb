@@ -133,7 +133,7 @@ feature Event do
       click_link "confirm_proposal_#{@event.id}"
       expect(flash).
         to eq('The proposal was confirmed. Please register to attend the conference.')
-      expect(current_path).to eq(new_conference_conference_registrations_path(conference.short_title))
+      expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
       @event.reload
       expect(@event.state).to eq('confirmed')
     end
