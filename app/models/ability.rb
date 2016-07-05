@@ -94,6 +94,9 @@ class Ability
 
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
+
+    # can view and reply a survey
+    can [:show, :reply], Survey, surveyable_type: 'Conference', surveyable_id: user.registrations.pluck(:conference_id)
   end
 
   # Abilities for signed in users with roles
