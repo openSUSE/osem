@@ -28,8 +28,7 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def show
-    TicketPurchase.destroy_all(user_id: current_user.id, conference_id: @conference.id, paid: 'f')
-    @total_price = Ticket.total_price(@conference, current_user, 't')
+    @total_price = Ticket.total_price(@conference, current_user, true)
     @tickets = current_user.ticket_purchases.where(conference_id: @conference.id)
     @ticket_payments = @tickets.group_by(&:payment_id)
   end

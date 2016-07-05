@@ -45,7 +45,7 @@ class TicketPurchase < ActiveRecord::Base
     purchase = TicketPurchase.where(ticket_id: ticket.id,
                                     conference_id: conference.id,
                                     user_id: user.id,
-                                    paid: 'f').first
+                                    paid: false).first
 
     purchase.quantity = quantity if quantity > 0
     purchase
@@ -54,10 +54,10 @@ class TicketPurchase < ActiveRecord::Base
   def self.update_paid_ticket_purchases(conference, user, payment)
     paid_ticket_purchases = TicketPurchase.where(conference_id: conference.id,
                                                  user_id: user.id,
-                                                 paid: 'f')
+                                                 paid: false)
     begin
       paid_ticket_purchases.each do |ticket|
-        ticket.paid = 't' 
+        ticket.paid = true
         ticket.payment_id = payment.id
         ticket.save
       end

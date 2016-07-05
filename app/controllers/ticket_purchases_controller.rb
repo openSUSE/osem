@@ -4,10 +4,10 @@ class TicketPurchasesController < ApplicationController
   authorize_resource :conference_registrations, class: Registration
 
   def create
-    TicketPurchase.destroy_all(user_id: current_user.id, conference_id: @conference.id, paid: 'f')
+    TicketPurchase.destroy_all(user_id: current_user.id, conference_id: @conference.id, paid: false)
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
-      if current_user.ticket_purchases.where(paid: 'f').any?
+      if current_user.ticket_purchases.where(paid: false).any?
         redirect_to new_conference_payment_path, notice: 'Please pay here to purchase tickets.'
       else
         redirect_to conference_conference_registration_path(@conference.short_title)

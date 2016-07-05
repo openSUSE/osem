@@ -9,22 +9,20 @@ class PaymentsController < ApplicationController
   end
 
   def new
-    @total_amount_to_pay = Ticket.total_price(@conference, current_user, 'f')
+    @total_amount_to_pay = Ticket.total_price(@conference, current_user, false)
   end
 
   def create
     @payment = Payment.new(payment_params)
-    @total_amount_to_pay = Ticket.total_price(@conference, current_user, 'f')
+    @total_amount_to_pay = Ticket.total_price(@conference, current_user, false)
 
     if @payment.valid? && @payment.purchase(current_user, @conference, price_in_cents)
-      @payment.save
-      @update_ticket_purchases = TicketPurchase.update_paid_ticket_purchases(@conference, current_user, @payment)
-    end
-
-    if @payment.save
-      redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
-    else
-      render 'new'
+      if @payment.save
+        @update_ticket_purchases = TicketPurchase.update_paid_ticket_purchases(@conference, current_user, @payment)
+        redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
+      else
+        render 'new'
+      end
     end
   end
 
