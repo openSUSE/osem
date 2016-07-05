@@ -18,7 +18,12 @@ Osem::Application.routes.draw do
   resources :users, except: [:new, :index, :create, :destroy]
 
   namespace :admin do
-    resources :users
+    resources :users do
+      member do
+        patch :confirm
+      end
+    end
+
     resources :comments, only: [:index]
     resources :conference do
       resource :contact, except: [:index, :new, :create, :show, :destroy]

@@ -36,6 +36,14 @@ module Admin
 
     def edit; end
 
+    def confirm
+      if @user.confirm
+        redirect_to admin_users_path, notice: "Confirmed #{@user.name}'s email (#{@user.email})!"
+      else
+        redirect_to admin_users_path, error: "Could not confirm #{@user.name}'s email (#{@user.email}). #{@user.errors.full_messages.join('. ')}."
+      end
+    end
+
     private
 
     def user_params
