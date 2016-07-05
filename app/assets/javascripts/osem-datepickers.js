@@ -1,6 +1,14 @@
 // get current_date
 var today = new Date().toISOString().slice(0, 10);
 $(function () {
+  $("input[id^='datetimepicker']").datetimepicker({
+    pickTime: true,
+    useCurrent: false,
+    sideBySide: true,
+    autoclose: true,
+    format: 'YYYY-MM-DD HH:mm'
+  });
+
   $("#registration-arrival-datepicker").datetimepicker({
       pickTime: true,
       useCurrent: false,
@@ -12,7 +20,7 @@ $(function () {
       minDate : today,
       defaultDate :   $("#registration-arrival-datepicker").attr('start_date'),
   });
-  
+
   $("#registration-departure-datepicker").datetimepicker({
       pickTime: true,
       useCurrent: false,
@@ -23,7 +31,7 @@ $(function () {
       minDate : $("#registration-arrival-datepicker").attr('start_date'),
       defaultDate :   $("#registration-arrival-datepicker").attr('end_date'),
   });
-  
+
   $("#registration-arrival-datepicker").on("dp.change",function (e) {
       // departure_date > start_date,arrival_date
       if ((new Date(e.date).getTime()) > (new Date($("#registration-arrival-datepicker").attr('start_date')).getTime())){
@@ -52,7 +60,7 @@ $(function () {
        useCurrent: false,
        format: "YYYY-MM-DD",
    });
-   
+
    //   end_date_conference >= registration-period-Start_date >= Current_date
    //   registration-period-Start_date <= registration-period-End_date <= End_date (of conference)
    $("#registration-period-start-datepicker").datetimepicker({
@@ -62,7 +70,7 @@ $(function () {
        minDate : today,
        maxDate : $("#registration-period-start-datepicker").attr('end_date'),
    });
-   
+
    $("#registration-period-end-datepicker").datetimepicker({
        pickTime: false,
        useCurrent: false,
@@ -70,7 +78,7 @@ $(function () {
        minDate: today,
        maxDate : $("#registration-period-start-datepicker").attr('end_date'),
    });
-   
+
   $("#conference-start-datepicker").on("dp.change",function (e) {
       $('#conference-end-datepicker').data("DateTimePicker").setMinDate(e.date);
   });

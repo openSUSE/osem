@@ -1,8 +1,115 @@
 require 'spec_helper'
 
 describe Program do
+  subject { create(:program) }
   let!(:conference) { create(:conference, end_date: Date.today + 3) }
   let!(:program) { conference.program }
+
+  describe 'association' do
+    it { is_expected.to belong_to :conference }
+    it { is_expected.to have_one(:cfp).dependent(:destroy) }
+    it { is_expected.to have_many(:event_types).dependent(:destroy) }
+    it { is_expected.to have_many(:tracks).dependent(:destroy) }
+    it { is_expected.to have_many(:difficulty_levels).dependent(:destroy) }
+    it { is_expected.to have_many(:events).dependent(:destroy) }
+    it { is_expected.to have_many(:event_users).through(:events) }
+    it { is_expected.to have_many(:speakers).through(:event_users).source(:user) }
+
+    it { is_expected.to accept_nested_attributes_for(:event_types) }
+    it { is_expected.to accept_nested_attributes_for(:tracks) }
+    it { is_expected.to accept_nested_attributes_for(:difficulty_levels) }
+  end
+
+  describe 'validation' do
+    it 'has a valid factory' do
+      expect(build(:program)).to be_valid
+    end
+
+    it 'is valid for rating of 5' do
+      expect(build(:program, rating: 5)).to be_valid
+    end
+
+    it { is_expected.to validate_numericality_of(:rating).is_greater_than_or_equal_to(0).is_less_than_or_equal_to(10).only_integer }
+
+    describe 'voting_start_date_before_end_date' do
+      it 'is valid, when voting_start_date is the same day as voting_end_date' do
+        expect(build(:program, voting_start_date: Date.today, voting_end_date: Date.today)).to be_valid
+      end
+
+      it 'is valid, when voting_start_date is before voting_end_date' do
+        expect(build(:program, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
+      end
+
+      it 'is not valid, when voting_start_date is after voting_end_date' do
+        expect(build(:program, voting_start_date: Date.today, voting_end_date: Date.today - 1)).to_not be_valid
+      end
+    end
+
+    describe 'voting_dates_exist' do
+      it 'is valid, when both voting_start_date and voting_end_date are set' do
+        expect(build(:program, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
+      end
+
+      it 'is invalid, when voting_start_date is not set' do
+        expect(build(:program, voting_end_date: Date.today)).to_not be_valid
+      end
+
+      it 'is invalid, when voting_end_date is not set' do
+        expect(build(:program, voting_start_date: Date.today)).to_not be_valid
+      end
+    end
+  end
+
+  describe '#show_voting?' do
+    context 'blind voting is disabled' do
+      before :each do
+        program.blind_voting = false
+      end
+      it 'returns true if blind_voting is disabled' do
+        program.blind_voting = false
+        expect(program.show_voting?).to eq true
+      end
+    end
+
+    context 'blind voting is enabled' do
+      before :each do
+        program.blind_voting = true
+      end
+
+      it 'returns true if voting period is over' do
+        program.voting_end_date = Date.today - 1
+        expect(program.show_voting?).to eq true
+      end
+
+      it 'returns false if we are still in votig period' do
+        program.voting_end_date = Date.today + 1
+        expect(program.show_voting?).to eq false
+      end
+    end
+  end
+
+  describe 'voting_period?' do
+    it 'retuns false when voting dates are not set' do
+      expect(program.voting_period?).to eq false
+    end
+
+    shared_examples 'voting period' do |voting_start_date, voting_end_date, returns|
+      scenario 'returns true or false' do
+        program.voting_start_date = voting_start_date
+        program.voting_end_date = voting_end_date
+        program.save!
+
+        expect(program.voting_period?).to eq returns
+      end
+    end
+
+    context 'voting dates are set' do
+      it_behaves_like 'voting period', Date.today - 1, Date.today + 1, true
+      it_behaves_like 'voting period', Date.today - 1, Time.current + 1.hour, true
+      it_behaves_like 'voting period', Date.today - 2, Date.today - 1, false
+      it_behaves_like 'voting period', Date.today - 1, Time.current - 1.minute, false
+    end
+  end
 
   describe '#rating_enabled?' do
     it 'returns true if proposals can be rated (program.rating > 0)' do

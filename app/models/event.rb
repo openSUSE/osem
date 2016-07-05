@@ -82,8 +82,24 @@ class Event < ActiveRecord::Base
     registrations.count < max_attendees
   end
 
-  def voted?(event, user)
-    event.votes.where('user_id = ?', user).first
+  ##
+  # Finds the rating of the user for the event
+  # ====Returns
+  # * +integer+ -> the rating of the user for the event
+  def user_rating(user)
+    (vote = votes.find_by(user: user)) ? vote.rating : 0
+  end
+
+  ##
+  # Checks if the event has votes
+  # If a user is provided, it checks if the event has votes by the user
+  # ====Returns
+  # * +true+ -> If the event has votes (optionally, by the user)
+  # * +false+ -> If the event does not have any votes (optionally, by the user)
+  def voted?(user=nil)
+    return votes.where(user: user).any? if user
+
+    votes.any?
   end
 
   def average_rating

@@ -80,23 +80,23 @@ ActiveRecord::Schema.define(version: 20160624151257) do
   end
 
   create_table "conferences", force: :cascade do |t|
-    t.string   "guid",                                  null: false
-    t.string   "title",                                 null: false
-    t.string   "short_title",                           null: false
-    t.string   "timezone",                              null: false
-    t.date     "start_date",                            null: false
-    t.date     "end_date",                              null: false
+    t.string   "guid",                               null: false
+    t.string   "title",                              null: false
+    t.string   "short_title",                        null: false
+    t.string   "timezone",                           null: false
+    t.date     "start_date",                         null: false
+    t.date     "end_date",                           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
     t.integer  "revision"
-    t.boolean  "use_vpositions",        default: false
-    t.boolean  "use_vdays",             default: false
+    t.boolean  "use_vpositions",     default: false
+    t.boolean  "use_vdays",          default: false
     t.boolean  "use_volunteers"
     t.string   "color"
     t.text     "events_per_week"
     t.text     "description"
-    t.integer  "registration_limit",    default: 0
+    t.integer  "registration_limit", default: 0
     t.string   "picture"
   end
 
@@ -252,12 +252,15 @@ ActiveRecord::Schema.define(version: 20160624151257) do
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
-    t.integer  "rating",          default: 0
-    t.boolean  "schedule_public", default: false
-    t.boolean  "schedule_fluid",  default: false
+    t.integer  "rating",            default: 0
+    t.boolean  "schedule_public",   default: false
+    t.boolean  "schedule_fluid",    default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "languages"
+    t.boolean  "blind_voting",      default: false
+    t.datetime "voting_start_date"
+    t.datetime "voting_end_date"
   end
 
   create_table "qanswers", force: :cascade do |t|

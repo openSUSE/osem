@@ -122,10 +122,13 @@
         %td
           %b Submitter
         %td
-          = link_to @event.submitter.name, admin_user_path(@event.submitter)
-          (
-          = link_to @event.submitter.email, "mailto: #{@event.submitter.email}"
-          )
+          - if @program.show_voting?
+            = link_to @event.submitter.name, admin_user_path(@event.submitter)
+            (
+            = link_to @event.submitter.email, "mailto: #{@event.submitter.email}"
+            )
+          - else
+            %i Hidden
       %tr
         %td
           %b Biography

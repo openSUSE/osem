@@ -4,7 +4,7 @@
       %h1 Program
 - if @program
   .row
-    .col-md-8
+    .col-md-12
       %dl.dl-horizontal
         - if @cfp
           %dt
@@ -49,11 +49,23 @@
             Yes
           - else
             No
+
+        %h3 Voting Options
+        %hr
         %dt
           Rating Levels
         %dd#rating
           = @program.rating
 
+        %dt Blind Voting
+        %dd#blind_voting
+          = @program.blind_voting
+
+        %dt Voting Start Date
+        %dd= format_datetime(@program.voting_start_date)
+
+        %dt Voting End Date
+        %dd= format_datetime(@program.voting_end_date)
 
   .row
     .col-md-12.text-right

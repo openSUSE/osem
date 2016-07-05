@@ -1,5 +1,17 @@
 module ApplicationHelper
   ##
+  # Checks if the voting has already started, or if it has already ended
+  #
+  def voting_open_or_close(program)
+    return if program.voting_period?
+    if program.voting_start_date > Date.today
+      return 'Voting period has not started yet!'
+    else # voting_end_date > Date.today because voting_start_date < voting_end_date
+      return 'Voting period is over!'
+    end
+  end
+
+  ##
   # Gets an EventType object, and returns its length in timestamp format (HH:MM)
   # ====Gets
   # * +Integer+ -> 30
@@ -7,6 +19,15 @@ module ApplicationHelper
   # * +String+ -> "00:30"
   def length_timestamp(length)
     [length / 60, length % 60].map { |t| t.to_s.rjust(2, '0') }.join(':')
+  end
+
+  ##
+  # Gets a datetime object
+  # ====Returns
+  # * +String+ -> formated datetime object
+  def format_datetime(obj)
+    return unless obj
+    obj.strftime('%Y-%m-%d %H:%M')
   end
 
   ##
