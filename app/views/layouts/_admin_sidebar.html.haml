@@ -136,3 +136,9 @@
       = link_to(admin_conference_roles_path(@conference.short_title)) do
         %span.fa.fa-group
         Roles
+
+  - if can? :show, @conference
+    %li{:class=> active_nav_li(conference_wide_screen_admin_conference_path(@conference.short_title))}
+      = link_to(conference_wide_screen_admin_conference_path(@conference.short_title)) do
+        %span.fa.fa-expand
+        Conference Wide Information

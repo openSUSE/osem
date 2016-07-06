@@ -1,0 +1,13 @@
+.container
+- if @conference.present?
+  .row
+    .col-md-12.text-center
+      %h2 Upcoming Events
+  .row
+    .col-md-12.text-center
+      %h2 Tweets About Conference
+  .row
+    .col-md-12
+    - if @sponsors.any?
+      %section#sponsors
+        = render 'conference/sponsors'
