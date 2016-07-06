@@ -47,7 +47,7 @@ class Payment < ActiveRecord::Base
     end
     unless response.success?
       errors.add(:base, response.message)
-      self.status = 2
+      self.status = 'failure'
       return false
     end
     self.user_id = user.id
