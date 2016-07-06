@@ -42,7 +42,6 @@ describe ConferenceRegistrationsController, type: :controller do
 
         it 'does not assign price of purchased tickets to total_price and purchased tickets to tickets without payment' do
           expect(assigns(:total_price)).to eq Money.new(0, 'USD')
-          expect(assigns(:tickets)).not_to exist
         end
       end
 

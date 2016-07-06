@@ -18,7 +18,7 @@ class PaymentsController < ApplicationController
 
     if @payment.valid? && @payment.purchase(current_user, @conference, price_in_cents)
       if @payment.save
-        @update_ticket_purchases = TicketPurchase.update_paid_ticket_purchases(@conference, current_user, @payment)
+        update_paid_ticket_purchases(@conference, current_user, @payment)
         redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
       else
         render 'new'
@@ -30,6 +30,19 @@ class PaymentsController < ApplicationController
 
   def price_in_cents
     (@payment.amount * 100).round
+  end
+
+  def update_paid_ticket_purchases(conference, user, payment)
+    paid_ticket_purchases = TicketPurchase.where(conference_id: conference.id,
+                                                 user_id: user.id,
+                                                 paid: false)
+    begin
+      paid_ticket_purchases.each do |ticket|
+        ticket.paid = true
+        ticket.payment_id = payment.id
+        ticket.save
+      end
+    end
   end
 
   def payment_params

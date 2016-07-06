@@ -52,8 +52,8 @@ describe Payment do
   describe 'self#purchase' do
     let!(:participant) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
-    let!(:ticket_2) { create(:ticket) }
-    let!(:conference) { create(:conference, tickets: [ticket_1, ticket_2]) }
+    let!(:conference) { create(:conference, tickets: [ticket_1]) }
+    let!(:payment) { create(:payment) }
 
     it 'creates a purchase and payment for one ticket' do
       tickets = { ticket_1.id.to_s => '1' }
@@ -66,37 +66,11 @@ describe Payment do
       expect(purchase.quantity).to eq(1)
       expect(message.blank?).to be true
 
-      response = Payment.purchase(participant, conference, 1000)
-      payment = Payment.where(conference_id: conference.id,
-                              user_id: participant.id)
+      response = Payment.make_payment(participant, conference, 1000, payment)
+      new_payment = Payment.first
 
       expect(Payment.count).to eq(1)
-      expect(payment.amount).to eq(10)
-      expect(response.blank?).to be true
-    end
-
-    it 'creates several purchases for more than one ticket' do
-      tickets = { ticket_1.id.to_s => '1', ticket_2.id.to_s => '1' }
-      message = TicketPurchase.purchase(conference, participant, tickets)
-      purchase_1 = TicketPurchase.where(conference_id: conference.id,
-                                        user_id: participant.id,
-                                        ticket_id: ticket_1.id).first
-
-      purchase_2 = TicketPurchase.where(conference_id: conference.id,
-                                        user_id: participant.id,
-                                        ticket_id: ticket_2.id).first
-
-      expect(TicketPurchase.count).to eq(2)
-      expect(purchase_1.quantity).to eq(1)
-      expect(purchase_2.quantity).to eq(1)
-      expect(message.blank?).to be true
-
-      response = Payment.purchase(participant, conference, 2000)
-      payment = Payment.where(conference_id: conference.id,
-                              user_id: participant.id)
-
-      expect(Payment.count).to eq(1)
-      expect(payment.amount).to eq(20)
+      expect(new_payment.amount).to eq(10)
       expect(response.blank?).to be true
     end
 

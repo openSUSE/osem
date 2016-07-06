@@ -28,11 +28,10 @@ feature Registration do
 
         click_button 'Continue'
 
+        expect(current_path).to eq(new_conference_payment_path(conference.short_title))
+        expect(flash).to eq('Please pay here to purchase tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
-        expect(current_path).to eq(new_conference_payment_path)
-        expect(flash).
-            to eq('Please pay here to purchase tickets.')
 
         fill_in 'first_name', with: 'foo'
         fill_in 'last_name', with: 'bar'

@@ -57,4 +57,9 @@ class Payment < ActiveRecord::Base
     self.status = 'success'
     response.success?
   end
+
+  # method to test `purchase` method
+  def self.make_payment(user, conference, price_in_cents, payment)
+    payment.purchase(user, conference, price_in_cents)
+  end
 end

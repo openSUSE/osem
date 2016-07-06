@@ -50,17 +50,4 @@ class TicketPurchase < ActiveRecord::Base
     purchase.quantity = quantity if quantity > 0
     purchase
   end
-
-  def self.update_paid_ticket_purchases(conference, user, payment)
-    paid_ticket_purchases = TicketPurchase.where(conference_id: conference.id,
-                                                 user_id: user.id,
-                                                 paid: false)
-    begin
-      paid_ticket_purchases.each do |ticket|
-        ticket.paid = true
-        ticket.payment_id = payment.id
-        ticket.save
-      end
-    end
-  end
 end
