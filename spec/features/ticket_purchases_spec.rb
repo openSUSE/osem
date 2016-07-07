@@ -41,6 +41,7 @@ feature Registration do
 
         click_button 'Charge Card'
 
+        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
         payment = Payment.where(user_id: participant.id, conference_id: conference.id).first
         expect(payment.amount).to eq(20)
         expect(payment.status).to eq(1)
@@ -48,7 +49,6 @@ feature Registration do
         expect(payment.first_name).to eq('bar')
         expect(payment.last4).not_to be_empty
         expect(payment.authorization_code).not_to be_empty
-        expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
         expect(flash).
             to eq('Thanks! You have purchased your tickets successfully.')
 
