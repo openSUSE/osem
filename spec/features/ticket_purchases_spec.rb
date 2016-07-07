@@ -35,11 +35,11 @@ feature Registration do
 
         fill_in 'first_name', with: 'foo'
         fill_in 'last_name', with: 'bar'
-        fill_in 'expiration_year', Date.current.year + 2
+        fill_in 'expiration_year', with: Date.current.year + 2
         fill_in 'card_verification_value', with: '123'
         fill_in 'credit_card_number', with: '4242424242424242'
 
-        click_button 'Charge Card'
+        click_button 'charge_card'
 
         payment = Payment.where(user_id: participant, conference_id: conference.id).first
         expect(payment.amount).to eq(20)
