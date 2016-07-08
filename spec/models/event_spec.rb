@@ -20,7 +20,6 @@ describe Event do
     end
 
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:abstract) }
     it { is_expected.to validate_presence_of(:program) }
     it { is_expected.to validate_presence_of(:event_type) }
 
