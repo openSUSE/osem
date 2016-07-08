@@ -49,7 +49,7 @@ describe Payment do
 
   end
 
-  describe 'self#purchase' do
+  describe 'purchase' do
     let!(:participant) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:conference) { create(:conference, tickets: [ticket_1]) }

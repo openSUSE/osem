@@ -5,7 +5,7 @@
         %h1
           Payment Attempts for
           = @conference.title
-      - if !flash[:notice].blank?
+      - if flash[:notice].present?
         .alert.alert-success
           = flash[:notice]
       %table.table.table-bordered.table-striped

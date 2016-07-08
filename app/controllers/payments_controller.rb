@@ -9,20 +9,18 @@ class PaymentsController < ApplicationController
   end
 
   def new
-    @total_amount_to_pay = Ticket.total_price(@conference, current_user, false)
+    @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
   end
 
   def create
     @payment = Payment.new(payment_params)
-    @total_amount_to_pay = Ticket.total_price(@conference, current_user, false)
+    @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
 
-    if @payment.valid? && @payment.purchase(current_user, @conference, price_in_cents)
-      if @payment.save
-        update_paid_ticket_purchases(@conference, current_user, @payment)
-        redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
-      else
-        render 'new'
-      end
+    if @payment.valid? && @payment.purchase(current_user, @conference, price_in_cents) && @payment.save
+      update_paid_ticket_purchases(@conference, current_user, @payment)
+      redirect_to conference_conference_registrations_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
+    else
+      render 'new'
     end
   end
 
@@ -36,12 +34,10 @@ class PaymentsController < ApplicationController
     paid_ticket_purchases = TicketPurchase.where(conference_id: conference.id,
                                                  user_id: user.id,
                                                  paid: false)
-    begin
-      paid_ticket_purchases.each do |ticket|
-        ticket.paid = true
-        ticket.payment_id = payment.id
-        ticket.save
-      end
+    paid_ticket_purchases.each do |ticket|
+      ticket.paid = true
+      ticket.payment_id = payment.id
+      ticket.save
     end
   end
 
