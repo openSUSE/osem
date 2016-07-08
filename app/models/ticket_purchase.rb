@@ -13,6 +13,8 @@ class TicketPurchase < ActiveRecord::Base
   delegate :price_cents, to: :ticket
   delegate :price_currency, to: :ticket
 
+  scope :unpaid, -> { where(paid: false) }
+
   def self.purchase(conference, user, purchases)
     errors = []
     ActiveRecord::Base.transaction do

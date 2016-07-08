@@ -7,33 +7,19 @@ describe Payment do
       expect(build(:payment)).to be_valid
     end
 
-    it 'is not valid without a first_name' do
-      should validate_presence_of(:first_name)
-    end
+    it { is_expected.to validate_presence_of(:first_name) }
 
-    it 'is not valid without a last_name' do
-      should validate_presence_of(:last_name)
-    end
+    it { is_expected.to validate_presence_of(:last_name) }
 
-    it 'is not valid without a credit_card_number' do
-      should validate_presence_of(:credit_card_number)
-    end
+    it { is_expected.to validate_presence_of(:credit_card_number) }
 
-    it 'is not valid without a card_verification_value' do
-      should validate_presence_of(:card_verification_value)
-    end
+    it { is_expected.to validate_presence_of(:card_verification_value) }
 
-    it 'is not valid without a expiration_month' do
-      should validate_presence_of(:expiration_month)
-    end
+    it { is_expected.to validate_presence_of(:expiration_month) }
 
-    it 'is not valid without a expiration_year' do
-      should validate_presence_of(:expiration_year)
-    end
+    it { is_expected.to validate_presence_of(:expiration_year) }
 
-    it 'is not valid without a amount' do
-      should validate_presence_of(:amount)
-    end
+    it { is_expected.to validate_presence_of(:amount) }
 
     it 'is not valid with a amount equals zero' do
       should_not allow_value(0).for(:amount)

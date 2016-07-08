@@ -28,7 +28,7 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def show
-    @total_price = Ticket.total_price(@conference, current_user, :paid => true)
+    @total_price = Ticket.total_price(@conference, current_user, paid: true)
     @tickets = current_user.ticket_purchases.where(conference_id: @conference.id, paid: true)
     @ticket_payments = @tickets.group_by(&:payment_id)
   end
