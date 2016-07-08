@@ -7,6 +7,7 @@ class Program < ActiveRecord::Base
   has_many :event_types, dependent: :destroy
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
+  has_many :schedules, dependent: :destroy
   has_many :events, dependent: :destroy do
     def require_registration
       where(require_registration: true, state: :confirmed)
@@ -26,12 +27,12 @@ class Program < ActiveRecord::Base
       where(state: :confirmed)
     end
 
-    def scheduled
-      where.not(start_time: nil).where.not(room: nil).order(start_time: :asc)
+    def scheduled(schedule_id)
+      joins(:event_schedules).where('event_schedules.schedule_id = ? AND event_schedules.start_time IS NOT NULL AND event_schedules.room_id IS NOT NULL', schedule_id)
     end
 
     def unscheduled
-      confirmed.where('start_time IS NULL OR room_id IS NULL')
+      select(&:unscheduled?)
     end
 
     def highlights

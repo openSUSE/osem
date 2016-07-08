@@ -191,7 +191,7 @@ module Admin
                                     # Set also in proposals controller
                                     :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
                                     # Set only in admin/events controller
-                                    :track_id, :state, :language, :start_time, :is_highlight, :max_attendees,
+                                    :track_id, :state, :language, :is_highlight, :max_attendees,
                                     # Not used anymore?
                                     :proposal_additional_speakers, :user, :users_attributes)
     end

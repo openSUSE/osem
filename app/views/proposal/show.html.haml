@@ -67,15 +67,15 @@
         %dl#proposal-info
           .col-md-12
             %dt Date:
-            %dd= @event.start_time.strftime("%Y %B %e %H:%M") if @event.start_time
+            %dd= @event.scheduled_start_time.strftime("%Y %B %e %H:%M") if @event.scheduled_start_time.present?
           .col-md-12
             %dt Duration:
             %dd= show_time(@event.event_type.length)
           .col-md-12
             %dt Room:
             %dd
-              - if @event.room
-                = @event.room.name
+              - if @event.scheduled_room
+                = @event.scheduled_room.name
           .col-md-12
             %dt Conference:
             %dd= @event.program.conference.title

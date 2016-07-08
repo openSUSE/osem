@@ -16,9 +16,9 @@ class Event < ActiveRecord::Base
 
   has_many :events_registrations
   has_many :registrations, through: :events_registrations
+  has_many :event_schedules, dependent: :destroy
 
   belongs_to :track
-  belongs_to :room
   belongs_to :difficulty_level
   belongs_to :program
 
@@ -71,11 +71,19 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  # Checkes if the event has a start_time and a room
+  # Checkes if the event has a start_time and a room for the selected schedule if there is any
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    room.present? && start_time.present?
+    selected_event_schedule.try(:start_time).present? && selected_event_schedule.try(:room).present?
+  end
+
+  ##
+  # Checkes if the event has a start_time and a room for the selected one if there is any.
+  # ====Returns
+  # * +true+ or +false+
+  def unscheduled?
+    state == 'confirmed' && (!selected_event_schedule.try(:start_time).present? || !selected_event_schedule.try(:room).present?)
   end
 
   def registration_possible?
@@ -132,7 +140,7 @@ class Event < ActiveRecord::Base
   def as_json(options)
     json = super(options)
 
-    json[:room_guid] = room.try(:guid)
+    json[:room_guid] = scheduled_room.try(:guid)
     json[:track_color] = track.try(:color) || '#FFFFFF'
     json[:length] = event_type.try(:length) || EventType::LENGTH_STEP
 
@@ -245,7 +253,21 @@ class Event < ActiveRecord::Base
   # Returns end of the event
   #
   def end_time
-    self.start_time + self.event_type.length.minutes
+    self.scheduled_start_time + self.event_type.length.minutes
+  end
+
+  ##
+  # Returns the room in which the event is scheduled
+  #
+  def scheduled_room
+    selected_event_schedule.try(:room)
+  end
+
+  ##
+  # Returns the start time at which this event is scheduled
+  #
+  def scheduled_start_time
+    selected_event_schedule.try(:start_time)
   end
 
   ##
@@ -257,11 +279,16 @@ class Event < ActiveRecord::Base
 
   private
 
+  # returns the event_schedule for this event and for the selected_schedule
+  def selected_event_schedule
+    event_schedules.find_by(schedule_id: program.try(:selected_schedule))
+  end
+
   ##
   # Do not allow, for the event, more attendees than the size of the room
   def max_attendees_no_more_than_room_size
-    return unless room && max_attendees_changed?
-    errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
+    return unless scheduled_room && max_attendees_changed?
+    errors.add(:max_attendees, "cannot be more than the room's capacity (#{scheduled_room.size})") if max_attendees && (max_attendees > scheduled_room.size)
   end
 
   def abstract_limit
