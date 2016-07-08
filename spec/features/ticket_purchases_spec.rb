@@ -38,7 +38,7 @@ feature Registration do
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
         fill_in 'credit_card_number', with: '4242424242424242'
-        submit_form
+        find('input[name="commit"]').click
 
         expect(current_path).to eq(conference_conference_registrations_path(conference.short_title))
         payment = Payment.where(user_id: participant.id, conference_id: conference.id).first
