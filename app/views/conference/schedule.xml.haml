@@ -19,7 +19,7 @@
                 %date= event.start_time.iso8601
                 %start= event.start_time.strftime('%H:%M')
                 %duration= length_timestamp(event.event_type.length)
-                %room= event.room.name
+                %room= event.scheduled_room.name
                 %type= event.event_type.name
                 %language= ISO_639.find_by_english_name(event.language).third if event.language
                 %slug= "#{event.id} #{event.title}".parameterize

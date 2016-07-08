@@ -106,18 +106,18 @@
           %td
             = @event.language
 
-      - unless @event.room.nil?
+      - unless @event.scheduled_room.nil?
         %tr
           %td
             %b Room
           %td
-            = @event.room.name
-      - unless @event.start_time.nil?
+            = @event.scheduled_room.name
+      - unless @event.scheduled_start_time.nil?
         %tr
           %td
             %b Scheduled time
           %td
-            = @event.start_time
+            = @event.scheduled_start_time
       %tr
         %td
           %b Submitter
