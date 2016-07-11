@@ -83,4 +83,4 @@
             .col-md-12
               %dt Requires Registration:
               %dd
-                = link_to "Yes (#{registered_text(@event)})", new_conference_conference_registrations_path(@conference.short_title), class: 'btn btn-xs btn-danger', disabled: !@event.registration_possible?
+                = link_to "Yes (#{registered_text(@event)})", new_conference_conference_registration_path(@conference.short_title), class: 'btn btn-xs btn-danger', disabled: !@event.registration_possible?

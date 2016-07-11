@@ -25,9 +25,9 @@
               = link_to "Schedule", schedule_conference_path(conference.short_title), :class =>"btn btn-default"
             - if conference.registration_open?
               - if conference.user_registered?(current_user)
-                = link_to "My Registration", conference_conference_registrations_path(conference.short_title), :class =>"btn btn-default"
+                = link_to "My Registration", conference_conference_registration_path(conference.short_title), :class =>"btn btn-default"
               - else
-                = link_to "Register", new_conference_conference_registrations_path(conference.short_title), class: "btn btn-default", disabled: conference.registration_limit_exceeded?
+                = link_to "Register", new_conference_conference_registration_path(conference.short_title), class: "btn btn-default", disabled: conference.registration_limit_exceeded?
                 - if conference.registration_limit_exceeded?
                   Sorry, no places left
             - if !current_user.nil? && current_user.proposal_count(conference) > 0

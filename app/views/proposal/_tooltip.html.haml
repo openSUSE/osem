@@ -3,9 +3,9 @@
   %li{'class'=>class_for_todo(progress_status['registered'])}
     %span{'class'=>icon_for_todo(progress_status['registered'])}
       - if progress_status['registered']
-        = link_to 'Register to the conference', edit_conference_conference_registrations_path(event.program.conference.short_title)
+        = link_to 'Register to the conference', edit_conference_conference_registration_path(event.program.conference.short_title)
       - else
-        = link_to 'Register to the conference', new_conference_conference_registrations_path(event.program.conference.short_title)
+        = link_to 'Register to the conference', new_conference_conference_registration_path(event.program.conference.short_title)
   %li{'class'=>class_for_todo(progress_status['biography'])}
     %span{'class'=>icon_for_todo(progress_status['biography'])}
       = link_to 'Fill out your biography', edit_user_path(event.submitter)

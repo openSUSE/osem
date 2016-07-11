@@ -468,7 +468,7 @@ describe ProposalController do
           end
 
           it 'redirects to new registration path' do
-            expect(response).to redirect_to new_conference_conference_registrations_path conference.short_title
+            expect(response).to redirect_to new_conference_conference_registration_path conference.short_title
           end
 
           it 'shows flash alert asking user to register' do

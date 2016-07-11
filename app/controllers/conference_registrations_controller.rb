@@ -10,7 +10,7 @@ class ConferenceRegistrationsController < ApplicationController
 
     # Redirect to registration edit when user is already registered
     if @conference.user_registered?(current_user)
-      redirect_to edit_conference_conference_registrations_path(@conference.short_title)
+      redirect_to edit_conference_conference_registration_path(@conference.short_title)
       return
     # ichain does not allow us to create users during registration
     elsif (ENV['OSEM_ICHAIN_ENABLED'] == 'true') && !current_user
@@ -20,7 +20,7 @@ class ConferenceRegistrationsController < ApplicationController
 
     # avoid openid sign_in to redirect to register/new when the sign_in user had already a registration
     if current_user && @conference.user_registered?(current_user)
-      redirect_to edit_conference_conference_registrations_path(@conference.short_title)
+      redirect_to edit_conference_conference_registration_path(@conference.short_title)
     end
 
     # @user variable needs to be set so that _sign_up_form_embedded works properly
@@ -60,7 +60,7 @@ class ConferenceRegistrationsController < ApplicationController
         redirect_to conference_tickets_path(@conference.short_title),
                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       else
-        redirect_to conference_conference_registrations_path(@conference.short_title),
+        redirect_to conference_conference_registration_path(@conference.short_title),
                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       end
     else
@@ -72,7 +72,7 @@ class ConferenceRegistrationsController < ApplicationController
 
   def update
     if @registration.update_attributes(registration_params)
-      redirect_to  conference_conference_registrations_path(@conference.short_title),
+      redirect_to  conference_conference_registration_path(@conference.short_title),
                    notice: 'Registration was successfully updated.'
     else
       flash[:error] = "Could not update your registration for #{@conference.title}: "\
@@ -86,7 +86,7 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to root_path,
                   notice: "You are not registered for #{@conference.title} anymore!"
     else
-      redirect_to conference_conference_registrations_path(@conference.short_title),
+      redirect_to conference_conference_registration_path(@conference.short_title),
                   error: "Could not delete your registration for #{@conference.title}: "\
                   "#{@registration.errors.full_messages.join('. ')}."
     end
@@ -97,7 +97,7 @@ class ConferenceRegistrationsController < ApplicationController
   def set_registration
     @registration = Registration.find_by(conference: @conference, user: current_user)
     if !@registration
-      redirect_to new_conference_conference_registrations_path(@conference.short_title),
+      redirect_to new_conference_conference_registration_path(@conference.short_title),
                   error: "Can't find a registration for #{@conference.title} for you. Please register."
     end
   end

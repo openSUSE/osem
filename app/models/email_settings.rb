@@ -8,7 +8,7 @@ class EmailSettings < ActiveRecord::Base
       'conference' => conference.title,
       'conference_start_date' => conference.start_date,
       'conference_end_date' => conference.end_date,
-      'registrationlink' => Rails.application.routes.url_helpers.conference_conference_registrations_url(
+      'registrationlink' => Rails.application.routes.url_helpers.conference_conference_registration_url(
                             conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
       'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
                                   conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
