@@ -7,6 +7,9 @@ class EventType < ActiveRecord::Base
   validates :minimum_abstract_length, presence: true
   validates :maximum_abstract_length, presence: true
   validate :length_step
+  validates :color, format: /\A#[0-9A-F]{6}\z/
+
+  before_validation :capitalize_color
 
   alias_attribute :name, :title
 
@@ -20,5 +23,9 @@ class EventType < ActiveRecord::Base
   #
   def length_step
     errors.add(:length, "must be multiple of #{LENGTH_STEP}") if length % LENGTH_STEP != 0
+  end
+
+  def capitalize_color
+    self.color = color.upcase if color.present?
   end
 end

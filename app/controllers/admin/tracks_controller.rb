@@ -14,7 +14,7 @@ module Admin
     end
 
     def new
-      @track = @program.tracks.new
+      @track = @program.tracks.new(color: @conference.next_color_for_collection(:tracks))
     end
 
     def create

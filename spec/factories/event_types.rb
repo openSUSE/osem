@@ -6,6 +6,7 @@ FactoryGirl.define do
     length 30
     minimum_abstract_length 0
     maximum_abstract_length 500
+    color '#ffffff'
     program
   end
 

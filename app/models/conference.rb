@@ -595,6 +595,20 @@ class Conference < ActiveRecord::Base
     registration_limit > 0 && registrations.count >= registration_limit
   end
 
+  # Returns an hexadecimal color given a collection. The returned color changed
+  # when the number of element in the collection changes and for consecutive
+  # number of elements it returns highly different colors.
+  def next_color_for_collection(collection)
+    # we have different start indices for every collection to generate a
+    # different color for every of them.
+    start_index = {
+      tracks: (program.tracks.count + 1),
+      levels: (program.difficulty_levels.count + 51),
+      types: (program.event_types.count + 101)
+    }
+    next_color(start_index[collection])
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are

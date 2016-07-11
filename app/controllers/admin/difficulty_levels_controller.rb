@@ -11,7 +11,7 @@ module Admin
     def edit; end
 
     def new
-      @difficulty_level = @conference.program.difficulty_levels.new
+      @difficulty_level = @conference.program.difficulty_levels.new(color: @conference.next_color_for_collection(:levels))
     end
 
     def create
