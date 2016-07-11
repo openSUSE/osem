@@ -10,7 +10,7 @@
     %table.table.table-striped.table-bordered.table-hover.datatable
       %thead
         %th ID
-        %th State
+        %th Confirmed?
         %th Email
         %th Name
         %th Attended Conferences
@@ -23,10 +23,20 @@
             %td
               = user.id
             %td
-              - if user.confirmed?
-                confirmed
+              - if can? :toggle_confirmation, user
+                = check_box_tag user.id, user.id, user.confirmed?, 
+                  method: :patch, 
+                  url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=", 
+                  class: 'switch-checkbox', 
+                  readonly: false,
+                  data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' } 
               - else
-                unconfirmed
+                = check_box_tag user.id, user.id, user.confirmed?, 
+                  method: :patch, 
+                  url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=", 
+                  class: 'switch-checkbox', 
+                  readonly: true,
+                  data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }  
             %td
               = user.email
             %td
