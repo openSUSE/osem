@@ -2,57 +2,63 @@
   "name": "osem",
   "description": "Open Source Event Manager",
   "env": {
+    "DEPLOY_TASKS": "db:cleardb_env",
     "CLOUDINARY_URL": {
+      "description": "Configure your cloudinary.com cloud name and api key/secret",
       "required": true
     },
     "DATABASE_URL": {
-      "required": true
-    },
-    "DEPLOY_TASKS": "db:cleardb_env",
-    "LANG": {
-      "required": true
-    },
-    "OSEM_DEVISE_SECRET_KEY": {
-      "required": true
-    },
-    "OSEM_EMAIL_ADDRESS": {
-      "required": true
-    },
-    "OSEM_HOSTNAME": {
-      "required": true
-    },
-    "OSEM_NAME": {
-      "required": true
-    },
-    "OSEM_SMTP_ADDRESS": {
-      "required": true
-    },
-    "OSEM_SMTP_AUTHENTICATION": {
-      "required": true
-    },
-    "OSEM_SMTP_DOMAIN": {
-      "required": true
-    },
-    "OSEM_SMTP_PASSWORD": {
-      "required": true
-    },
-    "OSEM_SMTP_PORT": {
-      "required": true
-    },
-    "OSEM_SMTP_USERNAME": {
-      "required": true
-    },
-    "RACK_ENV": {
-      "required": true
-    },
-    "RAILS_ENV": {
-      "required": true
-    },
-    "RAILS_SERVE_STATIC_FILES": {
+      "description": "Configure your database connection",
       "required": true
     },
     "SECRET_KEY_BASE": {
+      "description": "a key which allows sessions to be verified against a known secure key to prevent tampering",
       "required": true
+    },
+    "LANG": {
+      "required": false
+    },
+    "OSEM_EMAIL_ADDRESS": {
+      "description": "The address OSEM uses for sending mails",
+      "required": false
+    },
+    "OSEM_HOSTNAME": {
+      "description": "The host this OSEM instance runs on",
+      "required": false
+    },
+    "OSEM_NAME": {
+      "description": "The name of your page",
+      "required": false
+    },
+    "OSEM_SMTP_ADDRESS": {
+      "description": "The smtp server to use",
+      "required": false
+    },
+    "OSEM_SMTP_AUTHENTICATION": {
+      "description": "The auth method for the smtp server",
+      "required": false
+    },
+    "OSEM_SMTP_DOMAIN": {
+      "description": "The HELO domain for the smtp server",
+      "required": false
+    },
+    "OSEM_SMTP_PASSWORD": {
+      "description": "The password for the smtp server",
+      "required": false
+    },
+    "OSEM_SMTP_PORT": {
+      "description": "The port on the smtp server",
+      "required": false
+    },
+    "OSEM_SMTP_USERNAME": {
+      "description": "The user for the smtp server",
+      "required": false
+    },
+    "RACK_ENV": {
+      "required": false
+    },
+    "RAILS_ENV": {
+      "required": false
     }
   },
   "scripts": {
