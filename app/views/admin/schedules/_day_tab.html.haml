@@ -1,23 +1,13 @@
-.schedule-time-column
-  .schedule-time-column-header
-    = Time
-  - (9..18).each do |hour|
-    .schedule-time-slot
-      = "#{hour}:00"
-    .schedule-time-slot
-      = "#{hour}:15"
-    .schedule-time-slot
-      = "#{hour}:30"
-    .schedule-time-slot
-      = "#{hour}:45"
-
-- @rooms.each do |room|
-  .schedule-room-column{:id => "schedule-room-#{room.guid}", "room-guid" => room.guid}
-    .schedule-room-column-header
-      = room.name
-      = "(#{room.size} people)"
-    - (9..18).each do |hour|
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-0", "room-guid" => room.guid, "hour" => "#{hour}:00"}
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-15", "room-guid" => room.guid, "hour" => "#{hour}:15"}
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-30", "room-guid" => room.guid, "hour" => "#{hour}:30"}
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-45", "room-guid" => room.guid, "hour" => "#{hour}:45"}
+.row
+  - @rooms.each do |room|
+    .col-md-2.col-xs-6
+      .room-name
+        = room.name
+      - (9*4..18*4).each do |slot|
+        - hour = slot / 4
+        - time = (15 * (slot % 4) == 0) ? '00' : 15 * (slot % 4)
+        .schedule-room-slot{ id: "schedule-room-#{room.guid}-#{hour}-#{time}", |
+                             "room-guid" => room.guid, |
+                             hour: "#{hour}:#{time}", |
+                             date: date}
+          = "#{hour}:#{time}"
