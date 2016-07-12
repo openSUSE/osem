@@ -83,7 +83,7 @@
               = link_to 'Difficulty Levels', admin_conference_program_difficulty_levels_path(@conference.short_title)
           - if can? :update, @conference.program.events.build
             %li{class: active_nav_li(admin_conference_schedule_path(@conference.short_title))}
-              = link_to 'Schedule', admin_conference_schedule_path(@conference.short_title), target: '_blank'
+              = link_to 'Schedule', admin_conference_schedule_path(@conference.short_title)
 
   - if can? :update, Registration.new(conference_id: @conference.id)
     %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}

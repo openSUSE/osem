@@ -79,11 +79,12 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  # Checkes if the event has a start_time and a room for the selected one if there is any.
+  # Checkes if the event has a start_time and a room for the given schedule
+  # (given by its id) or for the selected one if there is any.
   # ====Returns
   # * +true+ or +false+
-  def unscheduled?
-    state == 'confirmed' && (!selected_event_schedule.try(:start_time).present? || !selected_event_schedule.try(:room).present?)
+  def unscheduled?(schedule_id)
+    state == 'confirmed' && (!event_schedule(schedule_id).try(:start_time).present? || !event_schedule(schedule_id).try(:room).present?)
   end
 
   def registration_possible?
@@ -137,11 +138,10 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def as_json(options)
-    json = super(options)
-
-    json[:room_guid] = scheduled_room.try(:guid)
+  def as_json(options={})
+    json = super({ include: { event_schedules: { methods: [:room_guid] } } }.merge(options))
     json[:track_color] = track.try(:color) || '#FFFFFF'
+    json[:track_text_color] = ApplicationController.helpers.contrast_color(json[:track_color])
     json[:length] = event_type.try(:length) || EventType::LENGTH_STEP
 
     json
@@ -275,6 +275,11 @@ class Event < ActiveRecord::Base
   #
   def intersecting_events
     room.events.where(start_time: start_time).where.not(id: id)
+  end
+
+  # returns the event_schedule for this event and the schedule given in case that it exists
+  def event_schedule(schedule_id)
+    event_schedules.find_by(schedule_id: schedule_id)
   end
 
   private

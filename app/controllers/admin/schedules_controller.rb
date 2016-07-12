@@ -7,10 +7,11 @@ module Admin
     load_resource :venue, through: :conference, singleton: true
 
     skip_before_filter :verify_authenticity_token, only: [:update]
-    layout 'schedule'
 
     def show
-      authorize! :update, @program.events.new
+      event = @program.events.new
+      authorize! :update, event
+      event.destroy
       if @conference.nil?
         redirect_to admin_conference_index_path
         return
@@ -21,6 +22,13 @@ module Admin
       else
         @rooms = [ Room.new(name: 'No Rooms!', size: 0) ]
       end
+      # if there is not selected schedule we create it
+      unless @program.selected_schedule.present?
+        schedule = @program.schedules.create
+        @program.selected_schedule = schedule.id
+        @program.save!
+      end
+      @schedule_id = @program.selected_schedule
     end
 
     def update
@@ -31,14 +39,17 @@ module Admin
         error_message = "Could not find event GUID: #{params[:event]}"
       end
 
+      event_schedule = event.event_schedule(params[:schedule])
+
       if params[:date] == 'none'
-        event.start_time = nil
-        event.room = nil
-        event.save!
+        event_schedule.destroy if event_schedule.present?
         render json: { 'status' => 'ok' }
         return
       end
+
+      event_schedule = event.event_schedules.create(schedule_id: params[:schedule]) unless event_schedule.present?
       room = Room.where(guid: room_params).first
+
       if room.nil?
         error_message = "Could not find room GUID: #{params[:room]}"
       end
@@ -48,7 +59,7 @@ module Admin
         return
       end
 
-      event.room = room
+      event_schedule.room = room
       time = "#{params[:date]} #{params[:time]}"
 
       Rails.logger.debug("Loading #{time}")
@@ -57,8 +68,8 @@ module Admin
       # zone = ActiveSupport::TimeZone::new(@conference.timezone)
       # start_time = DateTime.strptime(time + zone.formatted_offset, "%Y-%m-%d %k:%M %Z")
       start_time = DateTime.strptime(time, '%Y-%m-%d %k:%M')
-      event.start_time = start_time
-      event.save!
+      event_schedule.start_time = start_time
+      event_schedule.save!
       render json: { 'status' => 'ok' }
     end
 
