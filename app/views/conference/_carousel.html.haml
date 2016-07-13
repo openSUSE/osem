@@ -33,6 +33,11 @@
                     - span -= 1
                   - else
                     - event = events.find{|e| e.start_time <= start_room_time and e.end_time > start_room_time}
+
+                    - if event && (event.state == 'canceled' || event.state == 'withdrawn') && !event.intersecting_events.confirmed.empty?
+                      - replacement_event = event.intersecting_events.confirmed.first
+                      - event = (replacement_event.start_time <= start_room_time && replacement_event.end_time > start_room_time) ? replacement_event : nil
+
                     - if event
                       / There is an event, calculate the span and show it
                       - event_span =  (event.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP

@@ -38,6 +38,8 @@ class Event < ActiveRecord::Base
   validate :max_attendees_no_more_than_room_size
 
   scope :confirmed, -> { where(state: 'confirmed') }
+  scope :canceled, -> { where(state: 'canceled') }
+  scope :withdrawn, -> { where(state: 'withdrawn') }
   scope :highlighted, -> { where(is_highlight: true) }
 
   state_machine initial: :new do
@@ -228,6 +230,13 @@ class Event < ActiveRecord::Base
   #
   def end_time
     self.start_time + self.event_type.length.minutes
+  end
+
+  ##
+  # Returns events that are scheduled in the same room and start_time as event
+  #
+  def intersecting_events
+    room.events.where(start_time: start_time).where.not(id: id)
   end
 
   private
