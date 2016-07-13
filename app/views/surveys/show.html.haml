@@ -1,0 +1,22 @@
+.row
+  .col-md-10.col-md-offset-1
+    .page-header
+      %h1
+        Survey #{@survey.title}
+        - if can? :edit, @survey
+          = link_to 'Edit Survey', admin_conference_survey_path(@conference.short_title, @survey), class: 'btn btn-primary pull-right'
+      %p.text-muted
+        From:
+        = @survey.start_date
+        to
+        = @survey.end_date
+
+.row
+  .col-md-12
+    = semantic_form_for @survey_submission, url: conference_survey_reply_path(@conference.short_title, @survey) do |f|
+      - @survey.survey_questions.each.with_index(1) do |survey_question|
+        .row
+          .col-md-10.col-md-offset-1
+            = f.semantic_fields_for :survey_reply do |myreply, index|
+              = render partial: 'admin/surveys/survey_question', locals:  { survey_question: survey_question, index: index, myreply: myreply }
+      = f.submit 'Submit', class: 'btn btn-primary pull-right'

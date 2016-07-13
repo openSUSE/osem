@@ -16,7 +16,6 @@
 //= require waypoints/jquery.waypoints
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-//= require cocoon
 //= require bootstrap
 //= require Chart
 //= require osem
@@ -41,6 +40,8 @@
 //= require osem-commercials
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
+//= require bootstrap-select
+//= require osem-survey
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
