@@ -32,14 +32,6 @@ feature Registration do
         expect(flash).to eq('Please pay here to purchase tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
-
-        fill_in 'first_name', with: 'foo'
-        fill_in 'last_name', with: 'bar'
-        select Date.current.year + 2, from: 'expiration_year'
-        fill_in 'card_verification_value', with: '123'
-        fill_in 'credit_card_number', with: '4242424242424242'
-
-        click_button 'Charge Card'
       end
     end
   end

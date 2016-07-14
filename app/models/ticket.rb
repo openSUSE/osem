@@ -22,8 +22,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def quantity_bought_by(user, paid: false)
-    purchased_tickets = ticket_purchases.paid.by_user(user)
-    quantity = purchased_tickets.sum(:quantity)
+    ticket_purchases.by_user(user).where(paid: paid).sum(:quantity)
   end
 
   def unpaid?(user)

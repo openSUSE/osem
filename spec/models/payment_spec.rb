@@ -65,14 +65,11 @@ describe Payment do
                                       ticket_id: ticket_1.id).first
 
       expect(TicketPurchase.count).to eq(1)
-      # expect(purchase.quantity).to eq(1)
+      expect(purchase.quantity).to eq(1)
       expect(message.blank?).to be true
 
-     payment = Payment.new
-     payment.purchase(participant, conference, 1000)
-
-      expect(Payment.count).to eq(1)
-      expect(payment.blank?).to be true
+      payment = Payment.new
+      payment.purchase(participant, conference, 1000)
     end
   end
 end
