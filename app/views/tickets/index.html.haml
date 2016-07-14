@@ -37,7 +37,7 @@
             = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
               Continue
               %i.fa.fa-shopping-cart
-            = link_to 'Cancel registration', conference_conference_registrations_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-sm'
+            = link_to 'Cancel registration', conference_conference_registration_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-sm'
   .row
     .col-md-13
       %p.text-muted.text-center

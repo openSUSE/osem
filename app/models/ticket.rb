@@ -18,18 +18,12 @@ class Ticket < ActiveRecord::Base
   end
 
   def paid?(user)
-    ticket_purchases.find_by(user: user, paid: true).present?
+    ticket_purchases.paid.by_user(user).present?
   end
 
   def quantity_bought_by(user, paid: false)
-    purchased_tickets = ticket_purchases.where(user_id: user.id, paid: paid)
-    quantity = 0
-    if purchased_tickets
-      purchased_tickets.each do |ticket|
-        quantity += ticket.quantity
-      end
-    end
-    quantity
+    purchased_tickets = ticket_purchases.paid.by_user(user)
+    quantity = purchased_tickets.sum(:quantity)
   end
 
   def unpaid?(user)

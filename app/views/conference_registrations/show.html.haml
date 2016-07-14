@@ -94,18 +94,14 @@
             = "(#{@tickets.first.price.symbol}#{humanized_money @total_price})"
         %ul
           .col.md-4
-            - @ticket_payments.each_pair do |payment, tickets|
-              %strong
-                Purchased
-              - tickets.each do |ticket|
-                %li
-                  = ticket.quantity
-                  = ticket.title
-                  = word_pluralize(ticket.quantity, 'Ticket')
-                  for
-                  = ticket.price.symbol
-                  = humanized_money ticket.price
-              %hr
+            - @ticket_payments.each_pair do |ticket_id, tickets|
+              %li
+                = @total_quantity[ticket_id]
+                = tickets.first.title
+                = word_pluralize(@total_quantity[ticket_id], 'Ticket')
+                for
+                = tickets.first.price.symbol
+                = humanized_money tickets.first.price
           - if @tickets.any?
             = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
           - else

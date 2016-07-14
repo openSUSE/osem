@@ -36,30 +36,25 @@ class Payment < ActiveRecord::Base
 
   def purchase(user, conference, price_in_cents)
     begin
-      response = GATEWAY.purchase(price_in_cents, credit_card, currency: conference.tickets.first.price_currency)
+      recieve = GATEWAY.purchase(price_in_cents, credit_card, currency: conference.tickets.first.price_currency)
     rescue
       false
     end
 
-    unless response
+    unless recieve
       errors.add(:base, 'Unable to recieve any response')
       return false
     end
-    unless response.success?
-      errors.add(:base, response.message)
+    unless recieve.success?
+      errors.add(:base, recieve.message)
       self.status = 'failure'
       return false
     end
     self.user_id = user.id
     self.conference_id = conference.id
     self.last4 = credit_card.display_number
-    self.authorization_code = response.authorization
+    self.authorization_code = recieve.authorization
     self.status = 'success'
-    response.success?
-  end
-
-  # method to test `purchase` method
-  def self.make_payment(user, conference, price_in_cents, payment)
-    payment.purchase(user, conference, price_in_cents)
+    recieve.success?
   end
 end

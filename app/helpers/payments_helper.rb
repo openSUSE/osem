@@ -8,6 +8,6 @@ module PaymentsHelper
   end
 
   def card_types
-    [[['Visa', 'visa'], ['MasterCard', 'master'], ['Discover', 'discover'], ['American Express', 'american_express']]]
+    [['Visa', 'visa'], ['MasterCard', 'master'], ['Discover', 'discover'], ['American Express', 'american_express']]
   end
 end
