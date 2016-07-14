@@ -18,11 +18,4 @@ describe PaymentsHelper, type: :helper do
       expect(years).to match_array(Array(Date.current.year..Date.current.year + 15))
     end
   end
-
-  describe '#card_types' do
-    it 'returns the correct set of card_types array' do
-      expect(card_types).to match_array(Array([["American Express", "american_express"], ["Discover", "discover"],
-                                               ["MasterCard", "master"], ["Visa", "visa"]]))
-    end
-  end
 end
