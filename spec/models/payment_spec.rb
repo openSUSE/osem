@@ -39,8 +39,24 @@ describe Payment do
     let!(:participant) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:conference) { create(:conference, tickets: [ticket_1]) }
-    let!(:payment) { create(:payment) }
 
+    it 'creates no ticket purchase or payment if amount is less than 1' do
+      tickets = { ticket_1.id.to_s => '-1' }
+      TicketPurchase.purchase(conference, participant, tickets)
+
+      expect(TicketPurchase.count).to eq(0)
+      expect(Payment.count).to eq(0)
+    end
+
+    it 'creates no ticket purchase or payment if amount is 0' do
+      tickets = { ticket_1.id.to_s => '0' }
+      TicketPurchase.purchase(conference, participant, tickets)
+
+      expect(TicketPurchase.count).to eq(0)
+      expect(Payment.count).to eq(0)
+    end
+
+    let(:payment) { create(:payment) }
     it 'creates a purchase and payment for one ticket' do
       tickets = { ticket_1.id.to_s => '1' }
       message = TicketPurchase.purchase(conference, participant, tickets)
@@ -49,29 +65,14 @@ describe Payment do
                                       ticket_id: ticket_1.id).first
 
       expect(TicketPurchase.count).to eq(1)
-      expect(purchase.quantity).to eq(1)
+      # expect(purchase.quantity).to eq(1)
       expect(message.blank?).to be true
 
-      response = Payment.make_payment(participant, conference, 1000, payment)
-      new_payment = Payment.first
+     payment = Payment.new
+     payment.purchase(participant, conference, 1000)
 
       expect(Payment.count).to eq(1)
-      expect(new_payment.amount).to eq(10)
-      expect(response.blank?).to be true
-    end
-
-    it 'creates no ticket purchase or payment if amount is less than 1' do
-      tickets = { ticket_1.id.to_s => '-1' }
-      TicketPurchase.purchase(conference, participant, tickets)
-
-      expect(TicketPurchase.count).to eq(0)
-    end
-
-    it 'creates no ticket purchase or payment if amount is 0' do
-      tickets = { ticket_1.id.to_s => '0' }
-      TicketPurchase.purchase(conference, participant, tickets)
-
-      expect(TicketPurchase.count).to eq(0)
+      expect(payment.blank?).to be true
     end
   end
 end

@@ -86,7 +86,6 @@ describe Ticket do
     let!(:ticket_purchase) { create(:ticket_purchase, user: user, ticket: ticket) }
 
     context 'user has not paid' do
-      before { ticket_purchase.update_attributes(paid: false) }
 
       it 'returns true' do
         expect(ticket.unpaid?(user)).to eq(true)
@@ -103,30 +102,30 @@ describe Ticket do
   end
 
   describe '#quantity_bought_by' do
-    it 'returns the correct value if the user has bought this ticket' do
+    it 'returns 0 if the user has bought but not paid for this ticket' do
       create(:ticket_purchase,
              user: user,
              ticket: ticket,
              quantity: 20)
-      expect(ticket.quantity_bought_by(user)).to eq(20)
+      expect(ticket.quantity_bought_by(user, paid: false)).to eq(0)
     end
 
     it 'returns zero if the user has not bought this ticket' do
-      expect(ticket.quantity_bought_by(user)).to eq(0)
+      expect(ticket.quantity_bought_by(user, paid: false)).to eq(0)
     end
   end
 
   describe '#total_price' do
-    it 'returns the correct value if the user has bought this ticket' do
+    it 'returns the 0 if the user has bought but not paid for this ticket' do
       create(:ticket_purchase,
              user: user,
              ticket: ticket,
              quantity: 20)
-      expect(ticket.total_price(user)).to eq(Money.new(100000, 'USD'))
+      expect(ticket.total_price(user, paid: false)).to eq(Money.new(0, 'USD'))
     end
 
     it 'returns zero if the user has not bought this ticket' do
-      expect(ticket.total_price(user)).to eq(Money.new(0, 'USD'))
+      expect(ticket.total_price(user, paid: false)).to eq(Money.new(0, 'USD'))
     end
   end
 
@@ -136,7 +135,7 @@ describe Ticket do
     describe 'user has bought' do
       context 'no tickets' do
         it 'returns zero' do
-          expect(Ticket.total_price(conference, user)).to eq(Money.new(0, 'USD'))
+          expect(Ticket.total_price(conference, user, paid: false)).to eq(Money.new(0, 'USD'))
         end
       end
 
@@ -145,8 +144,8 @@ describe Ticket do
           create(:ticket_purchase, ticket: ticket, user: user, quantity: 20)
         end
 
-        it 'returns the correct total price' do
-          expect(Ticket.total_price(conference, user)).to eq(Money.new(100000, 'USD'))
+        it 'returns 0 as total price unless paid' do
+          expect(Ticket.total_price(conference, user, paid: false)).to eq(Money.new(0, 'USD'))
         end
       end
 
@@ -156,9 +155,9 @@ describe Ticket do
           create(:ticket_purchase, ticket: diversity_supporter_ticket, user: user, quantity: 2)
         end
 
-        it 'returns the correct total price' do
-          total_price = Money.new(200000, 'USD')
-          expect(Ticket.total_price(conference, user)).to eq(total_price)
+        it 'returns 0 as total price unless paid' do
+          total_price = Money.new(0, 'USD')
+          expect(Ticket.total_price(conference, user, paid: false)).to eq(total_price)
         end
       end
     end
