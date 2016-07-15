@@ -46,19 +46,9 @@
 .event img, .img-circle {
    display: none;
 }
-h5 {
-   font-size: 10px;
-   line-height: 12px;
-   margin: 0px;
-}
 .table th, .table td {
    line-height: 12px;
    padding: 3px;
-}
-
-.schedule-speaker {
-   font-weight: normal;
-   font-style: italic;
 }
 
 }
