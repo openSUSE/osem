@@ -177,6 +177,13 @@ module Admin
       #To display sponsors in the conference wide information page
       @conference = Conference.find_by(short_title: params[:id])
       @sponsors = @conference.sponsors
+      @program = @conference.program
+      @current_events = @conference.program.events.confirmed.select{ |event| event.is_current?}
+      
+      respond_to do |format|
+        format.html
+        format.js {render :action=>"conference_wide_screen.js.haml"}
+      end
     end
 
     private

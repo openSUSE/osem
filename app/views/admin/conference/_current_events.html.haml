@@ -1,0 +1,9 @@
+.text-center
+  %h2 Upcoming Events
+  - @current_events.each do |event|
+    %div
+      %h3
+        = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
+        %h4
+          presented by
+          = event.speaker_names
