@@ -26,7 +26,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def unpaid?(user)
-    ticket_purchases.find_by(user: user, paid: false).present?
+    ticket_purchases.unpaid.by_user(user).present?
   end
 
   def total_price(user, paid: false)

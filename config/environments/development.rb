@@ -96,10 +96,10 @@ Osem::Application.configure do
     end
   end
 
+  #Initialize Payment Gateway with valid credentials
+  ActiveMerchant::Billing::Base.mode = :test
+  ::GATEWAY = ActiveMerchant::Billing::StripeGateway.new(:login => ENV['SECRET_KEY'])
 end
 
 
-ActiveMerchant::Billing::Base.mode = :test
 
-  ::GATEWAY = ActiveMerchant::Billing::StripeGateway.new(
-    :login => ENV['SECRET_KEY'])

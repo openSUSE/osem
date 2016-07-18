@@ -81,7 +81,7 @@ class Ability
 
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
-    can :manage, Payment, user_id: user.id
+    can [:new], Payment, user_id: user.id
 
     can [:create, :destroy], Subscription, user_id: user.id
 

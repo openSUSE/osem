@@ -93,7 +93,7 @@
           -if @tickets.any?
             = "(#{@tickets.first.price.symbol}#{humanized_money @total_price})"
         %ul
-          .col.md-4
+          .col-md-12
             - @ticket_payments.each_pair do |ticket_id, tickets|
               %li
                 = @total_quantity[ticket_id]
@@ -102,6 +102,7 @@
                 for
                 = tickets.first.price.symbol
                 = humanized_money tickets.first.price
+            %br
           - if @tickets.any?
             = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
           - else

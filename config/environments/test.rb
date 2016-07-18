@@ -52,4 +52,9 @@ Osem::Application.configure do
     ActiveSupport::Deprecation.silenced = true
   end
 
+  # Initialize Payment Gateway with valid credentials
+  ActiveMerchant::Billing::Base.mode = :test
+    ::GATEWAY = ActiveMerchant::Billing::BogusGateway.new
 end
+
+

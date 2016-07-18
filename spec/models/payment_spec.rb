@@ -39,24 +39,8 @@ describe Payment do
     let!(:participant) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:conference) { create(:conference, tickets: [ticket_1]) }
-
-    it 'creates no ticket purchase or payment if amount is less than 1' do
-      tickets = { ticket_1.id.to_s => '-1' }
-      TicketPurchase.purchase(conference, participant, tickets)
-
-      expect(TicketPurchase.count).to eq(0)
-      expect(Payment.count).to eq(0)
-    end
-
-    it 'creates no ticket purchase or payment if amount is 0' do
-      tickets = { ticket_1.id.to_s => '0' }
-      TicketPurchase.purchase(conference, participant, tickets)
-
-      expect(TicketPurchase.count).to eq(0)
-      expect(Payment.count).to eq(0)
-    end
-
     let(:payment) { create(:payment) }
+
     it 'creates a purchase and payment for one ticket' do
       tickets = { ticket_1.id.to_s => '1' }
       message = TicketPurchase.purchase(conference, participant, tickets)
@@ -68,8 +52,11 @@ describe Payment do
       expect(purchase.quantity).to eq(1)
       expect(message.blank?).to be true
 
-      payment = Payment.new
       payment.purchase(participant, conference, 1000)
+
+      purchase = Payment.first
+      expect(Payment.count).to be(1)
+      expect(purchase.amount).to eq(10)
     end
   end
 end
