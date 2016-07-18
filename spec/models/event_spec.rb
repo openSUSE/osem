@@ -246,7 +246,7 @@ describe Event do
 
       expect(json_hash[:room_guid]).to be_nil
       expect(json_hash[:track_color]).to eq('#FFFFFF')
-      expect(json_hash[:length]).to eq(25)
+      expect(json_hash[:length]).to eq(15)
     end
   end
 

@@ -36,6 +36,6 @@ class EventSerializer < ActiveModel::Serializer
 
   # FIXME: duplicated logic from Event#as_json
   def length
-    object.event_type.try(:length) || 25
+    object.event_type.try(:length) || EventType::LENGTH_STEP
   end
 end
