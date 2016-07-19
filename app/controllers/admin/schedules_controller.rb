@@ -25,7 +25,7 @@ module Admin
       @event_schedules = @schedule.event_schedules
       @unscheduled_events = @program.events.confirmed - @schedule.events
       @dates = @conference.start_date..@conference.end_date
-      @rooms = (@venue && @venue.rooms.any?) ? @venue.rooms : [Room.new(name: 'No Rooms!', size: 0)]
+      @rooms = @conference.venue.rooms if @conference.venue
     end
 
     def destroy
