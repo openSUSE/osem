@@ -24,7 +24,7 @@ class Payment < ActiveRecord::Base
   }
 
   def credit_card
-    @credit_card = ActiveMerchant::Billing::CreditCard.new(
+    @credit_card ||= ActiveMerchant::Billing::CreditCard.new(
       first_name:          first_name,
       last_name:           last_name,
       number:              credit_card_number,
@@ -35,26 +35,25 @@ class Payment < ActiveRecord::Base
   end
 
   def purchase(user, conference, price_in_cents)
-    begin
-      recieve = GATEWAY.purchase(price_in_cents, credit_card, currency: conference.tickets.first.price_currency)
+    gateway_response = begin
+      GATEWAY.purchase(price_in_cents, credit_card, currency: conference.tickets.first.price_currency)
     rescue
-      false
+      ActiveMerchant::Billing::Response.new(false, 'Unable to receive any response from the payment gateway.')
     end
 
-    unless recieve
-      errors.add(:base, 'Unable to recieve any response')
-      return false
-    end
-    unless recieve.success?
-      errors.add(:base, recieve.message)
+
+    if gateway_response.success?
+      self.user_id = user.id
+      self.conference_id = conference.id
+      self.last4 = credit_card.display_number
+      self.authorization_code = gateway_response.authorization
+      self.status = 'success'
+    else
+      errors.add(:base, gateway_response.message)
       self.status = 'failure'
-      return false
     end
-    self.user_id = user.id
-    self.conference_id = conference.id
-    self.last4 = credit_card.display_number
-    self.authorization_code = recieve.authorization
-    self.status = 'success'
-    recieve.success?
+
+    success?
   end
 end
+

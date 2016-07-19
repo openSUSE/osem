@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe Payment do
 
+  context 'new payment' do
+    let(:payment) { create(:payment) }
+    it 'sets status to "unpaid" by default' do
+      expect(payment.status).to eq('unpaid')
+    end
+  end
+
   describe 'validations' do
     it 'has a valid factory' do
       expect(build(:payment)).to be_valid
@@ -35,28 +42,85 @@ describe Payment do
 
   end
 
-  describe 'purchase' do
-    let!(:participant) { create(:user) }
+  describe '#purchase' do
+    let!(:user) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:conference) { create(:conference, tickets: [ticket_1]) }
     let(:payment) { create(:payment) }
 
-    it 'creates a purchase and payment for one ticket' do
-      tickets = { ticket_1.id.to_s => '1' }
-      message = TicketPurchase.purchase(conference, participant, tickets)
-      purchase = TicketPurchase.where(conference_id: conference.id,
-                                      user_id: participant.id,
-                                      ticket_id: ticket_1.id).first
+    it 'calls the payment gateway with the correct parameters' do
+      expect(GATEWAY).to receive(:purchase).with(1000, payment.credit_card, currency: 'USD')
+        .and_return(ActiveMerchant::Billing::Response.new(true, 'Success.'))
 
-      expect(TicketPurchase.count).to eq(1)
-      expect(purchase.quantity).to eq(1)
-      expect(message.blank?).to be true
+      payment.purchase(user, conference, 1000)
+    end
 
-      payment.purchase(participant, conference, 1000)
+    context 'when the payment is successful' do
+      before { payment.purchase(user, conference, 1000) }
 
-      purchase = Payment.first
-      expect(Payment.count).to be(1)
-      expect(purchase.amount).to eq(10)
+      it 'returns true' do
+        payment_result = payment.purchase(user, conference, 1000)
+        expect(payment_result).to eq true
+      end
+
+      it "assigns 'success' to payment.status" do
+        expect(payment.status).to eq('success')
+      end
+
+      it 'assigns user_id' do
+        expect(payment.user_id).to eq(user.id)
+      end
+
+      it 'assigns conference_id' do
+        expect(payment.conference_id).to eq(conference.id)
+      end
+
+      it 'assigns last4' do
+        expect(payment.last4).to eq('XXXX-XXXX-XXXX-4111')
+      end
+
+      it 'assigns authorization_code' do
+        expect(payment.authorization_code).to eq("53433")
+      end
+    end
+
+    context 'if the payment is not successful' do
+      before { payment.purchase(user, conference, 1000) }
+
+      let(:payment) { create(:payment, :invalid_credit_card) }
+
+      context 'when the card is invalid' do
+        it 'returns false' do
+          payment_result = payment.purchase(user, conference, 1000)
+          expect(payment_result).to eq false
+        end
+
+        it 'assigns "failure" to payment.status' do
+          expect(payment.status).to eq('failure')
+        end
+
+        it 'adds errors' do
+          expect(payment.errors[:base].count).to eq(1)
+        end
+      end
+
+      context 'when there is a connection problem with the gateway' do
+        let(:payment) { create(:payment, :exception_credit_card) }
+
+        it 'returns false' do
+          payment_result = payment.purchase(user, conference, 1000)
+          expect(payment_result).to eq false
+        end
+
+        it 'assigns "failure" to payment.status' do
+          expect(payment.status).to eq('failure')
+        end
+
+        it 'adds errors' do
+          expect(payment.errors[:base].count).to eq(1)
+        end
+      end
     end
   end
 end
+

@@ -37,7 +37,7 @@ feature Registration do
         fill_in 'last_name', with: 'bar'
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
-        fill_in 'credit_card_number', with: '3'
+        fill_in 'credit_card_number', with: '4242424242423333'
 
         click_button 'Charge Card'
 
@@ -65,7 +65,7 @@ feature Registration do
         fill_in 'last_name', with: 'bar'
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
-        fill_in 'credit_card_number', with: '2'
+        fill_in 'credit_card_number', with: '4242424242422222'
 
         click_button 'Charge Card'
 
@@ -93,7 +93,7 @@ feature Registration do
         fill_in 'last_name', with: 'bar'
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
-        fill_in 'credit_card_number', with: '4242424242424242'
+        fill_in 'credit_card_number', with: '4242424242421111'
 
         click_button 'Charge Card'
 
