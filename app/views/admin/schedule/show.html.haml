@@ -5,30 +5,37 @@
       %p.text-muted
         Create the schedules for the conference
 
-.row
-  .col-md-2
-    Selected schedule
-    = check_box_tag @conference.short_title, @schedule_id, (@schedule_id == @selected_schedule_id),
-      method: :put, url: "/admin/conference/#{@conference.short_title}/schedule/#{@schedule_id}?selected_schedule=",
-      class: 'switch-checkbox', data: { size: 'small',
-                                        off_color: 'warning',
-                                        on_text: 'Yes',
-                                        off_text: 'No' }
-    .h4
-      Unscheduled events
-    .unscheduled-events
-      - @unscheduled_events.each do |e|
-        = render partial: 'event', locals: { event: e, event_schedule_id: nil }
-  .col-md-10
-    %ul.nav.nav-tabs
-      - @dates.each do |date|
-        %li{ class: "#{ (@dates.first == date) ? 'active' : '' }"}
-          %a{ href: "##{date}" }
-            = date
-    .tab-content
-      - @dates.each do |date|
-        .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
-          = render partial: 'day_tab', locals: { date: date }
+- if @rooms.nil?
+  .h3
+    No Rooms!
+    %small
+      = link_to 'Create rooms', admin_conference_venue_rooms_path
+      before creating the schedule.
+- else
+  .row
+    .col-md-2
+      Selected schedule
+      = check_box_tag @conference.short_title, @schedule_id, (@schedule_id == @selected_schedule_id),
+        method: :put, url: "/admin/conference/#{@conference.short_title}/schedule/#{@schedule_id}?selected_schedule=",
+        class: 'switch-checkbox', data: { size: 'small',
+                                          off_color: 'warning',
+                                          on_text: 'Yes',
+                                          off_text: 'No' }
+      .h4
+        Unscheduled events
+      .unscheduled-events
+        - @unscheduled_events.each do |e|
+          = render partial: 'event', locals: { event: e, event_schedule_id: nil }
+    .col-md-10
+      %ul.nav.nav-tabs
+        - @dates.each do |date|
+          %li{ class: "#{ (@dates.first == date) ? 'active' : '' }"}
+            %a{ href: "##{date}" }
+              = date
+      .tab-content
+        - @dates.each do |date|
+          .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
+            = render partial: 'day_tab', locals: { date: date }
 
 :javascript
   $(document).ready( function() {

@@ -26,7 +26,7 @@ module Admin
       @unscheduled_events = @program.events - schedule.events
       @selected_schedule_id = @conference.program.selected_schedule.try(:id)
       @dates = @conference.start_date..@conference.end_date
-      @rooms = (@venue && @venue.rooms.any?) ? @venue.rooms : [Room.new(name: 'No Rooms!', size: 0)]
+      @rooms = @venue.rooms if @venue && @venue.rooms.any?
     end
 
     def update
