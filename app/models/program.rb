@@ -31,7 +31,7 @@ class Program < ActiveRecord::Base
       joins(:event_schedules).where('event_schedules.schedule_id = ? AND event_schedules.start_time IS NOT NULL AND event_schedules.room_id IS NOT NULL', schedule_id)
     end
 
-    def unscheduled(schedule_id=nil)
+    def unscheduled(schedule_id)
       select{ |e| e.unscheduled?(schedule_id) }
     end
 

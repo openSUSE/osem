@@ -13,12 +13,13 @@ class ConferenceController < ApplicationController
 
   def schedule
     @rooms = @conference.venue.rooms if @conference.venue
-    unless @conference.program.events.scheduled.any?
+    unless @program.selected_schedule.present? && @program.events.scheduled(@program.selected_schedule).any?
       redirect_to events_conference_path(@conference.short_title)
     end
 
     @events = @conference.program.events
-    @events_xml = @events.scheduled.order(start_time: :asc).group_by{ |event| event.start_time.to_date }
+    @events_xml = @program.schedules.find(program.selected_schedule).event_schedules.where('start_time IS NOT NULL AND room_id IS NOT NULL').order(start_time: :asc)
+                  .map(&:event).group_by{ |event| event.scheduled_start_time.to_date } if program.selected_schedule.present?
     @dates = @conference.start_date..@conference.end_date
     @step_minutes = EventType::LENGTH_STEP.minutes
     @conf_start = 9
@@ -36,8 +37,12 @@ class ConferenceController < ApplicationController
   def events
     @dates = @conference.start_date..@conference.end_date
 
-    @scheduled_events = @conference.program.events.scheduled
-    @unscheduled_events = @conference.program.events.unscheduled
+    if @program.selected_schedule.present?
+      @events_schedules = @program.schedules.find(@program.selected_schedule).event_schedules.where('start_time IS NOT NULL AND room_id IS NOT NULL').order(start_time: :asc)
+    else
+      @events_schedules = []
+    end
+    @unscheduled_events = @program.events.unscheduled(@program.selected_schedule.id)
 
     day = @conference.current_conference_day
     @tag = day.strftime('%Y-%m-%d') if day

@@ -250,13 +250,6 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  # Returns end of the event
-  #
-  def end_time
-    self.scheduled_start_time + self.event_type.length.minutes
-  end
-
-  ##
   # Returns the room in which the event is scheduled
   #
   def scheduled_room
@@ -270,24 +263,17 @@ class Event < ActiveRecord::Base
     selected_event_schedule.try(:start_time)
   end
 
-  ##
-  # Returns events that are scheduled in the same room and start_time as event
-  #
-  def intersecting_events
-    room.events.where(start_time: start_time).where.not(id: id)
-  end
-
   # returns the event_schedule for this event and the schedule given in case that it exists
   def event_schedule(schedule_id)
     event_schedules.find_by(schedule_id: schedule_id)
   end
 
-  private
-
   # returns the event_schedule for this event and for the selected_schedule
   def selected_event_schedule
     event_schedules.find_by(schedule_id: program.try(:selected_schedule))
   end
+
+  private
 
   ##
   # Do not allow, for the event, more attendees than the size of the room
