@@ -183,9 +183,10 @@ gem 'dotenv-rails'
 gem 'faker'
 # for seeds
 gem 'factory_girl_rails'
-
 # for integrating Stripe payment gateway
 gem 'stripe'
+#For embedding tweets
+gem 'twitter'
 
 # Use guard and spring for testing in development
 group :development do

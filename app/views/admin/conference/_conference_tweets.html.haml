@@ -1,0 +1,8 @@
+.container
+  .row
+    .col-md-12.text-center
+      %h2 Conference Tweets
+      - @tweets.each do |tweet|
+        %div#tweet
+          = tweet.user.name
+          = tweet.text 
