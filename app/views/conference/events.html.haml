@@ -1,5 +1,5 @@
 .container#program
-  -if @scheduled_events.any?
+  -if @events_schedules.any?
     = render partial: 'schedule_tabs',  locals: { active: 'program' }
 
   %h1.text-center
@@ -22,24 +22,24 @@
     / scheduled events
     - date = nil
     - time = nil
-    - @scheduled_events.each do |event|
-      - unless event.start_time.strftime('%Y-%m-%d').eql?(date)
+    - @events_schedules.each do |event_schedule|
+      - unless event_schedule.start_time.strftime('%Y-%m-%d').eql?(date)
         .col-xs-12.col-md-12
           .date-content
-            %span{ class: 'date-title', id: "#{ event.start_time.strftime('%Y-%m-%d') }" }
-              = date = event.start_time.strftime('%Y-%m-%d')
+            %span{ class: 'date-title', id: "#{ event_schedule.start_time.strftime('%Y-%m-%d') }" }
+              = date = event_schedule.start_time.strftime('%Y-%m-%d')
             %a{ title: "Go up", class: "pull-right", href: "#program" }
               %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
-      - unless event.start_time.strftime('%H:%M').eql?(time)
+      - unless event_schedule.start_time.strftime('%H:%M').eql?(time)
         .col-xs-12.col-md-1
           .start-time
-            = time = event.start_time.strftime('%H:%M')
+            = time = event_schedule.start_time.strftime('%H:%M')
         .col-xs-12.col-md-11
           .new-time-event
-            = render partial: 'event', locals: {event: event}
+            = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
       - else
         .col-xs-12.col-md-11.col-md-offset-1
-          = render partial: 'event', locals: {event: event}
+          = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
 
     / confirmed events that are not scheduled
     - if @unscheduled_events.any?
@@ -52,7 +52,7 @@
       - @unscheduled_events.each do |event|
         .col-xs-12.col-md-12
           .unscheduled-event
-            = render partial: 'event', locals: {event: event}
+            = render partial: 'event', locals: { event: event, event_schedule: nil }
 
 :javascript
   $('.program-selector').on('click', function(e) {
