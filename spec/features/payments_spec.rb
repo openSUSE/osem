@@ -41,6 +41,7 @@ feature Registration do
         click_button 'Charge Card'
 
         expect(Payment.count).to eq(0)
+        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
       end
 
       scenario 'purchases and pays for a ticket, with card producing a transaction failure', feature: true, js: true do
@@ -68,6 +69,7 @@ feature Registration do
         click_button 'Charge Card'
 
         expect(Payment.count).to eq(0)
+        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
       end
 
       scenario 'purchases and pays for a ticket successfully', feature: true, js: true do

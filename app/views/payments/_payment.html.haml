@@ -21,5 +21,5 @@
     = f.text_field :card_verification_value, class: "form-control", placeholder: "XXX", id: "card_verification_value"
     = f.number_field :amount, value: @total_amount_to_pay, class: "form-control", type: 'hidden'
   .form-group.text-center
-    = f.submit "Pay #{number_to_currency @total_amount_to_pay, unit: @total_amount_to_pay.symbol}", class: "btn btn-primary"
+    = f.submit "Pay #{number_to_currency @total_amount_to_pay, unit: @total_amount_to_pay.symbol}", class: "btn btn-primary", id: "Charge Card"
     = link_to "Cancel", conference_conference_registration_path, class: "btn btn-danger"
