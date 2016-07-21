@@ -16,6 +16,8 @@ class Payment < ActiveRecord::Base
   validates :expiration_month, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }
   validates :expiration_year, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }
+  validates :user_id, presence: true
+  validates :conference_id, presence: true
 
   enum status: {
     unpaid: 0,
@@ -34,17 +36,18 @@ class Payment < ActiveRecord::Base
     )
   end
 
-  def purchase(user, conference, price_in_cents)
+  def amount_to_pay
+    Ticket.total_price(conference, user, paid: false).cents
+  end
+
+  def purchase
     gateway_response = begin
-      GATEWAY.purchase(price_in_cents, credit_card, currency: conference.tickets.first.price_currency)
+      GATEWAY.purchase(amount_to_pay, credit_card, currency: conference.tickets.first.price_currency)
     rescue
       ActiveMerchant::Billing::Response.new(false, 'Unable to receive any response from the payment gateway.')
     end
 
-
     if gateway_response.success?
-      self.user_id = user.id
-      self.conference_id = conference.id
       self.last4 = credit_card.display_number
       self.authorization_code = gateway_response.authorization
       self.status = 'success'
@@ -56,4 +59,3 @@ class Payment < ActiveRecord::Base
     success?
   end
 end
-

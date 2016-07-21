@@ -28,6 +28,10 @@ describe Payment do
 
     it { is_expected.to validate_presence_of(:amount) }
 
+    it { is_expected.to validate_presence_of(:user_id) }
+
+    it { is_expected.to validate_presence_of(:conference_id) }
+
     it 'is not valid with a amount equals zero' do
       should_not allow_value(0).for(:amount)
     end
@@ -42,24 +46,53 @@ describe Payment do
 
   end
 
+  describe '#credit_card' do
+    let(:payment) { create(:payment) }
+
+    it 'assigns correct "month"' do
+      expect(payment.credit_card.month).to eq(6)
+    end
+
+    it 'assigns correct "year"' do
+      expect(payment.credit_card.year).to eq(Date.current.year + 2)
+    end
+
+    it 'assigns correct "verification_value"' do
+      expect(payment.credit_card.verification_value).to eq('123')
+    end
+
+    it 'assigns correct "card_number"' do
+      expect(payment.credit_card.display_number).to eq('XXXX-XXXX-XXXX-4111')
+    end
+  end
+
+  describe '#amount_to_pay' do
+    let!(:user) { create(:user) }
+    let!(:conference) { create(:conference) }
+    let(:ticket_1) { create(:ticket, price: 10, price_currency: 'USD', conference: conference) }
+    let(:payment) { create(:payment, user: user, conference: conference) }
+
+    it ' returns correct unpaid amount' do
+      create(:ticket_purchase, ticket: ticket_1, user: user, quantity: 8)
+      expect(payment.amount_to_pay).to eq(8000)
+    end
+  end
+
   describe '#purchase' do
     let!(:user) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:conference) { create(:conference, tickets: [ticket_1]) }
-    let(:payment) { create(:payment) }
+    let!(:payment) { create(:payment, user: user, conference: conference) }
 
-    it 'calls the payment gateway with the correct parameters' do
-      expect(GATEWAY).to receive(:purchase).with(1000, payment.credit_card, currency: 'USD')
-        .and_return(ActiveMerchant::Billing::Response.new(true, 'Success.'))
+    let!(:tickets) { {ticket_1.id.to_s => '1'} }
 
-      payment.purchase(user, conference, 1000)
-    end
+    before { TicketPurchase.purchase(conference, user, tickets) }
 
     context 'when the payment is successful' do
-      before { payment.purchase(user, conference, 1000) }
+      before { payment.purchase }
 
       it 'returns true' do
-        payment_result = payment.purchase(user, conference, 1000)
+        payment_result = payment.purchase
         expect(payment_result).to eq true
       end
 
@@ -67,31 +100,23 @@ describe Payment do
         expect(payment.status).to eq('success')
       end
 
-      it 'assigns user_id' do
-        expect(payment.user_id).to eq(user.id)
-      end
-
-      it 'assigns conference_id' do
-        expect(payment.conference_id).to eq(conference.id)
-      end
-
       it 'assigns last4' do
         expect(payment.last4).to eq('XXXX-XXXX-XXXX-4111')
       end
 
       it 'assigns authorization_code' do
-        expect(payment.authorization_code).to eq("53433")
+        expect(payment.authorization_code).to eq('53433')
       end
     end
 
     context 'if the payment is not successful' do
-      before { payment.purchase(user, conference, 1000) }
+      before { payment.purchase }
 
       let(:payment) { create(:payment, :invalid_credit_card) }
 
       context 'when the card is invalid' do
         it 'returns false' do
-          payment_result = payment.purchase(user, conference, 1000)
+          payment_result = payment.purchase
           expect(payment_result).to eq false
         end
 
@@ -108,7 +133,7 @@ describe Payment do
         let(:payment) { create(:payment, :exception_credit_card) }
 
         it 'returns false' do
-          payment_result = payment.purchase(user, conference, 1000)
+          payment_result = payment.purchase
           expect(payment_result).to eq false
         end
 
@@ -123,4 +148,3 @@ describe Payment do
     end
   end
 end
-

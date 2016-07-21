@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :payment do
+    user
+    conference
     first_name { "#{Faker::Hipster.word} abc" }
     last_name { "#{Faker::Hipster.word} xyz" }
     credit_card_number '4242424242424111'
@@ -17,4 +19,3 @@ FactoryGirl.define do
     credit_card_number '4242424242424333'
   end
 end
-

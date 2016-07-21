@@ -16,7 +16,7 @@ class PaymentsController < ApplicationController
     @payment = Payment.new(payment_params)
     @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
 
-    if @payment.purchase(current_user, @conference, price_in_cents) && @payment.save
+    if @payment.purchase && @payment.save
       update_purchased_ticket_purchases
       redirect_to conference_conference_registration_path(@conference.short_title), flash: { success: 'Thanks! You have purchased your tickets successfully.' }
     else
@@ -25,10 +25,6 @@ class PaymentsController < ApplicationController
   end
 
   private
-
-  def price_in_cents
-    (@payment.amount * 100).round
-  end
 
   def update_purchased_ticket_purchases
     paid_ticket_purchases = current_user.ticket_purchases.by_conference(@conference).unpaid
@@ -40,6 +36,8 @@ class PaymentsController < ApplicationController
   end
 
   def payment_params
-    params.require(:payment).permit(:first_name, :last_name, :credit_card_number, :expiration_month, :expiration_year, :card_verification_value, :amount)
+    params.require(:payment)
+      .permit(:first_name, :last_name, :credit_card_number, :expiration_month, :expiration_year, :card_verification_value, :amount)
+      .merge(user: current_user, conference: @conference)
   end
 end
