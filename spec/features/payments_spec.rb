@@ -33,8 +33,7 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
 
-        fill_in 'first_name', with: 'foo'
-        fill_in 'last_name', with: 'bar'
+        fill_in 'full_name', with: 'foo'
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
         fill_in 'credit_card_number', with: '4242424242423333'
@@ -61,8 +60,7 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
 
-        fill_in 'first_name', with: 'foo'
-        fill_in 'last_name', with: 'bar'
+        fill_in 'full_name', with: 'foo'
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
         fill_in 'credit_card_number', with: '4242424242422222'
@@ -89,8 +87,7 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
 
-        fill_in 'first_name', with: 'foo'
-        fill_in 'last_name', with: 'bar'
+        fill_in 'full_name', with: 'foo'
         select Date.current.year + 2, from: 'expiration_year'
         fill_in 'card_verification_value', with: '123'
         fill_in 'credit_card_number', with: '4242424242421111'

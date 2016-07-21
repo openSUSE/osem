@@ -251,16 +251,15 @@ ActiveRecord::Schema.define(version: 20160624151257) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
+    t.string   "full_name",                      null: false
     t.string   "last4"
-    t.decimal  "amount",             precision: 12, scale: 3
+    t.integer  "amount",                         null: false
     t.string   "authorization_code"
-    t.integer  "status",                                      default: 0
-    t.integer  "user_id"
-    t.integer  "conference_id"
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
+    t.integer  "status",             default: 0, null: false
+    t.integer  "user_id",                        null: false
+    t.integer  "conference_id",                  null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "programs", force: :cascade do |t|

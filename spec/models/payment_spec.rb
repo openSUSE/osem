@@ -14,9 +14,7 @@ describe Payment do
       expect(build(:payment)).to be_valid
     end
 
-    it { is_expected.to validate_presence_of(:first_name) }
-
-    it { is_expected.to validate_presence_of(:last_name) }
+    it { is_expected.to validate_presence_of(:full_name) }
 
     it { is_expected.to validate_presence_of(:credit_card_number) }
 

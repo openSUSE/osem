@@ -1,14 +1,11 @@
 = semantic_form_for(@payment, url: conference_payments_path) do |f|
   .form-group
-    = f.label :first_name, 'First name(as on card)'
-    = f.text_field :first_name, class: "form-control", placeholder: "John", id: "first_name"
-  .form-group
-    = f.label :last_name, 'Last name(as on card)'
-    = f.text_field :last_name,class: "form-control", placeholder: "Doe", id: "last_name"
+    = f.label :full_name, 'Full name (as on card)'
+    = f.text_field :full_name, class: "form-control", placeholder: "John Doe", id: "full_name"
   %span.pull-right
     %img.img-responsive{:src => image_url('credit_card.png')}
   .form-group
-    = f.label :credit_card_number, "Credit Card number(without spaces)"
+    = f.label :credit_card_number, "Credit Card number (without spaces)"
     .input-group
       = f.text_field :credit_card_number, class: "form-control", placeholder: "XXXX XXXX XXXX XXXX", id: "credit_card_number"
       %span.input-group-addon
@@ -20,7 +17,7 @@
     = f.label :expiration_year
     = f.select :expiration_year, years, {}, class: "form-control", id: "expiration_year"
   .form-group.col-md-10
-    = f.label :card_verification_value, 'Security Code(3 on back, AmEx: 4 on front)'
+    = f.label :card_verification_value, 'Security Code (3 on back, AmEx: 4 on front)'
     = f.text_field :card_verification_value, class: "form-control", placeholder: "XXX", id: "card_verification_value"
     = f.number_field :amount, value: @total_amount_to_pay, class: "form-control", type: 'hidden'
   %ul.price-tags.pull-right

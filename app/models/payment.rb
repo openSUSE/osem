@@ -9,8 +9,7 @@ class Payment < ActiveRecord::Base
   attr_accessor :expiration_month
   attr_accessor :expiration_year
 
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :full_name, presence: true
   validates :credit_card_number, presence: true
   validates :card_verification_value, presence: true, length: { minimum: 3, maximum: 4 }
   validates :expiration_month, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }
@@ -27,8 +26,7 @@ class Payment < ActiveRecord::Base
 
   def credit_card
     @credit_card ||= ActiveMerchant::Billing::CreditCard.new(
-      first_name:          first_name,
-      last_name:           last_name,
+      name:                full_name,
       number:              credit_card_number,
       month:               expiration_month,
       year:                expiration_year,
