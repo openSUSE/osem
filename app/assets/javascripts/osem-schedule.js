@@ -9,6 +9,18 @@ var Schedule = {
     conference = conference_param;
     schedule_id = schedule_id_param;
   },
+  invalidateCells: function(element, length) {
+    for (i = 0; i < length; i++) {
+      element.addClass('with-event');
+      element = element.next();
+    }
+  },
+  validateCells: function(element, length) {
+    for (i = 0; i < length; i++) {
+      element.removeClass('with-event');
+      element = element.next();
+    }
+  },
   remove: function(element) {
     var e =  $("#" + element);
     var event_schedule_id = e.attr("event_schedule_id");
@@ -18,6 +30,7 @@ var Schedule = {
     }
     delete events_to_save[event_id];
     var unscheduled = $(".unscheduled-events");
+    Schedule.validateCells(e.parent(), e.attr("length"));
     e.appendTo(unscheduled);
     e.find(".schedule-event-delete-button").hide();
   },
@@ -80,8 +93,18 @@ $(document).ready( function() {
     snap: '.schedule-room-slot',
     revertDuration: 200,
     revert: function (event, ui) {
-        console.log(event.attr);
-        return !event;
+      console.log(event.attr);
+      var dropable = $(this).parent();
+      if(!dropable.hasClass('unscheduled-events')){
+        Schedule.invalidateCells(dropable, $(this).attr("length"));
+      }
+      return !event;
+    },
+    start: function(event, ui) {
+      var dropable = $(this).parent();
+      if(!dropable.hasClass('unscheduled-events')){
+        Schedule.validateCells(dropable, $(this).attr("length"));
+      }
     },
     stop: function(event, ui) {
         this._originalPosition = this._originalPosition || ui.originalPosition;
@@ -96,9 +119,12 @@ $(document).ready( function() {
   $('.schedule-room-slot').droppable({
     accept: '.schedule-event',
     tolerance: "pointer",
+    accept: function(dropElem){
+      return !$(this).hasClass('with-event');
+    },
     drop: function(event, ui) {
-        $(ui.draggable).appendTo(this);
         var myId = $(ui.draggable).attr("guid");
+        var myLength = $(ui.draggable).attr("length");
         var myRoom = $(this).attr("room-guid")
         var myDate = $(this).attr("date");
         var myTime = $(this).attr("hour");
@@ -107,6 +133,8 @@ $(document).ready( function() {
         $(ui.draggable).css("top", 0);
         $(this).css("background-color", "#ffffff");
         Schedule.add(myId, myRoom, myDate, myTime, myEventSchedule);
+        Schedule.invalidateCells($(this), myLength);
+        $(ui.draggable).appendTo(this);
     },
     over: function(event, ui) {
       $(this).css("background-color", "#009ED8");
