@@ -1,10 +1,13 @@
 var url; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
-function showError(error){
-  // Delete other error messages before showing the new one
+var events_to_save = {};
+var events_to_remove = {};
+
+function showMessage(message, type){
+  // Delete other messages before showing the new one
   $('.unobtrusive-flash-container').empty();
-  UnobtrusiveFlash.showFlashMessage(error, {type: 'error'});
+  UnobtrusiveFlash.showFlashMessage(message, {type: type});
 }
 
 var Schedule = {
@@ -14,66 +17,99 @@ var Schedule = {
   },
   remove: function(element) {
     var e =  $("#" + element);
-    var event_schedule_id = e.attr("event_schedule_id");
-    if(event_schedule_id != null){
-      var my_url = url + '/' + event_schedule_id;
-      var success_callback = function(data) {
-        console.log(data);
-        e.attr("event_schedule_id", null);
-        e.appendTo($(".unscheduled-events"));
-        e.find(".schedule-event-delete-button").hide();
+    var event_id = e.attr("event_id");
+    if(e.attr("event_schedule_id")!= null){
+      events_to_remove[event_id] = {
+        event: e,
+        previous_parent: e.parent()
+      };
+    }
+    delete events_to_save[event_id];
+    var unscheduled = $(".unscheduled-events");
+    e.appendTo(unscheduled);
+    e.find(".schedule-event-delete-button").hide();
+  },
+  add: function (previous_parent, new_parent, event) {
+    var params = {
+      previous_parent: previous_parent,
+      new_parent: new_parent,
+      event: event
+    }
+    var event_id = event.attr("event_id");
+    events_to_save[event_id] = params;
+    delete events_to_remove[event_id];
+    event.appendTo(new_parent);
+    $("#event-" + event_id).find(".schedule-event-delete-button").show();
+  },
+  saveEvents: function () {
+    var errors = '';
+    for (var key in events_to_save){
+      var event = events_to_save[key]['event'];
+      var event_schedule_id = event.attr("event_schedule_id");
+      var new_parent = events_to_save[key]['new_parent'];
+      var my_url = url;
+      var type = 'POST';
+      var params = { event_schedule: {
+        room_id: new_parent.attr("room_id"),
+        start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
+      }};
+      if(event_schedule_id != null){
+        type = 'PUT';
+        my_url += ('/' + event_schedule_id);
       }
-      var error_callback = function(data) {
+      else{
+        params['event_schedule']['event_id'] = event.attr("event_id");
+        params['event_schedule']['schedule_id'] = schedule_id;
+      }
+      var success_callback_save = function(data) {
         console.log(data);
-        showError($.parseJSON(data.responseText).errors);
+        event.attr("event_schedule_id", data.event_schedule_id);
+        }
+      var error_callback_save = function(data) {
+        console.log(data);
+        errors += $.parseJSON(data.responseText).errors;
+        event.appendTo(events_to_save[key]['previous_parent']);
+        if(parent.hasClass('unscheduled-events'))
+          event.find(".schedule-event-delete-button").hide();
       }
       $.ajax({
+        async: false,
         url: my_url,
-        type: 'DELETE',
-        success: success_callback,
-        error: error_callback,
+        type: type,
+        data: params,
+        success: success_callback_save,
+        error: error_callback_save,
         dataType : 'json'
       });
     }
-    else{
-      showError("The event couldn't be unscheduled");
-    }
-  },
-  add: function (previous_parent, new_parent, event) {
-    event.appendTo(new_parent);
-    var event_schedule_id = event.attr("event_schedule_id");
-    var my_url = url;
-    var type = 'POST';
-    var params = { event_schedule: {
-      room_id: new_parent.attr("room_id"),
-      start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
-    }};
-    if(event_schedule_id != null){
-      type = 'PUT';
-      my_url += ('/' + event_schedule_id);
-    }
-    else{
-      params['event_schedule']['event_id'] = event.attr("event_id");
-      params['event_schedule']['schedule_id'] = schedule_id;
-    }
-    var success_callback = function(data) {
-      console.log(data);
-      event.attr("event_schedule_id", data.event_schedule_id);
-      event.find(".schedule-event-delete-button").show();
+    for (var key in events_to_remove){
+      var event = events_to_remove[key]['event'];
+      var success_callback_remove = function(data) {
+        console.log(data);
+        event.attr("event_schedule_id", null);
       }
-    var error_callback = function(data) {
-      console.log(data);
-      showError($.parseJSON(data.responseText).errors);
-      event.appendTo(previous_parent);
+      var error_callback_remove = function(data) {
+        console.log(data);
+        errors += $.parseJSON(data.responseText).errors;
+        events_to_remove[key]['previous_parent'].append(event);
+        if(!parent.hasClass('unscheduled-events'))
+          event.find(".schedule-event-delete-button").show();
+      }
+      $.ajax({
+        async: false,
+        url: url + '/' + event.attr("event_schedule_id"),
+        type: 'DELETE',
+        success: success_callback_remove,
+        error: error_callback_remove,
+        dataType : 'json'
+      });
     }
-    $.ajax({
-      url: my_url,
-      type: type,
-      data: params,
-      success: success_callback,
-      error: error_callback,
-      dataType : 'json'
-    });
+    events_to_remove = {};
+    events_to_save = {};
+    if(errors == '')
+      showMessage('Schedule correctly saved', 'notice');
+    else
+      showMessage(errors, 'error');
   }
 };
 
@@ -114,6 +150,10 @@ $(document).ready( function() {
     out: function(event, ui) {
       $(this).css("background-color", "#ffffff");
       }
+  });
+
+  $('.schedule-save').on('click', function(e) {
+    Schedule.saveEvents();
   });
 });
 

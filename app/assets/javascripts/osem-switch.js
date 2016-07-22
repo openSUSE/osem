@@ -23,7 +23,7 @@ $(function () {
     }
 
     var callback = function(data) {
-      showError($.parseJSON(data.responseText).errors);
+      showMessage($.parseJSON(data.responseText).errors, 'error');
     }
     $.ajax({
       url: url,
