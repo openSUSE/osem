@@ -4,17 +4,17 @@ module Admin
 
     def create
       event_schedule = EventSchedule.create(get_event_schedule_params(params))
-      render json: { 'status' => 'ok', event_schedule_id: event_schedule.id }
+      render json: { 'status' => 'ok', event: event_schedule.event.guid, event_schedule_id: event_schedule.id }
     end
 
     def update
       @event_schedule.update(get_event_schedule_params(params))
-      render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+      render json: { 'status' => 'ok', event: @event_schedule.event.guid, event_schedule_id: @event_schedule.id }
     end
 
     def destroy
       @event_schedule.destroy if @event_schedule
-      render json: { 'status' => 'ok' }
+      render json: { 'status' => 'ok', event: @event_schedule.event.guid }
     end
 
     private
