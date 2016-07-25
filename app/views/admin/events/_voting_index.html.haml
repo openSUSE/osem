@@ -1,0 +1,19 @@
+- if @program.show_voting?
+  #{event.average_rating}/#{@program.rating}
+  %br
+  #{pluralize(event.voters.length, 'voter')}
+  %br
+  - @program.rating.times do |counter|
+    - if event.average_rating.to_f.round == counter+1
+      = label_tag 'label_rating', '', class: 'avgrating', avgrate: true
+      = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
+    - else
+      = label_tag 'label_rating', '', class: 'avgrating'
+  %br
+
+- if event.voted?(current_user)
+  %span.label.label-success
+    Your rating: #{ event.user_rating(current_user) }
+- else
+  %span.label.label-danger
+    Not rated

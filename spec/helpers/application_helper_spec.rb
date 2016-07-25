@@ -4,6 +4,17 @@ describe ApplicationHelper, type: :helper do
   let(:conference) { create(:conference) }
   let(:event) { create(:event, program: conference.program) }
 
+  describe 'format_datetme' do
+    it 'returns nothing if there is no parameter' do
+      expect(format_datetime(nil)).to eq nil
+    end
+
+    it 'returns formatted string' do
+      datetime = Time.zone.local(2016, 05, 04, 11, 30)
+      expect(format_datetime(datetime)).to eq '2016-05-04 11:30'
+    end
+  end
+
   describe 'show_roles' do
     it 'formats the hash passed' do
       roles = { 'organizer' => ['oSC16', 'oSC15'], 'cfp' => ['oSC16'] }

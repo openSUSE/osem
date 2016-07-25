@@ -50,49 +50,34 @@
             %td
               = event.id
             %td
-              =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
+              = link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
 
             - if @program.rating_enabled?
               %td.col-md-1{'data-order' => "#{event.average_rating}"}
-                - if event.average_rating.to_f > 0
-                  #{event.average_rating}/#{@program.rating}
-                  %br
-                  #{pluralize(event.voters.length, 'voter')}
-                  %br
-                  - @program.rating.times do |counter|
-                    - if event.average_rating.to_f.round == counter+1
-                      = label_tag "label_rating", "", :class => "avgrating", :avgrate => true
-                      = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
-                    - else
-                      = label_tag "label_rating", "", :class => "avgrating"
-                  %br
-                  - voted = event.voted?(event, current_user)
-                  - if voted
-                    %span.label.label-success
-                      Your rating: #{voted.rating}
-                  - else
-                    %span.label.label-danger
-                      Not rated
-                - else
-                  0/#{@program.rating}
-                %br
+                = render partial: 'voting_index', locals: { event: event }
 
             - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
               - bgcolor="#F7819F"
             - else
               - bgcolor=""
             %td{:style=>"background-color: #{bgcolor}"}
-              - if !event.submitter.nil?
-                =link_to event.submitter.name, admin_user_path(event.submitter)
-                - if event.submitter.registrations.count < 1
-                  (Unregistered!)
+              - if @program.show_voting?
+                - if !event.submitter.nil?
+                  =link_to event.submitter.name, admin_user_path(event.submitter)
+                  - if event.submitter.registrations.count < 1
+                    (Unregistered!)
+                - else
+                  Unknown submitter
               - else
-                Unknown submitter
+                %i Hidden
             %td
-              - if speaker = event.speakers.first
-                = link_to speaker.name, admin_user_path(speaker)
+              - if @program.show_voting?
+                - if speaker = event.speakers.first
+                  = link_to speaker.name, admin_user_path(speaker)
+                - else
+                  Unknown speaker
               - else
-                Unknown speaker
+                %i Hidden
 
             -if @program.languages.present?
               %td

@@ -6,6 +6,7 @@ describe Event do
   let(:event) { create(:event, program: conference.program) }
   let(:new_event) { create(:event) }
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
 
   describe 'association' do
     it { is_expected.to belong_to :program }
@@ -166,14 +167,41 @@ describe Event do
     end
   end
 
-  describe '#voted?' do
-    it 'returns nil if the event has no votes' do
-      expect(event.voted?(event, user)).to eq nil
+  describe '#user_rating' do
+    it 'returns 0 if the event has no votes' do
+      expect(event.user_rating(user)).to eq 0
     end
 
-    it 'returns the first vote when the event has votes' do
-      vote = create(:vote, user: user, event: event)
-      expect(event.voted?(event, user)).to eq vote
+    it 'returns 0 if the event has no votes from that user' do
+      create(:vote, user: another_user, event: event)
+      expect(event.user_rating(user)).to eq 0
+    end
+
+    it 'returns the rating if the event has votes from that user' do
+      create(:vote, user: another_user, event: event, rating: 3)
+      create(:vote, user: user, event: event, rating: 2)
+      expect(event.user_rating(user)).to eq 2
+    end
+  end
+
+  describe '#voted?' do
+    it 'returns false if the event has no votes' do
+      expect(event.voted?).to eq false
+    end
+
+    it 'returns false if the event has no votes by that user' do
+      create(:vote, user: another_user, event: event)
+      expect(event.voted?(user)).to eq false
+    end
+
+    it 'returns true when the event has votes' do
+      create(:vote, user: another_user, event: event)
+      expect(event.voted?).to eq true
+    end
+
+    it 'returns true when the event has votes by that user' do
+      create(:vote, user: user, event: event)
+      expect(event.voted?(user)).to eq true
     end
   end
 
