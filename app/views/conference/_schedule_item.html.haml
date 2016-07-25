@@ -4,7 +4,14 @@
   %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
     %div{ class: "elipsis break-words event-title", |
           style: "-webkit-line-clamp: #{ event_lines(@rooms) }; height: #{ event_height(@rooms) }px;"} |
+
+      - if event.state == 'canceled' || event.state == 'withdrawn'
+        %span.label.label-danger.schedule-label CANCELED
+      - elsif event.state == 'confirmed' && (!event.intersecting_events.canceled.empty? || !event.intersecting_events.withdrawn.empty?)
+        %span.label.label-info.schedule-label REPLACEMENT
+
       = event.title
+
     - if speaker = event.speakers.first
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right speaker-pic", |
                                         :alt => speaker.name, |

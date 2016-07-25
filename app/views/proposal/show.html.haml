@@ -14,6 +14,12 @@
             = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary"
           - if can? :schedule, @conference
             = link_to "Schedule", schedule_conference_path(@conference.short_title), :class =>"btn btn-success"
+
+      - if @event.state == 'canceled' || @event.state == 'withdrawn'
+        %span.label.label-danger CANCELED
+      - elsif @event.state == 'confirmed' && (!@event.intersecting_events.canceled.empty? || !@event.intersecting_events.withdrawn.empty?)
+        %span.label.label-info REPLACEMENT
+
   .row
     .col-md-3
       .speakerinfo
@@ -34,6 +40,16 @@
     .col-md-9
       .row
         .col-md-12
+          .lead
+            - if @event.state == 'confirmed' && !@event.intersecting_events.withdrawn.empty?
+              = "Please note that this talk replaces"
+              = link_to @event.intersecting_events.withdrawn.first.title,
+                    conference_program_proposal_path(@conference.short_title, @event.intersecting_events.withdrawn.first.id)
+            - elsif @event.state == 'confirmed' && !@event.intersecting_events.canceled.empty?
+              = "Please note that this talk replaces"
+              = link_to @event.intersecting_events.canceled.first.title,
+                    conference_program_proposal_path(@conference.short_title, @event.intersecting_events.canceled.first.id)
+
           - if @event.commercials.empty?
             %h5.text-warning
               No video of the event yet, sorry!

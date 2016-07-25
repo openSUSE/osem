@@ -193,6 +193,14 @@ td.no-padding{
   color:  #D8D8D8 !important;
 }
 
+.schedule-label{
+  height: 14px;
+  line-height: 11px;
+  overflow: hidden;
+  display: inline-block;
+  white-space: normal;
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .room, .event-title{
@@ -226,6 +234,11 @@ td.no-padding{
 
   td.event{
     padding: 3px 5px !important;
+  }
+
+  .schedule-label{
+    height: 15px;
+    line-height: 12px;
   }
 }
 
