@@ -69,28 +69,14 @@ a.unstyled-link {
     outline: 0;
 }
 
-#schedule td.event {
-  background-image: linear-gradient(to top, #f7faf2 24%, #c2e8be 97%,
-#c2e8be 100%);
-}
-
-#schedule td.event:hover {
-  background-image: linear-gradient(to top, #f7faf2 24%, #53ab4a 97%,
-#53ab4a 100%);
-}
-
-.schedule-dropdown{
+.program-dropdown, .schedule-dropdown{
   margin-left: 20%;
   margin-right: 20%;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 
-.schedule-dropdown > button{
-  width: 100%;
-}
-
-.schedule-dropdown > .dropdown-menu{
+.schedule-dropdown > button, .program-dropdown > button, .program-dropdown > .dropdown-menu, .schedule-dropdown > .dropdown-menu{
   width: 100%;
 }
 
@@ -147,6 +133,64 @@ th.date{
 
 td.no-padding{
   padding:0px !important;
+}
+
+.all-events-title{
+  margin-top: 40px;
+  border-bottom: 1px solid #848484;
+}
+
+.date-title{
+  font-size: 23px;
+  font-weight: bold;
+  padding-bottom: 2px;
+  display:inline-block;
+}
+
+.start-time{
+  font-size: 16px;
+  padding-left: 30px;
+  margin-top: 32px;
+}
+
+.new-time-event{
+  margin-top: 20px;
+}
+
+.date-content{
+  border-bottom: 1px solid #6E6E6E;
+  margin-top: 30px;
+}
+
+.unscheduled-event{
+  margin-top: 8px;
+}
+
+.all-speaker-pic{
+  padding: 20px 10px 20px 10px;
+}
+
+.track{
+   padding: 0px 5px 0px 5px;
+   display: inline-block;
+ }
+
+.program-dropdown{
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 40px;
+}
+
+.program-dropdown > button{
+  width: 100%;
+}
+
+.program-dropdown > .dropdown-menu{
+  width: 100%;
+}
+
+.no-events-day{
+  color:  #D8D8D8 !important;
 }
 
 /* Small devices (tablets, 768px and up) */

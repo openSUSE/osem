@@ -335,4 +335,14 @@ module ApplicationHelper
     # speaker picture padding: 4px 2px; and we want the picture to be a circle
     speaker_height(rooms) - 4
   end
+
+  def carousel_item_class(number, carousel_number, num_cols, col)
+    item_class = 'item'
+    item_class += ' first' if number == 0
+    item_class += ' last' if number == (carousel_number - 1)
+    if (col && ((col / num_cols) == number)) || (!col && number == 0)
+      item_class += ' active'
+    end
+    item_class
+  end
 end

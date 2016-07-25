@@ -27,7 +27,11 @@ class Program < ActiveRecord::Base
     end
 
     def scheduled
-      where.not(start_time: nil).where.not(room: nil)
+      where.not(start_time: nil).where.not(room: nil).order(start_time: :asc)
+    end
+
+    def unscheduled
+      confirmed.where('start_time IS NULL OR room_id IS NULL')
     end
 
     def highlights
@@ -85,6 +89,17 @@ class Program < ActiveRecord::Base
 
   def languages_list
     self.languages.split(',').map {|l| ISO_639.find(l).english_name} if self.languages.present?
+  end
+
+  ##
+  # Checks if there is any event in the program that starts in the given date
+  #
+  # ====Returns
+  # * +True+ -> If there is any event for the given date
+  # * +False+ -> If there is not any event for the given date
+  def any_event_for_this_date?(date)
+    parsed_date = DateTime.parse("#{date} 00:00").utc
+    events.where(start_time: parsed_date..(parsed_date + 1)).any?
   end
 
   private

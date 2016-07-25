@@ -1,0 +1,33 @@
+%a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
+  .panel.panel-default
+    .panel-body
+      - if speaker = event.speakers.first
+        = image_tag speaker.gravatar_url, :class => "img-circle pull-right all-speaker-pic", |
+                                          :alt => speaker.name, |
+                                          :title => speaker.name |
+      %span.h3
+        = event.title
+        %br
+        %small
+          = event.subtitle
+      %h4
+        presented by #{event.speaker_names}
+      %p
+        = truncate(event.abstract, :length => 400)
+        = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400
+      - if event.scheduled?
+        %span.track
+          %span.fa.fa-clock-o
+          %span.label{ style: "background-color: grey" }
+            = event.start_time.strftime('%H:%M')
+            \-
+            = event.end_time.strftime('%H:%M')
+        %span.track
+          %span.fa.fa-map-marker
+          %span.label{ style: "background-color: grey" }
+            = event.room.name
+      - if event.track
+        %span.track
+          %span.fa.fa-road
+          %span.label{ style: "background-color: #{event.track.color}; color: #{ contrast_color(event.track.color) }" }
+            = event.track.name

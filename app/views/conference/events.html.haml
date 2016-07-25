@@ -1,0 +1,65 @@
+.container#program
+  -if @scheduled_events.any?
+    = render partial: 'schedule_tabs',  locals: { active: 'program' }
+
+  %h1.text-center
+    Program for
+    = @conference.title
+  .dropdown.program-dropdown
+    %button{ type: "button", class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown" }
+      Dates
+      %span.caret
+    %ul.dropdown-menu
+      - @dates.each do |date|
+        %li.li-dropdown-program
+          = link_to date, "##{date}", class: "program-selector#{ ' no-events-day' unless @conference.program.any_event_for_this_date?(date) }"
+      - if @unscheduled_events.any?
+        %li.li-dropdown-program
+          = link_to('Unscheduled', "#unscheduled", class: 'program-selector')
+
+  .row
+
+    / scheduled events
+    - date = nil
+    - time = nil
+    - @scheduled_events.each do |event|
+      - unless event.start_time.strftime('%Y-%m-%d').eql?(date)
+        .col-xs-12.col-md-12
+          .date-content
+            %span{ class: 'date-title', id: "#{ event.start_time.strftime('%Y-%m-%d') }" }
+              = date = event.start_time.strftime('%Y-%m-%d')
+            %a{ title: "Go up", class: "pull-right", href: "#program" }
+              %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
+      - unless event.start_time.strftime('%H:%M').eql?(time)
+        .col-xs-12.col-md-1
+          .start-time
+            = time = event.start_time.strftime('%H:%M')
+        .col-xs-12.col-md-11
+          .new-time-event
+            = render partial: 'event', locals: {event: event}
+      - else
+        .col-xs-12.col-md-11.col-md-offset-1
+          = render partial: 'event', locals: {event: event}
+
+    / confirmed events that are not scheduled
+    - if @unscheduled_events.any?
+      .col-xs-12.col-md-12
+        .date-content
+          %span.date-title#unscheduled
+            Unscheduled events
+          %a{ title: "Go up", class: "pull-right", href: "#program" }
+            %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
+      - @unscheduled_events.each do |event|
+        .col-xs-12.col-md-12
+          .unscheduled-event
+            = render partial: 'event', locals: {event: event}
+
+:javascript
+  $('.program-selector').on('click', function(e) {
+    $('.li-dropdown-program').removeClass('active');
+  });
+
+  // Go to current date and time
+  $(document).ready(function(){
+    document.getElementById("#{ @tag }").scrollIntoView();
+  });

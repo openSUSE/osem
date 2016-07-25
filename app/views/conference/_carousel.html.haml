@@ -1,0 +1,55 @@
+- intervals = number_columns * 60 / EventType::LENGTH_STEP + 1
+- width = 85 / intervals
+- carousel_number = (@conf_period / number_columns.to_f).ceil
+.carousel.slide{ id: "carousel-#{ date }-#{ number_columns }", |
+                     "data-ride" => "carousel", |
+                     "data-wrap" => "false", |
+                     "data-interval" => "false" }
+  / Wrapper for slides
+  .carousel-inner
+    - start_time = DateTime.parse("#{date} #{@conf_start}:00")
+    - (0..carousel_number-1).each do |number|
+      %div{ class: "#{ carousel_item_class(number, carousel_number, number_columns, @hour_column)}" }
+        %table.table.table-bordered.schedule-table#schedule
+          %tr
+            %th
+            - td_start_time = start_time
+            - (1..intervals).each do |i|
+              %th.date
+                = (td_start_time).strftime("%H:%M")
+              - td_start_time += @step_minutes
+
+          - start_room_time = start_time
+          - @rooms.each do |room|
+            - start_room_time = start_time
+            - span = 1
+            %tr
+              %td.room{ style: "height: #{ td_height(@rooms) }px;" }
+                .room.elipsis.break-words{ style: "-webkit-line-clamp: #{ room_lines(@rooms) }; height: #{ room_height(@rooms) }px;" }
+                  = room.name
+                - events = room.events{ |e| e.start_time >= start_time and e.start_time < (start_time + number_columns.hour)}
+                - (1..intervals).each do |i|
+                  - if span > 1
+                    - span -= 1
+                  - else
+                    - event = events.find{|e| e.start_time <= start_room_time and e.end_time > start_room_time}
+                    - if event
+                      / There is an event, calculate the span and show it
+                      - event_span =  (event.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP
+                      - span = ((event_span + i - 1 ) > intervals ? intervals  + 1 - i : event_span)
+                      = render partial: 'schedule_item', locals: {event: event, span: span, width: width}
+                    - else
+                      / if span equals 1 show an empty td
+                      %td.no-padding{ width: "#{ width }%"}
+                  - start_room_time += @step_minutes
+          - start_time = start_room_time - @step_minutes
+
+  / Controls
+  %a.left.carousel-control{ href: "#carousel-#{ date }-#{ number_columns }", |
+                            role: "button", |
+                            "data-slide" => "prev" }
+    %span.glyphicon.glyphicon-chevron-left
+  %a.right.carousel-control{ href: "#carousel-#{ date }-#{ number_columns }", |
+                             role: "button", |
+                             "data-slide" => "next" }
+    %span.glyphicon.glyphicon-chevron-right
