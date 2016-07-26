@@ -28,7 +28,7 @@ class Program < ActiveRecord::Base
     end
 
     def scheduled(schedule_id)
-      joins(:event_schedules).where('event_schedules.schedule_id = ? AND event_schedules.start_time IS NOT NULL AND event_schedules.room_id IS NOT NULL', schedule_id)
+      joins(:event_schedules).where('event_schedules.schedule_id = ?', schedule_id)
     end
 
     def unscheduled(schedule_id)

@@ -39,7 +39,7 @@ describe ConferenceController do
 
       it 'assigns variables' do
         expect(assigns(:conference)).to eq conference
-        expect(assigns(:events_xml)).to eq conference.program.schedules.find(conference.program.selected_schedule).event_schedules.where('start_time IS NOT NULL AND room_id IS NOT NULL')
+        expect(assigns(:events_xml)).to eq conference.program.schedules.find(conference.program.selected_schedule).event_schedules
                         .order(start_time: :asc).map(&:event).group_by{ |event| event.scheduled_start_time.to_date }
       end
 

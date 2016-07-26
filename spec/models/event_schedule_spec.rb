@@ -7,4 +7,11 @@ describe EventSchedule do
     it { should belong_to(:event) }
     it { should belong_to(:room) }
   end
+
+  describe 'validation' do
+    it { is_expected.to validate_presence_of(:schedule) }
+    it { is_expected.to validate_presence_of(:event) }
+    it { is_expected.to validate_presence_of(:room) }
+    it { is_expected.to validate_presence_of(:start_time) }
+  end
 end

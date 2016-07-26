@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704092023) do
+ActiveRecord::Schema.define(version: 20160705110711) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -180,9 +180,9 @@ ActiveRecord::Schema.define(version: 20160704092023) do
     t.integer  "event_id"
     t.integer  "schedule_id"
     t.integer  "room_id"
-    t.datetime "start_time"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.datetime "start_time"
   end
 
   add_index "event_schedules", ["event_id"], name: "index_event_schedules_on_event_id"
@@ -271,10 +271,10 @@ ActiveRecord::Schema.define(version: 20160704092023) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "languages"
+    t.integer  "selected_schedule"
     t.boolean  "blind_voting",      default: false
     t.datetime "voting_start_date"
     t.datetime "voting_end_date"
-    t.integer  "selected_schedule"
   end
 
   create_table "qanswers", force: :cascade do |t|
