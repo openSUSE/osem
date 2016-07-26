@@ -47,7 +47,8 @@ module Admin
         return
       end
 
-      event_schedule = event.event_schedules.create(schedule_id: params[:schedule]) unless event_schedule.present?
+      Rails.logger.debug(event_schedule.present?.to_s)
+      event_schedule = event.event_schedules.new(schedule_id: params[:schedule]) unless event_schedule.present?
       room = Room.where(guid: room_params).first
 
       if room.nil?

@@ -75,7 +75,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    selected_event_schedule.try(:start_time).present? && selected_event_schedule.try(:room).present?
+    selected_event_schedule.present?
   end
 
   ##
@@ -84,7 +84,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def unscheduled?(schedule_id)
-    state == 'confirmed' && (!event_schedule(schedule_id).try(:start_time).present? || !event_schedule(schedule_id).try(:room).present?)
+    state == 'confirmed' && !event_schedule(schedule_id).present?
   end
 
   def registration_possible?

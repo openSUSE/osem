@@ -9,6 +9,6 @@ class EventScheduleSerializer < ActiveModel::Serializer
   end
 
   def room
-    object.room.try(:guid)
+    object.room_guid
   end
 end

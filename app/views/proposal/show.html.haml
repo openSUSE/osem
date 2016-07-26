@@ -68,7 +68,7 @@
         %dl#proposal-info
           .col-md-12
             %dt Date:
-            %dd= @event_schedule.start_time.strftime("%Y %B %e %H:%M") if @event_schedule.try(:start_time)
+            %dd= @event_schedule.start_time.strftime("%Y %B %e %H:%M") if @event_schedule
           .col-md-12
             %dt Duration:
             %dd= show_time(@event.event_type.length)
