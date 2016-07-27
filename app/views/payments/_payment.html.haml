@@ -1,0 +1,35 @@
+.div
+  
+  .col-md-12.table-responsive
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Ticket
+          %th Quantity
+          %th Price
+          %th Total
+      %tbody
+      - @unpaid_ticket_purchases.each do |ticket|
+        %tr
+          %td
+            = ticket.title
+          %td
+            = ticket.quantity
+          %td
+            = humanized_money_with_symbol ticket.price
+          %td
+            = humanized_money_with_symbol ticket.quantity * ticket.price
+
+= form_tag conference_payments_path do
+  %ul.price-tags.pull-right
+    %li
+      %a
+        = humanized_money_with_symbol @total_amount_to_pay
+  %script.stripe-button{"data-amount" => @total_amount_to_pay.cents,
+    "data-currency" => @total_amount_to_pay.currency,
+    "data-image" => image_url('suse.svg'),
+    "data-name" => ENV['OSEM_NAME'] || 'OSEM',
+    "data-description" => "book your tickets",
+    "data-key" => "#{Rails.configuration.stripe[:publishable_key]}",
+    "data-locale" => "auto", :src => "https://checkout.stripe.com/checkout.js"}
+  = link_to 'Edit Purchase', conference_tickets_path(@conference.short_title), class: 'btn btn-primary'
