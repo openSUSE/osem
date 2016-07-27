@@ -174,20 +174,21 @@ module Admin
     end
 
     def conference_wide_screen
-      #To display sponsors in the conference wide information page
+      # To display sponsors in the conference wide information page
       @conference = Conference.find_by(short_title: params[:id])
       @sponsors = @conference.sponsors
       @program = @conference.program
-      @current_events = @conference.program.events.confirmed.select{ |event| event.is_current?}
-      @tweets = twitter_client.search_tweets(3, @conference.contact.social_tag)
-    
+      @current_events = @conference.program.events.confirmed.select(&:current?)
+      @tweets = twitter_client.search_tweets(15, @conference.contact.social_tag)
+
       respond_to do |format|
-        format.html{render layout: "conference_wide_screen"}
-        format.js {render :action=> "conference_wide_screen.js.haml"}
+        format.html{render layout: 'conference_wide_screen'}
+        format.js {render action: 'conference_wide_screen.js.haml'}
       end
     end
 
     private
+
     # To create a twitter client
     def twitter_client
       @twitter_client ||= TwitterWrapper.new

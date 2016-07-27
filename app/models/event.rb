@@ -41,8 +41,6 @@ class Event < ActiveRecord::Base
   scope :canceled, -> { where(state: 'canceled') }
   scope :withdrawn, -> { where(state: 'withdrawn') }
   scope :highlighted, -> { where(is_highlight: true) }
-  
-
 
   state_machine initial: :new do
     state :new
@@ -250,10 +248,10 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  #Compares event start_time, end_with with current time to predict current events
+  # Compares event start_time, end_with with current time to predict current events
   #
-  def is_current?
-    Time.current >= self.start_time && Time.current <= end_time
+  def current?
+    Time.current >= self.start_time && Time.current <= self.end_time
   end
 
   private
@@ -305,10 +303,10 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  #Compares event start_time, end_with with current time to predict current events
+  # Compares event start_time, end_with with current time to predict current events
   #
-  def is_current?
-    Time.current >= self.start_time && Time.current <= end_time
+  def current?
+    Time.current >= self.start_time && Time.current <= self.end_time
   end
 
 end

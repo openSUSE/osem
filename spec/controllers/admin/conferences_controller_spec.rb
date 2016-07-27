@@ -296,8 +296,8 @@ describe Admin::ConferencesController do
     describe 'GET #conference_wide_screen' do
       it 'requires organizer privileges' do
         get :conference_wide_screen, id: conference.short_title,
-                       conference: attributes_for(:conference,
-                                                  short_title: 'ExCon')
+                                     conference: attributes_for(:conference,
+                                                                short_title: 'ExCon')
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)
@@ -305,7 +305,6 @@ describe Admin::ConferencesController do
       end
     end
   end
-
 
   describe 'participant access' do
     before(:each) do

@@ -328,27 +328,26 @@ describe Event do
     end
   end
 
-
-  describe 'is_current?' do
+  describe 'current?' do
     let(:past_event) { create(:event, program: conference.program) }
     let(:future_event) { create(:event, program: conference.program) }
 
     before do
-      event.update_attributes(start_time: "#{Time.current}")
-      past_event.update_attributes(start_time: "#{Time.current - 2.days}")
-      future_event.update_attributes(start_time: "#{Time.current + 2.days}")
+      event.update_attributes(start_time: Time.current.to_s)
+      past_event.update_attributes(start_time: (Time.current - 2.days).to_s)
+      future_event.update_attributes(start_time: (Time.current + 2.days).to_s)
     end
 
     it 'returns false for a completed event' do
-      expect(past_event.is_current?).to be_falsey
+      expect(past_event.current?).to be_falsey
     end
 
     it 'returns false for a future event' do
-      expect(future_event.is_current?).to be_falsey
+      expect(future_event.current?).to be_falsey
     end
 
     it 'returns true for a current event' do
-      expect(event.is_current?).to be_truthy
+      expect(event.current?).to be_truthy
     end
   end
 
