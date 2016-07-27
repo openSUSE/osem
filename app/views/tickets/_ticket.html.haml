@@ -8,12 +8,8 @@
         - unless ticket.description.blank?
           = markdown(ticket.description)
   %td.col-sm-1.col-md-1
-    - if ticket.bought?(current_user)
-      = text_field_tag("tickets[][#{ticket.id}]", ticket.quantity_bought_by(current_user),
+    = text_field_tag("tickets[][#{ticket.id}]", 0,
       type: 'number', min: 0, class: "form-control quantity", 'data-id' => ticket.id)
-    - else
-      = text_field_tag("tickets[][#{ticket.id}]", 0, type: 'number', min: 0,
-      class: "form-control quantity", 'data-id' => ticket.id)
   %td.col-sm-1.col-md-1.text-center
     = ticket.price.symbol
     %span{id: "price_#{ticket.id}"}
