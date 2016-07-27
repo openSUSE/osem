@@ -184,6 +184,9 @@ gem 'faker'
 # for seeds
 gem 'factory_girl_rails'
 
+# for integrating Stripe payment gateway
+gem 'stripe'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
