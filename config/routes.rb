@@ -22,7 +22,7 @@ Osem::Application.routes.draw do
     resources :comments, only: [:index]
     resources :conference do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
-      resource :schedule, only: [:show, :update]
+      resources :schedule, only: [:index, :create, :show, :update, :destroy]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
       get '/volunteers_list' => 'volunteers#show'
