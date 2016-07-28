@@ -18,8 +18,8 @@ class ConferenceController < ApplicationController
     end
 
     @events = @conference.program.events
-    @events_xml = @program.selected_schedule.event_schedules.order(start_time: :asc).map(&:event)
-                  .group_by{ |event| event.scheduled_start_time.to_date } if @program.selected_schedule.present?
+    schedules = @program.selected_event_schedules
+    @events_xml = schedules.map(&:event).group_by{ |event| event.scheduled_start_time.to_date } if schedules
     @dates = @conference.start_date..@conference.end_date
     @step_minutes = EventType::LENGTH_STEP.minutes
     @conf_start = 9
@@ -37,11 +37,9 @@ class ConferenceController < ApplicationController
   def events
     @dates = @conference.start_date..@conference.end_date
 
-    if @program.selected_schedule.present?
-      @events_schedules = @program.selected_schedule.event_schedules.order(start_time: :asc)
-    else
-      @events_schedules = []
-    end
+    @events_schedules = @program.selected_event_schedules
+    @events_schedules = [] unless @events_schedules
+
     @unscheduled_events = @program.events.unscheduled(@program.selected_schedule.id)
 
     day = @conference.current_conference_day

@@ -61,6 +61,11 @@ class Program < ActiveRecord::Base
   before_create :create_difficulty_levels
   validate :check_languages_format
 
+  # Returns all event_schedules for the selected schedule ordered by start_time
+  def selected_event_schedules
+    selected_schedule.event_schedules.order(start_time: :asc) if selected_schedule
+  end
+
   ##
   # Checks if blind_voting is enabled and if voting period is over
   # ====Returns
