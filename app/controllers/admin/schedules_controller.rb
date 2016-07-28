@@ -25,10 +25,10 @@ module Admin
       # if there is not selected schedule we create it
       unless @program.selected_schedule.present?
         schedule = @program.schedules.create
-        @program.selected_schedule = schedule.id
+        @program.selected_schedule = schedule
         @program.save!
       end
-      @schedule_id = @program.selected_schedule
+      @schedule_id = @program.selected_schedule.id
     end
 
     def update

@@ -13,10 +13,10 @@ FactoryGirl.define do
       unless program.selected_schedule.present?
         schedule = create(:schedule, program: program)
         program.schedules << schedule
-        program.selected_schedule = schedule.id
+        program.selected_schedule = schedule
         program.save!
       end
-      event_schedule.schedule_id = program.selected_schedule
+      event_schedule.schedule = program.selected_schedule
     end
   end
 end

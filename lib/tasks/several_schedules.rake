@@ -4,7 +4,7 @@ namespace :data do
   task move_events_attributes: :environment do
     Program.all.each do |program|
       schedule = Schedule.create(program: program)
-      program.selected_schedule = schedule.id
+      program.selected_schedule = schedule
       program.save
       program.events.each do |event|
         unless event.start_time.nil? && event.room_id.nil?

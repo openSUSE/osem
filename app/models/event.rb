@@ -270,7 +270,7 @@ class Event < ActiveRecord::Base
 
   # returns the event_schedule for this event and for the selected_schedule
   def selected_event_schedule
-    event_schedules.find_by(schedule_id: program.try(:selected_schedule))
+    event_schedules.find_by(schedule_id: program.try(:selected_schedule_id))
   end
 
   private
