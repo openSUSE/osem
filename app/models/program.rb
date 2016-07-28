@@ -8,6 +8,7 @@ class Program < ActiveRecord::Base
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
   has_many :schedules, dependent: :destroy
+  belongs_to :selected_schedule, class_name: 'Schedule'
   has_many :events, dependent: :destroy do
     def require_registration
       where(require_registration: true, state: :confirmed)

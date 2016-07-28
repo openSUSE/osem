@@ -13,13 +13,13 @@ class ConferenceController < ApplicationController
 
   def schedule
     @rooms = @conference.venue.rooms if @conference.venue
-    unless @program.selected_schedule.present? && @program.events.scheduled(@program.selected_schedule).any?
+    unless @program.selected_schedule.present? && @program.events.scheduled(@program.selected_schedule.id).any?
       redirect_to events_conference_path(@conference.short_title)
     end
 
     @events = @conference.program.events
-    @events_xml = @program.schedules.find(@program.selected_schedule).event_schedules.order(start_time: :asc)
-                  .map(&:event).group_by{ |event| event.scheduled_start_time.to_date } if program.selected_schedule.present?
+    @events_xml = @program.selected_schedule.event_schedules.order(start_time: :asc).map(&:event)
+                  .group_by{ |event| event.scheduled_start_time.to_date } if @program.selected_schedule.present?
     @dates = @conference.start_date..@conference.end_date
     @step_minutes = EventType::LENGTH_STEP.minutes
     @conf_start = 9
@@ -38,7 +38,7 @@ class ConferenceController < ApplicationController
     @dates = @conference.start_date..@conference.end_date
 
     if @program.selected_schedule.present?
-      @events_schedules = @program.schedules.find(@program.selected_schedule).event_schedules.order(start_time: :asc)
+      @events_schedules = @program.selected_schedule.event_schedules.order(start_time: :asc)
     else
       @events_schedules = []
     end

@@ -4,6 +4,6 @@ class CreateSchedules < ActiveRecord::Migration
       t.belongs_to :program, index: true
       t.timestamps null: false
     end
-    add_column :programs, :selected_schedule, :integer # Selected schedule ID
+    add_reference :programs, :selected_schedule, index: true
   end
 end
