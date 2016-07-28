@@ -14,11 +14,7 @@ describe Payment do
       expect(build(:payment)).to be_valid
     end
 
-    it { is_expected.to validate_presence_of(:last4) }
-
     it { is_expected.to validate_presence_of(:amount) }
-
-    it { is_expected.to validate_presence_of(:authorization_code) }
 
     it { is_expected.to validate_presence_of(:status) }
 
@@ -37,8 +33,17 @@ describe Payment do
     it 'is valid with a amount greater than zero' do
       should allow_value(1).for(:amount)
     end
-
   end
 
-  describe 'self#purchase'
+  describe '#amount_to_pay' do
+    let!(:user) { create(:user) }
+    let!(:conference) { create(:conference) }
+    let(:ticket_1) { create(:ticket, price: 10, price_currency: 'USD', conference: conference) }
+    let(:payment) { create(:payment, user: user, conference: conference) }
+
+    it ' returns correct unpaid amount' do
+      create(:ticket_purchase, ticket: ticket_1, user: user, quantity: 8)
+      expect(payment.amount_to_pay).to eq(8000)
+    end
+  end
 end

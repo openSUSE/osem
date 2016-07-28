@@ -6,8 +6,6 @@ class Payment < ActiveRecord::Base
   attr_accessor :stripeEmail
   attr_accessor :stripeToken
 
-  validates :last4, presence: true
-  validates :authorization_code, presence: true
   validates :status, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :user_id, presence: true
@@ -24,24 +22,26 @@ class Payment < ActiveRecord::Base
   end
 
   def purchase
-    customer = Stripe::Customer.create email: stripeEmail,
-                                       source: stripeToken,
-                                       description: user.name
+    begin
+      customer = Stripe::Customer.create email: stripeEmail,
+                                         source: stripeToken,
+                                         description: user.name
 
-    gateway_response = Stripe::Charge.create customer: customer.id,
-                                             receipt_email: stripeEmail,
-                                             description: 'ticket purchases',
-                                             amount: amount_to_pay,
-                                             currency: conference.tickets.first.price_currency
+      gateway_response = Stripe::Charge.create customer: customer.id,
+                                               receipt_email: stripeEmail,
+                                               description: 'ticket purchases',
+                                               amount: amount_to_pay,
+                                               currency: conference.tickets.first.price_currency
 
-    self.amount = gateway_response[:amount]
-    self.last4 = gateway_response[:source][:last4]
-    self.authorization_code = gateway_response[:id]
-    self.status = 'success'
-    true
+      self.last4 = gateway_response[:source][:last4]
+      self.authorization_code = gateway_response[:id]
+      self.status = 'success'
+      true
 
-  rescue Stripe::CardError => e
-    flash[:error] = e.message
-    false
+    rescue => error
+      errors.add(:base, error.message)
+      self.status = 'failure'
+      false
+    end
   end
 end

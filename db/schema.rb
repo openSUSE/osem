@@ -265,7 +265,7 @@ ActiveRecord::Schema.define(version: 20160704092023) do
 
   create_table "payments", force: :cascade do |t|
     t.string   "last4"
-    t.integer  "amount"
+    t.integer  "amount",                         null: false
     t.string   "authorization_code"
     t.integer  "status",             default: 0, null: false
     t.integer  "user_id",                        null: false
