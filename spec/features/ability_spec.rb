@@ -69,8 +69,8 @@ feature 'Has correct abilities' do
     visit admin_conference_program_events_path(conference1.short_title)
     expect(current_path).to eq(admin_conference_program_events_path(conference1.short_title))
 
-    visit admin_conference_schedule_path(conference1.short_title)
-    expect(current_path).to eq(admin_conference_schedule_path(conference1.short_title))
+    visit admin_conference_schedule_index_path(conference1.short_title)
+    expect(current_path).to eq(admin_conference_schedule_index_path(conference1.short_title))
 
     visit admin_conference_campaigns_path(conference1.short_title)
     expect(current_path).to eq(admin_conference_campaigns_path(conference1.short_title))
@@ -147,8 +147,8 @@ feature 'Has correct abilities' do
     visit admin_conference_program_events_path(conference2.short_title)
     expect(current_path).to eq(admin_conference_program_events_path(conference2.short_title))
 
-    visit admin_conference_schedule_path(conference2.short_title)
-    expect(current_path).to eq(admin_conference_schedule_path(conference2.short_title))
+    visit admin_conference_schedule_index_path(conference2.short_title)
+    expect(current_path).to eq(root_path)
 
     visit admin_conference_campaigns_path(conference2.short_title)
     expect(current_path).to eq(root_path)
@@ -221,7 +221,7 @@ feature 'Has correct abilities' do
     visit admin_conference_program_events_path(conference3.short_title)
     expect(current_path).to eq(root_path)
 
-    visit admin_conference_schedule_path(conference3.short_title)
+    visit admin_conference_schedule_index_path(conference3.short_title)
     expect(current_path).to eq(root_path)
 
     visit admin_conference_campaigns_path(conference3.short_title)

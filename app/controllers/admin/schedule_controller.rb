@@ -1,38 +1,50 @@
 module Admin
-  class SchedulesController < Admin::BaseController
+  class ScheduleController < Admin::BaseController
     # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to
     # the schedule of a conference, which should not be accessed in the first place
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_resource :venue, through: :conference, singleton: true
 
-    skip_before_filter :verify_authenticity_token, only: [:update]
+    skip_before_action :verify_authenticity_token, only: [:update]
+
+    def index
+      @schedules = @conference.program.schedules
+      @selected_schedule = @conference.program.selected_schedule
+    end
+
+    def create
+      new_schedule = @program.schedules.create
+      redirect_to action: 'show', id: new_schedule.id
+    end
 
     def show
-      event = @program.events.new
-      authorize! :update, event
-      event.destroy
-      if @conference.nil?
-        redirect_to admin_conference_index_path
-        return
-      end
+      authorize! :update, @program.events.new
+      @schedule_id = params[:id].to_i
+      schedule = Schedule.find(@schedule_id)
+      @event_schedules = schedule.event_schedules
+      @unscheduled_events = @program.events - schedule.event_schedules
+      @selected_schedule_id = @conference.program.selected_schedule.try(:id)
       @dates = @conference.start_date..@conference.end_date
-      if @venue && @venue.rooms.any?
-        @rooms = @venue.rooms
-      else
-        @rooms = [ Room.new(name: 'No Rooms!', size: 0) ]
-      end
-      # if there is not selected schedule we create it
-      unless @program.selected_schedule.present?
-        schedule = @program.schedules.create
-        @program.selected_schedule = schedule
-        @program.save!
-      end
-      @schedule_id = @program.selected_schedule.id
+      @rooms = (@venue && @venue.rooms.any?) ? @venue.rooms : [Room.new(name: 'No Rooms!', size: 0)]
     end
 
     def update
-      authorize! :update, @program.events.new
+      event = @program.events.new
+      authorize! :update, event
+      event.destroy
+      
+      if params[:selected_schedule].present?
+        if params[:selected_schedule] == 'true'
+          @program.selected_schedule_id = params[:id].to_i
+        elsif params[:selected_schedule] == 'false' && (@program.selected_schedule_id == params[:id].to_i)
+          @program.selected_schedule_id = nil
+        end
+        @program.save!
+        render json: { 'status' => 'ok' }
+        return
+      end
+
       event = Event.where(guid: params[:event]).first
       error_message = nil
       if event.nil?
@@ -74,11 +86,17 @@ module Admin
       render json: { 'status' => 'ok' }
     end
 
-    private
-
-    def event_params
-      params.require(:event).permit(:guid)
+    def destroy
+      if @schedule.destroy
+        redirect_to admin_conference_schedule_index_path(conference_id: @conference.short_title),
+                    notice: 'Schedule successfully deleted.'
+      else
+        redirect_to admin_conference_schedule_index_path(conference_id: @conference.short_title),
+                    error: "Schedule couldn't be deleted. #{@schedule.errors.full_messages.join('. ')}."
+      end
     end
+
+    private
 
     def room_params
       params.require(:room)

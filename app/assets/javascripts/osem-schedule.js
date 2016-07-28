@@ -71,7 +71,7 @@ var Schedule = {
     var e =  $("#" + element);
     var unscheduled = $(".unscheduled-events");
 
-    var url = '/admin/conference/' + conference + '/schedule';
+    var url = '/admin/conference/' + conference + '/schedule/' + schedule_id;
     var params = {
       event: e.attr("guid"),
       room: "none",
@@ -93,7 +93,7 @@ var Schedule = {
     });
   },
   save: function (event_id, room_id, date, time) {
-    var url = '/admin/conference/' + conference + '/schedule';
+    var url = '/admin/conference/' + conference + '/schedule/' + schedule_id;;
     var params = {
       event: event_id,
       room: room_id,
