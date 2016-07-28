@@ -14,10 +14,11 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
     @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
 
-    @payment = Payment.new payment_params.merge(amount: @total_amount_to_pay.cents,
+    @payment = Payment.new payment_params.merge(stripe_customer_email: params[:stripeEmail],
+                                                stripe_customer_token: params[:stripeToken],
+                                                amount: @total_amount_to_pay.cents,
                                                 user: current_user,
                                                 conference: @conference)
 
@@ -26,6 +27,7 @@ class PaymentsController < ApplicationController
       redirect_to conference_conference_registration_path(@conference.short_title), flash:
         { success: 'Thanks! You have purchased your tickets successfully.' }
     else
+      @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
       render :new
     end
   end
@@ -33,7 +35,7 @@ class PaymentsController < ApplicationController
   private
 
   def payment_params
-    params.permit :stripeEmail, :stripeToken
+    params.permit :stripe_customer_email, :stripe_customer_token
   end
 
   def update_purchased_ticket_purchases

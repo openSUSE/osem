@@ -3,8 +3,8 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   belongs_to :conference
 
-  attr_accessor :stripeEmail
-  attr_accessor :stripeToken
+  attr_accessor :stripe_customer_email
+  attr_accessor :stripe_customer_token
 
   validates :status, presence: true
   validates :amount, presence: true, numericality: { greater_than: 0 }
@@ -22,26 +22,24 @@ class Payment < ActiveRecord::Base
   end
 
   def purchase
-    begin
-      customer = Stripe::Customer.create email: stripeEmail,
-                                         source: stripeToken,
-                                         description: user.name
+    customer = Stripe::Customer.create email: stripe_customer_email,
+                                       source: stripe_customer_token,
+                                       description: user.name
 
-      gateway_response = Stripe::Charge.create customer: customer.id,
-                                               receipt_email: stripeEmail,
-                                               description: 'ticket purchases',
-                                               amount: amount_to_pay,
-                                               currency: conference.tickets.first.price_currency
+    gateway_response = Stripe::Charge.create customer: customer.id,
+                                             receipt_email: stripe_customer_email,
+                                             description: 'ticket purchases',
+                                             amount: amount_to_pay,
+                                             currency: conference.tickets.first.price_currency
 
-      self.last4 = gateway_response[:source][:last4]
-      self.authorization_code = gateway_response[:id]
-      self.status = 'success'
-      true
+    self.last4 = gateway_response[:source][:last4]
+    self.authorization_code = gateway_response[:id]
+    self.status = 'success'
+    true
 
-    rescue => error
-      errors.add(:base, error.message)
-      self.status = 'failure'
-      false
-    end
+  rescue => error
+    errors.add(:base, error.message)
+    self.status = 'failure'
+    false
   end
 end
