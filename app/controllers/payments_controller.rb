@@ -17,32 +17,23 @@ class PaymentsController < ApplicationController
     @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
     @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
 
-    customer = Stripe::Customer.create(
-      :email => params[:stripeEmail],
-      :source  => params[:stripeToken]
-    )
+    @payment = Payment.new payment_params.merge(user: current_user, conference: @conference)
+    @payment.purchase
+    @payment.save
 
-    gateway_response = Stripe::Charge.create(
-      :customer    => customer.id,
-      :amount      => @total_amount_to_pay.cents,
-      :description => 'Rails Stripe customer',
-      :currency    => @conference.tickets.first.price_currency
-    )
+    update_purchased_ticket_purchases
 
-    payment = Payment.purchase(gateway_response, current_user, @conference)
-    update_purchased_ticket_purchases(payment)
-
-    redirect_to conference_conference_registration_path(@conference.short_title),
-      flash: { success: 'Thanks! You have purchased your tickets successfully.' }
-
-    rescue Stripe::CardError => e
-      flash[:error] = e.message
-      render 'new'
+    redirect_to conference_conference_registration_path(@conference.short_title), flash:
+      { success: 'Thanks! You have purchased your tickets successfully.' }
   end
 
-private
+  private
 
-  def update_purchased_ticket_purchases(payment)
-    current_user.ticket_purchases.by_conference(@conference).unpaid.update_all(paid: true, payment_id: payment.id)
+  def payment_params
+    params.permit :stripeEmail, :stripeToken
+  end
+
+  def update_purchased_ticket_purchases
+    current_user.ticket_purchases.by_conference(@conference).unpaid.update_all(paid: true, payment_id: @payment.id)
   end
 end

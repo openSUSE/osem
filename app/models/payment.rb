@@ -3,6 +3,9 @@ class Payment < ActiveRecord::Base
   belongs_to :user
   belongs_to :conference
 
+  attr_accessor :stripeEmail
+  attr_accessor :stripeToken
+
   validates :last4, presence: true
   validates :authorization_code, presence: true
   validates :status, presence: true
@@ -16,12 +19,29 @@ class Payment < ActiveRecord::Base
     failure: 2
   }
 
-  def self.purchase(gateway_response, user, conference)
-    create(last4: gateway_response[:source][:last4],
-           amount: gateway_response[:amount],
-           status: (gateway_response[:paid] ? 1 : 0),
-           authorization_code: gateway_response[:id],
-           user_id: user.id,
-           conference_id: conference.id)
+  def amount_to_pay
+    Ticket.total_price(conference, user, paid: false).cents
+  end
+
+  def purchase
+    customer = Stripe::Customer.create email: stripeEmail,
+                                       source: stripeToken,
+                                       description: user.name
+
+    gateway_response = Stripe::Charge.create customer: customer.id,
+                                             receipt_email: stripeEmail,
+                                             description: 'ticket purchases',
+                                             amount: amount_to_pay,
+                                             currency: conference.tickets.first.price_currency
+
+    self.amount = gateway_response[:amount]
+    self.last4 = gateway_response[:source][:last4]
+    self.authorization_code = gateway_response[:id]
+    self.status = 'success'
+    true
+
+  rescue Stripe::CardError => e
+    flash[:error] = e.message
+    false
   end
 end
