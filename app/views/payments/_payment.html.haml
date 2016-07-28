@@ -25,11 +25,12 @@
     %li
       %a
         = humanized_money_with_symbol @total_amount_to_pay
-  %script.stripe-button{"data-amount" => @total_amount_to_pay.cents,
-    "data-currency" => @total_amount_to_pay.currency,
-    "data-image" => image_url('suse.svg'),
-    "data-name" => ENV['OSEM_NAME'] || 'OSEM',
-    "data-description" => "book your tickets",
-    "data-key" => "#{Rails.configuration.stripe[:publishable_key]}",
-    "data-locale" => "auto", :src => "https://checkout.stripe.com/checkout.js"}
+  %script.stripe-button{ src: "https://checkout.stripe.com/checkout.js",
+        data: { amount: @total_amount_to_pay.cents,
+          currency: @total_amount_to_pay.currency,
+          image: image_url('OSEM_ICON.jpg'),
+          name: ENV['OSEM_NAME'] || 'OSEM',
+          description: "book your tickets",
+          key: Rails.application.secrets.stripe_publishable_key,
+          locale: "auto"}}
   = link_to 'Edit Purchase', conference_tickets_path(@conference.short_title), class: 'btn btn-primary'
