@@ -2,6 +2,7 @@ module Admin
   class ScheduleController < Admin::BaseController
     # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to
     # the schedule of a conference, which should not be accessed in the first place
+    load_and_authorize_resource :schedule
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_resource :venue, through: :conference, singleton: true
@@ -19,7 +20,6 @@ module Admin
     end
 
     def show
-      authorize! :update, @program.events.new
       @schedule_id = params[:id].to_i
       @selected_schedule_id = @conference.program.selected_schedule.try(:id)
       @dates = @conference.start_date..@conference.end_date
@@ -27,10 +27,6 @@ module Admin
     end
 
     def update
-      event = @program.events.new
-      authorize! :update, event
-      event.destroy
-
       if params[:selected_schedule].present?
         if params[:selected_schedule] == 'true'
           @program.selected_schedule_id = params[:id].to_i
