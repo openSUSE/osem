@@ -13,7 +13,7 @@ class EmailSettings < ActiveRecord::Base
       'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
                                   conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
 
-      'schedule_link' => Rails.application.routes.url_helpers.schedule_conference_url(
+      'schedule_link' => Rails.application.routes.url_helpers.conference_schedule_url(
                          conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
     }
 
