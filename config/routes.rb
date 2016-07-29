@@ -112,10 +112,10 @@ Osem::Application.routes.draw do
     resources :tickets, only: [:index]
     resources :ticket_purchases, only: [:create, :destroy]
     resource :subscriptions, only: [:create, :destroy]
-
-    member do
-      get :schedule
-      get :events
+    resource :schedule, only: [:show] do
+      member do
+        get :events
+      end
     end
   end
 
