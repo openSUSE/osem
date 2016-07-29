@@ -383,7 +383,7 @@ module ApplicationHelper
       reverse.sub(',', ' dna ').reverse
   end
 
-  def change_creator_link(user_id)
+  def link_to_user(user_id)
     user = User.find_by(id: user_id)
     if user
       link_to user.name, admin_user_path(id: user_id)
@@ -479,16 +479,16 @@ module ApplicationHelper
 
   def user_change_description(version)
     if version.event == 'create'
-     change_creator_link(version.item_id) + ' signed up'
+     link_to_user(version.item_id) + ' signed up'
     elsif version.event == 'update'
       if version.changeset.keys.include?('reset_password_sent_at')
         'Someone requested password reset of'
       elsif version.changeset.keys.include?('confirmed_at') && version.changeset['confirmed_at'][0].nil?
-        (version.whodunnit.nil? ? change_creator_link(version.item_id) : change_creator_link(version.whodunnit)) + ' confirmed account of'
+        (version.whodunnit.nil? ? link_to_user(version.item_id) : link_to_user(version.whodunnit)) + ' confirmed account of'
       elsif version.changeset.keys.include?('confirmed_at') && version.changeset['confirmed_at'][1].nil?
-        change_creator_link(version.whodunnit) + ' unconfirmed account of'
+        link_to_user(version.whodunnit) + ' unconfirmed account of'
       else
-        change_creator_link(version.whodunnit) + " updated #{updated_attributes(version)} of"
+        link_to_user(version.whodunnit) + " updated #{updated_attributes(version)} of"
       end
     end
   end

@@ -58,7 +58,7 @@ feature Commercial do
       sign_out
     end
 
-    scenario 'adds a valid commercial of an event', feature: true, js: true do
+    scenario 'adds a valid commercial of an event', feature: true, versioning: true, js: true do
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
@@ -85,7 +85,7 @@ feature Commercial do
       expect(event.commercials.count).to eq 0
     end
 
-    scenario 'updates a commercial of an event', feature: true, js: true do
+    scenario 'updates a commercial of an event', feature: true, versioning: true, js: true do
       commercial = create(:commercial,
                           commercialable_id: event.id,
                           commercialable_type: 'Event')
@@ -99,7 +99,7 @@ feature Commercial do
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=M9bq_alk-sw')
     end
 
-    scenario 'does not update a commercial of an event with invalid data', feature: true, js: true do
+    scenario 'does not update a commercial of an event with invalid data', feature: true, versioning: true, js: true do
       commercial = create(:commercial,
                           commercialable_id: event.id,
                           commercialable_type: 'Event')
@@ -113,7 +113,7 @@ feature Commercial do
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=BTTygyxuGj8')
     end
 
-    scenario 'deletes a commercial of an event', feature: true, js: true do
+    scenario 'deletes a commercial of an event', feature: true, versioning: true, js: true do
       create(:commercial,
              commercialable_id: event.id,
              commercialable_type: 'Event')

@@ -17,7 +17,7 @@
           = version.id
         %td.col-md-9
           %p
-            = change_creator_link(version.whodunnit) unless version.item_type == 'User'
+            = link_to_user(version.whodunnit) unless version.item_type == 'User'
 
             - case version.item_type
             - when 'Event'

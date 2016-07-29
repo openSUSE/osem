@@ -21,7 +21,7 @@
                   = version.id
                 %td
                   %p
-                    = change_creator_link(version.whodunnit)
+                    = link_to_user(version.whodunnit)
 
                     - if version.item_type == 'Event'
                       = event_change_description(version)

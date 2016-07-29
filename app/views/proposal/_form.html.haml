@@ -40,3 +40,6 @@
                         - if can? :destroy, commercial
                           = link_to 'Delete', conference_program_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
                           :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
+                    .text-right
+                      = "added by "
+                      = link_to_user(commercial.versions.last.whodunnit)
