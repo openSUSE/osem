@@ -8,32 +8,39 @@ var Schedule = {
   },
   remove: function(element) {
     var e =  $("#" + element);
-    var unscheduled = $(".unscheduled-events");
-    var url = '/admin/conference/' + conference + '/schedule/' + schedule_id;
-    var params = {
-      event: e.attr("guid"),
-      room: "none",
-      date: "none",
-      time: "none",
-      schedule: schedule_id
-    };
-    var callback = function(data) {
-      console.log(data);
-      e.appendTo(unscheduled);
-      e.find(".schedule-event-delete-button").hide();
+    var event_schedule_id = e.attr("event_schedule_id");
+    if(event_schedule_id != null){
+      var url = '/admin/conference/' + conference + '/event_schedule/' + event_schedule_id;
+      var params = {
+        event: e.attr("guid"),
+        schedule: schedule_id
+      };
+      var callback = function(data) {
+        console.log(data);
+        e.attr("event_schedule_id", null);
+      }
+      $.ajax({
+        url: url,
+        type: 'DELETE',
+        data: params,
+        success: callback,
+        dataType : 'json'
+      });
     }
-    $.ajax({
-      url: url,
-      type: 'PUT',
-      data: params,
-      success: callback,
-      dataType : 'json'
-    });
+    var unscheduled = $(".unscheduled-events");
+    e.appendTo(unscheduled);
+    e.find(".schedule-event-delete-button").hide();
   },
-  add: function (event_id, room_id, date, time) {
-    var url = '/admin/conference/' + conference + '/schedule/' + schedule_id;;
+  add: function (event_id, room_id, date, time, event_schedule_id) {
+    var url = '/admin/conference/' + conference + '/event_schedule';
+    var type = 'POST'
+    if(event_schedule_id != null){
+      type = 'PUT';
+      url += ('/' + event_schedule_id);
+    }
     var params = {
       event: event_id,
+      schedule: schedule_id,
       room: room_id,
       date: date,
       time: time,
@@ -41,11 +48,13 @@ var Schedule = {
     };
     var callback = function(data) {
       console.log(data);
-      $("#event-" + event_id).find(".schedule-event-delete-button").show();
+      var e =  $("#event-" + event_id);
+      e.attr("event_schedule_id", data.event_schedule_id);
+      e.find(".schedule-event-delete-button").show();
     }
     $.ajax({
       url: url,
-      type: 'PUT',
+      type: type,
       data: params,
       success: callback,
       dataType : 'json'
@@ -84,10 +93,11 @@ $(document).ready( function() {
         var myRoom = $(this).attr("room-guid")
         var myDate = $(this).attr("date");
         var myTime = $(this).attr("hour");
+        var myEventSchedule = $(ui.draggable).attr("event_schedule_id");
         $(ui.draggable).css("left", 0);
         $(ui.draggable).css("top", 0);
         $(this).css("background-color", "#ffffff");
-        Schedule.add(myId, myRoom, myDate, myTime);
+        Schedule.add(myId, myRoom, myDate, myTime, myEventSchedule);
     },
     over: function(event, ui) {
       $(this).css("background-color", "#009ED8");
