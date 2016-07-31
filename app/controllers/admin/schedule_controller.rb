@@ -37,48 +37,7 @@ module Admin
           @program.selected_schedule_id = nil
         end
         @program.save!
-        render json: { 'status' => 'ok' }
-        return
       end
-
-      event = Event.where(guid: params[:event]).first
-      error_message = nil
-      if event.nil?
-        error_message = "Could not find event GUID: #{params[:event]}"
-      end
-
-      event_schedule = event.event_schedules.find_by(schedule_id: params[:schedule])
-
-      if params[:date] == 'none'
-        event_schedule.destroy if event_schedule.present?
-        render json: { 'status' => 'ok' }
-        return
-      end
-
-      Rails.logger.debug(event_schedule.present?.to_s)
-      event_schedule = event.event_schedules.new(schedule_id: params[:schedule]) unless event_schedule.present?
-      room = Room.where(guid: room_params).first
-
-      if room.nil?
-        error_message = "Could not find room GUID: #{params[:room]}"
-      end
-
-      unless error_message.nil?
-        render json: { 'status' => 'error', 'message' => error_message }, status: 500
-        return
-      end
-
-      event_schedule.room = room
-      time = "#{params[:date]} #{params[:time]}"
-
-      Rails.logger.debug("Loading #{time}")
-      # FIXME: Same here as in events_controller.rb. Event timezone should be applied
-      # only on output
-      # zone = ActiveSupport::TimeZone::new(@conference.timezone)
-      # start_time = DateTime.strptime(time + zone.formatted_offset, "%Y-%m-%d %k:%M %Z")
-      start_time = DateTime.strptime(time, '%Y-%m-%d %k:%M')
-      event_schedule.start_time = start_time
-      event_schedule.save!
       render json: { 'status' => 'ok' }
     end
 
@@ -90,12 +49,6 @@ module Admin
         redirect_to admin_conference_schedule_index_path(conference_id: @conference.short_title),
                     error: "Schedule couldn't be deleted. #{@schedule.errors.full_messages.join('. ')}."
       end
-    end
-
-    private
-
-    def room_params
-      params.require(:room)
     end
   end
 end

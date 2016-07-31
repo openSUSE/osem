@@ -17,4 +17,5 @@
             = time
           - event_schedules = room_date_event_schedules.select{ |e| (e.start_time.hour.to_s + e.start_time.strftime(':%M')).eql? time }
           - if event_schedules.any?
-            = render partial: 'event', locals: { event: event_schedules.first.event }
+            - event_schedule = event_schedules.first
+            = render partial: 'event', locals: { event: event_schedule.event, event_schedule_id: event_schedule.id}

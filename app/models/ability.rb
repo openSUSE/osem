@@ -144,6 +144,7 @@ class Ability
     can :manage, Vday, conference_id: conf_ids_for_organizer
     can :manage, Program, conference_id: conf_ids_for_organizer
     can :manage, Schedule, program: { conference_id: conf_ids_for_organizer }
+    can :manage, EventSchedule, schedule: { program: { conference_id: conf_ids_for_organizer } }
     can :manage, Cfp, program: { conference_id: conf_ids_for_organizer}
     can :manage, Event, program: { conference_id: conf_ids_for_organizer}
     can :manage, EventType, program: { conference_id: conf_ids_for_organizer}

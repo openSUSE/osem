@@ -18,7 +18,7 @@
       Unscheduled events
     .unscheduled-events
       - @unscheduled_events.each do |e|
-        = render partial: 'event', locals: { event: e }
+        = render partial: 'event', locals: { event: e, event_schedule_id: nil }
   .col-md-10
     %ul.nav.nav-tabs
       - @dates.each do |date|
