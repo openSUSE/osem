@@ -4,6 +4,11 @@
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right all-speaker-pic", |
                                         :alt => speaker.name, |
                                         :title => speaker.name |
+
+    %p
+      = canceled_replacement_event_label(event, event_schedule)
+      = replacement_event_notice(event, event_schedule)
+
     %span.h3
       = event.title
       %br
