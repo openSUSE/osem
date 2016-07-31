@@ -46,7 +46,13 @@ There are a couple of environment variables you can set to configure OSEM.
 | OSEM_SMTP_PASSWORD		| *string*			| The password for the smtp server
 | OSEM_SMTP_AUTHENTICATION	| plain, login or cram_md5      | The auth method for the smtp server
 | OSEM_SMTP_DOMAIN		| opensuse.org			| The HELO domain for the smtp server
-| CLOUDINARY_URL		| *sting*			| Configure your cloudinary.com cloud name and api key/secret
+| CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
+| STRIPE_PUBLISHABLE_KEY/STRIPE_SECRET_KEY    | *string*          | Publishable/Secret Keys for Stripe Gateway
+
+### Online Ticket Payments
+We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
+Our application uses iFrame for accepting your user's payment details without storing them making the application PCI SAQ-A Compliant.
+Please refer to [PAYMENTS](PAYMENTS.md) documentation file for setting up your stripe account and start accepting payments from your users.
 
 ## Dependencies
 
