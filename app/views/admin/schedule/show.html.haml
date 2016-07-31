@@ -17,6 +17,8 @@
     .h4
       Unscheduled events
     .unscheduled-events
+      - @unscheduled_events.each do |e|
+        = render partial: 'event', locals: { event: e }
   .col-md-10
     %ul.nav.nav-tabs
       - @dates.each do |date|
@@ -30,5 +32,5 @@
 
 :javascript
   $(document).ready( function() {
-    Schedule.loadEvents("#{@conference.short_title}", "#{@schedule_id}");
+    Schedule.initialize("#{@conference.short_title}", "#{@schedule_id}");
   });

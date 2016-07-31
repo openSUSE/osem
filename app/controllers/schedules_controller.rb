@@ -6,11 +6,11 @@ class SchedulesController < ApplicationController
 
   def show
     @rooms = @conference.venue.rooms if @conference.venue
-    unless @program.selected_schedule.present? && @program.events.scheduled(@program.selected_schedule.id).any?
+    schedules = @program.selected_event_schedules
+    unless schedules
       redirect_to events_conference_schedule_path(@conference.short_title)
     end
 
-    schedules = @program.selected_event_schedules
     @events_xml = schedules.map(&:event).group_by{ |event| event.scheduled_start_time.to_date } if schedules
     @dates = @conference.start_date..@conference.end_date
     @step_minutes = EventType::LENGTH_STEP.minutes
@@ -32,7 +32,11 @@ class SchedulesController < ApplicationController
     @events_schedules = @program.selected_event_schedules
     @events_schedules = [] unless @events_schedules
 
-    @unscheduled_events = @program.events.unscheduled(@program.selected_schedule.id)
+    @unscheduled_events = if @program.selected_schedule
+                            @program.events.confirmed - @program.selected_schedule.events
+                          else
+                            @program.events.confirmed
+                          end
 
     day = @conference.current_conference_day
     @tag = day.strftime('%Y-%m-%d') if day

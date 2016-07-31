@@ -21,6 +21,9 @@ module Admin
 
     def show
       @schedule_id = params[:id].to_i
+      schedule = Schedule.find(@schedule_id)
+      @event_schedules = schedule.event_schedules
+      @unscheduled_events = @program.events.confirmed - schedule.events
       @selected_schedule_id = @conference.program.selected_schedule.try(:id)
       @dates = @conference.start_date..@conference.end_date
       @rooms = (@venue && @venue.rooms.any?) ? @venue.rooms : [Room.new(name: 'No Rooms!', size: 0)]
@@ -44,7 +47,7 @@ module Admin
         error_message = "Could not find event GUID: #{params[:event]}"
       end
 
-      event_schedule = event.event_schedule(params[:schedule])
+      event_schedule = event.event_schedules.find_by(schedule_id: params[:schedule])
 
       if params[:date] == 'none'
         event_schedule.destroy if event_schedule.present?

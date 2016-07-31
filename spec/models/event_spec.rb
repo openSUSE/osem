@@ -259,27 +259,6 @@ describe Event do
     end
   end
 
-  describe '#as_json' do
-    it 'adds the event\'s track_color, track_text_color and length' do
-      create(:event_schedule, event: event)
-      event.track = create(:track, color: '#efefef')
-      json_hash = event.as_json
-
-      expect(json_hash[:track_color]).to eq('#EFEFEF')
-      expect(json_hash[:track_text_color]).to eq('black')
-      expect(json_hash[:length]).to eq(30)
-    end
-
-    it 'uses correct default values for track_color, track_text_color and length' do
-      event.event_type = nil
-      json_hash = event.as_json
-
-      expect(json_hash[:track_color]).to eq('#FFFFFF')
-      expect(json_hash[:track_text_color]).to eq('black')
-      expect(json_hash[:length]).to eq(15)
-    end
-  end
-
   describe '#transition_possible?(transition)' do
     shared_examples 'transition_possible?(transition)' do |state, transition, expected|
       it "returns #{expected} for #{transition} transition, when the event is #{state}}" do

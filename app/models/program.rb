@@ -32,10 +32,6 @@ class Program < ActiveRecord::Base
       joins(:event_schedules).where('event_schedules.schedule_id = ?', schedule_id)
     end
 
-    def unscheduled(schedule_id)
-      select{ |e| e.unscheduled?(schedule_id) }
-    end
-
     def highlights
       where(state: :confirmed, is_highlight: true)
     end
