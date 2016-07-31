@@ -23,11 +23,6 @@
           - if can? :schedule, @conference
             = link_to "Schedule", conference_schedule_path(@conference.short_title), :class =>"btn btn-success"
 
-      - if @event.state == 'canceled' || @event.state == 'withdrawn'
-        %span.label.label-danger CANCELED
-      - elsif @event.state == 'confirmed' && @event_schedule.present? && (!@event_schedule.intersecting_events.canceled.empty? || !@event_schedule.intersecting_events.withdrawn.empty?)
-        %span.label.label-info REPLACEMENT
-
   .row
     .col-md-3
       .speakerinfo
@@ -48,16 +43,9 @@
     .col-md-9
       .row
         .col-md-12
-          -if @event_schedule.present?
-            .lead
-              - if @event.state == 'confirmed' && !@event_schedule.intersecting_events.withdrawn.empty?
-                = "Please note that this talk replaces"
-                = link_to @event_schedule.intersecting_events.withdrawn.first.event.title,
-                      conference_program_proposal_path(@conference.short_title, @event_schedule.intersecting_events.withdrawn.first.event.id)
-              - elsif @event.state == 'confirmed' && !@event_schedule.intersecting_events.canceled.empty?
-                = "Please note that this talk replaces"
-                = link_to @event_schedule.intersecting_events.canceled.first.title,
-                      conference_program_proposal_path(@conference.short_title, @event_schedule.intersecting_events.canceled.first.event.id)
+          .lead
+            = canceled_replacement_event_label(@event, @event_schedule)
+            = replacement_event_notice(@event, @event_schedule)
 
           - if @event.commercials.empty?
             %h5.text-warning
