@@ -12,7 +12,14 @@ $(function () {
       pagingType: 'full_numbers',
       order: [[ 0, 'desc' ]]
     });
+
+    $('#userstable').DataTable({
+      pagingType: 'full_numbers',
+      processing: true,
+      serverSide: true,
+      sAjaxSource: $('#userstable').data('source'),
+      aoColumns: [ null, { "bSortable": false }, null, null, { "bSortable": false }, { "bSortable": false }, { "bSortable": false }, { "bSortable": false }]
+    });
   });
 });
-
 
