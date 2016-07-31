@@ -78,15 +78,6 @@ class Event < ActiveRecord::Base
     selected_event_schedule.present?
   end
 
-  ##
-  # Checkes if the event has a start_time and a room for the given schedule
-  # (given by its id) or for the selected one if there is any.
-  # ====Returns
-  # * +true+ or +false+
-  def unscheduled?(schedule_id)
-    state == 'confirmed' && !event_schedule(schedule_id).present?
-  end
-
   def registration_possible?
     return false unless require_registration && state == 'confirmed'
     return true if max_attendees.nil?
@@ -136,15 +127,6 @@ class Event < ActiveRecord::Base
       end
       user
     end
-  end
-
-  def as_json(options={})
-    json = super({ include: { event_schedules: { methods: [:room_guid] } } }.merge(options))
-    json[:track_color] = track.try(:color) || '#FFFFFF'
-    json[:track_text_color] = ApplicationController.helpers.contrast_color(json[:track_color])
-    json[:length] = event_type.try(:length) || EventType::LENGTH_STEP
-
-    json
   end
 
   def transition_possible?(transition)
@@ -261,11 +243,6 @@ class Event < ActiveRecord::Base
   #
   def scheduled_start_time
     selected_event_schedule.try(:start_time)
-  end
-
-  # returns the event_schedule for this event and the schedule given in case that it exists
-  def event_schedule(schedule_id)
-    event_schedules.find_by(schedule_id: schedule_id)
   end
 
   # returns the event_schedule for this event and for the selected_schedule
