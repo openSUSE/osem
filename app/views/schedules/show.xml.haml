@@ -16,10 +16,10 @@
           %room{ name: room.name }
             - events_in_rooms[room].each do |event|
               %event{ guid: event.guid, id: event.id }
-                %date= event.scheduled_start_time.iso8601
-                %start= event.scheduled_start_time.strftime('%H:%M')
+                %date= event.time.iso8601
+                %start= event.time.strftime('%H:%M')
                 %duration= length_timestamp(event.event_type.length)
-                %room= event.scheduled_room.name
+                %room= event.room.name
                 %type= event.event_type.name
                 %language= ISO_639.find_by_english_name(event.language).third if event.language
                 %slug= "#{event.id} #{event.title}".parameterize

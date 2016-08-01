@@ -11,7 +11,7 @@ class SchedulesController < ApplicationController
       redirect_to events_conference_schedule_path(@conference.short_title)
     end
 
-    @events_xml = schedules.map(&:event).group_by{ |event| event.scheduled_start_time.to_date } if schedules
+    @events_xml = schedules.map(&:event).group_by{ |event| event.time.to_date } if schedules
     @dates = @conference.start_date..@conference.end_date
     @step_minutes = EventType::LENGTH_STEP.minutes
     @conf_start = 9

@@ -15,7 +15,7 @@ describe EventSerializer, type: :serializer do
           abstract: '<p>Lorem ipsum dolor sit amet</p>',
           speaker_ids: [],
           type: 'Example Event Type',
-          scheduled_room: nil,
+          room: nil,
           track: nil
         }
       }.to_json
@@ -47,7 +47,7 @@ describe EventSerializer, type: :serializer do
           abstract: '<p>Lorem ipsum dolor sit amet</p>',
           speaker_ids: [speaker.user.id],
           type: 'Example Event Type',
-          scheduled_room: room.guid,
+          room: room.guid,
           track: track.guid
         }
       }.to_json

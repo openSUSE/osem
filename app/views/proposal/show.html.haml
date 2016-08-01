@@ -75,8 +75,8 @@
           .col-md-12
             %dt Room:
             %dd
-              - if @event.scheduled_room
-                = @event.scheduled_room.name
+              - if @event.room
+                = @event.room.name
           .col-md-12
             %dt Conference:
             %dd= @event.program.conference.title

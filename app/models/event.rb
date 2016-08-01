@@ -75,7 +75,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    selected_event_schedule.present?
+    event_schedules.find_by(schedule_id: program.selected_schedule_id).present?
   end
 
   def registration_possible?
@@ -234,20 +234,17 @@ class Event < ActiveRecord::Base
   ##
   # Returns the room in which the event is scheduled
   #
-  def scheduled_room
-    selected_event_schedule.try(:room)
+  def room
+    # We use try(:selected_schedule_id) because this function is used for
+    # validations so program could not be present there
+    event_schedules.find_by(schedule_id: program.try(:selected_schedule_id)).try(:room)
   end
 
   ##
   # Returns the start time at which this event is scheduled
   #
-  def scheduled_start_time
-    selected_event_schedule.try(:start_time)
-  end
-
-  # returns the event_schedule for this event and for the selected_schedule
-  def selected_event_schedule
-    event_schedules.find_by(schedule_id: program.try(:selected_schedule_id))
+  def time
+    event_schedules.find_by(schedule_id: program.selected_schedule_id).try(:start_time)
   end
 
   private
@@ -255,8 +252,8 @@ class Event < ActiveRecord::Base
   ##
   # Do not allow, for the event, more attendees than the size of the room
   def max_attendees_no_more_than_room_size
-    return unless scheduled_room && max_attendees_changed?
-    errors.add(:max_attendees, "cannot be more than the room's capacity (#{scheduled_room.size})") if max_attendees && (max_attendees > scheduled_room.size)
+    return unless room && max_attendees_changed?
+    errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
   end
 
   def abstract_limit
