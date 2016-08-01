@@ -23,7 +23,7 @@ class TicketPurchase < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       conference.tickets.each do |ticket|
         quantity = purchases[ticket.id.to_s].to_i
-        # if the user bought the ticket, just update the quantity
+        # if the user bought the ticket and is still unpaid, just update the quantity
         if ticket.bought?(user) && ticket.unpaid?(user)
           purchase = update_quantity(conference, quantity, ticket, user)
         else
@@ -39,10 +39,20 @@ class TicketPurchase < ActiveRecord::Base
   end
 
   def self.purchase_ticket(conference, quantity, ticket, user)
-    purchase = new(ticket_id: ticket.id,
-                   conference_id: conference.id,
-                   user_id: user.id,
-                   quantity: quantity) if quantity > 0
+    if quantity > 0
+      if ticket.price_cents.zero?
+        purchase = new(ticket_id: ticket.id,
+                       conference_id: conference.id,
+                       user_id: user.id,
+                       quantity: quantity,
+                       paid: true)
+      else
+        purchase = new(ticket_id: ticket.id,
+                       conference_id: conference.id,
+                       user_id: user.id,
+                       quantity: quantity)
+      end
+    end
     purchase
   end
 
