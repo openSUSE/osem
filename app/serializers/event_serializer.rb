@@ -1,10 +1,10 @@
 class EventSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attributes :guid, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :scheduled_room, :track
+  attributes :guid, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :selected_schedule_room, :track
 
   def scheduled_date
-    t = object.scheduled_start_time
+    t = object.selected_schedule_time
     t.blank? ? '' : %( #{I18n.l t, format: :short}#{t.formatted_offset(false)} )
   end
 
@@ -17,8 +17,8 @@ class EventSerializer < ActiveModel::Serializer
     object.event_type.try(:title)
   end
 
-  def scheduled_room
-    object.scheduled_room.try(:guid)
+  def selected_schedule_room
+    object.selected_schedule_room.try(:guid)
   end
 
   def track

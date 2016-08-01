@@ -11,7 +11,7 @@
         for
         = @event.title
 
-    - if @event.scheduled_room && (@event_registrations.length > @event.scheduled_room.size)
+    - if @event.selected_schedule_room && (@event_registrations.length > @event.selected_schedule_room.size)
       %b Attention:
       You have more registrations than the capacity of the room!
 

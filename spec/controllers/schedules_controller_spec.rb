@@ -16,8 +16,8 @@ describe SchedulesController do
 
       it 'assigns variables' do
         expect(assigns(:conference)).to eq conference
-        expect(assigns(:events_xml)).to eq conference.selected_event_schedules.map(&:event)
-                                           .group_by{ |event| event.scheduled_start_time.to_date }
+        expect(assigns(:events_xml)).to eq conference.program.selected_event_schedules.map(&:event)
+                                           .group_by{ |event| event.selected_schedule_time.to_date }
       end
 
       it 'renders successfully' do
