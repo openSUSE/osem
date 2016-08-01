@@ -4,7 +4,7 @@
       %h1 Commercials
       %p.text-muted
         Conference commercials will be displayed on the events in the
-        = link_to "schedule,", schedule_conference_path(@conference.short_title)
+        = link_to "schedule,", conference_schedule_path(@conference.short_title)
         if the event speaker didn't add an event commercial.
 - if can? :create, @conference.commercials.new
   .row

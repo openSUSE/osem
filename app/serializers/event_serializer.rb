@@ -1,11 +1,11 @@
 class EventSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attributes :guid, :title, :length, :date, :language, :abstract, :speaker_ids, :type, :room, :track
+  attributes :guid, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :selected_schedule_room, :track
 
-  def date
-    t = object.start_time
-    t.blank? ? '' : %{ #{I18n.l t, format: :short}#{t.formatted_offset(false)} }
+  def scheduled_date
+    t = object.selected_schedule_time
+    t.blank? ? '' : %( #{I18n.l t, format: :short}#{t.formatted_offset(false)} )
   end
 
   def speaker_ids
@@ -17,8 +17,8 @@ class EventSerializer < ActiveModel::Serializer
     object.event_type.try(:title)
   end
 
-  def room
-    object.room.try(:guid)
+  def selected_schedule_room
+    object.selected_schedule_room.try(:guid)
   end
 
   def track
@@ -34,7 +34,6 @@ class EventSerializer < ActiveModel::Serializer
     end
   end
 
-  # FIXME: duplicated logic from Event#as_json
   def length
     object.event_type.try(:length) || EventType::LENGTH_STEP
   end

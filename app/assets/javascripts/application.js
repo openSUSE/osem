@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.mobile.custom.min
+//= require jquery-ui.min
 //= require waypoints/jquery.waypoints
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
@@ -41,6 +42,7 @@
 //= require osem-commercials
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
+//= require osem-schedule
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

@@ -7,6 +7,8 @@ class Program < ActiveRecord::Base
   has_many :event_types, dependent: :destroy
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
+  has_many :schedules, dependent: :destroy
+  belongs_to :selected_schedule, class_name: 'Schedule'
   has_many :events, dependent: :destroy do
     def require_registration
       where(require_registration: true, state: :confirmed)
@@ -26,12 +28,8 @@ class Program < ActiveRecord::Base
       where(state: :confirmed)
     end
 
-    def scheduled
-      where.not(start_time: nil).where.not(room: nil).order(start_time: :asc)
-    end
-
-    def unscheduled
-      confirmed.where('start_time IS NULL OR room_id IS NULL')
+    def scheduled(schedule_id)
+      joins(:event_schedules).where('event_schedules.schedule_id = ?', schedule_id)
     end
 
     def highlights
@@ -58,6 +56,11 @@ class Program < ActiveRecord::Base
   before_create :create_event_types
   before_create :create_difficulty_levels
   validate :check_languages_format
+
+  # Returns all event_schedules for the selected schedule ordered by start_time
+  def selected_event_schedules
+    selected_schedule.event_schedules.order(start_time: :asc) if selected_schedule
+  end
 
   ##
   # Checks if blind_voting is enabled and if voting period is over
