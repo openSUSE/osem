@@ -175,10 +175,9 @@ module Admin
 
     def conference_wide_screen
       # To display sponsors in the conference wide information page
-      @conference = Conference.find_by(short_title: params[:id])
       @sponsors = @conference.sponsors
       @program = @conference.program
-      @current_events = @conference.program.events.confirmed.select(&:current?)
+      @current_events = @conference.program.events.current
       @tweets = twitter_client.search_tweets(15, @conference.contact.social_tag)
 
       respond_to do |format|

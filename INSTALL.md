@@ -52,16 +52,15 @@ There are a couple of environment variables you can set to configure OSEM.
 | CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
 | STRIPE_PUBLISHABLE_KEY    | *string*          | Publishable Key for Stripe Gateway
 | STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
+| OSEM_TWITTER_CONSUMER_KEY | *string* | To embed tweets about the conference in the conference wide page
+| OSEM_TWITTER_CONSUMER_SECRET | *string* | To embed tweets about the conference in the conference wide page
+| OSEM_TWITTER_ACCESS_TOKEN | *string* | To embed tweets about the conference in the conference wide page
+| OSEM_TWITTER_ACCESS_TOKEN_SECRET | *string* | To embed tweets about the conference in the conference wide page
 
 ### Online Ticket Payments
 We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
 Our application uses iFrame for accepting your user's payment details without storing them, making the application PCI SAQ-A Compliant.
 Please refer to [PAYMENTS](PAYMENTS.md) documentation file for setting up your stripe account and start accepting payments from your users.
-| CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
-| OSEM_TWITTER_CONSUMER_KEY | *string* | To embed tweets about the conference in the conference wide page
-| OSEM_TWITTER_CONSUMER_SECRET | *string* | To embed tweets about the conference in the conference wide page
-| OSEM_TWITTER_ACCESS_TOKEN | *string* | To embed tweets about the conference in the conference wide page
-| OSEM_TWITTER_ACCESS_TOKEN_SECRET | *string* | To embed tweets about the conference in the conference wide page
 
 ## Dependencies
 

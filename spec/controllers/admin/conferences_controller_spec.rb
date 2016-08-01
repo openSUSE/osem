@@ -165,18 +165,6 @@ describe Admin::ConferencesController do
       end
     end
 
-    describe 'GET #conference_wide_screen' do
-      it 'assigns the requested conference to conference' do
-        get :show, id: conference.short_title
-        expect(assigns(:conference)).to eq conference
-      end
-
-      it 'renders the conference_wide_screen page' do
-        get :conference_wide_screen, id: conference.short_title
-        expect(response).to render_template :conference_wide_screen
-      end
-    end
-
     describe 'GET #index' do
       context 'with more than 0 conferences' do
         it 'populates an array with conferences' do
@@ -286,18 +274,6 @@ describe Admin::ConferencesController do
         patch :update, id: conference.short_title,
                        conference: attributes_for(:conference,
                                                   short_title: 'ExCon')
-        expect(response).to redirect_to(send(path))
-        if message
-          expect(flash[:alert]).to match(/#{message}/)
-        end
-      end
-    end
-
-    describe 'GET #conference_wide_screen' do
-      it 'requires organizer privileges' do
-        get :conference_wide_screen, id: conference.short_title,
-                                     conference: attributes_for(:conference,
-                                                                short_title: 'ExCon')
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)

@@ -59,6 +59,18 @@
     },
     "RAILS_ENV": {
       "required": false
+    },
+    "OSEM_TWITTER_CONSUMER_KEY": {
+      "required": true
+    },
+    "OSEM_TWITTER_CONSUMER_SECRET": {
+      "required": true
+    },
+    "OSEM_TWITTER_ACCESS_TOKEN": {
+      "required": true
+    },
+    "OSEM_TWITTER_ACCESS_TOKEN_SECRET": {
+      "required": true
     }
   },
   "scripts": {

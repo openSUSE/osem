@@ -1,8 +1,14 @@
 .container
   .row
     .col-md-12.text-center
-      %h2 Conference Tweets
-      - @tweets.each do |tweet|
-        %div#tweet
-          = tweet.user.name
-          = tweet.text 
+      %h2
+        = "#" + @conference.contact.social_tag + " Tweets"
+      %div#tweet-container
+        - @tweets.each do |tweet|
+          %div#tweet
+            %blockquote.twitter-tweet
+              %p{:lang => "en"}
+                = tweet.text
+              = link_to "— @" + tweet.user.name, "http://www.twitter.com/#{tweet.user.name}",  target: "_blank"
+              = link_to tweet.url, tweet.url.to_s
+            

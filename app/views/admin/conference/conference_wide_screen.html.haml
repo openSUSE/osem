@@ -6,11 +6,11 @@
       - if @conference.description.present?
         %h3
           = @conference.description
-  - if @program.present?
-    .row
+  - if @current_events.present?
+    .row#current-events
       = render 'current_events'
   - if @conference.contact.social_tag.present? && @tweets.present?
-    .row
+    .row#conference-tweets
       = render 'conference_tweets'
   - if @sponsors.any?
     = render 'sponsors'

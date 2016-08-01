@@ -1,1 +1,4 @@
 $('#current-events').html("#{escape_javascript(render 'current_events', data: @current_events)}");
+$('#conference-tweets').html("#{escape_javascript(render 'conference_tweets', data: @tweets)}");
+$('#tweet-container').children().hide();
+$('#tweet-container').children().eq(0).show();
