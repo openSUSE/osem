@@ -48,6 +48,7 @@ There are a couple of environment variables you can set to configure OSEM.
 | OSEM_SMTP_DOMAIN		| opensuse.org			| The HELO domain for the smtp server
 | CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
 | STRIPE_PUBLISHABLE_KEY/STRIPE_SECRET_KEY    | *string*          | Publishable/Secret Keys for Stripe Gateway
+| OSEM_ICON    | *string*          | Sharable link for your organisation's icon
 
 ### Online Ticket Payments
 We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.

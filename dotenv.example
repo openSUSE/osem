@@ -9,6 +9,9 @@
 # The name of your page
 OSEM_NAME="OSEM"
 
+# The shareable link of your organisation's icon image
+OSEM_ICON=''
+
 # The host this OSEM instance runs on. Used for
 # generating urls in emails sent
 OSEM_HOSTNAME="localhost:3000"
