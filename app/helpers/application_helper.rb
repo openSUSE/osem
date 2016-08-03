@@ -366,4 +366,8 @@ module ApplicationHelper
     end
     item_class
   end
+
+  def selected_scheduled?(schedule)
+    (schedule == @selected_schedule) ? 'Yes' : 'No'
+  end
 end

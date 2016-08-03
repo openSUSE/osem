@@ -18,7 +18,7 @@
               Schedule
               = schedule.id
             %td
-              = (schedule == @selected_schedule) ? 'Yes' : 'No'
+              = selected_scheduled?(schedule)
             %td
               .btn-group{role: "group"}
                 = link_to 'Show', admin_conference_schedule_path(@conference.short_title, schedule.id),
