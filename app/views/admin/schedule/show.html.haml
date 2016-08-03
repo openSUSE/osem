@@ -9,7 +9,7 @@
   .col-md-2
     Selected schedule
     = check_box_tag @conference.short_title, @schedule_id, (@schedule_id == @selected_schedule_id),
-      method: :put, url: "/admin/conference/#{@conference.short_title}/schedule/#{@schedule_id}?selected_schedule=",
+      method: :put, url: (admin_conference_schedule_path(@conference.short_title, @schedule_id) + '?selected_schedule='),
       class: 'switch-checkbox', data: { size: 'small',
                                         off_color: 'warning',
                                         on_text: 'Yes',
@@ -32,5 +32,5 @@
 
 :javascript
   $(document).ready( function() {
-    Schedule.initialize("#{@conference.short_title}", "#{@schedule_id}");
+    Schedule.initialize("#{admin_conference_event_schedule_index_path(@conference)}", "#{@schedule_id}");
   });

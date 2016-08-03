@@ -1,16 +1,16 @@
-var conference; // Should be initialize in Schedule.initialize
+var url; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
 var Schedule = {
-  initialize: function(conference_param, schedule_id_param) {
-    conference = conference_param;
+  initialize: function(url_param, schedule_id_param) {
+    url = url_param;
     schedule_id = schedule_id_param;
   },
   remove: function(element) {
     var e =  $("#" + element);
     var event_schedule_id = e.attr("event_schedule_id");
     if(event_schedule_id != null){
-      var url = '/admin/conference/' + conference + '/event_schedule/' + event_schedule_id;
+      var my_url = url + '/' + event_schedule_id;
       var params = {
         event: e.attr("guid"),
         schedule: schedule_id
@@ -20,7 +20,7 @@ var Schedule = {
         e.attr("event_schedule_id", null);
       }
       $.ajax({
-        url: url,
+        url: my_url,
         type: 'DELETE',
         data: params,
         success: callback,
@@ -32,19 +32,18 @@ var Schedule = {
     e.find(".schedule-event-delete-button").hide();
   },
   add: function (event_id, room_id, date, time, event_schedule_id) {
-    var url = '/admin/conference/' + conference + '/event_schedule';
+    my_url = url;
     var type = 'POST'
     if(event_schedule_id != null){
       type = 'PUT';
-      url += ('/' + event_schedule_id);
+      my_url += ('/' + event_schedule_id);
     }
     var params = {
       event: event_id,
       schedule: schedule_id,
       room: room_id,
       date: date,
-      time: time,
-      schedule: schedule_id
+      time: time
     };
     var callback = function(data) {
       console.log(data);
@@ -53,7 +52,7 @@ var Schedule = {
       e.find(".schedule-event-delete-button").show();
     }
     $.ajax({
-      url: url,
+      url: my_url,
       type: type,
       data: params,
       success: callback,
