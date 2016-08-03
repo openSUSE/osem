@@ -10,7 +10,7 @@
         - minutes = (15 * (slot % 4) == 0) ? '00' : 15 * (slot % 4)
         - time = "#{hour}:#{minutes}"
         .schedule-room-slot{ id: "schedule-room-#{room.guid}-#{hour}-#{minutes}", |
-                             "room-guid" => room.guid, |
+                             room_id: room.id, |
                              hour: time, |
                              date: date}
           .div

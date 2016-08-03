@@ -12,8 +12,8 @@ var Schedule = {
     if(event_schedule_id != null){
       var my_url = url + '/' + event_schedule_id;
       var params = {
-        event: e.attr("guid"),
-        schedule: schedule_id
+        event: e.attr("id"),
+        schedule_id: schedule_id
       };
       var callback = function(data) {
         console.log(data);
@@ -38,13 +38,12 @@ var Schedule = {
       type = 'PUT';
       my_url += ('/' + event_schedule_id);
     }
-    var params = {
-      event: event_id,
-      schedule: schedule_id,
-      room: room_id,
-      date: date,
-      time: time
-    };
+    var params = { event_schedule: {
+      event_id: event_id,
+      schedule_id: schedule_id,
+      room_id: room_id,
+      start_time: (date + ' ' + time)
+    }};
     var callback = function(data) {
       console.log(data);
       var e =  $("#event-" + event_id);
@@ -88,8 +87,8 @@ $(document).ready( function() {
     tolerance: "pointer",
     drop: function(event, ui) {
         $(ui.draggable).appendTo(this);
-        var myId = $(ui.draggable).attr("guid");
-        var myRoom = $(this).attr("room-guid")
+        var myId = $(ui.draggable).attr("event_id");
+        var myRoom = $(this).attr("room_id")
         var myDate = $(this).attr("date");
         var myTime = $(this).attr("hour");
         var myEventSchedule = $(ui.draggable).attr("event_schedule_id");
