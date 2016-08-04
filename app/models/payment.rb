@@ -7,7 +7,6 @@ class Payment < ActiveRecord::Base
   attr_accessor :stripe_customer_token
 
   validates :status, presence: true
-  validates :amount, presence: true, numericality: { greater_than: 0 }
   validates :user_id, presence: true
   validates :conference_id, presence: true
 
@@ -22,13 +21,9 @@ class Payment < ActiveRecord::Base
   end
 
   def purchase
-    customer = Stripe::Customer.create email: stripe_customer_email,
-                                       source: stripe_customer_token,
-                                       description: user.name
-
-    gateway_response = Stripe::Charge.create customer: customer.id,
+    gateway_response = Stripe::Charge.create source: stripe_customer_token,
                                              receipt_email: stripe_customer_email,
-                                             description: 'ticket purchases',
+                                             description: "ticket purchases(#{user.username})",
                                              amount: amount_to_pay,
                                              currency: conference.tickets.first.price_currency
 

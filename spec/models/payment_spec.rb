@@ -14,25 +14,11 @@ describe Payment do
       expect(build(:payment)).to be_valid
     end
 
-    it { is_expected.to validate_presence_of(:amount) }
-
     it { is_expected.to validate_presence_of(:status) }
 
     it { is_expected.to validate_presence_of(:user_id) }
 
     it { is_expected.to validate_presence_of(:conference_id) }
-
-    it 'is not valid with a amount equals zero' do
-      should_not allow_value(0).for(:amount)
-    end
-
-    it 'is not valid with a amount smaller than zero' do
-      should_not allow_value(-1).for(:amount)
-    end
-
-    it 'is valid with a amount greater than zero' do
-      should allow_value(1).for(:amount)
-    end
   end
 
   describe '#amount_to_pay' do
