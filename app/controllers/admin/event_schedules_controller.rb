@@ -3,18 +3,27 @@ module Admin
     load_and_authorize_resource :event_schedule
 
     def create
-      @event_schedule.save
-      render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+      if @event_schedule.save
+        render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+      else
+        render json: { 'status' => 'error' }
+      end
     end
 
     def update
-      @event_schedule.update(event_schedule_params)
-      render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+      if @event_schedule.update(event_schedule_params)
+        render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+      else
+        render json: { 'status' => 'error' }
+      end
     end
 
     def destroy
-      @event_schedule.destroy
-      render json: { 'status' => 'ok' }
+      if @event_schedule.destroy
+        render json: { 'status' => 'ok' }
+      else
+        render json: { 'status' => 'error' }
+      end
     end
 
     private

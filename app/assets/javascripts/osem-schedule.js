@@ -1,6 +1,7 @@
 var url; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
+var error_remove = "The event couldn't be unscheduled";
 var Schedule = {
   initialize: function(url_param, schedule_id_param) {
     url = url_param;
@@ -11,44 +12,53 @@ var Schedule = {
     var event_schedule_id = e.attr("event_schedule_id");
     if(event_schedule_id != null){
       var my_url = url + '/' + event_schedule_id;
-      var params = {
-        event: e.attr("id"),
-        schedule_id: schedule_id
-      };
       var callback = function(data) {
         console.log(data);
-        e.attr("event_schedule_id", null);
+        if(data.status == 'ok'){
+          e.attr("event_schedule_id", null);
+          e.appendTo($(".unscheduled-events"));
+          e.find(".schedule-event-delete-button").hide();
+        }
+        else{
+          alert(error_remove);
+        }
       }
       $.ajax({
         url: my_url,
         type: 'DELETE',
-        data: params,
         success: callback,
         dataType : 'json'
       });
     }
-    var unscheduled = $(".unscheduled-events");
-    e.appendTo(unscheduled);
-    e.find(".schedule-event-delete-button").hide();
+    else{
+        alert(error_remove);
+    }
   },
-  add: function (event_id, room_id, date, time, event_schedule_id) {
-    my_url = url;
-    var type = 'POST'
+  add: function (previous_parent, new_parent, event) {
+    var event_schedule_id = event.attr("event_schedule_id");
+    var my_url = url;
+    var type = 'POST';
     if(event_schedule_id != null){
       type = 'PUT';
       my_url += ('/' + event_schedule_id);
     }
     var params = { event_schedule: {
-      event_id: event_id,
+      event_id: event.attr("event_id"),
       schedule_id: schedule_id,
-      room_id: room_id,
-      start_time: (date + ' ' + time)
+      room_id: new_parent.attr("room_id"),
+      start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
     }};
     var callback = function(data) {
       console.log(data);
-      var e =  $("#event-" + event_id);
-      e.attr("event_schedule_id", data.event_schedule_id);
-      e.find(".schedule-event-delete-button").show();
+      if(data.status == 'ok'){
+        event.appendTo(new_parent);
+        event.attr("event_schedule_id", data.event_schedule_id);
+        event.find(".schedule-event-delete-button").show();
+      }
+      else{
+        event.appendTo(previous_parent);
+        alert("The event couldn't been scheduled");
+      }
     }
     $.ajax({
       url: my_url,
@@ -86,16 +96,10 @@ $(document).ready( function() {
     accept: '.schedule-event',
     tolerance: "pointer",
     drop: function(event, ui) {
-        $(ui.draggable).appendTo(this);
-        var myId = $(ui.draggable).attr("event_id");
-        var myRoom = $(this).attr("room_id")
-        var myDate = $(this).attr("date");
-        var myTime = $(this).attr("hour");
-        var myEventSchedule = $(ui.draggable).attr("event_schedule_id");
         $(ui.draggable).css("left", 0);
         $(ui.draggable).css("top", 0);
         $(this).css("background-color", "#ffffff");
-        Schedule.add(myId, myRoom, myDate, myTime, myEventSchedule);
+        Schedule.add($(ui.draggable).parent(), $(this), $(ui.draggable));
     },
     over: function(event, ui) {
       $(this).css("background-color", "#009ED8");
