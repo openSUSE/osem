@@ -9,8 +9,6 @@ module Admin
     load_resource :selected_schedule, through: :program, singleton: true
     load_resource :venue, through: :conference, singleton: true
 
-    skip_before_action :verify_authenticity_token, only: [:update]
-
     def index; end
 
     def create
@@ -27,16 +25,6 @@ module Admin
       @unscheduled_events = @program.events.confirmed - @schedule.events
       @dates = @conference.start_date..@conference.end_date
       @rooms = (@venue && @venue.rooms.any?) ? @venue.rooms : [Room.new(name: 'No Rooms!', size: 0)]
-    end
-
-    def update
-      if params[:selected_schedule] == 'true'
-        @program.selected_schedule_id = params[:id].to_i
-      elsif params[:selected_schedule] == 'false' && (@selected_schedule.id == params[:id].to_i)
-        @program.selected_schedule_id = nil
-      end
-      @program.save
-      render json: { 'status' => 'ok' }
     end
 
     def destroy

@@ -9,8 +9,8 @@
   .col-md-2
     Selected schedule
     = check_box_tag @conference.short_title, @schedule.id, (@schedule.id == @selected_schedule.try(:id)),
-      method: :put, url: (admin_conference_schedule_path(@conference.short_title, @schedule) + '?selected_schedule='),
-      class: 'switch-checkbox', data: { size: 'small',
+      method: :patch, url: (admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='),
+      class: 'switch-checkbox-schedule', data: { size: 'small',
                                         off_color: 'warning',
                                         on_text: 'Yes',
                                         off_text: 'No' }
