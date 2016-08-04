@@ -1,5 +1,5 @@
 module Admin
-  class EventScheduleController < Admin::BaseController
+  class EventSchedulesController < Admin::BaseController
     load_and_authorize_resource :event_schedule
 
     def create
