@@ -52,7 +52,7 @@ class Ability
 
       can [:new, :create], Registration do |registration|
         conference = registration.conference
-        conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
+        can_register?(conference)
       end
 
       can :show, Event do |event|
@@ -66,7 +66,7 @@ class Ability
     else
       can [:new, :create], Registration do |registration|
         conference = registration.conference
-        conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
+        can_register?(conference)
       end
     end
   end
@@ -242,4 +242,10 @@ class Ability
       (Conference.with_role(:volunteers_coordinator, user).pluck(:id).include? role.resource_id)
     end
   end
+end
+
+def can_register? conference
+  conference.registration_open? &&
+  registration.new_record? &&
+  !conference.registration_limit_exceeded?
 end
