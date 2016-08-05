@@ -12,7 +12,7 @@ class TicketPurchasesController < ApplicationController
                     notice: 'Please pay here to purchase tickets.'
       else
         redirect_to conference_tickets_path(@conference.short_title),
-                    error: 'Please purchase atleast one ticket to continue.'
+                    error: 'Please purchase at least one ticket to continue.'
       end
     else
       redirect_to conference_conference_registration_path(@conference.short_title),
