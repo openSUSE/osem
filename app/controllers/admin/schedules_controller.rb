@@ -13,7 +13,8 @@ module Admin
 
     def create
       if @schedule.save
-        redirect_to action: 'show', id: @schedule.id
+        redirect_to admin_conference_schedule_path(@conference.short_title, @schedule.id),
+                    notice: 'Schedule was successfully created.'
       else
         redirect_to admin_conference_schedules_path(conference_id: @conference.short_title),
                     error: 'Could not create schedule'

@@ -37,12 +37,12 @@
 //= require osem-datatables
 //= require osem-tickets
 //= require bootstrap-switch
+//= require osem-schedule
 //= require osem-switch
 //= require osem-bootstrap
 //= require osem-commercials
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
-//= require osem-schedule
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

@@ -24,7 +24,7 @@ $(function () {
 
     var callback = function(data) {
       if(data.status != 'ok'){
-        alert("The schedule couldn't been updated");
+        showError(data.status);
       }
     }
     $.ajax({

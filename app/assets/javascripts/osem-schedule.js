@@ -1,7 +1,12 @@
 var url; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
-var error_remove = "The event couldn't be unscheduled";
+function showError(error){
+  // Delete other error messages before showing the new one
+  $('.unobtrusive-flash-container').empty();
+  UnobtrusiveFlash.showFlashMessage(error, {type: 'error'});
+}
+
 var Schedule = {
   initialize: function(url_param, schedule_id_param) {
     url = url_param;
@@ -20,7 +25,7 @@ var Schedule = {
           e.find(".schedule-event-delete-button").hide();
         }
         else{
-          alert(error_remove);
+          showError(data.status);
         }
       }
       $.ajax({
@@ -31,7 +36,7 @@ var Schedule = {
       });
     }
     else{
-        alert(error_remove);
+      showError("The event couldn't be unscheduled");
     }
   },
   add: function (previous_parent, new_parent, event) {
@@ -57,7 +62,7 @@ var Schedule = {
       }
       else{
         event.appendTo(previous_parent);
-        alert("The event couldn't been scheduled");
+        showError("The event couldn't been scheduled");
       }
     }
     $.ajax({

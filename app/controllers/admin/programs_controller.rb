@@ -26,7 +26,7 @@ module Admin
             flash[:error] = "Updating program failed. #{@program.errors.to_a.join('. ')}."
             render :new
           end
-          format.js { render json: { 'status' => 'error' } }
+          format.js { render json: { 'status' => "The selected schedule couldn't been updated" } }
         end
       end
     end
