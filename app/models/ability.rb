@@ -62,6 +62,12 @@ class Ability
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
       end
+
+    else
+      can [:new, :create], Registration do |registration|
+        conference = registration.conference
+        conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
+      end
     end
   end
 
