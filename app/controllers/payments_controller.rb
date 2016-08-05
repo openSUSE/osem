@@ -21,8 +21,8 @@ class PaymentsController < ApplicationController
 
     if @payment.purchase && @payment.save
       update_purchased_ticket_purchases
-      redirect_to conference_conference_registration_path(@conference.short_title), flash:
-        { success: 'Thanks! You have purchased your tickets successfully.' }
+      redirect_to conference_conference_registration_path(@conference.short_title),
+        notice: 'Thanks! You have purchased your tickets successfully.'
     else
       @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
       @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
