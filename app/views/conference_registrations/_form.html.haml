@@ -7,7 +7,7 @@
           = @conference.title
   .row
     .col-md-8
-      - if !current_user
+      - unless current_user
         %legend
           %span
             =link_to('#signup', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do

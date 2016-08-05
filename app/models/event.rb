@@ -115,9 +115,7 @@ class Event < ActiveRecord::Base
 
   def submitter
     result = event_users.where(event_role: 'submitter').first
-    if !result.nil?
-      result.user
-    else
+    if result.nil?
       user = nil
       # Perhaps the event_users haven't been saved, if this is a new proposal
       event_users.each do |u|
@@ -126,6 +124,8 @@ class Event < ActiveRecord::Base
         end
       end
       user
+    else
+      result.user
     end
   end
 
@@ -281,7 +281,7 @@ class Event < ActiveRecord::Base
   def generate_guid
     loop do
       @guid = SecureRandom.urlsafe_base64
-      break if !self.class.where(guid: guid).any?
+      break unless self.class.where(guid: guid).any?
     end
     self.guid = @guid
   end

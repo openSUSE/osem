@@ -67,7 +67,7 @@ module Admin
     def destroy
       if can? :destroy, @question
         # Do not delete global questions
-        if !@question.global
+        unless @question.global
 
           # Delete question and its answers
           begin

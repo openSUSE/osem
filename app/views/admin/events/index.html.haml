@@ -62,7 +62,7 @@
               - bgcolor=""
             %td{:style=>"background-color: #{bgcolor}"}
               - if @program.show_voting?
-                - if !event.submitter.nil?
+                - unless event.submitter.nil?
                   =link_to event.submitter.name, admin_user_path(event.submitter)
                   - if event.submitter.registrations.count < 1
                     (Unregistered!)

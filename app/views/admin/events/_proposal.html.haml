@@ -106,13 +106,13 @@
           %td
             = @event.language
 
-      - if !@event.room.nil?
+      - unless @event.room.nil?
         %tr
           %td
             %b Room
           %td
             = @event.room.name
-      - if !@event.start_time.nil?
+      - unless @event.start_time.nil?
         %tr
           %td
             %b Scheduled time

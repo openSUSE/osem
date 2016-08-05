@@ -551,7 +551,7 @@ class Conference < ActiveRecord::Base
         result[state.name] = count
       end
 
-      if !conference.events_per_week
+      unless conference.events_per_week
         conference.events_per_week = {}
       end
 
@@ -692,7 +692,7 @@ class Conference < ActiveRecord::Base
     events_per_week.each do |week, values|
       values.each do |state, value|
         if [:confirmed, :unconfirmed].include?(state)
-          if !result[state.to_s.capitalize]
+          unless result[state.to_s.capitalize]
             result[state.to_s.capitalize] = {}
           end
           result[state.to_s.capitalize][week.strftime('%W').to_i] = value
@@ -768,7 +768,7 @@ class Conference < ActiveRecord::Base
   def assert_keys_are_continuously(hash)
     keys = hash.keys
     (keys.min..keys.max).each do |key|
-      if !hash[key]
+      unless hash[key]
         hash[key] = 0
       end
     end
@@ -1004,7 +1004,7 @@ class Conference < ActiveRecord::Base
   # Adds a random color to the conference
   #
   def add_color
-    if !color
+    unless color
       self.color = get_color
     end
   end

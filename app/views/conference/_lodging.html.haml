@@ -13,7 +13,7 @@
       - slice.each do |lodging|
         .col-md-4.col-sm-4.ticket.col-centered.col-top
           .thumbnail
-            - if !lodging.picture?
+            - unless lodging.picture?
               %p.text-center
                 %i.fa.fa-home.fa-5x
             - else
