@@ -136,6 +136,8 @@ Osem::Application.routes.draw do
           patch :update_conference
         end
       end
+
+      get '/revision_history' => 'versions#index'
     end
 
     get '/revision_history' => 'versions#index'
