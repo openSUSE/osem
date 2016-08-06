@@ -213,9 +213,8 @@ class Ability
       role.resource_type == 'Conference' && (conf_ids.include? role.resource_id)
     end
 
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
-      version.item_type == 'User' || (conf_ids.include? version.conference_id)
-    end
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'User'
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, conference_id: conf_ids
   end
 
   def signed_in_with_cfp_role(user)
@@ -250,9 +249,10 @@ class Ability
       (Conference.with_role(:cfp, user).pluck(:id).include? role.resource_id)
     end
 
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'Event', conference_id: conf_ids_for_cfp
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'Vote', conference_id: conf_ids_for_cfp
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version,
+        item_type: %w(Event EventType Track DifficultyLevel EmailSettings Room Cfp Program Comment), conference_id: conf_ids_for_cfp
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version,
+        ["item_type = 'Commercial' AND conference_id IN (?) AND (object LIKE '%Event%' OR object_changes LIKE '%Event%')", conf_ids_for_cfp] do |version|
       version.item_type == 'Commercial' && conf_ids_for_cfp.include?(version.conference_id) &&
       (version.object.to_s.include?('Event') || version.object_changes.to_s.include?('Event'))
     end
@@ -279,6 +279,8 @@ class Ability
       role.resource_type == 'Conference' && role.name == 'info_desk' &&
       (Conference.with_role(:info_desk, user).pluck(:id).include? role.resource_id)
     end
+
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'Registration', conference_id: conf_ids_for_info_desk
   end
 
   def signed_in_with_volunteers_coordinator_role(user)

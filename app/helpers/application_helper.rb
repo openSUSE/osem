@@ -98,25 +98,6 @@ module ApplicationHelper
       .reverse.sub(',', ' dna ').reverse
   end
 
-  # Recieves a model_name and id
-  # Returns nil if model_name is invalid
-  # Returns object in its current state if its alive
-  # Otherwise Returns object state just before deletion
-  def current_or_last_object_state(model_name, id)
-    return nil unless id.present? && model_name.present?
-    begin
-      object = model_name.constantize.find_by(id: id)
-    rescue NameError
-      return nil
-    end
-
-    if object.nil?
-      object_last_version = PaperTrail::Version.where(item_type: model_name, item_id: id).last
-      object = object_last_version.reify if object_last_version
-    end
-    object
-  end
-
   def normalize_array_length(hashmap, length)
     hashmap.each do |_, value|
       if value.length < length
