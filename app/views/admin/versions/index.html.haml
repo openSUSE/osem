@@ -1,6 +1,22 @@
 .row
   .col-md-12
     .page-header
+
+      .dropdown.pull-right
+        %button.btn.btn-success.dropdown-toggle{'data-toggle' => 'dropdown', type: 'button'}
+          - if @conference_id.nil?
+            All Conferences & Users
+          - elsif @conf_ids_for_organizer.include?(@conference_id)
+            = Conference.find(@conference_id).short_title
+          - else
+            Filter By Conference
+          %span.caret
+        %ul.dropdown-menu
+          %li= link_to 'All Conferences & Users',  admin_revision_history_path
+          - @conf_ids_for_organizer.each do |conf_id|
+            - conference = Conference.find(conf_id)
+            %li= link_to conference.short_title,  admin_revision_history_path(conference_id: conference.id)
+
       %h1 Revision History
       %p.text-muted
         Log of changes made to conferences and associated resources
