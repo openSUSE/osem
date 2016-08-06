@@ -97,5 +97,14 @@ describe Admin::VersionsController do
         expect(flash[:error]).to match('Revert failed. Attribute missing or invalid')
       end
     end
+
+    describe 'GET #index' do
+      it 'raises error if user is not an organizer of specified conference' do
+        user = create(:user)
+        sign_in user
+        get :index, conference_id: conference.short_title
+        expect(flash[:alert]).to match('You are not authorized to access this area.')
+      end
+    end
   end
 end
