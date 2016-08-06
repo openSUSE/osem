@@ -4,12 +4,7 @@
 
       .dropdown.pull-right
         %button.btn.btn-success.dropdown-toggle{'data-toggle' => 'dropdown', type: 'button'}
-          - if @conference_id.nil?
-            All Conferences & Users
-          - elsif @conf_ids_for_organizer.include?(@conference_id)
-            = Conference.find(@conference_id).short_title
-          - else
-            Filter By Conference
+          = @conference_id.nil? ? 'All Conferences & Users' : Conference.find(@conference_id).short_title
           %span.caret
         %ul.dropdown-menu
           %li= link_to 'All Conferences & Users',  admin_revision_history_path

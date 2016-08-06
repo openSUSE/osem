@@ -8,9 +8,12 @@ module Admin
       @conference_id = params[:conference_id].to_i unless params[:conference_id].nil?
       if @conference_id.nil?
         @versions = PaperTrail::Version.where(["conference_id IN (?) OR item_type = 'User'", @conf_ids_for_organizer])
+      elsif !Conference.exists?(id: @conference_id)
+        redirect_to admin_revision_history_path, error: "Conference with ID #{@conference_id} does not exist!"
+        return
       else
-        @versions = PaperTrail::Version.where(['conference_id IN (?)', (@conf_ids_for_organizer & [@conference_id])]).
-                                                                    where.not(item_type: 'User')
+        authorize! :index, PaperTrail::Version.new(conference_id: @conference_id)
+        @versions = PaperTrail::Version.where(conference_id:  @conference_id)
       end
     end
 
