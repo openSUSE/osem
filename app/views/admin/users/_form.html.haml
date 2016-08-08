@@ -4,6 +4,7 @@
     = f.input :name, :as => :string
     = f.input :email
     = f.input :affiliation, :as => :string
-    = f.input :biography, :input_html => {:rows => 10}
+    = f.input :biography, input_html: { rows: 10, data: { provide: 'markdown-editable' } },
+      hint: markdown_hint
   = f.actions do
     = f.action :submit, :button_html => {:class => "btn btn-primary"}

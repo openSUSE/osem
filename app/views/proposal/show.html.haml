@@ -36,7 +36,7 @@
                 from
                 = @speaker.affiliation
           -if @speaker.biography?
-            = simple_format(@speaker.biography)
+            = markdown(@speaker.biography)
     .col-md-9
       .row
         .col-md-12

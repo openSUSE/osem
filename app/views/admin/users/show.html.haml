@@ -29,6 +29,9 @@
                 - if attr == 'roles'
                   %td
                     = show_roles(@user.get_roles)
+                - elsif attr == 'biography'
+                  %td
+                    = markdown(@user.biography)
                 - else
                   %td= @user.send(attr)
         #submissions-content.tab-pane{class: "#{'active' if params[:tab] == 'submissions-content'}"}

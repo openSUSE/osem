@@ -14,7 +14,8 @@
         = link_to 'Change your avatar here', 'https://gravatar.com'
         = f.input :affiliation, as: :string,
           hint: 'This could be a company, a user group, or nothing at all.'
-        = f.input :biography,  input_html: { rows: 5, 'onkeyup' => "word_count(this, 'biography-count', 150)" }
+        = f.input :biography, input_html: { rows: 5, data: { provide: 'markdown-editable' }, 'onkeyup' => "word_count(this, 'biography-count', 150)" },
+          hint: markdown_hint
         You have used
         %span#bio_length
           = @user.biography ? @user.biography.split.length : 0
