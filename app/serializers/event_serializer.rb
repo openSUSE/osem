@@ -25,15 +25,6 @@ class EventSerializer < ActiveModel::Serializer
     object.track.try(:guid)
   end
 
-  def abstract
-    # This should never happen
-    if object.abstract.blank?
-      nil
-    else
-      simple_format(object.abstract).gsub('\n', '')
-    end
-  end
-
   def length
     object.event_type.try(:length) || EventType::LENGTH_STEP
   end
