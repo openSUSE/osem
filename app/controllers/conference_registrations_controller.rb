@@ -52,7 +52,7 @@ class ConferenceRegistrationsController < ApplicationController
       ahoy.track 'Registered', title: 'New registration'
 
       # Sign in the new user
-      if !current_user
+      unless current_user
         sign_in(@registration.user)
       end
 
@@ -96,7 +96,7 @@ class ConferenceRegistrationsController < ApplicationController
 
   def set_registration
     @registration = Registration.find_by(conference: @conference, user: current_user)
-    if !@registration
+    unless @registration
       redirect_to new_conference_conference_registration_path(@conference.short_title),
                   error: "Can't find a registration for #{@conference.title} for you. Please register."
     end

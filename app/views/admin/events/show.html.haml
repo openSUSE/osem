@@ -23,7 +23,7 @@
           - @event.versions.each do |version|
             %tr
               %td
-                - if !version.whodunnit.nil?
+                - unless version.whodunnit.nil?
                   = User.find(version.whodunnit).name
                 - else
                   No user (probably via the console)
@@ -35,4 +35,3 @@
                 - version.changeset.each_key do |key|
                   = "#{key}: #{version.changeset[key][0]} -> #{version.changeset[key][1]}"
                   %br
-

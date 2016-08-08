@@ -5,7 +5,7 @@
         %h4.media-heading
           = ticket.title
         %h5.media-heading
-        -if !ticket.description.blank?
+        - unless ticket.description.blank?
           = markdown(ticket.description)
   %td.col-sm-1.col-md-1
     - if ticket.bought?(current_user)
