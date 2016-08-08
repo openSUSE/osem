@@ -159,7 +159,6 @@ describe 'User' do
     end
 
     context 'when user has the role organizer' do
-      let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'organizer', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
@@ -236,7 +235,6 @@ describe 'User' do
     end
 
     context 'when user has the role cfp' do
-      let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'cfp', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
@@ -295,7 +293,6 @@ describe 'User' do
     end
 
     context 'when user has the role info_desk' do
-      let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'info_desk', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
@@ -354,7 +351,6 @@ describe 'User' do
     end
 
     context 'when user has the role volunteers_coordinator' do
-      let!(:my_conference) { create(:full_conference) }
       let(:role) { Role.find_by(name: 'volunteers_coordinator', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
