@@ -3,6 +3,5 @@ FactoryGirl.define do
     user
     conference
     status 'unpaid'
-    amount 1000
   end
 end

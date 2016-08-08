@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'stripe_mock'
 
 describe Payment do
 
@@ -30,6 +31,63 @@ describe Payment do
     it ' returns correct unpaid amount' do
       create(:ticket_purchase, ticket: ticket_1, user: user, quantity: 8)
       expect(payment.amount_to_pay).to eq(8000)
+    end
+  end
+
+  describe '#purchase' do
+    let!(:user) { create(:user) }
+    let!(:conference) { create(:conference) }
+    let!(:ticket_1) { create(:ticket, price: 10, price_currency: 'USD', conference: conference) }
+    let!(:tickets) { {ticket_1.id.to_s => '2'} }
+    let(:stripe_helper) { StripeMock.create_test_helper }
+
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    before { TicketPurchase.purchase(conference, user, tickets) }
+    let!(:payment) { create(:payment, user: user, conference: conference, stripe_customer_token: stripe_helper.generate_card_token, stripe_customer_email: user.email) }
+
+    context 'when the payment is successful' do
+      before { payment.purchase }
+
+      it 'assigns amount' do
+        expect(payment.amount).to eq(2000)
+      end
+
+      it 'assigns last4' do
+        expect(payment.last4).to eq('4242')
+      end
+
+      it "assigns 'success' to payment.status" do
+        expect(payment.status).to eq('success')
+      end
+
+      it 'assigns authorization_code' do
+        expect(payment.authorization_code).to eq('test_ch_3')
+      end
+    end
+
+    context 'if the payment is not successful' do
+      before { StripeMock.prepare_card_error(:invalid_number) }
+
+      let(:payment) { create(:payment, user: user, conference: conference, stripe_customer_token: 'bogus_card_token', stripe_customer_email: user.email) }
+
+      before { payment.purchase }
+
+      context 'when the card is invalid' do
+        it 'returns false' do
+          payment_result = payment.purchase
+          expect(payment_result).to eq false
+        end
+
+        it 'assigns "failure" to payment.status' do
+          expect(payment.status).to eq('failure')
+        end
+
+        it 'adds errors' do
+          expect(payment.errors[:base].count).to eq(1)
+        end
+      end
     end
   end
 end

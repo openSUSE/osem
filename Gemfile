@@ -225,6 +225,8 @@ group :test do
   gem 'timecop'
   # for mocking external requests
   gem 'webmock'
+  # for mocking Stripe responses in tests
+  gem 'stripe-ruby-mock'
 end
 
 group :development, :test do

@@ -27,6 +27,7 @@ class Payment < ActiveRecord::Base
                                              amount: amount_to_pay,
                                              currency: conference.tickets.first.price_currency
 
+    self.amount = gateway_response[:amount]
     self.last4 = gateway_response[:source][:last4]
     self.authorization_code = gateway_response[:id]
     self.status = 'success'
