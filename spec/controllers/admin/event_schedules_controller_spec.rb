@@ -62,7 +62,7 @@ describe Admin::EventSchedulesController do
                               room_id: nil,
                               start_time: nil)
 
-          expect(JSON.parse(response.body)['status']).to_not eq('ok')
+          expect(JSON.parse(response.body)['status']).to eq("The event couldn't be scheduled. Event can't be blank. Room can't be blank. Start time can't be blank")
         end
       end
     end
@@ -119,7 +119,7 @@ describe Admin::EventSchedulesController do
                               room_id: nil,
                               start_time: nil)
 
-          expect(JSON.parse(response.body)['status']).to_not eq('ok')
+          expect(JSON.parse(response.body)['status']).to eq("The event couldn't be scheduled. Event can't be blank. Room can't be blank. Start time can't be blank")
         end
       end
     end

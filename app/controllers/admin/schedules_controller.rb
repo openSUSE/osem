@@ -17,7 +17,7 @@ module Admin
                     notice: 'Schedule was successfully created.'
       else
         redirect_to admin_conference_schedules_path(conference_id: @conference.short_title),
-                    error: 'Could not create schedule'
+                    error: "Could not create schedule. #{@schedule.errors.full_messages.join('. ')}."
       end
     end
 

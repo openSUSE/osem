@@ -13,20 +13,22 @@ module Admin
       @program.assign_attributes(program_params)
       send_mail_on_schedule_public = @program.notify_on_schedule_public?
 
-      respond_to do |format|
-        if @program.update_attributes(program_params)
-          ConferenceScheduleUpdateMailJob.perform_later(@conference) if send_mail_on_schedule_public
+      if @program.update_attributes(program_params)
+        ConferenceScheduleUpdateMailJob.perform_later(@conference) if send_mail_on_schedule_public
+        respond_to do |format|
           format.html do
             redirect_to admin_conference_program_path(@conference.short_title),
                         notice: 'The program was successfully updated.'
           end
           format.js { render json: { 'status' => 'ok' } }
-        else
+        end
+      else
+        respond_to do |format|
           format.html do
             flash[:error] = "Updating program failed. #{@program.errors.to_a.join('. ')}."
             render :new
           end
-          format.js { render json: { 'status' => "The selected schedule couldn't been updated" } }
+          format.js { render json: { 'status' => "The selected schedule couldn't been updated #{@program.errors.to_a.join('. ')}" } }
         end
       end
     end
