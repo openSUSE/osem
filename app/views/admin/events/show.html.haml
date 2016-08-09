@@ -31,6 +31,6 @@
                       = "(#{version.created_at.strftime('%B %-d, %Y %H:%M')})"
 
                   %br
-                  = render partial: 'admin/versions/object_changes', locals: { version: version }
+                  = render partial: 'shared/object_changes', locals: { version: version }
                 %td
-                  = render partial: 'admin/versions/changelog_actions', locals: { version: version }
+                  = render partial: 'shared/changelog_actions', locals: { version: version }
