@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Admin::EventSchedulesController do
   let(:venue) { create(:venue) }
   let(:conference) { create(:conference, venue: venue) }
+  let(:room) { create(:room, venue: venue) }
   let(:schedule) { create(:schedule, program: conference.program)}
   let(:event_schedule) { create(:event_schedule, schedule: schedule)}
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
@@ -16,51 +17,42 @@ describe Admin::EventSchedulesController do
 
     describe 'POST #create' do
       context 'with valid attributes' do
-        it 'saves the event schedule to the database' do
-          expected = expect do
-            post :create, conference_id: conference.short_title, event_schedule:
-                 attributes_for(:event_schedule,
-                                schedule_id: schedule.id,
-                                event_id: create(:event, program: conference.program).id,
-                                room_id: create(:room, venue: venue).id,
-                                start_time: conference.start_date)
-          end
-          expected.to change { EventSchedule.count }.by 1
-        end
-
-        it 'renders JSON without errors' do
+        let(:create_action) do
           post :create, conference_id: conference.short_title, event_schedule:
                attributes_for(:event_schedule,
                               schedule_id: schedule.id,
                               event_id: create(:event, program: conference.program).id,
                               room_id: create(:room, venue: venue).id,
                               start_time: conference.start_date)
+        end
 
+        it 'saves the event schedule to the database' do
+          expect{ create_action }.to change { EventSchedule.count }.by 1
+        end
+
+        it 'renders JSON without errors' do
+          create_action
           expect(response).to be_success
         end
       end
 
       context 'with invalid attributes' do
-        it 'does not save the event schedule to the database' do
-          expected = expect do
-            post :create, conference_id: conference.short_title, event_schedule:
-                 attributes_for(:event_schedule,
-                                schedule_id: schedule.id,
-                                event_id: nil,
-                                room_id: nil,
-                                start_time: nil)
-          end
-          expected.to_not change { EventSchedule.count }
-        end
 
-        it 'renders JSON with error' do
+        let(:create_action) do
           post :create, conference_id: conference.short_title, event_schedule:
                attributes_for(:event_schedule,
                               schedule_id: schedule.id,
                               event_id: nil,
                               room_id: nil,
                               start_time: nil)
+        end
 
+        it 'does not save the event schedule to the database' do
+          expect{ create_action }.to_not change { EventSchedule.count }
+        end
+
+        it 'renders JSON with error' do
+          create_action
           expect(response.status).to eq(422)
         end
       end
@@ -68,71 +60,60 @@ describe Admin::EventSchedulesController do
 
     describe 'POST #update' do
       context 'with valid attributes' do
-        it 'changes event schedule attributes' do
-          event = create(:event, program: conference.program)
-          room = create(:room, venue: venue)
+        before :each do
           patch :update, id: event_schedule.id, conference_id: conference.short_title, event_schedule:
                  attributes_for(:event_schedule,
                                 schedule_id: schedule.id,
-                                event_id: event.id,
+                                event_id: create(:event, program: conference.program).id,
                                 room_id: room.id,
                                 start_time: conference.start_date)
           event_schedule.reload
-          expect(event_schedule.schedule_id).to eq(schedule.id)
-          expect(event_schedule.event_id).to eq(event.id)
+        end
+
+        it 'updates the room' do
           expect(event_schedule.room_id).to eq(room.id)
+        end
+
+        it 'updates the start_time' do
           expect(event_schedule.start_time).to eq(conference.start_date)
         end
 
         it 'renders JSON without errors' do
-          patch :update, id: event_schedule.id, conference_id: conference.short_title, event_schedule:
-               attributes_for(:event_schedule,
-                              schedule_id: schedule.id,
-                              event_id: create(:event, program: conference.program).id,
-                              room_id: create(:room, venue: venue).id,
-                              start_time: conference.start_date)
-
           expect(response).to be_success
         end
       end
 
       context 'with invalid attributes' do
-        it 'does not save the event schedule to the database' do
-          expected = expect do
-            patch :update, id: event_schedule.id, conference_id: conference.short_title, event_schedule:
-                 attributes_for(:event_schedule,
-                                schedule_id: schedule.id,
-                                event_id: nil,
-                                room_id: nil,
-                                start_time: nil)
-          end
-          expected.to_not change { event_schedule }
-        end
-
-        it 'renders JSON with error' do
+        let(:update_action) do
           patch :update, id: event_schedule.id, conference_id: conference.short_title, event_schedule:
                attributes_for(:event_schedule,
                               schedule_id: schedule.id,
                               event_id: nil,
                               room_id: nil,
                               start_time: nil)
+        end
+        it 'does not save the event schedule to the database' do
+          expect{ update_action }.to_not change { event_schedule }
+        end
 
+        it 'renders JSON with error' do
+          update_action
           expect(response.status).to eq(422)
         end
       end
     end
 
     describe 'DELETE #destroy' do
-      it 'deletes the event schedule' do
-        expected = expect do
-          delete :destroy, id: event_schedule.id, conference_id: conference.short_title
-        end
-
-        expected.to change { EventSchedule.count }.by(-1)
-      end
-      it 'renders JSON without errors' do
+      let(:destroy_action) do
         delete :destroy, id: event_schedule.id, conference_id: conference.short_title
+      end
 
+      it 'deletes the event schedule' do
+        expect{ destroy_action }.to change { EventSchedule.count }.by(-1)
+      end
+
+      it 'renders JSON without errors' do
+        destroy_action
         expect(response).to be_success
       end
     end

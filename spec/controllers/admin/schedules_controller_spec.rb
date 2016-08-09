@@ -20,42 +20,42 @@ describe Admin::SchedulesController do
     end
 
     describe 'POST #create' do
+      let(:create_action){ post :create, conference_id: conference.short_title }
+
       it 'saves the schedule to the database' do
-        expected = expect do
-          post :create, conference_id: conference.short_title
-        end
-        expected.to change { Schedule.count }.by 1
+        expect{ create_action }.to change { Schedule.count }.by 1
       end
 
       it 'redirects to schedules#show' do
-        post :create, conference_id: conference.short_title
-
+        create_action
         expect(response).to redirect_to admin_conference_schedule_path(
                                         conference.short_title, assigns[:schedule])
       end
     end
 
     describe 'GET #show' do
+      let(:show_action){ get :show, id: schedule.id, conference_id: conference.short_title }
+
       it 'assigns the requested schedule to schedule' do
-        get :show, id: schedule.id, conference_id: conference.short_title
+        show_action
         expect(assigns(:schedule)).to eq schedule
       end
 
       it 'renders the show template' do
-        get :show, id: schedule.id, conference_id: conference.short_title
+        show_action
         expect(response).to render_template :show
       end
     end
 
     describe 'DELETE #destroy' do
+      let(:destroy_action){ delete :destroy, id: schedule.id, conference_id: conference.short_title }
+
       it 'deletes the schedule' do
-        expected = expect do
-          delete :destroy, id: schedule.id, conference_id: conference.short_title
-        end
-        expected.to change { Schedule.count }.by(-1)
+        expect{ destroy_action }.to change { Schedule.count }.by(-1)
       end
+
       it 'redirects to schedules#index' do
-        delete :destroy, id: schedule.id, conference_id: conference.short_title
+        destroy_action
         expect(response).to redirect_to admin_conference_schedules_path(conference.short_title)
       end
     end
