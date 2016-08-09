@@ -44,16 +44,18 @@ var Schedule = {
     var event_schedule_id = event.attr("event_schedule_id");
     var my_url = url;
     var type = 'POST';
+    var params = { event_schedule: {
+      room_id: new_parent.attr("room_id"),
+      start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
+    }};
     if(event_schedule_id != null){
       type = 'PUT';
       my_url += ('/' + event_schedule_id);
     }
-    var params = { event_schedule: {
-      event_id: event.attr("event_id"),
-      schedule_id: schedule_id,
-      room_id: new_parent.attr("room_id"),
-      start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
-    }};
+    else{
+      params['event_schedule']['event_id'] = event.attr("event_id");
+      params['event_schedule']['schedule_id'] = schedule_id;
+    }
     var success_callback = function(data) {
       console.log(data);
       event.attr("event_schedule_id", data.event_schedule_id);
