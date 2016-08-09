@@ -67,8 +67,9 @@ module Admin
     def destroy
       if can? :destroy, @question
         # Do not delete global questions
-        unless @question.global
-
+        if @question.global
+          flash[:error] = 'You cannot delete global questions.'
+        else
           # Delete question and its answers
           begin
             Question.transaction do
@@ -82,8 +83,6 @@ module Admin
           rescue ActiveRecord::RecordInvalid
             flash[:error] = 'Could not delete question.'
           end
-        else
-          flash[:error] = 'You cannot delete global questions.'
         end
       else
         flash[:error] = 'You must be an admin to delete a question.'
