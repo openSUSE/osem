@@ -4,25 +4,25 @@ module Admin
 
     def create
       if @event_schedule.save
-        render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+        render json: { event_schedule_id: @event_schedule.id }
       else
-        render json: { 'status' => "The event couldn't be scheduled. #{@event_schedule.errors.full_messages.join('. ')}" }
+        render json: { errors: "The event couldn't be scheduled. #{@event_schedule.errors.full_messages.join('. ')}" }, status: 422
       end
     end
 
     def update
       if @event_schedule.update(event_schedule_params)
-        render json: { 'status' => 'ok', event_schedule_id: @event_schedule.id }
+        render json: { event_schedule_id: @event_schedule.id }
       else
-        render json: { 'status' => "The event couldn't be scheduled. #{@event_schedule.errors.full_messages.join('. ')}" }
+        render json: { errors: "The event couldn't be scheduled. #{@event_schedule.errors.full_messages.join('. ')}" }, status: 422
       end
     end
 
     def destroy
       if @event_schedule.destroy
-        render json: { 'status' => 'ok' }
+        render json: {}
       else
-        render json: { 'status' => "The event couldn't be unscheduled. #{@event_schedule.errors.full_messages.join('. ')}" }
+        render json: { errors: "The event couldn't be unscheduled. #{@event_schedule.errors.full_messages.join('. ')}" }, status: 422
       end
     end
 

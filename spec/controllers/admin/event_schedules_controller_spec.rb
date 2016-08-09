@@ -37,7 +37,6 @@ describe Admin::EventSchedulesController do
                               start_time: conference.start_date)
 
           expect(response).to be_success
-          expect(JSON.parse(response.body)['status']).to eq('ok')
         end
       end
 
@@ -62,7 +61,7 @@ describe Admin::EventSchedulesController do
                               room_id: nil,
                               start_time: nil)
 
-          expect(JSON.parse(response.body)['status']).to eq("The event couldn't be scheduled. Event can't be blank. Room can't be blank. Start time can't be blank")
+          expect(response.status).to eq(422)
         end
       end
     end
@@ -94,7 +93,6 @@ describe Admin::EventSchedulesController do
                               start_time: conference.start_date)
 
           expect(response).to be_success
-          expect(JSON.parse(response.body)['status']).to eq('ok')
         end
       end
 
@@ -119,7 +117,7 @@ describe Admin::EventSchedulesController do
                               room_id: nil,
                               start_time: nil)
 
-          expect(JSON.parse(response.body)['status']).to eq("The event couldn't be scheduled. Event can't be blank. Room can't be blank. Start time can't be blank")
+          expect(response.status).to eq(422)
         end
       end
     end
@@ -136,7 +134,6 @@ describe Admin::EventSchedulesController do
         delete :destroy, id: event_schedule.id, conference_id: conference.short_title
 
         expect(response).to be_success
-        expect(JSON.parse(response.body)['status']).to eq('ok')
       end
     end
   end

@@ -20,7 +20,7 @@ module Admin
             redirect_to admin_conference_program_path(@conference.short_title),
                         notice: 'The program was successfully updated.'
           end
-          format.js { render json: { 'status' => 'ok' } }
+          format.js { render json: {} }
         end
       else
         respond_to do |format|
@@ -28,7 +28,7 @@ module Admin
             flash[:error] = "Updating program failed. #{@program.errors.to_a.join('. ')}."
             render :new
           end
-          format.js { render json: { 'status' => "The selected schedule couldn't been updated #{@program.errors.to_a.join('. ')}" } }
+          format.js { render json: { errors: "The selected schedule couldn't been updated #{@program.errors.to_a.join('. ')}" }, status: 422 }
         end
       end
     end

@@ -23,14 +23,12 @@ $(function () {
     }
 
     var callback = function(data) {
-      if(data.status != 'ok'){
-        showError(data.status);
-      }
+      showError($.parseJSON(data.responseText).errors);
     }
     $.ajax({
       url: url,
       type: method,
-      success: callback,
+      error: callback,
       dataType: 'json'
     });
   });

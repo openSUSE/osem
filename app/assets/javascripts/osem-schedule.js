@@ -17,21 +17,21 @@ var Schedule = {
     var event_schedule_id = e.attr("event_schedule_id");
     if(event_schedule_id != null){
       var my_url = url + '/' + event_schedule_id;
-      var callback = function(data) {
+      var success_callback = function(data) {
         console.log(data);
-        if(data.status == 'ok'){
-          e.attr("event_schedule_id", null);
-          e.appendTo($(".unscheduled-events"));
-          e.find(".schedule-event-delete-button").hide();
-        }
-        else{
-          showError(data.status);
-        }
+        e.attr("event_schedule_id", null);
+        e.appendTo($(".unscheduled-events"));
+        e.find(".schedule-event-delete-button").hide();
+      }
+      var error_callback = function(data) {
+        console.log(data);
+        showError($.parseJSON(data.responseText).errors);
       }
       $.ajax({
         url: my_url,
         type: 'DELETE',
-        success: callback,
+        success: success_callback,
+        error: error_callback,
         dataType : 'json'
       });
     }
@@ -40,6 +40,7 @@ var Schedule = {
     }
   },
   add: function (previous_parent, new_parent, event) {
+    event.appendTo(new_parent);
     var event_schedule_id = event.attr("event_schedule_id");
     var my_url = url;
     var type = 'POST';
@@ -53,23 +54,22 @@ var Schedule = {
       room_id: new_parent.attr("room_id"),
       start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
     }};
-    var callback = function(data) {
+    var success_callback = function(data) {
       console.log(data);
-      if(data.status == 'ok'){
-        event.appendTo(new_parent);
-        event.attr("event_schedule_id", data.event_schedule_id);
-        event.find(".schedule-event-delete-button").show();
+      event.attr("event_schedule_id", data.event_schedule_id);
+      event.find(".schedule-event-delete-button").show();
       }
-      else{
-        event.appendTo(previous_parent);
-        showError("The event couldn't been scheduled");
-      }
+    var error_callback = function(data) {
+      console.log(data);
+      showError($.parseJSON(data.responseText).errors);
+      event.appendTo(previous_parent);
     }
     $.ajax({
       url: my_url,
       type: type,
       data: params,
-      success: callback,
+      success: success_callback,
+      error: error_callback,
       dataType : 'json'
     });
   }
