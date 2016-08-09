@@ -9,29 +9,28 @@
       = render 'proposal'
     #history-content.tab-pane
       .col-md-12
-        %table.table
+        %table.table.table-striped.table-bordered.table-hover.datatable
           %thead
-            %th
-              %b Who
-            %th
-              %b Timestamp
-            %th
-              %b Modification Type
-            %th
-              %b Changes
+            %th ID
+            %th Description
+            %th Actions
           %tbody
-          - @event.versions.each do |version|
-            %tr
-              %td
-                - unless version.whodunnit.nil?
-                  = User.find(version.whodunnit).name
-                - else
-                  No user (probably via the console)
-              %td
-                = version.created_at
-              %td
-                = version.event
-              %td
-                - version.changeset.each_key do |key|
-                  = "#{key}: #{version.changeset[key][0]} -> #{version.changeset[key][1]}"
+            - @event.versions.each do |version|
+              %tr
+                %td
+                  = version.id
+                %td
+                  %p
+                    = change_creator_link(version.whodunnit)
+                    = event_change_description(version)
+                    = "event #{@event.title}"
+
+                    %small.text-muted
+                      = distance_of_time_in_words(Time.now,version.created_at) + ' ago'
+                      %br
+                      = "(#{version.created_at.strftime('%B %-d, %Y %H:%M')})"
+
                   %br
+                  = render partial: 'admin/versions/object_changes', locals: { version: version }
+                %td
+                  = render partial: 'admin/versions/changelog_actions', locals: { version: version }

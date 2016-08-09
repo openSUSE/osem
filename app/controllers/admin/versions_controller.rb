@@ -29,7 +29,7 @@ module Admin
         flash[:error] = 'Revert failed. Attribute missing or invalid'
       end
 
-      redirect_to admin_revision_history_path
+      redirect_back_or_to admin_revision_history_path
     end
 
     def revert_object
@@ -52,7 +52,7 @@ module Admin
         flash[:error] = 'The item is already in the state that you are trying to revert it back to'
       end
 
-      redirect_to admin_revision_history_path
+      redirect_back_or_to admin_revision_history_path
     end
   end
 end
