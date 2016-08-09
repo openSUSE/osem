@@ -1,16 +1,19 @@
 module Admin
   class UsersController < Admin::BaseController
     load_and_authorize_resource
+    include DatatableServersideProcessing
 
     def new
       @user = User.new
     end
 
     def index
-      users_datatable = Datatable.new(view_context, User.where(nil), %w(name email), %w(id state email name))
+      @users = filtered_records(User.where(nil), %w(name email), %w(id state email name))
       respond_to do |format|
         format.html
-        format.json { render json: users_datatable.to_json(data: users_datatable.paginated_records.map {|user| users_datatable_data(user)}) }
+        format.json do
+          render json: datatable_response(@users.map {|user| users_datatable_data(user)})
+        end
       end
     end
 
