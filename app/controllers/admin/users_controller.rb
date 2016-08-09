@@ -7,9 +7,10 @@ module Admin
     end
 
     def index
+      users_datatable = Datatable.new(view_context, User.where(nil), %w(name email), %w(id state email name))
       respond_to do |format|
         format.html
-        format.json { render json: UsersDatatable.new(view_context) }
+        format.json { render json: users_datatable.to_json(data: users_datatable.paginated_records.map {|user| users_datatable_data(user)}) }
       end
     end
 

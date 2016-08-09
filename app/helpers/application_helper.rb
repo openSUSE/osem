@@ -491,4 +491,17 @@ module ApplicationHelper
       end
     end
   end
+
+  def users_datatable_data(user)
+    [
+      user.id,
+      (user.confirmed? ? 'confirmed' : 'unconfirmed'),
+      user.email,
+      user.name,
+      user.registrations.where(attended: true).count,
+      (user.roles.empty? ? 'None' : "#{show_roles(user.get_roles.first(2))} #{'...' if user.get_roles.count > 2}"),
+      (view_context.link_to('View', admin_user_path(user), class: 'btn btn-success') if current_ability.can?(:show, user)),
+      (view_context.link_to('Edit', edit_admin_user_path(user), class: 'btn btn-primary') if current_ability.can?(:update, user))
+    ]
+  end
 end
