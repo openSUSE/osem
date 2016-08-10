@@ -63,12 +63,6 @@ background-image: -webkit-gradient(
     color: rgb(185, 74, 72);
 }
 
-a.unstyled-link {
-    text-decoration: none;
-    color: #333333;
-    outline: 0;
-}
-
 .program-dropdown, .schedule-dropdown{
   margin-left: 20%;
   margin-right: 20%;
@@ -173,6 +167,10 @@ td.no-padding{
 .track{
    padding: 0px 5px 0px 5px;
    display: inline-block;
+ }
+
+.event-panel{
+   cursor: pointer;
  }
 
 .program-dropdown{
