@@ -30,7 +30,7 @@ describe Admin::EventSchedulesController do
           expect{ create_action }.to change { EventSchedule.count }.by 1
         end
 
-        it 'renders JSON without errors' do
+        it 'has 200 status code' do
           create_action
           expect(response).to be_success
         end
@@ -51,7 +51,7 @@ describe Admin::EventSchedulesController do
           expect{ create_action }.to_not change { EventSchedule.count }
         end
 
-        it 'renders JSON with error' do
+        it 'has 422 status code' do
           create_action
           expect(response.status).to eq(422)
         end
@@ -78,7 +78,7 @@ describe Admin::EventSchedulesController do
           expect(event_schedule.start_time).to eq(conference.start_date)
         end
 
-        it 'renders JSON without errors' do
+        it 'has 200 status code' do
           expect(response).to be_success
         end
       end
@@ -96,7 +96,7 @@ describe Admin::EventSchedulesController do
           expect{ update_action }.to_not change { event_schedule }
         end
 
-        it 'renders JSON with error' do
+        it 'has 422 status code' do
           update_action
           expect(response.status).to eq(422)
         end
@@ -112,7 +112,7 @@ describe Admin::EventSchedulesController do
         expect{ destroy_action }.to change { EventSchedule.count }.by(-1)
       end
 
-      it 'renders JSON without errors' do
+      it 'has 200 status code' do
         destroy_action
         expect(response).to be_success
       end

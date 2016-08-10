@@ -20,7 +20,7 @@ describe SchedulesController do
                                            .group_by{ |event| event.time.to_date }
       end
 
-      it 'renders successfully' do
+      it 'has 200 status code' do
         expect(response).to be_success
       end
     end
