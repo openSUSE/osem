@@ -6,7 +6,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 5.0'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider
@@ -21,7 +21,7 @@ gem 'responders', '~> 2.0'
 gem 'mysql2'
 
 # for observing records
-gem 'rails-observers'
+gem 'rails-observers', :git => 'https://github.com/shlok007/rails-observers.git'
 
 # for tracking data changes
 gem 'paper_trail'
@@ -58,7 +58,7 @@ gem 'unobtrusive_flash', '>=3'
 gem 'transitions', :require => %w( transitions active_record/transitions )
 
 # for comments
-gem 'awesome_nested_set', '~> 3.0.0.rc.5'
+gem 'awesome_nested_set', '~> 3.1'
 gem 'acts_as_commentable_with_threading'
 
 # as templating language
@@ -149,7 +149,6 @@ gem 'rdoc-generator-fivefish'
 
 # for visitor tracking
 gem 'ahoy_matey'
-gem 'activeuuid'
 gem 'piwik_analytics', '~> 1.0.1'
 
 # for recurring jobs
@@ -191,7 +190,6 @@ group :development do
   # for static code analisys
   gem 'rubocop', require: false
   # to silence rack assests messages
-  gem 'quiet_assets'
   # as database
   gem 'sqlite3'
   # to open mails

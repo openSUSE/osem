@@ -1,5 +1,5 @@
-# Load the rails application
-require File.expand_path('../application', __FILE__)
+# Load the Rails application.
+require_relative 'application'
 
 # Load the configuration file
 path = Rails.root.join('config', 'config.yml')
@@ -21,5 +21,5 @@ bundle exec rake data:migrate:config2dotenv RAILS_ENV=production
 "
 end
 
-# Initialize the rails application
-Osem::Application.initialize!
+# Initialize the Rails application.
+Rails.application.initialize!
