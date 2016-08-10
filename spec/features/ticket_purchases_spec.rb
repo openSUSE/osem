@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'stripe_mock'
 
 feature Registration do
   let!(:ticket) { create(:ticket) }
@@ -9,15 +8,11 @@ feature Registration do
   context 'as a participant' do
     before(:each) do
       sign_in participant
-      StripeMock.start
     end
 
     after(:each) do
-      StripeMock.stop
       sign_out
     end
-
-    let(:stripe_helper) { StripeMock.create_test_helper }
 
     context 'who is not registered' do
 
@@ -37,12 +32,6 @@ feature Registration do
         expect(flash).to eq('Please pay here to purchase tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
-
-        # token = stripe_helper.generate_card_token
-        # merge token, email and submit form
-        # page.execute_script("$('form').submit()")
-
-        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
       end
     end
   end
