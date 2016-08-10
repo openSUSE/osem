@@ -7,15 +7,16 @@ class TicketPurchase < ActiveRecord::Base
 
   validates_numericality_of :quantity, greater_than: 0
 
-  validates_uniqueness_of :user_id,
-                          scope: :ticket_id,
-                          message: 'already bought this ticket!'
-
   delegate :title, to: :ticket
   delegate :description, to: :ticket
   delegate :price, to: :ticket
   delegate :price_cents, to: :ticket
   delegate :price_currency, to: :ticket
+
+  scope :paid, -> { where(paid: true) }
+  scope :unpaid, -> { where(paid: false) }
+  scope :by_conference, -> (conference) { where(conference_id: conference.id) }
+  scope :by_user, -> (user) { where(user_id: user.id) }
 
   def self.purchase(conference, user, purchases)
     errors = []
@@ -23,7 +24,7 @@ class TicketPurchase < ActiveRecord::Base
       conference.tickets.each do |ticket|
         quantity = purchases[ticket.id.to_s].to_i
         # if the user bought the ticket, just update the quantity
-        if ticket.bought?(user)
+        if ticket.bought?(user) && ticket.unpaid?(user)
           purchase = update_quantity(conference, quantity, ticket, user)
         else
           purchase = purchase_ticket(conference, quantity, ticket, user)
@@ -48,7 +49,8 @@ class TicketPurchase < ActiveRecord::Base
   def self.update_quantity(conference, quantity, ticket, user)
     purchase = TicketPurchase.where(ticket_id: ticket.id,
                                     conference_id: conference.id,
-                                    user_id: user.id).first
+                                    user_id: user.id,
+                                    paid: false).first
 
     purchase.quantity = quantity if quantity > 0
     purchase

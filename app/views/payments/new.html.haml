@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-xs-6.col-xs-offset-3
+      %h1
+        Buy tickets for
+        = @total_amount_to_pay.symbol
+        = humanized_money @total_amount_to_pay
+      - if @payment.errors.any?
+        .alert.alert-danger
+          %ul
+            - @payment.errors.full_messages.each do |msg|
+              %li= msg
+    .col-xs-6.col-xs-offset-3.well
+      = render partial: 'payment'

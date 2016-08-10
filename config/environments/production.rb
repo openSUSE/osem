@@ -83,4 +83,8 @@ Osem::Application.configure do
 
   # Set the secret_key_base from the env, if not set by any other means
   config.secret_key_base ||= ENV["SECRET_KEY_BASE"]
+
+  # Initialize Payment Gateway with valid credentials
+  ActiveMerchant::Billing::Base.mode = :test
+  ::GATEWAY = ActiveMerchant::Billing::StripeGateway.new(:login => ENV['OSEM_GATEWAY_LIVE_SECRET_KEY'])
 end

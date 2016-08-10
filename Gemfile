@@ -183,6 +183,9 @@ gem 'faker'
 # for seeds
 gem 'factory_girl_rails'
 
+# for online payments
+gem 'activemerchant'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
