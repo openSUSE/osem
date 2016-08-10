@@ -1,25 +1,3 @@
-.price-tags {
-  list-style-type: none;
-}
-.price-tags li {
-  line-height: 40px;
-  position: relative;
-  margin-right: -3rem;
-}
-.price-tags a {
-  background: #2f991d;
-  color: #fff;
-  font-size: 1.5rem;
-  padding: 9px 10px;
-  text-decoration: none;
-}
-.price-tags a:after {
-  content: "";
-  float: left;
-  border-top: 20px solid transparent;
-  border-right: 20px solid #2f991d;
-  border-bottom: 20px solid transparent;
-}
 .stripe-button-el {
   float: right;
 }
