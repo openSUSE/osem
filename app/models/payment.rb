@@ -33,7 +33,7 @@ class Payment < ActiveRecord::Base
     self.status = 'success'
     true
 
-  rescue => error
+  rescue Stripe::StripeError => error
     errors.add(:base, error.message)
     self.status = 'failure'
     false

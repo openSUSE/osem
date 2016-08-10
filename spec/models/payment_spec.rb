@@ -45,7 +45,7 @@ describe Payment do
     after { StripeMock.stop }
 
     before { TicketPurchase.purchase(conference, user, tickets) }
-    let!(:payment) { create(:payment, user: user, conference: conference, stripe_customer_token: stripe_helper.generate_card_token, stripe_customer_email: user.email) }
+    let(:payment) { create(:payment, user: user, conference: conference, stripe_customer_token: stripe_helper.generate_card_token, stripe_customer_email: user.email) }
 
     context 'when the payment is successful' do
       before { payment.purchase }
@@ -68,8 +68,6 @@ describe Payment do
     end
 
     context 'if the payment is not successful' do
-      before { StripeMock.prepare_card_error(:invalid_number) }
-
       let(:payment) { create(:payment, user: user, conference: conference, stripe_customer_token: 'bogus_card_token', stripe_customer_email: user.email) }
 
       before { payment.purchase }
@@ -86,6 +84,54 @@ describe Payment do
 
         it 'adds errors' do
           expect(payment.errors[:base].count).to eq(1)
+        end
+      end
+
+      context 'when the connection to Stripe drops' do
+        it 'raises exception' do
+          StripeMock.prepare_error(Stripe::APIConnectionError.new)
+          expect{ Stripe::Charge.create }.to raise_error(Stripe::APIConnectionError)
+          expect{ payment.purchase }.not_to raise_error
+        end
+      end
+
+      context 'when there is a Stripe API Error' do
+        it 'raises exception' do
+          StripeMock.prepare_error(Stripe::APIError.new)
+          expect{ Stripe::Charge.create }.to raise_error(Stripe::APIError)
+          expect{ payment.purchase }.not_to raise_error
+        end
+      end
+
+      context 'when there is authentication error' do
+        it 'raises exception' do
+          StripeMock.prepare_error(Stripe::AuthenticationError.new)
+          expect{ Stripe::Charge.create }.to raise_error(Stripe::AuthenticationError)
+          expect{ payment.purchase }.not_to raise_error
+        end
+      end
+
+      context 'when there is a card error' do
+        it 'raises exception' do
+          StripeMock.prepare_card_error(:card_declined)
+          expect{ Stripe::Charge.create }.to raise_error(Stripe::CardError)
+          expect{ payment.purchase }.not_to raise_error
+        end
+      end
+
+      context 'when the request to Stripe is invalid' do
+        it 'raises exception' do
+          StripeMock.prepare_error(Stripe::InvalidRequestError.new('Your request is invalid.', code: 402))
+          expect{ Stripe::Charge.create }.to raise_error(Stripe::InvalidRequestError)
+          expect{ payment.purchase }.not_to raise_error
+        end
+      end
+
+      context 'when Stripe rate limit exceeds' do
+        it 'raises exception' do
+          StripeMock.prepare_error(Stripe::RateLimitError.new)
+          expect{ Stripe::Charge.create }.to raise_error(Stripe::RateLimitError)
+          expect{ payment.purchase }.not_to raise_error
         end
       end
     end
