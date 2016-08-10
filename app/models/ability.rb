@@ -210,6 +210,10 @@ class Ability
       role.resource_type == 'Conference' && role.name == 'cfp' &&
       (Conference.with_role(:cfp, user).pluck(:id).include? role.resource_id)
     end
+
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
+      version.item_type == 'Event' && (conf_ids_for_cfp.include? version.conference_id)
+    end
   end
 
   def signed_in_with_info_desk_role(user)
