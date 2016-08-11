@@ -1,7 +1,7 @@
 %td.event{ width: "#{ width * span }%" , |
            colspan: span, |
            role: "button" }
-  %a.unstyled-link{href: url_for(conference_program_proposal_path(@conference.short_title, event.id))}
+  %div{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
     %div{ class: "elipsis break-words event-title", |
           style: "-webkit-line-clamp: #{ event_lines(@rooms) }; height: #{ event_height(@rooms) }px;"} |
 
@@ -9,9 +9,15 @@
 
       = event.title
 
+    - if current_user
+      = link_to('#', onClick: 'starClicked();') do
+        %span#star{ class: "fa fa-lg #{ event.favourite_users.exists?(current_user.id) ? 'fa-star' : 'fa-star-o' }", |
+                    "aria-hidden" =>"true", |
+                    "data-url" => conference_program_proposal_path(@conference.short_title, event.id), |
+                    "data-user" => current_user.id }
+
     - event.speakers_ordered.each do |speaker|
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right speaker-pic", |
                                         :alt => speaker.name, |
                                         :title => speaker.name, |
                                         :style => "height: #{ speaker_height(@rooms) }px; width: #{ speaker_width(@rooms) }px;"
-
