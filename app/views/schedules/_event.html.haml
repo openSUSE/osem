@@ -1,4 +1,4 @@
-.panel.panel-default.event-panel{ id: "link-#{event.id}" }
+.panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
   .panel-body
     - if speaker = event.speakers.first
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right all-speaker-pic", |
@@ -30,14 +30,3 @@
         %span.fa.fa-road
         %span.label{ style: "background-color: #{event.track.color}; color: #{ contrast_color(event.track.color) }" }
           = event.track.name
-
-:javascript
-
-  $("#link-#{event.id}").click(function(e) {
-    var url = "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}";
-
-    if(e.ctrlKey)
-      window.open(url,'_blank');
-    else
-      window.location = url;
-  });
