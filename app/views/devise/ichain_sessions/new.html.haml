@@ -6,7 +6,7 @@
           %h3.panel-title
             Sign in
         .panel-body
-          = semantic_form_for "", method: :post, enctype: 'application/x-www-form-urlencoded', url: @login_url do |f|
+          = semantic_form_for '', method: :post, enctype: 'application/x-www-form-urlencoded', url: @login_url do |f|
             = f.input :url, as: :hidden, input_html: { value: @back_url }
             = f.input :context, as: :hidden, input_html: { value: @context }
             = f.input :proxypath, as: :hidden, input_html: { value: @proxypath }
