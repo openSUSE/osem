@@ -4,11 +4,6 @@
       %h1
         Payment Summary : 
         = humanized_money_with_symbol @total_amount_to_pay
-      - if @payment.errors.any?
-        .alert.alert-danger
-          %ul
-            - @payment.errors.full_messages.each do |msg|
-              %li= msg
     .col-xs-8.col-xs-offset-2.well
       = render partial: 'payment'
   .row

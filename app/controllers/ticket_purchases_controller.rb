@@ -4,7 +4,7 @@ class TicketPurchasesController < ApplicationController
   authorize_resource :conference_registrations, class: Registration
 
   def create
-    TicketPurchase.by_conference(@conference).unpaid.by_user(current_user).destroy_all
+    current_user.ticket_purchases.by_conference(@conference).unpaid.destroy_all
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
       if current_user.ticket_purchases.by_conference(@conference).unpaid.any?

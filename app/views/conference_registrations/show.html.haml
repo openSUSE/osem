@@ -85,12 +85,12 @@
   - if @conference.tickets.any?
     .row
       .col-md-12
-        %h4
-          %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-ticket.fa-stack-1x
-          Ticket Purchases
-          -if @tickets.any?
+        -if @tickets.any?
+          %h4
+            %span.fa-stack
+              %i.fa.fa-square-o.fa-stack-2x
+              %i.fa.fa-ticket.fa-stack-1x
+            Ticket Purchases
             = "(#{@tickets.first.price.symbol}#{humanized_money @total_price})"
         %ul
           .col-md-12
@@ -103,13 +103,13 @@
                 = tickets.first.price.symbol
                 = humanized_money tickets.first.price
             %br
-          - if @tickets.any?
-            = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
-          - else
-            You haven't bought any tickets.
-            = link_to 'Please buy some tickets to support us!', conference_tickets_path(@conference.short_title)
-            %p
-              (Your participation won't be valid without buying a ticket)
+        - if @tickets.any?
+          = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
+        - else
+          You haven't bought any tickets.
+          = link_to 'Please buy some tickets to support us!', conference_tickets_path(@conference.short_title)
+          %p
+            (Your participation won't be valid without buying a ticket)
 
   .row
     .col-md-12
