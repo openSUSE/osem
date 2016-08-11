@@ -7,6 +7,49 @@ describe ConferenceRegistrationsController, type: :controller do
   context 'user is signed in' do
     before { sign_in(user) }
 
+    describe 'GET #new' do
+      context 'registration period open' do
+        before do
+          @registration_period = create(:registration_period, conference: conference)
+        end
+
+        context 'user registered' do
+          before do
+            @registration = create(:registration, conference: conference, user: user)
+            get :new, conference_id: conference.short_title
+          end
+
+          it 'redirects to edit conference registration' do
+            expect(response).to redirect_to edit_conference_conference_registration_path(conference.short_title)
+          end
+        end
+
+        context 'user not registered' do
+          before do
+            get :new, conference_id: conference.short_title
+          end
+
+          it 'user variable exists' do
+            expect(assigns(:user)).not_to be_nil
+          end
+
+          it 'renders the new template' do
+            expect(response).to render_template('new')
+          end
+        end
+      end
+
+      context 'registration period not open' do
+        before do
+          get :new, conference_id: conference.short_title
+        end
+
+        it 'shows flash alert telling user they are unable to register' do
+          expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open."
+        end
+      end
+    end
+
     describe 'GET #show' do
       before do
         @registration = create(:registration, conference: conference, user: user)
@@ -18,7 +61,6 @@ describe ConferenceRegistrationsController, type: :controller do
       context 'successful request' do
         before do
           get :show, conference_id: conference.short_title
-
         end
 
         it 'assigns variables' do
@@ -169,4 +211,43 @@ describe ConferenceRegistrationsController, type: :controller do
       end
     end
   end
+
+  context 'user is not signed in' do
+    describe 'GET #new' do
+      before do
+        @registration_period = create(:registration_period, conference: conference)
+      end
+
+      context 'OSEM_ICHAIN_ENABLED is true' do
+        before do
+          stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
+          get :new, conference_id: conference.short_title
+        end
+
+        it 'redirects to root' do
+          expect(response).to redirect_to root_path
+        end
+
+        it 'shows flash alert telling user they cannot register and they need to sign in' do
+          expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open. Maybe you need to sign in?"
+        end
+      end
+
+      context 'OSEM_ICHAIN_ENABLED is false' do
+        before do
+          stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
+          get :new, conference_id: conference.short_title
+        end
+
+        it 'user variable exists' do
+          expect(assigns(:user)).not_to be_nil
+        end
+
+        it 'renders the new template' do
+          expect(response).to render_template('new')
+        end
+      end
+    end
+  end
+
 end
