@@ -94,7 +94,8 @@ GitHub issues are the primary way for communicating about specific proposed chan
 
 ### Using iChain in test mode
 [devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) comes with
-test mode, which can be useful in development phase in which an iChain proxy is not usually configured or even available. You can enable ichain authentication by setting `CONFIG['authentication']['ichain']['enabled']` equal to `true` in `config.yml` file. You would also need to set following options in `devise.rb`:
+test mode, which can be useful in development phase in which an iChain proxy is
+not usually configured or even available. You can enable ichain authentication by setting `OSEM_ICHAIN_ENABLED` equal to `true` in `.env` file. You would also need to set following options in `devise.rb`:
 
 ```Ruby
 # Activate the test mode
