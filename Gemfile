@@ -79,6 +79,7 @@ gem 'cocoon'
 
 # as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails', '~> 4.2.1'
 
 # for languages validation
 gem 'iso-639'
