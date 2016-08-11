@@ -68,21 +68,35 @@ class ProposalsController < ApplicationController
   end
 
   def update
-    @url = conference_program_proposal_path(@conference.short_title, params[:id])
+    respond_to do |format|
+      format.html do
+        @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
-    track = Track.find_by(id: params[:event][:track_id])
-    if track && !track.cfp_active
-      flash.now[:error] = 'You have selected a track that doesn\'t accept proposals'
-      render action: 'edit'
-      return
-    end
+        track = Track.find_by(id: params[:event][:track_id])
+        if track && !track.cfp_active
+          flash.now[:error] = 'You have selected a track that doesn\'t accept proposals'
+          render action: 'edit'
+          return
+        end
 
-    if @event.update(event_params)
-      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
-                  notice: 'Proposal was successfully updated.'
-    else
-      flash.now[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
-      render action: 'edit'
+        if @event.update(event_params)
+          redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
+                      notice: 'Proposal was successfully updated.'
+        else
+          flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
+          render action: 'edit'
+        end
+      end
+      format.json do
+        user = User.find(params[:favourite_user_id])
+        users = @event.favourite_users
+        if users.include? user
+          @event.favourite_users.delete(user)
+        else
+          @event.favourite_users << User.find(params[:favourite_user_id])
+        end
+        render json: {}
+      end
     end
   end
 

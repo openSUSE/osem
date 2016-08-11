@@ -254,6 +254,15 @@ td.no-padding{
   opacity: 0.5;
 }
 
+#star{
+  margin-top: 8px;
+}
+
+#star-events{
+  margin-right: 5px;
+  vertical-align: text-top;
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .room, .event-title{

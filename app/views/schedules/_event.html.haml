@@ -4,11 +4,15 @@
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right all-speaker-pic", |
                                         :alt => speaker.name, |
                                         :title => speaker.name |
-
     %p
       = canceled_replacement_event_label(event, event_schedule)
       = replacement_event_notice(event_schedule)
-
+    - if current_user
+      = link_to('#', onClick: 'starClicked();') do
+        %span#star-events{ class: "fa fa-lg #{ event.favourite_users.exists?(current_user.id) ? 'fa-star' : 'fa-star-o' }", |
+                           "aria-hidden" => "true", |
+                           "data-url" => conference_program_proposal_path(@conference.short_title, event.id), |
+                           "data-user" => current_user.id }
     %span.h3
       = event.title
       %br

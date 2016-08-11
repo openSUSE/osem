@@ -1,3 +1,5 @@
+// ADMIN SCHEDULE
+
 var url; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
@@ -113,6 +115,34 @@ $(document).ready( function() {
       }
   });
 });
+
+
+// PUBLIC SCHEDULE
+
+function starClicked(e){
+  // stops the click from propagating
+  if (!e) var e = window.event;
+  e.preventDefault();
+  e.cancelBubble = true;
+  if (e.stopPropagation) e.stopPropagation();
+
+  var callback = function(data) {
+    $(e.target).toggleClass('fa-star fa-star-o');
+  }
+
+  var params = { favourite_user_id: $(e.target).data('user') };
+  if($(e.target).hasClass('fa-star-o')){
+    params['add'] = true;
+  }
+
+  $.ajax({
+    url: $(e.target).data('url'),
+    type: 'PATCH',
+    data: params,
+    success: callback,
+    dataType : 'json'
+  });
+}
 
 function eventClicked(e, element){
   var url = $(element).data('url');
