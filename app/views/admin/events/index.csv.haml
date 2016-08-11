@@ -1,0 +1,25 @@
+- headers = ['Event ID',
+             'Title',
+             'Abstract',
+             'Start time',
+             'Submitter',
+             'Speaker',
+             'Event Type',
+             'Track',
+             'Difficulty Level',
+             'Room',
+             'State']
+= CSV.generate_line headers
+- @events.each do |event|
+  = CSV.generate_line([event.id, event.title, event.abstract, event.time,
+                       event.submitter.name, event.speaker_names, event.event_type.title,
+                       (event.track.present? ? event.track.name : 'nil'),
+                       (event.difficulty_level.present? ? event.difficulty_level.title : 'nil'),
+                       (event.room.present? ? event.room.name : 'nil'), event.state])
+
+= CSV.generate_line [nil]
+- headers = ['Comment ID', 'Event Title', 'Body', 'User Name']
+= CSV.generate_line headers
+- @events.each do |event|
+  - event.root_comments.each do |comment|
+    = CSV.generate_line([comment.id, event.title, comment.body, comment.user.name])

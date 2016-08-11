@@ -3,8 +3,12 @@
     .page-header
       %h1
         Events
-        - if @events.any?
-          = "(#{@events.length})"
+        = "(#{@events.length})" if @events.any?
+        .btn-group.pull-right
+          - if can? :read, Event
+            = link_to 'Export CSV', admin_conference_program_events_path(@conference.short_title, format: :csv), class: 'btn btn-success'
+            = link_to 'Export PDF', admin_conference_program_events_path(@conference.short_title, format: :pdf), class: 'btn btn-success'
+            = link_to 'Export XLS', admin_conference_program_events_path(@conference.short_title, format: :xlsx), class: 'btn btn-success'
       %p.text-muted
         All the submissions of your speakers
 .row

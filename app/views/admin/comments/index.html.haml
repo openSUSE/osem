@@ -1,6 +1,9 @@
-%h1 Comments
-%br
 .row
+  .col-md-12
+    .page-header
+      %h1
+        Comments
+        = "(#{@comments.length})" if @comments.any?
   .col-md-12
     %ul.nav.nav-tabs#commentsTable
       %li.active
