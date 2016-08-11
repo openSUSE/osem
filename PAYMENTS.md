@@ -5,15 +5,22 @@ If you have any problems with installing don't hesitate to [contact us](https://
 ## Configure Stripe into the application
 To configure Stripe into your application all you need to do is add the private and publishable keys into the Rails environment.
 
-Add your Stripe API keys in `config/secrets.yml` into these variables:
+Add your Stripe API keys in `.env` file into these variables:
 
 If you are using the application in development mode your config should look like this:  
-  `stripe_publishable_key = 'pk_**test**_random123example456'`  
-  `stripe_secret_key = 'sk_**test**_random123example456'`
+  `STRIPE_PUBLISHABLE_KEY = 'pk_**test**_random123example456'`  
+  `STRIPE_SECRET_KEY = 'sk_**test**_random123example456'`  
+The application in development mode can be used to test the whole test feature but is still not ready to be used by your users.
+You need to use the live API keys to use the payment feature in production mode.
 
-Otherwise, while in production mode, it should look like:  
-  `stripe_publishable_key = 'pk_**live**_random123example456'`  
-  `stripe_secret_key = 'sk_**live**_random123example456'`
+In production mode, it should look like:  
+  `STRIPE_PUBLISHABLE_KEY = 'pk_**live**_random123example456'`  
+  `STRIPE_SECRET_KEY = 'sk_**live**_random123example456'`  
+In this mode, you can start accepting payments from your users.
+
+## Testing feature in development mode
+You can test the payment feature in development mode with some test cards.
+Check out the list of test cards [here](https://stripe.com/docs/testing#cards).
 
 ### PCI Self Assessment Questionnaire(SAQ)
 > As long as you serve your payment pages over TLS, and use either Checkout or Stripe.js 
@@ -23,12 +30,6 @@ Otherwise, while in production mode, it should look like:
 
 As we are using Stripe Checkout for accepting payments, Stripe will help you for filling SAQ for your application.
 You can read the full security documentation [here](https://stripe.com/docs/security).
-
-## Configure the image for your payment form
-The Stripe payment form uses an image of your organisation to display a personalised form for your application.
-By default, the application comes with a openSUSE icon, but you can display the image of your organisation in place of that
-by putting the URL of your organisation's image in your corresponding `.env` file as follows:  
-  `OSEM_ICON = 'your organisation's sharable image link'`
 
 ## Configure Stripe to send emails for successful transactions
 Stripe can send email reciepts for every successful payment done through its gateway.
