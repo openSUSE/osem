@@ -49,6 +49,9 @@ class User < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
+
+  has_and_belongs_to_many :favourite_events, class_name: 'Event'
+
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
