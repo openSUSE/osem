@@ -4,8 +4,14 @@
   .col-md-12
     .page-header
       %h1 Schedule
-      %p.text-muted
-        Create the schedules for the conference
+      .row
+        .col-md-10.col-xs-8
+          %p.text-muted
+            Create the schedules for the conference
+        .col-md-2.col-xs-4
+          .text-right
+            %button.btn.btn-success.schedule-save
+              Save
 
 - if @rooms.present?
   .row
@@ -17,8 +23,6 @@
                                           off_color: 'warning',
                                           on_text: 'Yes',
                                           off_text: 'No' }
-      %button.btn.btn-success.schedule-save
-        Save
       .h4
         Unscheduled events
       .unscheduled-events
@@ -34,6 +38,10 @@
         - @dates.each do |date|
           .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
             = render partial: 'day_tab', locals: { date: date }
+  .row
+    .col-md-12.text-right
+      %button.btn.btn-success.schedule-save
+        Save
 - else
   .h3
     No Rooms!
