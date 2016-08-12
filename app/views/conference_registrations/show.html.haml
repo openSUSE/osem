@@ -104,10 +104,10 @@
                 = humanized_money tickets.first.price
             %br
         - if @tickets.any?
-          = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
+          = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
         - else
           You haven't bought any tickets.
-          = link_to 'Please buy some tickets to support us!', conference_tickets_path(@conference.short_title)
+          = link_to 'Please get some tickets to support us!', conference_tickets_path(@conference.short_title)
           %p
             (Your participation won't be valid without getting a ticket)
 

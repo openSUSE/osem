@@ -9,10 +9,10 @@ class TicketPurchasesController < ApplicationController
     if message.blank?
       if current_user.ticket_purchases.by_conference(@conference).unpaid.any?
         redirect_to new_conference_payment_path,
-                    notice: 'Please pay here to purchase tickets.'
+                    notice: 'Please pay here to get tickets.'
       else
         redirect_to conference_tickets_path(@conference.short_title),
-                    error: 'Please purchase at least one ticket to continue.'
+                    error: 'Please get at least one ticket to continue.'
       end
     else
       redirect_to conference_conference_registration_path(@conference.short_title),
