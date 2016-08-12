@@ -252,6 +252,9 @@ td.no-padding{
   overflow: hidden;
   display: inline-block;
   white-space: normal;
+  padding-left: 1px;
+  padding-right: 1px;
+  font-size: 7px;
 }
 
 /* Small devices (tablets, 768px and up) */
@@ -270,7 +273,12 @@ td.no-padding{
   }
 
   td.event{
-    padding: 3px 4px !important;
+    padding: 3px 3px !important;
+  }
+
+  .schedule-label{
+    padding-left: 2px;
+    padding-right: 3px;
   }
 }
 
@@ -285,13 +293,10 @@ td.no-padding{
     max-width: 10%;
   }
 
-  td.event{
-    padding: 3px 5px !important;
-  }
-
   .schedule-label{
     height: 15px;
     line-height: 12px;
+    font-size: 7px;
   }
 }
 
@@ -299,6 +304,12 @@ td.no-padding{
 @media (min-width: 1200px) {
   .room, .event-title{
     font-size: 14px;
+  }
+
+  .schedule-label{
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 8px;
   }
 
   td.room{
