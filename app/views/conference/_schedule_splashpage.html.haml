@@ -39,7 +39,7 @@
                 %p.text-center
                   %b= event.title
                 %h5.text-center
-                  = simple_format truncate(event.abstract, length: 500, separator: ' ')
+                  = markdown truncate(event.abstract, length: 500, separator: ' ')
                   = link_to "Read More", conference_program_proposal_path(@conference.short_title, event)
 
   = content_for :splash_nav do

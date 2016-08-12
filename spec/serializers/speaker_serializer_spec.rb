@@ -25,7 +25,7 @@ describe SpeakerSerializer, type: :serializer do
         speaker: {
           name: 'John Doe',
           affiliation: 'JohnDoesInc',
-          biography: '<p>Doest of all Jon Does</p>'
+          biography: 'Doest of all Jon Does'
         }
       }.to_json
 

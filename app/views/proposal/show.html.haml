@@ -36,7 +36,7 @@
                 from
                 = @speaker.affiliation
           -if @speaker.biography?
-            = simple_format(@speaker.biography)
+            = markdown(@speaker.biography)
     .col-md-9
       .row
         .col-md-12
@@ -64,7 +64,7 @@
       .row
         .col-md-12
           %p
-            = simple_format(@event.abstract)
+            = markdown(@event.abstract)
         %dl#proposal-info
           .col-md-12
             %dt Date:

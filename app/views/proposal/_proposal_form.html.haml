@@ -33,8 +33,8 @@
       %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
         = difficulty_level.description
 
-    = f.input :abstract, input_html: { rows: 5 },
-      required: true, hint: link_to('Tips to improve your presentations', 'http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx')
+    = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown-editable' } },
+      hint: markdown_hint(link_to('Tips to improve your presentations.', 'http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx'))
 
     %p
       You have used
