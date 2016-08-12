@@ -1,0 +1,32 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Schedules
+      %p.text-muted
+        The schedules for your conference
+.row
+  .col-md-12
+    %table.table.table-hover#event_types
+      %thead
+        %th Schedule
+        %th Selected
+        %th Actions
+      %tbody
+        - @schedules.each do |schedule|
+          %tr
+            %td
+              Schedule
+              = schedule.id
+            %td
+              = selected_scheduled?(schedule)
+            %td
+              .btn-group{role: "group"}
+                = link_to 'Show', admin_conference_schedule_path(@conference.short_title, schedule.id),
+                method: :get, class: 'btn btn-primary'
+                = link_to 'Delete', admin_conference_schedule_path(@conference.short_title, schedule.id),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete Schedule #{schedule.id}?" }
+
+.row
+  .col-md-12.text-right
+    = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
+    method: :post, class: 'btn btn-primary'

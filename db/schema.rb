@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160624151257) do
+ActiveRecord::Schema.define(version: 20160704092023) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -176,6 +176,19 @@ ActiveRecord::Schema.define(version: 20160624151257) do
     t.text     "cfp_dates_updated_body"
   end
 
+  create_table "event_schedules", force: :cascade do |t|
+    t.integer  "event_id"
+    t.integer  "schedule_id"
+    t.integer  "room_id"
+    t.datetime "start_time"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "event_schedules", ["event_id"], name: "index_event_schedules_on_event_id"
+  add_index "event_schedules", ["room_id"], name: "index_event_schedules_on_room_id"
+  add_index "event_schedules", ["schedule_id"], name: "index_event_schedules_on_schedule_id"
+
   create_table "event_types", force: :cascade do |t|
     t.string  "title",                                 null: false
     t.integer "length",                  default: 30
@@ -252,16 +265,19 @@ ActiveRecord::Schema.define(version: 20160624151257) do
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
-    t.integer  "rating",            default: 0
-    t.boolean  "schedule_public",   default: false
-    t.boolean  "schedule_fluid",    default: false
+    t.integer  "rating",               default: 0
+    t.boolean  "schedule_public",      default: false
+    t.boolean  "schedule_fluid",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "languages"
-    t.boolean  "blind_voting",      default: false
+    t.boolean  "blind_voting",         default: false
     t.datetime "voting_start_date"
     t.datetime "voting_end_date"
+    t.integer  "selected_schedule_id"
   end
+
+  add_index "programs", ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id"
 
   create_table "qanswers", force: :cascade do |t|
     t.integer  "question_id"
@@ -334,6 +350,14 @@ ActiveRecord::Schema.define(version: 20160624151257) do
     t.integer "size"
     t.integer "venue_id", null: false
   end
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer  "program_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "schedules", ["program_id"], name: "index_schedules_on_program_id"
 
   create_table "splashpages", force: :cascade do |t|
     t.integer  "conference_id"

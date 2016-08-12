@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.mobile.custom.min
+//= require jquery.ui.draggable
+//= require jquery.ui.droppable
 //= require waypoints/jquery.waypoints
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
@@ -36,6 +38,7 @@
 //= require osem-datatables
 //= require osem-tickets
 //= require bootstrap-switch
+//= require osem-schedule
 //= require osem-switch
 //= require osem-bootstrap
 //= require osem-commercials

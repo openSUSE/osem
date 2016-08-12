@@ -10,7 +10,7 @@ describe EventSerializer, type: :serializer do
           guid: event.guid,
           title: 'Some Talk',
           length: 30,
-          date: '',
+          scheduled_date: '',
           language: nil,
           abstract: '<p>Lorem ipsum dolor sit amet</p>',
           speaker_ids: [],
@@ -30,9 +30,9 @@ describe EventSerializer, type: :serializer do
     let(:track) { create(:track) }
 
     before do
-      event.update_attributes(start_time: Date.new(2014, 03, 04), language: 'English')
+      event.language =  'English'
       event.event_users << speaker
-      event.room = room
+      create(:event_schedule, event: event, room: room, start_time: Date.new(2014, 03, 04))
       event.track = track
     end
 
@@ -42,7 +42,7 @@ describe EventSerializer, type: :serializer do
           guid: event.guid,
           title: 'Some Talk',
           length: 30,
-          date: ' 2014-03-04T00:00:00+0000 ',
+          scheduled_date: ' 2014-03-04T00:00:00+0000 ',
           language: 'English',
           abstract: '<p>Lorem ipsum dolor sit amet</p>',
           speaker_ids: [speaker.user.id],

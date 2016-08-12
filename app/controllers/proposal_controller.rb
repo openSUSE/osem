@@ -15,6 +15,7 @@ class ProposalController < ApplicationController
   def show
     # FIXME: We should show more than the first speaker
     @speaker = @event.speakers.first || @event.submitter
+    @event_schedule = @event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
   end
 
   def new

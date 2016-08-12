@@ -27,7 +27,10 @@ describe Event do
 
     describe 'max_attendees_no_more_than_room_size' do
       before :each do
-        event.room = create(:room, size: 3)
+        unless (venue = event.program.conference.venue)
+          venue = create(:venue, conference: event.program.conference)
+        end
+        create(:event_schedule, event: event, room: create(:room, venue: venue, size: 3))
         event.require_registration = true
       end
 
@@ -116,8 +119,7 @@ describe Event do
   describe '#scheduled?' do
     it { expect(event.scheduled?).to eq false }
     it 'returns true if the event is scheduled' do
-      event.room = create(:room)
-      event.start_time = conference.start_date.to_time
+      create(:event_schedule, event: event)
       expect(event.scheduled?).to eq true
     end
   end
@@ -254,27 +256,6 @@ describe Event do
       expect(event.abstract_word_count).to eq(0)
       event.abstract = ''
       expect(event.abstract_word_count).to eq(0)
-    end
-  end
-
-  describe '#as_json' do
-    it 'adds the event\'s room_guid, track_color and length' do
-      event.room = create(:room)
-      event.track = create(:track, color: '#efefef')
-      json_hash = event.as_json(nil)
-
-      expect(json_hash[:room_guid]).to eq(event.room.guid)
-      expect(json_hash[:track_color]).to eq('#EFEFEF')
-      expect(json_hash[:length]).to eq(30)
-    end
-
-    it 'uses correct default values for room_guid, track_color and length' do
-      event.event_type = nil
-      json_hash = event.as_json(nil)
-
-      expect(json_hash[:room_guid]).to be_nil
-      expect(json_hash[:track_color]).to eq('#FFFFFF')
-      expect(json_hash[:length]).to eq(15)
     end
   end
 

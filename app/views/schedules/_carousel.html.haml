@@ -27,22 +27,21 @@
               %td.room{ style: "height: #{ td_height(@rooms) }px;" }
                 .room.elipsis.break-words{ style: "-webkit-line-clamp: #{ room_lines(@rooms) }; height: #{ room_height(@rooms) }px;" }
                   = room.name
-                - events = room.events{ |e| e.start_time >= start_time and e.start_time < (start_time + number_columns.hour)}
+                - event_schedules = room.event_schedules.select{ |e| (e.schedule_id == @conference.program.selected_schedule.id) && (e.start_time >= start_time) && (e.start_time < (start_time + number_columns.hour)) }
                 - (1..intervals).each do |i|
                   - if span > 1
                     - span -= 1
                   - else
-                    - event = events.find{|e| e.start_time <= start_room_time and e.end_time > start_room_time}
+                    - event_schedule = event_schedules.find{ |e| e.start_time <= start_room_time and e.end_time > start_room_time }
+                    - if event_schedule && (event_schedule.event.state == 'canceled' || event_schedule.event.state == 'withdrawn') && !event_schedule.intersecting_events.confirmed.empty?
+                      - replacement_event = event_schedule.intersecting_events.confirmed.first
+                      - event_schedule = (replacement_event.start_time <= start_room_time && replacement_event.end_time > start_room_time) ? replacement_event : nil
 
-                    - if event && (event.state == 'canceled' || event.state == 'withdrawn') && !event.intersecting_events.confirmed.empty?
-                      - replacement_event = event.intersecting_events.confirmed.first
-                      - event = (replacement_event.start_time <= start_room_time && replacement_event.end_time > start_room_time) ? replacement_event : nil
-
-                    - if event
+                    - if event_schedule
                       / There is an event, calculate the span and show it
-                      - event_span =  (event.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP
+                      - event_span =  (event_schedule.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP
                       - span = ((event_span + i - 1 ) > intervals ? intervals  + 1 - i : event_span)
-                      = render partial: 'schedule_item', locals: {event: event, span: span, width: width}
+                      = render partial: 'schedule_item', locals: {event: event_schedule.event, event_schedule: event_schedule, span: span, width: width}
                     - else
                       / if span equals 1 show an empty td
                       %td.no-padding{ width: "#{ width }%"}

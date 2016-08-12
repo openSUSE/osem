@@ -16,9 +16,9 @@ class Event < ActiveRecord::Base
 
   has_many :events_registrations
   has_many :registrations, through: :events_registrations
+  has_many :event_schedules, dependent: :destroy
 
   belongs_to :track
-  belongs_to :room
   belongs_to :difficulty_level
   belongs_to :program
 
@@ -71,11 +71,11 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  # Checkes if the event has a start_time and a room
+  # Checkes if the event has a start_time and a room for the selected schedule if there is any
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    room.present? && start_time.present?
+    event_schedules.find_by(schedule_id: program.selected_schedule_id).present?
   end
 
   def registration_possible?
@@ -127,16 +127,6 @@ class Event < ActiveRecord::Base
     else
       result.user
     end
-  end
-
-  def as_json(options)
-    json = super(options)
-
-    json[:room_guid] = room.try(:guid)
-    json[:track_color] = track.try(:color) || '#FFFFFF'
-    json[:length] = event_type.try(:length) || EventType::LENGTH_STEP
-
-    json
   end
 
   def transition_possible?(transition)
@@ -242,17 +232,19 @@ class Event < ActiveRecord::Base
   end
 
   ##
-  # Returns end of the event
+  # Returns the room in which the event is scheduled
   #
-  def end_time
-    self.start_time + self.event_type.length.minutes
+  def room
+    # We use try(:selected_schedule_id) because this function is used for
+    # validations so program could not be present there
+    event_schedules.find_by(schedule_id: program.try(:selected_schedule_id)).try(:room)
   end
 
   ##
-  # Returns events that are scheduled in the same room and start_time as event
+  # Returns the start time at which this event is scheduled
   #
-  def intersecting_events
-    room.events.where(start_time: start_time).where.not(id: id)
+  def time
+    event_schedules.find_by(schedule_id: program.selected_schedule_id).try(:start_time)
   end
 
   private

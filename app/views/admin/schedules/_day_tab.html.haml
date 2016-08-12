@@ -1,23 +1,21 @@
-.schedule-time-column
-  .schedule-time-column-header
-    = Time
-  - (9..18).each do |hour|
-    .schedule-time-slot
-      = "#{hour}:00"
-    .schedule-time-slot
-      = "#{hour}:15"
-    .schedule-time-slot
-      = "#{hour}:30"
-    .schedule-time-slot
-      = "#{hour}:45"
-
-- @rooms.each do |room|
-  .schedule-room-column{:id => "schedule-room-#{room.guid}", "room-guid" => room.guid}
-    .schedule-room-column-header
-      = room.name
-      = "(#{room.size} people)"
-    - (9..18).each do |hour|
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-0", "room-guid" => room.guid, "hour" => "#{hour}:00"}
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-15", "room-guid" => room.guid, "hour" => "#{hour}:15"}
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-30", "room-guid" => room.guid, "hour" => "#{hour}:30"}
-      .schedule-room-slot{:id => "schedule-room-#{room.guid}-#{hour}-45", "room-guid" => room.guid, "hour" => "#{hour}:45"}
+- date_event_schedules = @event_schedules.select{ |e| e.start_time.to_date.eql? date }
+.row
+  - @rooms.each do |room|
+    .col-md-2.col-xs-6
+      .room-name
+        - room_date_event_schedules = date_event_schedules.select{ |e| e.room == room }
+        = room.name
+      - (9*4..18*4).each do |slot|
+        - hour = slot / 4
+        - minutes = (15 * (slot % 4) == 0) ? '00' : 15 * (slot % 4)
+        - time = "#{hour}:#{minutes}"
+        .schedule-room-slot{ id: "schedule-room-#{room.guid}-#{hour}-#{minutes}", |
+                             room_id: room.id, |
+                             hour: time, |
+                             date: date}
+          .div
+            = time
+          - event_schedules = room_date_event_schedules.select{ |e| (e.start_time.hour.to_s + e.start_time.strftime(':%M')).eql? time }
+          - if event_schedules.any?
+            - event_schedule = event_schedules.first
+            = render partial: 'event', locals: { event: event_schedule.event, event_schedule_id: event_schedule.id}

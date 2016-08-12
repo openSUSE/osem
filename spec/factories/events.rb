@@ -18,22 +18,20 @@ FactoryGirl.define do
     factory :event_full do
       difficulty_level
       track
-      room
       after(:build) do |event|
         event.commercials << build(:event_commercial, commercialable: event)
         event.difficulty_level = build(:difficulty_level, program: event.program)
         event.track = build(:track, program: event.program)
-        unless (venue = event.program.conference.venue)
-          venue = create(:venue, conference: event.program.conference)
+        unless event.program.conference.venue
+          create(:venue, conference: event.program.conference)
         end
-        event.room = build(:room, venue: venue)
         event.comment_threads << build(:comment, commentable: event)
       end
 
       factory :event_scheduled do
         after(:build) do |event|
           event.state = 'confirmed'
-          event.start_time = event.program.conference.start_date.to_time
+          event.event_schedules << build(:event_schedule, event: event)
         end
       end
     end

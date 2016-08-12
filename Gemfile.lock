@@ -226,6 +226,8 @@ GEM
     jquery-rails (3.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (4.2.1)
+      railties (>= 3.2.16)
     json (1.8.3)
     jwt (1.0.0)
     launchy (2.4.2)
@@ -567,6 +569,7 @@ DEPENDENCIES
   iso-639
   jquery-datatables-rails (~> 2.2.1)
   jquery-rails
+  jquery-ui-rails (~> 4.2.1)
   leaflet-rails
   letter_opener
   letter_opener_web

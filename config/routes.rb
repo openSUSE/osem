@@ -22,7 +22,8 @@ Osem::Application.routes.draw do
     resources :comments, only: [:index]
     resources :conference do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
-      resource :schedule, only: [:show, :update]
+      resources :schedules, only: [:index, :create, :show, :update, :destroy]
+      resources :event_schedules, only: [:create, :update, :destroy]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
       get '/volunteers_list' => 'volunteers#show'
@@ -112,10 +113,10 @@ Osem::Application.routes.draw do
     resources :tickets, only: [:index]
     resources :ticket_purchases, only: [:create, :destroy]
     resource :subscriptions, only: [:create, :destroy]
-
-    member do
-      get :schedule
-      get :events
+    resource :schedule, only: [:show] do
+      member do
+        get :events
+      end
     end
   end
 

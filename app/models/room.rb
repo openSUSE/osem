@@ -1,6 +1,6 @@
 class Room < ActiveRecord::Base
   belongs_to :venue
-  has_many :events, dependent: :nullify
+  has_many :event_schedules, dependent: :nullify
 
   before_create :generate_guid
 

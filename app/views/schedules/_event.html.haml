@@ -14,17 +14,17 @@
     %p
       = truncate(event.abstract, :length => 400)
       = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400
-    - if event.scheduled?
+    - if event_schedule.present?
       %span.track
         %span.fa.fa-clock-o
         %span.label{ style: "background-color: grey" }
-          = event.start_time.strftime('%H:%M')
+          = event_schedule.start_time.strftime('%H:%M')
           \-
-          = event.end_time.strftime('%H:%M')
+          = event_schedule.end_time.strftime('%H:%M')
       %span.track
         %span.fa.fa-map-marker
         %span.label{ style: "background-color: grey" }
-          = event.room.name
+          = event_schedule.room.name
     - if event.track
       %span.track
         %span.fa.fa-road
@@ -35,7 +35,7 @@
 
   $("#link-#{event.id}").click(function(e) {
     var url = "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}";
-    
+
     if(e.ctrlKey)
       window.open(url,'_blank');
     else

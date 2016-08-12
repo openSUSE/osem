@@ -1,3 +1,52 @@
+
+.room-name{
+  font-weight: bold;
+  padding:10px;
+  margin-top: 30px;
+  border: 1px solid #848484;
+  background-color: #E6E6E6;
+
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  height: 40px;
+  line-height: 25px;
+  overflow: hidden;
+}
+
+.schedule-room-slot{
+  padding: 2px 5px;
+  border: 1px solid #848484;
+  height: 58px;
+  line-height: 20px;
+  font-size: 13px;
+}
+
+.schedule-event{
+  padding: 7px;
+  border: 2px solid #151515;
+  position:relative;
+  z-index:1;
+  cursor:move;
+}
+
+.schedule-event-text{
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  line-height: 23px;
+  overflow: hidden;
+}
+
+.schedule-event-delete-button {
+    font-weight:bold;
+    cursor: pointer;
+    padding: 0px 3px;
+    border: 1px solid grey;
+    margin-right: 5px;
+}
+
 #schedule td.event {
 background-image: linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);
 background-image: -o-linear-gradient(bottom, rgb(247,250,242) 24%, rgb(194,232,190) 97%, rgb(194,232,190) 100%);

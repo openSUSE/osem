@@ -22,23 +22,23 @@ class ConferenceSerializer < ActiveModel::Serializer
 
   def rooms
     if object.venue
-      object.venue.rooms.includes(:events).map do |room| { id: room.id,
-                                                           size: room.size,
-                                                           events: room.events.map do |event| { guid: event.title,
-                                                                                                title:  event.title,
-                                                                                                subtitle: event.subtitle,
-                                                                                                abstract: event.abstract,
-                                                                                                description: event.description,
-                                                                                                is_highlight: event.is_highlight,
-                                                                                                require_registration:  event.require_registration,
-                                                                                                start_time: event.start_time,
-                                                                                                event_type_id: event.event_type.id,
-                                                                                                difficulty_level_id: event.difficulty_level_id,
-                                                                                                track_id: event.track_id,
-                                                                                                speaker_names: event.speaker_names
+      object.venue.rooms.map do |room| { id: room.id,
+                                         size: room.size,
+                                         events: room.event_schedules.map do |event_schedule| { guid: event_schedule.event.title,
+                                                                                                title:  event_schedule.event.title,
+                                                                                                subtitle: event_schedule.event.subtitle,
+                                                                                                abstract: event_schedule.event.abstract,
+                                                                                                description: event_schedule.event.description,
+                                                                                                is_highlight: event_schedule.event.is_highlight,
+                                                                                                require_registration:  event_schedule.event.require_registration,
+                                                                                                start_time: event_schedule.start_time,
+                                                                                                event_type_id: event_schedule.event.event_type.id,
+                                                                                                difficulty_level_id: event_schedule.event.difficulty_level_id,
+                                                                                                track_id: event_schedule.event.track_id,
+                                                                                                speaker_names: event_schedule.event.speaker_names
                                                                                               }
-                                                                   end
-                                                         }
+                                                 end
+                                       }
       end
     else
       []

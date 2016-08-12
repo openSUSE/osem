@@ -4,72 +4,38 @@ module Admin
     # the schedule of a conference, which should not be accessed in the first place
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
+    load_and_authorize_resource :schedule, through: :program
+    load_resource :event_schedules, through: :schedule
+    load_resource :selected_schedule, through: :program, singleton: true
     load_resource :venue, through: :conference, singleton: true
 
-    skip_before_filter :verify_authenticity_token, only: [:update]
-    layout 'schedule'
+    def index; end
+
+    def create
+      if @schedule.save
+        redirect_to admin_conference_schedule_path(@conference.short_title, @schedule.id),
+                    notice: 'Schedule was successfully created.'
+      else
+        redirect_to admin_conference_schedules_path(conference_id: @conference.short_title),
+                    error: "Could not create schedule. #{@schedule.errors.full_messages.join('. ')}."
+      end
+    end
 
     def show
-      authorize! :update, @program.events.new
-      if @conference.nil?
-        redirect_to admin_conference_index_path
-        return
-      end
+      @event_schedules = @schedule.event_schedules
+      @unscheduled_events = @program.events.confirmed - @schedule.events
       @dates = @conference.start_date..@conference.end_date
-      if @venue && @venue.rooms.any?
-        @rooms = @venue.rooms
+      @rooms = (@venue && @venue.rooms.any?) ? @venue.rooms : [Room.new(name: 'No Rooms!', size: 0)]
+    end
+
+    def destroy
+      if @schedule.destroy
+        redirect_to admin_conference_schedules_path(conference_id: @conference.short_title),
+                    notice: 'Schedule successfully deleted.'
       else
-        @rooms = [ Room.new(name: 'No Rooms!', size: 0) ]
+        redirect_to admin_conference_schedules_path(conference_id: @conference.short_title),
+                    error: "Schedule couldn't be deleted. #{@schedule.errors.full_messages.join('. ')}."
       end
-    end
-
-    def update
-      authorize! :update, @program.events.new
-      event = Event.where(guid: params[:event]).first
-      error_message = nil
-      if event.nil?
-        error_message = "Could not find event GUID: #{params[:event]}"
-      end
-
-      if params[:date] == 'none'
-        event.start_time = nil
-        event.room = nil
-        event.save!
-        render json: { 'status' => 'ok' }
-        return
-      end
-      room = Room.where(guid: room_params).first
-      if room.nil?
-        error_message = "Could not find room GUID: #{params[:room]}"
-      end
-
-      unless error_message.nil?
-        render json: { 'status' => 'error', 'message' => error_message }, status: 500
-        return
-      end
-
-      event.room = room
-      time = "#{params[:date]} #{params[:time]}"
-
-      Rails.logger.debug("Loading #{time}")
-      # FIXME: Same here as in events_controller.rb. Event timezone should be applied
-      # only on output
-      # zone = ActiveSupport::TimeZone::new(@conference.timezone)
-      # start_time = DateTime.strptime(time + zone.formatted_offset, "%Y-%m-%d %k:%M %Z")
-      start_time = DateTime.strptime(time, '%Y-%m-%d %k:%M')
-      event.start_time = start_time
-      event.save!
-      render json: { 'status' => 'ok' }
-    end
-
-    private
-
-    def event_params
-      params.require(:event).permit(:guid)
-    end
-
-    def room_params
-      params.require(:room)
     end
   end
 end

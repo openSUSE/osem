@@ -112,12 +112,12 @@
             %b Room
           %td
             = @event.room.name
-      - unless @event.start_time.nil?
+      - unless @event.time.nil?
         %tr
           %td
             %b Scheduled time
           %td
-            = @event.start_time
+            = @event.time
       %tr
         %td
           %b Submitter

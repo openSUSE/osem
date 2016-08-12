@@ -1,48 +1,38 @@
-.schedule-content
-  %h2
-    = "Schedule for #{@conference.title}"
-  #unscheduled.unscheduled
-    .unscheduled-header
-      Unscheduled Events
-  #schedule.schedule
-    .schedule-dates-header
-      %ul#date-tabs
-        - @dates.each do |date|
-          %li.date-selector
-            = link_to "#{date}", "#", id: "#{date}-selector", onclick: "Schedule.changeDay('#{date}')"
-    .schedule-rooms-container
-      = render 'day_tab'
+.unobtrusive-flash-container
+
+.row
+  .col-md-12
+    .page-header
+      %h1 Schedule
+      %p.text-muted
+        Create the schedules for the conference
+
+.row
+  .col-md-2
+    Selected schedule
+    = check_box_tag @conference.short_title, @schedule.id, (@schedule.id == @selected_schedule.try(:id)),
+      method: :patch, url: (admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='),
+      class: 'switch-checkbox-schedule', data: { size: 'small',
+                                        off_color: 'warning',
+                                        on_text: 'Yes',
+                                        off_text: 'No' }
+    .h4
+      Unscheduled events
+    .unscheduled-events
+      - @unscheduled_events.each do |e|
+        = render partial: 'event', locals: { event: e, event_schedule_id: nil }
+  .col-md-10
+    %ul.nav.nav-tabs
+      - @dates.each do |date|
+        %li{ class: "#{ (@dates.first == date) ? 'active' : '' }"}
+          %a{ href: "##{date}" }
+            = date
+    .tab-content
+      - @dates.each do |date|
+        .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
+          = render partial: 'day_tab', locals: { date: date }
 
 :javascript
   $(document).ready( function() {
-      //Schedule.loadDaysAndTracks("#{@conference.short_title}");
-      var conference = "#{@conference.short_title}"
-      Schedule.loadEvents("#{@conference.short_title}", "#{@dates.first}");
-      $('.schedule-room-slot').droppable({
-                                      accept: '.schedule-event',
-                                      tolerance: "pointer",
-                                      drop: function(event, ui) {
-                                          $(ui.draggable).appendTo(this);
-                                          var myId = $(ui.draggable).attr("guid");
-                                          var myRoom = $(this).attr("room-guid")
-                                          var myDate = $(this).attr("date");
-                                          var myTime = $(this).attr("hour");
-                                          var length = $(ui.draggable).attr("length");
-                                          $(ui.draggable).css("left", 0);
-                                          $(ui.draggable).css("top", 0);
-                                          $(this).css("background-color", "#ffffff");
-
-                                          // 15 minute slots on the schedule are 30px,
-                                          // thus the magic multiplier here
-                                          $(ui.draggable).height(length * 2 - 7);
-                                          $(ui.draggable).width($(this).width() - 10);
-                                          Schedule.save(conference, myId, myRoom, myDate, myTime);
-                                      },
-                                      over: function(event, ui) {
-                                        $(this).css("background-color", "#009ED8");
-                                      },
-                                      out: function(event, ui) {
-                                        $(this).css("background-color", "#ffffff");
-                                      }
-                                  });
+    Schedule.initialize("#{admin_conference_event_schedules_path(@conference)}", "#{@schedule.id}");
   });

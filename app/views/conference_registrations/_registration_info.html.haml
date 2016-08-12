@@ -11,7 +11,7 @@
         .text-muted
           = registered_text(event)
           - if event.scheduled?
-            (Scheduled on: #{event.start_time.to_date})
+            (Scheduled on: #{event.time.to_date})
       %br
 
 

@@ -5,7 +5,7 @@ module Api
       respond_to :json
 
       def index
-        events = Event.includes(:track, :room, :event_type, event_users: :user)
+        events = Event.includes(:track, :event_type, event_users: :user)
 
         if @conference
           events = events.where(program: @conference.program)

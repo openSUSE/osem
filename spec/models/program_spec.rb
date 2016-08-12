@@ -8,6 +8,7 @@ describe Program do
   describe 'association' do
     it { is_expected.to belong_to :conference }
     it { is_expected.to have_one(:cfp).dependent(:destroy) }
+    it { is_expected.to have_many(:schedules).dependent(:destroy) }
     it { is_expected.to have_many(:event_types).dependent(:destroy) }
     it { is_expected.to have_many(:tracks).dependent(:destroy) }
     it { is_expected.to have_many(:difficulty_levels).dependent(:destroy) }
