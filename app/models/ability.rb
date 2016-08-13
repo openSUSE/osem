@@ -212,7 +212,7 @@ class Ability
     end
 
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
-      version.item_type == 'Event' && (conf_ids_for_cfp.include? version.conference_id)
+      %w(Event Commercial).include?(version.item_type) && (conf_ids_for_cfp.include? version.conference_id)
     end
   end
 

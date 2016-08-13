@@ -15,15 +15,23 @@
             %th Description
             %th Actions
           %tbody
-            - @event.versions.each do |version|
+            - @versions.each do |version|
               %tr
                 %td
                   = version.id
                 %td
                   %p
                     = change_creator_link(version.whodunnit)
-                    = event_change_description(version)
-                    = "event #{@event.title}"
+
+                    - if version.item_type == 'Event'
+                      = event_change_description(version)
+                      = "event #{@event.title}"
+
+                    - else
+                      = general_change_description(version)
+                      =  link_to 'commercial',
+                                edit_admin_conference_program_event_path(conference_id: @conference.short_title,
+                                        id: @event.id, anchor: 'commercials-content')
 
                     %small.text-muted
                       = distance_of_time_in_words(Time.now,version.created_at) + ' ago'

@@ -42,12 +42,7 @@
               = user_change_description(version)
 
             - else
-              - if version.event == 'create'
-                = 'created new'
-              - elsif version.event == 'update'
-                = "updated #{updated_attributes(version)} of"
-              - else
-                = 'deleted'
+              = general_change_description(version)
 
             =  render partial: 'object_desc_and_link', locals: { version: version }
 
