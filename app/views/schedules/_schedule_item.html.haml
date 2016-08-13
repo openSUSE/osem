@@ -7,6 +7,12 @@
 
       = canceled_replacement_event_label(event, event_schedule, 'schedule-label')
 
+      - if current_user
+        = link_to('#', onClick: 'starClicked();') do
+          %span#star{ class: "fa fa-lg #{ event.favourite_users.exists?(current_user.id) ? 'fa-star' : 'fa-star-o' }", |
+                      "aria-hidden" =>"true", |
+                      "data-url" => conference_program_proposal_path(@conference.short_title, event.id), |
+                      "data-user" => current_user.id }
       = event.title
 
     - if current_user

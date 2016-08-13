@@ -131,9 +131,6 @@ function starClicked(e){
   }
 
   var params = { favourite_user_id: $(e.target).data('user') };
-  if($(e.target).hasClass('fa-star-o')){
-    params['add'] = true;
-  }
 
   $.ajax({
     url: $(e.target).data('url'),
