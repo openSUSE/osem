@@ -114,7 +114,7 @@ a.unstyled-link {
 .program-dropdown, .schedule-dropdown{
   margin-left: 20%;
   margin-right: 20%;
-  margin-top: 40px;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 
@@ -220,20 +220,6 @@ td.no-padding{
 .event-panel{
    cursor: pointer;
  }
-
-.program-dropdown{
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-top: 40px;
-}
-
-.program-dropdown > button{
-  width: 100%;
-}
-
-.program-dropdown > .dropdown-menu{
-  width: 100%;
-}
 
 .no-events-day{
   color:  #D8D8D8 !important;
