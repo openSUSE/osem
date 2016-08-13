@@ -5,6 +5,13 @@
     %h1.text-center
       Schedule for
       = @conference.title
+    - if current_user
+      .row
+        .col-md-12.text-center
+          = button_to (@favourites ? 'All events' : 'Only favourites events'),
+                      conference_schedule_path(@conference.short_title),
+                      params: { favourites: !@favourites },
+                      method: :get, class: 'btn btn-success'
     .dropdown.schedule-dropdown
       %button{ type: "button", class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown" }
         = @day
