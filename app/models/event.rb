@@ -1,6 +1,6 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
-  has_paper_trail
+  has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
 
@@ -280,12 +280,18 @@ class Event < ActiveRecord::Base
 
   def set_week
     self.week = created_at.strftime('%W')
-    save!
+    self.without_versioning do
+      self.save!
+    end
   end
 
   def before_end_of_conference
     errors.
         add(:created_at, "can't be after the conference end date!") if program.conference && program.conference.end_date &&
         (Date.today > program.conference.end_date)
+  end
+
+  def conference_id
+    program.conference_id
   end
 end

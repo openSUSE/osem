@@ -1,6 +1,7 @@
 # cannot delete program if there are events submitted
 
 class Cfp < ActiveRecord::Base
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program
 
   validates :program_id, presence: true
@@ -67,5 +68,9 @@ class Cfp < ActiveRecord::Base
   def start_after_end_date
     errors.
     add(:start_date, "can't be after the end date") if start_date && end_date && start_date > end_date
+  end
+
+  def conference_id
+    program.conference_id
   end
 end

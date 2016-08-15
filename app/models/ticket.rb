@@ -3,6 +3,8 @@ class Ticket < ActiveRecord::Base
   has_many :ticket_purchases, dependent: :destroy
   has_many :buyers, -> { distinct }, through: :ticket_purchases, source: :user
 
+  has_paper_trail meta: { conference_id: :conference_id }
+
   monetize :price_cents, with_model_currency: :price_currency
 
   # This validation is for the sake of simplicity.

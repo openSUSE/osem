@@ -102,6 +102,9 @@ feature 'Has correct abilities' do
 
     visit admin_conference_commercials_path(conference1.short_title)
     expect(current_path).to eq(admin_conference_commercials_path(conference1.short_title))
+
+    visit admin_revision_history_path
+    expect(current_path).to eq(admin_revision_history_path)
   end
 
   scenario 'when user is cfp' do
@@ -176,6 +179,9 @@ feature 'Has correct abilities' do
 
     visit admin_conference_commercials_path(conference2.short_title)
     expect(current_path).to eq(root_path)
+
+    visit admin_revision_history_path
+    expect(current_path).to eq(root_path)
   end
 
   scenario 'when user is info desk' do
@@ -249,6 +255,9 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(admin_conference_questions_path(conference3.short_title))
 
     visit admin_conference_commercials_path(conference3.short_title)
+    expect(current_path).to eq(root_path)
+
+    visit admin_revision_history_path
     expect(current_path).to eq(root_path)
   end
 end

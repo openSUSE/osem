@@ -483,7 +483,7 @@ ActiveRecord::Schema.define(version: 20160704092023) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
 
-  create_table "users_roles", id: false, force: :cascade do |t|
+  create_table "users_roles", force: :cascade do |t|
     t.integer "role_id"
     t.integer "user_id"
   end
@@ -529,6 +529,7 @@ ActiveRecord::Schema.define(version: 20160704092023) do
     t.text     "object"
     t.text     "object_changes"
     t.datetime "created_at"
+    t.integer  "conference_id"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"

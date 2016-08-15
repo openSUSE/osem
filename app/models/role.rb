@@ -1,6 +1,10 @@
 class Role < ActiveRecord::Base
   belongs_to :resource, polymorphic: true
-  has_and_belongs_to_many :users, join_table: :users_roles
+  has_many :users_roles
+  has_many :users, through: :users_roles
+
+  has_paper_trail on: [:update], only: [:name, :description], meta: { conference_id: :resource_id }
+
   before_destroy :cancel
   scopify
 

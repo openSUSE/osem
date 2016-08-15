@@ -114,6 +114,14 @@ class Ability
     # for admins
     can :manage, :all if user.is_admin
 
+    cannot :revert_object, PaperTrail::Version do |version|
+      (version.event == 'create' && %w(Conference User Event).include?(version.item_type))
+    end
+
+    cannot :revert_attribute, PaperTrail::Version do |version|
+      version.event != 'update' || version.item.nil?
+    end
+
     cannot :destroy, Program
     # Do not delete venue, when there are rooms being used
     cannot :destroy, Venue do |venue|
@@ -167,6 +175,10 @@ class Ability
     can [:index, :show], Role
     can [:edit, :update, :toggle_user], Role do |role|
       role.resource_type == 'Conference' && (conf_ids_for_organizer.include? role.resource_id)
+    end
+
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
+      version.item_type == 'User' || (conf_ids_for_organizer.include? version.conference_id)
     end
   end
 

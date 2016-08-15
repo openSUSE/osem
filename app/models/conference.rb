@@ -9,7 +9,7 @@ class Conference < ActiveRecord::Base
 
   default_scope { order('start_date DESC') }
 
-  has_paper_trail
+  has_paper_trail ignore: [:updated_at, :guid, :revision, :events_per_week], meta: { conference_id: :id }
 
   has_and_belongs_to_many :questions
 

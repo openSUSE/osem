@@ -3,6 +3,8 @@ class Target < ActiveRecord::Base
 
   default_scope { order('due_date ASC') }
 
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   def self.units
     {
       registrations: 'Registration',

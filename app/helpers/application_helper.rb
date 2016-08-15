@@ -370,4 +370,125 @@ module ApplicationHelper
   def selected_scheduled?(schedule)
     (schedule == @selected_schedule) ? 'Yes' : 'No'
   end
+
+  # Recieves a PaperTrail::Version object
+  # Outputs the list of attributes that were changed in the version (ignoring changes from one blank value to another)
+  # Eg: If version.changeset = '{"title"=>[nil, "Premium"], "description"=>[nil, "Premium = Super cool"], "conference_id"=>[nil, 3]}'
+  # Output will be 'title, description and conference'
+  def updated_attributes(version)
+    version.changeset.
+      reject{ |_, values| values[0].blank? && values[1].blank? }.
+      keys.map{ |key| key.gsub('_id', '').tr('_', ' ')}.join(', ').
+      reverse.sub(',', ' dna ').reverse
+  end
+
+  def change_creator_link(user_id)
+    user = User.find_by(id: user_id)
+    if user
+      link_to user.name, admin_user_path(id: user_id)
+    else
+      'Someone (probably via the console)'
+    end
+  end
+
+  # Recieves a PaperTrail::Version object
+  # Returns object in its current state if its alive
+  # Returns object as it was before version's change(unless its a create event's version)
+  # Else Returns object as it was after version's change
+  def get_version_object(version)
+    version.item || version.reify || version.next.reify
+  end
+
+  def event_change_description(version)
+    case
+    when version.event == 'create' then 'submitted new'
+
+    when version.changeset['state']
+      case version.changeset['state'][1]
+      when 'unconfirmed' then 'accepted'
+      when 'withdrawn' then 'withdrew'
+      when 'canceled', 'rejected', 'confirmed' then version.changeset['state'][1]
+      when 'new' then 'resubmitted'
+      end
+
+    when version.changeset['start_time'] && version.changeset['start_time'][0].nil?
+      'scheduled'
+
+    when version.changeset['start_time'] && version.changeset['start_time'][1].nil?
+      'unscheduled'
+
+    else
+      "updated #{updated_attributes(version)} of"
+    end
+  end
+
+  def users_role_change_description(version)
+    version.event == 'create' ? 'added' : 'removed'
+  end
+
+  def subscription_change_description(version)
+    user = get_version_object(version).user
+    user_name = user.name unless user.id.to_s == version.whodunnit
+    version.event == 'create' ? "subscribed #{user_name} to" : "unsubscribed #{user_name} from"
+  end
+
+  def registration_change_description(version)
+    if version.item_type == 'Registration'
+      user = get_version_object(version).user
+    else
+      registration_id = get_version_object(version).registration_id
+      registration_last_version = PaperTrail::Version.where(item_type: 'Registration', item_id: registration_id).last
+      user = get_version_object(registration_last_version).user
+    end
+
+    if user.id.to_s == version.whodunnit
+      case version.event
+      when 'create' then 'registered to'
+      when 'update' then "updated #{updated_attributes(version)} of the registration for"
+      when 'destroy' then 'unregistered  from'
+      end
+    else
+      case version.event
+      when 'create' then "registered #{user.name} to"
+      when 'update' then "updated #{updated_attributes(version)} of  #{user.name}'s registration for"
+      when 'destroy' then "unregistered #{user.name} from"
+      end
+    end
+  end
+
+  def comment_change_description(version)
+    user = get_version_object(version).user
+    if version.event == 'create'
+      version.previous.nil? ? 'commented on' : "re-added #{user.name}'s comment on"
+    else
+      "deleted #{user.name}'s comment on"
+    end
+  end
+
+  def vote_change_description(version)
+    user = get_version_object(version).user
+    if version.event == 'create'
+      version.previous.nil? ? 'voted on' : "re-added #{user.name}'s vote on"
+    elsif version.event == 'update'
+      "updated #{user.name}'s vote on"
+    else
+      "deleted #{user.name}'s vote on"
+    end
+  end
+
+  def user_change_description(version)
+    if version.event == 'create'
+     change_creator_link(version.item_id) + ' signed up'
+    elsif version.event == 'update'
+      if version.changeset.keys.include?('reset_password_sent_at')
+        'Someone requested password reset of'
+      elsif version.changeset.keys.include?('confirmed_at') && version.changeset['confirmed_at'][0].nil?
+        (version.whodunnit.nil? ? change_creator_link(version.item_id) : change_creator_link(version.whodunnit)) + ' confirmed account of'
+      elsif version.changeset.keys.include?('confirmed_at') && version.changeset['confirmed_at'][1].nil?
+        change_creator_link(version.whodunnit) + ' unconfirmed account of'
+      else
+        change_creator_link(version.whodunnit) + " updated #{updated_attributes(version)} of"
+      end
+    end
+  end
 end

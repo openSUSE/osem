@@ -1,0 +1,28 @@
+.col-md-10.col-md-offset-1.changeset{id: "changeset-#{version.id}"}
+  %br
+  %br
+  %table.table.table-bordered.table-hover
+    %thead
+      %tr
+        %th Updated Attribute
+        - if version.event != 'create'
+          %th Previous Value
+        - if version.event != 'destroy'
+          %th New Value
+        - if can? :revert_attribute, version
+          %th Action
+    %tbody
+      - if version.event!= 'destroy'
+        - version.changeset.reject{ |_, values| values[0].blank? && values[1].blank? }.each do |attribute, values|
+          %tr
+            %td= attribute
+            - if version.event != 'create'
+              %td= values[0].blank? ?  '-' : values[0]
+            %td= values[1].blank? ?  '-' : values[1]
+            - if can? :revert_attribute, version
+              %td= link_to 'Revert', admin_revision_history_revert_attribute_path(id: version.id, attribute: attribute), class: 'btn btn-sm btn-primary', data: { confirm: "Are you sure you want to revert #{attribute}?" }
+      - else
+        - version.reify.attributes.each do |attribute, value|
+          %tr
+            %td= attribute
+            %td= value.blank? ?  '-' : value
