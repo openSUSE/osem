@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704092023) do
+ActiveRecord::Schema.define(version: 20160815140302) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(version: 20160704092023) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "event_schedules", ["event_id", "schedule_id"], name: "index_event_schedules_on_event_id_and_schedule_id", unique: true
   add_index "event_schedules", ["event_id"], name: "index_event_schedules_on_event_id"
   add_index "event_schedules", ["room_id"], name: "index_event_schedules_on_room_id"
   add_index "event_schedules", ["schedule_id"], name: "index_event_schedules_on_schedule_id"

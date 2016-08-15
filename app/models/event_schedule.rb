@@ -7,6 +7,7 @@ class EventSchedule < ActiveRecord::Base
   validates :event, presence: true
   validates :room, presence: true
   validates :start_time, presence: true
+  validates :event, uniqueness: { scope: :schedule }
 
   scope :confirmed, -> { joins(:event).where('state = ?', 'confirmed') }
   scope :canceled, -> { joins(:event).where('state = ?', 'canceled') }
