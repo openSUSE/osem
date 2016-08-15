@@ -1545,6 +1545,14 @@ describe Conference do
       should validate_presence_of(:end_date)
     end
 
+    it 'is not valid without a start date' do
+      should validate_presence_of(:start_hour)
+    end
+
+    it 'is not valid without an end date' do
+      should validate_presence_of(:end_hour)
+    end
+
     it 'is not valid with a duplicate short title' do
       should validate_uniqueness_of(:short_title)
     end
@@ -1569,6 +1577,21 @@ describe Conference do
 
       it 'is not valid if start date is greater than end date' do
         expect(subject.start_date).to be <= subject.end_date
+      end
+    end
+
+    describe 'valid_times_range?' do
+
+      it 'is not valid if start hour is lower than 0' do
+        expect(subject.start_hour).to be >= 0
+      end
+
+      it 'is not valid if end hour is lower or equal than start hour' do
+        expect(subject.start_hour).to be < subject.end_hour
+      end
+
+      it 'is not valid if end hour is greater than 24' do
+        expect(subject.end_hour).to be <= 24
       end
     end
 
