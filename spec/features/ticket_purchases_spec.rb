@@ -29,9 +29,59 @@ feature Registration do
         click_button 'Continue'
 
         expect(current_path).to eq(new_conference_payment_path(conference.short_title))
-        expect(flash).to eq('Please pay here to purchase tickets.')
+        expect(flash).to eq('Please pay here to get tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
+
+        find('.stripe-button-el').click
+
+        stripe_iframe = all('iframe[name=stripe_checkout_app]').last
+        sleep(5)
+        Capybara.within_frame stripe_iframe do
+          expect(page).to have_content('book your tickets')
+          page.execute_script(%{ $('input#card_number').val('4242424242424242'); })
+          page.execute_script(%{ $('input#cc-exp').val('08/22'); })
+          page.execute_script(%{ $('input#cc-csc').val('123'); })
+          page.execute_script(%{ $('#submitButton').click(); })
+          sleep(30)
+        end
+
+        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
+        expect(page.has_content?("2 #{ticket.title} Tickets for $ 10")).to be true
+      end
+
+      scenario 'purchases ticket but payment fails', feature: true, js: true do
+        visit root_path
+        click_link 'Register'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
+
+        fill_in "tickets__#{ticket.id}", with: '2'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+
+        expect(current_path).to eq(new_conference_payment_path(conference.short_title))
+        expect(flash).to eq('Please pay here to get tickets.')
+        purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
+        expect(purchase.quantity).to eq(2)
+
+        find('.stripe-button-el').click
+
+        stripe_iframe = all('iframe[name=stripe_checkout_app]').last
+        sleep(5)
+        Capybara.within_frame stripe_iframe do
+          expect(page).to have_content('book your tickets')
+          page.execute_script(%{ $('input#card_number').val('4000000000000341'); })
+          page.execute_script(%{ $('input#cc-exp').val('08/22'); })
+          page.execute_script(%{ $('input#cc-csc').val('123'); })
+          page.execute_script(%{ $('#submitButton').click(); })
+          sleep(30)
+        end
+
+        expect(current_path).to eq(conference_payments_path(conference.short_title))
+        expect(flash).to eq('Your card was declined. Please try again with correct credentials.')
       end
     end
   end
