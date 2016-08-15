@@ -177,7 +177,8 @@ module Admin
 
     def conference_params
       params.require(:conference).permit(:title, :short_title, :description, :timezone,
-                                         :start_date, :end_date, :rooms_attributes, :tracks_attributes,
+                                         :start_date, :end_date, :start_hour, :end_hour,
+                                         :rooms_attributes, :tracks_attributes,
                                          :tickets_attributes, :event_types_attributes,
                                          :picture, :picture_cache, :questions_attributes,
                                          :question_ids, :answers_attributes, :answer_ids, :difficulty_levels_attributes,
