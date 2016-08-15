@@ -254,6 +254,8 @@ module ApplicationHelper
   end
 
   def markdown(text)
+    return '' if text.nil?
+
     options = {
       autolink: true,
       space_after_headers: true,
