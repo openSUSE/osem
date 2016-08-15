@@ -45,7 +45,7 @@
         .col-md-12
           .lead
             = canceled_replacement_event_label(@event, @event_schedule)
-            = replacement_event_notice(@event, @event_schedule)
+            = replacement_event_notice(@event_schedule)
 
           - if @event.commercials.empty?
             %h5.text-warning

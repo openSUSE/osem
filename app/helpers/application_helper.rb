@@ -522,13 +522,13 @@ module ApplicationHelper
   def canceled_replacement_event_label(event, event_schedule, *label_classes)
     if event.state == 'canceled' || event.state == 'withdrawn'
       content_tag :span, 'CANCELED', class: (['label', 'label-danger'] + label_classes)
-    elsif event.state == 'confirmed' && event_schedule.present? && (!event_schedule.intersecting_events.canceled.empty? || !event_schedule.intersecting_events.withdrawn.empty?)
+    elsif event_schedule.present? && event_schedule.replacement?
       content_tag :span, 'REPLACEMENT', class: (['label', 'label-info'] + label_classes)
     end
   end
 
-  def replacement_event_notice(event, event_schedule)
-    if event.state == 'confirmed' && event_schedule.present? && (!event_schedule.intersecting_events.withdrawn.empty? || !event_schedule.intersecting_events.canceled.empty?)
+  def replacement_event_notice(event_schedule)
+    if event_schedule.present? && event_schedule.replacement?
       replaced_event = (event_schedule.intersecting_events.withdrawn.first || event_schedule.intersecting_events.canceled.first).event
       content_tag :span do
         concat content_tag :span, 'Please note that this talk replaces '

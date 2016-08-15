@@ -31,6 +31,10 @@ class EventSchedule < ActiveRecord::Base
     room.event_schedules.where(start_time: start_time, schedule: schedule).where.not(id: id)
   end
 
+  def replacement?
+    event.state == 'confirmed' && (!intersecting_events.canceled.empty? || !intersecting_events.withdrawn.empty?)
+  end
+
   private
 
   def conference_id
