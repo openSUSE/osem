@@ -4,13 +4,12 @@
 
       .dropdown.pull-right
         %button.btn.btn-success.dropdown-toggle{'data-toggle' => 'dropdown', type: 'button'}
-          = @conference_id.nil? ? 'All Conferences & Users' : Conference.find(@conference_id).short_title
+          = @conference.nil? ? 'All Conferences & Users' : @conference.short_title
           %span.caret
         %ul.dropdown-menu
           %li= link_to 'All Conferences & Users',  admin_revision_history_path
-          - @conf_ids_for_organizer.each do |conf_id|
-            - conference = Conference.find(conf_id)
-            %li= link_to conference.short_title,  admin_revision_history_path(conference_id: conference.id)
+          - @conf_ids_for_organizer.each do |conference_short_title|
+            %li= link_to conference_short_title,  admin_conference_revision_history_path(conference_id: conference_short_title)
 
       %h1 Revision History
       %p.text-muted

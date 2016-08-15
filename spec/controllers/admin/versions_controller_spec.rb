@@ -102,7 +102,7 @@ describe Admin::VersionsController do
       it 'raises error if user is not an organizer of specified conference' do
         user = create(:user)
         sign_in user
-        get :index, conference_id: conference.id
+        get :index, conference_id: conference.short_title
         expect(flash[:alert]).to match('You are not authorized to access this area.')
       end
     end
