@@ -178,9 +178,8 @@ class Ability
       role.resource_type == 'Conference' && (conf_ids_for_organizer.include? role.resource_id)
     end
 
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
-      version.item_type == 'User' || (conf_ids_for_organizer.include? version.conference_id)
-    end
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'User'
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, conference_id: conf_ids_for_organizer
   end
 
   def signed_in_with_cfp_role(user)
