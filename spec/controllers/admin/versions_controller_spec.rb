@@ -99,12 +99,6 @@ describe Admin::VersionsController do
     end
 
     describe 'GET #index' do
-      it 'raises error if conference_id is invalid' do
-        sign_in admin
-        get :index, conference_id: 88
-        expect(flash[:error]).to match('Conference with ID 88 does not exist!')
-      end
-
       it 'raises error if user is not an organizer of specified conference' do
         user = create(:user)
         sign_in user

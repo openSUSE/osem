@@ -7,11 +7,6 @@ module Admin
       @conf_ids_for_organizer = current_user.is_admin? ? Conference.pluck(:id) : Conference.with_role(:organizer, current_user).pluck(:id)
       @conference_id = params[:conference_id].to_i unless params[:conference_id].nil?
 
-      unless @conference_id.nil? || Conference.exists?(id: @conference_id)
-        redirect_to admin_revision_history_path, error: "Conference with ID #{@conference_id} does not exist!"
-        return
-      end
-
       return unless @conference_id.present?
       authorize! :index, PaperTrail::Version.new(conference_id: @conference_id)
       @versions = @versions.where(conference_id:  @conference_id)
