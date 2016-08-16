@@ -9,29 +9,36 @@
       = render 'proposal'
     #history-content.tab-pane
       .col-md-12
-        %table.table
+        %table.table.table-striped.table-bordered.table-hover.datatable
           %thead
-            %th
-              %b Who
-            %th
-              %b Timestamp
-            %th
-              %b Modification Type
-            %th
-              %b Changes
+            %th ID
+            %th Description
+            %th Actions
           %tbody
-          - @event.versions.each do |version|
-            %tr
-              %td
-                - unless version.whodunnit.nil?
-                  = User.find(version.whodunnit).name
-                - else
-                  No user (probably via the console)
-              %td
-                = version.created_at
-              %td
-                = version.event
-              %td
-                - version.changeset.each_key do |key|
-                  = "#{key}: #{version.changeset[key][0]} -> #{version.changeset[key][1]}"
+            - @versions.each do |version|
+              %tr
+                %td
+                  = version.id
+                %td
+                  %p
+                    = change_creator_link(version.whodunnit)
+
+                    - if version.item_type == 'Event'
+                      = event_change_description(version)
+                      = "event #{@event.title}"
+
+                    - else
+                      = general_change_description(version)
+                      =  link_to 'commercial',
+                                edit_admin_conference_program_event_path(conference_id: @conference.short_title,
+                                        id: @event.id, anchor: 'commercials-content')
+
+                    %small.text-muted
+                      = distance_of_time_in_words(Time.now,version.created_at) + ' ago'
+                      %br
+                      = "(#{version.created_at.strftime('%B %-d, %Y %H:%M')})"
+
                   %br
+                  = render partial: 'shared/object_changes', locals: { version: version }
+                %td
+                  = render partial: 'shared/changelog_actions', locals: { version: version }

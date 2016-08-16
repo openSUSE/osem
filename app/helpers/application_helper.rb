@@ -493,4 +493,14 @@ module ApplicationHelper
       end
     end
   end
+
+  def general_change_description(version)
+    if version.event == 'create'
+      'created new'
+    elsif version.event == 'update'
+      "updated #{updated_attributes(version)} of"
+    else
+      'deleted'
+    end
+  end
 end

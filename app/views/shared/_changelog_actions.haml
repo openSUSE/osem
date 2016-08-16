@@ -1,0 +1,15 @@
+.btn-group{role: 'group'}
+  %a.btn.btn-success.btn-sm.show-changeset{id: version.id} View Changes
+  - if can? :revert_object, version
+    %button.btn.btn-default.dropdown-toggle.btn-sm.btn-primary{'data-toggle' => 'dropdown', type: 'button'}
+      Revert
+      %span.caret
+    %ul.dropdown-menu
+      %li= link_to 'All Changes', admin_revision_history_revert_object_path(id: version.id), data: { confirm: 'Are you sure you want to revert this change?' }
+
+      - if can? :revert_attribute, version
+        %li.divider{role: 'separator'}
+        - version.changeset.reject{ |_, values| values[0].blank? && values[1].blank? }.each do |attribute, values|
+          %li= link_to attribute, admin_revision_history_revert_attribute_path(id: version.id, attribute: attribute), data: { confirm: "Are you sure you want to revert #{attribute}?" }
+  - else
+    %button.btn.btn-sm.btn-primary.disabled Revert
