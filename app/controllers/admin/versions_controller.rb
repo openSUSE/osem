@@ -4,7 +4,7 @@ module Admin
     load_and_authorize_resource class: PaperTrail::Version
 
     def index
-      @conf_ids_for_organizer = current_user.is_admin? ? Conference.pluck(:short_title) : Conference.with_role(:organizer, current_user).pluck(:short_title)
+      @conf_ids_with_role = current_user.is_admin? ? Conference.pluck(:short_title) : Conference.with_role([:organizer, :cfp, :info_desk], current_user).pluck(:short_title)
 
       return unless @conference.present?
       authorize! :index, PaperTrail::Version.new(conference_id: @conference.id)
