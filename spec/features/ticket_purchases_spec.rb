@@ -43,9 +43,10 @@ feature Registration do
           page.execute_script(%{ $('input#cc-exp').val('08/22'); })
           page.execute_script(%{ $('input#cc-csc').val('123'); })
           page.execute_script(%{ $('#submitButton').click(); })
-          sleep(30)
+          sleep(20)
         end
 
+        expect(page).to have_content("2 #{ticket.title} Tickets for $ 10")
         expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
         expect(page.has_content?("2 #{ticket.title} Tickets for $ 10")).to be true
       end
@@ -77,7 +78,7 @@ feature Registration do
           page.execute_script(%{ $('input#cc-exp').val('08/22'); })
           page.execute_script(%{ $('input#cc-csc').val('123'); })
           page.execute_script(%{ $('#submitButton').click(); })
-          sleep(30)
+          sleep(20)
         end
 
         expect(current_path).to eq(conference_payments_path(conference.short_title))
