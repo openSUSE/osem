@@ -1,18 +1,25 @@
+- conference = Conference.find_by(id: version.conference_id)
+- conference_short_title = conference.try(:short_title) || 'deleted_conference'
+- conference_title = conference.try(:title) || 'Deleted Conference'
+
 - case version.item_type
 - when 'UsersRole'
   - users_role = current_or_last_object_state(version.item_type, version.item_id)
   - user = current_or_last_object_state('User', users_role.user_id)
   = 'role'
-  = link_to users_role.role.name, admin_conference_role_path(conference_id: Conference.find(version.conference_id).short_title, id: users_role.role.name)
+  = link_to users_role.role.name, admin_conference_role_path(conference_id: conference_short_title, id: users_role.role.name)
   = version.event == 'create' ? 'to' : 'from'
   = 'user'
 
   = link_to (user.try(:name) || 'deleted user'), admin_user_path(id: users_role.user.id)
 
 - when 'Subscription', 'Registration'
-  = 'conference'
-  = link_to Conference.find(version.conference_id).title,
-          admin_conference_registrations_path(conference_id: Conference.find(version.conference_id).short_title)
+  - if conference
+    = 'conference'
+    = link_to conference_title,
+            admin_conference_registrations_path(conference_id: conference_short_title)
+  - else
+    = "deleted conference with ID #{version.conference_id}"
 
 - when 'Commercial'
   - commercial = current_or_last_object_state(version.item_type, version.item_id)
@@ -25,7 +32,7 @@
     - if commercialable_last_version.item
       event
       =  link_to commercialable.title,
-             admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: commercialable.id)
+             admin_conference_program_event_path(conference_id: conference_short_title, id: commercialable.id)
     - else
       = commercialable.title
 
@@ -33,134 +40,134 @@
     commercial in venue
     - if commercialable_last_version.item
       = link_to commercialable.name,
-            edit_admin_conference_venue_path(conference_id: Conference.find(version.conference_id).short_title,
+            edit_admin_conference_venue_path(conference_id: conference_short_title,
                                                 id: commercialable.id, anchor: 'commercials-content')
     - else
       = commercialable.name
 
   - when 'Conference'
     = link_to 'commercial',
-            admin_conference_commercials_path(conference_id: Conference.find(version.conference_id).short_title)
+            admin_conference_commercials_path(conference_id: conference_short_title)
 
 - when 'EventsRegistration', 'Comment', 'Vote', 'Event'
   = 'event'
   - object = current_or_last_object_state(version.item_type, version.item_id)
   - event_id = object.try(:id) || object.try(:event_id) || object.commentable_id
   = link_to (current_or_last_object_state('Event', event_id).try(:title) || 'deleted event'),
-          admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_id)
+          admin_conference_program_event_path(conference_id: conference_short_title, id: event_id)
 
 - when 'Target'
   = 'target'
   - target = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, target.to_s, admin_conference_targets_path(conference_id: Conference.find(version.conference_id).short_title)
+  = link_if_alive version, target.to_s, admin_conference_targets_path(conference_id: conference_short_title)
 
 - when 'EventSchedule'
   - event_schedule = current_or_last_object_state(version.item_type, version.item_id)
   event
   = link_to (current_or_last_object_state('Event', event_schedule.event_id).try(:title) || 'deleted event'),
-           admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_schedule.event_id)
+           admin_conference_program_event_path(conference_id: conference_short_title, id: event_schedule.event_id)
   in
   =  link_to "Schedule #{event_schedule.schedule_id}",
-            admin_conference_schedule_path(conference_id: Conference.find(version.conference_id).short_title, id: event_schedule.schedule_id)
+            admin_conference_schedule_path(conference_id: conference_short_title, id: event_schedule.schedule_id)
 
 - when 'Schedule'
   = link_if_alive version, "Schedule #{version.item_id}",
-            admin_conference_schedule_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+            admin_conference_schedule_path(conference_id: conference_short_title, id: version.item_id)
 
 - when 'Conference'
   = 'conference'
-  = link_to Conference.find(version.conference_id).title,
-          edit_admin_conference_path(id: Conference.find(version.conference_id).short_title)
+  = link_to Conference.find(version.item_id).title,
+          edit_admin_conference_path(id: Conference.find(version.item_id).short_title)
 
 - when 'RegistrationPeriod'
   = link_if_alive version, 'registration period',
-          admin_conference_registration_period_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_registration_period_path(conference_id: conference_short_title)
 
 - when 'Contact'
   = link_if_alive version, 'contact details',
-          edit_admin_conference_contact_path(conference_id: Conference.find(version.conference_id).short_title)
+          edit_admin_conference_contact_path(conference_id: conference_short_title)
 
 - when 'Program'
   = link_if_alive version, 'program',
-          admin_conference_program_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_program_path(conference_id: conference_short_title)
 
 - when 'Cfp'
   = link_if_alive version, 'cfp',
-          admin_conference_program_cfp_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_program_cfp_path(conference_id: conference_short_title)
 
 - when 'Track'
   = 'track'
   - track = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, track.name,
-          admin_conference_program_track_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+          admin_conference_program_track_path(conference_id: conference_short_title, id: version.item_id)
 
 - when 'EventType'
   = 'event type'
   - event_type = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, event_type.title,
-          admin_conference_program_event_types_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_program_event_types_path(conference_id: conference_short_title)
 
 - when 'Role'
   = 'role'
   - role = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, role.name,
-          admin_conference_role_path(conference_id: Conference.find(version.conference_id).short_title, id: role.name)
+          admin_conference_role_path(conference_id: conference_short_title, id: role.name)
 
 - when 'Venue'
   = 'venue'
   - venue = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, venue.name,
-          admin_conference_venue_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_venue_path(conference_id: conference_short_title)
 
 - when 'Lodging'
   = 'lodging'
   - lodging = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, lodging.name,
-          admin_conference_lodgings_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_lodgings_path(conference_id: conference_short_title)
 
 - when 'Room'
   = 'room'
   - room = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, room.name,
-          admin_conference_venue_rooms_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_venue_rooms_path(conference_id: conference_short_title)
 
 - when 'Sponsor'
   = 'sponsor'
   - sponsor = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, sponsor.name,
-          admin_conference_sponsors_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_sponsors_path(conference_id: conference_short_title)
 
 - when 'SponsorshipLevel'
   = 'sponsorship level'
   - sponsorship_level = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, sponsorship_level.title,
-          admin_conference_sponsorship_levels_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_sponsorship_levels_path(conference_id: conference_short_title)
 
 - when 'Ticket'
   = 'ticket'
   - ticket = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, ticket.title,
-          admin_conference_ticket_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+          admin_conference_ticket_path(conference_id: conference_short_title, id: version.item_id)
 
 - when 'Campaign'
   = 'campaign'
   - campaign = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, campaign.name,
-          admin_conference_campaigns_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_campaigns_path(conference_id: conference_short_title)
 
 - when 'DifficultyLevel'
   = 'difficulty level'
   - difficulty_level = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, difficulty_level.title,
-          admin_conference_program_difficulty_level_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+          admin_conference_program_difficulty_level_path(conference_id: conference_short_title, id: version.item_id)
 
 - when 'Splashpage'
   = link_if_alive version, 'splashpage',
-          admin_conference_splashpage_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_splashpage_path(conference_id: conference_short_title)
 
 - when 'EmailSettings'
   = link_if_alive version, 'email settings',
-          admin_conference_emails_path(conference_id: Conference.find(version.conference_id).short_title)
+          admin_conference_emails_path(conference_id: conference_short_title)
 
 - when 'User'
   - if version.event == 'update'
@@ -168,6 +175,9 @@
     = link_to (current_or_last_object_state('User', version.item_id).try(:name) || 'deleted user'), admin_user_path(id: version.item_id)
 
 - unless %w(Conference Subscription Registration User).include?(version.item_type)
-  = "in conference"
-  = link_to Conference.find(version.conference_id).short_title,
-          edit_admin_conference_path(id: Conference.find(version.conference_id).short_title)
+  - if conference
+    = "in conference"
+    = link_to conference_short_title,
+            edit_admin_conference_path(id: conference_short_title)
+  - else
+    = "in deleted conference with ID #{version.conference_id}"
