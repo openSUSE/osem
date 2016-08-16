@@ -182,7 +182,7 @@ class User < ActiveRecord::Base
   end
 
   def confirmed?
-    !confirmed_at.nil?
+    confirmed_at.present?
   end
 
   def proposals(conference)

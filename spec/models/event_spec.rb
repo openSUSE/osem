@@ -22,8 +22,10 @@ describe Event do
 
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:abstract) }
+    it { should validate_length_of(:abstract).is_at_least(20) }
     it { is_expected.to validate_presence_of(:program) }
     it { is_expected.to validate_presence_of(:event_type) }
+
 
     describe 'max_attendees_no_more_than_room_size' do
       before :each do
