@@ -3,7 +3,7 @@ class Role < ActiveRecord::Base
   has_many :users_roles
   has_many :users, through: :users_roles
 
-  has_paper_trail on: [:update], only: [:name, :description], meta: { conference_id: :resource_id }
+  has_paper_trail on: [:create, :update], only: [:name, :description], meta: { conference_id: :resource_id }
 
   before_destroy :cancel
   scopify

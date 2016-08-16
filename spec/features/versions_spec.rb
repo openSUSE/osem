@@ -58,6 +58,7 @@ feature 'Version' do
     new_conference.update_attributes(title: 'New Con', short_title: 'NewCon')
 
     visit admin_revision_history_path
+    select '100', from: 'versionstable_length'
     expect(page).to have_text('Someone (probably via the console) created new conference New Con')
     expect(page).to have_text('Someone (probably via the console) created new event type Talk in conference NewCon')
     expect(page).to have_text('Someone (probably via the console) created new event type Workshop in conference NewCon')

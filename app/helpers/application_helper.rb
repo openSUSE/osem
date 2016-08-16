@@ -397,6 +397,7 @@ module ApplicationHelper
   # Returns object as it was before version's change(unless its a create event's version)
   # Else Returns object as it was after version's change
   def get_version_object(version)
+    return nil unless version
     version.item || version.reify || version.next.reify
   end
 
@@ -501,5 +502,11 @@ module ApplicationHelper
     else
       'deleted'
     end
+  end
+
+  def object_last_description(model_name, id)
+    object_version = PaperTrail::Version.where(item_type: model_name, item_id: id).last
+    object = (object_version.reify || object_version.item) if object_version
+    object.try(:name) || object.try(:title)
   end
 end
