@@ -10,6 +10,17 @@ module Admin
       @users = User.all
     end
 
+    # This action allow admins to manually toggle confirmation state of another user
+    def toggle_confirmation
+      if user_params[:to_confirm] == 'true'
+        @user.confirm
+      elsif user_params[:to_confirm] == 'false'
+        @user.confirmed_at = nil
+        @user.save
+      end
+      head :ok
+    end
+
     def show
       # Variable @show_attributes holds the attributes that are visible for the 'show' action
       # If you want to change the attributes that are shown in the 'show' action of users
@@ -40,7 +51,7 @@ module Admin
 
     def user_params
       params.require(:user).permit(:email, :name, :email_public, :biography, :nickname, :affiliation, :is_admin, :username, :login, :is_disabled,
-                                   :tshirt, :mobile, :volunteer_experience, :languages, role_ids: [])
+                                   :tshirt, :mobile, :volunteer_experience, :languages, :to_confirm, role_ids: [])
     end
   end
 end

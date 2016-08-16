@@ -18,6 +18,19 @@ describe Admin::UsersController do
       expect(response).to render_template :index
     end
   end
+  describe 'PATCH #toggle_confirmation' do
+    it 'confirms user' do
+      user_to_confirm = create(:user, email: 'unconfirmed_user@osem.io', confirmed_at: nil)
+      patch :toggle_confirmation, id: user_to_confirm.id, user: { to_confirm: 'true' }
+      user_to_confirm.reload
+      expect(user_to_confirm.confirmed?).to eq true
+    end
+    it 'undo confirmation of user' do
+      patch :toggle_confirmation, id: user.id, user: { to_confirm: 'false' }
+      user.reload
+      expect(user.confirmed?).to eq false
+    end
+  end
   describe 'PATCH #update' do
     context 'valid attributes' do
       before :each do
