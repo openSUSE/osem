@@ -7,7 +7,7 @@
           = "(#{@users.length})"
 .row
   .col-md-12.table-responsive
-    %table.table.table-striped.table-bordered.table-hover.datatable
+    %table.table.table-striped.table-bordered.table-hover#userstable{data: {source: admin_users_path(format: :json)}}
       %thead
         %th ID
         %th State
@@ -18,31 +18,3 @@
         %th View
         %th Edit
       %tbody
-        - @users.each do |user|
-          %tr
-            %td
-              = user.id
-            %td
-              - if user.confirmed?
-                confirmed
-              - else
-                unconfirmed
-            %td
-              = user.email
-            %td
-              = user.name
-            %td
-              = user.registrations.where(attended: true).count
-            %td
-              - unless user.get_roles.blank?
-                = show_roles(user.get_roles.first(2))
-                - if user.get_roles.count > 2
-                  = '...'
-              - else
-                None
-            %td
-              - if can? :show, user
-                = link_to 'View', admin_user_path(user), class: 'btn btn-success'
-            %td
-              - if can? :update, user
-                = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-primary'
