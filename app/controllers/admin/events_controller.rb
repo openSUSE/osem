@@ -86,7 +86,9 @@ module Admin
       @comment_count = @event.comment_threads.count
       @ratings = @event.votes.includes(:user)
       @difficulty_levels = @program.difficulty_levels
-      @versions = @event.versions | PaperTrail::Version.where(item_type: 'Commercial', item_id: @event.commercials.pluck(:id))
+      @versions = @event.versions |
+       PaperTrail::Version.where(item_type: 'Commercial').where_object(commercialable_id: @event.id, commercialable_type: 'Event') |
+       PaperTrail::Version.where(item_type: 'Commercial').where_object_changes(commercialable_id: @event.id, commercialable_type: 'Event')
     end
 
     def edit
