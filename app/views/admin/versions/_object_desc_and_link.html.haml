@@ -49,6 +49,23 @@
   - else
     = PaperTrail::Version.where(item_type: 'Target', item_id: version.item_id).last.reify.to_s
 
+- elsif version.item_type == 'EventSchedule'
+  - event_schedule = get_version_object(version)
+  event
+  =  link_to Event.find(event_schedule.event_id),
+           admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_schedule.event_id)
+  in
+  =  link_to "Schedule #{event_schedule.schedule_id}",
+            admin_conference_schedules_path(conference_id: Conference.find(version.conference_id).short_title, id: event_schedule.schedule_id)
+
+- elsif version.item_type == 'Schedule'
+  - schedule = get_version_object(version)
+  - if version.item
+    =  link_to "Schedule #{event_schedule.schedule_id}",
+              admin_conference_schedules_path(conference_id: Conference.find(version.conference_id).short_title, id: event_schedule.schedule_id)
+  - else
+    = "Schedule #{event_schedule.schedule_id}"
+
 - elsif  version.item
   - case version.item_type
   - when 'Conference'

@@ -413,12 +413,6 @@ module ApplicationHelper
       when 'new' then 'resubmitted'
       end
 
-    when version.changeset['start_time'] && version.changeset['start_time'][0].nil?
-      'scheduled'
-
-    when version.changeset['start_time'] && version.changeset['start_time'][1].nil?
-      'unscheduled'
-
     else
       "updated #{updated_attributes(version)} of"
     end
@@ -491,6 +485,14 @@ module ApplicationHelper
       else
         link_to_user(version.whodunnit) + " updated #{updated_attributes(version)} of"
       end
+    end
+  end
+
+  def event_schedule_change_description(version)
+    case version.event
+    when 'create' then 'scheduled'
+    when 'update' then 'rescheduled'
+    when 'destroy' then 'unscheduled'
     end
   end
 

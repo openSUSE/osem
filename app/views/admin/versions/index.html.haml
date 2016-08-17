@@ -41,6 +41,9 @@
             - when 'User'
               = user_change_description(version)
 
+            - when 'EventSchedule'
+              = event_schedule_change_description(version)
+
             - else
               = general_change_description(version)
 

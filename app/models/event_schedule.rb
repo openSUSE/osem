@@ -3,6 +3,8 @@ class EventSchedule < ActiveRecord::Base
   belongs_to :event
   belongs_to :room
 
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
+
   validates :schedule, presence: true
   validates :event, presence: true
   validates :room, presence: true
@@ -27,5 +29,11 @@ class EventSchedule < ActiveRecord::Base
   #
   def intersecting_events
     room.event_schedules.where(start_time: start_time, schedule: schedule).where.not(id: id)
+  end
+
+  private
+
+  def conference_id
+    schedule.program.conference_id
   end
 end
