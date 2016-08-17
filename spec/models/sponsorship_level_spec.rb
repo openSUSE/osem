@@ -29,13 +29,13 @@ describe SponsorshipLevel do
 
     it 'is positions sponsorship_levels in order' do
       expect(SponsorshipLevel.where(conference_id: conference.id).order(:position).map(&:id))
-        .to eq [2, 1, 3]
+        .to eq [@second_sponsorship_level.id, @first_sponsorship_level.id, @third_sponsorship_level.id]
     end
 
     it 'maintains order after deleting one element' do
       @first_sponsorship_level.destroy
       expect(SponsorshipLevel.where(conference_id: conference.id).order(:position).map(&:id))
-        .to eq [2, 3]
+        .to eq [@second_sponsorship_level.id, @third_sponsorship_level.id]
     end
   end
 end

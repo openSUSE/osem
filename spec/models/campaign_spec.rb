@@ -36,7 +36,7 @@ describe Campaign do
       campaign.conference = build(:conference)
 
       create(:visit, utm_source: 'google+', utm_medium: 'advertisement',
-                     utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent', started_at: Time.now)
+                     utm_term: 'opensource', utm_content: 'content', utm_campaign: '20percent', started_at: Time.now + 1.hour)
       expect(campaign.visits_count).to eq(1)
     end
 
