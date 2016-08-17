@@ -28,7 +28,9 @@ Osem::Application.routes.draw do
     resources :conferences do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
-      resources :event_schedules, only: [:create, :update, :destroy]
+      post '/bulk_create' => 'event_schedules#bulk_create'
+      post '/bulk_update' => 'event_schedules#bulk_update'
+      post '/bulk_destroy' => 'event_schedules#bulk_destroy'
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
       get '/volunteers_list' => 'volunteers#show'

@@ -1,7 +1,8 @@
-var url; // Should be initialize in Schedule.initialize
+var conference_id; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
-var events_to_save = {};
+var events_to_create = {};
+var events_to_update = {};
 var events_to_remove = {};
 
 function showMessage(message, type){
@@ -11,105 +12,101 @@ function showMessage(message, type){
 }
 
 var Schedule = {
-  initialize: function(url_param, schedule_id_param) {
-    url = url_param;
+  initialize: function(conference_id_param, schedule_id_param) {
+    conference_id = conference_id_param;
     schedule_id = schedule_id_param;
   },
   remove: function(element) {
     var e =  $("#" + element);
     var event_id = e.attr("event_id");
-    if(e.attr("event_schedule_id")!= null){
-      events_to_remove[event_id] = {
-        event: e,
-        previous_parent: e.parent()
-      };
+    var event_schedule_id = e.attr("event_schedule_id");
+    if(event_schedule_id != null){
+      events_to_remove[event_id] = event_schedule_id;
     }
-    delete events_to_save[event_id];
+    delete events_to_create[event_id];
+    delete events_to_update[event_id];
     var unscheduled = $(".unscheduled-events");
     e.appendTo(unscheduled);
     e.find(".schedule-event-delete-button").hide();
   },
-  add: function (previous_parent, new_parent, event) {
-    var params = {
-      previous_parent: previous_parent,
-      new_parent: new_parent,
-      event: event
-    }
+  add: function (new_parent, event) {
     var event_id = event.attr("event_id");
-    events_to_save[event_id] = params;
+    var event_schedule_id = event.attr("event_schedule_id");
+    var room_id = new_parent.attr("room_id");
+    var start_time = (new_parent.attr("date") + ' ' + new_parent.attr("hour"));
+    if(event_schedule_id != null){
+      var params = {};
+      params[event_schedule_id] = {
+        room_id: room_id,
+        start_time: start_time
+      };
+      events_to_update[event_id] = params;
+      delete events_to_create[event_id];
+    }
+    else{
+      events_to_create[event_id] = {
+        room_id: room_id,
+        start_time: start_time,
+        event_id: event_id,
+        schedule_id: schedule_id
+      };
+      delete events_to_update[event_id];
+    }
     delete events_to_remove[event_id];
     event.appendTo(new_parent);
     $("#event-" + event_id).find(".schedule-event-delete-button").show();
   },
   saveEvents: function () {
     var errors = '';
-    for (var key in events_to_save){
-      var event = events_to_save[key]['event'];
-      var event_schedule_id = event.attr("event_schedule_id");
-      var new_parent = events_to_save[key]['new_parent'];
-      var my_url = url;
-      var type = 'POST';
-      var params = { event_schedule: {
-        room_id: new_parent.attr("room_id"),
-        start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
-      }};
-      if(event_schedule_id != null){
-        type = 'PUT';
-        my_url += ('/' + event_schedule_id);
-      }
-      else{
-        params['event_schedule']['event_id'] = event.attr("event_id");
-        params['event_schedule']['schedule_id'] = schedule_id;
-      }
-      var success_callback_save = function(data) {
-        console.log(data);
-        event.attr("event_schedule_id", data.event_schedule_id);
-        }
-      var error_callback_save = function(data) {
-        console.log(data);
+    var with_errors = false;
+    var error_callback = function(data) {
+      try{
         errors += $.parseJSON(data.responseText).errors;
-        event.appendTo(events_to_save[key]['previous_parent']);
-        if(parent.hasClass('unscheduled-events'))
-          event.find(".schedule-event-delete-button").hide();
+        with_errors = true;
+      }catch(e){
+        with_errors = true;
       }
+    }
+    if(!jQuery.isEmptyObject(events_to_create)){
       $.ajax({
         async: false,
-        url: my_url,
-        type: type,
-        data: params,
-        success: success_callback_save,
-        error: error_callback_save,
+        url: ("/admin/conferences/" + conference_id + "/bulk_create"),
+        type: 'POST',
+        data: { event_schedules: events_to_create },
+        error: error_callback,
         dataType : 'json'
       });
     }
-    for (var key in events_to_remove){
-      var event = events_to_remove[key]['event'];
-      var success_callback_remove = function(data) {
-        console.log(data);
-        event.attr("event_schedule_id", null);
-      }
-      var error_callback_remove = function(data) {
-        console.log(data);
-        errors += $.parseJSON(data.responseText).errors;
-        events_to_remove[key]['previous_parent'].append(event);
-        if(!parent.hasClass('unscheduled-events'))
-          event.find(".schedule-event-delete-button").show();
-      }
+    if(!jQuery.isEmptyObject(events_to_update)){
       $.ajax({
         async: false,
-        url: url + '/' + event.attr("event_schedule_id"),
-        type: 'DELETE',
-        success: success_callback_remove,
-        error: error_callback_remove,
+        url: ("/admin/conferences/" + conference_id + "/bulk_update"),
+        type: 'POST',
+        data: { event_schedules: events_to_update },
+        error: error_callback,
         dataType : 'json'
       });
     }
-    events_to_remove = {};
-    events_to_save = {};
-    if(errors == '')
-      showMessage('Schedule correctly saved', 'notice');
-    else
-      showMessage(errors, 'error');
+    if(!jQuery.isEmptyObject(events_to_remove)){
+      $.ajax({
+        async: false,
+        url: ("/admin/conferences/" + conference_id + "/bulk_destroy"),
+        type: 'POST',
+        data: { event_schedules: events_to_remove },
+        error: error_callback,
+        dataType : 'json'
+      });
+    }
+    var url = (window.location.href).substring(0, window.location.href.indexOf('?'));
+    if(with_errors){
+      var msg = "Some events couldn't be scheduled"
+      if(errors != ''){
+        msg += (": " + errors);
+      }
+      window.location.href = (url + "?flash=" + msg + "&type=error");
+    } else {
+      window.location.href = (url + "?flash=Schedule correctly saved&type=notice");
+    }
   }
 };
 
@@ -142,7 +139,7 @@ $(document).ready( function() {
         $(ui.draggable).css("left", 0);
         $(ui.draggable).css("top", 0);
         $(this).css("background-color", "#ffffff");
-        Schedule.add($(ui.draggable).parent(), $(this), $(ui.draggable));
+        Schedule.add($(this), $(ui.draggable));
     },
     over: function(event, ui) {
       $(this).css("background-color", "#009ED8");
