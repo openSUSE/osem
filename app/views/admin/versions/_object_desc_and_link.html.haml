@@ -18,19 +18,18 @@
 
   - case commercial_last_version.commercialable_type
   - when 'Event'
-    =  link_to 'commercial',
-            edit_admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title,
-                id: commercialable_last_version.id, anchor: 'commercials-content')
-    = "in event #{commercialable_last_version.title}"
+    commercial in event
+    =  link_to "#{commercialable_last_version.title}",
+           admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: commercialable_last_version.id)
 
   - when 'Venue'
+    commercial in venue
     - if Venue.find_by(id: commercialable_last_version.id)
-      =  link_to 'commercial',
-              edit_admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title,
+      =  link_to "#{commercialable_last_version.name}",
+              edit_admin_conference_venue_path(conference_id: Conference.find(version.conference_id).short_title,
                   id: commercialable_last_version.id, anchor: 'commercials-content')
     - else
-      = 'commercial'
-    = "in venue #{commercialable_last_version.name}"
+      = commercialable_last_version.name
 
   - when 'Conference'
     = link_to 'commercial',
