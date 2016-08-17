@@ -72,16 +72,16 @@ class Program < ActiveRecord::Base
   def show_voting?
     return true unless blind_voting
 
-    Date.today > voting_end_date
+    Time.current > voting_end_date
   end
 
   ##
   # Checks if we are still in voting period
   # ====Returns
-  # * +true+ -> If the voting period is not over yet
+  # * +true+ -> If the voting period is not over yet (or if the voting dates are not set)
   # * +false+ -> If the voting period is over
   def voting_period?
-    return false unless voting_start_date && voting_end_date
+    return true unless voting_start_date && voting_end_date
 
     (voting_start_date.to_datetime..voting_end_date.to_datetime).cover? Time.current
   end
