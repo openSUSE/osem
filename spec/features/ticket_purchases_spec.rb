@@ -46,7 +46,6 @@ feature Registration do
           sleep(20)
         end
 
-        expect(page).to have_content("2 #{ticket.title} Tickets for $ 10")
         expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
         expect(page.has_content?("2 #{ticket.title} Tickets for $ 10")).to be true
       end
