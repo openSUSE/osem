@@ -21,10 +21,12 @@
               - model_name = attribute.chomp('_id').camelize
               - if version.event != 'create'
                 %td
-                  = object_last_description(model_name, values[0])
+                  - associated_object = current_or_last_object_state(model_name, values[0])
+                  = associated_object.try(:title) || associated_object.try(:name)
                   = "(ID: #{values[0].blank? ?  '-' : values[0]})"
               %td
-                = object_last_description(model_name, values[1])
+                - associated_object = current_or_last_object_state(model_name, values[1])
+                = associated_object.try(:title) || associated_object.try(:name)
                 = "(ID: #{values[1].blank? ?  '-' : values[1]})"
 
             - else
@@ -42,7 +44,8 @@
             - if attribute.include?('_id')
               - model_name = attribute.chomp('_id').camelize
               %td
-                = object_last_description(model_name, value)
+                - associated_object = current_or_last_object_state(model_name, value)
+                = associated_object.try(:title) || associated_object.try(:name)
                 = "(ID: #{value.blank? ?  '-' : value})"
             - else
               %td= value.blank? ?  '-' : value
