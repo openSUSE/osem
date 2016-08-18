@@ -101,10 +101,10 @@ feature Registration do
 
         click_button 'Continue'
 
-        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: free_ticket.id).first
         expect(purchase.quantity).to eq(5)
-        expect(purchase.paid).to eq(true)
+        expect(purchase.paid).to be true
 
         expect(page.has_content?("5 #{free_ticket.title} Tickets for $ 0")).to be true
       end

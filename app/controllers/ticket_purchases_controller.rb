@@ -11,8 +11,13 @@ class TicketPurchasesController < ApplicationController
         redirect_to new_conference_payment_path,
                     notice: 'Please pay here to get tickets.'
       else
-        redirect_to conference_tickets_path(@conference.short_title),
-                    error: 'Please get at least one ticket to continue.'
+        if current_user.ticket_purchases.by_conference(@conference).paid.any?
+          redirect_to conference_conference_registration_path(@conference.short_title),
+                      notice: 'You have free tickets for the conference.'
+        else
+          redirect_to conference_tickets_path(@conference.short_title),
+                      error: 'Please get at least one ticket to continue.'
+        end
       end
     else
       redirect_to conference_conference_registration_path(@conference.short_title),
