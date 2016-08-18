@@ -37,16 +37,26 @@ There are a couple of environment variables you can set to configure OSEM.
 | OSEM_ERRBIT_HOST 		| errbit.opensuse.org 		| The [errbit](https://github.com/errbit/errbit) host to post exceptions to |
 | OSEM_ERRBIT_APIKEY 		| *string* 			| The api key for the errbit host |
 | OSEM_FACTORY_LINT		| *boolean* (true/false)        | Setting this to false will disable linting of factories before running spec
-| OSEM_GOOGLE_KEY/OSEM_GOOGLE_SECRET | *string*			| OMNIAUTH Developer Keys/Secrets for GOOGLE
-| OSEM_FACEBOOK_KEY/OSEM_FACEBOOK_SECRET | *string*		| OMNIAUTH Developer Keys/Secrets for Facebook
-| OSEM_GITHUB_KEY/OSEM_GITHUB_SECRET |*string*			| OMNIAUTH Developer Keys/Secrets for GitHub
+| OSEM_GOOGLE_KEY | *string*			| OMNIAUTH Developer Key for GOOGLE
+| OSEM_GOOGLE_SECRET | *string*			| OMNIAUTH Developer Secret for GOOGLE
+| OSEM_FACEBOOK_KEY | *string*		| OMNIAUTH Developer Key for Facebook
+| OSEM_FACEBOOK_SECRET | *string*		| OMNIAUTH Developer Secret for Facebook
+| OSEM_GITHUB_KEY | *string*			| OMNIAUTH Developer Key for GitHub
+| OSEM_GITHUB_SECRET | *string*			| OMNIAUTH Developer Secret for GitHub
 | OSEM_SMTP_ADDRESS		| smtp.opensuse.org		| The smtp server to use
 | OSEM_SMTP_PORT		| *int*				| The port on the smtp server
 | OSEM_SMTP_USERNAME		| *string*			| The user for the smtp server
 | OSEM_SMTP_PASSWORD		| *string*			| The password for the smtp server
 | OSEM_SMTP_AUTHENTICATION	| plain, login or cram_md5      | The auth method for the smtp server
 | OSEM_SMTP_DOMAIN		| opensuse.org			| The HELO domain for the smtp server
-| CLOUDINARY_URL		| *sting*			| Configure your cloudinary.com cloud name and api key/secret
+| CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
+| STRIPE_PUBLISHABLE_KEY    | *string*          | Publishable Key for Stripe Gateway
+| STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
+
+### Online Ticket Payments
+We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
+Our application uses iFrame for accepting your user's payment details without storing them, making the application PCI SAQ-A Compliant.
+Please refer to [PAYMENTS](PAYMENTS.md) documentation file for setting up your stripe account and start accepting payments from your users.
 
 ## Dependencies
 
