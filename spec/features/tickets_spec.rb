@@ -35,7 +35,7 @@ feature Ticket do
       fill_in 'ticket_price', with: '-1'
 
       click_button 'Create Ticket'
-      expect(flash).to eq("Creating Ticket failed: Title can't be blank. Price cents must be greater than 0.")
+      expect(flash).to eq("Creating Ticket failed: Title can't be blank. Price cents must be greater than or equal to 0.")
       expect(Ticket.count).to eq(0)
     end
 
@@ -72,7 +72,7 @@ feature Ticket do
         # It's necessary to multiply by 100 because the price is in cents
         expect(ticket.price).to eq(Money.new(100 * 100, 'USD'))
         expect(ticket.title).to eq('Business Ticket')
-        expect(flash).to eq("Ticket update failed: Title can't be blank. Price cents must be greater than 0.")
+        expect(flash).to eq("Ticket update failed: Title can't be blank. Price cents must be greater than or equal to 0.")
         expect(Ticket.count).to eq(1)
       end
 
