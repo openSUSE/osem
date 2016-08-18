@@ -2,7 +2,8 @@ require 'spec_helper'
 
 feature Registration do
   let!(:ticket) { create(:ticket) }
-  let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
+  let!(:free_ticket) { create(:ticket, price_cents: 0) }
+  let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
   let!(:participant) { create(:user) }
 
   context 'as a participant' do
@@ -86,6 +87,26 @@ feature Registration do
           expect(current_path).to eq(conference_payments_path(conference.short_title))
           expect(flash).to eq('Your card was declined. Please try again with correct credentials.')
         end
+      end
+
+      scenario 'purchases free tickets' do
+        visit root_path
+        click_link 'Register'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
+
+        fill_in "tickets__#{free_ticket.id}", with: '5'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        purchase = TicketPurchase.where(user_id: participant.id, ticket_id: free_ticket.id).first
+        expect(purchase.quantity).to eq(5)
+        expect(purchase.paid).to eq(true)
+
+        expect(page.has_content?("5 #{free_ticket.title} Tickets for $ 0")).to be true
       end
     end
 
