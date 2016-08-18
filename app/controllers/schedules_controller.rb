@@ -7,7 +7,7 @@ class SchedulesController < ApplicationController
   def show
     @rooms = @conference.venue.rooms if @conference.venue
     schedules = @program.selected_event_schedules
-    unless schedules
+    unless schedules && @rooms && @rooms.length > 1
       redirect_to events_conference_schedule_path(@conference.short_title)
     end
 
@@ -28,6 +28,8 @@ class SchedulesController < ApplicationController
 
   def events
     @dates = @conference.start_date..@conference.end_date
+
+    @several_rooms = @conference.venue.try(:rooms) && @conference.venue.rooms.length > 1
 
     @events_schedules = @program.selected_event_schedules
     @events_schedules = [] unless @events_schedules
