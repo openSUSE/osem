@@ -4,6 +4,8 @@ If you have any problems with installing don't hesitate to [contact us](https://
 
 ## Configure Stripe into the application
 To configure Stripe into your application all you need to do is add the private and publishable keys into the Rails environment.
+You can register to Stripe [here](https://dashboard.stripe.com/register) and get your API keys for free.
+**You need to set the API keys provided by Stripe into the application first to get the feature running.**
 
 Add your Stripe API keys in `.env` file into these variables:
 
