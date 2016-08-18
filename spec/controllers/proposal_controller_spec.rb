@@ -4,6 +4,7 @@ describe ProposalController do
   let(:user) { create(:user) }
   let(:conference) { create(:conference, short_title: 'lama101') }
   let(:event) { create(:event, program: conference.program) }
+  let(:event_type) { create :event_type }
 
   context 'user is not signed in' do
     describe 'GET #new' do
@@ -28,7 +29,7 @@ describe ProposalController do
       before { conference.program.update_attributes(cfp: create(:cfp)) }
 
       it 'assigns url variables' do
-        post :create, event: attributes_for(:event, event_type_id: 1),
+        post :create, event: attributes_for(:event, event_type_id: event_type.id),
                       conference_id: conference.short_title,
                       user: attributes_for(:user)
         expect(assigns(:url)).to eq '/conference/lama101/program/proposal'
@@ -38,7 +39,7 @@ describe ProposalController do
         describe 'user related actions' do
           before do
             @new_user = attributes_for(:user)
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title,
                           user: @new_user
           end
@@ -55,7 +56,7 @@ describe ProposalController do
         context 'creates proposal successfully' do
           before(:each, run: true) do
             @new_user = attributes_for(:user)
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title,
                           user: @new_user
           end
@@ -83,7 +84,7 @@ describe ProposalController do
 
           it 'creates new event' do
             expect do
-              post :create, event: attributes_for(:event, event_type_id: 1),
+              post :create, event: attributes_for(:event, event_type_id: event_type.id),
                             conference_id: conference.short_title,
                             user: attributes_for(:user)
             end.to change{ Event.count }.by 1
@@ -93,7 +94,7 @@ describe ProposalController do
         context 'proposal save fails' do
           before(:each, run: true) do
             allow_any_instance_of(Event).to receive(:save).and_return(false)
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title,
                           user: attributes_for(:user)
           end
@@ -109,7 +110,7 @@ describe ProposalController do
           it 'does not create new proposal' do
             allow_any_instance_of(Event).to receive(:save).and_return(false)
             expect do
-              post :create, event: attributes_for(:event, event_type_id: 1),
+              post :create, event: attributes_for(:event, event_type_id: event_type.id),
                             conference_id: conference.short_title,
                             user: attributes_for(:user)
             end.not_to change{ Event.count }
@@ -122,7 +123,7 @@ describe ProposalController do
 
         it 'does not create new user' do
           expect do
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title,
                           user: attributes_for(:user)
           end.not_to change { User.count }
@@ -130,7 +131,7 @@ describe ProposalController do
 
         it 'does not create new event' do
           expect do
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title,
                           user: attributes_for(:user)
           end.not_to change { Event.count }
@@ -138,7 +139,7 @@ describe ProposalController do
 
         describe 'response' do
           before do
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title,
                           user: attributes_for(:user)
           end
@@ -213,7 +214,7 @@ describe ProposalController do
 
       it 'assigns event and url variables' do
         expect(assigns(:event)).to eq event
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
       end
 
       it 'renders edit template' do
@@ -226,14 +227,14 @@ describe ProposalController do
       before { conference.program.update_attributes(cfp: create(:cfp)) }
 
       it 'assigns url variables' do
-        post :create, event: attributes_for(:event, event_type_id: 1),
+        post :create, event: attributes_for(:event, event_type_id: event_type.id),
                       conference_id: conference.short_title
         expect(assigns(:url)).to eq '/conference/lama101/program/proposal'
       end
 
       context 'creates proposal successfully' do
         before(:each, run: true) do
-          post :create, event: attributes_for(:event, event_type_id: 1),
+          post :create, event: attributes_for(:event, event_type_id: event_type.id),
                         conference_id: conference.short_title
         end
 
@@ -260,7 +261,7 @@ describe ProposalController do
 
         it 'creates new event' do
           expect do
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title
           end.to change{ Event.count }.by 1
         end
@@ -269,7 +270,7 @@ describe ProposalController do
       context 'proposal save fails' do
         before(:each, run: true) do
           allow_any_instance_of(Event).to receive(:save).and_return(false)
-          post :create, event: attributes_for(:event, event_type_id: 1),
+          post :create, event: attributes_for(:event, event_type_id: event_type.id),
                         conference_id: conference.short_title
         end
 
@@ -284,7 +285,7 @@ describe ProposalController do
         it 'does not create new proposal' do
           allow_any_instance_of(Event).to receive(:save).and_return(false)
           expect do
-            post :create, event: attributes_for(:event, event_type_id: 1),
+            post :create, event: attributes_for(:event, event_type_id: event_type.id),
                           conference_id: conference.short_title
           end.not_to change{ Event.count }
         end
@@ -294,15 +295,15 @@ describe ProposalController do
     describe 'PATCH #update' do
 
       it 'assigns url variable' do
-        patch :update, event: attributes_for(:event, title: 'some title', event_type_id: 1),
+        patch :update, event: attributes_for(:event, title: 'some title', event_type_id: event_type.id),
                        conference_id: conference.short_title,
                        id: event.id
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
       end
 
       context 'updates successfully' do
         before do
-          patch :update, event: attributes_for(:event, title: 'some title', event_type_id: 1),
+          patch :update, event: attributes_for(:event, title: 'some title', event_type_id: event_type.id),
                          conference_id: conference.short_title,
                          id: event.id
         end
@@ -324,7 +325,7 @@ describe ProposalController do
       context 'update fails' do
         before do
           allow_any_instance_of(Event).to receive(:save).and_return(false)
-          patch :update, event: attributes_for(:event, title: 'some title', event_type_id: 1),
+          patch :update, event: attributes_for(:event, title: 'some title', event_type_id: event_type.id),
                          conference_id: conference.short_title,
                          id: event.id
         end
@@ -348,7 +349,7 @@ describe ProposalController do
 
       it 'assigns url variable' do
         patch :withdraw, conference_id: conference.short_title, id: event.id
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
       end
 
       context 'withdraws successfully' do
@@ -425,7 +426,7 @@ describe ProposalController do
           end
 
           it 'assigns url variable' do
-            expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+            expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
           end
 
           it 'change state of event to confirmed' do
@@ -438,7 +439,7 @@ describe ProposalController do
           before { patch :confirm, conference_id: conference.short_title, id: event.id }
 
           it 'assigns url variable' do
-            expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+            expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
           end
 
           it 'change state of event to confirmed' do
@@ -523,7 +524,7 @@ describe ProposalController do
 
       it 'assigns url variable' do
         patch :restart, conference_id: conference.short_title, id: event.id
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal/1'
+        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
       end
 
       context 'resubmits successfully' do
