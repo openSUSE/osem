@@ -165,17 +165,16 @@ module ApplicationHelper
   end
 
   def show_time(length)
-    h = length / 60
-    min = length - h * 60
+    return '0 h 0 min' if length.blank?
 
-    if h != 0
-      if min != 0
-      "#{h} h #{min} min"
-      else
-        "#{h} h"
-      end
+    h, min = length.divmod(60)
+
+    if h == 0
+      "#{min.round} min"
+    elsif min == 0
+      "#{h} h"
     else
-      "#{min} min"
+      "#{h} h #{min.round} min"
     end
   end
 

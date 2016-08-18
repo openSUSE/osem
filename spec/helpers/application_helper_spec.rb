@@ -15,6 +15,28 @@ describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe 'show_time' do
+    it 'when length > 60' do
+      expect(show_time(67)).to eq '1 h 7 min'
+    end
+
+    it 'when length = 60' do
+      expect(show_time(60)).to eq '1 h'
+    end
+
+    it 'when length < 60' do
+      expect(show_time(58)).to eq '58 min'
+    end
+
+    it 'when length > 60 and is a decimal number' do
+      expect(show_time(68.3)).to eq '1 h 8 min'
+    end
+
+    it 'when length is nil' do
+      expect(show_time(nil)).to eq '0 h 0 min'
+    end
+  end
+
   describe 'show_roles' do
     it 'formats the hash passed' do
       roles = { 'organizer' => ['oSC16', 'oSC15'], 'cfp' => ['oSC16'] }
