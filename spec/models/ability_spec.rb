@@ -105,6 +105,9 @@ describe 'User' do
       it{ should be_able_to(:index, Ticket) }
       it{ should be_able_to(:manage, TicketPurchase.new(user_id: user.id)) }
 
+      it{ should be_able_to(:new, Payment.new(user_id: user.id)) }
+      it{ should be_able_to(:create, Payment.new(user_id: user.id)) }
+
       it{ should be_able_to(:create, Subscription.new(user_id: user.id)) }
       it{ should be_able_to(:destroy, subscription) }
 

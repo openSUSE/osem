@@ -264,6 +264,17 @@ ActiveRecord::Schema.define(version: 20160815140302) do
     t.datetime "updated_at"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.string   "last4"
+    t.integer  "amount"
+    t.string   "authorization_code"
+    t.integer  "status",             default: 0, null: false
+    t.integer  "user_id",                        null: false
+    t.integer  "conference_id",                  null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
     t.integer  "rating",               default: 0
@@ -424,6 +435,7 @@ ActiveRecord::Schema.define(version: 20160815140302) do
     t.datetime "created_at"
     t.integer  "quantity",      default: 1
     t.integer  "user_id"
+    t.integer  "payment_id"
   end
 
   create_table "tickets", force: :cascade do |t|

@@ -37,6 +37,11 @@ OSEM_FACEBOOK_SECRET=''
 OSEM_GITHUB_KEY=''
 OSEM_GITHUB_SECRET=''
 
+# STRIPE Publishable/Secret keys
+# test keys for development mode, live for production mode
+STRIPE_PUBLISHABLE_KEY=''
+STRIPE_SECRET_KEY=''
+
 # Disable linting of factories in the test suite.
 # Speeds up turn around times of tests
 OSEM_FACTORY_LINT="false"

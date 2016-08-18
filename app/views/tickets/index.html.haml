@@ -5,10 +5,10 @@
         %h1
           Tickets
       %p.lead
-        If you like, support
+        Please choose your tickets for 
         %strong
           = @conference.title
-        by buying a ticket*
+        here*
       =form_tag(conference_ticket_purchases_path, method: :post) do |f|
         %table.table.table-hover
           %thead
@@ -35,12 +35,11 @@
         .pull-right
           .btn-group-vertical
             = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
-              Support
+              Continue
               %i.fa.fa-shopping-cart
-            = link_to 'Continue without a Ticket!', conference_conference_registration_path(@conference.short_title),
-            class: 'btn btn-danger btn-sm'
+            = link_to 'Cancel registration', conference_conference_registration_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-sm'
   .row
     .col-md-13
       %p.text-muted.text-center
         %small
-          * Buying a ticket is not mandatory. Checkout will be at the conference registration.
+          * Getting a ticket is mandatory. Your participation will not be valid until you get a ticket.

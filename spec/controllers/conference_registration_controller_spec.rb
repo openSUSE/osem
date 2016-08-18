@@ -82,9 +82,8 @@ describe ConferenceRegistrationsController, type: :controller do
           get :show, conference_id: conference.short_title
         end
 
-        it 'assigns price of purchased tickets to total_price and purchased tickets to tickets' do
-          expect(assigns(:total_price)).to eq Money.new(10000, 'USD')
-          expect(assigns(:tickets)).to match_array [@purchased_ticket]
+        it 'does not assign price of purchased tickets to total_price and purchased tickets to tickets without payment' do
+          expect(assigns(:total_price)).to eq Money.new(0, 'USD')
         end
       end
 

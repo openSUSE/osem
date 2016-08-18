@@ -16,7 +16,7 @@ feature Registration do
 
     context 'who is not registered' do
 
-      scenario 'purchases a ticket', feature: true, js: true do
+      scenario 'purchases and pays for a ticket succcessfully', feature: true, js: true do
         visit root_path
         click_link 'Register'
 
@@ -26,26 +26,66 @@ feature Registration do
         fill_in "tickets__#{ticket.id}", with: '2'
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
 
-        click_button 'Support'
+        click_button 'Continue'
 
+        expect(current_path).to eq(new_conference_payment_path(conference.short_title))
+        expect(flash).to eq('Please pay here to get tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
-        expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
-        expect(flash).
-            to eq("Thank you for supporting #{conference.title} by purchasing a ticket.")
-        expect(page.has_content?("2 #{ticket.title} Tickets for 10")).to be true
+
+        if Rails.application.secrets.stripe_publishable_key
+          find('.stripe-button-el').click
+
+          stripe_iframe = all('iframe[name=stripe_checkout_app]').last
+          sleep(5)
+          Capybara.within_frame stripe_iframe do
+            expect(page).to have_content('book your tickets')
+            page.execute_script(%{ $('input#card_number').val('4242424242424242'); })
+            page.execute_script(%{ $('input#cc-exp').val('08/22'); })
+            page.execute_script(%{ $('input#cc-csc').val('123'); })
+            page.execute_script(%{ $('#submitButton').click(); })
+            sleep(20)
+          end
+
+          expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
+          expect(page.has_content?("2 #{ticket.title} Tickets for $ 10")).to be true
+        end
       end
 
-      scenario 'deletes a purchased ticket', feature: true, js: true do
-        create(:registration, conference: conference, user: participant)
-        create(:ticket_purchase, conference: conference, user: participant, ticket: ticket, quantity: 4)
+      scenario 'purchases ticket but payment fails', feature: true, js: true do
+        visit root_path
+        click_link 'Register'
 
-        visit conference_conference_registration_path(conference.short_title)
-        expect(page.has_content?("4 #{ticket.title} Tickets for 10")).to be true
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
 
-        click_link "ticket-#{ticket.id}-delete"
-        expect(flash).to eq('Ticket successfully deleted.')
-        expect(TicketPurchase.count).to eq(0)
+        fill_in "tickets__#{ticket.id}", with: '2'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+
+        expect(current_path).to eq(new_conference_payment_path(conference.short_title))
+        expect(flash).to eq('Please pay here to get tickets.')
+        purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
+        expect(purchase.quantity).to eq(2)
+
+        if Rails.application.secrets.stripe_publishable_key
+          find('.stripe-button-el').click
+
+          stripe_iframe = all('iframe[name=stripe_checkout_app]').last
+          sleep(5)
+          Capybara.within_frame stripe_iframe do
+            expect(page).to have_content('book your tickets')
+            page.execute_script(%{ $('input#card_number').val('4000000000000341'); })
+            page.execute_script(%{ $('input#cc-exp').val('08/22'); })
+            page.execute_script(%{ $('input#cc-csc').val('123'); })
+            page.execute_script(%{ $('#submitButton').click(); })
+            sleep(20)
+          end
+
+          expect(current_path).to eq(conference_payments_path(conference.short_title))
+          expect(flash).to eq('Your card was declined. Please try again with correct credentials.')
+        end
       end
     end
   end

@@ -4,29 +4,19 @@ class TicketPurchasesController < ApplicationController
   authorize_resource :conference_registrations, class: Registration
 
   def create
+    current_user.ticket_purchases.by_conference(@conference).unpaid.destroy_all
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets][0])
     if message.blank?
-      if current_user.ticket_purchases.any?
-        redirect_to conference_conference_registration_path(@conference.short_title),
-                    notice: "Thank you for supporting #{@conference.title} by purchasing a ticket."
+      if current_user.ticket_purchases.by_conference(@conference).unpaid.any?
+        redirect_to new_conference_payment_path,
+                    notice: 'Please pay here to get tickets.'
       else
-        redirect_to conference_conference_registration_path(@conference.short_title)
+        redirect_to conference_tickets_path(@conference.short_title),
+                    error: 'Please get at least one ticket to continue.'
       end
     else
       redirect_to conference_conference_registration_path(@conference.short_title),
                   error: "Oops, something went wrong with your purchase! #{message}"
-    end
-  end
-
-  def destroy
-    @ticket_purchases = current_user.ticket_purchases.find(params[:id])
-    if @ticket_purchases.destroy
-      redirect_to conference_conference_registration_path(@conference.short_title),
-                  notice: 'Ticket successfully deleted.'
-    else
-      redirect_to conference_conference_registration_path(@conference.short_title),
-                  error: 'An error prohibited deleting your purchase! '\
-                        "#{@ticket_purchases.errors.full_messages.join('. ')}."
     end
   end
 

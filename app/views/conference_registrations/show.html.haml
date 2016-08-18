@@ -85,33 +85,31 @@
   - if @conference.tickets.any?
     .row
       .col-md-12
-        %h4
-          %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-ticket.fa-stack-1x
-          Tickets
-          -if @tickets.any?
-            = "(#{@total_price} #{@tickets.first.price.symbol})"
+        -if @tickets.any?
+          %h4
+            %span.fa-stack
+              %i.fa.fa-square-o.fa-stack-2x
+              %i.fa.fa-ticket.fa-stack-1x
+            Ticket Purchases
+            = "(#{@tickets.first.price.symbol}#{humanized_money @total_price})"
         %ul
-          - @tickets.each do |ticket|
-            %li
-              = ticket.quantity
-              = ticket.title
-              = word_pluralize(ticket.quantity, 'Ticket')
-              for
-              = humanized_money ticket.price
-              = ticket.price.symbol
-              = link_to conference_ticket_purchase_path(@conference.short_title, ticket.id), method: :delete,
-                                                                                            id: "ticket-#{ticket.id}-delete",
-                                                                                            class: 'btn btn-danger btn-xs',
-                                                                                            data: { confirm: "Do you really want to delete the #{ticket.title} ticket for #{@conference.title}?" } do
-                %i.fa.fa-trash-o
-          %li
-            - if @tickets.any?
-              = link_to 'Buy more tickets', conference_tickets_path(@conference.short_title)
-            - else
-              You haven't bought any tickets.
-              = link_to 'Please buy some tickets to support us!', conference_tickets_path(@conference.short_title)
+          .col-md-12
+            - @ticket_payments.each_pair do |ticket_id, tickets|
+              %li
+                = @total_quantity[ticket_id]
+                = tickets.first.title
+                = word_pluralize(@total_quantity[ticket_id], 'Ticket')
+                for
+                = tickets.first.price.symbol
+                = humanized_money tickets.first.price
+            %br
+        - if @tickets.any?
+          = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
+        - else
+          You haven't bought any tickets.
+          = link_to 'Please get some tickets to support us!', conference_tickets_path(@conference.short_title)
+          %p
+            (Your participation won't be valid without getting a ticket)
 
   .row
     .col-md-12

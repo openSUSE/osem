@@ -5,7 +5,7 @@
         Support
         =@conference.short_title
         %p.lead
-          To support our event you can purchase these tickets
+          To support our event you can get these tickets
   - @conference.tickets.each_slice(4) do |slice|
     .row.row-centered
       - slice.each do |ticket|
@@ -20,6 +20,6 @@
                 = markdown(ticket.description)
               %p.text-center
                 = link_to(conference_tickets_path(@conference.short_title), class: 'btn btn-success') do
-                  Buy Ticket
+                  Get Ticket
                   = humanized_money_with_symbol ticket.price
 
