@@ -44,6 +44,10 @@ describe ConferenceRegistrationsController, type: :controller do
           get :new, conference_id: conference.short_title
         end
 
+        it 'redirects to root path' do
+          expect(response).to redirect_to root_path
+        end
+
         it 'shows flash alert telling user they are unable to register' do
           expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open."
         end
@@ -213,37 +217,71 @@ describe ConferenceRegistrationsController, type: :controller do
 
   context 'user is not signed in' do
     describe 'GET #new' do
-      before do
-        @registration_period = create(:registration_period, conference: conference)
+      context 'registration period open' do
+        before do
+          @registration_period = create(:registration_period, conference: conference)
+        end
+
+        context 'OSEM_ICHAIN_ENABLED is true' do
+          before do
+            stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
+            get :new, conference_id: conference.short_title
+          end
+
+          it 'redirects to root' do
+            expect(response).to redirect_to new_user_session_path
+          end
+
+          it 'shows flash alert telling user they cannot register and they need to sign in' do
+            expect(flash[:alert]).to eq 'You need to sign in or sign up before continuing.'
+          end
+        end
+
+        context 'OSEM_ICHAIN_ENABLED is false' do
+          before do
+            stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
+            get :new, conference_id: conference.short_title
+          end
+
+          it 'user variable exists' do
+            expect(assigns(:user)).not_to be_nil
+          end
+
+          it 'renders the new template' do
+            expect(response).to render_template('new')
+          end
+        end
       end
 
-      context 'OSEM_ICHAIN_ENABLED is true' do
-        before do
-          stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
-          get :new, conference_id: conference.short_title
+      context 'registration period not open' do
+        context 'OSEM_ICHAIN_ENABLED is true' do
+          before do
+            stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
+            get :new, conference_id: conference.short_title
+          end
+
+          it 'redirects to root' do
+            expect(response).to redirect_to new_user_session_path
+          end
+
+          it 'shows flash alert telling user they need to sign in' do
+            expect(flash[:alert]).to eq 'You need to sign in or sign up before continuing.'
+          end
         end
 
-        it 'redirects to root' do
-          expect(response).to redirect_to root_path
-        end
+        context 'OSEM_ICHAIN_ENABLED is false' do
+          before do
+            stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
+            get :new, conference_id: conference.short_title
+          end
 
-        it 'shows flash alert telling user they cannot register and they need to sign in' do
-          expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open. Maybe you need to sign in?"
-        end
-      end
+          it 'redirects to root path' do
+            expect(response).to redirect_to root_path
+          end
 
-      context 'OSEM_ICHAIN_ENABLED is false' do
-        before do
-          stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
-          get :new, conference_id: conference.short_title
-        end
-
-        it 'user variable exists' do
-          expect(assigns(:user)).not_to be_nil
-        end
-
-        it 'renders the new template' do
-          expect(response).to render_template('new')
+          it 'shows flash alert telling user they cannot register' do
+            expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open. Maybe you need to sign in?"
+          end
         end
       end
     end
