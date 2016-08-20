@@ -21,7 +21,6 @@ describe Event do
     end
 
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:abstract) }
     it { is_expected.to validate_presence_of(:program) }
     it { is_expected.to validate_presence_of(:event_type) }
 
@@ -72,6 +71,13 @@ describe Event do
       context 'is valid' do
         it 'when abstract length is within limits' do
           event.abstract = 'Test abstract'
+          expect(event.valid?).to eq true
+          expect(event.errors.size).to eq 0
+        end
+        
+        it 'when abstract is empty and minimum_abstract_length equal to zero' do
+          event.abstract = ''
+          event.event_type.minimum_abstract_length = 0
           expect(event.valid?).to eq true
           expect(event.errors.size).to eq 0
         end
