@@ -397,6 +397,7 @@ module ApplicationHelper
   # Returns object in its current state if its alive
   # Otherwise Returns object state just before deletion
   def current_or_last_object_state(model_name, id)
+    return nil unless id.present? && model_name.present?
     begin
       object = model_name.constantize.find_by(id: id)
     rescue NameError
