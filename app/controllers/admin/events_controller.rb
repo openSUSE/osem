@@ -5,7 +5,7 @@ module Admin
     load_and_authorize_resource :event, through: :program
     load_and_authorize_resource :events_registration, only: :toggle_attendance
 
-    before_action :get_event, except: [:index, :create]
+    before_action :get_event, except: [:index, :create, :reports]
 
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
@@ -137,6 +137,13 @@ module Admin
       else
         head :unprocessable_entity
       end
+    end
+
+    def reports
+      @events = @program.events
+      @events_commercials = Commercial.where(commercialable_type: 'Event', commercialable_id: @events.pluck(:id))
+      @events_missing_commercial = @events.where.not(id: @events_commercials.pluck(:commercialable_id))
+      @events_with_requirements = @events.where.not(description: ['', nil])
     end
 
     private
