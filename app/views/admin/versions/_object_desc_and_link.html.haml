@@ -1,11 +1,13 @@
 - case version.item_type
 - when 'UsersRole'
   - users_role = current_or_last_object_state(version.item_type, version.item_id)
+  - user = current_or_last_object_state('User', users_role.user_id)
   = 'role'
   = link_to users_role.role.name, admin_conference_role_path(conference_id: Conference.find(version.conference_id).short_title, id: users_role.role.name)
   = version.event == 'create' ? 'to' : 'from'
   = 'user'
-  = link_to users_role.user.name, admin_user_path(id: users_role.user.id)
+
+  = link_to (user.try(:name) || 'deleted user'), admin_user_path(id: users_role.user.id)
 
 - when 'Subscription', 'Registration'
   = 'conference'
@@ -19,7 +21,7 @@
   - case commercial.commercialable_type
   - when 'Event'
     commercial in event
-    =  link_to commercialable.title,
+    =  link_to (commercialable.try(:title) || 'deleted event'),
            admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: commercialable.id)
 
   - when 'Venue'
@@ -35,8 +37,8 @@
 - when 'EventsRegistration', 'Comment', 'Vote', 'Event'
   = 'event'
   - object = current_or_last_object_state(version.item_type, version.item_id)
-  - event_id = object.try(:id) || object.try(:event_id) || object.try(:commentable_id)
-  = link_to current_or_last_object_state('Event', event_id).title,
+  - event_id = object.try(:id) || object.try(:event_id) || object.commentable_id
+  = link_to (current_or_last_object_state('Event', event_id).try(:title) || 'deleted event'),
           admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_id)
 
 - when 'Target'
@@ -47,7 +49,7 @@
 - when 'EventSchedule'
   - event_schedule = current_or_last_object_state(version.item_type, version.item_id)
   event
-  =  link_to current_or_last_object_state('Event', event_schedule.event_id).title,
+  = link_to (current_or_last_object_state('Event', event_schedule.event_id).try(:title) || 'deleted event'),
            admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_schedule.event_id)
   in
   =  link_to "Schedule #{event_schedule.schedule_id}",
@@ -155,7 +157,7 @@
 - when 'User'
   - if version.event == 'update'
     = 'user'
-    = link_to current_or_last_object_state('User', version.item_id).name, admin_user_path(id: version.item_id)
+    = link_to (current_or_last_object_state('User', version.item_id).try(:name) || 'deleted user'), admin_user_path(id: version.item_id)
 
 - unless %w(Conference Subscription Registration User).include?(version.item_type)
   = "in conference"
