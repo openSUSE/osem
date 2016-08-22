@@ -31,10 +31,10 @@ feature Campaign do
       # Validations
       expect(flash).to eq('Campaign successfully created.')
 
-      expect(page).to have_selector('.campaign-name', text: 'Test Campaign')
-      expect(page).to have_selector('.campaign-visits', text: '0')
-      expect(page).to have_selector('.campaign-registrations', text: '0')
-      expect(page).to have_selector('.campaign-submissions', text: '0')
+      expect(page).to have_selector('[id^="name_"]', text: 'Test Campaign')
+      expect(page).to have_selector('[id^="visits_"]', text: '0')
+      expect(page).to have_selector('[id^="registrations_"]', text: '0')
+      expect(page).to have_selector('[id^="submissions_"]', text: '0')
 
       expect(Campaign.count).to eq(expected_count)
 

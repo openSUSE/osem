@@ -18,13 +18,13 @@
       %tbody
         - @campaigns.each do |campaign|
           %tr
-            %td.campaign-name{'id'=> "name_#{campaign.id}"}
+            %td{'id'=> "name_#{campaign.id}"}
               = campaign.name
-            %td.campaign-visits{'id'=> "visits_#{campaign.id}"}
+            %td{'id'=> "visits_#{campaign.id}"}
               = campaign.visits_count
-            %td.campaign-registrations{'id'=> "registrations_#{campaign.id}"}
+            %td{'id'=> "registrations_#{campaign.id}"}
               = campaign.registrations_count
-            %td.campaign-submissions{'id'=> "submissions_#{campaign.id}"}
+            %td{'id'=> "submissions_#{campaign.id}"}
               = campaign.submissions_count
             %td
               %a.copyLink{'href'=> '#', 'data-url'=>root_path + campaign.url_parameters}
