@@ -16,6 +16,18 @@ var Schedule = {
     conference_id = conference_id_param;
     schedule_id = schedule_id_param;
   },
+  invalidateCells: function(element, length) {
+    for (i = 0; i < length; i++) {
+      element.addClass('with-event');
+      element = element.next();
+    }
+  },
+  validateCells: function(element, length) {
+    for (i = 0; i < length; i++) {
+      element.removeClass('with-event');
+      element = element.next();
+    }
+  },
   remove: function(element) {
     var e =  $("#" + element);
     var event_id = e.attr("event_id");
@@ -25,6 +37,7 @@ var Schedule = {
     }
     delete events_to_create[event_id];
     delete events_to_update[event_id];
+    Schedule.validateCells(e.parent(), e.attr("length"));
     var unscheduled = $(".unscheduled-events");
     e.appendTo(unscheduled);
     e.find(".schedule-event-delete-button").hide();
@@ -53,6 +66,7 @@ var Schedule = {
       delete events_to_update[event_id];
     }
     delete events_to_remove[event_id];
+    Schedule.invalidateCells(event, event.attr("length"));
     event.appendTo(new_parent);
     $("#event-" + event_id).find(".schedule-event-delete-button").show();
   },
@@ -119,8 +133,17 @@ $(document).ready( function() {
     snap: '.schedule-room-slot',
     revertDuration: 200,
     revert: function (event, ui) {
-        console.log(event.attr);
-        return !event;
+      var dropable = $(this).parent();
+      if(!dropable.hasClass('unscheduled-events')){
+        Schedule.invalidateCells(dropable, $(this).attr("length"));
+      }
+      return !event;
+    },
+    start: function(event, ui) {
+      var dropable = $(this).parent();
+      if(!dropable.hasClass('unscheduled-events')){
+        Schedule.validateCells(dropable, $(this).attr("length"));
+      }
     },
     stop: function(event, ui) {
         this._originalPosition = this._originalPosition || ui.originalPosition;
@@ -135,6 +158,18 @@ $(document).ready( function() {
   $('.schedule-room-slot').droppable({
     accept: '.schedule-event',
     tolerance: "pointer",
+    accept: function(dropElem){
+      var free = true;
+      var i = 0;
+      var elem = $(this);
+      while(free && i < dropElem.attr("length")){
+        if(elem.hasClass('with-event'))
+          free = false;
+        elem = elem.next();
+        i++;
+      }
+      return free;
+    },
     drop: function(event, ui) {
         $(ui.draggable).css("left", 0);
         $(ui.draggable).css("top", 0);
