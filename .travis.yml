@@ -7,6 +7,8 @@ rvm:
 before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
+addons:
+  mariadb: '10.1'
 notifications:
   email:
     on_success: change
@@ -17,8 +19,9 @@ notifications:
     on_success: change
     on_failure: change
 before_script:
-  - cp config/database.yml.example config/database.yml
+  - cp config/database.yml.travis config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
+  - mysql -u root -e 'create database osem_test;'
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 script:
   - 'bundle exec rubocop -Dc .rubocop.yml'
