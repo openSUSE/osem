@@ -13,7 +13,7 @@
         </h4>
         <p>
           <%= truncate(event.abstract, :length => 400) -%>
-          <%= link_to 'more', conference_program_proposal_path(@conference.short_title, @conference.program.id, event.id) if event.abstract.length > 400 %>
+          <%= link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400 %>
         </p>
     </div>
 <% end %>
