@@ -906,7 +906,7 @@ describe Conference do
     let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
 
     it 'self#event_distribution calculates correct values with user' do
-      create(:user, last_sign_in_at: Date.today - 3.months) # active
+      create(:user, last_sign_in_at: Date.today - 3.months + 1.day) # active
       create(:user, confirmed_at: nil) # unconfirmed
       create(:user, last_sign_in_at: Date.today - 1.year - 1.day) # dead
       result = {}
@@ -918,7 +918,7 @@ describe Conference do
     end
 
     it 'self#event_distribution calculates correct with only active user' do
-      create(:user, last_sign_in_at: Date.today - 3.months) # active
+      create(:user, last_sign_in_at: Date.today - 3.months + 1.day) # active
       result = {}
       result['Active'] = { 'color' => 'green', 'value' => 1 }
 

@@ -55,15 +55,9 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  # Setting up DB cleaning to maintain empty rows
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
-      load "#{Rails.root}/db/seeds.rb"
+      Rails.application.load_seed
       example.run
     end
   end
@@ -89,15 +83,12 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.use_transactional_fixtures = true
-
   # Reuse rspec as mocking framework
   config.mock_framework = :rspec
 
   # Types of tests (controller, feature, model) will
   # be inferred from subfolder name
   config.infer_spec_type_from_file_location!
-
 end
 
 OmniAuth.config.test_mode = true

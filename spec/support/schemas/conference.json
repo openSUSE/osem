@@ -1,0 +1,101 @@
+{
+  "type": "object",
+  "required": ["conference"],
+  "properties": {
+    "conference" : {
+      "type" : "object",
+      "required" : [
+        "short_title",
+        "title",
+        "description",
+        "start_date",
+        "end_date",
+        "picture_url",
+        "difficulty_levels",
+        "event_types",
+        "rooms",
+        "tracks",
+        "date_range",
+        "revision"
+      ],
+      "properties" : {
+        "short_title": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string", "format": "date"
+        },
+        "end_date": {
+          "type": "string", "format": "date"
+        },
+        "picture_url": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "null" }
+          ]
+        },
+        "difficulty_levels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "description"],
+            "properties": {
+              "id": { "type": "integer" },
+              "title": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "event_types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "description", "length"],
+            "properties": {
+              "id": { "type": "integer" },
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "length": { "type": "integer" }
+            }
+          }
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "size", "events"],
+            "properties": {
+              "id": { "type": "integer" },
+              "size": { "type": "integer" },
+              "events": { "type": "array" }
+            }
+          }
+        },
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "description"],
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "date_range": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

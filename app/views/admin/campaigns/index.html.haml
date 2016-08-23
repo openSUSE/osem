@@ -35,8 +35,8 @@
                 edit_admin_conference_campaign_path(@conference.short_title, campaign.id),
                 class: 'btn btn-primary'
                 = link_to 'Delete',
-                admin_conference_campaign_path(@conference.short_title, campaign.id),
-                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the campaign #{campaign.name}?" }
+                    admin_conference_campaign_path(@conference.short_title, campaign.id),
+                    method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the campaign #{campaign.name}?" }
 .row
   .col-md-12
     = link_to 'New Campaign', new_admin_conference_campaign_path, class: 'btn btn-success pull-right'

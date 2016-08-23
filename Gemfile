@@ -227,6 +227,8 @@ group :test do
   gem 'webmock'
   # for mocking Stripe responses in tests
   gem 'stripe-ruby-mock'
+  # For validating JSON schemas
+  gem 'json-schema'
 end
 
 group :development, :test do

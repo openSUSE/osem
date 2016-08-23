@@ -230,6 +230,8 @@ GEM
     jquery-ui-rails (4.2.1)
       railties (>= 3.2.16)
     json (1.8.3)
+    json-schema (2.5.0)
+      addressable (~> 2.3)
     jwt (1.0.0)
     launchy (2.4.2)
       addressable (~> 2.3)
@@ -577,6 +579,7 @@ DEPENDENCIES
   jquery-datatables-rails (~> 2.2.1)
   jquery-rails
   jquery-ui-rails (~> 4.2.1)
+  json-schema
   leaflet-rails
   letter_opener
   letter_opener_web

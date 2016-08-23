@@ -348,9 +348,7 @@ describe User do
 
   describe 'assigns admin attribute' do
     it 'to second user when first user is deleted_user' do
-      DatabaseCleaner.clean_with(:truncation)
-
-      deleted_user = create(:user, email: 'deleted@localhost.osem', name: 'User deleted')
+      deleted_user = User.find_by(email: 'deleted@localhost.osem')
       expect(deleted_user.is_admin).to be false
 
       user_after_deleted = create(:admin)
@@ -360,8 +358,6 @@ describe User do
 
   describe 'does not assign admin attribute' do
     it 'when first user is not deleted_user' do
-      DatabaseCleaner.clean_with(:truncation)
-
       first_user = create(:user)
       expect(first_user.is_admin).to be false
 

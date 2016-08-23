@@ -17,8 +17,7 @@ feature Campaign do
 
       click_button 'Create Campaign'
 
-      expect(flash).
-	  to eq("Campaign creation failed. Name can't be blank and Utm campaign can't be blank")
+      expect(flash).to eq("Campaign creation failed. Name can't be blank and Utm campaign can't be blank")
 
       fill_in 'campaign_name', with: 'Test Campaign'
       fill_in 'campaign_utm_campaign', with: 'campaign'
@@ -30,13 +29,12 @@ feature Campaign do
       click_button 'Create Campaign'
 
       # Validations
-      expect(flash).
-          to eq('Campaign successfully created.')
+      expect(flash).to eq('Campaign successfully created.')
 
-      expect(find('#name_1').text).to eq('Test Campaign')
-      expect(find('#visits_1').text).to eq('0')
-      expect(find('#registrations_1').text).to eq('0')
-      expect(find('#submissions_1').text).to eq('0')
+      expect(page).to have_selector('[id^="name_"]', text: 'Test Campaign')
+      expect(page).to have_selector('[id^="visits_"]', text: '0')
+      expect(page).to have_selector('[id^="registrations_"]', text: '0')
+      expect(page).to have_selector('[id^="submissions_"]', text: '0')
 
       expect(Campaign.count).to eq(expected_count)
 
@@ -45,8 +43,7 @@ feature Campaign do
 
       fill_in 'campaign_name', with: 'Test Campaign 42'
       click_button 'Update Campaign'
-      expect(flash).
-          to eq("Campaign 'Test Campaign 42' successfully updated.")
+      expect(flash).to eq("Campaign 'Test Campaign 42' successfully updated.")
     end
   end
 
