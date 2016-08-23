@@ -114,14 +114,6 @@ describe Event do
         expect(conference.program.events.highlighted).to eq [my_event]
       end
     end
-    context 'current' do
-      it 'returns only current events' do
-        current_event = create(:event, start_time: Time.current.to_s, state: 'confirmed', program: conference.program)
-        create(:past_event, program: conference.program)
-        create(:future_event, program: conference.program)
-        expect(conference.program.events.current).to match_array([current_event])
-      end
-    end
   end
 
   describe '#scheduled?' do

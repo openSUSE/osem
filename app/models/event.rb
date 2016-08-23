@@ -41,7 +41,6 @@ class Event < ActiveRecord::Base
   scope :canceled, -> { where(state: 'canceled') }
   scope :withdrawn, -> { where(state: 'withdrawn') }
   scope :highlighted, -> { where(is_highlight: true) }
-  scope :current, -> { joins(:event_type).where('start_time <= ? AND state = ?', Time.current, 'confirmed').map { |e| e if e.end_time > Time.current }.compact }
 
   state_machine initial: :new do
     state :new
@@ -248,13 +247,6 @@ class Event < ActiveRecord::Base
     event_schedules.find_by(schedule_id: program.selected_schedule_id).try(:start_time)
   end
 
-  ##
-  # Returns end of the event
-  #
-  def end_time
-    self.start_time + self.event_type.length.minutes
-  end
-
   private
 
   ##
@@ -301,12 +293,5 @@ class Event < ActiveRecord::Base
 
   def conference_id
     program.conference_id
-  end
-
-  ##
-  # Compares event start_time, end_with with current time to predict current events
-  #
-  def current?
-    Time.current >= self.start_time && Time.current <= self.end_time
   end
 end

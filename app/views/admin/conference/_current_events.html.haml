@@ -2,12 +2,12 @@
   .row
     .col-md-12.text-center
       %h2 Current Events
-      - @current_events.each do |event|
+      - @current_event_schedules.each do |es|
         %div
           %h3
-            = event.title
+            = es.event.title
           %h4
             presented by
-            = event.speaker_names
+            = es.event.speaker_names
             in
-            = event.room.name
+            = es.event.room.name

@@ -173,16 +173,15 @@ module Admin
       end
     end
 
-    def conference_wide_screen
+    def conference_info
       # To display sponsors in the conference wide information page
       @sponsors = @conference.sponsors
-      @program = @conference.program
-      @current_events = @conference.program.events.current
+      @current_event_schedules = @program.selected_schedule.event_schedules.current
       @tweets = twitter_client.search_tweets(15, @conference.contact.social_tag)
 
       respond_to do |format|
-        format.html{render layout: 'conference_wide_screen'}
-        format.js {render action: 'conference_wide_screen.js.haml'}
+        format.html{render layout: 'conference_info'}
+        format.js {render action: 'conference_info.js.haml'}
       end
     end
 

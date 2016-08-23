@@ -33,19 +33,6 @@ FactoryGirl.define do
           event.event_schedules << build(:event_schedule, event: event)
         end
       end
-
-      factory :past_event do
-        after(:build) do |event|
-          event.start_time = (DateTime.current - 2.days).to_s
-          event.state = 'confirmed'
-        end
-      end
-      factory :future_event do
-        after(:build) do |event|
-          event.start_time = (DateTime.current + 2.days).to_s
-          event.state = 'confirmed'
-        end
-      end
     end
   end
 end

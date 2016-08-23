@@ -15,7 +15,7 @@ $(document).ready(function() {
 // Makes an ajax call for fresh data
 function refreshCurrentEvents(){
   $.ajax({
-    url: "conference_wide_screen.js"
+    url: "conference_info.js"
   });
 };
 

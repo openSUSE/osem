@@ -27,7 +27,7 @@ Osem::Application.routes.draw do
     resources :comments, only: [:index]
     resources :conferences do
       member do
-        get :conference_wide_screen
+        get :conference_info
       end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
