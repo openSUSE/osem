@@ -187,6 +187,9 @@ gem 'factory_girl_rails'
 # for integrating Stripe payment gateway
 gem 'stripe'
 
+# Provides Sprockets implementation for Rails Asset Pipeline
+gem 'sprockets-rails'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
@@ -194,8 +197,6 @@ group :development do
   gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
-  # to silence rack assests messages
-  gem 'quiet_assets'
   # as database
   gem 'sqlite3'
   # to open mails

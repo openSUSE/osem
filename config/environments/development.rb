@@ -34,6 +34,9 @@ Osem::Application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Do not log asset requests
+  config.assets.quiet = true
+
   # Set the detault url for action mailer
   config.action_mailer.default_url_options = { host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000') }
 
