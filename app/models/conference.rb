@@ -64,6 +64,8 @@ class Conference < ActiveRecord::Base
   before_create :add_color
   before_create :create_email_settings
 
+  after_create :create_free_ticket
+
   def date_range_string
     startstr = 'Unknown - '
     endstr = 'Unknown'
@@ -645,6 +647,14 @@ class Conference < ActiveRecord::Base
     self.create_contact
     self.create_program
     create_roles
+  end
+
+  ##
+  # Creates free ticket for the conference
+  # after the conference has been successfully created
+  # Will create 1 new record for 'free' ticket
+  def create_free_ticket
+    ticket = Ticket.where(conference: self, title: 'Free Access', price_cents: 0).first_or_create!(description: 'Get free access tickets for the conference.')
   end
 
   ##

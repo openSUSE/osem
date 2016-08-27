@@ -1583,4 +1583,14 @@ describe Conference do
       end
     end
   end
+
+  describe 'after_create' do
+    let!(:conference) { create(:conference) }
+
+    it 'creates free tickets' do
+      free_ticket = Ticket.find_by(conference: conference)
+      expect(free_ticket).not_to be_nil
+      expect(free_ticket.price_cents).to eq(0)
+    end
+  end
 end
