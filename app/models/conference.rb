@@ -654,7 +654,7 @@ class Conference < ActiveRecord::Base
   # after the conference has been successfully created
   # Will create 1 new record for 'free' ticket
   def create_free_ticket
-    ticket = Ticket.where(conference: self, title: 'Free Access', price_cents: 0).first_or_create!(description: 'Get free access tickets for the conference.')
+    tickets.where(title: 'Free Access', price_cents: 0).first_or_create!(description: 'Get free access tickets for the conference.')
   end
 
   ##
