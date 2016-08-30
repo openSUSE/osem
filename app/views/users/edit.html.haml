@@ -14,6 +14,18 @@
         = link_to 'Change your avatar here', 'https://gravatar.com'
         = f.input :affiliation, as: :string,
           hint: 'This could be a company, a user group, or nothing at all.'
+        = f.input :website_url, type: :url, label: 'Personal Website'
+        = f.inputs :name => 'Social Media' do
+          = f.input :linkedin, type: :url
+          = f.input :twitter, type: :url
+          = f.input :googleplus, type: :url, label: 'Google+ Url'
+          = f.input :gnu, type: :url, label: 'GNU Social'
+          = f.input :diaspora, type: :url
+        = f.inputs :name => 'Social Code' do
+          = f.input :github, type: :url
+          = f.input :gitlab, type: :url
+          = f.input :savannah, type: :url
+          = f.input :gna, type: :url, label: 'Gna!'
         = f.input :biography, input_html: { rows: 5, data: { provide: 'markdown-editable' }, 'onkeyup' => "word_count(this, 'biography-count', 150)" },
           hint: markdown_hint
         You have used

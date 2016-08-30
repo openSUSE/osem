@@ -11,14 +11,69 @@
         = markdown(@user.biography)
   .row
     .col-md-12
-      - if @user.events.confirmed.any?
-        %h3
-          = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
-        %ul.list-unstyled
-          - @user.events.confirmed.each do |event|
-            %li
-              %h4
-                = link_to event.title, conference_program_proposal_path(event.program.conference.short_title, event.id)
-                %strong
-                  at
-                = event.program.conference.title
+      %h3 Social Media and Social Code
+      %table.table
+        %tr
+          %td
+            %b Website
+          %td
+            =  @user.website_url.present? ? @user.website_url : '-'
+        %tr
+          %td
+            %b Linkedin
+          %td
+            = @user.linkedin.present? ? @user.linkedin : '-'
+        %tr
+          %td
+            %b Twitter
+          %td
+            = @user.twitter.present? ? @user.twitter : '-'
+        %tr
+          %td
+            %b GooglePlus
+          %td
+            = @user.googleplus.present? ? @user.googleplus : '-'
+        %tr
+          %td
+            %b GNU Social
+          %td
+            = @user.gnu.present? ? @user.gnu : '-'
+        %tr
+          %td
+            %b Diaspora
+          %td
+            = @user.diaspora.present? ? @user.diaspora : '-'
+        %tr
+          %td
+            %b Savannah
+          %td
+            = @user.savannah.present? ? @user.savannah : '-'
+        %tr
+          %td
+            %b Github
+          %td
+            = @user.github.present? ? @user.github : '-'
+        %tr
+          %td
+            %b Gitlab
+          %td
+            = @user.gitlab.present? ? @user.gitlab : '-'
+        %tr
+          %td
+            %b Gna!
+          %td
+            = @user.gna.present? ? @user.gna : '-'
+
+  .row
+    .col-md-12
+    - if @user.events.confirmed.any?
+      %h3
+        = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
+      %ul.list-unstyled
+        - @user.events.confirmed.each do |event|
+          %li
+            %h4
+              = link_to event.title, conference_program_proposal_path(event.program.conference.short_title, event.id)
+              %strong
+                at
+              = event.program.conference.title
