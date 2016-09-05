@@ -1,8 +1,16 @@
+- content_for :head do
+  %meta{ :property => 'og:title', :content => '#{@conference.title}' }
+  %meta{ :property => 'og:image', :content => '(@conference.picture_url)' }
+  %meta{ :property => 'og:url', :content => '(@conference.short_title)' }
+  %meta{ :property => 'og:description', :content => '(@conference.description)'}
+  %meta{ :property => 'og:site_name', :content => (ENV['OSEM_NAME'] || 'OSEM') }
+  - end
+
 = content_for :title do
   = @conference.title
 
 #splash
-  - if @conference.splashpage
+  - if @conference.splashpage}
     #banner
       .container
         .row

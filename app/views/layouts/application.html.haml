@@ -5,6 +5,7 @@
     %title= content_for?(:title) ? yield(:title) : (ENV['OSEM_NAME'] || 'OSEM')
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
+    %meta= content_for?(:head) ? yield(:head) : ('')
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
 
