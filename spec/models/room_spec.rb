@@ -11,7 +11,7 @@ describe Room do
 
   describe 'association' do
     it { should belong_to(:venue) }
-    it { should have_many(:event_schedules).dependent(:nullify) }
+    it { should have_many(:event_schedules).dependent(:destroy) }
   end
 
   describe 'callback' do
