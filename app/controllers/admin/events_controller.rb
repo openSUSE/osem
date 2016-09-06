@@ -23,18 +23,22 @@ module Admin
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
       @event_distribution = @conference.event_distribution
       @scheduled_event_distribution = @conference.scheduled_event_distribution
-      @pdf_filename = "events_for_#{@conference.short_title}.pdf"
       @file_name = "events_for_#{@conference.short_title}"
-      @csv_filename = "events_for_#{@conference.short_title}.csv"
+      @event_export_option = params[:event_export_option]
 
       respond_to do |format|
         format.html
         # Explicity call #to_json to avoid the use of EventSerializer
         format.json { render json: Event.where(state: :confirmed, program: @program).to_json }
-        format.xlsx { render xlsx: 'index', filename: "#{@file_name}.xlsx" }
-        format.pdf
-        format.csv
-        # format.csv { send_data @events, filename:"#{@file_name}.csv" }
+        format.xlsx do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
+          render 'events'
+        end
+        format.pdf {render 'events'}
+        format.csv do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
+          render 'events'
+        end
       end
     end
 

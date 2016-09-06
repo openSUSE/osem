@@ -1,16 +1,14 @@
-wb = xlsx_package.workbook
-wb.add_worksheet(name: 'events') do |sheet|
+wb.add_worksheet(name: 'confirmed events') do |sheet|
   bold_style = wb.styles.add_style(b: true)
   row = ['Event ID', 'Title', 'Abstract', 'Start time', 'Submitter', 'Speaker', 'Event Type', 'Track', 'Difficulty Level', 'Room', 'State']
-
   sheet.add_row row, style: bold_style
 
-  @events.each do |event|
+  @events.confirmed.each do |event|
     row = []
     row << event.id
     row << event.title
     row << event.abstract
-    row << event.time
+    row << (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : '')
     row << event.submitter.name
     row << event.speaker_names
     row << event.event_type.title
@@ -19,23 +17,5 @@ wb.add_worksheet(name: 'events') do |sheet|
     row << (event.room.present? ? event.room.name : '')
     row << event.state
     sheet.add_row row
-  end
-end
-
-wb.add_worksheet(name: 'comments') do |sheet|
-  bold_style = wb.styles.add_style(b: true)
-  row = ['Comment ID', 'Event Title', 'Body', 'User Name']
-
-  sheet.add_row row, style: bold_style
-
-  @events.each do |event|
-    event.root_comments.each do |comment|
-      row = []
-      row << comment.id
-      row << event.title
-      row << comment.body
-      row << comment.user.name
-      sheet.add_row row
-    end
   end
 end
