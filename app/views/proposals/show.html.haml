@@ -1,3 +1,11 @@
+- content_for :head do
+  %meta{ property: "og:title", content: @event.title }
+  %meta{ property: "og:url", content: conference_program_proposal_url(@conference.short_title, @event) }
+  %meta{ property: "og:description", content: @event.abstract }
+  %meta{ property: "og:site_name", content: (ENV['OSEM_NAME'] || 'OSEM') }
+  %meta{ property: "og:image", content: @speaker.gravatar_url }
+  %meta{ property: "og:image:secure_url", content: @speaker.gravatar_url }
+
 .container
   .row
     .col-md-12.page-header
