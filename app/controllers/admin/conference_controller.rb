@@ -79,7 +79,6 @@ module Admin
     end
 
     def update
-      @conference = Conference.find_by(short_title: params[:id])
       short_title = @conference.short_title
       @conference.assign_attributes(conference_params)
       send_mail_on_conf_update = @conference.notify_on_dates_changed?
