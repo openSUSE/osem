@@ -11,7 +11,7 @@ module Api
           events = events.where(program: @conference.program)
         end
 
-        respond_with events.confirmed
+        respond_with events.confirmed, callback: params[:callback]
       end
     end
   end

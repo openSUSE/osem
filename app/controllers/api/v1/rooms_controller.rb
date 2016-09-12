@@ -6,9 +6,9 @@ module Api
 
       def index
         if @conference
-          respond_with @conference.venue ? @conference.venue.rooms : Room.none
+          respond_with @conference.venue ? @conference.venue.rooms : Room.none, callback: params[:callback]
         else
-          respond_with Room.all
+          respond_with Room.all, callback: params[:callback]
         end
       end
     end

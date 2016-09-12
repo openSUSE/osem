@@ -5,11 +5,11 @@ module Api
       respond_to :json
 
       def index
-        render json: @conferences, serializer: ConferencesArraySerializer
+        render json: @conferences, serializer: ConferencesArraySerializer, callback: params['callback']
       end
 
       def show
-        render json: [@conference], serializer: ConferencesArraySerializer
+        render json: [@conference], serializer: ConferencesArraySerializer, callback: params['callback']
       end
     end
   end

@@ -13,7 +13,7 @@ module Api
         end
 
         users = users.where(event_users: {event_role: :speaker}).uniq
-        render json: users, each_serializer: SpeakerSerializer
+        render json: users, each_serializer: SpeakerSerializer, callback: params['callback']
       end
     end
   end
