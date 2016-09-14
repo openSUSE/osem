@@ -15,6 +15,7 @@
       %thead
         %th #
         %th Name
+        %th Quantity
         %th E-Mail
         %th Affiliation
         %th Paid
@@ -25,8 +26,8 @@
               = index + 1
             %td
               = buyer.name
-              %span.label.label-success
-                = buyer.ticket_purchases.where(ticket_id: @ticket.id).sum('quantity')
+            %td
+              = buyer.ticket_purchases.where(ticket_id: @ticket.id).sum('quantity')
             %td
               = buyer.email
             %td
