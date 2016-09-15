@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 feature User do
-
-  let!(:user) {create(:user)}
+  let!(:user) {create(:user, :with_social_media_and_code_info)}
 
   describe 'update user profile' do
     scenario 'sucessfully', feature: true do

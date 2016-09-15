@@ -7,63 +7,72 @@
           = @user.name
           %small
             = @user.nickname
+      %h3.text-center
+        Social Media and Social Code
+      %ul.list-inline.list-unstyled.text-center
+        - if @user.website_url.present?
+          %li
+            = link_to(@user.website_url) do
+              %div.user-profile-icon
+                %icon.fa.fa-external-link.fa-3x
+                  %span.concat-text Blog
+        - if @user.linkedin.present?
+          %li
+            = link_to(@user.linkedin) do
+              %div.user-profile-icon
+                %icon.fa.fa-linkedin.fa-3x
+                  %span.concat-text Linkedin
+        - if @user.twitter.present?
+          %li
+            = link_to(@user.twitter) do
+              %div.user-profile-icon
+                %icon.fa.fa-twitter.fa-3x
+                  %span.concat-text Twitter
+        - if @user.googleplus.present?
+          %li
+            = link_to(@user.googleplus) do
+              %div.user-profile-icon
+                %icon.fa.fa-google-plus.fa-3x
+                  %span.concat-text Google+
+        - if @user.gnu.present?
+          %li
+            = link_to(@user.gnu) do
+              %div.user-profile-icon
+                %icon.fa.fa-linux.fa-3x
+                  %span.concat-text Gnu
+        - if @user.diaspora.present?
+          %li
+            = link_to(@user.diaspora) do
+              %div.user-profile-icon
+                %icon.fa.fa-asterisk.fa-3x
+                  %span.concat-text Diaspora
+        - if @user.savannah.present?
+          %li
+            = link_to(@user.savannah) do
+              %div.user-profile-icon
+                %icon.fa.fa-linux.fa-3x
+                  %span.concat-text Savannah
+        - if @user.gna.present?
+          %li
+            = link_to(@user.gna) do
+              %div.user-profile-icon
+                %icon.fa.fa-linux.fa-3x
+                  %span.concat-text Gna!
+        - if @user.github.present?
+          %li
+            = link_to(@user.github) do
+              %div.user-profile-icon
+                %icon.fa.fa-github.fa-3x
+                  %span.concat-text Github
+        - if @user.gitlab.present?
+          %li
+            = link_to(@user.gitlab) do
+              %div.user-profile-icon
+                %icon.fa.fa-gitlab.fa-3x
+                  %span.concat-text Gitlab
+      %h3.text-center Bio
       %p
         = markdown(@user.biography)
-  .row
-    .col-md-12
-      %h3 Social Media and Social Code
-      %table.table
-        %tr
-          %td
-            %b Website
-          %td
-            =  @user.website_url.present? ? @user.website_url : '-'
-        %tr
-          %td
-            %b Linkedin
-          %td
-            = @user.linkedin.present? ? @user.linkedin : '-'
-        %tr
-          %td
-            %b Twitter
-          %td
-            = @user.twitter.present? ? @user.twitter : '-'
-        %tr
-          %td
-            %b GooglePlus
-          %td
-            = @user.googleplus.present? ? @user.googleplus : '-'
-        %tr
-          %td
-            %b GNU Social
-          %td
-            = @user.gnu.present? ? @user.gnu : '-'
-        %tr
-          %td
-            %b Diaspora
-          %td
-            = @user.diaspora.present? ? @user.diaspora : '-'
-        %tr
-          %td
-            %b Savannah
-          %td
-            = @user.savannah.present? ? @user.savannah : '-'
-        %tr
-          %td
-            %b Github
-          %td
-            = @user.github.present? ? @user.github : '-'
-        %tr
-          %td
-            %b Gitlab
-          %td
-            = @user.gitlab.present? ? @user.gitlab : '-'
-        %tr
-          %td
-            %b Gna!
-          %td
-            = @user.gna.present? ? @user.gna : '-'
-
   .row
     .col-md-12
     - if @user.events.confirmed.any?

@@ -20,16 +20,19 @@ FactoryGirl.define do
     sequence(:username) { |n| "username#{n}" }
     password 'changeme'
     password_confirmation 'changeme'
-    googleplus { Faker::Internet.url('http://plus.google.com/testosemurl') }
-    linkedin {Faker::Internet.url('http://linkedin.com/testosemuser')}
-    website_url { Faker::Internet.url('http://example.com') }
-    gnu { Faker::Internet.url('http://gnu.io/testosemurl') }
-    twitter { Faker::Internet.url('http://twitter.com/testosemuser') }
-    github { Faker::Internet.url('http://github.com/testosemuser') }
-    gitlab { Faker::Internet.url('http://gitlab.com/testosemuser') }
-    savannah { Faker::Internet.url('http://savannah.gnu.org/testosemuser') }
-    diaspora { Faker::Internet.url('http://joindiaspora.com/testosemuser') }
-    gna { Faker::Internet.url('http://gna.com/testosemuser') }
+
+    trait :with_social_media_and_code_info do
+      googleplus { Faker::Internet.url('plus.google.com') }
+      linkedin {Faker::Internet.url('linkedin.com')}
+      website_url{Faker::Internet.url('example.com')}
+      gnu{Faker::Internet.url('gnu.io')}
+      twitter{Faker::Internet.url('twitter.com')}
+      github{Faker::Internet.url('github.com')}
+      gitlab{Faker::Internet.url('gitlab')}
+      savannah{Faker::Internet.url('savannah.gnu.org')}
+      diaspora{Faker::Internet.url('joindiaspora.com')}
+      gna{Faker::Internet.url('gna.com')}
+    end
 
     confirmed_at { Time.now }
     biography <<-EOS

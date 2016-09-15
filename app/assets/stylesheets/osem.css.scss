@@ -90,3 +90,12 @@ p.comment-body {
 .changeset{
   display: none;
 }
+
+.user-profile-icon{
+  text-align: center;
+  display: table;
+  .concat-text{
+    display: block;
+    font-size: 14px;
+  }
+}
