@@ -1,6 +1,6 @@
-class ConferenceController < ApplicationController
+class ConferencesController < ApplicationController
   protect_from_forgery with: :null_session
-  before_filter :respond_to_options
+  before_action :respond_to_options
   load_and_authorize_resource find_by: :short_title
   load_resource :program, through: :conference, singleton: true, except: :index
 

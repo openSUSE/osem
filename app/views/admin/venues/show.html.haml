@@ -8,7 +8,7 @@
   .row
     .col-md-6
       - if @conference.venue.location?
-        = render 'conference/venue_map'
+        = render '/conferences/venue_map'
       -else
         - if @venue.commercial.nil?
           .row

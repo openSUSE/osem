@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::ConferenceController do
+describe Admin::ConferencesController do
 
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference, end_date: Date.new(2014, 05, 26) + 15) }

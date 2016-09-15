@@ -12,7 +12,7 @@ feature 'BaseController' do
   describe 'GET #verify_user_admin' do
     context 'when user is a guest' do
       it 'redirects to sign in page' do
-        visit admin_conference_index_path
+        visit admin_conferences_path
         expect(current_path).to eq new_user_session_path
       end
     end
@@ -23,39 +23,39 @@ feature 'BaseController' do
       end
 
       it 'not an admin it redirects to root_path' do
-        visit admin_conference_index_path
+        visit admin_conferences_path
         expect(current_path).to eq root_path
         expect(flash).to eq 'You are not authorized to access this area!'
       end
 
       it 'an admin he can access the admin area' do
         user.is_admin = true
-        visit admin_conference_index_path
-        expect(current_path).to eq admin_conference_index_path
+        visit admin_conferences_path
+        expect(current_path).to eq admin_conferences_path
       end
 
       it 'an organizer he can access the admin area' do
         user.role_ids = organizer_role.id
-        visit admin_conference_index_path
-        expect(current_path).to eq admin_conference_index_path
+        visit admin_conferences_path
+        expect(current_path).to eq admin_conferences_path
       end
 
       it 'a volunteers_coordinator he can access the admin area' do
         user.role_ids = volunteers_coordinator_role.id
-        visit admin_conference_index_path
-        expect(current_path).to eq admin_conference_index_path
+        visit admin_conferences_path
+        expect(current_path).to eq admin_conferences_path
       end
 
       it 'a cfp he can access the admin area' do
         user.role_ids = cfp_role.id
-        visit admin_conference_index_path
-        expect(current_path).to eq admin_conference_index_path
+        visit admin_conferences_path
+        expect(current_path).to eq admin_conferences_path
       end
 
       it 'an info_desk he can access the admin area' do
         user.role_ids = info_desk_role.id
-        visit admin_conference_index_path
-        expect(current_path).to eq admin_conference_index_path
+        visit admin_conferences_path
+        expect(current_path).to eq admin_conferences_path
       end
     end
   end

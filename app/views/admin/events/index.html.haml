@@ -9,11 +9,11 @@
         All the submissions of your speakers
 .row
   .col-md-4
-    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Events state', data: @event_distribution}
+    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Events state', data: @event_distribution}
   .col-md-4
-    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Confirmed events scheduled', data: @scheduled_event_distribution}
+    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Confirmed events scheduled', data: @scheduled_event_distribution}
   .col-md-4
-    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed}
+    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed}
 .row
   .col-md-12
     %div.margin-event-table
@@ -85,7 +85,7 @@
 
             %td.text-center{'data-order' => "#{event.require_registration}"}
               = check_box_tag @conference.short_title, event.id, event.require_registration,
-                method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
+                method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
                 class: 'switch-checkbox', data: { size: 'small',
                                                   off_color: 'warning',
                                                   on_text: 'Yes',
@@ -96,7 +96,7 @@
 
             %td.text-center{'data-order' => "#{event.is_highlight}"}
               = check_box_tag @conference.short_title, event.id, event.is_highlight,
-                method: :patch, url: "/admin/conference/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
+                method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
                 class: 'switch-checkbox', data: { size: 'small',
                                                   off_color: 'warning',
                                                   on_text: 'Yes',

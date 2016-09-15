@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       (!session[:return_to] ||
       session[:return_to] &&
       session[:return_to] == root_path)
-      admin_conference_index_path
+      admin_conferences_path
     else
       session[:return_to] || root_path
     end

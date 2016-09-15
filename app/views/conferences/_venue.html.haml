@@ -2,7 +2,7 @@
   %li
     %a.smoothscroll{ href: '#venue' } Venue
 -if @conference.venue.location?
-  = render 'conference/venue_map'
+  = render '/conferences/venue_map'
 -else
   .container
     .row

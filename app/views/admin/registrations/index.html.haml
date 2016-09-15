@@ -12,10 +12,10 @@
       %p.text-muted
         All the people who registered to your event
   .col-md-4
-    = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Affiliation', data: @affiliation_distribution}
+    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Affiliation', data: @affiliation_distribution}
   - unless @conference.pending?
     .col-md-4
-      = render partial: 'admin/conference/doughnut_chart', locals: {title: 'Attended registrations', data: @registration_distribution}
+      = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Attended registrations', data: @registration_distribution}
 .row
   .col-md-12
     %div.margin-event-table

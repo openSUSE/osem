@@ -179,14 +179,14 @@ feature 'Version' do
     click_button 'New'
     click_link 'Reject event'
 
-    visit conference_program_proposal_index_path(conference_id: conference.short_title)
+    visit conference_program_proposals_path(conference_id: conference.short_title)
     click_link 'Re-Submit'
 
     visit admin_conference_program_events_path(conference.short_title)
     click_button 'New'
     click_link 'Accept event'
 
-    visit conference_program_proposal_index_path(conference_id: conference.short_title)
+    visit conference_program_proposals_path(conference_id: conference.short_title)
     click_link 'Confirm'
 
     visit admin_conference_program_events_path(conference.short_title)

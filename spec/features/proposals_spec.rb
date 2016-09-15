@@ -107,7 +107,7 @@ feature Event do
     scenario 'signed_in user submits a valid proposal', feature: true, js: true do
       sign_in participant_without_bio
       expected_count = Event.count + 1
-      visit conference_program_proposal_index_path(conference.short_title)
+      visit conference_program_proposals_path(conference.short_title)
       click_link 'New Proposal'
 
       fill_in 'event_title', with: 'Example Proposal'
@@ -121,13 +121,13 @@ feature Event do
       click_button 'Create Proposal'
       expect(flash).to eq('Proposal was successfully submitted.')
 
-      expect(current_path).to eq(conference_program_proposal_index_path(conference.short_title))
+      expect(current_path).to eq(conference_program_proposals_path(conference.short_title))
       expect(Event.count).to eq(expected_count)
     end
 
     scenario 'confirms a proposal', feature: true, js: true do
       sign_in participant
-      visit conference_program_proposal_index_path(conference.short_title)
+      visit conference_program_proposals_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
       expect(@event.state).to eq('unconfirmed')
       click_link "confirm_proposal_#{@event.id}"
@@ -141,7 +141,7 @@ feature Event do
     scenario 'withdraw a proposal', feature: true, js: true do
       sign_in participant
       @event.confirm!
-      visit conference_program_proposal_index_path(conference.short_title)
+      visit conference_program_proposals_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
       click_link "delete_proposal_#{@event.id}"
       expect(flash).to eq('Proposal was successfully withdrawn.')
