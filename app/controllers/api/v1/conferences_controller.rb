@@ -4,6 +4,9 @@ module Api
       load_resource find_by: :short_title
       respond_to :json
 
+      # Disable forgery protection for any json requests. This is required for jsonp support
+      skip_before_action :verify_authenticity_token
+
       def index
         render json: @conferences, serializer: ConferencesArraySerializer, callback: params['callback']
       end
