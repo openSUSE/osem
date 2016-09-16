@@ -1,5 +1,5 @@
 # Request for contributions
-We are always looking for contributions to OSEM. Read this guide on how to do that. 
+We are always looking for contributions to OSEM. Read this guide on how to do that.
 
 In particular, this community seeks the following types of contributions:
 
@@ -10,7 +10,7 @@ In particular, this community seeks the following types of contributions:
 ### Runing OSEM for development
 We are using [Vagrant](https://www.vagrantup.com/) to create our development environments.
 
-1. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads). Both tools support Linux, MacOS and Windows.
+1. Install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox 5.0.10](https://www.virtualbox.org/wiki/Download_Old_Builds_5_0). Both tools support Linux, MacOS and Windows.
 
 2. Install [vagrant-exec](https://github.com/p0deje/vagrant-exec):
 
@@ -33,7 +33,7 @@ We are using [Vagrant](https://www.vagrantup.com/) to create our development env
 5. Start your OSEM rails app:
 
     ```
-    vagrant exec rails server -b 0.0.0.0
+    vagrant exec /vagrant/bin/rails server -b 0.0.0.0
     ```
 
 6. Check out your OSEM rails app:
