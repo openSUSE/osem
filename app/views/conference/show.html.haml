@@ -1,9 +1,10 @@
 - content_for :head do
-  %meta{ :property => 'og:title', :content => @conference.title }
-  %meta{ :property => 'og:image', :content => @conference.picture_url }
-  %meta{ :property => 'og:url', :content => conference_path(@conference.short_title) }
-  %meta{ :property => 'og:description', :content => @conference.description}
-  %meta{ :property => 'og:site_name', :content => (ENV['OSEM_NAME'] || 'OSEM') }
+  %meta{ :property => "og:title", :content => @conference.title }
+  %meta{ :property => "og:site_name", :content => (ENV['OSEM_NAME'] || 'OSEM') }
+  - @conference[:picture]
+  %meta{property: "og:image:secure_url", content: @conference.picture_url}
+  %meta{ :property => "og:description", :content => @conference.description }
+  %meta{ :property => "og:url", :content => @conference.short_title }
 
 = content_for :title do
   = @conference.title
