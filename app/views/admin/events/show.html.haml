@@ -71,8 +71,8 @@
               %span{'class'=>[icon_for_todo(progress_status['subtitle']), 'fa-lg']}
           %tr
             %td= link_to 'Add a commercial', edit_conference_program_proposal_path(@event.program.conference.short_title, @event, anchor: 'commercials-content')
-            %td{'class'=>class_for_todo(progress_status['commercial'])}
-              %span{'class'=>[icon_for_todo(progress_status['commercial']), 'fa-lg']}
+            %td{'class'=>class_for_todo(progress_status['commercials'])}
+              %span{'class'=>[icon_for_todo(progress_status['commercials']), 'fa-lg']}
           - unless progress_status['track'].nil?
             %tr
               %td= link_to 'Add a track', edit_conference_program_proposal_path(@event.program.conference.short_title, @event)
