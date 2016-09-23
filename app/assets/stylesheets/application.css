@@ -3,7 +3,6 @@
  *= require formtastic-bootstrap
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require osem
- *= require osem-rating
  *= require osem-schedule
  *= require osem-schedule-print
  *= require osem-dashboard

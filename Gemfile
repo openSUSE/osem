@@ -23,6 +23,9 @@ gem 'mysql2'
 # for observing records
 gem 'rails-observers'
 
+# for rating
+gem 'ratyrate', github: 'wazery/ratyrate', branch: 'master'
+
 # for tracking data changes
 gem 'paper_trail'
 

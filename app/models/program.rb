@@ -53,11 +53,11 @@ class Program < ActiveRecord::Base
   accepts_nested_attributes_for :difficulty_levels, allow_destroy: true
 
 #   validates :conference_id, presence: true, uniqueness: true
-  validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10, only_integer: true }
   validates :schedule_interval, numericality: { greater_than_or_equal_to: 5, less_than_or_equal_to: 60 }, presence: true
   validate :schedule_interval_divisor_60
   validate :voting_start_date_before_end_date
-  validate :voting_dates_exist
+  validate :voting_dates_exist_for_blind_voting
+  validate :voting_dates_exist_for_rating_enabled
 
   after_create :create_event_types
   after_create :create_difficulty_levels
@@ -93,10 +93,10 @@ class Program < ActiveRecord::Base
   end
 
   ##
-  # Checks if both voting_start_date and voting_end_date are set
+  # Checks if both voting_start_date and voting_end_date are set when blind voting is enabled
   # ====Returns
   # Errors when the condition is not true
-  def voting_dates_exist
+  def voting_dates_exist_for_blind_voting
     errors.add(:voting_start_date, 'must be set, when blind voting is enabled') if blind_voting && !voting_start_date && !voting_end_date
 
     errors.add(:voting_end_date, 'must be set, when blind voting is enabled') if blind_voting && !voting_start_date && !voting_end_date
@@ -104,6 +104,15 @@ class Program < ActiveRecord::Base
     errors.add(:voting_end_date, 'must be set, when voting_start_date is set') if voting_start_date && !voting_end_date
 
     errors.add(:voting_start_date, 'must be set, when voting_end_date is set') if voting_end_date && !voting_start_date
+  end
+
+  ##
+  # Checks if both voting_start_date and voting_end_date are set when rating is enabled
+  # ====Returns
+  # Errors when the condition is not true
+  def voting_dates_exist_for_rating_enabled
+    errors.add(:voting_start_date, 'must be set, when voting is enabled') if rating_enabled && !voting_start_date && !voting_end_date
+    errors.add(:voting_end_date, 'must be set, when voting is enabled') if rating_enabled && !voting_start_date && !voting_end_date
   end
 
   ##
@@ -115,16 +124,7 @@ class Program < ActiveRecord::Base
   end
 
   ##
-  # Checcks if the program has rating enabled
-  #
-  # ====Returns
-  # * +false+ -> If rating is not enabled
-  # * +true+ -> If rating is enabled
-  def rating_enabled?
-    rating && rating > 0
-  end
 
-  ##
   # Checks if the call for papers for the conference is currently open
   #
   # ====Returns

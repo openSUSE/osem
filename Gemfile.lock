@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/wazery/ratyrate.git
+  revision: b738c56a4b53260d4083bbbc7895d7d32f3c0264
+  branch: master
+  specs:
+    ratyrate (1.2.2.alpha)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -611,6 +618,7 @@ DEPENDENCIES
   rails-i18n (~> 4.0.0)
   rails-observers
   rails_12factor
+  ratyrate!
   rdoc-generator-fivefish
   redcarpet
   responders (~> 2.0)

@@ -5,6 +5,7 @@ class UserDisabled < StandardError
 end
 
 class User < ActiveRecord::Base
+  ratyrate_rater
   rolify
   has_many :users_roles
   has_many :roles, through: :users_roles, dependent: :destroy
@@ -47,8 +48,6 @@ class User < ActiveRecord::Base
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :tickets, through: :ticket_purchases, source: :ticket
-  has_many :votes, dependent: :destroy
-  has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
   accepts_nested_attributes_for :roles
 

@@ -50,9 +50,6 @@
             %b ID
           %th
             %b Title
-          - if @program.rating_enabled?
-            %th
-              %b Rating
           %th
             %b Submitter
           %th
@@ -80,11 +77,6 @@
               = event.id
             %td
               = link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
-
-            - if @program.rating_enabled?
-              %td.col-md-1{ 'data-order' => "#{event.average_rating}" }
-                = render partial: 'voting_index', locals: { event: event }
-
             - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
               - bgcolor = '#F7819F'
             - else

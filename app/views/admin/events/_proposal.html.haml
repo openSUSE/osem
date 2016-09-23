@@ -168,8 +168,8 @@
           %b Description
         %td= simple_format(@event.description)
 
-      - if @conference.program && @conference.program.rating && @conference.program.rating > 0
-        = render partial: 'voting'
+    - if @votable_fields.present?
+      = render partial: 'voting'
 
 .row
   = link_to "Comments (#{@comment_count})", '#', id: 'event-comment-link'

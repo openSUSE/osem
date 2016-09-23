@@ -57,11 +57,12 @@
 
         %h3 Voting Options
         %hr
-        %dt
-          Rating Levels
-        %dd#rating
-          = @program.rating
-
+        %dt Voting enabled?
+        %dd
+          - if @program.rating_enabled
+            Yes
+          - else
+            No
         %dt Blind Voting
         %dd#blind_voting
           = @program.blind_voting

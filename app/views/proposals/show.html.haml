@@ -45,6 +45,13 @@
             .row.speakerbio
               .col-md-12
                 = markdown(speaker.biography)
+          -if @event.scheduled?    
+            %dl.col-md-12
+              -if @event.ended?
+                - @votable_fields.each do |field|
+                  %dt= field.title
+                  %dd= rating_for @event, field.title
+                  %br
     .col-md-9
       .row
         .col-md-12

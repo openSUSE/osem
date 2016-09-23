@@ -144,3 +144,8 @@
       = link_to admin_conference_resources_path(@conference.short_title) do
         %span.fa.fa-pencil-square
         Resources
+  - if can? :index, @conference.votable_fields.new
+    %li
+      = link_to admin_conference_votable_fields_path(@conference.short_title) do
+        %span.fa.fa-star
+        Votable Fields

@@ -47,13 +47,12 @@ module Admin
       @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
-      @ratings = @event.votes.includes(:user)
       @difficulty_levels = @program.difficulty_levels
       @versions = @event.versions |
        PaperTrail::Version.where(item_type: 'Commercial').where_object(commercialable_id: @event.id, commercialable_type: 'Event') |
-       PaperTrail::Version.where(item_type: 'Commercial').where_object_changes(commercialable_id: @event.id, commercialable_type: 'Event') |
-       PaperTrail::Version.where(item_type: 'Vote').where('object_changes LIKE ?', "%\nevent_id:\n- \n- #{@event.id}\n%") |
-       PaperTrail::Version.where(item_type: 'Vote').where('object LIKE ?', "%\nevent_id: #{@event.id}\n%")
+       PaperTrail::Version.where(item_type: 'Commercial').where_object_changes(commercialable_id: @event.id, commercialable_type: 'Event')
+      @votable_fields = VotableField.where(votable_type: 'Event', conference: @event.program.conference, enabled: true, for_admin: true)
+      Event.vote(@votable_fields)
     end
 
     def edit
@@ -140,24 +139,6 @@ module Admin
 
     def restart
       update_state(:restart, 'Review started!')
-    end
-
-    def vote
-      @ratings = @event.votes.includes(:user)
-
-      if (votes = current_user.votes.find_by_event_id(params[:id]))
-        votes.update_attributes(rating: params[:rating])
-      else
-        @myvote = @event.votes.build
-        @myvote.user = current_user
-        @myvote.rating = params[:rating]
-        @myvote.save
-      end
-
-      respond_to do |format|
-        format.html { redirect_to admin_conference_program_event_path(@conference.short_title, @event) }
-        format.js
-      end
     end
 
     def registrations

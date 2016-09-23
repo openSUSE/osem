@@ -1,0 +1,16 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        - if @votable_field.new_record?
+          New
+        Votable Field
+.row
+  .col-md-8
+    = semantic_form_for(@votable_field, :url => (@votable_field.new_record? ? admin_conference_votable_fields_path : admin_conference_votable_field_path(@conference.short_title, @votable_field))) do |f|
+      = f.input :title
+      = f.input :votable_type, collection: options_for_select(['Event'])
+      = f.input :stars, label: 'Add the total number of stars for the field'
+      = f.input :for_admin, label: 'Add this field for voting in admin side only'
+      %p.text-right
+        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

@@ -21,15 +21,6 @@ feature 'Version' do
     expect(page).to have_text("#{organizer.name} updated social tag, email, googleplus and sponsor email of contact details in conference #{conference.short_title}")
   end
 
-  scenario 'display changes in program', feature: true, versioning: true, js: true do
-    visit edit_admin_conference_program_path(conference.short_title)
-    fill_in 'program_rating', with: '4'
-    click_button 'Update Program'
-
-    visit admin_revision_history_path
-    expect(page).to have_text("#{organizer.name} updated rating of program in conference #{conference.short_title}")
-  end
-
   scenario 'display changes in cfp', feature: true, versioning: true, js: true do
     cfp = create(:cfp, program: conference.program)
     cfp.update_attributes(start_date: (Date.today + 1).strftime('%d/%m/%Y'), end_date: (Date.today + 3).strftime('%d/%m/%Y'))
@@ -344,20 +335,6 @@ feature 'Version' do
     expect(page).to have_text("#{organizer.name} commented on event My second event in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s comment on event #{event.title} in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s comment on event #{event.title}  in conference #{conference.short_title}")
-  end
-
-  scenario 'display changes in vote', feature: true, versioning: true, js: true do
-    conference.program.rating = 1
-    create(:event, program: conference.program, title: 'My first event')
-    event = create(:event, program: conference.program, title: 'My second event')
-    create(:vote, user: organizer, event: event)
-    Vote.last.destroy
-    PaperTrail::Version.last.reify.save
-
-    visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) voted on event My second event in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s vote on event #{event.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s vote on event #{event.title}  in conference #{conference.short_title}")
   end
 
   scenario 'display changes in campaign', feature: true, versioning: true, js: true do

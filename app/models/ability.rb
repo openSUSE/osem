@@ -138,6 +138,7 @@ class Ability
     # ids of all the conferences for which the user has the 'organizer' role
     conf_ids_for_organizer = Conference.with_role(:organizer, user).pluck(:id)
 
+    can :manage, VotableField, conference_id: conf_ids_for_organizer
     can :manage, Resource, conference_id: conf_ids_for_organizer
     can [:new, :create], Conference if user.has_role?(:organizer, :any)
     can :manage, Conference, id: conf_ids_for_organizer
@@ -192,6 +193,7 @@ class Ability
     # ids of all the conferences for which the user has the 'cfp' role
     conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
 
+    can :manage, VotableField, conference_id: conf_ids_for_cfp
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_cfp
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
@@ -220,7 +222,6 @@ class Ability
     end
 
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'Event', conference_id: conf_ids_for_cfp
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'Vote', conference_id: conf_ids_for_cfp
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
       version.item_type == 'Commercial' && conf_ids_for_cfp.include?(version.conference_id) &&
       (version.object.to_s.include?('Event') || version.object_changes.to_s.include?('Event'))
