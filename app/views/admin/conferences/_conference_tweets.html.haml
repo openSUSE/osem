@@ -2,7 +2,7 @@
   .row
     .col-md-12.text-center
       %h2
-        = "#" + @conference.contact.social_tag + " Tweets"
+        =  "##{@conference.contact.social_tag}  Tweets"
       %div#tweet-container
         - @tweets.each do |tweet|
           %div#tweet
@@ -11,4 +11,3 @@
                 = tweet.text
               = link_to "— @" + tweet.user.name, "http://www.twitter.com/#{tweet.user.name}",  target: "_blank"
               = link_to tweet.url, tweet.url.to_s
-            

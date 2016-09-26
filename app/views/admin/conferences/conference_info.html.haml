@@ -1,0 +1,23 @@
+.container
+  - if @conference.present?
+    .row
+      .col-md-12.text-center
+        %div#conference-header
+          %div.conference-logo
+            = image_tag(@conference.picture_url, class: 'img-responsive') if @conference.picture?
+          %div.conference-heading
+            %h1
+              = @conference.title
+            %span
+              = @conference.short_title
+            - if @conference.description.present?
+              %h3
+                = @conference.description
+    - if @current_event_schedules.present?
+      .row#current-events
+        = render 'current_events'
+    - if @conference.contact.social_tag.present? && @tweets.any?
+      .row#conference-tweets
+        = render 'conference_tweets'
+    - if @sponsors.any?
+      = render 'sponsors'

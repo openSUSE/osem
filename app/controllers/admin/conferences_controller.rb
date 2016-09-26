@@ -176,8 +176,8 @@ module Admin
     def conference_info
       # To display sponsors in the conference wide information page
       @sponsors = @conference.sponsors
-      @current_event_schedules = @program.selected_schedule.event_schedules.current
       @tweets = twitter_client.search_tweets(15, @conference.contact.social_tag)
+      @current_event_schedules = @program.selected_schedule.event_schedules.current.group_by{|es| es.event.track.name}
 
       respond_to do |format|
         format.html{render layout: 'conference_info'}
