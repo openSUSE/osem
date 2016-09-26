@@ -37,7 +37,11 @@
             = button_tag(type: 'submit', class: 'btn btn-success btn-lg') do
               Continue
               %i.fa.fa-shopping-cart
-            = link_to 'Cancel registration', conference_conference_registration_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-sm'
+            - if current_user.ticket_purchases.by_conference(@conference).any?
+              = link_to 'Back to registration', conference_conference_registration_path(@conference.short_title), class: 'btn btn-default btn-sm'
+            - else
+              = link_to 'Cancel registration', conference_conference_registration_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-sm',
+                data: { confirm: 'Are you sure you want to unregister?' }
   .row
     .col-md-13
       %p.text-muted.text-center
