@@ -10,8 +10,7 @@
   = link_to users_role.role.name, admin_conference_role_path(conference_id: conference_short_title, id: users_role.role.name)
   = version.event == 'create' ? 'to' : 'from'
   = 'user'
-
-  = link_to (user.try(:name) || 'deleted user'), admin_user_path(id: users_role.user.id)
+  = link_to_user(users_role.user_id)
 
 - when 'Subscription', 'Registration'
   - if conference
