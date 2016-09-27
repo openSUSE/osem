@@ -90,23 +90,4 @@ describe 'Registration' do
       end
     end
   end
-
-  describe '#destroy_purchased_tickets' do
-    it 'destroys purchased tickets if tickets are purchased' do
-      create(:ticket_purchase, conference: conference, user: user)
-      expect(user.registrations.size).to be 1
-      expect(user.ticket_purchases.size).to be 1
-      registration.destroy
-      expect(user.registrations.size).to be 0
-      expect(user.ticket_purchases.size).to be 0
-    end
-
-    it 'destroys no tickets if no tickets are purchased' do
-      expect(user.registrations.size).to be 1
-      expect(user.ticket_purchases.size).to be 0
-      registration.destroy
-      expect(user.registrations.size).to be 0
-      expect(user.ticket_purchases.size).to be 0
-    end
-  end
 end

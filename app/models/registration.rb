@@ -29,7 +29,6 @@ class Registration < ActiveRecord::Base
   validate :registration_to_events_only_if_present
 
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
-  after_destroy :destroy_purchased_tickets
 
   ##
   # Makes a list of events that includes (in that order):
@@ -58,11 +57,6 @@ class Registration < ActiveRecord::Base
 
       errors.add(:departure, 'is too early! You cannot register for events that take place after your departure') if events.pluck(:start_time).compact.map { |x| x > departure }.any?
     end
-  end
-
-  def destroy_purchased_tickets
-    ticket_purchased = TicketPurchase.where(conference_id: conference_id, user_id: user.id)
-    ticket_purchased.destroy_all
   end
 
   def subscribe_to_conference

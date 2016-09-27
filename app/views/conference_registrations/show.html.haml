@@ -116,8 +116,12 @@
       -if @registration
         .btn-group-vertical.pull-right
           = link_to 'Edit your Registration', edit_conference_conference_registration_path(@conference.short_title), class: 'btn btn-success', disabled: @conference.end_date < Date.today
-          = link_to 'Unregister', conference_conference_registration_path(@conference.short_title),
-          method: :delete, class: 'btn btn-danger btn-xs', confirm: 'Are you sure you want to unregister?', disabled: @conference.end_date < Date.today
+          - if @tickets.any?
+            = link_to 'Unregister', conference_conference_registration_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-xs',
+              data: { confirm: "Your ticket purchases won't be refunded. Are you sure you want to unregister?" }, disabled: @conference.end_date < Date.today
+          - else
+            = link_to 'Unregister', conference_conference_registration_path(@conference.short_title), method: :delete, class: 'btn btn-danger btn-xs',
+              data: { confirm: "You haven't purchased any ticket. Are you sure you want to unregister?" }, disabled: @conference.end_date < Date.today
       - else
         = link_to 'Register', new_conference_conference_registration_path(@conference.short_title), class: 'btn btn-success btn-lg pull-right'
 
