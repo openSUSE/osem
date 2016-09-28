@@ -17,6 +17,9 @@
           %tr
             %td= attribute
 
+            / If the attribute is an associated model, show the value of the record it corresponds to, not just the ID.
+            / Eg. when the version is of an Event, if the attribute is event_type_id it shows
+            / Workshop (ID: 116) instead of just 116
             - if attribute.include?('_id')
               - model_name = attribute.chomp('_id').camelize
               - if version.event != 'create'
