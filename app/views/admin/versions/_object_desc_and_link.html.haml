@@ -17,18 +17,26 @@
 - when 'Commercial'
   - commercial = current_or_last_object_state(version.item_type, version.item_id)
   - commercialable = current_or_last_object_state(commercial.commercialable_type, commercial.commercialable_id)
+  - commercialable_last_version = PaperTrail::Version.where(item_type: commercial.commercialable_type, item_id: commercial.commercialable_id).last
 
   - case commercial.commercialable_type
   - when 'Event'
-    commercial in event
-    =  link_to (commercialable.try(:title) || 'deleted event'),
-           admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: commercialable.id)
+    commercial in
+    - if commercialable_last_version.item
+      event
+      =  link_to commercialable.title,
+             admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: commercialable.id)
+    - else
+      = commercialable.title
 
   - when 'Venue'
     commercial in venue
-    = link_to commercialable.name,
-          edit_admin_conference_venue_path(conference_id: Conference.find(version.conference_id).short_title,
-                                              id: commercialable.id, anchor: 'commercials-content')
+    - if commercialable_last_version.item
+      = link_to commercialable.name,
+            edit_admin_conference_venue_path(conference_id: Conference.find(version.conference_id).short_title,
+                                                id: commercialable.id, anchor: 'commercials-content')
+    - else
+      = commercialable.name
 
   - when 'Conference'
     = link_to 'commercial',
