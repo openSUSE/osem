@@ -1,3 +1,11 @@
+- content_for :head do
+  %meta{ :property => "og:title", :content => @event.title }
+  %meta{ :property => "og:url", :content => conference_program_proposal_url(@conference.short_title, @event) }
+  %meta{ :property => "og:description", :content => @conference.description }
+  %meta{ :property => "og:site_name", :content => (ENV['OSEM_NAME'] || 'OSEM') }
+  - @conference[:picture]
+  %meta{property: "og:image:secure_url", content: @conference.picture_url}
+
 .container
   .row
     .col-md-12.page-header
