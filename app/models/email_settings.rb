@@ -42,7 +42,7 @@ class EmailSettings < ActiveRecord::Base
 
     if event
       h['eventtitle'] = event.title
-      h['proposalslink'] = Rails.application.routes.url_helpers.conference_program_proposal_index_url(
+      h['proposalslink'] = Rails.application.routes.url_helpers.conference_program_proposals_url(
                            conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
     end
     h

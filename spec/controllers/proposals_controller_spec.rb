@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProposalController do
+describe ProposalsController do
   let(:user) { create(:user) }
   let(:conference) { create(:conference, short_title: 'lama101') }
   let(:event) { create(:event, program: conference.program) }
@@ -16,7 +16,7 @@ describe ProposalController do
 
       it 'assigns user and url variables' do
         expect(assigns(:user)).to be_instance_of(User)
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal'
+        expect(assigns(:url)).to eq '/conferences/lama101/program/proposals'
       end
 
       it 'renders new template' do
@@ -32,7 +32,7 @@ describe ProposalController do
         post :create, event: attributes_for(:event, event_type_id: event_type.id),
                       conference_id: conference.short_title,
                       user: attributes_for(:user)
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal'
+        expect(assigns(:url)).to eq '/conferences/lama101/program/proposals'
       end
 
       context 'user is saved successfully' do
@@ -75,7 +75,7 @@ describe ProposalController do
           end
 
           it 'redirects to proposal index path', run: true do
-            expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+            expect(response).to redirect_to conference_program_proposals_path conference.short_title
           end
 
           it 'shows success message in flash notice', run: true do
@@ -199,7 +199,7 @@ describe ProposalController do
 
       it 'assigns user and url variables' do
         expect(assigns(:user)).to be_instance_of(User)
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal'
+        expect(assigns(:url)).to eq '/conferences/lama101/program/proposals'
       end
 
       it 'renders new template' do
@@ -214,7 +214,7 @@ describe ProposalController do
 
       it 'assigns event and url variables' do
         expect(assigns(:event)).to eq event
-        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
+        expect(assigns(:url)).to eq "/conferences/lama101/program/proposals/#{event.id}"
       end
 
       it 'renders edit template' do
@@ -229,7 +229,7 @@ describe ProposalController do
       it 'assigns url variables' do
         post :create, event: attributes_for(:event, event_type_id: event_type.id),
                       conference_id: conference.short_title
-        expect(assigns(:url)).to eq '/conference/lama101/program/proposal'
+        expect(assigns(:url)).to eq '/conferences/lama101/program/proposals'
       end
 
       context 'creates proposal successfully' do
@@ -252,7 +252,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path', run: true do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows success message in flash notice', run: true do
@@ -298,7 +298,7 @@ describe ProposalController do
         patch :update, event: attributes_for(:event, title: 'some title', event_type_id: event_type.id),
                        conference_id: conference.short_title,
                        id: event.id
-        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
+        expect(assigns(:url)).to eq "/conferences/lama101/program/proposals/#{event.id}"
       end
 
       context 'updates successfully' do
@@ -314,7 +314,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows success message in flash notice' do
@@ -349,7 +349,7 @@ describe ProposalController do
 
       it 'assigns url variable' do
         patch :withdraw, conference_id: conference.short_title, id: event.id
-        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
+        expect(assigns(:url)).to eq "/conferences/lama101/program/proposals/#{event.id}"
       end
 
       context 'withdraws successfully' do
@@ -363,7 +363,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows success message in flash notice' do
@@ -404,7 +404,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows error in flash message' do
@@ -426,7 +426,7 @@ describe ProposalController do
           end
 
           it 'assigns url variable' do
-            expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
+            expect(assigns(:url)).to eq "/conferences/lama101/program/proposals/#{event.id}"
           end
 
           it 'change state of event to confirmed' do
@@ -439,7 +439,7 @@ describe ProposalController do
           before { patch :confirm, conference_id: conference.short_title, id: event.id }
 
           it 'assigns url variable' do
-            expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
+            expect(assigns(:url)).to eq "/conferences/lama101/program/proposals/#{event.id}"
           end
 
           it 'change state of event to confirmed' do
@@ -455,7 +455,7 @@ describe ProposalController do
           end
 
           it 'redirects to proposal index path' do
-            expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+            expect(response).to redirect_to conference_program_proposals_path conference.short_title
           end
 
           it 'shows success message in flash notice' do
@@ -510,7 +510,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows error in flash message' do
@@ -524,7 +524,7 @@ describe ProposalController do
 
       it 'assigns url variable' do
         patch :restart, conference_id: conference.short_title, id: event.id
-        expect(assigns(:url)).to eq "/conference/lama101/program/proposal/#{event.id}"
+        expect(assigns(:url)).to eq "/conferences/lama101/program/proposals/#{event.id}"
       end
 
       context 'resubmits successfully' do
@@ -538,7 +538,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows success message in flash notice' do
@@ -558,7 +558,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows error in flash message' do
@@ -578,7 +578,7 @@ describe ProposalController do
         end
 
         it 'redirects to proposal index path' do
-          expect(response).to redirect_to conference_program_proposal_index_path conference.short_title
+          expect(response).to redirect_to conference_program_proposals_path conference.short_title
         end
 
         it 'shows error in flash message' do

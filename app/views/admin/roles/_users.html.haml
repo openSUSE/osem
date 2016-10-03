@@ -14,7 +14,7 @@
           - if ( can? :toggle_user, @role )
             %td.text-right
               = hidden_field_tag "role[user_ids][]", nil
-              = check_box_tag @conference.short_title, @role.id, (@role.user_ids.include? user.id), method: :post, url: "/admin/conference/#{@conference.short_title}/roles/#{@role.name}/toggle_user?user[email]=#{user.email}&user[state]=", class: 'switch-checkbox', data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+              = check_box_tag @conference.short_title, @role.id, (@role.user_ids.include? user.id), method: :post, url: "/admin/conferences/#{@conference.short_title}/roles/#{@role.name}/toggle_user?user[email]=#{user.email}&user[state]=", class: 'switch-checkbox', data: { size: 'small', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
           %td= user.id
           %td= user.name
           %td= user.email

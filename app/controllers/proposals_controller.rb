@@ -1,5 +1,5 @@
-class ProposalController < ApplicationController
-  before_filter :authenticate_user!, except: [:show, :new, :create]
+class ProposalsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
   load_and_authorize_resource :event, parent: false, through: :program
@@ -20,7 +20,7 @@ class ProposalController < ApplicationController
 
   def new
     @user = User.new
-    @url = conference_program_proposal_index_path(@conference.short_title)
+    @url = conference_program_proposals_path(@conference.short_title)
     @languages = @program.languages_list
   end
 
@@ -30,7 +30,7 @@ class ProposalController < ApplicationController
   end
 
   def create
-    @url = conference_program_proposal_index_path(@conference.short_title)
+    @url = conference_program_proposals_path(@conference.short_title)
 
     # We allow proposal submission and sign up on same page.
     # If user is not signed in then first create new user and then sign them in
@@ -55,7 +55,7 @@ class ProposalController < ApplicationController
                            event_role: 'speaker')
     if @event.save
       ahoy.track 'Event submission', title: 'New submission'
-      redirect_to conference_program_proposal_index_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
+      redirect_to conference_program_proposals_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
     else
       flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'new'
@@ -66,7 +66,7 @@ class ProposalController < ApplicationController
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
     if @event.update(event_params)
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   notice: 'Proposal was successfully updated.'
     else
       flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
@@ -86,10 +86,10 @@ class ProposalController < ApplicationController
     end
 
     if @event.save
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   notice: 'Proposal was successfully withdrawn.'
     else
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   error: "Could not withdraw proposal: #{@event.errors.full_messages.join(', ')}"
     end
   end
@@ -107,14 +107,14 @@ class ProposalController < ApplicationController
 
     if @event.save
       if @conference.user_registered?(current_user)
-        redirect_to conference_program_proposal_index_path(@conference.short_title),
+        redirect_to conference_program_proposals_path(@conference.short_title),
                     notice: 'The proposal was confirmed.'
       else
         redirect_to new_conference_conference_registration_path(conference_id: @conference.short_title),
                     alert: 'The proposal was confirmed. Please register to attend the conference.'
       end
     else
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   error: "Could not confirm proposal: #{@event.errors.full_messages.join(', ')}"
     end
   end
@@ -126,16 +126,16 @@ class ProposalController < ApplicationController
     begin
       @event.restart
     rescue Transitions::InvalidTransition
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   error: "The proposal can't be re-submitted."
       return
     end
 
     if @event.save
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   notice: "The proposal was re-submitted. The #{@conference.short_title} organizers will review it again."
     else
-      redirect_to conference_program_proposal_index_path(conference_id: @conference.short_title),
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   error: "Could not re-submit proposal: #{@event.errors.full_messages.join(', ')}"
     end
   end

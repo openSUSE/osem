@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe ConferenceController do
-  let(:conference) { create(:conference,  splashpage: create(:splashpage, public: true), venue: create(:venue)) }
+describe ConferencesController do
+  let(:conference) { create(:conference, splashpage: create(:splashpage, public: true), venue: create(:venue)) }
   let!(:cfp) { create(:cfp, program: conference.program) }
   let(:room) { create(:room, venue: conference.venue) }
 

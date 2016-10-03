@@ -9,8 +9,6 @@ feature Commercial do
 
   context 'in admin area' do
     scenario 'adds, updates, deletes of a conference', feature: true, js: true do
-      expected_count = conference.commercials.count + 1
-
       sign_in organizer
 
       visit admin_conference_commercials_path(conference.short_title)
@@ -22,14 +20,14 @@ feature Commercial do
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
       click_button 'Create Commercial'
       expect(flash).to eq('Commercial was successfully created.')
-      expect(conference.commercials.count).to eq(expected_count)
+      expect(conference.commercials.count).to eq(1)
 
       commercial = conference.commercials.where(url: 'https://www.youtube.com/watch?v=M9bq_alk-sw').first
       fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=VNkDJk5_9eU'
       click_button 'Update'
 
       expect(flash).to eq('Commercial was successfully updated.')
-      expect(conference.commercials.count).to eq(expected_count)
+      expect(conference.commercials.count).to eq(1)
       commercial.reload
       expect(commercial.url).to eq 'https://www.youtube.com/watch?v=VNkDJk5_9eU'
 
@@ -37,7 +35,7 @@ feature Commercial do
       click_link 'Delete'
 
       expect(flash).to eq('Commercial was successfully destroyed.')
-      expect(conference.commercials.count).to eq(expected_count - 1)
+      expect(conference.commercials.count).to eq(0)
     end
   end
 
@@ -49,8 +47,6 @@ feature Commercial do
                                   user_id: participant.id,
                                   event_id: event.id,
                                   event_role: 'submitter')]
-
-      @expected_count = Commercial.count + 1
       sign_in participant
     end
 
@@ -68,7 +64,7 @@ feature Commercial do
 
       click_button 'Create Commercial'
       expect(flash).to eq('Commercial was successfully created.')
-      expect(event.commercials.count).to eq(@expected_count)
+      expect(event.commercials.count).to eq(1)
     end
 
     scenario 'does not add an invalid commercial of an event', feature: true, js: true do
@@ -82,7 +78,7 @@ feature Commercial do
       click_button 'Create Commercial'
       expect(flash).to include('An error prohibited this Commercial from being saved:')
       expect(current_path).to eq edit_conference_program_proposal_path(conference.short_title, event.id)
-      expect(event.commercials.count).to eq 0
+      expect(event.commercials.count).to eq(0)
     end
 
     scenario 'updates a commercial of an event', feature: true, versioning: true, js: true do
@@ -94,7 +90,7 @@ feature Commercial do
       fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
       click_button 'Update'
       expect(flash).to eq('Commercial was successfully updated.')
-      expect(event.commercials.count).to eq(@expected_count)
+      expect(event.commercials.count).to eq(1)
       commercial.reload
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=M9bq_alk-sw')
     end
@@ -122,7 +118,7 @@ feature Commercial do
       click_link 'Delete'
       page.driver.network_traffic
       expect(flash).to eq('Commercial was successfully destroyed.')
-      expect(event.commercials.count).to eq(@expected_count - 1)
+      expect(event.commercials.count).to eq(0)
     end
   end
 end

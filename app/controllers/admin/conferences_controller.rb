@@ -1,5 +1,5 @@
 module Admin
-  class ConferenceController < Admin::BaseController
+  class ConferencesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_resource :program, through: :conference, singleton: true, except: :index
     load_resource :user, only: [:remove_user]

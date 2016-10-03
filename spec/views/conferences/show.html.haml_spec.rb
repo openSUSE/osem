@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'conference/show.html.haml' do
+describe 'conferences/show.html.haml' do
   let!(:conference) { create(:full_conference) }
 
   before(:each) do
@@ -13,11 +13,11 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders program partial' do
-    expect(view).to render_template(partial: 'conference/_schedule_splashpage')
+    expect(view).to render_template(partial: 'conferences/_schedule_splashpage')
   end
 
   it 'renders registration partial' do
-    expect(view).to render_template(partial: 'conference/_registration')
+    expect(view).to render_template(partial: 'conferences/_registration')
   end
 
   it 'renders call_for_paper partial' do
@@ -25,7 +25,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders sponsors partial' do
-    expect(view).to render_template(partial: 'conference/_sponsors')
+    expect(view).to render_template(partial: 'conferences/_sponsors')
     expect(rendered).to match(conference.contact.email)
     expect(rendered).to match(conference.sponsors.first.website_url)
     expect(rendered).to match(CGI.escapeHTML(conference.sponsors.first.description))
@@ -33,7 +33,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders social media partial' do
-    expect(view).to render_template('conference/_social_media')
+    expect(view).to render_template('conferences/_social_media')
     expect(rendered).to match(conference.contact.facebook)
     expect(rendered).to match(conference.contact.googleplus)
     expect(rendered).to match(conference.contact.instagram)
@@ -41,7 +41,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders venue partial' do
-    expect(view).to render_template(partial: 'conference/_venue')
+    expect(view).to render_template(partial: 'conferences/_venue')
     expect(rendered).to match(CGI.escapeHTML(conference.venue.name))
     expect(rendered).to match(conference.venue.street)
     expect(rendered).to match(conference.venue.website)
@@ -49,7 +49,7 @@ describe 'conference/show.html.haml' do
   end
 
   it 'renders lodging partial' do
-    expect(view).to render_template(partial: 'conference/_lodging')
+    expect(view).to render_template(partial: 'conferences/_lodging')
     expect(rendered).to match(CGI.escapeHTML(conference.lodgings.first.name))
     expect(rendered).to match(CGI.escapeHTML(conference.lodgings.first.description))
     # FIXME: Lodging without image doesn't show link
