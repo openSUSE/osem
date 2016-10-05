@@ -23,9 +23,6 @@
       %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
         = event_type.description
 
-    :javascript
-      $("##{@conference.program.event_types.first.id}-help").collapse('show');
-
     = f.input :difficulty_level, as: :select, collection: @conference.program.difficulty_levels, input_html: { class: 'select-help-toggle' },
       include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
 
