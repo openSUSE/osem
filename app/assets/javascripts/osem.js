@@ -45,7 +45,10 @@ $(function () {
     $(".load_template").on('click', function () {
         var template = $(this).data('template');
         var textarea_name = $(this).data('name');
+        var subject_template = $(this).data('subject-template');
+        var subject_input_id = $(this).data('subject-name');
         $('#' + textarea_name).val(template);
+        $('#' + subject_input_id).val(subject_template);
     });
 
     /**
