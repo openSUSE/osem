@@ -43,9 +43,12 @@ $(function () {
      * Adds the default template as value to the regarding email textarea field.
      */
     $(".load_template").on('click', function () {
-        var template = $(this).data('template');
-        var textarea_name = $(this).data('name');
-        $('#' + textarea_name).val(template);
+      var subject_input_id = $(this).data('subject-input-id');
+      var subject_input_text = $(this).data('subject-text');
+      var body_input_id = $(this).data('body-input-id');
+      var body_input_text = $(this).data('body-text');
+      $('#' + subject_input_id).val(subject_input_text);
+      $('#' + body_input_id).val(body_input_text);
     });
 
     /**
