@@ -4,6 +4,9 @@ module Api
       load_resource :conference, find_by: :short_title
       respond_to :json
 
+      # Disable forgery protection for any json requests. This is required for jsonp support
+      skip_before_action :verify_authenticity_token
+
       def index
         if @conference
           users = User.joins(event_users: { event: { program: :conference} })
@@ -13,7 +16,7 @@ module Api
         end
 
         users = users.where(event_users: {event_role: :speaker}).uniq
-        render json: users, each_serializer: SpeakerSerializer
+        render json: users, each_serializer: SpeakerSerializer, callback: params['callback']
       end
     end
   end
