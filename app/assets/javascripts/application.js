@@ -54,4 +54,8 @@ $(document).ready(function() {
     $('body').smoothScroll({
         delegateSelector: 'a.smoothscroll'
     });
+    // Navbar collapse when clicked elsewhere
+    $('.navbar-toggle').blur(function() {
+        $(this).click();
+    });
 });
