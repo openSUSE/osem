@@ -1,0 +1,28 @@
+wb.use_shared_strings = true
+wb.add_worksheet(name: 'events with comments') do |sheet|
+  bold_style = wb.styles.add_style(b: true )
+  cell_style = wb.styles.add_style(alignment: { wrap_text: true, vertical: :top })
+row = ['Event ID', 'Title', 'Abstract', 'Start time', 'Submitter', 'Speaker', 'Event Type', 'Track', 'Difficulty Level', 'Room', 'State', 'Comments']
+  sheet.add_row row, style: bold_style
+
+  @events.each do |event|
+    all_comments = ''
+    event.root_comments.each do |comment|
+      all_comments <<  "#{comment.created_at.strftime("%Y-%m-%d")} #{comment.created_at.strftime("%I:%M%p")}  #{comment.user.name}: #{comment.body}\n"
+    end
+    row = []
+    row << event.id
+    row << event.title
+    row << event.abstract
+    row << (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : '')
+    row << event.submitter.name
+    row << event.speaker_names
+    row << event.event_type.title
+    row << (event.track.present? ? event.track.name : '')
+    row << (event.difficulty_level.present? ? event.difficulty_level.title : '')
+    row << (event.room.present? ? event.room.name : '')
+    row << event.state
+    row << all_comments.strip
+    sheet.add_row row, style: cell_style
+  end
+end

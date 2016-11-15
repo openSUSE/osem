@@ -1,0 +1,23 @@
+- headers = ['Event ID',
+             'Title',
+             'Abstract',
+             'Start time',
+             'Submitter',
+             'Speaker',
+             'Event Type',
+             'Track',
+             'Difficulty Level',
+             'Room',
+             'State',
+             'Comments']
+= CSV.generate_line ["Events with Comments"]
+= CSV.generate_line headers
+- @events.each do |event|
+  - all_comments = ''
+  - event.root_comments.each do |comment|
+    - all_comments << "#{comment.created_at.strftime("%Y-%m-%d")} #{comment.created_at.strftime("%I:%M%p")}  #{comment.user.name}: #{comment.body}\n"
+  = CSV.generate_line([event.id, event.title, event.abstract, (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : ''),
+                       event.submitter.name, event.speaker_names, event.event_type.title,
+                       (event.track.present? ? event.track.name : ''),
+                       (event.difficulty_level.present? ? event.difficulty_level.title : ''),
+                       (event.room.present? ? event.room.name : ''), event.state, all_comments]).html_safe

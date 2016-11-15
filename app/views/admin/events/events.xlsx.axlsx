@@ -1,0 +1,8 @@
+wb = xlsx_package.workbook
+if @event_export_option == 'confirmed'
+  render partial: 'confirmed_events', locals: {:wb => wb}
+elsif @event_export_option == 'all'
+  render partial: 'all_events', locals: {:wb => wb}
+elsif @event_export_option == 'all_with_comments'
+  render partial: 'all_with_comments', locals: {:wb => wb}
+end
