@@ -392,12 +392,23 @@ module ApplicationHelper
     end
   end
 
-  # Recieves a PaperTrail::Version object
+  # Recieves a model_name and id
+  # Returns nil if model_name is invalid
   # Returns object in its current state if its alive
-  # Returns object as it was before version's change(unless its a create event's version)
-  # Else Returns object as it was after version's change
-  def get_version_object(version)
-    version.item || version.reify || version.next.reify
+  # Otherwise Returns object state just before deletion
+  def current_or_last_object_state(model_name, id)
+    return nil unless id.present? && model_name.present?
+    begin
+      object = model_name.constantize.find_by(id: id)
+    rescue NameError
+      return nil
+    end
+
+    if object.nil?
+      object_last_version = PaperTrail::Version.where(item_type: model_name, item_id: id).last
+      object = object_last_version.reify if object_last_version
+    end
+    object
   end
 
   def event_change_description(version)
@@ -412,12 +423,6 @@ module ApplicationHelper
       when 'new' then 'resubmitted'
       end
 
-    when version.changeset['start_time'] && version.changeset['start_time'][0].nil?
-      'scheduled'
-
-    when version.changeset['start_time'] && version.changeset['start_time'][1].nil?
-      'unscheduled'
-
     else
       "updated #{updated_attributes(version)} of"
     end
@@ -428,18 +433,17 @@ module ApplicationHelper
   end
 
   def subscription_change_description(version)
-    user = get_version_object(version).user
+    user = current_or_last_object_state(version.item_type, version.item_id).user
     user_name = user.name unless user.id.to_s == version.whodunnit
     version.event == 'create' ? "subscribed #{user_name} to" : "unsubscribed #{user_name} from"
   end
 
   def registration_change_description(version)
     if version.item_type == 'Registration'
-      user = get_version_object(version).user
-    else
-      registration_id = get_version_object(version).registration_id
-      registration_last_version = PaperTrail::Version.where(item_type: 'Registration', item_id: registration_id).last
-      user = get_version_object(registration_last_version).user
+      user = current_or_last_object_state(version.item_type, version.item_id).user
+    elsif version.item_type == 'EventsRegistration'
+      registration_id = current_or_last_object_state(version.item_type, version.item_id).registration_id
+      user = current_or_last_object_state('Registration', registration_id).user
     end
 
     if user.id.to_s == version.whodunnit
@@ -458,7 +462,7 @@ module ApplicationHelper
   end
 
   def comment_change_description(version)
-    user = get_version_object(version).user
+    user = current_or_last_object_state(version.item_type, version.item_id).user
     if version.event == 'create'
       version.previous.nil? ? 'commented on' : "re-added #{user.name}'s comment on"
     else
@@ -467,7 +471,7 @@ module ApplicationHelper
   end
 
   def vote_change_description(version)
-    user = get_version_object(version).user
+    user = current_or_last_object_state(version.item_type, version.item_id).user
     if version.event == 'create'
       version.previous.nil? ? 'voted on' : "re-added #{user.name}'s vote on"
     elsif version.event == 'update'
@@ -493,6 +497,14 @@ module ApplicationHelper
     end
   end
 
+  def event_schedule_change_description(version)
+    case version.event
+    when 'create' then 'scheduled'
+    when 'update' then 'rescheduled'
+    when 'destroy' then 'unscheduled'
+    end
+  end
+
   def general_change_description(version)
     if version.event == 'create'
       'created new'
@@ -501,5 +513,9 @@ module ApplicationHelper
     else
       'deleted'
     end
+  end
+
+  def link_if_alive(version, link_text, link_url)
+    version.item ? link_to(link_text, link_url) : link_text
   end
 end

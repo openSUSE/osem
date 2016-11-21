@@ -12,17 +12,43 @@
         - if can? :revert_attribute, version
           %th Action
     %tbody
-      - if version.event!= 'destroy'
+      - if version.event != 'destroy'
         - version.changeset.reject{ |_, values| values[0].blank? && values[1].blank? }.each do |attribute, values|
           %tr
             %td= attribute
-            - if version.event != 'create'
-              %td= values[0].blank? ?  '-' : values[0]
-            %td= values[1].blank? ?  '-' : values[1]
+
+            / If the attribute is an associated model, show the value of the record it corresponds to, not just the ID.
+            / Eg. when the version is of an Event, if the attribute is event_type_id it shows
+            / Workshop (ID: 116) instead of just 116
+            - if attribute.include?('_id')
+              - model_name = attribute.chomp('_id').camelize
+              - if version.event != 'create'
+                %td
+                  - associated_object = current_or_last_object_state(model_name, values[0])
+                  = associated_object.try(:title) || associated_object.try(:name)
+                  = values[0].blank? ? '-' : "(ID: #{values[0]})"
+              %td
+                - associated_object = current_or_last_object_state(model_name, values[1])
+                = associated_object.try(:title) || associated_object.try(:name)
+                = (values[1].blank? ? '-' : "(ID: #{values[1]})")
+
+            - else
+              - if version.event != 'create'
+                %td= values[0].blank? ?  '-' : values[0]
+              %td= values[1].blank? ?  '-' : values[1]
+
             - if can? :revert_attribute, version
               %td= link_to 'Revert', admin_revision_history_revert_attribute_path(id: version.id, attribute: attribute), class: 'btn btn-sm btn-primary', data: { confirm: "Are you sure you want to revert #{attribute}?" }
       - else
         - version.reify.attributes.each do |attribute, value|
           %tr
             %td= attribute
-            %td= value.blank? ?  '-' : value
+
+            - if attribute.include?('_id')
+              - model_name = attribute.chomp('_id').camelize
+              %td
+                - associated_object = current_or_last_object_state(model_name, value)
+                = associated_object.try(:title) || associated_object.try(:name)
+                = value.blank? ? '-' : "(ID: #{value})"
+            - else
+              %td= value.blank? ?  '-' : value
