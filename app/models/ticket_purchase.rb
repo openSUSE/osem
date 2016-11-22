@@ -40,18 +40,11 @@ class TicketPurchase < ActiveRecord::Base
 
   def self.purchase_ticket(conference, quantity, ticket, user)
     if quantity > 0
-      if ticket.price_cents.zero?
-        purchase = new(ticket_id: ticket.id,
-                       conference_id: conference.id,
-                       user_id: user.id,
-                       quantity: quantity,
-                       paid: true)
-      else
-        purchase = new(ticket_id: ticket.id,
-                       conference_id: conference.id,
-                       user_id: user.id,
-                       quantity: quantity)
-      end
+      purchase = new(ticket_id: ticket.id,
+                     conference_id: conference.id,
+                     user_id: user.id,
+                     quantity: quantity,
+                     paid: ticket.price_cents.zero?)
     end
     purchase
   end

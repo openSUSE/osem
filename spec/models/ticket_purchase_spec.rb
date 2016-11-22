@@ -41,7 +41,7 @@ describe TicketPurchase do
     let!(:participant) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:ticket_2) { create(:ticket) }
-    let!(:free_ticket) { create(:ticket) }
+    let!(:free_ticket) { create(:ticket, price_cents: 0) }
     let!(:conference) { create(:conference, tickets: [ticket_1, ticket_2, free_ticket]) }
 
     it 'creates purchase to free ticket' do
