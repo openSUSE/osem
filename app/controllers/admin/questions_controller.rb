@@ -95,7 +95,7 @@ module Admin
     private
 
     def question_params
-      params.require(:question).permit(:title, :global, :answers_attributes, :answer_ids, :question_type_id, :conference_id)
+      params.require(:question).permit(:title, :global, :answer_ids, :question_type_id, :conference_id, answers_attributes: [:id, :title])
     end
 
     def conference_params
