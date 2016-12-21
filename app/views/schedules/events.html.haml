@@ -61,5 +61,8 @@
 
   // Go to current date and time
   $(document).ready(function(){
-    document.getElementById("#{ @tag }").scrollIntoView();
+    tag = "#{ @tag }";
+    if(tag !== ""){
+      document.getElementById(tag).scrollIntoView();
+    }
   });
