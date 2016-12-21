@@ -1,6 +1,3 @@
-# rubocop:disable Metrics/ClassLength
-##
-# This class represents a conference
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
@@ -1081,4 +1078,3 @@ class Conference < ActiveRecord::Base
     result
   end
 end
-# rubocop:enable Metrics/ClassLength

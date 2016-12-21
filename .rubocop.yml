@@ -95,7 +95,9 @@ Metrics/BlockNesting:
   Max: 4
 
 Metrics/ClassLength:
-  Max: 575
+  Max: 300
+  Exclude: 
+    - 'app/models/conference.rb'
 
 # avoid redundunt curly braces when it is obvious that hash is used
 Style/BracesAroundHashParameters:
