@@ -242,6 +242,7 @@ ActiveRecord::Schema.define(version: 20170629232817) do
     t.boolean  "is_highlight",                 default: false
     t.integer  "program_id"
     t.integer  "max_attendees"
+    t.integer  "comments_count",               default: 0,     null: false
   end
 
   create_table "events_registrations", force: :cascade do |t|
