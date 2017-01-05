@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
+  include RevisionCount
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
@@ -249,6 +250,10 @@ class Event < ActiveRecord::Base
   #
   def time
     event_schedules.find_by(schedule_id: program.selected_schedule_id).try(:start_time)
+  end
+
+  def conference
+    program.conference
   end
 
   private

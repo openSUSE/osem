@@ -1660,4 +1660,31 @@ describe Conference do
       expect{ conference.save }.to change{ EventSchedule.count }.from(2).to(1)
     end
   end
+
+  describe '#revision' do
+    let(:track) { create(:track, program: subject.program) }
+    let(:event) { create(:event, program: subject.program, track: track) }
+    let(:venue) { create(:venue, conference: subject) }
+    let(:room)  { create(:room, venue: venue) }
+
+    it 'for change in conference' do
+      subject.title = 'changed'
+      expect{ subject.save }.to change { subject.revision }.by(1)
+    end
+
+    it 'for change in event' do
+      event.title = 'changed'
+      expect{ event.save }.to change { subject.revision }.by(1)
+    end
+
+    it 'for change in track' do
+      track.name = 'changed'
+      expect{ track.save }.to change { subject.revision }.by(1)
+    end
+
+    it 'for change in room' do
+      room.name = 'changed'
+      expect{ room.save }.to change { subject.revision }.by(1)
+    end
+  end
 end

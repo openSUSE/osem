@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20170629232817) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
-    t.integer  "revision"
+    t.integer  "revision",           default: 0,     null: false
     t.boolean  "use_vpositions",     default: false
     t.boolean  "use_vdays",          default: false
     t.boolean  "use_volunteers"

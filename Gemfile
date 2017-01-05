@@ -22,9 +22,6 @@ gem 'responders', '~> 2.0'
 gem 'mysql2'
 # gem 'pg'
 
-# for observing records
-gem 'rails-observers'
-
 # for tracking data changes
 gem 'paper_trail'
 
