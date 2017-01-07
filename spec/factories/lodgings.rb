@@ -8,6 +8,6 @@ FactoryGirl.define do
   end
 
   factory :lodging_xss, parent: :lodging do
-    description { "<div id='divInjectedElement'></div>" }
+    description { '<div id="divInjectedElement"></div>' }
   end
 end
