@@ -47,7 +47,7 @@ FactoryGirl.define do
   end
 
   factory :user_xss, parent: :user do
-    biography "<div id='divInjectedElement'></div>"
+    biography '<div id="divInjectedElement"></div>'
   end
 
 end
