@@ -37,6 +37,6 @@ FactoryGirl.define do
   end
 
   factory :event_xss, parent: :event do
-    abstract { "<div id='divInjectedElement'></div>" }
+    abstract { '<div id="divInjectedElement"></div>' }
   end
 end
