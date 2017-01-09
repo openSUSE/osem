@@ -16,7 +16,7 @@ describe 'admin/lodgings/index' do
     @conference.lodgings << create(:lodging_xss)
     assign :venue, @conference.venue
     render
-    expect(rendered).to_not have_selector("#divInjectedElement")
+    expect(rendered).to_not have_selector('#divInjectedElement')
   end
 
 end
