@@ -15,6 +15,6 @@ describe 'proposals/show' do
 
     render template: 'proposals/show.html.haml'
 
-    expect(rendered).to_not have_selector("#divInjectedElement")
+    expect(rendered).to_not have_selector('#divInjectedElement')
   end
 end
