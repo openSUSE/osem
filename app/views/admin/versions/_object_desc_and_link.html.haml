@@ -45,7 +45,7 @@
 - when 'EventsRegistration', 'Comment', 'Vote', 'Event'
   = 'event'
   - object = current_or_last_object_state(version.item_type, version.item_id)
-  - event_id = object.try(:id) || object.try(:event_id) || object.commentable_id
+  - event_id = object.try(:event_id) || object.try(:commentable_id) || object.id
   = link_to (current_or_last_object_state('Event', event_id).try(:title) || 'deleted event'),
           admin_conference_program_event_path(conference_id: Conference.find(version.conference_id).short_title, id: event_id)
 
