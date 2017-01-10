@@ -55,13 +55,6 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      Rails.application.load_seed
-      example.run
-    end
-  end
-
   # poltergeist as a underlying mech for Capybara
   Capybara.javascript_driver = :poltergeist
 
