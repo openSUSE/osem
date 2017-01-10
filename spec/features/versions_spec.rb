@@ -298,8 +298,9 @@ feature 'Version' do
   end
 
   scenario 'display changes in event registration', feature: true, versioning: true, js: true do
+    create(:event, program: conference.program, title: 'My first event')
     registration = Registration.create(user: organizer, conference: conference)
-    event = create(:event, program: conference.program)
+    event = create(:event, program: conference.program, title: 'My second event')
     EventsRegistration.create(registration: registration, event: event)
     EventsRegistration.first.update_attributes(attended: true)
     EventsRegistration.last.destroy
@@ -307,7 +308,7 @@ feature 'Version' do
     registration.destroy
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) registered #{organizer.name} to event #{event.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) registered #{organizer.name} to event My second event in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) updated attended of #{organizer.name}'s registration for event #{event.title} in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) unregistered #{organizer.name} from event #{event.title} in conference #{conference.short_title}")
   end
@@ -324,7 +325,8 @@ feature 'Version' do
   end
 
   scenario 'display changes in comment', feature: true, versioning: true, js: true do
-    event = create(:event, program: conference.program)
+    create(:event, program: conference.program, title: 'My first event')
+    event = create(:event, program: conference.program, title: 'My second event')
     visit admin_conference_program_event_path(conference_id: conference.short_title, id: event.id)
     click_link 'Comments (0)'
     fill_in 'comment_body', with: 'Sample comment'
@@ -333,9 +335,23 @@ feature 'Version' do
     PaperTrail::Version.last.reify.save
 
     visit admin_revision_history_path
-    expect(page).to have_text("#{organizer.name} commented on event #{event.title} in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} commented on event My second event in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s comment on event #{event.title} in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s comment on event #{event.title}  in conference #{conference.short_title}")
+  end
+
+  scenario 'display changes in vote', feature: true, versioning: true, js: true do
+    conference.program.rating = 1
+    create(:event, program: conference.program, title: 'My first event')
+    event = create(:event, program: conference.program, title: 'My second event')
+    create(:vote, user: organizer, event: event)
+    Vote.last.destroy
+    PaperTrail::Version.last.reify.save
+
+    visit admin_revision_history_path
+    expect(page).to have_text("Someone (probably via the console) voted on event My second event in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s vote on event #{event.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s vote on event #{event.title}  in conference #{conference.short_title}")
   end
 
   scenario 'display changes in campaign', feature: true, versioning: true, js: true do
