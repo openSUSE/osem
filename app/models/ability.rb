@@ -119,6 +119,9 @@ class Ability
     # for admins
     can :manage, :all if user.is_admin
 
+    # even admin cannot create new users with ICHAIN enabled
+    cannot [:new, :create], User if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+
     cannot :revert_object, PaperTrail::Version do |version|
       (version.event == 'create' && %w(Conference User Event).include?(version.item_type))
     end
