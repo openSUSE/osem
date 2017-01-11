@@ -4,37 +4,60 @@
       %h1
         Events
         = "(#{@events.length})" if @events.any?
-        .pull-right
+
+        .btn-group.pull-right
+          %button.btn.btn-primary{ 'data-toggle' => 'modal', 'data-target' => '#mass-commercials-modal', title: 'Mass import of commercials for events' }
+            Add Commercials
+
           - if can? :create, Event
-            =link_to 'Add Event', new_admin_conference_program_event_path(@conference.short_title), class: 'button btn btn-default btn-info'
+            = link_to 'Add Event', new_admin_conference_program_event_path(@conference.short_title), class: 'button btn btn-default btn-info'
+
           - if can? :read, Event
             .btn-group
-              .btn-group
-                %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                  Export PDF
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  %li= link_to 'All Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all')
-                  %li= link_to 'Confirmed Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'confirmed')
-                  %li= link_to 'All Events with Comments', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all_with_comments')
-              .btn-group
-                %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                  Export CSV
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all')
-                  %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'confirmed')
-                  %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all_with_comments')
-              .btn-group
-                %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                  Export XLS
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all')
-                  %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'confirmed')
-                  %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all_with_comments')
+              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
+                Export PDF
+                %span.caret
+              %ul.dropdown-menu{ role: 'menu' }
+                %li= link_to 'All Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all')
+                %li= link_to 'Confirmed Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'confirmed')
+                %li= link_to 'All Events with Comments', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all_with_comments')
+            .btn-group
+              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
+                Export CSV
+                %span.caret
+              %ul.dropdown-menu{ role: 'menu' }
+                %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all')
+                %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'confirmed')
+                %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all_with_comments')
+            .btn-group
+              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
+                Export XLS
+                %span.caret
+              %ul.dropdown-menu{ role: 'menu' }
+                %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all')
+                %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'confirmed')
+                %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all_with_comments')
+
       %p.text-muted
         All the submissions of your speakers
+
+.modal#mass-commercials-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h1 Add commercials to events
+        .text-muted
+          Upload your file with data in the following format:
+          %b Event_ID:Commercial_Link
+          , eg.
+          %br
+          %b 11:https://youtube.com/myvideo
+
+      .modal-body
+        = semantic_form_for '', url: mass_upload_commercials_admin_conference_program_path(@conference.short_title), method: :post do |f|
+          = f.input 'file', as: :file
+          .modal-footer
+            = f.submit 'Add', class: 'btn btn-primary'
 .row
   .col-md-4
     = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Events state', data: @event_distribution }
