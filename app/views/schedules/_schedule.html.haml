@@ -16,13 +16,13 @@
       %div{ class: "tab-pane #{ 'active' if @dates.first == date }", id: "#{ date }" }
 
         .visible-xs-inline
-          = render partial: 'carousel', locals: { date: date, number_columns: 1 }
+          = render partial: 'carousel', locals: { date: date, hrs_per_slide: 1 }
 
         .visible-sm-inline
-          = render partial: 'carousel', locals: { date: date, number_columns: 2 }
+          = render partial: 'carousel', locals: { date: date, hrs_per_slide: 2 }
 
         .visible-md-inline.visible-lg-inline
-          = render partial: 'carousel', locals: { date: date, number_columns: 3 }
+          = render partial: 'carousel', locals: { date: date, hrs_per_slide: 3 }
 
 :javascript
   // change of active tab and the button title when a date clicked
