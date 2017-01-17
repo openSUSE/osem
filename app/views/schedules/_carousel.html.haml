@@ -1,7 +1,7 @@
-- intervals = number_columns * 60 / EventType::LENGTH_STEP + 1
+- intervals = hrs_per_slide * 60 / EventType::LENGTH_STEP + 1
 - width = 85 / intervals
-- carousel_number = (@conf_period / number_columns.to_f).ceil
-.carousel.slide{ id: "carousel-#{ date }-#{ number_columns }", |
+- carousel_number = (@conf_period / hrs_per_slide.to_f).ceil
+.carousel.slide{ id: "carousel-#{ date }-#{ hrs_per_slide }", |
                      "data-ride" => "carousel", |
                      "data-wrap" => "false", |
                      "data-interval" => "false" }
@@ -9,16 +9,18 @@
   .carousel-inner
     - start_time = DateTime.parse("#{date} #{@conf_start}:00")
     - (0..carousel_number-1).each do |number|
-      %div{ class: "#{ carousel_item_class(number, carousel_number, number_columns, @hour_column)}" }
+      %div{ class: "#{ carousel_item_class(number, carousel_number, hrs_per_slide, @hour_column)}" }
         %table.table.table-bordered.schedule-table#schedule
           %tr
             %th
             - td_start_time = start_time
             - (1..intervals).each do |i|
               %th.date
-                = (td_start_time).strftime("%H:%M")
+                %span
+                  = (td_start_time).strftime("%H:")
+                %span
+                  = (td_start_time).strftime("%M")
               - td_start_time += @step_minutes
-
           - start_room_time = start_time
           - @rooms.each do |room|
             - start_room_time = start_time
@@ -27,7 +29,7 @@
               %td.room{ style: "height: #{ td_height(@rooms) }px;" }
                 .room.elipsis.break-words{ style: "-webkit-line-clamp: #{ room_lines(@rooms) }; height: #{ room_height(@rooms) }px;" }
                   = room.name
-                - event_schedules = room.event_schedules.select{ |e| (e.schedule_id == @conference.program.selected_schedule.id) && (e.end_time > start_time) && (e.start_time <= (start_time + number_columns.hour)) }
+                - event_schedules = room.event_schedules.select{ |e| (e.schedule_id == @conference.program.selected_schedule.id) && (e.end_time > start_time) && (e.start_time <= (start_time + hrs_per_slide.hour)) }
                 - (1..intervals).each do |i|
                   - if span > 1
                     - span -= 1
@@ -49,11 +51,11 @@
           - start_time = start_room_time - @step_minutes
 
   / Controls
-  %a.left.carousel-control{ href: "#carousel-#{ date }-#{ number_columns }", |
+  %a.left.carousel-control{ href: "#carousel-#{ date }-#{ hrs_per_slide }", |
                             role: "button", |
                             "data-slide" => "prev" }
     %span.glyphicon.glyphicon-chevron-left
-  %a.right.carousel-control{ href: "#carousel-#{ date }-#{ number_columns }", |
+  %a.right.carousel-control{ href: "#carousel-#{ date }-#{ hrs_per_slide }", |
                              role: "button", |
                              "data-slide" => "next" }
     %span.glyphicon.glyphicon-chevron-right

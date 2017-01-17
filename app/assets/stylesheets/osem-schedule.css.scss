@@ -16,7 +16,7 @@
 }
 
 .schedule-room-slot{
-  padding: 2px 5px;
+  padding: 2px 3px;
   border: 1px solid #848484;
   height: 58px;
   line-height: 20px;
@@ -29,6 +29,12 @@
   position:relative;
   z-index:1;
   cursor:move;
+}
+
+.schedule-room-slot .schedule-event.compact {
+  margin-top: -23px;
+  margin-left: 20%;
+  width: 80%;
 }
 
 .schedule-event-text{
@@ -167,7 +173,7 @@ td.room{
 
 th.date{
   font-size: 12px;
-  padding: 8px 0px 8px 1% !important;
+  padding: 4px 0px 4px 2px !important;
 }
 
 .speaker-pic{
