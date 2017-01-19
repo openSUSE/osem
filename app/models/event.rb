@@ -1,4 +1,8 @@
 class Event < ActiveRecord::Base
+  attr_accessor :submitter_id
+  attr_accessor :speaker_id
+  attr_accessor :validate_owners
+
   include ActiveRecord::Transitions
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
@@ -36,6 +40,8 @@ class Event < ActiveRecord::Base
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
   validate :max_attendees_no_more_than_room_size
+
+  validate :submitter_and_speaker_present
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :canceled, -> { where(state: 'canceled') }
@@ -293,5 +299,19 @@ class Event < ActiveRecord::Base
 
   def conference_id
     program.conference_id
+  end
+
+  def submitter_and_speaker_present
+    if validate_owners
+      errors.add(:speaker_id, "can't be blank!") unless self.speaker_id.present?
+      if self.speaker_id.present?
+        errors.add(:speaker_id, "user should exist!") unless User.where(id: self.speaker_id).take
+      end
+
+      errors.add(:submitter_id, "can't be blank!") unless self.submitter_id.present?
+      if self.submitter_id.present?
+        errors.add(:submitter_id, "user should exist!") unless User.where(id: self.submitter_id).take
+      end
+    end
   end
 end

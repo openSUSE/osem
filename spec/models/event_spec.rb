@@ -96,6 +96,43 @@ describe Event do
         end
       end
     end
+
+    describe 'submitter_and_speaker_present' do
+      context 'is invalid with owner validation enabled' do
+        before :each do
+          @new_event = build(:event, program: conference.program)
+          @new_event.validate_owners = true
+        end
+        it 'when submitter id is blank' do
+          expect(@new_event).to be_invalid
+          expect(@new_event.errors[:submitter_id]).to eq ["can't be blank!"]
+        end
+        it 'when speaker id is blank' do
+          expect(@new_event).to be_invalid
+          expect(@new_event.errors[:speaker_id]).to eq ["can't be blank!"]
+        end
+        it 'when submitter is is provided but the user does not exist' do
+          @new_event.submitter_id = 'deadbeef'
+          expect(@new_event).to be_invalid
+          expect(@new_event.errors[:submitter_id]).to eq ["user should exist!"]
+        end
+        it 'when speaker id is provided but the user does not exist' do
+          @new_event.speaker_id = 'deadbeef'
+          expect(@new_event).to be_invalid
+          expect(@new_event.errors[:speaker_id]).to eq ["user should exist!"]
+        end
+      end
+      context 'is valid with owner validation enabled' do
+        it 'when submitter and speaker ids are not blank and users with these ids exist' do
+          new_event = build(:event, program: conference.program)
+          new_user = create(:user)
+          new_event.submitter_id = new_user.id
+          new_event.speaker_id = new_user.id
+          new_event.validate_owners = true
+          expect(new_event).to be_valid
+        end
+      end
+    end
   end
 
   describe 'scope ' do

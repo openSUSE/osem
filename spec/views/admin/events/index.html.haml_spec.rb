@@ -38,4 +38,19 @@ describe 'admin/events/index' do
     expect(rendered).to have_selector('table tr:nth-of-type(2) td:nth-of-type(2)', text: 'event2')
     expect(rendered).to have_selector('table tr:nth-of-type(2) td:nth-of-type(5)', text: 'German')
   end
+
+  it 'has the Add Event link with a new event path' do
+    assign(:conference, conference)
+    assign(:program, conference.program)
+    program.languages = 'en,de'
+    assign(:events, [ event1, event2 ])
+    assign(:event_types, [ create(:event_type, program: conference.program), create(:event_type, program: conference.program) ])
+    assign(:tracks, [ create(:track, program: conference.program), create(:track, program: conference.program) ])
+    assign(:difficulty_levels, [ create(:difficulty_level, program: conference.program), create(:difficulty_level, program: conference.program) ])
+
+    render
+
+    expect(rendered).to have_link('Add Event', href: new_admin_conference_program_event_path(conference.short_title))
+  end
+
 end

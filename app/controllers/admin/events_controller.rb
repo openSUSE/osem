@@ -4,8 +4,9 @@ module Admin
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_and_authorize_resource :event, through: :program
     load_and_authorize_resource :events_registration, only: :toggle_attendance
+    load_and_authorize_resource :user, only: :new
 
-    before_action :get_event, except: [:index, :create, :reports]
+    before_action :get_event, except: [:index, :create, :new, :reports]
 
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
@@ -92,7 +93,34 @@ module Admin
       end
     end
 
-    def create; end
+    def create
+      @url = admin_conference_program_events_path(@conference.short_title, @event)
+      @users = User.all
+      @languages = @program.languages_list
+      @event.validate_owners = true
+      # make event confirmed initially since there is not much sens to go over the approval procedure for admin-added proposals
+      @event.state = :confirmed
+      if @event.valid?
+        @event.event_users.new(user_id: @event.submitter_id,
+                             event_role: 'submitter')
+        @event.event_users.new(user_id: @event.speaker_id,
+                           event_role: 'speaker')
+      end
+
+      if @event.save
+        ahoy.track 'Event submission', title: 'New submission'
+        redirect_to admin_conference_program_events_path(@conference.short_title), notice: 'Event was successfully submitted.'
+      else
+        flash[:error] = "Could not create event: #{@event.errors.full_messages.join(', ')}"
+        render action: 'new'
+      end
+    end
+
+    def new
+      @url = admin_conference_program_events_path(@conference.short_title, @event)
+      @languages = @program.languages_list
+      @users = User.all.order(:name)
+    end
 
     def accept
       send_mail = @event.program.conference.email_settings.send_on_accepted
@@ -168,7 +196,7 @@ module Admin
                                     # Set also in proposals controller
                                     :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
                                     # Set only in admin/events controller
-                                    :track_id, :state, :language, :is_highlight, :max_attendees,
+                                    :track_id, :state, :language, :is_highlight, :max_attendees, :speaker_id, :submitter_id,
                                     # Not used anymore?
                                     :proposal_additional_speakers, :user, :users_attributes)
     end

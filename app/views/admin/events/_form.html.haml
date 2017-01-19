@@ -1,0 +1,77 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        New Event
+.row
+  .col-md-12
+    = semantic_form_for(@event, url: @url) do |f|
+      = f.inputs name: 'Event Information' do
+        = f.input :title, as: :string, required: true
+
+        = f.input :subtitle, as: :string
+
+        = f.input :submitter_id, as: :select,
+          collection: @users.map {|user| ["#{user.name}", user.id,]},
+          include_blank: '(Please select)', label: 'Submitter', input_html: { class: 'select-help-toggle' }
+
+        = f.input :speaker_id, as: :select,
+          collection: @users.map {|user| ["#{user.name}", user.id,]},
+          include_blank: '(Please select)', label: 'Speaker', input_html: { class: 'select-help-toggle' }
+
+        - if @program.tracks.any?
+          = f.input :track_id, as: :select,
+                    collection: @program.tracks.map {|track| ["#{track.name}", track.id] },
+                    include_blank: true
+
+        = f.input :event_type_id, as: :select,
+          collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
+          data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
+          include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
+
+        - if @program.languages.present?
+          = f.input :language, as: :select,
+            collection: @languages,
+            include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
+
+        - @conference.program.event_types.each do |event_type|
+          %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
+            = event_type.description
+
+        = f.input :difficulty_level, as: :select, collection: @conference.program.difficulty_levels, input_html: { class: 'select-help-toggle' },
+          include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
+
+        - @conference.program.difficulty_levels.each do |difficulty_level|
+          %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
+            = difficulty_level.description
+
+        = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown-editable' } },
+          hint: markdown_hint(link_to('Tips to improve your presentations.', 'http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx'))
+
+        %p
+          You have used
+          %span#abstract-count #{@event.abstract_word_count}
+          words.  Abstracts must be between
+          %span#abstract-minimum-word-count
+            0
+          and
+          %span#abstract-maximum-word-count
+            250
+          words.
+
+        = f.inputs 'Enable pre-registration' do
+          = f.input :require_registration, label: 'Require participants to register to your event'
+          - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
+          = f.input :max_attendees, hint: 'The maximum number of participants. ' + message
+
+          = f.input :is_highlight
+
+        %p.text-right
+          = link_to '#description', 'data-toggle' => 'collapse' do
+            Do you require something special?
+        .collapse#description
+          = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
+
+
+      %p.text-right
+        = f.submit 'Create Event', class: 'btn btn-success'
