@@ -1,27 +1,13 @@
 class ConferenceRegistrationsController < ApplicationController
-  before_filter :authenticate_user!, except: [:new, :create]
+  before_action :authenticate_user!, unless: :allow_guests?
   load_resource :conference, find_by: :short_title
+  before_action :user_already_registered, only: :new
   authorize_resource :conference_registrations, class: Registration, except: [:new, :create]
   before_action :set_registration, only: [:edit, :update, :destroy, :show]
 
   def new
     @registration = Registration.new(conference_id: @conference.id)
     authorize! :new, @registration, message: "Sorry, you can not register for #{@conference.title}. Registration limit exceeded or the registration is not open."
-
-    # Redirect to registration edit when user is already registered
-    if @conference.user_registered?(current_user)
-      redirect_to edit_conference_conference_registration_path(@conference.short_title)
-      return
-    # ichain does not allow us to create users during registration
-    elsif (ENV['OSEM_ICHAIN_ENABLED'] == 'true') && !current_user
-      redirect_to root_path, alert: 'You need to sign in or sign up before continuing.'
-      return
-    end
-
-    # avoid openid sign_in to redirect to register/new when the sign_in user had already a registration
-    if current_user && @conference.user_registered?(current_user)
-      redirect_to edit_conference_conference_registration_path(@conference.short_title)
-    end
 
     # @user variable needs to be set so that _sign_up_form_embedded works properly
     @user = @registration.build_user
@@ -95,6 +81,18 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   protected
+
+  def allow_guests?
+    ENV['OSEM_ICHAIN_ENABLED'] != 'true' && params[:action].in?(['new', 'create'])
+  end
+
+  def user_already_registered
+    # Redirect to registration edit when user is already registered
+    if @conference.user_registered?(current_user)
+      redirect_to edit_conference_conference_registration_path(@conference.short_title)
+      return
+    end
+  end
 
   def set_registration
     @registration = Registration.find_by(conference: @conference, user: current_user)
