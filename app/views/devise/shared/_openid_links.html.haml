@@ -1,7 +1,7 @@
 .text-center
   .btn-group.btn-group-lg
     - omniauth_configured.each do |provider|
-      = link_to user_omniauth_authorize_path(provider), class: "btn btn-success btn-lg",
+      = link_to "user_#{provider}_omniauth_authorize".to_sym, class: "btn btn-success btn-lg",
                                                         id: "omniauth-#{provider}",
                                                         title: "Your #{provider} login" do
         %i{:class => "fa fa-#{provider}"}
