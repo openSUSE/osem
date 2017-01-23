@@ -114,12 +114,12 @@ describe Event do
         it 'when submitter is is provided but the user does not exist' do
           @new_event.submitter_id = 'deadbeef'
           expect(@new_event).to be_invalid
-          expect(@new_event.errors[:submitter_id]).to eq ["user should exist!"]
+          expect(@new_event.errors[:submitter_id]).to eq ['user should exist!']
         end
         it 'when speaker id is provided but the user does not exist' do
           @new_event.speaker_id = 'deadbeef'
           expect(@new_event).to be_invalid
-          expect(@new_event.errors[:speaker_id]).to eq ["user should exist!"]
+          expect(@new_event.errors[:speaker_id]).to eq ['user should exist!']
         end
       end
       context 'is valid with owner validation enabled' do

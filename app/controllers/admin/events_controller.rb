@@ -79,7 +79,6 @@ module Admin
 
     def update
       if @event.update_attributes(event_params)
-
         if request.xhr?
           render js: 'index'
         else
@@ -101,10 +100,8 @@ module Admin
       # make event confirmed initially since there is not much sens to go over the approval procedure for admin-added proposals
       @event.state = :confirmed
       if @event.valid?
-        @event.event_users.new(user_id: @event.submitter_id,
-                             event_role: 'submitter')
-        @event.event_users.new(user_id: @event.speaker_id,
-                           event_role: 'speaker')
+        @event.event_users.new(user_id: @event.submitter_id, event_role: 'submitter')
+        @event.event_users.new(user_id: @event.speaker_id, event_role: 'speaker')
       end
 
       if @event.save

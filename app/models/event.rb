@@ -305,12 +305,12 @@ class Event < ActiveRecord::Base
     if validate_owners
       errors.add(:speaker_id, "can't be blank!") unless self.speaker_id.present?
       if self.speaker_id.present?
-        errors.add(:speaker_id, "user should exist!") unless User.where(id: self.speaker_id).take
+        errors.add(:speaker_id, 'user should exist!') unless User.where(id: self.speaker_id).take
       end
 
       errors.add(:submitter_id, "can't be blank!") unless self.submitter_id.present?
       if self.submitter_id.present?
-        errors.add(:submitter_id, "user should exist!") unless User.where(id: self.submitter_id).take
+        errors.add(:submitter_id, 'user should exist!') unless User.where(id: self.submitter_id).take
       end
     end
   end

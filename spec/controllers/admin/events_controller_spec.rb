@@ -77,9 +77,7 @@ describe Admin::EventsController do
         it 'does not create new event' do
           allow_any_instance_of(Event).to receive(:save).and_return(false)
           expect do
-              post :create, event: attributes_for(:event, event_type_id: event_type.id),
-                            conference_id: conference.short_title,
-                            user: attributes_for(:user)
+            post :create, event: attributes_for(:event, event_type_id: event_type.id), conference_id: conference.short_title, user: attributes_for(:user)
           end.not_to change{ Event.count }
         end
       end
