@@ -64,24 +64,6 @@ describe Ticket do
     end
   end
 
-  describe '#paid?' do
-    let!(:ticket_purchase) { create(:ticket_purchase, user: user, ticket: ticket) }
-
-    context 'user has paid' do
-      before { ticket_purchase.update_attributes(paid: true) }
-
-      it 'returns true' do
-        expect(ticket.paid?(user)).to eq(true)
-      end
-    end
-
-    context 'user has not paid' do
-      it 'returns false' do
-        expect(ticket.paid?(user)).to eq(false)
-      end
-    end
-  end
-
   describe '#unpaid?' do
     let!(:ticket_purchase) { create(:ticket_purchase, user: user, ticket: ticket) }
 
@@ -98,6 +80,17 @@ describe Ticket do
       it 'returns false' do
         expect(ticket.unpaid?(user)).to eq(false)
       end
+    end
+  end
+
+  describe '#tickets_paid' do
+    before do
+      create(:ticket_purchase, user: user, ticket: ticket)
+      create(:ticket_purchase, user: user, ticket: ticket, paid: true)
+    end
+
+    it 'returns correct number of paid/total tickets' do
+      expect(ticket.tickets_paid(user)).to eq('10/20')
     end
   end
 

@@ -19,8 +19,10 @@ class Ticket < ActiveRecord::Base
     buyers.include?(user)
   end
 
-  def paid?(user)
-    ticket_purchases.paid.by_user(user).present?
+  def tickets_paid(user)
+    paid_tickets    = quantity_bought_by(user, paid: true)
+    unpaid_tickets  = quantity_bought_by(user, paid: false)
+    "#{paid_tickets}/#{paid_tickets+unpaid_tickets}"
   end
 
   def quantity_bought_by(user, paid: false)
