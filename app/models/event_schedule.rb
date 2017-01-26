@@ -11,6 +11,8 @@ class EventSchedule < ActiveRecord::Base
   validates :start_time, presence: true
   validates :event, uniqueness: { scope: :schedule }
 
+  validate :not_overlapping
+
   scope :confirmed, -> { joins(:event).where('state = ?', 'confirmed') }
   scope :canceled, -> { joins(:event).where('state = ?', 'canceled') }
   scope :withdrawn, -> { joins(:event).where('state = ?', 'withdrawn') }
@@ -35,5 +37,16 @@ class EventSchedule < ActiveRecord::Base
 
   def conference_id
     schedule.program.conference_id
+  end
+
+  def not_overlapping
+    if room
+      room.event_schedules.where(schedule: schedule).where.not(id: id).each do |e|
+        if (e.start_time <= start_time && e.end_time > start_time) || (e.end_time >= end_time && e.start_time < end_time) || (e.start_time > start_time && e.start_time < end_time)
+          errors.add(:event, "can't be scheduled at the same time than other event in the same room")
+          break
+        end
+      end
+    end
   end
 end

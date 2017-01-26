@@ -5,17 +5,22 @@
       .room-name
         - room_date_event_schedules = date_event_schedules.select{ |e| e.room == room }
         = room.name
+        - cells_with_event = 0
       - (9*4..18*4).each do |slot|
         - hour = slot / 4
         - minutes = (15 * (slot % 4) == 0) ? '00' : 15 * (slot % 4)
         - time = "#{hour}:#{minutes}"
-        .schedule-room-slot{ id: "schedule-room-#{room.guid}-#{hour}-#{minutes}", |
-                             room_id: room.id, |
-                             hour: time, |
-                             date: date}
+        - event_schedules = room_date_event_schedules.select{ |e| (e.start_time.hour.to_s + e.start_time.strftime(':%M')).eql? time }
+        - if event_schedules.any?
+          - event_schedule = event_schedules.first
+          - cells_with_event = event_schedule.event.event_type.length / EventType::LENGTH_STEP
+        %div{ class: "schedule-room-slot #{'with-event' if cells_with_event > 0}", |
+              id: "schedule-room-#{room.guid}-#{hour}-#{minutes}", |
+              room_id: room.id, |
+              hour: time, |
+              date: date}
           .div
             = time
-          - event_schedules = room_date_event_schedules.select{ |e| (e.start_time.hour.to_s + e.start_time.strftime(':%M')).eql? time }
-          - if event_schedules.any?
-            - event_schedule = event_schedules.first
+          - if event_schedule
             = render partial: 'event', locals: { event: event_schedule.event, event_schedule_id: event_schedule.id}
+        - (cells_with_event = cells_with_event - 1) if cells_with_event > 0
