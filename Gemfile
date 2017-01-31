@@ -75,7 +75,6 @@ gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
 gem 'formtastic-bootstrap'
 gem 'formtastic', '~> 3.1.1'
-gem 'cocoon'
 
 # as the JavaScript library
 gem 'jquery-rails'
