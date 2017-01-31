@@ -1,0 +1,14 @@
+.container
+  .row.row-centered
+    - @current_event_schedules.each do |track, event_schedules|
+      .col-md-4.col-sm-4.col-centered
+        %h2.text-center
+          = track
+          - event_schedules.each do |event_schedule|
+            %h3.text-center
+              = event_schedule.event.title
+            %h4.text-center
+              presented by
+              = event_schedule.event.speaker_names
+              in
+              = event_schedule.event.room.name

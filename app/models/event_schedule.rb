@@ -14,6 +14,7 @@ class EventSchedule < ActiveRecord::Base
   scope :confirmed, -> { joins(:event).where('state = ?', 'confirmed') }
   scope :canceled, -> { joins(:event).where('state = ?', 'canceled') }
   scope :withdrawn, -> { joins(:event).where('state = ?', 'withdrawn') }
+  scope :current, -> { where('start_time <= ?', Time.current).select{ |es| es.end_time >= Time.current }}
 
   delegate :guid, to: :room, prefix: true
 

@@ -20,5 +20,20 @@ FactoryGirl.define do
         event_schedule.schedule = program.selected_schedule
       end
     end
+    factory :current_event_schedule do
+      after(:build) do |event_schedule|
+        event_schedule.start_time = DateTime.current
+      end
+    end
+    factory :past_event_schedule do
+      after(:build) do |event_schedule|
+        event_schedule.start_time = (DateTime.current - 2.days).to_s
+      end
+    end
+    factory :future_event_schedule do
+      after(:build) do |event_schedule|
+        event_schedule.start_time = (DateTime.current + 2.days).to_s
+      end
+    end
   end
 end

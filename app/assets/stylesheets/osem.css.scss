@@ -90,3 +90,20 @@ p.comment-body {
 .changeset{
   display: none;
 }
+
+#conference-header{
+  margin: auto;
+  width: 304px;
+  .conference-heading{
+    float: left;
+    width: 150px;
+  }
+  .conference-logo{
+    float: left;
+    width: 150px;
+    img{
+      width: 100px;
+      height: 100px;
+    }
+  }
+}

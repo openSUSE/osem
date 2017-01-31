@@ -26,6 +26,9 @@ Osem::Application.routes.draw do
     end
     resources :comments, only: [:index]
     resources :conferences do
+      member do
+        get :conference_info
+      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
       resources :event_schedules, only: [:create, :update, :destroy]
@@ -103,7 +106,7 @@ Osem::Application.routes.draw do
     get '/revision_history/:id/revert_attribute' => 'versions#revert_attribute', as: 'revision_history_revert_attribute'
   end
 
-  resources :conferences, only: [:index, :show] do
+  resources :conferences, only: [:index, :show ] do
     resource :program, only: [] do
       resources :proposals, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'

@@ -57,3 +57,9 @@ OSEM_SMTP_DOMAIN=""
 
 # Enable the usage of the devise ichain plugin
 OSEM_ICHAIN_ENABLED=false
+
+# To embed tweets about the conference in the conference wide screen
+OSEM_TWITTER_CONSUMER_KEY=""
+OSEM_TWITTER_CONSUMER_SECRET=""
+OSEM_TWITTER_ACCESS_TOKEN=""
+OSEM_TWITTER_ACCESS_TOKEN_SECRET=""

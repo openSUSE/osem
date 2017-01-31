@@ -173,7 +173,24 @@ module Admin
       end
     end
 
+    def conference_info
+      # To display sponsors in the conference wide information page
+      @sponsors = @conference.sponsors
+      @tweets = twitter_client.search_tweets(15, @conference.contact.social_tag)
+      @current_event_schedules = @program.selected_schedule.event_schedules.current.group_by{|es| es.event.track.name}
+
+      respond_to do |format|
+        format.html{render layout: 'conference_info'}
+        format.js {render action: 'conference_info.js.haml'}
+      end
+    end
+
     private
+
+    # To create a twitter client
+    def twitter_client
+      @twitter_client ||= TwitterWrapper.new
+    end
 
     def conference_params
       params.require(:conference).permit(:title, :short_title, :description, :timezone,

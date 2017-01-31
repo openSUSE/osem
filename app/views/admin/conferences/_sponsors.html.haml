@@ -1,0 +1,12 @@
+.container
+  .row
+    .col-md-12.text-center
+      %h2 Sponsors
+      %div#sponsor-container
+        - @conference.sponsorship_levels.each do |sponsorship_level|
+          -if sponsorship_level.sponsors.any?
+            - sponsorship_level.sponsors.each_slice(3) do |slice|
+              .row.row-centered#sponsor
+                - slice.each do |sponsor|
+                  .col-md-4.col-sm-4.col-centered.col-top
+                    = image_tag get_logo(sponsor), class: "img-responsive img-sponsor img-sponsor-#{sponsorship_level.position}"
