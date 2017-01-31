@@ -1583,4 +1583,15 @@ describe Conference do
       end
     end
   end
+
+  describe 'after_create' do
+    let(:conference) { Conference.new(title: 'ABC', short_title: 'XYZ', start_date: Date.today, end_date: Date.today + 10, timezone: 'GMT') }
+
+    it 'calls back to create free ticket' do
+      conference.save
+      conference.run_callbacks :create
+      free_ticket = conference.tickets.first
+      expect(free_ticket.price_cents).to eq(0)
+    end
+  end
 end

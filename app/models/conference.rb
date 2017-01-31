@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 ##
 # This class represents a conference
 class Conference < ActiveRecord::Base
@@ -63,6 +64,8 @@ class Conference < ActiveRecord::Base
   before_create :generate_guid
   before_create :add_color
   before_create :create_email_settings
+
+  after_create :create_free_ticket
 
   def date_range_string
     startstr = 'Unknown - '
@@ -648,6 +651,14 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Creates free ticket for the conference
+  # after the conference has been successfully created
+  # Will create 1 new record for 'free' ticket
+  def create_free_ticket
+    tickets.where(title: 'Free Access', price_cents: 0).first_or_create!(description: 'Get free access tickets for the conference.')
+  end
+
+  ##
   # Creates the roles of the conference
   # after the conference has been successfully created
   # Will create 4 new records for roles
@@ -1053,3 +1064,4 @@ class Conference < ActiveRecord::Base
     result
   end
 end
+# rubocop:enable Metrics/ClassLength

@@ -41,7 +41,21 @@ describe TicketPurchase do
     let!(:participant) { create(:user) }
     let!(:ticket_1) { create(:ticket) }
     let!(:ticket_2) { create(:ticket) }
-    let!(:conference) { create(:conference, tickets: [ticket_1, ticket_2]) }
+    let!(:free_ticket) { create(:ticket, price_cents: 0) }
+    let!(:conference) { create(:conference, tickets: [ticket_1, ticket_2, free_ticket]) }
+
+    it 'creates purchase to free ticket' do
+      tickets = { free_ticket.id.to_s => '10' }
+      message = TicketPurchase.purchase(conference, participant, tickets)
+      purchase = TicketPurchase.where(conference_id: conference.id,
+                                      user_id: participant.id,
+                                      ticket_id: free_ticket.id).first
+
+      expect(TicketPurchase.count).to eq(1)
+      expect(purchase.quantity).to eq(10)
+      expect(message.blank?).to be true
+
+    end
 
     it 'creates a purchase for one ticket' do
       tickets = { ticket_1.id.to_s => '1' }

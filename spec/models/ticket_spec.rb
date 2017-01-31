@@ -22,12 +22,12 @@ describe Ticket do
       should validate_presence_of(:price_currency)
     end
 
-    it 'is not valid with a price_cents equals zero' do
-      should_not allow_value(0).for(:price_cents)
-    end
-
     it 'is not valid with a price_cents smaller than zero' do
       should_not allow_value(-1).for(:price_cents)
+    end
+
+    it 'is valid with a price_cents equals zero' do
+      should allow_value(0).for(:price_cents)
     end
 
     it 'is valid with a price_cents greater than zero' do
