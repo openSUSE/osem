@@ -5,10 +5,7 @@
     %div{ class: "elipsis break-words event-title", |
           style: "-webkit-line-clamp: #{ event_lines(@rooms) }; height: #{ event_height(@rooms) }px;"} |
 
-      - if event.state == 'canceled' || event.state == 'withdrawn'
-        %span.label.label-danger.schedule-label CANCELED
-      - elsif event.state == 'confirmed' && (!event_schedule.intersecting_events.canceled.empty? || !event_schedule.intersecting_events.withdrawn.empty?)
-        %span.label.label-info.schedule-label REPLACEMENT
+      = canceled_replacement_event_label(event, event_schedule, 'schedule-label')
 
       = event.title
 
