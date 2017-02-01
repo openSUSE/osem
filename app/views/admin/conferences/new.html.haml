@@ -6,6 +6,7 @@
                           input_html: { required: 'required' }
         = f.input :short_title, hint: "A short and unique handle for your conference, using only lower-case letters, numbers and underscores. This will be used to identify your conference in URLs etc. Example: 'froscon2011'",
                                 input_html: { required: 'required' }
+        = f.input :domain, hint: "Optional domain on which the conference will be visible. This only affects the conference listings."
       = f.inputs 'Scheduling' do
         = f.input :timezone, as: :time_zone, default: Time.zone.name, hint: 'Please select in what time zone your conference will take place.'
         = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', required: 'required' }

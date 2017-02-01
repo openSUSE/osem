@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815140302) do
+ActiveRecord::Schema.define(version: 20170201193336) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -98,7 +98,10 @@ ActiveRecord::Schema.define(version: 20160815140302) do
     t.text     "description"
     t.integer  "registration_limit", default: 0
     t.string   "picture"
+    t.string   "domain"
   end
+
+  add_index "conferences", ["domain"], name: "index_conferences_on_domain"
 
   create_table "conferences_questions", id: false, force: :cascade do |t|
     t.integer "conference_id"
