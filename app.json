@@ -54,6 +54,10 @@
       "description": "The user for the smtp server",
       "required": false
     },
+    "OSEM_SCHEDULE_CELL_SIZE": {
+      "description": "Schedule timeslot size in minutes",
+      "required": false
+    },
     "RACK_ENV": {
       "required": false
     },
