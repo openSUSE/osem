@@ -853,7 +853,7 @@ describe Conference do
       conference = create(:conference)
       event = create(:event, program: conference.program)
       event.reject!(@options)
-      result = { 'Rejected' =>  { 'value' => 1, 'color' => '#FF0000' } }
+      result = { 'Rejected' => { 'value' => 1, 'color' => '#FF0000' } }
       expect(conference.event_distribution).to eq(result)
     end
 
@@ -863,7 +863,7 @@ describe Conference do
       event = create(:event, program: conference.program)
       event.accept!(@options)
       event.confirm!
-      result = { 'Confirmed' =>  { 'value' => 1, 'color' => '#00FF00' } }
+      result = { 'Confirmed' => { 'value' => 1, 'color' => '#00FF00' } }
       expect(conference.event_distribution).to eq(result)
     end
 
@@ -872,7 +872,7 @@ describe Conference do
       event = create(:event, program: conference.program)
       event.accept!(@options)
       event.cancel!
-      result = { 'Canceled' =>  { 'value' => 1, 'color' => '#848484' } }
+      result = { 'Canceled' => { 'value' => 1, 'color' => '#848484' } }
       expect(conference.event_distribution).to eq(result)
     end
 

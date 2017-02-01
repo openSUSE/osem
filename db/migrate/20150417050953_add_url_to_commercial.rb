@@ -1,5 +1,5 @@
 class AddUrlToCommercial < ActiveRecord::Migration
-  class TempCommercial< ActiveRecord::Base
+  class TempCommercial < ActiveRecord::Base
     self.table_name = 'commercials'
   end
 

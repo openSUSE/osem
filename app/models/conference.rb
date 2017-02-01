@@ -160,7 +160,7 @@ class Conference < ActiveRecord::Base
           result[state] = pad_array_left_not_kumulative(start_week, values)
         end
       end
-      result['Weeks'] =  weeks > 0 ? (1..weeks).to_a : 0
+      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
     end
     result
   end
@@ -343,8 +343,8 @@ class Conference < ActiveRecord::Base
   # * +hash+ -> hash
   def registration_distribution
     reg = registrations.includes(:user)
-    attended_value =  { 'value' => reg.where(attended: true).count, 'color' => 'magenta' }
-    not_attended_value =  { 'value' => reg.where.not(attended: true).count, 'color' => 'blue' }
+    attended_value = { 'value' => reg.where(attended: true).count, 'color' => 'magenta' }
+    not_attended_value = { 'value' => reg.where.not(attended: true).count, 'color' => 'blue' }
     { 'Attended' => attended_value, 'Not attended' => not_attended_value }
   end
 
@@ -360,7 +360,7 @@ class Conference < ActiveRecord::Base
   def affiliation_distribution
     counted_affiliations = registrations.joins(:user).group(:affiliation).count
     result = {}
-    i=1
+    i = 1
     others = 0
     none = 0
     counted_affiliations.each do |key, value|
@@ -625,7 +625,7 @@ class Conference < ActiveRecord::Base
   def hours_from_start_time(start_hour, end_hour)
     current_time = Time.find_zone(timezone).now
     current_hour = current_time.strftime('%H').to_i
-    (start_hour..(end_hour-1)).cover?(current_hour) ? current_hour - start_hour : 0
+    (start_hour..(end_hour - 1)).cover?(current_hour) ? current_hour - start_hour : 0
   end
 
   private
@@ -641,7 +641,7 @@ class Conference < ActiveRecord::Base
   # consecutive colors clearly different.
   def next_color_component(component, i)
     big_prime_numbers = {r: 113, g: 67, b: 151}
-    ((i*big_prime_numbers[component])%239 + 16).to_s(16)
+    ((i * big_prime_numbers[component]) % 239 + 16).to_s(16)
   end
 
   after_create do
