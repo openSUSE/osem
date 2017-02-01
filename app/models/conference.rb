@@ -499,6 +499,10 @@ class Conference < ActiveRecord::Base
     result - active_conferences
   end
 
+  def self.get_conferences_to_list(domain, end_date = Date.current)
+    return Conference.where('end_date >= ? AND (domain = ? OR domain IS NULL)', end_date, domain).reorder(start_date: :asc)
+  end
+
   ##
   # A list with the three event states submitted, confirmed, unconfirmed with corresponding colors
   #

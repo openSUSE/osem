@@ -37,7 +37,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_conferences
-    @conferences =Conference.all
+    domain = request.host
+    @conferences = Conference.get_conferences_to_list(domain, 0)
   end
 
   def current_ability

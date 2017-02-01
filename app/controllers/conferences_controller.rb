@@ -5,7 +5,8 @@ class ConferencesController < ApplicationController
   load_resource :program, through: :conference, singleton: true, except: :index
 
   def index
-    @current = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
+    domain = request.host
+    @current = Conference.get_conferences_to_list domain
     @antiquated = @conferences - @current
   end
 
