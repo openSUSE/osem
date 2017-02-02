@@ -236,9 +236,7 @@ describe Event do
   describe '#submitter' do
     it 'returns the user that submitted the event' do
       submitter = create(:user)
-      submitted_event = create(:event)
-      submitted_event.event_users = [create(:event_user, user: submitter, event_role: 'submitter')]
-
+      submitted_event = create(:event, submitter: submitter)
       expect(submitted_event.submitter).to eq submitter
     end
   end
@@ -288,9 +286,10 @@ describe Event do
   describe '#speaker_names' do
     context 'returns the speakers of the event' do
       it 'when submitter is a speaker too' do
-        speaker1 = create(:user, name: 'user speaker 1')
-        new_event.event_users = [create(:event_user, user: speaker1, event_role: 'submitter')]
-        new_event.event_users << [create(:event_user, user: speaker1, event_role: 'speaker')]
+        submitter = create(:user, name: 'user speaker 1')
+
+        new_event.submitter = submitter
+        new_event.speakers = [submitter]
 
         expect(new_event.speaker_names).to eq 'user speaker 1'
       end
@@ -299,10 +298,10 @@ describe Event do
         submitter = create(:user, name: 'user submitter 1')
         speaker1 = create(:user, name: 'user speaker 1')
 
-        new_event.event_users = [create(:event_user, user: submitter, event_role: 'submitter')]
-        new_event.event_users << [create(:event_user, user: speaker1, event_role: 'speaker')]
+        new_event.submitter = submitter
+        new_event.speakers = [speaker1]
 
-        expect(new_event.speaker_names).to eq 'user submitter 1 and user speaker 1'
+        expect(new_event.speaker_names).to eq 'user speaker 1'
       end
 
       it 'when there are multiple speakers' do
@@ -310,11 +309,10 @@ describe Event do
         speaker1 = create(:user, name: 'user speaker 1')
         speaker2 = create(:user, name: 'user speaker 2')
 
-        new_event.event_users = [create(:event_user, user: submitter, event_role: 'submitter')]
-        new_event.event_users << [create(:event_user, user: speaker1, event_role: 'speaker')]
-        new_event.event_users << [create(:event_user, user: speaker2, event_role: 'speaker')]
+        new_event.submitter = submitter
+        new_event.speakers = [speaker1, speaker2]
 
-        expect(new_event.speaker_names).to eq 'user submitter 1, user speaker 1, and user speaker 2'
+        expect(new_event.speaker_names).to eq 'user speaker 1 and user speaker 2'
       end
     end
   end

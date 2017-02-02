@@ -131,9 +131,26 @@
             %i Hidden
       %tr
         %td
-          %b Biography
+          %b Speakers
         %td
-          = markdown(@event.submitter.biography)
+          - if @program.show_voting?
+            - @event.speakers.each do |speaker|
+              %div
+                = link_to speaker.name, admin_user_path(speaker)
+                (
+                = link_to speaker.email, "mailto: #{speaker.email}"
+                )
+          - else
+            %i Hidden
+      %tr
+        %td
+          %b Biographies
+        %td
+          - @event.speakers.each do |speaker|
+            - unless speaker.biography.blank?
+              %b
+                = speaker.name
+              = markdown(speaker.biography)
       %tr
         %td
           %b Submitted on

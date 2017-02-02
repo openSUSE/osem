@@ -1,0 +1,11 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        -if @event.new_record?
+          New
+        = @event.title
+        Event
+.row
+  .col-md-12
+    = render 'proposals/proposal_form'

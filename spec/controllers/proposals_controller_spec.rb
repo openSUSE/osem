@@ -180,9 +180,8 @@ describe ProposalsController do
         get :show, conference_id: conference.short_title, id: event.id
       end
 
-      it 'assigns event and speaker variables' do
+      it 'assigns event variable' do
         expect(assigns(:event)).to eq event
-        expect(assigns(:speaker)).to eq event.submitter
       end
 
       it 'renders show template' do

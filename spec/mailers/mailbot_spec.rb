@@ -8,8 +8,7 @@ describe Mailbot do
   before { conference.contact.update_attributes(email: 'conf@domain.com') }
 
   context 'onboarding and proposal' do
-    let(:event_user) { create(:submitter, user: user) }
-    let(:event) { create(:event, program: conference.program, event_users: [event_user]) }
+    let(:event) { create(:event, program: conference.program, submitter: user) }
 
     shared_examples 'mailer actions' do
       it 'assigns the email subject' do
