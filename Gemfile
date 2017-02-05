@@ -178,6 +178,9 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
+# For countable.js 
+gem "countable-rails", "~> 0.0.1"
+
 # Both are not in a group as we use it also for rake data:demo
 # for fake data
 gem 'faker'
