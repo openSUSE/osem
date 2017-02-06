@@ -72,6 +72,7 @@ Osem::Application.routes.draw do
         get 'reports' => 'events#reports'
       end
 
+      resources :resources
       resources :tickets
       resources :sponsors, except: [:show]
       resources :lodgings, except: [:show]

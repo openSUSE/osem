@@ -139,3 +139,8 @@
       = link_to(admin_conference_roles_path(@conference.short_title)) do
         %span.fa.fa-group
         Roles
+  - if can? :index, @conference.resources.new
+    %li
+      = link_to admin_conference_resources_path(@conference.short_title) do
+        %span.fa.fa-pencil-square
+        Resources

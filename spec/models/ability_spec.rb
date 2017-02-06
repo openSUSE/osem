@@ -29,7 +29,7 @@ describe 'User' do
 
     let(:commercial_event_confirmed) { create(:commercial, commercialable: event_confirmed) }
     let(:commercial_event_unconfirmed) { create(:commercial, commercialable: event_unconfirmed) }
-
+    let(:resource) { create(:resource, conference: my_conference)}
     let(:registration) { create(:registration) }
 
     let(:program_with_cfp) { create(:program, cfp: create(:cfp)) }
@@ -235,6 +235,8 @@ describe 'User' do
       it{ should be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
 
+      it{ should be_able_to(:manage, resource)}
+
       %w(organizer cfp info_desk volunteers_coordinator).each do |role|
         it{ should be_able_to(:toggle_user, Role.find_by(name: role, resource: my_conference)) }
         it{ should be_able_to(:edit, Role.find_by(name: role, resource: my_conference)) }
@@ -304,6 +306,11 @@ describe 'User' do
       it{ should be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
 
+      it{ should_not be_able_to(:manage, resource)}
+      it{ should be_able_to(:index, resource)}
+      it{ should be_able_to(:show, resource)}
+      it{ should be_able_to(:update, resource)}
+
       it_behaves_like 'user with any role'
       it_behaves_like 'user with non-organizer role', 'cfp'
     end
@@ -366,6 +373,11 @@ describe 'User' do
       it{ should_not be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
 
+      it{ should_not be_able_to(:manage, resource)}
+      it{ should be_able_to(:index, resource)}
+      it{ should be_able_to(:show, resource)}
+      it{ should be_able_to(:update, resource)}
+
       it_behaves_like 'user with any role'
       it_behaves_like 'user with non-organizer role', 'info_desk'
     end
@@ -427,6 +439,12 @@ describe 'User' do
       it{ should_not be_able_to(:manage, other_event.commercials.first) }
       it{ should_not be_able_to(:index, my_event.comment_threads.first) }
       it{ should_not be_able_to(:index, other_event.comment_threads.first) }
+
+      it{ should_not be_able_to(:manage, resource)}
+      it{ should be_able_to(:index, resource)}
+      it{ should be_able_to(:show, resource)}
+      it{ should be_able_to(:update, resource)}
+
       it 'should be_able to :manage Vposition'
       it 'should be_able to :manage Vday'
 

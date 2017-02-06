@@ -536,4 +536,8 @@ module ApplicationHelper
       end
     end
   end
+
+  def quantity_left_of(resource)
+    "#{resource.quantity - resource.used}/#{resource.quantity}"
+  end
 end

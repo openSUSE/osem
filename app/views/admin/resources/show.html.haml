@@ -1,0 +1,26 @@
+.row
+  .col-md-12
+    %h3
+      = @resource.name
+      .btn-group.pull-right
+        = link_to 'Edit', edit_admin_conference_resource_path(@conference.short_title, @resource), class: 'btn btn-mini btn-primary'
+
+%br
+.row
+  .col-md-12
+    %table.table
+      %tr
+        %td.col-md-2
+          %b Description
+        %td
+          = @resource.description
+      %tr
+        %td
+          %b Total Quantity
+        %td
+          = @resource.quantity
+      %tr
+        %td
+          %b Quantity left
+        %td
+          = quantity_left_of(@resource)
