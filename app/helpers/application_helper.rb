@@ -575,4 +575,21 @@ module ApplicationHelper
   def quantity_left_of(resource)
     "#{resource.quantity - resource.used}/#{resource.quantity}"
   end
+
+  def concurrent_events(event)
+    return nil unless event.scheduled? && event.program.selected_event_schedules
+    event_schedule = event.program.selected_event_schedules.find_by(event: event)
+    other_event_schedules = event.program.selected_event_schedules.reject { |other_event_schedule| other_event_schedule == event_schedule }
+    concurrent_events = []
+
+    event_time_range = (event_schedule.start_time.strftime '%Y-%m-%d %H:%M')...(event_schedule.end_time.strftime '%Y-%m-%d %H:%M')
+    other_event_schedules.each do |other_event_schedule|
+      next unless other_event_schedule.event.confirmed?
+      other_event_time_range = (other_event_schedule.start_time.strftime '%Y-%m-%d %H:%M')...(other_event_schedule.end_time.strftime '%Y-%m-%d %H:%M')
+      if (event_time_range.to_a & other_event_time_range.to_a).present?
+        concurrent_events << other_event_schedule.event
+      end
+    end
+    concurrent_events
+  end
 end

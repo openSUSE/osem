@@ -92,4 +92,42 @@ describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe '#concurrent_events' do
+    before :each do
+      @other_event = create(:event, program: conference.program, state: 'confirmed')
+      schedule = create(:schedule, program: conference.program)
+      conference.program.update_attributes!(selected_schedule: schedule)
+      @event_schedule = create(:event_schedule, event: event, start_time: conference.start_date, room: create(:room), schedule: schedule)
+      @other_event_schedule = create(:event_schedule, event: @other_event, start_time: conference.start_date, room: create(:room), schedule: schedule)
+    end
+
+    describe 'does return correct concurrent events' do
+      it 'when events starts at the same time' do
+        expect(concurrent_events(event).include?(@other_event)).to eq true
+      end
+
+      it 'when event is in between the other event' do
+        @event_schedule.update_attributes!(start_time: @other_event_schedule.start_time + 10.minutes)
+        expect(concurrent_events(event).include?(@other_event)).to eq true
+      end
+    end
+
+    describe 'does not return as concurrent event ' do
+      it 'when event is not scheduled' do
+        @event_schedule.destroy
+        expect(concurrent_events(event).present?).to eq false
+      end
+
+      it 'when one event starts and other ends at the same time' do
+        @event_schedule.update_attributes!(start_time: @other_event_schedule.end_time)
+        expect(concurrent_events(event).present?).to eq false
+      end
+
+      it 'when conference program does not have a selected schedule' do
+        conference.program.update_attributes!(selected_schedule_id: nil)
+        expect(concurrent_events(event).present?).to eq false
+      end
+    end
+  end
 end

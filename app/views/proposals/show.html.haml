@@ -97,3 +97,20 @@
               %dt Requires Registration:
               %dd
                 = link_to "Yes (#{registered_text(@event)})", new_conference_conference_registration_path(@conference.short_title), class: 'btn btn-xs btn-danger', disabled: !@event.registration_possible?
+          - if concurrent_events(@event).present?
+            .col-md-12
+              %hr
+              %h4 Happening at the same time:
+              %ol
+                - concurrent_events(@event).each do |event|
+                  %li
+                    = link_to conference_program_proposal_path(@conference.short_title, event.id) do
+                      = event.title
+                  %dl
+                    %dt Start Time:
+                    %dd
+                      = event.program.selected_event_schedules.find_by(event: event).start_time.strftime("%Y %B %e %H:%M")
+                    %br
+                      %dt Room:
+                      %dd
+                        = event.room.name
