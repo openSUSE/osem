@@ -101,7 +101,10 @@ Metrics/ClassLength:
 Style/BracesAroundHashParameters:
   Enabled: true
 
-#
+# Checks that operators have space around them, except for ** which should not have surrounding space.
+Style/SpaceAroundOperators:
+  Enabled: true
+
 Style/CaseEquality:
   Enabled: true
 

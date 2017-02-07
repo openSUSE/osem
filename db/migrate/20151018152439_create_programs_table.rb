@@ -1,4 +1,4 @@
-class CreateProgramsTable< ActiveRecord::Migration
+class CreateProgramsTable < ActiveRecord::Migration
   class TempConference < ActiveRecord::Base
     self.table_name = 'conferences'
   end

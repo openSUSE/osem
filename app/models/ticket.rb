@@ -22,7 +22,7 @@ class Ticket < ActiveRecord::Base
   def tickets_paid(user)
     paid_tickets    = quantity_bought_by(user, paid: true)
     unpaid_tickets  = quantity_bought_by(user, paid: false)
-    "#{paid_tickets}/#{paid_tickets+unpaid_tickets}"
+    "#{paid_tickets}/#{paid_tickets + unpaid_tickets}"
   end
 
   def quantity_bought_by(user, paid: false)
@@ -44,7 +44,7 @@ class Ticket < ActiveRecord::Base
       tickets.each do |ticket|
         price = ticket.total_price(user, paid: paid)
         if result
-          result +=  price unless price.zero?
+          result += price unless price.zero?
         else
           result = price
         end

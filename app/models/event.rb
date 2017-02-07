@@ -135,7 +135,7 @@ class Event < ActiveRecord::Base
 
   def process_confirmation
     if program.conference.email_settings.send_on_confirmed_without_registration? &&
-        program.conference.email_settings.confirmed_without_registration_body  &&
+        program.conference.email_settings.confirmed_without_registration_body &&
         program.conference.email_settings.confirmed_without_registration_subject
       if program.conference.registrations.where(user_id: submitter.id).first.nil?
         Mailbot.confirm_reminder_mail(self).deliver_later
