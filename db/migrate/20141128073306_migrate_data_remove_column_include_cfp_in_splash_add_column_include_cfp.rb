@@ -3,7 +3,7 @@ class MigrateDataRemoveColumnIncludeCfpInSplashAddColumnIncludeCfp < ActiveRecor
     self.table_name = 'conferences'
   end
 
-  class TempCallForPaper< ActiveRecord::Base
+  class TempCallForPaper < ActiveRecord::Base
     self.table_name = 'call_for_papers'
   end
 

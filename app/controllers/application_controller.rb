@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_conferences
-    @conferences =Conference.all
+    @conferences = Conference.all
   end
 
   def current_ability

@@ -594,22 +594,6 @@ Style/SpaceAroundBlockParameters:
 Style/SpaceAroundEqualsInParameterDefault:
   Enabled: false
 
-# Offense count: 12
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Style/SpaceAroundOperators:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/models/conference.rb'
-    - 'app/models/datatable.rb'
-    - 'app/models/event.rb'
-    - 'app/models/target.rb'
-    - 'app/models/ticket.rb'
-    - 'db/migrate/20141128073306_migrate_data_remove_column_include_cfp_in_splash_add_column_include_cfp.rb'
-    - 'db/migrate/20150417050953_add_url_to_commercial.rb'
-    - 'db/migrate/20151018152439_create_programs_table.rb'
-    - 'spec/models/conference_spec.rb'
-
 # Offense count: 223
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
