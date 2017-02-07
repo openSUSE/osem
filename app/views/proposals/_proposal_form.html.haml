@@ -55,7 +55,7 @@
     %p.text-right
       = link_to '#description', 'data-toggle' => 'collapse' do
         Do you require something special?
-    .collapse#description
+    #description{ class: "collapse #{ 'in' if @event.description.present? }" }
       = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
 
