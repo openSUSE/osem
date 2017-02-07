@@ -70,7 +70,7 @@
                   = password_field_tag 'user[password]', nil, id: 'user_password_dd', placeholder: 'Password'
                   %p.text-right
                     %small
-                      Remember me
+                      %label{for: 'user_remember_me'} Remember me
                       = check_box_tag 'user[remember_me]'
                   %button.btn.btn-success.btn-block Sign in
                   - unless omniauth_configured.empty?
