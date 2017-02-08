@@ -7,18 +7,82 @@
           = @user.name
           %small
             = @user.nickname
+      %h3.text-center
+        Social Media and Social Code
+      %ul.list-inline.list-unstyled.text-center
+        - if @user.website_url.present?
+          %li
+            = link_to(@user.website_url) do
+              %div.user-profile-icon
+                %icon.fa.fa-external-link.fa-3x
+                  %span.concat-text Blog
+        - if @user.linkedin.present?
+          %li
+            = link_to(@user.linkedin) do
+              %div.user-profile-icon
+                %icon.fa.fa-linkedin.fa-3x
+                  %span.concat-text Linkedin
+        - if @user.twitter.present?
+          %li
+            = link_to(@user.twitter) do
+              %div.user-profile-icon
+                %icon.fa.fa-twitter.fa-3x
+                  %span.concat-text Twitter
+        - if @user.googleplus.present?
+          %li
+            = link_to(@user.googleplus) do
+              %div.user-profile-icon
+                %icon.fa.fa-google-plus.fa-3x
+                  %span.concat-text Google+
+        - if @user.gnu.present?
+          %li
+            = link_to(@user.gnu) do
+              %div.user-profile-icon
+                %icon.fa.fa-linux.fa-3x
+                  %span.concat-text Gnu
+        - if @user.diaspora.present?
+          %li
+            = link_to(@user.diaspora) do
+              %div.user-profile-icon
+                %icon.fa.fa-asterisk.fa-3x
+                  %span.concat-text Diaspora
+        - if @user.savannah.present?
+          %li
+            = link_to(@user.savannah) do
+              %div.user-profile-icon
+                %icon.fa.fa-linux.fa-3x
+                  %span.concat-text Savannah
+        - if @user.gna.present?
+          %li
+            = link_to(@user.gna) do
+              %div.user-profile-icon
+                %icon.fa.fa-linux.fa-3x
+                  %span.concat-text Gna!
+        - if @user.github.present?
+          %li
+            = link_to(@user.github) do
+              %div.user-profile-icon
+                %icon.fa.fa-github.fa-3x
+                  %span.concat-text Github
+        - if @user.gitlab.present?
+          %li
+            = link_to(@user.gitlab) do
+              %div.user-profile-icon
+                %icon.fa.fa-gitlab.fa-3x
+                  %span.concat-text Gitlab
+      %h3.text-center Bio
       %p
         = markdown(@user.biography)
   .row
     .col-md-12
-      - if @user.events.confirmed.any?
-        %h3
-          = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
-        %ul.list-unstyled
-          - @user.events.confirmed.each do |event|
-            %li
-              %h4
-                = link_to event.title, conference_program_proposal_path(event.program.conference.short_title, event.id)
-                %strong
-                  at
-                = event.program.conference.title
+    - if @user.events.confirmed.any?
+      %h3
+        = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
+      %ul.list-unstyled
+        - @user.events.confirmed.each do |event|
+          %li
+            %h4
+              = link_to event.title, conference_program_proposal_path(event.program.conference.short_title, event.id)
+              %strong
+                at
+              = event.program.conference.title

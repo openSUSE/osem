@@ -9,8 +9,7 @@ describe User do
   let(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
   let(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
   let(:organizer) { create(:user, role_ids: [organizer_role.id]) }
-  let(:user) { create(:user) }
-
+  let!(:user) {create(:user, :with_social_media_and_code_info)}
   let(:event1) { create(:event, program: conference.program) }
   let(:another_conference) { create(:conference) }
   let(:event2) { create(:event, program: another_conference.program) }
@@ -45,6 +44,34 @@ describe User do
         scelerisque, arcu eu congue mollis, nibh nulla finibus.
       EOS
       expect(build(:user, biography: long_text)).to_not be_valid
+    end
+  end
+
+  describe 'url format validation' do
+    context 'with valid url' do
+      it { should allow_value('http://example.com').for(:website_url) }
+      it { should allow_value('http://linkedin.com').for(:linkedin) }
+      it { should allow_value('http://googleplus.com').for(:googleplus) }
+      it { should allow_value('http://gnu.com').for(:gnu) }
+      it { should allow_value('http://twitter.com').for(:twitter) }
+      it { should allow_value('http://github.com').for(:github) }
+      it { should allow_value('http://gitlab.com').for(:gitlab) }
+      it { should allow_value('http://joindiaspora.com').for(:diaspora) }
+      it { should allow_value('http://savannah.gnu.org').for(:savannah) }
+      it { should allow_value('https://linkedin.com').for(:gna) }
+    end
+
+    context 'with invalid url' do
+      it { should_not allow_value('example').for(:website_url) }
+      it { should_not allow_value('linkedin').for(:linkedin) }
+      it { should_not allow_value('googleplus').for(:googleplus) }
+      it { should_not allow_value('gnu').for(:gnu) }
+      it { should_not allow_value('@twitter').for(:twitter) }
+      it { should_not allow_value('@github').for(:github) }
+      it { should_not allow_value('@gitlab').for(:gitlab) }
+      it { should_not allow_value('diaspora').for(:diaspora) }
+      it { should_not allow_value('savannah').for(:savannah) }
+      it { should_not allow_value('gna').for(:gna) }
     end
   end
 
