@@ -139,3 +139,8 @@
       = link_to(admin_conference_roles_path(@conference.short_title)) do
         %span.fa.fa-group
         Roles
+  - if can?(:index, PaperTrail::Version.new(conference_id: @conference.id, item_type: 'Event')) || can?(:index, PaperTrail::Version.new(conference_id: @conference.id, item_type: 'Registration'))
+    %li{:class=> active_nav_li(admin_conference_revision_history_path(@conference.short_title))}
+      = link_to(admin_conference_revision_history_path(@conference.short_title)) do
+        %span.fa.fa-history
+        Revision History

@@ -56,6 +56,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Difficulty Levels', href: "/admin/conferences/#{conference1.short_title}/program/difficulty_levels")
     expect(page).to have_link('Questions', href: "/admin/conferences/#{conference1.short_title}/questions")
     expect(page).to have_link('Roles', href: "/admin/conferences/#{conference1.short_title}/roles")
+    expect(page).to have_link('Revision History', href: "/admin/conferences/#{conference1.short_title}/revision_history")
 
     visit edit_admin_conference_path(conference1.short_title)
     expect(current_path).to eq(edit_admin_conference_path(conference1.short_title))
@@ -137,6 +138,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Difficulty Levels', href: "/admin/conferences/#{conference2.short_title}/program/difficulty_levels")
     expect(page).to_not have_link('Questions', href: "/admin/conferences/#{conference2.short_title}/questions")
     expect(page).to have_link('Roles', href: "/admin/conferences/#{conference2.short_title}/roles")
+    expect(page).to have_link('Revision History', href: "/admin/conferences/#{conference2.short_title}/revision_history")
 
     visit edit_admin_conference_path(conference2.short_title)
     expect(current_path).to eq(root_path)
@@ -181,7 +183,7 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(root_path)
 
     visit admin_revision_history_path
-    expect(current_path).to eq(root_path)
+    expect(current_path).to eq(admin_revision_history_path)
   end
 
   scenario 'when user is info desk' do
@@ -214,6 +216,7 @@ feature 'Has correct abilities' do
     expect(page).to_not have_link('Difficulty levels', href: "/admin/conferences/#{conference3.short_title}/program/difficulty_levels")
     expect(page).to have_link('Questions', href: "/admin/conferences/#{conference3.short_title}/questions")
     expect(page).to have_link('Roles', href: "/admin/conferences/#{conference3.short_title}/roles")
+    expect(page).to have_link('Revision History', href: "/admin/conferences/#{conference3.short_title}/revision_history")
 
     visit edit_admin_conference_path(conference3.short_title)
     expect(current_path).to eq(root_path)
@@ -258,6 +261,6 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(root_path)
 
     visit admin_revision_history_path
-    expect(current_path).to eq(root_path)
+    expect(current_path).to eq(admin_revision_history_path)
   end
 end
