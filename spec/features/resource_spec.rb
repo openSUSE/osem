@@ -43,19 +43,5 @@ feature Resource do
 
       expect(flash).to eq('Resource successfully destroyed.')
     end
-
-    context 'on admin/resources#index' do
-
-      scenario 'update an existing resource' do
-        visit admin_conference_resources_path(conference.short_title)
-        fill_in 'resource_used', with: 7
-
-        click_button 'Save'
-        resource.reload
-
-        expect(flash).to eq('Resource successfully updated.')
-        expect(resource.used).to eq(7)
-      end
-    end
   end
 end
