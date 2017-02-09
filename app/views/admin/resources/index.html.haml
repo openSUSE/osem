@@ -1,0 +1,36 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Resources
+      %p.text-muted
+        Manage resources in conference
+- if @conference.resources.any?
+  .row
+    .col-md-12
+      %table.table.table-hover.datatable
+        %thead
+          %th Name
+          %th Left( Left/Total )
+          %th Used
+          %th Actions
+        %tbody
+          - @conference.resources.each do |resource|
+            %tr
+              %td
+                = link_to(admin_conference_resource_path(@conference.short_title, resource.id)) do
+                  = resource.name
+                %td
+                  = quantity_left_of(resource)
+                %td
+                  = resource.used
+                %td
+                  .btn-group
+                    = link_to 'Edit', edit_admin_conference_resource_path(@conference.short_title, resource.id),
+                      method: :get, class: 'btn btn-primary', disabled: !(can? :update, resource)
+                    = link_to 'Delete', admin_conference_resource_path(@conference.short_title, resource.id),
+                      method: :delete, class: 'btn btn-danger', disabled: !(can? :destroy, resource),
+                      data: { confirm: "Do you really want to delete #{resource.name}?" }
+.row
+  .col-md-12
+    = link_to 'Add Resource', new_admin_conference_resource_path, class: 'btn btn-success pull-right', disabled: !(can? :create, Resource.new(conference_id: @conference_id))
+

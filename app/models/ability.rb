@@ -134,6 +134,7 @@ class Ability
     # ids of all the conferences for which the user has the 'organizer' role
     conf_ids_for_organizer = Conference.with_role(:organizer, user).pluck(:id)
 
+    can :manage, Resource, conference_id: conf_ids_for_organizer
     can [:new, :create], Conference if user.has_role?(:organizer, :any)
     can :manage, Conference, id: conf_ids_for_organizer
     can :manage, Splashpage, conference_id: conf_ids_for_organizer
@@ -187,6 +188,7 @@ class Ability
     # ids of all the conferences for which the user has the 'cfp' role
     conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
 
+    can [:index, :show, :update], Resource, conference_id: conf_ids_for_cfp
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
     can :manage, Track, program: { conference_id: conf_ids_for_cfp }
@@ -223,6 +225,7 @@ class Ability
     # ids of all the conferences for which the user has the 'info_desk' role
     conf_ids_for_info_desk = Conference.with_role(:info_desk, user).pluck(:id)
 
+    can [:index, :show, :update], Resource, conference_id: conf_ids_for_info_desk
     can :manage, Registration, conference_id: conf_ids_for_info_desk
     can :manage, Question, conference_id: conf_ids_for_info_desk
     can :manage, Question do |question|
@@ -244,6 +247,7 @@ class Ability
     # ids of all the conferences for which the user has the 'volunteers_coordinator' role
     conf_ids_for_volunteers_coordinator = Conference.with_role(:volunteers_coordinator, user).pluck(:id)
 
+    can [:index, :show, :update], Resource, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vposition, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vday, conference_id: conf_ids_for_volunteers_coordinator
 
