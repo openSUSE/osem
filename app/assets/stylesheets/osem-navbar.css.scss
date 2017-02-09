@@ -1,0 +1,36 @@
+@import "breakpoints.css.scss";
+.nav-osem {
+    border: none;
+    @include breakpoint(xs) {
+        .navbar-collapse {
+            background-color: white;
+            border-bottom: 2px solid #efefef;
+        }
+        .navbar-nav > li > a {
+            color: black;
+        }
+        .navbar-collapse.in {
+            overflow: hidden;
+            max-height: none;
+        }
+        .navbar-toggle .icon-bar {
+            background-color: white;
+        }
+        .navbar-nav .open .dropdown-toggle:focus {
+            color: black;
+            background-color: #eeeeee;
+        }
+        input[type=text],
+        input[type=password] {
+            text-align: center;
+            padding: 5px;
+            display: block;
+            margin: auto;
+            width: 255px;
+        }
+    }
+    .dropdown-menu {
+        padding: 17px 17px 0px 17px;
+        min-width: 225px;
+    }
+}
