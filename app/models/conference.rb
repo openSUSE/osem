@@ -57,7 +57,7 @@ class Conference < ActiveRecord::Base
                         :end_date
 
   validates_uniqueness_of :short_title
-  validates_format_of :short_title, with: /\A[a-z0-9_]*\z/
+  validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
   validates :registration_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # This validation is needed since a conference with a start date greater than the end date is not possible
