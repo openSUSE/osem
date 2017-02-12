@@ -91,6 +91,15 @@ class ProposalsController < ApplicationController
 
     begin
       @event.withdraw
+      selected_schedule = @event.program.selected_schedule
+      event_schedule = @event.event_schedules.find_by(schedule: selected_schedule) if selected_schedule
+      Rails.logger.debug "schedule: #{selected_schedule.inspect} and event_schedule #{event_schedule.inspect}"
+      if selected_schedule && event_schedule
+        event_schedule.enabled = false
+        event_schedule.save
+      else
+        @event.event_schedules.destroy_all
+      end
     rescue Transitions::InvalidTransition
       redirect_to :back, error: "Event can't be withdrawn"
       return

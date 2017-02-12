@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 20171130172334) do
     t.datetime "start_time"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.boolean  "enabled",     default: true
     t.index ["event_id", "schedule_id"], name: "index_event_schedules_on_event_id_and_schedule_id", unique: true
     t.index ["event_id"], name: "index_event_schedules_on_event_id"
     t.index ["room_id"], name: "index_event_schedules_on_room_id"
@@ -494,7 +495,7 @@ ActiveRecord::Schema.define(version: 20171130172334) do
     t.integer  "user_id"
     t.integer  "payment_id"
     t.integer  "week"
-    t.float    "amount_paid",   default: 0.0
+    t.float    "amount_paid"
   end
 
   create_table "ticket_scannings", force: :cascade do |t|
