@@ -25,14 +25,14 @@ class EventSchedule < ActiveRecord::Base
   end
 
   ##
-  # Returns events that are scheduled in the same room and start_time as event
+  # Returns event schedules that are scheduled in the same room and start_time as event
   #
-  def intersecting_events
+  def intersecting_event_schedules
     room.event_schedules.where(start_time: start_time, schedule: schedule).where.not(id: id)
   end
 
   def replacement?
-    event.state == 'confirmed' && (!intersecting_events.canceled.empty? || !intersecting_events.withdrawn.empty?)
+    event.state == 'confirmed' && (!intersecting_event_schedules.canceled.empty? || !intersecting_event_schedules.withdrawn.empty?)
   end
 
   private
