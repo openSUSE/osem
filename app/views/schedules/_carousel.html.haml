@@ -35,8 +35,8 @@
                     - span -= 1
                   - else
                     - event_schedule = event_schedules.find{ |e| e.start_time <= start_room_time and e.end_time > start_room_time }
-                    - if event_schedule && (event_schedule.event.state == 'canceled' || event_schedule.event.state == 'withdrawn') && !event_schedule.intersecting_events.confirmed.empty?
-                      - replacement_event = event_schedule.intersecting_events.confirmed.first
+                    - if event_schedule && (event_schedule.event.state == 'canceled' || event_schedule.event.state == 'withdrawn') && !event_schedule.intersecting_event_schedules.confirmed.empty?
+                      - replacement_event = event_schedule.intersecting_event_schedules.confirmed.first
                       - event_schedule = (replacement_event.start_time <= start_room_time && replacement_event.end_time > start_room_time) ? replacement_event : nil
 
                     - if event_schedule
