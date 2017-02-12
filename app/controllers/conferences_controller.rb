@@ -7,7 +7,8 @@ class ConferencesController < ApplicationController
   def index
     @current = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
     if @current.count == 1
-      redirect_to "/conferences/#{@current.first.id}"
+      # redirect_to "/conferences/#{@current.first.short_title}"
+      redirect_to conference_path(@current.first.short_title)
     end
     @antiquated = @conferences - @current
   end
