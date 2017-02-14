@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170129075434) do
+ActiveRecord::Schema.define(version: 20170213145807) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -482,7 +482,7 @@ ActiveRecord::Schema.define(version: 20170129075434) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.boolean  "email_public"
+    t.boolean  "email_public",           default: true
     t.text     "biography"
     t.string   "nickname"
     t.string   "affiliation"
