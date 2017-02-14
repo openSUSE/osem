@@ -37,7 +37,7 @@ We are using [Vagrant](https://www.vagrantup.com/) to create our development env
     ```
 
 6. Check out your OSEM rails app:
-You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
+You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role. Browse to [http://localhost:3000/letter_opener](http://localhost:3000/letter_opener) to check mails and confirm your admin account.
 
 7. Changed something? Test your changes!:
 
