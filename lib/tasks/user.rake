@@ -14,4 +14,8 @@ namespace :user do
     end
   end
 
+  desc "Set email_public attrubute true for all users"
+  task :set_email_public => :environment do
+    User.update_all email_public: true
+  end
 end
