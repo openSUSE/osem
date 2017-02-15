@@ -25,8 +25,21 @@
                 method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_conference_schedule_path(@conference.short_title, schedule.id),
                 method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete Schedule #{schedule.id}?" }
-
 .row
-  .col-md-12.text-right
-    = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
-    method: :post, class: 'btn btn-primary'
+  .col-md-12
+    - if @venue.try(:rooms).present?
+      .text-right
+        = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
+        method: :post, class: 'btn btn-primary'
+    - elsif @venue
+      .h3
+        No Rooms!
+        %small
+          = link_to 'Create rooms', admin_conference_venue_rooms_path
+          before creating the schedule.
+    - else
+      .h3
+        No Venue!
+        %small
+          = link_to 'Create a venue with rooms', new_admin_conference_venue_path
+          before creating the schedule.
