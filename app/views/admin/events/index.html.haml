@@ -131,7 +131,7 @@
 
             %td
               .btn-group
-                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
                   - if event.event_type.nil?
                     Event Type
                   - else
@@ -146,7 +146,7 @@
                     method: :patch
             %td
               .btn-group
-                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
                   - if event.track.nil?
                     Track
                   - else
@@ -161,7 +161,7 @@
                     method: :patch
             %td
               .btn-group
-                %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
+                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
                   - if event.difficulty_level.nil?
                     Difficulty
                   - else
@@ -176,14 +176,11 @@
                     method: :patch
 
             %td
-              - if event.state == "withdrawn"
-                Withdrawn
-              - else
-                .btn-group
-                  %button{:type=>"button", :class=>"btn btn-link dropdown-toggle", "data-toggle"=>"dropdown"}
-                    = event.state.humanize
-                    %span.caret
-                  %ul.dropdown-menu{:role=>"menu"}
-                    = render 'change_state_dropdown', event: event
+              .btn-group
+                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
+                  = event.state.humanize
+                  %span.caret
+                %ul.dropdown-menu{role: 'menu'}
+                  = render 'change_state_dropdown', event: event
             %td.text-center
               = link_to "#{event.comment_threads.count}", admin_conference_program_event_path(@conference.short_title, event), anchor: 'comments-div'
