@@ -17,7 +17,7 @@
           %b Type
         %td
           .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'type-dropdown' do
+            = link_to '#', class: 'dropdown-toggle', id: 'type-dropdown', 'data-toggle' => 'dropdown' do
               - if @event.event_type.nil?
                 Event Type
               - else
@@ -46,7 +46,7 @@
           %b State
         %td
           .dropdown
-            = link_to '#', class: 'dropdown-toggle' do
+            = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
               = @event.state.humanize
               <b class='caret'></b>
             %ul.dropdown-menu
@@ -56,7 +56,7 @@
           %b Track
         %td
           .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'track-dropdown' do
+            = link_to '#', class: 'dropdown-toggle', id: 'track-dropdown', 'data-toggle' => 'dropdown' do
               - if @event.track.nil?
                 Track
               - else
@@ -74,7 +74,7 @@
           %b Difficulty
         %td
           .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'difficulty-dropdown' do
+            = link_to '#', class: 'dropdown-toggle', id: 'difficulty-dropdown', 'data-toggle' => 'dropdown' do
               - if @event.difficulty_level.nil?
                 Difficulty Level
               - else
