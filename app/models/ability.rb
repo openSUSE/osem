@@ -45,14 +45,20 @@ class Ability
     # can view Commercials of confirmed Events
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
     can [:show, :create], User
-    unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+      can [:new, :create], Registration do |registration|
+        conference = registration.conference
+        can_register?(conference, registration)
+      end
+
+    else
       can :show, Registration do |registration|
         registration.new_record?
       end
 
       can [:new, :create], Registration do |registration|
         conference = registration.conference
-        conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
+        can_register?(conference, registration)
       end
 
       can :show, Event do |event|
@@ -62,6 +68,7 @@ class Ability
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
       end
+
     end
   end
 
@@ -261,4 +268,10 @@ class Ability
       (Conference.with_role(:volunteers_coordinator, user).pluck(:id).include? role.resource_id)
     end
   end
+end
+
+def can_register? conference, registration
+  conference.registration_open? &&
+  registration.new_record? &&
+  !conference.registration_limit_exceeded?
 end
