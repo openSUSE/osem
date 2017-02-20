@@ -18,7 +18,6 @@ $(function () {
       // current_date <= arrival_date <= end_date
       maxDate : $("#registration-arrival-datepicker").attr('end_date'),
       minDate : today,
-      defaultDate :   $("#registration-arrival-datepicker").attr('start_date'),
   });
 
   $("#registration-departure-datepicker").datetimepicker({
@@ -29,7 +28,6 @@ $(function () {
       format: "YYYY-MM-DD HH:mm",
       // departure_date > start_date
       minDate : $("#registration-arrival-datepicker").attr('start_date'),
-      defaultDate :   $("#registration-arrival-datepicker").attr('end_date'),
   });
 
   $("#registration-arrival-datepicker").on("dp.change",function (e) {

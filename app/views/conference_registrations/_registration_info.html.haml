@@ -17,5 +17,5 @@
 
 
 = f.inputs 'Your Travel Info' do
-  = f.input :arrival, as: :string, label: 'Your arrival time', input_html: { value: (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), id: 'registration-arrival-datepicker',start_date: @conference.start_date,end_date: @conference.end_date,readonly: 'readonly'  }
-  = f.input :departure, as: :string, label: 'Your departure time', input_html: { value: (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.departure.nil?), id: 'registration-departure-datepicker', readonly: 'readonly'  }
+  = f.input :arrival, as: :string, label: 'Your arrival time', hint: "Leave blank if not sure", input_html: { value: (f.object.arrival.to_formatted_s(:db_without_seconds) unless f.object.arrival.nil?), id: 'registration-arrival-datepicker',start_date: @conference.start_date,end_date: @conference.end_date}
+  = f.input :departure, as: :string, label: 'Your departure time', hint: "Leave blank if not sure", input_html: { value: (f.object.departure.to_formatted_s(:db_without_seconds) unless f.object.departure.nil?), id: 'registration-departure-datepicker'}
