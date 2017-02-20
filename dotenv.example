@@ -42,10 +42,6 @@ OSEM_GITHUB_SECRET=''
 STRIPE_PUBLISHABLE_KEY=''
 STRIPE_SECRET_KEY=''
 
-# Disable linting of factories in the test suite.
-# Speeds up turn around times of tests
-OSEM_FACTORY_LINT="false"
-
 # The smtp configuration. See the rails guides for more
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 OSEM_SMTP_ADDRESS=""

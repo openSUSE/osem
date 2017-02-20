@@ -1,3 +1,4 @@
+require_relative '../../spec/support/external_request'
 namespace :factory_girl do
   desc "Verify that all FactoryGirl factories are valid"
   task lint: :environment do
