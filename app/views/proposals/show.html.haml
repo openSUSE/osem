@@ -32,7 +32,7 @@
           %h3
             by
             = link_to @speaker.name, user_path(@speaker.id)
-            = "(#{@speaker.email})"
+            = "(#{@speaker.email})" if @speaker.email_public
             - if @speaker.affiliation?
               %br
               %span.muted
