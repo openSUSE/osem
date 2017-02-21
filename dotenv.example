@@ -56,3 +56,9 @@ OSEM_ICHAIN_ENABLED=false
 
 # Schedule grid parameters, cell size in minutes
 OSEM_SCHEDULE_CELL_SIZE=15
+
+# Schedule start hour
+OSEM_SCHEDULE_START_HOUR=9
+
+# Schedule end hour
+OSEM_SCHEDULE_END_HOUR=18

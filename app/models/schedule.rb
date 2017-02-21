@@ -5,6 +5,9 @@ class Schedule < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
+  START_HOUR = (ENV['OSEM_SCHEDULE_START_HOUR']).nil? ? 9 : ENV['OSEM_SCHEDULE_START_HOUR'].to_i
+  END_HOUR = (ENV['OSEM_SCHEDULE_END_HOUR']).nil? ? 18 : ENV['OSEM_SCHEDULE_END_HOUR'].to_i
+
   private
 
   def conference_id

@@ -43,6 +43,8 @@ There are a couple of environment variables you can set to configure OSEM.
 | OSEM_GITHUB_KEY | *string*			| OMNIAUTH Developer Key for GitHub
 | OSEM_GITHUB_SECRET | *string*			| OMNIAUTH Developer Secret for GitHub
 | OSEM_SCHEDULE_CELL_SIZE | *integer*		| Schedule timeslot size to use (in minutes), should be greater than zero, should be divisor of 60
+| OSEM_SCHEDULE_START_HOUR | *integer* 		| Schedule start hour, should be greater than zero
+| OSEM_SCHEDULE_END_HOUR | *integer* 		| Schedule end hour, should be greater than zero
 | OSEM_SMTP_ADDRESS		| smtp.opensuse.org		| The smtp server to use
 | OSEM_SMTP_PORT		| *int*				| The port on the smtp server
 | OSEM_SMTP_USERNAME		| *string*			| The user for the smtp server

@@ -58,6 +58,14 @@
       "description": "Schedule timeslot size in minutes",
       "required": false
     },
+    "OSEM_SCHEDULE_START_HOUR": {
+      "description": "Schedule start hour",
+      "required": false
+    },
+    "OSEM_SCHEDULE_END_HOUR": {
+      "description": "Schedule end hour",
+      "required": false
+    },
     "RACK_ENV": {
       "required": false
     },
