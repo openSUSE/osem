@@ -36,7 +36,6 @@ There are a couple of environment variables you can set to configure OSEM.
 | OSEM_TRANSIFEX_APIKEY 	| *string* 			| Use this api key for [transifex](https://www.transifex.com/). See TRANSLATION.md for details. |
 | OSEM_ERRBIT_HOST 		| errbit.opensuse.org 		| The [errbit](https://github.com/errbit/errbit) host to post exceptions to |
 | OSEM_ERRBIT_APIKEY 		| *string* 			| The api key for the errbit host |
-| OSEM_FACTORY_LINT		| *boolean* (true/false)        | Setting this to false will disable linting of factories before running spec
 | OSEM_GOOGLE_KEY | *string*			| OMNIAUTH Developer Key for GOOGLE
 | OSEM_GOOGLE_SECRET | *string*			| OMNIAUTH Developer Secret for GOOGLE
 | OSEM_FACEBOOK_KEY | *string*		| OMNIAUTH Developer Key for Facebook
