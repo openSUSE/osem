@@ -1,6 +1,3 @@
-# rubocop:disable Metrics/ClassLength
-##
-# This class represents a conference
 class Conference < ActiveRecord::Base
   require 'uri'
   serialize :events_per_week, Hash
@@ -54,7 +51,9 @@ class Conference < ActiveRecord::Base
   validates_presence_of :title,
                         :short_title,
                         :start_date,
-                        :end_date
+                        :end_date,
+                        :start_hour,
+                        :end_hour
 
   validates_uniqueness_of :short_title
   validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
@@ -62,6 +61,7 @@ class Conference < ActiveRecord::Base
 
   # This validation is needed since a conference with a start date greater than the end date is not possible
   validate :valid_date_range?
+  validate :valid_times_range?
   before_create :generate_guid
   before_create :add_color
   before_create :create_email_settings
@@ -679,6 +679,19 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Checks if start hour of the conference is greater or equal than the end hour
+  # and that both hours are beetween 0 and 24
+  #
+  # Reports an error when such a condition is found
+  def valid_times_range?
+    if start_hour && end_hour
+      errors.add(:start_hour, 'is lower than 0') if start_hour < 0
+      errors.add(:end_hour, 'is lower or equal than start hour') if end_hour <= start_hour
+      errors.add(:end_hour, 'is greater than 24') if end_hour > 24
+    end
+  end
+
+  ##
   # Calculates the weeks from a start and a end week.
   #
   # ====Returns
@@ -1065,4 +1078,3 @@ class Conference < ActiveRecord::Base
     result
   end
 end
-# rubocop:enable Metrics/ClassLength

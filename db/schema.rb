@@ -98,6 +98,8 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.text     "description"
     t.integer  "registration_limit", default: 0
     t.string   "picture"
+    t.integer  "start_hour",         default: 9
+    t.integer  "end_hour",           default: 20
   end
 
   create_table "conferences_questions", id: false, force: :cascade do |t|

@@ -7,6 +7,8 @@ FactoryGirl.define do
     timezone { Faker::Address.time_zone }
     start_date { Date.today }
     end_date { 6.days.from_now }
+    start_hour 9
+    end_hour 20
     registration_limit 0
     description { Faker::Hipster.paragraph }
 
