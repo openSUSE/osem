@@ -27,7 +27,7 @@
                     = "#{@conference.venue.city} / #{@conference.venue.country_name}"
                   - if @conference.start_date && @conference.end_date
                     %br
-                    = date_string(@conference.start_date, @conference.end_date)
+                    = @conference.date_range_string
 
     - unless @conference.description.blank?
       %section#about

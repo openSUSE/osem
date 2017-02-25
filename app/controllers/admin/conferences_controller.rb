@@ -167,7 +167,7 @@ module Admin
 
     def edit
       @conferences = Conference.all
-      @date_string = date_string(@conference.start_date, @conference.end_date)
+      @date_string = @conference.date_range_string
       respond_to do |format|
         format.html
         format.json { render json: @conference.to_json }
