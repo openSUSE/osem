@@ -148,19 +148,15 @@ function get_color() {
 }
 
 function word_count(text, divId, maxcount) {
-    var r = 0;
-    var input = text.value.replace(/\s/g,' ');
-    var word_array = input.split(' ');
-    for (var i=0; i < word_array.length; i++) {
-        if (word_array[i].length > 0) r++;
-    }
+    var area = document.getElementById(text.id)
 
-    $('#' + divId).text(r);
-    if (r > maxcount) {
-        $('#' + divId).css('color', 'red');
-    } else {
-        $('#' + divId).css('color', '#333');
-    }
+    Countable.live(area, function(counter) {
+        $('#' + divId).text(counter.words);
+        if (counter.words > maxcount)
+            $('#' + divId).css('color', 'red');
+        else
+            $('#' + divId).css('color', 'black');
+    });
 };
 
 /* Wait for the DOM to be ready before attaching events to the elements */

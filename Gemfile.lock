@@ -125,6 +125,8 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     columnize (0.8.9)
+    countable-rails (0.0.1)
+      railties (>= 3.1)
     countries (1.2.5)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
@@ -555,6 +557,7 @@ DEPENDENCIES
   chart-js-rails
   cloudinary
   cocoon
+  countable-rails (~> 0.0.1)
   country_select
   coveralls
   daemons
@@ -634,4 +637,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.12.5
+   1.14.3
