@@ -92,6 +92,9 @@ GitHub issues are the primary way for communicating about specific proposed chan
 ### Email Notifications
 **Note**: We use [letter_opener](https://github.com/ryanb/letter_opener) in development environment. You can check out your mails by visiting [localhost:3000/letter_opener](http://localhost:3000/letter_opener).
 
+### openID
+In order to use [openID](http://openid.net/) logins for your OSEM in development you need create `config/secrets.yml` file. After this simply refer to development block in `config/secrets.yml.example` to setup `config/secrets.yml`. Now you can run `rake secret` to generate secret_key. Replace sample `secret_key_base` in `config/secrets.yml` with generated one. Restart rails server once to use openID logins.  
+
 ### Using iChain in test mode
 [devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) comes with
 test mode, which can be useful in development phase in which an iChain proxy is
