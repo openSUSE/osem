@@ -60,6 +60,24 @@ describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe '#date_string' do
+    it 'when conference lasts 1 day' do
+      expect(date_string('Sun, 19 Feb 2017'.to_time, 'Sun, 19 Feb 2017'.to_time)).to eq 'February 19 2017'
+    end
+
+    it 'when conference starts and ends in the same month and year' do
+      expect(date_string('Sun, 19 Feb 2017'.to_time, 'Tue, 28 Feb 2017'.to_time)).to eq 'February 19 - 28, 2017'
+    end
+
+    it 'when conference ends in another month, of the same year' do
+      expect(date_string('Sun, 19 Feb 2017'.to_time, 'Tue, 28 March 2017'.to_time)).to eq 'February 19 - March 28, 2017'
+    end
+
+    it 'when conference ends in another month, of a different year' do
+      expect(date_string('Sun, 19 Feb 2017'.to_time, 'Sun, 12 March 2018'.to_time)).to eq 'February 19, 2017 - March 12, 2018'
+    end
+  end
+
   describe '#registered_text' do
     describe 'returns correct string' do
       it 'when there are no registrations' do

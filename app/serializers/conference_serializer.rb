@@ -1,4 +1,5 @@
 class ConferenceSerializer < ActiveModel::Serializer
+  include ApplicationHelper
   attributes :short_title, :title, :description, :start_date, :end_date, :picture_url,
              :difficulty_levels, :event_types, :rooms, :tracks,
              :date_range, :revision
@@ -58,8 +59,8 @@ class ConferenceSerializer < ActiveModel::Serializer
   end
 
   def date_range
-    if defined? object.date_range_string
-        object.date_range_string.try(:split, ',').try(:first)
+    if defined? date_string(object.start_date, object.end_date)
+        date_string(object.start_date, object.end_date).try(:split, ',').try(:first)
     end
   end
 end

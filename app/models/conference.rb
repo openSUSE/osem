@@ -68,24 +68,6 @@ class Conference < ActiveRecord::Base
 
   after_create :create_free_ticket
 
-  def date_range_string
-    startstr = 'Unknown - '
-    endstr = 'Unknown'
-    if start_date.month == end_date.month && start_date.year == end_date.year
-      startstr = start_date.strftime('%B %d - ')
-      endstr = end_date.strftime('%d, %Y')
-    elsif start_date.month != end_date.month && start_date.year == end_date.year
-      startstr = start_date.strftime('%B %d - ')
-      endstr = end_date.strftime('%B %d, %Y')
-    else
-      startstr = start_date.strftime('%B %d, %Y - ')
-      endstr = end_date.strftime('%B %d, %Y')
-    end
-
-    result = startstr + endstr
-    result
-  end
-
   ##
   # Checks if the user is registered to the conference
   #
