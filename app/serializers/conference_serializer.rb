@@ -58,8 +58,8 @@ class ConferenceSerializer < ActiveModel::Serializer
   end
 
   def date_range
-    if defined? object.date_range_string
-        object.date_range_string.try(:split, ',').try(:first)
+    if defined? date_range_string(object.start_date, object.end_date)
+      date_range_string(object.start_date, object.end_date).try(:split, ',').try(:first)
     end
   end
 end
