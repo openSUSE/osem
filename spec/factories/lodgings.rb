@@ -6,4 +6,8 @@ FactoryGirl.define do
     description { Faker::Lorem.paragraph }
     website_link { Faker::Internet.url }
   end
+
+  factory :lodging_xss, parent: :lodging do
+    description { '<div id="divInjectedElement"></div>' }
+  end
 end
