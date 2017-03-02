@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213145807) do
+ActiveRecord::Schema.define(version: 20170302145716) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "voting_start_date"
     t.datetime "voting_end_date"
     t.integer  "selected_schedule_id"
+    t.integer  "schedule_interval",    default: 15,    null: false
   end
 
   add_index "programs", ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id"

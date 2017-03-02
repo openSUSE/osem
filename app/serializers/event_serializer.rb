@@ -26,6 +26,6 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def length
-    object.event_type.try(:length) || EventType::LENGTH_STEP
+    object.event_type.try(:length) || object.event_type.program.schedule_interval
   end
 end

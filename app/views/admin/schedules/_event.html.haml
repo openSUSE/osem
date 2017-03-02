@@ -1,6 +1,6 @@
-- cells_length = event.event_type.length / EventType::LENGTH_STEP
+- cells_length = event.event_type.length / @program.schedule_interval
 / this height fits the room cells
-- compact_grid = EventType::LENGTH_STEP < 15
+- compact_grid = @program.schedule_interval < 15
 - single_cell_height =  compact_grid ? 32 : 58
 - height = (cells_length * single_cell_height)
 - height -= 23 unless compact_grid

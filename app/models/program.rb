@@ -38,6 +38,7 @@ class Program < ActiveRecord::Base
       where(state: :confirmed, is_highlight: true)
     end
   end
+  has_many :event_schedules, through: :events
 
   has_many :event_users, through: :events
   has_many :speakers, -> { distinct }, through: :event_users, source: :user do
@@ -52,11 +53,15 @@ class Program < ActiveRecord::Base
 
 #   validates :conference_id, presence: true, uniqueness: true
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10, only_integer: true }
+  validates :schedule_interval, numericality: { greater_than_or_equal_to: 5, less_than_or_equal_to: 60 }, presence: true
+  validate :schedule_interval_divisor_60
   validate :voting_start_date_before_end_date
   validate :voting_dates_exist
 
   after_create :create_event_types
   after_create :create_difficulty_levels
+  after_save :unschedule_unfit_events, if: :schedule_interval_changed?
+  after_save :normalize_event_types_length, if: :schedule_interval_changed?
   validate :check_languages_format
 
   # Returns all event_schedules for the selected schedule ordered by start_time
@@ -198,5 +203,32 @@ class Program < ActiveRecord::Base
     errors.add(:languages, "can't be repeated") && return unless languages_array.uniq!.nil?
     # We check if every language is a valid ISO 639-1 language
     errors.add(:languages, 'must be ISO 639-1 valid codes') unless languages_array.select{ |x| ISO_639.find(x).nil? }.empty?
+  end
+
+  ##
+  # Check if schedule_interval is a divisor of 60 minutes
+  #
+  def schedule_interval_divisor_60
+    errors.add(:schedule_interval, 'must be a divisor of 60') if schedule_interval > 0 && 60 % schedule_interval > 0
+  end
+
+  ##
+  # Unschedule all the events which don't fit
+  #
+  def unschedule_unfit_events
+    unfit_schedules = event_schedules.select do |event_schedule|
+      event_schedule.start_time.min % schedule_interval > 0
+    end
+    EventSchedule.where(id: unfit_schedules.map(&:id)).destroy_all
+  end
+
+  ##
+  # Change event type length according schedule interval
+  #
+  def normalize_event_types_length
+    event_types.each do |event_type|
+      new_length = event_type.length > schedule_interval ? event_type.length - (event_type.length % schedule_interval) : schedule_interval
+      event_type.update_attributes length: new_length
+    end
   end
 end
