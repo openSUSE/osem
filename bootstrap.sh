@@ -24,11 +24,11 @@ if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.ex
   else
     echo -e "\n\nWARNING: You have already have a development/test database."
     echo -e "WARNING: Please make sure this database works in this vagrant box!\n\n"
-  fi 
+  fi
 else
-  echo -e "\nnWARNING: You have already configured your database in config/database.yml." 
-  echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n" 
+  echo -e "\nnWARNING: You have already configured your database in config/database.yml."
+  echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n"
 fi
 
 echo -e "\nProvisioning of your OSEM rails app done!"
-echo -e "To start your development OSEM run: vagrant exec rails server -b 0.0.0.0\n"
+echo -e "To start your development OSEM run: vagrant exec /vagrant/bin/rails server -b 0.0.0.0\n"

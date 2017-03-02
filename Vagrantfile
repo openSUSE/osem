@@ -39,6 +39,17 @@ Vagrant.configure(2) do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
+  # When using the default settings, we will attempt to mount this share
+  # as the vagrant user and the vagrant group. Alas, box opensuse/openSUSE-42.1-x86_64
+  # does not have the vagrant group created, so this share fails and
+  # requires manual mounting for the vagrant setup to continue. Setting
+  # to the hardcoded numbers will allow the mount to successfully
+  # mount without working about the group mismatch
+  VAGRANT_UID = 1000 # User vagrant
+  VAGRANT_GID = 100  # Group users
+  config.vm.synced_folder ".", "/vagrant",
+    owner: VAGRANT_UID, group: VAGRANT_GID
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
