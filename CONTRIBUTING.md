@@ -97,6 +97,7 @@ GitHub issues are the primary way for communicating about specific proposed chan
 test mode, which can be useful in development phase in which an iChain proxy is
 not usually configured or even available. You can enable ichain authentication by setting `OSEM_ICHAIN_ENABLED` equal to `true` in `.env` file. You would also need to set following options in `devise.rb`:
 
+
 ```Ruby
 # Activate the test mode
 config.ichain_test_mode = true
@@ -107,3 +108,20 @@ config.ichain_force_test_username = "testuser"
 # set email of 'testuser'
 config.ichain_force_test_attributes = {:email => "testuser@example.com"}
 ```
+
+
+### Using openID in development mode  
+In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in `config/secrets.yml` file, changing the existing sample values.  
+Note:  
+Since we are taking into consideration the 'development' environment, please do the replacement in the below steps under the 'development' section.  
+Steps to be followed:  
+1.Create 'config/secrets.yml' file.  
+2.'config/secrets.yml' file has to be similar to the 'config/secrets.yml.example' file.  
+3.Run 'rake secret' and note down the secret key base.  
+4.Set this secret key base to the secret_key_base placeholder.  
+5.Now we have to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)).  
+&nbsp;&nbsp;a.In order to register with the application, we will take an example of how to integrate facebook and it can be similarly done with other providers.  
+&nbsp;&nbsp;b.Join as a developer on https://developers.facebook.com.  
+&nbsp;&nbsp;c.Create a new app and complete filling your app details.  
+&nbsp;&nbsp;d.On the app's dashboard, the app's ID/key and app's secret will be present. Note them down.  
+&nbsp;&nbsp;e.Replace the noted values in facebook_key and facebook_secret placeholders in 'config.secrets.yml'.  
