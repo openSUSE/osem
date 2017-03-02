@@ -34,6 +34,10 @@
                       = event_change_description(version)
                       = "event #{@event.title}"
 
+                    - elsif version.item_type == 'Vote'
+                      = vote_change_description(version)
+                      = "event #{@event.title}"
+
                     - else
                       = general_change_description(version)
                       =  link_to 'commercial',
