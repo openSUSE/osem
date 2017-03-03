@@ -22,7 +22,7 @@
           %tr
             %td
               = user.id
-            %td
+            %td{ 'data-order' => "#{user.confirmed?}" }
               - if can? :toggle_confirmation, user
                 = check_box_tag user.id, user.id, user.confirmed?, 
                   method: :patch, 
