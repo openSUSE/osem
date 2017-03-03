@@ -4,7 +4,6 @@ namespace :factory_girl do
     if Rails.env.test?
       begin
         DatabaseCleaner.start
-        mock_commercial_request
         FactoryGirl.lint
       ensure
         DatabaseCleaner.clean
