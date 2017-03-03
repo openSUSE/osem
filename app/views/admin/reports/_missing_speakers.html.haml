@@ -1,0 +1,32 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Missing Speakers
+        = "(#{@missing_event_speakers.group(:user_id).length})"
+      %p.text-muted
+        All event speakers who haven't checked in
+.col-md-12
+  %table.table.table-striped.table-bordered.table-hover.datatable
+    %thead
+      %th Speaker Name
+      %th Registered?
+      %th Event
+      %th Room
+      %th Date
+      %th Time
+    %tbody
+      - @missing_event_speakers.each do |event_user|
+        - speaker = event_user.user
+        - event = event_user.event
+        %tr
+          %td= link_to speaker.name, admin_user_path(speaker)
+          %td
+            - if @conference.user_registered?(speaker)
+              = link_to 'Yes', admin_conference_registrations_path(@conference.short_title)
+            - else
+              No
+          %td= link_to event.title, edit_admin_conference_program_event_path(@conference.short_title, event)
+          %td= event.room.name if event.room
+          %td= event.time.to_date if event.time
+          %td= event.time.strftime('%H:%M') if event.time

@@ -1,0 +1,33 @@
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to 'All Events', '#all', 'data-toggle' => 'tab'
+    %li
+      %a{href: '#missing-commercial', 'data-toggle' => 'tab'}
+        Events without Commercials
+        %span.label.label-danger{style: 'border-radius: 1em;'}
+          = @events_missing_commercial.length
+    %li
+      %a{href: '#requirements', 'data-toggle' => 'tab'}
+        Speaker Requirements
+        %span.label.label-success{style: 'border-radius: 1em;'}
+          = @events_with_requirements.length
+
+    %li
+      %a{href: '#missing-speakers', 'data-toggle' => 'tab'}
+        Missing Speakers
+        %span.label.label-danger{style: 'border-radius: 1em;'}
+          = @missing_event_speakers.group(:user_id).length
+
+  .tab-content
+    #all.tab-pane.active
+      = render partial: 'all_events'
+
+    #missing-commercial.tab-pane
+      = render partial: 'events_without_commercials'
+
+    #requirements.tab-pane
+      = render partial: 'events_with_requirements'
+
+    #missing-speakers.tab-pane
+      = render partial: 'missing_speakers'

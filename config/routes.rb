@@ -69,7 +69,7 @@ Osem::Application.routes.draw do
             get :vote
           end
         end
-        get 'reports' => 'events#reports'
+        resources :reports, only: :index
       end
 
       resources :resources

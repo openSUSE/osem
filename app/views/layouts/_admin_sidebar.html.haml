@@ -85,8 +85,8 @@
             %li{class: active_nav_li(admin_conference_schedules_path(@conference.short_title))}
               = link_to 'Schedules', admin_conference_schedules_path(@conference.short_title)
           - if can? :update, @conference.program.events.build
-            %li{class: active_nav_li(reports_admin_conference_program_path(@conference.short_title))}
-              = link_to 'Reports', reports_admin_conference_program_path(@conference.short_title)
+            %li{ class: active_nav_li(admin_conference_program_reports_path(@conference.short_title)) }
+              = link_to 'Reports', admin_conference_program_reports_path(@conference.short_title)
 
   - if can? :update, Registration.new(conference_id: @conference.id)
     %li{class: active_nav_li(admin_conference_registrations_path(@conference.short_title))}
