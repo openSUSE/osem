@@ -25,5 +25,4 @@ before_script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 script:
   - 'bundle exec rubocop -Dc .rubocop.yml'
-  - "bundle exec rake factory_girl:lint RAILS_ENV='test'"
   - 'bundle exec rspec --color --format documentation'
