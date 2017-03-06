@@ -22,6 +22,7 @@
     = yield(:head)
   %body
     = render 'layouts/navigation'
+    = toast_bootstrap_flash
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'
