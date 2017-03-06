@@ -295,7 +295,7 @@ module ApplicationHelper
       space_after_headers: true,
       no_intra_emphasis: true
     }
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: true), options)
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: false), options)
     markdown.render(text).html_safe
   end
 
