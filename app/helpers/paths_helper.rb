@@ -15,6 +15,14 @@ module PathsHelper
     end
   end
 
+  def sign_in_path
+    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+      new_user_ichain_session_path
+    else
+      new_user_session_path
+    end
+  end
+
   def active_nav_li(link)
     if current_page?(link)
       return 'active'
