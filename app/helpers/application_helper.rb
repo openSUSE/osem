@@ -153,7 +153,26 @@ module ApplicationHelper
     flash.each do |type, message|
       type = 'success' if type == 'notice'
       type = 'error'   if type == 'alert'
-      text = "<script>toastr.#{type}('#{message}');</script>"
+      text = "<script>
+          toastr.options = {
+            'closeButton': false,
+            'debug': false,
+            'newestOnTop': false,
+            'progressBar': true,
+            'positionClass': 'toast-bottom-center',
+            'preventDuplicates': true,
+            'onclick': null,
+            'showDuration': '300',
+            'hideDuration': '100',
+            'timeOut': '5000',
+            'extendedTimeOut': '1000',
+            'showEasing': 'swing',
+            'hideEasing': 'linear',
+            'showMethod': 'fadeIn',
+            'hideMethod': 'fadeOut'
+          };
+          toastr.#{type}('#{message}');
+      </script>"
       flash_messages << text.html_safe if message
     end
     flash_messages.join("\n").html_safe

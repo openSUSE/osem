@@ -20,8 +20,6 @@ gem 'responders', '~> 2.0'
 # as the database for Active Record
 gem 'mysql2'
 
-# for toastr notifications
-gem 'toastr-rails'
 # for observing records
 gem 'rails-observers'
 
