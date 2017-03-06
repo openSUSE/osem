@@ -1,4 +1,5 @@
 module ApplicationHelper
+  # Including custom made helpers
   include DateTimeHelper
   include FormatHelper
   include EventsHelper
@@ -32,15 +33,6 @@ module ApplicationHelper
 
   def dynamic_association(association_name, title, form_builder, options = {})
     render 'shared/dynamic_association', association_name: association_name, title: title, f: form_builder, hint: options[:hint]
-  end
-
-  # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
-  def redirect_back_or_to(options = {}, response_status = {})
-    if request.env['HTTP_REFERER']
-      redirect_to :back
-    else
-      redirect_to options, response_status
-    end
   end
 
   def tracks(conference)

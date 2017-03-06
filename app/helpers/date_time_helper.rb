@@ -1,9 +1,8 @@
 module DateTimeHelper
   ##
-<<<<<<< HEAD
   # Includes functions related to date or time manipulations
   ##
-=======
+  ##
   # Returns a string build from the start and end date of the given conference.
   #
   # If the conference is only one day long
@@ -38,7 +37,6 @@ module DateTimeHelper
     result
   end
 
->>>>>>> refractor code into different files
   ##
   # Gets an EventType object, and returns its length in timestamp format (HH:MM)
   # ====Gets
