@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require toastr_rails
 //= require jquery_ujs
 //= require jquery.mobile.custom.min
 //= require jquery.ui.draggable
@@ -52,6 +53,23 @@ $(document).ready(function() {
 		return false;
 	});
 
+	toastr.options = {
+		'closeButton': false,
+		'debug': false,
+		'newestOnTop': false,
+		'progressBar': true,
+		'positionClass': 'toast-bottom-center',
+		'preventDuplicates': true,
+		'onclick': null,
+		'showDuration': '300',
+		'hideDuration': '100',
+		'timeOut': '5000',
+		'extendedTimeOut': '1000',
+		'showEasing': 'swing',
+		'hideEasing': 'linear',
+		'showMethod': 'fadeIn',
+		'hideMethod': 'fadeOut'
+	};
 	$('body').smoothScroll({
 		delegateSelector: 'a.smoothscroll'
 	});

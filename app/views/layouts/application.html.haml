@@ -6,7 +6,6 @@
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
     = stylesheet_link_tag "application", :media => "all"
-    = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
     = javascript_include_tag "application"
 
     = csrf_meta_tags
@@ -19,11 +18,10 @@
       };
     = content_for(:script_head)
     = javascript_include_tag "//cdn.transifex.com/live.js"
-    = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
     = yield(:head)
   %body
     = render 'layouts/navigation'
-    = toast_bootstrap_flash
+    = render 'toastr_rails/flash'
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'
