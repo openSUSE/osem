@@ -48,6 +48,7 @@ gem 'omniauth-github'
 # as authorization framework
 gem 'cancancan'
 
+gem 'toastr_rails'
 # for roles
 gem 'rolify'
 
