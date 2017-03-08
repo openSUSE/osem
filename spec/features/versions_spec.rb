@@ -221,15 +221,21 @@ feature 'Version' do
     click_button 'Save Splashpage'
 
     click_link 'Edit'
-    check('Make splash page public')
-    check('Display tracks on the splashpage?')
-    check('Display the registration period on the splashpage?')
+    uncheck('Display program')
+    uncheck('Display call for papers information on splashpage, while cfp is open')
+    uncheck('Display venue')
+    uncheck('Display tickets')
+    uncheck('Display the lodgings')
+    uncheck('Display sponsors')
+    uncheck('Display social media')
+    check('Make splash page public?')
     click_button 'Save Splashpage'
 
     click_link 'Delete'
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} created new splashpage in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} updated public, include tracks and include registrations of splashpage in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} updated public, include program, include cfp, include venue, include tickets, include lodgings,
+      include sponsors and include social media of splashpage in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} deleted splashpage in conference #{conference.short_title}")
   end
 
