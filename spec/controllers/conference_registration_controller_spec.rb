@@ -1,51 +1,167 @@
 require 'spec_helper'
 
 describe ConferenceRegistrationsController, type: :controller do
-  let(:conference) { create(:conference) }
+  let(:conference) { create(:conference, title: 'My Conference', short_title: 'myconf') }
   let(:user) { create(:user) }
+  let(:not_registered_user) { create(:user) }
+  let(:registered_user) { create(:user) }
+  let!(:registration) { create(:registration, conference: conference, user: registered_user, created_at: 1.day.ago) }
+
+  shared_examples 'access #new action' do |user, ichain, path, message|
+    before :each do
+      sign_in send(user) if user
+      stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => ichain))
+      get :new, conference_id: conference.short_title
+    end
+
+    it 'redirects' do
+      expect(response).to redirect_to path
+    end
+
+    it 'shows flash alert' do
+      expect(flash[:alert]).to eq message
+    end
+  end
 
   context 'user is signed in' do
-    before { sign_in(user) }
+    before :each do
+      sign_in user
+    end
 
     describe 'GET #new' do
       context 'registration period open' do
-        before do
-          @registration_period = create(:registration_period, conference: conference)
+        before :each do
+          create(:registration_period, conference: conference, start_date: 3.days.ago, end_date: 1.day.from_now)
         end
 
-        context 'user registered' do
-          before do
-            @registration = create(:registration, conference: conference, user: user)
-            get :new, conference_id: conference.short_title
+        context 'registration limit not exceeded' do
+          before :each do
+            conference.registration_limit = 0
+            conference.save!
           end
 
-          it 'redirects to edit conference registration' do
-            expect(response).to redirect_to edit_conference_conference_registration_path(conference.short_title)
+          context 'OSEM_ICHAIN_ENABLED is true' do
+            before :each do
+              stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
+            end
+
+            context 'user registered' do
+              it_behaves_like 'access #new action', :registered_user, 'true', '/conferences/myconf/register/edit', nil
+            end
+
+            context 'user not registered' do
+              before :each do
+                get :new, conference_id: conference.short_title
+              end
+
+              it 'user variable exists' do
+                expect(assigns(:user)).not_to be_nil
+              end
+
+              it 'renders the new template' do
+                expect(response).to render_template('new')
+              end
+            end
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is false' do
+            before :each do
+              stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
+            end
+
+            context 'user registered' do
+              it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
+            end
+
+            context 'user not registered' do
+              before :each do
+                get :new, conference_id: conference.short_title
+              end
+
+              it 'user variable exists' do
+                expect(assigns(:user)).not_to be_nil
+              end
+
+              it 'renders the new template' do
+                expect(response).to render_template('new')
+              end
+            end
           end
         end
 
-        context 'user not registered' do
-          before do
-            get :new, conference_id: conference.short_title
+        context 'registration limit exceeded' do
+          before :each do
+            conference.registration_limit = 1
+            conference.save!
           end
 
-          it 'user variable exists' do
-            expect(assigns(:user)).not_to be_nil
+          context 'OSEM_ICHAIN_ENABLED true, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'true', '/conferences/myconf/register/edit', nil
           end
 
-          it 'renders the new template' do
-            expect(response).to render_template('new')
+          context 'OSEM_ICHAIN_ENABLED true, user not registered' do
+            it_behaves_like 'access #new action', :not_registered_user, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered' do
+            it_behaves_like 'access #new action', :not_registered_user, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
           end
         end
       end
 
       context 'registration period not open' do
-        before do
-          get :new, conference_id: conference.short_title
+        before :each do
+          create(:registration_period, conference: conference, start_date: 3.days.ago, end_date: 1.day.ago)
         end
 
-        it 'shows flash alert telling user they are unable to register' do
-          expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open."
+        context 'registration limit not exceeded' do
+          before :each do
+            conference.registration_limit = 0
+            conference.save!
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'true', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user not registered' do
+            it_behaves_like 'access #new action', :not_registered_user, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered' do
+            it_behaves_like 'access #new action', :not_registered_user, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+        end
+
+        context 'registration limit exceeded' do
+          before do
+            conference.registration_limit = 1
+            conference.save!
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'true', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user not registered' do
+            it_behaves_like 'access #new action', :not_registered_user, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered' do
+            it_behaves_like 'access #new action', :not_registered_user, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
         end
       end
     end
@@ -186,7 +302,7 @@ describe ConferenceRegistrationsController, type: :controller do
         it 'deletes the registration' do
           expect do
             delete :destroy, conference_id: conference.short_title
-          end.to change{ Registration.count }.from(1).to(0)
+          end.to change{ Registration.count }.from(2).to(1)
         end
       end
 
@@ -213,40 +329,88 @@ describe ConferenceRegistrationsController, type: :controller do
 
   context 'user is not signed in' do
     describe 'GET #new' do
-      before do
-        @registration_period = create(:registration_period, conference: conference)
+      context 'registration period open' do
+        before :each do
+          create(:registration_period, conference: conference, start_date: 3.days.ago, end_date: 1.day.from_now)
+        end
+
+        context 'registration limit not exceeded' do
+          before :each do
+            conference.registration_limit = 0
+            conference.save!
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is true' do
+            it_behaves_like 'access #new action', nil, 'true', '/', 'You are not authorized to access this page. Maybe you need to sign in?'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is false' do
+            before :each do
+              stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
+              get :new, conference_id: conference.short_title
+            end
+
+            it 'user variable exists' do
+              expect(assigns(:user)).not_to be_nil
+            end
+
+            it 'renders the new template' do
+              expect(response).to render_template('new')
+            end
+          end
+        end
+
+        context 'registration limit exceeded' do
+          before :each do
+            conference.registration_limit = 1
+            conference.save!
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is true' do
+            it_behaves_like 'access #new action', nil, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is false' do
+            it_behaves_like 'access #new action', nil, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+        end
       end
 
-      context 'OSEM_ICHAIN_ENABLED is true' do
-        before do
-          stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
-          get :new, conference_id: conference.short_title
+      context 'registration period not open' do
+        before :each do
+          create(:registration_period, conference: conference, start_date: 3.days.ago, end_date: 1.day.ago)
         end
 
-        it 'redirects to root' do
-          expect(response).to redirect_to root_path
+        context 'registration limit not exceeded' do
+          before :each do
+            conference.registration_limit = 0
+            conference.save!
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is true' do
+            it_behaves_like 'access #new action', nil, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED is false' do
+            it_behaves_like 'access #new action', nil, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
         end
 
-        it 'shows flash alert telling user they cannot register and they need to sign in' do
-          expect(flash[:alert]).to eq "Sorry, you can not register for #{conference.title}. Registration limit exceeded or the registration is not open. Maybe you need to sign in?"
-        end
-      end
+        context 'registration limit exceeded' do
+          before :each do
+            conference.registration_limit = 1
+            conference.save!
+          end
 
-      context 'OSEM_ICHAIN_ENABLED is false' do
-        before do
-          stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
-          get :new, conference_id: conference.short_title
-        end
+          context 'OSEM_ICHAIN_ENABLED is true' do
+            it_behaves_like 'access #new action', nil, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
 
-        it 'user variable exists' do
-          expect(assigns(:user)).not_to be_nil
-        end
-
-        it 'renders the new template' do
-          expect(response).to render_template('new')
+          context 'OSEM_ICHAIN_ENABLED is false' do
+            it_behaves_like 'access #new action', nil, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
         end
       end
     end
   end
-
 end
