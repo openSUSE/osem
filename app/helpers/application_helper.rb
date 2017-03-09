@@ -1,11 +1,4 @@
 module ApplicationHelper
-  # Including custom made helpers
-  include DateTimeHelper
-  include FormatHelper
-  include EventsHelper
-  include UsersHelper
-  include PathsHelper
-  include ChangeDescriptionHelper
   ##
   # Checks if the voting has already started, or if it has already ended
   #
