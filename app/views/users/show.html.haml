@@ -7,6 +7,64 @@
           = @user.name
           %small
             = @user.nickname
+        %h3.text-center
+          Social Media and Social Code
+        %ul.list-inline.list-unstyled.text-center
+          - if @user.website_url.present?
+            %li
+              = link_to(@user.website_url) do
+                .user_profile-icon
+                  %icon.fa.fa-external-link.fa-3x
+                    %span.concat-text Blog
+          - if @user.twitter.present?
+            %li
+              = link_to(@user.twitter) do
+                .user_profile-icon
+                  %icon.fa.fa-twitter.fa-3x
+                    %span.concat-text Twitter
+          - if @user.linkedin.present?
+            %li
+              = link_to(@user.linkedin) do
+                .user_profile-icon
+                  %icon.fa.fa-linkedin.fa-3x
+                    %span.concat-text Linkedin
+          - if @user.googleplus.present?
+            %li
+              = link_to(@user.googleplus) do
+                .user_profile-icon
+                  %icon.fa.fa-googleplus.fa-3x
+                    %span.concat-text Google+
+          - if @user.gnu.present?
+            %li
+              = link_to(@user.gnu) do
+                .user_profile-icon
+                  %icon.fa.fa-linux.fa-3x
+                    %span.concat-text GNU
+          - if @user.diaspora.present?
+            %li
+              = link_to(@user.diaspora) do
+                .user_profile-icon
+                  %icon.fa.fa-asterisk.fa-3x
+                    %span.concat-text Diaspora
+          - if @user.savannah.present?
+            %li
+              = link_to(@user.savannah) do
+                .user_profile-icon
+                  %icon.fa.fa-linux.fa-3x
+                    %span.concat-text Savannah
+          - if @user.github.present?
+            %li
+              = link_to(@user.github) do
+                .user_profile-icon
+                  %icon.fa.fa-github.fa-3x
+                    %span.concat-text Github
+          - if @user.gitlab.present?
+            %li
+              = link_to(@user.gitlab) do
+                .user_profile-icon
+                  %icon.fa.fa-gitlab.fa-3x
+                    %span.concat-text Gitlab
+      %h3.text-center Bio
       %p
         = markdown(@user.biography)
   .row

@@ -1,0 +1,7 @@
+= semantic_form_for(user, url: user_path(user.id), remote: true) do |f|	
+	= f.input :linkedin, type: :url, as: :string, hint: 'e.g. https://linkedin.com/osem'
+	= f.input :twitter, type: :url, as: :string, hint: 'e.g. https://twitter.com/osem'
+	= f.input :googleplus, type: :url, label: 'Google+ url', as: :string, hint: 'e.g. https://googleplus.com/78458952'
+	= f.input :gnu, type: :url, label: 'Gnu Social', as: :string, hint: 'e.g. https://gnu.io/osem'
+	= f.input :diaspora, type: :url, as: :string, hint: 'e.g. https://joindiaspora.com/osem'
+	= f.action :submit, as: :button, label: 'Update', button_html: {class: 'btn btn-primary'}
