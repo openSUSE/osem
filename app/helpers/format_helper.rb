@@ -195,12 +195,5 @@ module FormatHelper
   def quantity_left_of(resource)
     return '-/-' if resource.quantity.blank?
     "#{resource.quantity - resource.used}/#{resource.quantity}"
-
-  def normalize_array_length(hashmap, length)
-    hashmap.each do |_, value|
-      if value.length < length
-        value.fill(value[-1], value.length...length)
-      end
-    end
   end
 end

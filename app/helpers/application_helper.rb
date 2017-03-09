@@ -1,14 +1,36 @@
 module ApplicationHelper
-  ##
-  # Checks if the voting has already started, or if it has already ended
+  # Returns a string build from the start and end date of the given conference.
   #
-  def voting_open_or_close(program)
-    return if program.voting_period?
-    if program.voting_start_date > Time.current
-      return 'Voting period has not started yet!'
-    else # voting_end_date > Date.today because voting_start_date < voting_end_date
-      return 'Voting period is over!'
+  # If the conference is only one day long
+  # * %B %d %Y (January 17 2014)
+  # If the conference starts and ends in the same month and year
+  # * %B %d - %d, %Y (January 17 - 21 2014)
+  # If the conference ends in another month but in the same year
+  # * %B %d - %B %d, %Y (January 31 - February 02 2014)
+  # All other cases
+  # * %B %d, %Y - %B %d, %Y (December 30, 2013 - January 02, 2014)
+  def date_string(start_date, end_date)
+    startstr = 'Unknown - '
+    endstr = 'Unknown'
+    # When the conference is in the same month
+    if start_date.month == end_date.month && start_date.year == end_date.year
+      if start_date.day == end_date.day
+        startstr = start_date.strftime('%B %d')
+        endstr = end_date.strftime(' %Y')
+      else
+        startstr = start_date.strftime('%B %d - ')
+        endstr = end_date.strftime('%d, %Y')
+      end
+    elsif start_date.month != end_date.month && start_date.year == end_date.year
+      startstr = start_date.strftime('%B %d - ')
+      endstr = end_date.strftime('%B %d, %Y')
+    else
+      startstr = start_date.strftime('%B %d, %Y - ')
+      endstr = end_date.strftime('%B %d, %Y')
     end
+
+    result = startstr + endstr
+    result
   end
 
   # Set resource_name for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposals#new)
@@ -88,6 +110,14 @@ module ApplicationHelper
       object = object_last_version.reify if object_last_version
     end
     object
+  end
+
+  def normalize_array_length(hashmap, length)
+    hashmap.each do |_, value|
+      if value.length < length
+        value.fill(value[-1], value.length...length)
+      end
+    end
   end
 
   # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
