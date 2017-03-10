@@ -18,10 +18,10 @@
       };
     = content_for(:script_head)
     = javascript_include_tag "//cdn.transifex.com/live.js"
-
     = yield(:head)
   %body
     = render 'layouts/navigation'
+    = render 'toastr_rails/flash'
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'
