@@ -3,7 +3,7 @@ describe 'conferences/show.html.haml' do
   let!(:conference) { create(:full_conference) }
 
   before(:each) do
-    allow(view).to receive(:date_string).and_return('January 17 - 21 2014')
+    allow(view).to receive(:date_range_string).and_return('January 17 - 21 2014')
     assign :conference, conference
     render
   end

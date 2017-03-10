@@ -13,7 +13,7 @@
             = "#{@conference.venue.street},"
             = "#{@conference.venue.city} / #{@conference.venue.country_name}."
           %small
-            = date_string(@conference.start_date, @conference.end_date)
+            = @conference.date_range_string
   .row
     .col-md-12
       %h4
