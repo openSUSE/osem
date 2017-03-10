@@ -1,4 +1,4 @@
-.navbar.navbar-default.navbar-fixed-top{:role=>"navigation"}
+.navbar.navbar-default.navbar-fixed-top.nav-osem{:role=>"navigation"}
   .container
     .navbar-header
       %button{"data-target"=>".navbar-collapse", "data-toggle"=>"collapse", :class=>"navbar-toggle", :type=>"button"}
@@ -58,7 +58,7 @@
               %span.fa.fa-user
               Sign In
               %span.caret
-            .dropdown-menu{:style => "padding: 17px; min-width: 225px;"}
+            .dropdown-menu
               - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
                 = form_tag User.ichain_login_url do
                   = text_field_tag 'username', nil, id: 'user_ichain_email_dd', placeholder: 'Username'
