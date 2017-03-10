@@ -4,7 +4,10 @@
       %h1
         Events
         = "(#{@events.length})" if @events.any?
-        .btn-group.pull-right
+
+        .pull-right
+          - if can? :create, Event
+            =link_to 'Add Event', new_admin_conference_program_event_path(@conference.short_title), :class => 'button btn btn-default btn-info'
           - if can? :read, Event
             .btn-group
               %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button", :class => 'btn btn-success'}
