@@ -657,7 +657,7 @@ class Conference < ActiveRecord::Base
   #
   # Reports an error when such a condition is found
   def valid_date_range?
-    errors.add(:start_date, 'Start date is greater than End date') if start_date && end_date && start_date > end_date
+    errors.add(:start_date, 'is greater than End date') if start_date && end_date && start_date > end_date
   end
 
   ##
