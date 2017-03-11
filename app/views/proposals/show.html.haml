@@ -19,15 +19,15 @@
           - if can? :update, @event
             = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
           - if can? :edit, @event
-            = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary"
+            = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
           - if can? :schedule, @conference
-            = link_to "Schedule", conference_schedule_path(@conference.short_title), :class =>"btn btn-success"
+            = link_to "Schedule", conference_schedule_path(@conference.short_title), class: 'btn btn-success'
 
   .row
     .col-md-3
       .speakerinfo
         .col-md-12
-          = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"
+          = image_tag @speaker.gravatar_url(size: 200), class: 'img-responsive img-rounded'
         .col-md-12
           %h3
             by
@@ -83,13 +83,13 @@
             %dt Track:
             %dd
               - if @event.track
-                %span.label{:style =>"background-color: #{@event.track.color}; color: #{ contrast_color(@event.track.color) }"}
+                %span.label{style: "background-color: #{@event.track.color}; color: #{ contrast_color(@event.track.color) }"}
                   = @event.track.name
           .col-md-12
             %dt Difficulty:
             %dd
               - if @event.difficulty_level
-                %span.label{:style =>"background-color: #{@event.difficulty_level.color}; color: #{ contrast_color(@event.difficulty_level.color) };"}
+                %span.label{style: "background-color: #{@event.difficulty_level.color}; color: #{ contrast_color(@event.difficulty_level.color) };"}
                   = @event.difficulty_level.title
 
           - if @event.require_registration

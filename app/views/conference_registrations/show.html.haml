@@ -50,7 +50,7 @@
               %strong
                 = q.title
               - if @registration.qanswers.any?
-                - @registration.qanswers.where(:question_id => q.id).each do |qa|
+                - @registration.qanswers.where(question_id: q.id).each do |qa|
                   = qa.answer.title
               - else
                 You haven't answered

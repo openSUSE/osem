@@ -4,7 +4,7 @@
   #{pluralize(event.voters.length, 'voter')}
   %br
   - @program.rating.times do |counter|
-    - if event.average_rating.to_f.round == counter+1
+    - if event.average_rating.to_f.round == counter + 1
       = label_tag 'label_rating', '', class: 'avgrating', avgrate: true
       = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
     - else

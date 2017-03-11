@@ -99,7 +99,7 @@
           - if @event.require_registration
             = registered_text(@event)
 
-      -if @program.languages.present?
+      - if @program.languages.present?
         %tr
           %td
             %b Language

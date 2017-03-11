@@ -52,7 +52,7 @@
         Edit
       = link_to(admin_conference_program_cfp_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete the CfP?' }) do
         Delete
--else
+- else
   .row
     .col-md-12.text-right
       = link_to 'Create Call for Papers', new_admin_conference_program_cfp_path(@conference.short_title), class: 'btn btn-primary'

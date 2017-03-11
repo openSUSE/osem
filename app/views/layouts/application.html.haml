@@ -1,11 +1,11 @@
-%html{:xmlns => "http://www.w3.org/1999/html"}
+%html{xmlns: 'http://www.w3.org/1999/html'}
   %head
-    %meta{:charset => "utf-8"}
-    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
     %title= content_for?(:title) ? yield(:title) : (ENV['OSEM_NAME'] || 'OSEM')
-    %meta{:content => "", :name => "description"}
-    %meta{:content => "", :name => "author"}
-    = stylesheet_link_tag "application", :media => "all"
+    %meta{content: '', name: 'description'}
+    %meta{content: '', name: 'author'}
+    = stylesheet_link_tag "application", media: 'all'
     = javascript_include_tag "application"
 
     = csrf_meta_tags

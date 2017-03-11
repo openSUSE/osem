@@ -2,14 +2,14 @@
   .col-md-12
     .page-header
       %h1
-        -if @campaign.new_record?
+        - if @campaign.new_record?
           New
         Campaign
         = @campaign.name
 
 .row
   .col-md-8
-    = semantic_form_for(@campaign, :url => (@campaign.new_record? ? admin_conference_campaigns_path : admin_conference_campaign_path(@conference.short_title, @campaign))) do |f|
+    = semantic_form_for(@campaign, url: (@campaign.new_record? ? admin_conference_campaigns_path : admin_conference_campaign_path(@conference.short_title, @campaign))) do |f|
       = f.inputs do
         = f.input :name
         = f.inputs name: 'UTM Parameters' do

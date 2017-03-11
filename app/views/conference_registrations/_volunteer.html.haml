@@ -1,15 +1,15 @@
 .row
   .col-md-12
-    = f.input :volunteer, :label => "Click here if you want to become a volunteer at #{@conference.short_title}", :input_html => {:maxlength => 15, :size => 40}
+    = f.input :volunteer, label: "Click here if you want to become a volunteer at #{@conference.short_title}", input_html: {maxlength: 15, size: 40}
     = f.fields_for :user do |u|
-      = render :partial => 'devise/registrations/volunteeruser', :locals => {:u => u}
+      = render partial: 'devise/registrations/volunteeruser', locals: {u: u}
     %br
     - if @conference.vpositions.count > 0
       %h4
         %u Positions that require volunteers:
       - @conference.vpositions.each do |pos|
-        %p{:style => "font-weight:bold"} 
+        %p{style: "font-weight:bold"} 
           = pos.title
           = "(#{pos.description})" if pos.description
         
-        = f.input :vchoices, :collection => pos.vchoices.map {|x| [x.vday.day, x.id]}, :label => "Choose days to volunteer:"
+        = f.input :vchoices, collection: pos.vchoices.map {|x| [x.vday.day, x.id]}, label: "Choose days to volunteer:"

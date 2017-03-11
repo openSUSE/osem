@@ -14,11 +14,11 @@
       My Submissions
 %li
   - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-    = link_to(destroy_user_ichain_session_path, :method=>'delete') do
+    = link_to(destroy_user_ichain_session_path, method: 'delete') do
       %span.fa.fa-minus
       Sign out
   - else
-    = link_to(destroy_user_session_path, :method=>'delete') do
+    = link_to(destroy_user_session_path, method: 'delete') do
       %span.fa.fa-minus
       Sign out
 - if can? :access, Admin

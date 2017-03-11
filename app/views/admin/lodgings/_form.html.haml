@@ -8,7 +8,7 @@
         = @lodging.name
 .row
   .col-md-8
-    = semantic_form_for(@lodging, :url => (@lodging.new_record? ? admin_conference_lodgings_path : admin_conference_lodging_path(@conference.short_title, @lodging))) do |f|
+    = semantic_form_for(@lodging, url: (@lodging.new_record? ? admin_conference_lodgings_path : admin_conference_lodging_path(@conference.short_title, @lodging))) do |f|
       = f.input :name
       = f.input :website_link
       = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint

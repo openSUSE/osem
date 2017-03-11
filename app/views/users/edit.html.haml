@@ -10,7 +10,7 @@
         = f.input :nickname, as: :string
         .control-label
           = "Avatar"
-        = image_tag(@user.gravatar_url(size: '48'), title: "Yo #{@user.name}!", :alt => '')
+        = image_tag(@user.gravatar_url(size: '48'), title: "Yo #{@user.name}!", alt: '')
         = link_to 'Change your avatar here', 'https://gravatar.com'
         = f.input :affiliation, as: :string,
           hint: 'This could be a company, a user group, or nothing at all.'

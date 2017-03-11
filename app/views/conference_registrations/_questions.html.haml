@@ -2,7 +2,7 @@
   = f.inputs 'Additional Info' do
     - @conference.questions.each do |question|
       - if question.question_type.title == 'Yes/No'  || question.question_type.title == 'Single Choice'
-        = f.input :qanswers, :collection => question.qanswers.joins(:answer).pluck("answers.title, qanswers.id"), :as => :select, :input_html => { :multiple => false },
-                  label: question.title, :include_blank => "Please make your choice"
+        = f.input :qanswers, collection: question.qanswers.joins(:answer).pluck("answers.title, qanswers.id"), as: :select, input_html: { multiple: false },
+                  label: question.title, include_blank: 'Please make your choice'
       - if question.question_type.title == 'Multiple Choice'
-        = f.input :qanswers, :collection => question.qanswers.joins(:answer).pluck("answers.title, qanswers.id"), :as => :check_boxes, label: question.title
+        = f.input :qanswers, collection: question.qanswers.joins(:answer).pluck("answers.title, qanswers.id"), as: :check_boxes, label: question.title

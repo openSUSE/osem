@@ -20,10 +20,10 @@
             %td
               = difficulty_level.description
             %td
-              %span.label{style: "background-color: #{difficulty_level.color}; color: #{ contrast_color(difficulty_level.color) };"}
+              %span.label{ style: "background-color: #{difficulty_level.color}; color: #{ contrast_color(difficulty_level.color) };" }
                 = difficulty_level.color
             %td
-              .btn-group{role: "group"}
+              .btn-group{ role: 'group' }
                 = link_to 'Edit', edit_admin_conference_program_difficulty_level_path(@conference.short_title, difficulty_level.id),
                 method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_conference_program_difficulty_level_path(@conference.short_title, difficulty_level.id),

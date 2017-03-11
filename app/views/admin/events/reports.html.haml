@@ -3,20 +3,20 @@
     %li.active
       = link_to 'All Events', '#all', 'data-toggle' => 'tab'
     %li
-      %a{href: '#missing-commercial', 'data-toggle' => 'tab'}
+      %a{ href: '#missing-commercial', 'data-toggle' => 'tab' }
         Events without Commercials
-        %span.label.label-danger{style: 'border-radius: 1em;'}
+        %span.label.label-danger{ style: 'border-radius: 1em;' }
           = @events_missing_commercial.length
     %li
-      %a{href: '#requirements', 'data-toggle' => 'tab'}
+      %a{ href: '#requirements', 'data-toggle' => 'tab' }
         Speaker Requirements
-        %span.label.label-success{style: 'border-radius: 1em;'}
+        %span.label.label-success{ style: 'border-radius: 1em;' }
           = @events_with_requirements.length
 
     %li
-      %a{href: '#missing-speakers', 'data-toggle' => 'tab'}
+      %a{ href: '#missing-speakers', 'data-toggle' => 'tab' }
         Missing Speakers
-        %span.label.label-danger{style: 'border-radius: 1em;'}
+        %span.label.label-danger{ style: 'border-radius: 1em;' }
           = @missing_event_speakers.length
 
   .tab-content
@@ -51,13 +51,13 @@
                   .small (Presented by #{event.speaker_names})
 
                 - %w(registered biography commercials subtitle difficulty_level).each do |info|
-                  %td{'data-order' => "#{progress_status[info]}"}
-                    %span{class: class_for_todo(progress_status[info])}
-                      %span{class: [icon_for_todo(progress_status[info]), 'fa-lg']}
+                  %td{ 'data-order' => "#{progress_status[info]}" }
+                    %span{ class: class_for_todo(progress_status[info]) }
+                      %span{ class: [icon_for_todo(progress_status[info]), 'fa-lg'] }
                 - if @program.tracks.any?
-                  %td{'data-order' => "#{progress_status['track']}"}
-                    %span{class: class_for_todo(progress_status['track'])}
-                      %span{class: [icon_for_todo(progress_status['track']), 'fa-lg']}
+                  %td{ 'data-order' => "#{progress_status['track']}" }
+                    %span{ class: class_for_todo(progress_status['track']) }
+                      %span{ class: [icon_for_todo(progress_status['track']), 'fa-lg'] }
 
     #missing-commercial.tab-pane
       .row

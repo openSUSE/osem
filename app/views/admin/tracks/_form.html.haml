@@ -8,8 +8,8 @@
         Track
 .row
   .col-md-12
-    = semantic_form_for(@track, :url => (@track.new_record? ? admin_conference_program_tracks_path : admin_conference_program_track_path(@conference.short_title, @track))) do |f|
+    = semantic_form_for(@track, url: (@track.new_record? ? admin_conference_program_tracks_path : admin_conference_program_track_path(@conference.short_title, @track))) do |f|
       = f.input :name
-      = f.input :color, :input_html => {:size => 6, :type => "color"}, :required=> true
-      = f.input :description, :input_html => {:rows => 2, data: { provide: "markdown-editable" } }, hint: markdown_hint
+      = f.input :color, input_html: {size: 6, type: 'color'}, required: true
+      = f.input :description, input_html: {rows: 2, data: { provide: 'markdown-editable' } }, hint: markdown_hint
       = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

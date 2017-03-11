@@ -6,23 +6,23 @@
         The most basic settings of your conference
 .row
   .col-md-8
-    = semantic_form_for(@conference, :url => admin_conference_path(@conference.short_title),:html => {:multipart => true}) do |f|
-      = f.input :title, :hint => "The full title of the conference, e.g. 'openSUSE Conference 2014'"
-      = f.input :short_title, :hint => "A short title, e.g. 'oSC14', to be used in URLs"
+    = semantic_form_for(@conference, url: admin_conference_path(@conference.short_title), html: {multipart: true}) do |f|
+      = f.input :title, hint: "The full title of the conference, e.g. 'openSUSE Conference 2014'"
+      = f.input :short_title, hint: "A short title, e.g. 'oSC14', to be used in URLs"
       = f.input :description, hint: markdown_hint('A description of the conference.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
-      = f.input :color, :hint => "The color will be used eg for the dashboard.", :input_html => {:size => 6, :type => "color"}
+      = f.input :color, hint: 'The color will be used eg for the dashboard.', input_html: {size: 6, type: 'color'}
       = f.label 'Conference Logo'
       %br
       - if @conference.picture?
         = image_tag @conference.picture.thumb.url
-      = f.input :picture, :label => false, :hint => "This will be displayed on the front page."
+      = f.input :picture, label: false, hint: 'This will be displayed on the front page.'
       = f.hidden_field :picture_cache
-      = f.inputs :name => "Scheduling" do
-        = f.input :timezone, :as => :time_zone, :hint => "The conference time zone"
-        = f.input :start_date, :as => :string, :input_html => { :id => "conference-start-datepicker", :readonly => "readonly"  }
-        = f.input :end_date, :as => :string, :input_html => { :id => "conference-end-datepicker", :readonly => "readonly"  }
-        = f.input :start_hour, :input_html => {size: 2, type: 'number', min: 0, max: 23}
-        = f.input :end_hour, :input_html => {size: 2, type: 'number', min: 1, max: 24}
-      = f.inputs name: "Registrations" do
-        = f.input :registration_limit, as: :number, in: 0..9999, hint: "Limit the number of registrations to the conference (0 no limit). You currently have " + pluralize(@conference.registrations.count,'registration')
-      = f.action :submit, :as => :button, :button_html => {:class => "btn btn-primary"}
+      = f.inputs name: 'Scheduling' do
+        = f.input :timezone, as: :time_zone, hint: 'The conference time zone'
+        = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', readonly: 'readonly' }
+        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker', readonly: 'readonly' }
+        = f.input :start_hour, input_html: {size: 2, type: 'number', min: 0, max: 23}
+        = f.input :end_hour, input_html: {size: 2, type: 'number', min: 1, max: 24}
+      = f.inputs name: 'Registrations' do
+        = f.input :registration_limit, as: :number, in: 0..9999, hint: 'Limit the number of registrations to the conference (0 no limit). You currently have ' + pluralize(@conference.registrations.count, 'registration')
+      = f.action :submit, as: :button, button_html: {class: 'btn btn-primary'}

@@ -8,15 +8,15 @@
         since #{campaigns.values[0]['created_at']}.
       %p
         That is
-        %strong{'style'=>"color: #{target_progress_color(campaigns.values[0]['progress'])};"}
+        %strong{ 'style' => "color: #{target_progress_color(campaigns.values[0]['progress'])};" }
           #{campaigns.values[0]['progress']} %
         of your target, there are
-        %strong{'style'=>"color: #{days_left_color(campaigns.values[0]['days_left'])};"}
+        %strong{ 'style' => "color: #{days_left_color(campaigns.values[0]['days_left'])};" }
           #{pluralize(campaigns.values[0]['days_left'], 'day')} left.
   .row
     .col-md-12
-      %div{'style'=>'display: none;', 'id'=>"#{name}"}
-        - campaigns.drop(1).each do |(key, value)|
+      %div{ 'style' => 'display: none;', 'id' => "#{name}" }
+        - campaigns.drop(1).each do |(_key, value)|
           %div
             %p
               Your target "#{value['target_name']}" from campaign "#{value['campaign_name']}" has generated
@@ -25,15 +25,15 @@
               since #{value['created_at']}.
             %p
               That is
-              %strong{'style'=>"color: #{target_progress_color(value['progress'])};"}
+              %strong{ 'style' => "color: #{target_progress_color(value['progress'])};" }
                 #{value['progress']} %
               of your target, there are
-              %strong{'style'=>"color: #{days_left_color(value['days_left'])};"}
+              %strong{ 'style' => "color: #{days_left_color(value['days_left'])};" }
                 #{pluralize(value['days_left'], 'day')} left.
   .row
     .col-md-12
       - if campaigns.length > 1
-        %a.show_targets{'href'=>'#', 'data-name'=>"#{name}"}
+        %a.show_targets{ 'href' => '#', 'data-name' => "#{name}" }
           more
 - else
   %h5.text-warning.text-center
