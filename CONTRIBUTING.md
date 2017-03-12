@@ -85,12 +85,13 @@ Please open a PR only when you have finished coding, and your changes are ready 
 * Title
   * Include a comprehensive title about what this PR is doing
   * Referencing the issue number on the PR title is not giving any information about what this PR is about
+  * The title should be short (50 characters maximum). You can add more information in the description
 * Description
   * Add a couple of lines about what is the problem you are trying to solve and how you have addressed it
   * Add bullet points about the new things you are introducing, if applicable
-  * Reference the issue
+  * Reference the issue: https://help.github.com/articles/closing-issues-via-commit-messages
 * Automated checks
-  * We automatically run the test suite and security checks on every PR
+  * We automatically run the [test suite](https://github.com/openSUSE/osem/blob/master/CONTRIBUTING.md#test-suite) and security checks on every PR
   * Check back later to see if all checks were successful, if not, address them or leave a comment to ask for help
 * Pushing new changes to your PR
   * Always add **new** commits; this tremendously helps reviewers
