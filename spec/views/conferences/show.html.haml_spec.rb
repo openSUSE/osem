@@ -8,10 +8,6 @@ describe 'conferences/show.html.haml' do
     render
   end
 
-  it 'renders banner component' do
-    expect(rendered).to match(CGI.escapeHTML(conference.description))
-  end
-
   it 'renders program partial' do
     expect(view).to render_template(partial: 'conferences/_schedule_splashpage')
   end
