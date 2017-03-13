@@ -25,7 +25,7 @@ If you have an heroku account you can also
 </a>
 
 ## Configure
-There are a couple of environment variables you can set to configure OSEM.
+There are a couple of environment variables you can set to configure OSEM. Check out the *dotenv.example* file.
 
 | Variable 			| Content 			| Purpose 				|
 |----------			|---------			|---------	       			|
@@ -70,10 +70,9 @@ $ bundle exec rake logo:reprocess
 ```
 
 ### openID
-In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in `config/secrets.yml` file, changing the existing sample values.
+In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys, changing the existing sample values, in `config/secrets.yml` file, or in your environment variables found in *.env.production* file.
 
 ## Recurring Jobs
-=======
 Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 bundle exec rake jobs:work
