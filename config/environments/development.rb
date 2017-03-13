@@ -94,6 +94,20 @@ Osem::Application.configure do
                               }
                             )
 
+  OmniAuth.config.mock_auth[:github] =
+      OmniAuth::AuthHash.new(
+                              provider: 'github',
+                              uid: 'github-test-uid-1',
+                              info: {
+                                name: 'someother user',
+                                email: 'user2@email.com',
+                                username: 'someother_user'
+                              },
+                              credentials: {
+                                token: 'github_mock_token',
+                                secret: 'github_mock_secret'
+                              }
+                            )
 
   config.after_initialize do
     Devise.setup do |devise_config|
