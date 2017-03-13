@@ -169,6 +169,18 @@ config.ichain_force_test_username = "testuser"
 # set email of 'testuser'
 config.ichain_force_test_attributes = {:email => "testuser@example.com"}
 ```
+
+### Using OpenID in developement
+OSEM supports [OpenID](https://openid.net/) logins via [OmniAuth](https://github.com/omniauth/omniauth) and related provider specific gems. OmniAuth provides the ablity to define per-provider mock accounts for testing. The supported providers are Facebook, Google, openSUSE and GitHub. If you want to use the OSEM provided mock accounts you need to set the appropriate `OSEM_PROVIDER_KEY` and `OSEM_PROVIDER_SECRET` environment variables to a non empty string in the `.env` file.
+
+e.g.
+```
+OSEM_GITHUB_KEY='sample'
+OSEM_GITHUB_SECRET='sample'
+```
+
+If you don't already have a `.env` file you can use the `dotenv.example` as a template.
+
 ## Labels for issues and PRs
 ...and what they mean!
 
