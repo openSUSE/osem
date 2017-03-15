@@ -14,6 +14,8 @@ describe User do
   let(:event1) { create(:event, program: conference.program) }
   let(:another_conference) { create(:conference) }
   let(:event2) { create(:event, program: another_conference.program) }
+  let(:registration) { create(:registration, user: user, conference: conference) }
+  let(:events_registration) { create(:events_registration, event: event1, registration: registration) }
 
   describe 'validation' do
     it 'has a valid factory' do
@@ -87,10 +89,56 @@ describe User do
   end
 
   describe 'methods' do
+    describe '#attended_event?' do
+      context 'user has attended to the event' do
+        before do
+          events_registration.update_attributes(attended: true)
+        end
+
+        it 'returns true' do
+          expect(user.attended_event?(event1)).to be true
+        end
+      end
+
+      context 'user did not register for the event' do
+        it 'returns false' do
+          expect(user.attended_event?(event1)).to be false
+        end
+      end
+
+      context 'user registered for the event, but did not attend' do
+        before do
+          events_registration
+        end
+
+        it 'returns false' do
+          expect(user.attended_event?(event1)).to be false
+        end
+      end
+    end
+
     describe '#name' do
       it 'returns the username as name if there is not name' do
         user = create(:user, name: nil)
         expect(user.name).to eq(user.username)
+      end
+    end
+
+    describe '#registered_to_event?' do
+      context 'user has registered to event' do
+        before do
+          events_registration
+        end
+
+        it 'returns true' do
+          expect(user.registered_to_event?(event1)).to be true
+        end
+      end
+
+      context 'user has not registered to event' do
+        it 'returns false' do
+          expect(user.registered_to_event?(event1)).to be false
+        end
       end
     end
 
