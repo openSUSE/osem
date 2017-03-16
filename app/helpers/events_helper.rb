@@ -22,20 +22,6 @@ module EventsHelper
     end
   end
 
-  def event_types(conference)
-    all = conference.program.event_types.map { |et| et.title.pluralize }
-    first = all[0...-1]
-    last = all[-1]
-    ets = ''
-    if all.length > 1
-      ets << first.join(', ')
-      ets << " and #{last}"
-    else
-      ets = all.join
-    end
-    ets
-  end
-
   def replacement_event_notice(event_schedule)
     if event_schedule.present? && event_schedule.replacement?
       replaced_event = (event_schedule.intersecting_event_schedules.withdrawn.first || event_schedule.intersecting_event_schedules.canceled.first).event
