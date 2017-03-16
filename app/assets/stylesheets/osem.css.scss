@@ -115,3 +115,29 @@ p.comment-body {
         float: right;
     }
 }
+
+// social share menu items
+.social-share ul {
+    float: right;
+    list-style: none outside none;
+    margin: 0;
+    min-width: 20px;
+    padding: 0;
+}
+
+.social-share {
+    min-width: 50px;
+}
+
+.social-share li {
+    display: block;
+    font-size: 18px;
+    list-style: none outside none;
+    margin-bottom: 2px;
+    margin-left: 3px;
+    margin-top: 2px;
+}
+
+.social-share > li > a {
+  color: white
+}

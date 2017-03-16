@@ -16,7 +16,27 @@
           %br
           %small
             = @event.subtitle
-        .btn-group.pull-right
+
+      .row.pull-right
+        - if @event.scheduled?
+          .btn-group
+            %button.btn.btn-info.dropdown-toggle.share{href: '#', data: {toggle: 'dropdown'}}
+              %i.fa.fa-share-alt
+              %span.caret
+            %ul.dropdown-menu.social-share
+              %li
+                = link_to "#", class: "btn btn-social-icon btn-twitter prettySocial", data: {type: 'twitter', url: request.original_url, description: get_shareable_title(@event).truncate(120), via: get_twitter_handle(@event)} do
+                  %i.fa.fa-twitter
+              %li
+                = link_to "#", class: "btn btn-social-icon btn-facebook prettySocial", data: {type: 'facebook', url: request.original_url, description: @event.description, title: get_shareable_title(@event) } do
+                  %i.fa.fa-facebook
+              %li
+                = link_to "#", class: "btn btn-social-icon btn-google prettySocial", data: {type: 'googleplus', url: request.original_url, description: get_shareable_title(@event), media: nil} do
+                  %i.fa.fa-google
+              %li
+                = link_to "#", class: "btn btn-social-icon btn-linkedin prettySocial", data: {type: 'linkedin', url: request.original_url, description: @event.description} do
+                  %i.fa.fa-linkedin
+        .btn-group
           - if can? :update, @event
             = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
           - if can? :edit, @event
@@ -105,6 +125,7 @@
               %dt Requires Registration:
               %dd
                 = link_to "Yes (#{registered_text(@event)})", new_conference_conference_registration_path(@conference.short_title), class: 'btn btn-xs btn-danger', disabled: !@event.registration_possible?
+
           - if concurrent_events(@event).present?
             .col-md-12
               %hr
@@ -122,3 +143,8 @@
                       %dt Room:
                       %dd
                         = event.room.name
+
+:javascript
+  $(function () {
+    $('.prettySocial').prettySocial();
+  })
