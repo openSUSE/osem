@@ -28,6 +28,13 @@
             margin: auto;
             width: 255px;
         }
+        .btn-group {
+            width: 100%;
+            text-align: center;
+        }
+        .navbar-nav .open .dropdown-menu > li > a {
+            color: black;
+        }
     }
     .dropdown-menu {
         padding: 17px 17px 0px 17px;
