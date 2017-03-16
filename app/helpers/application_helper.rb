@@ -156,4 +156,26 @@ module ApplicationHelper
                           collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @event.speakers.map(&:id)),
                           include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
   end
+
+  def event_types(conference)
+    all = conference.program.event_types.map { |et| et.title.pluralize }
+    first = all[0...-1]
+    last = all[-1]
+    ets = ''
+    if all.length > 1
+      ets << first.join(', ')
+      ets << " and #{last}"
+    else
+      ets = all.join
+    end
+    ets
+  end
+
+  def sign_in_path
+    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+      new_user_ichain_session_path
+    else
+      new_user_session_path
+    end
+  end
 end
