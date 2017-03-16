@@ -1,5 +1,5 @@
 # Integrate your Stripe account to accept your user's payments
-Here you will find all the information you need to setup your Stripe account into OSEM.
+Here you will find all the information that you need to setup your Stripe account into OSEM.
 If you have any problems with installing don't hesitate to [contact us](https://github.com/openSUSE/osem#contact)
 
 ## Configure Stripe into the application
@@ -34,9 +34,9 @@ As we are using Stripe Checkout for accepting payments, Stripe will help you for
 You can read the full security documentation [here](https://stripe.com/docs/security).
 
 ## Configure Stripe to send emails for successful transactions
-Stripe can send email reciepts for every successful payment done through its gateway.
+Stripe can send email receipts for every successful payment done through its gateway.
 Please refer [here](https://dashboard.stripe.com/account/emails) to enable invoice emails for your users.
 
 ## Customize Stripe invoice emails for your application
-You can customise your payment reciepts by adding your personalisation like organisation name, logo etc.
+You can customise your payment receipts by adding your personalisation like organisation name, logo etc.
 Please see the options for invoice personalisation [here](https://dashboard.stripe.com/account/public).
