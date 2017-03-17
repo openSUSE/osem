@@ -1,0 +1,6 @@
+= semantic_form_for(user, url: user_path(user.id), remote: true) do |f|
+	= f.input :github, type: :url, as: :string, hint: 'e.g http://github.com/osem'
+	= f.input :gitlab, type: :url, as: :string, hint: 'e.g http://gitlab.com/osem'
+	= f.input :savannah, type: :url, as: :string, hint: 'e.g http://savannah.gnu.org/osem'
+	= f.input :gna, type: :url, label: 'Gna', as: :string, hint: 'e.g http://gna.com/osem'
+	= f.action :submit, as: :button, label: 'Update', button_html: {class: 'btn btn-primary'}

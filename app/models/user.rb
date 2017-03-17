@@ -63,6 +63,9 @@ class User < ActiveRecord::Base
 
   validate :biography_limit
 
+  validates :website_url, :linkedin, :googleplus, :gnu, :twitter, :gitlab, :github, :gna, :savannah, :diaspora,
+            format: { with: URI.regexp(%w(http https)), message: 'This is an invalid URL. It should start with http or https'}, allow_blank: true
+
   ##
   # Checkes if the user attended the event
   # This is used for events that require registration

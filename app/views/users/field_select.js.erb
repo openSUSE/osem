@@ -1,0 +1,11 @@
+$('.active').removeClass('active');
+<% if @tab_select == "personal_info" %>
+	$('#personal_info').closest('li').addClass('active');
+	$('#form').html('<%= j render partial: "personal_info_fields", locals: { user: @user } %>');
+<% elsif @tab_select == "social_code" %>
+	$('#social_code').closest('li').addClass('active');
+	$('#form').html('<%= j render partial: "social_code_fields", locals: { user: @user } %>');
+<% else %>
+	$('#social_media').closest('li').addClass('active');
+	$('#form').html('<%= j render partial: "social_media_fields", locals: { user: @user } %>');
+<% end %>
