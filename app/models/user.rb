@@ -87,7 +87,7 @@ class User < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def registered_to_event? event
-    event.registrations.pluck(:id).include? self.registrations.find_by(conference_id: event.program.conference.id).id
+    event.registrations.include? registrations.find_by(conference: event.program.conference)
   end
 
   def subscribed? conference
