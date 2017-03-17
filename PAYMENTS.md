@@ -25,18 +25,18 @@ You can test the payment feature in development mode with some test cards.
 Check out the list of test cards [here](https://stripe.com/docs/testing#cards).
 
 ### PCI Self Assessment Questionnaire(SAQ)
-> As long as you serve your payment pages over TLS, and use either Checkout or Stripe.js 
-> as the only way of handling card information, Stripe automatically creates a prefilled SAQ A questionnaire for you, 
-> and you won’t need to undergo a PCI audit. If card data is stored or transferred through your servers, 
+> As long as you serve your payment pages over TLS, and use either Checkout or Stripe.js
+> as the only way of handling card information, Stripe automatically creates a prefilled SAQ A questionnaire for you,
+> and you won’t need to undergo a PCI audit. If card data is stored or transferred through your servers,
 > you are responsible for following PCI DSS guidelines for handling card data, and periodic audits by a PCI-certified auditor.
 
 As we are using Stripe Checkout for accepting payments, Stripe will help you for filling SAQ for your application.
 You can read the full security documentation [here](https://stripe.com/docs/security).
 
 ## Configure Stripe to send emails for successful transactions
-Stripe can send email reciepts for every successful payment done through its gateway.
+Stripe can send email receipts for every successful payment done through its gateway.
 Please refer [here](https://dashboard.stripe.com/account/emails) to enable invoice emails for your users.
 
 ## Customize Stripe invoice emails for your application
-You can customise your payment reciepts by adding your personalisation like organisation name, logo etc.
+You can customise your payment receipts by adding your personalisation like organisation name, logo etc.
 Please see the options for invoice personalisation [here](https://dashboard.stripe.com/account/public).

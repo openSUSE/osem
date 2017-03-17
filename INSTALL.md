@@ -13,12 +13,12 @@ You can find the latest OSEM releases on our [release page](https://github.com/o
 
 ## Deploy
 OSEM is a *Ruby on Rails* application. We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
-and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
+and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy Rails apps on various
 base operating systems. [Check Google](https://encrypted.google.com/search?hl=en&q=ruby%20on%20rails%20apache%20passenger) ;-)
 
-For more information about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
+For more information about Rails and what it can do, see the [Rails Guides.](http://guides.rubyonrails.org/getting_started.html)
 
-If you have an heroku account you can also
+If you have a Heroku account you can also
 
 <a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
@@ -74,7 +74,7 @@ In order to use [openID](http://openid.net/) logins for your OSEM installation y
 
 ## Recurring Jobs
 =======
-Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
+Open a separate terminal and go into the directory where the Rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 bundle exec rake jobs:work
 ```

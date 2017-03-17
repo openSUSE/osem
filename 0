@@ -1,0 +1,2 @@
+      invoke  active_record
+      create    db/migrate/20170316042351_add_comment_count_to_events.rb
