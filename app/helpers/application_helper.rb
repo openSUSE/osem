@@ -158,17 +158,7 @@ module ApplicationHelper
   end
 
   def event_types(conference)
-    all = conference.program.event_types.map { |et| et.title.pluralize }
-    first = all[0...-1]
-    last = all[-1]
-    ets = ''
-    if all.length > 1
-      ets << first.join(', ')
-      ets << " and #{last}"
-    else
-      ets = all.join
-    end
-    ets
+    conference.program.event_types.map { |et| et.title.pluralize }.to_sentence
   end
 
   def sign_in_path
