@@ -10,6 +10,8 @@
 
 An event management tool tailored to Free and Open Source Software conferences.
 
+OSEM actively participates in [GSoC](https://summerofcode.withgoogle.com/) and [RGSoC](https://railsgirlssummerofcode.org/).
+
 ## Installation
 Please refer to [INSTALL](INSTALL.md) documentation file
 
