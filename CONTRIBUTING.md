@@ -85,19 +85,22 @@ You can access the app [localhost:3000](http://localhost:3000). Whatever you cha
   * If not, please first leave a comment on how you want to implement it and wait for contributors' feedback
 
 ### Commits
-* Commit title should be short and descriptive
-  * title (or summary line) is the first line of the commit message
-  * that says what the commit is doing
-  * in no more than 50 characters
-  * starting with a word like 'Fix' or 'Add' or 'Change'
-  * **without** a period (.) at the end
-  * followed by a blank line
-* Commit messages are
-  * up to 72 characters
-  * with break lines
-* Reference the issue(s) the commit closes
-  * https://help.github.com/articles/closing-issues-via-commit-messages
-  * If you haven't done so since the beginning, you should reference the issue when you squash your commits
+* The commit title should be short and descriptive, and it should follow these rules:
+  * It should be the first line of the commit message
+  * It explains what the commit does in the imperative mood (Fix foobar)
+  * It's no longer than 50 characters
+  * It starts with a word like 'Fix' or 'Add' or 'Change'
+  * It does not end with a period (.)
+  * It is followed by a blank line
+  * It should contain more than only the reference to the issue
+
+Read this [article](https://chris.beams.io/posts/git-commit/) for more information
+* The commit message should follow these rules:
+  * It should explain why the change is made
+  * It should not describe how the change is made, code is generally self-explanatory
+  * It's not longer than 72 characters
+  * It should contain line breaks
+  * It should contain a [reference](https://help.github.com/articles/closing-issues-via-commit-messages) to the issue 
 
 ### Pull Requests workflow
 Please open a pull request (PR) only when you have finished coding, and your changes are ready to be reviewed for merging.
