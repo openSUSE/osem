@@ -1,5 +1,5 @@
 # Integrate your Stripe account to accept your user's payments
-Here you will find all the information that you need to setup your Stripe account into OSEM.
+Here you will find all the information you need to setup your Stripe account into OSEM.
 If you have any problems with installing don't hesitate to [contact us](https://github.com/openSUSE/osem#contact)
 
 ## Configure Stripe into the application
@@ -25,9 +25,9 @@ You can test the payment feature in development mode with some test cards.
 Check out the list of test cards [here](https://stripe.com/docs/testing#cards).
 
 ### PCI Self Assessment Questionnaire(SAQ)
-> As long as you serve your payment pages over TLS, and use either Checkout or Stripe.js 
-> as the only way of handling card information, Stripe automatically creates a prefilled SAQ A questionnaire for you, 
-> and you won’t need to undergo a PCI audit. If card data is stored or transferred through your servers, 
+> As long as you serve your payment pages over TLS, and use either Checkout or Stripe.js
+> as the only way of handling card information, Stripe automatically creates a prefilled SAQ A questionnaire for you,
+> and you won’t need to undergo a PCI audit. If card data is stored or transferred through your servers,
 > you are responsible for following PCI DSS guidelines for handling card data, and periodic audits by a PCI-certified auditor.
 
 As we are using Stripe Checkout for accepting payments, Stripe will help you for filling SAQ for your application.

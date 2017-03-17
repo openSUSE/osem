@@ -1,8 +1,22 @@
 # Install Open Source Event Manager
-All the information that you need to install OSEM. If you have any problems with installing don't hesitate to [contact us](https://github.com/openSUSE/osem#contact)
+This file contains all the information you need to install OSEM. If you run into any problems, do not hesitate to [contact us](https://github.com/openSUSE/osem#contact).
+
+If you encounter
+```
+An error occurred while installing yajl-ruby (1.2.0), and Bundler cannot continue.
+Make sure that `gem install yajl-ruby -v '1.2.0'` succeeds before bundling.
+```
+or
+
+```
+An error occurred while installing json (1.8.3), and Bundler cannot continue.
+Make sure that `gem install json -v '1.8.3'` succeeds before bundling.
+```
+
+check that your Ruby version is not greater than `ruby-2.3.3`.
 
 ## Versions
-OSEM is an [semantic versioned](http://semver.org/) app. That means given a version number MAJOR.MINOR.PATCH we increment the:
+OSEM is a [semantic versioned](http://semver.org/) app. That means given a version number MAJOR.MINOR.PATCH we increment the:
 
 1. MAJOR version when we make incompatible changes,
 2. MINOR version when we add functionality in a backwards-compatible manner
@@ -12,13 +26,13 @@ OSEM is an [semantic versioned](http://semver.org/) app. That means given a vers
 You can find the latest OSEM releases on our [release page](https://github.com/openSUSE/osem/releases/latest) ([older release here](https://github.com/openSUSE/osem/releases))
 
 ## Deploy
-OSEM is a *Ruby on Rails* application. We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
+OSEM is a *Ruby on Rails* application. We recommend you run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
 base operating systems. [Check Google](https://encrypted.google.com/search?hl=en&q=ruby%20on%20rails%20apache%20passenger) ;-)
 
-For more information about rails and what it can do, see the [rails guides.](http://guides.rubyonrails.org/getting_started.html)
+For more information about Fails and what it can do, see the [Fails Guides.](http://guides.rubyonrails.org/getting_started.html)
 
-If you have an heroku account you can also
+If you have a Heroku account you can also
 
 <a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
@@ -55,8 +69,8 @@ There are a couple of environment variables you can set to configure OSEM.
 | STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
 
 ### Online Ticket Payments
-We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
-Our application uses iFrame for accepting your user's payment details without storing them, making the application PCI SAQ-A Compliant.
+We use [Stripe](https://stripe.com) for accepting ticket payments securely over the web.
+Our application uses iFrame for accepting your users' payment details without storing them, making the application PCI SAQ-A Compliant.
 Please refer to [PAYMENTS](PAYMENTS.md) documentation file for setting up your stripe account and start accepting payments from your users.
 
 ## Dependencies
@@ -74,7 +88,7 @@ In order to use [openID](http://openid.net/) logins for your OSEM installation y
 
 ## Recurring Jobs
 =======
-Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
+Open a separate terminal and go into the directory where the Rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
 ```
 bundle exec rake jobs:work
 ```
