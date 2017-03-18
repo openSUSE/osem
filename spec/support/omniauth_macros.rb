@@ -14,7 +14,7 @@ module OmniauthMacros
                               uid: 'google-test-uid-1',
                               info: {
                                 name: 'new user name',
-                                email: 'test-1@gmail.com'
+                                email: 'test-1@example.com'
                               },
                               credentials: {
                                 token: 'mock_token',
@@ -30,7 +30,7 @@ module OmniauthMacros
                               uid: 'facebook-test-uid-1',
                               info: {
                                 name: 'new user fb name',
-                                email: 'test-1@gmail.com'
+                                email: 'test-1@example.com'
                               },
                               credentials: {
                                 token: 'mock_token',
@@ -48,7 +48,7 @@ module OmniauthMacros
                               uid: 'google-test-uid-participant-1',
                               info: {
                                 name: 'existing user participant name',
-                                email: 'test-participant-1@google.com'
+                                email: 'test-participant-1@example.com'
                               },
                               credentials: {
                                 token: 'mock_token',
@@ -66,7 +66,7 @@ module OmniauthMacros
                               uid: 'google-test-uid-admin-1',
                               info: {
                                 name: 'existing user admin name',
-                                email: 'test-admin-1@google.com'
+                                email: 'test-admin-1@example.com'
                               },
                               credentials: {
                                 token: 'mock_token',
