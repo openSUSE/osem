@@ -4,6 +4,8 @@ describe Program do
   subject { create(:program) }
   let!(:conference) { create(:conference, end_date: Date.today + 3) }
   let!(:program) { conference.program }
+  let(:schedule) { create(:schedule)}
+  let(:event) { create(:event_schedule, start_time: Date.today + 4) }
 
   describe 'association' do
     it { is_expected.to belong_to :conference }
@@ -199,4 +201,36 @@ describe Program do
     end
   end
 
+  describe '#any_event_for_this_date?' do
+    context 'without selected_schedule' do
+      it 'returns false if there are no events on the date' do
+        expect(program.any_event_for_this_date? ('2017-01-01')).to eq false
+      end
+    end
+
+    context 'with selected schedule' do
+      before :each do
+        program.selected_schedule = schedule
+        program.save!
+      end
+
+      it 'returns false if date passed is nil' do
+        expect(program.any_event_for_this_date? nil).to eq false
+      end
+
+      it 'returns false if date passed is empty' do
+        expect(program.any_event_for_this_date? ('')).to eq false
+      end
+
+      it 'returns true, when there are events in supplied date' do
+        program.selected_schedule.event_schedules = [event]
+        program.save!
+        expect(program.any_event_for_this_date? ((Date.today + 4).to_s)).to eq true
+      end
+
+      it 'returns false if there is a selected_schedule but no event in the passed date' do
+        expect(program.any_event_for_this_date? (Date.today.to_s)).to eq false
+      end
+    end
+  end
 end
