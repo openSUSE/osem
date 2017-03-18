@@ -54,9 +54,9 @@ Osem::Application.configure do
                               provider: 'facebook',
                               uid: 'facebook-test-uid-1',
                               info: {
-                                name: 'admin admin',
-                                email: 'admin@email.com',
-                                username: 'admin_admin'
+                                name: 'facebook user',
+                                email: 'user-facebook@example.com',
+                                username: 'user_facebook'
                               },
                               credentials: {
                                 token: 'fb_mock_token',
@@ -69,9 +69,9 @@ Osem::Application.configure do
                               provider: 'google',
                               uid: 'google-test-uid-1',
                               info: {
-                                name: 'simple user',
-                                email: 'user0@email.com',
-                                username: 'simple_user0'
+                                name: 'google user',
+                                email: 'user-google@example.com',
+                                username: 'user_google'
                               },
                               credentials: {
                                 token: 'google_mock_token',
@@ -84,9 +84,9 @@ Osem::Application.configure do
                               provider: 'suse',
                               uid: 'suse-test-uid-1',
                               info: {
-                                name: 'another user',
-                                email: 'user1@email.com',
-                                username: 'another_user'
+                                name: 'suse user',
+                                email: 'user-suse@example.com',
+                                username: 'user_suse'
                               },
                               credentials: {
                                 token: 'suse_mock_token',
@@ -99,9 +99,9 @@ Osem::Application.configure do
                               provider: 'github',
                               uid: 'github-test-uid-1',
                               info: {
-                                name: 'someother user',
-                                email: 'user2@email.com',
-                                username: 'someother_user'
+                                name: 'github user',
+                                email: 'user-github@example.com',
+                                username: 'user_github'
                               },
                               credentials: {
                                 token: 'github_mock_token',
