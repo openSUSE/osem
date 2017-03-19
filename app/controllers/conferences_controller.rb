@@ -12,7 +12,7 @@ class ConferencesController < ApplicationController
   def show; end
 
   def current
-    current = Conference.first
+    current = Conference.where('start_date <= ? AND end_date >= ?', Date.current, Date.current).first
     redirect_to conference_path(current.short_title)
   end
 

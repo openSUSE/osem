@@ -26,6 +26,13 @@ describe ConferencesController do
     end
   end
 
+  describe 'GET #current' do
+    it 'redirects to first conference splashpage' do
+      get :current
+      expect(response).to redirect_to(conference_path(Conference.first.short_title))
+    end
+  end
+
   describe 'OPTIONS #index' do
     it 'Response code is 200' do
       process :index, 'OPTIONS'

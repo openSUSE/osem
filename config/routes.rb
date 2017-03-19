@@ -1,4 +1,4 @@
-require "root_route_constraint"
+require 'root_route_constraint'
 Osem::Application.routes.draw do
 
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
