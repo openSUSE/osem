@@ -115,6 +115,7 @@ Osem::Application.routes.draw do
           get :registrations
           patch '/confirm' => 'proposals#confirm'
           patch '/restart' => 'proposals#restart'
+          patch :toogle_favorite
         end
       end
     end

@@ -1,10 +1,11 @@
 class ProposalsController < ApplicationController
+  skip_authorization_check
   before_action :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
   load_and_authorize_resource :event, parent: false, through: :program
   # We authorize manually in these actions
-  skip_authorize_resource :event, only: [:confirm, :restart, :withdraw]
+  skip_authorize_resource :event, only: [:confirm, :restart, :toogle_favorite, :withdraw]
 
   def index
     @event = @program.events.new
@@ -63,29 +64,26 @@ class ProposalsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      format.html do
-        @url = conference_program_proposal_path(@conference.short_title, params[:id])
+    @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
-        if @event.update(event_params)
-          redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
-                      notice: 'Proposal was successfully updated.'
-        else
-          flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
-          render action: 'edit'
-        end
-      end
-      format.json do
-        user = User.find(params[:favourite_user_id])
-        users = @event.favourite_users
-        if users.include? user
-          @event.favourite_users.delete(user)
-        else
-          @event.favourite_users << User.find(params[:favourite_user_id])
-        end
-        render json: {}
-      end
+    if @event.update(event_params)
+      redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
+                  notice: 'Proposal was successfully updated.'
+    else
+      flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
+      render action: 'edit'
     end
+  end
+
+  def toogle_favorite
+    user = User.find(params[:favourite_user_id])
+    users = @event.favourite_users
+    if users.include? user
+      @event.favourite_users.delete(user)
+    else
+      @event.favourite_users << User.find(params[:favourite_user_id])
+    end
+    render json: {}
   end
 
   def withdraw
