@@ -14,7 +14,7 @@
             %p.text-center
               %i.fa.fa-home.fa-5x
           - else
-            -if lodging.website_link.present?
+            - if lodging.website_link.present?
               = link_to(lodging.website_link, class: 'thumbnail') do
                 = image_tag lodging.picture.thumb, class: 'img-responsive img-lodging'
             - else
@@ -22,7 +22,7 @@
           .caption
             %h3.text-center
               = lodging.name
-            -if lodging.description.present?
+            - if lodging.description.present?
               = markdown(lodging.description)
           .actions.text-right
             = link_to 'Edit', edit_admin_conference_lodging_path(@conference.short_title, lodging), class: 'btn btn-primary'

@@ -10,7 +10,7 @@
           Rating: 0/#{@program.rating}
 
         - @program.rating.times do |counter|
-          - if @event.average_rating.to_f.round == counter+1
+          - if @event.average_rating.to_f.round == counter + 1
             = label_tag 'label_rating', '', class: 'avgrating', avgrate: true
             = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
           - else
@@ -30,18 +30,18 @@
     %td
       - if @program.voting_period?
         - @program.rating.times do |counter|
-          - if @event.voted?(current_user) && @event.user_rating(current_user) == counter+1
-            = link_to "", vote_admin_conference_program_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating", :voted => true
+          - if @event.voted?(current_user) && @event.user_rating(current_user) == counter + 1
+            = link_to '', vote_admin_conference_program_event_path(@conference.short_title, @event, rating: counter + 1), remote: true, id: "label#{counter + 1}", class: 'myrating', voted: true
           - else
-            = link_to "", vote_admin_conference_program_event_path(@conference.short_title, @event, :rating => counter+1), :remote => true, :id =>"label#{counter+1}", :class => "myrating"
+            = link_to '', vote_admin_conference_program_event_path(@conference.short_title, @event, rating: counter + 1), remote: true, id: "label#{counter + 1}", class: 'myrating'
         %br
       - else
         - @conference.program.rating.times do |counter|
-          - if @event.voted?(current_user) && @event.user_rating(current_user) == counter+1
-            = label_tag "label#{counter+1}", '', class: 'othersrating', voted: true
+          - if @event.voted?(current_user) && @event.user_rating(current_user) == counter + 1
+            = label_tag "label#{counter + 1}", '', class: 'othersrating', voted: true
             = javascript_tag "$('label[voted=true]').prevAll().andSelf().addClass('bright');"
           - else
-            = label_tag "label#{counter+1}", '', class: 'othersrating'
+            = label_tag "label#{counter + 1}", '', class: 'othersrating'
         (#{voting_open_or_close(@program)})
 
   - if @program.show_voting?
@@ -54,11 +54,11 @@
             %td
               - @conference.program.rating.times do |counter|
 
-                - if @event.voted?(rate.user) && @event.user_rating(rate.user) == counter+1
-                  = label_tag "label#{counter+1}", "", :class => "othersrating", :voted => true
+                - if @event.voted?(rate.user) && @event.user_rating(rate.user) == counter + 1
+                  = label_tag "label#{counter + 1}", "", class: 'othersrating', voted: true
                   = javascript_tag "$('label[voted=true]').prevAll().andSelf().addClass('bright');"
                 - else
-                  = label_tag "label#{counter+1}", "", :class => "othersrating"
+                  = label_tag "label#{counter + 1}", "", class: 'othersrating'
 :javascript
   $(function () {
     var checkedId = $("a[voted='true']").attr('id');

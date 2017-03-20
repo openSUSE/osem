@@ -12,7 +12,7 @@
         %small
           #{'Registration'.pluralize(@total_reg)}
         - if @new_reg
-          %span.label.label-success{title: "+#{@new_reg} since you last logged in!"}
+          %span.label.label-success{ title: "+#{@new_reg} since you last logged in!" }
             +
             = @new_reg
 
@@ -25,7 +25,7 @@
         %small
           #{'Submission'.pluralize(@total_submissions)}
         - if @new_submissions
-          %span.label.label-success{title: "+#{@new_submissions} since you last logged in!"}
+          %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
             +
             = @new_submissions
 
@@ -38,7 +38,7 @@
         %small
           #{'Hour'.pluralize(@program_length)}
         - if @new_reg
-          %span.label.label-success{title: "+#{@new_program_length} since you last logged in!"}
+          %span.label.label-success{ title: "+#{@new_program_length} since you last logged in!" }
             +
             = @new_program_length
 
@@ -73,11 +73,11 @@
   .col-md-12#doughnut
     %ul.nav.nav-tabs#doughnut_tabs
       %li.active
-        %a{:href=>"#distribution_all", "data-toggle"=>"tab"}
+        %a{ href: '#distribution_all', 'data-toggle' => 'tab' }
           %span.fa.fa-star
           All
       %li
-        %a{:href=>"#distribution_confirmed", "data-toggle"=>"tab"}
+        %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
           %span.fa.fa-comment
           Confirmed
     .tab-content
@@ -102,11 +102,11 @@
   .col-md-8
     %ul.nav.nav-tabs#recentTable
       %li.active
-        %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
+        %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
           %span.fa.fa-user
           Recent Registrations
       %li
-        %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
+        %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
           %span.fa.fa-file-text
           Recent Submissions
     .tab-content

@@ -1,7 +1,7 @@
-.navbar.navbar-default.navbar-fixed-top.nav-osem{:role=>"navigation"}
+.navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
   .container
     .navbar-header
-      %button{"data-target"=>".navbar-collapse", "data-toggle"=>"collapse", :class=>"navbar-toggle", :type=>"button"}
+      %button{"data-target"=>".navbar-collapse", "data-toggle"=>"collapse", class: 'navbar-toggle', type: 'button'}
         %span.sr-only
           Toggle navigation
         %span.icon-bar
@@ -16,19 +16,19 @@
         .btn-group.pull-right
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#", id: "current-user-detail"}
+              %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#', id: "current-user-detail"}
                 - if not current_user.name.blank?
                   #{current_user.name}
                 -else
                   #{current_user.email}
-                = image_tag(current_user.gravatar_url(size: '18'), title: "Yo #{current_user.name}!", :alt => '')
+                = image_tag(current_user.gravatar_url(size: '18'), title: "Yo #{current_user.name}!", alt: '')
                 %b.caret
               %ul.dropdown-menu
                 = render 'layouts/user_menu'
           - if can? :index, Comment
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
-                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
                   - if unread_notifications(current_user)
                     Notifications (#{unread_notifications(current_user).length})
                     %span.fa.fa-comment
@@ -44,17 +44,17 @@
       - else
         %ul.nav.navbar-nav.navbar-right
           - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-            %li{:class=> "#{active_nav_li(new_ichain_registration_path('user'))}"}
+            %li{class: "#{active_nav_li(new_ichain_registration_path('user'))}"}
               = link_to(new_ichain_registration_path('user')) do
                 %span.fa.fa-heart
                 Sign Up
           - else
-            %li{:class=> "#{active_nav_li(new_registration_path('user'))}"}
+            %li{class: "#{active_nav_li(new_registration_path('user'))}"}
               = link_to(new_registration_path('user')) do
                 %span.fa.fa-heart
                 Sign Up
           %li.dropdown.visible-desktop
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
               %span.fa.fa-user
               Sign In
               %span.caret

@@ -19,7 +19,7 @@
               %td= link_to event.title, admin_conference_program_event_path(event.program.conference.short_title, event)
               %td= link_to event.program.conference.title, admin_conference_path(event.program.conference.short_title)
               %td
-                .span{'class'=>label_for(event.state)} #{event.state.humanize}
+                .span{ 'class' => label_for(event.state) } #{event.state.humanize}
 - else
   %h5.text-warning.text-center
     No submissions!

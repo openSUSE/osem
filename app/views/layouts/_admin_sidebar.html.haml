@@ -1,6 +1,6 @@
 %ul.nav.nav-stacked.nav-pills.mySidebar
   .btn-group
-    %button{type:'button', class:'btn btn-default btn-link dropdown-toggle', 'data-toggle'=>'dropdown'}
+    %button{type:'button', class: 'btn btn-default btn-link dropdown-toggle', 'data-toggle'=>'dropdown'}
       %span.fa.fa-cog
       = @conference.short_title
       %span.caret
@@ -23,12 +23,12 @@
             New Conference
   %hr
   - if can? :show, @conference
-    %li{:class=> "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
+    %li{class: "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
       = link_to(admin_conference_path(@conference.short_title)) do
         %span.fa.fa-tachometer
         Dashboard
   - if can? :show, @conference
-    %li{:class=> "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
+    %li{class: "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
       - if can? :edit, @conference
         = link_to(edit_admin_conference_path(@conference.short_title)) do
           %span.fa.fa-home
@@ -39,66 +39,66 @@
           Basics
       %ul
         - if can? :update, Contact.new(conference_id: @conference.id)
-          %li{:class=> "#{active_nav_li(edit_admin_conference_contact_path(@conference.short_title))}"}
+          %li{class: "#{active_nav_li(edit_admin_conference_contact_path(@conference.short_title))}"}
             = link_to 'Contact', edit_admin_conference_contact_path(@conference.short_title)
         - if can? :index, @conference.commercials.build
-          %li{:class=> "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
+          %li{class: "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
             = link_to 'Commercials', admin_conference_commercials_path(@conference.short_title)
         - if can? :update, @conference
-          %li{:class=> active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
+          %li{class: active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
             = link_to 'Splashpage', admin_conference_splashpage_path(@conference.short_title)
   - if can? :show, Venue.new(conference_id: @conference.id)
-    %li{:class=> "#{active_nav_li(admin_conference_venue_path(@conference.short_title))}"}
+    %li{class: "#{active_nav_li(admin_conference_venue_path(@conference.short_title))}"}
       = link_to(admin_conference_venue_path(@conference.short_title)) do
         %span.fa.fa-road
         Venue
       %ul
         - if @conference.venue && @conference.venue.persisted? && (can? :update, @conference.venue.rooms.build)
-          %li{:class=> active_nav_li(admin_conference_venue_rooms_path(@conference.short_title))}
+          %li{class: active_nav_li(admin_conference_venue_rooms_path(@conference.short_title))}
             = link_to 'Rooms', admin_conference_venue_rooms_path(@conference.short_title)
         - if can? :update, @conference.lodgings.build
           %li{ class: active_nav_li(admin_conference_lodgings_path(@conference.short_title)) }
             = link_to 'Lodgings', admin_conference_lodgings_path(@conference.short_title)
   - if can? :show, @conference.program
-    %li{:class=> "#{active_nav_li(admin_conference_program_path(@conference.short_title))}"}
+    %li{class: "#{active_nav_li(admin_conference_program_path(@conference.short_title))}"}
       = link_to admin_conference_program_path(@conference.short_title) do
         %span.fa.fa-calendar
         Program
       - if @conference.program
         %ul
           - if can? :update, Cfp.new(program_id: @conference.program.id)
-            %li{:class=> active_nav_li(admin_conference_program_cfp_path(@conference.short_title))}
+            %li{class: active_nav_li(admin_conference_program_cfp_path(@conference.short_title))}
               = link_to 'Call for Papers', admin_conference_program_cfp_path(@conference.short_title)
           - if can? :update, @conference.program.events.build
-            %li{:class=> active_nav_li(admin_conference_program_events_path(@conference.short_title))}
+            %li{class: active_nav_li(admin_conference_program_events_path(@conference.short_title))}
               = link_to 'Events', admin_conference_program_events_path(@conference.short_title)
           - if can? :update, @conference.program.tracks.build
-            %li{:class=> active_nav_li(admin_conference_program_tracks_path(@conference.short_title))}
+            %li{class: active_nav_li(admin_conference_program_tracks_path(@conference.short_title))}
               = link_to 'Tracks', admin_conference_program_tracks_path(@conference.short_title)
           - if can? :update, @conference.program.event_types.build
-            %li{:class=> active_nav_li(admin_conference_program_event_types_path(@conference.short_title))}
+            %li{class: active_nav_li(admin_conference_program_event_types_path(@conference.short_title))}
               = link_to 'Event Types', admin_conference_program_event_types_path(@conference.short_title)
           - if can? :update, @conference.program.difficulty_levels.build, conference_id: @conference.id
-            %li{:class=> active_nav_li(admin_conference_program_difficulty_levels_path(@conference.short_title))}
+            %li{class: active_nav_li(admin_conference_program_difficulty_levels_path(@conference.short_title))}
               = link_to 'Difficulty Levels', admin_conference_program_difficulty_levels_path(@conference.short_title)
           - if can? :update, @conference.program.schedules.build
             %li{class: active_nav_li(admin_conference_schedules_path(@conference.short_title))}
               = link_to 'Schedules', admin_conference_schedules_path(@conference.short_title)
           - if can? :update, @conference.program.events.build
-            %li{:class=> active_nav_li(reports_admin_conference_program_path(@conference.short_title))}
+            %li{class: active_nav_li(reports_admin_conference_program_path(@conference.short_title))}
               = link_to 'Reports', reports_admin_conference_program_path(@conference.short_title)
 
   - if can? :update, Registration.new(conference_id: @conference.id)
-    %li{:class=> active_nav_li(admin_conference_registrations_path(@conference.short_title))}
+    %li{class: active_nav_li(admin_conference_registrations_path(@conference.short_title))}
       = link_to(admin_conference_registrations_path(@conference.short_title)) do
         %span.fa.fa-user
         Registrations
       %ul
         - if can? :update, @conference
-          %li{:class=> active_nav_li(admin_conference_registration_period_path(@conference.short_title))}
+          %li{class: active_nav_li(admin_conference_registration_period_path(@conference.short_title))}
             = link_to 'Registration Period', admin_conference_registration_period_path(@conference.short_title)
         - if can? :update, Question.new(conference_id: @conference.id)
-          %li{:class=> active_nav_li(admin_conference_questions_path(@conference.short_title))}
+          %li{class: active_nav_li(admin_conference_questions_path(@conference.short_title))}
             = link_to 'Questions', admin_conference_questions_path(@conference.short_title)
 
   - if (can? :manage, @conference.sponsorship_levels.build) || (can? :manage, @conference.sponsors.build) || (can? :manage, @conference.tickets.build)
@@ -108,13 +108,13 @@
         Donations
       %ul
         - if can? :update, @conference.sponsorship_levels.build
-          %li{:class=> "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))}" }
+          %li{class: "#{active_nav_li(admin_conference_sponsorship_levels_path(@conference.short_title))}" }
             = link_to 'Sponsorship Levels', admin_conference_sponsorship_levels_path(@conference.short_title)
         - if !@conference.sponsorship_levels.empty?  && @conference.sponsorship_levels.first.persisted? && (can? :update, @conference.sponsors.build)
-          %li{:class=> active_nav_li(admin_conference_sponsors_path(@conference.short_title))}
+          %li{class: active_nav_li(admin_conference_sponsors_path(@conference.short_title))}
             = link_to 'Sponsors', admin_conference_sponsors_path(@conference.short_title)
         - if can? :update, @conference.tickets.build
-          %li{ class: active_nav_li(admin_conference_tickets_path(@conference.short_title)) }
+          %li{class: active_nav_li(admin_conference_tickets_path(@conference.short_title)) }
             = link_to 'Tickets', admin_conference_tickets_path(@conference.short_title)
 
   - if (can? :manage, @conference.targets.build) || (can? :manage, @conference.campaigns.build)
@@ -127,15 +127,15 @@
           %li{class: active_nav_li(admin_conference_campaigns_path(@conference.short_title))}
             = link_to 'Campaigns', admin_conference_campaigns_path(@conference.short_title)
         - if can? :update, @conference.targets.build
-          %li{:class=> "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
+          %li{class: "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
             = link_to 'Goals', admin_conference_targets_path(@conference.short_title)
   - if can? :update, @conference.email_settings
-    %li{:class=> active_nav_li(admin_conference_emails_path(@conference.short_title))}
+    %li{class: active_nav_li(admin_conference_emails_path(@conference.short_title))}
       = link_to(admin_conference_emails_path(@conference.short_title)) do
         %span.fa.fa-envelope
         E-Mails
   - if can? :index, Role.new(resource: @conference)
-    %li{:class=> active_nav_li(admin_conference_roles_path(@conference.short_title))}
+    %li{class: active_nav_li(admin_conference_roles_path(@conference.short_title))}
       = link_to(admin_conference_roles_path(@conference.short_title)) do
         %span.fa.fa-group
         Roles

@@ -9,7 +9,7 @@
              'Difficulty Level',
              'Room',
              'State']
-= CSV.generate_line ["All Events"]
+= CSV.generate_line ['All Events']
 = CSV.generate_line headers
 - @events.each do |event|
   = CSV.generate_line([event.id, event.title, event.abstract, (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : ''),

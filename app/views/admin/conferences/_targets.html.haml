@@ -7,13 +7,13 @@
             Target 1
       .row
         .col-md-10
-          .progress{'title'=>"#{targets.keys[0]}"}
-            .progress-bar{ 'role'=>'progressbar', 'aria-valuenow'=>"#{targets.values[0]}", 'aria-valuemin'=>'0',
-                          'aria-valuemax'=>'100', 'style'=>"width: #{targets.values[0]}%;"}
+          .progress{ 'title' => "#{targets.keys[0]}" }
+            .progress-bar{ 'role' => 'progressbar', 'aria-valuenow' => " #{targets.values[0]}", 'aria-valuemin' => '0',
+                          'aria-valuemax' => '100', 'style' => "width: #{targets.values[0]}%;" }
               = "#{targets.values[0]} %"
   .row
     .col-md-8.col-md-offset-2
-      %div{'style'=>'display: none;', 'id'=>"#{name}"}
+      %div{ 'style' => 'display: none;', 'id' => "#{name}" }
         - targets.drop(1).each_with_index do |(key, value), index|
           .row
             .col-md-10
@@ -21,12 +21,12 @@
                 = "Target #{index + 2}"
           .row
             .col-md-10
-              .progress{'title'=>"#{key}"}
-                .progress-bar{ 'role'=>'progressbar', 'aria-valuenow'=>"#{value}", 'aria-valuemin'=>'0',
-                              'aria-valuemax'=>'100', 'style'=>"width: #{value}%;" }
+              .progress{ 'title' => "#{key}" }
+                .progress-bar{ 'role' => 'progressbar', 'aria-valuenow' => "#{value}", 'aria-valuemin' => '0',
+                              'aria-valuemax' => '100', 'style' => "width: #{value}%;" }
                   = "#{value} %"
   .row
     .col-md-2.col-md-offset-2
       - if targets.length > 1
-        %a.show_targets{'href'=>'#', 'data-name'=>"#{name}"}
+        %a.show_targets{ 'href' => '#', 'data-name' => "#{name}" }
           more

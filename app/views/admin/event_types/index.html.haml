@@ -28,10 +28,10 @@
               = "#{event_type.minimum_abstract_length} - #{event_type.maximum_abstract_length}"
               Words
             %td
-              %span.label{style: "background-color: #{event_type.color}; color: #{ contrast_color(event_type.color) };"}
+              %span.label{ style: "background-color: #{event_type.color}; color: #{ contrast_color(event_type.color) };" }
                 = event_type.color
             %td
-              .btn-group{role: "group"}
+              .btn-group{ role: 'group' }
                 = link_to 'Edit', edit_admin_conference_program_event_type_path(@conference.short_title, event_type.id),
                 method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_conference_program_event_type_path(@conference.short_title, event_type.id),

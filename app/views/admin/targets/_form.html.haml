@@ -7,7 +7,7 @@
         Target
 .row
   .col-md-8
-    = semantic_form_for(@target, :url => (@target.new_record? ? admin_conference_targets_path : admin_conference_target_path(@conference.short_title, @target))) do |f|
+    = semantic_form_for(@target, url: (@target.new_record? ? admin_conference_targets_path : admin_conference_target_path(@conference.short_title, @target))) do |f|
       = f.input :due_date, as: :string, input_html: { class: 'target-due-date-datepicker'}, label: 'Until when do you want to have '
       = f.input :target_count, label: 'this amount of '
       = f.input :unit, as: :select, label: 'Unit', class: 'form-control', collection: Target.units.values, include_blank: false, label: 'units '

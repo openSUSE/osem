@@ -8,7 +8,7 @@
         Ticket
 .row
   .col-md-8
-    = semantic_form_for(@ticket, :url => (@ticket.new_record? ? admin_conference_tickets_path : admin_conference_ticket_path(@conference.short_title, @ticket))) do |f|
+    = semantic_form_for(@ticket, url: (@ticket.new_record? ? admin_conference_tickets_path : admin_conference_ticket_path(@conference.short_title, @ticket))) do |f|
       = f.input :title
       = f.input :description, input_html: { rows: 5, data: { provide: "markdown-editable" } }
       = f.input :price

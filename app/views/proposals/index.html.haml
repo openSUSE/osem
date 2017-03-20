@@ -101,4 +101,4 @@
   .row
     .col-md-12
       - if can? :create, @event
-        = link_to "New Proposal", new_conference_program_proposal_path(@conference.short_title), :class => "btn btn-success pull-right"
+        = link_to "New Proposal", new_conference_program_proposal_path(@conference.short_title), class: 'btn btn-success pull-right'

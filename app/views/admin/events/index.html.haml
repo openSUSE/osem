@@ -7,26 +7,26 @@
         .btn-group.pull-right
           - if can? :read, Event
             .btn-group
-              %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button", :class => 'btn btn-success'}
+              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
                 Export PDF
                 %span.caret
-              %ul.dropdown-menu{:role => "menu"}
+              %ul.dropdown-menu{ role: 'menu' }
                 %li= link_to 'All Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all')
                 %li= link_to 'Confirmed Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'confirmed')
                 %li= link_to 'All Events with Comments', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all_with_comments')
               .btn-group
-                %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button", :class => 'btn btn-success'}
+                %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
                   Export CSV
                   %span.caret
-                %ul.dropdown-menu{:role => "menu"}
+                %ul.dropdown-menu{ role: 'menu' }
                   %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all')
                   %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'confirmed')
                   %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all_with_comments')
               .btn-group
-                %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button",  :class => 'btn btn-success'}
+                %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
                   Export XLS
                   %span.caret
-                %ul.dropdown-menu{:role => "menu"}
+                %ul.dropdown-menu{ role: 'menu' }
                   %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all')
                   %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'confirmed')
                   %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all_with_comments')
@@ -34,14 +34,14 @@
         All the submissions of your speakers
 .row
   .col-md-4
-    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Events state', data: @event_distribution}
+    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Events state', data: @event_distribution }
   .col-md-4
-    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Confirmed events scheduled', data: @scheduled_event_distribution}
+    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Confirmed events scheduled', data: @scheduled_event_distribution }
   .col-md-4
-    = render partial: 'admin/conferences/doughnut_chart', locals: {title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed}
+    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed }
 .row
   .col-md-12
-    %div.margin-event-table
+    .margin-event-table
       %table.table.table-striped.table-bordered.table-hover.datatable
         %thead
           %th
@@ -55,7 +55,7 @@
             %b Submitter
           %th
             %b Speaker
-          -if @program.languages.present?
+          - if @program.languages.present?
             %th
               %b Language
           %th
@@ -80,17 +80,17 @@
               = link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
 
             - if @program.rating_enabled?
-              %td.col-md-1{'data-order' => "#{event.average_rating}"}
+              %td.col-md-1{ 'data-order' => "#{event.average_rating}" }
                 = render partial: 'voting_index', locals: { event: event }
 
             - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
-              - bgcolor="#F7819F"
+              - bgcolor = '#F7819F'
             - else
-              - bgcolor=""
-            %td{:style=>"background-color: #{bgcolor}"}
+              - bgcolor = ''
+            %td{ style: "background-color: #{bgcolor}" }
               - if @program.show_voting?
                 - unless event.submitter.nil?
-                  =link_to event.submitter.name, admin_user_path(event.submitter)
+                  = link_to event.submitter.name, admin_user_path(event.submitter)
                   - if event.submitter.registrations.count < 1
                     (Unregistered!)
                 - else
@@ -106,11 +106,11 @@
               - else
                 %i Hidden
 
-            -if @program.languages.present?
+            - if @program.languages.present?
               %td
                 = event.language
 
-            %td.text-center{'data-order' => "#{event.require_registration}"}
+            %td.text-center{ 'data-order' => "#{event.require_registration}" }
               = check_box_tag @conference.short_title, event.id, event.require_registration,
                 method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
                 class: 'switch-checkbox', data: { size: 'small',
@@ -121,7 +121,7 @@
                 %br
                 = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
 
-            %td.text-center{'data-order' => "#{event.is_highlight}"}
+            %td.text-center{ 'data-order' => "#{event.is_highlight}" }
               = check_box_tag @conference.short_title, event.id, event.is_highlight,
                 method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
                 class: 'switch-checkbox', data: { size: 'small',
@@ -131,7 +131,7 @@
 
             %td
               .btn-group
-                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
+                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
                   - if event.event_type.nil?
                     Event Type
                   - else
@@ -146,7 +146,7 @@
                     method: :patch
             %td
               .btn-group
-                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
+                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
                   - if event.track.nil?
                     Track
                   - else
@@ -161,7 +161,7 @@
                     method: :patch
             %td
               .btn-group
-                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
+                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
                   - if event.difficulty_level.nil?
                     Difficulty
                   - else
@@ -177,10 +177,10 @@
 
             %td
               .btn-group
-                %button{type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown'}
+                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
                   = event.state.humanize
                   %span.caret
-                %ul.dropdown-menu{role: 'menu'}
+                %ul.dropdown-menu{ role: 'menu' }
                   = render 'change_state_dropdown', event: event
             %td.text-center
               = link_to "#{event.comment_threads.count}", admin_conference_program_event_path(@conference.short_title, event), anchor: 'comments-div'

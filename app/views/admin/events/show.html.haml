@@ -1,13 +1,13 @@
 .tabbable
   %ul.nav.nav-tabs
     %li.active
-      = link_to "Proposal", "#proposal-content", "data-toggle"=>"tab"
+      = link_to 'Proposal', '#proposal-content', 'data-toggle' => 'tab'
     %li
-      = link_to "History", "#history-content", "data-toggle"=>"tab"
+      = link_to 'History', '#history-content', 'data-toggle' => 'tab'
     %li
-      %a{href: '#proposal-tasks', "data-toggle"=>"tab"}
+      %a{ href: '#proposal-tasks', 'data-toggle' => 'tab' }
         Tasks
-        %span.label.label-danger{style: 'border-radius: 1em;'}
+        %span.label.label-danger{ style: 'border-radius: 1em;' }
           - progress_status = @event.progress_status
           = progress_status.reject{ |_key, value| value || value.nil? }.length
     %li
@@ -47,7 +47,7 @@
                                         id: @event.id, anchor: 'commercials-content')
 
                     %small.text-muted
-                      = distance_of_time_in_words(Time.now,version.created_at) + ' ago'
+                      = distance_of_time_in_words(Time.now, version.created_at) + ' ago'
                       %br
                       = "(#{version.created_at.strftime('%B %-d, %Y %H:%M')})"
 
@@ -65,28 +65,28 @@
         %table.table.table-hover
           %tr
             %td= link_to 'Submitter must be registered to the conference', admin_conference_registrations_path(@event.program.conference.short_title)
-            %td{'class'=>class_for_todo(progress_status['registered'])}
-              %span{'class'=>[icon_for_todo(progress_status['registered']), 'fa-lg']}
+            %td{ 'class' => class_for_todo(progress_status['registered']) }
+              %span{ 'class' => [icon_for_todo(progress_status['registered']), 'fa-lg'] }
           %tr
             %td= link_to 'Fill out submitter biography', edit_admin_user_path(@event.submitter)
-            %td{'class'=>class_for_todo(progress_status['biography'])}
-              %span{'class'=>[icon_for_todo(progress_status['biography']), 'fa-lg']}
+            %td{ 'class' => class_for_todo(progress_status['biography']) }
+              %span{ 'class' => [icon_for_todo(progress_status['biography']), 'fa-lg'] }
           %tr
             %td= link_to 'Add a subtitle', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event)
-            %td{'class'=>class_for_todo(progress_status['subtitle'])}
-              %span{'class'=>[icon_for_todo(progress_status['subtitle']), 'fa-lg']}
+            %td{ 'class' => class_for_todo(progress_status['subtitle']) }
+              %span{ 'class' => [icon_for_todo(progress_status['subtitle']), 'fa-lg'] }
           %tr
             %td= link_to 'Add a commercial', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event, anchor: 'commercials-content')
-            %td{'class'=>class_for_todo(progress_status['commercials'])}
-              %span{'class'=>[icon_for_todo(progress_status['commercials']), 'fa-lg']}
+            %td{ 'class' => class_for_todo(progress_status['commercials']) }
+              %span{ 'class' => [icon_for_todo(progress_status['commercials']), 'fa-lg'] }
           - unless progress_status['track'].nil?
             %tr
               %td= link_to 'Add a track', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event)
-              %td{'class'=>class_for_todo(progress_status['track'])}
-                %span{'class'=>[icon_for_todo(progress_status['track']), 'fa-lg']}
+              %td{ 'class' => class_for_todo(progress_status['track']) }
+                %span{ 'class' => [icon_for_todo(progress_status['track']), 'fa-lg'] }
           %tr
             %td= link_to 'Add a difficulty level', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event)
-            %td{'class'=>class_for_todo(progress_status['difficulty_level'])}
-              %span{'class'=>[icon_for_todo(progress_status['difficulty_level']), 'fa-lg']}
+            %td{ 'class' => class_for_todo(progress_status['difficulty_level']) }
+              %span{ 'class' => [icon_for_todo(progress_status['difficulty_level']), 'fa-lg'] }
     #proposal-commercials.tab-pane
       = render partial: 'shared/media_items', locals: { commercials: @event.commercials }

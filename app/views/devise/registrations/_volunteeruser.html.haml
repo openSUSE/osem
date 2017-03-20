@@ -1,7 +1,7 @@
-= u.input :mobile,  :label => "Mobile No (Include country code)", :input_html => {:placeholder => "Eg. +336812345679"}, :hint => "Only visible to org team & volunteer coordinator"
+= u.input :mobile,  label: 'Mobile No (Include country code)', input_html: {placeholder: 'Eg. +336812345679'}, hint: 'Only visible to org team & volunteer coordinator'
 
-= u.input :tshirt, :label => "Tshirt Size", :collection => [["Choose", nil],["XS","XS"],["S","S"],["M", "M"], ["L", "L"], ["XL", "XL"], ["XXL", "XXL"], ["XXXL", "XXXL"], ["Girl-S","Girl-s"], ["Girl-M","Girl-M"], ["Girl-L","Girl-L"], ["Girl-XL","Girl-XL"]]
+= u.input :tshirt, label: "Tshirt Size", collection: [["Choose", nil],["XS","XS"],["S","S"],["M", "M"], ["L", "L"], ["XL", "XL"], ["XXL", "XXL"], ["XXXL", "XXXL"], ["Girl-S","Girl-s"], ["Girl-M","Girl-M"], ["Girl-L","Girl-L"], ["Girl-XL","Girl-XL"]]
 
-= u.input :languages, :label => "Which languages do you speak", :hint => "Start from the one you speak best and use 2 letter symbolization, eg. EN, GR, DE"
+= u.input :languages, label: "Which languages do you speak", hint: "Start from the one you speak best and use 2 letter symbolization, eg. EN, GR, DE"
 
-= u.input :volunteer_experience, :label => "Do you have any past experience?", :input_html => {:rows => 3, :class => "span6"}
+= u.input :volunteer_experience, label: "Do you have any past experience?", input_html: {rows: 3, class: 'span6'}

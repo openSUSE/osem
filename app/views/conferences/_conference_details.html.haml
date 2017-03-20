@@ -20,20 +20,20 @@
           .btn-group-vertical
             - if !@conference || @conference != conference
               - if conference.splashpage && conference.splashpage.public
-                = link_to "View Conference", conference_path(conference.short_title), :class =>"btn btn-default"
+                = link_to "View Conference", conference_path(conference.short_title), class: 'btn btn-default'
             - if conference.program and conference.program.schedule_public
-              = link_to "Schedule", conference_schedule_path(conference.short_title), :class =>"btn btn-default"
+              = link_to "Schedule", conference_schedule_path(conference.short_title), class: 'btn btn-default'
             - if conference.registration_open?
               - if conference.user_registered?(current_user)
-                = link_to "My Registration", conference_conference_registration_path(conference.short_title), :class =>"btn btn-default"
+                = link_to "My Registration", conference_conference_registration_path(conference.short_title), class: 'btn btn-default'
               - else
                 = link_to "Register", new_conference_conference_registration_path(conference.short_title), class: "btn btn-default", disabled: conference.registration_limit_exceeded?
                 - if conference.registration_limit_exceeded?
                   Sorry, no places left
             - if !current_user.nil? && current_user.proposal_count(conference) > 0
-              = link_to "My Proposals", conference_program_proposals_path(conference.short_title), :class =>"btn btn-default"
+              = link_to "My Proposals", conference_program_proposals_path(conference.short_title), class: 'btn btn-default'
             - elsif can? :new, conference.program.events.new
-              = link_to "Submit Proposal", new_conference_program_proposal_path(conference.short_title), :class =>"btn btn-default"
+              = link_to "Submit Proposal", new_conference_program_proposal_path(conference.short_title), class: 'btn btn-default'
             - if current_user.nil? || !current_user.subscribed?(conference)
               = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-default'
             - else

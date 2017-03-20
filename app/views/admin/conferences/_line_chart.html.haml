@@ -5,25 +5,25 @@
         = title
 .row
   .col-md-12
-    .chart_data{ "data-chart"=>"#{y.to_json}", "data-conferences"=>"#{conferences.to_json}",
-                        "data-deactive"=>"#{deactive_conferences.to_json}", "data-weeks"=>"#{x.to_json}",
-                        "data-active"=>"#{active_conferences.to_json}"}
-      %canvas.line_chart{ :id => "line_chart_#{name}", "data-name"=>"#{name}" }
+    .chart_data{ 'data-chart' => "#{y.to_json}", 'data-conferences' => "#{conferences.to_json}",
+                        'data-deactive' => "#{deactive_conferences.to_json}", 'data-weeks' => "#{x.to_json}",
+                        'data-active' => "#{active_conferences.to_json}" }
+      %canvas.line_chart{ id: "line_chart_#{name}", 'data-name' => "#{name}" }
 .row
   .col-md-12
     .text-center
       = unit
 .row
   .col-md-12
-    .conferenceCheckboxes{ :id => "#{name}Checkboxes", "data-name"=>"#{name}" }
+    .conferenceCheckboxes{ id: "#{name}Checkboxes", 'data-name' => "#{name}" }
       - if active_conferences && deactive_conferences && conferences && conferences.length > 1
         - active_conferences.each do |conference|
           %div
-            %span{ "style"=>"border-bottom: 3px solid #{conference[:color]};", "data-chart"=> "#{name}" }
-              %input{ "type"=>"checkbox", "name"=>"#{conference[:short_title]}", "checked"=>"checked"}
+            %span{ 'style' => "border-bottom: 3px solid #{conference[:color]};", 'data-chart' => "#{name}" }
+              %input{ 'type' => 'checkbox', 'name' => "#{conference[:short_title]}", 'checked' => 'checked' }
               #{conference[:short_title]}
         - deactive_conferences.each do |conference|
           %div
-            %span{"style"=>"border-bottom: 3px solid #{conference[:color]};", "data-chart"=> "#{name}" }
-              %input{"type"=>"checkbox", "name"=>"#{conference[:short_title]}" }
+            %span{ 'style' => "border-bottom: 3px solid #{conference[:color]};", 'data-chart' => "#{name}" }
+              %input{ 'type' => 'checkbox', 'name' => "#{conference[:short_title]}" }
               #{conference[:short_title]}

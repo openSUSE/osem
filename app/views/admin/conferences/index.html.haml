@@ -8,7 +8,7 @@
         %small
           #{'User'.pluralize(@total_user)}
           - if @new_user
-            %span.label.label-success{title: "+ #{@new_user} since you last logged in!"}
+            %span.label.label-success{ title: "+ #{@new_user} since you last logged in!" }
               +
               = @new_user
   .col-sm-4.col-xs-4
@@ -20,7 +20,7 @@
         %small
           #{'Registration'.pluralize(@total_reg)}
           - if @new_reg
-            %span.label.label-success{title: "+#{@new_reg} since you last logged in!"}
+            %span.label.label-success{ title: "+#{@new_reg} since you last logged in!" }
               +
               = @new_reg
   .col-sm-4.col-xs-4
@@ -32,7 +32,7 @@
         %small
           #{'Submission'.pluralize(@total_submissions)}
           - if @new_submissions
-            %span.label.label-success{title: "+#{@new_submissions} since you last logged in!"}
+            %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
               +
               = @new_submissions
 
@@ -47,7 +47,7 @@
                                                x: @registration_weeks,
                                                unit: 'weeks' }
   .col-md-4
-    = render partial: 'doughnut_chart', locals: { title: 'Events',data: @event_distribution }
+    = render partial: 'doughnut_chart', locals: { title: 'Events', data: @event_distribution }
 .row#submissions
   .col-md-8
     = render partial: 'line_chart', locals: { title: 'Submissions over time',
@@ -59,20 +59,20 @@
                                                x: @cfp_weeks,
                                                unit: 'weeks' }
   .col-md-4
-    = render partial: 'doughnut_chart', locals: { title: 'User',data: @user_distribution }
+    = render partial: 'doughnut_chart', locals: { title: 'User', data: @user_distribution }
 .row
   .col-md-8
     %ul.nav.nav-tabs#recentTable
       %li.active
-        %a{:href=>"#recent_user", "data-toggle"=>"tab"}
+        %a{ href: '#recent_user', 'data-toggle' => 'tab' }
           %span.fa.fa-user
           Recent Users
       %li
-        %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
+        %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
           %span.fa.fa-check-square
           Recent Registrations
       %li
-        %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
+        %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
           %span.fa.fa-file-text
           Recent Submissions
     .tab-content
