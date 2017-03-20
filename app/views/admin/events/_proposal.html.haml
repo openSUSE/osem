@@ -117,7 +117,7 @@
           %td
             %b Scheduled time
           %td
-            = @event.time
+            = time_with_timezone(@event.time)
       %tr
         %td
           %b Submitter

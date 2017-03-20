@@ -34,6 +34,11 @@ module ApplicationHelper
     result
   end
 
+  # Returns time with conference timezone
+  def time_with_timezone(time)
+    time.strftime('%F %R') + ' ' + @conference.timezone.to_s
+  end
+
   ##
   # Checks if the voting has already started, or if it has already ended
   #
