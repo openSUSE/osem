@@ -838,7 +838,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a venue object.
   # * +False+ -> IF conference has no venue object.
   def venue_set?
-    !!venue
+    venue.present?
   end
 
   ##
@@ -848,7 +848,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a cfp object.
   # * +False+ -> If conference has no cfp object.
   def cfp_set?
-    !!program.cfp
+    program.cfp.present?
   end
 
   ##
@@ -858,7 +858,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a start and a end date.
   # * +False+ -> If conference has no start or end date.
   def registration_date_set?
-    !!registration_period && !!registration_period.start_date && !!registration_period.end_date
+    registration_period.present? && registration_period.start_date.present? && registration_period.end_date.present?
   end
 
   # Calculates the distribution from events.

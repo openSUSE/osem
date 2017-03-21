@@ -122,6 +122,10 @@ Style/TrailingBlankLines:
 Style/TrailingWhitespace:
   Enabled: true
 
+# Checks for uses of double negation (!!) to convert something to a boolean value.
+Style/DoubleNegation:
+  Enabled: true
+
 AllCops:
   Include:
     - '**/Rakefile'
