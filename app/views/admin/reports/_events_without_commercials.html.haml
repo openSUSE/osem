@@ -17,4 +17,5 @@
         %tr
           %td= event.id
           %td= link_to event.title, edit_admin_conference_program_event_path(@conference.short_title, event)
-          %td  #{event.speaker_names}
+          %td
+            = speaker_links(event)
