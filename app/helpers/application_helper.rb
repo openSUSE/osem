@@ -578,6 +578,7 @@ module ApplicationHelper
   end
 
   def quantity_left_of(resource)
+    return '-/-' if resource.quantity.blank?
     "#{resource.quantity - resource.used}/#{resource.quantity}"
   end
 

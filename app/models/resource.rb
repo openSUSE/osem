@@ -1,10 +1,12 @@
 class Resource < ActiveRecord::Base
   belongs_to :conference
-  validate :used_less_than_quantity
+  validates :name, :used, :quantity, presence: true
+  validates :used, :quantity, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validate :used_no_more_than_quantity
 
   private
 
-  def used_less_than_quantity
-    errors.add(:used, 'can not be higher than total quantity') unless used <= quantity
+  def used_no_more_than_quantity
+    errors.add(:used, 'cannot be higher than total quantity') if used.present? && quantity.present? && used > quantity
   end
 end
