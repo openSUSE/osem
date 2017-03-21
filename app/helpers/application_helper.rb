@@ -597,4 +597,8 @@ module ApplicationHelper
     end
     concurrent_events
   end
+
+  def speaker_links(event)
+    event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }.join(', ').html_safe
+  end
 end
