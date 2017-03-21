@@ -33,6 +33,50 @@ module ApplicationHelper
     result
   end
 
+  # Returns time with conference timezone
+  def time_with_timezone(time)
+    time.strftime('%F %R') + ' ' + @conference.timezone.to_s
+  end
+
+  ##
+  # Checks if the voting has already started, or if it has already ended
+  #
+  def voting_open_or_close(program)
+    return if program.voting_period?
+    if program.voting_start_date > Time.current
+      return 'Voting period has not started yet!'
+    else # voting_end_date > Date.today because voting_start_date < voting_end_date
+      return 'Voting period is over!'
+    end
+  end
+
+  ##
+  # Gets an EventType object, and returns its length in timestamp format (HH:MM)
+  # ====Gets
+  # * +Integer+ -> 30
+  # ====Returns
+  # * +String+ -> "00:30"
+  def length_timestamp(length)
+    [length / 60, length % 60].map { |t| t.to_s.rjust(2, '0') }.join(':')
+  end
+
+  ##
+  # Gets a datetime object
+  # ====Returns
+  # * +String+ -> formated datetime object
+  def format_datetime(obj)
+    return unless obj
+    obj.strftime('%Y-%m-%d %H:%M')
+  end
+
+  ##
+  # ====Returns
+  # * +String+ -> number of registrations / max allowed registrations
+  def registered_text(event)
+    return "Registered: #{event.registrations.count}/#{event.max_attendees}" if event.max_attendees
+    "Registered: #{event.registrations.count}"
+  end
+
   # Set resource_name for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposals#new)
   def resource_name
     :user
@@ -167,5 +211,14 @@ module ApplicationHelper
     else
       new_user_session_path
     end
+  end
+
+  ##
+  # ====Gets
+  # a conference object
+  # ==== Returns
+  # class hidden if conference is over
+  def hidden_if_conference_over(conference)
+    'hidden' if Date.today > conference.end_date
   end
 end
