@@ -39,11 +39,7 @@ linters:
     enabled: true
 
   InstanceVariables:
-    enabled: true
-    file_types: partials
-    matchers:
-      all: .*
-      partials: \A_.*\.haml\z
+    enabled: false
 
   LeadingCommentSpace:
     enabled: true
