@@ -2,10 +2,6 @@ module PathsHelper
   ##
   # Includes functions related to links or redirects
   ##
-  def link_if_alive(version, link_text, link_url)
-    version.item ? link_to(link_text, link_url) : link_text
-  end
-
   def link_to_user(user_id)
     user = User.find_by(id: user_id)
     if user
