@@ -1,17 +1,46 @@
-Rails:
-  Enabled: true
+# Inherit style from another configuration
 inherit_from: .rubocop_todo.yml
 
-Style/HashSyntax:
-  Enabled: true
-  EnforcedStyle: ruby19
+# Apply rule to all cops
+AllCops:
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'db/schema.rb'
+    - 'vendor/bundle/**/*'
+    - 'bundle/**/*'
+    - 'config/**/*'
+    - 'bin/*'
 
-# Things deprecated in current ruby API
-Lint/DeprecatedClassMethods:
+#################### Style ###############################
+
+# Align the elements of a hash literal if they span more than one line
+Style/AlignHash:
   Enabled: true
 
-# Do not compare with nil. Use .nil? instead
-Style/NilComparison:
+# Align the parameters of a method call if they span more than one line
+Style/AlignParameters:
+  Enabled: true
+
+# Use && instead of and, use || instead of or
+Style/AndOr:
+  Enabled: true
+
+# Avoid redundunt curly braces when it is obvious that hash is used
+Style/BracesAroundHashParameters:
+  Enabled: true
+
+# Avoid the use of the case equality operator `===`
+Style/CaseEquality:
+  Enabled: true
+
+# Use nested module/class definitions instead of compact style
+Style/ClassAndModuleChildren:
+  Enabled: true
+
+# Checks for uses of double negation (!!) to convert something to a boolean value.
+Style/DoubleNegation:
   Enabled: true
 
 # Use one empty line between method definitions
@@ -34,12 +63,55 @@ Style/EmptyLiteral:
 Style/For:
   Enabled: true
 
+# Checks that operators have space around them, except for ** which should not have surrounding space.
+Style/SpaceAroundOperators:
+  Enabled: true
+
+# Use the new Ruby 1.9 hash syntax
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: ruby19
+
+# Do not compare with nil. Use .nil? instead
+Style/NilComparison:
+  Enabled: true
+
+# Use single quotes unless there's string interpolation
+Style/StringLiterals:
+  Enabled: true
+
+# Avoid trailing blank lines
+Style/TrailingBlankLines:
+  Enabled: true
+
+# Avoid trailing whitespace
+Style/TrailingWhitespace:
+  Enabled: true
+
+#################### Metrics ###############################
+
+# Avoid deep blocks nesting
+Metrics/BlockNesting:
+  Max: 4
+
+# Avoid writing classes that are more than 300 lines
+Metrics/ClassLength:
+  Max: 300
+  Exclude:
+    - 'app/models/conference.rb'
+
+#################### Lint ###############################
+
 # Wrap your assignment in condition if you mean it, otherwise it is most likely equality check
 Lint/AssignmentInCondition:
   Enabled: true
 
 # Align blocks of code properly
 Lint/BlockAlignment:
+  Enabled: true
+
+# Things deprecated in current ruby API
+Lint/DeprecatedClassMethods:
   Enabled: true
 
 # Do not use literal in conditions. We have it enabled for now
@@ -50,7 +122,7 @@ Lint/LiteralInCondition:
 Lint/Loop:
   Enabled: true
 
-# do not put space before arguments when they are in parentheses
+# Do not put space before arguments when they are in parentheses
 Lint/ParenthesesAsGroupedExpression:
   Enabled: true
 
@@ -58,19 +130,19 @@ Lint/ParenthesesAsGroupedExpression:
 Lint/RescueException:
   Enabled: true
 
-# do not shadow local variables in blocks, choose other name
+# Do not shadow local variables in blocks, choose other name
 Lint/ShadowingOuterLocalVariable:
   Enabled: true
 
-# use _ or variable_name to explicitly mark variable as unused
+# Use _ or variable_name to explicitly mark variable as unused
 Lint/UnusedBlockArgument:
   Enabled: true
 
-# use _ or _argument_name to explicitly mark argument as unused
+# Use _ or _argument_name to explicitly mark argument as unused
 Lint/UnusedMethodArgument:
   Enabled: true
 
-# avoid useless assignment
+# Avoid useless assignment
 Lint/UselessAssignment:
   Enabled: true
 
@@ -78,61 +150,8 @@ Lint/UselessAssignment:
 Lint/Void:
   Enabled: true
 
-# Align the elements of a hash literal if they span more than one line
-Style/AlignHash:
+#################### Rails ###############################
+
+#  Enforce Rails specific style
+Rails:
   Enabled: true
-
-# Align the parameters of a method call if they span more than one line
-Style/AlignParameters:
-  Enabled: true
-
-# Use && instead of and, use || instead of or
-Style/AndOr:
-  Enabled: true
-
-# avoid deep blocks nesting
-Metrics/BlockNesting:
-  Max: 4
-
-Metrics/ClassLength:
-  Max: 300
-  Exclude: 
-    - 'app/models/conference.rb'
-
-# avoid redundunt curly braces when it is obvious that hash is used
-Style/BracesAroundHashParameters:
-  Enabled: true
-
-# Checks that operators have space around them, except for ** which should not have surrounding space.
-Style/SpaceAroundOperators:
-  Enabled: true
-
-Style/CaseEquality:
-  Enabled: true
-
-Style/ClassAndModuleChildren:
-  Enabled: true
-
-Style/StringLiterals:
-  Enabled: true
-
-Style/TrailingBlankLines:
-  Enabled: true
-
-Style/TrailingWhitespace:
-  Enabled: true
-
-# Checks for uses of double negation (!!) to convert something to a boolean value.
-Style/DoubleNegation:
-  Enabled: true
-
-AllCops:
-  Include:
-    - '**/Rakefile'
-    - '**/config.ru'
-  Exclude:
-    - 'db/schema.rb'
-    - 'vendor/bundle/**/*'
-    - 'bundle/**/*'
-    - 'config/**/*'
-    - 'bin/*'
