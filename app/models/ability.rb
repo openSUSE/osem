@@ -62,6 +62,10 @@ class Ability
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
       end
+
+      can [:show, :events], Schedule do |schedule|
+        schedule.program.schedule_public
+      end
     end
   end
 
