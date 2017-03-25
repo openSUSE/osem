@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
 
   scope :admin, -> { where(is_admin: true) }
 
-  validates :email, presence: true
+  validates :email, :password, :password_confirmation, presence: true
 
   validates :username,
             uniqueness: {
