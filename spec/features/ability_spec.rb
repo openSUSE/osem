@@ -7,14 +7,16 @@ feature 'Has correct abilities' do
   let(:conference3) { create(:full_conference) } # user is info_desk
   let(:conference4) { create(:full_conference) } # user is volunteer coordinator
   let(:conference5) { create(:full_conference) } # user has no role
+  let(:conference6) { create(:conference) } # user is organizer, venue is not set by default
 
-  let(:role_organizer) { Role.find_by(name: 'organizer', resource: conference1) }
+  let(:role_organizer_conf1) { Role.find_by(name: 'organizer', resource: conference1) }
+  let(:role_organizer_conf6) { Role.find_by(name: 'organizer', resource: conference6) }
   let(:role_cfp) { Role.find_by(name: 'cfp', resource: conference2) }
   let(:role_info_desk) { Role.find_by(name: 'info_desk', resource: conference3) }
   let(:role_volunteers_coordinator) { Role.find_by(name: 'volunteers_coordinator', resource: conference4) }
 
   let(:user) { create(:user) }
-  let(:user_organizer) { create(:user, role_ids: [role_organizer.id]) }
+  let(:user_organizer) { create(:user, role_ids: [role_organizer_conf1.id, role_organizer_conf6.id]) }
   let(:user_cfp) { create(:user, role_ids: [role_cfp.id]) }
   let(:user_info_desk) { create(:user, role_ids: [role_info_desk.id]) }
   let(:user_volunteers_coordinator) { create(:user, role_ids: [role_volunteers_coordinator.id]) }
@@ -57,6 +59,9 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Questions', href: "/admin/conferences/#{conference1.short_title}/questions")
     expect(page).to have_link('Roles', href: "/admin/conferences/#{conference1.short_title}/roles")
     expect(page).to have_link('Resources', href: "/admin/conferences/#{conference1.short_title}/resources")
+
+    visit admin_conference_path(conference6.short_title)
+    expect(page).to have_link('Add venue', href: "/admin/conferences/#{conference6.short_title}/venue/new")
 
     visit edit_admin_conference_path(conference1.short_title)
     expect(current_path).to eq(edit_admin_conference_path(conference1.short_title))
