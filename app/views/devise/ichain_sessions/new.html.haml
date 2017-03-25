@@ -10,11 +10,8 @@
             = f.input :url, as: :hidden, input_html: { value: @back_url }
             = f.input :context, as: :hidden, input_html: { value: @context }
             = f.input :proxypath, as: :hidden, input_html: { value: @proxypath }
-
             = f.input :username, input_html: { autofocus: true }
             = f.input :password, as: :password
-
             %p.text-right
               = f.action :submit, as: :button, label: 'Sign In', button_html: { class: 'btn btn-success' }
-
             = render partial: 'devise/shared/help'
