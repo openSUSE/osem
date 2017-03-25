@@ -11,7 +11,7 @@
         .control-label
           = "Avatar"
         = image_tag(@user.gravatar_url(size: '48'), title: "Yo #{@user.name}!", alt: '')
-        = link_to 'Change your avatar here', 'https://gravatar.com'
+        = link_to 'Change your avatar here', 'https://gravatar.com', target: :_blank
         = f.input :affiliation, as: :string,
           hint: 'This could be a company, a user group, or nothing at all.'
         = f.input :biography, input_html: { rows: 5, data: { provide: 'markdown-editable' } },
