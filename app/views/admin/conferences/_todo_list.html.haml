@@ -21,14 +21,16 @@
       = link_to 'Set up call for papers', admin_conference_program_cfp_path(conference_progress['short_title'])
     - else
       Set up call for papers
-  %li{ 'class' => "list-group-item #{class_for_todo(conference_progress['venue'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['venue']) }
-    - if can? :update, @conference.venue
+  %li{'class'=>"list-group-item #{class_for_todo(conference_progress['venue'])}"}
+    %span{'class'=>icon_for_todo(conference_progress['venue'])}
+    - if can? :update, Venue.new(conference: @conference)
+      - @conference.reload
       - if conference.venue
         = link_to 'Add venue', edit_admin_conference_venue_path(conference_progress['short_title'])
       - else
         = link_to 'Add venue', new_admin_conference_venue_path(conference_progress['short_title'])
     - else
+      - @conference.reload
       Add venue
   %li{ 'class' => "list-group-item #{class_for_todo(conference_progress['rooms'])}" }
     %span{ 'class' => icon_for_todo(conference_progress['rooms']) }
