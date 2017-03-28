@@ -76,6 +76,10 @@ Style/HashSyntax:
 Style/NilComparison:
   Enabled: true
 
+# Checks for redundant uses of self.
+Style/RedundantSelf:
+  Enabled: true
+
 # Use single quotes unless there's string interpolation
 Style/StringLiterals:
   Enabled: true

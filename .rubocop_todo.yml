@@ -527,22 +527,6 @@ Style/RedundantReturn:
   Exclude:
     - 'app/helpers/application_helper.rb'
 
-# Offense count: 61
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'app/models/ahoy/program.rb'
-    - 'app/models/call_for_paper.rb'
-    - 'app/models/cfp.rb'
-    - 'app/models/comment.rb'
-    - 'app/models/conference.rb'
-    - 'app/models/event.rb'
-    - 'app/models/program.rb'
-    - 'app/models/question.rb'
-    - 'app/models/ticket.rb'
-    - 'app/models/user.rb'
-    - 'app/models/venue.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.

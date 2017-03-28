@@ -27,7 +27,7 @@ class Comment < ActiveRecord::Base
 
   #helper method to check if a comment has children
   def has_children?
-    self.children.any?
+    children.any?
   end
 
   # Helper class method to lookup all comments assigned

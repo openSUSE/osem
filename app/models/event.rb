@@ -185,12 +185,12 @@ class Event < ActiveRecord::Base
     end
       begin
         if mail
-          self.send(transition,
-                    send_mail: send_mail_param)
+          send(transition,
+               send_mail: send_mail_param)
         else
-          self.send(transition)
+          send(transition)
         end
-        self.save
+        save
       rescue Transitions::InvalidTransition => e
         alert = "Update state failed. #{e.message}"
       end
@@ -210,12 +210,12 @@ class Event < ActiveRecord::Base
   # Returns +Hash+
   def progress_status
     {
-      registered: self.program.conference.user_registered?(self.submitter),
-      commercials: self.commercials.any?,
-      biography: !self.submitter.biography.blank?,
-      subtitle: !self.subtitle.blank?,
-      track: (!self.track.blank? unless self.program.tracks.empty?),
-      difficulty_level: !self.difficulty_level.blank?,
+      registered: program.conference.user_registered?(submitter),
+      commercials: commercials.any?,
+      biography: !submitter.biography.blank?,
+      subtitle: !subtitle.blank?,
+      track: (!track.blank? unless program.tracks.empty?),
+      difficulty_level: !difficulty_level.blank?,
       title: true,
       abstract: true
     }.with_indifferent_access
@@ -227,7 +227,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +String+ -> Progress in Percent
   def calculate_progress
-    result = self.progress_status
+    result = progress_status
     (100 * result.values.count(true) / result.values.compact.count).to_s
   end
 
@@ -280,8 +280,8 @@ class Event < ActiveRecord::Base
 
   def set_week
     self.week = created_at.strftime('%W')
-    self.without_versioning do
-      self.save!
+    without_versioning do
+      save!
     end
   end
 

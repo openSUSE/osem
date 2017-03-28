@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   # * +true+ if the user attended the event
   # * +false+ if the user did not attend the event
   def attended_event? event
-    event_registration = event.events_registrations.find_by(registration: self.registrations)
+    event_registration = event.events_registrations.find_by(registration: registrations)
 
     return false unless event_registration.present?
     event_registration.attended
@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
   end
 
   def subscribed? conference
-    self.subscriptions.find_by(conference_id: conference.id).present?
+    subscriptions.find_by(conference_id: conference.id).present?
   end
 
   def supports? conference
@@ -206,8 +206,8 @@ class User < ActiveRecord::Base
   # Check if biography has an allowed number of words. Used as validation.
   #
   def biography_limit
-    if self.biography.present?
-      errors.add(:biography, 'is limited to 150 words.') if self.biography.split.length > 150
+    if biography.present?
+      errors.add(:biography, 'is limited to 150 words.') if biography.split.length > 150
     end
   end
 end
