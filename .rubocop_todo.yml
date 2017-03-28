@@ -680,8 +680,3 @@ Style/UnneededInterpolation:
 Style/WordArray:
   EnforcedStyle: percent
   MinSize: 3
-
-# Offense count: 1
-Style/ZeroLengthPredicate:
-  Exclude:
-    - 'app/models/conference.rb'

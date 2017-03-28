@@ -464,7 +464,7 @@ class Conference < ActiveRecord::Base
     result = Conference.where('start_date > ?', Time.now).
         select('id, short_title, color, start_date')
 
-    if result.length == 0
+    if result.empty?
       result = Conference.
           select('id, short_title, color, start_date').limit(2).
           order(start_date: :desc)

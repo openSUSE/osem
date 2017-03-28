@@ -92,6 +92,10 @@ Style/TrailingBlankLines:
 Style/TrailingWhitespace:
   Enabled: true
 
+#This cop checks for numeric comparisons that can be replaced by a predicate method.
+Style/ZeroLengthPredicate:
+  Enabled: true
+
 #################### Metrics ###############################
 
 # Avoid deep blocks nesting
