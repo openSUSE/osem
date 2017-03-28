@@ -9,7 +9,7 @@
           = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
             = f.input :username, input_html: { required: true }
             = f.input :email, input_html: { required: true }
-            = f.input :name, input_html: { required: true }
+            = f.input :name
             = f.input :password, input_html: { required: true }
             = f.input :password_confirmation, input_html: { required: true }
             %p.text-right
