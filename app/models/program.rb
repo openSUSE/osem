@@ -115,7 +115,7 @@ class Program < ActiveRecord::Base
   # * +false+ -> If rating is not enabled
   # * +true+ -> If rating is enabled
   def rating_enabled?
-    self.rating && self.rating > 0
+    rating && rating > 0
   end
 
   ##
@@ -139,7 +139,7 @@ class Program < ActiveRecord::Base
   end
 
   def languages_list
-    self.languages.split(',').map {|l| ISO_639.find(l).english_name} if self.languages.present?
+    languages.split(',').map {|l| ISO_639.find(l).english_name} if languages.present?
   end
 
   ##
@@ -161,10 +161,10 @@ class Program < ActiveRecord::Base
   def create_event_types
     EventType.create(title: 'Talk', length: 30, color: '#FF0000', description: 'Presentation in lecture format',
                      minimum_abstract_length: 0,
-                     maximum_abstract_length: 500, program_id: self.id)
+                     maximum_abstract_length: 500, program_id: id)
     EventType.create(title: 'Workshop', length: 60, color: '#0000FF', description: 'Interactive hands-on practice',
                      minimum_abstract_length: 0,
-                     maximum_abstract_length: 500, program_id: self.id)
+                     maximum_abstract_length: 500, program_id: id)
     true
   end
 
@@ -174,13 +174,13 @@ class Program < ActiveRecord::Base
   def create_difficulty_levels
     DifficultyLevel.create(title: 'Easy',
                            description: 'Events are understandable for everyone without knowledge of the topic.',
-                           color: '#70EF69', program_id: self.id)
+                           color: '#70EF69', program_id: id)
     DifficultyLevel.create(title: 'Medium',
                            description: 'Events require a basic understanding of the topic.',
-                           color: '#EEEF69', program_id: self.id)
+                           color: '#EEEF69', program_id: id)
     DifficultyLevel.create(title: 'Hard',
                            description: 'Events require expert knowledge of the topic.',
-                           color: '#EF6E69', program_id: self.id)
+                           color: '#EF6E69', program_id: id)
     true
   end
 
@@ -188,12 +188,12 @@ class Program < ActiveRecord::Base
   # Check if languages string has the right format. Used as validation.
   #
   def check_languages_format
-    return unless self.languages.present?
+    return unless languages.present?
     # All white spaces are removed to allow languages to be separated by ',' and ', '. The languages string without spaces is saved
-    self.languages = self.languages.delete(' ').downcase
+    self.languages = languages.delete(' ').downcase
     errors.add(:languages, 'must be two letters separated by commas') && return unless
-    self.languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).present?
-    languages_array = self.languages.split(',')
+    languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).present?
+    languages_array = languages.split(',')
     # We check that languages are not repeated
     errors.add(:languages, "can't be repeated") && return unless languages_array.uniq!.nil?
     # We check if every language is a valid ISO 639-1 language
