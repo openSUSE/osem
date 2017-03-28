@@ -7,7 +7,7 @@ class Conference < ActiveRecord::Base
 
   default_scope { order('start_date DESC') }
 
-  has_paper_trail ignore: [:updated_at, :guid, :revision, :events_per_week], meta: { conference_id: :id }
+  has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
   has_and_belongs_to_many :questions
 
@@ -48,15 +48,15 @@ class Conference < ActiveRecord::Base
 
   mount_uploader :picture, PictureUploader, mount_on: :logo_file_name
 
-  validates_presence_of :title,
-                        :short_title,
-                        :start_date,
-                        :end_date,
-                        :start_hour,
-                        :end_hour
+  validates :title,
+            :short_title,
+            :start_date,
+            :end_date,
+            :start_hour,
+            :end_hour, presence: true
 
-  validates_uniqueness_of :short_title
-  validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
+  validates :short_title, uniqueness: true
+  validates :short_title, format: { with: /\A[a-zA-Z0-9_-]*\z/ }
   validates :registration_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # This validation is needed since a conference with a start date greater than the end date is not possible
@@ -559,7 +559,7 @@ class Conference < ActiveRecord::Base
     # do not notify unless one of the dates changed
     return false unless start_date_changed? || end_date_changed?
     # do not notify unless the mail content is set up
-    (!email_settings.conference_dates_updated_subject.blank? && !email_settings.conference_dates_updated_body.blank?)
+    (email_settings.conference_dates_updated_subject.present? && email_settings.conference_dates_updated_body.present?)
   end
 
   ##
@@ -575,7 +575,7 @@ class Conference < ActiveRecord::Base
     # do not notify unless one of the dates changed
     return false unless registration_period.start_date_changed? || registration_period.end_date_changed?
     # do not notify unless the mail content is set up
-    (!email_settings.conference_registration_dates_updated_subject.blank? && !email_settings.conference_registration_dates_updated_body.blank?)
+    (email_settings.conference_registration_dates_updated_subject.present? && email_settings.conference_registration_dates_updated_body.present?)
   end
 
   def registration_limit_exceeded?
@@ -699,7 +699,7 @@ class Conference < ActiveRecord::Base
     # Completed weeks
     events_per_week.each do |week, values|
       values.each do |state, value|
-        if [:confirmed, :unconfirmed].include?(state)
+        if %i(confirmed unconfirmed).include?(state)
           unless result[state.to_s.capitalize]
             result[state.to_s.capitalize] = {}
           end

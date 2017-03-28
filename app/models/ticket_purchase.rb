@@ -5,7 +5,7 @@ class TicketPurchase < ActiveRecord::Base
 
   validates :ticket_id, :user_id, :conference_id, :quantity, presence: true
 
-  validates_numericality_of :quantity, greater_than: 0
+  validates :quantity, numericality: { greater_than: 0 }
 
   delegate :title, to: :ticket
   delegate :description, to: :ticket
@@ -15,8 +15,8 @@ class TicketPurchase < ActiveRecord::Base
 
   scope :paid, -> { where(paid: true) }
   scope :unpaid, -> { where(paid: false) }
-  scope :by_conference, -> (conference) { where(conference_id: conference.id) }
-  scope :by_user, -> (user) { where(user_id: user.id) }
+  scope :by_conference, ->(conference) { where(conference_id: conference.id) }
+  scope :by_user, ->(user) { where(user_id: user.id) }
 
   def self.purchase(conference, user, purchases)
     errors = []

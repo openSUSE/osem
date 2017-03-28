@@ -160,6 +160,10 @@ Lint/Void:
 
 #################### Rails ###############################
 
-#  Enforce Rails specific style
+# Enforce Rails specific style
 Rails:
+  Enabled: true
+
+# Avoid use of old-style attribute validation
+Rails/Validation:
   Enabled: true

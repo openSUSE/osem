@@ -1,5 +1,5 @@
 class SponsorshipLevel < ActiveRecord::Base
-  validates_presence_of :title
+  validates :title, presence: true
   belongs_to :conference
   acts_as_list scope: :conference
   has_many :sponsors

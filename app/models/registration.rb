@@ -9,7 +9,7 @@ class Registration < ActiveRecord::Base
   has_many :events_registrations
   has_many :events, through: :events_registrations, dependent: :destroy
 
-  has_paper_trail ignore: [:updated_at, :week], meta: { conference_id: :conference_id }
+  has_paper_trail ignore: %i(updated_at week), meta: { conference_id: :conference_id }
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :qanswers
@@ -24,7 +24,7 @@ class Registration < ActiveRecord::Base
 
   validates :user, presence: true
 
-  validates_uniqueness_of :user_id, scope: :conference_id, message: 'already Registered!'
+  validates :user_id, uniqueness: { scope: :conference_id, message: 'already Registered!' }
   validate :registration_limit_not_exceed, on: :create
   validate :registration_to_events_only_if_present
 
