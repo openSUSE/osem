@@ -6,8 +6,8 @@
   .row
     .col-md-12
       = semantic_form_for(@user, url: user_path(@user.id)) do |f|
-        = f.input :name, as: :string
-        = f.input :nickname, as: :string
+        = f.input :name, as: :string, hint: 'This is your real name.'
+        = f.input :nickname, as: :string, hint: 'This is how the other users see you, not your real name'
         .control-label
           = "Avatar"
         = image_tag(@user.gravatar_url(size: '48'), title: "Yo #{@user.name}!", alt: '')
