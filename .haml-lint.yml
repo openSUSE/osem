@@ -1,3 +1,5 @@
+inherits_from: .haml-lint_todo.yml
+
 linters:
   AlignmentTabs:
     enabled: true
@@ -33,7 +35,7 @@ linters:
 
   IdNames:
     enabled: true
-    style: snake_case
+    style: lisp_case
 
   ImplicitDiv:
     enabled: true
@@ -46,7 +48,7 @@ linters:
 
   LineLength:
     enabled: true
-    max: 200
+    max: 500
 
   MultilinePipe:
     enabled: true
