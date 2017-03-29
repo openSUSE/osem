@@ -6,5 +6,5 @@ class Sponsor < ActiveRecord::Base
 
   mount_uploader :picture, PictureUploader, mount_on: :logo_file_name
 
-  validates_presence_of :name, :website_url, :sponsorship_level
+  validates :name, :website_url, :sponsorship_level, presence: true
 end

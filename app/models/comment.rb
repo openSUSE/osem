@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
-  acts_as_nested_set scope: [:commentable_id, :commentable_type]
-  validates_presence_of :body
-  validates_presence_of :user
+  acts_as_nested_set scope: %i(commentable_id commentable_type)
+  validates :body, presence: true
+  validates :user, presence: true
   after_create :send_notification
 
   # NOTE: install the acts_as_votable plugin if you
@@ -13,7 +13,7 @@ class Comment < ActiveRecord::Base
   # NOTE: Comments belong to a user
   belongs_to :user
 
-  has_paper_trail on: [:create, :destroy], meta: { conference_id: :conference_id }
+  has_paper_trail on: %i(create destroy), meta: { conference_id: :conference_id }
 
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text

@@ -13,7 +13,7 @@ class Ticket < ActiveRecord::Base
 
   validates :price_cents, :price_currency, :title, presence: true
 
-  validates_numericality_of :price_cents, greater_than_or_equal_to: 0
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }
 
   def bought?(user)
     buyers.include?(user)
