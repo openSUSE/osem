@@ -422,20 +422,6 @@ Style/MutableConstant:
     - 'app/models/event_user.rb'
     - 'app/models/role.rb'
 
-# Offense count: 16
-# Cop supports --auto-correct.
-Style/NegatedIf:
-  Exclude:
-    - 'app/controllers/admin/events_controller.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/conference_registrations_controller.rb'
-    - 'app/controllers/proposal_controller.rb'
-    - 'app/models/conference.rb'
-    - 'app/models/datatable.rb'
-    - 'app/models/event.rb'
-    - 'app/models/venue.rb'
-    - 'db/migrate/20140820093735_migrating_supporter_registrations_to_ticket_users.rb'
-
 # Offense count: 4
 Style/NestedParenthesizedCalls:
   Exclude:

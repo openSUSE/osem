@@ -63,14 +63,14 @@ Style/EmptyLiteral:
 Style/For:
   Enabled: true
 
-# Checks that operators have space around them, except for ** which should not have surrounding space.
-Style/SpaceAroundOperators:
-  Enabled: true
-
 # Use the new Ruby 1.9 hash syntax
 Style/HashSyntax:
   Enabled: true
   EnforcedStyle: ruby19
+
+# Checks for uses of if with negated condition. Use unless instead
+Style/NegatedIf:
+  Enabled: true
 
 # Do not compare with nil. Use .nil? instead
 Style/NilComparison:
@@ -78,6 +78,10 @@ Style/NilComparison:
 
 # Checks for redundant uses of self.
 Style/RedundantSelf:
+  Enabled: true
+
+# Checks that operators have space around them, except for ** which should not have surrounding space.
+Style/SpaceAroundOperators:
   Enabled: true
 
 # Use single quotes unless there's string interpolation

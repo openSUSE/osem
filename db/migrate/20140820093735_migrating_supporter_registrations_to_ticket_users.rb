@@ -30,7 +30,7 @@ class MigratingSupporterRegistrationsToTicketUsers < ActiveRecord::Migration
           s.save
         end
       end
-      if !s.user_id
+      unless s.user_id
         s.user_id = deleted_user.id
         s.save
       end
