@@ -60,6 +60,20 @@
           - else
             No
         %dt
+          Include Venue:
+        %dd
+          - if @splashpage.include_venue
+            Yes
+          - else
+            No
+        %dt
+          Include Lodgings:
+        %dd
+          - if @splashpage.include_lodgings
+            Yes
+          - else
+            No
+        %dt
           Public
         %dd
           - if @splashpage.public
