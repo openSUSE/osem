@@ -36,3 +36,4 @@ pickle-email-*.html
 .env.development
 .env.test
 .env.local
+docker-compose.{env,yml}
