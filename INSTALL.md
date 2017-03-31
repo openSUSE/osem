@@ -32,7 +32,9 @@ You can deploy OSEM using [Docker](https://docker.com/) and [Docker-Compose](htt
 
 *This is just a short guide and does not explain how to use Docker and/or Docker-Compose. You need some experience with these tools to be able to deploy OSEM with Docker properly.*
 
-First of all, copy `docker-compose.yml.example` to `docker-compose.yml` and `docker-compose.env.example` to `docker-compose.env`.
+First of all, copy `docker-compose.yml.example` to `docker-compose.yml` and `docker-compose.env.example` to `docker-compose.env`. You should immediately change
+`docker-compose.env`'s permissions to `0600` to make sure all the passphrases in it are kept secret.
+(Tip: the easiest and most secure way to do it is to do it with a single command, for example `install -m 0600 docker-compose.env.example docker-compose.env`).
 
 There are two configurations to deploy OSEM with Docker: *evaluation mode* and *production mode*.
 
