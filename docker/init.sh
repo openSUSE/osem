@@ -38,6 +38,8 @@ fi
 echo ">>> Upgrading database..."
 dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 60s bundle exec rake db:migrate
 
+rm .my.cnf
+
 echo ">>> Precompiling assets..."
 bundle exec rake assets:precompile
 
