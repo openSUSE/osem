@@ -19,7 +19,6 @@ RUN cd /usr/bin && \
 # explicitly add Gemfile and install dependencies using bundler to make use of
 # Docker's caching
 WORKDIR /osem/
-RUN gem install puma
 COPY Gemfile /osem/
 COPY Gemfile.lock /osem/
 RUN bundle install --without test development

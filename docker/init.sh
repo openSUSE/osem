@@ -42,4 +42,4 @@ echo ">>> Precompiling assets..."
 bundle exec rake assets:precompile
 
 echo ">>> Starting application server..."
-exec puma -e production
+exec bundle exec rails server -e production -p 9292
