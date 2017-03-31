@@ -4,7 +4,7 @@ MAINTAINER TheAssassin <theassassin@users.noreply.github.com>
 
 # required for compiling assets
 RUN apt-get update && \
-    apt-get install -y nodejs nodejs-legacy mariadb-client
+    apt-get install -y nodejs nodejs-legacy mariadb-client imagemagick
 
 # used to run the container without root permissions
 RUN adduser --home /osem/ --system --group --disabled-login --disabled-password osem
