@@ -13,6 +13,7 @@ describe Program do
     it { is_expected.to have_many(:tracks).dependent(:destroy) }
     it { is_expected.to have_many(:difficulty_levels).dependent(:destroy) }
     it { is_expected.to have_many(:events).dependent(:destroy) }
+    it { is_expected.to have_many(:event_schedules).through(:events) }
     it { is_expected.to have_many(:event_users).through(:events) }
     it { is_expected.to have_many(:speakers).through(:event_users).source(:user) }
 
@@ -31,6 +32,18 @@ describe Program do
     end
 
     it { is_expected.to validate_numericality_of(:rating).is_greater_than_or_equal_to(0).is_less_than_or_equal_to(10).only_integer }
+
+    it { is_expected.to validate_numericality_of(:schedule_interval).is_greater_than_or_equal_to(5).is_less_than_or_equal_to(60) }
+
+    describe 'schedule_interval_divisor_60' do
+      it 'is valid, when schedule_interval is divisor of 60' do
+        expect(build(:program, schedule_interval: 20)).to be_valid
+      end
+
+      it 'is not valid, when schedule_interval is not divisor of 60' do
+        expect(build(:program, schedule_interval: 35)).to_not be_valid
+      end
+    end
 
     describe 'voting_start_date_before_end_date' do
       it 'is valid, when voting_start_date is the same day as voting_end_date' do
@@ -164,6 +177,34 @@ describe Program do
       create(:program, conference_id: conference.id)
       conference.reload
       expect(conference.program.difficulty_levels.count).to eq 3
+    end
+  end
+
+  describe 'excecutes after_save functions' do
+    it 'and unschedule unfit events if schedule interval was changed' do
+      start_date = program.conference.start_date.to_datetime.change(hour: program.conference.start_hour)
+      create(:event_schedule, event: create(:event, program: program), start_time: start_date.change(min: program.schedule_interval))
+      create(:event_schedule, event: create(:event, program: program), start_time: start_date)
+      expect(program.event_schedules.count).to eq 2
+
+      program.schedule_interval = 10
+      program.save!
+      program.reload
+      expect(program.event_schedules.count).to eq 1
+      expect(program.event_schedules.first.start_time).to eq start_date
+    end
+
+    it 'and change event type length if schedule interval was changed' do
+      program.schedule_interval = 5
+      program.save!
+
+      program.event_types.first.update_attributes length: 5
+      program.event_types.last.update_attributes length: 25
+      create(:event_type, program: program, length: 30)
+
+      program.schedule_interval = 10
+      program.save!
+      expect(program.event_types.pluck(:length).sort).to eq [10, 20, 30]
     end
   end
 

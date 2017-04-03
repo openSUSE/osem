@@ -15,17 +15,13 @@ class EventType < ActiveRecord::Base
 
   alias_attribute :name, :title
 
-  # If LENGTH_STEP must be divisor of 60, otherwise the schedule wont be displayed properly
-
-  LENGTH_STEP = defined?(SCHEDULE_CELL_SIZE) ? SCHEDULE_CELL_SIZE : 15
-
   private
 
   ##
-  # Check if length is multiple of LENGTH_STEP. Used as validation.
+  # Check if length is a divisor of program schedule cell size. Used as validation.
   #
   def length_step
-    errors.add(:length, "must be multiple of #{LENGTH_STEP}") if length % LENGTH_STEP != 0
+    errors.add(:length, "must be a divisor of #{program.schedule_interval}") if program && length % program.schedule_interval != 0
   end
 
   def capitalize_color

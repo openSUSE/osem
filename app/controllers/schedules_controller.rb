@@ -14,7 +14,7 @@ class SchedulesController < ApplicationController
 
     @events_xml = schedules.map(&:event).group_by{ |event| event.time.to_date } if schedules
     @dates = @conference.start_date..@conference.end_date
-    @step_minutes = EventType::LENGTH_STEP.minutes
+    @step_minutes = @program.schedule_interval.minutes
     @conf_start = @conference.start_hour
     @conf_period = @conference.end_hour - @conf_start
 
