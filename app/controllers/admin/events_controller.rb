@@ -89,7 +89,7 @@ module Admin
         end
       else
         @url = admin_conference_program_event_path(@conference.short_title, @event)
-        flash[:error] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
+        flash.now[:error] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
         render :edit
       end
     end

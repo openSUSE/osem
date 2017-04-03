@@ -21,7 +21,7 @@ module Admin
         redirect_to admin_conference_program_cfp_path,
                     notice: 'Call for papers successfully created.'
       else
-        flash[:error] = "Creating the call for papers failed. #{@cfp.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating the call for papers failed. #{@cfp.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -37,7 +37,7 @@ module Admin
         redirect_to admin_conference_program_cfp_path(@conference.short_title),
                     notice: 'Call for papers successfully updated.'
       else
-        flash[:error] = "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}."
+        flash.now[:error] = "Updating call for papers failed. #{@cfp.errors.to_a.join('. ')}."
         render :new
       end
     end

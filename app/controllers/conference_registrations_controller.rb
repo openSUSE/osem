@@ -65,7 +65,7 @@ class ConferenceRegistrationsController < ApplicationController
                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       end
     else
-      flash[:error] = "Could not create your registration for #{@conference.title}: "\
+      flash.now[:error] = "Could not create your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
       render :new
     end
@@ -76,7 +76,7 @@ class ConferenceRegistrationsController < ApplicationController
       redirect_to  conference_conference_registration_path(@conference.short_title),
                    notice: 'Registration was successfully updated.'
     else
-      flash[:error] = "Could not update your registration for #{@conference.title}: "\
+      flash.now[:error] = "Could not update your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."
       render :edit
     end

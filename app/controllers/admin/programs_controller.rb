@@ -27,7 +27,7 @@ module Admin
       else
         respond_to do |format|
           format.html do
-            flash[:error] = "Updating program failed. #{@program.errors.to_a.join('. ')}."
+            flash.now[:error] = "Updating program failed. #{@program.errors.to_a.join('. ')}."
             render :new
           end
           format.js { render json: { errors: "The selected schedule couldn't been updated #{@program.errors.to_a.join('. ')}" }, status: 422 }
