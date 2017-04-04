@@ -12,8 +12,9 @@ fi
 SECRET_KEY_FILE="$DATA_DIR/secret_key"
 
 if [ ! -f "$SECRET_KEY_FILE" ]; then
+    echo ">>> Creating a new secret key file..."
     install -m 0600 /dev/null "$SECRET_KEY_FILE"
-    SECRET_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 100 | head -n 1)
+    SECRET_KEY=$(bundle exec rails secret)
     echo "$key" > "$SECRET_KEY_FILE"
     chmod -w "$SECRET_KEY_FILE"
 else
