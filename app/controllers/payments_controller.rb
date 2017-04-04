@@ -23,7 +23,7 @@ class PaymentsController < ApplicationController
     else
       @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
       @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
-      flash[:error] = @payment.errors.full_messages.to_sentence + ' Please try again with correct credentials.'
+      flash.now[:error] = @payment.errors.full_messages.to_sentence + ' Please try again with correct credentials.'
       render :new
     end
   end

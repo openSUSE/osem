@@ -20,7 +20,7 @@ module Admin
         redirect_to admin_conference_sponsors_path(conference_id: @conference.short_title),
                     notice: 'Sponsor successfully created.'
       else
-        flash[:error] = "Creating sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -31,7 +31,7 @@ module Admin
                     conference_id: @conference.short_title),
                     notice: 'Sponsor successfully updated.'
       else
-        flash[:error] = "Update sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
         render :edit
       end
     end

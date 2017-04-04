@@ -73,7 +73,7 @@ module Admin
         redirect_to admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully created.'
       else
-        flash[:error] = 'Could not create conference. ' + @conference.errors.full_messages.to_sentence
+        flash.now[:error] = 'Could not create conference. ' + @conference.errors.full_messages.to_sentence
         render action: 'new'
       end
     end

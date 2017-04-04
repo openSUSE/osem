@@ -19,7 +19,7 @@ module Admin
         redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title),
                     notice: 'Sponsorship level successfully created.'
       else
-        flash[:error] = "Creating Sponsorship Level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating Sponsorship Level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -30,7 +30,7 @@ module Admin
                     conference_id: @conference.short_title),
                     notice: 'Sponsorship level successfully updated.'
       else
-        flash[:error] = "Update Sponsorship level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update Sponsorship level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."
         render :edit
       end
     end

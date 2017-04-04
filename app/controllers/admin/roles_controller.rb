@@ -27,7 +27,7 @@ module Admin
                     notice: 'Successfully updated role ' + @role.name
       else
         @role.name = role_name
-        flash[:error] = 'Could not update role! ' + @role.errors.full_messages.to_sentence
+        flash.now[:error] = 'Could not update role! ' + @role.errors.full_messages.to_sentence
         render :edit
       end
     end
