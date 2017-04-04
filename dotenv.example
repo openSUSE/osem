@@ -37,6 +37,10 @@ OSEM_FACEBOOK_SECRET=''
 OSEM_GITHUB_KEY=''
 OSEM_GITHUB_SECRET=''
 
+# OMNIAUTH Developer KEY/Secret for SUSE/openSUSE
+OSEM_SUSE_KEY=''
+OSEM_SUSE_SECRET=''
+
 # STRIPE Publishable/Secret keys
 # test keys for development mode, live for production mode
 STRIPE_PUBLISHABLE_KEY=''

@@ -43,6 +43,8 @@ There are a couple of environment variables you can set to configure OSEM. Check
 | OSEM_FACEBOOK_SECRET | *string*		| OMNIAUTH Developer Secret for Facebook
 | OSEM_GITHUB_KEY | *string*			| OMNIAUTH Developer Key for GitHub
 | OSEM_GITHUB_SECRET | *string*			| OMNIAUTH Developer Secret for GitHub
+| OSEM_SUSE_KEY | *string*			| OMNIAUTH Developer Key for openSUSE
+| OSEM_SUSE_SECRET | *string*			| OMNIAUTH Developer Secret for openSUSE
 | OSEM_SMTP_ADDRESS		| smtp.opensuse.org		| The smtp server to use
 | OSEM_SMTP_PORT		| *int*				| The port on the smtp server
 | OSEM_SMTP_USERNAME		| *string*			| The user for the smtp server
@@ -69,7 +71,7 @@ $ bundle exec rake logo:reprocess
 ```
 
 ### openID
-In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys, changing the existing sample values, in `config/secrets.yml` file, or in your environment variables found in *.env.production* file.
+In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in the environment variables found in your *.env* file(s).
 
 ## Recurring Jobs
 Open a separate terminal and go into the directory where the rails app is present, and type the following to start the delayed_jobs worker for sending email notifications.
