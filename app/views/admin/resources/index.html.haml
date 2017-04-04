@@ -10,7 +10,7 @@
       %table.table.table-hover.datatable
         %thead
           %th Name
-          %th Left( Left/Total )
+          %th Remaining / Total
           %th Used
           %th Actions
         %tbody
@@ -20,9 +20,18 @@
                 = link_to(admin_conference_resource_path(@conference.short_title, resource.id)) do
                   = resource.name
                 %td
-                  = quantity_left_of(resource)
+                  .btn-group.hidden-sm.hidden-xs
+                    %span{ id: "group_large_update_actions_#{resource.id}" }
+                      = render partial: 'update_links',
+                          locals: { conference: @conference, resource: resource }
+
+                  .btn-group-vertical.visible-sm.visible-xs
+                    %span{ id: "group_small_update_actions_#{resource.id}" }
+                      = render partial: 'update_links',
+                          locals: { conference: @conference, resource: resource}
                 %td
-                  = resource.used
+                  %span{ id: "resource_used_#{resource.id}" }
+                    = resource.used
                 %td
                   .btn-group
                     = link_to 'Edit', edit_admin_conference_resource_path(@conference.short_title, resource.id),
@@ -33,4 +42,5 @@
 .row
   .col-md-12
     = link_to 'Add Resource', new_admin_conference_resource_path, class: 'btn btn-success pull-right', disabled: !(can? :create, Resource.new(conference_id: @conference_id))
+
 

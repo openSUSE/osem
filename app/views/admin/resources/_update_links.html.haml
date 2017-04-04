@@ -1,0 +1,17 @@
+= link_to admin_conference_resource_path(conference.short_title,
+  resource, increment_used_resource_flag: 0), method: :put,
+  title: "Free 1 #{resource.name}",
+  class: "btn btn-primary #{'disabled' if resource.used <= 0}",
+  remote: true do
+  %span.fa.fa-minus.fa-2x.update_action
+%button.btn.btn-default.quantity_left.disabled.action-btn
+  %span{ id: "resource_left_#{resource.id}" }
+    = quantity_left_of(resource)
+= link_to admin_conference_resource_path(conference.short_title,
+  resource, increment_used_resource_flag: 1), method: :put,
+  title: "Use 1 #{resource.name}",
+  class: "btn btn-primary #{'disabled' if resource.used >= resource.quantity}",
+  remote: true do
+  %span.fa.fa-plus.fa-2x.update_action
+
+

@@ -57,3 +57,5 @@ $(document).ready(function() {
         delegateSelector: 'a.smoothscroll'
     });
 });
+
+UnobtrusiveFlash.flashOptions['timeout'] = 3000;
