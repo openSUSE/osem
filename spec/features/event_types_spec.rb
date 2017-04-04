@@ -38,7 +38,7 @@ feature EventType do
 
       # Remove event type
       within('tr', text: 'Party') do
-	click_link 'Delete'
+        click_link 'Delete'
       end
       expect(flash).to eq('Event type successfully deleted.')
 

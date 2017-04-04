@@ -21,7 +21,7 @@ class ChangeLodgingAssociationToConference < ActiveRecord::Migration
         venue = TempVenue.find_by(conference_id: conference.id)
         lodgings = TempLodging.where(venue_id: venue.id)
         lodgings.each do |lodging|
-	  lodging.update_attributes(conference_id: conference.id)
+          lodging.update_attributes(conference_id: conference.id)
         end
       end
     end

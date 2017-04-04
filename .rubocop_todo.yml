@@ -609,17 +609,6 @@ Style/SymbolProc:
     - 'spec/controllers/admin/conferences_controller_spec.rb'
     - 'spec/support/flash.rb'
 
-# Offense count: 23
-# Cop supports --auto-correct.
-Style/Tab:
-  Exclude:
-    - 'db/migrate/20141031225545_add_require_handicapped_access_to_questions.rb'
-    - 'db/migrate/20141031225606_add_attending_with_partner_to_questions.rb'
-    - 'db/migrate/20141031225620_add_staying_at_suggested_hotel_to_questions.rb'
-    - 'db/migrate/20141031225635_add_attending_social_events_to_questions.rb'
-    - 'db/migrate/20141118162030_change_lodging_association_to_conference.rb'
-    - 'spec/features/campaign_spec.rb'
-    - 'spec/features/event_types_spec.rb'
 
 # Offense count: 26
 # Cop supports --auto-correct.
