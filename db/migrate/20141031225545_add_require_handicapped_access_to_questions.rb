@@ -75,11 +75,11 @@ class AddRequireHandicappedAccessToQuestions < ActiveRecord::Migration
       TempConferencesQuestions.find_or_create_by!(conference_id: c.id, question_id: q.id)
 
       TempRegistration.where(conference_id: c.id).each do |r|
-	if r.handicapped_access_required
-	  TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_yes.id)
-	else
-	  TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_no.id)
-	end
+        if r.handicapped_access_required
+          TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_yes.id)
+        else
+          TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_no.id)
+        end
       end
     end
     remove_column :registrations, :handicapped_access_required, :boolean

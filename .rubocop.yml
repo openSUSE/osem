@@ -88,6 +88,10 @@ Style/SpaceAroundOperators:
 Style/StringLiterals:
   Enabled: true
 
+# This cop checks for tabs where spaces should be used.
+Style/Tab:
+  Enabled: true
+
 # Avoid trailing blank lines
 Style/TrailingBlankLines:
   Enabled: true
