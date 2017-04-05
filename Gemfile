@@ -84,11 +84,6 @@ gem 'jquery-ui-rails', '~> 4.2.1'
 # for languages validation
 gem 'iso-639'
 
-# geocoder 
-# gem 'geocoder'
-##execute gem install geocoder serverside and uncomment the above line
-
-
 # frontend javascripts
 source 'https://rails-assets.org' do
   # for placeholder images
