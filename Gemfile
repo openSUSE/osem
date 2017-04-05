@@ -239,3 +239,5 @@ group :development, :test do
   # as debugger
   gem 'byebug'
 end
+
+gem 'geocoder'
