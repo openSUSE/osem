@@ -1,5 +1,5 @@
 module Admin
-  class ResourcesController < ApplicationController
+  class ResourcesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :resource, only: [:show, :edit, :update, :destroy]
 
