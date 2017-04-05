@@ -8,7 +8,7 @@
         -# Index admin sidebar
         = render 'layouts/admin_sidebar_index'
     .col-md-10
-      #messages
+      #messages.unobtrusive-flash-container
         =render 'layouts/messages'
       #content
         = yield
