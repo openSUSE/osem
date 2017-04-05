@@ -158,6 +158,10 @@ Lint/UselessAssignment:
 Lint/Void:
   Enabled: true
 
+# Do not use duplicated keys in hash literals.
+Lint/DuplicatedKey:
+  Enabled: true
+
 #################### Rails ###############################
 
 # Enforce Rails specific style
