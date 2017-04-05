@@ -23,11 +23,9 @@ feature Room do
       click_button 'Create Room'
 
       # Validations
-      expect(flash).to eq('Room successfully created.')
-      within('table#rooms') do
-        expect(page.has_content?('Auditorium')).to be true
-        expect(page.assert_selector('tr', count: 2)).to be true
-      end
+      expect(page).to have_css '#messages', text: 'Room successfully created.'
+      expect(page).to have_css '#room_size', text: ''
+      expect(page).to have_css '#room_name', text: ''
     end
 
     scenario 'updates a room', feature: true, js: true do

@@ -48,13 +48,9 @@ describe Admin::RoomsController do
     end
 
     describe 'POST #create' do
-      context 'saves successfuly' do
+      context 'saves successfuly', js: true do
         before do
-          post :create, room: attributes_for(:room), conference_id: conference.short_title
-        end
-
-        it 'redirects to admin room index path' do
-          expect(response).to redirect_to admin_conference_venue_rooms_path(conference_id: conference.short_title)
+          xhr :post, :create, room: attributes_for(:room), conference_id: conference.short_title
         end
 
         it 'shows success message in flash notice' do
@@ -69,11 +65,7 @@ describe Admin::RoomsController do
       context 'save fails' do
         before do
           allow_any_instance_of(Room).to receive(:save).and_return(false)
-          post :create, room: attributes_for(:room), conference_id: conference.short_title
-        end
-
-        it 'renders new template' do
-          expect(response).to render_template('new')
+          xhr :post, :create, room: attributes_for(:room), conference_id: conference.short_title
         end
 
         it 'shows error in flash message' do
