@@ -11,27 +11,6 @@
     .col-md-8
       %dl.dl-horizontal
         %dt
-          Include Tickets:
-        %dd
-          - if @splashpage.include_tickets
-            Yes
-          - else
-            No
-        %dt
-          Include Sponsors:
-        %dd
-          - if @splashpage.include_sponsors
-            Yes
-          - else
-            No
-        %dt
-          Include Registrations:
-        %dd
-          - if @splashpage.include_registrations
-            Yes
-          - else
-            No
-        %dt
           Include Tracks:
         %dd
           - if @splashpage.include_tracks
@@ -53,23 +32,44 @@
           - else
             No
         %dt
+          Include Venue:
+        %dd
+          -if @splashpage.include_venue
+            Yes
+          -else
+            No
+        %dt
+          Include Registrations:
+        %dd
+          - if @splashpage.include_registrations
+            Yes
+          - else
+            No
+        %dt
+          Include Tickets:
+        %dd
+          - if @splashpage.include_tickets
+            Yes
+          - else
+            No
+        %dt
+          Include Lodgins
+        %dd
+          -if @splashpage.include_lodgings
+            Yes
+          -else
+            No
+        %dt
+          Include Sponsors:
+        %dd
+          - if @splashpage.include_sponsors
+            Yes
+          - else
+            No
+        %dt
           Include Social Media:
         %dd
           - if @splashpage.include_social_media
-            Yes
-          - else
-            No
-        %dt
-          Include Venue:
-        %dd
-          - if @splashpage.include_venue
-            Yes
-          - else
-            No
-        %dt
-          Include Lodgings:
-        %dd
-          - if @splashpage.include_lodgings
             Yes
           - else
             No
