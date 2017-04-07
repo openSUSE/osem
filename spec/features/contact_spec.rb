@@ -25,8 +25,8 @@ feature Contact do
 
       click_button 'Update Contact'
 
-      expect(flash).
-          to eq('Contact details were successfully updated.')
+      expect(flash)
+          .to eq('Contact details were successfully updated.')
       contact.reload
       expect(contact.email).to eq('example@example.com')
       expect(contact.sponsor_email).to eq('sponsor@example.com')

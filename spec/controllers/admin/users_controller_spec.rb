@@ -42,8 +42,8 @@ describe Admin::UsersController do
       end
       it 'changes @users attributes' do
         expect(build(
-          :user, email: 'email_new@osem.io', id: user.id).email).
-              to eq('email_new@osem.io')
+          :user, email: 'email_new@osem.io', id: user.id).email)
+              .to eq('email_new@osem.io')
       end
       it 'redirects to the updated user' do
         expect(response).to redirect_to admin_users_path

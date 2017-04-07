@@ -39,6 +39,10 @@ Style/CaseEquality:
 Style/ClassAndModuleChildren:
   Enabled: true
 
+# Checks the . position in multi-line method calls.
+Style/DotPosition:
+  Enabled: true
+
 # Checks for uses of double negation (!!) to convert something to a boolean value.
 Style/DoubleNegation:
   Enabled: true

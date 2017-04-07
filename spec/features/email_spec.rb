@@ -53,39 +53,39 @@ feature EmailSettings do
 
       click_button 'Update Email settings'
 
-      expect(flash).
-          to eq('Email settings have been successfully updated.')
+      expect(flash)
+          .to eq('Email settings have been successfully updated.')
 
-      expect(find('#email_settings_registration_subject').
-                 value).to eq('Registration subject')
-      expect(find('#email_settings_registration_body').
-                 value).to eq('Registration email body')
+      expect(find('#email_settings_registration_subject')
+                 .value).to eq('Registration subject')
+      expect(find('#email_settings_registration_body')
+                 .value).to eq('Registration email body')
       click_link 'Proposal'
-      expect(find('#email_settings_accepted_subject').
-                 value).to eq('Accepted subject')
-      expect(find('#email_settings_accepted_body').
-                 value).to eq('Accepted email body')
-      expect(find('#email_settings_rejected_subject').
-                 value).to eq('Rejected subject')
-      expect(find('#email_settings_rejected_body').
-                 value).to eq('Rejected email body')
-      expect(find('#email_settings_confirmed_without_registration_subject').
-                 value).to eq('Confirmed without registration subject')
-      expect(find('#email_settings_confirmed_without_registration_body').
-                 value).to eq('Confirmed without registration email body')
+      expect(find('#email_settings_accepted_subject')
+                 .value).to eq('Accepted subject')
+      expect(find('#email_settings_accepted_body')
+                 .value).to eq('Accepted email body')
+      expect(find('#email_settings_rejected_subject')
+                 .value).to eq('Rejected subject')
+      expect(find('#email_settings_rejected_body')
+                 .value).to eq('Rejected email body')
+      expect(find('#email_settings_confirmed_without_registration_subject')
+                 .value).to eq('Confirmed without registration subject')
+      expect(find('#email_settings_confirmed_without_registration_body')
+                 .value).to eq('Confirmed without registration email body')
       click_link 'Update Notifications'
-      expect(find('#email_settings_conference_dates_updated_subject').
-                 value).to eq('Updated conference dates subject')
-      expect(find('#email_settings_conference_dates_updated_body').
-                 value).to eq('Updated conference dates email template')
-      expect(find('#email_settings_conference_registration_dates_updated_subject').
-                 value).to eq('Updated conference registration dates subject')
-      expect(find('#email_settings_conference_registration_dates_updated_body').
-                 value).to eq('Updated conference registration dates template')
-      expect(find('#email_settings_venue_updated_subject').
-                 value).to eq('Updated conference venue subject')
-      expect(find('#email_settings_venue_updated_body').
-                 value).to eq('Updated conference venue template')
+      expect(find('#email_settings_conference_dates_updated_subject')
+                 .value).to eq('Updated conference dates subject')
+      expect(find('#email_settings_conference_dates_updated_body')
+                 .value).to eq('Updated conference dates email template')
+      expect(find('#email_settings_conference_registration_dates_updated_subject')
+                 .value).to eq('Updated conference registration dates subject')
+      expect(find('#email_settings_conference_registration_dates_updated_body')
+                 .value).to eq('Updated conference registration dates template')
+      expect(find('#email_settings_venue_updated_subject')
+                 .value).to eq('Updated conference venue subject')
+      expect(find('#email_settings_venue_updated_body')
+                 .value).to eq('Updated conference venue template')
 
       expect(EmailSettings.count).to eq(expected_count)
 

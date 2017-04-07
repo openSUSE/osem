@@ -743,8 +743,8 @@ describe Conference do
       c = create(:conference, start_date: Time.now - 1.year, end_date: Time.now - 360.days)
       result = [a, b, c]
 
-      expect(Conference.get_conferences_without_active_for_dashboard([subject])).
-          to match_array(result)
+      expect(Conference.get_conferences_without_active_for_dashboard([subject]))
+          .to match_array(result)
     end
 
     it 'returns all conferences if there are no active conferences' do
