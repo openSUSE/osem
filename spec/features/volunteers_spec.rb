@@ -27,8 +27,8 @@ feature Conference do
 #         find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
 #           set('Example Person')
       click_button 'Update Conference'
-      expect(flash).
-      to eq('Volunteering options were successfully updated.')
+      expect(flash)
+      .to eq('Volunteering options were successfully updated.')
 
 #       # Validations
 #       expect(find('div.nested-fields:nth-of-type(1) select:nth-of-type(1)').
@@ -73,8 +73,8 @@ feature Conference do
 #         find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
 #         set('Example Person')
       click_button 'Update Conference'
-      expect(flash).
-      to eq('Volunteering options were successfully updated.')
+      expect(flash)
+      .to eq('Volunteering options were successfully updated.')
 
       # Add vposition
       check('Use vpositions')
@@ -90,8 +90,8 @@ feature Conference do
 #                  "[id$='_vday_ids']").
 #                       find(:option, "#{Date.today.strftime}").select_option
       click_button 'Update Conference'
-      expect(flash).
-      to eq('Volunteering options were successfully updated.')
+      expect(flash)
+      .to eq('Volunteering options were successfully updated.')
 
       # Validations
 #       expect(find('div.vpositions div.nested-fields:nth-of-type(1)'\

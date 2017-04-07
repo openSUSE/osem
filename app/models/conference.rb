@@ -180,8 +180,8 @@ class Conference < ActiveRecord::Base
     if registration_period &&
         registration_period.start_date &&
         registration_period.end_date
-      weeks = Date.new(registration_period.start_date.year, 12, 31).
-          strftime('%W').to_i
+      weeks = Date.new(registration_period.start_date.year, 12, 31)
+          .strftime('%W').to_i
 
       result = get_registration_end_week - get_registration_start_week + 1
     end
@@ -277,9 +277,9 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
-    submitter = EventUser.joins(:event).
-        where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id).
-        limit(limit).group(:user_id)
+    submitter = EventUser.joins(:event)
+        .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
+        .limit(limit).group(:user_id)
     counter = submitter.order('count_all desc').count
     Conference.calculate_user_submission_hash(submitter, counter)
   end
@@ -461,13 +461,13 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
-    result = Conference.where('start_date > ?', Time.now).
-        select('id, short_title, color, start_date')
+    result = Conference.where('start_date > ?', Time.now)
+        .select('id, short_title, color, start_date')
 
     if result.empty?
-      result = Conference.
-          select('id, short_title, color, start_date').limit(2).
-          order(start_date: :desc)
+      result = Conference
+          .select('id, short_title, color, start_date').limit(2)
+          .order(start_date: :desc)
     end
     result
   end

@@ -417,10 +417,10 @@ module ApplicationHelper
   # Eg: If version.changeset = '{"title"=>[nil, "Premium"], "description"=>[nil, "Premium = Super cool"], "conference_id"=>[nil, 3]}'
   # Output will be 'title, description and conference'
   def updated_attributes(version)
-    version.changeset.
-      reject{ |_, values| values[0].blank? && values[1].blank? }.
-      keys.map{ |key| key.gsub('_id', '').tr('_', ' ')}.join(', ').
-      reverse.sub(',', ' dna ').reverse
+    version.changeset
+      .reject{ |_, values| values[0].blank? && values[1].blank? }
+      .keys.map{ |key| key.gsub('_id', '').tr('_', ' ')}.join(', ')
+      .reverse.sub(',', ' dna ').reverse
   end
 
   def link_to_user(user_id)

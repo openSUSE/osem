@@ -108,8 +108,8 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def registration_params
-    params.require(:registration).
-        permit(
+    params.require(:registration)
+        .permit(
           :conference_id, :arrival, :departure,
           :volunteer,
           vchoice_ids: [], qanswer_ids: [],
