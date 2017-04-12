@@ -202,7 +202,7 @@ group :development do
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
   # for static code analisys
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.48.1', require: false
   # as database
   gem 'sqlite3'
   # to open mails
