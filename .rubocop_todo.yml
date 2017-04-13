@@ -321,7 +321,12 @@ Style/CommentIndentation:
 # SupportedStyles: assign_to_condition, assign_inside_condition
 Style/ConditionalAssignment:
   Exclude:
+    - 'app/controllers/admin/volunteers_controller.rb'
+    - 'app/controllers/conference_registrations_controller.rb'
     - 'app/helpers/application_helper.rb'
+    - 'app/models/conference.rb'
+    - 'app/models/ticket_purchase.rb'
+    - 'app/models/user.rb'
     - 'db/migrate/20140610165551_migrate_data_person_to_user.rb'
     - 'db/migrate/20140820124117_undo_wrong_migration20140801080705_add_users_to_events.rb'
 
