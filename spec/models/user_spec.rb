@@ -426,4 +426,10 @@ describe User do
       expect(user.events_registrations).to eq [@events_registration1, @events_registration2]
     end
   end
+
+  describe '.omniauth_providers' do
+    it 'contains providers' do
+      expect(User.omniauth_providers).to eq [:suse, :google, :facebook, :github]
+    end
+  end
 end
