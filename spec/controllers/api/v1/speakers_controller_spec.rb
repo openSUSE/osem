@@ -10,8 +10,8 @@ describe Api::V1::SpeakersController do
 
   describe 'GET #index' do
     before do
-      event.event_users << create(:speaker, user: speaker)
-      conference_event.event_users << create(:speaker, user: conference_speaker)
+      event.speakers = [speaker]
+      conference_event.speakers = [conference_speaker]
     end
 
     context 'without conference scope' do
@@ -20,7 +20,6 @@ describe Api::V1::SpeakersController do
         get :index, format: :json
         json = JSON.parse(response.body)['speakers']
         expect(response).to be_success
-
         expect(json.length).to eq(2)
         expect(json[0]['name']).to eq('Speaker')
         expect(json[1]['name']).to eq('Conf_Speaker')

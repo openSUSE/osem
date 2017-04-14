@@ -13,9 +13,8 @@ class ProposalsController < ApplicationController
   end
 
   def show
-    # FIXME: We should show more than the first speaker
-    @speaker = @event.speakers.first || @event.submitter
     @event_schedule = @event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
+    @speakers_ordered = @event.speakers_ordered
   end
 
   def new
@@ -26,6 +25,7 @@ class ProposalsController < ApplicationController
 
   def edit
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
+    @users = User.all.order(:name)
     @languages = @program.languages_list
   end
 
@@ -48,11 +48,8 @@ class ProposalsController < ApplicationController
 
     # User which creates the proposal is both `submitter` and `speaker` of proposal
     # by default.
-    # TODO: Allow submitter to add speakers to proposals
-    @event.event_users.new(user: current_user,
-                           event_role: 'submitter')
-    @event.event_users.new(user: current_user,
-                           event_role: 'speaker')
+    @event.speakers = [current_user]
+    @event.submitter = current_user
     if @event.save
       ahoy.track 'Event submission', title: 'New submission'
       redirect_to conference_program_proposals_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
@@ -64,6 +61,7 @@ class ProposalsController < ApplicationController
 
   def update
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
+    @users = User.all.order(:name)
 
     if @event.update(event_params)
       redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
@@ -147,7 +145,9 @@ class ProposalsController < ApplicationController
   def event_params
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :description,
-                                  :require_registration, :max_attendees, :language)
+                                  :require_registration, :max_attendees, :language,
+                                  speaker_ids: []
+                                 )
   end
 
   def user_params

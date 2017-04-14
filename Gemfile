@@ -193,6 +193,9 @@ gem 'stripe'
 # Provides Sprockets implementation for Rails Asset Pipeline
 gem 'sprockets-rails'
 
+# for multiple speakers select on proposal/event forms
+gem 'selectize-rails'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified

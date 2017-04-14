@@ -11,11 +11,11 @@
         = markdown(@user.biography)
   .row
     .col-md-12
-      - if @user.events.confirmed.any?
+      - if @user.presented_events.confirmed.any?
         %h3
-          = "#{@user.name} presents #{pluralize(@user.events.confirmed.count, 'Event')}:"
+          = "#{@user.name} presents #{pluralize(@user.presented_events.confirmed.count, 'Event')}:"
         %ul.list-unstyled
-          - @user.events.confirmed.each do |event|
+          - @user.presented_events.confirmed.each do |event|
             %li
               %h4
                 = link_to event.title, conference_program_proposal_path(event.program.conference.short_title, event.id)

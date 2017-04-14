@@ -459,6 +459,7 @@ GEM
       sass (~> 3.2.2)
       sprockets (~> 2.8, < 2.12)
       sprockets-rails (~> 2.0)
+    selectize-rails (0.12.4)
     shoulda-matchers (2.6.1)
       activesupport (>= 3.0.0)
     simplecov (0.11.2)
@@ -621,6 +622,7 @@ DEPENDENCIES
   rubocop
   ruby-oembed
   sass-rails (>= 4.0.2)
+  selectize-rails
   shoulda-matchers
   spring-commands-rspec
   sprockets-rails
@@ -638,3 +640,4 @@ DEPENDENCIES
 
 BUNDLED WITH
    1.14.3
+
