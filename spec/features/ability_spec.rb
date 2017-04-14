@@ -129,7 +129,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Commercials', href: "/admin/conferences/#{conference2.short_title}/commercials")
     expect(page).to have_link('Events', href: "/admin/conferences/#{conference2.short_title}/program/events")
     expect(page).to_not have_link('Registrations', href: "/admin/conferences/#{conference2.short_title}/registrations")
-    expect(page).to_not have_link('Schedules', href: "/admin/conferences/#{conference2.short_title}/schedules")
+    expect(page).to have_link('Schedules', href: "/admin/conferences/#{conference2.short_title}/schedules")
     expect(page).to_not have_link('Campaigns', href: "/admin/conferences/#{conference2.short_title}/campaigns")
     expect(page).to_not have_link('Goals', href: "/admin/conferences/#{conference2.short_title}/targets")
     expect(page).to have_link('Venue', href: "/admin/conferences/#{conference2.short_title}/venue")
@@ -161,7 +161,7 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(admin_conference_program_events_path(conference2.short_title))
 
     visit admin_conference_schedules_path(conference2.short_title)
-    expect(current_path).to eq(root_path)
+    expect(current_path).to eq(admin_conference_schedules_path(conference2.short_title))
 
     visit admin_conference_campaigns_path(conference2.short_title)
     expect(current_path).to eq(root_path)

@@ -274,7 +274,7 @@ describe 'User' do
       it{ should_not be_able_to(:manage, conference_public.questions.first) }
       it{ should be_able_to(:manage, my_conference.program.cfp) }
       it{ should_not be_able_to(:manage, conference_public.program.cfp) }
-      it{ should_not be_able_to(:manage, my_schedule) }
+      it{ should be_able_to(:manage, my_schedule) }
       it{ should_not be_able_to(:manage, other_schedule) }
       it{ should_not be_able_to(:manage, my_event_schedule) }
       it{ should_not be_able_to(:manage, other_event_schedule) }

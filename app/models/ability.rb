@@ -198,6 +198,7 @@ class Ability
     can :manage, Track, program: { conference_id: conf_ids_for_cfp }
     can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_cfp }
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
+    can :manage, Schedule, program: { conference_id: conf_ids_for_cfp }
     can :manage, Room, venue: { conference_id: conf_ids_for_cfp }
     can :show, Venue, conference_id: conf_ids_for_cfp
     can :show, Commercial, commercialable_type: 'Venue', commercialable_id: Venue.where(conference_id: conf_ids_for_cfp).pluck(:id)
