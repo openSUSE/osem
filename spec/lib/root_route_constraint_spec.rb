@@ -34,6 +34,5 @@ describe RootRouteConstraint do
       constraint = RootRouteConstraint.new
       expect(constraint.matches?).to eq false
     end
-
   end
 end

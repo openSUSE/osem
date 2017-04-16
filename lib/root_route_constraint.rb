@@ -1,6 +1,7 @@
 class RootRouteConstraint
   def initialize
-    @current = Conference.where('start_date <= ? AND end_date >= ?', Date.current, Date.current).reorder(start_date: :asc)
+    @current = Conference.where('start_date <= ? AND end_date >= ?', Date.current, Date.current)
+    @current = Conference.where('start_date = ?', Date.current + 1) if @current.blank?
   end
 
   ##
@@ -10,10 +11,6 @@ class RootRouteConstraint
   # * +true+ -> only one conferene is live AND the conference has public splashpage
   # * +false+ -> no or more than one conferences are live or the only live conferece has no public splashpage
   def matches?(*)
-    if @current.present? && @current.first.splashpage.present?
-      @current.count == 1 && @current.first.splashpage.public?
-    else
-      false
-    end
+    @current.present? && @current.first.splashpage.present? && @current.count == 1 && @current.first.splashpage.public?
   end
 end
