@@ -101,11 +101,11 @@
 .row
   .col-md-8
     %ul.nav.nav-tabs#recentTable
-      %li.active
+      %li{ 'class' => "active disabled" }
         %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
           %span.fa.fa-user
           Recent Registrations
-      %li
+      %li{ 'class' => "disabled" }
         %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
           %span.fa.fa-file-text
           Recent Submissions
