@@ -778,6 +778,28 @@ describe Conference do
     end
   end
 
+  describe '#scheduled_event_distribution' do
+    let(:conference) { create(:conference) }
+    let(:confirmed_unscheduled_event) { create(:event, program: conference.program, state: 'confirmed') }
+    let(:confirmed_scheduled_event) { create(:event_scheduled, program: conference.program) }
+
+    it '#scheduled_event_distribution does calculate correct values with events' do
+      confirmed_unscheduled_event
+      confirmed_scheduled_event
+      result = {}
+      result['Scheduled'] = { 'value' => 1, 'color' => 'green' }
+      result['Unscheduled'] = { 'value' => 1, 'color' => 'red' }
+      expect(conference.scheduled_event_distribution).to eq(result)
+    end
+
+    it '#scheduled_event_distribution does calculate correct values with no events' do
+      result = {}
+      result['Scheduled'] = { 'value' => 0, 'color' => 'green' }
+      result['Unscheduled'] = { 'value' => 0, 'color' => 'red' }
+      expect(conference.scheduled_event_distribution).to eq(result)
+    end
+  end
+
   describe '#event_distribution' do
 
     before(:each) do
