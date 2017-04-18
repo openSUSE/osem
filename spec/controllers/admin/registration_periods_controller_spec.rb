@@ -144,6 +144,9 @@ describe Admin::RegistrationPeriodsController do
       it 'it deletes the registration period' do
         expect { delete :destroy, conference_id: conference.short_title }.to change(RegistrationPeriod, :count).by(-1)
       end
+      it 'it deletes the conference tickets' do
+        expect { delete :destroy, conference_id: conference.short_title }.to change(TicketPurchase, :count).by(-1)
+      end
       it 'redirects to users#show' do
         delete :destroy, conference_id: conference.short_title
         expect(response).to redirect_to admin_conference_registration_period_path
