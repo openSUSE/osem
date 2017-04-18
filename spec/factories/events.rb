@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :event do
-    title { Faker::Hipster.sentence }
-    abstract { Faker::Hipster.paragraph(2) }
+    title { CGI.escapeHTML(Faker::Hipster.sentence) }
+    abstract { CGI.escapeHTML(Faker::Hipster.paragraph(2)) }
 
     program
 

@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 FactoryGirl.define do
   factory :venue do
-    name { "#{Faker::Company.name} Office" }
+    name { CGI.escapeHTML("#{Faker::Company.name} Office") }
     street { Faker::Address.street_address }
     city { Faker::Address.city }
     postalcode { Faker::Address.postcode }

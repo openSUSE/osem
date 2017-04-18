@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :conference do
-    title { Faker::Book.title }
+    title { CGI.escapeHTML(Faker::Book.title) }
     short_title { SecureRandom.urlsafe_base64(4) }
     timezone { Faker::Address.time_zone }
     start_date { Date.today }
