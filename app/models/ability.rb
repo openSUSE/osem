@@ -33,10 +33,6 @@ class Ability
     can [:show], Conference do |conference|
       conference.splashpage && conference.splashpage.public == true
     end
-    # Can view the schedule
-    can [:schedule, :events], Conference do |conference|
-      conference.program.cfp && conference.program.schedule_public
-    end
 
     can :show, Event do |event|
       event.state == 'confirmed'
