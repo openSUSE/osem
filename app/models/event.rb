@@ -38,6 +38,7 @@ class Event < ActiveRecord::Base
   validate :before_end_of_conference, on: :create
   validates :title, presence: true
   validates :abstract, presence: true
+  validates_length_of :abstract, minimum: 20
   validates :event_type, presence: true
   validates :program, presence: true
   validates :speakers, presence: true
