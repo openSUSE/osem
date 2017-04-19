@@ -1,79 +1,112 @@
-var url; // Should be initialize in Schedule.initialize
+var conference_id; // Should be initialize in Schedule.initialize
 var schedule_id; // Should be initialize in Schedule.initialize
 
-function showError(error){
-  // Delete other error messages before showing the new one
+var events_to_create = {};
+var events_to_update = {};
+var events_to_remove = {};
+
+function showMessage(message, type){
+  // Delete other messages before showing the new one
   $('.unobtrusive-flash-container').empty();
-  UnobtrusiveFlash.showFlashMessage(error, {type: 'error'});
+  UnobtrusiveFlash.showFlashMessage(message, {type: type});
 }
 
 var Schedule = {
-  initialize: function(url_param, schedule_id_param) {
-    url = url_param;
+  initialize: function(conference_id_param, schedule_id_param) {
+    conference_id = conference_id_param;
     schedule_id = schedule_id_param;
   },
   remove: function(element) {
     var e =  $("#" + element);
+    var event_id = e.attr("event_id");
     var event_schedule_id = e.attr("event_schedule_id");
     if(event_schedule_id != null){
-      var my_url = url + '/' + event_schedule_id;
-      var success_callback = function(data) {
-        console.log(data);
-        e.attr("event_schedule_id", null);
-        e.appendTo($(".unscheduled-events"));
-        e.find(".schedule-event-delete-button").hide();
+      events_to_remove[event_id] = event_schedule_id;
+    }
+    delete events_to_create[event_id];
+    delete events_to_update[event_id];
+    var unscheduled = $(".unscheduled-events");
+    e.appendTo(unscheduled);
+    e.find(".schedule-event-delete-button").hide();
+  },
+  add: function (new_parent, event) {
+    var event_id = event.attr("event_id");
+    var event_schedule_id = event.attr("event_schedule_id");
+    var room_id = new_parent.attr("room_id");
+    var start_time = (new_parent.attr("date") + ' ' + new_parent.attr("hour"));
+    if(event_schedule_id != null){
+      var params = {};
+      params[event_schedule_id] = {
+        room_id: room_id,
+        start_time: start_time
+      };
+      events_to_update[event_id] = params;
+      delete events_to_create[event_id];
+    }
+    else{
+      events_to_create[event_id] = {
+        room_id: room_id,
+        start_time: start_time,
+        event_id: event_id,
+        schedule_id: schedule_id
+      };
+      delete events_to_update[event_id];
+    }
+    delete events_to_remove[event_id];
+    event.appendTo(new_parent);
+    $("#event-" + event_id).find(".schedule-event-delete-button").show();
+  },
+  saveEvents: function () {
+    var errors = '';
+    var with_errors = false;
+    var error_callback = function(data) {
+      try{
+        errors += $.parseJSON(data.responseText).errors;
+        with_errors = true;
+      }catch(e){
+        with_errors = true;
       }
-      var error_callback = function(data) {
-        console.log(data);
-        showError($.parseJSON(data.responseText).errors);
-      }
+    }
+    if(!jQuery.isEmptyObject(events_to_create)){
       $.ajax({
-        url: my_url,
-        type: 'DELETE',
-        success: success_callback,
+        async: false,
+        url: ("/admin/conferences/" + conference_id + "/bulk_create"),
+        type: 'POST',
+        data: { event_schedules: events_to_create },
         error: error_callback,
         dataType : 'json'
       });
     }
-    else{
-      showError("The event couldn't be unscheduled");
+    if(!jQuery.isEmptyObject(events_to_update)){
+      $.ajax({
+        async: false,
+        url: ("/admin/conferences/" + conference_id + "/bulk_update"),
+        type: 'POST',
+        data: { event_schedules: events_to_update },
+        error: error_callback,
+        dataType : 'json'
+      });
     }
-  },
-  add: function (previous_parent, new_parent, event) {
-    event.appendTo(new_parent);
-    var event_schedule_id = event.attr("event_schedule_id");
-    var my_url = url;
-    var type = 'POST';
-    var params = { event_schedule: {
-      room_id: new_parent.attr("room_id"),
-      start_time: (new_parent.attr("date") + ' ' + new_parent.attr("hour"))
-    }};
-    if(event_schedule_id != null){
-      type = 'PUT';
-      my_url += ('/' + event_schedule_id);
+    if(!jQuery.isEmptyObject(events_to_remove)){
+      $.ajax({
+        async: false,
+        url: ("/admin/conferences/" + conference_id + "/bulk_destroy"),
+        type: 'POST',
+        data: { event_schedules: events_to_remove },
+        error: error_callback,
+        dataType : 'json'
+      });
     }
-    else{
-      params['event_schedule']['event_id'] = event.attr("event_id");
-      params['event_schedule']['schedule_id'] = schedule_id;
-    }
-    var success_callback = function(data) {
-      console.log(data);
-      event.attr("event_schedule_id", data.event_schedule_id);
-      event.find(".schedule-event-delete-button").show();
+    var url = (window.location.href).substring(0, window.location.href.indexOf('?'));
+    if(with_errors){
+      var msg = "Some events couldn't be scheduled"
+      if(errors != ''){
+        msg += (": " + errors);
       }
-    var error_callback = function(data) {
-      console.log(data);
-      showError($.parseJSON(data.responseText).errors);
-      event.appendTo(previous_parent);
+      window.location.href = (url + "?flash=" + msg + "&type=error");
+    } else {
+      window.location.href = (url + "?flash=Schedule correctly saved&type=notice");
     }
-    $.ajax({
-      url: my_url,
-      type: type,
-      data: params,
-      success: success_callback,
-      error: error_callback,
-      dataType : 'json'
-    });
   }
 };
 
@@ -106,7 +139,7 @@ $(document).ready( function() {
         $(ui.draggable).css("left", 0);
         $(ui.draggable).css("top", 0);
         $(this).css("background-color", "#ffffff");
-        Schedule.add($(ui.draggable).parent(), $(this), $(ui.draggable));
+        Schedule.add($(this), $(ui.draggable));
     },
     over: function(event, ui) {
       $(this).css("background-color", "#009ED8");
@@ -114,6 +147,10 @@ $(document).ready( function() {
     out: function(event, ui) {
       $(this).css("background-color", "#ffffff");
       }
+  });
+
+  $('.schedule-save').on('click', function(e) {
+    Schedule.saveEvents();
   });
 });
 

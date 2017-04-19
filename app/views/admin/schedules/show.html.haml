@@ -4,8 +4,14 @@
   .col-md-12
     .page-header
       %h1 Schedule
-      %p.text-muted
-        Create the schedules for the conference
+      .row
+        .col-md-10.col-xs-8
+          %p.text-muted
+            Create the schedules for the conference
+        .col-md-2.col-xs-4
+          .text-right
+            %button.btn.btn-success.schedule-save
+              Save
 
 - if @rooms.present?
   .row
@@ -32,6 +38,10 @@
         - @dates.each do |date|
           .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
             = render partial: 'day_tab', locals: { date: date }
+  .row
+    .col-md-12.text-right
+      %button.btn.btn-success.schedule-save
+        Save
 - else
   .h3
     No Rooms!
@@ -41,5 +51,13 @@
 
 :javascript
   $(document).ready( function() {
-    Schedule.initialize("#{admin_conference_event_schedules_path(@conference)}", "#{@schedule.id}");
+    // When reload the page after saving, show flash messages in the url.
+    var url = window.location.href;
+    if (url.indexOf("?") > 0){
+      var params = (url.split("?"))[1].split(/[&=]/);
+      if(params[0] == 'flash' && params[2] == 'type')
+        showMessage(decodeURI(params[1]), params[3]);
+    }
+
+    Schedule.initialize("#{@conference.short_title}", "#{@schedule.id}");
   });
