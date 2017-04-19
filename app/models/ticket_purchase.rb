@@ -18,6 +18,8 @@ class TicketPurchase < ActiveRecord::Base
   scope :by_conference, ->(conference) { where(conference_id: conference.id) }
   scope :by_user, ->(user) { where(user_id: user.id) }
 
+  after_create :set_week
+
   def self.purchase(conference, user, purchases)
     errors = []
     ActiveRecord::Base.transaction do
@@ -58,4 +60,11 @@ class TicketPurchase < ActiveRecord::Base
     purchase.quantity = quantity if quantity > 0
     purchase
   end
+end
+
+private
+
+def set_week
+  self.week = created_at.strftime('%W')
+  save!
 end
