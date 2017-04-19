@@ -1,5 +1,5 @@
 .container#program
-  -if @events_schedules.any?
+  -if @events_schedules.any? && @several_rooms
     = render partial: 'schedule_tabs',  locals: { active: 'program' }
 
   %h1.text-center
