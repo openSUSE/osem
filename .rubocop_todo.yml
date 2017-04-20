@@ -60,6 +60,8 @@ Lint/UnusedBlockArgument:
 # Offense count: 108
 Metrics/AbcSize:
   Max: 75
+  Exclude:
+    - 'app/controllers/admin/conferences_controller.rb'
 
 # Offense count: 202
 # Configuration parameters: CountComments, ExcludedMethods.
