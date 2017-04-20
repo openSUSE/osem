@@ -5,6 +5,8 @@ module Admin
 
     def index
       authorize! :update, Ticket.new(conference_id: @conference.id)
+      @tickets_sold_distribution = @conference.tickets_sold_distribution
+      @tickets_turnover_distribution = @conference.tickets_turnover_distribution
     end
 
     def new
