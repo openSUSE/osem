@@ -24,6 +24,9 @@ describe 'User' do
     let(:conference_public) { create(:full_conference, splashpage: create(:splashpage, public: true)) }
     let!(:conference_public_cfp) { create(:cfp, program: conference_public.program) }
 
+    let(:schedule_public) { create(:schedule, program: create(:program, schedule_public: true))}
+    let(:schedule_not_public) { create(:schedule, program: create(:program, schedule_public: false))}
+
     let(:event_confirmed) { create(:event, state: 'confirmed') }
     let(:event_unconfirmed) { create(:event) }
 
@@ -51,12 +54,8 @@ describe 'User' do
       it{ should be_able_to(:show, conference_public)}
       it{ should_not be_able_to(:show, conference_not_public)}
 
-      it do
-          conference_public.program.schedule_public = true
-          conference_public.program.save
-          should be_able_to(:schedule, conference_public)
-      end
-      it{ should_not be_able_to(:schedule, conference_not_public)}
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
 
       it{ should be_able_to(:show, event_confirmed)}
       it{ should_not be_able_to(:show, event_unconfirmed)}
