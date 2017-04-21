@@ -9,7 +9,7 @@ FactoryGirl.define do
         venue = create(:venue, conference: program.conference)
       end
       (event_schedule.room = create(:room, venue: venue)) unless event_schedule.room.present?
-      (event_schedule.start_time = program.conference.start_date.to_time) unless event_schedule.start_time.present?
+      (event_schedule.start_time = program.conference.start_date + program.conference.start_hour.hours) unless event_schedule.start_time.present?
       unless event_schedule.schedule.present?
         unless program.selected_schedule.present?
           schedule = create(:schedule, program: program)

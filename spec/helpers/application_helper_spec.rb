@@ -98,8 +98,8 @@ describe ApplicationHelper, type: :helper do
       @other_event = create(:event, program: conference.program, state: 'confirmed')
       schedule = create(:schedule, program: conference.program)
       conference.program.update_attributes!(selected_schedule: schedule)
-      @event_schedule = create(:event_schedule, event: event, start_time: conference.start_date, room: create(:room), schedule: schedule)
-      @other_event_schedule = create(:event_schedule, event: @other_event, start_time: conference.start_date, room: create(:room), schedule: schedule)
+      @event_schedule = create(:event_schedule, event: event, start_time: conference.start_date + conference.start_hour.hours, room: create(:room), schedule: schedule)
+      @other_event_schedule = create(:event_schedule, event: @other_event, start_time: conference.start_date + conference.start_hour.hours, room: create(:room), schedule: schedule)
     end
 
     describe 'does return correct concurrent events' do

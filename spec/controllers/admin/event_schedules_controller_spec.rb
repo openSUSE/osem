@@ -23,7 +23,7 @@ describe Admin::EventSchedulesController do
                               schedule_id: schedule.id,
                               event_id: create(:event, program: conference.program).id,
                               room_id: create(:room, venue: venue).id,
-                              start_time: conference.start_date)
+                              start_time: conference.start_date + conference.start_hour.hours)
         end
 
         it 'saves the event schedule to the database' do
@@ -66,7 +66,7 @@ describe Admin::EventSchedulesController do
                                 schedule_id: schedule.id,
                                 event_id: create(:event, program: conference.program).id,
                                 room_id: room.id,
-                                start_time: conference.start_date)
+                                start_time: conference.start_date + conference.start_hour.hours)
           event_schedule.reload
         end
 
@@ -75,7 +75,7 @@ describe Admin::EventSchedulesController do
         end
 
         it 'updates the start_time' do
-          expect(event_schedule.start_time).to eq(conference.start_date)
+          expect(event_schedule.start_time).to eq(conference.start_date + conference.start_hour.hours)
         end
 
         it 'has 200 status code' do
