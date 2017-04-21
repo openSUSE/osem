@@ -29,9 +29,13 @@ FactoryGirl.define do
       end
 
       factory :event_scheduled do
-        after(:build) do |event|
+        transient do
+          hour nil
+        end
+
+        after(:build) do |event, evaluator|
           event.state = 'confirmed'
-          event.event_schedules << build(:event_schedule, event: event)
+          event.event_schedules << build(:event_schedule, event: event, start_time: evaluator.hour)
         end
       end
     end
