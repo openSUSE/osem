@@ -4,9 +4,7 @@
 
     = f.input :subtitle, as: :string
 
-    = f.input :speakers, as: :select,
-      collection: options_for_select(@users.map {|user| ["#{user.name} (#{user.email})", user.id]}, @event.speakers.map(&:id)),
-      include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
+    = speaker_selector_input f
 
     - if @program.tracks.any?
       = f.input :track_id, as: :select,

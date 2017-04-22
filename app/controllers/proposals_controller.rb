@@ -25,7 +25,6 @@ class ProposalsController < ApplicationController
 
   def edit
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
-    @users = User.all.order(:name)
     @languages = @program.languages_list
   end
 
@@ -61,7 +60,6 @@ class ProposalsController < ApplicationController
 
   def update
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
-    @users = User.all.order(:name)
 
     if @event.update(event_params)
       redirect_to conference_program_proposals_path(conference_id: @conference.short_title),

@@ -62,7 +62,6 @@ module Admin
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
-      @users = User.all.order(:name)
       @url = admin_conference_program_event_path(@conference.short_title, @event)
       @languages = @program.languages_list
     end
@@ -80,7 +79,6 @@ module Admin
     end
 
     def update
-      @users = User.all.order(:name)
       @languages = @program.languages_list
       if @event.update_attributes(event_params)
 
@@ -99,7 +97,6 @@ module Admin
 
     def create
       @url = admin_conference_program_events_path(@conference.short_title, @event)
-      @users = User.all.order(:name)
       @languages = @program.languages_list
       @event.submitter = current_user
 
@@ -115,7 +112,6 @@ module Admin
     def new
       @url = admin_conference_program_events_path(@conference.short_title, @event)
       @languages = @program.languages_list
-      @users = User.all.order(:name)
     end
 
     def accept

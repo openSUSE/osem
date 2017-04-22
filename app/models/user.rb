@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
+  scope :active, -> { where(is_disabled: false) }
 
   validates :email, presence: true
 
