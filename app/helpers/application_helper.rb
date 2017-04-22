@@ -602,4 +602,11 @@ module ApplicationHelper
   def speaker_links(event)
     event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }.join(', ').html_safe
   end
+
+  def speaker_selector_input(form)
+    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
+    form.input :speakers, as: :select,
+                          collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @event.speakers.map(&:id)),
+                          include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
+  end
 end

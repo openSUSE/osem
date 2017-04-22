@@ -10,6 +10,7 @@ describe User do
   let(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
   let(:organizer) { create(:user, role_ids: [organizer_role.id]) }
   let(:user) { create(:user) }
+  let(:user_disabled) { create(:user, :disabled) }
 
   let(:event1) { create(:event, program: conference.program) }
   let(:another_conference) { create(:conference) }
@@ -72,6 +73,16 @@ describe User do
 
       it 'excludes users without admin flag' do
         expect(User.admin).not_to include(user)
+      end
+    end
+
+    describe '.active' do
+      it 'includes users without is_disabled flag' do
+        expect(User.active).to include(user)
+      end
+
+      it 'excludes users with is_disabled flag' do
+        expect(User.active).not_to include(user_disabled)
       end
     end
 

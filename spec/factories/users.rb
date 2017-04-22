@@ -29,6 +29,7 @@ FactoryGirl.define do
       Quisque cursus facilisis consequat. Etiam volutpat ligula turpis, at
       gravida.
     EOS
+    is_disabled false
 
     after(:create) do |user|
       user.is_admin = false
@@ -43,6 +44,10 @@ FactoryGirl.define do
         user.is_admin = true
         user.save!
       end
+    end
+
+    trait :disabled do
+      is_disabled true
     end
   end
 
