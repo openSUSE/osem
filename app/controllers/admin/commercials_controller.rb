@@ -7,7 +7,6 @@ module Admin
       @commercials = @conference.commercials
 
       @commercial = @conference.commercials.build
-      authorize! :create, @conference.commercials.new
     end
 
     def create
