@@ -284,7 +284,7 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(root_path)
 
     visit admin_conference_commercials_path(conference2.short_title)
-    expect(current_path).to eq(root_path)
+    expect(current_path).to eq(admin_conference_commercials_path(conference2.short_title))
 
     visit new_admin_conference_splashpage_path(conference2.short_title)
     expect(current_path).to eq(root_path)
@@ -496,7 +496,7 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(root_path)
 
     visit admin_conference_commercials_path(conference3.short_title)
-    expect(current_path).to eq(root_path)
+    expect(current_path).to eq(admin_conference_commercials_path(conference3.short_title))
 
     visit new_admin_conference_splashpage_path(conference3.short_title)
     expect(current_path).to eq(root_path)
