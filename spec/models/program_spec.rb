@@ -54,6 +54,22 @@ describe Program do
     end
 
     describe 'voting_dates_exist' do
+      it 'is invalid with rating_enabled true, when voting dates does not exist' do
+        expect(build(:program, rating_enabled: true)).not_to be_valid
+      end
+
+      it 'is valid with rating_enabled true, when voting dates exist' do
+        expect(build(:program, rating_enabled: true, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
+      end
+
+      it 'is valid with blind_voting true, when voting dates exist' do
+        expect(build(:program, blind_voting: true, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
+      end
+
+      it 'is invalid with blind_voting true, when voting dates does not exist' do
+        expect(build(:program, blind_voting: true)).not_to be_valid
+      end
+
       it 'is valid, when both voting_start_date and voting_end_date are set' do
         expect(build(:program, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
       end
