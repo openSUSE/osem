@@ -201,6 +201,7 @@ group :development do
   # to launch specs when files are modified
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
+  gem 'haml_lint', '~> 0.24.0'
   # for static code analisys
   gem 'rubocop', '~> 0.48.1', require: false
   # as database
