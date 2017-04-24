@@ -10,6 +10,8 @@ class EventSchedule < ActiveRecord::Base
   validates :room, presence: true
   validates :start_time, presence: true
   validates :event, uniqueness: { scope: :schedule }
+  validate :start_after_end_hour
+  validate :start_before_start_hour
 
   scope :confirmed, -> { joins(:event).where('state = ?', 'confirmed') }
   scope :canceled, -> { joins(:event).where('state = ?', 'canceled') }
@@ -36,6 +38,16 @@ class EventSchedule < ActiveRecord::Base
   end
 
   private
+
+  def start_after_end_hour
+    return unless event && start_time && event.program && event.program.conference && event.program.conference.end_hour
+    errors.add(:start_time, "can't be after the conference end hour (#{event.program.conference.end_hour})") if start_time.hour >= event.program.conference.end_hour
+  end
+
+  def start_before_start_hour
+    return unless event && start_time && event.program && event.program.conference && event.program.conference.start_hour
+    errors.add(:start_time, "can't be before the conference start hour (#{event.program.conference.start_hour})") if start_time.hour < event.program.conference.start_hour
+  end
 
   def conference_id
     schedule.program.conference_id
