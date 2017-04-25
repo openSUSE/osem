@@ -60,6 +60,17 @@
                                                unit: 'weeks' }
   .col-md-4
     = render partial: 'doughnut_chart', locals: { title: 'User', data: @user_distribution }
+.row#tickets
+  .col-md-8
+    = render partial: 'line_chart', locals: { title: 'Tickets sold over time',
+                                               name: 'tickets',
+                                               conferences: @conferences,
+                                               active_conferences: @active_conferences,
+                                               deactive_conferences: @deactive_conferences,
+                                               y: @tickets,
+                                               x: @ticket_weeks,
+                                               unit: 'weeks' }
+%br
 .row
   .col-md-8
     %ul.nav.nav-tabs#recentTable

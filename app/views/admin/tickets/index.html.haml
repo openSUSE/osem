@@ -4,6 +4,12 @@
       %h1 Tickets
       %p.text-muted
         Tickets to get during registration
+.row
+  .col-md-4
+    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Tickets sold', data: @tickets_sold_distribution,}
+  .col-md-4
+    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Tickets turnover', data: @tickets_turnover_distribution }
+%br
 - if @conference.tickets.any?
   .row
     .col-md-12
@@ -36,4 +42,3 @@
 .row
   .col-md-12
     = link_to 'Add Ticket', new_admin_conference_ticket_path, class: 'btn btn-success pull-right'
-
