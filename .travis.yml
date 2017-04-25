@@ -25,4 +25,5 @@ before_script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 script:
   - 'bundle exec rubocop -Dc .rubocop.yml'
+  - 'bundle exec haml-lint app/views'
   - 'bundle exec rspec --color --format documentation'
