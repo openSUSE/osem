@@ -69,6 +69,17 @@
       .col-md-4
         = render partial: 'todo_list', locals: { conference_progress: @conference_progress,
                                                  conference: @conference }
+      .row#tickets
+        .col-md-8
+          =render partial: 'line_chart', locals: { title: 'Tickets sold over time',
+                                                      name: 'tickets',
+                                                      conferences: @tickets,
+                                                      active_conferences: @tickets,
+                                                      deactive_conferences: [],
+                                                      y: @tickets_data,
+                                                      x: @ticket_weeks,
+                                                      unit: 'weeks' }
+%br
 .row
   .col-md-12#doughnut
     %ul.nav.nav-tabs#doughnut_tabs
