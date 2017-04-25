@@ -120,6 +120,10 @@ Metrics/ClassLength:
   Exclude:
     - 'app/models/conference.rb'
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/models/conference_spec.rb'
+
 #################### Lint ###############################
 
 # Wrap your assignment in condition if you mean it, otherwise it is most likely equality check
