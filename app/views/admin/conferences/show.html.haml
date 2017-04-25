@@ -101,11 +101,11 @@
 .row
   .col-md-8
     %ul.nav.nav-tabs#recentTable
-      %li{ 'class' => "active #{ 'hidden' if Date.today >= @conference.end_date }" }
+      %li{ 'class' => "active #{ 'hidden' if Date.today > @conference.end_date }" }
         %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
           %span.fa.fa-user
           Recent Registrations
-      %li{ 'class' => "#{ 'hidden' if Date.today >= @conference.end_date }" }
+      %li{ 'class' => "#{ 'hidden' if Date.today > @conference.end_date }" }
         %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
           %span.fa.fa-file-text
           Recent Submissions
