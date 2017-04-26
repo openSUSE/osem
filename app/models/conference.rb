@@ -67,6 +67,7 @@ class Conference < ActiveRecord::Base
   before_create :create_email_settings
 
   after_create :create_free_ticket
+  after_update :delete_event_schedules
 
   ##
   # Checks if the user is registered to the conference
@@ -78,6 +79,20 @@ class Conference < ActiveRecord::Base
   # * +true+ - If the user isn't registered
   def user_registered? user
     user.present? && registrations.where(user_id: user.id).count > 0
+  end
+
+  ##
+  # Delete all EventSchedules that are not in the hours range
+  # After the conference has been successfully updated
+  def delete_event_schedules
+    if start_hour_changed? || end_hour_changed?
+      event_schedules = program.event_schedules.select do |event_schedule|
+        event_schedule.start_time.hour < start_hour ||
+        event_schedule.end_time.hour > end_hour ||
+        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute > 0)
+      end
+      event_schedules.each(&:destroy)
+    end
   end
 
   ##

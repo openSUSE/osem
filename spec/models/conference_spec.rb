@@ -1639,4 +1639,23 @@ describe Conference do
       expect(free_ticket.price_cents).to eq(0)
     end
   end
+
+  describe 'after_update' do
+    let(:conference) { create(:conference) }
+    let(:scheduled_event_before_conference) { create(:event_scheduled, program: conference.program, hour: conference.start_date + conference.start_hour.hours) }
+    let(:scheduled_event_after_conference) { create(:event_scheduled, program: conference.program, hour: conference.start_date + conference.end_hour.hours - 1.hour) }
+    let!(:scheduled_event_during_conference) { create(:event_scheduled, program: conference.program, hour: conference.start_date + conference.start_hour.hours + 3.hours) }
+
+    it 'delete event schedules that are not in hour ranges, when conference start hour is updated' do
+      scheduled_event_before_conference
+      conference.start_hour = conference.start_hour + 1
+      expect{ conference.save }.to change{ EventSchedule.count }.from(2).to(1)
+    end
+
+    it 'delete event schedules that are not in hour ranges, when conference end hour is updated' do
+      scheduled_event_after_conference
+      conference.end_hour = conference.end_hour - 2
+      expect{ conference.save }.to change{ EventSchedule.count }.from(2).to(1)
+    end
+  end
 end
