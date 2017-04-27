@@ -17,16 +17,16 @@
               Voters
             %td
               = raters(@votable_fields)
-      %table.table
-        %thead
+    %table.table
+      %thead
+        %td.col-md-2
+          %b Your Votes
+      - @votable_fields.each do |field|
+        %tr 
           %td.col-md-2
-            %b Your Votes
-        - @votable_fields.each do |field|
-          %tr 
-            %td.col-md-2
-              = field.title
-            %td
-              = rating_for_user @event, current_user, field.title, star: field.stars
+            = field.title
+          %td
+            = rating_for_user @event, current_user, field.title, star: field.stars
   - else
     %b
       = voting_open_or_close(@program)
