@@ -49,6 +49,7 @@
 //= require selectize
 //= require jquery.raty
 //= require ratyrate
+//= require osem-rating
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
