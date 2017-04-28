@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
 
-  scope :vote, -> (votable_fields) { votable_fields.each { |field| ratyrate_rateable field.title } }
+  scope :vote, ->(votable_fields) { votable_fields.each { |field| ratyrate_rateable field.title } }
 
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 

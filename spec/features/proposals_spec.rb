@@ -50,19 +50,19 @@ feature Event do
       expect(page.has_content?('Overall Votes')).to eq false
       expect(page.has_content?('Your Votes')).to eq true
     end
-    
+
     scenario 'for program with blind voting disabled can see overall votes' do
       conference.program.update(rating_enabled: true, voting_start_date: Date.today, voting_end_date: Date.today + 1, blind_voting: false)
 
       visit admin_conference_program_event_path(conference.short_title, @event)
-      expect(page.has_content?('Overall Votes')).to eq true    
+      expect(page.has_content?('Overall Votes')).to eq true
       expect(page.has_content?('Your Votes')).to eq true
     end
 
     scenario 'rejects a proposal', feature: true, js: true do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page.has_content?('Example Proposal')).to be true
-      
+
       click_button 'New'
       click_link "reject_event_#{@event.id}"
       expect(flash).to eq('Event rejected!')

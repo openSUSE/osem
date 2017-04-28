@@ -1,9 +1,9 @@
 class VotableField < ActiveRecord::Base
   belongs_to :conference
   validates :title, :votable_type, :stars, presence: true
-  validates :title, uniqueness: {scope: :votable_type, message: 'already exsists for the selected votable type'}
+  validates :title, uniqueness: { scope: :votable_type, message: 'already exsists for the selected votable type' }
 
-  VALID_VOTABLE_TYPES = %w(Event).freeze
+  VALID_VOTABLE_TYPES = %w[Event].freeze
   # ratyrate does not allow criterias to have spaces in them
   validate :no_spaces_in_title
   validate :correct_votable_type
