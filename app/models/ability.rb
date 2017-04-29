@@ -138,6 +138,7 @@ class Ability
     # ids of all the conferences for which the user has the 'organizer' role
     conf_ids_for_organizer = Conference.with_role(:organizer, user).pluck(:id)
 
+    can :manage, Rate, conference_id: conf_ids_for_organizer
     can :manage, VotableField, conference_id: conf_ids_for_organizer
     can :manage, Resource, conference_id: conf_ids_for_organizer
     can [:new, :create], Conference if user.has_role?(:organizer, :any)
@@ -193,6 +194,7 @@ class Ability
     # ids of all the conferences for which the user has the 'cfp' role
     conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
 
+    can :manage, Rate, conference_id: conf_ids_for_cfp
     can :manage, VotableField, conference_id: conf_ids_for_cfp
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_cfp
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
