@@ -45,6 +45,11 @@ module Admin
       end
     end
 
+    def create
+      @user = User.create(params[:user])
+      redirect_to admin_users_path, notice: "User created with #{@user.name} (#{@user.email})!"
+    end
+
     def edit; end
 
     private
