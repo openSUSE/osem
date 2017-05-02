@@ -597,4 +597,10 @@ module ApplicationHelper
     end
     concurrent_events
   end
+
+  def set_hidden_if_conf_is_over(conference)
+    'hidden' if Date.today > conference.end_date
+  end
+
 end
+
