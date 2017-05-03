@@ -594,8 +594,15 @@ class Conference < ActiveRecord::Base
     (email_settings.conference_registration_dates_updated_subject.present? && email_settings.conference_registration_dates_updated_body.present?)
   end
 
+  ##
+  # Checks if the registration limit has been exceeded
+  # Additionally, it takes into account the confirmed speakers that haven't registered yet
+  #
+  # ====Returns
+  # * +True+ -> If the registration limit has been reached or exceeded
+  # * +False+ -> If the registration limit hasn't been exceeded
   def registration_limit_exceeded?
-    registration_limit > 0 && registrations.count >= registration_limit
+    registration_limit > 0 && registrations.count + program.speakers.confirmed.count - program.speakers.confirmed.registered(program.conference).count >= registration_limit
   end
 
   # Returns an hexadecimal color given a collection. The returned color changed

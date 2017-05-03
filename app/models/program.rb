@@ -46,6 +46,10 @@ class Program < ActiveRecord::Base
     def confirmed
       joins(:events).where(events: { state: :confirmed })
     end
+
+    def registered(conference)
+      joins(:registrations).where('registrations.conference_id = ?', conference.id)
+    end
   end
 
   accepts_nested_attributes_for :event_types, allow_destroy: true

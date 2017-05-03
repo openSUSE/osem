@@ -80,7 +80,7 @@ class Ability
 
     can [:new, :create], Registration do |registration|
       conference = registration.conference
-      conference.registration_open? && !conference.registration_limit_exceeded?
+      conference.registration_open? && !conference.registration_limit_exceeded? || conference.program.speakers.confirmed.include?(user)
     end
 
     can :index, Ticket
