@@ -3,12 +3,17 @@
   %li{'class'=>class_for_todo(progress_status['registered'])}
     %span{'class'=>icon_for_todo(progress_status['registered'])}
       - if progress_status['registered']
-        = link_to 'Register to the conference', edit_conference_conference_registration_path(event.program.conference.short_title)
+        Speaker(s) registered to the conference
       - else
-        = link_to 'Register to the conference', new_conference_conference_registration_path(event.program.conference.short_title)
-  %li{'class'=>class_for_todo(progress_status['biography'])}
-    %span{'class'=>icon_for_todo(progress_status['biography'])}
-      = link_to 'Fill out your biography', edit_user_path(event.submitter)
+        = link_to 'Speaker(s) not registered to the conference', new_conference_conference_registration_path(event.program.conference.short_title)
+  %li{'class'=>class_for_todo(progress_status['biographies'])}
+    %span{'class'=>icon_for_todo(progress_status['biographies'])}
+      - if progress_status['biographies']
+        Speakers have filled out their biographies
+      - elsif current_user.biography.blank? && event.speakers.include?(current_user)
+        = link_to 'Fill out your biography', edit_user_path(current_user)
+      - else
+        Speakers' biographies missing
   %li{'class'=>class_for_todo(progress_status['subtitle'])}
     %span{'class'=>icon_for_todo(progress_status['subtitle'])}
       = link_to 'Add a subtitle', edit_conference_program_proposal_path(event.program.conference.short_title, event)
