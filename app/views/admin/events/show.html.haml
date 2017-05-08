@@ -64,13 +64,18 @@
         %br
         %table.table.table-hover
           %tr
-            %td= link_to 'Submitter must be registered to the conference', admin_conference_registrations_path(@event.program.conference.short_title)
+            %td= link_to "#{'Speaker'.pluralize(@event.speakers.count)} must be registered to the conference", admin_conference_registrations_path(@event.program.conference.short_title)
             %td{ 'class' => class_for_todo(progress_status['registered']) }
               %span{ 'class' => [icon_for_todo(progress_status['registered']), 'fa-lg'] }
           %tr
-            %td= link_to 'Fill out submitter biography', edit_admin_user_path(@event.submitter)
-            %td{ 'class' => class_for_todo(progress_status['biography']) }
-              %span{ 'class' => [icon_for_todo(progress_status['biography']), 'fa-lg'] }
+            %td
+              - if @event.speakers.count == 1
+                = link_to 'Fill out speaker\'s biography', edit_admin_user_path(@event.speakers.first)
+              - else
+                Fill out speaker's biography:
+                = speaker_links(@event)
+            %td{ 'class' => class_for_todo(progress_status['biographies']) }
+              %span{ 'class' => [icon_for_todo(progress_status['biographies']), 'fa-lg'] }
           %tr
             %td= link_to 'Add a subtitle', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event)
             %td{ 'class' => class_for_todo(progress_status['subtitle']) }
