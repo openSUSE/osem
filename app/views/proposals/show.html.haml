@@ -119,3 +119,15 @@
                       %dt Room:
                       %dd
                         = event.room.name
+          .col-md-12
+            %hr
+            %table.table
+              %thead
+                %td.col-md-2
+                  %b Feedback:
+                - @votable_fields.each do |field|
+                  %tr 
+                    %td.col-md-2
+                      = field.title
+                    %td
+                      = rating_for @event, field.title, star: field.stars        

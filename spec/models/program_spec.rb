@@ -27,12 +27,6 @@ describe Program do
       expect(build(:program)).to be_valid
     end
 
-    it 'is valid for rating of 5' do
-      expect(build(:program, rating: 5)).to be_valid
-    end
-
-    it { is_expected.to validate_numericality_of(:rating).is_greater_than_or_equal_to(0).is_less_than_or_equal_to(10).only_integer }
-
     it { is_expected.to validate_numericality_of(:schedule_interval).is_greater_than_or_equal_to(5).is_less_than_or_equal_to(60) }
 
     describe 'schedule_interval_divisor_60' do
@@ -60,6 +54,22 @@ describe Program do
     end
 
     describe 'voting_dates_exist' do
+      it 'is invalid with rating_enabled true, when voting dates does not exist' do
+        expect(build(:program, rating_enabled: true)).not_to be_valid
+      end
+
+      it 'is valid with rating_enabled true, when voting dates exist' do
+        expect(build(:program, rating_enabled: true, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
+      end
+
+      it 'is valid with blind_voting true, when voting dates exist' do
+        expect(build(:program, blind_voting: true, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
+      end
+
+      it 'is invalid with blind_voting true, when voting dates does not exist' do
+        expect(build(:program, blind_voting: true)).not_to be_valid
+      end
+
       it 'is valid, when both voting_start_date and voting_end_date are set' do
         expect(build(:program, voting_start_date: Date.today, voting_end_date: Date.today + 1)).to be_valid
       end
@@ -122,19 +132,6 @@ describe Program do
       it_behaves_like 'voting period', Date.today - 1, Time.current + 1.hour, true
       it_behaves_like 'voting period', Date.today - 2, Date.today - 1, false
       it_behaves_like 'voting period', Date.today - 1, Time.current - 1.minute, false
-    end
-  end
-
-  describe '#rating_enabled?' do
-    it 'returns true if proposals can be rated (program.rating > 0)' do
-      program.rating = 3
-      expect(program.rating_enabled?).to be true
-    end
-
-    it 'returns false if proposals cannot be rated (program.rating == 0) ' do
-      program = conference.program
-      program.rating = 0
-      expect(program.rating_enabled?).to be false
     end
   end
 

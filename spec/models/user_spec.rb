@@ -58,7 +58,6 @@ describe User do
     it { is_expected.to have_many(:events_registrations).through(:registrations) }
     it { is_expected.to have_many(:ticket_purchases).dependent(:destroy) }
     it { is_expected.to have_many(:tickets).through(:ticket_purchases) }
-    it { is_expected.to have_many(:votes).dependent(:destroy) }
     it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
   end
 

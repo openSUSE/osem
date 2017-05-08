@@ -510,17 +510,6 @@ module ApplicationHelper
     end
   end
 
-  def vote_change_description(version)
-    user = current_or_last_object_state(version.item_type, version.item_id).user
-    if version.event == 'create'
-      version.previous.nil? ? 'voted on' : "re-added #{user.name}'s vote on"
-    elsif version.event == 'update'
-      "updated #{user.name}'s vote on"
-    else
-      "deleted #{user.name}'s vote on"
-    end
-  end
-
   def user_change_description(version)
     if version.event == 'create'
      link_to_user(version.item_id) + ' signed up'
@@ -596,5 +585,13 @@ module ApplicationHelper
       end
     end
     concurrent_events
+  end
+
+  def raters(votable_field)
+    users = []
+    votable_field.each do |field|
+      users += User.where(id: Rate.where(dimension: field.title).pluck(:rater_id)).pluck(:name)
+    end
+    users.uniq.join(', ')
   end
 end

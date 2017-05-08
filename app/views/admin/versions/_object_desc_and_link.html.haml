@@ -42,7 +42,7 @@
     = link_to 'commercial',
             admin_conference_commercials_path(conference_id: Conference.find(version.conference_id).short_title)
 
-- when 'EventsRegistration', 'Comment', 'Vote', 'Event'
+- when 'EventsRegistration', 'Comment', 'Event'
   = 'event'
   - object = current_or_last_object_state(version.item_type, version.item_id)
   - event_id = object.try(:event_id) || object.try(:commentable_id) || object.id

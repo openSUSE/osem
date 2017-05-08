@@ -1,5 +1,8 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
+
+  scope :vote, ->(votable_fields) { votable_fields.each { |field| ratyrate_rateable field.title } }
+
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
@@ -15,8 +18,6 @@ class Event < ActiveRecord::Base
   has_one :submitter_event_user, -> { where(event_role: 'submitter') }, class_name: 'EventUser'
   has_one  :submitter, through: :submitter_event_user, source: :user
 
-  has_many :votes, dependent: :destroy
-  has_many :voters, through: :votes, source: :user
   has_many :commercials, as: :commercialable, dependent: :destroy
   belongs_to :event_type
 
@@ -92,33 +93,9 @@ class Event < ActiveRecord::Base
     registrations.count < max_attendees
   end
 
-  ##
-  # Finds the rating of the user for the event
-  # ====Returns
-  # * +integer+ -> the rating of the user for the event
-  def user_rating(user)
-    (vote = votes.find_by(user: user)) ? vote.rating : 0
-  end
-
-  ##
-  # Checks if the event has votes
-  # If a user is provided, it checks if the event has votes by the user
-  # ====Returns
-  # * +true+ -> If the event has votes (optionally, by the user)
-  # * +false+ -> If the event does not have any votes (optionally, by the user)
-  def voted?(user=nil)
-    return votes.where(user: user).any? if user
-
-    votes.any?
-  end
-
-  def average_rating
-    @total_rating = 0
-    votes.each do |vote|
-      @total_rating = @total_rating + vote.rating
-    end
-    @total = votes.size
-    @total_rating > 0 ? number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true) : 0
+  def ended?
+    timezone = program.conference.timezone
+    Time.now.in_time_zone(timezone) > event_schedules.find_by(schedule: program.selected_schedule).end_time
   end
 
   # get event speakers with the event sumbmitter at the first position

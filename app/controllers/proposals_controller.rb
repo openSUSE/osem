@@ -15,6 +15,8 @@ class ProposalsController < ApplicationController
   def show
     @event_schedule = @event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
     @speakers_ordered = @event.speakers_ordered
+    @votable_fields = VotableField.where(votable_type: 'Event', conference: @event.program.conference, enabled: true, for_admin: false)
+    Event.vote(@votable_fields)
   end
 
   def new

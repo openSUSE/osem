@@ -11,7 +11,6 @@
           %th Title
           %th State
           %th Type
-          %th Rating
           %th Created At
         %tbody
           - @user.events.each do |event|
@@ -21,12 +20,4 @@
               %td= link_to event.title, admin_conference_program_event_path(event.program.conference.short_title, event)
               %td= event.state
               %td= "#{event.event_type.title} (#{show_time(event.event_type.length)})"
-              %td
-                - if event.program && event.program.rating && event.program.rating > 0
-                  - event.program.rating.times do |counter|
-                    - if event.average_rating.to_f.round == counter+1
-                      = label_tag 'label_rating', '', class: 'avgrating', avgrate: true
-                      = javascript_tag "$('label[avgrate=true]').prevAll().andSelf().addClass('bright');"
-                    - else
-                      = label_tag 'label_rating', '', class: 'avgrating'
               %td= event.created_at

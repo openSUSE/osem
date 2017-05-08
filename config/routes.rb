@@ -1,5 +1,6 @@
 Osem::Application.routes.draw do
 
+  post '/rate' => 'rater#create', as: 'rate'
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
@@ -72,6 +73,7 @@ Osem::Application.routes.draw do
       end
 
       resources :resources
+      resources :votable_fields
       resources :tickets
       resources :sponsors, except: [:show]
       resources :lodgings, except: [:show]
