@@ -101,11 +101,11 @@
 .row
   .col-md-8
     %ul.nav.nav-tabs#recentTable
-      %li{ 'class' => "active #{set_hidden_if_conf_is_over(@conference)}" }
+      %li{ 'class' => "active #{hidden_if_conference_over(@conference)}" }
         %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
           %span.fa.fa-user
           Recent Registrations
-      %li{ 'class' => "#{set_hidden_if_conf_is_over(@conference)}" }
+      %li{ 'class' => "#{hidden_if_conference_over(@conference)}" }
         %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
           %span.fa.fa-file-text
           Recent Submissions
