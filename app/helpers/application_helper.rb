@@ -45,7 +45,7 @@ module ApplicationHelper
   def voting_open_or_close(program)
     return if program.voting_period?
     if program.voting_start_date > Time.current
-      return 'Voting period has not started yet!'
+      return 'Voting period has nmot started yet!'
     else # voting_end_date > Date.today because voting_start_date < voting_end_date
       return 'Voting period is over!'
     end
@@ -597,4 +597,13 @@ module ApplicationHelper
     end
     concurrent_events
   end
+
+  ##
+  # ====Gets
+  # a conference object
+  # Sets class hidden if conference is over 
+  def hidden_if_conference_over(conference)
+    'hidden' if Date.today > conference.end_date
+  end
 end
+

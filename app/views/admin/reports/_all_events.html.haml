@@ -27,7 +27,13 @@
           %td
             = link_to event.title, edit_admin_conference_program_event_path(@conference.short_title, event)
             %br
-            .small (Presented by #{event.speaker_names})
+            .small
+              (Presented by
+              - speakers = event.speakers.uniq
+              - speakers.each.with_index(1) do |speaker,index|
+                = link_to speaker.name, admin_user_path(speaker)
+                = ',' unless index == speakers.length
+              )
 
           - %w(registered biography commercials subtitle difficulty_level).each do |info|
             %td{'data-order' => "#{progress_status[info]}"}
