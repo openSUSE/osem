@@ -1,4 +1,22 @@
 namespace :events_registrations do
+  desc 'Sets max_attendees to 1 or number of registrations, if require_registration is set'
+  task set_max_attendees: :environment do
+    @events = Event.all.where(require_registration: true, max_attendees: nil)
+    puts "Fixing max_attendees attribute for #{@events.length} events."
+    puts "The IDs of those events are: #{@events.pluck(:id)}"
+
+    @events.each do |event|
+      if event.registrations.any?
+        event.max_attendees = event.registrations.count
+      else
+        event.max_attendees = 1
+      end
+      event.save!
+    end
+
+    puts "All done!"
+  end
+
   desc "Deletes dupicate entries"
   task deduplicate: :environment do
     if ActiveRecord::Migrator.get_all_versions.include? 20160403214841
@@ -18,7 +36,7 @@ namespace :events_registrations do
             if records[i].destroy
               puts 'Succeeded!'
             else
-              puts 'Faild!'
+              puts 'Failed!'
             end
           end
         end
