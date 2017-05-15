@@ -4,6 +4,12 @@
       %h1 Tracks
       %p.text-muted
         Categorize events in your conference
+
+- if @tracks.size > 5
+  .row
+  .col-md-12.text-right
+    = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-success'
+
 .row
   .col-md-12
     %table.table.table-hover#tracks
