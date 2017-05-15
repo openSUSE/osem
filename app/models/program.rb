@@ -184,10 +184,10 @@ class Program < ActiveRecord::Base
   def create_difficulty_levels
     DifficultyLevel.create(title: 'Easy',
                            description: 'Events are understandable for everyone without knowledge of the topic.',
-                           color: '#70EF69', program_id: id)
+                           color: '#32CB2A', program_id: id)
     DifficultyLevel.create(title: 'Medium',
                            description: 'Events require a basic understanding of the topic.',
-                           color: '#EEEF69', program_id: id)
+                           color: '#E6B65B', program_id: id)
     DifficultyLevel.create(title: 'Hard',
                            description: 'Events require expert knowledge of the topic.',
                            color: '#EF6E69', program_id: id)
