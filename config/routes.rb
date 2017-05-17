@@ -1,5 +1,6 @@
 Osem::Application.routes.draw do
 
+
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
@@ -30,6 +31,7 @@ Osem::Application.routes.draw do
     resources :conferences do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
+      resources :booths
       resources :event_schedules, only: [:create, :update, :destroy]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
@@ -52,6 +54,7 @@ Osem::Application.routes.draw do
         resources :rooms, except: [:show]
       end
       resource :registration_period
+      resource :call_for_booths
       resource :program do
         resource :cfp
         resources :tracks

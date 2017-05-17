@@ -1,0 +1,23 @@
+%h1 Listing call_for_booths
+
+%table
+  %tr
+    %th Start date
+    %th End date
+    %th Booth limit
+    %th
+    %th
+    %th
+
+  - @call_for_booths.each do |call_for_booth|
+    %tr
+      %td= call_for_booth.start_date
+      %td= call_for_booth.end_date
+      %td= call_for_booth.booth_limit
+      %td= link_to 'Show', call_for_booth
+      %td= link_to 'Edit', edit_call_for_booth_path(call_for_booth)
+      %td= link_to 'Destroy', call_for_booth, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Call for booth', new_call_for_booth_path
