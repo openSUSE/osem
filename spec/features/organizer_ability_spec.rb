@@ -237,6 +237,16 @@ feature 'Has correct abilities' do
       visit edit_admin_conference_target_path(conference.short_title, conference.targets.first)
       expect(current_path).to eq(edit_admin_conference_target_path(conference.short_title, conference.targets.first))
 
+      visit admin_conference_booths_path(conference.short_title)
+      expect(current_path).to eq(admin_conference_booths_path(conference.short_title))
+
+      visit new_admin_conference_booth_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_booth_path(conference.short_title))
+
+      create(:booth, conference: conference)
+      visit edit_admin_conference_booth_path(conference.short_title, conference.booths.first)
+      expect(current_path).to eq(edit_admin_conference_booth_path(conference.short_title, conference.booths.first))
+
       visit admin_conference_program_tracks_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_tracks_path(conference.short_title))
 

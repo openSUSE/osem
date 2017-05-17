@@ -120,6 +120,7 @@ class AdminAbility
                              commercialable_id: conf_ids
     can :manage, Registration, conference_id: conf_ids
     can :manage, RegistrationPeriod, conference_id: conf_ids
+    can :manage, Booth, conference_id: conf_ids
     can :manage, Question, conference_id: conf_ids
     can :manage, Question do |question|
       !(question.conferences.pluck(:id) & conf_ids).empty?
@@ -170,6 +171,7 @@ class AdminAbility
       conf_ids_for_cfp.include?(conf.id)
     end
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_cfp
+    can :manage, Booth, conference_id: conf_ids_for_cfp
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
     can :manage, Track, program: { conference_id: conf_ids_for_cfp }
