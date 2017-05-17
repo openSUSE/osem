@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @booth.title
+%p
+  %b Conference:
+  = @booth.conference_id
+%p
+  %b Description:
+  = @booth.description
+%p
+  %b State:
+  = @booth.state
+%p
+  %b Reasoning:
+  = @booth.reasoning
+%p
+  %b Logo link:
+  = @booth.logo_link
+
+= link_to 'Edit', edit_booth_path(@booth)
+\|
+= link_to 'Back', booths_path

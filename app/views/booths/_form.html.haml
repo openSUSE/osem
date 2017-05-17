@@ -1,0 +1,28 @@
+= form_for @booth do |f|
+  - if @booth.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@booth.errors.count, "error")} prohibited this booth from being saved:"
+      %ul
+        - @booth.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :conference_id
+    = f.number_field :conference_id
+  .field
+    = f.label :description
+    = f.text_area :description
+  .field
+    = f.label :state
+    = f.text_field :state
+  .field
+    = f.label :reasoning
+    = f.text_area :reasoning
+  .field
+    = f.label :logo_link
+    = f.text_field :logo_link
+  .actions
+    = f.submit 'Save'
