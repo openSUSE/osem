@@ -1,0 +1,29 @@
+%h1 Listing booths
+
+%table
+  %tr
+    %th Title
+    %th Conference
+    %th Description
+    %th State
+    %th Reasoning
+    %th Logo link
+    %th
+    %th
+    %th
+
+  - @booths.each do |booth|
+    %tr
+      %td= booth.title
+      %td= booth.conference_id
+      %td= booth.description
+      %td= booth.state
+      %td= booth.reasoning
+      %td= booth.logo_link
+      %td= link_to 'Show', booth
+      %td= link_to 'Edit', edit_booth_path(booth)
+      %td= link_to 'Destroy', booth, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Booth', new_booth_path
