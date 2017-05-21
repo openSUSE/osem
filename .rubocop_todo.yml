@@ -124,12 +124,6 @@ Rails/Blank:
 Rails/Date:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Rails/Delegate:
-  Exclude:
-    - 'app/serializers/speaker_serializer.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: Whitelist.

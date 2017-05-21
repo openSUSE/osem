@@ -3,7 +3,5 @@ class SpeakerSerializer < ActiveModel::Serializer
 
   attributes :name, :affiliation, :biography
 
-  def name
-    object.name
-  end
+  delegate :name, to: :object
 end

@@ -188,6 +188,10 @@ Rails:
 Rails/Validation:
   Enabled: true
 
+# Looks for delegations, that could have been created automatically with delegate method
+Rails/Delegate:
+  Enabled: true
+
 #################### Performance ###############################
 
 # Identifies places where gsub can be replaced by tr or delete.
