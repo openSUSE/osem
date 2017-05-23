@@ -131,7 +131,7 @@ We are using [rubocop](https://github.com/bbatsov/rubocop) as a style checker. I
 vagrant exec bundle exec rubocop
 ```
 
-You can read through current enabled rules in `.rubocop.yml` file. Explanations of the defined [rules](http://rubydoc.info/github/bbatsov/rubocop/master/frames) can be found in modules [Cop::Lint](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Lint) and [Cop::Style](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Style).
+You can read through current enabled rules in `.rubocop.yml` file. Explanations of the defined [rules](http://rubydoc.info/github/bbatsov/rubocop/master/frames) can be found in modules [Cop::Lint](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Lint) and [Cop::Style](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Style) and [Cop:Rails](https://rubocop.readthedocs.io/en/latest/cops_rails/).
 Additionally you can read through the [ruby style-guide](https://github.com/bbatsov/ruby-style-guide) to better understand core principles.
 
 ### Test Suite
