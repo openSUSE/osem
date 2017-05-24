@@ -72,8 +72,8 @@ GEM
     autoprefixer-rails (5.1.9)
       execjs
       json
-    awesome_nested_set (3.0.0.rc.5)
-      activerecord (>= 4.0.0, < 5)
+    awesome_nested_set (3.1.3)
+      activerecord (>= 4.0.0, < 5.2)
     aws_cf_signer (0.1.3)
     axlsx_rails (0.2.0)
       axlsx (>= 2.0.1)
@@ -569,7 +569,7 @@ DEPENDENCIES
   acts_as_list
   ahoy_matey
   autoprefixer-rails
-  awesome_nested_set (~> 3.0.0.rc.5)
+  awesome_nested_set (~> 3.1.3)
   axlsx!
   axlsx_rails
   bootstrap-sass (~> 3.3.4.1)
