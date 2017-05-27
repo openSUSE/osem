@@ -191,30 +191,33 @@ If you don't already have a `.env` file you can use the `dotenv.example` as a te
 2. **Design**
   * Related to the looks and/or usability of the application; needs attention from someone who understands front-end and UX
   * If you are good with graphics and design, give it a shot!
-3. **Documentation**
+3. **DO NOT MERGE**
+  * The PR shouldn't be merged
+  * Use it for PRs that are not finished yet or that depends on another PR.
+4. **Documentation**
   * Related to the documentation of our application, eg our INSTALL.md file or a wiki page with instructions on how to use the app, or part of it.
   * If you are working on a documentation issue, make sure you are covering all cases.
-4. **Epic**
+5. **Epic**
   * We may, or may not, solve this, thus it is epic. It's bigger than a feature request, because it fundamentally changes or affects the app, or a significant part of it.
   * Do **not** work on this without prior discussion with the maintainers, it's called epic for a reason!
-5. **Feature**
+6. **Feature**
   * This is a new feature for something new in the app!
   * If an issue is labeled *Feature*, don't work on the issue, unless the maintainers have decided on how to proceed
   * Ideally, leave a comment with your proposed solution in the issue and wait for feedback
-6. **Grooming**
+7. **Grooming**
   * This is working, but could look better, thus needs some attention and grooming.
-7. **Hacktoberfest**
+8. **Hacktoberfest**
   * This is for the issues included in the coding event of Hacktoberfest. You can ignore it, when the event is not on
-8. **in progress**
-9. **Junior**
+9. **in progress**
+10. **Junior**
   * For new comers! RoR beginners or people unfamiliar with the application. Where you must start if you are interested in a mentoring program we participate in.
-10. **need feedback**
+11. **need feedback**
   * Maintainers' attention is needed to decide if this is something we want in the app, and/or how it should be implemented
-11. **Operation**
-12. **ready**
-13. **Refactorization**
+12. **Operation**
+13. **ready**
+14. **Refactorization**
   * Our code needs to be re-written; to avoid code duplication, or make the code more readable, or do things in a simpler way!
-14. **Research**
+15. **Research**
   * Ideas to explore; and think if there is anything we want to include in our app.
 
 ## Code of Conduct
