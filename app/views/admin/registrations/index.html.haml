@@ -56,7 +56,7 @@
               -if @conference.questions.any?
                 %td
                   = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
-              %td
+              %td{ 'data-order' => registration.attended.to_s }
                 = check_box_tag "#{@conference.short_title}_#{registration.id}", registration.id, registration.attended,
                   class: 'switch-checkbox', method: :patch,
                   url: toggle_attendance_admin_conference_registration_path(@conference.short_title, id: registration.id)+"?attended=",
