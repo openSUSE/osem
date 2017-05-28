@@ -4,6 +4,14 @@ class SchedulesController < ApplicationController
   before_action :respond_to_options
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true, except: :index
+  around_action :use_timezone_for_this_request
+
+  # FIXME: The timezome should only be applied on output, otherwise
+  # you get lost in timezone conversions...
+
+  def use_timezone_for_this_request(&block)
+    Time.use_zone(@conference.timezone, &block)
+  end
 
   def show
     @rooms = @conference.venue.rooms if @conference.venue

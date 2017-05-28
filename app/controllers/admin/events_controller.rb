@@ -7,14 +7,6 @@ module Admin
 
     before_action :get_event, except: [:index, :create, :new]
 
-    # FIXME: The timezome should only be applied on output, otherwise
-    # you get lost in timezone conversions...
-    # around_filter :set_timezone_for_this_request
-
-    def set_timezone_for_this_request(&block)
-      Time.use_zone(@conference.timezone, &block)
-    end
-
     def index
       @events = @program.events
       @tracks = @program.tracks
