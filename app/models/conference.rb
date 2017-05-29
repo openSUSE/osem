@@ -803,7 +803,7 @@ class Conference < ActiveRecord::Base
         hash[key] = 0
       end
     end
-    Hash[ hash.sort ]
+    Hash[hash.sort]
   end
 
   ##

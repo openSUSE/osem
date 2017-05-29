@@ -88,6 +88,10 @@ Style/RedundantSelf:
 Style/SpaceAroundOperators:
   Enabled: true
 
+# Checks for spaces inside square brackets.
+Style/SpaceInsideBrackets:
+  Enabled: true
+
 # Use single quotes unless there's string interpolation
 Style/StringLiterals:
   Enabled: true
