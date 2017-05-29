@@ -365,7 +365,7 @@ GEM
     rails-assets-bootstrap-markdown (2.10.0)
       rails-assets-bootstrap (~> 3)
     rails-assets-date.format (1.2.3)
-    rails-assets-holderjs (2.9.3)
+    rails-assets-holderjs (2.9.1)
     rails-assets-jquery (2.2.1)
     rails-assets-jquery-smooth-scroll (1.7.2)
       rails-assets-jquery (>= 1.4.2)
