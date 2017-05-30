@@ -1,6 +1,10 @@
 # cannot delete program if there are events submitted
 
 class Cfp < ActiveRecord::Base
+  TYPES = %w(events).freeze
+
+  scope :for_events, (-> { find_by(cfp_type: 'events') })
+
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program
 
@@ -8,6 +12,15 @@ class Cfp < ActiveRecord::Base
   validates :start_date, :end_date, presence: true
   validate :before_end_of_conference
   validate :start_after_end_date
+  validates :cfp_type,
+            presence: true,
+            inclusion: {
+              in: TYPES
+            },
+            uniqueness: {
+              scope: :program,
+              case_sensitive: false
+            }
 
   ##
   # Checks whether cfp date is updated
@@ -53,6 +66,16 @@ class Cfp < ActiveRecord::Base
   def remaining_days(date = Date.today)
     result = (end_date - date).to_i
     result > 0 ? result : 0
+  end
+
+  ##
+  # Checks if the call for papers is currently open
+  #
+  # ====Returns
+  # * +false+ -> If the CFP is not set or today isn't in the CFP period.
+  # * +true+ -> If today is in the CFP period.
+  def open?
+    (start_date..end_date).cover?(Date.current)
   end
 
   private

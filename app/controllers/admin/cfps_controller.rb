@@ -2,7 +2,7 @@ module Admin
   class CfpsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
-    load_and_authorize_resource through: :program, singleton: true
+    load_and_authorize_resource through: :program
 
     def show; end
 
@@ -27,7 +27,6 @@ module Admin
     end
 
     def update
-      @cfp = @program.cfp
       @cfp.assign_attributes(cfp_params)
 
       send_mail_on_cfp_dates_updates = @cfp.notify_on_cfp_date_update?

@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20170603095900) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
+    t.string   "cfp_type"
   end
 
   create_table "comments", force: :cascade do |t|

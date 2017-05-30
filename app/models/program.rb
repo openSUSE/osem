@@ -5,7 +5,7 @@ class Program < ActiveRecord::Base
 
   belongs_to :conference
 
-  has_one :cfp, dependent: :destroy
+  has_many :cfps, dependent: :destroy
   has_many :event_types, dependent: :destroy
   has_many :tracks, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
@@ -135,7 +135,7 @@ class Program < ActiveRecord::Base
   # * +false+ -> If the CFP is not set or today isn't in the CFP period.
   # * +true+ -> If today is in the CFP period.
   def cfp_open?
-    cfp = self.cfp
+    cfp = cfps.events
 
     cfp.present? && (cfp.start_date..cfp.end_date).cover?(Date.current)
   end
@@ -161,6 +161,23 @@ class Program < ActiveRecord::Base
   def any_event_for_this_date?(date)
     parsed_date = DateTime.parse("#{date} 00:00").utc
     EventSchedule.where(schedule: selected_schedule).where(start_time: parsed_date..(parsed_date + 1)).any?
+  end
+
+  ##
+  # Provides backwards compatibility for when the program had one cfp
+  #
+  # ====Returns
+  # * +ActiveRecord+ -> The program's cfp with cfp_type == 'events'
+  def cfp
+    return nil if cfps.for_events.blank?
+    cfps.for_events
+  end
+
+  ##
+  # ====Returns
+  # * +Array+ -> The types of cfps for which a cfp doesn't exist yet
+  def remaining_cfp_types
+    Cfp::TYPES - cfps.pluck(:cfp_type)
   end
 
   private
