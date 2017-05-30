@@ -216,6 +216,8 @@ If you don't already have a `.env` file you can use the `dotenv.example` as a te
   * Our code needs to be re-written; to avoid code duplication, or make the code more readable, or do things in a simpler way!
 14. **Research**
   * Ideas to explore; and think if there is anything we want to include in our app.
+15. **GSoC**
+  * To group all the issues and PRs related to Google Summer of Code together.
 
 ## Code of Conduct
 OSEM is part of the openSUSE project. We follow all the [openSUSE Guiding Principles!](http://en.opensuse.org/openSUSE:Guiding_principles) If you think someone doesn't do that, please let us know at maintainers@osem.io
