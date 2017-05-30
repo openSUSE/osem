@@ -1,8 +1,24 @@
 require 'spec_helper'
 
 describe Cfp do
+  subject { create(:cfp) }
   let!(:conference) { create(:conference, end_date: Date.today) }
-  let!(:cfp) { build(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: conference.program.id) }
+  let!(:cfp) { create(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: conference.program.id) }
+
+  describe 'scope' do
+    describe '#for_events' do
+      it 'returns the cfp for events' do
+        expect(conference.program.cfps.for_events).to be_a Cfp
+        expect(conference.program.cfps.for_events.cfp_type).to eq('events')
+      end
+    end
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:cfp_type) }
+    it { is_expected.to validate_inclusion_of(:cfp_type).in_array(Cfp::TYPES) }
+    it { is_expected.to validate_uniqueness_of(:cfp_type).scoped_to(:program_id).case_insensitive }
+  end
 
   describe '#before_end_of_conference' do
     describe 'fails to save cfp' do
@@ -94,6 +110,30 @@ describe Cfp do
 
         expect(cfp.end_date_changed?).to eq true
         expect(cfp.notify_on_cfp_date_update?).to eq false
+      end
+    end
+  end
+
+  describe '#open?' do
+    context 'returns false' do
+      it 'when start and end dates are in the past' do
+        cfp.start_date = Date.current - 3
+        cfp.end_date = Date.current - 1
+        expect(cfp.open?).to eq(false)
+      end
+
+      it 'when start and end dates are in the future' do
+        cfp.start_date = Date.current + 1
+        cfp.end_date = Date.current + 3
+        expect(cfp.open?).to eq(false)
+      end
+    end
+
+    context 'returns true' do
+      it 'when start date is in the past and end date is in the future' do
+        cfp.start_date = Date.current - 1
+        cfp.end_date = Date.current + 1
+        expect(cfp.open?).to eq(true)
       end
     end
   end

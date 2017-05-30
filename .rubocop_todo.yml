@@ -653,6 +653,7 @@ Style/PercentLiteralDelimiters:
     - 'app/models/contact.rb'
     - 'app/models/registration.rb'
     - 'app/models/subscription.rb'
+    - 'app/models/cfp.rb'
     - 'app/uploaders/picture_uploader.rb'
     - 'spec/models/ability_spec.rb'
     - 'spec/models/program_spec.rb'

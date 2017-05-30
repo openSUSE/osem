@@ -240,4 +240,23 @@ describe Program do
     end
   end
 
+  describe '#cfp' do
+    it 'returns the cfp for events' do
+      create(:cfp, cfp_type: 'events', program: program, end_date: Date.current + 1)
+      expect(program.cfp).to be_a Cfp
+      expect(program.cfp.cfp_type).to eq('events')
+    end
+
+    it 'returns nil if the program doesn\'t have a cfp' do
+      expect(program.cfp).to eq(nil)
+    end
+  end
+
+  describe '#remaining_cfp_types' do
+    it 'returns an array with the types for which a cfp doesn\'t exist' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      create(:cfp, cfp_type: 'events', program: program, end_date: Date.current + 1)
+      expect(program.remaining_cfp_types).to eq([])
+    end
+  end
 end
