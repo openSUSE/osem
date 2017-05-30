@@ -189,6 +189,10 @@ class Ability
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
       version.item_type == 'User' || (conf_ids_for_organizer.include? version.conference_id)
     end
+
+    cannot [:revert_object, :revert_attribute], PaperTrail::Version do |version|
+      version.item_type == 'User' && version.item.is_admin?
+    end
   end
 
   def signed_in_with_cfp_role(user)
