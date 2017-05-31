@@ -5,5 +5,9 @@ FactoryGirl.define do
     schedule_public false
     schedule_fluid false
     conference
+
+    trait :with_cfp do
+      after(:create) { |program| create(:cfp, program: program) }
+    end
   end
 end

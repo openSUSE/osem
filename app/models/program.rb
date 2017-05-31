@@ -135,7 +135,7 @@ class Program < ActiveRecord::Base
   # * +false+ -> If the CFP is not set or today isn't in the CFP period.
   # * +true+ -> If today is in the CFP period.
   def cfp_open?
-    cfp = cfps.events
+    cfp = self.cfp
 
     cfp.present? && (cfp.start_date..cfp.end_date).cover?(Date.current)
   end
