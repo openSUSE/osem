@@ -85,8 +85,10 @@
           admin_conference_program_path(conference_id: Conference.find(version.conference_id).short_title)
 
 - when 'Cfp'
-  = link_if_alive version, 'cfp',
-          admin_conference_program_cfp_path(conference_id: Conference.find(version.conference_id).short_title)
+  = 'cfp'
+  - cfp = current_or_last_object_state(version.item_type, version.item_id)
+  = link_if_alive version, cfp.cfp_type,
+          admin_conference_program_cfp_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
 
 - when 'Track'
   = 'track'
