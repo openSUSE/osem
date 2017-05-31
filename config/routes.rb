@@ -53,7 +53,7 @@ Osem::Application.routes.draw do
       end
       resource :registration_period
       resource :program do
-        resource :cfp
+        resources :cfps
         resources :tracks
         resources :event_types
         resources :difficulty_levels

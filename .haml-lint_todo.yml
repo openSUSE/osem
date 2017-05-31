@@ -171,6 +171,7 @@ linters:
       - "app/views/tickets/index.html.haml"
       - "app/views/users/edit.html.haml"
       - "app/views/users/show.html.haml"
+      - "app/views/admin/cfps/index.html.haml"
 
   # Offense count: 223
   InstanceVariables:
@@ -229,6 +230,7 @@ linters:
       - "app/views/schedules/_schedule.html.haml"
       - "app/views/schedules/_schedule_item.html.haml"
       - "app/views/schedules/_schedule_tabs.html.haml"
+      - "app/views/admin/cfps/_events_cfp.html.haml"
 
   # Offense count: 32
   IdNames:
@@ -247,6 +249,7 @@ linters:
       - "app/views/admin/users/_event_registrations.html.haml"
       - "app/views/admin/users/show.html.haml"
       - "app/views/users/edit.html.haml"
+      - "app/views/admin/cfps/_events_cfp.html.haml"
 
   # Offense count: 4
   UnnecessaryInterpolation:
