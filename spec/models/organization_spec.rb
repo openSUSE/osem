@@ -5,7 +5,7 @@ describe Organization do
 
   describe 'validation' do
     it 'has a valid factory' do
-      expect( build(:organization) ).to be_valid
+      expect(build(:organization)).to be_valid
     end
 
     it 'is not valid without a name' do
@@ -17,4 +17,3 @@ describe Organization do
     it { should have_many(:conferences).dependent(:destroy) }
   end
 end
-
