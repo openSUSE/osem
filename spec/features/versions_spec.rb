@@ -38,9 +38,9 @@ feature 'Version' do
     cfp.destroy
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new cfp in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated start date and end date of cfp in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted cfp in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) created new cfp for events in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated start date and end date of cfp for events in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) deleted cfp for events in conference #{conference.short_title}")
   end
 
   scenario 'display changes in registration_period', feature: true, versioning: true, js: true do

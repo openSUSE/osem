@@ -40,7 +40,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Rooms', href: "/admin/conferences/#{conference1.short_title}/venue/rooms")
     expect(page).to have_link('Lodgings', href: "/admin/conferences/#{conference1.short_title}/lodgings")
     expect(page).to have_link('Program', href: "/admin/conferences/#{conference1.short_title}/program")
-    expect(page).to have_link('Call for Papers', href: "/admin/conferences/#{conference1.short_title}/program/cfp")
+    expect(page).to have_link('Call for Papers', href: "/admin/conferences/#{conference1.short_title}/program/cfps")
     expect(page).to have_link('Events', href: "/admin/conferences/#{conference1.short_title}/program/events")
     expect(page).to have_link('Tracks', href: "/admin/conferences/#{conference1.short_title}/program/tracks")
     expect(page).to have_link('Event Types', href: "/admin/conferences/#{conference1.short_title}/program/event_types")
@@ -112,8 +112,8 @@ feature 'Has correct abilities' do
     visit new_admin_conference_program_cfp_path(conference1.short_title)
     expect(current_path).to eq(new_admin_conference_program_cfp_path(conference1.short_title))
 
-    visit edit_admin_conference_program_cfp_path(conference1.short_title)
-    expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference1.short_title))
+    visit edit_admin_conference_program_cfp_path(conference1.short_title, conference1.program.cfp)
+    expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference1.short_title, conference1.program.cfp))
 
     visit admin_conference_program_events_path(conference1.short_title)
     expect(current_path).to eq(admin_conference_program_events_path(conference1.short_title))
@@ -256,7 +256,7 @@ feature 'Has correct abilities' do
     expect(page).to have_link('Rooms', href: "/admin/conferences/#{conference2.short_title}/venue/rooms")
     expect(page).to_not have_link('Lodgings', href: "/admin/conferences/#{conference2.short_title}/lodgings")
     expect(page).to have_link('Program', href: "/admin/conferences/#{conference2.short_title}/program")
-    expect(page).to have_link('Call for Papers', href: "/admin/conferences/#{conference2.short_title}/program/cfp")
+    expect(page).to have_link('Call for Papers', href: "/admin/conferences/#{conference2.short_title}/program/cfps")
     expect(page).to have_link('Events', href: "/admin/conferences/#{conference2.short_title}/program/events")
     expect(page).to have_link('Tracks', href: "/admin/conferences/#{conference2.short_title}/program/tracks")
     expect(page).to have_link('Event Types', href: "/admin/conferences/#{conference2.short_title}/program/event_types")
@@ -324,8 +324,8 @@ feature 'Has correct abilities' do
     visit new_admin_conference_program_cfp_path(conference2.short_title)
     expect(current_path).to eq(new_admin_conference_program_cfp_path(conference2.short_title))
 
-    visit edit_admin_conference_program_cfp_path(conference2.short_title)
-    expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference2.short_title))
+    visit edit_admin_conference_program_cfp_path(conference2.short_title, conference2.program.cfp)
+    expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference2.short_title, conference2.program.cfp))
 
     visit admin_conference_program_events_path(conference2.short_title)
     expect(current_path).to eq(admin_conference_program_events_path(conference2.short_title))
@@ -537,7 +537,7 @@ feature 'Has correct abilities' do
     visit new_admin_conference_program_cfp_path(conference3.short_title)
     expect(current_path).to eq(root_path)
 
-    visit edit_admin_conference_program_cfp_path(conference3.short_title)
+    visit edit_admin_conference_program_cfp_path(conference3.short_title, conference3.program.cfp)
     expect(current_path).to eq(root_path)
 
     visit admin_conference_program_events_path(conference3.short_title)

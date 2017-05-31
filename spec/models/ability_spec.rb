@@ -10,7 +10,6 @@ describe 'User' do
     let(:user){ nil }
 
     let!(:my_conference) { create(:full_conference) }
-    let!(:my_cfp) { create(:cfp, program: my_conference.program) }
     let(:my_venue) { my_conference.venue || create(:venue, conference: my_conference) }
     let(:my_registration) { create(:registration, conference: my_conference, user: admin) }
 
@@ -22,7 +21,6 @@ describe 'User' do
 
     let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
     let(:conference_public) { create(:full_conference, splashpage: create(:splashpage, public: true)) }
-    let!(:conference_public_cfp) { create(:cfp, program: conference_public.program) }
 
     let(:event_confirmed) { create(:event, state: 'confirmed') }
     let(:event_unconfirmed) { create(:event) }
@@ -32,7 +30,7 @@ describe 'User' do
     let(:resource) { create(:resource, conference: my_conference)}
     let(:registration) { create(:registration) }
 
-    let(:program_with_cfp) { create(:program, cfp: create(:cfp)) }
+    let(:program_with_cfp) { create(:program, :with_cfp) }
     let(:program_without_cfp) { create(:program) }
     let(:conference_with_open_registration) { create(:conference) }
     let!(:open_registration_period) { create(:registration_period, conference: conference_with_open_registration, start_date: Date.current - 6.days) }

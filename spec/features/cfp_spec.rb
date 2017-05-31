@@ -31,6 +31,8 @@ feature Conference do
       # Validations
       expect(flash)
           .to eq('Call for papers successfully created.')
+
+      visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
       expect(find('#end_date').text).to eq((today + 6).strftime('%A, %B %-d. %Y'))
 
@@ -38,11 +40,11 @@ feature Conference do
     end
 
     scenario 'update cfp', feature: true, js: true do
-      conference.program.cfp = create(:cfp)
+      create(:cfp, program: conference.program)
       expected_count = Cfp.count
 
       sign_in organizer
-      visit admin_conference_program_cfp_path(conference.short_title)
+      visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       click_link 'Edit'
 
       # Validate update with empty start date will not saved
@@ -65,6 +67,8 @@ feature Conference do
       # Validations
       expect(flash)
           .to eq('Call for papers successfully updated.')
+
+      visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
       expect(find('#end_date').text).to eq((today + 14).strftime('%A, %B %-d. %Y'))
       expect(Cfp.count).to eq(expected_count)

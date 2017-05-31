@@ -29,7 +29,6 @@ describe 'Registration' do
   describe 'association' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:conference) }
-    it { is_expected.to have_and_belong_to_many(:events) }
     it { is_expected.to have_and_belong_to_many(:qanswers) }
     it { is_expected.to have_and_belong_to_many(:vchoices) }
     it { is_expected.to have_many(:events_registrations) }
