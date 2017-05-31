@@ -1,0 +1,31 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Organizations
+      .btn-group.pull-right
+        = link_to 'Add Organization', new_admin_organization_path, class: 'btn btn-success pull-right'
+      %p.text-muted
+        Manage organizations in OSEM
+  .row
+    .col-md-12
+      %table.table.table-hover.datatable
+        %thead
+          %th Name
+          %th Upcoming Conferences
+          %th Past Conferences
+          %th Actions
+        %tbody
+          - @organizations.each do |organization|
+            %tr
+              %td
+                = organization.name
+              %td
+                = organization.conferences.count
+              %td
+                = organization.conferences.count
+              %td
+                .btn-group
+                  = link_to 'Edit', edit_organization_path(organization),
+                    method: :get, class: 'btn btn-primary'
+                  = link_to 'Delete', admin_organization_path(organization),
+                    method: :delete, class: 'btn btn-danger'

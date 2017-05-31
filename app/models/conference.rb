@@ -7,6 +7,8 @@ class Conference < ActiveRecord::Base
 
   default_scope { order('start_date DESC') }
 
+  belongs_to :organization
+
   has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
   has_and_belongs_to_many :questions
@@ -53,7 +55,8 @@ class Conference < ActiveRecord::Base
             :start_date,
             :end_date,
             :start_hour,
-            :end_hour, presence: true
+            :end_hour,
+            :organization, presence: true
 
   validates :short_title, uniqueness: true
   validates :short_title, format: { with: /\A[a-zA-Z0-9_-]*\z/ }
