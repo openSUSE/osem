@@ -34,7 +34,6 @@ describe TicketPurchase do
     it 'is valid with a quantity greater than zero' do
       should allow_value(1).for(:quantity)
     end
-
   end
 
   describe 'self#purchase' do
@@ -54,7 +53,6 @@ describe TicketPurchase do
       expect(TicketPurchase.count).to eq(1)
       expect(purchase.quantity).to eq(10)
       expect(message.blank?).to be true
-
     end
 
     it 'creates a purchase for one ticket' do
@@ -114,6 +112,24 @@ describe TicketPurchase do
       expect(TicketPurchase.count).to eq(1)
       expect(purchase.quantity).to eq(10)
       expect(message.blank?).to be true
+    end
+  end
+
+  describe 'after_create' do
+    let(:ticket_purchase) { create(:ticket_purchase, quantity: 4, paid: true) }
+
+    it 'creates physical tickets equal to the quantity of purchase' do
+      expect(ticket_purchase.physical_tickets.count).to eq(4)
+    end
+  end
+
+  describe 'after_update' do
+    let(:ticket_purchase) { create(:ticket_purchase, quantity: 5) }
+
+    it 'creates physical tickets if the payment is made successfully' do
+      ticket_purchase
+      ticket_purchase.paid = true
+      expect{ ticket_purchase.save }.to change{ ticket_purchase.physical_tickets.count }.from(0).to(5)
     end
   end
 end

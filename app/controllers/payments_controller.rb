@@ -18,7 +18,7 @@ class PaymentsController < ApplicationController
 
     if @payment.purchase && @payment.save
       update_purchased_ticket_purchases
-      redirect_to conference_conference_registration_path(@conference.short_title),
+      redirect_to conference_physical_ticket_index_path,
                   notice: 'Thanks! Your ticket is booked successfully.'
     else
       @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
@@ -38,6 +38,8 @@ class PaymentsController < ApplicationController
   end
 
   def update_purchased_ticket_purchases
-    current_user.ticket_purchases.by_conference(@conference).unpaid.update_all(paid: true, payment_id: @payment.id)
+    current_user.ticket_purchases.by_conference(@conference).unpaid.each do |ticket_purchase|
+      ticket_purchase.pay(@payment)
+    end
   end
 end
