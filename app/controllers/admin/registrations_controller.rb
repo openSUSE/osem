@@ -30,6 +30,13 @@ module Admin
       end
     end
 
+    def show
+      @file_name = "ticket_for_#{@conference.short_title}"
+      respond_to do |format|
+        format.pdf {}
+      end
+    end
+
     def destroy
       if can? :destroy, @registration
         @registration.destroy
