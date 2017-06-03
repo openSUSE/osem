@@ -31,6 +31,11 @@ class ConferenceRegistrationsController < ApplicationController
     @tickets = current_user.ticket_purchases.by_conference(@conference).paid
     @ticket_payments = @tickets.group_by(&:ticket_id)
     @total_quantity = @tickets.group(:ticket_id).sum(:quantity)
+    @file_name = "ticket_for_#{@conference.short_title}"
+    respond_to do |format|
+        format.html
+        format.pdf {} 
+      end
   end
 
   def edit; end
