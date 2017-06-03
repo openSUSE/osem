@@ -70,6 +70,7 @@
                   method: :get, class: 'btn btn-primary'
                   = link_to 'Delete', admin_conference_registration_path(@conference.short_title, registration),
                   method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Registration for #{registration.name}?" }
+                  = link_to 'Export Ticket', conference_conference_registration_path(@conference.short_title, format: :pdf), class: 'btn btn-success'
   - @registrations.each_with_index do |registration, index|
     .questions{class: "question#{index}", style: 'display:none;'}
       = render partial: 'questions', locals: { registration: registration }
