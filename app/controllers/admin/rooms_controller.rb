@@ -3,6 +3,7 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :venue, through: :conference, singleton: true
     load_and_authorize_resource through: :venue
+    after_action :prepare_unobtrusive_flash, only: [:create]
 
     def index; end
 
@@ -14,12 +15,13 @@ module Admin
 
     def create
       @room = @venue.rooms.new(room_params)
-      if @room.save
-        redirect_to admin_conference_venue_rooms_path(conference_id: @conference.short_title),
-                    notice: 'Room successfully created.'
-      else
-        flash.now[:error] = "Creating Room failed: #{@room.errors.full_messages.join('. ')}."
-        render :new
+      respond_to do |format|
+        if @room.save
+          flash.now[:notice] = 'Room successfully created.'
+        else
+          flash.now[:error] = "Creating Room failed: #{@room.errors.full_messages.join('. ')}."
+        end
+        format.js
       end
     end
 
