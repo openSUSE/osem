@@ -183,6 +183,7 @@ Rails/OutputSafety:
   Exclude:
     - 'app/helpers/format_helper.rb'
     - 'app/models/commercial.rb'
+    - 'app/helpers/application_helper.rb'
 
 # Offense count: 10
 # Cop supports --auto-correct.
