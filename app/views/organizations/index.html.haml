@@ -4,7 +4,7 @@
       %h1
         Organizations
         .btn-group.pull-right
-          = link_to 'Add new', new_organization_path, class: 'btn btn-mini btn-success'
+          / = link_to 'Add new', new_organization_path, class: 'btn btn-mini btn-success'
     - @organizations.each do |organization|
       .col-md-4
         .thumbnail
@@ -13,5 +13,4 @@
             %h4
               = organization.name
             %button.btn.btn-success Conferences
-            = link_to 'Edit', edit_organization_path(organization), class: 'btn btn-mini btn-default'
-
+            / = link_to 'Edit', edit_organization_path(organization), class: 'btn btn-mini btn-default'

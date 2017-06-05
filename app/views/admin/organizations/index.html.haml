@@ -25,7 +25,7 @@
                 = organization.conferences.count
               %td
                 .btn-group
-                  = link_to 'Edit', edit_organization_path(organization),
+                  = link_to 'Edit', edit_admin_organization_path(organization),
                     method: :get, class: 'btn btn-primary'
                   = link_to 'Delete', admin_organization_path(organization),
-                    method: :delete, class: 'btn btn-danger'
+                    method: :delete, class: 'btn btn-danger', data: { confirm: "Warning: This will delete #{organization.name} and all its data which includes data for all conferences within #{organization.name}. Do you really want to continue?" }
