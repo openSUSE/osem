@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170531094817) do
+ActiveRecord::Schema.define(version: 20170531094819) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(version: 20170531094817) do
     t.integer  "end_hour",           default: 20
     t.integer  "organization_id"
   end
+
+  add_index "conferences", ["organization_id"], name: "index_conferences_on_organization_id"
 
   create_table "conferences_questions", id: false, force: :cascade do |t|
     t.integer "conference_id"
