@@ -928,11 +928,3 @@ Style/UnneededInterpolation:
 Style/VariableNumber:
   Exclude:
     - 'spec/models/ticket_purchase_spec.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles, WordRegex.
-# SupportedStyles: percent, brackets
-Style/WordArray:
-  EnforcedStyle: percent
-  MinSize: 3
