@@ -13,8 +13,11 @@ class Venue < ActiveRecord::Base
 
   before_save :send_mail_notification
 
-  def address
-    "#{street}, #{city}, #{country_name}"
+  geocoded_by :full_address
+  after_validation :geocode
+
+  def full_address
+    "#{street}, #{city}, #{country}"
   end
 
   def country_name
@@ -35,7 +38,7 @@ class Venue < ActiveRecord::Base
   def notify_on_venue_changed?
     return false unless conference.try(:email_settings).try(:send_on_venue_updated)
     # do not notify unless the address changed
-    return false unless name_changed? || street_changed? || city_changed? || country_changed?
+    return false unless self.name_changed? || self.street_changed? || self.city_changed? || self.country_changed?
     # do not notify unless the mail content is set up
     (!conference.email_settings.venue_updated_subject.blank? && !conference.email_settings.venue_updated_body.blank?)
   end

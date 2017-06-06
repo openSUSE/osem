@@ -1,0 +1,34 @@
+#map{style: "height: 500px;" }
+- popup = "<h3>#{@conference.venue.name}</h3><br>#{@conference.venue.street}<br>#{@conference.venue.city}<br>#{@conference.venue.country_name}"
+- content_for(:script_body) do
+  :javascript
+    // create a map in the "map" div, set the view to a given place and zoom
+    var map = L.map('map', { scrollWheelZoom: false }).setView([#{@conference.venue.latitude}, #{@conference.venue.longitude}], 11);
+    // add an OpenStreetMap tile layer
+    L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18
+    }).addTo(map);
+    // add a marker in the given location, attach some popup content to it and open the popup
+    L.marker([#{@conference.venue.latitude}, #{@conference.venue.longitude}]).addTo(map)
+      .bindPopup("#{popup}")
+      .openPopup();
+    // Turn scrollwheel on when user clicks
+    map.on('focus', function(e) {
+      map.scrollWheelZoom.enable();
+    });
+    // Turn scrollwheel off once the map isn't in the viewport anymore
+    $('#map').waypoint({
+      handler: function(direction) {
+        map.scrollWheelZoom.disable();
+        //alert('map');
+      },
+      offset: '90%'
+    });
+    $('#map').waypoint({
+      handler: function(direction) {
+        map.scrollWheelZoom.disable();
+        //alert('map');
+      },
+      offset: '10%'
+    });
