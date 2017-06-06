@@ -3,7 +3,7 @@ class Booth < ActiveRecord::Base
   has_many :booth_requests
   has_many :users, through: :booth_requests
 
-  validate :title,
+  validates :title,
             uniqueness: { case_sensitive: fasle},
             presence: true
 

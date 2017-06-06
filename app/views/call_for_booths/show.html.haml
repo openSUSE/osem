@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Start date:
+  = @call_for_booth.start_date
+%p
+  %b End date:
+  = @call_for_booth.end_date
+%p
+  %b Booth limit:
+  = @call_for_booth.booth_limit
+
+= link_to 'Edit', edit_call_for_booth_path(@call_for_booth)
+\|
+= link_to 'Back', call_for_booths_path
