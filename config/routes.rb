@@ -103,7 +103,7 @@ Osem::Application.routes.draw do
     get '/revision_history/:id/revert_object' => 'versions#revert_object', as: 'revision_history_revert_object'
     get '/revision_history/:id/revert_attribute' => 'versions#revert_attribute', as: 'revision_history_revert_attribute'
   end
-  resources :organizations
+  resources :organizations, only: [:index]
   resources :conferences, only: [:index, :show] do
     resource :program, only: [] do
       resources :proposals, except: :destroy do

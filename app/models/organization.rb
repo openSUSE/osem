@@ -1,5 +1,5 @@
 class Organization < ActiveRecord::Base
-  has_many :conferences
+  has_many :conferences, dependent: :destroy
 
   validates :name, presence: true
 

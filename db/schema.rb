@@ -270,7 +270,7 @@ ActiveRecord::Schema.define(version: 20170531094819) do
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string "name"
+    t.string "name",        null: false
     t.text   "description"
     t.string "picture"
   end

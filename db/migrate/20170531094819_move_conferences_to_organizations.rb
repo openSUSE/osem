@@ -8,14 +8,15 @@ class MoveConferencesToOrganizations < ActiveRecord::Migration
   end
 
   def change
-    add_reference :conferences, :organization, index: true
-    add_foreign_key :conferences, :organizations, dependent: :delete
+    add_reference :conferences, :organization, index: true, foreign_key: true
 
     TempConference.reset_column_information
-    organization = TempOrganization.create(name: 'organization', description: 'Default organization to migrate old conferences to the new version of OSEM')
-    TempConference.all.each do |conference|
-      conference.organization_id = organization.id
-      conference.save!
+    if TempConference.count != 0
+      organization = TempOrganization.create(name: 'organization', description: 'Default organization')
+      TempConference.all.each do |conference|
+        conference.organization_id = organization.id
+        conference.save!
+      end
     end
   end
 end
