@@ -104,6 +104,7 @@
                 = humanized_money tickets.first.price
             %br
         - if @tickets.any?
+          = link_to 'Download Ticket', conference_conference_registration_path(@conference.short_title, format: :pdf), class: 'button btn btn-default btn-info'
           = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
         - else
           You haven't bought any tickets.
