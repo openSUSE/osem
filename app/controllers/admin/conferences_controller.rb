@@ -72,11 +72,19 @@ module Admin
 
     def new
       @conference = Conference.new
+      @organizations = {}
+      Organization.all.each do |organization|
+        @organizations.store(organization.name, organization.id) if can? :create, Conference.new(organization: organization)
+      end
     end
 
     def create
-      @conference = Conference.new(conference_params)
-
+      conference_params_copy = conference_params
+      if ENV['ORGANIZATIONS_ENABLED'] != 'true'
+        org = Organization.exists?(name: 'default') ? Organization.find_by(name: 'default') : Organization.create(name: 'default')
+        conference_params_copy[:organization_id] = org.id
+      end
+      @conference = Conference.new(conference_params_copy)
       if @conference.save
         # user that creates the conference becomes organizer of that conference
         current_user.add_role :organizer, @conference
@@ -211,7 +219,7 @@ module Admin
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :targets, :targets_attributes,
-                                         :campaigns, :campaigns_attributes, :registration_limit)
+                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id)
     end
   end
 end
