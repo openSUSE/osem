@@ -8,7 +8,7 @@ class MoveConferencesToOrganizations < ActiveRecord::Migration
   end
 
   def change
-    add_reference :conferences, :organization, index: true, foreign_key: true
+    add_reference :conferences, :organization, index: true
 
     TempConference.reset_column_information
     if TempConference.count != 0
@@ -18,5 +18,7 @@ class MoveConferencesToOrganizations < ActiveRecord::Migration
         conference.save!
       end
     end
+
+    add_foreign_key :conferences, :organizations, null: false, on_delete: :cascade
   end
 end
