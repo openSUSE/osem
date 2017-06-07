@@ -79,12 +79,9 @@ module Admin
     end
 
     def create
-      conference_params_copy = conference_params
-      if ENV['ORGANIZATIONS_ENABLED'] != 'true'
-        org = Organization.exists?(name: 'default') ? Organization.find_by(name: 'default') : Organization.create(name: 'default')
-        conference_params_copy[:organization_id] = org.id
-      end
-      @conference = Conference.new(conference_params_copy)
+      org = Organization.find_or_create_by(name: 'organization')
+      @conference = Conference.new(conference_params)
+      @conference.organization = org
       if @conference.save
         # user that creates the conference becomes organizer of that conference
         current_user.add_role :organizer, @conference
