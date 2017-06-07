@@ -27,6 +27,7 @@ class Registration < ActiveRecord::Base
   validates :user_id, uniqueness: { scope: :conference_id, message: 'already Registered!' }
   validate :registration_limit_not_exceed, on: :create
   validate :registration_to_events_only_if_present
+  validate :before_end_of_registration_period, on: :create
 
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
 
@@ -56,6 +57,12 @@ class Registration < ActiveRecord::Base
       errors.add(:arrival, 'is too late! You cannot register for events that take place before your arrival') if events.pluck(:start_time).compact.map { |x| x < arrival }.any?
 
       errors.add(:departure, 'is too early! You cannot register for events that take place after your departure') if events.pluck(:start_time).compact.map { |x| x > departure }.any?
+    end
+  end
+
+  def before_end_of_registration_period
+    if conference && conference.registration_period && conference.registration_period.end_date && (Date.today > conference.registration_period.end_date)
+      errors.add(:created_at, "can't be after the registration period end date!")
     end
   end
 
