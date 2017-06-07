@@ -114,22 +114,4 @@ describe TicketPurchase do
       expect(message.blank?).to be true
     end
   end
-
-  describe 'after_create' do
-    let(:ticket_purchase) { create(:ticket_purchase, quantity: 4, paid: true) }
-
-    it 'creates physical tickets equal to the quantity of purchase' do
-      expect(ticket_purchase.physical_tickets.count).to eq(4)
-    end
-  end
-
-  describe 'after_update' do
-    let(:ticket_purchase) { create(:ticket_purchase, quantity: 5) }
-
-    it 'creates physical tickets if the payment is made successfully' do
-      ticket_purchase
-      ticket_purchase.paid = true
-      expect{ ticket_purchase.save }.to change{ ticket_purchase.physical_tickets.count }.from(0).to(5)
-    end
-  end
 end
