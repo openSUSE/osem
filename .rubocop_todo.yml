@@ -94,6 +94,8 @@ Metrics/ModuleLength:
 # Offense count: 14
 Metrics/PerceivedComplexity:
   Max: 15
+  Exclude:
+    - 'app/controllers/admin/roles_controller.rb'
 
 # Offense count: 11
 # Cop supports --auto-correct.
@@ -850,6 +852,7 @@ Style/SymbolProc:
     - 'app/controllers/admin/questions_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/ability.rb'
+    - 'app/models/admin_ability.rb'
     - 'db/migrate/20140730104658_migrate_roles_for_cancancan.rb'
     - 'spec/controllers/admin/conferences_controller_spec.rb'
     - 'spec/support/flash.rb'
