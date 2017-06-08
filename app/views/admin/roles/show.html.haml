@@ -6,14 +6,20 @@
         Role
         = @role.name.titleize
         - if can? :edit, @role
-          = link_to 'Edit', edit_admin_conference_role_path(@conference.short_title, @role.name), class: 'btn btn-primary pull-right'
+          - if @track
+            = link_to 'Edit', track_edit_admin_conference_role_path(@conference.short_title, @role.name, @track.short_name), class: 'btn btn-primary pull-right'
+          - else
+            = link_to 'Edit', edit_admin_conference_role_path(@conference.short_title, @role.name), class: 'btn btn-primary pull-right'
       .text-muted
         = @role.description
+        - if @track
+          = link_to @track.name, admin_conference_program_track_path(@conference.short_title, @track)
+
 
 .row.col-md-3
   - if ( can? :toggle_user, @role ) && !@role.new_record?
 
-    = semantic_form_for :user, url: toggle_user_admin_conference_role_path(@conference.short_title, @role.name), method: :post do |u|
+    = semantic_form_for :user, url: @url, method: :post do |u|
 
       = u.label 'Add user by email: '
       .input-group

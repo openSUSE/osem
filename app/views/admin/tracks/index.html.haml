@@ -11,7 +11,10 @@
         %th Name
         %th Short name
         %th Description
+        %th Submitter
         %th Color
+        %th State
+        %th Included in the Cfp
         %th Actions
       %tbody
         - @tracks.each do |track|
@@ -25,8 +28,30 @@
               %p
                 = truncate(track.description)
             %td
+              - if track.self_organized?
+                = link_to track.submitter.name, admin_user_path(track.submitter)
+              - else
+                N/A
+            %td
               %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
                 = track.color
+            %td
+              - if track.self_organized?
+                = track.state
+              - else
+                N/A
+            %td
+              - if track.self_organized?
+                = check_box_tag "#{@conference.short_title}_#{track.id}", track.id, track.cfp_active,
+                  class: 'switch-checkbox', method: :patch,
+                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.id)+"?included=",
+                  data: { size: 'small',
+                          on_color: 'success',
+                          off_color: 'warning',
+                          on_text: 'Yes',
+                          off_text: 'No' }
+              - else
+                %i.fa.fa-check
             %td
               .btn-group{role: "group"}
                 = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track.short_name),

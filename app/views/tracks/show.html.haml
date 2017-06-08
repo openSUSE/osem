@@ -1,0 +1,26 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          = @track.name
+          Track
+  .row
+    .col-md-8
+      %dl.dl-horizontal
+        %dt
+          Color:
+        %dd
+          %span.label{style: "background-color: #{@track.color}; color: #{ contrast_color(@track.color) }"}
+            = @track.color
+        %dt
+          State:
+        %dd
+          = @track.state
+        %dt
+          Description
+        %dd
+          = @track.description
+  .row
+    .col-md-12.text-right
+      = link_to 'Edit Track request', edit_conference_program_track_path(@conference.short_title, @track.short_name), class: 'btn btn-primary'
