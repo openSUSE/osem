@@ -4,13 +4,13 @@ class Booth < ActiveRecord::Base
   has_many :users, through: :booth_requests
 
   validates :title,
-            uniqueness: { case_sensitive: fasle},
+            uniqueness: { case_sensitive: false },
             presence: true
 
   validates :description,
             :reasoning,
             :state,
-            :logo_link
+            :logo_link,
             :conference_id,
             presence: true
 end

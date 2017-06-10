@@ -1,8 +1,6 @@
 class CallForBooth < ActiveRecord::Base
   belongs_to :conference
 
-  has_one :conference
-
   validates :start_date, :end_date, :booth_limit, presence: true
   validate :before_end_of_conference
   validate :start_date_before_end_date

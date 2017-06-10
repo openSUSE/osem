@@ -4,6 +4,7 @@ class CreateCallForBooths < ActiveRecord::Migration
       t.date :start_date
       t.date :end_date
       t.integer :booth_limit
+      t.references :conference
 
       t.timestamps null: false
     end
