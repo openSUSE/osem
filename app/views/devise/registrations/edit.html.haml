@@ -15,7 +15,11 @@
           %h4
             Currently the following openIDs are associated with your account
           - @openids.each do |openid|
-            %li= "#{openid.provider}:#{openid.email}"
+            %li{ style: "list-style: none; margin-left: 20px;" }
+              = link_to user_openid_path(openid, user_id: current_user.id), method: :delete,
+              data: { confirm: "Remove association with #{openid.provider} account?" } do
+                %span.fa.fa-times{ style: "color: red;" }
+              %span #{openid.provider}:#{openid.email}
             %br
           %h4
             To add an openID with a different email address to your account, sign in with your
