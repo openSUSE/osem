@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Admin::OrganizationsController do
-  let(:admin) { create(:admin) }
-  let(:organization) { create(:organization) }
-  let(:user) { create(:user) }
+  let!(:admin) { create(:admin) }
+  let!(:organization) { create(:organization) }
+  let!(:user) { create(:user) }
 
   context 'logged in as user with no role' do
     before :each do
@@ -60,23 +60,23 @@ describe Admin::OrganizationsController do
       end
     end
 
-    # describe 'DELETE #destroy' do
-    #   context 'for a valid organization' do
-    #     it 'does not destroy a resource' do
-    #       expected = expect do
-    #         delete :destroy, id: organization.id
-    #       end
-    #       expected.to_not change { Organization.count }
-    #     end
+    describe 'DELETE #destroy' do
+      context 'for a valid organization' do
+        it 'does not destroy a resource' do
+          expected = expect do
+            delete :destroy, id: organization.id
+          end
+          expected.to_not change(Organization, :count)
+        end
 
-    #     it 'redirects to root' do
-    #       delete :destroy, id: organization.id
+        it 'redirects to root' do
+          delete :destroy, id: organization.id
 
-    #       expect(flash[:alert]).to eq('You are not authorized to access this area!')
-    #       expect(response).to redirect_to(root_path)
-    #     end
-    #   end
-    # end
+          expect(flash[:alert]).to eq('You are not authorized to access this area!')
+          expect(response).to redirect_to(root_path)
+        end
+      end
+    end
   end
 
   context 'logged in as admin' do
@@ -150,22 +150,22 @@ describe Admin::OrganizationsController do
       end
     end
 
-    # describe 'DELETE #destroy' do
-    #   context 'for a valid organization' do
-    #     it 'should successfully destroy a resource' do
-    #       expected = expect do
-    #         delete :destroy, id: organization.id
-    #       end
-    #       expected.to change { Organization.count }.by(-1)
-    #     end
+    describe 'DELETE #destroy' do
+      context 'for a valid organization' do
+        it 'should successfully destroy a resource' do
+          expected = expect do
+            delete :destroy, id: organization.id
+          end
+          expected.to change { Organization.count }.by(-1)
+        end
 
-    #     it 'redirects to index' do
-    #       delete :destroy, id: organization.id
+        it 'redirects to index' do
+          delete :destroy, id: organization.id
 
-    #       expect(flash[:notice]).to eq('Organization successfully destroyed')
-    #       expect(response).to redirect_to(admin_organizations_path)
-    #     end
-    #   end
-    # end
+          expect(flash[:notice]).to eq('Organization successfully destroyed')
+          expect(response).to redirect_to(admin_organizations_path)
+        end
+      end
+    end
   end
 end
