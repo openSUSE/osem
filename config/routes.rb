@@ -15,7 +15,9 @@ Osem::Application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
-  resources :users, except: [:new, :index, :create, :destroy]
+  resources :users, except: [:new, :index, :create, :destroy] do
+    resources :openids, only: :destroy
+  end
 
   namespace :admin do
     resources :users do
