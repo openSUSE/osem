@@ -26,11 +26,11 @@ class User < ActiveRecord::Base
   devise_modules = []
 
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-    devise_modules += [ :ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: [] ]
+    devise_modules += [:ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: []]
   else
     devise_modules += [:database_authenticatable, :registerable,
                        :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-                       :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github] ]
+                       :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github]]
   end
 
   devise(*devise_modules)

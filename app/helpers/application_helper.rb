@@ -152,7 +152,7 @@ module ApplicationHelper
   end
 
   def speaker_links(event)
-    event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }.join(', ').html_safe
+    safe_join(event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }, ',')
   end
 
   def speaker_selector_input(form)
