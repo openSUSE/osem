@@ -723,14 +723,6 @@ Style/RegexpLiteral:
 
 # Offense count: 3
 # Cop supports --auto-correct.
-Style/SelfAssignment:
-  Exclude:
-    - 'app/models/event.rb'
-    - 'db/migrate/20141104131625_generate_username.rb'
-    - 'spec/support/save_feature_failures.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: only_raise, only_fail, semantic
 Style/SignalException:
