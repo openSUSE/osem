@@ -104,6 +104,10 @@ Style/TrailingBlankLines:
 Style/TrailingWhitespace:
   Enabled: true
 
+# Check for array literals made up of word-like strings, that are not using the %w() syntax
+Style/WordArray:
+  Enabled: true
+
 # This cop checks for numeric comparisons that can be replaced by a predicate method.
 Style/ZeroLengthPredicate:
   Enabled: true

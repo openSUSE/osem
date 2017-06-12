@@ -2,7 +2,7 @@ namespace :data do
   desc 'Sets conference_id in all pre-existing PaperTrail::Version objects'
   task set_conference_in_versions: :environment do
 
-    PaperTrail::Version.where(conference_id: nil, item_type: ['Conference', 'Event']).each do |version|
+    PaperTrail::Version.where(conference_id: nil, item_type: %w[Conference Event]).each do |version|
       # All pre-existing versions are either of Conference or Event
       if version.item_type == 'Conference'
         version.update_attributes(conference_id: version.item_id)

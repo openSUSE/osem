@@ -128,6 +128,7 @@ gem 'country_select'
 gem 'prawn_rails'
 
 # to render XLS spreadsheets
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
 # as error catcher
@@ -178,7 +179,7 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
-# For countable.js 
+# For countable.js
 gem "countable-rails", "~> 0.0.1"
 
 # Both are not in a group as we use it also for rake data:demo

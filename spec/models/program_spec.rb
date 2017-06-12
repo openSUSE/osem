@@ -141,7 +141,7 @@ describe Program do
   describe '#cfp_open?' do
     describe 'returns true' do
       it 'when there is an open Call for Papers for the conference' do
-        create(:cfp, start_date: Date.today - 2, end_date: Date.today, program_id: program.id)
+        create(:cfp, start_date: Date.current - 2, end_date: Date.current, program_id: program.id)
         expect(program.cfp_open?).to be true
       end
     end
@@ -152,7 +152,7 @@ describe Program do
       end
 
       it 'when the Call for Papers period is over' do
-        build(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: program.id)
+        create(:cfp, start_date: Date.current - 2, end_date: Date.current - 1, program_id: program.id)
         expect(program.cfp_open?).to be false
       end
     end

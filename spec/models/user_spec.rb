@@ -282,7 +282,7 @@ describe User do
 
       it 'returns hash of role and conference' do
         expected_hash = {
-          'organizer' => ['oSC16', 'oSC15'],
+          'organizer' => %w[oSC16 oSC15],
           'cfp' => ['oSC16']
         }
 
