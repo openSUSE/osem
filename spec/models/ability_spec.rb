@@ -9,7 +9,8 @@ describe 'User' do
     subject(:ability){ Ability.new(user) }
     let(:user){ nil }
 
-    let!(:my_conference) { create(:full_conference) }
+    let!(:organization) { create(:organization) }
+    let!(:my_conference) { create(:full_conference, organization: organization) }
     let(:my_venue) { my_conference.venue || create(:venue, conference: my_conference) }
     let(:my_registration) { create(:registration, conference: my_conference, user: admin) }
 
@@ -44,6 +45,7 @@ describe 'User' do
     let!(:other_event_schedule) { create(:event_schedule, schedule: other_schedule) }
     # Test abilities for not signed in users
     context 'when user is not signed in' do
+      it{ should be_able_to(:index, Organization)}
       it{ should be_able_to(:index, Conference)}
 
       it{ should be_able_to(:show, conference_public)}
@@ -138,8 +140,13 @@ describe 'User' do
 
     shared_examples 'user with any role' do
       before do
+        @other_organization = create(:organization)
         @other_conference = create(:conference)
       end
+
+      it{ should_not be_able_to(:update, Role.find_by(name: 'organization_admin', resource: @other_organization)) }
+      it{ should_not be_able_to(:edit, Role.find_by(name: 'organization_admin', resource: @other_organization)) }
+      it{ should_not be_able_to(:show, Role.find_by(name: 'organization_admin', resource: @other_organization)) }
 
       %w(organizer cfp  info_desk volunteers_coordinator).each do |role|
         it{ should_not be_able_to(:toggle_user, Role.find_by(name: role, resource: @other_conference)) }
@@ -162,6 +169,18 @@ describe 'User' do
         it{ should be_able_to(:show, Role.find_by(name: role, resource: my_conference)) }
         it{ should be_able_to(:index, Role.find_by(name: role, resource: my_conference)) }
       end
+    end
+
+    context 'when user has the role organization_admin' do
+      let(:role) { Role.find_by(name: 'organization_admin', resource: organization) }
+      let(:user) { create(:user, role_ids: [role.id]) }
+      let(:other_conference) { create(:conference) }
+
+      it{ should_not be_able_to(:manage, other_conference) }
+      it{ should be_able_to(:manage, my_conference) }
+      it{ should be_able_to(:manage, organization) }
+
+      it_behaves_like 'user with any role'
     end
 
     context 'when user has the role organizer' do
