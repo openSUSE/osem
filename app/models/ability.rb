@@ -83,6 +83,7 @@ class Ability
       conference.registration_open? && !conference.registration_limit_exceeded? || conference.program.speakers.confirmed.include?(user)
     end
 
+    can :index, Organization
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
     can [:new, :create], Payment, user_id: user.id
