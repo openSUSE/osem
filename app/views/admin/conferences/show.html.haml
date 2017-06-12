@@ -71,7 +71,7 @@
                                                  conference: @conference }
       .row#tickets
         .col-md-8
-          =render partial: 'line_chart', locals: { title: 'Tickets sold over time',
+          = render partial: 'line_chart', locals: { title: 'Tickets sold over time',
                                                       name: 'tickets',
                                                       conferences: @tickets,
                                                       active_conferences: @tickets,
