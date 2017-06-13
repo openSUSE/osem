@@ -1630,7 +1630,7 @@ describe Conference do
   end
 
   describe 'after_create' do
-    let(:conference) { Conference.new(title: 'ABC', short_title: 'XYZ', start_date: Date.today, end_date: Date.today + 10, timezone: 'GMT') }
+    let(:conference) { create(:conference) }
 
     it 'calls back to create free ticket' do
       conference.save
