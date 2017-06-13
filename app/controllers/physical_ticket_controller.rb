@@ -8,5 +8,8 @@ class PhysicalTicketController < ApplicationController
     @physical_tickets = current_user.physical_tickets.by_conference(@conference)
   end
 
-  def show; end
+  def show
+    @file_name = "ticket_for_#{@conference.short_title}"
+    @user = @physical_ticket.user
+  end
 end
