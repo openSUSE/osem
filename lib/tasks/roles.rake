@@ -3,7 +3,7 @@ namespace :roles do
   task add: :environment do
 
     Organization.all.each do |org|
-      Role.where(name: 'organization_admin', resource: org).first_or_create(description: "For the administrators of an organization (who shall have full access to the organization and it's conferences)")
+      Role.where(name: 'organization_admin', resource: org).first_or_create(description: 'For the administrators of an organization and its conferences')
     end
 
     Conference.all.each do |c|

@@ -1,7 +1,6 @@
 module Admin
   class OrganizationsController < Admin::BaseController
     load_and_authorize_resource :organization
-    after_action :assign_role, only: :create
 
     def index
       @organizations = Organization.all
@@ -45,10 +44,6 @@ module Admin
     end
 
     private
-
-    def assign_role
-      current_user.add_role :organization_admin, @organization
-    end
 
     def organization_params
       params.require(:organization).permit(:name, :description, :picture)

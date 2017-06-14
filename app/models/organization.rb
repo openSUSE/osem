@@ -12,6 +12,6 @@ class Organization < ActiveRecord::Base
   private
 
   def create_roles
-    Role.where(name: 'organization_admin', resource: self).first_or_create(description: "For the administrators of an organization (who shall have full access to the organization and it's conferences)")
+    roles.where(name: 'organization_admin').first_or_create(description: 'For the administrators of an organization and its conferences')
   end
 end
