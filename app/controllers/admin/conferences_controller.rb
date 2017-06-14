@@ -72,14 +72,11 @@ module Admin
 
     def new
       @conference = Conference.new
-      @organizations = {}
-      Organization.all.each do |organization|
-        @organizations.store(organization.name, organization.id) if can? :create, Conference.new(organization: organization)
-      end
     end
 
     def create
       @conference = Conference.new(conference_params)
+      @conference.organization = Organization.find_or_create_by(name: 'organization')
       if @conference.save
         # user that creates the conference becomes organizer of that conference
         current_user.add_role :organizer, @conference

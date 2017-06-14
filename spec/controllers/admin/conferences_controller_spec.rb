@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Admin::ConferencesController do
 
   # It is necessary to use bang version of let to build roles before user
-  let(:organization) { create(:organization) }
-  let(:conference) { create(:conference, organization: organization, end_date: Date.new(2014, 05, 26) + 15) }
+  let!(:organization) { create(:organization, name: 'organization') }
+  let!(:conference) { create(:conference, organization: organization, end_date: Date.new(2014, 05, 26) + 15) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organization_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
   let(:organization_admin) { create(:user, role_ids: organization_admin_role.id) }
@@ -143,14 +143,14 @@ describe Admin::ConferencesController do
         it 'saves the conference to the database' do
           expected = expect do
             post :create, conference:
-                attributes_for(:conference, short_title: 'dps15', organization: organization)
+                attributes_for(:conference, short_title: 'dps15', organization_id: organization.id)
           end
           expected.to change { Conference.count }.by 1
         end
 
         it 'redirects to conference#show' do
           post :create, conference:
-              attributes_for(:conference, short_title: 'dps15', organization: organization)
+              attributes_for(:conference, short_title: 'dps15', organization_id: organization.id)
 
           expect(response).to redirect_to admin_conference_path(
                                               assigns[:conference].short_title)
@@ -174,14 +174,14 @@ describe Admin::ConferencesController do
         it 'does not save the conference to the database' do
           expected = expect do
             post :create, conference:
-                attributes_for(:conference, short_title: nil, organization: organization)
+                attributes_for(:conference, short_title: nil, organization_id: organization.id)
           end
           expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
           post :create, conference:
-              attributes_for(:conference, short_title: nil, organization: organization)
+              attributes_for(:conference, short_title: nil, organization_id: organization.id)
           expect(response).to be_success
         end
       end
@@ -191,14 +191,14 @@ describe Admin::ConferencesController do
           conference
           expected = expect do
             post :create, conference:
-                attributes_for(:conference, short_title: conference.short_title, organization: organization)
+                attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id)
           end
           expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
           conference
-          post :create, conference: attributes_for(:conference, short_title: conference.short_title, organization: organization)
+          post :create, conference: attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id)
           expect(response).to be_success
         end
       end
@@ -240,7 +240,7 @@ describe Admin::ConferencesController do
     describe 'POST #create' do
       it 'requires organizer privileges' do
         post :create, conference: attributes_for(:conference,
-                                                 short_title: 'ExCon')
+                                                 short_title: 'ExCon', organization_id: organization.id)
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)
