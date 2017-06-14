@@ -3,19 +3,18 @@ require 'spec_helper'
 describe Admin::ConferencesController do
 
   # It is necessary to use bang version of let to build roles before user
-  let(:conference) { create(:conference, end_date: Date.new(2014, 05, 26) + 15) }
+  let(:organization) { create(:organization) }
+  let(:conference) { create(:conference, organization: organization, end_date: Date.new(2014, 05, 26) + 15) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-
+  let!(:organization_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
+  let(:organization_admin) { create(:user, role_ids: organization_admin_role.id) }
   let(:organizer) { create(:user, role_ids: organizer_role.id) }
   let(:organizer2) { create(:user, email: 'organizer2@email.osem', role_ids: organizer_role.id) }
   let(:participant) { create(:user) }
 
-  shared_examples 'access as organizer' do
-
+  shared_examples 'access as organizer or organization_admin' do
     describe 'PATCH #update' do
-
       context 'valid attributes' do
-
         it 'locates the requested conference' do
           patch :update, id: conference.short_title, conference: attributes_for(:conference, title: 'Example Con')
           expect(assigns(:conference)).to eq(conference)
@@ -25,7 +24,6 @@ describe Admin::ConferencesController do
           patch :update, id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
                                           short_title: 'ExCon')
-
           conference.reload
           expect(conference.title).to eq('Example Con')
           expect(conference.short_title).to eq('ExCon')
@@ -71,72 +69,6 @@ describe Admin::ConferencesController do
               .to eq("Updating conference failed. Short title can't be blank.")
           expect(response).to redirect_to edit_admin_conference_path(
                                               conference.short_title)
-        end
-      end
-    end
-
-    describe 'POST #create' do
-      context 'with valid attributes' do
-        it 'saves the conference to the database' do
-          expected = expect do
-            post :create, conference:
-                attributes_for(:conference, short_title: 'dps15')
-          end
-          expected.to change { Conference.count }.by 1
-        end
-
-        it 'redirects to conference#show' do
-          post :create, conference:
-              attributes_for(:conference, short_title: 'dps15')
-
-          expect(response).to redirect_to admin_conference_path(
-                                              assigns[:conference].short_title)
-        end
-
-        it 'creates roles for the conference' do
-          cfp_role = Role.find_by(name: 'cfp', resource: conference)
-          info_desk_role = Role.find_by(name: 'info_desk', resource: conference)
-          volunteers_coordinator_role = Role.find_by(name: 'volunteers_coordinator', resource: conference)
-
-          post :create, conference:
-              attributes_for(:conference, short_title: 'dps15')
-
-          expect(conference.roles.count).to eq 4
-
-          expect(conference.roles).to eq [organizer_role, cfp_role, info_desk_role, volunteers_coordinator_role]
-        end
-      end
-
-      context 'with invalid attributes' do
-        it 'does not save the conference to the database' do
-          expected = expect do
-            post :create, conference:
-                attributes_for(:conference, short_title: nil)
-          end
-          expected.to_not change { Conference.count }
-        end
-
-        it 're-renders the new template' do
-          post :create, conference:
-              attributes_for(:conference, short_title: nil)
-          expect(response).to be_success
-        end
-      end
-
-      context 'with duplicate conference short title' do
-        it 'does not save the conference to the database' do
-          conference
-          expected = expect do
-            post :create, conference:
-                attributes_for(:conference, short_title: conference.short_title)
-          end
-          expected.to_not change { Conference.count }
-        end
-
-        it 're-renders the new template' do
-          conference
-          post :create, conference: attributes_for(:conference, short_title: conference.short_title)
-          expect(response).to be_success
         end
       end
     end
@@ -203,6 +135,74 @@ describe Admin::ConferencesController do
         end
       end
     end
+  end
+
+  shared_examples 'access as organization_admin' do
+    describe 'POST #create' do
+      context 'with valid attributes' do
+        it 'saves the conference to the database' do
+          expected = expect do
+            post :create, conference:
+                attributes_for(:conference, short_title: 'dps15', organization: organization)
+          end
+          expected.to change { Conference.count }.by 1
+        end
+
+        it 'redirects to conference#show' do
+          post :create, conference:
+              attributes_for(:conference, short_title: 'dps15', organization: organization)
+
+          expect(response).to redirect_to admin_conference_path(
+                                              assigns[:conference].short_title)
+        end
+
+        it 'creates roles for the conference' do
+          cfp_role = Role.find_by(name: 'cfp', resource: conference)
+          info_desk_role = Role.find_by(name: 'info_desk', resource: conference)
+          volunteers_coordinator_role = Role.find_by(name: 'volunteers_coordinator', resource: conference)
+
+          post :create, conference:
+              attributes_for(:conference, short_title: 'dps15')
+
+          expect(conference.roles.count).to eq 4
+
+          expect(conference.roles).to eq [organizer_role, cfp_role, info_desk_role, volunteers_coordinator_role]
+        end
+      end
+
+      context 'with invalid attributes' do
+        it 'does not save the conference to the database' do
+          expected = expect do
+            post :create, conference:
+                attributes_for(:conference, short_title: nil, organization: organization)
+          end
+          expected.to_not change { Conference.count }
+        end
+
+        it 're-renders the new template' do
+          post :create, conference:
+              attributes_for(:conference, short_title: nil, organization: organization)
+          expect(response).to be_success
+        end
+      end
+
+      context 'with duplicate conference short title' do
+        it 'does not save the conference to the database' do
+          conference
+          expected = expect do
+            post :create, conference:
+                attributes_for(:conference, short_title: conference.short_title, organization: organization)
+          end
+          expected.to_not change { Conference.count }
+        end
+
+        it 're-renders the new template' do
+          conference
+          post :create, conference: attributes_for(:conference, short_title: conference.short_title, organization: organization)
+          expect(response).to be_success
+        end
+      end
+    end
 
     describe 'GET #new' do
       it 'assigns a new conference to conference' do
@@ -217,14 +217,45 @@ describe Admin::ConferencesController do
     end
   end
 
-  describe 'organizer access' do
+  describe 'organization admin access' do
+    before do
+      sign_in(organization_admin)
+    end
 
+    it_behaves_like 'access as organizer or organization_admin'
+    it_behaves_like 'access as organization_admin'
+  end
+
+  shared_examples 'access as organizer, participant or guest' do |path, message|
+    describe 'GET #new' do
+      it 'requires organizer privileges' do
+        get :new
+        expect(response).to redirect_to(send(path))
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
+      end
+    end
+
+    describe 'POST #create' do
+      it 'requires organizer privileges' do
+        post :create, conference: attributes_for(:conference,
+                                                 short_title: 'ExCon')
+        expect(response).to redirect_to(send(path))
+        if message
+          expect(flash[:alert]).to match(/#{message}/)
+        end
+      end
+    end
+  end
+
+  describe 'organizer access' do
     before do
       sign_in(organizer)
     end
 
-    it_behaves_like 'access as organizer'
-
+    it_behaves_like 'access as organizer or organization_admin'
+    it_behaves_like 'access as organizer, participant or guest', :root_path, 'You are not authorized to access this page.'
   end
 
   shared_examples 'access as participant or guest' do |path, message|
@@ -241,27 +272,6 @@ describe Admin::ConferencesController do
     describe 'GET #index' do
       it 'requires organizer privileges' do
         get :index
-        expect(response).to redirect_to(send(path))
-        if message
-          expect(flash[:alert]).to match(/#{message}/)
-        end
-      end
-    end
-
-    describe 'GET #new' do
-      it 'requires organizer privileges' do
-        get :new
-        expect(response).to redirect_to(send(path))
-        if message
-          expect(flash[:alert]).to match(/#{message}/)
-        end
-      end
-    end
-
-    describe 'POST #create' do
-      it 'requires organizer privileges' do
-        post :create, conference: attributes_for(:conference,
-                                                 short_title: 'ExCon')
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)
@@ -287,13 +297,13 @@ describe Admin::ConferencesController do
       sign_in(participant)
     end
 
-    it_behaves_like 'access as participant or guest', :root_path, 'You are not authorized to access this area!'
-
+    it_behaves_like 'access as participant or guest', :root_path, 'You are not authorized to access this page.'
+    it_behaves_like 'access as organizer, participant or guest', :root_path, 'You are not authorized to access this page.'
   end
 
   describe 'guest access' do
 
     it_behaves_like 'access as participant or guest', :new_user_session_path
-
+    it_behaves_like 'access as organizer, participant or guest', :new_user_session_path
   end
 end

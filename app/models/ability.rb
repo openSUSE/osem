@@ -152,6 +152,7 @@ class Ability
     org_ids_for_organization_admin = Organization.with_role(:organization_admin, user).pluck(:id)
 
     can :manage, Organization, id: org_ids_for_organization_admin
+    can [:new], Conference
     can :manage, Conference, organization_id: org_ids_for_organization_admin
     conf_ids_for_organization_admin = []
     org_ids_for_organization_admin.each do |org_id|

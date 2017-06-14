@@ -22,7 +22,7 @@ feature 'Has correct abilities' do
 
     visit admin_conference_path(conference1.short_title)
     expect(current_path).to eq root_path
-    expect(flash).to eq 'You are not authorized to access this area!'
+    expect(flash).to eq 'You are not authorized to access this page.'
   end
 
   scenario 'when user is organizer' do
