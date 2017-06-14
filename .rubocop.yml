@@ -92,6 +92,10 @@ Style/SpaceAroundOperators:
 Style/SpaceInsideBrackets:
   Enabled: true
 
+# This cop enforces the use the shorthand for self-assignment.
+Style/SelfAssignment:
+  Enabled: true
+  
 # Use single quotes unless there's string interpolation
 Style/StringLiterals:
   Enabled: true
