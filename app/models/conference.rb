@@ -643,7 +643,7 @@ class Conference < ActiveRecord::Base
   def self.write_event_distribution_to_db
     week = DateTime.now.end_of_week
 
-    Conference.where('end_date > ?', Date.today).each do |conference|
+    Conference.where('end_date > ?', Date.today).find_each do |conference|
       result = {}
       Event.state_machine.states.each do |state|
         count = conference.program.events.where('state = ?', state.name).count
