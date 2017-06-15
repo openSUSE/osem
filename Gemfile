@@ -18,7 +18,9 @@ gem 'rails_12factor', group: :production
 gem 'responders', '~> 2.0'
 
 # as the database for Active Record
+# choose only one
 gem 'mysql2'
+#gem 'pg'
 
 # for observing records
 gem 'rails-observers'

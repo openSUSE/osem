@@ -131,7 +131,7 @@ class Conference < ActiveRecord::Base
     result = []
 
     if program && program.cfp && program.events
-      submissions = program.events.group(:week).count
+      submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
@@ -179,7 +179,7 @@ class Conference < ActiveRecord::Base
         registration_period.start_date &&
         registration_period.end_date
 
-      reg = registrations.group(:week).count
+      reg = registrations.group(:week).order(:week).count
       start_week = get_registration_start_week
       weeks = registration_weeks
       result = calculate_items_per_week(start_week, weeks, reg)
@@ -337,8 +337,8 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def self.get_top_submitter(limit = 5)
-    submitter = EventUser.where('event_role = ?', 'submitter').limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count
+    submitter = EventUser.select(:user_id).where('event_role = ?', 'submitter').limit(limit).group(:user_id)
+    counter = submitter.order('count_all desc').count(:all)
     calculate_user_submission_hash(submitter, counter)
   end
 
@@ -348,10 +348,10 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
-    submitter = EventUser.joins(:event)
+    submitter = EventUser.joins(:event).select(:user_id)
         .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
         .limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count
+    counter = submitter.order('count_all desc').count(:all)
     Conference.calculate_user_submission_hash(submitter, counter)
   end
 
@@ -1100,7 +1100,8 @@ class Conference < ActiveRecord::Base
   def self.calculate_user_submission_hash(submitters, counter)
     result = ActiveSupport::OrderedHash.new
     counter.each do |key, value|
-      submitter = submitters.where(user_id: key).first
+      # make PG happy by including the user_id in ORDER
+      submitter = submitters.where(user_id: key).order(:user_id).first
       if submitter
         result[submitter.user] = value
       end
