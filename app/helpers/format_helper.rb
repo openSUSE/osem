@@ -176,7 +176,7 @@ module FormatHelper
     (schedule == @selected_schedule) ? 'Yes' : 'No'
   end
 
-  def markdown(text)
+  def markdown(text, escape_html=true)
     return '' if text.nil?
 
     options = {
@@ -184,12 +184,12 @@ module FormatHelper
       space_after_headers: true,
       no_intra_emphasis: true
     }
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: true), options)
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe
   end
 
   def markdown_hint(text='')
-    markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text")
+    markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text", false)
   end
 
   def quantity_left_of(resource)
