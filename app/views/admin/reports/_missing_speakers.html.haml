@@ -3,7 +3,7 @@
     .page-header
       %h1
         Missing Speakers
-        = "(#{@missing_event_speakers.group(:user_id).length})"
+        = "(#{@missing_event_speakers.distinct(:user_id).length})"
       %p.text-muted
         All event speakers who haven't checked in
 .col-md-12
