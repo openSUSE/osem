@@ -286,8 +286,6 @@ feature 'Version' do
     expect(page).to have_text('Someone (probably via the console) created new commercial')
     visit admin_conference_program_event_path(conference.short_title, event_without_commercial)
     click_link 'History'
-    expect(event_commercial.id).not_to eq event_commercial.commercialable_id
-    expect(event_without_commercial.id).to eq event_commercial.id
     expect(page).to have_no_text('Someone (probably via the console) created new commercial')
   end
 
