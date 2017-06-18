@@ -1,24 +1,20 @@
-%p#notice= notice
+.row
+  .col-md-12
+    %h3
+      = @booth.title
+      .btn-group.pull-right
+        = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'
 
-%p
-  %b Title:
-  = @booth.title
-%p
-  %b Conference:
-  = @booth.conference_id
-%p
-  %b Description:
-  = @booth.description
-%p
-  %b State:
-  = @booth.state
-%p
-  %b Reasoning:
-  = @booth.reasoning
-%p
-  %b Logo link:
-  = @booth.logo_link
-
-= link_to 'Edit', edit_booth_path(@booth)
-\|
-= link_to 'Back', booths_path
+.row
+  .col-md-12
+    %table.table
+      %tr
+        %td.col-md-2
+          %b Description
+        %td
+          = @booth.description
+      %tr
+        %td.col-md-2
+          %b Reasoning
+        %td
+          = @booth.reasoning

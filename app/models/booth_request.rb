@@ -7,4 +7,6 @@ class BoothRequest < ActiveRecord::Base
             :role,
             presence: true
 
+  ROLES = [%w[Submitter submitter], %w[Responsible responsible], %w[Secondary secondary]]
+
 end
