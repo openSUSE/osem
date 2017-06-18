@@ -1,28 +1,27 @@
-= form_for @booth do |f|
-  - if @booth.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@booth.errors.count, "error")} prohibited this booth from being saved:"
-      %ul
-        - @booth.errors.full_messages.each do |msg|
-          %li= msg
+.row
+  .col-md-12
+    .page-header
+      %title Request a Booth
+.row
+  .col-md-8
+    = semantic_form_for(@booth,  url: @booth.new_record? ?  admin_conference_booths_path(@conference.short_title) : admin_conference_booth_path(@conference.short_title, @booth.id), html: {multipart: true}) do |f|
+      = f.input :title, as: :string, required: true
+      = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true
+      = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true
+      = responsibles_selector_input f
+      = f.input :logo_link, as: :string, required: true
 
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :conference_id
-    = f.number_field :conference_id
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :state
-    = f.text_field :state
-  .field
-    = f.label :reasoning
-    = f.text_area :reasoning
-  .field
-    = f.label :logo_link
-    = f.text_field :logo_link
-  .actions
-    = f.submit 'Save'
+
+      %p.text-right
+        - if @booth.new_record?
+          = f.submit 'Create Booth Request', class: 'btn btn-success'
+        - else
+          = f.submit 'Update Booth Request', class: 'btn btn-success'
+
+:javascript
+  $(document).ready(function() {
+    $('#booth_responsible_ids').selectize({
+      plugins: ['remove_button'],
+      maxItems: 2
+    } )
+  });

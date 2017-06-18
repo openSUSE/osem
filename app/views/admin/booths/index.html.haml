@@ -1,29 +1,54 @@
-%h1 Listing booths
-
-%table
-  %tr
-    %th Title
-    %th Conference
-    %th Description
-    %th State
-    %th Reasoning
-    %th Logo link
-    %th
-    %th
-    %th
-
-  - @booths.each do |booth|
-    %tr
-      %td= booth.title
-      %td= booth.conference_id
-      %td= booth.description
-      %td= booth.state
-      %td= booth.reasoning
-      %td= booth.logo_link
-      %td= link_to 'Show', booth
-      %td= link_to 'Edit', edit_booth_path(booth)
-      %td= link_to 'Destroy', booth, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Booth', new_admin_conference_booth_path
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Booths
+        = "(#{@booths.length})" if @booths.any?
+        .pull-right
+          - if can? :create, Booth
+            = link_to 'Add Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-default btn-info'
+      %p.text-muted
+        All the booth requests
+.row
+  .col-md-12
+    .margin-event-table
+      %table.table.table-striped.table-bordered.table-hover.datatable
+        %thead
+          %th
+            %b ID
+          %th
+            %b Title
+          %th
+            %b Submitter
+          %th
+            %b Responsibles
+          %th
+            %b State
+          %th
+            %b Actions
+        - @booths.each do |booth|
+          %tr
+            %td
+              = booth.id
+            %td
+              = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+            %td
+              = booth.submitter.name if booth.submitter
+            %td
+              - booth.responsibles.each do |responsibles|
+                .responsibles
+                  = link_to responsible.name, admin_user_path(responsibles)
+            %td
+              .btn-group
+                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                  = booth.state.humanize
+                  %span.caret
+                %ul.dropdown-menu{ role: 'menu' }
+                  = render 'change_state_dropdown', booth: booth
+              %td
+                .btn-group{role: "group"}
+                  = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
+                  method: :get, class: 'btn btn-primary'
+                  = link_to 'Delete', admin_conference_booth_path(@conference.short_title, booth.id),
+                  method: :delete, class: 'btn btn-danger',
+                  data: { confirm: "Do you really want to delete #{booth.title}? Attention: This booth will be removed from all Events that have it set" }

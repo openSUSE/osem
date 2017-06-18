@@ -12,7 +12,7 @@ describe 'Booth' do
     it { is_expected.to validate_presence_of(:conference) }
 
     it 'is not valid without a title' do
-      should validate_presence_of(:title)
+      is_expected.to validate_presence_of(:title)
     end
   end
 

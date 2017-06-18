@@ -16,7 +16,7 @@ class Conference < ActiveRecord::Base
   has_one :splashpage, dependent: :destroy
   has_one :contact, dependent: :destroy
   has_one :registration_period, dependent: :destroy
-  has_one :call_for_booths, dependent: :destroy
+  has_one :call_for_booths
   has_one :email_settings, dependent: :destroy
   has_one :program, dependent: :destroy
   has_one :venue, dependent: :destroy
