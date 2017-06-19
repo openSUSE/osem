@@ -139,6 +139,11 @@ class Ability
     cannot :destroy, Venue do |venue|
       venue.conference.program.events.where.not(room_id: nil).any?
     end
+
+    # Can't create cfp if there are no available cfp types
+    cannot [:new, :create], Cfp do |cfp|
+      cfp.program.remaining_cfp_types.empty?
+    end
   end
 
   def signed_in_with_organizer_role(user)
@@ -166,7 +171,7 @@ class Ability
     can :manage, Program, conference_id: conf_ids_for_organizer
     can :manage, Schedule, program: { conference_id: conf_ids_for_organizer }
     can :manage, EventSchedule, schedule: { program: { conference_id: conf_ids_for_organizer } }
-    can :manage, Cfp, program: { conference_id: conf_ids_for_organizer}
+    can :manage, Cfp, program: { conference_id: conf_ids_for_organizer }
     can :manage, Event, program: { conference_id: conf_ids_for_organizer}
     can :manage, EventType, program: { conference_id: conf_ids_for_organizer}
     can :manage, Track, program: { conference_id: conf_ids_for_organizer}
