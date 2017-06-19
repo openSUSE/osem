@@ -26,7 +26,7 @@ if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.ex
     echo -e "WARNING: Please make sure this database works in this vagrant box!\n\n"
   fi
 else
-  echo -e "\nnWARNING: You have already configured your database in config/database.yml."
+  echo -e "\n\nWARNING: You have already configured your database in config/database.yml."
   echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n"
 fi
 
