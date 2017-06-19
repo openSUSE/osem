@@ -110,7 +110,12 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(edit_admin_conference_program_path(conference1.short_title))
 
     visit new_admin_conference_program_cfp_path(conference1.short_title)
-    expect(current_path).to eq(new_admin_conference_program_cfp_path(conference1.short_title))
+    expect(current_path).to eq root_path
+
+    conference1.program.cfp.destroy!
+    visit new_admin_conference_program_cfp_path(conference1.short_title)
+    expect(current_path).to eq new_admin_conference_program_cfp_path(conference1.short_title)
+    create(:cfp, program: conference1.program)
 
     visit edit_admin_conference_program_cfp_path(conference1.short_title, conference1.program.cfp)
     expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference1.short_title, conference1.program.cfp))
@@ -322,7 +327,12 @@ feature 'Has correct abilities' do
     expect(current_path).to eq(edit_admin_conference_program_path(conference2.short_title))
 
     visit new_admin_conference_program_cfp_path(conference2.short_title)
-    expect(current_path).to eq(new_admin_conference_program_cfp_path(conference2.short_title))
+    expect(current_path).to eq root_path
+
+    conference2.program.cfp.destroy!
+    visit new_admin_conference_program_cfp_path(conference2.short_title)
+    expect(current_path).to eq new_admin_conference_program_cfp_path(conference2.short_title)
+    create(:cfp, program: conference2.program)
 
     visit edit_admin_conference_program_cfp_path(conference2.short_title, conference2.program.cfp)
     expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference2.short_title, conference2.program.cfp))
