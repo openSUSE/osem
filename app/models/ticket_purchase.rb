@@ -2,6 +2,7 @@ class TicketPurchase < ActiveRecord::Base
   belongs_to :ticket
   belongs_to :user
   belongs_to :conference
+  belongs_to :payment
 
   validates :ticket_id, :user_id, :conference_id, :quantity, presence: true
 
