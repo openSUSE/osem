@@ -50,11 +50,13 @@ class User < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
+  has_many :booth_requests
+  has_many :booths, through: :users_booths
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
   scope :active, -> { where(is_disabled: false) }
-
+  
   validates :email, presence: true
 
   validates :username,

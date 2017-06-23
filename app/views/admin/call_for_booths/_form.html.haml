@@ -1,0 +1,19 @@
+= form_for @call_for_booth do |f|
+  - if @call_for_booth.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@call_for_booth.errors.count, "error")} prohibited this call_for_booth from being saved:"
+      %ul
+        - @call_for_booth.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :start_date
+    = f.date_select :start_date
+  .field
+    = f.label :end_date
+    = f.date_select :end_date
+  .field
+    = f.label :booth_limit
+    = f.number_field :booth_limit
+  .actions
+    = f.submit 'Save'

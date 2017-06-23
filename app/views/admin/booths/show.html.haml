@@ -1,0 +1,20 @@
+.row
+  .col-md-12
+    %h3
+      = @booth.title
+      .btn-group.pull-right
+        = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'
+
+.row
+  .col-md-12
+    %table.table
+      %tr
+        %td.col-md-2
+          %b Description
+        %td
+          = @booth.description
+      %tr
+        %td.col-md-2
+          %b Reasoning
+        %td
+          = @booth.reasoning
