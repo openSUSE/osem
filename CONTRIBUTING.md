@@ -35,28 +35,34 @@ We are using [Vagrant](https://www.vagrantup.com/) to create our development env
     vagrant up
     ```
 
-5. Start your OSEM rails app:
+5. Deploy the initial database migration:
+
+    ```
+    vagrant exec bundle exec rake db:migrate
+    ```
+
+6. Start your OSEM rails app:
 
     ```
     vagrant exec /vagrant/bin/rails server -b 0.0.0.0
     ```
 
-6. Check out your OSEM rails app:
+7. Check out your OSEM rails app:
 You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
 
-7. Changed something? Test your changes!:
+8. Changed something? Test your changes!:
 
     ```
     vagrant exec bundle exec rspec spec
     ```
 
-8. Explore the development environment:
+9. Explore the development environment:
 
     ```
     vagrant ssh
     ```
 
-9. Or issue any standard `rails`/`rake`/`bundler` command by prepending `vagrant exec`
+10. Or issue any standard `rails`/`rake`/`bundler` command by prepending `vagrant exec`
 
     ```
     vagrant exec bundle exec rake db:migrate
