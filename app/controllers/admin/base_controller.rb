@@ -2,6 +2,12 @@ module Admin
   class BaseController < ApplicationController
     before_filter :verify_user_admin
 
+    private
+
+    def current_ability
+      @current_ability ||= AdminAbility.new(current_user)
+    end
+
     def verify_user_admin
       if (current_user.nil?)
         redirect_to sign_in_path
