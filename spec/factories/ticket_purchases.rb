@@ -4,5 +4,11 @@ FactoryGirl.define do
     conference
     ticket
     quantity 10
+    factory :paid_ticket_purchase do
+      after(:build) do |ticket_purchase|
+        payment = create(:payment)
+        ticket_purchase.pay(payment)
+      end
+    end
   end
 end

@@ -34,7 +34,6 @@ describe TicketPurchase do
     it 'is valid with a quantity greater than zero' do
       should allow_value(1).for(:quantity)
     end
-
   end
 
   describe 'self#purchase' do
@@ -54,7 +53,6 @@ describe TicketPurchase do
       expect(TicketPurchase.count).to eq(1)
       expect(purchase.quantity).to eq(10)
       expect(message.blank?).to be true
-
     end
 
     it 'creates a purchase for one ticket' do

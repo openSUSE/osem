@@ -2,6 +2,7 @@ class TicketPurchase < ActiveRecord::Base
   belongs_to :ticket
   belongs_to :user
   belongs_to :conference
+  belongs_to :payment
 
   validates :ticket_id, :user_id, :conference_id, :quantity, presence: true
 
@@ -12,6 +13,8 @@ class TicketPurchase < ActiveRecord::Base
   delegate :price, to: :ticket
   delegate :price_cents, to: :ticket
   delegate :price_currency, to: :ticket
+
+  has_many :physical_tickets
 
   scope :paid, -> { where(paid: true) }
   scope :unpaid, -> { where(paid: false) }
@@ -45,8 +48,8 @@ class TicketPurchase < ActiveRecord::Base
       purchase = new(ticket_id: ticket.id,
                      conference_id: conference.id,
                      user_id: user.id,
-                     quantity: quantity,
-                     paid: ticket.price_cents.zero?)
+                     quantity: quantity)
+      purchase.pay(nil) if ticket.price_cents.zero?
     end
     purchase
   end
@@ -59,6 +62,13 @@ class TicketPurchase < ActiveRecord::Base
 
     purchase.quantity = quantity if quantity > 0
     purchase
+  end
+
+  def pay(payment)
+    update_attributes(paid: true, payment: payment)
+    PhysicalTicket.transaction do
+      quantity.times { physical_tickets.create }
+    end
   end
 end
 

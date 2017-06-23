@@ -6,6 +6,11 @@ end
 
 class User < ActiveRecord::Base
   rolify
+  has_many :physical_tickets, through: :ticket_purchases do
+    def by_conference(conference)
+      where('ticket_purchases.conference_id = ?', conference)
+    end
+  end
   has_many :users_roles
   has_many :roles, through: :users_roles, dependent: :destroy
 

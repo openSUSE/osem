@@ -38,3 +38,5 @@
               = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-default'
             - else
               = link_to 'Unsubscribe', conference_subscriptions_path(conference.short_title), method: :delete, class: 'btn btn-default'
+            - if current_user && current_user.physical_tickets.by_conference(conference).any?
+              = link_to "My Tickets", conference_physical_ticket_index_path(conference.short_title), class: 'btn btn-default'
