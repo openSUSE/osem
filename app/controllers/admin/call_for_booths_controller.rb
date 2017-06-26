@@ -3,11 +3,12 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource through: :conference, singleton: true
 
-    def show; end
+    def show
+    end
 
 
     def new
-      @call_for_booth = CallForBooth.new(conference: @conference)
+      @call_for_booths = CallForBooth.new(conference: @conference)
     end
 
     def edit; end

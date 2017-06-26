@@ -1,9 +1,15 @@
 class CallForBooth < ActiveRecord::Base
   belongs_to :conference
 
+  has_many :booths
+
   validates :start_date, :end_date, :booth_limit, presence: true
   validate :before_end_of_conference
   validate :start_date_before_end_date
+
+  def remaining_days(date = Date.today)
+    end_date - date > 0 ? (end_date - date) : 0
+  end
 
   private
 

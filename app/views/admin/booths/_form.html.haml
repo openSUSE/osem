@@ -10,8 +10,7 @@
       = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true
       = responsibles_selector_input f
       = f.input :logo_link, as: :string, required: true
-
-
+      
       %p.text-right
         - if @booth.new_record?
           = f.submit 'Create Booth Request', class: 'btn btn-success'

@@ -1,6 +1,7 @@
 .row
   .col-md-12
     %h3
+      = image_tag(@booth.gravatar_url(size: '48'))
       = @booth.title
       .btn-group.pull-right
         = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'

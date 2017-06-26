@@ -1,19 +1,12 @@
-= form_for @call_for_booth do |f|
-  - if @call_for_booth.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@call_for_booth.errors.count, "error")} prohibited this call_for_booth from being saved:"
-      %ul
-        - @call_for_booth.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :start_date
-    = f.date_select :start_date
-  .field
-    = f.label :end_date
-    = f.date_select :end_date
-  .field
-    = f.label :booth_limit
-    = f.number_field :booth_limit
-  .actions
-    = f.submit 'Save'
+.row
+  .col-md-12
+    .page-header
+      %h1 Call for Booths
+.row
+  .col-md-8
+    = semantic_form_for(@call_for_booth, url: admin_conference_call_for_booths_path(@conference.short_title), html: {multipart: true}) do |f|
+      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, readonly: 'readonly' }
+      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly' }
+      = f.input :booth_limit
+      %p.text-right
+        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

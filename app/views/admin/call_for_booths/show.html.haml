@@ -1,15 +1,36 @@
-%p#notice= notice
-
-%p
-  %b Start date:
-  = @call_for_booth.start_date
-%p
-  %b End date:
-  = @call_for_booth.end_date
-%p
-  %b Booth limit:
-  = @call_for_booth.booth_limit
-
-= link_to 'Edit', edit_call_for_booth_path(@call_for_booth)
-\|
-= link_to 'Back', call_for_booths_path
+.row
+  .col-md-12
+    .page-header
+    %h1 Call for Booths
+    %p.text-muted
+      Call for people to submit booth requests to your conference
+- if @call_for_booth
+  .row
+    .col-md-8
+    %dl.dl-horizontal
+      %dt
+        Start Date
+      %dd
+        = @call_for_booth.start_date.strftime('%A, %B %-d. %Y')
+      %dt
+        End Date
+      %dd
+        = @call_for_booth.end_date.strftime('%A, %B %-d. %Y')
+      %dt
+        Days Left
+      %dd
+        = pluralize(@call_for_booth.remaining_days, 'day')
+      %dt
+        Maximum Booths
+      %dd
+        = @call_for_booth.booth_limit
+    .row
+      .col-md-12.text-right
+        = link_to(edit_admin_conference_call_for_booths_path(@conference.short_title), class: 'btn btn-primary') do
+          Edit
+        = link_to(admin_conference_call_for_booths_path(@conference.short_title), method: 'delete', class: 'btn btn-danger', data: {confirm: 'Are you sure you want to delete the Call for Booths?'}) do
+          Delete
+- else
+  .row
+    .col-md-12.text-right
+      = link_to 'Create new Call for Pappers', new_admin_conference_call_for_booths_path(@conference.short_title), class: 'btn btn-primary'

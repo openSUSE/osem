@@ -3,6 +3,7 @@ class Booth < ActiveRecord::Base
 
   belongs_to :conference
   has_many :booth_requests
+  has_one :call_for_booths
   has_many :users, through: :booth_requests
 
   has_one :submitter_booth_user, -> { where(role: 'submitter') }, class_name: 'BoothRequest'
@@ -21,11 +22,7 @@ class Booth < ActiveRecord::Base
             :conference_id,
             presence: true
 
-  validate :logo_link
 
-  include Gravtastic
-  gravtastic size: 32
-  
   state_machine initial: :submitted do
     state :submitted
     state :withdrawn
@@ -67,4 +64,5 @@ class Booth < ActiveRecord::Base
     end
     alert
   end
+
 end
