@@ -6,7 +6,6 @@ module Admin
     def show
     end
 
-
     def new
       @call_for_booths = CallForBooth.new(conference: @conference)
     end

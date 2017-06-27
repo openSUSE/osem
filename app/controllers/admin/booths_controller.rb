@@ -84,7 +84,7 @@ module Admin
     end
 
     def booth_params
-      params.require(:booth).permit(:title, :description, :reasoning, :state, :logo_link, :conference_id)
+      params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id)
     end
   end
 end

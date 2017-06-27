@@ -23,6 +23,8 @@ class Booth < ActiveRecord::Base
             presence: true
 
 
+  mount_uploader :picture, PictureUploader, mount_on: :logo_link
+
   state_machine initial: :submitted do
     state :submitted
     state :withdrawn

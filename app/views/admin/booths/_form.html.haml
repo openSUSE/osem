@@ -9,8 +9,9 @@
       = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true
       = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true
       = responsibles_selector_input f
-      = f.input :logo_link, as: :string, required: true
-      
+      = image_tag f.object.picture.thumb.url if f.object.picture?
+      = f.input :picture
+
       %p.text-right
         - if @booth.new_record?
           = f.submit 'Create Booth Request', class: 'btn btn-success'
