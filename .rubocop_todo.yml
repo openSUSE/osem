@@ -288,14 +288,6 @@ Style/ColonMethodCall:
     - 'app/models/commercial.rb'
     - 'app/models/contact.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: Keywords.
-# Keywords: TODO, FIXME, OPTIMIZE, HACK, REVIEW
-Style/CommentAnnotation:
-  Exclude:
-    - 'app/models/event_user.rb'
-
 # Offense count: 14
 # Cop supports --auto-correct.
 Style/CommentIndentation:
