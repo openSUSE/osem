@@ -7,6 +7,12 @@ class Track < ActiveRecord::Base
   before_create :generate_guid
   validates :name, presence: true
   validates :color, format: /\A#[0-9A-F]{6}\z/
+  validates :short_name,
+            presence: true,
+            format: /\A[a-zA-Z0-9_-]*\z/,
+            uniqueness: {
+              scope: :program
+            }
 
   before_validation :capitalize_color
 
