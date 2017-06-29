@@ -57,6 +57,7 @@ class Conference < ActiveRecord::Base
             :end_date,
             :start_hour,
             :end_hour,
+            :ticket_layout,
             :organization, presence: true
 
   validates :short_title, uniqueness: true
@@ -72,6 +73,11 @@ class Conference < ActiveRecord::Base
 
   after_create :create_free_ticket
   after_update :delete_event_schedules
+
+  enum ticket_layout: {
+    vertical: 0,
+    horizontal: 1
+  }
 
   ##
   # Checks if the user is registered to the conference
