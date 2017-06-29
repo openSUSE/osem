@@ -2,7 +2,7 @@ module Admin
   class TracksController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
-    load_and_authorize_resource through: :program
+    load_and_authorize_resource through: :program, find_by: :short_name
 
     def index; end
 
@@ -53,7 +53,7 @@ module Admin
     private
 
     def track_params
-      params.require(:track).permit(:name, :description, :color)
+      params.require(:track).permit(:name, :description, :color, :short_name)
     end
   end
 end

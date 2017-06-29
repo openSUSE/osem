@@ -9,6 +9,7 @@
     %table.table.table-hover#tracks
       %thead
         %th Name
+        %th Short name
         %th Description
         %th Color
         %th Actions
@@ -16,8 +17,10 @@
         - @tracks.each do |track|
           %tr
             %td
-              = link_to(admin_conference_program_track_path(@conference.short_title, track)) do
+              = link_to(admin_conference_program_track_path(@conference.short_title, track.short_name)) do
                 = track.name
+            %td
+              = track.short_name
             %td
               %p
                 = truncate(track.description)
@@ -26,9 +29,9 @@
                 = track.color
             %td
               .btn-group{role: "group"}
-                = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track.id),
+                = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track.short_name),
                 method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track.id),
+                = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track.short_name),
                 method: :delete, class: 'btn btn-danger',
                 data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
 .row

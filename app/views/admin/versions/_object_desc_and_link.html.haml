@@ -94,7 +94,7 @@
   = 'track'
   - track = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, track.name,
-          admin_conference_program_track_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id)
+          admin_conference_program_track_path(conference_id: Conference.find(version.conference_id).short_title, id: track.try(:short_name))
 
 - when 'EventType'
   = 'event type'
