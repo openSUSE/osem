@@ -1573,6 +1573,10 @@ describe Conference do
       should validate_presence_of(:end_hour)
     end
 
+    it 'is not valid without a ticket_layout' do
+      should validate_presence_of(:ticket_layout)
+    end
+
     it 'is not valid with a duplicate short title' do
       should validate_uniqueness_of(:short_title)
     end
