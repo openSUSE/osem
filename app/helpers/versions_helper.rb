@@ -26,7 +26,7 @@ module VersionsHelper
     if user
       link_to user.name, admin_user_path(id: user_id)
     else
-      name = current_or_last_object_state('User', user_id).try(:name)
+      name = current_or_last_object_state('User', user_id).try(:name) || PaperTrail::Version.where(item_type: 'User', item_id: user_id).last.changeset['name'].second if PaperTrail::Version.where(item_type: 'User', item_id: user_id).any?
       "#{name ? name : 'Unknown user'} with ID #{user_id}"
     end
   end
@@ -51,30 +51,31 @@ module VersionsHelper
   end
 
   def subscription_change_description(version)
-    user = current_or_last_object_state(version.item_type, version.item_id).user
-    user_name = user.name unless user.id.to_s == version.whodunnit
+    user_id = current_or_last_object_state(version.item_type, version.item_id).user_id
+    user_name = User.find_by(id: user_id).try(:name) || current_or_last_object_state('User', user_id).try(:name) || PaperTrail::Version.where(item_type: 'User', item_id: user_id).last.changeset[:name].second unless user_id.to_s == version.whodunnit
     version.event == 'create' ? "subscribed #{user_name} to" : "unsubscribed #{user_name} from"
   end
 
   def registration_change_description(version)
     if version.item_type == 'Registration'
-      user = current_or_last_object_state(version.item_type, version.item_id).user
+      user_id = current_or_last_object_state(version.item_type, version.item_id).user_id
     elsif version.item_type == 'EventsRegistration'
       registration_id = current_or_last_object_state(version.item_type, version.item_id).registration_id
-      user = current_or_last_object_state('Registration', registration_id).user
+      user_id = current_or_last_object_state('Registration', registration_id).user_id
     end
+    user_name = User.find_by(id: user_id).try(:name) || current_or_last_object_state('User', user_id).try(:name) || PaperTrail::Version.where(item_type: 'User', item_id: user_id).last.changeset[:name].second
 
-    if user.id.to_s == version.whodunnit
+    if user_id.to_s == version.whodunnit
       case version.event
       when 'create' then 'registered to'
       when 'update' then "updated #{updated_attributes(version)} of the registration for"
-      when 'destroy' then 'unregistered  from'
+      when 'destroy' then 'unregistered from'
       end
     else
       case version.event
-      when 'create' then "registered #{user.name} to"
-      when 'update' then "updated #{updated_attributes(version)} of  #{user.name}'s registration for"
-      when 'destroy' then "unregistered #{user.name} from"
+      when 'create' then "registered #{user_name} to"
+      when 'update' then "updated #{updated_attributes(version)} of  #{user_name}'s registration for"
+      when 'destroy' then "unregistered #{user_name} from"
       end
     end
   end
