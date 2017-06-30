@@ -154,10 +154,7 @@ class Ability
     can :manage, Organization, id: org_ids_for_organization_admin
     can :new, Conference
     can :manage, Conference, organization_id: org_ids_for_organization_admin
-    conf_ids_for_organization_admin = []
-    org_ids_for_organization_admin.each do |org_id|
-      conf_ids_for_organization_admin += Organization.find(org_id).conferences.pluck(:id)
-    end
+    conf_ids_for_organization_admin = Conference.where(organization_id: org_ids_for_organization_admin).pluck(:id)
     can [:index, :show], Role
     can [:edit, :update], Role do |role|
       role.resource_type == 'Organization' && (org_ids_for_organization_admin.include? role.resource_id)
@@ -168,44 +165,44 @@ class Ability
   def signed_in_with_organizer_role(user, conf_ids_for_organization_admin = [])
     # ids of all the conferences for which the user has the 'organizer' role and
     # conferences that belong to organizations for which user is 'organization_admin'
-    conf_ids_for_organization_admin_and_organizer = conf_ids_for_organization_admin.concat(Conference.with_role(:organizer, user).pluck(:id)).uniq
-    can :manage, Resource, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Conference, id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Splashpage, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Contact, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, EmailSettings, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Campaign, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Target, conference_id: conf_ids_for_organization_admin_and_organizer
+    conf_ids = conf_ids_for_organization_admin.concat(Conference.with_role(:organizer, user).pluck(:id)).uniq
+    can :manage, Resource, conference_id: conf_ids
+    can :manage, Conference, id: conf_ids
+    can :manage, Splashpage, conference_id: conf_ids
+    can :manage, Contact, conference_id: conf_ids
+    can :manage, EmailSettings, conference_id: conf_ids
+    can :manage, Campaign, conference_id: conf_ids
+    can :manage, Target, conference_id: conf_ids
     can :manage, Commercial, commercialable_type: 'Conference',
-                             commercialable_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Registration, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, RegistrationPeriod, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Question, conference_id: conf_ids_for_organization_admin_and_organizer
+                             commercialable_id: conf_ids
+    can :manage, Registration, conference_id: conf_ids
+    can :manage, RegistrationPeriod, conference_id: conf_ids
+    can :manage, Question, conference_id: conf_ids
     can :manage, Question do |question|
-      !(question.conferences.pluck(:id) & conf_ids_for_organization_admin_and_organizer).empty?
+      !(question.conferences.pluck(:id) & conf_ids).empty?
     end
-    can :manage, Vposition, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Vday, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Program, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Schedule, program: { conference_id: conf_ids_for_organization_admin_and_organizer }
-    can :manage, EventSchedule, schedule: { program: { conference_id: conf_ids_for_organization_admin_and_organizer } }
-    can :manage, Cfp, program: { conference_id: conf_ids_for_organization_admin_and_organizer}
-    can :manage, Event, program: { conference_id: conf_ids_for_organization_admin_and_organizer}
-    can :manage, EventType, program: { conference_id: conf_ids_for_organization_admin_and_organizer}
-    can :manage, Track, program: { conference_id: conf_ids_for_organization_admin_and_organizer}
-    can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_organization_admin_and_organizer}
+    can :manage, Vposition, conference_id: conf_ids
+    can :manage, Vday, conference_id: conf_ids
+    can :manage, Program, conference_id: conf_ids
+    can :manage, Schedule, program: { conference_id: conf_ids }
+    can :manage, EventSchedule, schedule: { program: { conference_id: conf_ids } }
+    can :manage, Cfp, program: { conference_id: conf_ids}
+    can :manage, Event, program: { conference_id: conf_ids}
+    can :manage, EventType, program: { conference_id: conf_ids}
+    can :manage, Track, program: { conference_id: conf_ids}
+    can :manage, DifficultyLevel, program: { conference_id: conf_ids}
     can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organization_admin_and_organizer).pluck(:id)).pluck(:id)
-    can :manage, Venue, conference_id: conf_ids_for_organization_admin_and_organizer
+                             commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
+    can :manage, Venue, conference_id: conf_ids
     can :manage, Commercial, commercialable_type: 'Venue',
-                             commercialable_id: Venue.where(conference_id: conf_ids_for_organization_admin_and_organizer).pluck(:id)
-    can :manage, Lodging, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Room, venue: { conference_id: conf_ids_for_organization_admin_and_organizer}
-    can :manage, Sponsor, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, SponsorshipLevel, conference_id: conf_ids_for_organization_admin_and_organizer
-    can :manage, Ticket, conference_id: conf_ids_for_organization_admin_and_organizer
+                             commercialable_id: Venue.where(conference_id: conf_ids).pluck(:id)
+    can :manage, Lodging, conference_id: conf_ids
+    can :manage, Room, venue: { conference_id: conf_ids}
+    can :manage, Sponsor, conference_id: conf_ids
+    can :manage, SponsorshipLevel, conference_id: conf_ids
+    can :manage, Ticket, conference_id: conf_ids
     can :index, Comment, commentable_type: 'Event',
-                         commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organization_admin_and_organizer).pluck(:id)).pluck(:id)
+                         commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
@@ -213,11 +210,11 @@ class Ability
     end
 
     can [:edit, :update, :toggle_user], Role do |role|
-      role.resource_type == 'Conference' && (conf_ids_for_organization_admin_and_organizer.include? role.resource_id)
+      role.resource_type == 'Conference' && (conf_ids.include? role.resource_id)
     end
 
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version do |version|
-      version.item_type == 'User' || (conf_ids_for_organization_admin_and_organizer.include? version.conference_id)
+      version.item_type == 'User' || (conf_ids.include? version.conference_id)
     end
   end
 

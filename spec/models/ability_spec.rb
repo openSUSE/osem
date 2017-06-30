@@ -139,22 +139,20 @@ describe 'User' do
     end
 
     shared_examples 'user with any role' do
-      before do
-        @other_organization = create(:organization)
-        @other_conference = create(:conference, organization: @other_organization)
-      end
+        let!(:other_organization) { create(:organization) }
+        let!(:other_conference) { create(:conference, organization: other_organization) }
 
-      it{ should_not be_able_to(:update, Role.find_by(name: 'organization_admin', resource: @other_organization)) }
-      it{ should_not be_able_to(:edit, Role.find_by(name: 'organization_admin', resource: @other_organization)) }
-      it{ should_not be_able_to(:show, Role.find_by(name: 'organization_admin', resource: @other_organization)) }
+        it{ should_not be_able_to(:update, Role.find_by(name: 'organization_admin', resource: other_organization)) }
+        it{ should_not be_able_to(:edit, Role.find_by(name: 'organization_admin', resource: other_organization)) }
+        it{ should_not be_able_to(:show, Role.find_by(name: 'organization_admin', resource: other_organization)) }
 
-      %w(organizer cfp  info_desk volunteers_coordinator).each do |role|
-        it{ should_not be_able_to(:toggle_user, Role.find_by(name: role, resource: @other_conference)) }
-        it{ should_not be_able_to(:update, Role.find_by(name: role, resource: @other_conference)) }
-        it{ should_not be_able_to(:edit, Role.find_by(name: role, resource: @other_conference)) }
-        it{ should be_able_to(:show, Role.find_by(name: role, resource: @other_conference)) }
-        it{ should be_able_to(:index, Role.find_by(name: role, resource: @other_conference)) }
-      end
+        %w(organizer cfp  info_desk volunteers_coordinator).each do |role|
+          it{ should_not be_able_to(:toggle_user, Role.find_by(name: role, resource: other_conference)) }
+          it{ should_not be_able_to(:update, Role.find_by(name: role, resource: other_conference)) }
+          it{ should_not be_able_to(:edit, Role.find_by(name: role, resource: other_conference)) }
+          it{ should be_able_to(:show, Role.find_by(name: role, resource: other_conference)) }
+          it{ should be_able_to(:index, Role.find_by(name: role, resource: other_conference)) }
+        end
     end
 
     shared_examples 'user with non-organizer role' do |role_name|
@@ -199,8 +197,8 @@ describe 'User' do
 
       it{ should_not be_able_to(:new, Organization)}
       it{ should_not be_able_to(:create, Organization)}
-      it{ should_not be_able_to(:new, Conference.new) }
-      it{ should_not be_able_to(:create, Conference.new) }
+      it{ should_not be_able_to(:new, Conference)}
+      it{ should_not be_able_to(:create, Conference) }
       it{ should be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should be_able_to(:manage, my_conference.splashpage) }
@@ -269,8 +267,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'cfp', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to(:new, Conference.new) }
-      it{ should_not be_able_to(:create, Conference.new) }
+      it{ should_not be_able_to(:new, Conference) }
+      it{ should_not be_able_to(:create, Conference) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
@@ -336,8 +334,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'info_desk', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to(:new, Conference.new) }
-      it{ should_not be_able_to(:create, Conference.new) }
+      it{ should_not be_able_to(:new, Conference) }
+      it{ should_not be_able_to(:create, Conference) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
@@ -403,8 +401,8 @@ describe 'User' do
       let(:role) { Role.find_by(name: 'volunteers_coordinator', resource: my_conference) }
       let(:user) { create(:user, role_ids: [role.id]) }
 
-      it{ should_not be_able_to(:new, Conference.new) }
-      it{ should_not be_able_to(:create, Conference.new) }
+      it{ should_not be_able_to(:new, Conference) }
+      it{ should_not be_able_to(:create, Conference) }
       it{ should_not be_able_to(:manage, my_conference) }
       it{ should_not be_able_to(:manage, conference_public) }
       it{ should_not be_able_to(:manage, my_conference.splashpage) }
