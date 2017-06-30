@@ -3,8 +3,7 @@ require 'spec_helper'
 feature 'Has correct abilities' do
 
   let(:organization) { create(:organization) }
-  # It is necessary to use bang version of let to build roles before user
-  let(:conference) { create(:full_conference, organization: organization) } # user is organizer
+  let(:conference) { create(:full_conference, organization: organization) }
   let(:other_conference) { create(:conference, organization: organization) } # user is organizer, venue is not set by default
   let(:role_organizer_conf) { Role.find_by(name: 'organizer', resource: conference) }
   let(:role_organizer_other_conf) { Role.find_by(name: 'organizer', resource: other_conference) }

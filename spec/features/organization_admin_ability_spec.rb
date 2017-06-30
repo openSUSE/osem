@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'Has correct abilities' do
   let(:organization) { create(:organization) }
-  let(:conference) { create(:full_conference, organization: organization) } # user is organization_admin
+  let(:conference) { create(:full_conference, organization: organization) }
   let(:role_organization_admin) { Role.find_by(name: 'organization_admin', resource: organization) }
   let(:user_organization_admin) { create(:user, role_ids: [role_organization_admin.id]) }
 

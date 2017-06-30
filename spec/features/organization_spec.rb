@@ -6,7 +6,7 @@ feature Organization do
   let(:organization_admin) { create(:user, role_ids: [organization_admin_role.id]) }
   let(:admin_user) { create(:admin) }
 
-  shared_examples 'successfully updates a organization' do
+  shared_examples 'successfully updates an organization' do
     scenario 'updates a exsisting organization', feature: true, js: true do
       visit edit_admin_organization_path(organization)
       fill_in 'organization_name', with: 'changed name'
@@ -33,7 +33,7 @@ feature Organization do
       expect(Organization.last.name).to eq('Organization name')
     end
 
-    it_behaves_like 'successfully updates a organization'
+    it_behaves_like 'successfully updates an organization'
   end
 
   context 'signed in as organization admin' do
@@ -46,6 +46,6 @@ feature Organization do
       expect(flash).to eq('You are not authorized to access this page.')
     end
 
-    it_behaves_like 'successfully updates a organization'
+    it_behaves_like 'successfully updates an organization'
   end
 end
