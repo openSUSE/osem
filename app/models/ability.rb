@@ -150,11 +150,11 @@ class Ability
 
   def signed_in_with_organization_admin_role(user)
     org_ids_for_organization_admin = Organization.with_role(:organization_admin, user).pluck(:id)
+    conf_ids_for_organization_admin = Conference.where(organization_id: org_ids_for_organization_admin).pluck(:id)
 
-    can :manage, Organization, id: org_ids_for_organization_admin
+    can [:read, :update, :destroy], Organization, id: org_ids_for_organization_admin
     can :new, Conference
     can :manage, Conference, organization_id: org_ids_for_organization_admin
-    conf_ids_for_organization_admin = Conference.where(organization_id: org_ids_for_organization_admin).pluck(:id)
     can [:index, :show], Role
     can [:edit, :update], Role do |role|
       role.resource_type == 'Organization' && (org_ids_for_organization_admin.include? role.resource_id)
@@ -167,7 +167,7 @@ class Ability
     # conferences that belong to organizations for which user is 'organization_admin'
     conf_ids = conf_ids_for_organization_admin.concat(Conference.with_role(:organizer, user).pluck(:id)).uniq
     can :manage, Resource, conference_id: conf_ids
-    can :manage, Conference, id: conf_ids
+    can [:read, :update, :destroy], Conference, id: conf_ids
     can :manage, Splashpage, conference_id: conf_ids
     can :manage, Contact, conference_id: conf_ids
     can :manage, EmailSettings, conference_id: conf_ids
