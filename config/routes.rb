@@ -1,3 +1,4 @@
+require 'root_route_constraint'
 Osem::Application.routes.draw do
 
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
@@ -152,6 +153,8 @@ Osem::Application.routes.draw do
   end
 
   get '/admin' => redirect('/admin/conferences')
-
+  constraints RootRouteConstraint.new do
+    get '/' => 'conferences#current'
+  end
   root to: 'conferences#index', via: [:get, :options]
 end
