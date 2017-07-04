@@ -56,7 +56,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def tickets_sold
-    ticket_purchases.sum(:quantity)
+    ticket_purchases.paid.sum(:quantity)
   end
 
   def tickets_turnover
