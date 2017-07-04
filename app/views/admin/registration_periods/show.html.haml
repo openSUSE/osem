@@ -25,5 +25,5 @@
         = link_to 'Delete', admin_conference_registration_period_path,
         method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
     - else
-      - if can? :create, @conference
+      - if can? :create, @conference.build_registration_period
         = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'
