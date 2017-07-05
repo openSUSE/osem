@@ -467,17 +467,6 @@ Style/IndentationConsistency:
     - 'app/models/event.rb'
     - 'spec/controllers/subscriptions_controller_spec.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: Width, IgnoredPatterns.
-Style/IndentationWidth:
-  Exclude:
-    - 'app/helpers/format_helper.rb'
-    - 'app/serializers/conference_serializer.rb'
-    - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
-    - 'lib/tasks/demo_data_for_development.rake'
-    - 'spec/models/ability_spec.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 Style/LeadingCommentSpace:

@@ -40,9 +40,9 @@ describe 'User' do
       it{ should_not be_able_to(:show, conference_not_public)}
 
       it do
-          conference_public.program.schedule_public = true
-          conference_public.program.save
-          should be_able_to(:schedule, conference_public)
+        conference_public.program.schedule_public = true
+        conference_public.program.save
+        should be_able_to(:schedule, conference_public)
       end
       it{ should_not be_able_to(:schedule, conference_not_public)}
 
