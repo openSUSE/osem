@@ -14,6 +14,7 @@ feature Track do
       click_link 'New Track'
 
       fill_in 'track_name', with: 'Distribution'
+      fill_in 'track_short_name', with: 'Distribution'
       page.find('#track_color').set('#B94D4D')
       fill_in 'track_description', with: 'Events about our Linux distribution'
       click_button 'Create Track'
@@ -50,6 +51,7 @@ feature Track do
       click_link 'Edit'
 
       fill_in 'track_name', with: 'Distribution'
+      fill_in 'track_short_name', with: 'Distribution'
       page.find('#track_color').set('#B94D4D')
       fill_in 'track_description', with: 'Events about our Linux distribution'
       click_button 'Update Track'

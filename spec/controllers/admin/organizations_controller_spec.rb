@@ -16,7 +16,7 @@ describe Admin::OrganizationsController do
       end
 
       it 'redirects to root' do
-        expect(flash[:alert]).to eq('You are not authorized to access this area!')
+        expect(flash[:alert]).to eq('You are not authorized to access this page.')
         expect(response).to redirect_to(root_path)
       end
     end
@@ -27,7 +27,7 @@ describe Admin::OrganizationsController do
       end
 
       it 'redirects to root' do
-        expect(flash[:alert]).to eq('You are not authorized to access this area!')
+        expect(flash[:alert]).to eq('You are not authorized to access this page.')
         expect(response).to redirect_to(root_path)
       end
     end
@@ -43,7 +43,7 @@ describe Admin::OrganizationsController do
       it 'redirects to root' do
         post :create, organization: attributes_for(:organization)
 
-        expect(flash[:alert]).to eq('You are not authorized to access this area!')
+        expect(flash[:alert]).to eq('You are not authorized to access this page.')
         expect(response).to redirect_to(root_path)
       end
     end
@@ -55,7 +55,7 @@ describe Admin::OrganizationsController do
 
         organization.reload
         expect(organization.name).to eq(old_name)
-        expect(flash[:alert]).to eq('You are not authorized to access this area!')
+        expect(flash[:alert]).to eq('You are not authorized to access this page.')
         expect(response).to redirect_to(root_path)
       end
     end
@@ -72,7 +72,7 @@ describe Admin::OrganizationsController do
         it 'redirects to root' do
           delete :destroy, id: organization.id
 
-          expect(flash[:alert]).to eq('You are not authorized to access this area!')
+          expect(flash[:alert]).to eq('You are not authorized to access this page.')
           expect(response).to redirect_to(root_path)
         end
       end
