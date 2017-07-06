@@ -23,6 +23,10 @@ class TicketPurchasesController < ApplicationController
     end
   end
 
+  def index
+    @unpaid_ticket_purchases = current_user.ticket_purchases.by_conference(@conference).unpaid
+  end
+
   private
 
   def ticket_purchase_params

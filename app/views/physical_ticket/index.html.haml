@@ -33,3 +33,10 @@
                     class: 'button btn btn-default btn-info'
       - else
         %h5 No Tickets found!
+  .row
+    .col-md-12
+      - if @unpaid_ticket_purchases.any?
+        .h3
+          You have unpaid tickets!
+          %small
+            = link_to "Pay them here", conference_ticket_purchases_path
