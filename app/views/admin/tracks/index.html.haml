@@ -20,7 +20,7 @@
         - @tracks.each do |track|
           %tr
             %td
-              = link_to(admin_conference_program_track_path(@conference.short_title, track.short_name)) do
+              = link_to(admin_conference_program_track_path(@conference.short_title, track)) do
                 = track.name
             %td
               = track.short_name
@@ -54,11 +54,12 @@
                 %i.fa.fa-check
             %td
               .btn-group{role: "group"}
-                = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track.short_name),
+                = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track),
                 method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track.short_name),
-                method: :delete, class: 'btn btn-danger',
-                data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
+                - if can? :destroy, track
+                  = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track),
+                  method: :delete, class: 'btn btn-danger',
+                  data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
 .row
   .col-md-12.text-right
     = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-success'

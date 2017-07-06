@@ -209,17 +209,17 @@ feature 'Has correct abilities' do
       expect(current_path).to eq root_path
 
       other_track = create(:track, program: conference.program)
-      visit admin_conference_program_track_path(conference.short_title, other_track.short_name)
+      visit admin_conference_program_track_path(conference.short_title, other_track)
       expect(current_path).to eq root_path
 
-      visit edit_admin_conference_program_track_path(conference.short_title, other_track.short_name)
+      visit edit_admin_conference_program_track_path(conference.short_title, other_track)
       expect(current_path).to eq root_path
 
-      visit admin_conference_program_track_path(conference.short_title, self_organized_track.short_name)
-      expect(current_path).to eq admin_conference_program_track_path(conference.short_title, self_organized_track.short_name)
+      visit admin_conference_program_track_path(conference.short_title, self_organized_track)
+      expect(current_path).to eq admin_conference_program_track_path(conference.short_title, self_organized_track)
 
-      visit edit_admin_conference_program_track_path(conference.short_title, self_organized_track.short_name)
-      expect(current_path).to eq edit_admin_conference_program_track_path(conference.short_title, self_organized_track.short_name)
+      visit edit_admin_conference_program_track_path(conference.short_title, self_organized_track)
+      expect(current_path).to eq edit_admin_conference_program_track_path(conference.short_title, self_organized_track)
 
       visit admin_conference_roles_path(conference.short_title)
       expect(current_path).to eq admin_conference_roles_path(conference.short_title)

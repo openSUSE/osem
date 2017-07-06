@@ -21,7 +21,7 @@
             - @tracks.each do |track|
               %tr
                 %td
-                  = link_to(conference_program_track_path(@conference.short_title, track.short_name)) do
+                  = link_to(conference_program_track_path(@conference.short_title, track)) do
                     = track.name
                 %td
                   = track.short_name
@@ -34,7 +34,7 @@
                 %td
                   = track.state
                 %td
-                  = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track.short_name),
+                  = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track),
                   method: :get, class: 'btn btn-primary'
 
   .row

@@ -39,6 +39,10 @@ class Track < ActiveRecord::Base
     false
   end
 
+  def to_param
+    short_name
+  end
+
   private
 
   def generate_guid

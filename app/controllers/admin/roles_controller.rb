@@ -15,7 +15,7 @@ module Admin
 
     def show
       @url = if @track
-               toggle_user_track_admin_conference_role_path(@conference.short_title, @role.name, @track.name.tr(' ', '_'))
+               toggle_user_track_admin_conference_role_path(@conference.short_title, @role.name, @track)
              else
                toggle_user_admin_conference_role_path(@conference.short_title, @role.name)
              end
@@ -24,7 +24,7 @@ module Admin
 
     def edit
       @url = if @track
-               track_admin_conference_role_path(@conference.short_title, @role.name, @track.name.tr(' ', '_'))
+               track_admin_conference_role_path(@conference.short_title, @role.name, @track)
              else
                admin_conference_role_path(@conference.short_title, @role.name)
              end
@@ -36,7 +36,7 @@ module Admin
 
       if @role.update_attributes(role_params)
         url = if @track
-                track_admin_conference_role_path(@conference.short_title, @role.name, @track.name.tr(' ', '_'))
+                track_admin_conference_role_path(@conference.short_title, @role.name, @track)
               else
                 admin_conference_role_path(@conference.short_title, @role.name)
               end
@@ -55,7 +55,7 @@ module Admin
       state = user_params[:state]
 
       url = if @track
-              track_admin_conference_role_path(@conference.short_title, @role.name, @track.name.tr(' ', '_'))
+              track_admin_conference_role_path(@conference.short_title, @role.name, @track)
             else
               admin_conference_role_path(@conference.short_title, @role.name)
             end
