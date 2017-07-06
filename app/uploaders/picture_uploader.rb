@@ -52,6 +52,10 @@ class PictureUploader < CarrierWave::Uploader::Base
     "system/#{object_class_name}/#{mounted_as}/#{model.id}"
   end
 
+  def image
+    @image ||= MiniMagick::Image.open(file.file)
+  end
+
   # Create different versions of your uploaded files:
   version :large do
     process resize_to_fit: [300, 300]

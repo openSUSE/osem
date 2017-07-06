@@ -128,6 +128,8 @@ gem 'country_select'
 
 # as PDF generator
 gem 'prawn_rails'
+gem 'rqrcode'
+gem 'prawn-qrcode', '~> 0.2.2.1'
 
 # to render XLS spreadsheets
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
