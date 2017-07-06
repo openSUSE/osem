@@ -8,7 +8,7 @@
         Track
 .row
   .col-md-12
-    = semantic_form_for(@track, url: (@track.new_record? ? admin_conference_program_tracks_path : admin_conference_program_track_path(@conference.short_title, @track.short_name))) do |f|
+    = semantic_form_for(@track, url: (@track.new_record? ? admin_conference_program_tracks_path : admin_conference_program_track_path(@conference.short_title, @track))) do |f|
       = f.input :name
       = f.input :short_name, hint: "A short and unique handle for the track, using only letters, numbers, underscores, and dashes. This will be used to identify the track in URLs etc. Example: 'my_awesome_track'", input_html: { required: 'required', pattern: '[a-zA-Z0-9_-]+', title: 'Only letters, numbers, underscores, and dashes.' }
       = f.input :color, input_html: {size: 6, type: 'color'}, required: true
