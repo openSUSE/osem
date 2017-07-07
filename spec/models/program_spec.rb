@@ -253,10 +253,28 @@ describe Program do
   end
 
   describe '#remaining_cfp_types' do
-    it 'returns an array with the types for which a cfp doesn\'t exist' do
+    it 'returns an array with the types for which a cfp doesn\'t exist, when only the Event type does' do
       expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
-      create(:cfp, cfp_type: 'events', program: program, end_date: Date.current + 1)
+      create(:cfp, cfp_type: 'events', program: program)
+      expect(program.remaining_cfp_types).to eq(['booths'])
+    end
+
+    it 'returns an array with the types for which a cfp doesn\'t exist, when only the Booth type does' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      create(:cfp, cfp_type: 'booths', program: program)
+      expect(program.remaining_cfp_types).to eq(['events'])
+    end
+
+    it 'returns an empty array when all the cfp types exist' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      create(:cfp, cfp_type: 'events', program: program)
+      create(:cfp, cfp_type: 'booths', program: program)
       expect(program.remaining_cfp_types).to eq([])
+    end
+
+    it 'returns all the possible cfp types when there is no existed cfp type' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      expect(program.remaining_cfp_types). to eq(%w[events booths])
     end
   end
 end
