@@ -17,6 +17,7 @@
         = image_tag @conference.picture.thumb.url
       = f.input :picture, label: false, hint: 'This will be displayed on the front page.'
       = f.hidden_field :picture_cache
+      = f.input :ticket_layout, as: :select, collection: Conference.ticket_layouts.keys, hint: "Layout type for tickets of the conference."
       = f.inputs name: 'Scheduling' do
         = f.input :timezone, as: :time_zone, hint: 'The conference time zone'
         = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', readonly: 'readonly' }

@@ -1,4 +1,4 @@
-prawn_document(filename: @file_name, page_layout: :portrait, :page_size =>'A4' ) do |pdf|
+prawn_document(filename: @file_name, page_layout: @ticket_layout, :page_size =>'A4' ) do |pdf|
   # Vertical Layout
   top = pdf.bounds.top
   bottom = pdf.bounds.bottom
