@@ -180,6 +180,7 @@ linters:
   InstanceVariables:
     exclude:
       - "app/views/admin/campaigns/_form.html.haml"
+      - "app/views/admin/cfps/_booths_cfp.html.haml"
       - "app/views/admin/cfps/_form.html.haml"
       - "app/views/admin/conferences/_todo_list.html.haml"
       - "app/views/admin/difficulty_levels/_form.html.haml"
