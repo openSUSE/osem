@@ -42,9 +42,9 @@
                 N/A
             %td
               - if track.self_organized?
-                = check_box_tag "#{@conference.short_title}_#{track.id}", track.id, track.cfp_active,
+                = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
                   class: 'switch-checkbox', method: :patch,
-                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.id)+"?included=",
+                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",
                   data: { size: 'small',
                           on_color: 'success',
                           off_color: 'warning',

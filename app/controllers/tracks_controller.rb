@@ -31,7 +31,7 @@ class TracksController < ApplicationController
 
   def update
     if @track.update_attributes(track_params)
-      redirect_to admin_conference_program_tracks_path(conference_id: @conference.short_title),
+      redirect_to conference_program_tracks_path(conference_id: @conference.short_title),
                   notice: 'Track request successfully updated.'
     else
       flash.now[:error] = "Track request update failed: #{@track.errors.full_messages.join('. ')}."
