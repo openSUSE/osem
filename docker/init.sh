@@ -31,13 +31,16 @@ user=$MYSQL_USER
 password=$MYSQL_PASSWORD
 ABC
 
-if [ $(echo "show tables;" | dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 60s mysql --host $DATABASE_HOST --port $DATABASE_PORT $MYSQL_DATABASE | wc -l) -le 1 ]; then
+echo ">>> Waiting for database to get ready to connect..."
+dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 60s true
+
+if [ $(echo "show tables;" | mysql --host $DATABASE_HOST --port $DATABASE_PORT $MYSQL_DATABASE | wc -l) -le 1 ]; then
     echo ">>> Initializing database..."
-    dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 60s bundle exec rake db:schema:load
+    bundle exec rake db:schema:load
 fi
 
 echo ">>> Upgrading database..."
-dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 60s bundle exec rake db:migrate
+bundle exec rake db:migrate
 
 rm .my.cnf
 
