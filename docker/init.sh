@@ -14,7 +14,7 @@ SECRET_KEY_FILE="$DATA_DIR/secret_key"
 if [ ! -f "$SECRET_KEY_FILE" ]; then
     echo ">>> Creating a new secret key file..."
     install -m 0600 /dev/null "$SECRET_KEY_FILE"
-    SECRET_KEY=$(bundle exec rails secret)
+    SECRET_KEY=$(bundle exec rake secret)
     echo "$key" > "$SECRET_KEY_FILE"
     chmod -w "$SECRET_KEY_FILE"
 else
