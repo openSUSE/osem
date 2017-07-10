@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711102511) do
+ActiveRecord::Schema.define(version: 20170721001700) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -317,7 +317,10 @@ ActiveRecord::Schema.define(version: 20170711102511) do
     t.integer  "ticket_purchase_id", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "token"
   end
+
+  add_index "physical_tickets", ["token"], name: "index_physical_tickets_on_token", unique: true
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
