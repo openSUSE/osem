@@ -7,6 +7,8 @@ class Conference < ActiveRecord::Base
   resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
+  scope :upcoming, (-> { where('end_date >= ?', Date.current) })
+  scope :past, (-> { where('end_date < ?', Date.current) })
 
   belongs_to :organization
 
