@@ -7,8 +7,7 @@ module Admin
       @conf_ids_with_role = current_user.is_admin? ? Conference.pluck(:short_title) : Conference.with_role([:organizer, :cfp, :info_desk], current_user).pluck(:short_title)
 
       return if @conference.blank?
-      authorize! :index, PaperTrail::Version.new(conference_id: @conference.id)
-      @versions = @versions.where(conference_id: @conference.id)
+      @versions = PaperTrail::Version.where(conference_id: @conference.id).accessible_by(current_ability)
     end
 
     def revert_attribute
