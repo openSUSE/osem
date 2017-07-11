@@ -21,6 +21,7 @@ class AdminAbility
     can :manage, User, id: user.id
     can :manage, Registration, user_id: user.id
 
+    can :index, Conference
     can :show, Registration, &:new_record?
 
     can [:new, :create], Registration do |registration|
@@ -48,7 +49,6 @@ class AdminAbility
 
     can [:destroy], Openid
     can :access, Admin
-    can [:show], Conference
     can :index, Commercial, commercialable_type: 'Conference'
     cannot [:edit, :update, :destroy], Question, global: true
     # for admins
@@ -156,6 +156,9 @@ class AdminAbility
     # ids of all the conferences for which the user has the 'cfp' role
     conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
 
+    can :show, Conference do |conf|
+      conf_ids_for_cfp.include?(conf.id)
+    end
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_cfp
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
@@ -196,6 +199,9 @@ class AdminAbility
     # ids of all the conferences for which the user has the 'info_desk' role
     conf_ids_for_info_desk = Conference.with_role(:info_desk, user).pluck(:id)
 
+    can :show, Conference do |conf|
+      conf_ids_for_info_desk.include?(conf.id)
+    end
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_info_desk
     can :manage, Registration, conference_id: conf_ids_for_info_desk
     can :manage, Question, conference_id: conf_ids_for_info_desk
@@ -219,6 +225,10 @@ class AdminAbility
     # ids of all the conferences for which the user has the 'volunteers_coordinator' role
     conf_ids_for_volunteers_coordinator = Conference.with_role(:volunteers_coordinator, user).pluck(:id)
 
+    can :show, Conference do |conf|
+      conf_ids_for_volunteers_coordinator.include?(conf.id)
+    end
+    can :show, Conference, conference_id: conf_ids_for_volunteers_coordinator
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vposition, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vday, conference_id: conf_ids_for_volunteers_coordinator
