@@ -228,7 +228,6 @@ class AdminAbility
     can :show, Conference do |conf|
       conf_ids_for_volunteers_coordinator.include?(conf.id)
     end
-    can :show, Conference, conference_id: conf_ids_for_volunteers_coordinator
     can [:index, :show, :update], Resource, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vposition, conference_id: conf_ids_for_volunteers_coordinator
     can :manage, Vday, conference_id: conf_ids_for_volunteers_coordinator
