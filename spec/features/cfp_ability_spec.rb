@@ -64,29 +64,51 @@ feature 'Has correct abilities' do
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
 
-      # Both event and booth exists
+      # Event and booth cfps exist
       cfb = create(:cfp, cfp_type: 'booths', program: conference.program)
       visit new_admin_conference_program_cfp_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq new_admin_conference_program_cfp_path(conference.short_title)
 
       visit edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp))
 
+      # Event, booth, track cfps exist
+      cft = create(:cfp, cfp_type: 'tracks', program: conference.program)
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq root_path
+
+      # Booth and track cfps exist
       conference.program.cfp.destroy!
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq new_admin_conference_program_cfp_path(conference.short_title)
 
       # Only booth exists
+      cft.destroy!
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
 
       visit edit_admin_conference_program_cfp_path(conference.short_title, cfb)
       expect(current_path). to eq(edit_admin_conference_program_cfp_path(conference.short_title, cfb))
 
+      # No cfp exists
       cfb.destroy
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
 
+      # Only Tracks cfp exists
+      cft = create(:cfp, cfp_type: 'tracks', program: conference.program)
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq new_admin_conference_program_cfp_path(conference.short_title)
+
+      visit edit_admin_conference_program_cfp_path(conference.short_title, cft)
+      expect(current_path).to eq edit_admin_conference_program_cfp_path(conference.short_title, cft)
+
+      # Event and track cfps exist
+      create(:cfp, cfp_type: 'events', program: conference.program)
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq new_admin_conference_program_cfp_path(conference.short_title)
+
+      cft.destroy!
       create(:event, program: conference.program)
       visit edit_admin_conference_program_event_path(conference.short_title, conference.program.events.first)
       expect(current_path).to eq(edit_admin_conference_program_event_path(conference.short_title, conference.program.events.first))

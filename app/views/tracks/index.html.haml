@@ -32,7 +32,7 @@
                   %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
                     = track.color
                 %td
-                  = track.state
+                  = track.state.humanize
                 %td
                   = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track),
                   method: :get, class: 'btn btn-primary'

@@ -95,6 +95,14 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
 
     can [:destroy], Openid
+
+    can [:new, :create], Track do |track|
+      track.new_record? && track.program.cfps.for_tracks.try(:open?)
+    end
+
+    can [:index, :show, :edit, :update], Track do |track|
+      user == track.submitter
+    end
   end
 
   # Abilities for users with roles wandering around in non-admin views.
