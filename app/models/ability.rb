@@ -7,46 +7,10 @@ class Ability
 
     if user.new_record?
       not_signed_in
-    elsif user.roles.any? || user.is_admin
-      common_abilities_for_admins(user)
     else
       signed_in(user)
+      common_abilities_for_admins(user) if user.roles.any? || user.is_admin?
     end
-  end
-
-  # Abilities for users with roles wandering around in non-admin views.
-  def common_abilities_for_admins(user)
-    signed_in(user)
-    conf_ids_for_organizer = Conference.with_role(:organizer, user).pluck(:id)
-    conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
-    conf_ids_for_info_desk = Conference.with_role(:info_desk, user).pluck(:id)
-
-    if conf_ids_for_organizer
-
-      # To access splashpage of their conference if it is not public
-      can :show, Conference, id: conf_ids_for_organizer
-
-      # To access conference/proposals/registrations
-      can :manage, Registration, conference_id: conf_ids_for_organizer
-
-      # To access conference/proposals
-      can :manage, Event, program: { conference_id: conf_ids_for_organizer }
-
-      # To access comment link in menu bar
-      can :index, Comment, commentable_type: 'Event',
-                           commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
-    elsif conf_ids_for_cfp
-
-      can :index, Comment, commentable_type: 'Event',
-                           commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
-      can :manage, Event, program: { conference_id: conf_ids_for_cfp }
-
-    elsif conf_ids_for_info_desk
-      can :manage, Registration, conference_id: conf_ids_for_info_desk
-    end
-
-    can :access, Admin
-    can :manage, :all if user.is_admin
   end
 
   # Abilities for not signed in users (guests)
@@ -125,5 +89,40 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
 
     can [:destroy], Openid
+  end
+
+  # Abilities for users with roles wandering around in non-admin views.
+  def common_abilities_for_admins(user)
+    can :access, Admin
+    can :manage, :all if user.is_admin?
+
+    conf_ids_for_organizer = Conference.with_role(:organizer, user).pluck(:id)
+    conf_ids_for_cfp = Conference.with_role(:cfp, user).pluck(:id)
+    conf_ids_for_info_desk = Conference.with_role(:info_desk, user).pluck(:id)
+
+    if conf_ids_for_organizer
+      # To access splashpage of their conference if it is not public
+      can :show, Conference, id: conf_ids_for_organizer
+      # To access conference/proposals/registrations
+      can :manage, Registration, conference_id: conf_ids_for_organizer
+      # To access conference/proposals
+      can :manage, Event, program: { conference_id: conf_ids_for_organizer }
+      # To access comment link in menu bar
+      can :index, Comment, commentable_type: 'Event',
+                           commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
+    end
+
+    if conf_ids_for_cfp
+      # To access comment link in menu bar
+      can :index, Comment, commentable_type: 'Event',
+                           commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+      # To access conference/proposals
+      can :manage, Event, program: { conference_id: conf_ids_for_cfp }
+    end
+
+    if conf_ids_for_info_desk
+      # To access conference/proposals/registrations
+      can :manage, Registration, conference_id: conf_ids_for_info_desk
+    end
   end
 end
