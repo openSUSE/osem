@@ -13,11 +13,11 @@ module Admin
 
     def show
       if can_manage_volunteers?(@conference)
-        if @conference.use_vpositions
-          @volunteers = @conference.registrations.joins(:vchoices).uniq
-        else
-          @volunteers = @conference.registrations.where(volunteer: true)
-        end
+        @volunteers = if @conference.use_vpositions
+                        @conference.registrations.joins(:vchoices).uniq
+                      else
+                        @conference.registrations.where(volunteer: true)
+                      end
       else
         authorize! :index, :volunteer
       end
