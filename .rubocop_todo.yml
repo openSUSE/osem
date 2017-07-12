@@ -565,6 +565,7 @@ Style/PercentLiteralDelimiters:
     - 'app/models/subscription.rb'
     - 'app/uploaders/picture_uploader.rb'
     - 'spec/models/program_spec.rb'
+    - 'app/models/track.rb'
 
 # Offense count: 2
 # Configuration parameters: NamePrefix, NamePrefixBlacklist, NameWhitelist.

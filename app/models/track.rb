@@ -1,4 +1,5 @@
 class Track < ActiveRecord::Base
+  include ActiveRecord::Transitions
   include RevisionCount
 
   resourcify :roles, dependent: :delete_all
@@ -18,12 +19,49 @@ class Track < ActiveRecord::Base
             uniqueness: {
               scope: :program
             }
-  validates :state, presence: true, if: :self_organized?
+  validates :state,
+            presence: true,
+            inclusion: { in: %w(new to_accept accepted confirmed to_reject rejected canceled withdrawn) },
+            if: :self_organized?
   validates :cfp_active, inclusion: { in: [true, false] }, if: :self_organized?
 
   before_validation :capitalize_color
 
-  after_create :create_organizer_role, if: :self_organized?
+  state_machine initial: :pending do
+    state :new
+    state :to_accept
+    state :accepted
+    state :confirmed
+    state :to_reject
+    state :rejected
+    state :canceled
+    state :withdrawn
+
+    event :restart do
+      transitions to: :new, from: [:rejected, :withdrawn, :canceled]
+    end
+    event :readiness_to_accept do
+      transitions to: :to_accept, from: [:new]
+    end
+    event :accept do
+      transitions to: :accepted, from: [:new, :to_accept], on_transition: :create_organizer_role
+    end
+    event :confirm do
+      transitions to: :confirmed, from: [:accepted], on_transition: :assign_role_to_submitter
+    end
+    event :readiness_to_reject do
+      transitions to: :to_reject, from: [:new]
+    end
+    event :reject do
+      transitions to: :rejected, from: [:new, :to_reject]
+    end
+    event :cancel do
+      transitions to: :canceled, from: [:to_accept, :to_reject, :accepted, :confirmed], on_transition: :revoke_role_and_cleanup
+    end
+    event :withdraw do
+      transitions to: :withdrawn, from: [:new, :to_accept, :to_reject, :accepted, :confirmed], on_transition: :revoke_role_and_cleanup
+    end
+  end
 
   def conference
     program.conference
@@ -41,6 +79,30 @@ class Track < ActiveRecord::Base
 
   def to_param
     short_name
+  end
+
+  def transition_possible?(transition)
+    self.class.state_machine.events_for(current_state).include?(transition)
+  end
+
+  # Gives the role of the track_organizer to the submitter
+  def assign_role_to_submitter
+    submitter.add_role 'track_organizer', self
+  end
+
+  # Revokes the track organizer role and removes the track from events that have it set
+  def revoke_role_and_cleanup
+    role = Role.find_by(name: 'track_organizer', resource: self)
+
+    if role
+      role.users.each do |user|
+        user.remove_role 'track_organizer', self
+      end
+    end
+
+    events.each do |event|
+      event.track = nil
+    end
   end
 
   private
