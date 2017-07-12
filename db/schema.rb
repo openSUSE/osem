@@ -522,8 +522,12 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.string   "state"
     t.boolean  "cfp_active"
     t.integer  "submitter_id"
+    t.integer  "room_id"
+    t.date     "start_date"
+    t.date     "end_date"
   end
 
+  add_index "tracks", ["room_id"], name: "index_tracks_on_room_id"
   add_index "tracks", ["submitter_id"], name: "index_tracks_on_submitter_id"
 
   create_table "users", force: :cascade do |t|
