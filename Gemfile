@@ -6,7 +6,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 4.2.8'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider
