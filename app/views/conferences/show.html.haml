@@ -22,6 +22,9 @@
               .col-md-8
                 %h1
                   = @conference.title
+                %h3
+                  %i
+                    = "( by #{@conference.organization.name} )"
                 %p.lead
                   - if @conference.venue
                     = "#{@conference.venue.city} / #{@conference.venue.country_name}"

@@ -71,6 +71,15 @@ feature Conference do
   end
 
   describe 'admin' do
+    let!(:conference) { create(:conference) }
+
+    scenario 'has organization name in edit form', feature: true, js: true do
+      sign_in user
+      visit edit_admin_conference_path(conference.short_title)
+      org_id = find('#conference_organization_id').value
+      expect(Organization.find(org_id)).to eq conference.organization
+    end
+
     it_behaves_like 'add and update conference'
   end
 end
