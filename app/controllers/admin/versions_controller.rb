@@ -1,6 +1,6 @@
 module Admin
   class VersionsController < Admin::BaseController
-    load_resource :conference, find_by: :short_title
+    load_resource :conference, find_by: :short_title, only: :index
     load_and_authorize_resource class: PaperTrail::Version
 
     def index
