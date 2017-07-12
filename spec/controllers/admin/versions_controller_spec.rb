@@ -103,7 +103,7 @@ describe Admin::VersionsController do
         user = create(:user)
         sign_in user
         get :index, conference_id: conference.short_title
-        expect(flash[:alert]).to match('You are not authorized to access this area.')
+        expect(flash[:alert]).to match('You are not authorized to access this page.')
       end
     end
   end
