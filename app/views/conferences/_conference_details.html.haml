@@ -30,6 +30,10 @@
                 = link_to "Register", new_conference_conference_registration_path(conference.short_title), class: "btn btn-default", disabled: cannot?(:new, Registration.new(conference_id: conference.id))
                 - if cannot?(:new, Registration.new(conference_id: conference.id)) && conference.registration_limit_exceeded?
                   Sorry, no places left
+            - if !current_user.nil? && current_user.tracks.where(program: conference.program).length > 0
+              = link_to "My Track Requests", conference_program_tracks_path(conference.short_title), class: 'btn btn-default'
+            - elsif can? :new, conference.program.tracks.new
+              = link_to "Submit Track Request", new_conference_program_track_path(conference.short_title), class: 'btn btn-default'
             - if !current_user.nil? && current_user.proposal_count(conference) > 0
               = link_to "My Proposals", conference_program_proposals_path(conference.short_title), class: 'btn btn-default'
             - elsif can? :new, conference.program.events.new

@@ -45,6 +45,10 @@
       %section#program
         = render 'schedule_splashpage'
 
+    - if @conference.program.cfps.for_tracks.try(:open?) && @conference.splashpage.include_cfp
+      %section#callfortracks
+        = render 'call_for_tracks'
+
     - if @conference.program.cfp_open? and @conference.splashpage.include_cfp
       %section#callforpapers
         = render 'call_for_paper'

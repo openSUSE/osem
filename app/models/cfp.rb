@@ -1,9 +1,10 @@
 # cannot delete program if there are events submitted
 
 class Cfp < ActiveRecord::Base
-  TYPES = %w(events booths).freeze
+  TYPES = %w(events booths tracks).freeze
 
   scope :for_events, (-> { find_by(cfp_type: 'events') })
+  scope :for_tracks, (-> { find_by(cfp_type: 'tracks') })
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program

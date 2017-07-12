@@ -180,6 +180,7 @@ linters:
       - "app/views/tracks/_form.html.haml"
       - "app/views/tracks/index.html.haml"
       - "app/views/tracks/show.html.haml"
+      - "app/views/conferences/_call_for_tracks.html.haml"
 
   # Offense count: 223
   InstanceVariables:
@@ -242,6 +243,8 @@ linters:
       - "app/views/schedules/_schedule_tabs.html.haml"
       - "app/views/admin/cfps/_events_cfp.html.haml"
       - "app/views/tracks/_form.html.haml"
+      - "app/views/admin/cfps/_tracks_cfp.html.haml"
+      - "app/views/conferences/_call_for_tracks.html.haml"
 
   # Offense count: 32
   IdNames:
@@ -261,6 +264,7 @@ linters:
       - "app/views/admin/users/show.html.haml"
       - "app/views/users/edit.html.haml"
       - "app/views/admin/cfps/_events_cfp.html.haml"
+      - "app/views/admin/cfps/_tracks_cfp.html.haml"
 
   # Offense count: 4
   UnnecessaryInterpolation:
