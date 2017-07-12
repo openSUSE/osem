@@ -55,6 +55,7 @@ feature 'Has correct abilities' do
       expect(page).to have_link('E-Mails', href: "/admin/conferences/#{conference.short_title}/emails")
       expect(page).to have_link('Roles', href: "/admin/conferences/#{conference.short_title}/roles")
       expect(page).to have_link('Resources', href: "/admin/conferences/#{conference.short_title}/resources")
+      expect(page).to have_link('New Conference', href: '/admin/conferences/new')
 
       visit edit_admin_conference_path(conference.short_title)
       expect(current_path).to eq(edit_admin_conference_path(conference.short_title))
