@@ -1,17 +1,14 @@
 class SchedulesController < ApplicationController
-  load_and_authorize_resource
   protect_from_forgery with: :null_session
   before_action :respond_to_options
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true, except: :index
+  before_action :presence_of_selected_schedule
+  load_and_authorize_resource :selected_schedule, through: :program, singleton: true
 
   def show
     @rooms = @conference.venue.rooms if @conference.venue
     schedules = @program.selected_event_schedules
-    unless schedules
-      redirect_to events_conference_schedule_path(@conference.short_title)
-    end
-
     @events_xml = schedules.map(&:event).group_by{ |event| event.time.to_date } if schedules
     @dates = @conference.start_date..@conference.end_date
     @step_minutes = @program.schedule_interval.minutes
@@ -48,5 +45,10 @@ class SchedulesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
     end if request.options?
+  end
+
+  def presence_of_selected_schedule
+    return if @program.selected_event_schedules
+    redirect_to root_path, notice: 'Program is yet to be scheduled.'
   end
 end

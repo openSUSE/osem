@@ -23,6 +23,10 @@ describe 'User' do
     let(:conference_not_public) { create(:conference, splashpage: create(:splashpage, public: false)) }
     let(:conference_public) { create(:full_conference, splashpage: create(:splashpage, public: true)) }
 
+    # Other schedule which is either public or not_public.
+    let(:schedule_public) { create(:schedule, program: create(:program, schedule_public: true))}
+    let(:schedule_not_public) { create(:schedule, program: create(:program, schedule_public: false))}
+
     let(:event_confirmed) { create(:event, state: 'confirmed') }
     let(:event_unconfirmed) { create(:event) }
 
@@ -51,12 +55,8 @@ describe 'User' do
       it{ should be_able_to(:show, conference_public)}
       it{ should_not be_able_to(:show, conference_not_public)}
 
-      it do
-          conference_public.program.schedule_public = true
-          conference_public.program.save
-          should be_able_to(:schedule, conference_public)
-      end
-      it{ should_not be_able_to(:schedule, conference_not_public)}
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
 
       it{ should be_able_to(:show, event_confirmed)}
       it{ should_not be_able_to(:show, event_unconfirmed)}
@@ -102,6 +102,9 @@ describe 'User' do
       it{ should_not be_able_to(:new, Registration.new(conference_id: conference_with_closed_registration.id))}
       it{ should_not be_able_to(:create, Registration.new(conference_id: conference_with_closed_registration.id))}
 
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
+
       it{ should be_able_to(:index, Ticket) }
       it{ should be_able_to(:manage, TicketPurchase.new(user_id: user.id)) }
 
@@ -136,6 +139,9 @@ describe 'User' do
       it{ should be_able_to(:manage, :all) }
       it{ should_not be_able_to(:destroy, my_conference.program) }
       it{ should_not be_able_to(:destroy, my_venue) }
+
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should be_able_to(:show, schedule_not_public) }
     end
 
     shared_examples 'user with any role' do
@@ -244,6 +250,9 @@ describe 'User' do
       it{ should be_able_to(:manage, my_conference.tickets.first) }
       it{ should_not be_able_to(:manage, conference_public.tickets.first) }
 
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
+
       it{ should be_able_to(:manage, my_registration) }
       it{ should_not be_able_to(:manage, other_registration) }
 
@@ -315,6 +324,9 @@ describe 'User' do
       it{ should_not be_able_to(:manage, my_conference.tickets.first) }
       it{ should_not be_able_to(:manage, conference_public.tickets.first) }
 
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
+
       it{ should_not be_able_to(:manage, my_registration) }
       it{ should_not be_able_to(:manage, other_registration) }
 
@@ -382,6 +394,9 @@ describe 'User' do
       it{ should_not be_able_to(:manage, my_conference.tickets.first) }
       it{ should_not be_able_to(:manage, conference_public.tickets.first) }
 
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
+
       it{ should be_able_to(:manage, my_registration) }
       it{ should_not be_able_to(:manage, other_registration) }
 
@@ -448,6 +463,9 @@ describe 'User' do
       it{ should_not be_able_to(:manage, conference_public.sponsorship_levels.first) }
       it{ should_not be_able_to(:manage, my_conference.tickets.first) }
       it{ should_not be_able_to(:manage, conference_public.tickets.first) }
+
+      it{ should be_able_to(:show, schedule_public) }
+      it{ should_not be_able_to(:show, schedule_not_public) }
 
       it{ should_not be_able_to(:manage, registration) }
       it{ should_not be_able_to(:manage, other_registration) }
