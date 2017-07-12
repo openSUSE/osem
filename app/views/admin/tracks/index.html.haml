@@ -15,6 +15,9 @@
         %th Color
         %th State
         %th Included in the Cfp
+        %th Room
+        %th Start Date
+        %th End Date
         %th Actions
       %tbody
         - @tracks.each do |track|
@@ -52,6 +55,21 @@
                           off_text: 'No' }
               - else
                 %i.fa.fa-check
+            %td
+              - if track.room
+                = link_to track.room.name, admin_conference_venue_room_path(@conference.short_title, track.room.id)
+              - else
+                N/A
+            %td
+              - if track.start_date
+                = track.start_date.strftime('%A, %B %-d. %Y')
+              - else
+                N/A
+            %td
+              - if track.end_date
+                = track.end_date.strftime('%A, %B %-d. %Y')
+              - else
+                N/A
             %td
               .btn-group{role: "group"}
                 = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track),

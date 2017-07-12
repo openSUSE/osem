@@ -12,6 +12,7 @@ describe Room do
   describe 'association' do
     it { should belong_to(:venue) }
     it { should have_many(:event_schedules).dependent(:destroy) }
+    it { should have_many(:tracks) }
   end
 
   describe 'callback' do

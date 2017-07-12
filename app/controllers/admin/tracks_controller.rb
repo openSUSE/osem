@@ -62,7 +62,7 @@ module Admin
     private
 
     def track_params
-      params.require(:track).permit(:name, :description, :color, :short_name, :cfp_active)
+      params.require(:track).permit(:name, :description, :color, :short_name, :cfp_active, :start_date, :end_date, :room_id)
     end
   end
 end

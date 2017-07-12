@@ -6,6 +6,7 @@ class Track < ActiveRecord::Base
 
   belongs_to :program
   belongs_to :submitter, class_name: 'User'
+  belongs_to :room
   has_many :events, dependent: :nullify
 
   has_paper_trail only: [:name, :description, :color], meta: { conference_id: :conference_id }
@@ -24,6 +25,10 @@ class Track < ActiveRecord::Base
             inclusion: { in: %w(new to_accept accepted confirmed to_reject rejected canceled withdrawn) },
             if: :self_organized?
   validates :cfp_active, inclusion: { in: [true, false] }, if: :self_organized?
+  validates :start_date, presence: true, if: :accepted_or_confirmed?
+  validates :end_date, presence: true, if: :accepted_or_confirmed?
+  validates :room, presence: true, if: :accepted_or_confirmed?
+  validate :valid_dates, if: :accepted_or_confirmed?
 
   before_validation :capitalize_color
 
@@ -105,6 +110,33 @@ class Track < ActiveRecord::Base
     end
   end
 
+  ##
+  # Checks if the track is accepted
+  # ====Returns
+  # * +true+ -> If the track's state is 'accepted'
+  # * +false+ -> If the track's state isn't 'accepted'
+  def accepted?
+    state == 'accepted'
+  end
+
+  ##
+  # Checks if the track is confirmed
+  # ====Returns
+  # * +true+ -> If the track's state is 'confirmed'
+  # * +false+ -> If the track's state isn't 'confirmed'
+  def confirmed?
+    state == 'confirmed'
+  end
+
+  ##
+  # Checks if the track is accepted or confirmed
+  # ====Returns
+  # * +true+ -> If the track's state is 'accepted' or 'confirmed'
+  # * +false+ -> If the track's state is neither 'accepted' nor 'confirmed'
+  def accepted_or_confirmed?
+    accepted? || confirmed?
+  end
+
   private
 
   def generate_guid
@@ -127,5 +159,29 @@ class Track < ActiveRecord::Base
   # Creates the role of the track organizer
   def create_organizer_role
     Role.where(name: 'track_organizer', resource: self).first_or_create(description: 'For the organizers of the Track')
+  end
+
+  def valid_dates
+    return unless start_date && end_date
+
+    if program && program.conference && program.conference.start_date && (start_date < program.conference.start_date)
+      errors.add(:start_date, "can't be before the conference start date (#{program.conference.end_date})")
+    end
+
+    if program && program.conference && program.conference.start_date && (end_date < program.conference.start_date)
+      errors.add(:end_date, "can't be before the conference start date (#{program.conference.end_date})")
+    end
+
+    if program && program.conference && program.conference.end_date && (start_date > program.conference.end_date)
+      errors.add(:start_date, "can't be after the conference end date (#{program.conference.end_date})")
+    end
+
+    if program && program.conference && program.conference.end_date && (end_date > program.conference.end_date)
+      errors.add(:end_date, "can't be after the conference end date (#{program.conference.end_date})")
+    end
+
+    if start_date > end_date
+      errors.add(:start_date, 'can\'t be after the end_date')
+    end
   end
 end

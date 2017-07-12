@@ -2,6 +2,7 @@ class Room < ActiveRecord::Base
   include RevisionCount
   belongs_to :venue
   has_many :event_schedules, dependent: :destroy
+  has_many :tracks
 
   has_paper_trail ignore: [:guid], meta: { conference_id: :conference_id }
 
