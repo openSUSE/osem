@@ -2,7 +2,7 @@ class Booth < ActiveRecord::Base
   include ActiveRecord::Transitions
 
   belongs_to :conference
-  has_many :booth_requests
+  has_many :booth_requests, dependent: :destroy
   has_many :users, through: :booth_requests
 
   has_one :submitter_booth_user, -> { where(role: 'submitter') }, class_name: 'BoothRequest'
