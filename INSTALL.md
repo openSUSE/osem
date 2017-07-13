@@ -11,7 +11,9 @@ OSEM is an [semantic versioned](http://semver.org/) app. That means given a vers
 ## Download
 You can find the latest OSEM releases on our [release page](https://github.com/openSUSE/osem/releases/latest) ([older release here](https://github.com/openSUSE/osem/releases))
 
+
 ## Deploy
+
 OSEM is a *Ruby on Rails* application. We recommend to run OSEM in production with [mod_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
 base operating systems. [Check Google](https://encrypted.google.com/search?hl=en&q=ruby%20on%20rails%20apache%20passenger) ;-)
@@ -23,6 +25,55 @@ If you have an heroku account you can also
 <a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
+
+### Deploy with Docker
+
+You can deploy OSEM using [Docker](https://docker.com/) and [Docker-Compose](https://docs.docker.com/compose/overview/).
+
+*This is just a short guide and does not explain how to use Docker and/or Docker-Compose. You need some experience with these tools to be able to deploy OSEM with Docker properly.*
+
+First of all, copy `docker-compose.yml.example` to `docker-compose.yml` and `docker-compose.env.example` to `docker-compose.env`. You should immediately change
+`docker-compose.env`'s permissions to `0600` to make sure all the passphrases in it are kept secret.
+(Tip: the easiest and most secure way to do it is to do it with a single command, for example `install -m 0600 docker-compose.env.example docker-compose.env`).
+
+There are two configurations to deploy OSEM with Docker: *evaluation mode* and *production mode*.
+
+#### Evaluation mode
+
+If you want to evaluate OSEM to see if it fits your needs, the default configuration in `docker-compose.env` will work perfectly fine for you.
+For convenience reasons, `docker-compose.yml` already contains a [MailHog](https://github.com/mailhog/MailHog) service configuration. MailHog
+is going to catch every email sent by OSEM and displays them on a special web service. Thus, it eliminitates the need to set up an SMTP server just to try out OSEM.
+Just point your browser to http://localhost:8025 to get access to registration confirmation links etc.
+
+Run `docker-compose up --build` to start the services. On first run, it will take a few minutes to initialize the database. Thus, wait a few minutes before you open up
+http://localhost:9292 in your browser.
+
+#### Production mode
+
+To deploy OSEM for production, you have to make a few changes to `docker-compose.yml`. First, remove (or comment) the `mailhog` service, as it is only useful for evaluation and
+cannot be used for production.
+You can change the forwarded port from port `9292` to any other value if this port is already in use or you just want to use another one.
+
+Next, you have to modify `docker-compose.env`. This file works as a Docker-like replacement for the regular Rails `.env` files described below.
+You can configure any of the configuration values shown in the **Configure** section below in it. The most essential variables are already configured to standard
+values in `docker-compose.env` which you most likely want to change.
+
+First, you need to modify the email related settings. You need a working SMTP server for OSEM to send out registration confirmation mails etc.
+
+For security reasons, the following variables have to be changed, too:
+
+  - `MYSQL_PASSWORD`
+  - `MYSQL_ROOT_PASSWORD`
+  - `SECRET_KEY_BASE`
+
+These variables need to be set to the correct values at first, as they are used to initialize everything. Modification of these variables after installation and initialization is more
+complicated and out of this document's scope.
+
+As with any other Docker-Compose configuration, run `docker-compose up --build` (or `docker-compose up --build -d` to run in background) to start the services. During the first
+start, the database has to be initialized which can take several minutes. The web service is by default exposed on localhost only as it is intended to be served by a reverse proxy (for SSL
+termination, caching etc.).
+You should not directly expose the web server port unless you have a good reason to do so.
+
 
 ## Configure
 There are a couple of environment variables you can set to configure OSEM. Check out the *dotenv.example* file.

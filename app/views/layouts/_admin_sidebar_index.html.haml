@@ -16,7 +16,7 @@
               %span.fa.fa-cog
               Manage
               = conference.short_title
-      - if can? :create, Conference
+      - if can? :new, Conference.new
         %li
           = link_to(new_admin_conference_path) do
             %span.fa.fa-plus

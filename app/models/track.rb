@@ -1,4 +1,5 @@
 class Track < ActiveRecord::Base
+  include RevisionCount
   belongs_to :program
   has_many :events, dependent: :nullify
 
@@ -15,6 +16,10 @@ class Track < ActiveRecord::Base
             }
 
   before_validation :capitalize_color
+
+  def conference
+    program.conference
+  end
 
   private
 

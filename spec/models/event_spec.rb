@@ -98,6 +98,29 @@ describe Event do
     end
   end
 
+  describe '#comments_count' do
+    context 'has a valid counter cache' do
+      before do
+        create(:comment, commentable: event)
+      end
+
+      it 'successfully increments comments_count' do
+        expected = expect do
+          create(:comment, commentable: event)
+        end
+        expected.to change { event.comments_count }.by(1)
+      end
+
+      it 'successfully decrements comments_count' do
+        expected = expect do
+          event.comment_threads.last.destroy
+          event.reload
+        end
+        expected.to change { event.comments_count }.by(-1)
+      end
+    end
+  end
+
   describe 'scope ' do
     context 'confirmed' do
       it 'returns only confirmed events' do

@@ -1,4 +1,5 @@
 class Conference < ActiveRecord::Base
+  include RevisionCount
   require 'uri'
   serialize :events_per_week, Hash
   # Needed to call 'Conference.with_role' in /models/ability.rb
@@ -6,6 +7,8 @@ class Conference < ActiveRecord::Base
   resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
+  scope :upcoming, (-> { where('end_date >= ?', Date.current) })
+  scope :past, (-> { where('end_date < ?', Date.current) })
 
   belongs_to :organization
 
@@ -732,6 +735,15 @@ class Conference < ActiveRecord::Base
     current_time = Time.find_zone(timezone).now
     current_hour = current_time.strftime('%H').to_i
     (start_hour..(end_hour - 1)).cover?(current_hour) ? current_hour - start_hour : 0
+  end
+
+  ##
+  # Return the current conference object to be used in RevisionCount
+  #
+  # ====Returns
+  # * +ActiveRecord+
+  def conference
+    self
   end
 
   private

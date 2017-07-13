@@ -20,9 +20,9 @@
             %td
               = organization.name
             %td
-              = organization.conferences.count
+              = organization.conferences.upcoming.count
             %td
-              = organization.conferences.count
+              = organization.conferences.past.count
             %td
               .btn-group
                 = link_to 'Edit', edit_admin_organization_path(organization),
