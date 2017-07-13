@@ -31,7 +31,7 @@ module VersionsHelper
     end
   end
 
-  # Recieves a model_name and id
+  # Receives a model_name and id
   # Returns nil if model_name is invalid
   # Returns object in its current state if its alive
   # Otherwise Returns object state just before deletion
