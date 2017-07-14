@@ -16,6 +16,8 @@
             %th Description
             %th Color
             %th State
+            %th Start Date
+            %th End Date
             %th Actions
           %tbody
             - @tracks.each do |track|
@@ -34,10 +36,31 @@
                 %td
                   = track.state.humanize
                 %td
-                  = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track),
-                  method: :get, class: 'btn btn-primary'
+                  - if track.start_date
+                    = track.start_date.strftime('%A, %B %-d. %Y')
+                  - else
+                    N/A
+                %td
+                  - if track.end_date
+                    = track.end_date.strftime('%A, %B %-d. %Y')
+                  - else
+                    N/A
+                %td
+                  - if track.transition_possible? :confirm
+                    = link_to 'Confirm', confirm_conference_program_track_path(@conference.short_title, track),
+                      method: :patch, class: 'btn btn-mini btn-success', id: "confirm_track_#{track.id}"
+                  - if track.transition_possible? :withdraw
+                    = link_to 'Withdraw', withdraw_conference_program_track_path(@conference.short_title, track),
+                      method: :patch, data: { confirm: 'Are you sure you want to withdraw this track request?' },
+                      class: 'btn btn-mini btn-warning', id: "withdraw_track_request_#{track.id}"
+                  - if track.transition_possible? :restart
+                    = link_to 'Re-Submit', restart_conference_program_track_path(@conference.short_title, track),
+                      method: :patch, class: 'btn btn-mini btn-success', id: "resubmit_track_request_#{track.id}"
+                  - if can? :edit, track
+                    = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track),
+                    method: :get, class: 'btn btn-primary'
 
   .row
     .col-md-12
-      - if can? :create, @track
+      - if can? :new, @program.tracks.new
         = link_to "New Track request", new_conference_program_track_path(@conference.short_title), class: 'btn btn-success pull-right'

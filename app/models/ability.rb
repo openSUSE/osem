@@ -100,8 +100,10 @@ class Ability
       track.new_record? && track.program.cfps.for_tracks.try(:open?)
     end
 
-    can [:index, :show, :edit, :update], Track do |track|
-      user == track.submitter
+    can [:index, :show, :restart, :confirm, :withdraw], Track, submitter_id: user.id
+
+    can [:edit, :update], Track do |track|
+      user == track.submitter && !(track.accepted? || track.confirmed?)
     end
   end
 

@@ -1,12 +1,11 @@
 require 'spec_helper'
 
 describe TracksController do
-  # A regular user should be used when the track requests have been enabled
   let(:user) { create(:admin) }
 
   let(:conference) { create(:conference) }
   let!(:regular_track) { create(:track, program: conference.program) }
-  let!(:self_organized_track) { create(:track, :self_organized, program: conference.program, submitter: user, color: '#800080') }
+  let!(:self_organized_track) { create(:track, :self_organized, program: conference.program, submitter: user, name: 'My awesome track', color: '#800080') }
 
   before :each do
     sign_in(user)
@@ -174,6 +173,69 @@ describe TracksController do
         self_organized_track.reload
         expect(self_organized_track.color).to eq '#800080'
       end
+    end
+  end
+
+  describe 'PATCH #restart' do
+    before :each do
+      self_organized_track.state = 'withdrawn'
+      self_organized_track.save!
+      patch :restart, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track re-submitted.'
+    end
+
+    it 'changes the track\'s state to new' do
+      expect(self_organized_track.state).to eq 'new'
+    end
+  end
+
+  describe 'PATCH #confirm' do
+    before :each do
+      self_organized_track.state = 'accepted'
+      self_organized_track.save!
+      patch :confirm, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track confirmed.'
+    end
+
+    it 'changes the track\'s state to confirmed' do
+      expect(self_organized_track.state).to eq 'confirmed'
+    end
+  end
+
+  describe 'PATCH #withdraw' do
+    before :each do
+      self_organized_track.state = 'confirmed'
+      self_organized_track.save!
+      patch :withdraw, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track withdrawn.'
+    end
+
+    it 'changes the track\'s state to withdrawn' do
+      expect(self_organized_track.state).to eq 'withdrawn'
     end
   end
 end

@@ -1,0 +1,34 @@
+- if track.transition_possible? :restart
+  %li= link_to 'Start review',
+  restart_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, id: "restart_track_#{track.id}"
+
+- if track.transition_possible? :to_accept
+  %li= link_to 'Mark as possible acceptance',
+  to_accept_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, id: "to_accept_track_#{track.id}"
+
+- if track.transition_possible? :accept
+  %li= link_to 'Accept track request',
+  accept_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, id: "accept_track_#{track.id}"
+
+- if track.transition_possible? :confirm
+  %li= link_to 'Confirm track',
+  confirm_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, id: "confirm_track_#{track.id}"
+
+- if track.transition_possible? :to_reject
+  %li= link_to 'Mark as possible rejection',
+  to_reject_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, id: "to_reject_track_#{track.id}"
+
+- if track.transition_possible? :reject
+  %li= link_to 'Reject track request',
+  reject_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, confirm: 'Are you sure?', id: "reject_track_#{track.id}"
+
+- if track.transition_possible? :cancel
+  %li= link_to 'Cancel track request',
+  cancel_admin_conference_program_track_path(@conference.short_title, track),
+  method: :patch, id: "cancel_track_#{track.id}"

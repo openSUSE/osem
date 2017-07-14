@@ -44,7 +44,7 @@ describe 'User with admin role' do
     let!(:my_event_schedule) { create(:event_schedule, schedule: my_schedule) }
     let!(:other_event_schedule) { create(:event_schedule, schedule: other_schedule) }
 
-    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program) }
+    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program, state: 'confirmed') }
 
     context 'user #is_admin?' do
       let(:venue) { my_conference.venue }
@@ -505,6 +505,8 @@ describe 'User with admin role' do
       it{ should be_able_to(:show, my_conference.program) }
       it{ should be_able_to(:update, new_track) }
       it{ should be_able_to(:manage, my_self_organized_track) }
+      it{ should_not be_able_to(:edit, my_self_organized_track) }
+      it{ should_not be_able_to(:update, my_self_organized_track) }
 
       it_behaves_like 'user with any role'
       it_behaves_like 'user with non-organizer role', 'track_organizer'

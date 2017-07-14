@@ -18,9 +18,24 @@
         %dd
           = @track.state.humanize
         %dt
+          Start date:
+        %dd
+          - if @track.start_date
+            = @track.start_date.strftime('%A, %B %-d. %Y')
+          - else
+            N/A
+        %dt
+          End date:
+        %dd
+          - if @track.end_date
+            = @track.end_date.strftime('%A, %B %-d. %Y')
+          - else
+            N/A
+        %dt
           Description
         %dd
           = @track.description
   .row
     .col-md-12.text-right
-      = link_to 'Edit Track request', edit_conference_program_track_path(@conference.short_title, @track), class: 'btn btn-primary'
+      - if can? :edit, @track
+        = link_to 'Edit Track request', edit_conference_program_track_path(@conference.short_title, @track), class: 'btn btn-primary'

@@ -19,6 +19,5 @@
       - else
         Please add a venue with rooms, if you want to select a room for the track.
       = f.input :description, input_html: {rows: 2, data: { provide: 'markdown-editable' } }, hint: markdown_hint
-      - if @track.self_organized?
-        = f.input :cfp_active, label: 'Allow event submitters to select this track for their proposal'
+      = f.input :cfp_active, label: 'Allow event submitters to select this track for their proposal'
       = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

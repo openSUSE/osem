@@ -26,6 +26,7 @@ describe 'User' do
 
     let(:program_with_cfp) { create(:program, :with_cfp) }
     let(:program_without_cfp) { create(:program) }
+    let(:program_with_call_for_tracks) { create(:cfp, cfp_type: 'tracks').program }
     let(:conference_with_open_registration) { create(:conference) }
     let!(:open_registration_period) { create(:registration_period, conference: conference_with_open_registration, start_date: Date.current - 6.days) }
     let(:conference_with_closed_registration) { create(:conference) }
@@ -82,6 +83,10 @@ describe 'User' do
 
       let(:user_event_with_cfp) { create(:event, users: [user], program: program_with_cfp) }
       let(:user_commercial) { create(:commercial, commercialable: user_event_with_cfp) }
+      let(:user_self_organized_track) { create(:track, :self_organized, submitter: user) }
+      let(:accepted_user_self_organized_track) { create(:track, :self_organized, submitter: user, state: 'accepted') }
+      let(:confirmed_user_self_organized_track) { create(:track, :self_organized, submitter: user, state: 'confirmed') }
+      let(:other_self_organized_track) { create(:track, :self_organized) }
 
       it{ should be_able_to(:manage, user) }
 
@@ -114,6 +119,31 @@ describe 'User' do
       it{ should be_able_to(:create, user_event_with_cfp.commercials.new) }
       it{ should be_able_to(:manage, user_commercial) }
       it{ should_not be_able_to(:manage, commercial_event_unconfirmed) }
+
+      it{ should be_able_to(:new, Track.new(program: program_with_call_for_tracks)) }
+      it{ should be_able_to(:create, Track.new(program: program_with_call_for_tracks)) }
+      it{ should_not be_able_to(:new, Track.new(program: program_without_cfp)) }
+      it{ should_not be_able_to(:create, Track.new(program: program_without_cfp)) }
+
+      it{ should be_able_to(:index, user_self_organized_track) }
+      it{ should be_able_to(:show, user_self_organized_track) }
+      it{ should be_able_to(:restart, user_self_organized_track) }
+      it{ should be_able_to(:confirm, user_self_organized_track) }
+      it{ should be_able_to(:withdraw, user_self_organized_track) }
+      it{ should_not be_able_to(:index, other_self_organized_track) }
+      it{ should_not be_able_to(:show, other_self_organized_track) }
+      it{ should_not be_able_to(:restart, other_self_organized_track) }
+      it{ should_not be_able_to(:confirm, other_self_organized_track) }
+      it{ should_not be_able_to(:withdraw, other_self_organized_track) }
+
+      it{ should be_able_to(:edit, user_self_organized_track) }
+      it{ should be_able_to(:update, user_self_organized_track) }
+      it{ should_not be_able_to(:edit, accepted_user_self_organized_track) }
+      it{ should_not be_able_to(:update, accepted_user_self_organized_track) }
+      it{ should_not be_able_to(:edit, confirmed_user_self_organized_track) }
+      it{ should_not be_able_to(:update, confirmed_user_self_organized_track) }
+      it{ should_not be_able_to(:edit, other_self_organized_track) }
+      it{ should_not be_able_to(:update, other_self_organized_track) }
     end
   end
 end

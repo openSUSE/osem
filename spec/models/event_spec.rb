@@ -96,6 +96,40 @@ describe Event do
         end
       end
     end
+
+    describe '#acceptable_track' do
+      context 'is valid' do
+        it 'when the track belong to the same program, is confirmed and is included in the cfp' do
+          track = create(:track, state: 'confirmed', cfp_active: true, program: conference.program)
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq true
+        end
+      end
+
+      context 'is invalid' do
+        it 'when the track doesn\'t have the same program' do
+          track = create(:track, state: 'confirmed', cfp_active: true)
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq false
+          expect(event.errors[:track]).to eq ['is invalid']
+        end
+
+        it 'when the track is unconfirmed' do
+          track = create(:track, cfp_active: true, program: conference.program)
+          allow(track).to receive(:confirmed?).and_return(false)
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq false
+          expect(event.errors[:track]).to eq ['is invalid']
+        end
+
+        it 'when the track isn\'t included in the cfp' do
+          track = create(:track, state: 'confirmed', cfp_active: false, program: conference.program)
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq false
+          expect(event.errors[:track]).to eq ['is invalid']
+        end
+      end
+    end
   end
 
   describe '#comments_count' do
