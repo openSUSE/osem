@@ -8,14 +8,26 @@ module Admin
 
     def index
       @roles = Role.where(resource: @conference)
+      tracks = @conference.program.tracks.where.not(submitter: nil)
+      @roles += Role.where(resource: tracks)
       authorize! :index, @role
     end
 
     def show
+      @url = if @track
+               toggle_user_track_admin_conference_role_path(@conference.short_title, @role.name, @track)
+             else
+               toggle_user_admin_conference_role_path(@conference.short_title, @role.name)
+             end
       @users = @role.users
     end
 
     def edit
+      @url = if @track
+               track_admin_conference_role_path(@conference.short_title, @role.name, @track)
+             else
+               admin_conference_role_path(@conference.short_title, @role.name)
+             end
       @users = @role.users
     end
 
@@ -23,7 +35,13 @@ module Admin
       role_name = @role.name
 
       if @role.update_attributes(role_params)
-        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+        url = if @track
+                track_admin_conference_role_path(@conference.short_title, @role.name, @track)
+              else
+                admin_conference_role_path(@conference.short_title, @role.name)
+              end
+
+        redirect_to url,
                     notice: 'Successfully updated role ' + @role.name
       else
         @role.name = role_name
@@ -36,8 +54,14 @@ module Admin
       user = User.find_by(email: user_params[:email])
       state = user_params[:state]
 
+      url = if @track
+              track_admin_conference_role_path(@conference.short_title, @role.name, @track)
+            else
+              admin_conference_role_path(@conference.short_title, @role.name)
+            end
+
       unless user
-        redirect_to admin_conference_role_path(@conference.short_title, @role.name),
+        redirect_to url,
                     error: 'Could not find user. Please provide a valid email!'
         return
       end
@@ -49,17 +73,23 @@ module Admin
         return
       end
 
+      if @role.resource_type == 'Conference'
+        role_resource = @conference
+      elsif @role.resource_type == 'Track'
+        role_resource = @track
+      end
+
       # Remove user
       if state == 'false'
-        if user.remove_role @role.name, @conference
+        if user.remove_role @role.name, role_resource
           flash[:notice] = "Successfully removed role #{@role.name} from user #{user.email}"
         else
           flash[:error] = "Could not remove role #{@role.name} from user #{user.email}"
         end
-      elsif user.has_role? @role.name, @conference
+      elsif user.has_role? @role.name, role_resource
         flash[:error] = "User #{user.email} already has the role #{@role.name}"
         # Add user
-      elsif user.add_role @role.name, @conference
+      elsif user.add_role @role.name, role_resource
         flash[:notice] = "Successfully added role #{@role.name} to user #{user.email}"
       else
         flash[:error] = "Coud not add role #{@role.name} to #{user.email}"
@@ -67,7 +97,7 @@ module Admin
 
       respond_to do |format|
         format.js
-        format.html { redirect_to admin_conference_role_path(@conference.short_title, @role.name) }
+        format.html { redirect_to url }
       end
     end
 
@@ -77,7 +107,12 @@ module Admin
       # Set 'organizer' as default role, when there is no other selection
       @selection = params[:id] ? params[:id].parameterize.underscore : 'organizer'
 
-      @role = Role.find_by(name: @selection, resource: @conference)
+      if @selection == 'track_organizer'
+        @track = @conference.program.tracks.find_by(short_name: params[:track_name])
+        @role = Role.find_by(name: @selection, resource: @track)
+      else
+        @role = Role.find_by(name: @selection, resource: @conference)
+      end
     end
 
     def role_params

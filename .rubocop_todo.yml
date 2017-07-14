@@ -94,6 +94,8 @@ Metrics/ModuleLength:
 # Offense count: 14
 Metrics/PerceivedComplexity:
   Max: 15
+  Exclude:
+    - 'app/controllers/admin/roles_controller.rb'
 
 # Offense count: 11
 # Cop supports --auto-correct.
@@ -467,17 +469,6 @@ Style/IndentationConsistency:
     - 'app/models/event.rb'
     - 'spec/controllers/subscriptions_controller_spec.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: Width, IgnoredPatterns.
-Style/IndentationWidth:
-  Exclude:
-    - 'app/helpers/format_helper.rb'
-    - 'app/serializers/conference_serializer.rb'
-    - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
-    - 'lib/tasks/demo_data_for_development.rake'
-    - 'spec/models/ability_spec.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 Style/LeadingCommentSpace:
@@ -850,6 +841,7 @@ Style/SymbolProc:
     - 'app/controllers/admin/questions_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/ability.rb'
+    - 'app/models/admin_ability.rb'
     - 'db/migrate/20140730104658_migrate_roles_for_cancancan.rb'
     - 'spec/controllers/admin/conferences_controller_spec.rb'
     - 'spec/support/flash.rb'
