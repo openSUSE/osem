@@ -50,10 +50,19 @@ module Admin
       end
     end
 
+    def toggle_cfp_inclusion
+      @track.cfp_active = !@track.cfp_active
+      if @track.save
+        head :ok
+      else
+        head :unprocessable_entity
+      end
+    end
+
     private
 
     def track_params
-      params.require(:track).permit(:name, :description, :color, :short_name)
+      params.require(:track).permit(:name, :description, :color, :short_name, :cfp_active)
     end
   end
 end

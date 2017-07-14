@@ -44,6 +44,8 @@ describe 'User with admin role' do
     let!(:my_event_schedule) { create(:event_schedule, schedule: my_schedule) }
     let!(:other_event_schedule) { create(:event_schedule, schedule: other_schedule) }
 
+    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program) }
+
     context 'user #is_admin?' do
       let(:venue) { my_conference.venue }
       let(:room) { create(:room, venue: venue) }
@@ -69,6 +71,19 @@ describe 'User with admin role' do
         it{ should be_able_to(:show, Role.find_by(name: role, resource: other_conference)) }
         it{ should be_able_to(:index, Role.find_by(name: role, resource: other_conference)) }
       end
+
+      context 'accesses track organizers' do
+        before :each do
+          other_self_organized_track = create(:track, :self_organized)
+          @other_track_organizer_role = Role.find_by(name: 'track_organizer', resource: other_self_organized_track)
+        end
+
+        it{ should_not be_able_to(:toggle_user, @other_track_organizer_role) }
+        it{ should_not be_able_to(:update, @other_track_organizer_role) }
+        it{ should_not be_able_to(:edit, @other_track_organizer_role) }
+        it{ should be_able_to(:show, @other_track_organizer_role) }
+        it{ should be_able_to(:index, @other_track_organizer_role) }
+      end
     end
 
     shared_examples 'user with non-organizer role' do |role_name|
@@ -82,6 +97,22 @@ describe 'User with admin role' do
         it{ should_not be_able_to(:edit, Role.find_by(name: role, resource: my_conference)) }
         it{ should be_able_to(:show, Role.find_by(name: role, resource: my_conference)) }
         it{ should be_able_to(:index, Role.find_by(name: role, resource: my_conference)) }
+      end
+
+      context 'accesses track organizers' do
+        before :each do
+          @track_organizer_role = Role.find_by(name: 'track_organizer', resource: my_self_organized_track)
+        end
+
+        if role_name == 'track_organizer'
+          it{ should be_able_to(:toggle_user, @track_organizer_role) }
+        else
+          it{ should_not be_able_to(:toggle_user, @track_organizer_role) }
+        end
+        it{ should_not be_able_to(:update, @track_organizer_role) }
+        it{ should_not be_able_to(:edit, @track_organizer_role) }
+        it{ should be_able_to(:show, @track_organizer_role) }
+        it{ should be_able_to(:index, @track_organizer_role) }
       end
     end
 
@@ -184,6 +215,18 @@ describe 'User with admin role' do
         it{ should be_able_to(:update, Role.find_by(name: role, resource: my_conference)) }
         it{ should be_able_to(:show, Role.find_by(name: role, resource: my_conference)) }
         it{ should be_able_to(:index, Role.find_by(name: role, resource: my_conference)) }
+      end
+
+      context 'can manage track organizers' do
+        before :each do
+          @track_organizer_role = Role.find_by(name: 'track_organizer', resource: my_self_organized_track)
+        end
+
+        it{ should be_able_to(:toggle_user, @track_organizer_role) }
+        it{ should be_able_to(:edit, @track_organizer_role) }
+        it{ should be_able_to(:update, @track_organizer_role) }
+        it{ should be_able_to(:show, @track_organizer_role) }
+        it{ should be_able_to(:index, @track_organizer_role) }
       end
 
       it_behaves_like 'user with any role'
@@ -391,6 +434,75 @@ describe 'User with admin role' do
 
       it_behaves_like 'user with any role'
       it_behaves_like 'user with non-organizer role', 'volunteers_coordinator'
+    end
+
+    context 'when user has the role track_organizer' do
+      let(:role) { Role.find_by(name: 'track_organizer', resource: my_self_organized_track) }
+      let(:user) { create(:user, role_ids: [role.id]) }
+      let(:new_track) { build(:track, program: my_conference.program) }
+
+      it{ should_not be_able_to(:new, Conference.new) }
+      it{ should_not be_able_to(:create, Conference.new) }
+      it{ should_not be_able_to(:manage, my_conference) }
+      it{ should_not be_able_to(:manage, conference_public) }
+      it{ should_not be_able_to(:manage, my_conference.splashpage) }
+      it{ should_not be_able_to(:manage, conference_public.splashpage) }
+      it{ should_not be_able_to(:manage, my_conference.contact) }
+      it{ should_not be_able_to(:manage, conference_public.contact) }
+      it{ should_not be_able_to(:manage, my_conference.email_settings) }
+      it{ should_not be_able_to(:manage, conference_public.email_settings) }
+      it{ should_not be_able_to(:manage, my_conference.campaigns.first) }
+      it{ should_not be_able_to(:manage, conference_public.campaigns.first) }
+      it{ should_not be_able_to(:manage, my_conference.targets.first) }
+      it{ should_not be_able_to(:manage, conference_public.targets.first) }
+      it{ should_not be_able_to(:manage, my_conference.commercials.first) }
+      it{ should_not be_able_to(:manage, conference_public.commercials.first) }
+      it{ should_not be_able_to(:manage, my_conference.registration_period) }
+      it{ should_not be_able_to(:manage, conference_public.registration_period) }
+      it{ should_not be_able_to(:manage, my_conference.questions.first) }
+      it{ should_not be_able_to(:manage, conference_public.questions.first) }
+      it{ should_not be_able_to(:manage, my_conference.program.cfp) }
+      it{ should_not be_able_to(:manage, conference_public.program.cfp) }
+      it{ should_not be_able_to(:manage, my_schedule) }
+      it{ should_not be_able_to(:manage, other_schedule) }
+      it{ should_not be_able_to(:manage, my_event_schedule) }
+      it{ should_not be_able_to(:manage, other_event_schedule) }
+      it{ should_not be_able_to(:manage, my_conference.venue) }
+      it{ should_not be_able_to(:show, my_conference.venue) }
+      it{ should_not be_able_to(:manage, conference_public.venue) }
+      it{ should_not be_able_to(:manage, my_conference.lodgings.first) }
+      it{ should_not be_able_to(:manage, conference_public.lodgings.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsors.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsors.first) }
+      it{ should_not be_able_to(:manage, my_conference.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, conference_public.sponsorship_levels.first) }
+      it{ should_not be_able_to(:manage, my_conference.tickets.first) }
+      it{ should_not be_able_to(:manage, conference_public.tickets.first) }
+
+      it{ should_not be_able_to(:manage, registration) }
+      it{ should_not be_able_to(:manage, other_registration) }
+
+      it{ should_not be_able_to(:manage, my_event) }
+      it{ should_not be_able_to(:manage, other_event) }
+      it{ should_not be_able_to(:manage, my_event.event_type) }
+      it{ should_not be_able_to(:manage, other_event.event_type) }
+      it{ should_not be_able_to(:manage, my_event.track) }
+      it{ should_not be_able_to(:manage, other_event.track) }
+      it{ should_not be_able_to(:manage, my_event.difficulty_level) }
+      it{ should_not be_able_to(:manage, other_event.difficulty_level) }
+      it{ should_not be_able_to(:manage, my_event.commercials.first) }
+      it{ should_not be_able_to(:manage, other_event.commercials.first) }
+      it{ should_not be_able_to(:index, my_event.comment_threads.first) }
+      it{ should_not be_able_to(:index, other_event.comment_threads.first) }
+
+      it{ should_not be_able_to(:manage, resource) }
+
+      it{ should be_able_to(:show, my_conference.program) }
+      it{ should be_able_to(:update, new_track) }
+      it{ should be_able_to(:manage, my_self_organized_track) }
+
+      it_behaves_like 'user with any role'
+      it_behaves_like 'user with non-organizer role', 'track_organizer'
     end
   end
 end

@@ -483,15 +483,20 @@ ActiveRecord::Schema.define(version: 20170711102511) do
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",        null: false
-    t.string   "name",        null: false
+    t.string   "guid",         null: false
+    t.string   "name",         null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
-    t.string   "short_name",  null: false
+    t.string   "short_name",   null: false
+    t.string   "state"
+    t.boolean  "cfp_active"
+    t.integer  "submitter_id"
   end
+
+  add_index "tracks", ["submitter_id"], name: "index_tracks_on_submitter_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

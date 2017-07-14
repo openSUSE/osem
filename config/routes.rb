@@ -54,7 +54,11 @@ Osem::Application.routes.draw do
       resource :registration_period
       resource :program do
         resources :cfps
-        resources :tracks
+        resources :tracks do
+          member do
+            patch :toggle_cfp_inclusion
+          end
+        end
         resources :event_types
         resources :difficulty_levels
         resources :events do
@@ -82,9 +86,15 @@ Osem::Application.routes.draw do
       resources :campaigns, except: [:show]
       resources :emails, only: [:show, :update, :index]
       resources :physical_ticket, only: [:index]
-      resources :roles, except: [ :new, :create ] do
+      resources :roles, only: [:edit]
+      resources :roles, except: [ :new, :create, :edit ] do
         member do
           post :toggle_user
+          get ':track_name' => 'roles#show', as: 'track'
+          get ':track_name/edit' => 'roles#edit', as: 'track_edit'
+          patch ':track_name' => 'roles#update'
+          put ':track_name' => 'roles#update'
+          post ':track_name/toggle_user' => 'roles#toggle_user', as: 'toggle_user_track'
         end
       end
 
@@ -120,6 +130,7 @@ Osem::Application.routes.draw do
           patch '/restart' => 'proposals#restart'
         end
       end
+      resources :tracks, except: :destroy
     end
 
     # TODO: change conference_registrations to singular resource
