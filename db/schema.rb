@@ -520,7 +520,7 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.integer  "program_id"
     t.string   "short_name",                   null: false
     t.string   "state",        default: "new", null: false
-    t.boolean  "cfp_active"
+    t.boolean  "cfp_active",                   null: false
     t.integer  "submitter_id"
     t.integer  "room_id"
     t.date     "start_date"

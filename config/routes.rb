@@ -69,6 +69,13 @@ Osem::Application.routes.draw do
         resources :tracks do
           member do
             patch :toggle_cfp_inclusion
+            patch :restart
+            patch :to_accept
+            patch :accept
+            patch :confirm
+            patch :to_reject
+            patch :reject
+            patch :cancel
           end
         end
         resources :event_types
@@ -149,7 +156,13 @@ Osem::Application.routes.draw do
           patch '/restart' => 'proposals#restart'
         end
       end
-      resources :tracks, except: :destroy
+      resources :tracks, except: :destroy do
+        member do
+          patch :restart
+          patch :confirm
+          patch :withdraw
+        end
+      end
     end
 
     # TODO: change conference_registrations to singular resource

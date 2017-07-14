@@ -275,6 +275,10 @@ class AdminAbility
 
     can :manage, Track, id: track_ids_for_track_organizer
 
+    cannot [:edit, :update], Track do |track|
+      track.self_organized_and_accepted_or_confirmed?
+    end
+
     # Show Roles in the admin sidebar and allow authorization of the index action
     can [:index, :show], Role do |role|
       role.resource_type == 'Conference' || role.resource_type == 'Track'

@@ -5,7 +5,7 @@ describe Admin::TracksController do
 
   let(:conference) { create(:conference) }
   let!(:track) { create(:track, program: conference.program, color: '#800080') }
-  let!(:self_organized_track) { create(:track, :self_organized, program: conference.program) }
+  let!(:self_organized_track) { create(:track, :self_organized, program: conference.program, name: 'My awesome track') }
 
   before :each do
     sign_in(admin)
@@ -83,6 +83,7 @@ describe Admin::TracksController do
 
       it 'the new tracks has the correct attributes' do
         expect(assigns(:track).state).to eq 'confirmed'
+        expect(assigns(:track).cfp_active).to eq true
       end
     end
 
@@ -255,6 +256,206 @@ describe Admin::TracksController do
       it 'becomes false' do
         expect(self_organized_track.cfp_active).to eq false
       end
+    end
+  end
+
+  describe 'PATCH #restart' do
+    before :each do
+      self_organized_track.state = 'canceled'
+      self_organized_track.save!
+      patch :restart, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Review for My awesome track started!'
+    end
+
+    it 'changes the track\'s state to new' do
+      expect(self_organized_track.state).to eq 'new'
+    end
+  end
+
+  describe 'PATCH #to_accept' do
+    before :each do
+      patch :to_accept, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track marked as a possible acceptance!'
+    end
+
+    it 'changes the track\'s state to to_accept' do
+      expect(self_organized_track.state).to eq 'to_accept'
+    end
+  end
+
+  describe 'PATCH #accept' do
+    shared_examples 'fails to accept' do |start_date, end_date, room|
+      before :each do
+        self_organized_track.start_date = start_date ? Date.today : nil
+        self_organized_track.end_date = end_date ? Date.today : nil
+        if room
+          conference.venue = create(:venue)
+          self_organized_track.room = create(:room, venue: conference.venue)
+        else
+          self_organized_track.room = nil
+        end
+        self_organized_track.save!
+
+        patch :accept, conference_id: conference.short_title, id: self_organized_track.short_name
+        self_organized_track.reload
+      end
+
+      it 'redirects to Tracks#edit' do
+        expect(response).to redirect_to edit_admin_conference_program_track_path(conference.short_title, self_organized_track)
+      end
+
+      it 'shows message in flash alert' do
+        expect(flash[:alert]).to eq 'Please make sure that the track has a room and start/end dates before accepting it'
+      end
+    end
+
+    context 'has start_date, end_date and room' do
+      before :each do
+        self_organized_track.start_date = Date.today
+        self_organized_track.end_date = Date.today
+        conference.venue = create(:venue)
+        self_organized_track.room = create(:room, venue: conference.venue)
+        self_organized_track.save!
+
+        patch :accept, conference_id: conference.short_title, id: self_organized_track.short_name
+        self_organized_track.reload
+      end
+
+      it 'assigns the correct track' do
+        expect(assigns(:track)).to eq self_organized_track
+      end
+
+      it 'shows message in flash notice' do
+        expect(flash[:notice]).to eq 'Track My awesome track accepted!'
+      end
+
+      it 'changes the track\'s state to accepted' do
+        expect(self_organized_track.state).to eq 'accepted'
+      end
+    end
+
+    context 'has start_date and end_date' do
+      it_behaves_like 'fails to accept', true, true, false
+    end
+
+    context 'has start_date and room' do
+      it_behaves_like 'fails to accept', true, false, true
+    end
+
+    context 'has start_date' do
+      it_behaves_like 'fails to accept', true, false, false
+    end
+
+    context 'has end_date and room' do
+      it_behaves_like 'fails to accept', false, true, true
+    end
+
+    context 'has end_date' do
+      it_behaves_like 'fails to accept', false, true, false
+    end
+
+    context 'has room' do
+      it_behaves_like 'fails to accept', false, false, true
+    end
+
+    context 'has non of start_date, end_date, room' do
+      it_behaves_like 'fails to accept', false, false, false
+    end
+  end
+
+  describe 'PATCH #confirm' do
+    before :each do
+      self_organized_track.state = 'accepted'
+      self_organized_track.save!
+      patch :confirm, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track confirmed!'
+    end
+
+    it 'changes the track\'s state to confirmed' do
+      expect(self_organized_track.state).to eq 'confirmed'
+    end
+  end
+
+  describe 'PATCH #to_reject' do
+    before :each do
+      patch :to_reject, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track marked as a possible rejection!'
+    end
+
+    it 'changes the track\'s state to to_reject' do
+      expect(self_organized_track.state).to eq 'to_reject'
+    end
+  end
+
+  describe 'PATCH #reject' do
+    before :each do
+      patch :reject, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track rejected!'
+    end
+
+    it 'changes the track\'s state to rejected' do
+      expect(self_organized_track.state).to eq 'rejected'
+    end
+  end
+
+  describe 'PATCH #cancel' do
+    before :each do
+      self_organized_track.state = 'confirmed'
+      self_organized_track.save!
+      patch :cancel, conference_id: conference.short_title, id: self_organized_track.short_name
+      self_organized_track.reload
+    end
+
+    it 'assigns the correct track' do
+      expect(assigns(:track)).to eq self_organized_track
+    end
+
+    it 'shows message in flash notice' do
+      expect(flash[:notice]).to eq 'Track My awesome track canceled!'
+    end
+
+    it 'changes the track\'s state to canceled' do
+      expect(self_organized_track.state).to eq 'canceled'
     end
   end
 end

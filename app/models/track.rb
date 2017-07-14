@@ -22,13 +22,13 @@ class Track < ActiveRecord::Base
             }
   validates :state,
             presence: true,
-            inclusion: { in: %w(new to_accept accepted confirmed to_reject rejected canceled withdrawn) },
-            if: :self_organized?
-  validates :cfp_active, inclusion: { in: [true, false] }, if: :self_organized?
+            inclusion: { in: %w(new to_accept accepted confirmed to_reject rejected canceled withdrawn) }
+  validates :cfp_active, inclusion: { in: [true, false] }
   validates :start_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :end_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :room, presence: true, if: :self_organized_and_accepted_or_confirmed?
-  validate :valid_dates, if: :self_organized_and_accepted_or_confirmed?
+  validate :valid_dates
+  validate :valid_room, if: :self_organized_and_accepted_or_confirmed?
 
   before_validation :capitalize_color
 
@@ -45,7 +45,7 @@ class Track < ActiveRecord::Base
     event :restart do
       transitions to: :new, from: [:rejected, :withdrawn, :canceled]
     end
-    event :readiness_to_accept do
+    event :to_accept do
       transitions to: :to_accept, from: [:new]
     end
     event :accept do
@@ -54,7 +54,7 @@ class Track < ActiveRecord::Base
     event :confirm do
       transitions to: :confirmed, from: [:accepted], on_transition: :assign_role_to_submitter
     end
-    event :readiness_to_reject do
+    event :to_reject do
       transitions to: :to_reject, from: [:new]
     end
     event :reject do
@@ -107,6 +107,7 @@ class Track < ActiveRecord::Base
 
     events.each do |event|
       event.track = nil
+      event.save!
     end
   end
 
@@ -137,6 +138,19 @@ class Track < ActiveRecord::Base
     self_organized? && (accepted? || confirmed?)
   end
 
+  def update_state(transition)
+    error = ''
+
+    begin
+      send(transition)
+    rescue Transitions::InvalidTransition => e
+      error += "State update failed. #{e.message} "
+    end
+
+    error += errors.full_messages.join(', ') unless save
+    error
+  end
+
   private
 
   def generate_guid
@@ -162,26 +176,32 @@ class Track < ActiveRecord::Base
   end
 
   def valid_dates
-    return unless start_date && end_date
-
-    if program && program.conference && program.conference.start_date && (start_date < program.conference.start_date)
-      errors.add(:start_date, "can't be before the conference start date (#{program.conference.end_date})")
+    if start_date && program && program.conference && program.conference.start_date && (start_date < program.conference.start_date)
+      errors.add(:start_date, "can't be before the conference start date (#{program.conference.start_date})")
     end
 
-    if program && program.conference && program.conference.start_date && (end_date < program.conference.start_date)
-      errors.add(:end_date, "can't be before the conference start date (#{program.conference.end_date})")
+    if end_date && program && program.conference && program.conference.start_date && (end_date < program.conference.start_date)
+      errors.add(:end_date, "can't be before the conference start date (#{program.conference.start_date})")
     end
 
-    if program && program.conference && program.conference.end_date && (start_date > program.conference.end_date)
+    if start_date && program && program.conference && program.conference.end_date && (start_date > program.conference.end_date)
       errors.add(:start_date, "can't be after the conference end date (#{program.conference.end_date})")
     end
 
-    if program && program.conference && program.conference.end_date && (end_date > program.conference.end_date)
+    if end_date && program && program.conference && program.conference.end_date && (end_date > program.conference.end_date)
       errors.add(:end_date, "can't be after the conference end date (#{program.conference.end_date})")
     end
 
-    if start_date > end_date
-      errors.add(:start_date, 'can\'t be after the end_date')
+    if start_date && end_date && (start_date > end_date)
+      errors.add(:start_date, 'can\'t be after the end date')
+    end
+  end
+
+  ##
+  # Verify that the room is a room of the conference
+  def valid_room
+    if room && room.venue && room.venue.conference && program && program.conference && (program.conference != room.venue.conference)
+      errors.add(:room, "must be a room of #{program.conference.venue.name}")
     end
   end
 end
