@@ -89,9 +89,7 @@ GEM
       momentjs-rails (>= 2.8.1)
     browser (0.6.0)
     builder (3.2.2)
-    byebug (3.1.2)
-      columnize (~> 0.8)
-      debugger-linecache (~> 1.2)
+    byebug (9.0.6)
     cancancan (1.13.1)
     capybara (2.6.2)
       addressable
@@ -131,7 +129,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    columnize (0.8.9)
     countable-rails (0.0.1)
       railties (>= 3.1)
     countries (1.2.5)
@@ -153,7 +150,6 @@ GEM
     dante (0.2.0)
     database_cleaner (1.3.0)
     debug_inspector (0.0.2)
-    debugger-linecache (1.2.0)
     delayed_job (4.1.1)
       activesupport (>= 3.0, < 5.0)
     delayed_job_active_record (4.1.0)
