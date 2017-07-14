@@ -266,6 +266,12 @@ feature 'Has correct abilities' do
       visit edit_admin_conference_resource_path(conference.short_title, conference.resources.first)
       expect(current_path).to eq(edit_admin_conference_resource_path(conference.short_title, conference.resources.first))
 
+      visit admin_users_path
+      expect(current_path).to eq(root_path)
+
+      visit admin_user_path(user_organizer)
+      expect(current_path).to eq(root_path)
+
       visit admin_revision_history_path
       expect(current_path).to eq(admin_revision_history_path)
     end

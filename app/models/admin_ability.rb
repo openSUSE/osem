@@ -18,7 +18,6 @@ class AdminAbility
   end
 
   def common_abilities_for_roles(user)
-    can :manage, User, id: user.id
     can :manage, Registration, user_id: user.id
 
     can :index, Conference

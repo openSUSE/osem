@@ -64,6 +64,10 @@ describe 'User with admin role' do
       it{ should_not be_able_to(:edit, Role.find_by(name: 'organization_admin', resource: other_organization)) }
       it{ should_not be_able_to(:show, Role.find_by(name: 'organization_admin', resource: other_organization)) }
 
+      it{ should_not be_able_to(:new, User.new) }
+      it{ should_not be_able_to(:create, User.new) }
+      it{ should_not be_able_to(:manage, User) }
+
       %w[organizer cfp info_desk volunteers_coordinator].each do |role|
         it{ should_not be_able_to(:toggle_user, Role.find_by(name: role, resource: other_conference)) }
         it{ should_not be_able_to(:update, Role.find_by(name: role, resource: other_conference)) }
