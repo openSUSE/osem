@@ -4,6 +4,8 @@ feature 'Version' do
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let(:event_with_commercial) { create(:event, program: conference.program) }
+  let(:event_commercial) { create(:event_commercial, commercialable: event_with_commercial, url: 'https://www.youtube.com/watch?v=M9bq_alk-sw') }
 
   before(:each) do
     sign_in organizer
@@ -36,9 +38,9 @@ feature 'Version' do
     cfp.destroy
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new cfp in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated start date and end date of cfp in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted cfp in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) created new cfp for events in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated start date and end date of cfp for events in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) deleted cfp for events in conference #{conference.short_title}")
   end
 
   scenario 'display changes in registration_period', feature: true, versioning: true, js: true do
@@ -221,15 +223,21 @@ feature 'Version' do
     click_button 'Save Splashpage'
 
     click_link 'Edit'
-    check('Make splash page public')
-    check('Display tracks on the splashpage?')
-    check('Display the registration period on the splashpage?')
+    uncheck('Display program')
+    uncheck('Display call for papers information on splashpage, while cfp is open')
+    uncheck('Display venue')
+    uncheck('Display tickets')
+    uncheck('Display the lodgings')
+    uncheck('Display sponsors')
+    uncheck('Display social media')
+    check('Make splash page public?')
     click_button 'Save Splashpage'
 
     click_link 'Delete'
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} created new splashpage in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} updated public, include tracks and include registrations of splashpage in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} updated public, include program, include cfp, include venue, include tickets, include lodgings,
+      include sponsors and include social media of splashpage in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} deleted splashpage in conference #{conference.short_title}")
   end
 
@@ -259,15 +267,26 @@ feature 'Version' do
   end
 
   scenario 'display changes in event commercials', feature: true, versioning: true, js: true do
-    event = create(:event, program: conference.program)
-    event_commercial = create(:event_commercial, commercialable: event, url: 'https://www.youtube.com/watch?v=M9bq_alk-sw')
+    event_commercial
     event_commercial.update_attributes(url: 'https://www.youtube.com/watch?v=VNkDJk5_9eU')
     event_commercial.destroy
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new commercial in event #{event.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated url of commercial in event #{event.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted commercial in event #{event.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) created new commercial in event #{event_with_commercial.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated url of commercial in event #{event_with_commercial.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) deleted commercial in event #{event_with_commercial.title} in conference #{conference.short_title}")
+  end
+
+  scenario 'display changes in event commercials in event history', feature: true, versioning: true, js: true do
+    event_without_commercial = create(:event, program: conference.program)
+    event_commercial
+
+    visit admin_conference_program_event_path(conference.short_title, event_with_commercial)
+    click_link 'History'
+    expect(page).to have_text('Someone (probably via the console) created new commercial')
+    visit admin_conference_program_event_path(conference.short_title, event_without_commercial)
+    click_link 'History'
+    expect(page).to have_no_text('Someone (probably via the console) created new commercial')
   end
 
   scenario 'display changes in users_role', feature: true, versioning: true, js: true do

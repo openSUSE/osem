@@ -4,5 +4,5 @@ class Vposition < ActiveRecord::Base
   has_many :vchoices
   has_many :vdays, through: :vchoices
 
-  validates_presence_of :title, :vdays
+  validates :title, :vdays, presence: true
 end

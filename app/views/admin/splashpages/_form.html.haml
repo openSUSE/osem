@@ -6,15 +6,15 @@
   .col-md-8
     = semantic_form_for(@splashpage, url: admin_conference_splashpage_path(@conference.short_title)) do |f|
       = f.inputs name: 'Components' do
-        = f.input :include_tracks, label: 'Display tracks on the splashpage?'
-        = f.input :include_program, label: 'Display program on the splashpage?'
-        = f.input :include_cfp, label: 'Display call for papers information on splashpage, while cfp is open?'
-        = f.input :include_venue, label: 'Display venue on the splashpage?'
-        = f.input :include_registrations, label: 'Display the registration period on the splashpage?'
-        = f.input :include_tickets, label: 'Display tickets on the splashpage?'
-        = f.input :include_lodgings, label: 'Display the lodgings on the splashpage?'
-        = f.input :include_sponsors, label: 'Display sponsors on the splashpage?'
-        = f.input :include_social_media, label: 'Display social media on the splashpage?'
+        = f.input :include_tracks, label: 'Display tracks', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tracks) }
+        = f.input :include_program, label: 'Display program', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_program) }
+        = f.input :include_cfp, label: 'Display call for papers information on splashpage, while cfp is open', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_cfp) }
+        = f.input :include_venue, label: 'Display venue', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_venue) }
+        = f.input :include_registrations, label: 'Display the registration period', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_registrations) }
+        = f.input :include_tickets, label: 'Display tickets', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tickets) }
+        = f.input :include_lodgings, label: 'Display the lodgings', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_lodgings) }
+        = f.input :include_sponsors, label: 'Display sponsors', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_sponsors) }
+        = f.input :include_social_media, label: 'Display social media', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
       = f.inputs name: 'Access' do
         = f.input :public, label: 'Make splash page public?'
       %p.text-right

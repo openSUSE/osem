@@ -1,4 +1,4 @@
-- intervals = hrs_per_slide * 60 / EventType::LENGTH_STEP + 1
+- intervals = hrs_per_slide * 60 / @conference.program.schedule_interval + 1
 - width = 85 / intervals
 - carousel_number = (@conf_period / hrs_per_slide.to_f).ceil
 .carousel.slide{ id: "carousel-#{ date }-#{ hrs_per_slide }", |
@@ -41,7 +41,7 @@
 
                     - if event_schedule
                       / There is an event, calculate the span and show it
-                      - event_span =  (event_schedule.end_time.to_i - start_room_time.to_i) / 60 / EventType::LENGTH_STEP
+                      - event_span =  (event_schedule.end_time.to_i - start_room_time.to_i) / 60 / @conference.program.schedule_interval
                       - span = ((event_span + i - 1 ) > intervals ? intervals  + 1 - i : event_span)
                       = render partial: 'schedule_item', locals: {event: event_schedule.event, event_schedule: event_schedule, span: span, width: width}
                     - else

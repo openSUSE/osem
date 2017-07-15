@@ -16,8 +16,8 @@ feature Conference do
 
       click_button 'Create Cfp'
 
-      expect(flash).
-          to eq('Creating the call for papers failed. ' +
+      expect(flash)
+          .to eq('Creating the call for papers failed. ' +
           "Start date can't be blank. End date can't be blank.")
 
       today = Date.today - 1
@@ -29,8 +29,10 @@ feature Conference do
       click_button 'Create Cfp'
 
       # Validations
-      expect(flash).
-          to eq('Call for papers successfully created.')
+      expect(flash)
+          .to eq('Call for papers successfully created.')
+
+      visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
       expect(find('#end_date').text).to eq((today + 6).strftime('%A, %B %-d. %Y'))
 
@@ -38,19 +40,19 @@ feature Conference do
     end
 
     scenario 'update cfp', feature: true, js: true do
-      conference.program.cfp = create(:cfp)
+      create(:cfp, program: conference.program)
       expected_count = Cfp.count
 
       sign_in organizer
-      visit admin_conference_program_cfp_path(conference.short_title)
+      visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       click_link 'Edit'
 
       # Validate update with empty start date will not saved
       page.execute_script(
           "$('#registration-period-start-datepicker').val('')")
       click_button 'Update Cfp'
-      expect(flash).
-          to eq('Updating call for papers failed. ' +
+      expect(flash)
+          .to eq('Updating call for papers failed. ' +
                     "Start date can't be blank.")
 
       # Fill in date
@@ -63,8 +65,10 @@ feature Conference do
       click_button 'Update Cfp'
 
       # Validations
-      expect(flash).
-          to eq('Call for papers successfully updated.')
+      expect(flash)
+          .to eq('Call for papers successfully updated.')
+
+      visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
       expect(find('#end_date').text).to eq((today + 14).strftime('%A, %B %-d. %Y'))
       expect(Cfp.count).to eq(expected_count)

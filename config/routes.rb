@@ -15,10 +15,12 @@ Osem::Application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
-  resources :users, except: [:new, :index, :create, :destroy]
+  resources :users, except: [:new, :index, :create, :destroy] do
+    resources :openids, only: :destroy
+  end
 
   namespace :admin do
-    resources :users
+    resources :organizations
     resources :users do
       member do
         patch :toggle_confirmation
@@ -51,8 +53,12 @@ Osem::Application.routes.draw do
       end
       resource :registration_period
       resource :program do
-        resource :cfp
-        resources :tracks
+        resources :cfps
+        resources :tracks do
+          member do
+            patch :toggle_cfp_inclusion
+          end
+        end
         resources :event_types
         resources :difficulty_levels
         resources :events do
@@ -79,9 +85,16 @@ Osem::Application.routes.draw do
       resources :targets, except: [:show]
       resources :campaigns, except: [:show]
       resources :emails, only: [:show, :update, :index]
-      resources :roles, except: [ :new, :create ] do
+      resources :physical_ticket, only: [:index]
+      resources :roles, only: [:edit]
+      resources :roles, except: [ :new, :create, :edit ] do
         member do
           post :toggle_user
+          get ':track_name' => 'roles#show', as: 'track'
+          get ':track_name/edit' => 'roles#edit', as: 'track_edit'
+          patch ':track_name' => 'roles#update'
+          put ':track_name' => 'roles#update'
+          post ':track_name/toggle_user' => 'roles#toggle_user', as: 'toggle_user_track'
         end
       end
 
@@ -103,7 +116,7 @@ Osem::Application.routes.draw do
     get '/revision_history/:id/revert_object' => 'versions#revert_object', as: 'revision_history_revert_object'
     get '/revision_history/:id/revert_attribute' => 'versions#revert_attribute', as: 'revision_history_revert_attribute'
   end
-
+  resources :organizations, only: [:index]
   resources :conferences, only: [:index, :show] do
     resource :program, only: [] do
       resources :proposals, except: :destroy do
@@ -117,13 +130,15 @@ Osem::Application.routes.draw do
           patch '/restart' => 'proposals#restart'
         end
       end
+      resources :tracks, except: :destroy
     end
 
     # TODO: change conference_registrations to singular resource
     resource :conference_registration, path: 'register'
     resources :tickets, only: [:index]
-    resources :ticket_purchases, only: [:create, :destroy]
+    resources :ticket_purchases, only: [:create, :destroy, :index]
     resources :payments, only: [:index, :new, :create]
+    resources :physical_ticket, only: [:index, :show]
     resource :subscriptions, only: [:create, :destroy]
     resource :schedule, only: [:show] do
       member do

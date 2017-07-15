@@ -2,7 +2,7 @@ module Admin
   class TracksController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
-    load_and_authorize_resource through: :program
+    load_and_authorize_resource through: :program, find_by: :short_name
 
     def index; end
 
@@ -23,7 +23,7 @@ module Admin
         redirect_to admin_conference_program_tracks_path(conference_id: @conference.short_title),
                     notice: 'Track successfully created.'
       else
-        flash[:error] = "Creating Track failed: #{@track.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating Track failed: #{@track.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -35,7 +35,7 @@ module Admin
         redirect_to admin_conference_program_tracks_path(conference_id: @conference.short_title),
                     notice: 'Track successfully updated.'
       else
-        flash[:error] = "Track update failed: #{@track.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Track update failed: #{@track.errors.full_messages.join('. ')}."
         render :edit
       end
     end
@@ -50,10 +50,19 @@ module Admin
       end
     end
 
+    def toggle_cfp_inclusion
+      @track.cfp_active = !@track.cfp_active
+      if @track.save
+        head :ok
+      else
+        head :unprocessable_entity
+      end
+    end
+
     private
 
     def track_params
-      params.require(:track).permit(:name, :description, :color)
+      params.require(:track).permit(:name, :description, :color, :short_name, :cfp_active)
     end
   end
 end

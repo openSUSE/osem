@@ -28,19 +28,18 @@
           - if can? :index, Comment
             %ul.nav.navbar-nav.navbar-right
               %li.dropdown
-                %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
-                  - if unread_notifications(current_user)
-                    Notifications (#{unread_notifications(current_user).length})
-                    %span.fa.fa-comment
-                    %b.caret
-                    %ul.dropdown-menu
-                      - if unread_notifications(current_user).length > 0
-                        %li.dropdown-header Last 5 Comments for:
-                        - unread_notifications(current_user).limit(5).group_by{ |comment| comment.commentable}.each do |event, comments|
-                          %li= link_to("#{event.title}(#{comments.count})", admin_conference_program_event_path(event.program.conference.short_title, event.id))
-                        %li.divider
-                        %li= link_to "See all unread Comments (#{unread_notifications(current_user).length})", admin_comments_path
-                      %li= link_to 'See all Comments', admin_comments_path(anchor: 'all_comments')
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  Notifications (#{unread_notifications(current_user).length})
+                  %span.fa.fa-comment
+                  %b.caret
+                %ul.dropdown-menu
+                  - if unread_notifications(current_user).length > 0
+                    %li.dropdown-header Last 5 Comments for:
+                    - unread_notifications(current_user).limit(5).group_by{ |comment| comment.commentable}.each do |event, comments|
+                      %li= link_to("#{event.title}(#{comments.count})", admin_conference_program_event_path(event.program.conference.short_title, event.id))
+                    %li.divider
+                    %li= link_to "See all unread Comments (#{unread_notifications(current_user).length})", admin_comments_path
+                  %li= link_to 'See all Comments', admin_comments_path(anchor: 'all_comments')
       - else
         %ul.nav.navbar-nav.navbar-right
           - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'

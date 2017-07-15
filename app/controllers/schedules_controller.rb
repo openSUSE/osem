@@ -1,7 +1,8 @@
 class SchedulesController < ApplicationController
+  load_and_authorize_resource
   protect_from_forgery with: :null_session
   before_action :respond_to_options
-  load_and_authorize_resource :conference, find_by: :short_title
+  load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true, except: :index
 
   def show
@@ -13,7 +14,7 @@ class SchedulesController < ApplicationController
 
     @events_xml = schedules.map(&:event).group_by{ |event| event.time.to_date } if schedules
     @dates = @conference.start_date..@conference.end_date
-    @step_minutes = EventType::LENGTH_STEP.minutes
+    @step_minutes = @program.schedule_interval.minutes
     @conf_start = @conference.start_hour
     @conf_period = @conference.end_hour - @conf_start
 

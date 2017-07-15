@@ -28,10 +28,10 @@
         = link_to(admin_conferences_path()) do
           %span.fa.fa-home
           Administration
-      - if can? :create, Conference
+      - if can? :new, Conference.new
         =link_to(new_admin_conference_path) do
           %span.fa.fa-plus
-          Create Conference
+          New Conference
     -if @conference and @conference.id and can? :show, @conference
       %li
         = link_to(admin_conference_path(@conference.short_title)) do
@@ -49,3 +49,8 @@
     = link_to(admin_revision_history_path) do
       %span.fa.fa-history
       Revision History
+  - if ENV['ORGANIZATIONS_ENABLED'] == 'true'
+    %li
+      = link_to(admin_organizations_path) do
+        %span.fa.fa-group
+        Organizations

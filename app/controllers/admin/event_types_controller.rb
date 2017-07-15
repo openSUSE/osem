@@ -18,7 +18,7 @@ module Admin
         redirect_to admin_conference_program_event_types_path(conference_id: @conference.short_title),
                     notice: 'Event type successfully created.'
       else
-        flash[:error] = "Creating event type failed: #{@event_type.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating event type failed: #{@event_type.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -28,7 +28,7 @@ module Admin
         redirect_to admin_conference_program_event_types_path(conference_id: @conference.short_title),
                     notice: 'Event type successfully updated.'
       else
-        flash[:error] = "Update event type failed: #{@event_type.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update event type failed: #{@event_type.errors.full_messages.join('. ')}."
         render :edit
       end
     end

@@ -10,15 +10,15 @@ class RegistrationPeriod < ActiveRecord::Base
   private
 
   def before_end_of_conference
-    errors.
-    add(:start_date, "can't be after the conference end date (#{conference.end_date})") if conference && conference.end_date && start_date && (start_date > conference.end_date)
+    errors
+    .add(:start_date, "can't be after the conference end date (#{conference.end_date})") if conference && conference.end_date && start_date && (start_date > conference.end_date)
 
-    errors.
-    add(:end_date, "can't be after the conference end date (#{conference.end_date})") if conference && conference.end_date && end_date && (end_date > conference.end_date)
+    errors
+    .add(:end_date, "can't be after the conference end date (#{conference.end_date})") if conference && conference.end_date && end_date && (end_date > conference.end_date)
   end
 
   def start_date_before_end_date
-    errors.
-    add(:start_date, "can't be after the end date") if start_date && end_date && start_date > end_date
+    errors
+    .add(:start_date, "can't be after the end date") if start_date && end_date && start_date > end_date
   end
 end

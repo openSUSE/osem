@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213145807) do
+ActiveRecord::Schema.define(version: 20170711102511) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
+    t.string   "cfp_type"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -89,7 +90,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
-    t.integer  "revision"
+    t.integer  "revision",           default: 0,     null: false
     t.boolean  "use_vpositions",     default: false
     t.boolean  "use_vdays",          default: false
     t.boolean  "use_volunteers"
@@ -100,7 +101,11 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.string   "picture"
     t.integer  "start_hour",         default: 9
     t.integer  "end_hour",           default: 20
+    t.integer  "organization_id"
+    t.integer  "ticket_layout",      default: 0
   end
+
+  add_index "conferences", ["organization_id"], name: "index_conferences_on_organization_id"
 
   create_table "conferences_questions", id: false, force: :cascade do |t|
     t.integer "conference_id"
@@ -234,6 +239,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.boolean  "is_highlight",                 default: false
     t.integer  "program_id"
     t.integer  "max_attendees"
+    t.integer  "comments_count",               default: 0,     null: false
   end
 
   create_table "events_registrations", force: :cascade do |t|
@@ -266,6 +272,12 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "updated_at"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name",        null: false
+    t.text   "description"
+    t.string "picture"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.string   "last4"
     t.integer  "amount"
@@ -275,6 +287,12 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.integer  "conference_id",                  null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+  end
+
+  create_table "physical_tickets", force: :cascade do |t|
+    t.integer  "ticket_purchase_id", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "programs", force: :cascade do |t|
@@ -289,6 +307,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "voting_start_date"
     t.datetime "voting_end_date"
     t.integer  "selected_schedule_id"
+    t.integer  "schedule_interval",    default: 15,    null: false
   end
 
   add_index "programs", ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id"
@@ -446,6 +465,13 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.integer  "quantity",      default: 1
     t.integer  "user_id"
     t.integer  "payment_id"
+    t.integer  "week"
+  end
+
+  create_table "ticket_scannings", force: :cascade do |t|
+    t.integer  "physical_ticket_id", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -457,14 +483,20 @@ ActiveRecord::Schema.define(version: 20170213145807) do
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",        null: false
-    t.string   "name",        null: false
+    t.string   "guid",         null: false
+    t.string   "name",         null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
+    t.string   "short_name",   null: false
+    t.string   "state"
+    t.boolean  "cfp_active"
+    t.integer  "submitter_id"
   end
+
+  add_index "tracks", ["submitter_id"], name: "index_tracks_on_submitter_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false

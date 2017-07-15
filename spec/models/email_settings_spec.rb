@@ -3,8 +3,7 @@ require 'spec_helper'
 describe EmailSettings do
   let(:conference) { create(:conference, short_title: 'goto', start_date: Date.new(2014, 05, 01), end_date: Date.new(2014, 05, 06)) }
   let(:user) { create(:user, username: 'johnd', email: 'john@doe.com', name: 'John Doe') }
-  let(:event_user) { create(:submitter, user: user) }
-  let(:event) { create(:event, program: conference.program, title: 'Talk about talks', event_users: [event_user]) }
+  let(:event) { create(:event, program: conference.program, title: 'Talk about talks', submitter: user) }
   let(:expected_hash) do
     {
       'email' => 'john@doe.com',
@@ -47,9 +46,10 @@ describe EmailSettings do
 
     context 'conference has cfp' do
       before do
-        conference.program.update_attributes(cfp: create(:cfp,
-                                                         start_date: Date.new(2014, 04, 29),
-                                                         end_date: Date.new(2014, 05, 06)))
+        create(:cfp,
+               start_date: Date.new(2014, 04, 29),
+               end_date: Date.new(2014, 05, 06),
+               program: conference.program)
         cfp_dates_hash = { 'cfp_start_date' => Date.new(2014, 04, 29), 'cfp_end_date' => Date.new(2014, 05, 06) }
         expected_hash.merge!(cfp_dates_hash)
       end

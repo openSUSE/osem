@@ -4,7 +4,9 @@
       %h1
         Events
         = "(#{@events.length})" if @events.any?
-        .btn-group.pull-right
+        .pull-right
+          - if can? :create, Event
+            =link_to 'Add Event', new_admin_conference_program_event_path(@conference.short_title), class: 'button btn btn-default btn-info'
           - if can? :read, Event
             .btn-group
               %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
@@ -54,8 +56,8 @@
           %th
             %b Submitter
           %th
-            %b Speaker
-          - if @program.languages.present?
+            %b Speakers
+          -if @program.languages.present?
             %th
               %b Language
           %th
@@ -99,10 +101,9 @@
                 %i Hidden
             %td
               - if @program.show_voting?
-                - if speaker = event.speakers.first
-                  = link_to speaker.name, admin_user_path(speaker)
-                - else
-                  Unknown speaker
+                - event.speakers_ordered.each do |speaker|
+                  .speaker
+                    = link_to speaker.name, admin_user_path(speaker)
               - else
                 %i Hidden
 
@@ -183,4 +184,4 @@
                 %ul.dropdown-menu{ role: 'menu' }
                   = render 'change_state_dropdown', event: event
             %td.text-center
-              = link_to "#{event.comment_threads.count}", admin_conference_program_event_path(@conference.short_title, event), anchor: 'comments-div'
+              = link_to "#{event.comments_count}", admin_conference_program_event_path(@conference.short_title, event), anchor: 'comments-div'

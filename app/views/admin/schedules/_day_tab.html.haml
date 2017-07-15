@@ -1,5 +1,5 @@
-- compact_grid = EventType::LENGTH_STEP < 15
-- cells_per_hour = 60 / EventType::LENGTH_STEP
+- compact_grid = @program.schedule_interval < 15
+- cells_per_hour = 60 / @program.schedule_interval
 / use smaller cell heights for more compact grids
 - cell_height = compact_grid ? 32 : 58
 - date_event_schedules = @event_schedules.select{ |e| e.start_time.to_date.eql? date }
@@ -11,7 +11,7 @@
         = room.name
       - (@conference.start_hour * cells_per_hour..@conference.end_hour * cells_per_hour).each do |slot|
         - hour = slot / cells_per_hour
-        - minutes = (EventType::LENGTH_STEP * (slot % cells_per_hour)).to_s.rjust(2, '0')
+        - minutes = (@program.schedule_interval * (slot % cells_per_hour)).to_s.rjust(2, '0')
         - time = "#{hour}:#{minutes}"
         .schedule-room-slot{ id: "schedule-room-#{room.guid}-#{hour}-#{minutes}", |
                              room_id: room.id, |

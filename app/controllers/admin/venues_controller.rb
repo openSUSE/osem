@@ -27,7 +27,7 @@ module Admin
         redirect_to admin_conference_venue_path(conference_id: @conference.short_title),
                     notice: 'Venue was successfully updated.'
       else
-        flash[:error] = "Update venue failed: #{@venue.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update venue failed: #{@venue.errors.full_messages.join('. ')}."
         render :edit
       end
     end

@@ -24,5 +24,9 @@ before_script:
   - mysql -u root -e 'create database osem_test;'
   - RAILS_ENV=test bundle exec rake db:migrate --trace
 script:
-  - 'bundle exec rubocop -Dc .rubocop.yml'
-  - 'bundle exec rspec --color --format documentation'
+  - "./travis_script.sh $TEST_SUITE"
+env:
+  - TEST_SUITE=rspec
+  - TEST_SUITE=linters
+matrix:
+  fast_finish: true

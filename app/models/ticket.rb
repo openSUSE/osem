@@ -13,7 +13,7 @@ class Ticket < ActiveRecord::Base
 
   validates :price_cents, :price_currency, :title, presence: true
 
-  validates_numericality_of :price_cents, greater_than_or_equal_to: 0
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0 }
 
   def bought?(user)
     buyers.include?(user)
@@ -56,7 +56,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def tickets_sold
-    ticket_purchases.sum(:quantity)
+    ticket_purchases.paid.sum(:quantity)
   end
 
   def tickets_turnover
@@ -66,7 +66,7 @@ class Ticket < ActiveRecord::Base
   private
 
   def tickets_of_conference_have_same_currency
-    unless Ticket.where(conference_id: conference_id).all?{|t| t.price_currency == self.price_currency }
+    unless Ticket.where(conference_id: conference_id).all?{|t| t.price_currency == price_currency }
       errors.add(:price_currency, 'is different from the existing tickets of this conference.')
     end
   end

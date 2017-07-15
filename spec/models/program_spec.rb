@@ -7,12 +7,13 @@ describe Program do
 
   describe 'association' do
     it { is_expected.to belong_to :conference }
-    it { is_expected.to have_one(:cfp).dependent(:destroy) }
+    it { is_expected.to have_many(:cfps).dependent(:destroy) }
     it { is_expected.to have_many(:schedules).dependent(:destroy) }
     it { is_expected.to have_many(:event_types).dependent(:destroy) }
     it { is_expected.to have_many(:tracks).dependent(:destroy) }
     it { is_expected.to have_many(:difficulty_levels).dependent(:destroy) }
     it { is_expected.to have_many(:events).dependent(:destroy) }
+    it { is_expected.to have_many(:event_schedules).through(:events) }
     it { is_expected.to have_many(:event_users).through(:events) }
     it { is_expected.to have_many(:speakers).through(:event_users).source(:user) }
 
@@ -31,6 +32,18 @@ describe Program do
     end
 
     it { is_expected.to validate_numericality_of(:rating).is_greater_than_or_equal_to(0).is_less_than_or_equal_to(10).only_integer }
+
+    it { is_expected.to validate_numericality_of(:schedule_interval).is_greater_than_or_equal_to(5).is_less_than_or_equal_to(60) }
+
+    describe 'schedule_interval_divisor_60' do
+      it 'is valid, when schedule_interval is divisor of 60' do
+        expect(build(:program, schedule_interval: 20)).to be_valid
+      end
+
+      it 'is not valid, when schedule_interval is not divisor of 60' do
+        expect(build(:program, schedule_interval: 35)).to_not be_valid
+      end
+    end
 
     describe 'voting_start_date_before_end_date' do
       it 'is valid, when voting_start_date is the same day as voting_end_date' do
@@ -128,7 +141,7 @@ describe Program do
   describe '#cfp_open?' do
     describe 'returns true' do
       it 'when there is an open Call for Papers for the conference' do
-        create(:cfp, start_date: Date.today - 2, end_date: Date.today, program_id: program.id)
+        create(:cfp, start_date: Date.current - 2, end_date: Date.current, program_id: program.id)
         expect(program.cfp_open?).to be true
       end
     end
@@ -139,7 +152,7 @@ describe Program do
       end
 
       it 'when the Call for Papers period is over' do
-        build(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: program.id)
+        create(:cfp, start_date: Date.current - 2, end_date: Date.current - 1, program_id: program.id)
         expect(program.cfp_open?).to be false
       end
     end
@@ -164,6 +177,34 @@ describe Program do
       create(:program, conference_id: conference.id)
       conference.reload
       expect(conference.program.difficulty_levels.count).to eq 3
+    end
+  end
+
+  describe 'excecutes after_save functions' do
+    it 'and unschedule unfit events if schedule interval was changed' do
+      start_date = program.conference.start_date.to_datetime.change(hour: program.conference.start_hour)
+      create(:event_schedule, event: create(:event, program: program), start_time: start_date.change(min: program.schedule_interval))
+      create(:event_schedule, event: create(:event, program: program), start_time: start_date)
+      expect(program.event_schedules.count).to eq 2
+
+      program.schedule_interval = 10
+      program.save!
+      program.reload
+      expect(program.event_schedules.count).to eq 1
+      expect(program.event_schedules.first.start_time).to eq start_date
+    end
+
+    it 'and change event type length if schedule interval was changed' do
+      program.schedule_interval = 5
+      program.save!
+
+      program.event_types.first.update_attributes length: 5
+      program.event_types.last.update_attributes length: 25
+      create(:event_type, program: program, length: 30)
+
+      program.schedule_interval = 10
+      program.save!
+      expect(program.event_types.pluck(:length).sort).to eq [10, 20, 30]
     end
   end
 
@@ -199,4 +240,41 @@ describe Program do
     end
   end
 
+  describe '#cfp' do
+    it 'returns the cfp for events' do
+      create(:cfp, cfp_type: 'events', program: program, end_date: Date.current + 1)
+      expect(program.cfp).to be_a Cfp
+      expect(program.cfp.cfp_type).to eq('events')
+    end
+
+    it 'returns nil if the program doesn\'t have a cfp' do
+      expect(program.cfp).to eq(nil)
+    end
+  end
+
+  describe '#remaining_cfp_types' do
+    it 'returns an array with the types for which a cfp doesn\'t exist, when only the Event type does' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      create(:cfp, cfp_type: 'events', program: program)
+      expect(program.remaining_cfp_types).to eq(['booths'])
+    end
+
+    it 'returns an array with the types for which a cfp doesn\'t exist, when only the Booth type does' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      create(:cfp, cfp_type: 'booths', program: program)
+      expect(program.remaining_cfp_types).to eq(['events'])
+    end
+
+    it 'returns an empty array when all the cfp types exist' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      create(:cfp, cfp_type: 'events', program: program)
+      create(:cfp, cfp_type: 'booths', program: program)
+      expect(program.remaining_cfp_types).to eq([])
+    end
+
+    it 'returns all the possible cfp types when there is no existed cfp type' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      expect(program.remaining_cfp_types). to eq(%w[events booths])
+    end
+  end
 end

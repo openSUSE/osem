@@ -18,10 +18,9 @@ gem 'rails_12factor', group: :production
 gem 'responders', '~> 2.0'
 
 # as the database for Active Record
+# choose only one
 gem 'mysql2'
-
-# for observing records
-gem 'rails-observers'
+# gem 'pg'
 
 # for tracking data changes
 gem 'paper_trail'
@@ -126,8 +125,11 @@ gem 'country_select'
 
 # as PDF generator
 gem 'prawn_rails'
+gem 'rqrcode'
+gem 'prawn-qrcode', '~> 0.2.2.1'
 
 # to render XLS spreadsheets
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
 # as error catcher
@@ -178,7 +180,7 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
-# For countable.js 
+# For countable.js
 gem "countable-rails", "~> 0.0.1"
 
 # Both are not in a group as we use it also for rake data:demo
@@ -193,13 +195,17 @@ gem 'stripe'
 # Provides Sprockets implementation for Rails Asset Pipeline
 gem 'sprockets-rails'
 
+# for multiple speakers select on proposal/event forms
+gem 'selectize-rails'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec', '~> 4.2.8'
   gem 'spring-commands-rspec'
+  gem 'haml_lint', '~> 0.24.0'
   # for static code analisys
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.49.0', require: false
   # as database
   gem 'sqlite3'
   # to open mails

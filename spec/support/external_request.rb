@@ -24,6 +24,6 @@ def mock_commercial_request
     author_url: 'https://www.youtube.com/user/Confreaks',
     height: 344
   }
-  WebMock.stub_request(:get, /.*youtube.*/).
-    to_return(status: 200, body: response.to_json, headers: {})
+  WebMock.stub_request(:get, /.*youtube.*/)
+    .to_return(status: 200, body: response.to_json, headers: {})
 end

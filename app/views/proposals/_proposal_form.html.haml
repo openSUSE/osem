@@ -4,6 +4,8 @@
 
     = f.input :subtitle, as: :string
 
+    = speaker_selector_input f
+
     - if @program.tracks.any?
       = f.input :track_id, as: :select,
                 collection: @program.tracks.map {|track| ["#{track.name}", track.id] },
@@ -60,4 +62,15 @@
 
 
   %p.text-right
-    = f.submit 'Update Proposal', class: 'btn btn-success'
+    - if @event.new_record?
+      = f.submit 'Create Proposal', class: 'btn btn-success'
+    - else
+      = f.submit 'Update Proposal', class: 'btn btn-success'
+
+:javascript
+  $(document).ready(function() {
+    $('#event_speaker_ids').selectize({
+      plugins: ['remove_button'],
+      maxItems: 5
+    } )
+  });

@@ -1,131 +1,7 @@
-Rails:
-  Enabled: true
+# Inherit style from another configuration
 inherit_from: .rubocop_todo.yml
 
-Style/HashSyntax:
-  Enabled: true
-  EnforcedStyle: ruby19
-
-# Things deprecated in current ruby API
-Lint/DeprecatedClassMethods:
-  Enabled: true
-
-# Do not compare with nil. Use .nil? instead
-Style/NilComparison:
-  Enabled: true
-
-# Use one empty line between method definitions
-Style/EmptyLineBetweenDefs:
-  Enabled: true
-
-# There should be only one empty line in designated place
-Style/EmptyLines:
-  Enabled: true
-
-# Keep a blank line before and after private.
-Style/EmptyLinesAroundAccessModifier:
-  Enabled: true
-
-# Use hash literal {} instead of Hash.new
-Style/EmptyLiteral:
-  Enabled: true
-
-# Prefer `each` over `for i`
-Style/For:
-  Enabled: true
-
-# Wrap your assignment in condition if you mean it, otherwise it is most likely equality check
-Lint/AssignmentInCondition:
-  Enabled: true
-
-# Align blocks of code properly
-Lint/BlockAlignment:
-  Enabled: true
-
-# Do not use literal in conditions. We have it enabled for now
-Lint/LiteralInCondition:
-  Enabled: false
-
-# Prefer `Kernel#loop -> break` over `begin -> while`
-Lint/Loop:
-  Enabled: true
-
-# do not put space before arguments when they are in parentheses
-Lint/ParenthesesAsGroupedExpression:
-  Enabled: true
-
-# Do not rescue Exceptions class itself
-Lint/RescueException:
-  Enabled: true
-
-# do not shadow local variables in blocks, choose other name
-Lint/ShadowingOuterLocalVariable:
-  Enabled: true
-
-# use _ or variable_name to explicitly mark variable as unused
-Lint/UnusedBlockArgument:
-  Enabled: true
-
-# use _ or _argument_name to explicitly mark argument as unused
-Lint/UnusedMethodArgument:
-  Enabled: true
-
-# avoid useless assignment
-Lint/UselessAssignment:
-  Enabled: true
-
-# Do not use variables in void context
-Lint/Void:
-  Enabled: true
-
-# Align the elements of a hash literal if they span more than one line
-Style/AlignHash:
-  Enabled: true
-
-# Align the parameters of a method call if they span more than one line
-Style/AlignParameters:
-  Enabled: true
-
-# Use && instead of and, use || instead of or
-Style/AndOr:
-  Enabled: true
-
-# avoid deep blocks nesting
-Metrics/BlockNesting:
-  Max: 4
-
-Metrics/ClassLength:
-  Max: 300
-  Exclude: 
-    - 'app/models/conference.rb'
-
-# avoid redundunt curly braces when it is obvious that hash is used
-Style/BracesAroundHashParameters:
-  Enabled: true
-
-# Checks that operators have space around them, except for ** which should not have surrounding space.
-Style/SpaceAroundOperators:
-  Enabled: true
-
-Style/CaseEquality:
-  Enabled: true
-
-Style/ClassAndModuleChildren:
-  Enabled: true
-
-Style/StringLiterals:
-  Enabled: true
-
-Style/TrailingBlankLines:
-  Enabled: true
-
-Style/TrailingWhitespace:
-  Enabled: true
-
-# Checks for uses of double negation (!!) to convert something to a boolean value.
-Style/DoubleNegation:
-  Enabled: true
-
+# Apply rule to all cops
 AllCops:
   Include:
     - '**/Rakefile'
@@ -136,3 +12,22 @@ AllCops:
     - 'bundle/**/*'
     - 'config/**/*'
     - 'bin/*'
+
+
+#################### Metrics ###############################
+
+# Avoid deep blocks nesting
+Metrics/BlockNesting:
+  Max: 4
+
+# Avoid writing classes that are more than 300 lines
+Metrics/ClassLength:
+  Max: 300
+  Exclude:
+    - 'app/models/conference.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/models/conference_spec.rb'
+    - 'spec/features/ability_spec.rb'
+    - 'spec/models/ability_spec.rb'

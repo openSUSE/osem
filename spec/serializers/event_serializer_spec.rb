@@ -3,7 +3,7 @@ describe EventSerializer, type: :serializer do
   let(:event) { create(:event, title: 'Some Talk', abstract: 'Lorem ipsum dolor sit amet') }
   let(:serializer) { EventSerializer.new(event) }
 
-  context 'event does not have date, speakers, room and tracks assigned' do
+  context 'event does not have date, room and tracks assigned' do
     it 'sets guid, title, length, abstract and type' do
       expected_json = {
         event: {
@@ -13,7 +13,7 @@ describe EventSerializer, type: :serializer do
           scheduled_date: '',
           language: nil,
           abstract: 'Lorem ipsum dolor sit amet',
-          speaker_ids: [],
+          speaker_ids: event.speaker_ids,
           type: 'Example Event Type',
           room: nil,
           track: nil
@@ -25,14 +25,14 @@ describe EventSerializer, type: :serializer do
   end
 
   context 'event has date, speakers, room and tracks assigned' do
-    let(:speaker) { create(:speaker) }
+    let(:speaker) { create(:user) }
     let(:room) { create(:room) }
     let(:track) { create(:track) }
 
     before do
-      event.language =  'English'
-      event.event_users << speaker
-      create(:event_schedule, event: event, room: room, start_time: Date.new(2014, 03, 04))
+      event.language = 'English'
+      event.speakers = [speaker]
+      create(:event_schedule, event: event, room: room, start_time: Date.new(2014, 03, 04) + 9.hours)
       event.track = track
     end
 
@@ -42,10 +42,10 @@ describe EventSerializer, type: :serializer do
           guid: event.guid,
           title: 'Some Talk',
           length: 30,
-          scheduled_date: ' 2014-03-04T00:00:00+0000 ',
+          scheduled_date: ' 2014-03-04T09:00:00+0000 ',
           language: 'English',
           abstract: 'Lorem ipsum dolor sit amet',
-          speaker_ids: [speaker.user.id],
+          speaker_ids: [speaker.id],
           type: 'Example Event Type',
           room: room.guid,
           track: track.guid
