@@ -80,6 +80,10 @@ describe Admin::TracksController do
       it 'creates new track' do
         expect(Track.find(assigns(:track).id)).to be_a Track
       end
+
+      it 'the new tracks has the correct attributes' do
+        expect(assigns(:track).state).to eq 'confirmed'
+      end
     end
 
     context 'save fails' do

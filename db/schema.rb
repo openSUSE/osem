@@ -511,15 +511,15 @@ ActiveRecord::Schema.define(version: 20170807092805) do
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",         null: false
-    t.string   "name",         null: false
+    t.string   "guid",                         null: false
+    t.string   "name",                         null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
-    t.string   "short_name",   null: false
-    t.string   "state"
+    t.string   "short_name",                   null: false
+    t.string   "state",        default: "new", null: false
     t.boolean  "cfp_active"
     t.integer  "submitter_id"
     t.integer  "room_id"

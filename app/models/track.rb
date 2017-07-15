@@ -25,10 +25,10 @@ class Track < ActiveRecord::Base
             inclusion: { in: %w(new to_accept accepted confirmed to_reject rejected canceled withdrawn) },
             if: :self_organized?
   validates :cfp_active, inclusion: { in: [true, false] }, if: :self_organized?
-  validates :start_date, presence: true, if: :accepted_or_confirmed?
-  validates :end_date, presence: true, if: :accepted_or_confirmed?
-  validates :room, presence: true, if: :accepted_or_confirmed?
-  validate :valid_dates, if: :accepted_or_confirmed?
+  validates :start_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
+  validates :end_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
+  validates :room, presence: true, if: :self_organized_and_accepted_or_confirmed?
+  validate :valid_dates, if: :self_organized_and_accepted_or_confirmed?
 
   before_validation :capitalize_color
 
@@ -129,12 +129,12 @@ class Track < ActiveRecord::Base
   end
 
   ##
-  # Checks if the track is accepted or confirmed
+  # Checks if a self-organized track is accepted or confirmed
   # ====Returns
   # * +true+ -> If the track's state is 'accepted' or 'confirmed'
   # * +false+ -> If the track's state is neither 'accepted' nor 'confirmed'
-  def accepted_or_confirmed?
-    accepted? || confirmed?
+  def self_organized_and_accepted_or_confirmed?
+    self_organized? && (accepted? || confirmed?)
   end
 
   private
