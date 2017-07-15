@@ -18,7 +18,6 @@ class TracksController < ApplicationController
   def create
     @track = @program.tracks.new(track_params)
     @track.submitter = current_user
-    @track.state = 'new'
     @track.cfp_active = false
     if @track.save
       redirect_to conference_program_tracks_path(conference_id: @conference.short_title),

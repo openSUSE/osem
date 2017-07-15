@@ -42,7 +42,7 @@
               - if track.self_organized?
                 = track.state
               - else
-                N/A
+                = track.state.humanize
             %td
               - if track.self_organized?
                 = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,

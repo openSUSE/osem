@@ -4,6 +4,7 @@ FactoryGirl.define do
     description { Faker::Lorem.sentence }
     color { Faker::Color.hex_color }
     short_name { SecureRandom.urlsafe_base64(5) }
+    state 'confirmed'
     program
 
     trait :self_organized do

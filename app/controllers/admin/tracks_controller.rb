@@ -19,6 +19,7 @@ module Admin
 
     def create
       @track = @program.tracks.new(track_params)
+      @track.state = 'confirmed'
       if @track.save
         redirect_to admin_conference_program_tracks_path(conference_id: @conference.short_title),
                     notice: 'Track successfully created.'
