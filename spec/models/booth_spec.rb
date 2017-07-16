@@ -38,8 +38,8 @@ describe 'Booth' do
 
     states_transitions = { new: { restart: false, withdraw: true, accept: true, to_accept: true, to_reject: true, reject: true, cancel: false },
                            withdrawn: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false },
-                           to_accept: { restart: true, withdraw: true, accept: true, to_accept: false, to_reject: true, reject: false, cancel: false },
-                           to_reject: { restart: true, withdraw: true, accept: false, to_accept: true, to_reject: false, reject: true, cancel: false },
+                           to_accept: { restart: true, withdraw: true, accept: true, to_accept: false, to_reject: true, reject: false, cancel: true },
+                           to_reject: { restart: true, withdraw: true, accept: false, to_accept: true, to_reject: false, reject: true, cancel: true },
                            accepted: { restart: false, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true },
                            rejected: { restart: false, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true },
                            canceled: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false } }
