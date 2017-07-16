@@ -55,7 +55,7 @@ class Booth < ActiveRecord::Base
       transitions to: :rejected, from: [:new, :to_reject]
     end
     event :cancel do
-      transitions to: :canceled, from: [:accepted, :rejected]
+      transitions to: :canceled, from: [:accepted, :rejected, :to_accept, :to_reject]
     end
   end
 
