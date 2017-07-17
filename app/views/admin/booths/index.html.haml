@@ -33,7 +33,8 @@
             %td
               = booth.id
             %td
-              = image_tag(booth.picture.thumb.url, width: '20%')
+              - if booth.logo_link
+                = image_tag(booth.picture.thumb.url, width: '20%')
             %td
               = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
             %td
