@@ -11,8 +11,8 @@
       = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
         label: 'How it fits the conference'
       = f.input :submitter_relationship, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
-        label: 'Your personal relationship with the organization you are applying for',
-        hint: 'e.g. employee, member of the open source community etc'
+        label: 'Submitter\'s relation',
+        hint: 'e.g. employee, comunity manager, etc'
       = f.input :website_url
       = responsibles_selector_input f
       = image_tag f.object.picture.thumb.url if f.object.picture?
