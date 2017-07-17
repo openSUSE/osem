@@ -26,6 +26,7 @@ Osem::Application.routes.draw do
         patch :toggle_confirmation
       end
     end
+    resource :ticket_scanning, only: [:create]
     resources :comments, only: [:index]
     resources :conferences do
       resource :contact, except: [:index, :new, :create, :show, :destroy]

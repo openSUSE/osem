@@ -145,6 +145,10 @@ class AdminAbility
     can :manage, Sponsor, conference_id: conf_ids
     can :manage, SponsorshipLevel, conference_id: conf_ids
     can :manage, Ticket, conference_id: conf_ids
+    can :create, TicketScanning do |ticket_scanning|
+      conf_id = ticket_scanning.physical_ticket.ticket_purchase.conference_id
+      conf_ids.include? conf_id
+    end
     can :index, Comment, commentable_type: 'Event',
                          commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
 
@@ -219,6 +223,10 @@ class AdminAbility
     can :manage, Question, conference_id: conf_ids_for_info_desk
     can :manage, Question do |question|
       !(question.conferences.pluck(:id) & conf_ids_for_info_desk).empty?
+    end
+    can :create, TicketScanning do |ticket_scanning|
+      conf_id = ticket_scanning.physical_ticket.ticket_purchase.conference_id
+      conf_ids_for_info_desk.include? conf_id
     end
 
     # Abilities for Role (Conference resource)
