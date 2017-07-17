@@ -55,7 +55,7 @@ describe Admin::RolesController do
   end
 
   describe 'POST #toggle' do
-    before:each do
+    before :each do
       sign_in admin
       post :toggle_user, conference_id: conference.short_title,
                          user: { email: 'user1@osem.io' },
