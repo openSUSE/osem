@@ -69,6 +69,7 @@ class TicketPurchase < ActiveRecord::Base
     PhysicalTicket.transaction do
       quantity.times { physical_tickets.create }
     end
+    Mailbot.ticket_confirmation_mail(self).deliver_later
   end
 end
 
