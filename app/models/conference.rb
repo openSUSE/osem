@@ -563,11 +563,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> track => {color, value}
   def tracks_distribution(state = nil)
-    if state
-      tracks_grouped = program.events.select(:track_id).where('state = ?', state).group(:track_id)
-    else
-      tracks_grouped = program.events.select(:track_id).group(:track_id)
-    end
+    tracks_grouped = if state
+                       program.events.select(:track_id).where('state = ?', state).group(:track_id)
+                     else
+                       program.events.select(:track_id).group(:track_id)
+                     end
     tracks_counted = tracks_grouped.count
 
     calculate_track_distribution_hash(tracks_grouped, tracks_counted)
@@ -1001,11 +1001,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
-    if state
-      grouped = program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
-    else
-      grouped = program.events.select(group_by_id).group(group_by_id)
-    end
+    grouped = if state
+                program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
+              else
+                program.events.select(group_by_id).group(group_by_id)
+              end
     counted = grouped.count
 
     calculate_distribution_hash(grouped, counted, association_symbol)
