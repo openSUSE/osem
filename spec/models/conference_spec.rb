@@ -1687,4 +1687,21 @@ describe Conference do
       expect{ room.save }.to change { subject.revision }.by(1)
     end
   end
+
+  describe '.upcoming' do
+    let!(:upcoming_conference) { create(:conference) }
+    let!(:past_conference) { create(:conference, start_date: Date.current - 1.days, end_date: Date.current - 1.days) }
+    subject { Conference.upcoming }
+
+    it { is_expected.to eq [upcoming_conference] }
+  end
+
+  describe '.past' do
+    let!(:upcoming_conference) { create(:conference) }
+    let!(:past_conference1) { create(:conference, start_date: Date.current - 1.days, end_date: Date.current - 1.days) }
+    let!(:past_conference2) { create(:conference, start_date: Date.current - 2.days, end_date: Date.current - 1.days) }
+    subject { Conference.past }
+
+    it { is_expected.to eq [past_conference1, past_conference2] }
+  end
 end

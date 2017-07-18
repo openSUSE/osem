@@ -1,7 +1,7 @@
 # cannot delete program if there are events submitted
 
 class Cfp < ActiveRecord::Base
-  TYPES = %w(events).freeze
+  TYPES = %w(events booths).freeze
 
   scope :for_events, (-> { find_by(cfp_type: 'events') })
 

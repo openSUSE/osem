@@ -30,3 +30,4 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/models/conference_spec.rb'
     - 'spec/features/ability_spec.rb'
+    - 'spec/models/ability_spec.rb'

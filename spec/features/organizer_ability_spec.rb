@@ -58,6 +58,7 @@ feature 'Has correct abilities' do
       expect(page).to have_link('E-Mails', href: "/admin/conferences/#{conference.short_title}/emails")
       expect(page).to have_link('Roles', href: "/admin/conferences/#{conference.short_title}/roles")
       expect(page).to have_link('Resources', href: "/admin/conferences/#{conference.short_title}/resources")
+      expect(page).to_not have_link('New Conference', href: '/admin/conferences/new')
 
       visit admin_conference_path(other_conference.short_title)
       expect(page).to have_link('Add venue', href: "/admin/conferences/#{other_conference.short_title}/venue/new")
@@ -107,16 +108,32 @@ feature 'Has correct abilities' do
       visit edit_admin_conference_program_path(conference.short_title)
       expect(current_path).to eq(edit_admin_conference_program_path(conference.short_title))
 
+      # Only event type exists
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
+
+      # Both event and booth exists
+      cfb = create(:cfp, cfp_type: 'booths', program: conference.program)
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq root_path
+
+      visit edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
+      expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp))
 
       conference.program.cfp.destroy!
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq new_admin_conference_program_cfp_path(conference.short_title)
-      create(:cfp, program: conference.program)
 
-      visit edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
-      expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp))
+      # Only booth exists
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
+
+      visit edit_admin_conference_program_cfp_path(conference.short_title, cfb)
+      expect(current_path). to eq(edit_admin_conference_program_cfp_path(conference.short_title, cfb))
+
+      cfb.destroy
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
 
       visit admin_conference_program_events_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_events_path(conference.short_title))

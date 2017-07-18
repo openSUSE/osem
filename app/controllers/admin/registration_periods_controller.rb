@@ -1,5 +1,5 @@
 module Admin
-  class RegistrationPeriodsController < ApplicationController
+  class RegistrationPeriodsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource through: :conference, singleton: true
 

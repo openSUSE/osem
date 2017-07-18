@@ -172,11 +172,15 @@ linters:
       - "app/views/users/edit.html.haml"
       - "app/views/users/show.html.haml"
       - "app/views/admin/cfps/index.html.haml"
+      - "app/views/tracks/_form.html.haml"
+      - "app/views/tracks/index.html.haml"
+      - "app/views/tracks/show.html.haml"
 
   # Offense count: 223
   InstanceVariables:
     exclude:
       - "app/views/admin/campaigns/_form.html.haml"
+      - "app/views/admin/cfps/_booths_cfp.html.haml"
       - "app/views/admin/cfps/_form.html.haml"
       - "app/views/admin/conferences/_todo_list.html.haml"
       - "app/views/admin/difficulty_levels/_form.html.haml"
@@ -231,6 +235,7 @@ linters:
       - "app/views/schedules/_schedule_item.html.haml"
       - "app/views/schedules/_schedule_tabs.html.haml"
       - "app/views/admin/cfps/_events_cfp.html.haml"
+      - "app/views/tracks/_form.html.haml"
 
   # Offense count: 32
   IdNames:
@@ -330,6 +335,8 @@ linters:
       - "app/views/shared/_object_changes.html.haml"
       - "app/views/tickets/_ticket.html.haml"
       - "app/views/tickets/index.html.haml"
+      - "app/views/tracks/index.html.haml"
+      - "app/views/tracks/show.html.haml"
 
   # Offense count: 23
   ClassesBeforeIds:
