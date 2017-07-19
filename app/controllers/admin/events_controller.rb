@@ -17,7 +17,7 @@ module Admin
 
     def index
       @events = @program.events
-      @tracks = @program.tracks
+      @tracks = @program.tracks.confirmed.cfp_active
       @difficulty_levels = @program.difficulty_levels
       @event_types = @program.event_types
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
@@ -43,7 +43,7 @@ module Admin
     end
 
     def show
-      @tracks = @program.tracks
+      @tracks = @program.tracks.confirmed.cfp_active
       @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
@@ -58,7 +58,7 @@ module Admin
 
     def edit
       @event_types = @program.event_types
-      @tracks = Track.all
+      @tracks = @program.tracks.confirmed.cfp_active
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @user = @event.submitter

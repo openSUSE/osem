@@ -39,7 +39,7 @@ feature Track do
       within('table#tracks') do
         expect(page.has_content?(track.name)).to be false
         expect(page.has_content?(track.description)).to be false
-        expect(page.assert_selector('tr', count: 1)).to be true
+        expect(page.has_content?('No data available in table')).to eq true
       end
     end
 

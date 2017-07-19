@@ -32,6 +32,9 @@ class Track < ActiveRecord::Base
 
   before_validation :capitalize_color
 
+  scope :confirmed, -> { where(state: 'confirmed') }
+  scope :cfp_active, -> { where(cfp_active: true) }
+
   state_machine initial: :pending do
     state :new
     state :to_accept
