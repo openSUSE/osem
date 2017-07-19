@@ -120,6 +120,46 @@ describe Track do
     end
   end
 
+  describe 'scope' do
+    describe '#confirmed' do
+      before :each do
+        @program = create(:program)
+      end
+
+      context 'includes' do
+        it 'when track is confirmed' do
+          confirmed_track = create(:track, state: 'confirmed', program: @program)
+          expect(@program.tracks.confirmed.include?(confirmed_track)).to eq true
+        end
+      end
+
+      context 'excludes' do
+        %w[new to_accept accepted to_reject rejected canceled withdrawn].each do |state|
+          it "when track is #{state.humanize}" do
+            unconfirmed_track = create(:track, state: state, program: @program)
+            expect(@program.tracks.confirmed.include?(unconfirmed_track)).to eq false
+          end
+        end
+      end
+    end
+
+    describe '#cfp_active' do
+      before :each do
+        @program = create(:program)
+        @cfp_active_track = create(:track, cfp_active: true, program: @program)
+        @non_cfp_active_track = create(:track, cfp_active: false, program: @program)
+      end
+
+      it 'include tracks with the cfp_active flag enabled' do
+        expect(@program.tracks.cfp_active.include?(@cfp_active_track)).to eq true
+      end
+
+      it 'excludes tracks with the cfp_active flag disabled' do
+        expect(@program.tracks.cfp_active.include?(@non_cfp_active_track)).to eq false
+      end
+    end
+  end
+
   describe '#self_organized?' do
     it 'returns true when it has a submitter' do
       expect(self_organized_track.submitter).to be_a User

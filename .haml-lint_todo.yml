@@ -182,6 +182,7 @@ linters:
       - "app/views/tracks/show.html.haml"
       - "app/views/conferences/_call_for_tracks.html.haml"
       - "app/views/admin/tracks/_change_state_dropdown.html.haml"
+      - "app/views/proposals/_encouragement_text.html.haml"
 
   # Offense count: 223
   InstanceVariables:
