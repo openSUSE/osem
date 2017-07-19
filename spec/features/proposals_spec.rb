@@ -32,7 +32,7 @@ feature Event do
 
       click_button 'New'
       click_link "reject_event_#{@event.id}"
-      expect(flash).to eq('Event rejected!')
+      expect(page).to have_content 'Event rejected!'
       @event.reload
       expect(@event.state).to eq('rejected')
     end
@@ -43,7 +43,7 @@ feature Event do
 
       click_button 'New'
       click_link "accept_event_#{@event.id}"
-      expect(flash).to eq('Event accepted!')
+      expect(page).to have_content 'Event accepted!'
       expect(page.has_content?('Unconfirmed')).to be true
       @event.reload
       expect(@event.state).to eq('unconfirmed')
@@ -56,7 +56,7 @@ feature Event do
 
       click_button 'Rejected'
       click_link "restart_event_#{@event.id}"
-      expect(flash).to eq('Review started!')
+      expect(page).to have_content 'Review started!'
       @event.reload
       expect(@event.state).to eq('new')
     end
