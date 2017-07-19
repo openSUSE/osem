@@ -9,7 +9,8 @@ FactoryGirl.define do
     conference
 
     after(:build) do |booth|
-      booth.responsibles << create(:user)
+      booth.responsibles << create(:booth_request).user
     end
+
   end
 end

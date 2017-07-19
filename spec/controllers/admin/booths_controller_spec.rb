@@ -54,7 +54,7 @@ describe Admin::BoothsController do
     end
 
     describe 'POST #create' do
-      # context 'successfully created' do
+      context 'successfully created' do
       #   it 'creates a new booth' do
       #     expected = expect do
       #       post :create, booth: attributes_for(:booth), conference_id: conference.short_title
@@ -62,16 +62,21 @@ describe Admin::BoothsController do
       #     expected.to change { Booth.count }.by(1)
       #   end
       #
-      #   it 'redirects to admin booth index' do
-      #     post :create, booth: attributes_for(:booth), conference_id: conference.short_title
-      #     expect(response).to redirect_to(admin_conference_booths_path)
-      #   end
+        # it 'redirects to admin booth index' do
+        #   post :create, booth: attributes_for(:booth), conference_id: conference.short_title
+        #   expect(response).to redirect_to(admin_conference_booths_path)
+        # end
       #
-      #   it 'shows success message' do
-      #     post :create, booth: attributes_for(:booth), conference_id: conference.short_title
-      #     expect(flash[:notice]).to match('Booth successfully created.')
-      #   end
-      # end
+        # it 'has responsibles' do
+        #   post :create, booth: attributes_for(:booth), conference_id: conference.short_title
+        #   expect(booth.responsibles.count).to eq(0)
+        # end
+
+        it 'shows success message' do
+          post :create, booth: attributes_for(:booth), conference_id: conference.short_title
+          expect(flash[:error]).to match('Booth successfully created.')
+        end
+      end
 
       context 'create action fails' do
         it 'does not create any record' do
@@ -119,7 +124,7 @@ describe Admin::BoothsController do
       context 'deletes successfully' do
         # it 'booth deleted' do
         #   expected = expect do
-        #     delete :destroy, id: booth.iddelete :destroy, id: booth.id, conference_id: conference.short_title
+        #     delete :destroy, id: booth.id, conference_id: conference.short_title
         #   end
         #   expected.to change { Booth.count }.by(-1)
         # end
