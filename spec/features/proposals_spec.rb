@@ -28,7 +28,7 @@ feature Event do
 
     scenario 'rejects a proposal', feature: true, js: true do
       visit admin_conference_program_events_path(conference.short_title)
-      expect(page.has_content?('Example Proposal')).to be true
+      expect(page).to have_content 'Example Proposal'
 
       click_button 'New'
       click_link "reject_event_#{@event.id}"
@@ -39,12 +39,12 @@ feature Event do
 
     scenario 'accepts a proposal', feature: true, js: true do
       visit admin_conference_program_events_path(conference.short_title)
-      expect(page.has_content?('Example Proposal')).to be true
+      expect(page).to have_content 'Example Proposal'
 
       click_button 'New'
       click_link "accept_event_#{@event.id}"
       expect(page).to have_content 'Event accepted!'
-      expect(page.has_content?('Unconfirmed')).to be true
+      expect(page).to have_content 'Unconfirmed'
       @event.reload
       expect(@event.state).to eq('unconfirmed')
     end
@@ -52,7 +52,7 @@ feature Event do
     scenario 'restarts review of a proposal', feature: true, js: true do
       @event.reject!(@options)
       visit admin_conference_program_events_path(conference.short_title)
-      expect(page.has_content?('Example Proposal')).to be true
+      expect(page).to have_content 'Example Proposal'
 
       click_button 'Rejected'
       click_link "restart_event_#{@event.id}"
@@ -83,7 +83,7 @@ feature Event do
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
 
       click_button 'Create Proposal'
-      expect(flash).to eq('Proposal was successfully submitted.')
+      expect(page).to have_content 'Proposal was successfully submitted.'
 
       expect(Event.count).to eq(expected_count_event)
       expect(User.count).to eq(expected_count_user)
@@ -101,7 +101,7 @@ feature Event do
       select('Easy', from: 'event[difficulty_level_id]')
 
       click_button 'Update Proposal'
-      expect(flash).to eq('Proposal was successfully updated.')
+      expect(page).to have_content 'Proposal was successfully updated.'
     end
 
     scenario 'signed_in user submits a valid proposal', feature: true, js: true do
@@ -119,7 +119,7 @@ feature Event do
       fill_in 'event_description', with: 'Lorem ipsum description'
 
       click_button 'Create Proposal'
-      expect(flash).to eq('Proposal was successfully submitted.')
+      expect(page).to have_content 'Proposal was successfully submitted.'
 
       expect(current_path).to eq(conference_program_proposals_path(conference.short_title))
       expect(Event.count).to eq(expected_count)
@@ -128,11 +128,10 @@ feature Event do
     scenario 'confirms a proposal', feature: true, js: true do
       sign_in participant
       visit conference_program_proposals_path(conference.short_title)
-      expect(page.has_content?('Example Proposal')).to be true
+      expect(page).to have_content 'Example Proposal'
       expect(@event.state).to eq('unconfirmed')
       click_link "confirm_proposal_#{@event.id}"
-      expect(flash)
-        .to eq('The proposal was confirmed. Please register to attend the conference.')
+      expect(page).to have_content 'The proposal was confirmed. Please register to attend the conference.'
       expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
       @event.reload
       expect(@event.state).to eq('confirmed')
@@ -142,9 +141,9 @@ feature Event do
       sign_in participant
       @event.confirm!
       visit conference_program_proposals_path(conference.short_title)
-      expect(page.has_content?('Example Proposal')).to be true
+      expect(page).to have_content 'Example Proposal'
       click_link "delete_proposal_#{@event.id}"
-      expect(flash).to eq('Proposal was successfully withdrawn.')
+      expect(page).to have_content 'Proposal was successfully withdrawn.'
       @event.reload
       expect(@event.state).to eq('withdrawn')
     end
