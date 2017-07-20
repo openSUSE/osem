@@ -8,6 +8,7 @@ FactoryGirl.define do
 
     conference
 
+    submitter { create(:user) }
     responsible_ids { [create(:user).id] }
   end
 end

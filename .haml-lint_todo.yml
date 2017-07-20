@@ -11,7 +11,6 @@ linters:
   # Offense count: 945
   LineLength:
     exclude:
-      - "app/views/admin/booths/_form.html.haml"
       - "app/views/admin/booths/index.html.haml"
       - "app/views/admin/booths/show.html.haml"
       - "app/views/admin/campaigns/_form.html.haml"
@@ -109,6 +108,9 @@ linters:
       - "app/views/admin/versions/_object_desc_and_link.html.haml"
       - "app/views/admin/versions/index.html.haml"
       - "app/views/admin/volunteers/index.html.haml"
+      - "app/views/booths/_form.html.haml"
+      - "app/views/booths/index.html.haml"
+      - "app/views/booths/show.html.haml"
       - "app/views/commercials/edit.html.haml"
       - "app/views/commercials/new.html.haml"
       - "app/views/conference_registrations/_form.html.haml"
@@ -369,6 +371,7 @@ linters:
       - "app/views/admin/tracks/show.html.haml"
       - "app/views/admin/venues/show.html.haml"
       - "app/views/admin/versions/index.html.haml"
+      - "app/views/booths/index.html.haml"
       - "app/views/conference_registrations/_form.html.haml"
       - "app/views/conference_registrations/_ticket.html.haml"
       - "app/views/conference_registrations/show.html.haml"
@@ -397,6 +400,7 @@ linters:
       - "app/views/admin/schedules/_day_tab.html.haml"
       - "app/views/admin/schedules/_event.html.haml"
       - "app/views/admin/versions/_object_desc_and_link.html.haml"
+      - "app/views/booths/index.html.haml"
       - "app/views/schedules/_carousel.html.haml"
 
   # Offense count: 29
