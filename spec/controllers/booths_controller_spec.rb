@@ -1,32 +1,14 @@
 require 'spec_helper'
 
-describe Admin::BoothsController do
+describe BoothsController do
 
-  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:conference) { create(:conference) }
   let(:booth) { create(:booth, title: 'Title', conference: conference) }
-  let(:admin) { create(:admin) }
 
-  context 'not logged in user' do
-
-    describe 'GET index' do
-      it 'does not render admin/booths#index' do
-        get :index, conference_id: conference.short_title
-        expect(response).to redirect_to(user_session_path)
-      end
-    end
-
-    describe 'GET show' do
-      it 'does not render admin/booths#show' do
-        get :show, id: booth.id, conference_id: conference.short_title
-        expect(response).to redirect_to(user_session_path)
-      end
-    end
-  end
-
-  context 'user is admin' do
+  context 'user is signed in with submitter role' do
     before :each do
-      sign_in admin
+      sign_in booth.submitter
     end
 
     describe 'GET index' do
@@ -41,7 +23,7 @@ describe Admin::BoothsController do
       end
     end
 
-    describe 'GET new' do
+    describe 'GET #new' do
       before { get :new, conference_id: conference.short_title }
 
       it 'assigns attributes for booths' do
@@ -58,14 +40,11 @@ describe Admin::BoothsController do
         before { post :create, booth: attributes_for(:booth), conference_id: conference.short_title }
 
         it 'creates a new booth' do
-          expected = expect do
-            post :create, booth: attributes_for(:booth), conference_id: conference.short_title
-          end
-          expected.to change { Booth.count }.by(1)
+          expect(Booth.count).to_not eq(0)
         end
 
-        it 'redirects to admin booth index' do
-          expect(response).to redirect_to(admin_conference_booths_path)
+        it 'redirects to booth index' do
+          expect(response).to redirect_to(conference_booths_path)
         end
 
         it 'has responsibles' do
@@ -112,12 +91,13 @@ describe Admin::BoothsController do
     describe 'PATCH #update' do
       context 'updates suchessfully' do
         before { patch :update, id: booth.id, booth: attributes_for(:booth, title: 'different'), conference_id: conference.short_title }
-        it 'redirects to admin booth index path' do
-          expect(response).to redirect_to admin_conference_booths_path
+
+        it 'redirects to booth index path' do
+          expect(response).to redirect_to conference_booths_path
         end
 
         it 'shows success message' do
-          expect(flash[:notice]).to match 'Successfully updated booth.'
+          expect(flash[:notice]).to match 'Booth successfully updated!'
         end
 
         it 'updates booth' do

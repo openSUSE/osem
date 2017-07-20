@@ -333,6 +333,8 @@ Metrics/MethodLength:
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
   Max: 159
+  Exclude:
+    - 'app/helpers/format_helper.rb'
 
 # Offense count: 15
 Metrics/PerceivedComplexity:

@@ -15,6 +15,19 @@ module FormatHelper
     end
   end
 
+  def booth_status_icon(booth)
+    case booth.state
+    when 'new', 'to_reject', 'to_accept'
+      'fa-eye'
+    when 'accepted'
+      'fa-check text-muted'
+    when 'confirmed'
+      'fa-check text-success'
+    when 'rejected', 'withdrawn', 'canceled'
+      'fa-ban'
+    end
+  end
+
   def event_progress_color(progress)
     progress = progress.to_i
     if progress == 100

@@ -33,16 +33,17 @@ describe 'Booth' do
       end
     end
 
-    states = [:new, :withdrawn, :to_accept, :accepted, :to_reject, :rejected, :canceled]
+    states = [:new, :withdrawn, :to_accept, :accepted, :to_reject, :rejected, :canceled, :confirmed]
     transitions = [:restart, :withdraw, :accept, :reject, :to_accept, :to_reject, :cancel]
 
-    states_transitions = { new: { restart: false, withdraw: true, accept: true, to_accept: true, to_reject: true, reject: true, cancel: false },
-                           withdrawn: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false },
-                           to_accept: { restart: true, withdraw: true, accept: true, to_accept: false, to_reject: true, reject: false, cancel: true },
-                           to_reject: { restart: true, withdraw: true, accept: false, to_accept: true, to_reject: false, reject: true, cancel: true },
-                           accepted: { restart: false, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true },
-                           rejected: { restart: false, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true },
-                           canceled: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false } }
+    states_transitions = { new: { restart: false, withdraw: true, accept: true, to_accept: true, to_reject: true, reject: true, cancel: false, confirm: false },
+                           withdrawn: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false, confirm: false },
+                           to_accept: { restart: false, withdraw: true, accept: true, to_accept: false, to_reject: true, reject: false, cancel: true, confirm: false },
+                           to_reject: { restart: false, withdraw: true, accept: false, to_accept: true, to_reject: false, reject: true, cancel: true, confirm: false },
+                           accepted: { restart: false, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true, confirm: true },
+                           rejected: { restart: true, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true, confirm: false },
+                           canceled: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false, confirm: false },
+                           confirmed: { restart: false, withdraw: true, accept: false, to_accept: false, to_reject: false, reject: false, cancel: true, confirm: false } }
 
     states.each do |state|
       transitions.each do |transition|

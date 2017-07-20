@@ -39,12 +39,13 @@
         %td.col-md-2
           %b Responsibles
         %td
-          - @booth.responsibles.each do |responsibles|
+          - @booth.responsibles.each_with_index do |responsibles, i|
             .responsibles
               = link_to responsibles.name, admin_user_path(responsibles)
               (
               = responsibles.email
               )
+              = " , " unless i == @booth.responsibles.length - 1
       %tr
         %td.col-md-2
           %b Submitted on
