@@ -1,0 +1,77 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          Ticket for
+          = @conference.title
+        %p.text-muted
+          - if @conference.venue
+            at
+            %strong
+              #{@conference.venue.name},
+            #{@conference.venue.street},
+            #{@conference.venue.city} / #{@conference.venue.country_name}.
+          %small
+            = date_string(@conference.start_date, @conference.end_date)
+  .row
+    .col-md-5.box.well
+      %h3.text-center
+        Ticket Holder
+      %p.text-left
+        %strong
+          Name
+        %br
+        = @user.name
+        %br
+        %br
+        %strong
+          Email
+        %br
+        = @user.email
+    .col-md-5.col-md-offset-2.box.well
+      - if @conference.picture?
+        - width = @conference.picture.image[:width]
+        - height = @conference.picture.image[:height]
+        - if 10 * width > 15 * height
+          = image_tag(@conference.picture_url, width: '150')
+        - else
+          = image_tag(@conference.picture_url, height: '100')
+      - else
+        = image_tag('/img/osem-logo.png', class: 'img-responsive')
+      %p.text-left
+        %br
+        %strong
+          Organization
+        %br
+        = @conference.organization.name
+    .col-md-5.box.well
+      %p.text-left
+        %strong
+          Event
+        %br
+        = @conference.title
+        %br
+        = @conference.start_date.strftime('%B %d, %Y')
+        %br
+        %br
+        %strong
+          Ticket
+        %br
+        = @physical_ticket.ticket.title
+        %br
+        %br
+        %strong
+          Ticket Ref.
+        %br
+        = @physical_ticket.ticket_purchase.id
+        %br
+    .col-md-5.col-md-offset-2.box.well
+  .row
+    .col-md-12
+      %p.text-left
+        = link_to 'Generate PDF',
+        conference_physical_ticket_path(@conference.short_title,
+                                        @physical_ticket.id,
+                                        format: :pdf),
+        class: 'button btn btn-default btn-info'

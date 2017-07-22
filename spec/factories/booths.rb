@@ -8,8 +8,6 @@ FactoryGirl.define do
 
     conference
 
-    after(:build) do |booth|
-      booth.responsibles << create(:user)
-    end
+    responsible_ids { [create(:user).id] }
   end
 end
