@@ -9,9 +9,16 @@ class ConferencesController < ApplicationController
     @antiquated = @conferences - @current
   end
 
-  def show; end
+  def show
+    # have to change "localhost" to ENV['OSEM_HOSTNAME'] in production 
+    check_custom_domain if request.host != 'localhost'
+  end
 
   private
+
+  def check_custom_domain
+    @conference = @conference.custom_domain.present? ? Conference.find_by(custom_domain: request.domain) : @conference
+  end
 
   def respond_to_options
     respond_to do |format|
