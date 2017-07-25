@@ -72,6 +72,6 @@
       %p.text-left
         = link_to 'Generate PDF',
         conference_physical_ticket_path(@conference.short_title,
-                                        @physical_ticket.id,
+                                        @physical_ticket.token,
                                         format: :pdf),
         class: 'button btn btn-default btn-info'
