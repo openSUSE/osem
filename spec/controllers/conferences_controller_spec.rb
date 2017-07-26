@@ -23,6 +23,15 @@ describe ConferencesController do
         get :show, id: conference.short_title
         expect(response).to render_template :show
       end
+
+      it 'assigns correct conference from a custom domain' do
+        conference.update_attribute(:custom_domain, 'lvh.me')
+        @request.host = 'lvh.me'
+
+        get :show
+        expect(response).to render_template :show
+        expect(assigns(:conference)).to eq conference
+      end
     end
   end
 
