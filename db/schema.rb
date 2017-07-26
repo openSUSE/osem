@@ -525,6 +525,7 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.integer  "room_id"
     t.date     "start_date"
     t.date     "end_date"
+    t.text     "relevance"
   end
 
   add_index "tracks", ["room_id"], name: "index_tracks_on_room_id"

@@ -92,6 +92,12 @@
                 %b Description
               %td
                 = markdown(@track.description)
+            - if @track.self_organized?
+              %tr
+                %td
+                  %b Relevance
+                %td
+                  = markdown(@track.relevance)
 
     .tab-pane#events
       .col-md-12

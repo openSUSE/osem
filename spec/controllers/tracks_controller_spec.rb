@@ -60,7 +60,7 @@ describe TracksController do
   describe 'POST #create' do
     context 'saves successfuly' do
       before :each do
-        post :create, track: attributes_for(:track, short_name: 'my_track'), conference_id: conference.short_title
+        post :create, track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title
       end
 
       it 'redirects to tracks index path' do
@@ -86,7 +86,7 @@ describe TracksController do
     context 'save fails' do
       before :each do
         allow_any_instance_of(Track).to receive(:save).and_return(false)
-        post :create, track: attributes_for(:track, short_name: 'my_track'), conference_id: conference.short_title
+        post :create, track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title
       end
 
       it 'assigns a new track with the correct conference' do
@@ -126,7 +126,7 @@ describe TracksController do
   describe 'PATCH #update' do
     context 'updates successfully' do
       before :each do
-        patch :update, track: attributes_for(:track, color: '#FF0000'),
+        patch :update, track: attributes_for(:track, :self_organized, color: '#FF0000'),
                        conference_id: conference.short_title,
                        id: self_organized_track.short_name
       end
@@ -152,7 +152,7 @@ describe TracksController do
     context 'update fails' do
       before :each do
         allow_any_instance_of(Track).to receive(:save).and_return(false)
-        patch :update, track: attributes_for(:track, color: '#FF0000'),
+        patch :update, track: attributes_for(:track, :self_organized, color: '#FF0000'),
                        conference_id: conference.short_title,
                        id: self_organized_track.short_name
       end

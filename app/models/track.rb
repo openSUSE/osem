@@ -27,6 +27,7 @@ class Track < ActiveRecord::Base
   validates :start_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :end_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :room, presence: true, if: :self_organized_and_accepted_or_confirmed?
+  validates :relevance, presence: true, if: :self_organized?
   validate :valid_dates
   validate :valid_room, if: :self_organized_and_accepted_or_confirmed?
 

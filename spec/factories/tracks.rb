@@ -15,6 +15,7 @@ FactoryGirl.define do
       start_date { Date.today }
       end_date { Date.today }
       room
+      relevance { Faker::Hipster.paragraph(2) }
     end
   end
 end
