@@ -53,7 +53,7 @@ class TracksController < ApplicationController
   private
 
   def track_params
-    params.require(:track).permit(:name, :description, :color, :short_name, :start_date, :end_date)
+    params.require(:track).permit(:name, :description, :color, :short_name, :start_date, :end_date, :relevance)
   end
 
   def update_state(transition, notice)
