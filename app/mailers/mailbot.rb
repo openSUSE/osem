@@ -8,6 +8,22 @@ class Mailbot < ActionMailer::Base
                                                                         conference.email_settings.registration_body))
   end
 
+  def ticket_confirmation_mail(ticket_purchase)
+    @ticket_purchase = ticket_purchase
+    @conference = ticket_purchase.conference
+    @user = ticket_purchase.user
+
+    PhysicalTicket.last(ticket_purchase.quantity).each do |physical_ticket|
+      pdf = TicketPdf.new(@conference, @user, physical_ticket, @conference.ticket_layout.to_sym, "ticket_for_#{@conference.short_title}_#{physical_ticket.id}")
+      attachments["ticket_for_#{@conference.short_title}_#{physical_ticket.id}"] = pdf.render
+    end
+
+    mail(to: @user.email,
+         from: @conference.contact.email,
+         template_name: 'ticket_confirmation_template',
+         subject: "#{@conference.title} | Ticket Confirmation and PDF!")
+  end
+
   def acceptance_mail(event)
     conference = event.program.conference
 
