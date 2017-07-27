@@ -118,6 +118,7 @@ linters:
       - "app/views/conference_registrations/_registration_info.html.haml"
       - "app/views/conference_registrations/_volunteer.html.haml"
       - "app/views/conference_registrations/show.html.haml"
+      - "app/views/conferences/_booths.html.haml"
       - "app/views/conferences/_call_for_paper.html.haml"
       - "app/views/conferences/_conference_details.html.haml"
       - "app/views/conferences/_gallery.html.haml"

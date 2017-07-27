@@ -451,6 +451,7 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
+    t.boolean  "include_booths"
   end
 
   create_table "sponsors", force: :cascade do |t|

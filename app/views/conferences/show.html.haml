@@ -65,6 +65,10 @@
       %section#tickets
         = render 'tickets'
 
+    - if @conference.booths.confirmed.any? and @conference.splashpage.include_booths
+      %section#booths
+        = render 'booths'
+
     - if @conference.sponsors.any? and @conference.splashpage.include_sponsors
       %section#sponsors
         = render 'sponsors'
