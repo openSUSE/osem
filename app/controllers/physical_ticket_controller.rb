@@ -13,6 +13,7 @@ class PhysicalTicketController < ApplicationController
     @file_name = "ticket_for_#{@conference.short_title}"
     @user = @physical_ticket.user
     @ticket_layout = @conference.ticket_layout.to_sym
+    @qrcode_image = RQRCode::QRCode.new(@physical_ticket.token).as_png(size: 180, border_modules: 0)
     respond_to do |format|
       format.html
       format.pdf do
