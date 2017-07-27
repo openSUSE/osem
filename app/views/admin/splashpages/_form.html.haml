@@ -14,6 +14,7 @@
         = f.input :include_tickets, label: 'Display tickets', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tickets) }
         = f.input :include_lodgings, label: 'Display the lodgings', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_lodgings) }
         = f.input :include_sponsors, label: 'Display sponsors', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_sponsors) }
+        = f.input :include_booths, label: 'Display confirmed booths', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
         = f.input :include_social_media, label: 'Display social media', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
       = f.inputs name: 'Access' do
         = f.input :public, label: 'Make splash page public?'
