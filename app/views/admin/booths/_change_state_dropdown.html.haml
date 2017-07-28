@@ -1,11 +1,13 @@
 - if booth.transition_possible? :accept
-  - if @conference.email_settings.send_on_booths_acceptance
-    - link = 'Accept with email'
-  - else
-    - link = 'Accept booth'
-  %li= link_to link,
-  accept_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch ,id: "accept_booth_#{booth.id}"
+  - if can? :accept, @booth
+    - if @conference.email_settings.send_on_booths_acceptance
+      - link = 'Accept with email'
+    - else
+      - link = 'Accept booth'
+    %li= link_to link,
+    accept_admin_conference_booth_path(@conference.short_title, booth),
+    method: :patch ,id: "accept_booth_#{booth.id}",
+    data: (@conference.booth_limit > 0 ? { confirm: 'You are able to accept '+ pluralize(@conference.booth_limit - @conference.booths.accepted.count, 'more booth') + " (booth limit set to #{@conference.booth_limit}). Are you sure you want to accept this one?" } : nil )
 
 - if booth.transition_possible? :reject
   - if @conference.email_settings.send_on_booths_rejection

@@ -25,6 +25,7 @@ class Booth < ActiveRecord::Base
             :submitter_relationship,
             presence: true
 
+  scope :accepted, -> { where(state: 'accepted') }
   scope :confirmed, -> { where(state: 'confirmed') }
 
   mount_uploader :picture, PictureUploader, mount_on: :logo_link

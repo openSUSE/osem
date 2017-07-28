@@ -11,6 +11,8 @@ linters:
   # Offense count: 945
   LineLength:
     exclude:
+      - "app/views/admin/booths/_change_state_dropdown.html.haml"
+      - "app/views/admin/booths/_form.html.haml"
       - "app/views/admin/booths/index.html.haml"
       - "app/views/admin/booths/show.html.haml"
       - "app/views/admin/campaigns/_form.html.haml"
