@@ -211,7 +211,7 @@ module Admin
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :targets, :targets_attributes,
-                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout)
+                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout, :booth_limit)
     end
   end
 end

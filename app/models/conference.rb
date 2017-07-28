@@ -739,6 +739,15 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  #
+  # ====Returns
+  # * +True+ -> if accepted booths are equal to the booth limit
+  # * +False+ -> Accepted booths have not reached the booth limit
+  def maximum_accepted_booths?
+    booth_limit > 0 && booths.accepted.count + booths.confirmed.count >= booth_limit
+  end
+
+  ##
   # Return the current conference object to be used in RevisionCount
   #
   # ====Returns

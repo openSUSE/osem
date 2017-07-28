@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.integer  "end_hour",           default: 20
     t.integer  "organization_id"
     t.integer  "ticket_layout",      default: 0
+    t.integer  "booth_limit",        default: 0
   end
 
   add_index "conferences", ["organization_id"], name: "index_conferences_on_organization_id"
