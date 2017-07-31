@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721001700) do
+ActiveRecord::Schema.define(version: 20170731161207) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -205,6 +205,15 @@ ActiveRecord::Schema.define(version: 20170721001700) do
     t.string   "cfp_dates_updated_subject"
     t.text     "program_schedule_public_body"
     t.text     "cfp_dates_updated_body"
+    t.text     "booths_acceptance_template"
+    t.text     "booths_rejection_template"
+    t.string   "booths_acceptance_subject"
+    t.boolean  "send_on_booths_acceptance",                     default: false
+    t.string   "booths_acceptance_subject"
+    t.text     "booths_acceptance_body"
+    t.boolean  "send_on_booths_rejection",                      default: false
+    t.string   "booths_rejection_subject"
+    t.text     "booths_rejection_body"
   end
 
   create_table "event_schedules", force: :cascade do |t|
