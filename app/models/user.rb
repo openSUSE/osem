@@ -56,6 +56,9 @@ class User < ActiveRecord::Base
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
   has_many :tracks, foreign_key: 'submitter_id'
+  has_many :booth_requests
+  has_many :booth_requests, dependent: :destroy
+  has_many :booths, through: :booth_requests
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }

@@ -6,7 +6,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 4.2.8'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider
@@ -201,7 +201,7 @@ gem 'selectize-rails'
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
-  gem 'guard-rspec', '~> 4.2.8'
+  gem 'guard-rspec'
   gem 'spring-commands-rspec'
   gem 'haml_lint', '~> 0.24.0'
   # for static code analisys
@@ -220,7 +220,7 @@ end
 
 group :test do
   # as test framework
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'database_cleaner'
   gem 'capybara'
   gem 'poltergeist'
