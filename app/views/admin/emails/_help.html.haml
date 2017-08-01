@@ -55,4 +55,7 @@
       %tr
         %td {conference_splash_link}
         %td The link to conference splash page
-
+    - if @conference.booths
+      %tr
+        %td {booth_title}
+        %td Booth's title

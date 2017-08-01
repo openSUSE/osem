@@ -97,6 +97,24 @@ class Mailbot < ActionMailer::Base
                                                                         conference.email_settings.cfp_dates_updated_body))
   end
 
+  def conference_booths_acceptance_mail(conference, user)
+    mail(to: user.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.booths_acceptance_subject,
+         body: conference.email_settings.generate_email_on_conf_updates(conference,
+                                                                        user,
+                                                                        conference.email_settings.conference_acceptance_body))
+  end
+
+  def conference_booths_rejection_mail(conference, user)
+    mail(to: user.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.booths_rejection_subject,
+         body: conference.email_settings.generate_email_on_conf_updates(conference,
+                                                                        user,
+                                                                        conference.email_settings.conference_rejection_body))
+  end
+
   def event_comment_mail(comment, user)
     @comment = comment
     @event = @comment.commentable
