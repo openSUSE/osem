@@ -4,6 +4,8 @@ module Admin
     load_resource :program, through: :conference, singleton: true, except: :index
     load_resource :user, only: [:remove_user]
 
+    def cusrom_domain; end
+
     def index
       # Redirect to new form if there is no conference
       if Conference.count == 0

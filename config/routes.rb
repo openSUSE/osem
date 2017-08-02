@@ -32,6 +32,9 @@ Osem::Application.routes.draw do
     end
     resources :comments, only: [:index]
     resources :conferences do
+      member do
+        get :custom_domain
+      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
       resources :event_schedules, only: [:create, :update, :destroy]
