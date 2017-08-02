@@ -303,6 +303,7 @@ linters:
   SpaceInsideHashAttributes:
     exclude:
       - "app/views/admin/conferences/_todo_list.html.haml"
+      - "app/views/admin/emails/index.html.haml"
       - "app/views/admin/questions/_form.html.haml"
       - "app/views/admin/questions/index.html.haml"
       - "app/views/admin/registrations/index.html.haml"
@@ -403,6 +404,7 @@ linters:
   # Offense count: 14
   ConsecutiveSilentScripts:
     exclude:
+      - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/events/index.html.haml"
       - "app/views/admin/schedules/_day_tab.html.haml"
       - "app/views/admin/schedules/_event.html.haml"

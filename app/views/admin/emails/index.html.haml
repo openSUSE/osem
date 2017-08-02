@@ -14,6 +14,8 @@
                 %a{ 'aria-controls' => 'notifications', 'data-toggle' => 'tab', href: '#notifications', role: 'tab' } Update Notifications
               %li{ role: 'presentation' }
                 %a{ 'aria-controls' => 'cfp', 'data-toggle' => 'tab', href: '#cfp', role: 'tab' } Call for Papers
+              %li{ role: 'presentation' }
+                %a{ 'aria-controls' => 'booths', 'data-toggle' => 'tab', href: '#booth', role: 'tab' } Booth
             / Tab panes
             .tab-content
               #onboarding.tab-pane.active{ role: 'tabpanel' }
@@ -100,6 +102,26 @@
                 'data-body-text' => "Dear {name},\n\nThe Conference Call for Papers Details of {conference} has changed.\nNew Dates : {cfp_start_date} - {cfp_end_date}.\n Link to Schedule {schedule_link} \n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_cfp_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_cfp_help', show_event_variables: false}
+              #booth.tab-pane{ role: 'tabpanel' }
+                = f.input :send_on_booths_acceptance
+                = f.input :booths_acceptance_subject
+                = f.input :booths_acceptance_body, input_html: { rows:10, cols: 20 }
+                %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_booths_acceptance_subject',
+                'data-subject-text' => 'Your booth has been accepted!',
+                'data-body-input-id' => 'email_settings_booths_acceptance_body',
+                'data-body-text' => "Dear {name},\n\nWe are really pleased to inform you that your booth request {booth_title} has been accepted for the conference {conference}.\nPlease click the confirm button to let us know you can make it as soon as possible!\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team"} Load Template
+                %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'booth_acceptance_help' } Show help
+                =  render partial: 'help', locals: {id: 'booth_acceptance_help', show_event_variables: false}
+                = f.input :send_on_booths_rejection
+                = f.input :booths_rejection_subject
+                = f.input :booths_rejection_body, input_html: { rows:10, cols:20 }
+                %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_booths_rejection_subject',
+                'data-subject-text' => 'Your booth request has been rejected',
+                'data-body-input-id' => 'email_settings_booths_rejection_body',
+                'data-body-text' => "Dear {name},\n\nThank you for your booth request {booth_title} for the conference {conference}.\n\nUnfortunately, we are sorry to inform you that your request has been rejected.\n\n\nBest wishes\n\n{conference} Team" } Load Template
+                %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'booth_rejection_help' } Show help
+                =  render partial: 'help', locals: {id: 'booth_rejection_help', show_event_variables: false}
+
       .row
         .col-md-12
           = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

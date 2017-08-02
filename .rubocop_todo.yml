@@ -450,6 +450,7 @@ Style/IfUnlessModifier:
     - 'app/helpers/application_helper.rb'
     - 'app/models/commercial.rb'
     - 'app/models/conference.rb'
+    - 'app/models/email_settings.rb'
     - 'app/models/ticket_purchase.rb'
     - 'app/models/user.rb'
     - 'db/migrate/20151031092713_change_conference_id_to_venue_id_in_rooms.rb'
