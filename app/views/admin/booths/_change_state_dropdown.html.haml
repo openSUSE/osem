@@ -1,17 +1,25 @@
 - if booth.transition_possible? :accept
-  %li= link_to 'Accept booth',
+  - if @conference.email_settings.send_on_booths_acceptance
+    - link = 'Accept with email'
+  - else
+    - link = 'Accept booth'
+  %li= link_to link,
   accept_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "accept_booth_#{booth.id}"
+  method: :patch ,id: "accept_booth_#{booth.id}"
 
 - if booth.transition_possible? :reject
-  %li= link_to 'Reject booth',
+  - if @conference.email_settings.send_on_booths_rejection
+    - link = 'Reject with email'
+  - else
+    - link = 'Reject'
+  %li= link_to link,
   reject_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, confirm: 'Are you sure?', id: "reject_booth_#{booth.id}"
+  method: :patch, id: "reject_booth_#{booth.id}"
 
 - if booth.transition_possible? :to_reject
   %li= link_to 'To reject booth',
   to_reject_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, confirm: 'Are you sure?', id: "to_reject_booth_#{booth.id}"
+  method: :patch, id: "to_reject_booth_#{booth.id}"
 
 - if booth.transition_possible? :restart
   %li= link_to 'Start review',
