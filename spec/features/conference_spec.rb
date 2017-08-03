@@ -68,6 +68,15 @@ feature Conference do
       expect(conference.short_title).to eq('NewCon')
       expect(Conference.count).to eq(expected_count)
     end
+
+    scenario 'show custom domain of a conference', feature: true, js: true do
+      conference = create(:conference, custom_domain: 'mydomain.conf')
+      sign_in user
+
+      visit custom_domain_admin_conference_path(conference.short_title)
+
+      expect(page).to have_text('mydomain.conf')
+    end
   end
 
   describe 'admin' do
