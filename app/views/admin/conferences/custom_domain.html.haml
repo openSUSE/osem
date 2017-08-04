@@ -20,9 +20,9 @@
             = ""
           %td
             .btn-group
-              = link_to 'Edit', edit_admin_conference_path(@conference),
+              = link_to 'Edit', attach_custom_domain_admin_conference_path(@conference.short_title),
                 method: :get, class: 'btn btn-primary'
-              = link_to 'Delete', admin_conference_path(@conference),
+              = link_to 'Delete', admin_conference_path(@conference.short_title),
                 method: :delete, class: 'btn btn-danger'
 .row
   .col-md-9.text-right
@@ -71,6 +71,5 @@
               = link_to 'BlueHost', 'https://my.bluehost.com/cgi/help/cname#creating_a_cname'
             %li
               = link_to '12-reg.co.uk', 'https://www.123-reg.co.uk/support/answers/Domains/Domain-Configuration/how-do-i-set-up-a-cname-record-on-my-domain-name-1198/'
-
-
-
+            %li
+              = link_to '1&1', 'https://help.1and1.com/domains-c36931/manage-domains-c79822/dns-c37586/enter-a-cname-for-your-subdomain-a643600.html'
