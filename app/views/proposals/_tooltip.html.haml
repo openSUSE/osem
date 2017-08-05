@@ -1,11 +1,12 @@
 - progress_status = event.progress_status
 %ul.list-unstyled
-  %li{'class'=>class_for_todo(progress_status['registered'])}
-    %span{'class'=>icon_for_todo(progress_status['registered'])}
-      - if progress_status['registered']
-        Speaker(s) registered to the conference
-      - else
-        = link_to 'Speaker(s) not registered to the conference', new_conference_conference_registration_path(event.program.conference.short_title)
+  - if @conference.registration_open? || (@conference.user_registered? current_user)
+    %li{'class'=>class_for_todo(progress_status['registered'])}
+      %span{'class'=>icon_for_todo(progress_status['registered'])}
+        - if progress_status['registered']
+          Speaker(s) registered to the conference
+        - else
+          = link_to 'Speaker(s) not registered to the conference', new_conference_conference_registration_path(event.program.conference.short_title)
   %li{'class'=>class_for_todo(progress_status['biographies'])}
     %span{'class'=>icon_for_todo(progress_status['biographies'])}
       - if progress_status['biographies']
