@@ -37,6 +37,19 @@ Osem::Application.routes.draw do
       get '/volunteers' => 'volunteers#index', as: 'volunteers_info'
       patch '/volunteers' => 'volunteers#update', as: 'volunteers_update'
 
+      resources :booths do
+        member do
+          patch :accept
+          patch :restart
+          patch :withdrawn
+          patch :to_accept
+          patch :reject
+          patch :reset
+          patch :to_reject
+          patch :cancel
+        end
+      end
+
       resources :registrations, except: [:create, :new] do
         member do
           patch :toggle_attendance

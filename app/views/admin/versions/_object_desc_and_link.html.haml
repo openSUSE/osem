@@ -80,6 +80,12 @@
   = link_if_alive version, 'contact details',
           edit_admin_conference_contact_path(conference_id: Conference.find(version.conference_id).short_title)
 
+- when 'Booth'
+  = 'booth'
+  - booth = current_or_last_object_state(version.item_type, version.item_id)
+  = link_if_alive version, booth.title,
+          admin_conference_booth_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id )
+
 - when 'Program'
   = link_if_alive version, 'program',
           admin_conference_program_path(conference_id: Conference.find(version.conference_id).short_title)

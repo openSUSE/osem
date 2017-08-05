@@ -11,6 +11,9 @@ linters:
   # Offense count: 945
   LineLength:
     exclude:
+      - "app/views/admin/booths/_form.html.haml"
+      - "app/views/admin/booths/index.html.haml"
+      - "app/views/admin/booths/show.html.haml"
       - "app/views/admin/campaigns/_form.html.haml"
       - "app/views/admin/campaigns/index.html.haml"
       - "app/views/admin/cfps/_form.html.haml"
@@ -179,6 +182,7 @@ linters:
   # Offense count: 223
   InstanceVariables:
     exclude:
+      - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/campaigns/_form.html.haml"
       - "app/views/admin/cfps/_booths_cfp.html.haml"
       - "app/views/admin/cfps/_form.html.haml"
