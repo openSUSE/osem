@@ -66,7 +66,13 @@ class Ability
 
     can [:new, :create], Registration do |registration|
       conference = registration.conference
-      conference.registration_open? && !conference.registration_limit_exceeded? || conference.program.speakers.confirmed.include?(user)
+      if conference.user_registered? user
+        false
+      elsif conference.program.speakers.confirmed.include?(user) && conference.registration_period
+        true
+      else
+        conference.registration_open? && !conference.registration_limit_exceeded?
+      end
     end
 
     can :index, Organization
