@@ -4,7 +4,9 @@ module Admin
     load_resource :program, through: :conference, singleton: true, except: :index
     load_resource :user, only: [:remove_user]
 
-    def custom_domain; end
+    def custom_domain
+      redirect_to attach_custom_domain_admin_conference_path(@conference.short_title) unless @conference.custom_domain.present?
+    end
 
     def attach_custom_domain; end
 

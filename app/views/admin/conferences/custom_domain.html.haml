@@ -17,7 +17,14 @@
           %td
             = @conference.custom_domain
           %td
-            = ""
+            - ck_domain = @conference.check_custom_domain
+            - if ck_domain == true
+              %span.glyphicon.glyphicon-ok
+            - elsif ck_domain == false
+              %span.glyphicon.glyphicon-remove
+            - else
+              %i
+                = ck_domain
           %td
             .btn-group
               = link_to 'Edit', attach_custom_domain_admin_conference_path(@conference.short_title),
@@ -51,7 +58,7 @@
           CNAME:
         A Canonical Name record is a resource used which defines that your domain name is an alias for another domain name.
       %p
-        To add your own domain you can follow these 
+        To add your own domain you can follow these
         %i
           three
         steps:
@@ -63,9 +70,9 @@
         %li
           The last step is adding a CNAME record in your registrar’s DNS Settings. Different registrars have different ways of adding a CNAME record. The following guides would help you setup a CNAME record depending upon the registrar of your domain. If it doesn’t, you probably should get in touch with your domain registrar and ask him how to register a CNAME record in their platform.
           %ul
-            %li 
+            %li
               = link_to 'GoDaddy', 'https://in.godaddy.com/help/add-a-cname-record-19236'
-            %li 
+            %li
               = link_to 'Namecheap', 'https://www.namecheap.com/support/knowledgebase/article.aspx/9646/2237/how-can-i-set-up-a-cname-record-for-my-domain'
             %li
               = link_to 'BlueHost', 'https://my.bluehost.com/cgi/help/cname#creating_a_cname'
