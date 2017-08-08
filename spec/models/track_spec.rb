@@ -54,6 +54,7 @@ describe Track do
       end
 
       it { is_expected.to validate_presence_of(:relevance) }
+      it { is_expected.to validate_presence_of(:description) }
     end
 
     context 'when self_organized? returns false' do
@@ -62,6 +63,7 @@ describe Track do
       end
 
       it { is_expected.to_not validate_presence_of(:relevance) }
+      it { is_expected.to_not validate_presence_of(:description) }
     end
 
     describe '#valid_dates' do

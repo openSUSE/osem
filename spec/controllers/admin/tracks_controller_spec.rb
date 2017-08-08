@@ -228,16 +228,45 @@ describe Admin::TracksController do
       before :each do
         self_organized_track.cfp_active = false
         self_organized_track.save!
-        patch :toggle_cfp_inclusion, conference_id: conference.short_title, id: self_organized_track.short_name
-        self_organized_track.reload
       end
 
-      it 'assigns the correct track' do
-        expect(assigns(:track)).to eq self_organized_track
+      context 'toggles successfully' do
+        before :each do
+          patch :toggle_cfp_inclusion, conference_id: conference.short_title, id: self_organized_track.short_name, format: :js
+          self_organized_track.reload
+        end
+
+        it 'assigns the correct track' do
+          expect(assigns(:track)).to eq self_organized_track
+        end
+
+        it 'shows success message in flash notice' do
+          expect(flash[:notice]).to match('Successfully changed cfp inclusion of My awesome track to true')
+        end
+
+        it 'becomes true' do
+          expect(self_organized_track.cfp_active).to eq true
+        end
       end
 
-      it 'becomes true' do
-        expect(self_organized_track.cfp_active).to eq true
+      context 'save fails' do
+        before :each do
+          allow_any_instance_of(Track).to receive(:save).and_return(false)
+          patch :toggle_cfp_inclusion, conference_id: conference.short_title, id: self_organized_track.short_name, format: :js
+          self_organized_track.reload
+        end
+
+        it 'assigns the correct track' do
+          expect(assigns(:track)).to eq self_organized_track
+        end
+
+        it 'shows error message in flash notice' do
+          expect(flash[:error]).to match('Failed to toggle cfp inclusion of My awesome track to true')
+        end
+
+        it 'stays false' do
+          expect(self_organized_track.cfp_active).to eq false
+        end
       end
     end
 
@@ -245,16 +274,45 @@ describe Admin::TracksController do
       before :each do
         self_organized_track.cfp_active = true
         self_organized_track.save!
-        patch :toggle_cfp_inclusion, conference_id: conference.short_title, id: self_organized_track.short_name
-        self_organized_track.reload
       end
 
-      it 'assigns the correct track' do
-        expect(assigns(:track)).to eq self_organized_track
+      context 'toggles successfully' do
+        before :each do
+          patch :toggle_cfp_inclusion, conference_id: conference.short_title, id: self_organized_track.short_name, format: :js
+          self_organized_track.reload
+        end
+
+        it 'assigns the correct track' do
+          expect(assigns(:track)).to eq self_organized_track
+        end
+
+        it 'shows success message in flash notice' do
+          expect(flash[:notice]).to match('Successfully changed cfp inclusion of My awesome track to false')
+        end
+
+        it 'becomes false' do
+          expect(self_organized_track.cfp_active).to eq false
+        end
       end
 
-      it 'becomes false' do
-        expect(self_organized_track.cfp_active).to eq false
+      context 'save fails' do
+        before :each do
+          allow_any_instance_of(Track).to receive(:save).and_return(false)
+          patch :toggle_cfp_inclusion, conference_id: conference.short_title, id: self_organized_track.short_name, format: :js
+          self_organized_track.reload
+        end
+
+        it 'assigns the correct track' do
+          expect(assigns(:track)).to eq self_organized_track
+        end
+
+        it 'shows error message in flash notice' do
+          expect(flash[:error]).to match('Failed to toggle cfp inclusion of My awesome track to false')
+        end
+
+        it 'stays true' do
+          expect(self_organized_track.cfp_active).to eq true
+        end
       end
     end
   end

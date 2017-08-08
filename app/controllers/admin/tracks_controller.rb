@@ -4,6 +4,9 @@ module Admin
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_and_authorize_resource through: :program, find_by: :short_name
 
+    # Show flash message with ajax calls
+    after_action :prepare_unobtrusive_flash, only: :toggle_cfp_inclusion
+
     def index; end
 
     def show
@@ -55,9 +58,13 @@ module Admin
     def toggle_cfp_inclusion
       @track.cfp_active = !@track.cfp_active
       if @track.save
-        head :ok
+        flash[:notice] = "Successfully changed cfp inclusion of #{@track.name} to #{@track.cfp_active}"
       else
-        head :unprocessable_entity
+        flash[:error] = "Failed to toggle cfp inclusion of #{@track.name} to #{@track.cfp_active}"
+      end
+
+      respond_to do |format|
+        format.js
       end
     end
 

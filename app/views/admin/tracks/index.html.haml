@@ -1,3 +1,4 @@
+.unobtrusive-flash-container
 .row
   .col-md-12
     .page-header
@@ -8,6 +9,7 @@
   .col-md-12
     %table.table.table-hover.table-striped.table-bordered.datatable#tracks
       %thead
+        %th ID
         %th Name
         %th Description
         %th Room
@@ -20,6 +22,8 @@
       %tbody
         - @tracks.each do |track|
           %tr
+            %td
+              = track.id
             %td{style: "padding: 15px 0px 0px 10px;"}
               = link_to admin_conference_program_track_path(@conference.short_title, track), class: 'btn' do
                 %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
@@ -35,7 +39,7 @@
               = track.end_date.strftime('%A, %B %-d. %Y') if track.end_date
             %td
               = link_to track.submitter.name, admin_user_path(track.submitter) if track.self_organized?
-            %td.text-center
+            %td.text-center{ 'id' => "cfp_switch_#{track.id}", 'data-order' => track.cfp_active.to_s }
               = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
                 class: 'switch-checkbox', method: :patch,
                 url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",

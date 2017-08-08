@@ -9,7 +9,7 @@ class Track < ActiveRecord::Base
   belongs_to :room
   has_many :events, dependent: :nullify
 
-  has_paper_trail only: [:name, :description, :color], meta: { conference_id: :conference_id }
+  has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
   before_create :generate_guid
   validates :name, presence: true
@@ -28,6 +28,7 @@ class Track < ActiveRecord::Base
   validates :end_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :room, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :relevance, presence: true, if: :self_organized?
+  validates :description, presence: true, if: :self_organized?
   validate :valid_dates
   validate :valid_room, if: :self_organized_and_accepted_or_confirmed?
 
