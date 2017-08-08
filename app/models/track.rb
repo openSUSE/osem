@@ -31,9 +31,11 @@ class Track < ActiveRecord::Base
   validates :description, presence: true, if: :self_organized?
   validate :valid_dates
   validate :valid_room, if: :self_organized_and_accepted_or_confirmed?
+  validate :overlapping
 
   before_validation :capitalize_color
 
+  scope :accepted, -> { where(state: 'accepted') }
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :cfp_active, -> { where(cfp_active: true) }
 
@@ -207,6 +209,22 @@ class Track < ActiveRecord::Base
   def valid_room
     if room && room.venue && room.venue.conference && program && program.conference && (program.conference != room.venue.conference)
       errors.add(:room, "must be a room of #{program.conference.venue.name}")
+    end
+  end
+
+  ##
+  # Check that there is no other track in the same room with overlapping dates
+  def overlapping
+    return unless start_date && end_date && room && program.try(:tracks)
+    (program.tracks.accepted + program.tracks.confirmed - [self]).each do |other_track|
+      if other_track.room == room &&
+         other_track.start_date && other_track.end_date &&
+         (other_track.start_date <= start_date && other_track.end_date >= start_date ||
+         other_track.start_date <= end_date && other_track.end_date >= end_date ||
+         start_date <= other_track.start_date && other_track.end_date <= end_date)
+        errors.add(:track, 'has overlapping dates with a confirmed or accepted track in the same room')
+        break
+      end
     end
   end
 end

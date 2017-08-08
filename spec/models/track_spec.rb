@@ -136,9 +136,97 @@ describe Track do
         end
       end
     end
+
+    describe '#overlapping' do
+      before :each do
+        @conference = create(:conference, start_date: Date.current - 1.day, end_date: Date.current + 2.days)
+        @conference.venue = create(:venue)
+        @room = create(:room, venue: @conference.venue)
+      end
+
+      context 'is valid' do
+        it 'when the tracks are in different rooms' do
+          other_room = create(:room, venue: @conference.venue)
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: other_room, start_date: Date.current, end_date: Date.current)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current)
+          expect(track.valid?).to eq true
+        end
+
+        it 'when it ends before the other tracks' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current - 1.day, end_date: Date.current - 1.day)
+          expect(track.valid?).to eq true
+        end
+
+        it 'when it starts after the other tracks' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current + 1.day, end_date: Date.current + 1.day)
+          expect(track.valid?).to eq true
+        end
+      end
+
+      context 'is invalid' do
+        it 'when it starts or ends with another track in the same room' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current)
+          expect(track.valid?).to eq false
+          expect(track.errors[:track]).to eq ['has overlapping dates with a confirmed or accepted track in the same room']
+        end
+
+        it 'when it starts before another track and ends after the other starts and before it ends' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current + 2.days)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current - 1.day, end_date: Date.current + 1.day)
+          expect(track.valid?).to eq false
+          expect(track.errors[:track]).to eq ['has overlapping dates with a confirmed or accepted track in the same room']
+        end
+
+        it 'when it starts after another track and before it ends and ends after the other' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current + 2.days)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current + 1.day, end_date: Date.current + 3.days)
+          expect(track.valid?).to eq false
+          expect(track.errors[:track]).to eq ['has overlapping dates with a confirmed or accepted track in the same room']
+        end
+
+        it 'when it starts after another track and ends before the other' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current + 2.days)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current + 1.day, end_date: Date.current + 1.day)
+          expect(track.valid?).to eq false
+          expect(track.errors[:track]).to eq ['has overlapping dates with a confirmed or accepted track in the same room']
+        end
+
+        it 'when it starts before another track and ends after the other' do
+          create(:track, :self_organized, state: 'confirmed', program: @conference.program, room: @room, start_date: Date.current, end_date: Date.current)
+          track = build(:track, :self_organized, program: @conference.program, room: @room, start_date: Date.current - 1.day, end_date: Date.current + 1.day)
+          expect(track.valid?).to eq false
+          expect(track.errors[:track]).to eq ['has overlapping dates with a confirmed or accepted track in the same room']
+        end
+      end
+    end
   end
 
   describe 'scope' do
+    describe '#accepted' do
+      before :each do
+        @program = create(:program)
+      end
+
+      context 'includes' do
+        it 'when track is accepted' do
+          accepted_track = create(:track, state: 'accepted', program: @program)
+          expect(@program.tracks.accepted.include?(accepted_track)).to eq true
+        end
+      end
+
+      context 'excludes' do
+        %w[new to_accept confirmed to_reject rejected canceled withdrawn].each do |state|
+          it "when track is #{state.humanize}" do
+            not_accepted_track = create(:track, state: state, program: @program)
+            expect(@program.tracks.accepted.include?(not_accepted_track)).to eq false
+          end
+        end
+      end
+    end
+
     describe '#confirmed' do
       before :each do
         @program = create(:program)
