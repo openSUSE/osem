@@ -4,6 +4,10 @@ module Admin
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_and_authorize_resource :event, through: :program
     load_and_authorize_resource :events_registration, only: :toggle_attendance
+    # For some reason this doesn't work, so a workaround is used
+    # load_and_authorize_resource :track, through: :program, only: [:index, :show, :edit]
+
+    before_action :get_tracks, only: [:index, :show, :edit]
 
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
@@ -14,7 +18,6 @@ module Admin
     end
 
     def index
-      @tracks = @program.tracks.confirmed.cfp_active
       @difficulty_levels = @program.difficulty_levels
       @event_types = @program.event_types
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
@@ -40,7 +43,6 @@ module Admin
     end
 
     def show
-      @tracks = @program.tracks.confirmed.cfp_active
       @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
@@ -55,7 +57,6 @@ module Admin
 
     def edit
       @event_types = @program.event_types
-      @tracks = @program.tracks.confirmed.cfp_active
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
@@ -194,6 +195,10 @@ module Admin
         flash[:error] = alert
         return redirect_back_or_to(admin_conference_program_events_path(conference_id: @conference.short_title)) && return
       end
+    end
+
+    def get_tracks
+      @tracks = Track.accessible_by(current_ability).where(program: @program).confirmed.cfp_active
     end
   end
 end
