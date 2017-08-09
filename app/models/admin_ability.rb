@@ -39,10 +39,6 @@ class AdminAbility
       event.program.cfp_open? && event.new_record?
     end
 
-    can [:update, :show, :index], Event do |event|
-      event.users.include?(user)
-    end
-
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
 
