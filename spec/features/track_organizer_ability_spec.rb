@@ -4,7 +4,7 @@ feature 'Has correct abilities' do
 
   let(:organization) { create(:organization) }
   let(:conference) { create(:full_conference, organization: organization) }
-  let(:self_organized_track) { create(:track, :self_organized, program: conference.program, state: 'confirmed', cfp_active: true) }
+  let(:self_organized_track) { create(:track, :self_organized, program: conference.program, state: 'confirmed') }
   let(:role_track_organizer) { Role.where(name: 'track_organizer', resource: self_organized_track).first_or_create }
   let(:user_track_organizer) { create(:user, role_ids: [role_track_organizer.id]) }
 
@@ -32,7 +32,7 @@ feature 'Has correct abilities' do
       expect(page).to have_link('Tracks', href: "/admin/conferences/#{conference.short_title}/program/tracks")
       expect(page).to_not have_link('Event Types', href: "/admin/conferences/#{conference.short_title}/program/event_types")
       expect(page).to_not have_link('Difficulty Levels', href: "/admin/conferences/#{conference.short_title}/program/difficulty_levels")
-      expect(page).to_not have_link('Schedules', href: "/admin/conferences/#{conference.short_title}/schedules")
+      expect(page).to have_link('Schedules', href: "/admin/conferences/#{conference.short_title}/schedules")
       expect(page).to have_link('Reports', href: "/admin/conferences/#{conference.short_title}/program/reports")
       expect(page).to_not have_link('Registrations', href: "/admin/conferences/#{conference.short_title}/registrations")
       expect(page).to_not have_link('Registration Period', href: "/admin/conferences/#{conference.short_title}/registration_period")
@@ -130,11 +130,15 @@ feature 'Has correct abilities' do
       expect(current_path).to eq root_path
 
       visit admin_conference_schedules_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq admin_conference_schedules_path(conference.short_title)
 
       create(:schedule, program: conference.program)
       visit admin_conference_schedule_path(conference.short_title, conference.program.schedules.first)
       expect(current_path).to eq root_path
+
+      self_organized_track_schedule = create(:schedule, program: conference.program, track: self_organized_track)
+      visit admin_conference_schedule_path(conference.short_title, self_organized_track_schedule)
+      expect(current_path).to eq admin_conference_schedule_path(conference.short_title, self_organized_track_schedule)
 
       visit admin_conference_program_reports_path(conference.short_title)
       expect(current_path).to eq admin_conference_program_reports_path(conference.short_title)

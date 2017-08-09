@@ -45,7 +45,7 @@ describe 'User with admin role' do
     let!(:my_event_schedule) { create(:event_schedule, schedule: my_schedule) }
     let!(:other_event_schedule) { create(:event_schedule, schedule: other_schedule) }
 
-    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program, state: 'confirmed', cfp_active: true) }
+    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program, state: 'confirmed') }
 
     context 'user #is_admin?' do
       let(:venue) { my_conference.venue }
@@ -460,8 +460,12 @@ describe 'User with admin role' do
       let(:user) { create(:user, role_ids: [role.id]) }
       let(:new_track) { build(:track, program: my_conference.program) }
       let(:new_event) { build(:event, program: my_conference.program) }
+      let(:new_schedule) { build(:schedule, program: my_conference.program) }
+      let(:new_track_schedule) { build(:schedule, program: my_conference.program, track: new_track) }
       let(:my_self_organized_track_event) { create(:event, program: my_conference.program, track: my_self_organized_track) }
       let(:my_self_organized_track_event_commercial) { create(:commercial, commercialable: my_self_organized_track_event) }
+      let(:my_self_organized_track_schedule) { create(:schedule, program: my_conference.program, track: my_self_organized_track) }
+      let(:my_self_organized_track_event_schedule) { create(:event_schedule, event: my_self_organized_track_event, schedule: my_self_organized_track_schedule, room: my_self_organized_track.room) }
 
       it{ should_not be_able_to(:new, Conference.new) }
       it{ should_not be_able_to(:create, Conference.new) }
@@ -531,6 +535,11 @@ describe 'User with admin role' do
       it{ should be_able_to(:update, new_event) }
       it{ should be_able_to(:manage, my_self_organized_track_event) }
       it{ should be_able_to(:manage, my_self_organized_track_event_commercial) }
+
+      it{ should be_able_to(:update, new_schedule) }
+      it{ should be_able_to(:new, new_track_schedule) }
+      it{ should be_able_to(:manage, my_self_organized_track_schedule) }
+      it{ should be_able_to(:manage, my_self_organized_track_event_schedule) }
 
       it_behaves_like 'user with any role'
       it_behaves_like 'user with non-organizer role', 'track_organizer'

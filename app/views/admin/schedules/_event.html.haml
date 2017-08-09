@@ -7,12 +7,13 @@
 / subtracting the padding before calculate the number of lines
 - lines = (height - 7) / 23
 - color = event.track.try(:color).present? ? event.track.try(:color) : 'FFFFFF'
+- non_schedulable = event_schedule_id && (EventSchedule.find(event_schedule_id).schedule != @schedule)
 .schedule-event{ style: "height: #{height}px;  background-color: #{color}; color: #{contrast_color(color)}", |
                  id: "event-#{event.id}", |
                  event_id: event.id, |
                  length: cells_length, |
                  event_schedule_id: event_schedule_id, |
-                 class: ('compact' if compact_grid) }
+                 class: "#{'compact' if compact_grid} #{'non_schedulable' if non_schedulable}" }
   .schedule-event-text{ style: "-webkit-line-clamp: #{lines}; height: #{lines * 23}px;"}
     %span.schedule-event-delete-button{ onclick: "Schedule.remove(\'event-#{event.id}\');" } X
     = event.title

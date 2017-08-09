@@ -40,7 +40,7 @@ Osem::Application.routes.draw do
     resources :comments, only: [:index]
     resources :conferences do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
-      resources :schedules, only: [:index, :create, :show, :update, :destroy]
+      resources :schedules, except: [:edit, :update]
       resources :event_schedules, only: [:create, :update, :destroy]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
@@ -88,6 +88,7 @@ Osem::Application.routes.draw do
             patch :to_reject
             patch :reject
             patch :cancel
+            patch :update_selected_schedule
           end
         end
         resources :event_types

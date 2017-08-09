@@ -63,9 +63,19 @@
               .btn-group{role: "group"}
                 - if can? :edit, track
                   = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track), class: 'btn btn-primary'
+                  - special_style = true
                 - if can? :destroy, track
                   = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track), method: :delete, class: 'btn btn-danger',
                   data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
+                - if track.self_organized?
+                  - if track.selected_schedule
+                    - if can? :show, track.selected_schedule
+                      = link_to 'Show Schedule', admin_conference_schedule_path(@conference.short_title, track.selected_schedule),
+                      class: 'btn btn-default'
+                  - elsif can? :create, @program.schedules.build(track: track)
+                    = button_to 'Create Schedule', admin_conference_schedules_path(@conference.short_title),
+                    form: { class: 'btn', style: 'padding: 0px 0px; margin-top: -1px;' }, class: 'btn btn-default',
+                    style: ('border-top-left-radius: 0; border-bottom-left-radius: 0;' if special_style), params: { 'schedule[track_id]' => track.id }
 .row
   .col-md-12.text-right
     = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-success'

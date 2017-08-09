@@ -101,6 +101,18 @@ module Admin
       update_state(:cancel, "Track #{@track.name} canceled!")
     end
 
+    def update_selected_schedule
+      if @track.update_attributes(params.require(:track).permit(:selected_schedule_id))
+        respond_to do |format|
+          format.js { render json: {} }
+        end
+      else
+        respond_to do |format|
+          format.js { render json: { errors: "The selected schedule couldn't been updated #{@track.errors.to_a.join('. ')}" }, status: 422 }
+        end
+      end
+    end
+
     private
 
     def track_params

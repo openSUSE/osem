@@ -117,7 +117,7 @@ module ApplicationHelper
 
   def concurrent_events(event)
     return nil unless event.scheduled? && event.program.selected_event_schedules
-    event_schedule = event.program.selected_event_schedules.find_by(event: event)
+    event_schedule = event.program.selected_event_schedules.find { |es| es.event == event }
     other_event_schedules = event.program.selected_event_schedules.reject { |other_event_schedule| other_event_schedule == event_schedule }
     concurrent_events = []
 

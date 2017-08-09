@@ -72,6 +72,8 @@
                       method: :patch, class: 'btn btn-mini btn-success', id: "resubmit_track_request_#{track.id}"
                   - if can? :edit, track
                     = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track), class: 'btn btn-default'
+                  - if current_user.has_role? :track_organizer, track
+                    = link_to 'Manage', admin_conference_program_track_path(@conference.short_title, track), class: 'btn btn-default'
 
   .row
     .col-md-12
