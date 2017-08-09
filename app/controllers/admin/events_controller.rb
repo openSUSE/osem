@@ -5,8 +5,6 @@ module Admin
     load_and_authorize_resource :event, through: :program
     load_and_authorize_resource :events_registration, only: :toggle_attendance
 
-    before_action :get_event, except: [:index, :create, :new]
-
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
     # around_filter :set_timezone_for_this_request
@@ -16,7 +14,6 @@ module Admin
     end
 
     def index
-      @events = @program.events
       @tracks = @program.tracks.confirmed.cfp_active
       @difficulty_levels = @program.difficulty_levels
       @event_types = @program.event_types
@@ -185,16 +182,6 @@ module Admin
 
     def comment_params
       params.require(:comment).permit(:commentable, :body, :user_id)
-    end
-
-    def get_event
-      @event = @conference.program.events.find(params[:id])
-      unless @event
-        redirect_to admin_conference_program_events_path(conference_id: @conference.short_title),
-                    error: 'Error! Could not find event!'
-        return
-      end
-      @event
     end
 
     def update_state(transition, notice, mail = false, subject = false, send_mail = false)

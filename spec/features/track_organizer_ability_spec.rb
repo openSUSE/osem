@@ -101,7 +101,7 @@ feature 'Has correct abilities' do
       expect(current_path).to eq root_path
 
       visit admin_conference_program_events_path(conference.short_title)
-      expect(current_path).to eq admin_conference_program_events_path(conference.short_title)
+      expect(current_path).to eq root_path
 
       create(:event, program: conference.program)
       visit edit_admin_conference_program_event_path(conference.short_title, conference.program.events.first)
