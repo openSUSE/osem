@@ -106,7 +106,6 @@ describe 'User' do
 
       it{ should be_able_to(:update, user_event_with_cfp) }
       it{ should be_able_to(:show, user_event_with_cfp) }
-      it{ should be_able_to(:delete, user_event_with_cfp) }
       it{ should_not be_able_to(:new, Event.new(program: program_without_cfp)) }
       it{ should_not be_able_to(:create, Event.new(program: program_without_cfp)) }
       # TODO: At moment it's not possible to manually add someone else as event_user

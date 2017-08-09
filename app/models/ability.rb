@@ -87,7 +87,7 @@ class Ability
       event.program.cfp_open? && event.new_record?
     end
 
-    can [:update, :show, :delete, :index], Event do |event|
+    can [:update, :show, :index], Event do |event|
       event.users.include?(user)
     end
 
