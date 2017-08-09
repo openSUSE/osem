@@ -77,7 +77,7 @@ feature Conference do
       sign_in user
       visit admin_conference_path(conference.short_title)
 
-      expect(find('.navbar-brand').text).to eq "#{conference.organization.name} Organization"
+      expect(find('.navbar-brand').text).to eq(conference.organization.name)
     end
 
     it_behaves_like 'add and update conference'
