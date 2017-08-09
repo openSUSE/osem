@@ -188,6 +188,7 @@ linters:
       - "app/views/conferences/_call_for_tracks.html.haml"
       - "app/views/admin/tracks/_change_state_dropdown.html.haml"
       - "app/views/proposals/_encouragement_text.html.haml"
+      - "app/views/admin/schedules/_form.html.haml"
 
   # Offense count: 223
   InstanceVariables:
@@ -253,6 +254,7 @@ linters:
       - "app/views/admin/cfps/_tracks_cfp.html.haml"
       - "app/views/conferences/_call_for_tracks.html.haml"
       - "app/views/admin/tracks/_change_state_dropdown.html.haml"
+      - "app/views/admin/schedules/_form.html.haml"
 
   # Offense count: 32
   IdNames:

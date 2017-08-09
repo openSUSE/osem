@@ -11,8 +11,15 @@
   .row
     .col-md-2
       Selected schedule
-      = check_box_tag @conference.short_title, @schedule.id, (@schedule.id == @selected_schedule.try(:id)),
-        method: :patch, url: (admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='),
+      :ruby
+        if @schedule.track
+          value = @schedule == @schedule.track.selected_schedule
+          url = update_selected_schedule_admin_conference_program_track_path(@conference.short_title, @schedule.track) + '?[track][selected_schedule_id]='
+        else
+          value = @schedule.id == @selected_schedule.try(:id)
+          url = admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='
+        end
+      = check_box_tag @conference.short_title, @schedule.id, value, method: :patch, url: url,
         class: 'switch-checkbox-schedule', data: { size: 'small',
                                           off_color: 'warning',
                                           on_text: 'Yes',

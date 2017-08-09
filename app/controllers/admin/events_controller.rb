@@ -198,7 +198,7 @@ module Admin
     end
 
     def get_tracks
-      @tracks = Track.accessible_by(current_ability).where(program: @program).confirmed.cfp_active
+      @tracks = Track.accessible_by(current_ability).where(program: @program).confirmed
     end
   end
 end

@@ -431,9 +431,11 @@ ActiveRecord::Schema.define(version: 20170816203325) do
     t.integer  "program_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "track_id"
   end
 
   add_index "schedules", ["program_id"], name: "index_schedules_on_program_id"
+  add_index "schedules", ["track_id"], name: "index_schedules_on_track_id"
 
   create_table "splashpages", force: :cascade do |t|
     t.integer  "conference_id"
@@ -520,24 +522,26 @@ ActiveRecord::Schema.define(version: 20170816203325) do
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",                         null: false
-    t.string   "name",                         null: false
+    t.string   "guid",                                 null: false
+    t.string   "name",                                 null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
-    t.string   "short_name",                   null: false
-    t.string   "state",        default: "new", null: false
-    t.boolean  "cfp_active",                   null: false
+    t.string   "short_name",                           null: false
+    t.string   "state",                default: "new", null: false
+    t.boolean  "cfp_active",                           null: false
     t.integer  "submitter_id"
     t.integer  "room_id"
     t.date     "start_date"
     t.date     "end_date"
     t.text     "relevance"
+    t.integer  "selected_schedule_id"
   end
 
   add_index "tracks", ["room_id"], name: "index_tracks_on_room_id"
+  add_index "tracks", ["selected_schedule_id"], name: "index_tracks_on_selected_schedule_id"
   add_index "tracks", ["submitter_id"], name: "index_tracks_on_submitter_id"
 
   create_table "users", force: :cascade do |t|

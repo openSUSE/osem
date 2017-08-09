@@ -4,42 +4,85 @@
       %h1 Schedules
       %p.text-muted
         The schedules for your conference
-.row
-  .col-md-12
-    %table.table.table-hover#event_types
-      %thead
-        %th Schedule
-        %th Selected
-        %th Actions
-      %tbody
-        - @schedules.each do |schedule|
-          %tr
-            %td
-              Schedule
-              = schedule.id
-            %td
-              = selected_scheduled?(schedule)
-            %td
-              .btn-group{role: "group"}
-                = link_to 'Show', admin_conference_schedule_path(@conference.short_title, schedule.id),
-                method: :get, class: 'btn btn-primary'
-                = link_to 'Delete', admin_conference_schedule_path(@conference.short_title, schedule.id),
-                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete Schedule #{schedule.id}?" }
-.row
-  .col-md-12
-    - if @venue.try(:rooms).present?
-      .text-right
-        = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
-        method: :post, class: 'btn btn-primary'
-    - elsif @venue
-      .h3
-        No Rooms!
-        %small
-          = link_to 'Create rooms', admin_conference_venue_rooms_path
-          before creating the schedule.
-    - else
-      .h3
-        No Venue!
-        %small
-          = link_to 'Create a venue with rooms', new_admin_conference_venue_path
-          before creating the schedule.
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to 'Conference schedules', '#conference', 'data-toggle' => 'tab'
+    %li
+      = link_to 'Track schedules', '#tracks', 'data-toggle' => 'tab'
+  .tab-content
+    .tab-pane.active#conference
+      .row
+        .col-md-12
+          %table.table.table-hover
+            %thead
+              %th Schedule
+              %th Selected
+              %th Actions
+            %tbody
+              - @schedules.where(track: nil).each do |schedule|
+                %tr
+                  %td
+                    Schedule
+                    = schedule.id
+                  %td
+                    = selected_scheduled?(schedule)
+                  %td
+                    .btn-group{role: "group"}
+                      - if can? :show, schedule
+                        = link_to 'Show', admin_conference_schedule_path(@conference.short_title, schedule),
+                        method: :get, class: 'btn btn-primary'
+                      - if can? :destroy, schedule
+                        = link_to 'Delete', admin_conference_schedule_path(@conference.short_title, schedule),
+                        method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete Schedule #{schedule.id}?" }
+      .row
+        .col-md-12
+          - if @venue.try(:rooms).present?
+            .text-right
+              - if can? :create, @program.schedules.new
+                = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
+                method: :post, class: 'btn btn-primary'
+          - elsif @venue
+            .h3
+              No Rooms!
+              %small
+                = link_to 'Create rooms', admin_conference_venue_rooms_path
+                before creating the schedule.
+          - else
+            .h3
+              No Venue!
+              %small
+                = link_to 'Create a venue with rooms', new_admin_conference_venue_path
+                before creating the schedule.
+    .tab-pane#tracks
+      .row
+        .col-md-12
+          %table.table.table-hover
+            %thead
+              %th Schedule
+              %th Track
+              %th Selected
+              %th Actions
+            %tbody
+              - @schedules.where.not(track: nil).each do |schedule|
+                %tr
+                  %td
+                    Schedule
+                    = schedule.id
+                  %td
+                    - track = schedule.track
+                    = link_to track.name, admin_conference_program_track_path(@conference.short_title, track)
+                  %td
+                    = schedule == schedule.track.selected_schedule ? 'Yes' : 'No'
+                  %td
+                    .btn-group{role: "group"}
+                      - if can? :show, schedule
+                        = link_to 'Show', admin_conference_schedule_path(@conference.short_title, schedule), class: 'btn btn-primary'
+                      - if can? :destroy, schedule
+                        = link_to 'Delete', admin_conference_schedule_path(@conference.short_title, schedule),
+                        method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete Schedule #{schedule.id}?" }
+      .row
+        .col-md-12
+          .text-right
+            - if can? :new, @program.schedules.build(track: @program.tracks.new)
+              = link_to 'Add Track Schedule', new_admin_conference_schedule_path(@conference.short_title), class: 'btn btn-primary'

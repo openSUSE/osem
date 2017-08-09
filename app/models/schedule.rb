@@ -1,5 +1,6 @@
 class Schedule < ActiveRecord::Base
   belongs_to :program
+  belongs_to :track
   has_many :event_schedules, dependent: :destroy
   has_many :events, through: :event_schedules
 

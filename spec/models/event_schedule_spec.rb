@@ -46,7 +46,7 @@ describe EventSchedule do
       end
     end
 
-    describe '#room_of_track' do
+    describe '#same_room_as_track' do
       before :each do
         conference = create(:conference)
         conference.venue = create(:venue)
@@ -105,6 +105,40 @@ describe EventSchedule do
           event_schedule = build(:event_schedule, event: @event, room: @room, start_time: Date.current + 1.day - 10.minutes)
           expect(event_schedule.valid?).to eq false
           expect(event_schedule.errors[:end_time]).to eq ["can't be after the track's end date (#{@track.end_date})"]
+        end
+      end
+    end
+
+    describe '#valid_schedule' do
+      before :each do
+        conference.venue = create(:venue)
+        @room = create(:room, venue: conference.venue)
+        track = create(:track, :self_organized, program: conference.program, room: @room, state: 'confirmed', name: 'My awesome track')
+        @event = create(:event, program: conference.program, track: track)
+      end
+
+      context 'is valid' do
+        it 'when the event belongs to a self-organized track and is scheduled in one of its track\'s schedules' do
+          schedule = create(:schedule, program: conference.program, track: @event.track)
+          event_schedule = build(:event_schedule, event: @event, room: @room, schedule: schedule)
+          expect(event_schedule.valid?).to eq true
+          expect(event_schedule.errors[:schedule]).to eq []
+        end
+
+        it 'when the event doesn\'t belong to a self-organized track' do
+          @event.track = nil
+          @event.save!
+          event_schedule = build(:event_schedule, event: @event, room: @room)
+          expect(event_schedule.valid?).to eq true
+          expect(event_schedule.errors[:schedule]).to eq []
+        end
+      end
+
+      context 'is invalid' do
+        it 'when the event belongs to a self_organized track but isn\'t scheduled in one of its schedules' do
+          event_schedule = build(:event_schedule, event: @event, room: @room)
+          expect(event_schedule.valid?).to eq false
+          expect(event_schedule.errors[:schedule]).to eq ['must be one of My awesome track track\'s schedules']
         end
       end
     end

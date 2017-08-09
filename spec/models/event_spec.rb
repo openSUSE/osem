@@ -97,10 +97,10 @@ describe Event do
       end
     end
 
-    describe '#acceptable_track' do
+    describe '#valid_track' do
       context 'is valid' do
-        it 'when the track belong to the same program, is confirmed and is included in the cfp' do
-          track = create(:track, state: 'confirmed', cfp_active: true, program: conference.program)
+        it 'when the track belongs to the same program and is confirmed' do
+          track = create(:track, state: 'confirmed', program: conference.program)
           event = build(:event, program: conference.program, track: track)
           expect(event.valid?).to eq true
         end
@@ -108,22 +108,15 @@ describe Event do
 
       context 'is invalid' do
         it 'when the track doesn\'t have the same program' do
-          track = create(:track, state: 'confirmed', cfp_active: true)
+          track = create(:track, state: 'confirmed')
           event = build(:event, program: conference.program, track: track)
           expect(event.valid?).to eq false
           expect(event.errors[:track]).to eq ['is invalid']
         end
 
         it 'when the track is unconfirmed' do
-          track = create(:track, cfp_active: true, program: conference.program)
+          track = create(:track, program: conference.program)
           allow(track).to receive(:confirmed?).and_return(false)
-          event = build(:event, program: conference.program, track: track)
-          expect(event.valid?).to eq false
-          expect(event.errors[:track]).to eq ['is invalid']
-        end
-
-        it 'when the track isn\'t included in the cfp' do
-          track = create(:track, state: 'confirmed', cfp_active: false, program: conference.program)
           event = build(:event, program: conference.program, track: track)
           expect(event.valid?).to eq false
           expect(event.errors[:track]).to eq ['is invalid']
@@ -380,6 +373,32 @@ describe Event do
       other_event = create(:event, created_at: Date.new(2015, 12, 1), program: conference.program)
 
       expect(other_event.week).to eq 48
+    end
+  end
+
+  describe '#selected_schedule_id' do
+    before :each do
+      conference.program.selected_schedule = create(:schedule, program: conference.program)
+    end
+
+    context 'returns the program\'s selected_schedule_id' do
+      it 'when it doesn\'t have a track' do
+        create(:event_schedule, event: event, schedule: conference.program.selected_schedule)
+        expect(event.send(:selected_schedule_id)).to eq conference.program.selected_schedule_id
+      end
+
+      it 'when it belongs to a regular track' do
+        event.track = create(:track, program: conference.program)
+        expect(event.send(:selected_schedule_id)).to eq conference.program.selected_schedule_id
+      end
+    end
+
+    context 'returns the track\'s selected_schedule_id' do
+      it 'when it belongs to a self-organized track' do
+        event.track = create(:track, :self_organized, program: conference.program, state: 'confirmed')
+        event.track.selected_schedule = create(:schedule, program: conference.program, track: event.track)
+        expect(event.send(:selected_schedule_id)).to eq event.track.selected_schedule_id
+      end
     end
   end
 end

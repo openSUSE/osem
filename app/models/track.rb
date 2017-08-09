@@ -7,7 +7,9 @@ class Track < ActiveRecord::Base
   belongs_to :program
   belongs_to :submitter, class_name: 'User'
   belongs_to :room
+  belongs_to :selected_schedule, class_name: 'Schedule'
   has_many :events, dependent: :nullify
+  has_many :schedules
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
@@ -38,6 +40,7 @@ class Track < ActiveRecord::Base
   scope :accepted, -> { where(state: 'accepted') }
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :cfp_active, -> { where(cfp_active: true) }
+  scope :self_organized, -> { where.not(submitter: nil) }
 
   state_machine initial: :pending do
     state :new
@@ -102,7 +105,10 @@ class Track < ActiveRecord::Base
     submitter.add_role 'track_organizer', self
   end
 
-  # Revokes the track organizer role and removes the track from events that have it set
+  ##
+  # Revokes the track organizer role, destroys the track's schedule, removes the
+  # track from events that have it set and reverts their state to new
+  #
   def revoke_role_and_cleanup
     role = Role.find_by(name: 'track_organizer', resource: self)
 
@@ -112,8 +118,14 @@ class Track < ActiveRecord::Base
       end
     end
 
+    self.selected_schedule_id = nil
+    save!
+
+    schedules.each(&:destroy!)
+
     events.each do |event|
       event.track = nil
+      event.state = 'new'
       event.save!
     end
   end

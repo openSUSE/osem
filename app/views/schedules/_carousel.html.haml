@@ -29,7 +29,7 @@
               %td.room{ style: "height: #{ td_height(@rooms) }px;" }
                 .room.elipsis.break-words{ style: "-webkit-line-clamp: #{ room_lines(@rooms) }; height: #{ room_height(@rooms) }px;" }
                   = room.name
-                - event_schedules = room.event_schedules.select{ |e| (e.schedule_id == @conference.program.selected_schedule.id) && (e.end_time > start_time) && (e.start_time <= (start_time + hrs_per_slide.hour)) }
+                - event_schedules = room.event_schedules.select{ |e| @selected_schedules_ids.include?(e.schedule_id) && (e.end_time > start_time) && (e.start_time <= (start_time + hrs_per_slide.hour)) }
                 - (1..intervals).each do |i|
                   - if span > 1
                     - span -= 1

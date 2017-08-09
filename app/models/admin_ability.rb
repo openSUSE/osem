@@ -307,5 +307,18 @@ class AdminAbility
     can :manage, Event, track_id: track_ids_for_track_organizer
     can :manage, Commercial, commercialable_type: 'Event',
                              commercialable_id: Event.where(track_id: track_ids_for_track_organizer).pluck(:id)
+
+    # Show Scheduless in the admin sidebar
+    can :update, Schedule do |schedule|
+      schedule.new_record? && conf_ids_for_track_organizer.include?(schedule.program.conference_id)
+    end
+
+    # Show new track schedule button
+    can :new, Schedule do |schedule|
+      schedule.new_record? && conf_ids_for_track_organizer.include?(schedule.program.conference_id) && schedule.track.try(:new_record?)
+    end
+
+    can :manage, Schedule, track_id: track_ids_for_track_organizer
+    can :manage, EventSchedule, schedule: { track_id: track_ids_for_track_organizer }
   end
 end
