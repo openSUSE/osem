@@ -7,9 +7,13 @@ module Admin
 
     def show; end
 
-    def new; end
+    def new
+      @url = admin_conference_booths_path(@conference.short_title)
+    end
 
     def create
+      @url = admin_conference_booths_path(@conference.short_title)
+
       @booth = @conference.booths.new(booth_params)
 
       @booth.submitter = current_user
@@ -23,9 +27,13 @@ module Admin
       end
     end
 
-    def edit; end
+    def edit
+      @url = admin_conference_booth_path(@conference.short_title, @booth.id)
+    end
 
     def update
+      @url = admin_conference_booth_path(@conference.short_title, @booth.id)
+
       @booth.update_attributes(booth_params)
 
       if @booth.save
@@ -35,16 +43,6 @@ module Admin
         flash[:error] = "An error prohibited the Booth for #{@booth.title} "\
                     "#{@booth.errors.full_messages.join('. ')}."
         render :edit
-      end
-    end
-
-    def destroy
-      if @booth.destroy
-        redirect_to admin_conference_booths_path,
-                    notice: 'Booth successfully destroyed.'
-      else
-        redirect_to admin_conference_booths_path,
-                    error: "Booth couldn't be deleted. #{@booth.errors.full_messages.join('. ')}."
       end
     end
 

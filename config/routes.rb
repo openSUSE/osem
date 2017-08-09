@@ -41,7 +41,6 @@ Osem::Application.routes.draw do
         member do
           patch :accept
           patch :restart
-          patch :withdrawn
           patch :to_accept
           patch :reject
           patch :reset
@@ -131,6 +130,13 @@ Osem::Application.routes.draw do
   end
   resources :organizations, only: [:index]
   resources :conferences, only: [:index, :show] do
+    resources :booths do
+      member do
+        patch :withdraw
+        patch :confirm
+        patch :restart
+      end
+    end
     resource :program, only: [] do
       resources :proposals, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'

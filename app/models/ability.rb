@@ -75,6 +75,12 @@ class Ability
     can [:new, :create], Payment, user_id: user.id
     can [:index, :show], PhysicalTicket, user: user
 
+    can [:new, :create], Booth
+
+    can [:edit, :update, :index, :show], Booth do |booth|
+      booth.users.include?(user)
+    end
+
     can [:create, :destroy], Subscription, user_id: user.id
 
     can [:new, :create], Event do |event|

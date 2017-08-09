@@ -1,0 +1,60 @@
+.container
+  .row
+    .col-md-12
+      %h3
+        - if @booth.logo_link
+          = image_tag(@booth.picture.thumb.url, size: '20%', alt: '')
+        = @booth.title
+        .btn-group.pull-right
+          = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'
+
+  .row
+    .col-md-12
+      %table.table
+        %tr
+          %td.col-md-2
+            %b Description
+          %td
+            = markdown(@booth.description)
+        %tr
+          %td.col-md-2
+            %b Reasoning
+          %td
+            = markdown(@booth.reasoning)
+        %tr
+          %td.col-md-2
+            %b Website
+          %td
+            - if @booth.website_url.present?
+              = link_to @booth.website_url,  @booth.website_url
+        %tr
+          %td.col-md-2
+            %b Submitter
+          %td
+            = link_to @booth.submitter.name, user_path(@booth.submitter)
+        %tr
+          %td.col-md-2
+            %b Submitter's relationship
+          %td
+            = @booth.submitter_relationship
+        %tr
+          %td.col-md-2
+            %b Responsibles
+          %td
+            - @booth.responsibles.each_with_index do |responsibles, i|
+              .responsibles
+                = link_to responsibles.name, user_path(responsibles)
+                (
+                = responsibles.email
+                )
+                = ", " unless i == @booth.responsibles.length - 1
+        %tr
+          %td.col-md-2
+            %b Submitted on
+          %td
+            = @booth.created_at
+        %tr
+          %td.col-md-2
+            %b Last updated on
+          %td
+            = @booth.updated_at
