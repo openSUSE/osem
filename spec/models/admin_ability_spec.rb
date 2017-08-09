@@ -45,7 +45,7 @@ describe 'User with admin role' do
     let!(:my_event_schedule) { create(:event_schedule, schedule: my_schedule) }
     let!(:other_event_schedule) { create(:event_schedule, schedule: other_schedule) }
 
-    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program, state: 'confirmed') }
+    let!(:my_self_organized_track) { create(:track, :self_organized, program: my_conference.program, state: 'confirmed', cfp_active: true) }
 
     context 'user #is_admin?' do
       let(:venue) { my_conference.venue }
@@ -459,6 +459,9 @@ describe 'User with admin role' do
       let(:role) { Role.where(name: 'track_organizer', resource: my_self_organized_track).first_or_create }
       let(:user) { create(:user, role_ids: [role.id]) }
       let(:new_track) { build(:track, program: my_conference.program) }
+      let(:new_event) { build(:event, program: my_conference.program) }
+      let(:my_self_organized_track_event) { create(:event, program: my_conference.program, track: my_self_organized_track) }
+      let(:my_self_organized_track_event_commercial) { create(:commercial, commercialable: my_self_organized_track_event) }
 
       it{ should_not be_able_to(:new, Conference.new) }
       it{ should_not be_able_to(:create, Conference.new) }
@@ -524,6 +527,10 @@ describe 'User with admin role' do
 
       it{ should_not be_able_to(:assign_org_admins, organization) }
       it{ should_not be_able_to(:unassign_org_admins, organization) }
+
+      it{ should be_able_to(:update, new_event) }
+      it{ should be_able_to(:manage, my_self_organized_track_event) }
+      it{ should be_able_to(:manage, my_self_organized_track_event_commercial) }
 
       it_behaves_like 'user with any role'
       it_behaves_like 'user with non-organizer role', 'track_organizer'

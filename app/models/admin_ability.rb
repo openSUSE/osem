@@ -298,5 +298,14 @@ class AdminAbility
     can :toggle_user, Role do |role|
       role.resource_type == 'Track' && track_ids_for_track_organizer.include?(role.resource_id)
     end
+
+    # Show Events in the admin sidebar
+    can :update, Event do |event|
+      event.new_record? && conf_ids_for_track_organizer.include?(event.program.conference_id)
+    end
+
+    can :manage, Event, track_id: track_ids_for_track_organizer
+    can :manage, Commercial, commercialable_type: 'Event',
+                             commercialable_id: Event.where(track_id: track_ids_for_track_organizer).pluck(:id)
   end
 end
