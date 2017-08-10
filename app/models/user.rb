@@ -30,13 +30,13 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise_modules = []
 
-  if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-    devise_modules += [:ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: []]
-  else
-    devise_modules += [:database_authenticatable, :registerable,
+  devise_modules += if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+                      [:ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: []]
+                    else
+                      [:database_authenticatable, :registerable,
                        :recoverable, :rememberable, :trackable, :validatable, :confirmable,
                        :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github]]
-  end
+                    end
 
   devise(*devise_modules)
 
@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
+  has_many :tracks, foreign_key: 'submitter_id'
+  has_many :booth_requests
+  has_many :booth_requests, dependent: :destroy
+  has_many :booths, through: :booth_requests
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }

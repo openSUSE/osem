@@ -24,7 +24,7 @@ describe SubscriptionsController do
 
       it 'shows success message in flash notice' do
         post :create, conference_id: conference.short_title
-        expect(flash[:notice]).to match("You have been subscribed to receive email notifications for #{conference.short_title}")
+        expect(flash[:notice]).to match("You have subscribed to receive email notifications for #{conference.title}")
       end
 
       it 'subscribes user to conference' do
@@ -47,7 +47,7 @@ describe SubscriptionsController do
 
     it 'shows success message in flash notice' do
       delete :destroy, conference_id: conference.short_title
-        expect(flash[:notice]).to match("You have been unsubscribed and now you will not be receiving email notifications for #{conference.short_title}.")
+        expect(flash[:notice]).to match("You have unsubscribed and you will not be receiving email notifications for #{conference.title}.")
     end
   end
 end

@@ -108,16 +108,32 @@ feature 'Has correct abilities' do
       visit edit_admin_conference_program_path(conference.short_title)
       expect(current_path).to eq(edit_admin_conference_program_path(conference.short_title))
 
+      # Only event type exists
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
+
+      # Both event and booth exists
+      cfb = create(:cfp, cfp_type: 'booths', program: conference.program)
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq root_path
+
+      visit edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
+      expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp))
 
       conference.program.cfp.destroy!
       visit new_admin_conference_program_cfp_path(conference.short_title)
       expect(current_path).to eq new_admin_conference_program_cfp_path(conference.short_title)
-      create(:cfp, program: conference.program)
 
-      visit edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
-      expect(current_path).to eq(edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp))
+      # Only booth exists
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
+
+      visit edit_admin_conference_program_cfp_path(conference.short_title, cfb)
+      expect(current_path). to eq(edit_admin_conference_program_cfp_path(conference.short_title, cfb))
+
+      cfb.destroy
+      visit new_admin_conference_program_cfp_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_cfp_path(conference.short_title))
 
       visit admin_conference_program_events_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_events_path(conference.short_title))
@@ -221,6 +237,16 @@ feature 'Has correct abilities' do
       visit edit_admin_conference_target_path(conference.short_title, conference.targets.first)
       expect(current_path).to eq(edit_admin_conference_target_path(conference.short_title, conference.targets.first))
 
+      visit admin_conference_booths_path(conference.short_title)
+      expect(current_path).to eq(admin_conference_booths_path(conference.short_title))
+
+      visit new_admin_conference_booth_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_booth_path(conference.short_title))
+
+      create(:booth, conference: conference)
+      visit edit_admin_conference_booth_path(conference.short_title, conference.booths.first)
+      expect(current_path).to eq(edit_admin_conference_booth_path(conference.short_title, conference.booths.first))
+
       visit admin_conference_program_tracks_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_tracks_path(conference.short_title))
 
@@ -239,6 +265,12 @@ feature 'Has correct abilities' do
       create(:resource, conference: conference)
       visit edit_admin_conference_resource_path(conference.short_title, conference.resources.first)
       expect(current_path).to eq(edit_admin_conference_resource_path(conference.short_title, conference.resources.first))
+
+      visit admin_users_path
+      expect(current_path).to eq(root_path)
+
+      visit admin_user_path(user_organizer)
+      expect(current_path).to eq(root_path)
 
       visit admin_revision_history_path
       expect(current_path).to eq(admin_revision_history_path)

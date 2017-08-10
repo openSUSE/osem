@@ -29,11 +29,11 @@ class TicketPurchase < ActiveRecord::Base
       conference.tickets.each do |ticket|
         quantity = purchases[ticket.id.to_s].to_i
         # if the user bought the ticket and is still unpaid, just update the quantity
-        if ticket.bought?(user) && ticket.unpaid?(user)
-          purchase = update_quantity(conference, quantity, ticket, user)
-        else
-          purchase = purchase_ticket(conference, quantity, ticket, user)
-        end
+        purchase = if ticket.bought?(user) && ticket.unpaid?(user)
+                     update_quantity(conference, quantity, ticket, user)
+                   else
+                     purchase_ticket(conference, quantity, ticket, user)
+                   end
 
         if purchase && !purchase.save
           errors.push(purchase.errors.full_messages)
@@ -69,6 +69,7 @@ class TicketPurchase < ActiveRecord::Base
     PhysicalTicket.transaction do
       quantity.times { physical_tickets.create }
     end
+    Mailbot.ticket_confirmation_mail(self).deliver_later
   end
 end
 

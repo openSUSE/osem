@@ -15,6 +15,19 @@ module FormatHelper
     end
   end
 
+  def booth_status_icon(booth)
+    case booth.state
+    when 'new', 'to_reject', 'to_accept'
+      'fa-eye'
+    when 'accepted'
+      'fa-check text-muted'
+    when 'confirmed'
+      'fa-check text-success'
+    when 'rejected', 'withdrawn', 'canceled'
+      'fa-ban'
+    end
+  end
+
   def event_progress_color(progress)
     progress = progress.to_i
     if progress == 100
@@ -102,13 +115,12 @@ module FormatHelper
     end
   end
 
-  # rubocop:disable Lint/EndAlignment
   def word_pluralize(count, singular, plural = nil)
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
-      singular
-    else
-      plural || singular.pluralize
-    end
+             singular
+           else
+             plural || singular.pluralize
+           end
 
     "#{word}"
   end
