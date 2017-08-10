@@ -4,6 +4,23 @@ module Admin
     load_resource :program, through: :conference, singleton: true, except: :index
     load_resource :user, only: [:remove_user]
 
+    def custom_domain
+      redirect_to attach_custom_domain_admin_conference_path(@conference.short_title) unless @conference.custom_domain.present?
+    end
+
+    def attach_custom_domain; end
+
+    def update_domain
+      @conference.assign_attributes(conference_params)
+      if @conference.save
+        redirect_to custom_domain_admin_conference_path(id: @conference.short_title),
+                    notice: 'Added new domain name to conference. This does not mean that the new domain should work. Please make sure you follow step 2 to point your domain to this hosted version'
+      else
+        redirect_to custom_domain_admin_conference_path(id: @conference.short_title),
+                    notice: 'Failed to add the new domain as custom domain to the conference'
+      end
+    end
+
     def index
       # Redirect to new form if there is no conference
       if Conference.count == 0
@@ -211,7 +228,7 @@ module Admin
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :targets, :targets_attributes,
-                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout)
+                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout, :custom_domain)
     end
   end
 end

@@ -27,6 +27,11 @@
       = link_to(admin_conference_path(@conference.short_title)) do
         %span.fa.fa-tachometer
         Dashboard
+  - if can? :edit, @conference
+    %li
+      = link_to(custom_domain_admin_conference_path(@conference.short_title))  do
+        %span.fa.fa-link
+        Custom domain
   - if can? :show, @conference
     %li{class: "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
       - if can? :edit, @conference

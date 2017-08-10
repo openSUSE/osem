@@ -30,6 +30,8 @@ linters:
       - "app/views/admin/conferences/_targets.html.haml"
       - "app/views/admin/conferences/_todo_list.html.haml"
       - "app/views/admin/conferences/_top_submitter.html.haml"
+      - "app/views/admin/conferences/attach_custom_domain.html.haml"
+      - "app/views/admin/conferences/custom_domain.html.haml"
       - "app/views/admin/conferences/edit.html.haml"
       - "app/views/admin/conferences/index.html.haml"
       - "app/views/admin/conferences/new.html.haml"

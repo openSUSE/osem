@@ -135,6 +135,15 @@ describe Admin::ConferencesController do
         end
       end
     end
+
+    describe 'GET #custom_domain', blah: true do
+      it 'render custom domain' do
+        get :custom_domain, id: conference.short_title
+
+        expect(response).to render_template :custom_domain
+        expect(response).to be_success
+      end
+    end
   end
 
   shared_examples 'access as organization_admin' do

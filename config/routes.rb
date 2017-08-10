@@ -1,5 +1,9 @@
 Osem::Application.routes.draw do
 
+  constraints DomainConstraint do
+    get '/', to: 'conferences#show'
+  end
+
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
@@ -28,6 +32,11 @@ Osem::Application.routes.draw do
     end
     resources :comments, only: [:index]
     resources :conferences do
+      member do
+        get :custom_domain
+        get :attach_custom_domain
+        patch :update_domain
+      end
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
       resources :event_schedules, only: [:create, :update, :destroy]

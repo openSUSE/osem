@@ -109,7 +109,7 @@ class AdminAbility
     track_ids = Track.joins(:program).where('programs.conference_id IN (?)', conf_ids).pluck(:id)
 
     can :manage, Resource, conference_id: conf_ids
-    can [:read, :update, :destroy], Conference, id: conf_ids
+    can [:read, :update, :destroy, :custom_domin], Conference, id: conf_ids
     can :manage, Splashpage, conference_id: conf_ids
     can :manage, Contact, conference_id: conf_ids
     can :manage, EmailSettings, conference_id: conf_ids
