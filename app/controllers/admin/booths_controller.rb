@@ -90,6 +90,10 @@ module Admin
       update_state(:cancel, 'Booth is canceled')
     end
 
+    def confirm
+      update_state(:confirm, 'Booth successfully confirmed')
+    end
+
     private
 
     def update_state(transition, notice)
