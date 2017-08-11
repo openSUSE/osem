@@ -34,6 +34,22 @@ describe TicketPurchase do
     it 'is valid with a quantity greater than zero' do
       should allow_value(1).for(:quantity)
     end
+
+    describe 'one_registration_ticket_per_user' do
+      let(:registration_ticket) { create(:registration_ticket) }
+      let(:ticket_purchase) { build(:ticket_purchase, ticket: registration_ticket, quantity: 1) }
+
+      it 'it is valid, if quantity for registration tickets is less than or equal to one' do
+        expect(ticket_purchase.valid?).to eq true
+      end
+
+      it 'it is not valid, if quantity for registration tickets is greater than to one' do
+        ticket_purchase.quantity = 4
+
+        expect(ticket_purchase.valid?).to eq false
+        expect(ticket_purchase.errors[:quantity]).to eq ['cannot be greater than one for registration tickets.']
+      end
+    end
   end
 
   describe 'self#purchase' do

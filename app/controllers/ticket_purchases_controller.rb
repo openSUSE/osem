@@ -19,7 +19,7 @@ class TicketPurchasesController < ApplicationController
                     error: 'Please get at least one ticket to continue.'
       end
     else
-      redirect_to conference_conference_registration_path(@conference.short_title),
+      redirect_to conference_tickets_path(@conference.short_title),
                   error: "Oops, something went wrong with your purchase! #{message}"
     end
   end
