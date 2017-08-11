@@ -1,0 +1,5 @@
+$('<%= "#group_large_update_actions_#{@resource.id.to_s}" %>').html('<%= j render partial: "update_links", locals: { conference: @conference, resource: @resource} %>');
+$('<%= "#group_small_update_actions_#{@resource.id.to_s}" %>').html('<%= j render partial: "update_links", locals: { conference: @conference, resource: @resource} %>');
+$('<%= "#resource_left_#{@resource.id.to_s}" %>').text('<%= "#{@resource.quantity - @resource.used }/#{@resource.quantity}"%>').fadeIn();
+$('<%= "#resource_used_#{@resource.id.to_s}" %>').text(<%=@resource.used%>).fadeIn();
+

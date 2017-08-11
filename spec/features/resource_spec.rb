@@ -33,7 +33,7 @@ feature Resource do
       click_button 'Update Resource'
       resource.reload
 
-      expect(flash).to eq('Resource successfully updated.')
+      expect(page).to have_css('#messages'), text('Resource successfully updated.')
       expect(resource.name).to eq('changed_name')
     end
 
