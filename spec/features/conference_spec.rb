@@ -71,6 +71,15 @@ feature Conference do
   end
 
   describe 'admin' do
+    let!(:conference) { create(:conference) }
+
+    scenario 'has organization name in menu bar for conference views', feature: true, js: true do
+      sign_in user
+      visit admin_conference_path(conference.short_title)
+
+      expect(find('.navbar-brand').text).to eq(conference.organization.name)
+    end
+
     it_behaves_like 'add and update conference'
   end
 end
