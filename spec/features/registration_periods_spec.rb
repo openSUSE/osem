@@ -6,6 +6,7 @@ feature RegistrationPeriod do
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
+  let!(:registration_ticket) { create(:registration_ticket, conference: conference) }
 
   shared_examples 'successfully' do
     scenario 'create and update registration period', js: true do

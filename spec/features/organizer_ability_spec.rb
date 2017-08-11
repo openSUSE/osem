@@ -8,6 +8,7 @@ feature 'Has correct abilities' do
   let(:role_organizer_conf) { Role.find_by(name: 'organizer', resource: conference) }
   let(:role_organizer_other_conf) { Role.find_by(name: 'organizer', resource: other_conference) }
   let(:user_organizer) { create(:user, role_ids: [role_organizer_conf.id, role_organizer_other_conf.id]) }
+  let!(:registration_ticket) { create(:registration_ticket, conference: conference) }
 
   context 'when user is organizer' do
     before do
