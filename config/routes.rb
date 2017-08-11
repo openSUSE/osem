@@ -57,6 +57,7 @@ Osem::Application.routes.draw do
           patch :reset
           patch :to_reject
           patch :cancel
+          patch :confirm
         end
       end
 
