@@ -47,21 +47,18 @@ module Admin
     end
 
     def accept
+      @booth.accept!
 
-      if can? :accept, @booth
-        @booth.accept!
-
-        if @booth.save
-          if @conference.email_settings.send_on_booths_acceptance
-            Mailbot.conference_booths_acceptance_mail(@booth).deliver
-          end
-          redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
-                      notice: 'Booth successfully accepted!'
-        else
-          redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
-          flash[:error] = "Booth could not be accepted. #{@booth.errors.full_messages.to_sentence}."
+      if @booth.save
+        if @conference.email_settings.send_on_booths_acceptance
+          Mailbot.conference_booths_acceptance_mail(@booth).deliver
         end
-      end  
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
+                    notice: 'Booth successfully accepted!'
+      else
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
+        flash[:error] = "Booth could not be accepted. #{@booth.errors.full_messages.to_sentence}."
+      end
     end
 
     def to_accept
