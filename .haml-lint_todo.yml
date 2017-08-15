@@ -153,6 +153,7 @@ linters:
       - "app/views/layouts/_admin_sidebar_index.html.haml"
       - "app/views/layouts/_messages.html.haml"
       - "app/views/layouts/_navigation.html.haml"
+      - "app/views/layouts/_user_menu.html.haml"
       - "app/views/layouts/application.html.haml"
       - "app/views/organizations/index.html.haml"
       - "app/views/payments/_payment.html.haml"
