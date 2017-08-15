@@ -330,6 +330,8 @@ Metrics/LineLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 56
+  Exclude:
+    - 'app/models/admin_ability.rb'
 
 # Offense count: 3
 # Configuration parameters: CountComments.
@@ -443,6 +445,7 @@ Style/HashSyntax:
 # Configuration parameters: MaxLineLength.
 Style/IfUnlessModifier:
   Exclude:
+    - 'app/controllers/admin/booths_controller.rb'
     - 'app/controllers/admin/events_controller.rb'
     - 'app/controllers/api/v1/events_controller.rb'
     - 'app/controllers/conference_registrations_controller.rb'

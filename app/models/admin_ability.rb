@@ -74,6 +74,11 @@ class AdminAbility
     cannot :destroy, Track do |track|
       track.self_organized?
     end
+    # Can't accept a booth when booth_limit is reached
+    cannot :accept, Booth do |booth|
+      conference = booth.conference
+      conference.maximum_accepted_booths?
+    end
   end
 
   # Abilities for signed in users with roles
