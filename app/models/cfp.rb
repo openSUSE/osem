@@ -94,6 +94,15 @@ class Cfp < ActiveRecord::Base
     find_by(cfp_type: 'tracks')
   end
 
+  ##
+  # Finds the cfp for booths if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'booths'
+  def self.for_booths
+    find_by(cfp_type: 'booths')
+  end
+
   private
 
   def before_end_of_conference
