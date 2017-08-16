@@ -8,6 +8,7 @@ describe BoothsController do
 
   context 'user is signed in with submitter role' do
     before :each do
+      create(:cfp, program: conference.program, cfp_type: 'booths')
       sign_in booth.submitter
     end
 
