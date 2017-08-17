@@ -27,15 +27,17 @@
               = role.users.pluck(:name).first(5).join ', '
               - if role.users.count > 5
                 - if role.resource_type == 'Track'
-                  = link_to '...', track_admin_conference_role_path(@conference.short_title, role.name, role.resource)
+                  = link_to '...', admin_conference_program_track_role_path(@conference.short_title, role.resource, role.name)
                 - else
                   = link_to '...', admin_conference_role_path(@conference.short_title, role.name)
             %td
               .btn-group
                 - if role.resource_type == 'Track'
-                  = link_to 'Users', track_admin_conference_role_path(@conference.short_title, role.name, role.resource), class: 'btn btn-success'
+                  = link_to 'Users', admin_conference_program_track_role_path(@conference.short_title, role.resource, role.name),
+                  class: 'btn btn-success'
                   - if can? :edit, role
-                    = link_to 'Edit', track_edit_admin_conference_role_path(@conference.short_title, role.name, role.resource), class: 'btn btn-primary'
+                    = link_to 'Edit', edit_admin_conference_program_track_role_path(@conference.short_title, role.resource, role.name),
+                    class: 'btn btn-primary'
                 - else
                   = link_to 'Users', admin_conference_role_path(@conference.short_title, role.name), class: 'btn btn-success'
                   - if can? :edit, role

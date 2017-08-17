@@ -31,8 +31,9 @@ class Track < ActiveRecord::Base
   validates :room, presence: true, if: :self_organized_and_accepted_or_confirmed?
   validates :relevance, presence: true, if: :self_organized?
   validates :description, presence: true, if: :self_organized?
-  validate :valid_dates
-  validate :valid_room, if: :self_organized_and_accepted_or_confirmed?
+  validate :dates_within_conference_dates
+  validate :start_date_before_end_date
+  validate :valid_room
   validate :overlapping
 
   before_validation :capitalize_color
@@ -56,7 +57,7 @@ class Track < ActiveRecord::Base
       transitions to: :new, from: [:rejected, :withdrawn, :canceled]
     end
     event :to_accept do
-      transitions to: :to_accept, from: [:new]
+      transitions to: :to_accept, from: [:new, :to_reject]
     end
     event :accept do
       transitions to: :accepted, from: [:new, :to_accept], on_transition: :create_organizer_role
@@ -65,7 +66,7 @@ class Track < ActiveRecord::Base
       transitions to: :confirmed, from: [:accepted], on_transition: :assign_role_to_submitter
     end
     event :to_reject do
-      transitions to: :to_reject, from: [:new]
+      transitions to: :to_reject, from: [:new, :to_accept]
     end
     event :reject do
       transitions to: :rejected, from: [:new, :to_reject]
@@ -194,46 +195,41 @@ class Track < ActiveRecord::Base
     Role.where(name: 'track_organizer', resource: self).first_or_create(description: 'For the organizers of the Track')
   end
 
-  def valid_dates
-    if start_date && program && program.conference && program.conference.start_date && (start_date < program.conference.start_date)
-      errors.add(:start_date, "can't be before the conference start date (#{program.conference.start_date})")
-    end
+  ##
+  # Verify that the track's dates are between the conference's dates
+  #
+  def dates_within_conference_dates
+    return unless start_date && end_date && program.try(:conference).try(:start_date) && program.try(:conference).try(:end_date)
+    errors.add(:start_date, "can't be outside of the conference's dates (#{program.conference.start_date}-#{program.conference.end_date})") unless (program.conference.start_date..program.conference.end_date).cover?(start_date)
+    errors.add(:end_date, "can't be outside of the conference's dates (#{program.conference.start_date}-#{program.conference.end_date})") unless (program.conference.start_date..program.conference.end_date).cover?(end_date)
+  end
 
-    if end_date && program && program.conference && program.conference.start_date && (end_date < program.conference.start_date)
-      errors.add(:end_date, "can't be before the conference start date (#{program.conference.start_date})")
-    end
-
-    if start_date && program && program.conference && program.conference.end_date && (start_date > program.conference.end_date)
-      errors.add(:start_date, "can't be after the conference end date (#{program.conference.end_date})")
-    end
-
-    if end_date && program && program.conference && program.conference.end_date && (end_date > program.conference.end_date)
-      errors.add(:end_date, "can't be after the conference end date (#{program.conference.end_date})")
-    end
-
-    if start_date && end_date && (start_date > end_date)
-      errors.add(:start_date, 'can\'t be after the end date')
-    end
+  ##
+  # Verify that the start date isn't after the end date
+  #
+  def start_date_before_end_date
+    return unless start_date && end_date
+    errors.add(:start_date, 'can\'t be after the end date') if start_date > end_date
   end
 
   ##
   # Verify that the room is a room of the conference
+  #
   def valid_room
-    if room && room.venue && room.venue.conference && program && program.conference && (program.conference != room.venue.conference)
-      errors.add(:room, "must be a room of #{program.conference.venue.name}")
-    end
+    return unless room.try(:venue).try(:conference) && program.try(:conference)
+    errors.add(:room, "must be a room of #{program.conference.venue.name}") unless room.venue.conference == program.conference
   end
 
   ##
   # Check that there is no other track in the same room with overlapping dates
+  #
   def overlapping
     return unless start_date && end_date && room && program.try(:tracks)
-    (program.tracks.accepted + program.tracks.confirmed - [self]).each do |other_track|
-      if other_track.room == room &&
-         other_track.start_date && other_track.end_date &&
-         (other_track.start_date <= start_date && other_track.end_date >= start_date ||
-         other_track.start_date <= end_date && other_track.end_date >= end_date ||
-         start_date <= other_track.start_date && other_track.end_date <= end_date)
+    (program.tracks.accepted + program.tracks.confirmed - [self]).each do |existing_track|
+      next unless existing_track.room == room && existing_track.start_date && existing_track.end_date
+      if start_date >= existing_track.start_date && start_date <= existing_track.end_date ||
+         end_date >= existing_track.start_date && end_date <= existing_track.end_date ||
+         start_date <= existing_track.start_date && end_date >= existing_track.end_date
         errors.add(:track, 'has overlapping dates with a confirmed or accepted track in the same room')
         break
       end

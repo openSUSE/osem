@@ -68,14 +68,14 @@ describe Track do
       it { is_expected.to_not validate_presence_of(:description) }
     end
 
-    describe '#valid_dates' do
+    describe '#dates_within_conference_dates' do
       before :each do
         @conference = create(:conference, start_date: 1.day.ago, end_date: 2.days.from_now)
       end
 
       context 'is valid' do
-        it 'when the track\'s start date is before it\'s end date and between the conference start/end dates' do
-          track = build(:track, start_date: Date.today, end_date: Date.tomorrow, program: @conference.program)
+        it 'when the track\'s dates are between the conference\'s dates' do
+          track = build(:track, start_date: @conference.start_date, end_date: @conference.end_date, program: @conference.program)
           expect(track.valid?).to eq true
         end
       end
@@ -84,27 +84,42 @@ describe Track do
         it 'when the track\'s start date is before the conference\'s start date' do
           track = build(:track, start_date: 2.days.ago, end_date: Date.tomorrow, program: @conference.program)
           expect(track.valid?).to eq false
-          expect(track.errors[:start_date]).to eq ["can't be before the conference start date (#{1.day.ago.to_date})"]
-        end
-
-        it 'when the track\'s end date is before the conference\'s start date' do
-          track = build(:track, start_date: 3.days.ago, end_date: 2.days.ago, program: @conference.program)
-          expect(track.valid?).to eq false
-          expect(track.errors[:end_date]).to eq ["can't be before the conference start date (#{1.day.ago.to_date})"]
+          expect(track.errors[:start_date]).to eq ["can't be outside of the conference's dates (#{1.day.ago.to_date}-#{2.days.from_now.to_date})"]
         end
 
         it 'when the track\'s start date is after the conference\'s end date' do
           track = build(:track, start_date: 3.days.from_now, end_date: 4.days.from_now, program: @conference.program)
           expect(track.valid?).to eq false
-          expect(track.errors[:start_date]).to eq ["can't be after the conference end date (#{2.days.from_now.to_date})"]
+          expect(track.errors[:start_date]).to eq ["can't be outside of the conference's dates (#{1.day.ago.to_date}-#{2.days.from_now.to_date})"]
+        end
+
+        it 'when the track\'s end date is before the conference\'s start date' do
+          track = build(:track, start_date: 3.days.ago, end_date: 2.days.ago, program: @conference.program)
+          expect(track.valid?).to eq false
+          expect(track.errors[:end_date]).to eq ["can't be outside of the conference's dates (#{1.day.ago.to_date}-#{2.days.from_now.to_date})"]
         end
 
         it 'when the track\'s end date is after the conference\'s end date' do
           track = build(:track, start_date: Date.today, end_date: 3.days.from_now, program: @conference.program)
           expect(track.valid?).to eq false
-          expect(track.errors[:end_date]).to eq ["can't be after the conference end date (#{2.days.from_now.to_date})"]
+          expect(track.errors[:end_date]).to eq ["can't be outside of the conference's dates (#{1.day.ago.to_date}-#{2.days.from_now.to_date})"]
         end
+      end
+    end
 
+    describe '#start_date_before_end_date' do
+      before :each do
+        @conference = create(:conference, start_date: 1.day.ago, end_date: 2.days.from_now)
+      end
+
+      context 'is valid' do
+        it 'when the track\'s start date is before its end date' do
+          track = build(:track, start_date: Date.today, end_date: Date.tomorrow, program: @conference.program)
+          expect(track.valid?).to eq true
+        end
+      end
+
+      context 'is invalid' do
         it 'when the track\'s start date is after it\'s end date' do
           track = build(:track, start_date: 1.day.from_now, end_date: 1.day.ago)
           expect(track.valid?).to eq false
@@ -235,7 +250,7 @@ describe Track do
       end
 
       context 'includes' do
-        it 'when track is confirmed' do
+        it 'tracks with state \'confirmed\'' do
           confirmed_track = create(:track, state: 'confirmed', program: @program)
           expect(@program.tracks.confirmed.include?(confirmed_track)).to eq true
         end
@@ -243,7 +258,7 @@ describe Track do
 
       context 'excludes' do
         %w[new to_accept accepted to_reject rejected canceled withdrawn].each do |state|
-          it "when track is #{state.humanize}" do
+          it "tracks with state '#{state}'" do
             unconfirmed_track = create(:track, state: state, program: @program)
             expect(@program.tracks.confirmed.include?(unconfirmed_track)).to eq false
           end
@@ -310,10 +325,10 @@ describe Track do
     transitions = [:restart, :to_accept, :accept, :confirm, :to_reject, :reject, :cancel, :withdraw]
 
     states_transitions = { new: { restart: false, to_accept: true, accept: true, confirm: false, to_reject: true, reject: true, cancel: false, withdraw: true },
-                           to_accept: { restart: false, to_accept: false, accept: true, confirm: false, to_reject: false, reject: false, cancel: true, withdraw: true },
+                           to_accept: { restart: false, to_accept: false, accept: true, confirm: false, to_reject: true, reject: false, cancel: true, withdraw: true },
                            accepted: { restart: false, to_accept: false, accept: false, confirm: true, to_reject: false, reject: false, cancel: true, withdraw: true },
                            confirmed: { restart: false, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: true, withdraw: true },
-                           to_reject: { restart: false, to_accept: false, accept: false, confirm: false, to_reject: false, reject: true, cancel: true, withdraw: true },
+                           to_reject: { restart: false, to_accept: true, accept: false, confirm: false, to_reject: false, reject: true, cancel: true, withdraw: true },
                            rejected: { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false },
                            canceled: { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false },
                            withdrawn: { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false } }

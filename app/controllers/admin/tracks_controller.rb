@@ -108,7 +108,7 @@ module Admin
         end
       else
         respond_to do |format|
-          format.js { render json: { errors: "The selected schedule couldn't been updated #{@track.errors.to_a.join('. ')}" }, status: 422 }
+          format.js { render json: { errors: "The selected schedule couldn't be updated #{@track.errors.to_a.join('. ')}" }, status: 422 }
         end
       end
     end

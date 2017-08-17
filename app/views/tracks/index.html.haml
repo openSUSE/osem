@@ -19,7 +19,7 @@
           If you submit a track request, the conference organizers will review it and either accept or reject it.
           %br
           If your track request is accepted, the conference organizers expect you to confirm that you will be able to hold it.
-          Then you will gain the Track organizer role.
+          Then you will be assigned the Track organizer role.
           %br
           If your track request is rejected, you can either live with that or adapt it and resubmit it for review again.
           %br
@@ -29,6 +29,13 @@
     .row
       .col-md-12
         %table.table.table-striped#tracks
+          %th
+          %th
+          %th
+          %th From
+          %th To
+          %th Room
+          %th
           - @tracks.each do |track|
             %tr
               %td{style: "padding:15px 0px 0px 8px;"}
@@ -47,17 +54,11 @@
               %td
                 = markdown(truncate(track.description))
               %td
-                - if track.start_date
-                  From:
-                  = track.start_date.strftime('%A, %B %-d. %Y')
+                = track.start_date.strftime('%A, %B %-d. %Y') if track.start_date
               %td
-                - if track.end_date
-                  To:
-                  = track.end_date.strftime('%A, %B %-d. %Y')
+                = track.end_date.strftime('%A, %B %-d. %Y') if track.end_date
               %td
-                - if track.room
-                  In:
-                  = track.room.name
+                = track.try(:room).try(:name)
               %td
                 .pull-right
                   - if track.transition_possible? :confirm

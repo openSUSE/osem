@@ -41,9 +41,9 @@ module EventsHelper
   end
 
   def track_selector_input(form)
-    if @program.tracks.any?
+    if @program.tracks.confirmed.cfp_active.any?
       form.input :track_id, as: :select,
-                            collection: @program.tracks.where(state: 'confirmed', cfp_active: true).pluck(:name, :id),
+                            collection: @program.tracks.confirmed.cfp_active.pluck(:name, :id),
                             include_blank: true
     end
   end

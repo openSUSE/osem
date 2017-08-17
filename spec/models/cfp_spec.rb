@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Cfp do
   subject { create(:cfp) }
   let!(:conference) { create(:conference, end_date: Date.today) }
-  let!(:cfp) { create(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: conference.program.id) }
+  let!(:cfp) { create(:cfp, cfp_type: 'events', start_date: Date.today - 2, end_date: Date.today - 1, program_id: conference.program.id) }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:cfp_type) }
@@ -18,7 +18,7 @@ describe Cfp do
     end
 
     it 'returns nil when the cfp for events doesn\'t exist' do
-      conference.program.cfp.destroy
+      cfp.destroy!
       expect(conference.program.cfps.for_events).to eq nil
     end
   end
