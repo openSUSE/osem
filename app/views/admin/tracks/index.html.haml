@@ -24,7 +24,7 @@
           %tr
             %td
               = track.id
-            %td{style: "padding: 15px 0px 0px 10px;"}
+            %td{ style: 'padding: 15px 0px 0px 10px;' }
               = link_to admin_conference_program_track_path(@conference.short_title, track), class: 'btn' do
                 %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
                   = track.name
@@ -60,7 +60,7 @@
               - else
                 = track.state.humanize
             %td
-              .btn-group{role: "group"}
+              .btn-group{ role: 'group' }
                 - if can? :edit, track
                   = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track), class: 'btn btn-primary'
                   - special_style = true

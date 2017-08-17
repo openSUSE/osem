@@ -50,7 +50,8 @@ class ProposalsController < ApplicationController
     @event.speakers = [current_user]
     @event.submitter = current_user
 
-    if Track.find_by(id: params[:event][:track_id]).try(:cfp_active) == false
+    track = Track.find_by(id: params[:event][:track_id])
+    if track && !track.cfp_active
       flash.now[:error] = 'You have selected a track that doesn\'t accept proposals'
       render action: 'new'
       return
@@ -68,7 +69,8 @@ class ProposalsController < ApplicationController
   def update
     @url = conference_program_proposal_path(@conference.short_title, params[:id])
 
-    if Track.find_by(id: params[:event][:track_id]).try(:cfp_active) == false
+    track = Track.find_by(id: params[:event][:track_id])
+    if track && !track.cfp_active
       flash.now[:error] = 'You have selected a track that doesn\'t accept proposals'
       render action: 'edit'
       return

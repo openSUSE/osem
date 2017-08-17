@@ -7,7 +7,8 @@
         = @role.name.titleize
         - if can? :edit, @role
           - if @track
-            = link_to 'Edit', track_edit_admin_conference_role_path(@conference.short_title, @role.name, @track), class: 'btn btn-primary pull-right'
+            = link_to 'Edit', edit_admin_conference_program_track_role_path(@conference.short_title, @track, @role.name),
+            class: 'btn btn-primary pull-right'
           - else
             = link_to 'Edit', edit_admin_conference_role_path(@conference.short_title, @role.name), class: 'btn btn-primary pull-right'
       .text-muted

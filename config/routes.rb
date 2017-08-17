@@ -90,6 +90,11 @@ Osem::Application.routes.draw do
             patch :cancel
             patch :update_selected_schedule
           end
+          resources :roles, only: [:show, :edit, :update] do
+            member do
+              post :toggle_user
+            end
+          end
         end
         resources :event_types
         resources :difficulty_levels
@@ -118,15 +123,9 @@ Osem::Application.routes.draw do
       resources :campaigns, except: [:show]
       resources :emails, only: [:show, :update, :index]
       resources :physical_ticket, only: [:index]
-      resources :roles, only: [:edit]
-      resources :roles, except: [ :new, :create, :edit ] do
+      resources :roles, except: [:new, :create] do
         member do
           post :toggle_user
-          get ':track_name' => 'roles#show', as: 'track'
-          get ':track_name/edit' => 'roles#edit', as: 'track_edit'
-          patch ':track_name' => 'roles#update'
-          put ':track_name' => 'roles#update'
-          post ':track_name/toggle_user' => 'roles#toggle_user', as: 'toggle_user_track'
         end
       end
 

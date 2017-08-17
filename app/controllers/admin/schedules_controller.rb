@@ -43,7 +43,8 @@ module Admin
         self_organized_tracks_events = @program.tracks.self_organized.confirmed.map do |t|
           t.events.confirmed
         end
-        @unscheduled_events = @program.events.confirmed - @schedule.events - self_organized_tracks_events.flatten.compact
+        self_organized_tracks_events.flatten.compact!
+        @unscheduled_events = @program.events.confirmed - @schedule.events - self_organized_tracks_events
         @dates = @conference.start_date..@conference.end_date
         @rooms = @conference.venue.rooms if @conference.venue
       end

@@ -10,7 +10,7 @@
         - if @conference.splashpage and @conference.program.tracks.any? and @conference.splashpage.include_tracks
           See rock-star speakers cover the topics of
       - if @conference.splashpage and @conference.splashpage.include_tracks
-        - @conference.program.tracks.confirmed.cfp_active.each_slice(3) do |slice|
+        - @conference.program.tracks.confirmed.each_slice(3) do |slice|
           .row.row-centered
             - slice.each do |track|
               .col-md-4.col-sm-4.col-centered.col-top.track

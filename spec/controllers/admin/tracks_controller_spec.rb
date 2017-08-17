@@ -3,9 +3,11 @@ require 'spec_helper'
 describe Admin::TracksController do
   let(:admin) { create(:admin) }
 
-  let(:conference) { create(:conference) }
+  let(:conference) { create(:conference, start_date: Date.current - 1.day) }
+  let(:venue) { create(:venue, conference: conference) }
+  let(:room) { create(:room, venue: venue) }
   let!(:track) { create(:track, program: conference.program, color: '#800080') }
-  let!(:self_organized_track) { create(:track, :self_organized, program: conference.program, name: 'My awesome track') }
+  let!(:self_organized_track) { create(:track, :self_organized, program: conference.program, name: 'My awesome track', start_date: Date.current, end_date: Date.current, room: room) }
 
   before :each do
     sign_in(admin)
@@ -81,7 +83,7 @@ describe Admin::TracksController do
         expect(Track.find(assigns(:track).id)).to be_a Track
       end
 
-      it 'the new tracks has the correct attributes' do
+      it 'the new track has the correct attributes' do
         expect(assigns(:track).state).to eq 'confirmed'
         expect(assigns(:track).cfp_active).to eq true
       end
@@ -358,20 +360,13 @@ describe Admin::TracksController do
   end
 
   describe 'PATCH #accept' do
-    shared_examples 'fails to accept' do |start_date, end_date, room|
+    shared_examples 'fails to accept' do
       before :each do
-        self_organized_track.start_date = start_date ? Date.today : nil
-        self_organized_track.end_date = end_date ? Date.today : nil
-        if room
-          conference.venue = create(:venue)
-          self_organized_track.room = create(:room, venue: conference.venue)
-        else
-          self_organized_track.room = nil
-        end
-        self_organized_track.save!
-
         patch :accept, conference_id: conference.short_title, id: self_organized_track.short_name
-        self_organized_track.reload
+      end
+
+      it 'assigns the correct track' do
+        expect(assigns(:track)).to eq self_organized_track
       end
 
       it 'redirects to Tracks#edit' do
@@ -385,12 +380,6 @@ describe Admin::TracksController do
 
     context 'has start_date, end_date and room' do
       before :each do
-        self_organized_track.start_date = Date.today
-        self_organized_track.end_date = Date.today
-        conference.venue = create(:venue)
-        self_organized_track.room = create(:room, venue: conference.venue)
-        self_organized_track.save!
-
         patch :accept, conference_id: conference.short_title, id: self_organized_track.short_name
         self_organized_track.reload
       end
@@ -409,31 +398,71 @@ describe Admin::TracksController do
     end
 
     context 'has start_date and end_date' do
-      it_behaves_like 'fails to accept', true, true, false
+      before :each do
+        self_organized_track.room = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
 
     context 'has start_date and room' do
-      it_behaves_like 'fails to accept', true, false, true
+      before :each do
+        self_organized_track.end_date = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
 
     context 'has start_date' do
-      it_behaves_like 'fails to accept', true, false, false
+      before :each do
+        self_organized_track.end_date = nil
+        self_organized_track.room = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
 
     context 'has end_date and room' do
-      it_behaves_like 'fails to accept', false, true, true
+      before :each do
+        self_organized_track.start_date = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
 
     context 'has end_date' do
-      it_behaves_like 'fails to accept', false, true, false
+      before :each do
+        self_organized_track.start_date = nil
+        self_organized_track.room = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
 
     context 'has room' do
-      it_behaves_like 'fails to accept', false, false, true
+      before :each do
+        self_organized_track.start_date = nil
+        self_organized_track.end_date = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
 
-    context 'has non of start_date, end_date, room' do
-      it_behaves_like 'fails to accept', false, false, false
+    context 'has none of start_date, end_date, room' do
+      before :each do
+        self_organized_track.start_date = nil
+        self_organized_track.end_date = nil
+        self_organized_track.room = nil
+        self_organized_track.save!
+      end
+
+      it_behaves_like 'fails to accept'
     end
   end
 
