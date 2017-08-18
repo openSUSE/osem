@@ -21,7 +21,7 @@
               %td
                 = image_tag(sponsor.picture.thumb.url, width: '20%')
               %td
-                = sponsor.name
+                = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
               %td
                 = truncate(sponsor.description)
               %td

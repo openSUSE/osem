@@ -4,11 +4,16 @@ module Admin
     load_and_authorize_resource :sponsor, through: :conference
     before_action :sponsorship_level_required, only: [:index, :new]
 
+    attr_accessor :type, :quantity
+
     def index
       authorize! :index, Sponsor.new(conference_id: @conference.id)
     end
 
-    def edit; end
+    def show; end
+
+    def edit
+    end
 
     def new
       @sponsor = @conference.sponsors.new
@@ -27,8 +32,8 @@ module Admin
 
     def update
       if @sponsor.update_attributes(sponsor_params)
-        redirect_to admin_conference_sponsors_path(
-                    conference_id: @conference.short_title),
+        redirect_to admin_conference_sponsor_path(
+                    conference_id: @conference.short_title, id: @sponsor.id),
                     notice: 'Sponsor successfully updated.'
       else
         flash.now[:error] = "Update sponsor failed: #{@sponsor.errors.full_messages.join('. ')}."
@@ -47,10 +52,15 @@ module Admin
       end
     end
 
+    def generate_swags_hash(type, quantity)
+      swags_hash[type.to_s] = quantity.to_i
+    end
+
     private
 
     def sponsor_params
-      params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id)
+      params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id,
+                                      :payed, :swags, :swags_received, :company_address, :vat_registration, :has_banner)
     end
 
     def sponsorship_level_required

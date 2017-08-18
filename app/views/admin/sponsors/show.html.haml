@@ -1,0 +1,78 @@
+.row
+  .col-md-12
+    %h2
+      = image_tag(@sponsor.picture.thumb.url, size: '20%', alt: '')
+      = @sponsor.name
+.row
+  .col-md-12
+    .btn-group.pull-right
+      = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, @sponsor),
+      method: :get, class: 'btn btn-primary'
+      = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, @sponsor),
+      method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{@sponsor.name}?" }
+  .col-md-12
+    %table.table
+      %tr
+        %td.col-md-2
+          %b Sponsorship payed?
+        %td
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swags,
+          method: :patch, url: payed_admin_conference_sponsor_path(@conference.short_title, @sponsor.id),
+          class: 'switch-checkbox', data: { size: 'small',
+                                            off_color: 'warning',
+                                            on_text: 'Yes',
+                                            off_text: 'No' }
+      - if @sponsor.description?
+        %tr
+          %td.col-md-2
+            %b Description
+          %td
+            = markdown(@sponsor.description)
+      %tr
+        %td.col-md-2
+          %b Sponsorship Level
+        %td
+          = @sponsor.sponsorship_level.title
+          (
+          = @sponsor.sponsorship_level.position
+          )
+      %tr
+        %td.col-md-2
+          %b Website url
+        %td
+          = link_to @sponsor.website_url, @sponsor.website_url
+      %tr
+        %td.col-md-2
+          %b Has swags?
+        %td
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swags,
+          method: :patch, url: swags_admin_conference_sponsor_path(@conference.short_title, @sponsor.id),
+          class: 'switch-checkbox', data: { size: 'small',
+                                            off_color: 'warning',
+                                            on_text: 'Yes',
+                                            off_text: 'No' }
+      - if @sponsor.company_address
+        %tr
+          %td.col-md-2
+            %b Company's address
+          %td
+            = @sponsor.company_address
+
+      - if @sponsor.vat_registration
+        %tr
+          %td.col-md-2
+            %b Campany's VAT Registration Number
+          %td
+            = @sponsor.vat_registration
+
+      - if @sponsor.swags
+        %tr
+          %td.col-md-2
+            %b Swags received?
+          %td
+            = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swags,
+            method: :patch, url: swags_received_admin_conference_sponsor_path(@conference.short_title, @sponsor.id),
+            class: 'switch-checkbox', data: { size: 'small',
+                                              off_color: 'warning',
+                                              on_text: 'Yes',
+                                              off_text: 'No' }
