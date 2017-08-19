@@ -56,7 +56,7 @@ module ApplicationHelper
   end
 
   def tracks(conference)
-    all = conference.program.tracks.map {|t| t.name}
+    all = conference.program.tracks.confirmed.cfp_active.pluck(:name)
     first = all[0...-1]
     last = all[-1]
     ts = ''

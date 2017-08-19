@@ -4,7 +4,7 @@ class TracksController < ApplicationController
   load_and_authorize_resource through: :program, find_by: :short_name
 
   def index
-    @tracks = current_user.tracks.where(program: @program)
+    @tracks = @tracks.where(submitter: current_user)
   end
 
   def show; end
@@ -18,7 +18,6 @@ class TracksController < ApplicationController
   def create
     @track = @program.tracks.new(track_params)
     @track.submitter = current_user
-    @track.state = 'new'
     @track.cfp_active = false
     if @track.save
       redirect_to conference_program_tracks_path(conference_id: @conference.short_title),
@@ -39,9 +38,33 @@ class TracksController < ApplicationController
     end
   end
 
+  def restart
+    update_state(:restart, "Track #{@track.name} re-submitted.")
+  end
+
+  def confirm
+    update_state(:confirm, "Track #{@track.name} confirmed.")
+  end
+
+  def withdraw
+    update_state(:withdraw, "Track #{@track.name} withdrawn.")
+  end
+
   private
 
   def track_params
-    params.require(:track).permit(:name, :description, :color, :short_name)
+    params.require(:track).permit(:name, :description, :color, :short_name, :start_date, :end_date, :relevance)
+  end
+
+  def update_state(transition, notice)
+    errors = @track.update_state(transition)
+
+    if errors.blank?
+      flash[:notice] = notice
+    else
+      flash[:error] = errors
+    end
+
+    redirect_back_or_to(conference_program_tracks_path(conference_id: @conference.short_title))
   end
 end

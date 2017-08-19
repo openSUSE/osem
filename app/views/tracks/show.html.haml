@@ -2,9 +2,12 @@
   .row
     .col-md-12
       .page-header
-        %h1
+        %h2
           = @track.name
           Track
+          .btn-group.pull-right
+            - if can? :edit, @track
+              = link_to 'Edit Track request', edit_conference_program_track_path(@conference.short_title, @track), class: 'btn btn-primary'
   .row
     .col-md-8
       %dl.dl-horizontal
@@ -16,11 +19,27 @@
         %dt
           State:
         %dd
-          = @track.state
+          - if %w(new to_accept to_reject).include? @track.state
+            New
+          - else
+            = @track.state.humanize
+        %dt
+          Start date:
+        %dd
+          = @track.start_date.strftime('%A, %B %-d. %Y') if @track.start_date
+        %dt
+          End date:
+        %dd
+          = @track.end_date.strftime('%A, %B %-d. %Y') if @track.end_date
+        %dt
+          Room:
+        %dd
+          = @track.room.try(:name)
         %dt
           Description
         %dd
-          = @track.description
-  .row
-    .col-md-12.text-right
-      = link_to 'Edit Track request', edit_conference_program_track_path(@conference.short_title, @track), class: 'btn btn-primary'
+          = markdown(@track.description)
+        %dt
+          Relevance
+        %dd
+          = markdown(@track.relevance)

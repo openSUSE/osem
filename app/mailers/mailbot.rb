@@ -8,6 +8,22 @@ class Mailbot < ActionMailer::Base
                                                                         conference.email_settings.registration_body))
   end
 
+  def ticket_confirmation_mail(ticket_purchase)
+    @ticket_purchase = ticket_purchase
+    @conference = ticket_purchase.conference
+    @user = ticket_purchase.user
+
+    PhysicalTicket.last(ticket_purchase.quantity).each do |physical_ticket|
+      pdf = TicketPdf.new(@conference, @user, physical_ticket, @conference.ticket_layout.to_sym, "ticket_for_#{@conference.short_title}_#{physical_ticket.id}")
+      attachments["ticket_for_#{@conference.short_title}_#{physical_ticket.id}.pdf"] = pdf.render
+    end
+
+    mail(to: @user.email,
+         from: @conference.contact.email,
+         template_name: 'ticket_confirmation_template',
+         subject: "#{@conference.title} | Ticket Confirmation and PDF!")
+  end
+
   def acceptance_mail(event)
     conference = event.program.conference
 
@@ -79,6 +95,24 @@ class Mailbot < ActionMailer::Base
          body: conference.email_settings.generate_email_on_conf_updates(conference,
                                                                         user,
                                                                         conference.email_settings.cfp_dates_updated_body))
+  end
+
+  def conference_booths_acceptance_mail(booth)
+    conference = booth.conference
+
+    mail(to: booth.submitter.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.booths_acceptance_subject,
+         body: conference.email_settings.generate_booth_mail(booth, conference.email_settings.booths_acceptance_body))
+  end
+
+  def conference_booths_rejection_mail(booth)
+    conference = booth.conference
+
+    mail(to: booth.submitter.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.booths_rejection_subject,
+         body: conference.email_settings.generate_booth_mail(booth, conference.email_settings.booths_rejection_body))
   end
 
   def event_comment_mail(comment, user)

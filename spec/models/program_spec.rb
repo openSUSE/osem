@@ -253,28 +253,34 @@ describe Program do
   end
 
   describe '#remaining_cfp_types' do
-    it 'returns an array with the types for which a cfp doesn\'t exist, when only the Event type does' do
-      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+    it 'returns an array without the \'events\' type, when the cfp for events exists' do
       create(:cfp, cfp_type: 'events', program: program)
-      expect(program.remaining_cfp_types).to eq(['booths'])
+      expect(program.remaining_cfp_types).to be_a Array
+      expect(program.remaining_cfp_types.include?('events')).to eq false
     end
 
-    it 'returns an array with the types for which a cfp doesn\'t exist, when only the Booth type does' do
-      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+    it 'returns an array without the \'booths\' type, when the cfp for booths exists' do
       create(:cfp, cfp_type: 'booths', program: program)
-      expect(program.remaining_cfp_types).to eq(['events'])
+      expect(program.remaining_cfp_types).to be_a Array
+      expect(program.remaining_cfp_types.include?('booths')).to eq false
     end
 
-    it 'returns an empty array when all the cfp types exist' do
-      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+    it 'returns an array without the \'tracks\' type, when the cfp for tracks exists' do
+      create(:cfp, cfp_type: 'tracks', program: program)
+      expect(program.remaining_cfp_types).to be_a Array
+      expect(program.remaining_cfp_types.include?('tracks')).to eq false
+    end
+
+    it 'returns an empty array when cfps for all the types exist' do
       create(:cfp, cfp_type: 'events', program: program)
       create(:cfp, cfp_type: 'booths', program: program)
+      create(:cfp, cfp_type: 'tracks', program: program)
       expect(program.remaining_cfp_types).to eq([])
     end
 
-    it 'returns all the possible cfp types when there is no existed cfp type' do
+    it 'returns all the possible cfp types when there is no cfp' do
       expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
-      expect(program.remaining_cfp_types). to eq(%w[events booths])
+      expect(program.remaining_cfp_types). to eq(%w[events booths tracks])
     end
   end
 end

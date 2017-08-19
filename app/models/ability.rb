@@ -75,13 +75,21 @@ class Ability
     can [:new, :create], Payment, user_id: user.id
     can [:index, :show], PhysicalTicket, user: user
 
+    can [:new, :create], Booth do |booth|
+      booth.new_record? && booth.conference.program.cfps.for_booths.try(:open?)
+    end
+
+    can [:edit, :update, :index, :show], Booth do |booth|
+      booth.users.include?(user)
+    end
+
     can [:create, :destroy], Subscription, user_id: user.id
 
     can [:new, :create], Event do |event|
       event.program.cfp_open? && event.new_record?
     end
 
-    can [:update, :show, :delete, :index], Event do |event|
+    can [:update, :show, :index], Event do |event|
       event.users.include?(user)
     end
 
@@ -89,6 +97,16 @@ class Ability
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
 
     can [:destroy], Openid
+
+    can [:new, :create], Track do |track|
+      track.new_record? && track.program.cfps.for_tracks.try(:open?)
+    end
+
+    can [:index, :show, :restart, :confirm, :withdraw], Track, submitter_id: user.id
+
+    can [:edit, :update], Track do |track|
+      user == track.submitter && !(track.accepted? || track.confirmed?)
+    end
   end
 
   # Abilities for users with roles wandering around in non-admin views.

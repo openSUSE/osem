@@ -6,10 +6,7 @@
 
     = speaker_selector_input f
 
-    - if @program.tracks.any?
-      = f.input :track_id, as: :select,
-                collection: @program.tracks.map {|track| ["#{track.name}", track.id] },
-                include_blank: true
+    = track_selector_input f
 
     = f.input :event_type_id, as: :select,
       collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,

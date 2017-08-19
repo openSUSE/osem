@@ -6,38 +6,74 @@
         %span.notranslate
           = @conference.title
 
+  .row
+    .col-md-12
+      %p.text-right
+        = link_to '#status-help', class: 'btn btn-default',  "data-toggle"=>"collapse" do
+          Help?
+      .collapse#status-help
+        %p
+          %strong
+            What happens next with my track request?
+        %p
+          If you submit a track request, the conference organizers will review it and either accept or reject it.
+          %br
+          If your track request is accepted, the conference organizers expect you to confirm that you will be able to hold it.
+          Then you will gain the Track organizer role.
+          %br
+          If your track request is rejected, you can either live with that or adapt it and resubmit it for review again.
+          %br
+          If something changes and you can't organize the track any more, you should withdraw it.
+
   - if @tracks.any?
     .row
       .col-md-12
-        %table.table.table-hover#tracks
-          %thead
-            %th Name
-            %th Short name
-            %th Description
-            %th Color
-            %th State
-            %th Actions
-          %tbody
-            - @tracks.each do |track|
-              %tr
-                %td
-                  = link_to(conference_program_track_path(@conference.short_title, track)) do
-                    = track.name
-                %td
-                  = track.short_name
-                %td
-                  %p
-                    = truncate(track.description)
-                %td
+        %table.table.table-striped#tracks
+          - @tracks.each do |track|
+            %tr
+              %td{style: "padding:15px 0px 0px 8px;"}
+                - if %w(new to_accept to_reject).include? track.state
+                  %span{ title: 'In review', class: 'fa fa-eye' }
+                - elsif track.state == 'accepted'
+                  %span{ title: 'Accepted', class: 'fa fa-check text-muted' }
+                - elsif track.state == 'confirmed'
+                  %spam{ title: 'Confirmed', class: 'fa fa-check text-success' }
+                - elsif %w(rejected withdrawn canceled).include? track.state
+                  %span{ title: track.state.humanize, class: 'fa fa-ban'}
+              %td{style: "padding: 15px 0px 0px 0px;"}
+                = link_to conference_program_track_path(@conference.short_title, track), class: 'btn' do
                   %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
-                    = track.color
-                %td
-                  = track.state
-                %td
-                  = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track),
-                  method: :get, class: 'btn btn-primary'
+                    = track.name
+              %td
+                = markdown(truncate(track.description))
+              %td
+                - if track.start_date
+                  From:
+                  = track.start_date.strftime('%A, %B %-d. %Y')
+              %td
+                - if track.end_date
+                  To:
+                  = track.end_date.strftime('%A, %B %-d. %Y')
+              %td
+                - if track.room
+                  In:
+                  = track.room.name
+              %td
+                .pull-right
+                  - if track.transition_possible? :confirm
+                    = link_to 'Confirm', confirm_conference_program_track_path(@conference.short_title, track),
+                      method: :patch, class: 'btn btn-mini btn-success', id: "confirm_track_#{track.id}"
+                  - if track.transition_possible? :withdraw
+                    = link_to 'Withdraw', withdraw_conference_program_track_path(@conference.short_title, track),
+                      method: :patch, data: { confirm: 'Are you sure you want to withdraw this track request?' },
+                      class: 'btn btn-mini btn-warning', id: "withdraw_track_request_#{track.id}"
+                  - if track.transition_possible? :restart
+                    = link_to 'Re-Submit', restart_conference_program_track_path(@conference.short_title, track),
+                      method: :patch, class: 'btn btn-mini btn-success', id: "resubmit_track_request_#{track.id}"
+                  - if can? :edit, track
+                    = link_to 'Edit', edit_conference_program_track_path(@conference.short_title, track), class: 'btn btn-default'
 
   .row
     .col-md-12
-      - if can? :create, @track
+      - if can? :new, @program.tracks.new
         = link_to "New Track request", new_conference_program_track_path(@conference.short_title), class: 'btn btn-success pull-right'

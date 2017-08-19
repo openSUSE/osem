@@ -1,0 +1,30 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#callfortracks' } Call For Tracks
+
+.container
+  .row
+    .col-md-12.text-center
+      %h2
+        Call for Tracks
+      %p.lead
+        We are ready to accept requests for tracks!
+  .row
+    .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
+      %p
+        The submission period for track requests has begun
+        %em.notranslate
+          = @conference.program.cfps.for_tracks.start_date.strftime('%A, %B %-d. %Y')
+        and closes
+        %em.notranslate
+          = @conference.program.cfps.for_tracks.end_date.strftime('%A, %B %-d. %Y.')
+        - if @conference.program.cfps.for_tracks.try(:open?)
+          That means you have only
+          %b.notranslate= pluralize(@conference.program.cfps.for_tracks.remaining_days, 'day')
+          left!
+        - else
+          The submission period for track requests is closed.
+  .row
+    .col-md-12.text-center
+      %p.cta-button
+        = link_to "Submit your request for track", conference_program_tracks_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'

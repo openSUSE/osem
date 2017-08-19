@@ -1,30 +1,124 @@
+.unobtrusive-flash-container
 .row
   .col-md-12
     .page-header
       %h1
         = @track.name
         Track
-      %p.text-muted
-        Events in this track
-.row
-  .col-md-12
-    %table.table.table-hover.datatable
-      %thead
-        %th Title
-        %th Type
-        %th Submitter
-        %th State
-        %th Time
-      %tbody
-        - @track.events.each_with_index do |event|
-          %tr
-            %td
-              =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
-            %td
-              = event.event_type.title
-            %td
-              =link_to event.submitter.name, admin_user_path(event.submitter)
-            %td
-              = event.state
-            %td
-              = event.time
+
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to 'Details', '#details', 'data-toggle' => 'tab'
+    %li
+      = link_to 'Events', '#events', 'data-toggle' => 'tab'
+
+  .tab-content
+    .tab-pane.active#details
+      .row
+        .col-md-12
+          .btn-group.pull-right
+            - if can? :edit, @track
+              = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, @track),
+              method: :get, class: 'btn btn-primary'
+            - if can? :destroy, @track
+              = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, @track),
+              method: :delete, class: 'btn btn-danger',
+              data: { confirm: "Do you really want to delete #{@track.name}? Attention: This track will be removed from all Events that have it set" }
+      .row
+        .col-md-12
+          %table.table
+            %tr
+              %td.col-md-2
+                %b Color
+              %td
+                %span.label{ style: "background-color: #{@track.color}; color: #{ contrast_color(@track.color) }" }
+                  = @track.color
+            %tr
+              %td
+                %b Room
+              %td
+                = @track.room.try(:name)
+            %tr
+              %td
+                %b Start date
+              %td
+                = @track.start_date.strftime('%A, %B %-d. %Y') if @track.start_date
+            %tr
+              %td
+                %b End date
+              %td
+                = @track.end_date.strftime('%A, %B %-d. %Y') if @track.end_date
+            - if @track.self_organized?
+              %tr
+                %td
+                  %b Submitter
+                %td
+                  = link_to @track.submitter.name, admin_user_path(@track.submitter)
+              - if @track.confirmed?
+                %tr
+                  %td
+                    %b Organizers
+                  %td
+                    - Role.find_by(name: 'track_organizer', resource: @track).users.each do |organizer|
+                      %div
+                        = link_to organizer.name, admin_user_path(organizer)
+            %tr
+              %td
+                %b Included in the Cfp?
+              %td
+                = check_box_tag "#{@conference.short_title}_#{@track.short_name}", @track.id, @track.cfp_active,
+                  class: 'switch-checkbox', method: :patch,
+                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: @track.short_name)+"?included=",
+                  data: { size: 'small',
+                          on_color: 'success',
+                          off_color: 'warning',
+                          on_text: 'Yes',
+                          off_text: 'No' }
+            %tr
+              %td
+                %b State
+              %td
+                - if @track.self_organized?
+                  .btn-group
+                    %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                      = @track.state.humanize
+                      %span.caret
+                    %ul.dropdown-menu{ role: 'menu' }
+                      = render 'change_state_dropdown', track: @track
+                - else
+                  = @track.state.humanize
+            %tr
+              %td
+                %b Description
+              %td
+                = markdown(@track.description)
+            - if @track.self_organized?
+              %tr
+                %td
+                  %b Relevance
+                %td
+                  = markdown(@track.relevance)
+
+    .tab-pane#events
+      .col-md-12
+        %table.table.table-hover.datatable
+          %thead
+            %th Title
+            %th Type
+            %th Submitter
+            %th State
+            %th Time
+          %tbody
+            - @track.events.each_with_index do |event|
+              %tr
+                %td
+                  =link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
+                %td
+                  = event.event_type.title
+                %td
+                  =link_to event.submitter.name, admin_user_path(event.submitter)
+                %td
+                  = event.state
+                %td
+                  = event.time

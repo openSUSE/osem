@@ -32,12 +32,12 @@
                   .btn-group
                     = link_to 'Show',
                     conference_physical_ticket_path(@conference.short_title,
-                                                          physical_ticket.id),
+                                                    physical_ticket.token),
                     class: 'btn btn-primary'
                     = link_to 'Generate PDF',
                     conference_physical_ticket_path(@conference.short_title,
-                                                          physical_ticket.id,
-                                                          format: :pdf),
+                                                    physical_ticket.token,
+                                                    format: :pdf),
                     class: 'button btn btn-default btn-info'
   - else
     %h5 No Tickets sold!

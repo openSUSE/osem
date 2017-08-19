@@ -1,5 +1,5 @@
 # Translation
-We are using [Transifex] (https://www.transifex.com/opensuse-community/osem/) to manage our translations.
+We are using [Transifex](https://www.transifex.com/opensuse-community/osem/) to manage our translations.
 
 We are also using the _Live_ feature of Transifex. That means that all strings from OSEM instances are automatically collected and are available for translating.
 >Automated collection only works if you use the API key (See at the end of this file)
@@ -7,7 +7,7 @@ We are also using the _Live_ feature of Transifex. That means that all strings f
 ## 1. Translate
   * Start translating:
 
-    1. Navigate to the [project's page] (https://www.transifex.com/opensuse-community/osem)
+    1. Navigate to the [project's page](https://www.transifex.com/opensuse-community/osem)
     2. Click **translation** button
     3. Select **language**
     4. Select **resource** (events.opensuse.org)
@@ -27,7 +27,7 @@ Eg. Assuming you have signed up yourself as a translator for OSEM, to translate 
 
   * How to request to publish translated strings
 
-    After you make sure that you have properly reviewed the newly translated strings (they need to be marked as **reviewed** otherwise they won't go live), you can open a [new issue] (https://github.com/openSUSE/osem/issues/new) with the following information:
+    After you make sure that you have properly reviewed the newly translated strings (they need to be marked as **reviewed** otherwise they won't go live), you can open a [new issue](https://github.com/openSUSE/osem/issues/new) with the following information:
 
     Title: [Transifex] Publish translation for EN
 

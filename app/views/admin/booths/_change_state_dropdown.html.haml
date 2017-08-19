@@ -1,17 +1,32 @@
+
 - if booth.transition_possible? :accept
-  %li= link_to 'Accept booth',
-  accept_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "accept_booth_#{booth.id}"
+  - if can? :accept, booth
+    - if @conference.booth_limit > 0
+      - confirm_message = ' You are able to accept '+ pluralize(@conference.booth_limit - (@conference.booths.accepted.count + @conference.booths.confirmed.count), 'more booth') + " (booth limit set to #{@conference.booth_limit}). Are you sure you want to accept this one?"
+    - if @conference.email_settings.send_on_booths_acceptance
+      - link = 'Accept with email'
+      - confirm_message = "By accepting this booth, an email will be sent informing the submitter for the acceptance. You may change the state to \'To accept\' until you are completely sure." + confirm_message
+    - else
+      - link = 'Accept booth'
+    %li= link_to link,
+    accept_admin_conference_booth_path(@conference.short_title, booth),
+    method: :patch ,id: "accept_booth_#{booth.id}",
+    data: (confirm_message ? { confirm: confirm_message } : nil)
 
 - if booth.transition_possible? :reject
-  %li= link_to 'Reject booth',
+  - if @conference.email_settings.send_on_booths_rejection
+    - link = 'Reject with email'
+  - else
+    - link = 'Reject'
+  %li= link_to link,
   reject_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, confirm: 'Are you sure?', id: "reject_booth_#{booth.id}"
+  method: :patch, id: "reject_booth_#{booth.id}",
+  data: (@conference.email_settings.send_on_booths_rejection ? { confirm: 'By rejecting this booth, an email will be sent informing the submitter about the rejection. You may change the state to \'To reject\' until you are completely sure.'} : nil)
 
 - if booth.transition_possible? :to_reject
   %li= link_to 'To reject booth',
   to_reject_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, confirm: 'Are you sure?', id: "to_reject_booth_#{booth.id}"
+  method: :patch, id: "to_reject_booth_#{booth.id}"
 
 - if booth.transition_possible? :restart
   %li= link_to 'Start review',

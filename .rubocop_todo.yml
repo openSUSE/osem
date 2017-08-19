@@ -317,6 +317,8 @@ Metrics/BlockLength:
 # Offense count: 23
 Metrics/CyclomaticComplexity:
   Max: 12
+  Exclude:
+    - 'app/models/track.rb'
 
 # Offense count: 2353
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
@@ -328,15 +330,21 @@ Metrics/LineLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 56
+  Exclude:
+    - 'app/models/admin_ability.rb'
 
 # Offense count: 3
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
   Max: 159
+  Exclude:
+    - 'app/helpers/format_helper.rb'
 
 # Offense count: 15
 Metrics/PerceivedComplexity:
   Max: 16
+  Exclude:
+    - 'app/models/track.rb'
 
 # Offense count: 20
 Style/AccessorMethodName:
@@ -437,6 +445,7 @@ Style/HashSyntax:
 # Configuration parameters: MaxLineLength.
 Style/IfUnlessModifier:
   Exclude:
+    - 'app/controllers/admin/booths_controller.rb'
     - 'app/controllers/admin/events_controller.rb'
     - 'app/controllers/api/v1/events_controller.rb'
     - 'app/controllers/conference_registrations_controller.rb'
@@ -444,6 +453,7 @@ Style/IfUnlessModifier:
     - 'app/helpers/application_helper.rb'
     - 'app/models/commercial.rb'
     - 'app/models/conference.rb'
+    - 'app/models/email_settings.rb'
     - 'app/models/ticket_purchase.rb'
     - 'app/models/user.rb'
     - 'db/migrate/20151031092713_change_conference_id_to_venue_id_in_rooms.rb'
@@ -563,6 +573,7 @@ Style/PercentLiteralDelimiters:
     - 'app/models/subscription.rb'
     - 'app/uploaders/picture_uploader.rb'
     - 'spec/models/program_spec.rb'
+    - 'app/models/track.rb'
 
 # Offense count: 2
 # Configuration parameters: NamePrefix, NamePrefixBlacklist, NameWhitelist.

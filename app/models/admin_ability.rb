@@ -18,7 +18,6 @@ class AdminAbility
   end
 
   def common_abilities_for_roles(user)
-    can :manage, User, id: user.id
     can :manage, Registration, user_id: user.id
 
     can :index, Conference
@@ -40,7 +39,7 @@ class AdminAbility
       event.program.cfp_open? && event.new_record?
     end
 
-    can [:update, :show, :delete, :index], Event do |event|
+    can [:update, :show, :index], Event do |event|
       event.users.include?(user)
     end
 
@@ -74,6 +73,11 @@ class AdminAbility
     # Prevent requests for tracks from being destroyed
     cannot :destroy, Track do |track|
       track.self_organized?
+    end
+    # Can't accept a booth when booth_limit is reached
+    cannot :accept, Booth do |booth|
+      conference = booth.conference
+      conference.maximum_accepted_booths?
     end
   end
 
@@ -145,6 +149,10 @@ class AdminAbility
     can :manage, Sponsor, conference_id: conf_ids
     can :manage, SponsorshipLevel, conference_id: conf_ids
     can :manage, Ticket, conference_id: conf_ids
+    can :create, TicketScanning do |ticket_scanning|
+      conf_id = ticket_scanning.physical_ticket.ticket_purchase.conference_id
+      conf_ids.include? conf_id
+    end
     can :index, Comment, commentable_type: 'Event',
                          commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
 
@@ -220,6 +228,10 @@ class AdminAbility
     can :manage, Question do |question|
       !(question.conferences.pluck(:id) & conf_ids_for_info_desk).empty?
     end
+    can :create, TicketScanning do |ticket_scanning|
+      conf_id = ticket_scanning.physical_ticket.ticket_purchase.conference_id
+      conf_ids_for_info_desk.include? conf_id
+    end
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
@@ -275,6 +287,10 @@ class AdminAbility
     end
 
     can :manage, Track, id: track_ids_for_track_organizer
+
+    cannot [:edit, :update], Track do |track|
+      track.self_organized_and_accepted_or_confirmed?
+    end
 
     # Show Roles in the admin sidebar and allow authorization of the index action
     can [:index, :show], Role do |role|

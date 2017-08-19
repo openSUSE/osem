@@ -12,6 +12,10 @@
     = link_to(conference_program_proposals_path(@conference.short_title)) do
       %span.fa.fa-comment
       My Submissions
+  %li
+    = link_to(conference_program_tracks_path(@conference.short_title)) do
+      %span.fa.fa-road
+      My Tracks
 %li
   - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     = link_to(destroy_user_ichain_session_path, method: 'delete') do

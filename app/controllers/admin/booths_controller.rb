@@ -7,9 +7,13 @@ module Admin
 
     def show; end
 
-    def new; end
+    def new
+      @url = admin_conference_booths_path(@conference.short_title)
+    end
 
     def create
+      @url = admin_conference_booths_path(@conference.short_title)
+
       @booth = @conference.booths.new(booth_params)
 
       @booth.submitter = current_user
@@ -23,9 +27,13 @@ module Admin
       end
     end
 
-    def edit; end
+    def edit
+      @url = admin_conference_booth_path(@conference.short_title, @booth.id)
+    end
 
     def update
+      @url = admin_conference_booth_path(@conference.short_title, @booth.id)
+
       @booth.update_attributes(booth_params)
 
       if @booth.save
@@ -38,18 +46,19 @@ module Admin
       end
     end
 
-    def destroy
-      if @booth.destroy
-        redirect_to admin_conference_booths_path,
-                    notice: 'Booth successfully destroyed.'
-      else
-        redirect_to admin_conference_booths_path,
-                    error: "Booth couldn't be deleted. #{@booth.errors.full_messages.join('. ')}."
-      end
-    end
-
     def accept
-      update_state(:accept, 'Booth accepted!')
+      @booth.accept!
+
+      if @booth.save
+        if @conference.email_settings.send_on_booths_acceptance
+          Mailbot.conference_booths_acceptance_mail(@booth).deliver
+        end
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
+                    notice: 'Booth successfully accepted!'
+      else
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
+        flash[:error] = "Booth could not be accepted. #{@booth.errors.full_messages.to_sentence}."
+      end
     end
 
     def to_accept
@@ -61,7 +70,16 @@ module Admin
     end
 
     def reject
-      update_state(:reject, 'Booth rejected')
+      @booth.reject!
+
+      if @booth.save
+        Mailbot.conference_booths_rejection_mail(@booth).deliver
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
+                    notice: 'Booth successfully rejected.'
+      else
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
+        flash[:error] = "Booth could not be rejected. #{@booth.errors.full_messages.to_sentence}."
+      end
     end
 
     def restart

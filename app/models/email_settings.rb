@@ -3,7 +3,7 @@ class EmailSettings < ActiveRecord::Base
 
   has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
 
-  def get_values(conference, user, event = nil)
+  def get_values(conference, user, event = nil, booth = nil)
     h = {
       'email' => user.email,
       'name' => user.name,
@@ -45,6 +45,10 @@ class EmailSettings < ActiveRecord::Base
       h['proposalslink'] = Rails.application.routes.url_helpers.conference_program_proposals_url(
                            conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
     end
+
+    if booth
+      h['booth_title'] = booth.title
+    end
     h
   end
 
@@ -56,6 +60,11 @@ class EmailSettings < ActiveRecord::Base
   def generate_email_on_conf_updates(conference, user, conf_update_template)
     values = get_values(conference, user)
     parse_template(conf_update_template, values)
+  end
+
+  def generate_booth_mail(booth, booth_template)
+    values = get_values(booth.conference, booth.submitter, nil, booth)
+    parse_template(booth_template, values)
   end
 
   private

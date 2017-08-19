@@ -1,3 +1,4 @@
+.unobtrusive-flash-container
 .row
   .col-md-12
     .page-header
@@ -6,59 +7,64 @@
         Categorize events in your conference
 .row
   .col-md-12
-    %table.table.table-hover#tracks
+    %table.table.table-hover.table-striped.table-bordered.datatable#tracks
       %thead
+        %th ID
         %th Name
-        %th Short name
         %th Description
+        %th Room
+        %th Start Date
+        %th End Date
         %th Submitter
-        %th Color
+        %th Included in Cfp
         %th State
-        %th Included in the Cfp
         %th Actions
       %tbody
         - @tracks.each do |track|
           %tr
             %td
-              = link_to(admin_conference_program_track_path(@conference.short_title, track)) do
-                = track.name
-            %td
-              = track.short_name
+              = track.id
+            %td{style: "padding: 15px 0px 0px 10px;"}
+              = link_to admin_conference_program_track_path(@conference.short_title, track), class: 'btn' do
+                %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
+                  = track.name
             %td
               %p
-                = truncate(track.description)
+                = markdown(truncate(track.description))
             %td
+              = track.room.try(:name)
+            %td
+              = track.start_date.strftime('%A, %B %-d. %Y') if track.start_date
+            %td
+              = track.end_date.strftime('%A, %B %-d. %Y') if track.end_date
+            %td
+              = link_to track.submitter.name, admin_user_path(track.submitter) if track.self_organized?
+            %td.text-center{ 'id' => "cfp_switch_#{track.id}", 'data-order' => track.cfp_active.to_s }
+              = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
+                class: 'switch-checkbox', method: :patch,
+                url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",
+                data: { size: 'small',
+                        on_color: 'success',
+                        off_color: 'warning',
+                        on_text: 'Yes',
+                        off_text: 'No' }
+
+            %td.text-center
               - if track.self_organized?
-                = link_to track.submitter.name, admin_user_path(track.submitter)
+                .btn-group
+                  %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                    = track.state.humanize
+                    %span.caret
+                  %ul.dropdown-menu{ role: 'menu' }
+                    = render 'change_state_dropdown', track: track
               - else
-                N/A
-            %td
-              %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
-                = track.color
-            %td
-              - if track.self_organized?
-                = track.state
-              - else
-                N/A
-            %td
-              - if track.self_organized?
-                = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
-                  class: 'switch-checkbox', method: :patch,
-                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",
-                  data: { size: 'small',
-                          on_color: 'success',
-                          off_color: 'warning',
-                          on_text: 'Yes',
-                          off_text: 'No' }
-              - else
-                %i.fa.fa-check
+                = track.state.humanize
             %td
               .btn-group{role: "group"}
-                = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track),
-                method: :get, class: 'btn btn-primary'
+                - if can? :edit, track
+                  = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track), class: 'btn btn-primary'
                 - if can? :destroy, track
-                  = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track),
-                  method: :delete, class: 'btn btn-danger',
+                  = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track), method: :delete, class: 'btn btn-danger',
                   data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
 .row
   .col-md-12.text-right

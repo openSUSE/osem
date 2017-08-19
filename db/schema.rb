@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711102511) do
+ActiveRecord::Schema.define(version: 20170807092805) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170711102511) do
     t.integer  "end_hour",           default: 20
     t.integer  "organization_id"
     t.integer  "ticket_layout",      default: 0
+    t.integer  "booth_limit",        default: 0
   end
 
   add_index "conferences", ["organization_id"], name: "index_conferences_on_organization_id"
@@ -205,6 +206,12 @@ ActiveRecord::Schema.define(version: 20170711102511) do
     t.string   "cfp_dates_updated_subject"
     t.text     "program_schedule_public_body"
     t.text     "cfp_dates_updated_body"
+    t.boolean  "send_on_booths_acceptance",                     default: false
+    t.string   "booths_acceptance_subject"
+    t.text     "booths_acceptance_body"
+    t.boolean  "send_on_booths_rejection",                      default: false
+    t.string   "booths_rejection_subject"
+    t.text     "booths_rejection_body"
   end
 
   create_table "event_schedules", force: :cascade do |t|
@@ -317,7 +324,10 @@ ActiveRecord::Schema.define(version: 20170711102511) do
     t.integer  "ticket_purchase_id", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "token"
   end
+
+  add_index "physical_tickets", ["token"], name: "index_physical_tickets_on_token", unique: true
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
@@ -442,6 +452,7 @@ ActiveRecord::Schema.define(version: 20170711102511) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
+    t.boolean  "include_booths"
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -504,22 +515,28 @@ ActiveRecord::Schema.define(version: 20170711102511) do
     t.text    "description"
     t.integer "price_cents",    default: 0,     null: false
     t.string  "price_currency", default: "USD", null: false
+    t.boolean "registration_ticket", default: false
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",         null: false
-    t.string   "name",         null: false
+    t.string   "guid",                         null: false
+    t.string   "name",                         null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
-    t.string   "short_name",   null: false
-    t.string   "state"
-    t.boolean  "cfp_active"
+    t.string   "short_name",                   null: false
+    t.string   "state",        default: "new", null: false
+    t.boolean  "cfp_active",                   null: false
     t.integer  "submitter_id"
+    t.integer  "room_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.text     "relevance"
   end
 
+  add_index "tracks", ["room_id"], name: "index_tracks_on_room_id"
   add_index "tracks", ["submitter_id"], name: "index_tracks_on_submitter_id"
 
   create_table "users", force: :cascade do |t|

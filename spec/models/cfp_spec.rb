@@ -5,19 +5,33 @@ describe Cfp do
   let!(:conference) { create(:conference, end_date: Date.today) }
   let!(:cfp) { create(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: conference.program.id) }
 
-  describe 'scope' do
-    describe '#for_events' do
-      it 'returns the cfp for events' do
-        expect(conference.program.cfps.for_events).to be_a Cfp
-        expect(conference.program.cfps.for_events.cfp_type).to eq('events')
-      end
-    end
-  end
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:cfp_type) }
     it { is_expected.to validate_inclusion_of(:cfp_type).in_array(Cfp::TYPES) }
     it { is_expected.to validate_uniqueness_of(:cfp_type).scoped_to(:program_id).case_insensitive }
+  end
+
+  describe '.for_events' do
+    it 'returns the cfp for events when it exists' do
+      expect(conference.program.cfps.for_events).to be_a Cfp
+      expect(conference.program.cfps.for_events.cfp_type).to eq('events')
+    end
+
+    it 'returns nil when the cfp for events doesn\'t exist' do
+      conference.program.cfp.destroy
+      expect(conference.program.cfps.for_events).to eq nil
+    end
+  end
+
+  describe '.for_tracks' do
+    it 'returns the cfp for tracks when it exists' do
+      call_for_tracks = create(:cfp, cfp_type: 'tracks', program: conference.program, end_date: Date.today)
+      expect(conference.program.cfps.for_tracks).to eq call_for_tracks
+    end
+
+    it 'returns nil when the cfp for tracks doesn\'t exist' do
+      expect(conference.program.cfps.for_tracks).to eq nil
+    end
   end
 
   describe '#before_end_of_conference' do

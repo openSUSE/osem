@@ -165,7 +165,11 @@ class User < ActiveRecord::Base
   def get_roles
     result = {}
     roles.each do |role|
-      resource = Conference.find(role.resource_id).short_title
+      resource = if role.resource_type == 'Conference'
+                   Conference.find(role.resource_id).short_title
+                 elsif role.resource_type == 'Track'
+                   Track.find(role.resource_id).name
+                 end
       if result[role.name].nil?
         result[role.name] = [resource]
       else
