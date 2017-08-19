@@ -17,7 +17,7 @@
           %td
             = @conference.custom_domain
           %td
-            - ck_domain = @conference.check_custom_domain
+            - ck_domain = ConferenceDomainsService.new(conference: @conference).check_custom_domain
             - if ck_domain == true
               %span.glyphicon.glyphicon-ok
             - elsif ck_domain == false
@@ -27,14 +27,14 @@
                 = ck_domain
           %td
             .btn-group
-              = link_to 'Edit', attach_custom_domain_admin_conference_path(@conference.short_title),
+              = link_to 'Edit', admin_conference_conference_domains_edit_path(@conference.short_title),
                 method: :get, class: 'btn btn-primary'
               = link_to 'Delete', admin_conference_path(@conference.short_title),
                 method: :delete, class: 'btn btn-danger'
 .row
   .col-md-9.text-right
     = link_to '#status-help', class: 'btn btn-default',  "data-toggle"=>"collapse" do
-      Help?
+      Need Help?
 .row
   .col-md-12
     .collapse#status-help
@@ -42,7 +42,7 @@
         Instructions to add your own domain
       %hr
       %p
-        When you created the conference, the conference splash page is available in the following domain:
+        Normally, your conference's splash page is available at:
         %strong
           osem.io/conferences/#{@conference.short_title}
       %p
@@ -66,9 +66,13 @@
         %li
           Pick a domain you want to host your conference on from a domain registrar or register it with a domain registrar.
         %li
-          Add your own domain name to OSEM ( link to conference/custom_domain#create ) and select the conference it should belong to.
+          Add your own domain name to OSEM
+          = link_to 'here', admin_conference_conference_domains_edit_path(id: @conference.short_title)
         %li
-          The last step is adding a CNAME record in your registrar’s DNS Settings. Different registrars have different ways of adding a CNAME record. The following guides would help you setup a CNAME record depending upon the registrar of your domain. If it doesn’t, you probably should get in touch with your domain registrar and ask him how to register a CNAME record in their platform.
+          The last step is adding a CNAME record in your registrar’s DNS Settings.
+          Different registrars have different ways of adding a CNAME record.
+          The following guides would help you setup a CNAME record depending upon the registrar of your domain.
+          If it doesn’t, you probably should get in touch with your domain registrar and ask him how to register a CNAME record in their platform.
           %ul
             %li
               = link_to 'GoDaddy', 'https://in.godaddy.com/help/add-a-cname-record-19236'

@@ -17,7 +17,7 @@
       Step 2:
     %p
       Enter your existing domain in the field below to point the domain to your conference splashpage.
-      = semantic_form_for(@conference, url: update_domain_admin_conference_path(@conference.short_title)) do |f|
+      = semantic_form_for(@conference, url: admin_conference_conference_domain_path(@conference.short_title)) do |f|
         = f.input :custom_domain, label: false
         = f.action :submit, button_html: { class: 'btn btn-primary', value: 'Attach this domain' }
         %h2

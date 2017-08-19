@@ -32,11 +32,10 @@ Osem::Application.routes.draw do
     end
     resources :comments, only: [:index]
     resources :conferences do
-      member do
-        get :custom_domain
-        get :attach_custom_domain
-        patch :update_domain
-      end
+      get 'conference_domains/edit' => 'conference_domains#edit'
+      get 'conference_domain' => 'conference_domains#show'
+      patch 'conference_domain' => 'conference_domains#update'
+
       resource :contact, except: [:index, :new, :create, :show, :destroy]
       resources :schedules, only: [:index, :create, :show, :update, :destroy]
       resources :event_schedules, only: [:create, :update, :destroy]

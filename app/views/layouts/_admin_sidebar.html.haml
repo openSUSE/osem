@@ -29,7 +29,7 @@
         Dashboard
   - if can? :edit, @conference
     %li
-      = link_to(custom_domain_admin_conference_path(@conference.short_title))  do
+      = link_to(admin_conference_conference_domain_path(@conference.short_title))  do
         %span.fa.fa-link
         Custom domain
   - if can? :show, @conference
