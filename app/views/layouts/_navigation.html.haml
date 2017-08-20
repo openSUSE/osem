@@ -1,7 +1,13 @@
 .navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
   .container
     .navbar-header
-      %button{"data-target"=>".navbar-collapse", "data-toggle"=>"collapse", class: 'navbar-toggle', type: 'button'}
+      - if @conference && @conference.short_title.present?
+        %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', type: 'button' }
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+      %button{"data-target"=>"#main-nav", "data-toggle"=>"collapse", class: 'navbar-toggle', type: 'button'}
         %span.sr-only
           Toggle navigation
         %span.icon-bar
@@ -11,7 +17,7 @@
         = link_to (ENV['OSEM_NAME'] || 'OSEM'), root_path, class: 'navbar-brand', title: 'Open Source Event Manager'
       - else
         = link_to conference.organization.name, organizations_path, class: 'navbar-brand', title: 'Open Source Event Manager'
-    .collapse.navbar-collapse
+    .collapse.navbar-collapse#main-nav
       - if content_for :splash_nav
         %ul.nav.navbar-nav#splash-nav
           = content_for :splash_nav
