@@ -12,11 +12,10 @@ class ConferenceDomainsService
   # * +false+ -> If the custom domain does not have a CNAME record for the hosted version
   def check_custom_domain
     require 'resolv'
-
     unless ENV['OSEM_HOSTNAME'].nil?
       cname_record = Resolv::DNS.new.getresources(@conference.custom_domain, Resolv::DNS::Resource::IN::CNAME)
       if cname_record.present?
-        return ENV['OSEM_HOSTNAME'] == Resolv::DNS.new.getresources(custom_domain, Resolv::DNS::Resource::IN::CNAME).first.name.to_s
+        return ENV['OSEM_HOSTNAME'] == cname_record.first.name.to_s
       else
         return false
       end
