@@ -17,14 +17,15 @@
           %td
             = @conference.custom_domain
           %td
-            - ck_domain = ConferenceDomainsService.new(conference: @conference).check_custom_domain
-            - if ck_domain == true
-              %span.glyphicon.glyphicon-ok
-            - elsif ck_domain == false
-              %span.glyphicon.glyphicon-remove
+            - if ENV['OSEM_HOSTNAME'].present?
+              - ck_domain = ConferenceDomainsService.new(@conference).check_custom_domain
+              - if ck_domain
+                %span.glyphicon.glyphicon-ok
+              - else
+                %span.glyphicon.glyphicon-remove
             - else
               %i
-                = ck_domain
+                feature disabled
           %td
             .btn-group
               = link_to 'Edit', admin_conference_conference_domains_edit_path(@conference.short_title),
@@ -67,7 +68,7 @@
           Pick a domain you want to host your conference on from a domain registrar or register it with a domain registrar.
         %li
           Add your own domain name to OSEM
-          = link_to 'here', admin_conference_conference_domains_edit_path(id: @conference.short_title)
+          = link_to 'here', admin_conference_conference_domains_edit_path(@conference.short_title)
         %li
           The last step is adding a CNAME record in your registrar’s DNS Settings.
           Different registrars have different ways of adding a CNAME record.

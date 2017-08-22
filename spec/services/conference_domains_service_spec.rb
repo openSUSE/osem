@@ -1,28 +1,33 @@
 require 'spec_helper'
 
 describe ConferenceDomainsService do
-  let!(:conference) { create(:conference, custom_domain: 'demo.osem.io') }
-  subject { ConferenceDomainsService.new(conference: conference) }
+  let(:conference) { create(:conference, custom_domain: 'demo.osem.io') }
+  let(:resolver) { double('resolver') }
+  let(:service) { ConferenceDomainsService.new(conference, resolver) }
 
-  describe 'return correct value' do
+  describe '#check_custom_domain' do
+    subject { service.check_custom_domain }
+    let(:cname_record) { double(name: cname_domain) }
+
     before do
       ENV['OSEM_HOSTNAME'] = 'osem-demo.herokuapp.com'
+      allow(resolver).to receive(:getresource).with(conference.custom_domain, Resolv::DNS::Resource::IN::CNAME)
+        .and_return(cname_record)
     end
 
-    it 'returns true if cname record matches the domain name' do
-      expect(subject.check_custom_domain).to eq true
+    context 'when the cname record matches the domain name' do
+      let(:cname_domain) { ENV['OSEM_HOSTNAME'] }
+      it { is_expected.to eq true }
     end
 
-    it 'returns feature disabled if OSEM_HOSTNAME is not present' do
-      ENV['OSEM_HOSTNAME'] = nil
-
-      expect(subject.check_custom_domain).to eq '--feature disabled--'
+    context 'when the cname record does not match the domain name' do
+      let(:cname_domain) { 'random.domain.com' }
+      it { is_expected.to eq false }
     end
 
-    it 'returns false if cname record is not present' do
-      conference.update_attribute(:custom_domain, 'osem-demo.herokuapp.com')
-
-      expect(subject.check_custom_domain).to eq false
+    context 'when there is no cname record present' do
+      let(:cname_record) { nil }
+      it { is_expected.to eq false }
     end
   end
 end

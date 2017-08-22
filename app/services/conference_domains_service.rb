@@ -1,6 +1,9 @@
+require 'resolv'
+
 class ConferenceDomainsService
-  def initialize(params)
-    @conference = params[:conference]
+  def initialize(conference, resolver = Resolv::DNS.new)
+    @conference = conference
+    @resolver = resolver
   end
 
   ##
@@ -11,16 +14,7 @@ class ConferenceDomainsService
   # * +true+ -> If the custom domain has a CNAME record for the hosted version
   # * +false+ -> If the custom domain does not have a CNAME record for the hosted version
   def check_custom_domain
-    require 'resolv'
-    unless ENV['OSEM_HOSTNAME'].nil?
-      cname_record = Resolv::DNS.new.getresources(@conference.custom_domain, Resolv::DNS::Resource::IN::CNAME)
-      if cname_record.present?
-        return ENV['OSEM_HOSTNAME'] == cname_record.first.name.to_s
-      else
-        return false
-      end
-    end
-
-    '--feature disabled--'
+    cname_record = @resolver.getresources(@conference.custom_domain, Resolv::DNS::Resource::IN::CNAME)
+    cname_record.present? ? ENV['OSEM_HOSTNAME'] == cname_record.name.to_s : false
   end
 end
