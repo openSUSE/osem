@@ -2,6 +2,7 @@
   .col-md-8
     = semantic_form_for(@conference, url: admin_conferences_path) do |f|
       = f.inputs 'Basic Information' do
+        = f.input :organization, as: :select, collection: @organizations
         = f.input :title, hint: "The name of your conference as it shall appear throughout the site. Example: 'OpenSUSE Conference 2013'",
                           input_html: { required: 'required' }
         = f.input :short_title, hint: "A short and unique handle for your conference, using only letters, numbers, underscores, and dashes. This will be used to identify your conference in URLs etc. Example: 'froscon2011'",

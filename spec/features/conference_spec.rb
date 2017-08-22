@@ -2,13 +2,15 @@ require 'spec_helper'
 
 feature Conference do
   let!(:user) { create(:admin) }
-
+  let!(:organization) { create(:organization) }
   shared_examples 'add and update conference' do
     scenario 'adds a new conference', feature: true, js: true do
       expected_count = Conference.count + 1
       sign_in user
 
       visit new_admin_conference_path
+
+      select organization.name, from: 'conference_organization_id'
       fill_in 'conference_title', with: 'Example Con'
       fill_in 'conference_short_title', with: 'ExCon'
 
@@ -27,7 +29,7 @@ feature Conference do
       expect(flash)
           .to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
-
+      expect(Conference.last.organization).to eq(organization)
       expect(user.has_role? :organizer, Conference.last).to eq(true)
     end
 

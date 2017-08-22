@@ -5,7 +5,7 @@ describe Admin::RegistrationPeriodsController do
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-
+  let!(:registration_ticket) { create(:registration_ticket, conference: conference) }
   let(:organizer) { create(:user, role_ids: organizer_role.id) }
   let(:organizer2) { create(:user, email: 'organizer2@email.osem', role_ids: organizer_role.id) }
   let(:participant) { create(:user) }
