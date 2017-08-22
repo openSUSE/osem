@@ -9,48 +9,68 @@
             = link_to 'Add Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
       %p.text-muted
         All the booth requests
+
 .row
   .col-md-12
-    .margin-booth-table
-      %table.table.table-striped.table-bordered.table-hover.datatable
-        %thead
-          %th
-            %b ID
-          %th
-            %b Logo
-          %th
-            %b Title
-          %th
-            %b Submitter
-          %th
-            %b Responsibles
-          %th
-            %b State
-          %th
-            %b Actions
-        - @booths.each do |booth|
-          %tr
+    %h4
+      - if @conference.booth_limit == 0
+        %p
+          Set the
+          = link_to 'Booth limit', edit_admin_conference_path(@conference.short_title)
+          to make sure you are not accepting more booths than you can accommodate.
+      - elsif !@conference.maximum_accepted_booths?
+        %p
+          You cannot accept more than
+          %b
+            = pluralize(@conference.booth_limit, 'booth')
+          (
+          = pluralize(@conference.booths.accepted.count + @conference.booths.confirmed.count, 'accepted booth')
+          so far)
+      - else
+        %p
+          You have reached the maximum number of accepted booths.
+          (
+          = link_to "#{@conference.booth_limit} booths", edit_admin_conference_path(@conference.short_title)
+          )
+    %table.table.table-striped.table-bordered.table-hover.datatable
+      %thead
+        %th
+          %b ID
+        %th
+          %b Logo
+        %th
+          %b Title
+        %th
+          %b Submitter
+        %th
+          %b Responsibles
+        %th
+          %b State
+        %th
+          %b Actions
+      - @booths.each do |booth|
+        %tr
+          %td
+            = booth.id
+          %td
+            - if booth.logo_link
+              = image_tag(booth.picture.thumb.url, width: '20%')
+          %td
+            = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+          %td
+            = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
+          %td
+            .responsibles
+              - booth.responsibles.each_with_index do |responsible, i|
+                = link_to responsible.name, admin_user_path(responsible)
+                = ", " unless i == booth.responsibles.length - 1
+          %td
+            .btn-group
+              %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                = booth.state.humanize
+                %span.caret
+              %ul.dropdown-menu{ role: 'menu' }
+                = render 'change_state_dropdown', booth: booth
             %td
-              = booth.id
-            %td
-              - if booth.logo_link
-                = image_tag(booth.picture.thumb.url, width: '20%')
-            %td
-              = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
-            %td
-              = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
-            %td
-              .responsibles
-                - booth.responsibles.each_with_index do |responsible, i|
-                  = link_to responsible.name, admin_user_path(responsible)
-                  = ", " unless i == booth.responsibles.length - 1
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  = booth.state.humanize
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  = render 'change_state_dropdown', booth: booth
-              %td
-                = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
-                class: 'btn btn-primary'
+              = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
+              class: 'btn btn-primary'

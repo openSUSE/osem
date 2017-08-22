@@ -74,6 +74,11 @@ class AdminAbility
     cannot :destroy, Track do |track|
       track.self_organized?
     end
+    # Can't accept a booth when booth_limit is reached
+    cannot :accept, Booth do |booth|
+      conference = booth.conference
+      conference.maximum_accepted_booths?
+    end
   end
 
   # Abilities for signed in users with roles
@@ -116,7 +121,10 @@ class AdminAbility
     can :manage, Commercial, commercialable_type: 'Conference',
                              commercialable_id: conf_ids
     can :manage, Registration, conference_id: conf_ids
-    can :manage, RegistrationPeriod, conference_id: conf_ids
+    can :manage, RegistrationPeriod do |registration_period|
+      conference = registration_period.conference
+      conf_ids.include?(conference.id) && conference.tickets.for_registration.any?
+    end
     can :manage, Booth, conference_id: conf_ids
     can :manage, Question, conference_id: conf_ids
     can :manage, Question do |question|

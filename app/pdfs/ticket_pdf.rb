@@ -77,5 +77,9 @@ class TicketPdf < Prawn::Document
     move_up 180
   end
 
-  def draw_fourth_square; end
+  def draw_fourth_square
+    x = @mid_horizontal + (@right - @mid_horizontal - 180) / 2
+    y = cursor - (bounds.top - @mid_vertical - 180) / 2
+    print_qr_code(@physical_ticket.token, pos: [x, y], extent: 180, stroke: false)
+  end
 end

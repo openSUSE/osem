@@ -11,6 +11,7 @@ describe 'User with admin role' do
 
     let!(:organization) { create(:organization) }
     let!(:my_conference) { create(:full_conference, organization: organization) }
+    let!(:registration_ticket) { create(:registration_ticket, conference: my_conference) }
     let(:my_venue) { my_conference.venue || create(:venue, conference: my_conference) }
     let(:my_registration) { create(:registration, conference: my_conference, user: admin) }
 

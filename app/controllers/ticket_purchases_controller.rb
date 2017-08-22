@@ -2,6 +2,7 @@ class TicketPurchasesController < ApplicationController
   before_filter :authenticate_user!
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
+  authorize_resource
 
   def create
     current_user.ticket_purchases.by_conference(@conference).unpaid.destroy_all

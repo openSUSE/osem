@@ -5,6 +5,7 @@ feature 'Has correct abilities' do
   let(:conference) { create(:full_conference, organization: organization) }
   let(:role_organization_admin) { Role.find_by(name: 'organization_admin', resource: organization) }
   let(:user_organization_admin) { create(:user, role_ids: [role_organization_admin.id]) }
+  let!(:registration_ticket) { create(:registration_ticket, conference: conference) }
 
   context 'when user is organization_admin' do
     before do
