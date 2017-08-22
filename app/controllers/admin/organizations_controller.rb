@@ -1,6 +1,7 @@
 module Admin
   class OrganizationsController < Admin::BaseController
     load_and_authorize_resource :organization
+    before_action :verify_user, only: [:assign_org_admins, :unassign_org_admins]
 
     def index
       @organizations = Organization.all
@@ -43,7 +44,48 @@ module Admin
       end
     end
 
+    def assign_org_admins
+      if @user.has_role? 'organization_admin', @organization
+        flash[:error] = "User #{@user.email} already has the role organization admin"
+      elsif @user.add_role 'organization_admin', @organization
+        flash[:notice] = "Successfully added role organization admin to user #{@user.email}"
+      else
+        flash[:error] = "Coud not add role organization admin to #{@user.email}"
+      end
+
+      redirect_to admins_admin_organization_path(@organization)
+    end
+
+    def unassign_org_admins
+      if @user.remove_role 'organization_admin', @organization
+        flash[:notice] = "Successfully removed role organization admin from user #{@user.email}"
+      else
+        flash[:error] = "Could not remove role organization admin from user #{@user.email}"
+      end
+
+      redirect_to admins_admin_organization_path(@organization)
+    end
+
+    def admins
+      @role = @organization.roles.first
+      @users = @role.users
+      render 'show_org_admins'
+    end
+
     private
+
+    def user_params
+      params.require(:user).permit(:email)
+    end
+
+    def verify_user
+      @user = User.find_by(email: user_params[:email])
+      unless @user
+        redirect_to admins_admin_organization_path(@organization),
+                    error: 'Could not find user. Please provide a valid email!'
+        return
+      end
+    end
 
     def organization_params
       params.require(:organization).permit(:name, :description, :picture)
