@@ -67,6 +67,7 @@
         = @physical_ticket.ticket_purchase.id
         %br
     .col-md-5.col-md-offset-2.box.well
+      = image_tag(@qrcode_image.to_data_url, class: 'img-responsive qr-image')
   .row
     .col-md-12
       %p.text-left
