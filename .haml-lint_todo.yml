@@ -76,6 +76,7 @@ linters:
       - "app/views/admin/resources/show.html.haml"
       - "app/views/admin/roles/_form.html.haml"
       - "app/views/admin/roles/_users.html.haml"
+      - "app/views/admin/roles/_users_with_org_admin_role.haml"
       - "app/views/admin/roles/index.html.haml"
       - "app/views/admin/roles/show.html.haml"
       - "app/views/admin/rooms/_form.html.haml"
