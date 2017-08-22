@@ -10,7 +10,10 @@
     %table.table
       %thead
         %th Domain Name
-        %th Correctly points to #{@conference.short_title}
+        %th
+          Correctly points to #{@conference.short_title}
+          %a{ title: 'Click here to know more about this feature!', href: 'http://osem.io/wiki' }
+            %span.glyphicon.glyphicon-question-sign
         %th Actions
       %tbody
         %tr
