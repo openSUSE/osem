@@ -98,6 +98,51 @@ feature Role do
     end
   end
 
+  context 'organization_admin' do
+    let!(:organization) { create(:organization) }
+    let!(:org_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
+    let!(:organization_admin) { create(:user, role_ids: [org_admin_role.id]) }
+    let(:user_with_no_role) { create :user }
+    let!(:other_organization) { create(:organization) }
+
+    before do
+      sign_in organization_admin
+      visit admin_organizations_path
+    end
+
+    context 'for the organization it belongs to' do
+      scenario 'successfully adds role organization_admin' do
+        click_link('Admins', href: admins_admin_organization_path(organization.id))
+
+        fill_in 'user_email', with: user_with_no_role.email
+        click_button 'Add'
+        user_with_no_role.reload
+
+        expect(user_with_no_role.has_role?('organization_admin', organization)).to eq true
+      end
+
+      scenario 'successfully removes role organization_admin' do
+        click_link('Admins', href: admins_admin_organization_path(organization.id))
+
+        first('tr').find('.btn-danger').click
+        expect(organization_admin.has_role?('organization_admin', organization)).to eq false
+      end
+    end
+
+    context 'for the organizations it does not belong to' do
+      scenario 'does not successfully add role organization_admin' do
+        click_link('Admins', href: admins_admin_organization_path(other_organization.id))
+
+        expect(page.has_field?('user_email')).to eq false
+      end
+
+      scenario 'does not successfully removes role organization_admin' do
+        click_link('Admins', href: admins_admin_organization_path(other_organization.id))
+        expect(page.has_css?('.btn-danger')).to eq false
+      end
+    end
+  end
+
   context 'organizer' do
     Role.all.each.map(&:name).each do |role|
       it_behaves_like 'successfully', role, 'organizer'
