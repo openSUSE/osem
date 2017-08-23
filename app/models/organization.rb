@@ -1,6 +1,8 @@
 class Organization < ActiveRecord::Base
   resourcify :roles, dependent: :delete_all
 
+  has_paper_trail
+
   has_many :conferences, dependent: :destroy
 
   after_create :create_roles

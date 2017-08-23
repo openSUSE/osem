@@ -93,7 +93,7 @@ feature 'Version' do
     expect(page).to have_text("Someone (probably via the console) deleted lodging Hotel XYZ with ID #{lodging_id} in conference #{conference.short_title}")
   end
 
-  scenario 'display changes in role', feature: true, versioning: true, js: true do
+  scenario 'display changes in conference role', feature: true, versioning: true, js: true do
     visit edit_admin_conference_role_path(conference.short_title, 'cfp')
     fill_in 'role_description', with: 'For the members of the call for papers team'
     click_button 'Update Role'
@@ -301,14 +301,40 @@ feature 'Version' do
     expect(page).to have_no_text('Someone (probably via the console) created new commercial')
   end
 
-  scenario 'display changes in users_role', feature: true, versioning: true, js: true do
+  scenario 'display changes in organization', feature: true, versioning: true, js: true do
+    admin = create(:admin)
+    sign_in admin
+
+    visit new_admin_organization_path
+    fill_in 'organization_name', with: 'New org'
+    click_button 'Create Organization'
+
+    visit admin_revision_history_path
+    expect(page).to have_text('created new organization New org')
+  end
+
+  scenario 'display changes in users_role for organization role', feature: true, versioning: true, js: true do
     user = create(:user)
+    role = Role.find_by(resource_id: conference.organization.id, resource_type: 'Organization')
+    user.add_role :organization_admin, conference.organization
+    user_role = UsersRole.find_by(user_id: user.id, role_id: role.id)
+    user.remove_role :organization_admin, conference.organization
+
+    visit admin_revision_history_path
+    expect(page).to have_text("added role organization_admin with ID #{user_role.id} to user #{user.name} in organization #{conference.organization.name}")
+    expect(page).to have_text("removed role organization_admin with ID #{user_role.id} from user #{user.name} in organization #{conference.organization.name}")
+  end
+
+  scenario 'display changes in users_role for conference role', feature: true, versioning: true, js: true do
+    user = create(:user)
+    role = Role.find_by(name: 'cfp', resource_id: conference.id, resource_type: 'Conference')
     user.add_role :cfp, conference
+    user_role = UsersRole.find_by(user_id: user.id, role_id: role.id)
     user.remove_role :cfp, conference
 
     visit admin_revision_history_path
-    expect(page).to have_text("added role cfp to user #{user.name} in conference #{conference.short_title}")
-    expect(page).to have_text("removed role cfp from user #{user.name} in conference #{conference.short_title}")
+    expect(page).to have_text("added role cfp with ID #{user_role.id} to user #{user.name} in conference #{conference.short_title}")
+    expect(page).to have_text("removed role cfp with ID #{user_role.id} from user #{user.name} in conference #{conference.short_title}")
   end
 
   scenario 'display changes in email settings', feature: true, versioning: true, js: true do

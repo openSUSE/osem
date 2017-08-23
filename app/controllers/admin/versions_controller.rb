@@ -1,14 +1,18 @@
 module Admin
   class VersionsController < Admin::BaseController
-    load_resource :conference, find_by: :short_title
+    load_resource :conference, find_by: :short_title, only: :index
     load_and_authorize_resource class: PaperTrail::Version
 
     def index
-      @conf_ids_with_role = current_user.is_admin? ? Conference.pluck(:short_title) : Conference.with_role([:organizer, :cfp, :info_desk], current_user).pluck(:short_title)
+      @conferences_with_role = current_user.is_admin? ? Conference.pluck(:short_title) : Conference.with_role([:organizer, :cfp, :info_desk], current_user).pluck(:short_title)
+
+      if current_user.has_role? :organization_admin, :any
+        @conferences_with_role = Organization.with_role('organization_admin', current_user).map { |org| org.conferences.pluck :short_title }.flatten
+      end
+      @conferences_with_role.uniq!
 
       return if @conference.blank?
-      authorize! :index, PaperTrail::Version.new(conference_id: @conference.id)
-      @versions = @versions.where(conference_id: @conference.id)
+      @versions = PaperTrail::Version.where(conference_id: @conference.id).accessible_by(current_ability)
     end
 
     def revert_attribute

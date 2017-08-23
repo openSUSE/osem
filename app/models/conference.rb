@@ -760,6 +760,10 @@ class Conference < ActiveRecord::Base
     self
   end
 
+  def to_param
+    short_title
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are
