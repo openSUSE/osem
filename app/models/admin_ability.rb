@@ -208,7 +208,7 @@ class AdminAbility
     end
 
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version,
-        item_type: %w(Event EventType Track DifficultyLevel EmailSettings Room Cfp Program Comment), conference_id: conf_ids_for_cfp
+        item_type: %w[Event EventType Track DifficultyLevel EmailSettings Room Cfp Program Comment], conference_id: conf_ids_for_cfp
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version,
         ["item_type = 'Commercial' AND conference_id IN (?) AND (object LIKE '%Event%' OR object_changes LIKE '%Event%')", conf_ids_for_cfp] do |version|
       version.item_type == 'Commercial' && conf_ids_for_cfp.include?(version.conference_id) &&

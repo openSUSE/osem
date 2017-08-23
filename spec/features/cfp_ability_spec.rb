@@ -298,7 +298,7 @@ feature 'Has correct abilities' do
       expect(current_path).to eq(root_path)
 
       visit admin_revision_history_path
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(admin_revision_history_path)
     end
   end
 end
