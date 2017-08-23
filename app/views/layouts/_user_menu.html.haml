@@ -16,6 +16,11 @@
     = link_to(conference_program_tracks_path(@conference.short_title)) do
       %span.fa.fa-road
       My Tracks
+-if @conference && @conference.program && (@conference.program.cfps.for_booths.try(:open?) || current_user.booths.where(conference_id: @conference.id).count > 0)
+  %li
+    = link_to (conference_booths_path(@conference.short_title)) do
+      %span.fa.fa-shopping-bag
+      My Booth Requests
 %li
   - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     = link_to(destroy_user_ichain_session_path, method: 'delete') do

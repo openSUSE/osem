@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807092805) do
+ActiveRecord::Schema.define(version: 20170816203325) do
 
   create_table "ahoy_events", force: :cascade do |t|
-    t.integer  "visit_id"
+    t.uuid     "visit_id",   limit: 16
     t.integer  "user_id"
     t.string   "name"
     t.text     "properties"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.integer  "end_hour",           default: 20
     t.integer  "organization_id"
     t.integer  "ticket_layout",      default: 0
+    t.string   "custom_domain"
     t.integer  "booth_limit",        default: 0
   end
 
@@ -511,10 +512,10 @@ ActiveRecord::Schema.define(version: 20170807092805) do
 
   create_table "tickets", force: :cascade do |t|
     t.integer "conference_id"
-    t.string  "title",                          null: false
+    t.string  "title",                               null: false
     t.text    "description"
-    t.integer "price_cents",    default: 0,     null: false
-    t.string  "price_currency", default: "USD", null: false
+    t.integer "price_cents",         default: 0,     null: false
+    t.string  "price_currency",      default: "USD", null: false
     t.boolean "registration_ticket", default: false
   end
 
@@ -572,6 +573,7 @@ ActiveRecord::Schema.define(version: 20170807092805) do
     t.boolean  "is_admin",               default: false
     t.string   "username"
     t.boolean  "is_disabled",            default: false
+    t.string   "token"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
