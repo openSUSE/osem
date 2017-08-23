@@ -20,9 +20,8 @@
                                         off_color: 'warning',
                                         on_text: 'Yes',
                                         off_text: 'No' }
-      = f.input :type, label: 'Swags type'
-      = f.input :quantity, label: 'Swags quantity', as: :number, in: 0..9999
-      - generate_swags_hash(@type, @quantity)
+
+ 
       = image_tag f.object.picture.thumb.url if f.object.picture?
       = f.input :picture
       %p.text-right

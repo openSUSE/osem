@@ -12,8 +12,7 @@ module Admin
 
     def show; end
 
-    def edit
-    end
+    def edit; end
 
     def new
       @sponsor = @conference.sponsors.new
@@ -52,8 +51,12 @@ module Admin
       end
     end
 
+    def add_swag
+      swags_hash = @sponsor.swags_hash
+    end
+
     def generate_swags_hash(type, quantity)
-      swags_hash = Hash.new
+      swags_hash = {}
       swags_hash[type.to_s] = quantity.to_i
     end
 
@@ -62,27 +65,27 @@ module Admin
     def paid
       @sponsor.paid = !@sponsor.paid
       if @sponsor.save
-        flash[:notice] = "Sponsor successfully updated."
+        flash[:notice] = 'Sponsor successfully updated.'
       else
-        flash[:error] = "Sponsor failed to be updated."
+        flash[:error] = 'Sponsor failed to be updated.'
       end
     end
 
     def has_swag
       @sponsor.has_swag = !@sponsor.has_swag
       if @sponsor.save
-        flash[:notice] = "Sponsor successfully updated."
+        flash[:notice] = 'Sponsor successfully updated.'
       else
-        flash[:error] = "Sponsor failed to be updated."
+        flash[:error] = 'Sponsor failed to be updated.'
       end
     end
 
     def swag_received
       @sponsor.swag_received = !@sponsor.swag_received
       if @sponsor.save
-        flash[:notice] = "Sponsor successfully updated."
+        flash[:notice] = 'Sponsor successfully updated.'
       else
-        flash[:error] = "Sponsor failed to be updated."
+        flash[:error] = 'Sponsor failed to be updated.'
       end
     end
 
