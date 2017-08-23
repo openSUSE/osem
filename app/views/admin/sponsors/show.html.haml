@@ -14,10 +14,10 @@
     %table.table
       %tr
         %td.col-md-2
-          %b Sponsorship payed?
+          %b Sponsorship paid?
         %td
-          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swags,
-          method: :patch, url: payed_admin_conference_sponsor_path(@conference.short_title, @sponsor.id),
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.paid,
+          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[paid]=",
           class: 'switch-checkbox', data: { size: 'small',
                                             off_color: 'warning',
                                             on_text: 'Yes',
@@ -45,34 +45,34 @@
         %td.col-md-2
           %b Has swags?
         %td
-          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swags,
-          method: :patch, url: swags_admin_conference_sponsor_path(@conference.short_title, @sponsor.id),
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.has_swag,
+          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[has_swag]=",
           class: 'switch-checkbox', data: { size: 'small',
                                             off_color: 'warning',
                                             on_text: 'Yes',
                                             off_text: 'No' }
-      - if @sponsor.company_address
-        %tr
-          %td.col-md-2
-            %b Company's address
-          %td
-            = @sponsor.company_address
 
-      - if @sponsor.vat_registration
-        %tr
-          %td.col-md-2
-            %b Campany's VAT Registration Number
-          %td
-            = @sponsor.vat_registration
-
-      - if @sponsor.swags
+      - if @sponsor.has_swag
         %tr
           %td.col-md-2
             %b Swags received?
           %td
-            = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swags,
-            method: :patch, url: swags_received_admin_conference_sponsor_path(@conference.short_title, @sponsor.id),
+            = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swag_received,
+            method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[swag_received]=",
             class: 'switch-checkbox', data: { size: 'small',
                                               off_color: 'warning',
                                               on_text: 'Yes',
                                               off_text: 'No' }
+
+      - if @sponsor.address?
+        %tr
+          %td.col-md-2
+            %b Company's address
+          %td
+            = @sponsor.address
+      - if @sponsor.vat?
+        %tr
+          %td.col-md-2
+            %b Campany's VAT Registration Number
+          %td
+            = @sponsor.vat

@@ -15,9 +15,6 @@
       = f.input :picture
       = f.input :website_url
       = f.input :sponsorship_level, collection: @conference.sponsorship_levels
-      -# = f.input :type
-      -# = f.input :quantity
-      -# - generate_swags_hash(type, quantity)
 
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

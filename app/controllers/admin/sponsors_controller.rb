@@ -4,7 +4,7 @@ module Admin
     load_and_authorize_resource :sponsor, through: :conference
     before_action :sponsorship_level_required, only: [:index, :new]
 
-    attr_accessor :type, :quantity
+    helper_method :generate_swags_hash
 
     def index
       authorize! :index, Sponsor.new(conference_id: @conference.id)
@@ -53,14 +53,44 @@ module Admin
     end
 
     def generate_swags_hash(type, quantity)
+      swags_hash = Hash.new
       swags_hash[type.to_s] = quantity.to_i
+    end
+
+    def get_swag_hash; end
+
+    def paid
+      @sponsor.paid = !@sponsor.paid
+      if @sponsor.save
+        flash[:notice] = "Sponsor successfully updated."
+      else
+        flash[:error] = "Sponsor failed to be updated."
+      end
+    end
+
+    def has_swag
+      @sponsor.has_swag = !@sponsor.has_swag
+      if @sponsor.save
+        flash[:notice] = "Sponsor successfully updated."
+      else
+        flash[:error] = "Sponsor failed to be updated."
+      end
+    end
+
+    def swag_received
+      @sponsor.swag_received = !@sponsor.swag_received
+      if @sponsor.save
+        flash[:notice] = "Sponsor successfully updated."
+      else
+        flash[:error] = "Sponsor failed to be updated."
+      end
     end
 
     private
 
     def sponsor_params
       params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id,
-                                      :payed, :swags, :swags_received, :company_address, :vat_registration, :has_banner)
+                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :type, :quantity)
     end
 
     def sponsorship_level_required

@@ -2,8 +2,8 @@
   .col-md-12
     .page-header
       %h1
-      Edit
-      = @sponsor.name
+        Edit
+        = @sponsor.name
 .row
   .col-md-8
     = semantic_form_for(@sponsor, url: admin_conference_sponsor_path(@conference.short_title, @sponsor)) do |f|
@@ -12,8 +12,17 @@
       = f.input :picture
       = f.input :website_url
       = f.input :sponsorship_level, collection: @conference.sponsorship_levels
-      = f.input :company_address
-      = f.input :vat_registration
+      = f.input :address, label: 'Company\'s address'
+      = f.input :vat, label: 'VAT Registration Number'
+      = check_box_tag @conference.short_title, @sponsor.id, @sponsor.has_swag,
+      method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[has_swag]=",
+      class: 'switch-checkbox', data: { size: 'small',
+                                        off_color: 'warning',
+                                        on_text: 'Yes',
+                                        off_text: 'No' }
+      = f.input :type, label: 'Swags type'
+      = f.input :quantity, label: 'Swags quantity', as: :number, in: 0..9999
+      - generate_swags_hash(@type, @quantity)
       = image_tag f.object.picture.thumb.url if f.object.picture?
       = f.input :picture
       %p.text-right
