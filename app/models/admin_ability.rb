@@ -167,7 +167,6 @@ class AdminAbility
         role.resource_type == 'Track' && (track_ids.include? role.resource_id)
     end
 
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'User'
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, conference_id: conf_ids
   end
 
