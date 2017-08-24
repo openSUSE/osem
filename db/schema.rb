@@ -127,8 +127,8 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.integer  "end_hour",           default: 20
     t.integer  "organization_id"
     t.integer  "ticket_layout",      default: 0
-    t.string   "custom_domain"
     t.integer  "booth_limit",        default: 0
+    t.string   "custom_domain"
   end
 
   add_index "conferences", ["organization_id"], name: "index_conferences_on_organization_id"
@@ -468,12 +468,18 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture"
+    t.boolean  "payed",                default: false
+    t.boolean  "swags",                default: false
+    t.boolean  "swags_received"
+    t.string   "company_address"
+    t.string   "vat_registration"
     t.boolean  "paid",                 default: false
     t.boolean  "has_swag",             default: false
     t.boolean  "swag_received"
     t.string   "address"
     t.string   "vat"
     t.boolean  "has_banner",           default: false
+    t.text     "swag_hash"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|
@@ -583,7 +589,6 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.boolean  "is_admin",               default: false
     t.string   "username"
     t.boolean  "is_disabled",            default: false
-    t.string   "token"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

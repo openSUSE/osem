@@ -10,9 +10,14 @@ module Admin
       authorize! :index, Sponsor.new(conference_id: @conference.id)
     end
 
-    def show; end
+    def show
+      @sponsor.swag_index = @sponsor.swag_hash.length
+    end
 
-    def edit; end
+    def edit
+      @sponsor.swag_index = @sponsor.swag_hash.length
+      @sponsor.swag_hash = @sponsor.swag_hash
+    end
 
     def new
       @sponsor = @conference.sponsors.new
@@ -30,6 +35,7 @@ module Admin
     end
 
     def update
+
       if @sponsor.update_attributes(sponsor_params)
         redirect_to admin_conference_sponsor_path(
                     conference_id: @conference.short_title, id: @sponsor.id),
@@ -56,8 +62,12 @@ module Admin
     end
 
     def generate_swags_hash(type, quantity)
-      swags_hash = {}
-      swags_hash[type.to_s] = quantity.to_i
+      unless @sponsor.swag_hash
+        @sponsor.swag_hash = {}
+      end
+
+      @sponsor.swag_hash[type.to_s] = quantity.to_i
+      @sponsor.update_attribute(:swag_hash, @sponsor.swag_hash)
     end
 
     def get_swag_hash; end
@@ -93,7 +103,7 @@ module Admin
 
     def sponsor_params
       params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id,
-                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :type, :quantity)
+                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :swag_hash, :type, :quantity, :swag_index)
     end
 
     def sponsorship_level_required

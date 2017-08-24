@@ -4,25 +4,35 @@
       %h1
         Edit
         = @sponsor.name
+        = @sponsor.swag_index
 .row
   .col-md-8
     = semantic_form_for(@sponsor, url: admin_conference_sponsor_path(@conference.short_title, @sponsor)) do |f|
       = f.input :name
-      = f.input :description
+      = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :picture
       = f.input :website_url
       = f.input :sponsorship_level, collection: @conference.sponsorship_levels
       = f.input :address, label: 'Company\'s address'
       = f.input :vat, label: 'VAT Registration Number'
+      %b Has Swags?
       = check_box_tag @conference.short_title, @sponsor.id, @sponsor.has_swag,
       method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[has_swag]=",
       class: 'switch-checkbox', data: { size: 'small',
                                         off_color: 'warning',
                                         on_text: 'Yes',
                                         off_text: 'No' }
-
- 
-      = image_tag f.object.picture.thumb.url if f.object.picture?
-      = f.input :picture
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+      - @sponsor.swag_hash.each do |type, quantity|
+        .row
+          .col-md-6
+            = f.input :type, label: 'Swag type'
+          .col-md-6
+            = f.input :quantity, as: :number, in: 0..9999
+            - generate_swags_hash(@type, @quantity)
+            = f.submit 'Add Swag', :type 
+      .row
+        .col-md-8
+          = image_tag f.object.picture.thumb.url if f.object.picture?
+          = f.input :picture
+          %p.text-right
+            = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

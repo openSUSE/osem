@@ -6,5 +6,6 @@ class AddSwagsToSponsors < ActiveRecord::Migration
     add_column :sponsors, :address, :string
     add_column :sponsors, :vat, :string
     add_column :sponsors, :has_banner, :boolean, default: false
+    add_column :sponsors, :swag_hash, :text
   end
 end

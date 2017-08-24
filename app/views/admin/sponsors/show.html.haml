@@ -63,6 +63,20 @@
                                               off_color: 'warning',
                                               on_text: 'Yes',
                                               off_text: 'No' }
+      - if @sponsor.swag_index > 0
+        %tr
+          %td.col-md-2
+            %b Swag's Type
+          %td
+            %b Quantity
+          %tr
+            - @sponsor.swag_hash.each do |key, value|
+              %td.col-md-2
+                = key
+              %td
+                = value
+
+
 
       - if @sponsor.address?
         %tr
