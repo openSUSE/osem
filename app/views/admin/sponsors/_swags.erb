@@ -1,7 +1,0 @@
-<div class="swag_fields">
-  <%= f.inputs do %>
-      <%= f.input :type, label: 'Swags type' %>
-      <%= f.input :quantity, label: 'Swags quantity', as: :number, in: 0..9999 %>
-      <%- generate_swags_hash(@type, @quantity) %>
-  <% end %>
-</div>

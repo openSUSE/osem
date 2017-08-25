@@ -61,14 +61,7 @@ module Admin
       swags_hash = @sponsor.swags_hash
     end
 
-    def generate_swags_hash(type, quantity)
-      unless @sponsor.swag_hash
-        @sponsor.swag_hash = {}
-      end
 
-      @sponsor.swag_hash[type.to_s] = quantity.to_i
-      @sponsor.update_attribute(:swag_hash, @sponsor.swag_hash)
-    end
 
     def get_swag_hash; end
 
