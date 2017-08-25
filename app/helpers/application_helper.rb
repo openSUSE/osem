@@ -147,7 +147,8 @@ module ApplicationHelper
     users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
     form.input :responsibles, as: :select,
                               collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @booth.responsibles.map(&:id)),
-                              include_blank: false, label: 'Responsibles', input_html: { class: 'select-help-toggle', multiple: 'true' }
+                              include_blank: false, label: 'Responsibles', input_html: { class: 'select-help-toggle', multiple: 'true' },
+                              hint: 'The people responsible for the booth. You can only select existing users.'
   end
 
   def event_types(conference)
