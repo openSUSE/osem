@@ -69,12 +69,12 @@
             %b Swag's Type
           %td
             %b Quantity
-          %tr
-            - @sponsor.swag_hash.each do |key, value|
+          - @sponsor.swags.each do |key, value|
+            %tr
               %td.col-md-2
-                = key
+                = value[:type]
               %td
-                = value
+                = value[:quantity]
 
 
 

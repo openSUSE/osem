@@ -22,10 +22,9 @@
                                         off_color: 'warning',
                                         on_text: 'Yes',
                                         off_text: 'No' }
-
-      - @sponsor.swag_hash.each_with_index do |hash, index|
-        =render partial: 'swag_fields', locals: {f: f, index: index}
-      =render partial: 'swag_fields', locals: { f: f, index: @sponsor.swag_index}  
+      - @sponsor.swags.each_with_index do |(key, value), index|
+        =render partial: 'swag_fields', locals: {f: f, index: index, v_type: value[:type].to_s, v_quantity: value[:quantity].to_i}
+      =render partial: 'swag_fields', locals: { f: f, index: @sponsor.swag_index, v_type: nil, v_quantity: 0}
 
       .row
         .col-md-8
