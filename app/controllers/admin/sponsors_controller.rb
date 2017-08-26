@@ -4,7 +4,7 @@ module Admin
     load_and_authorize_resource :sponsor, through: :conference
     before_action :sponsorship_level_required, only: [:index, :new]
 
-    helper_method :generate_swags_hash
+    helper_method :add_swags
 
     def index
       authorize! :index, Sponsor.new(conference_id: @conference.id)
@@ -57,8 +57,8 @@ module Admin
       end
     end
 
-    def add_swag
-      swags_hash = @sponsor.swags_hash
+    def add_swags(form, index)
+      render partial: 'swag_fields', locals: { f: form, index: (index + 1), v_type: nil, v_quantity: 0}
     end
 
 

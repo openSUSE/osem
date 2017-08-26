@@ -4,36 +4,96 @@
       %h1 Sponsors
       %p.text-muted
         People supporting your conference
-- if @conference.sponsors.any?
-  .row
-    .col-md-12
-      %table.table.table-hover#sponsors
-        %thead
-          %th Logo
-          %th Name
-          %th Description
-          %th URL
-          %th Level
-          %th Actions
-        %tbody
-          - @conference.sponsors.each do |sponsor|
-            %tr
-              %td
-                = image_tag(sponsor.picture.thumb.url, width: '20%')
-              %td
-                = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
-              %td
-                = truncate(sponsor.description)
-              %td
-                = sponsor.website_url
-              %td
-                = sponsor.sponsorship_level.title
-              %td
-                .btn-group
-                  = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
-                  method: :get, class: 'btn btn-primary'
-                  = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
-                  method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
 .row
   .col-md-12
-    = link_to 'Add Sponsor', new_admin_conference_sponsor_path(@conference.short_title), class: 'btn btn-primary pull-right'
+    %div{ role: 'tabpanel' }
+      %ul.nav.nav-tabs{ role: 'tablist' }
+        %li.active{ role: 'presentation'}
+          %a{ 'aria-controls' => 'sponsorship', 'data-toggle' => 'tab', href: '#sponsorship', role: 'tab'} Sponsorship
+        %li{ role: 'Swags'}
+          %a{ 'aria-controls' => 'swags','data-toggle' => 'tab', href: '#swags', role: 'tab'} Swags
+      .tab-content
+        #sponsorship.tab-pane.active{ role: 'tabpanel' }
+          - if @conference.sponsors.any?
+            .row
+              .col-md-12
+                %table.table.table-hover#sponsors
+                  %thead
+                    %th Logo
+                    %th Name
+                    %th Description
+                    %th URL
+                    %th Level
+                    %th Actions
+                  %tbody
+                    - @conference.sponsors.each do |sponsor|
+                      %tr
+                        %td
+                          = image_tag(sponsor.picture.thumb.url, width: '20%')
+                        %td
+                          = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                        %td
+                          = truncate(sponsor.description)
+                        %td
+                          = sponsor.website_url
+                        %td
+                          = sponsor.sponsorship_level.title
+                        %td
+                          .btn-group
+                            = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :get, class: 'btn btn-primary'
+                            = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
+
+        #swags.tab-pane.active{ role: 'tabpanel' }
+          - if @conference.sponsors.any?
+            .row
+              .col-md-12
+                %table.table.table-hover#sponsors
+                  %thead
+                    %th Logo
+                    %th Name
+                    %th Banner
+                    %th Swags
+                    %th Swag Items
+                    %th Received
+                    %th Actions
+                  %tbody
+                    - @conference.sponsors.each do |sponsor|
+                      %tr
+                        %td
+                          = image_tag(sponsor.picture.thumb.url, width: '20%')
+                        %td
+                          = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                        %td
+                          - if sponsor.has_banner
+                            %span.fa.fa-check.text-success
+                          - else
+                            %span.fa.fa-times
+                        %td
+                          - if sponsor.has_swag
+                            %span.fa.fa-check.text-success
+                          - else
+                            %span.fa.fa-times
+                        %td
+                          - if sponsor.has_swag
+                            - sponsor.swags.each do |key, value|
+                              = value[:type]
+                              (
+                              = value[:quantity]
+                              )
+                              %br
+                        %td
+                          - if sponsor.swag_received
+                            %span.fa.fa-check.text-success
+                          - else
+                            %span.fa.fa-times
+                        %td
+                          .btn-group
+                            = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :get, class: 'btn btn-primary'
+                            = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
+      .row
+        .col-md-12
+          = link_to 'Add Sponsor', new_admin_conference_sponsor_path(@conference.short_title), class: 'btn btn-primary pull-right'
