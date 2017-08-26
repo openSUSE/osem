@@ -4,11 +4,11 @@ feature 'Has correct abilities' do
 
   let(:organization) { create(:organization) }
   let(:conference) { create(:full_conference, organization: organization) }
-  let(:self_organized_track) { create(:track, :self_organized, program: conference.program) }
-  let(:role_track_organizer) { Role.find_by(name: 'track_organizer', resource: self_organized_track) }
+  let(:self_organized_track) { create(:track, :self_organized, program: conference.program, state: 'confirmed') }
+  let(:role_track_organizer) { Role.where(name: 'track_organizer', resource: self_organized_track).first_or_create }
   let(:user_track_organizer) { create(:user, role_ids: [role_track_organizer.id]) }
 
-  context 'when user is info desk' do
+  context 'when user is track organizer' do
     before do
       sign_in user_track_organizer
     end
@@ -28,12 +28,12 @@ feature 'Has correct abilities' do
       expect(page).to_not have_link('Lodgings', href: "/admin/conferences/#{conference.short_title}/lodgings")
       expect(page).to have_link('Program', href: "/admin/conferences/#{conference.short_title}/program")
       expect(page).to_not have_link('Call for Papers', href: "/admin/conferences/#{conference.short_title}/program/cfps")
-      expect(page).to_not have_link('Events', href: "/admin/conferences/#{conference.short_title}/program/events")
+      expect(page).to have_link('Events', href: "/admin/conferences/#{conference.short_title}/program/events")
       expect(page).to have_link('Tracks', href: "/admin/conferences/#{conference.short_title}/program/tracks")
       expect(page).to_not have_link('Event Types', href: "/admin/conferences/#{conference.short_title}/program/event_types")
       expect(page).to_not have_link('Difficulty Levels', href: "/admin/conferences/#{conference.short_title}/program/difficulty_levels")
-      expect(page).to_not have_link('Schedules', href: "/admin/conferences/#{conference.short_title}/schedules")
-      expect(page).to_not have_link('Reports', href: "/admin/conferences/#{conference.short_title}/program/reports")
+      expect(page).to have_link('Schedules', href: "/admin/conferences/#{conference.short_title}/schedules")
+      expect(page).to have_link('Reports', href: "/admin/conferences/#{conference.short_title}/program/reports")
       expect(page).to_not have_link('Registrations', href: "/admin/conferences/#{conference.short_title}/registrations")
       expect(page).to_not have_link('Registration Period', href: "/admin/conferences/#{conference.short_title}/registration_period")
       expect(page).to_not have_link('Questions', href: "/admin/conferences/#{conference.short_title}/questions")
@@ -107,6 +107,10 @@ feature 'Has correct abilities' do
       visit edit_admin_conference_program_event_path(conference.short_title, conference.program.events.first)
       expect(current_path).to eq root_path
 
+      self_organized_track_event = create(:event, program: conference.program, track: self_organized_track)
+      visit edit_admin_conference_program_event_path(conference.short_title, self_organized_track_event)
+      expect(current_path).to eq(edit_admin_conference_program_event_path(conference.short_title, self_organized_track_event))
+
       visit admin_conference_program_event_types_path(conference.short_title)
       expect(current_path).to eq root_path
 
@@ -126,11 +130,15 @@ feature 'Has correct abilities' do
       expect(current_path).to eq root_path
 
       visit admin_conference_schedules_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq admin_conference_schedules_path(conference.short_title)
 
       create(:schedule, program: conference.program)
       visit admin_conference_schedule_path(conference.short_title, conference.program.schedules.first)
       expect(current_path).to eq root_path
+
+      self_organized_track_schedule = create(:schedule, program: conference.program, track: self_organized_track)
+      visit admin_conference_schedule_path(conference.short_title, self_organized_track_schedule)
+      expect(current_path).to eq admin_conference_schedule_path(conference.short_title, self_organized_track_schedule)
 
       visit admin_conference_program_reports_path(conference.short_title)
       expect(current_path).to eq admin_conference_program_reports_path(conference.short_title)
@@ -219,7 +227,7 @@ feature 'Has correct abilities' do
       expect(current_path).to eq admin_conference_program_track_path(conference.short_title, self_organized_track)
 
       visit edit_admin_conference_program_track_path(conference.short_title, self_organized_track)
-      expect(current_path).to eq edit_admin_conference_program_track_path(conference.short_title, self_organized_track)
+      expect(current_path).to eq root_path
 
       visit admin_conference_roles_path(conference.short_title)
       expect(current_path).to eq admin_conference_roles_path(conference.short_title)

@@ -12,6 +12,9 @@ class EventSchedule < ActiveRecord::Base
   validates :event, uniqueness: { scope: :schedule }
   validate :start_after_end_hour
   validate :start_before_start_hour
+  validate :same_room_as_track
+  validate :during_track
+  validate :valid_schedule
 
   scope :confirmed, -> { joins(:event).where('state = ?', 'confirmed') }
   scope :canceled, -> { joins(:event).where('state = ?', 'canceled') }
@@ -51,5 +54,36 @@ class EventSchedule < ActiveRecord::Base
 
   def conference_id
     schedule.program.conference_id
+  end
+
+  ##
+  # Validates that the event is scheduled in the same room as its track
+  #
+  def same_room_as_track
+    return unless event.try(:track).try(:room)
+    errors.add(:room, "must be the same as the track's room (#{event.track.room.name})") unless event.track.room == room
+  end
+
+  ##
+  # Validates that the event is scheduled within its track's time slot
+  #
+  def during_track
+    return unless event.try(:track) && start_time
+
+    if event.track.try(:start_date) && event.track.start_date > start_time
+      errors.add(:start_time, "can't be before the track's start date (#{event.track.start_date})")
+    end
+
+    if event.track.try(:end_date) && event.track.end_date + 1.day < end_time
+      errors.add(:end_time, "can't be after the track's end date (#{event.track.end_date})")
+    end
+  end
+
+  ##
+  # Validates that the event is scheduled in its self-organized tracks's schedules
+  #
+  def valid_schedule
+    return unless event.try(:track).try(:self_organized?) && schedule
+    errors.add(:schedule, "must be one of #{event.track.name} track's schedules") unless event.track.schedules.include?(schedule)
   end
 end

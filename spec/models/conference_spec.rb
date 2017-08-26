@@ -606,8 +606,8 @@ describe Conference do
   describe 'tracks_distribution' do
     before do
       subject.email_settings = create(:email_settings)
-      @track_one = create(:track, name: 'Track One', color: '#000000')
-      @track_two = create(:track, name: 'Track Two', color: '#ffffff')
+      @track_one = create(:track, name: 'Track One', color: '#000000', program: subject.program)
+      @track_two = create(:track, name: 'Track Two', color: '#ffffff', program: subject.program)
     end
 
     describe '#tracks_distribution' do

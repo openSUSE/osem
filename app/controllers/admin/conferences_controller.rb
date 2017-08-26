@@ -72,11 +72,12 @@ module Admin
 
     def new
       @conference = Conference.new
+      @organizations = Organization.accessible_by(current_ability, :update).pluck(:name, :id)
     end
 
     def create
       @conference = Conference.new(conference_params)
-      @conference.organization = Organization.find_or_create_by(name: 'organization')
+
       if @conference.save
         # user that creates the conference becomes organizer of that conference
         current_user.add_role :organizer, @conference
@@ -211,7 +212,7 @@ module Admin
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :targets, :targets_attributes,
-                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout)
+                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout, :booth_limit)
     end
   end
 end

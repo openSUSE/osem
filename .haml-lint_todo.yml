@@ -11,6 +11,7 @@ linters:
   # Offense count: 945
   LineLength:
     exclude:
+      - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/booths/_form.html.haml"
       - "app/views/admin/booths/index.html.haml"
       - "app/views/admin/booths/show.html.haml"
@@ -77,6 +78,7 @@ linters:
       - "app/views/admin/resources/show.html.haml"
       - "app/views/admin/roles/_form.html.haml"
       - "app/views/admin/roles/_users.html.haml"
+      - "app/views/admin/roles/_users_with_org_admin_role.haml"
       - "app/views/admin/roles/index.html.haml"
       - "app/views/admin/roles/show.html.haml"
       - "app/views/admin/rooms/_form.html.haml"
@@ -109,6 +111,9 @@ linters:
       - "app/views/admin/versions/_object_desc_and_link.html.haml"
       - "app/views/admin/versions/index.html.haml"
       - "app/views/admin/volunteers/index.html.haml"
+      - "app/views/booths/_form.html.haml"
+      - "app/views/booths/index.html.haml"
+      - "app/views/booths/show.html.haml"
       - "app/views/commercials/edit.html.haml"
       - "app/views/commercials/new.html.haml"
       - "app/views/conference_registrations/_form.html.haml"
@@ -116,6 +121,7 @@ linters:
       - "app/views/conference_registrations/_registration_info.html.haml"
       - "app/views/conference_registrations/_volunteer.html.haml"
       - "app/views/conference_registrations/show.html.haml"
+      - "app/views/conferences/_booths.html.haml"
       - "app/views/conferences/_call_for_paper.html.haml"
       - "app/views/conferences/_conference_details.html.haml"
       - "app/views/conferences/_gallery.html.haml"
@@ -147,6 +153,7 @@ linters:
       - "app/views/layouts/_admin_sidebar_index.html.haml"
       - "app/views/layouts/_messages.html.haml"
       - "app/views/layouts/_navigation.html.haml"
+      - "app/views/layouts/_user_menu.html.haml"
       - "app/views/layouts/application.html.haml"
       - "app/views/organizations/index.html.haml"
       - "app/views/payments/_payment.html.haml"
@@ -178,6 +185,10 @@ linters:
       - "app/views/tracks/_form.html.haml"
       - "app/views/tracks/index.html.haml"
       - "app/views/tracks/show.html.haml"
+      - "app/views/conferences/_call_for_tracks.html.haml"
+      - "app/views/admin/tracks/_change_state_dropdown.html.haml"
+      - "app/views/proposals/_encouragement_text.html.haml"
+      - "app/views/admin/schedules/_form.html.haml"
 
   # Offense count: 223
   InstanceVariables:
@@ -240,6 +251,10 @@ linters:
       - "app/views/schedules/_schedule_tabs.html.haml"
       - "app/views/admin/cfps/_events_cfp.html.haml"
       - "app/views/tracks/_form.html.haml"
+      - "app/views/admin/cfps/_tracks_cfp.html.haml"
+      - "app/views/conferences/_call_for_tracks.html.haml"
+      - "app/views/admin/tracks/_change_state_dropdown.html.haml"
+      - "app/views/admin/schedules/_form.html.haml"
 
   # Offense count: 32
   IdNames:
@@ -259,6 +274,7 @@ linters:
       - "app/views/admin/users/show.html.haml"
       - "app/views/users/edit.html.haml"
       - "app/views/admin/cfps/_events_cfp.html.haml"
+      - "app/views/admin/cfps/_tracks_cfp.html.haml"
 
   # Offense count: 4
   UnnecessaryInterpolation:
@@ -294,6 +310,7 @@ linters:
   SpaceInsideHashAttributes:
     exclude:
       - "app/views/admin/conferences/_todo_list.html.haml"
+      - "app/views/admin/emails/index.html.haml"
       - "app/views/admin/questions/_form.html.haml"
       - "app/views/admin/questions/index.html.haml"
       - "app/views/admin/registrations/index.html.haml"
@@ -369,6 +386,7 @@ linters:
       - "app/views/admin/tracks/show.html.haml"
       - "app/views/admin/venues/show.html.haml"
       - "app/views/admin/versions/index.html.haml"
+      - "app/views/booths/index.html.haml"
       - "app/views/conference_registrations/_form.html.haml"
       - "app/views/conference_registrations/_ticket.html.haml"
       - "app/views/conference_registrations/show.html.haml"
@@ -393,10 +411,12 @@ linters:
   # Offense count: 14
   ConsecutiveSilentScripts:
     exclude:
+      - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/events/index.html.haml"
       - "app/views/admin/schedules/_day_tab.html.haml"
       - "app/views/admin/schedules/_event.html.haml"
       - "app/views/admin/versions/_object_desc_and_link.html.haml"
+      - "app/views/booths/index.html.haml"
       - "app/views/schedules/_carousel.html.haml"
 
   # Offense count: 29

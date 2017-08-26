@@ -71,7 +71,11 @@ class Program < ActiveRecord::Base
 
   # Returns all event_schedules for the selected schedule ordered by start_time
   def selected_event_schedules
-    selected_schedule.event_schedules.order(start_time: :asc) if selected_schedule
+    event_schedules = selected_schedule.event_schedules.order(start_time: :asc) if selected_schedule
+    tracks.self_organized.confirmed.order(start_date: :asc).each do |track|
+      event_schedules += track.selected_schedule.event_schedules.order(start_time: :asc) if track.selected_schedule
+    end
+    event_schedules.sort_by(&:start_time) if event_schedules
   end
 
   ##

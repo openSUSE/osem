@@ -10,13 +10,22 @@
         - if @conference.splashpage and @conference.program.tracks.any? and @conference.splashpage.include_tracks
           See rock-star speakers cover the topics of
       - if @conference.splashpage and @conference.splashpage.include_tracks
-        - @conference.program.tracks.each_slice(3) do |slice|
+        - @conference.program.tracks.confirmed.cfp_active.each_slice(3) do |slice|
           .row.row-centered
             - slice.each do |track|
               .col-md-4.col-sm-4.col-centered.col-top.track
                 %h4.text-center
                   = track.name
                 = markdown(track.description)
+                - if track.start_date
+                  %br
+                  From: #{track.start_date.strftime('%A, %B %-d. %Y')}
+                - if track.end_date
+                  %br
+                  To: #{track.end_date.strftime('%A, %B %-d. %Y')}
+                - if track.room
+                  %br
+                  In: #{track.room.name}
 
   - if @conference.program and @conference.program.schedule_public
     .row

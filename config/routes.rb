@@ -1,5 +1,9 @@
 Osem::Application.routes.draw do
 
+  constraints DomainConstraint do
+    get '/', to: 'conferences#show'
+  end
+
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
@@ -20,16 +24,23 @@ Osem::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :organizations
+    resources :organizations do
+      member do
+        get :admins
+        post :assign_org_admins
+        delete :unassign_org_admins
+      end
+    end
     resources :users do
       member do
         patch :toggle_confirmation
       end
     end
+    resource :ticket_scanning, only: [:create]
     resources :comments, only: [:index]
     resources :conferences do
       resource :contact, except: [:index, :new, :create, :show, :destroy]
-      resources :schedules, only: [:index, :create, :show, :update, :destroy]
+      resources :schedules, except: [:edit, :update]
       resources :event_schedules, only: [:create, :update, :destroy]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
       resources :commercials, only: [:index, :create, :update, :destroy]
@@ -41,12 +52,12 @@ Osem::Application.routes.draw do
         member do
           patch :accept
           patch :restart
-          patch :withdrawn
           patch :to_accept
           patch :reject
           patch :reset
           patch :to_reject
           patch :cancel
+          patch :confirm
         end
       end
 
@@ -70,6 +81,14 @@ Osem::Application.routes.draw do
         resources :tracks do
           member do
             patch :toggle_cfp_inclusion
+            patch :restart
+            patch :to_accept
+            patch :accept
+            patch :confirm
+            patch :to_reject
+            patch :reject
+            patch :cancel
+            patch :update_selected_schedule
           end
         end
         resources :event_types
@@ -123,6 +142,8 @@ Osem::Application.routes.draw do
           patch :update_conference
         end
       end
+
+      get '/revision_history' => 'versions#index'
     end
 
     get '/revision_history' => 'versions#index'
@@ -131,6 +152,13 @@ Osem::Application.routes.draw do
   end
   resources :organizations, only: [:index]
   resources :conferences, only: [:index, :show] do
+    resources :booths do
+      member do
+        patch :withdraw
+        patch :confirm
+        patch :restart
+      end
+    end
     resource :program, only: [] do
       resources :proposals, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'
@@ -143,7 +171,13 @@ Osem::Application.routes.draw do
           patch '/restart' => 'proposals#restart'
         end
       end
-      resources :tracks, except: :destroy
+      resources :tracks, except: :destroy do
+        member do
+          patch :restart
+          patch :confirm
+          patch :withdraw
+        end
+      end
     end
 
     # TODO: change conference_registrations to singular resource

@@ -160,7 +160,7 @@ feature 'Has correct abilities' do
       expect(current_path).to eq(edit_admin_conference_resource_path(conference.short_title, conference.resources.first))
 
       visit admin_revision_history_path
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(admin_revision_history_path)
 
       visit admin_conference_path(conference.short_title)
       expect(current_path).to eq(admin_conference_path(conference.short_title))
@@ -235,6 +235,12 @@ feature 'Has correct abilities' do
       expect(current_path).to eq(admin_conference_questions_path(conference.short_title))
 
       visit admin_conference_program_tracks_path(conference.short_title)
+      expect(current_path).to eq(root_path)
+
+      visit admin_users_path
+      expect(current_path).to eq(root_path)
+
+      visit admin_user_path(user_info_desk)
       expect(current_path).to eq(root_path)
 
       visit admin_conference_emails_path(conference.short_title)

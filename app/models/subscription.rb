@@ -1,5 +1,4 @@
 class Subscription < ActiveRecord::Base
-  validates :user_id, uniqueness: { scope: [:conference_id] }
   belongs_to :conference
   belongs_to :user
 

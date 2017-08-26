@@ -1,9 +1,7 @@
 # cannot delete program if there are events submitted
 
 class Cfp < ActiveRecord::Base
-  TYPES = %w(events booths).freeze
-
-  scope :for_events, (-> { find_by(cfp_type: 'events') })
+  TYPES = %w(events booths tracks).freeze
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program
@@ -76,6 +74,33 @@ class Cfp < ActiveRecord::Base
   # * +true+ -> If today is in the CFP period.
   def open?
     (start_date..end_date).cover?(Date.current)
+  end
+
+  ##
+  # Finds the cfp for events if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'events'
+  def self.for_events
+    find_by(cfp_type: 'events')
+  end
+
+  ##
+  # Finds the cfp for tracks if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'tracks'
+  def self.for_tracks
+    find_by(cfp_type: 'tracks')
+  end
+
+  ##
+  # Finds the cfp for booths if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'booths'
+  def self.for_booths
+    find_by(cfp_type: 'booths')
   end
 
   private

@@ -25,6 +25,8 @@
               = organization.conferences.past.count
             %td
               .btn-group
+                = link_to 'Admins', admins_admin_organization_path(organization),
+                  method: :get, class: 'btn btn-success'
                 = link_to 'Edit', edit_admin_organization_path(organization),
                   method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_organization_path(organization),

@@ -1,4 +1,4 @@
-%ul.nav.nav-stacked.nav-pills.mySidebar
+%ul.nav.nav-stacked.nav-pills.mySidebar.collapse.navbar-collapse#side-nav
   .btn-group
     %button{type:'button', class: 'btn btn-default btn-link dropdown-toggle', 'data-toggle'=>'dropdown'}
       %span.fa.fa-cog
@@ -116,7 +116,11 @@
         - if can? :update, @conference.tickets.build
           %li{class: active_nav_li(admin_conference_tickets_path(@conference.short_title)) }
             = link_to 'Tickets', admin_conference_tickets_path(@conference.short_title)
-
+  - if can? :manage, @conference.booths.build
+    %li
+      = link_to  admin_conference_booths_path(@conference.short_title) do
+        %span.fa.fa-shopping-bag
+        Booths
   - if (can? :manage, @conference.targets.build) || (can? :manage, @conference.campaigns.build)
     %li
       %a
@@ -139,8 +143,15 @@
       = link_to(admin_conference_roles_path(@conference.short_title)) do
         %span.fa.fa-group
         Roles
+
   - if can? :index, @conference.resources.new
     %li
       = link_to admin_conference_resources_path(@conference.short_title) do
         %span.fa.fa-pencil-square
         Resources
+
+  - if can?(:index, PaperTrail::Version.new(conference_id: @conference.id, item_type: 'Event')) || can?(:index, PaperTrail::Version.new(conference_id: @conference.id, item_type: 'Registration'))
+    %li{:class=> active_nav_li(admin_conference_revision_history_path(@conference.short_title))}
+      = link_to(admin_conference_revision_history_path(@conference.short_title)) do
+        %span.fa.fa-history
+        Revision History

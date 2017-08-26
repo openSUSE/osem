@@ -1,0 +1,24 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#booths' } Booths
+
+.container
+  .row
+    .col-md-12.text-center
+      %h2 Booths
+  - @conference.booths.confirmed.each_slice(3).with_index do |slice, index_for_row|
+    .row.row-centered
+      - slice.each.with_index do |booth, index_for_column|
+        .col-md-4.col-sm-4.col-xs-10.col-centered.col-top
+          .thumbnail
+            - if booth.logo_link
+              = link_to booth.website_url, class: 'thumbnail' do
+                = image_tag booth.picture.large.url
+            .caption
+              %h3.text-center
+                = booth.title
+              %p.text-center.text-muted
+                = link_to "#show_descrition_#{index_for_row}_#{index_for_column}", "data-toggle"=>"collapse" do
+                  learn more
+              .collapse{ id: "show_descrition_#{index_for_row}_#{index_for_column}" }
+                = markdown(booth.description)

@@ -167,5 +167,32 @@ describe Admin::OrganizationsController do
         end
       end
     end
+
+    describe 'POST #assign_org_admins' do
+      let(:org_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
+
+      before do
+        post :assign_org_admins, id: organization.id,
+                                 user: { email: user.email }
+      end
+
+      it 'assigns organization_admin role' do
+        expect(user.roles).to eq [org_admin_role]
+      end
+    end
+
+    describe 'DELETE #unassign_org_admins' do
+      let(:org_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
+      let!(:org_admin_user) { create(:user, role_ids: [org_admin_role.id]) }
+
+      before do
+        delete :unassign_org_admins, id: organization.id,
+                                     user: { email: org_admin_user.email }
+      end
+
+      it 'unassigns organization_admin role' do
+        expect(org_admin_user.reload.roles).to eq []
+      end
+    end
   end
 end

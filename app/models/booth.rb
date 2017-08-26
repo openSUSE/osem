@@ -25,6 +25,9 @@ class Booth < ActiveRecord::Base
             :submitter_relationship,
             presence: true
 
+  scope :accepted, -> { where(state: 'accepted') }
+  scope :confirmed, -> { where(state: 'confirmed') }
+
   mount_uploader :picture, PictureUploader, mount_on: :logo_link
 
   state_machine initial: :new do
@@ -35,12 +38,16 @@ class Booth < ActiveRecord::Base
     state :to_reject
     state :rejected
     state :canceled
+    state :confirmed
 
     event :restart do
-      transitions to: :new, from: [:withdrawn, :to_accept, :to_reject, :canceled]
+      transitions to: :new, from: [:withdrawn, :rejected, :canceled]
     end
     event :withdraw do
-      transitions to: :withdrawn, from: [:new, :to_accept, :accepted, :to_reject, :rejected]
+      transitions to: :withdrawn, from: [:new, :to_accept, :accepted, :to_reject, :rejected, :confirmed]
+    end
+    event :confirm do
+      transitions to: :confirmed, from: [:accepted]
     end
     event :to_accept do
       transitions to: :to_accept, from: [:new, :to_reject]
@@ -55,7 +62,7 @@ class Booth < ActiveRecord::Base
       transitions to: :rejected, from: [:new, :to_reject]
     end
     event :cancel do
-      transitions to: :canceled, from: [:accepted, :rejected]
+      transitions to: :canceled, from: [:accepted, :rejected, :to_accept, :to_reject, :confirmed]
     end
   end
 

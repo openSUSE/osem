@@ -26,7 +26,11 @@ class Conference < ActiveRecord::Base
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
-  has_many :tickets, dependent: :destroy
+  has_many :tickets, dependent: :destroy do
+    def for_registration
+      where(registration_ticket: true)
+    end
+  end
   has_many :resources, dependent: :destroy
   has_many :booths, dependent: :destroy
 
@@ -739,12 +743,25 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  #
+  # ====Returns
+  # * +True+ -> if accepted booths are equal to the booth limit
+  # * +False+ -> Accepted booths have not reached the booth limit
+  def maximum_accepted_booths?
+    booth_limit > 0 && booths.accepted.count + booths.confirmed.count >= booth_limit
+  end
+
+  ##
   # Return the current conference object to be used in RevisionCount
   #
   # ====Returns
   # * +ActiveRecord+
   def conference
     self
+  end
+
+  def to_param
+    short_title
   end
 
   private

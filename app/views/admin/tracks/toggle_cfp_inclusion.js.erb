@@ -1,0 +1,8 @@
+$('.alert').remove();
+
+track_id = <%= @track.id %>;
+track_cfp_td = $('#cfp_switch_' + track_id);
+track_cfp_value = <%= @track.cfp_active %>;
+
+track_cfp_td.attr('data-order', track_cfp_value);
+$('#tracks').DataTable().cell(track_cfp_td).invalidate();
