@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.text     "reasoning"
     t.string   "state"
     t.string   "logo_link"
-    t.string   "website_url"
-    t.text     "submitter_relationship"
     t.integer  "conference_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "website_url"
+    t.text     "submitter_relationship"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -207,9 +207,6 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.string   "cfp_dates_updated_subject"
     t.text     "program_schedule_public_body"
     t.text     "cfp_dates_updated_body"
-    t.text     "booths_acceptance_template"
-    t.text     "booths_rejection_template"
-    t.string   "booths_accetance_subject"
     t.boolean  "send_on_booths_acceptance",                     default: false
     t.string   "booths_acceptance_subject"
     t.text     "booths_acceptance_body"
@@ -328,7 +325,10 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.integer  "ticket_purchase_id", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "token"
   end
+
+  add_index "physical_tickets", ["token"], name: "index_physical_tickets_on_token", unique: true
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
@@ -474,8 +474,8 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.string   "address"
     t.string   "vat"
     t.boolean  "has_banner",           default: false
-    t.text     "swags"
-    t.text     "courrier_info"
+    t.text     "swag"
+    t.text     "courier_info"
     t.string   "state"
   end
 

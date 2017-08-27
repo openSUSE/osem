@@ -4,7 +4,6 @@
       %h1
         Edit
         = @sponsor.name
-        = @sponsor.swag_index
 .row
   .col-md-8
     = semantic_form_for(@sponsor, url: admin_conference_sponsor_path(@conference.short_title, @sponsor)) do |f|
@@ -23,8 +22,13 @@
                                         on_text: 'Yes',
                                         off_text: 'No' }
       - @sponsor.swags.each_with_index do |(key, value), index|
-        =render partial: 'swag_fields', locals: {f: f, index: index, v_type: value[:type].to_s, v_quantity: value[:quantity].to_i}
-      =render partial: 'swag_fields', locals: {f: f, index: @sponsor.swag_index, v_type: nil, v_quantity: 0}
+        =render partial: 'swag_fields', locals: {f: f, index: index, type_value: value[:type].to_s, quantity_value: value[:quantity].to_i}
+      =render partial: 'swag_fields', locals: {f: f, index: @sponsor.swag_index, type_value: nil, quantity_value: nil}
+
+      - @sponsor.courier_info.each_with_index do |(key, value), index|
+        =render partial: 'courier_fields', locals: {f: f, index: index, name_value: value[:courier_name].to_s, tracking_value: value[:tracking_number].to_s, boxes_value: value[:boxes]}
+      =render partial: 'courier_fields', locals: {f: f, index: @sponsor.courier_index, name_value: nil, tracking_value: nil, boxes_value: nil}
+
       .row
         .col-md-8
           = image_tag f.object.picture.thumb.url if f.object.picture?

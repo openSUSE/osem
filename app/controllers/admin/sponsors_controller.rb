@@ -11,12 +11,13 @@ module Admin
     end
 
     def show
-      @sponsor.swag_index = @sponsor.swags.length
+      @sponsor.swag_index = @sponsor.swag.length
+      @sponsor.courier_index = @sponsor.courier_info.length
     end
 
     def edit
-      @sponsor.swag_index = @sponsor.swags.length
-      @sponsor.swags = @sponsor.swags
+      @sponsor.swag_index = @sponsor.swag.length
+      @sponsor.courier_index = @sponsor.courier_info.length
     end
 
     def new
@@ -35,7 +36,6 @@ module Admin
     end
 
     def update
-
       if @sponsor.update_attributes(sponsor_params)
         redirect_to admin_conference_sponsor_path(
                     conference_id: @conference.short_title, id: @sponsor.id),
@@ -57,7 +57,7 @@ module Admin
       end
     end
 
-    def add_swags()
+    def add_swags
       @sponsor.update_attributes(sponsor_params)
       redirect_to edit_admin_conference_sponsor_path(@conference.short_title, @sponsor)
     end
@@ -67,7 +67,7 @@ module Admin
 
       if @sponsor.save
         redirect_to admin_conference_sponsors_path(@conference.short_title),
-                      notice: 'Sponsor successfully confirmed!'
+                    notice: 'Sponsor successfully confirmed!'
       else
         flash[:error] = 'Sponsor couldn\' t be confirmed.'
       end
@@ -78,7 +78,7 @@ module Admin
 
       if @sponsor.save
         redirect_to admin_conference_sponsors_path(@conference.short_title),
-                      notice: 'Sponsor successfully canceled'
+                    notice: 'Sponsor successfully canceled'
       else
         flash[:error] = 'Sponsor couldn\'t be canceled'
       end
@@ -115,7 +115,8 @@ module Admin
 
     def sponsor_params
       params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id,
-                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :swag_index, swags: [:type, :quantity])
+                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :swag_index, :courier_index,
+                                      swags: [:type, :quantity], courier_info: [:courier_name, :tracking_number, :boxes])
     end
 
     def sponsorship_level_required

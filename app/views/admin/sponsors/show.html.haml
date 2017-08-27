@@ -1,7 +1,8 @@
 .row
   .col-md-12
     %h2
-      = image_tag(@sponsor.picture.thumb.url, size: '20%', alt: '')
+      - if @sponsor.picture?
+        = image_tag(@sponsor.picture.thumb.url, size: '20%', alt: '')
       = @sponsor.name
 .row
   .col-md-12
@@ -41,6 +42,20 @@
           %b Website url
         %td
           = link_to @sponsor.website_url, @sponsor.website_url
+
+
+      - if @sponsor.address?
+        %tr
+          %td.col-md-2
+            %b Company's address
+          %td
+            = @sponsor.address
+      - if @sponsor.vat?
+        %tr
+          %td.col-md-2
+            %b Campany's VAT Registration Number
+          %td
+            = @sponsor.vat
       %tr
         %td.col-md-2
           %b Has swag?
@@ -75,15 +90,32 @@
                 = value[:type]
               %td
                 = value[:quantity]
-      - if @sponsor.address?
-        %tr
-          %td.col-md-2
-            %b Company's address
-          %td
-            = @sponsor.address
-      - if @sponsor.vat?
-        %tr
-          %td.col-md-2
-            %b Campany's VAT Registration Number
-          %td
-            = @sponsor.vat
+      %tr
+        %td.col-md-2
+          %b Swag Received?
+        %td
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swag_received,
+          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[swag_received]=",
+          class: 'switch-checkbox', data: { size: 'small',
+                                            off_color: 'warning',
+                                            on_text: 'Yes',
+                                            off_text: 'No' }
+    .row
+      .col-md-12
+        %table.table
+          - if @sponsor.courier_index > 0
+            %tr
+              %td.col-md-2
+                %b Courrier's name
+              %td.col-md-2
+                %b Tracking Number
+              %td
+                %b Number of boxes
+              - @sponsor.courier_info.each do |key, value|
+                %tr
+                  %td.col-md-2
+                    = value[:courier_name]
+                  %td
+                    = value[:tracking_number]
+                  %td
+                    = value[:boxes]
