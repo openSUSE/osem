@@ -57,13 +57,32 @@ module Admin
       end
     end
 
-    def add_swags(form, index)
-      render partial: 'swag_fields', locals: { f: form, index: (index + 1), v_type: nil, v_quantity: 0}
+    def add_swags()
+      @sponsor.update_attributes(sponsor_params)
+      redirect_to edit_admin_conference_sponsor_path(@conference.short_title, @sponsor)
     end
 
+    def confirm
+      @sponsor.confirm!
 
+      if @sponsor.save
+        redirect_to admin_conference_sponsors_path(@conference.short_title),
+                      notice: 'Sponsor successfully confirmed!'
+      else
+        flash[:error] = 'Sponsor couldn\' t be confirmed.'
+      end
+    end
 
-    def get_swags; end
+    def cancel
+      @sponsor.cancel!
+
+      if @sponsor.save
+        redirect_to admin_conference_sponsors_path(@conference.short_title),
+                      notice: 'Sponsor successfully canceled'
+      else
+        flash[:error] = 'Sponsor couldn\'t be canceled'
+      end
+    end
 
     def paid
       @sponsor.paid = !@sponsor.paid

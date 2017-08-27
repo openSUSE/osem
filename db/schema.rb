@@ -468,11 +468,6 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "picture"
-    t.boolean  "payed",                default: false
-    t.boolean  "swags_received"
-    t.string   "company_address"
-    t.string   "vat_registration"
-    t.text     "swag_hash"
     t.boolean  "paid",                 default: false
     t.boolean  "has_swag",             default: false
     t.boolean  "swag_received"
@@ -480,6 +475,8 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.string   "vat"
     t.boolean  "has_banner",           default: false
     t.text     "swags"
+    t.text     "courrier_info"
+    t.string   "state"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|

@@ -43,7 +43,7 @@
           = link_to @sponsor.website_url, @sponsor.website_url
       %tr
         %td.col-md-2
-          %b Has swags?
+          %b Has swag?
         %td
           = check_box_tag @conference.short_title, @sponsor.id, @sponsor.has_swag,
           method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[has_swag]=",
@@ -75,9 +75,6 @@
                 = value[:type]
               %td
                 = value[:quantity]
-
-
-
       - if @sponsor.address?
         %tr
           %td.col-md-2
