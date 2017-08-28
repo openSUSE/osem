@@ -9,18 +9,18 @@
     %div{ role: 'tabpanel' }
       %ul.nav.nav-tabs
         %li.active
-          %a{'data-toggle' => 'tab', href: '#sponsorship', role: 'tab'} Sponsorship
+          %a{ 'data-toggle' => 'tab', href: '#sponsorship', role: 'tab' } Sponsorship
         %li
-          %a{'data-toggle' => 'tab', href: '#swags', role: 'tab'} Swags
+          %a{ 'data-toggle' => 'tab', href: '#swags', role: 'tab' } Swags
         %li
-          %a{'data-toggle' => 'tab', href: '#unconfirmed', role: 'tab'} Unconfirmed
+          %a{'data-toggle' => 'tab', href: '#unconfirmed', role: 'tab' } Unconfirmed
 
       .tab-content
         #sponsorship.tab-pane.active
           - if @conference.sponsors.confirmed.any?
             .row
               .col-md-12
-                %table.table.table-hover#sponsorship
+                %table.table.table-hover
                   %thead
                     %th Logo
                     %th Name
@@ -36,7 +36,7 @@
                         %td
                           = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
                         %td
-                          = sponsor.amount  
+                          = sponsor.amount
                         %td
                           - if sponsor.payed
                             %span.fa.fa-check.text-success
@@ -62,7 +62,7 @@
           - if @conference.sponsors.confirmed.any?
             .row
               .col-md-12
-                %table.table.table-hover#swags
+                %table.table.table-hover
                   %thead
                     %th Logo
                     %th Name
@@ -123,7 +123,7 @@
           - if @conference.sponsors.unconfirmed.any?
             .row
               .col-md-12
-                %table.table.table-hover#unconfirmed
+                %table.table.table-hover#sponsors
                   %thead
                     %th Logo
                     %th Name

@@ -27,7 +27,7 @@ feature Sponsor do
 
       expect(flash).to eq('Sponsor successfully created.')
       click_link 'Unconfirmed'
-      within('table#unconfirmed') do
+      within('table#sponsors') do
         expect(page.has_content?('SUSE')).to be true
         expect(page.has_content?('The original provider')).to be true
         expect(page.has_content?('http://www.suse.com')).to be true

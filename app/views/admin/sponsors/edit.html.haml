@@ -23,12 +23,12 @@
                                         on_text: 'Yes',
                                         off_text: 'No' }
       - @sponsor.swag.each_with_index do |(key, value), index|
-        =render partial: 'swag_fields', locals: {f: f, index: index, type_value: value[:type].to_s, quantity_value: value[:quantity].to_i}
-      =render partial: 'swag_fields', locals: {f: f, index: @sponsor.swag_index, type_value: nil, quantity_value: nil}
+        = render partial: 'swag_fields', locals: {f: f, index: index, type_value: value[:type].to_s, quantity_value: value[:quantity].to_i}
+      = render partial: 'swag_fields', locals: {f: f, index: @sponsor.swag_index, type_value: nil, quantity_value: nil}
 
       - @sponsor.swag_transportation.each_with_index do |(key, value), index|
-        =render partial: 'carrier_fields', locals: {f: f, index: index, name_value: value[:carrier_name].to_s, tracking_value: value[:tracking_number].to_s, boxes_value: value[:boxes]}
-      =render partial: 'carrier_fields', locals: {f: f, index: @sponsor.carrier_index, name_value: nil, tracking_value: nil, boxes_value: nil}
+        = render partial: 'carrier_fields', locals: {f: f, index: index, name_value: value[:carrier_name].to_s, tracking_value: value[:tracking_number].to_s, boxes_value: value[:boxes]}
+      = render partial: 'carrier_fields', locals: {f: f, index: @sponsor.carrier_index, name_value: nil, tracking_value: nil, boxes_value: nil}
 
       .row
         .col-md-8
