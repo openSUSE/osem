@@ -42,10 +42,9 @@ feature Track do
 
       expected.to change { Track.count }.by(-1)
       expect(flash).to eq('Track successfully deleted.')
-      within('table#tracks') do
-        expect(page.has_content?(track.name)).to be false
-        expect(page.has_content?(track.description)).to be false
-      end
+      expect(page.has_css?('table#tracks')).to be false
+      expect(page.has_content?(track.name)).to be false
+      expect(page.has_content?(track.description)).to be false
     end
 
     scenario 'updates a track', feature: true, js: true do
