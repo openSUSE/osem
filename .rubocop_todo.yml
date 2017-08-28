@@ -585,7 +585,7 @@ Style/PredicateName:
     - 'spec/**/*'
     - 'app/models/comment.rb'
     - 'app/models/contact.rb'
-    - 'app/controllers/admin/sponsors_controller'
+    - 'app/controllers/admin/sponsors_controller.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

@@ -1,5 +1,5 @@
 .row
   .col-md-6
-    = f.input :type, label: 'Swag\'s type', input_html: { name: "sponsor[swags][#{index}][type]", value: type_value }
+    = f.input :type, label: 'Swag\'s type', input_html: { name: "sponsor[swag][#{index}][type]", value: type_value }
   .col-md-6
-    = f.input :quantity, as: :number, in: 0...999, input_html: { name: "sponsor[swags][#{index}][quantity]", value: quantity_value}
+    = f.input :quantity, as: :number, in: 0...9999, input_html: { name: "sponsor[swag][#{index}][quantity]", value: quantity_value}

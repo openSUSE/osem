@@ -24,6 +24,7 @@
                   %thead
                     %th Logo
                     %th Name
+                    %th Donation
                     %th Payment
                     %th Level
                     %th Actions
@@ -34,6 +35,8 @@
                           = image_tag(sponsor.picture.thumb.url, width: '20%')
                         %td
                           = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                        %td
+                          = sponsor.amount  
                         %td
                           - if sponsor.payed
                             %span.fa.fa-check.text-success
@@ -88,17 +91,20 @@
                             %span.fa.fa-times.text-danger
                         %td
                           - if sponsor.has_swag
-                            - sponsor.swags.each do |key, value|
+                            - sponsor.swag.each do |key, value|
                               = value[:type]
                               (
                               = value[:quantity]
                               )
                               %br
+
                         %td
-                          - if sponsor.swag_received
-                            %span.fa.fa-check.text-success
-                          - else
-                            %span.fa.fa-times.text-danger
+                          = check_box_tag @conference.short_title, sponsor.id, sponsor.swag_received,
+                          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}?sponsor[swag_received]=",
+                          class: 'switch-checkbox', data: { size: 'small',
+                                                            off_color: 'warning',
+                                                            on_text: 'Yes',
+                                                            off_text: 'No' }
                         %td
                           .btn-group
                             = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
@@ -135,7 +141,7 @@
                         %td
                           = truncate(sponsor.description)
                         %td
-                          = sponsor.website_url
+                          = link_to sponsor.website_url, sponsor.website_url
                         %td
                           = sponsor.sponsorship_level.title
                         %td

@@ -12,12 +12,13 @@ module Admin
 
     def show
       @sponsor.swag_index = @sponsor.swag.length
-      @sponsor.courier_index = @sponsor.courier_info.length
+      @sponsor.carrier_index = @sponsor.swag_transportation.length
     end
 
     def edit
+      @sponsor.swag = @sponsor.swag
       @sponsor.swag_index = @sponsor.swag.length
-      @sponsor.courier_index = @sponsor.courier_info.length
+      @sponsor.carrier_index = @sponsor.swag_transportation.length
     end
 
     def new
@@ -115,8 +116,8 @@ module Admin
 
     def sponsor_params
       params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id,
-                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :swag_index, :courier_index,
-                                      swags: [:type, :quantity], courier_info: [:courier_name, :tracking_number, :boxes])
+                                      :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :swag_index, :carrier_index, :amount,
+                                      swag: [:type, :quantity], swag_transportation: [:carrier_name, :tracking_number, :boxes])
     end
 
     def sponsorship_level_required

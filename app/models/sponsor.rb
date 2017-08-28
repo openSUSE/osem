@@ -4,11 +4,11 @@ class Sponsor < ActiveRecord::Base
   belongs_to :sponsorship_level
   belongs_to :conference
 
-  serialize :swags, Hash
-  serialize :courier_info, Hash
+  serialize :swag, Hash
+  serialize :swag_transportation, Hash
 
-  attr_accessor :type, :quantity, :swag_index, :courier_index,
-                :courier_name, :tracking_number, :boxes
+  attr_accessor :type, :quantity, :swag_index, :carrier_index,
+                :carrier_name, :tracking_number, :boxes
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
@@ -22,7 +22,6 @@ class Sponsor < ActiveRecord::Base
   state_machine initial: :unconfirmed do
     state :unconfirmed
     state :confirmed
-
 
     event :confirm do
       transitions to: :confirmed, from: [:unconfirmed]

@@ -1,7 +1,0 @@
-.row
-  .col-md-4
-    = f.input :courrier_name, label: 'Courier\'s name', input_html: { name: "sponsor[courier_info][#{index}][courier_name]", value: name_value }
-  .col-md-4
-    = f.input :tracking_number, input_html: { name: "sponsor[courier_info][#{index}][tracking_number]", value: tracking_value}
-  .col-md-4
-    = f.input :boxes, as: :number, in: 0...999, label: 'Number of boxes', input_html: { name: "sponsor[courier_info][#{index}][boxes]", value: boxes_value }
