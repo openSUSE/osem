@@ -4,9 +4,6 @@
       %h1
         Booths
         = "(#{@booths.length})" if @booths.any?
-        .pull-right
-          - if can? :create, Booth
-            = link_to 'Add Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
       %p.text-muted
         All the booth requests
 
@@ -74,3 +71,7 @@
             %td
               = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
               class: 'btn btn-primary'
+.row
+  .col-md-12.text-right
+    - if can? :create, Booth
+      = link_to 'New Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
