@@ -4,8 +4,6 @@ module Admin
     load_and_authorize_resource :sponsor, through: :conference
     before_action :sponsorship_level_required, only: [:index, :new]
 
-    helper_method :add_swags
-
     def index
       authorize! :index, Sponsor.new(conference_id: @conference.id)
     end
@@ -58,11 +56,6 @@ module Admin
       end
     end
 
-    def add_swags
-      @sponsor.update_attributes(sponsor_params)
-      redirect_to edit_admin_conference_sponsor_path(@conference.short_title, @sponsor)
-    end
-
     def confirm
       @sponsor.confirm!
 
@@ -82,6 +75,17 @@ module Admin
                     notice: 'Sponsor successfully canceled'
       else
         flash[:error] = 'Sponsor couldn\'t be canceled'
+      end
+    end
+
+    def contact
+      @sponsor.contact!
+
+      if @sponsor.save
+        redirect_to admin_conference_sponsors_path(@conference.short_title),
+                    notice: 'Sponsor\'s state successfully updated'
+      else
+        flash[:error] = 'Sponsor\'s state  couldn\'t be updated'
       end
     end
 

@@ -17,18 +17,24 @@ class Sponsor < ActiveRecord::Base
   validates :name, :website_url, :sponsorship_level, presence: true
 
   scope :confirmed, -> { where(state: 'confirmed') }
-  scope :unconfirmed, -> { where(state: 'unconfirmed') }
+  scope :contacted, -> { where(state: 'contacted') }
+  scope :to_contact, -> { where(state: 'to_contact') }
 
-  state_machine initial: :unconfirmed do
-    state :unconfirmed
+  state_machine initial: :to_contact do
+    state :to_contact
     state :confirmed
+    state :contacted
 
     event :confirm do
-      transitions to: :confirmed, from: [:unconfirmed]
+      transitions to: :confirmed, from: [:to_contact, :contacted]
     end
 
     event :cancel do
-      transitions to: :unconfirmed, from: [:confirmed]
+      transitions to: :to_contact, from: [:confirmed, :contacted]
+    end
+
+    event :contact do
+      transitions to: :contacted, from: [:to_contact]
     end
   end
 

@@ -121,6 +121,7 @@ Osem::Application.routes.draw do
         member do
           patch :confirm
           patch :cancel
+          patch :contact
         end
       end
       resources :lodgings, except: [:show]
