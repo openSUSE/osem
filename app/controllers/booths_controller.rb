@@ -23,7 +23,7 @@ class BoothsController < ApplicationController
       redirect_to conference_booths_path,
                   notice: 'Booth successfully created.'
     else
-      flash[:error] = "Creating booth failed. #{@booth.errors.full_messages.to_sentence}."
+      flash.now[:error] = "Creating booth failed. #{@booth.errors.full_messages.to_sentence}."
       render :new
     end
   end
@@ -40,7 +40,7 @@ class BoothsController < ApplicationController
       redirect_to conference_booths_path,
                   notice: 'Booth successfully updated!'
     else
-      flash[:error] = "Booth could not be updated. #{@booth.errors.full_messages.to_sentence}."
+      flash.now[:error] = "Booth could not be updated. #{@booth.errors.full_messages.to_sentence}."
     end
   end
 
@@ -56,7 +56,7 @@ class BoothsController < ApplicationController
       redirect_to conference_booths_path,
                   notice: 'Booth successfully withdrawn'
     else
-      flash[:error] = "Booth could not be withdrawn. #{@booth.errors.full_messages.to_sentence}."
+      flash.now[:error] = "Booth could not be withdrawn. #{@booth.errors.full_messages.to_sentence}."
     end
   end
 
@@ -70,7 +70,7 @@ class BoothsController < ApplicationController
       redirect_to conference_booths_path,
                   notice: 'Booth successfully confirmed'
     else
-      flash[:error] = "Booth could not be confirmed. #{@booth.errors.full_messages.to_sentence}."
+      flash.now[:error] = "Booth could not be confirmed. #{@booth.errors.full_messages.to_sentence}."
     end
   end
 
@@ -84,7 +84,7 @@ class BoothsController < ApplicationController
       redirect_to conference_booths_path,
                   notice: 'Booth successfully re-submitted'
     else
-      flash[:error] = "Booth could not be re-submitted. #{@booth.errors.full_messages.to_sentence}."
+      flash.now[:error] = "Booth could not be re-submitted. #{@booth.errors.full_messages.to_sentence}."
     end
   end
 

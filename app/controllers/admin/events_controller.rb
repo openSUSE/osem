@@ -102,7 +102,7 @@ module Admin
         ahoy.track 'Event submission', title: 'New submission'
         redirect_to admin_conference_program_events_path(@conference.short_title), notice: 'Event was successfully submitted.'
       else
-        flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
+        flash.now[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
         render action: 'new'
       end
     end
