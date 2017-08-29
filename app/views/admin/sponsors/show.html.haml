@@ -74,7 +74,7 @@
                                             off_text: 'No' }
 
 
-      - if @sponsor.has_swag
+      - if @sponsor.swag.length > 0
         %tr
           %td.col-md-2
             %b Swag's Type

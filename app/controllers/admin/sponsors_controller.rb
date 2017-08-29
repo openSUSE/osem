@@ -9,12 +9,15 @@ module Admin
     end
 
     def show
+      @sponsor.swag.reject! { |_key, value| value[:type].blank? || value[:quantity].blank? }
+      @sponsor.swag_transportation.reject! { |_key, value| value[:carrier_name].blank? || value[:tracking_number].blank? || value[:boxes].blank? }
       @sponsor.swag_index = @sponsor.swag.length
       @sponsor.carrier_index = @sponsor.swag_transportation.length
     end
 
     def edit
-      @sponsor.swag = @sponsor.swag
+      @sponsor.swag.reject! { |_key, value| value[:type].blank? || value[:quantity].blank? }
+      @sponsor.swag_transportation.reject! { |_key, value| value[:carrier_name].blank? || value[:tracking_number].blank? }
       @sponsor.swag_index = @sponsor.swag.length
       @sponsor.carrier_index = @sponsor.swag_transportation.length
     end
