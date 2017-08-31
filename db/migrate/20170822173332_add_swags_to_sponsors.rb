@@ -10,5 +10,6 @@ class AddSwagsToSponsors < ActiveRecord::Migration
     add_column :sponsors, :swag, :text
     add_column :sponsors, :swag_transportation, :text
     add_column :sponsors, :state, :string
+    add_column :sponsors, :responsibe, :text
   end
 end

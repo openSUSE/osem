@@ -29,6 +29,18 @@
                                             off_color: 'warning',
                                             on_text: 'Yes',
                                             off_text: 'No' }
+      - unless @sponsor.responsibe[:responsible_name].blank?
+        %tr
+          %td.col-md-2
+            %b Responsible's name
+          %td
+            = @sponsor.responsibe[:responsible_name]
+      - unless @sponsor.responsibe[:responsible_email].blank?
+        %tr
+          %td.col-md-2
+            %b Responsible's email
+          %td
+            = @sponsor.responsibe[:responsible_email]
       - if @sponsor.description?
         %tr
           %td.col-md-2
@@ -74,7 +86,7 @@
                                             off_text: 'No' }
 
 
-      - if @sponsor.swag.length > 0
+      - if @sponsor.swag.any?
         %tr
           %td.col-md-2
             %b Swag's Type
@@ -101,7 +113,7 @@
     .row
       .col-md-12
         %table.table
-          - if @sponsor.carrier_index > 0
+          - if @sponsor.swag_transportation.any?
             %tr
               %td.col-md-2
                 %b Courrier's name

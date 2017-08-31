@@ -6,9 +6,11 @@ class Sponsor < ActiveRecord::Base
 
   serialize :swag, Hash
   serialize :swag_transportation, Hash
+  serialize :responsibe, Hash
 
   attr_accessor :type, :quantity, :swag_index, :carrier_index,
-                :carrier_name, :tracking_number, :boxes
+                :carrier_name, :tracking_number, :boxes,
+                :responsible_name, :responsible_email
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
@@ -18,7 +20,6 @@ class Sponsor < ActiveRecord::Base
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :contacted, -> { where(state: 'contacted') }
-  scope :to_contact, -> { where(state: 'to_contact') }
 
   state_machine initial: :to_contact do
     state :to_contact

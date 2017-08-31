@@ -478,6 +478,7 @@ ActiveRecord::Schema.define(version: 20170822173332) do
     t.text     "swag"
     t.text     "swag_transportation"
     t.string   "state"
+    t.text     "responsibe"
   end
 
   create_table "sponsorship_levels", force: :cascade do |t|

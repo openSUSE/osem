@@ -9,6 +9,15 @@
     = semantic_form_for(@sponsor, url: admin_conference_sponsor_path(@conference.short_title, @sponsor)) do |f|
       = f.input :name
       = f.input :amount, as: :number, label: 'Donation amount'
+      %b Sponsorship paid?
+      = check_box_tag @conference.short_title, @sponsor.id, @sponsor.paid,
+      method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[paid]=",
+      class: 'switch-checkbox', data: { size: 'small',
+                                        off_color: 'warning',
+                                        on_text: 'Yes',
+                                        off_text: 'No' }
+      = f.input :responsible_name, label: 'Responsible\'s name', hint: 'The person with whom you are in contact', input_html: { name: 'sponsor[responsibe][responsible_name]', value: @sponsor.responsibe[:responsible_name] }
+      = f.input :responsible_name, label: 'Responsible\'s email', input_html: { name: 'sponsor[responsibe][responsible_email]', value: @sponsor.responsibe[:responsible_email] }
       = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :picture
       = f.input :website_url
@@ -25,6 +34,14 @@
       - @sponsor.swag.each_with_index do |(key, value), index|
         = render partial: 'swag_fields', locals: {f: f, index: index, type_value: value[:type].to_s, quantity_value: value[:quantity].to_i}
       = render partial: 'swag_fields', locals: {f: f, index: @sponsor.swag_index, type_value: nil, quantity_value: nil}
+
+      %b Swag received?
+      = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swag_received,
+      method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[swag_received]=",
+      class: 'switch-checkbox', data: { size: 'small',
+                                        off_color: 'warning',
+                                        on_text: 'Yes',
+                                        off_text: 'No' }
 
       - @sponsor.swag_transportation.each_with_index do |(key, value), index|
         = render partial: 'carrier_fields', locals: {f: f, index: index, name_value: value[:carrier_name].to_s, tracking_value: value[:tracking_number].to_s, boxes_value: value[:boxes]}

@@ -8,16 +8,9 @@ module Admin
       authorize! :index, Sponsor.new(conference_id: @conference.id)
     end
 
-    def show
-      @sponsor.swag.reject! { |_key, value| value[:type].blank? || value[:quantity].blank? }
-      @sponsor.swag_transportation.reject! { |_key, value| value[:carrier_name].blank? || value[:tracking_number].blank? || value[:boxes].blank? }
-      @sponsor.swag_index = @sponsor.swag.length
-      @sponsor.carrier_index = @sponsor.swag_transportation.length
-    end
+    def show; end
 
     def edit
-      @sponsor.swag.reject! { |_key, value| value[:type].blank? || value[:quantity].blank? }
-      @sponsor.swag_transportation.reject! { |_key, value| value[:carrier_name].blank? || value[:tracking_number].blank? }
       @sponsor.swag_index = @sponsor.swag.length
       @sponsor.carrier_index = @sponsor.swag_transportation.length
     end
@@ -39,6 +32,9 @@ module Admin
 
     def update
       if @sponsor.update_attributes(sponsor_params)
+        @sponsor.update_attribute(:swag, @sponsor.swag.reject! { |_key, value| value[:type].blank? || value[:quantity].blank? })
+        @sponsor.update_attribute(:swag_transportation, @sponsor.swag_transportation.reject! { |_key, value| value[:carrier_name].blank? || value[:tracking_number].blank? })
+
         redirect_to admin_conference_sponsor_path(
                     conference_id: @conference.short_title, id: @sponsor.id),
                     notice: 'Sponsor successfully updated.'
@@ -124,7 +120,8 @@ module Admin
     def sponsor_params
       params.require(:sponsor).permit(:name, :description, :website_url, :picture, :picture_cache, :sponsorship_level_id, :conference_id,
                                       :paid, :has_swag, :swag_received, :address, :vat, :has_banner, :swag_index, :carrier_index, :amount,
-                                      swag: [:type, :quantity], swag_transportation: [:carrier_name, :tracking_number, :boxes])
+                                      responsibe: [:responsible_name, :responsible_email], swag: [:type, :quantity],
+                                      swag_transportation: [:carrier_name, :tracking_number, :boxes])
     end
 
     def sponsorship_level_required
