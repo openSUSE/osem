@@ -15,7 +15,7 @@ feature Conference do
 
   shared_examples 'successfully adds, update or show custom domain' do
     scenario 'adds or update custom domain of a conference', feature: true, js: true do
-      visit admin_conference_conference_domains_edit_path(conference.short_title)
+      visit edit_admin_conference_domain_path(conference.short_title)
 
       fill_in 'conference_custom_domain', with: 'newdomain.conf'
       click_button 'Attach this domain'
@@ -25,7 +25,7 @@ feature Conference do
     end
 
     scenario 'show custom domain of a conference', feature: true, js: true do
-      visit admin_conference_conference_domain_path(conference.short_title)
+      visit admin_conference_domain_path(conference.short_title)
 
       expect(page).to have_text('mydomain.conf')
     end
@@ -33,13 +33,13 @@ feature Conference do
 
   shared_examples 'does not add, update or show custom domain' do
     scenario 'does not add or update custom domain', feature: true, js: true do
-      visit admin_conference_conference_domains_edit_path(conference.short_title)
+      visit edit_admin_conference_domain_path(conference.short_title)
 
       expect(flash).to eq 'You are not authorized to access this page.'
     end
 
     scenario 'does not show custom domain of a conference', feature: true, js: true do
-      visit admin_conference_conference_domain_path(conference.short_title)
+      visit admin_conference_domain_path(conference.short_title)
 
       expect(flash).to eq 'You are not authorized to access this page.'
     end

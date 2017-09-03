@@ -1,0 +1,41 @@
+.row
+  .col-md-12
+    %h1
+      Custom Domain
+    %p.text-muted
+      Point your own domain to #{conference.title}
+%hr
+.row
+  .col-md-12
+    %h2
+      Step 1:
+    %strong
+      Unfortunately, we can't do this for you and you have to perform this step with the help your domain registrar!
+    %p
+      Pick a domain you want to host your conference on from a domain registrar or register it with a domain registrar.
+    %h2
+      Step 2:
+    %p
+      Enter your existing domain in the field below to point the domain to your conference splashpage.
+      = semantic_form_for(conference, url: admin_conference_domain_path(conference.short_title)) do |f|
+        = f.input :custom_domain, label: false
+        = f.action :submit, button_html: { class: 'btn btn-primary', value: 'Attach this domain' }
+        %h2
+          Step 3:
+        %strong
+          Unfortunately, we can't do this for you and you have to perform this step with the help your domain registrar!
+        %p
+          The last step is adding a CNAME record in your registrar’s DNS Settings. Different registrars have different ways of adding a CNAME record. The following guides would help you setup a CNAME record depending upon the registrar of your domain. If it doesn’t, you probably should get in touch with your domain registrar and ask him how to register a CNAME record in their platform.
+        %ul
+          %li
+            = link_to 'GoDaddy', 'https://in.godaddy.com/help/add-a-cname-record-19236'
+          %li
+            = link_to 'Namecheap', 'https://www.namecheap.com/support/knowledgebase/article.aspx/9646/2237/how-can-i-set-up-a-cname-record-for-my-domain'
+          %li
+            = link_to 'BlueHost', 'https://my.bluehost.com/cgi/help/cname#creating_a_cname'
+          %li
+            = link_to '12-reg.co.uk', 'https://www.123-reg.co.uk/support/answers/Domains/Domain-Configuration/how-do-i-set-up-a-cname-record-on-my-domain-name-1198/'
+          %li
+            = link_to '1&1', 'https://help.1and1.com/domains-c36931/manage-domains-c79822/dns-c37586/enter-a-cname-for-your-subdomain-a643600.html'
+        .well.well-lg
+          It might take upto 24-48 hours depending upon your registrar to update your DNS Settings.

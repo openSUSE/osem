@@ -11,7 +11,7 @@ describe Admin::ConferenceDomainsController do
     describe 'GET #show' do
       it 'redirects to edit if custom domain is not present' do
         get :show, conference_id: conference.short_title
-        expect(response).to redirect_to(admin_conference_conference_domains_edit_path)
+        expect(response).to redirect_to(edit_admin_conference_domain_path)
       end
 
       it 'renders correct template if custom domain is present' do

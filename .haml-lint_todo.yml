@@ -22,7 +22,7 @@ linters:
       - "app/views/admin/comments/_posted_comments.html.haml"
       - "app/views/admin/comments/_unread_comments.html.haml"
       - "app/views/admin/commercials/index.html.haml"
-      - "app/views/admin/conference_domains/edit.haml"
+      - "app/views/admin/conference_domains/_form.haml"
       - "app/views/admin/conference_domains/show.haml"
       - "app/views/admin/conferences/_campaigns.html.haml"
       - "app/views/admin/conferences/_doughnut_chart.html.haml"
