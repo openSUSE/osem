@@ -1,6 +1,6 @@
 module Admin
   class BaseController < ApplicationController
-    before_filter :verify_user_admin
+    before_action :verify_user_admin
 
     private
 

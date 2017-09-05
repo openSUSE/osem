@@ -1,4 +1,4 @@
-class PhysicalTicket < ActiveRecord::Base
+class PhysicalTicket < ApplicationRecord
   belongs_to :ticket_purchase
   has_one :ticket, through: :ticket_purchase
   has_one :conference, through: :ticket_purchase
