@@ -1,4 +1,4 @@
-class Vday < ActiveRecord::Base
+class Vday < ApplicationRecord
   belongs_to :conference
 
   has_many :vchoices

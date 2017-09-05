@@ -1,4 +1,4 @@
-class Registration < ActiveRecord::Base
+class Registration < ApplicationRecord
   belongs_to :user
   belongs_to :conference
 

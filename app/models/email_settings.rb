@@ -1,4 +1,4 @@
-class EmailSettings < ActiveRecord::Base
+class EmailSettings < ApplicationRecord
   belongs_to :conference
 
   has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
