@@ -83,6 +83,8 @@ gem 'jquery-ui-rails', '~> 4.2.1'
 # for languages validation
 gem 'iso-639'
 
+gem 'thor', '0.19.1'
+
 # frontend javascripts
 source 'https://rails-assets.org' do
   # for placeholder images
