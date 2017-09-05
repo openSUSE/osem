@@ -68,12 +68,13 @@ ActiveRecord::Schema.define(version: 20170924190528) do
   end
 
   create_table "cfps", force: :cascade do |t|
-    t.date     "start_date", null: false
-    t.date     "end_date",   null: false
+    t.date     "start_date",  null: false
+    t.date     "end_date",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
     t.string   "cfp_type"
+    t.text     "description"
   end
 
   create_table "comments", force: :cascade do |t|
