@@ -38,3 +38,4 @@ pickle-email-*.html
 .env.local
 docker-compose.env
 docker-compose.yml
+production.rb
