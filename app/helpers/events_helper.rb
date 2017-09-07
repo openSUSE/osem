@@ -44,7 +44,7 @@ module EventsHelper
     if @program.tracks.confirmed.cfp_active.any?
       form.input :track_id, as: :select,
                             collection: @program.tracks.confirmed.cfp_active.pluck(:name, :id),
-                            include_blank: true
+                            include_blank: '(Please select)'
     end
   end
 end
