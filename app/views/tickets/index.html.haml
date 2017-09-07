@@ -14,6 +14,7 @@
           %thead
             %tr
               %th Ticket
+              %th Registration Ticket
               %th Quantity
               %th Price
               %th Total
@@ -21,6 +22,7 @@
           - @conference.tickets.each do |ticket|
             = render partial: 'ticket', f: f, locals: {ticket: ticket}
           %tr
+            %td
             %td
             %td
             %td.col-sm-1.col-md-1.text-center
@@ -46,4 +48,4 @@
     .col-md-13
       %p.text-muted.text-center
         %small
-          * Getting a ticket is mandatory. Your participation will not be valid until you get a ticket.
+          * Getting a registration ticket is mandatory. Your participation will not be valid until you get a registration ticket.

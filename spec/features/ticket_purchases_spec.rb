@@ -3,7 +3,9 @@ require 'spec_helper'
 feature Registration do
   let!(:ticket) { create(:ticket) }
   let!(:free_ticket) { create(:ticket, price_cents: 0) }
-  let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
+  let!(:first_registration_ticket) { create(:registration_ticket, price_cents: 0) }
+  let!(:second_registration_ticket) { create(:registration_ticket, price_cents: 0) }
+  let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket, first_registration_ticket, second_registration_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
   let!(:participant) { create(:user) }
 
   context 'as a participant' do
@@ -105,6 +107,38 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: free_ticket.id).first
         expect(purchase.quantity).to eq(5)
         expect(purchase.paid).to be true
+      end
+
+      scenario 'purchases more than one registration tickets of a single type' do
+        visit root_path
+        click_link 'Register'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
+
+        fill_in "tickets__#{first_registration_ticket.id}", with: '5'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+      end
+
+      scenario 'purchases one registration ticket of a different types' do
+        visit root_path
+        click_link 'Register'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
+
+        fill_in "tickets__#{first_registration_ticket.id}", with: '1'
+        fill_in "tickets__#{second_registration_ticket.id}", with: '1'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+
+        expect(flash).to eq('Oops, something went wrong with your purchase! You cannot buy more than one registration tickets.')
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
       end
     end
 
