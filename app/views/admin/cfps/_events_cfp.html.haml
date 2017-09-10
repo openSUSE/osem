@@ -23,7 +23,7 @@
 %dd
   = tracks(@conference)
 %dt
-  Public Schedule
+  Public Schedule:
 %dd#schedule_public
   - if @program.schedule_public
     Yes
@@ -37,6 +37,6 @@
   - else
     No
 %dt
-  Rating Levels
+  Rating Levels:
 %dd#rating
   = @program.rating
