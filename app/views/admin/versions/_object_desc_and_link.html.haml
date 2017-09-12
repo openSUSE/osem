@@ -106,7 +106,8 @@
   = 'booth'
   - booth = current_or_last_object_state(version.item_type, version.item_id)
   = link_if_alive version, booth.title,
-          admin_conference_booth_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id )
+          admin_conference_booth_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id ),
+          conference
 
 - when 'Program'
   = link_if_alive version, 'program',
