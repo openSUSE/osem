@@ -8,7 +8,7 @@ before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
 addons:
-  mariadb: '10.1'
+  mariadb: '10.2'
 notifications:
   email:
     on_success: change
