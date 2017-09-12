@@ -5,6 +5,7 @@ cache: bundler
 rvm:
   - 2.4.0
 before_install:
+  - sudo apt install libmariadbclient-dev
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
 addons:
