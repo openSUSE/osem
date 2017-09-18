@@ -9,7 +9,7 @@ function update_price($this){
     // Calculate total price
     var total = 0;
     $('.total_row').each(function( index ) {
-        total += parseInt($(this).text());
+        total += parseFloat($(this).text());
     });
     $('#total_price').text(total);
 }
