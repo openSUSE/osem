@@ -4,7 +4,7 @@ function update_price($this){
     // Calculate price for row
     var value = $this.val();
     var price = $('#price_' + id).text();
-    $('#total_row_' + id).text(value * price);
+    $('#total_row_' + id).text((value * price).toFixed(2));
 
     // Calculate total price
     var total = 0;
