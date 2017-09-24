@@ -60,12 +60,13 @@ class Ticket < ActiveRecord::Base
     tickets.inject(0){ |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
   end
 
-  def tickets_sold
-    ticket_purchases.paid.sum(:quantity)
+  def tickets_turnover_total(id)
+    tickets = TicketPurchase.where(ticket_id: id)
+    tickets.inject(0){ |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
   end
 
-  def tickets_turnover
-    tickets_sold * price
+  def tickets_sold
+    ticket_purchases.paid.sum(:quantity)
   end
 
   private
