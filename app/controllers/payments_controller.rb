@@ -3,6 +3,7 @@ class PaymentsController < ApplicationController
   load_and_authorize_resource
   load_resource :conference, find_by: :short_title
   authorize_resource :conference_registrations, class: Registration
+  before_action :check_amount, only: [:new]
 
   def index
     @payments = current_user.payments
@@ -26,6 +27,11 @@ class PaymentsController < ApplicationController
       flash.now[:error] = @payment.errors.full_messages.to_sentence + ' Please try again with correct credentials.'
       render :new
     end
+  end
+
+  def check_amount
+    @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
+    redirect_to root_path if @total_amount_to_pay.zero?
   end
 
   private
