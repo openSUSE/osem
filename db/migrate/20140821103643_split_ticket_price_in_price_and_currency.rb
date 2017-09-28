@@ -4,7 +4,7 @@ class SplitTicketPriceInPriceAndCurrency < ActiveRecord::Migration
   end
 
   def change
-    add_money :tickets, :price
+    add_monetize :tickets, :price
 
     TempTicket.all.each do |ticket|
       # Replace currency symbol with ISO Code
