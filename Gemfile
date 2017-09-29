@@ -7,6 +7,7 @@ end
 
 # as web framework
 gem 'rails', '~> 4.2.8'
+gem 'pg'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider

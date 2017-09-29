@@ -19,8 +19,8 @@
             readonly: true,
             data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
     = f.input :is_admin, hint: 'An admin can create a new conference, manage users and make other users admins.'
-    = f.input :name, as: :string
-    = f.input :username, :as => :string if @user.new_record?
+    = f.input :username, label: "First Name", :as => :string if @user.new_record?
+    = f.input :name, label: "Last Name", as: :string
     = f.input :email
     = f.input :password if @user.new_record?
     = f.input :affiliation, as: :string

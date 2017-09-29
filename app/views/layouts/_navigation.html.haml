@@ -27,6 +27,7 @@
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#', id: "current-user-detail"}
                 - if not current_user.name.blank?
+                  #{current_user.username}
                   #{current_user.name}
                 -else
                   #{current_user.email}
@@ -54,12 +55,12 @@
           - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
             %li{class: "#{active_nav_li(new_ichain_registration_path('user'))}"}
               = link_to(new_ichain_registration_path('user')) do
-                %span.fa.fa-heart
+                %span.fa.fa-user-plus
                 Sign Up
           - else
             %li{class: "#{active_nav_li(new_registration_path('user'))}"}
               = link_to(new_registration_path('user')) do
-                %span.fa.fa-heart
+                %span.fa.fa-user-plus
                 Sign Up
           %li.dropdown.visible-desktop
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
