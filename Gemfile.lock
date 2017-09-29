@@ -328,6 +328,7 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     pdf-core (0.2.5)
+    pg (0.21.0)
     phantomjs (2.1.1.0)
     piwik_analytics (1.0.2)
       actionpack
@@ -615,6 +616,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-openid
   paper_trail
+  pg
   phantomjs
   piwik_analytics (~> 1.0.1)
   poltergeist
@@ -662,4 +664,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.15.1
+   1.15.3

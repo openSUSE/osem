@@ -14,28 +14,6 @@
             = "#{@conference.venue.city} / #{@conference.venue.country_name}."
           %small
             = date_string(@conference.start_date, @conference.end_date)
-  .row
-    .col-md-12
-      %h4
-        %span.fa-stack
-          %i.fa.fa-square-o.fa-stack-2x
-          %i.fa.fa-plane.fa-stack-1x
-        Travel Schedule
-      %ul
-        %li
-          - if @registration.arrival.present?
-            arrive at
-            %strong
-              = @registration.arrival.strftime('%A, %B %-d. %Y %H:%M')
-          - else
-            You haven't scheduled your arrival
-        %li
-          - if @registration.departure.present?
-            depart at
-            %strong
-              = @registration.departure.strftime('%A, %B %-d. %Y %H:%M')
-          - else
-            You haven't scheduled your departure
   - if @conference.questions.any?
     .row
       .col-md-12

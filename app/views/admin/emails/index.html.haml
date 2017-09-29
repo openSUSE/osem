@@ -24,7 +24,7 @@
                 = f.input :registration_body, input_html: { rows: 10, cols: 20 }
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_registration_subject', 'data-subject-text' => 'Thank you for registering',
                 'data-body-input-id' => 'email_settings_registration_body',
-                'data-body-text' => "Dear {name},\n\nThank you for Registering for the conference {conference}.\nPlease complete your registration by filling out your travel information.\n\nIf you are unable to attend please unregister online:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\nWe look forward to see you there.\n\nBest wishes\n\n{conference} Team" } Load Template
+                'data-body-text' => "Dear {name},\n\nThank you for Registering for the conference {conference}.\nPlease complete your registration.\n\nIf you are unable to attend please unregister online:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\nWe look forward to see you there.\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'registration_help' } Show Help
                 = render partial: 'help', locals: { id: 'registration_help', show_event_variables: false }
               #proposal.tab-pane{ role: 'tabpanel' }
