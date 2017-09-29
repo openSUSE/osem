@@ -27,6 +27,7 @@
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#', id: "current-user-detail"}
                 - if not current_user.name.blank?
+                  #{current_user.username}
                   #{current_user.name}
                 -else
                   #{current_user.email}
