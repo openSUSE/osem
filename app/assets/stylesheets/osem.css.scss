@@ -1,13 +1,25 @@
+//== max mearsheimers colors
+$darkgray: #263238;
+$blue: #22C2E6;
+$mediumgray: #4A4A4A;
+$green: rgba(121, 188, 130, 1);
+$darkblue: rgba(0, 123, 171, 1);
+
+//== Bootstrap Colors
+$brand-primary: $blue;
+
 html {
   position: relative;
   min-height: 100%;
 }
+$program: 'program-n4', Program, sans-serif;
 
 body {
   /* Margin bottom by 2 times the footer height */
   margin-bottom: 60px;
   /* Margin bottom by navbar height */
   padding-top: 60px;
+  font-family: $program, Program, serif !important;
 }
 
 #content {

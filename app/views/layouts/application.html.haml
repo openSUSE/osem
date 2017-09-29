@@ -3,10 +3,13 @@
     %meta{charset: 'utf-8'}
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
     %title= content_for?(:title) ? yield(:title) : (ENV['OSEM_NAME'] || 'OSEM')
+    = javascript_include_tag '//use.typekit.net/uzo8iqp.js'
+    %script{ type: 'text/javascript', src: '//use.typekit.net/uzo8iqp.js' }
+    %script{ type: 'text/javascript' } try{Typekit.load();}catch(e){}
     %meta{content: '', name: 'description'}
     %meta{content: '', name: 'author'}
-    = stylesheet_link_tag "application", media: 'all'
     = javascript_include_tag "application"
+    = stylesheet_link_tag "application", media: 'all'
 
     = csrf_meta_tags
     :javascript
