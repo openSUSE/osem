@@ -12,6 +12,6 @@
         %label
           = hidden_field_tag "registration[event_ids][]", nil
           %td= check_box_tag "registration[event_ids][]", event.id, event.registrations.include?(@registration)
-          %td= event&.track&.name
+          %td= (event&.track&.name || "All")
           %td= event.title
         %br
