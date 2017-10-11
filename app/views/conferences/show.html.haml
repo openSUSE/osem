@@ -82,7 +82,7 @@
 
 - content_for :script_head do
   :javascript
-    var triangle_tcs = tinycolor("#{@conference.color}").monochromatic();
+    var triangle_tcs = tinycolor("#{sanitize @conference.color}").monochromatic();
     var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
     $(function () {
       $(document).ready(function() {
