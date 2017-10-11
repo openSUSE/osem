@@ -1,5 +1,4 @@
 #map{style: "height: 500px;" }
-- popup = "<h3>#{@conference.venue.name}</h3><br>#{@conference.venue.street}<br>#{@conference.venue.city}<br>#{@conference.venue.country_name}"
 - content_for(:script_body) do
   :javascript
     // create a map in the "map" div, set the view to a given place and zoom
@@ -10,8 +9,8 @@
       maxZoom: 18
     }).addTo(map);
     // add a marker in the given location, attach some popup content to it and open the popup
-    L.marker([#{h(@conference.venue.latitude)}, #{h(@conference.venue.longitude)}]).addTo(map)
-      .bindPopup("#{h(popup)}")
+    L.marker([#{h @conference.venue.latitude}, #{h @conference.venue.longitude}]).addTo(map)
+      .bindPopup("#{escape_javascript(render '/conferences/venue_map_marker', venue: @conference.venue)}")
       .openPopup();
     // Turn scrollwheel on when user clicks
     map.on('focus', function(e) {
