@@ -19,7 +19,7 @@
   - else
     - conference = Conference.find_by(id: version.conference_id)
     - conference_short_title = conference.try(:short_title) || current_or_last_object_state('Conference', version.conference_id).try(:short_title) || ' '
-    = link_if_alive version, role.try(:name), admin_conference_role_path(role.try(:name) || ' ', conference_short_title), conference
+    = link_if_alive version, role.try(:name), admin_conference_role_path(conference_short_title,role.try(:name) || ' '), conference
 
   = version.event == 'create' ? 'to' : 'from'
   user
