@@ -23,11 +23,13 @@
               = markdown(@conference.venue.description)
       .col-md-6
         %h2
-          = "#{@conference.venue.city} / #{@conference.venue.country_name}"
+          = "#{@conference.venue.name}"
+        %h3
+          = "#{@conference.venue.city}"
         %address
           = @conference.venue.street
           %br
-          = "#{@conference.venue.postalcode}, #{@conference.venue.city}"
+          = "#{@conference.venue.city}, CA #{@conference.venue.postalcode}"
           %br
           = @conference.venue.country_name
           - if @conference.venue.website

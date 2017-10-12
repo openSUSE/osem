@@ -2,7 +2,7 @@
   .row
     .col-md-12
       .page-header
-        %h2 Upcoming Conferences
+        %h2 Upcoming Events
   - @current.each do |conference|
     = render partial: 'conference_details', locals: { conference: conference }
   -if @antiquated and @antiquated.any?

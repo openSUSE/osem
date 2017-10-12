@@ -24,7 +24,7 @@
                   = @conference.title
                 %p.lead
                   - if @conference.venue
-                    = "#{@conference.venue.city} / #{@conference.venue.country_name}"
+                    = "#{@conference.venue.name} / #{@conference.venue.city}"
                   - if @conference.start_date && @conference.end_date
                     %br
                     = date_string(@conference.start_date, @conference.end_date)
@@ -93,6 +93,6 @@
                                    cell_size: 100,
                                    x_colors: triangle_colors
                                   });
-        $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+        $('#banner').css('background-image', "url('#{@conference.picture_url}')");
       });
     });
