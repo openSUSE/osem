@@ -211,6 +211,15 @@ class Event < ActiveRecord::Base
     result.to_a.to_sentence
   end
 
+  # Returns emails of all the speaker belongs to a particular event
+  def speaker_emails
+    result = Array.new
+    speakers.each do |speaker|
+      result << speaker.email
+    end
+    result.to_sentence
+  end
+
   ##
   #
   # Returns +Hash+
