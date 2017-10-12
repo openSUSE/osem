@@ -48,7 +48,7 @@
             The more information you add to your proposal, the more likely it is that the conference organizers accept your proposal.
             %br
             It will also be more likely that visitors find your proposal interesting enough to attend.
-          - if (@conference.registration_open?) && !(@conference.user_registered? current_user)
+          - if can? :create, @conference.registrations.new
             %p
               %strong
                 Why do I need to register to the conference?
@@ -74,7 +74,7 @@
 
               %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
                 = link_to 'Complete your proposal', 'javascript: void(0)', "type"=>"button", "data-trigger"=>"focus", "data-toggle"=>"popover", "title"=>"Your todo list", "data-content"=>"#{render partial: 'tooltip', locals: { event: event} }"
-                - if (@conference.registration_open?) || (@conference.user_registered? current_user) 
+                - if can? :create, @conference.registrations.new
                   - progress_percentage = event.calculate_progress
                   .progress
                     %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}

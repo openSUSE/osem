@@ -1,6 +1,6 @@
 - progress_status = event.progress_status
 %ul.list-unstyled
-  - if @conference.registration_open? || (@conference.user_registered? current_user)
+  - if can? :create, @conference.registrations.new
     %li{'class'=>class_for_todo(progress_status['registered'])}
       %span{'class'=>icon_for_todo(progress_status['registered'])}
         - if progress_status['registered']
