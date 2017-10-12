@@ -39,3 +39,4 @@ pickle-email-*.html
 docker-compose.env
 docker-compose.yml
 .DS_Store
+.byebug_history
