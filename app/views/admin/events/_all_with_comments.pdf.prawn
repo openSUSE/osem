@@ -6,6 +6,7 @@ prawn_document(force_download: true, filename: "#{@file_name}.pdf", page_layout:
                   'Start time',
                   'Submitter',
                   'Speaker',
+                  'Speaker Email',
                   'Event Type',
                   'Track',
                   'Difficulty Level',
@@ -21,6 +22,7 @@ prawn_document(force_download: true, filename: "#{@file_name}.pdf", page_layout:
     row << (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : '')
     row << event.submitter.name
     row << event.speaker_names
+    row << event.speaker_emails
     row << event.event_type.title
     row << (event.track.present? ? event.track.name : '')
     row << (event.difficulty_level.present? ? event.difficulty_level.title : '')

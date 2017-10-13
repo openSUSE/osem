@@ -213,11 +213,7 @@ class Event < ActiveRecord::Base
 
   # Returns emails of all the speaker belongs to a particular event
   def speaker_emails
-    result = []
-    speakers.each do |speaker|
-      result << speaker.email
-    end
-    result.to_sentence
+    speakers.map(&:email).join(', ')
   end
 
   ##
