@@ -213,7 +213,7 @@ class Event < ActiveRecord::Base
 
   # Returns emails of all the speaker belongs to a particular event
   def speaker_emails
-    result = Array.new
+    result = []
     speakers.each do |speaker|
       result << speaker.email
     end
