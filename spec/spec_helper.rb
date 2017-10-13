@@ -59,7 +59,13 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false, window_size: [1920, 1080])
+    Capybara::Poltergeist::Driver.new(
+      app,
+      phantomjs:     Phantomjs.path,
+      js_errors:     false,
+      window_size:   [1920, 1080],
+      url_whitelist: ['http://www.example.com']
+    )
   end
 
   # Includes helpers and connect them to specific types of tests
