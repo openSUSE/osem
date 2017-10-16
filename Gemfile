@@ -83,6 +83,8 @@ gem 'jquery-ui-rails', '~> 4.2.1'
 # for languages validation
 gem 'iso-639'
 
+gem 'thor', '0.19.1'
+
 # frontend javascripts
 source 'https://rails-assets.org' do
   # for placeholder images
@@ -197,6 +199,11 @@ gem 'sprockets-rails'
 
 # for multiple speakers select on proposal/event forms
 gem 'selectize-rails'
+
+# Nokogiri < 1.8.1 is subject to:
+# CVE-2017-0663, CVE-2017-7375, CVE-2017-7376, CVE-2017-9047, CVE-2017-9048,
+# CVE-2017-9049, CVE-2017-9050
+gem 'nokogiri', '>= 1.8.1'
 
 # Use guard and spring for testing in development
 group :development do

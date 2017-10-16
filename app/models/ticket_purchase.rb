@@ -5,7 +5,8 @@ class TicketPurchase < ActiveRecord::Base
   belongs_to :payment
 
   validates :ticket_id, :user_id, :conference_id, :quantity, presence: true
-
+  validate :one_registration_ticket_per_user
+  validate :registration_ticket_already_purchased, on: :create
   validates :quantity, numericality: { greater_than: 0 }
 
   delegate :title, to: :ticket
@@ -25,18 +26,21 @@ class TicketPurchase < ActiveRecord::Base
 
   def self.purchase(conference, user, purchases)
     errors = []
-    ActiveRecord::Base.transaction do
-      conference.tickets.each do |ticket|
-        quantity = purchases[ticket.id.to_s].to_i
-        # if the user bought the ticket and is still unpaid, just update the quantity
-        purchase = if ticket.bought?(user) && ticket.unpaid?(user)
-                     update_quantity(conference, quantity, ticket, user)
-                   else
-                     purchase_ticket(conference, quantity, ticket, user)
-                   end
-
-        if purchase && !purchase.save
-          errors.push(purchase.errors.full_messages)
+    if count_purchased_registration_tickets(conference, purchases) > 1
+      errors.push('You cannot buy more than one registration tickets.')
+    else
+      ActiveRecord::Base.transaction do
+        conference.tickets.each do |ticket|
+          quantity = purchases[ticket.id.to_s].to_i
+          # if the user bought the ticket and is still unpaid, just update the quantity
+          purchase = if ticket.bought?(user) && ticket.unpaid?(user)
+                       update_quantity(conference, quantity, ticket, user)
+                     else
+                       purchase_ticket(conference, quantity, ticket, user)
+                     end
+          if purchase && !purchase.save
+            errors.push(purchase.errors.full_messages)
+          end
         end
       end
     end
@@ -71,6 +75,18 @@ class TicketPurchase < ActiveRecord::Base
     end
     Mailbot.ticket_confirmation_mail(self).deliver_later
   end
+
+  def one_registration_ticket_per_user
+    if ticket.try(:registration_ticket?) && quantity != 1
+      errors.add(:quantity, 'cannot be greater than one for registration tickets.')
+    end
+  end
+
+  def registration_ticket_already_purchased
+    if ticket.try(:registration_ticket?) && user.tickets.for_registration(conference).present?
+      errors.add(:quantity, 'cannot be greater than one for registration tickets.')
+    end
+  end
 end
 
 private
@@ -78,4 +94,10 @@ private
 def set_week
   self.week = created_at.strftime('%W')
   save!
+end
+
+def count_purchased_registration_tickets(conference, purchases)
+  conference.tickets.for_registration.inject(0) do |sum, registration_ticket|
+    sum + purchases[registration_ticket.id.to_s].to_i
+  end
 end

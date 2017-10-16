@@ -22,7 +22,7 @@ module Admin
         redirect_to admin_conference_booths_path,
                     notice: 'Booth successfully created.'
       else
-        flash[:error] = "Creating booth failed. #{@booth.errors.full_messages.to_sentence}."
+        flash.now[:error] = "Creating booth failed. #{@booth.errors.full_messages.to_sentence}."
         render :new
       end
     end
@@ -40,7 +40,7 @@ module Admin
         redirect_to admin_conference_booths_path,
                     notice: "Successfully updated booth for #{@booth.title}."
       else
-        flash[:error] = "An error prohibited the Booth for #{@booth.title} "\
+        flash.now[:error] = "An error prohibited the Booth for #{@booth.title} "\
                     "#{@booth.errors.full_messages.join('. ')}."
         render :edit
       end

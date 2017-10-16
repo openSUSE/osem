@@ -47,11 +47,19 @@ class User < ActiveRecord::Base
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
   has_many :presented_events, -> { joins(:event_users).where(event_users: {event_role: 'speaker'}).uniq }, through: :event_users, source: :event
-  has_many :registrations, dependent: :destroy
+  has_many :registrations, dependent: :destroy do
+    def for_conference conference
+      where(conference: conference).first
+    end
+  end
   has_many :events_registrations, through: :registrations
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
-  has_many :tickets, through: :ticket_purchases, source: :ticket
+  has_many :tickets, through: :ticket_purchases, source: :ticket do
+    def for_registration conference
+      where(conference: conference, registration_ticket: true).first
+    end
+  end
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
@@ -87,6 +95,12 @@ class User < ActiveRecord::Base
 
     return false unless event_registration.present?
     event_registration.attended
+  end
+
+  def mark_attendance_for_conference conference
+    registration = registrations.for_conference(conference)
+    registration.attended = true
+    registration.save
   end
 
   def name
