@@ -29,4 +29,4 @@
       = f.inputs name: 'Booths' do
         = f.input :booth_limit, as: :number, in: 0..9999,
         hint: 'Booth limit is the maximum number of booths that you can accept for this conference. By setting this number (0 no limit) you can be sure that you are not going to accept more booths than the conference can accommodate. You currently have ' + pluralize(@conference.booths.accepted.count, 'accepted booth') +'.'
-      = f.action :submit, as: :button, button_html: {class: 'btn btn-primary'}
+      = f.action :submit, as: :button, button_html: { class: 'btn btn-primary', data: { confirm: 'Are you sure you want to proceed?' } }
