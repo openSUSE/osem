@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PhysicalTicketController do
+describe PhysicalTicketsController do
   let(:conference) { create(:conference) }
   let(:user) { create(:user) }
   let(:paid_ticket_purchase) { create(:ticket_purchase, conference: conference, user: user) }
