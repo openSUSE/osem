@@ -37,7 +37,14 @@ feature Sponsor do
       end
 
       # Remove sponsor
-      click_link 'Delete'
+      visit admin_conference_sponsors_path(
+        conference_id: conference.short_title
+      )
+      within('table#sponsors') do
+        page.accept_confirm do
+          click_link 'Delete'
+        end
+      end
       expect(flash).to eq('Sponsor successfully deleted.')
       expect(page).to_not have_selector('table#sponsors')
     end

@@ -7,75 +7,76 @@
         Categorize events in your conference
 .row
   .col-md-12
-    %table.table.table-hover.table-striped.table-bordered.datatable#tracks
-      %thead
-        %th ID
-        %th Name
-        %th Description
-        %th Room
-        %th Start Date
-        %th End Date
-        %th Submitter
-        %th Included in Cfp
-        %th State
-        %th Actions
-      %tbody
-        - @tracks.each do |track|
-          %tr
-            %td
-              = track.id
-            %td{ style: 'padding: 15px 0px 0px 10px;' }
-              = link_to admin_conference_program_track_path(@conference.short_title, track), class: 'btn' do
-                %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
-                  = track.name
-            %td
-              %p
-                = markdown(truncate(track.description))
-            %td
-              = track.room.try(:name)
-            %td
-              = track.start_date.strftime('%A, %B %-d. %Y') if track.start_date
-            %td
-              = track.end_date.strftime('%A, %B %-d. %Y') if track.end_date
-            %td
-              = link_to track.submitter.name, admin_user_path(track.submitter) if track.self_organized?
-            %td.text-center{ 'id' => "cfp_switch_#{track.id}", 'data-order' => track.cfp_active.to_s }
-              = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
-                class: 'switch-checkbox', method: :patch,
-                url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",
-                data: { size: 'small',
-                        on_color: 'success',
-                        off_color: 'warning',
-                        on_text: 'Yes',
-                        off_text: 'No' }
+    - if @tracks.any?
+      %table.table.table-hover.table-striped.table-bordered.datatable#tracks
+        %thead
+          %th ID
+          %th Name
+          %th Description
+          %th Room
+          %th Start Date
+          %th End Date
+          %th Submitter
+          %th Included in Cfp
+          %th State
+          %th Actions
+        %tbody
+          - @tracks.each do |track|
+            %tr
+              %td
+                = track.id
+              %td{ style: 'padding: 15px 0px 0px 10px;' }
+                = link_to admin_conference_program_track_path(@conference.short_title, track), class: 'btn' do
+                  %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
+                    = track.name
+              %td
+                %p
+                  = markdown(truncate(track.description))
+              %td
+                = track.room.try(:name)
+              %td
+                = track.start_date.strftime('%A, %B %-d. %Y') if track.start_date
+              %td
+                = track.end_date.strftime('%A, %B %-d. %Y') if track.end_date
+              %td
+                = link_to track.submitter.name, admin_user_path(track.submitter) if track.self_organized?
+              %td.text-center{ 'id' => "cfp_switch_#{track.id}", 'data-order' => track.cfp_active.to_s }
+                = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
+                  class: 'switch-checkbox', method: :patch,
+                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",
+                  data: { size: 'small',
+                          on_color: 'success',
+                          off_color: 'warning',
+                          on_text: 'Yes',
+                          off_text: 'No' }
 
-            %td.text-center
-              - if track.self_organized?
-                .btn-group
-                  %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                    = track.state.humanize
-                    %span.caret
-                  %ul.dropdown-menu{ role: 'menu' }
-                    = render 'change_state_dropdown', track: track
-              - else
-                = track.state.humanize
-            %td
-              .btn-group{ role: 'group' }
-                - if can? :edit, track
-                  = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track), class: 'btn btn-primary'
-                  - special_style = true
-                - if can? :destroy, track
-                  = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track), method: :delete, class: 'btn btn-danger',
-                  data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
+              %td.text-center
                 - if track.self_organized?
-                  - if track.selected_schedule
-                    - if can? :show, track.selected_schedule
-                      = link_to 'Show Schedule', admin_conference_schedule_path(@conference.short_title, track.selected_schedule),
-                      class: 'btn btn-default'
-                  - elsif can? :create, @program.schedules.build(track: track)
-                    = button_to 'Create Schedule', admin_conference_schedules_path(@conference.short_title),
-                    form: { class: 'btn', style: 'padding: 0px 0px; margin-top: -1px;' }, class: 'btn btn-default',
-                    style: ('border-top-left-radius: 0; border-bottom-left-radius: 0;' if special_style), params: { 'schedule[track_id]' => track.id }
+                  .btn-group
+                    %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                      = track.state.humanize
+                      %span.caret
+                    %ul.dropdown-menu{ role: 'menu' }
+                      = render 'change_state_dropdown', track: track
+                - else
+                  = track.state.humanize
+              %td
+                .btn-group{ role: 'group' }
+                  - if can? :edit, track
+                    = link_to 'Edit', edit_admin_conference_program_track_path(@conference.short_title, track), class: 'btn btn-primary'
+                    - special_style = true
+                  - if can? :destroy, track
+                    = link_to 'Delete', admin_conference_program_track_path(@conference.short_title, track), method: :delete, class: 'btn btn-danger',
+                    data: { confirm: "Do you really want to delete #{track.name}? Attention: This track will be removed from all Events that have it set" }
+                  - if track.self_organized?
+                    - if track.selected_schedule
+                      - if can? :show, track.selected_schedule
+                        = link_to 'Show Schedule', admin_conference_schedule_path(@conference.short_title, track.selected_schedule),
+                        class: 'btn btn-default'
+                    - elsif can? :create, @program.schedules.build(track: track)
+                      = button_to 'Create Schedule', admin_conference_schedules_path(@conference.short_title),
+                      form: { class: 'btn', style: 'padding: 0px 0px; margin-top: -1px;' }, class: 'btn btn-default',
+                      style: ('border-top-left-radius: 0; border-bottom-left-radius: 0;' if special_style), params: { 'schedule[track_id]' => track.id }
 .row
   .col-md-12.text-right
-    = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-success'
+    = link_to 'New Track', new_admin_conference_program_track_path(@conference.short_title), class: 'btn btn-primary'

@@ -40,11 +40,23 @@
           .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
             = render partial: 'day_tab', locals: { date: date }
 - else
-  .h3
-    No Rooms!
-    %small
-      = link_to 'Create rooms', admin_conference_venue_rooms_path
-      before creating the schedule.
+  - if @venue.try(:rooms).present?
+    .text-right
+      - if can? :create, @program.schedules.new
+        = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
+        method: :post, class: 'btn btn-primary'
+  - elsif @venue
+    .h3
+      No Rooms!
+      %small
+        = link_to 'Create rooms', admin_conference_venue_rooms_path
+        before creating the schedule.
+  - else
+    .h3
+      No Venue!
+      %small
+        = link_to 'Create a venue with rooms', new_admin_conference_venue_path
+        before creating the schedule.
 
 :javascript
   $(document).ready( function() {

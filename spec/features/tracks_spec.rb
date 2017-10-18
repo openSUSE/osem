@@ -36,16 +36,18 @@ feature Track do
 
       expected = expect do
         visit admin_conference_program_tracks_path(conference_id: conference.short_title)
-
-        click_link 'Delete'
+        within('#tracks', visible: true) do
+          page.accept_confirm do
+            find_link('Delete').click
+          end
+        end
       end
 
       expected.to change { Track.count }.by(-1)
       expect(flash).to eq('Track successfully deleted.')
-      within('table#tracks') do
-        expect(page.has_content?(track.name)).to be false
-        expect(page.has_content?(track.description)).to be false
-      end
+      expect(page.has_css?('table#tracks')).to be false
+      expect(page.has_content?(track.name)).to be false
+      expect(page.has_content?(track.description)).to be false
     end
 
     scenario 'updates a track', feature: true, js: true do
@@ -54,7 +56,9 @@ feature Track do
 
       expected = expect do
         visit admin_conference_program_tracks_path(conference_id: conference.short_title)
-        click_link 'Edit'
+        within('#tracks', visible: true) do
+          find_link('Edit').trigger('click')
+        end
 
         fill_in 'track_name', with: 'Distribution'
         fill_in 'track_short_name', with: 'Distribution'

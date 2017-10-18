@@ -32,4 +32,4 @@
           = @conference.venue.country_name
           - if @conference.venue.website
             %br
-            =link_to @conference.venue.website, @conference.venue.website
+            =link_to(h(@conference.venue.website), h(@conference.venue.website)).html_safe
