@@ -6,11 +6,11 @@
         How people can contact you
 .row
   .col-md-8
-    = semantic_form_for(@contact, :url => admin_conference_contact_path(@conference.short_title),:html => {:multipart => true}) do |f|
-      = f.inputs :name => 'Mail' do
+    = semantic_form_for(@contact, url: admin_conference_contact_path(@conference.short_title), html: {multipart: true}) do |f|
+      = f.inputs name: 'Mail' do
         = f.input :email, hint: 'Contact email address for your conference. Will be used as reply-to address in emails sent out by the system.'
         = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
-      = f.inputs :name => 'Social Media' do
+      = f.inputs name: 'Social Media' do
         = f.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+. Don't include the '#' sign!'"
         = f.input :facebook, hint: 'This will appear in the social media section as link to the Facebook page of your Conference'
         = f.input :googleplus, label: 'Google+ Url', hint: 'This will appear in the social media section as the link to the Google+ Page of your Conference'

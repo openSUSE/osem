@@ -22,8 +22,8 @@ feature Program do
       click_button 'Update Program'
 
       # Validations
-      expect(flash).
-          to eq('The program was successfully updated.')
+      expect(flash)
+          .to eq('The program was successfully updated.')
       expect(find('#rating').text).to eq('4')
     end
   end

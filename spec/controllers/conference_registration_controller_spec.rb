@@ -23,12 +23,33 @@ describe ConferenceRegistrationsController, type: :controller do
     end
   end
 
+  shared_examples 'can access #new action' do |user, ichain|
+    before :each do
+      sign_in send(user) if user
+      stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => ichain))
+      get :new, conference_id: conference.short_title
+    end
+
+    it 'user variable exists' do
+      expect(assigns(:user)).not_to be_nil
+    end
+
+    it 'renders the new template' do
+      expect(response).to render_template('new')
+    end
+  end
+
   context 'user is signed in' do
     before :each do
       sign_in user
     end
 
     describe 'GET #new' do
+      let(:not_registered_confirmed_speaker) { create(:user) }
+      let(:registered_confirmed_speaker) { create(:user) }
+      let!(:speaker_registration) { create(:registration, conference: conference, user: registered_confirmed_speaker, created_at: 1.day.ago) }
+      let!(:confirmed_event) { create(:event, program: conference.program, speakers: [not_registered_confirmed_speaker, registered_confirmed_speaker], state: 'confirmed') }
+
       context 'registration period open' do
         before :each do
           create(:registration_period, conference: conference, start_date: 3.days.ago, end_date: 1.day.from_now)
@@ -40,52 +61,36 @@ describe ConferenceRegistrationsController, type: :controller do
             conference.save!
           end
 
-          context 'OSEM_ICHAIN_ENABLED is true' do
-            before :each do
-              stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'true'))
-            end
-
-            context 'user registered' do
-              it_behaves_like 'access #new action', :registered_user, 'true', '/conferences/myconf/register/edit', nil
-            end
-
-            context 'user not registered' do
-              before :each do
-                get :new, conference_id: conference.short_title
-              end
-
-              it 'user variable exists' do
-                expect(assigns(:user)).not_to be_nil
-              end
-
-              it 'renders the new template' do
-                expect(response).to render_template('new')
-              end
-            end
+          context 'OSEM_ICHAIN_ENABLED true, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'true', '/conferences/myconf/register/edit', nil
           end
 
-          context 'OSEM_ICHAIN_ENABLED is false' do
-            before :each do
-              stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
-            end
+          context 'OSEM_ICHAIN_ENABLED true, user not registered' do
+            it_behaves_like 'can access #new action', :not_registered_user, 'true'
+          end
 
-            context 'user registered' do
-              it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
-            end
+          context 'OSEM_ICHAIN_ENABLED true, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'true', '/conferences/myconf/register/edit', nil
+          end
 
-            context 'user not registered' do
-              before :each do
-                get :new, conference_id: conference.short_title
-              end
+          context 'OSEM_ICHAIN_ENABLED true, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'true'
+          end
 
-              it 'user variable exists' do
-                expect(assigns(:user)).not_to be_nil
-              end
+          context 'OSEM_ICHAIN_ENABLED false, user registered' do
+            it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
+          end
 
-              it 'renders the new template' do
-                expect(response).to render_template('new')
-              end
-            end
+          context 'OSEM_ICHAIN_ENABLED false, user not registered' do
+            it_behaves_like 'can access #new action', :not_registered_user, 'false'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'false'
           end
         end
 
@@ -103,12 +108,28 @@ describe ConferenceRegistrationsController, type: :controller do
             it_behaves_like 'access #new action', :not_registered_user, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
           end
 
+          context 'OSEM_ICHAIN_ENABLED true, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'true', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'true'
+          end
+
           context 'OSEM_ICHAIN_ENABLED false, user registered' do
             it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
           end
 
           context 'OSEM_ICHAIN_ENABLED false, user not registered' do
             it_behaves_like 'access #new action', :not_registered_user, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'false'
           end
         end
       end
@@ -132,12 +153,28 @@ describe ConferenceRegistrationsController, type: :controller do
             it_behaves_like 'access #new action', :not_registered_user, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
           end
 
+          context 'OSEM_ICHAIN_ENABLED true, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'true', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'true'
+          end
+
           context 'OSEM_ICHAIN_ENABLED false, user registered' do
             it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
           end
 
           context 'OSEM_ICHAIN_ENABLED false, user not registered' do
             it_behaves_like 'access #new action', :not_registered_user, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'false'
           end
         end
 
@@ -155,12 +192,28 @@ describe ConferenceRegistrationsController, type: :controller do
             it_behaves_like 'access #new action', :not_registered_user, 'true', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
           end
 
+          context 'OSEM_ICHAIN_ENABLED true, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'true', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED true, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'true'
+          end
+
           context 'OSEM_ICHAIN_ENABLED false, user registered' do
             it_behaves_like 'access #new action', :registered_user, 'false', '/conferences/myconf/register/edit', nil
           end
 
           context 'OSEM_ICHAIN_ENABLED false, user not registered' do
             it_behaves_like 'access #new action', :not_registered_user, 'false', '/', 'Sorry, you can not register for My Conference. Registration limit exceeded or the registration is not open.'
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user registered, confirmed speaker' do
+            it_behaves_like 'access #new action', :registered_confirmed_speaker, 'false', '/conferences/myconf/register/edit', nil
+          end
+
+          context 'OSEM_ICHAIN_ENABLED false, user not registered, confirmed speaker' do
+            it_behaves_like 'can access #new action', :not_registered_confirmed_speaker, 'false'
           end
         end
       end
@@ -345,18 +398,7 @@ describe ConferenceRegistrationsController, type: :controller do
           end
 
           context 'OSEM_ICHAIN_ENABLED is false' do
-            before :each do
-              stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => 'false'))
-              get :new, conference_id: conference.short_title
-            end
-
-            it 'user variable exists' do
-              expect(assigns(:user)).not_to be_nil
-            end
-
-            it 'renders the new template' do
-              expect(response).to render_template('new')
-            end
+            it_behaves_like 'can access #new action', nil, 'false'
           end
         end
 

@@ -3,8 +3,9 @@
   %meta{ property: "og:url", content: conference_program_proposal_url(@conference.short_title, @event) }
   %meta{ property: "og:description", content: @event.abstract }
   %meta{ property: "og:site_name", content: (ENV['OSEM_NAME'] || 'OSEM') }
-  %meta{ property: "og:image", content: @speaker.gravatar_url }
-  %meta{ property: "og:image:secure_url", content: @speaker.gravatar_url }
+  - if @speakers_ordered.any?
+    %meta{ property: "og:image", content: @speakers_ordered.first.gravatar_url }
+    %meta{ property: "og:image:secure_url", content: @speakers_ordered.first.gravatar_url }
 
 .container
   .row
@@ -19,27 +20,31 @@
           - if can? :update, @event
             = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
           - if can? :edit, @event
-            = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), :class => "btn btn-mini btn-primary"
+            = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
           - if can? :schedule, @conference
-            = link_to "Schedule", conference_schedule_path(@conference.short_title), :class =>"btn btn-success"
+            = link_to "Schedule", conference_schedule_path(@conference.short_title), class: 'btn btn-success'
 
   .row
     .col-md-3
-      .speakerinfo
-        .col-md-12
-          = image_tag @speaker.gravatar_url(:size => 200), :class => "img-responsive img-rounded"
-        .col-md-12
-          %h3
-            by
-            = link_to @speaker.name, user_path(@speaker.id)
-            = "(#{@speaker.email})" if @speaker.email_public
-            - if @speaker.affiliation?
-              %br
-              %span.muted
-                from
-                = @speaker.affiliation
-          -if @speaker.biography?
-            = markdown(@speaker.biography)
+      %h3
+        Presented by:
+      - @speakers_ordered.each do |speaker|
+        .speakerinfo
+          .row
+            .col-md-4
+              = image_tag speaker.gravatar_url(:size => 120), class: 'img-responsive img-rounded'
+            .col-md-8
+              %h4
+                = link_to speaker.name, user_path(speaker.id)
+                = "(#{speaker.email})"
+              - if speaker.affiliation?
+                .text-muted
+                  from
+                  = speaker.affiliation
+          -if speaker.biography?
+            .row.speakerbio
+              .col-md-12
+                = markdown(speaker.biography)
     .col-md-9
       .row
         .col-md-12
@@ -83,13 +88,13 @@
             %dt Track:
             %dd
               - if @event.track
-                %span.label{:style =>"background-color: #{@event.track.color}; color: #{ contrast_color(@event.track.color) }"}
+                %span.label{style: "background-color: #{@event.track.color}; color: #{ contrast_color(@event.track.color) }"}
                   = @event.track.name
           .col-md-12
             %dt Difficulty:
             %dd
               - if @event.difficulty_level
-                %span.label{:style =>"background-color: #{@event.difficulty_level.color}; color: #{ contrast_color(@event.difficulty_level.color) };"}
+                %span.label{style: "background-color: #{@event.difficulty_level.color}; color: #{ contrast_color(@event.difficulty_level.color) };"}
                   = @event.difficulty_level.title
 
           - if @event.require_registration
@@ -109,7 +114,7 @@
                   %dl
                     %dt Start Time:
                     %dd
-                      = event.program.selected_event_schedules.find_by(event: event).start_time.strftime("%Y %B %e %H:%M")
+                      = event.program.selected_event_schedules.find { |es| es.event == event }.start_time.strftime("%Y %B %e %H:%M")
                     %br
                       %dt Room:
                       %dd

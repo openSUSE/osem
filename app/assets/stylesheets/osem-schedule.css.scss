@@ -106,7 +106,11 @@ background-image: -webkit-gradient(
 }
 
 .speakerinfo {
-    margin-top: 20px;
+    margin-top: 40px;
+}
+
+.speakerbio {
+    margin-top: 10px;
 }
 
 .schedule-title, .schedule-subtitle, .schedule-speaker, .schedule-track {
@@ -261,6 +265,10 @@ td.no-padding{
   padding-left: 1px;
   padding-right: 1px;
   font-size: 7px;
+}
+
+.non_schedulable{
+  opacity: 0.5;
 }
 
 /* Small devices (tablets, 768px and up) */

@@ -6,6 +6,11 @@ end
 
 class User < ActiveRecord::Base
   rolify
+  has_many :physical_tickets, through: :ticket_purchases do
+    def by_conference(conference)
+      where('ticket_purchases.conference_id = ?', conference)
+    end
+  end
   has_many :users_roles
   has_many :roles, through: :users_roles, dependent: :destroy
 
@@ -25,13 +30,13 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise_modules = []
 
-  if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-    devise_modules += [ :ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: [] ]
-  else
-    devise_modules += [:database_authenticatable, :registerable,
+  devise_modules += if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+                      [:ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: []]
+                    else
+                      [:database_authenticatable, :registerable,
                        :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-                       :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github] ]
-  end
+                       :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github]]
+                    end
 
   devise(*devise_modules)
 
@@ -41,17 +46,31 @@ class User < ActiveRecord::Base
 
   has_many :event_users, dependent: :destroy
   has_many :events, -> { uniq }, through: :event_users
-  has_many :registrations, dependent: :destroy
+  has_many :presented_events, -> { joins(:event_users).where(event_users: {event_role: 'speaker'}).uniq }, through: :event_users, source: :event
+  has_many :registrations, dependent: :destroy do
+    def for_conference conference
+      where(conference: conference).first
+    end
+  end
   has_many :events_registrations, through: :registrations
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
-  has_many :tickets, through: :ticket_purchases, source: :ticket
+  has_many :tickets, through: :ticket_purchases, source: :ticket do
+    def for_registration conference
+      where(conference: conference, registration_ticket: true).first
+    end
+  end
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
+  has_many :tracks, foreign_key: 'submitter_id'
+  has_many :booth_requests
+  has_many :booth_requests, dependent: :destroy
+  has_many :booths, through: :booth_requests
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
+  scope :active, -> { where(is_disabled: false) }
 
   validates :email, presence: true
 
@@ -72,10 +91,16 @@ class User < ActiveRecord::Base
   # * +true+ if the user attended the event
   # * +false+ if the user did not attend the event
   def attended_event? event
-    event_registration = event.events_registrations.find_by(registration: self.registrations)
+    event_registration = event.events_registrations.find_by(registration: registrations)
 
     return false unless event_registration.present?
     event_registration.attended
+  end
+
+  def mark_attendance_for_conference conference
+    registration = registrations.for_conference(conference)
+    registration.attended = true
+    registration.save
   end
 
   def name
@@ -91,7 +116,7 @@ class User < ActiveRecord::Base
   end
 
   def subscribed? conference
-    self.subscriptions.find_by(conference_id: conference.id).present?
+    subscriptions.find_by(conference_id: conference.id).present?
   end
 
   def supports? conference
@@ -154,7 +179,11 @@ class User < ActiveRecord::Base
   def get_roles
     result = {}
     roles.each do |role|
-      resource = Conference.find(role.resource_id).short_title
+      resource = if role.resource_type == 'Conference'
+                   Conference.find(role.resource_id).short_title
+                 elsif role.resource_type == 'Track'
+                   Track.find(role.resource_id).name
+                 end
       if result[role.name].nil?
         result[role.name] = [resource]
       else
@@ -206,8 +235,8 @@ class User < ActiveRecord::Base
   # Check if biography has an allowed number of words. Used as validation.
   #
   def biography_limit
-    if self.biography.present?
-      errors.add(:biography, 'is limited to 150 words.') if self.biography.split.length > 150
+    if biography.present?
+      errors.add(:biography, 'is limited to 150 words.') if biography.split.length > 150
     end
   end
 end

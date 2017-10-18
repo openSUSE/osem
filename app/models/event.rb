@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
+  include RevisionCount
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
@@ -8,7 +9,13 @@ class Event < ActiveRecord::Base
 
   has_many :event_users, dependent: :destroy
   has_many :users, through: :event_users
-  has_many :speakers, through: :event_users, source: :user
+
+  has_many :speaker_event_users, -> { where(event_role: 'speaker') }, class_name: 'EventUser'
+  has_many :speakers, through: :speaker_event_users, source: :user
+
+  has_one :submitter_event_user, -> { where(event_role: 'submitter') }, class_name: 'EventUser'
+  has_one  :submitter, through: :submitter_event_user, source: :user
+
   has_many :votes, dependent: :destroy
   has_many :voters, through: :votes, source: :user
   has_many :commercials, as: :commercialable, dependent: :destroy
@@ -23,6 +30,7 @@ class Event < ActiveRecord::Base
   belongs_to :program
 
   accepts_nested_attributes_for :event_users, allow_destroy: true
+  accepts_nested_attributes_for :speakers, allow_destroy: true
   accepts_nested_attributes_for :users
 
   before_create :generate_guid
@@ -33,9 +41,11 @@ class Event < ActiveRecord::Base
   validates :abstract, presence: true
   validates :event_type, presence: true
   validates :program, presence: true
+  validates :speakers, presence: true
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
   validate :max_attendees_no_more_than_room_size
+  validate :valid_track
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :canceled, -> { where(state: 'canceled') }
@@ -75,7 +85,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    event_schedules.find_by(schedule_id: program.selected_schedule_id).present?
+    event_schedules.find_by(schedule_id: selected_schedule_id).present?
   end
 
   def registration_possible?
@@ -107,26 +117,22 @@ class Event < ActiveRecord::Base
   def average_rating
     @total_rating = 0
     votes.each do |vote|
-      @total_rating = @total_rating + vote.rating
+      @total_rating += vote.rating
     end
     @total = votes.size
     @total_rating > 0 ? number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true) : 0
   end
 
-  def submitter
-    result = event_users.where(event_role: 'submitter').first
-    if result.nil?
-      user = nil
-      # Perhaps the event_users haven't been saved, if this is a new proposal
-      event_users.each do |u|
-        if u.event_role == 'submitter'
-          user = u.user
-        end
-      end
-      user
-    else
-      result.user
+  # get event speakers with the event sumbmitter at the first position
+  # if the submitter is also a speaker for this event
+  def speakers_ordered
+    speakers_list = speakers.to_a
+
+    if speakers_list.reject! { |speaker| speaker == submitter }
+      speakers_list.unshift(submitter)
     end
+
+    speakers_list
   end
 
   def transition_possible?(transition)
@@ -185,12 +191,12 @@ class Event < ActiveRecord::Base
     end
       begin
         if mail
-          self.send(transition,
-                    send_mail: send_mail_param)
+          send(transition,
+               send_mail: send_mail_param)
         else
-          self.send(transition)
+          send(transition)
         end
-        self.save
+        save
       rescue Transitions::InvalidTransition => e
         alert = "Update state failed. #{e.message}"
       end
@@ -210,12 +216,12 @@ class Event < ActiveRecord::Base
   # Returns +Hash+
   def progress_status
     {
-      registered: self.program.conference.user_registered?(self.submitter),
-      commercials: self.commercials.any?,
-      biography: !self.submitter.biography.blank?,
-      subtitle: !self.subtitle.blank?,
-      track: (!self.track.blank? unless self.program.tracks.empty?),
-      difficulty_level: !self.difficulty_level.blank?,
+      registered: speakers.all? { |speaker| program.conference.user_registered? speaker },
+      commercials: commercials.any?,
+      biographies: speakers.all? { |speaker| !speaker.biography.blank? },
+      subtitle: !subtitle.blank?,
+      track: (!track.blank? unless program.tracks.empty?),
+      difficulty_level: !difficulty_level.blank?,
       title: true,
       abstract: true
     }.with_indifferent_access
@@ -227,7 +233,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +String+ -> Progress in Percent
   def calculate_progress
-    result = self.progress_status
+    result = progress_status
     (100 * result.values.count(true) / result.values.compact.count).to_s
   end
 
@@ -237,14 +243,22 @@ class Event < ActiveRecord::Base
   def room
     # We use try(:selected_schedule_id) because this function is used for
     # validations so program could not be present there
-    event_schedules.find_by(schedule_id: program.try(:selected_schedule_id)).try(:room)
+    if track.try(:self_organized?)
+      track.room
+    else
+      event_schedules.find_by(schedule_id: program.try(:selected_schedule_id)).try(:room)
+    end
   end
 
   ##
   # Returns the start time at which this event is scheduled
   #
   def time
-    event_schedules.find_by(schedule_id: program.selected_schedule_id).try(:start_time)
+    event_schedules.find_by(schedule_id: selected_schedule_id).try(:start_time)
+  end
+
+  def conference
+    program.conference
   end
 
   private
@@ -280,18 +294,39 @@ class Event < ActiveRecord::Base
 
   def set_week
     self.week = created_at.strftime('%W')
-    self.without_versioning do
-      self.save!
+    without_versioning do
+      save!
     end
   end
 
   def before_end_of_conference
-    errors.
-        add(:created_at, "can't be after the conference end date!") if program.conference && program.conference.end_date &&
+    errors
+        .add(:created_at, "can't be after the conference end date!") if program.conference && program.conference.end_date &&
         (Date.today > program.conference.end_date)
   end
 
   def conference_id
     program.conference_id
+  end
+
+  ##
+  # Allow only confirmed tracks that belong to the same program as the event
+  #
+  def valid_track
+    return unless track && track.program && program
+    errors.add(:track, 'is invalid') unless track.confirmed? && track.program == program
+  end
+
+  ##
+  # Return the id of the selected schedule
+  #
+  # ====Returns
+  # * +Integer+ -> selected_schedule_id of self-organized track or program
+  def selected_schedule_id
+    if track.try(:self_organized?)
+      track.selected_schedule_id
+    else
+      program.selected_schedule_id
+    end
   end
 end

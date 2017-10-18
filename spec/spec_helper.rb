@@ -59,7 +59,7 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false)
+    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false, window_size: [1920, 1080])
   end
 
   # Includes helpers and connect them to specific types of tests
@@ -82,6 +82,14 @@ RSpec.configure do |config|
   # Types of tests (controller, feature, model) will
   # be inferred from subfolder name
   config.infer_spec_type_from_file_location!
+
+  # Enable this if you like to see what you're debugging
+  # config.after(:example) do |example|
+  #   if example.exception
+  #     save_and_open_screenshot
+  #     save_and_open_page
+  #   end
+  # end
 end
 
 OmniAuth.config.test_mode = true

@@ -11,8 +11,15 @@
   .row
     .col-md-2
       Selected schedule
-      = check_box_tag @conference.short_title, @schedule.id, (@schedule.id == @selected_schedule.try(:id)),
-        method: :patch, url: (admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='),
+      :ruby
+        if @schedule.track
+          value = @schedule == @schedule.track.selected_schedule
+          url = update_selected_schedule_admin_conference_program_track_path(@conference.short_title, @schedule.track) + '?[track][selected_schedule_id]='
+        else
+          value = @schedule.id == @selected_schedule.try(:id)
+          url = admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='
+        end
+      = check_box_tag @conference.short_title, @schedule.id, value, method: :patch, url: url,
         class: 'switch-checkbox-schedule', data: { size: 'small',
                                           off_color: 'warning',
                                           on_text: 'Yes',
@@ -33,11 +40,23 @@
           .tab-pane{ class: "#{ (@dates.first == date) ? 'active' : '' }", id: "#{date}" }
             = render partial: 'day_tab', locals: { date: date }
 - else
-  .h3
-    No Rooms!
-    %small
-      = link_to 'Create rooms', admin_conference_venue_rooms_path
-      before creating the schedule.
+  - if @venue.try(:rooms).present?
+    .text-right
+      - if can? :create, @program.schedules.new
+        = link_to 'Add Schedule', admin_conference_schedules_path(@conference.short_title),
+        method: :post, class: 'btn btn-primary'
+  - elsif @venue
+    .h3
+      No Rooms!
+      %small
+        = link_to 'Create rooms', admin_conference_venue_rooms_path
+        before creating the schedule.
+  - else
+    .h3
+      No Venue!
+      %small
+        = link_to 'Create a venue with rooms', new_admin_conference_venue_path
+        before creating the schedule.
 
 :javascript
   $(document).ready( function() {

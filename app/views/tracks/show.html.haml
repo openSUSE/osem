@@ -1,0 +1,47 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h2
+          = @track.name
+          Track
+          .btn-group.pull-right
+            - if can? :edit, @track
+              = link_to 'Edit Track request', edit_conference_program_track_path(@conference.short_title, @track), class: 'btn btn-primary'
+            - if current_user.has_role? :track_organizer, @track
+              = link_to 'Manage', admin_conference_program_track_path(@conference.short_title, @track), class: 'btn btn-default'
+  .row
+    .col-md-8
+      %dl.dl-horizontal
+        %dt
+          Color:
+        %dd
+          %span.label{style: "background-color: #{@track.color}; color: #{ contrast_color(@track.color) }"}
+            = @track.color
+        %dt
+          State:
+        %dd
+          - if %w(new to_accept to_reject).include? @track.state
+            New
+          - else
+            = @track.state.humanize
+        %dt
+          Start date:
+        %dd
+          = @track.start_date.strftime('%A, %B %-d. %Y') if @track.start_date
+        %dt
+          End date:
+        %dd
+          = @track.end_date.strftime('%A, %B %-d. %Y') if @track.end_date
+        %dt
+          Room:
+        %dd
+          = @track.room.try(:name)
+        %dt
+          Description
+        %dd
+          = markdown(@track.description)
+        %dt
+          Relevance
+        %dd
+          = markdown(@track.relevance)

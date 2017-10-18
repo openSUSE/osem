@@ -9,8 +9,9 @@
 
       = event.title
 
-    - if speaker = event.speakers.first
+    - event.speakers_ordered.each do |speaker|
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right speaker-pic", |
                                         :alt => speaker.name, |
                                         :title => speaker.name, |
                                         :style => "height: #{ speaker_height(@rooms) }px; width: #{ speaker_width(@rooms) }px;"
+

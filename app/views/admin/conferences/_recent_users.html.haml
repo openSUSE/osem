@@ -14,12 +14,12 @@
             %td= link_to user.email, admin_user_path(user.id)
             %td= user.created_at.strftime('%m/%d/%Y')
             %td
-              = check_box_tag user.id, user.id, user.confirmed?, 
-                method: :patch, 
-                url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=", 
-                class: 'switch-checkbox', 
+              = check_box_tag user.id, user.id, user.confirmed?,
+                method: :patch,
+                url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=",
+                class: 'switch-checkbox',
                 readonly: true,
-                data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' } 
+                data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
 - else
   %h5.text-warning.text-center
     No sign ups!

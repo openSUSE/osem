@@ -1,6 +1,6 @@
 - if @volunteers.count > 0 
   %h3= "Volunteers (#{@volunteers.count})"
   %br
-  = render :partial => "volunteers_table"
+  = render partial: 'volunteers_table'
 - else
   %h3 There are no volunteers yet!

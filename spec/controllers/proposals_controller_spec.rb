@@ -10,7 +10,7 @@ describe ProposalsController do
     describe 'GET #new' do
       before do
         # We allow new proposal only if program has open cfp
-        conference.program.update_attributes(cfp: create(:cfp))
+        create(:cfp, program: conference.program)
         get :new, conference_id: conference.short_title
       end
 
@@ -26,7 +26,7 @@ describe ProposalsController do
 
     describe 'POST #create' do
       # We allow proposal create only if program has open cfp
-      before { conference.program.update_attributes(cfp: create(:cfp)) }
+      before { create(:cfp, program: conference.program) }
 
       it 'assigns url variables' do
         post :create, event: attributes_for(:event, event_type_id: event_type.id),
@@ -180,9 +180,8 @@ describe ProposalsController do
         get :show, conference_id: conference.short_title, id: event.id
       end
 
-      it 'assigns event and speaker variables' do
+      it 'assigns event variable' do
         expect(assigns(:event)).to eq event
-        expect(assigns(:speaker)).to eq event.submitter
       end
 
       it 'renders show template' do
@@ -193,7 +192,7 @@ describe ProposalsController do
     describe 'GET #new' do
       before do
         # We allow new proposal only if program has open cfp
-        conference.program.update_attributes(cfp: create(:cfp))
+        create(:cfp, program: conference.program)
         get :new, conference_id: conference.short_title
       end
 
@@ -224,7 +223,7 @@ describe ProposalsController do
 
     describe 'POST #create' do
       # We allow proposal create only if program has open cfp
-      before { conference.program.update_attributes(cfp: create(:cfp)) }
+      before { create(:cfp, program: conference.program) }
 
       it 'assigns url variables' do
         post :create, event: attributes_for(:event, event_type_id: event_type.id),

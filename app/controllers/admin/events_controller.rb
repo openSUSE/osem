@@ -4,8 +4,10 @@ module Admin
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_and_authorize_resource :event, through: :program
     load_and_authorize_resource :events_registration, only: :toggle_attendance
+    # For some reason this doesn't work, so a workaround is used
+    # load_and_authorize_resource :track, through: :program, only: [:index, :show, :edit]
 
-    before_action :get_event, except: [:index, :create, :reports]
+    before_action :get_tracks, only: [:index, :show, :edit]
 
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
@@ -16,8 +18,6 @@ module Admin
     end
 
     def index
-      @events = @program.events
-      @tracks = @program.tracks
       @difficulty_levels = @program.difficulty_levels
       @event_types = @program.event_types
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
@@ -43,22 +43,20 @@ module Admin
     end
 
     def show
-      @tracks = @program.tracks
       @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @ratings = @event.votes.includes(:user)
       @difficulty_levels = @program.difficulty_levels
       @versions = @event.versions |
-       PaperTrail::Version.where(item_type: 'Commercial').where_object(commercialable_id: @event.id, commercialable_type: 'Event') |
-       PaperTrail::Version.where(item_type: 'Commercial').where_object_changes(commercialable_id: @event.id, commercialable_type: 'Event') |
+       PaperTrail::Version.where(item_type: 'Commercial').where('object LIKE ?', "%commercialable_id: #{@event.id}\ncommercialable_type: Event%") |
+       PaperTrail::Version.where(item_type: 'Commercial').where('object_changes LIKE ?', "%commercialable_id:\n- \n- #{@event.id}\ncommercialable_type:\n- \n- Event%") |
        PaperTrail::Version.where(item_type: 'Vote').where('object_changes LIKE ?', "%\nevent_id:\n- \n- #{@event.id}\n%") |
        PaperTrail::Version.where(item_type: 'Vote').where('object LIKE ?', "%\nevent_id: #{@event.id}\n%")
     end
 
     def edit
       @event_types = @program.event_types
-      @tracks = Track.all
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
@@ -79,6 +77,7 @@ module Admin
     end
 
     def update
+      @languages = @program.languages_list
       if @event.update_attributes(event_params)
 
         if request.xhr?
@@ -89,12 +88,29 @@ module Admin
         end
       else
         @url = admin_conference_program_event_path(@conference.short_title, @event)
-        flash[:error] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
+        flash.now[:error] = 'Update not successful. ' + @event.errors.full_messages.to_sentence
         render :edit
       end
     end
 
-    def create; end
+    def create
+      @url = admin_conference_program_events_path(@conference.short_title, @event)
+      @languages = @program.languages_list
+      @event.submitter = current_user
+
+      if @event.save
+        ahoy.track 'Event submission', title: 'New submission'
+        redirect_to admin_conference_program_events_path(@conference.short_title), notice: 'Event was successfully submitted.'
+      else
+        flash.now[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
+        render action: 'new'
+      end
+    end
+
+    def new
+      @url = admin_conference_program_events_path(@conference.short_title, @event)
+      @languages = @program.languages_list
+    end
 
     def accept
       send_mail = @event.program.conference.email_settings.send_on_accepted
@@ -152,17 +168,6 @@ module Admin
       end
     end
 
-    def reports
-      @events = @program.events
-      @events_commercials = Commercial.where(commercialable_type: 'Event', commercialable_id: @events.pluck(:id))
-      @events_missing_commercial = @events.where.not(id: @events_commercials.pluck(:commercialable_id))
-      @events_with_requirements = @events.where.not(description: ['', nil])
-
-      attended_registrants_ids = @conference.registrations.where(attended: true).pluck(:user_id)
-      @missing_event_speakers = EventUser.joins(:event).where('event_role = ? and program_id = ?', 'submitter', @program.id).
-                                                                                        where.not(user_id: attended_registrants_ids).includes(:user, :event)
-    end
-
     private
 
     def event_params
@@ -172,21 +177,12 @@ module Admin
                                     # Set only in admin/events controller
                                     :track_id, :state, :language, :is_highlight, :max_attendees,
                                     # Not used anymore?
-                                    :proposal_additional_speakers, :user, :users_attributes)
+                                    :proposal_additional_speakers, :user, :users_attributes,
+                                    speaker_ids: [])
     end
 
     def comment_params
       params.require(:comment).permit(:commentable, :body, :user_id)
-    end
-
-    def get_event
-      @event = @conference.program.events.find(params[:id])
-      unless @event
-        redirect_to admin_conference_program_events_path(conference_id: @conference.short_title),
-                    error: 'Error! Could not find event!'
-        return
-      end
-      @event
     end
 
     def update_state(transition, notice, mail = false, subject = false, send_mail = false)
@@ -199,6 +195,10 @@ module Admin
         flash[:error] = alert
         return redirect_back_or_to(admin_conference_program_events_path(conference_id: @conference.short_title)) && return
       end
+    end
+
+    def get_tracks
+      @tracks = Track.accessible_by(current_ability).where(program: @program).confirmed
     end
   end
 end

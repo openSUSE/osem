@@ -1,10 +1,13 @@
 .row
   .col-md-12
     .page-header
-      %h2
+      %h1
         Users
         - if @users
           = "(#{@users.length})"
+        - if can? :create, User
+          .pull-right
+            = link_to 'Add User', new_admin_user_path, :class => 'button btn btn-default btn-info'
 .row
   .col-md-12.table-responsive
     %table.table.table-striped.table-bordered.table-hover.datatable

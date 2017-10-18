@@ -10,7 +10,7 @@
 - flash.each do |type, message|
   .row
     .col-md-12
-      %div{:class=>"alert alert-dismissable #{bootstrap_class_for(type)}", :id=>"flash"}
+      %div{class: "alert alert-dismissable #{bootstrap_class_for(type)}", id: "flash"}
         .button.close{"data-dismiss" => "alert", "aria-hidden"=>"true"}
           &times;
         %p

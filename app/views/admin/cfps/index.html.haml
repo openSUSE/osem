@@ -1,0 +1,36 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Call for Papers
+      %p.text-muted
+        Call for people to submit events to your conference
+- if @program.cfps
+  .row
+    .col-md-12
+      %table.table.table-hover.datatable#tickets
+        %thead
+          %th Type
+          %th Start Date
+          %th End Date
+          %th Days Left
+          %th Actions
+        %tbody
+          - @program.cfps.each do |cfp|
+            %tr
+              %td
+                = link_to(admin_conference_program_cfp_path(@conference.short_title, cfp.id)) do
+                  = cfp.cfp_type.capitalize
+              %td
+                = cfp.start_date.strftime('%A, %B %-d. %Y')
+              %td
+                = cfp.end_date.strftime('%A, %B %-d. %Y')
+              %td
+                = pluralize(cfp.remaining_days, 'day')
+              %td
+                .btn-group
+                  = link_to 'Edit', edit_admin_conference_program_cfp_path(@conference.short_title, cfp.id), method: :get, class: 'btn btn-primary'
+                  = link_to 'Delete', admin_conference_program_cfp_path(@conference.short_title, cfp.id), method: 'delete', class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete the CfP?' }
+- if can? :new, @program.cfps.new
+  .row
+    .col-md-12.text-right
+      = link_to 'Create Call for Papers', new_admin_conference_program_cfp_path(@conference.short_title), class: 'btn btn-primary'

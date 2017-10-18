@@ -75,11 +75,11 @@ class AddAttendingWithPartnerToQuestions < ActiveRecord::Migration
       TempConferencesQuestions.find_or_create_by!(conference_id: c.id, question_id: q.id)
 
       TempRegistration.where(conference_id: c.id).each do |r|
-	if r.attending_with_partner
-	  TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_yes.id)
-	else
-	  TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_no.id)
-	end
+        if r.attending_with_partner
+          TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_yes.id)
+        else
+          TempQanswerRegistration.find_or_create_by!(registration_id: r.id, qanswer_id: qa_no.id)
+        end
       end
     end
     remove_column :registrations, :attending_with_partner, :boolean

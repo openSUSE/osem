@@ -1,6 +1,6 @@
 .panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
   .panel-body
-    - if speaker = event.speakers.first
+    - event.speakers_ordered.each do |speaker|
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right all-speaker-pic", |
                                         :alt => speaker.name, |
                                         :title => speaker.name |
@@ -17,7 +17,7 @@
     %h4
       presented by #{event.speaker_names}
     %p
-      = markdown(truncate(event.abstract, :length => 400))
+      = markdown(truncate(event.abstract, length: 400))
       = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400
     - if event_schedule.present?
       %span.track

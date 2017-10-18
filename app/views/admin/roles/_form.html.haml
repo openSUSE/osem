@@ -7,7 +7,7 @@
       .text-muted
         = @role.description
 
-= semantic_form_for @role, url: admin_conference_role_path(@conference.short_title, @role.name) do |f|
+= semantic_form_for @role, url: @url do |f|
   .row
     .col-md-5
       = f.input :description

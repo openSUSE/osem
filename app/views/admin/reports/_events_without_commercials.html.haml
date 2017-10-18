@@ -1,0 +1,21 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Events without commercials
+        = "(#{@events_missing_commercial.length})"
+      %p.text-muted
+        All submissions that have no commercial
+.col-md-12
+  %table.table.table-striped.table-bordered.table-hover.datatable
+    %thead
+      %th ID
+      %th Title
+      %th Speaker(s)
+    %tbody
+      - @events_missing_commercial.each do |event|
+        %tr
+          %td= event.id
+          %td= link_to event.title, edit_admin_conference_program_event_path(@conference.short_title, event)
+          %td
+            = speaker_links(event)

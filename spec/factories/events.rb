@@ -8,7 +8,8 @@ FactoryGirl.define do
     program
 
     after(:build) do |event|
-      event.event_users << build(:submitter) unless event.submitter # so that we don't have two submitters
+      event.submitter = build(:submitter).user unless event.submitter # so that we don't have two submitters
+      event.speakers << build(:speaker).user unless event.speakers.any?
       # set an event_type if none is passed to the factory.
       # needs to be created here because otherwise it doesn't belong to the
       # same conference as the event
@@ -28,9 +29,13 @@ FactoryGirl.define do
       end
 
       factory :event_scheduled do
-        after(:build) do |event|
+        transient do
+          hour nil
+        end
+
+        after(:build) do |event, evaluator|
           event.state = 'confirmed'
-          event.event_schedules << build(:event_schedule, event: event)
+          event.event_schedules << build(:event_schedule, event: event, start_time: evaluator.hour)
         end
       end
     end

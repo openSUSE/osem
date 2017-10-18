@@ -1,4 +1,5 @@
 class Conference < ActiveRecord::Base
+  include RevisionCount
   require 'uri'
   serialize :events_per_week, Hash
   # Needed to call 'Conference.with_role' in /models/ability.rb
@@ -6,8 +7,12 @@ class Conference < ActiveRecord::Base
   resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
+  scope :upcoming, (-> { where('end_date >= ?', Date.current) })
+  scope :past, (-> { where('end_date < ?', Date.current) })
 
-  has_paper_trail ignore: [:updated_at, :guid, :revision, :events_per_week], meta: { conference_id: :id }
+  belongs_to :organization
+
+  has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
   has_and_belongs_to_many :questions
 
@@ -17,11 +22,17 @@ class Conference < ActiveRecord::Base
   has_one :email_settings, dependent: :destroy
   has_one :program, dependent: :destroy
   has_one :venue, dependent: :destroy
+  has_many :physical_tickets, through: :ticket_purchases
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
-  has_many :tickets, dependent: :destroy
+  has_many :tickets, dependent: :destroy do
+    def for_registration
+      where(registration_ticket: true)
+    end
+  end
   has_many :resources, dependent: :destroy
+  has_many :booths, dependent: :destroy
 
   has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
@@ -48,15 +59,17 @@ class Conference < ActiveRecord::Base
 
   mount_uploader :picture, PictureUploader, mount_on: :logo_file_name
 
-  validates_presence_of :title,
-                        :short_title,
-                        :start_date,
-                        :end_date,
-                        :start_hour,
-                        :end_hour
+  validates :title,
+            :short_title,
+            :start_date,
+            :end_date,
+            :start_hour,
+            :end_hour,
+            :ticket_layout,
+            :organization, presence: true
 
-  validates_uniqueness_of :short_title
-  validates_format_of :short_title, with: /\A[a-zA-Z0-9_-]*\z/
+  validates :short_title, uniqueness: true
+  validates :short_title, format: { with: /\A[a-zA-Z0-9_-]*\z/ }
   validates :registration_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # This validation is needed since a conference with a start date greater than the end date is not possible
@@ -67,6 +80,9 @@ class Conference < ActiveRecord::Base
   before_create :create_email_settings
 
   after_create :create_free_ticket
+  after_update :delete_event_schedules
+
+  enum ticket_layout: [:portrait, :landscape]
 
   ##
   # Checks if the user is registered to the conference
@@ -78,6 +94,20 @@ class Conference < ActiveRecord::Base
   # * +true+ - If the user isn't registered
   def user_registered? user
     user.present? && registrations.where(user_id: user.id).count > 0
+  end
+
+  ##
+  # Delete all EventSchedules that are not in the hours range
+  # After the conference has been successfully updated
+  def delete_event_schedules
+    if start_hour_changed? || end_hour_changed?
+      event_schedules = program.event_schedules.select do |event_schedule|
+        event_schedule.start_time.hour < start_hour ||
+        event_schedule.end_time.hour > end_hour ||
+        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute > 0)
+      end
+      event_schedules.each(&:destroy)
+    end
   end
 
   ##
@@ -113,7 +143,7 @@ class Conference < ActiveRecord::Base
     result = []
 
     if program && program.cfp && program.events
-      submissions = program.events.group(:week).count
+      submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
@@ -161,10 +191,63 @@ class Conference < ActiveRecord::Base
         registration_period.start_date &&
         registration_period.end_date
 
-      reg = registrations.group(:week).count
+      reg = registrations.group(:week).order(:week).count
       start_week = get_registration_start_week
       weeks = registration_weeks
       result = calculate_items_per_week(start_week, weeks, reg)
+    end
+    result
+  end
+
+  ##
+  # Returns an array with the summarized ticket sales per week.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0, second week 3 tickets sold
+  def get_tickets_sold_per_week
+    result = []
+
+    if tickets && ticket_purchases && registration_period
+      tickets_sold = ticket_purchases.paid.group(:week).sum(:quantity)
+      start_week = get_registration_start_week
+      weeks = registration_weeks
+      result = calculate_items_per_week(start_week, weeks, tickets_sold)
+    end
+    result
+  end
+
+  ##
+  # Returns an hash with ticket sales by ticket title
+  # per week.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. 'Free Access' => [0, 3, 3, 5]  -> first week 0 tickets sold, second week 3 tickets sold.
+  def get_tickets_data
+    result = {}
+    if tickets && ticket_purchases && registration_period
+      tickets_per_ticket_id_and_week = ticket_purchases.paid.group(:ticket_id, :week).sum(:quantity)
+
+      start_week = get_registration_start_week
+      weeks = registration_weeks
+
+      tickets_by_id_per_week = {}
+
+      tickets.each do |ticket|
+        tickets_by_id_per_week[ticket.id] = {}
+        (start_week...(start_week + weeks)).each do |week|
+          tickets_by_id_per_week[ticket.id][week] = 0
+        end
+      end
+
+      tickets_per_ticket_id_and_week.each do |ticket_week, value|
+        tickets_by_id_per_week[ticket_week[0]][ticket_week[1]] = value
+      end
+
+      tickets_by_id_per_week.each do |ticket, values|
+        result[Ticket.find(ticket).title] = pad_array_left_not_kumulative(start_week, values)
+      end
+
+      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
     end
     result
   end
@@ -180,8 +263,8 @@ class Conference < ActiveRecord::Base
     if registration_period &&
         registration_period.start_date &&
         registration_period.end_date
-      weeks = Date.new(registration_period.start_date.year, 12, 31).
-          strftime('%W').to_i
+      weeks = Date.new(registration_period.start_date.year, 12, 31)
+          .strftime('%W').to_i
 
       result = get_registration_end_week - get_registration_start_week + 1
     end
@@ -266,8 +349,8 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def self.get_top_submitter(limit = 5)
-    submitter = EventUser.where('event_role = ?', 'submitter').limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count
+    submitter = EventUser.select(:user_id).where('event_role = ?', 'submitter').limit(limit).group(:user_id)
+    counter = submitter.order('count_all desc').count(:all)
     calculate_user_submission_hash(submitter, counter)
   end
 
@@ -277,10 +360,10 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
-    submitter = EventUser.joins(:event).
-        where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id).
-        limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count
+    submitter = EventUser.joins(:event).select(:user_id)
+        .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
+        .limit(limit).group(:user_id)
+    counter = submitter.order('count_all desc').count(:all)
     Conference.calculate_user_submission_hash(submitter, counter)
   end
 
@@ -311,9 +394,10 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> hash
   def scheduled_event_distribution
-    confirmed_events = program.events.where(state: 'confirmed')
-    scheduled_value =  { 'value' => confirmed_events.where.not(start_time: nil).count, 'color' => 'green' }
-    unscheduled_value =  { 'value' => confirmed_events.where(start_time: nil).count, 'color' => 'red' }
+    confirmed_scheduled_events = program.events.confirmed.scheduled(program.selected_schedule.try(:id))
+    confirmed_unscheduled_events = program.events.confirmed - confirmed_scheduled_events
+    scheduled_value = { 'value' => confirmed_scheduled_events.count, 'color' => 'green' }
+    unscheduled_value = { 'value' => confirmed_unscheduled_events.count, 'color' => 'red' }
     { 'Scheduled' => scheduled_value, 'Unscheduled' => unscheduled_value }
   end
 
@@ -381,6 +465,46 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Returns a hash with per ticket sales => { "Title" => { value: number of tickets sold,
+  # color: generated from the title using a hash function }, ...}
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def tickets_sold_distribution
+    result = {}
+
+    if tickets && ticket_purchases
+      tickets.each do |ticket|
+        result[ticket.title] = {
+          'value' => ApplicationController.helpers.humanized_money(ticket.tickets_sold).delete(',').to_i,
+          'color' => "\##{Digest::MD5.hexdigest(ticket.title)[0..5]}"
+        }
+      end
+    end
+    result
+  end
+
+  ##
+  # Returns a hash with per ticket turnover => { "Title" => { value: ticket turnover,
+  # color: generated from the title using a hash function }, ...}
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def tickets_turnover_distribution
+    result = {}
+
+    if tickets && ticket_purchases
+      tickets.each do |ticket|
+        result[ticket.title] = {
+          'value' => ApplicationController.helpers.humanized_money(ticket.tickets_turnover).delete(',').to_i,
+          'color' => "\##{Digest::MD5.hexdigest(ticket.title)[0..5]}"
+        }
+      end
+    end
+    result
+  end
+
+  ##
   # Calculates the overall program minutes
   #
   # ====Returns
@@ -444,11 +568,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> track => {color, value}
   def tracks_distribution(state = nil)
-    if state
-      tracks_grouped = program.events.select(:track_id).where('state = ?', state).group(:track_id)
-    else
-      tracks_grouped = program.events.select(:track_id).group(:track_id)
-    end
+    tracks_grouped = if state
+                       program.events.select(:track_id).where('state = ?', state).group(:track_id)
+                     else
+                       program.events.select(:track_id).group(:track_id)
+                     end
     tracks_counted = tracks_grouped.count
 
     calculate_track_distribution_hash(tracks_grouped, tracks_counted)
@@ -461,13 +585,13 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
-    result = Conference.where('start_date > ?', Time.now).
-        select('id, short_title, color, start_date')
+    result = Conference.where('start_date > ?', Time.now)
+        .select('id, short_title, color, start_date')
 
-    if result.length == 0
-      result = Conference.
-          select('id, short_title, color, start_date').limit(2).
-          order(start_date: :desc)
+    if result.empty?
+      result = Conference
+          .select('id, short_title, color, start_date').limit(2)
+          .order(start_date: :desc)
     end
     result
   end
@@ -531,7 +655,7 @@ class Conference < ActiveRecord::Base
   def self.write_event_distribution_to_db
     week = DateTime.now.end_of_week
 
-    Conference.where('end_date > ?', Date.today).each do |conference|
+    Conference.where('end_date > ?', Date.today).find_each do |conference|
       result = {}
       Event.state_machine.states.each do |state|
         count = conference.program.events.where('state = ?', state.name).count
@@ -555,11 +679,11 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference is updated and all other parameters are set
   # * +False+ -> Either conference is not updated or one or more parameter is not set
   def notify_on_dates_changed?
-    return false unless self.email_settings.send_on_conference_dates_updated
+    return false unless email_settings.send_on_conference_dates_updated
     # do not notify unless one of the dates changed
-    return false unless self.start_date_changed? || self.end_date_changed?
+    return false unless start_date_changed? || end_date_changed?
     # do not notify unless the mail content is set up
-    (!email_settings.conference_dates_updated_subject.blank? && !email_settings.conference_dates_updated_body.blank?)
+    (email_settings.conference_dates_updated_subject.present? && email_settings.conference_dates_updated_body.present?)
   end
 
   ##
@@ -569,17 +693,24 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If registration dates is updated and all other parameters are set
   # * +False+ -> Either registration date is not updated or one or more parameter is not set
   def notify_on_registration_dates_changed?
-    return false unless self.email_settings.send_on_conference_registration_dates_updated
+    return false unless email_settings.send_on_conference_registration_dates_updated
     # do not notify unless we allow a registration
-    return false unless self.registration_period
+    return false unless registration_period
     # do not notify unless one of the dates changed
     return false unless registration_period.start_date_changed? || registration_period.end_date_changed?
     # do not notify unless the mail content is set up
-    (!email_settings.conference_registration_dates_updated_subject.blank? && !email_settings.conference_registration_dates_updated_body.blank?)
+    (email_settings.conference_registration_dates_updated_subject.present? && email_settings.conference_registration_dates_updated_body.present?)
   end
 
+  ##
+  # Checks if the registration limit has been exceeded
+  # Additionally, it takes into account the confirmed speakers that haven't registered yet
+  #
+  # ====Returns
+  # * +True+ -> If the registration limit has been reached or exceeded
+  # * +False+ -> If the registration limit hasn't been exceeded
   def registration_limit_exceeded?
-    registration_limit > 0 && registrations.count >= registration_limit
+    registration_limit > 0 && registrations.count + program.speakers.confirmed.count - program.speakers.confirmed.registered(program.conference).count >= registration_limit
   end
 
   # Returns an hexadecimal color given a collection. The returned color changed
@@ -611,6 +742,28 @@ class Conference < ActiveRecord::Base
     (start_hour..(end_hour - 1)).cover?(current_hour) ? current_hour - start_hour : 0
   end
 
+  ##
+  #
+  # ====Returns
+  # * +True+ -> if accepted booths are equal to the booth limit
+  # * +False+ -> Accepted booths have not reached the booth limit
+  def maximum_accepted_booths?
+    booth_limit > 0 && booths.accepted.count + booths.confirmed.count >= booth_limit
+  end
+
+  ##
+  # Return the current conference object to be used in RevisionCount
+  #
+  # ====Returns
+  # * +ActiveRecord+
+  def conference
+    self
+  end
+
+  def to_param
+    short_title
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are
@@ -628,8 +781,8 @@ class Conference < ActiveRecord::Base
   end
 
   after_create do
-    self.create_contact
-    self.create_program
+    create_contact
+    create_program
     create_roles
   end
 
@@ -699,7 +852,7 @@ class Conference < ActiveRecord::Base
     # Completed weeks
     events_per_week.each do |week, values|
       values.each do |state, value|
-        if [:confirmed, :unconfirmed].include?(state)
+        if %i(confirmed unconfirmed).include?(state)
           unless result[state.to_s.capitalize]
             result[state.to_s.capitalize] = {}
           end
@@ -780,7 +933,7 @@ class Conference < ActiveRecord::Base
         hash[key] = 0
       end
     end
-    Hash[ hash.sort ]
+    Hash[hash.sort]
   end
 
   ##
@@ -838,7 +991,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a venue object.
   # * +False+ -> IF conference has no venue object.
   def venue_set?
-    !!venue
+    venue.present?
   end
 
   ##
@@ -848,7 +1001,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a cfp object.
   # * +False+ -> If conference has no cfp object.
   def cfp_set?
-    !!program.cfp
+    program.cfp.present?
   end
 
   ##
@@ -858,7 +1011,7 @@ class Conference < ActiveRecord::Base
   # * +True+ -> If conference has a start and a end date.
   # * +False+ -> If conference has no start or end date.
   def registration_date_set?
-    !!registration_period && !!registration_period.start_date && !!registration_period.end_date
+    registration_period.present? && registration_period.start_date.present? && registration_period.end_date.present?
   end
 
   # Calculates the distribution from events.
@@ -866,11 +1019,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
-    if state
-      grouped = program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
-    else
-      grouped = program.events.select(group_by_id).group(group_by_id)
-    end
+    grouped = if state
+                program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
+              else
+                program.events.select(group_by_id).group(group_by_id)
+              end
     counted = grouped.count
 
     calculate_distribution_hash(grouped, counted, association_symbol)
@@ -981,7 +1134,8 @@ class Conference < ActiveRecord::Base
   def self.calculate_user_submission_hash(submitters, counter)
     result = ActiveSupport::OrderedHash.new
     counter.each do |key, value|
-      submitter = submitters.where(user_id: key).first
+      # make PG happy by including the user_id in ORDER
+      submitter = submitters.where(user_id: key).order(:user_id).first
       if submitter
         result[submitter.user] = value
       end

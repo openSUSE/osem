@@ -12,7 +12,7 @@
         %small
           #{'Registration'.pluralize(@total_reg)}
         - if @new_reg
-          %span.label.label-success{title: "+#{@new_reg} since you last logged in!"}
+          %span.label.label-success{ title: "+#{@new_reg} since you last logged in!" }
             +
             = @new_reg
 
@@ -25,7 +25,7 @@
         %small
           #{'Submission'.pluralize(@total_submissions)}
         - if @new_submissions
-          %span.label.label-success{title: "+#{@new_submissions} since you last logged in!"}
+          %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
             +
             = @new_submissions
 
@@ -38,7 +38,7 @@
         %small
           #{'Hour'.pluralize(@program_length)}
         - if @new_reg
-          %span.label.label-success{title: "+#{@new_program_length} since you last logged in!"}
+          %span.label.label-success{ title: "+#{@new_program_length} since you last logged in!" }
             +
             = @new_program_length
 
@@ -69,15 +69,26 @@
       .col-md-4
         = render partial: 'todo_list', locals: { conference_progress: @conference_progress,
                                                  conference: @conference }
+      .row#tickets
+        .col-md-8
+          = render partial: 'line_chart', locals: { title: 'Tickets sold over time',
+                                                      name: 'tickets',
+                                                      conferences: @tickets,
+                                                      active_conferences: @tickets,
+                                                      deactive_conferences: [],
+                                                      y: @tickets_data,
+                                                      x: @ticket_weeks,
+                                                      unit: 'weeks' }
+%br
 .row
   .col-md-12#doughnut
     %ul.nav.nav-tabs#doughnut_tabs
       %li.active
-        %a{:href=>"#distribution_all", "data-toggle"=>"tab"}
+        %a{ href: '#distribution_all', 'data-toggle' => 'tab' }
           %span.fa.fa-star
           All
       %li
-        %a{:href=>"#distribution_confirmed", "data-toggle"=>"tab"}
+        %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
           %span.fa.fa-comment
           Confirmed
     .tab-content
@@ -101,12 +112,12 @@
 .row
   .col-md-8
     %ul.nav.nav-tabs#recentTable
-      %li.active
-        %a{:href=>"#recent_reg", "data-toggle"=>"tab"}
+      %li{ 'class' => "active #{hidden_if_conference_over(@conference)}" }
+        %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
           %span.fa.fa-user
           Recent Registrations
-      %li
-        %a{:href=>"#recent_submissions", "data-toggle"=>"tab"}
+      %li{ 'class' => "#{hidden_if_conference_over(@conference)}" }
+        %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
           %span.fa.fa-file-text
           Recent Submissions
     .tab-content

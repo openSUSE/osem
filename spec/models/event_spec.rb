@@ -96,6 +96,56 @@ describe Event do
         end
       end
     end
+
+    describe '#valid_track' do
+      context 'is valid' do
+        it 'when the track belongs to the same program and is confirmed' do
+          track = create(:track, state: 'confirmed', program: conference.program)
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq true
+        end
+      end
+
+      context 'is invalid' do
+        it 'when the track doesn\'t have the same program' do
+          track = create(:track, state: 'confirmed')
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq false
+          expect(event.errors[:track]).to eq ['is invalid']
+        end
+
+        it 'when the track is unconfirmed' do
+          track = create(:track, program: conference.program)
+          allow(track).to receive(:confirmed?).and_return(false)
+          event = build(:event, program: conference.program, track: track)
+          expect(event.valid?).to eq false
+          expect(event.errors[:track]).to eq ['is invalid']
+        end
+      end
+    end
+  end
+
+  describe '#comments_count' do
+    context 'has a valid counter cache' do
+      before do
+        create(:comment, commentable: event)
+      end
+
+      it 'successfully increments comments_count' do
+        expected = expect do
+          create(:comment, commentable: event)
+        end
+        expected.to change { event.comments_count }.by(1)
+      end
+
+      it 'successfully decrements comments_count' do
+        expected = expect do
+          event.comment_threads.last.destroy
+          event.reload
+        end
+        expected.to change { event.comments_count }.by(-1)
+      end
+    end
   end
 
   describe 'scope ' do
@@ -236,9 +286,7 @@ describe Event do
   describe '#submitter' do
     it 'returns the user that submitted the event' do
       submitter = create(:user)
-      submitted_event = create(:event)
-      submitted_event.event_users = [create(:event_user, user: submitter, event_role: 'submitter')]
-
+      submitted_event = create(:event, submitter: submitter)
       expect(submitted_event.submitter).to eq submitter
     end
   end
@@ -288,9 +336,10 @@ describe Event do
   describe '#speaker_names' do
     context 'returns the speakers of the event' do
       it 'when submitter is a speaker too' do
-        speaker1 = create(:user, name: 'user speaker 1')
-        new_event.event_users = [create(:event_user, user: speaker1, event_role: 'submitter')]
-        new_event.event_users << [create(:event_user, user: speaker1, event_role: 'speaker')]
+        submitter = create(:user, name: 'user speaker 1')
+
+        new_event.submitter = submitter
+        new_event.speakers = [submitter]
 
         expect(new_event.speaker_names).to eq 'user speaker 1'
       end
@@ -299,10 +348,10 @@ describe Event do
         submitter = create(:user, name: 'user submitter 1')
         speaker1 = create(:user, name: 'user speaker 1')
 
-        new_event.event_users = [create(:event_user, user: submitter, event_role: 'submitter')]
-        new_event.event_users << [create(:event_user, user: speaker1, event_role: 'speaker')]
+        new_event.submitter = submitter
+        new_event.speakers = [speaker1]
 
-        expect(new_event.speaker_names).to eq 'user submitter 1 and user speaker 1'
+        expect(new_event.speaker_names).to eq 'user speaker 1'
       end
 
       it 'when there are multiple speakers' do
@@ -310,11 +359,10 @@ describe Event do
         speaker1 = create(:user, name: 'user speaker 1')
         speaker2 = create(:user, name: 'user speaker 2')
 
-        new_event.event_users = [create(:event_user, user: submitter, event_role: 'submitter')]
-        new_event.event_users << [create(:event_user, user: speaker1, event_role: 'speaker')]
-        new_event.event_users << [create(:event_user, user: speaker2, event_role: 'speaker')]
+        new_event.submitter = submitter
+        new_event.speakers = [speaker1, speaker2]
 
-        expect(new_event.speaker_names).to eq 'user submitter 1, user speaker 1, and user speaker 2'
+        expect(new_event.speaker_names).to eq 'user speaker 1 and user speaker 2'
       end
     end
   end
@@ -325,6 +373,32 @@ describe Event do
       other_event = create(:event, created_at: Date.new(2015, 12, 1), program: conference.program)
 
       expect(other_event.week).to eq 48
+    end
+  end
+
+  describe '#selected_schedule_id' do
+    before :each do
+      conference.program.selected_schedule = create(:schedule, program: conference.program)
+    end
+
+    context 'returns the program\'s selected_schedule_id' do
+      it 'when it doesn\'t have a track' do
+        create(:event_schedule, event: event, schedule: conference.program.selected_schedule)
+        expect(event.send(:selected_schedule_id)).to eq conference.program.selected_schedule_id
+      end
+
+      it 'when it belongs to a regular track' do
+        event.track = create(:track, program: conference.program)
+        expect(event.send(:selected_schedule_id)).to eq conference.program.selected_schedule_id
+      end
+    end
+
+    context 'returns the track\'s selected_schedule_id' do
+      it 'when it belongs to a self-organized track' do
+        event.track = create(:track, :self_organized, program: conference.program, state: 'confirmed')
+        event.track.selected_schedule = create(:schedule, program: conference.program, track: event.track)
+        expect(event.send(:selected_schedule_id)).to eq event.track.selected_schedule_id
+      end
     end
   end
 end

@@ -2,15 +2,17 @@
 pushd /vagrant
 
 echo -e "\ninstalling required software packages...\n"
-zypper -q -n install update-alternatives ruby-devel make gcc gcc-c++ \
+zypper -q ar -f http://download.opensuse.org/repositories/devel:/languages:/ruby/openSUSE_Leap_42.2/devel:languages:ruby.repo
+zypper -q --gpg-auto-import-keys --non-interactive ref
+zypper -q -n install update-alternatives ruby2.4-devel make gcc gcc-c++ \
              libxml2-devel libxslt-devel nodejs screen mariadb \
-             libmysqld-devel sqlite3-devel imagemagick
+             libmysqld-devel sqlite3-devel ImageMagick
 
 echo -e "\ndisabling versioned gem binary names...\n"
 echo 'install: --no-format-executable' >> /etc/gemrc
 
 echo -e "\ninstalling bundler...\n"
-gem install bundler
+gem.ruby2.4 install bundler
 
 echo -e "\ninstalling your bundle...\n"
 su - vagrant -c "cd /vagrant/; bundle install --quiet"
@@ -26,7 +28,7 @@ if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.ex
     echo -e "WARNING: Please make sure this database works in this vagrant box!\n\n"
   fi
 else
-  echo -e "\nnWARNING: You have already configured your database in config/database.yml."
+  echo -e "\n\nWARNING: You have already configured your database in config/database.yml."
   echo -e "WARNING: Please make sure this configuration works in this vagrant box!\n\n"
 fi
 

@@ -6,7 +6,7 @@
     %start= @conference.start_date
     %end= @conference.end_date
     %days= (@conference.end_date - @conference.start_date).to_i + 1
-    %timeslot_duration= length_timestamp(EventType::LENGTH_STEP)
+    %timeslot_duration= length_timestamp(@conference.program.schedule_interval)
 
   - if @events_xml.any?
     - @events_xml.keys.each.with_index(1) do |day, index|
@@ -16,7 +16,7 @@
           %room{ name: room.name }
             - events_in_rooms[room].each do |event|
               %event{ guid: event.guid, id: event.id }
-                %date= event.time.iso8601
+                %date= time_with_timezone(event.time)
                 %start= event.time.strftime('%H:%M')
                 %duration= length_timestamp(event.event_type.length)
                 %room= event.room.name
@@ -27,6 +27,7 @@
                 %subtitle= event.subtitle
                 %track= event.track.name if event.track
                 %abstract= event.abstract
+                %description= event.abstract
                 %recording
                   %license/
                   %optout=false #FIXME

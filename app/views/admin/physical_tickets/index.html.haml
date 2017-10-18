@@ -1,0 +1,43 @@
+.container
+  .row
+    .col-md-12.page-header
+      %h2
+        Tickets Sold
+      .text-muted
+        Tickets sold for the conference
+  .row
+    .col-md-4
+      = render partial: 'admin/conferences/doughnut_chart',
+      locals: { title: 'Tickets sold', data: @tickets_sold_distribution }
+    .col-md-4
+      = render partial: 'admin/conferences/doughnut_chart',
+      locals: {title: 'Tickets turnover', data: @tickets_turnover_distribution}
+  %br
+  - if @physical_tickets.any?
+    .row
+      .col-md-12
+        %table.table.table-hover.datatable#tickets
+          %thead
+            %th ID
+            %th Type
+            %th User
+            %th Actions
+          %tbody
+            - @physical_tickets.each do |physical_ticket|
+              %tr
+                %td= physical_ticket.id
+                %td= physical_ticket.ticket.title
+                %td= physical_ticket.user.email
+                %td
+                  .btn-group
+                    = link_to 'Show',
+                    conference_physical_ticket_path(@conference.short_title,
+                                                    physical_ticket.token),
+                    class: 'btn btn-primary'
+                    = link_to 'Generate PDF',
+                    conference_physical_ticket_path(@conference.short_title,
+                                                    physical_ticket.token,
+                                                    format: :pdf),
+                    class: 'button btn btn-default btn-info'
+  - else
+    %h5 No Tickets sold!

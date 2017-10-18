@@ -1,3 +1,7 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#lodging' } Lodging
+
 .container
   .row
     .col-md-12.text-center
@@ -8,22 +12,26 @@
           = @conference.venue.city
       %p.lead
         We recommend these affordable lodging accommodations for your visit.
-  - @conference.lodgings.each_slice(3) do |slice|
-    .row.row-centered
-      - slice.each do |lodging|
-        .col-md-4.col-sm-4.ticket.col-centered.col-top
-          .thumbnail
-            - unless lodging.picture?
-              %p.text-center
-                %i.fa.fa-home.fa-5x
+
+  .row.row-centered{ style:"display: flex; flex-wrap: wrap" }
+    - @conference.lodgings.each do |lodging|
+      .col-md-4.col-sm-4.col-centered.col-top{ style:"display:flex;" }
+        .thumbnail
+          - if lodging.picture?
+            -if lodging.website_link.present?
+              = link_to(lodging.website_link, class: 'thumbnail') do
+                = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
             - else
+              = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
+          - else
+            %p.text-center
               -if lodging.website_link.present?
                 = link_to(lodging.website_link, class: 'thumbnail') do
-                  = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
+                  %i.fa.fa-home.fa-5x
               - else
-                = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
-            .caption
-              %h3.text-center
-                = lodging.name
-              -if lodging.description.present?
-                = markdown(lodging.description)
+                %i.fa.fa-home.fa-5x
+          .caption
+            %h3.text-center
+              = lodging.name
+            -if lodging.description.present?
+              = markdown(lodging.description)

@@ -55,7 +55,7 @@
           %p
             Knowing the number of visitors for the conference helps the organizers plan better.
 
-        %table.table.table-striped
+        %table.table.table-striped#events
           - @events.each do |event|
             %tr
               %td{style: "padding:20px 8px 20px 8px;"}
@@ -101,4 +101,4 @@
   .row
     .col-md-12
       - if can? :create, @event
-        = link_to "New Proposal", new_conference_program_proposal_path(@conference.short_title), :class => "btn btn-success pull-right"
+        = link_to "New Proposal", new_conference_program_proposal_path(@conference.short_title), class: 'btn btn-success pull-right'

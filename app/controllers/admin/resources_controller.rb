@@ -1,5 +1,5 @@
 module Admin
-  class ResourcesController < ApplicationController
+  class ResourcesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :resource, only: [:show, :edit, :update, :destroy]
 
@@ -17,7 +17,7 @@ module Admin
         redirect_to admin_conference_resources_path(conference_id: @conference.short_title),
                     notice: 'Resource successfully created.'
       else
-        flash[:error] = "Creating resource failed: #{@resource.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating resource failed: #{@resource.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -27,7 +27,7 @@ module Admin
         redirect_to admin_conference_resources_path(conference_id: @conference.short_title),
                     notice: 'Resource successfully updated.'
       else
-        flash[:error] = "Resource update failed: #{@resource.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Resource update failed: #{@resource.errors.full_messages.join('. ')}."
         render :edit
       end
     end

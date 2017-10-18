@@ -1,0 +1,29 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Requirements
+        = "(#{@events_with_requirements.length})"
+      %p.text-muted
+        All submissions where the speakers have special requirements
+.col-md-12
+  %table.table.table-striped.table-bordered.table-hover.datatable
+    %thead
+      %th ID
+      %th Title
+      %th Speaker(s)
+      %th Requirements
+      %th Room
+      %th Date
+      %th Time
+    %tbody
+      - @events_with_requirements.each do |event|
+        %tr
+          %td= event.id
+          %td= link_to event.title, edit_admin_conference_program_event_path(@conference.short_title, event)
+          %td
+            = speaker_links(event)
+          %td= event.description
+          %td= event.room.name if event.room
+          %td= event.time.to_date if event.time
+          %td= event.time.strftime('%H:%M') if event.time

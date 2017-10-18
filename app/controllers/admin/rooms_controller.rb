@@ -18,7 +18,7 @@ module Admin
         redirect_to admin_conference_venue_rooms_path(conference_id: @conference.short_title),
                     notice: 'Room successfully created.'
       else
-        flash[:error] = "Creating Room failed: #{@room.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating Room failed: #{@room.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -28,7 +28,7 @@ module Admin
         redirect_to admin_conference_venue_rooms_path(conference_id: @conference.short_title),
                     notice: 'Room successfully updated.'
       else
-        flash[:error] = "Update Room failed: #{@room.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update Room failed: #{@room.errors.full_messages.join('. ')}."
         render :edit
       end
     end

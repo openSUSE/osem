@@ -2,32 +2,34 @@ require 'spec_helper'
 
 feature Conference do
   let!(:user) { create(:admin) }
-
+  let!(:organization) { create(:organization) }
   shared_examples 'add and update conference' do
     scenario 'adds a new conference', feature: true, js: true do
       expected_count = Conference.count + 1
       sign_in user
 
       visit new_admin_conference_path
+
+      select organization.name, from: 'conference_organization_id'
       fill_in 'conference_title', with: 'Example Con'
       fill_in 'conference_short_title', with: 'ExCon'
 
       select('(GMT+01:00) Berlin', from: 'conference[timezone]')
 
       today = Date.today - 1
-      page.
-      execute_script("$('#conference-start-datepicker').val('" +
+      page
+      .execute_script("$('#conference-start-datepicker').val('" +
                          "#{today.strftime('%d/%m/%Y')}')")
-      page.
-      execute_script("$('#conference-end-datepicker').val('" +
+      page
+      .execute_script("$('#conference-end-datepicker').val('" +
                          "#{(today + 7).strftime('%d/%m/%Y')}')")
 
       click_button 'Create Conference'
 
-      expect(flash).
-          to eq('Conference was successfully created.')
+      expect(flash)
+          .to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
-
+      expect(Conference.last.organization).to eq(organization)
       expect(user.has_role? :organizer, Conference.last).to eq(true)
     end
 
@@ -45,23 +47,23 @@ feature Conference do
       fill_in 'conference_short_title', with: ''
 
       click_button 'Update Conference'
-      expect(flash).
-          to eq("Updating conference failed. Short title can't be blank.")
+      expect(flash)
+          .to eq("Updating conference failed. Short title can't be blank.")
 
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
 
       day = Date.today + 10
-      page.
-          execute_script("$('#conference-start-datepicker').val('" +
+      page
+          .execute_script("$('#conference-start-datepicker').val('" +
                              "#{day.strftime('%d/%m/%Y')}')")
-      page.
-          execute_script("$('#conference-end-datepicker').val('" +
+      page
+          .execute_script("$('#conference-end-datepicker').val('" +
                              "#{(day + 7).strftime('%d/%m/%Y')}')")
 
       click_button 'Update Conference'
-      expect(flash).
-          to eq('Conference was successfully updated.')
+      expect(flash)
+          .to eq('Conference was successfully updated.')
 
       conference.reload
       expect(conference.title).to eq('New Con')
@@ -71,6 +73,15 @@ feature Conference do
   end
 
   describe 'admin' do
+    let!(:conference) { create(:conference) }
+
+    scenario 'has organization name in menu bar for conference views', feature: true, js: true do
+      sign_in user
+      visit admin_conference_path(conference.short_title)
+
+      expect(find('.navbar-brand').text).to eq(conference.organization.name)
+    end
+
     it_behaves_like 'add and update conference'
   end
 end

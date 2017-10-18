@@ -20,7 +20,7 @@ module Admin
         redirect_to admin_conference_program_difficulty_levels_path(conference_id: @conference.short_title),
                     notice: 'Difficulty level successfully created.'
       else
-        flash[:error] = "Creating difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -30,7 +30,7 @@ module Admin
         redirect_to admin_conference_program_difficulty_levels_path(conference_id: @conference.short_title),
                     notice: 'Difficulty level successfully updated.'
       else
-        flash[:error] = "Update difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update difficulty level failed: #{@difficulty_level.errors.full_messages.join('. ')}."
         render :edit
       end
     end

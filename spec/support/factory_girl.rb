@@ -4,9 +4,15 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     if ENV['OSEM_FACTORY_LINT'] != 'false'
-      mock_commercial_request
-      FactoryGirl.lint
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:truncation)
+      begin
+        DatabaseCleaner.start
+        mock_commercial_request
+        FactoryGirl.lint
+      ensure
+        DatabaseCleaner.clean
+      end
     end
   end
-
 end

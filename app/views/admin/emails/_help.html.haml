@@ -1,4 +1,4 @@
-.template-help{:id => id}
+.template-help{ id: id }
   Valid attributes:
   %table.table
     %tr
@@ -48,11 +48,17 @@
       %tr
         %td {cfp_end_date}
         %td The call for papers end date
-      -if @conference.program.schedule_public
+      - if @conference.program.schedule_public
         %td {schedule_link}
         %td The link to complete schedule of the conference
     - if @conference.splashpage && @conference.splashpage.public
       %tr
         %td {conference_splash_link}
         %td The link to conference splash page
-
+    - if @conference.booths
+      %tr
+        %td {submitter_name}
+        %td Submitter's name
+      %tr
+        %td {booth_title}
+        %td Booth's title

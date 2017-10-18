@@ -1,5 +1,5 @@
 %tr
-  %td.col-sm-8.col-md-6
+  %td.col-sm-8.col-md-4
     .media
       .media-body
         %h4.media-heading
@@ -7,9 +7,14 @@
         %h5.media-heading
         - unless ticket.description.blank?
           = markdown(ticket.description)
+  %td.col-sm-1.col-md-2.text-center
+    = ticket.registration_ticket? ? 'Yes' : 'No'
   %td.col-sm-1.col-md-1
-    = text_field_tag("tickets[][#{ticket.id}]", 0,
-      type: 'number', min: 0, class: "form-control quantity", 'data-id' => ticket.id)
+    - options = { type: 'number', min: 0, class: "form-control quantity", 'data-id' => ticket.id }
+    - if ticket.registration_ticket?
+      - options[:max] = 1
+      - options[:disabled] = current_user.tickets.for_registration(ticket.conference).present?
+    = text_field_tag("tickets[][#{ticket.id}]", 0, options)
   %td.col-sm-1.col-md-1.text-center
     = ticket.price.symbol
     %span{id: "price_#{ticket.id}"}

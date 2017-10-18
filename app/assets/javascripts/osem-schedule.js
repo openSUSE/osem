@@ -78,11 +78,12 @@ var Schedule = {
 };
 
 $(document).ready( function() {
-  // hide the remove button for unscheduled events
+  // hide the remove button for unscheduled and non schedulable events
   $('.unscheduled-events .schedule-event-delete-button').hide();
+  $('.non_schedulable .schedule-event-delete-button').hide();
 
   // set events as draggable
-  $('.schedule-event').draggable({
+  $('.schedule-event').not('.non_schedulable').draggable({
     snap: '.schedule-room-slot',
     revertDuration: 200,
     revert: function (event, ui) {
@@ -99,7 +100,7 @@ $(document).ready( function() {
   });
 
   // set room cells as droppable
-  $('.schedule-room-slot').droppable({
+  $('.schedule-room-slot').not('.non_schedulable .schedule-room-slot').droppable({
     accept: '.schedule-event',
     tolerance: "pointer",
     drop: function(event, ui) {

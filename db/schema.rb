@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213145807) do
+ActiveRecord::Schema.define(version: 20170816203325) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.uuid     "visit_id",   limit: 16
@@ -29,6 +29,30 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "booth_requests", force: :cascade do |t|
+    t.integer  "booth_id"
+    t.integer  "user_id"
+    t.string   "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "booth_requests", ["booth_id"], name: "index_booth_requests_on_booth_id"
+  add_index "booth_requests", ["user_id"], name: "index_booth_requests_on_user_id"
+
+  create_table "booths", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.text     "reasoning"
+    t.string   "state"
+    t.string   "logo_link"
+    t.string   "website_url"
+    t.text     "submitter_relationship"
+    t.integer  "conference_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -49,6 +73,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
+    t.string   "cfp_type"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -89,7 +114,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo_file_name"
-    t.integer  "revision"
+    t.integer  "revision",           default: 0,     null: false
     t.boolean  "use_vpositions",     default: false
     t.boolean  "use_vdays",          default: false
     t.boolean  "use_volunteers"
@@ -100,7 +125,13 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.string   "picture"
     t.integer  "start_hour",         default: 9
     t.integer  "end_hour",           default: 20
+    t.integer  "organization_id"
+    t.integer  "ticket_layout",      default: 0
+    t.string   "custom_domain"
+    t.integer  "booth_limit",        default: 0
   end
+
+  add_index "conferences", ["organization_id"], name: "index_conferences_on_organization_id"
 
   create_table "conferences_questions", id: false, force: :cascade do |t|
     t.integer "conference_id"
@@ -176,6 +207,12 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.string   "cfp_dates_updated_subject"
     t.text     "program_schedule_public_body"
     t.text     "cfp_dates_updated_body"
+    t.boolean  "send_on_booths_acceptance",                     default: false
+    t.string   "booths_acceptance_subject"
+    t.text     "booths_acceptance_body"
+    t.boolean  "send_on_booths_rejection",                      default: false
+    t.string   "booths_rejection_subject"
+    t.text     "booths_rejection_body"
   end
 
   create_table "event_schedules", force: :cascade do |t|
@@ -234,6 +271,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.boolean  "is_highlight",                 default: false
     t.integer  "program_id"
     t.integer  "max_attendees"
+    t.integer  "comments_count",               default: 0,     null: false
   end
 
   create_table "events_registrations", force: :cascade do |t|
@@ -266,6 +304,12 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "updated_at"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name",        null: false
+    t.text   "description"
+    t.string "picture"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.string   "last4"
     t.integer  "amount"
@@ -276,6 +320,15 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
+
+  create_table "physical_tickets", force: :cascade do |t|
+    t.integer  "ticket_purchase_id", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "token"
+  end
+
+  add_index "physical_tickets", ["token"], name: "index_physical_tickets_on_token", unique: true
 
   create_table "programs", force: :cascade do |t|
     t.integer  "conference_id"
@@ -289,6 +342,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "voting_start_date"
     t.datetime "voting_end_date"
     t.integer  "selected_schedule_id"
+    t.integer  "schedule_interval",    default: 15,    null: false
   end
 
   add_index "programs", ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id"
@@ -377,9 +431,11 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.integer  "program_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "track_id"
   end
 
   add_index "schedules", ["program_id"], name: "index_schedules_on_program_id"
+  add_index "schedules", ["track_id"], name: "index_schedules_on_track_id"
 
   create_table "splashpages", force: :cascade do |t|
     t.integer  "conference_id"
@@ -399,6 +455,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
+    t.boolean  "include_booths"
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -446,25 +503,46 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.integer  "quantity",      default: 1
     t.integer  "user_id"
     t.integer  "payment_id"
+    t.integer  "week"
+  end
+
+  create_table "ticket_scannings", force: :cascade do |t|
+    t.integer  "physical_ticket_id", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "tickets", force: :cascade do |t|
     t.integer "conference_id"
-    t.string  "title",                          null: false
+    t.string  "title",                               null: false
     t.text    "description"
-    t.integer "price_cents",    default: 0,     null: false
-    t.string  "price_currency", default: "USD", null: false
+    t.integer "price_cents",         default: 0,     null: false
+    t.string  "price_currency",      default: "USD", null: false
+    t.boolean "registration_ticket", default: false
   end
 
   create_table "tracks", force: :cascade do |t|
-    t.string   "guid",        null: false
-    t.string   "name",        null: false
+    t.string   "guid",                                 null: false
+    t.string   "name",                                 null: false
     t.text     "description"
     t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
+    t.string   "short_name",                           null: false
+    t.string   "state",                default: "new", null: false
+    t.boolean  "cfp_active",                           null: false
+    t.integer  "submitter_id"
+    t.integer  "room_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.text     "relevance"
+    t.integer  "selected_schedule_id"
   end
+
+  add_index "tracks", ["room_id"], name: "index_tracks_on_room_id"
+  add_index "tracks", ["selected_schedule_id"], name: "index_tracks_on_selected_schedule_id"
+  add_index "tracks", ["submitter_id"], name: "index_tracks_on_submitter_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -499,6 +577,7 @@ ActiveRecord::Schema.define(version: 20170213145807) do
     t.boolean  "is_admin",               default: false
     t.string   "username"
     t.boolean  "is_disabled",            default: false
+    t.string   "token"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

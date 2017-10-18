@@ -47,7 +47,8 @@ module Admin
                                          :include_tracks, :include_program, :include_cfp,
                                          :include_venue, :include_registrations,
                                          :include_tickets, :include_lodgings,
-                                         :include_sponsors, :include_social_media)
+                                         :include_sponsors, :include_social_media,
+                                         :include_booths)
     end
   end
 end

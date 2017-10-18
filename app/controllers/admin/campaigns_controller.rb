@@ -15,7 +15,7 @@ module Admin
         redirect_to admin_conference_campaigns_path(conference_id: @conference.short_title),
                     notice: 'Campaign successfully created.'
       else
-        flash[:error] = 'Campaign creation failed. ' + @campaign.errors.full_messages.to_sentence
+        flash.now[:error] = 'Campaign creation failed. ' + @campaign.errors.full_messages.to_sentence
         render action: 'new'
       end
     end
@@ -29,7 +29,7 @@ module Admin
         redirect_to admin_conference_campaigns_path(conference_id: @conference.short_title),
                     notice: "Campaign '#{@campaign.name}' successfully updated."
       else
-        flash[:error] = "Campaign update failed.  #{@campaign.errors.full_messages.to_sentence}"
+        flash.now[:error] = "Campaign update failed.  #{@campaign.errors.full_messages.to_sentence}"
         render action: 'edit'
       end
     end

@@ -20,7 +20,7 @@ describe 'Registration' do
     describe 'registration_limit_not_exceed' do
       it 'is not valid when limit exceeded' do
         conference.registration_limit = 1
-        expect { create(:registration, conference: conference, user: user) }.to raise_error
+        expect { create(:registration, conference: conference, user: user) }.to raise_error('Validation failed: User already Registered!, Registration limit exceeded')
         expect(user.registrations.size).to be 1
       end
     end
@@ -29,7 +29,6 @@ describe 'Registration' do
   describe 'association' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:conference) }
-    it { is_expected.to have_and_belong_to_many(:events) }
     it { is_expected.to have_and_belong_to_many(:qanswers) }
     it { is_expected.to have_and_belong_to_many(:vchoices) }
     it { is_expected.to have_many(:events_registrations) }

@@ -36,7 +36,7 @@ Osem::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -77,8 +77,9 @@ Osem::Application.configure do
     user_name:            ENV['OSEM_SMTP_USERNAME'],
     password:             ENV['OSEM_SMTP_PASSWORD'],
     authentication:       ENV['OSEM_SMTP_AUTHENTICATION'].try(:to_sym),
-    domain:		  ENV['OSEM_SMTP_DOMAIN'],
-    enable_starttls_auto: true
+    domain:               ENV['OSEM_SMTP_DOMAIN'],
+    enable_starttls_auto: ENV['OSEM_SMTP_ENABLE_STARTTLS_AUTO'],
+    openssl_verify_mode:  ENV['OSEM_SMTP_OPENSSL_VERIFY_MODE']
   }
 
   # Set the secret_key_base from the env, if not set by any other means

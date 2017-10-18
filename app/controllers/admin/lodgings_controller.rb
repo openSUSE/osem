@@ -16,7 +16,7 @@ module Admin
         redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
                     notice: 'Lodging successfully created.'
       else
-        flash[:error] = "Creating Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Creating Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
         render :new
       end
     end
@@ -28,7 +28,7 @@ module Admin
         redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
                     notice: 'Lodging successfully updated.'
       else
-        flash[:error] = "Update Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
+        flash.now[:error] = "Update Lodging failed: #{@lodging.errors.full_messages.join('. ')}."
         render :edit
       end
     end

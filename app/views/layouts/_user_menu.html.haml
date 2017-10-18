@@ -12,13 +12,22 @@
     = link_to(conference_program_proposals_path(@conference.short_title)) do
       %span.fa.fa-comment
       My Submissions
+  %li
+    = link_to(conference_program_tracks_path(@conference.short_title)) do
+      %span.fa.fa-road
+      My Tracks
+-if @conference && @conference.program && (@conference.program.cfps.for_booths.try(:open?) || current_user.booths.where(conference_id: @conference.id).count > 0)
+  %li
+    = link_to (conference_booths_path(@conference.short_title)) do
+      %span.fa.fa-shopping-bag
+      My Booth Requests
 %li
   - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-    = link_to(destroy_user_ichain_session_path, :method=>'delete') do
+    = link_to(destroy_user_ichain_session_path, method: 'delete') do
       %span.fa.fa-minus
       Sign out
   - else
-    = link_to(destroy_user_session_path, :method=>'delete') do
+    = link_to(destroy_user_session_path, method: 'delete') do
       %span.fa.fa-minus
       Sign out
 - if can? :access, Admin
@@ -28,10 +37,10 @@
         = link_to(admin_conferences_path()) do
           %span.fa.fa-home
           Administration
-      - if can? :create, Conference
+      - if can? :new, Conference.new
         =link_to(new_admin_conference_path) do
           %span.fa.fa-plus
-          Create Conference
+          New Conference
     -if @conference and @conference.id and can? :show, @conference
       %li
         = link_to(admin_conference_path(@conference.short_title)) do
@@ -44,8 +53,13 @@
     = link_to(admin_users_path) do
       %span.fa.fa-user
       Users
-- if can? :index, PaperTrail::Version.new(item_type: 'User')
+- if can? :index, PaperTrail::Version
   %li
     = link_to(admin_revision_history_path) do
       %span.fa.fa-history
       Revision History
+  - if ENV['ORGANIZATIONS_ENABLED'] == 'true'
+    %li
+      = link_to(admin_organizations_path) do
+        %span.fa.fa-group
+        Organizations

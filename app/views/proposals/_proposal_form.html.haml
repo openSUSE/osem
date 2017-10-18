@@ -4,10 +4,9 @@
 
     = f.input :subtitle, as: :string
 
-    - if @program.tracks.any?
-      = f.input :track_id, as: :select,
-                collection: @program.tracks.map {|track| ["#{track.name}", track.id] },
-                include_blank: true
+    = speaker_selector_input f
+
+    = track_selector_input f
 
     = f.input :event_type_id, as: :select,
       collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
@@ -60,4 +59,15 @@
 
 
   %p.text-right
-    = f.submit 'Update Proposal', class: 'btn btn-success'
+    - if @event.new_record?
+      = f.submit 'Create Proposal', class: 'btn btn-success'
+    - else
+      = f.submit 'Update Proposal', class: 'btn btn-success'
+
+:javascript
+  $(document).ready(function() {
+    $('#event_speaker_ids').selectize({
+      plugins: ['remove_button'],
+      maxItems: 5
+    } )
+  });
