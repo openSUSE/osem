@@ -21,7 +21,9 @@
 
     = yield(:head)
   %body
-    = render 'layouts/navigation', conference: @conference
+    = render 'layouts/navigation',
+      conference: @conference,
+      one_organization: @one_organization
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
       = render 'layouts/admin'

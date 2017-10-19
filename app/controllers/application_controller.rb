@@ -37,6 +37,7 @@ class ApplicationController < ActionController::Base
 
   def get_conferences
     @conferences = Conference.all
+    @one_organization = (Organization.count <= 1)
   end
 
   def current_ability
