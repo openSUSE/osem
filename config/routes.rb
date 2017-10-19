@@ -165,7 +165,6 @@ Osem::Application.routes.draw do
         member do
           get :registrations
           patch '/withdraw' => 'proposals#withdraw'
-          get :registrations
           patch '/confirm' => 'proposals#confirm'
           patch '/restart' => 'proposals#restart'
         end
