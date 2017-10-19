@@ -17,7 +17,10 @@ case $TEST_SUITE in
     bundle exec haml-lint app/views
     ;;
   rspec)
-    bundle exec rspec --color --format documentation
+    bundle exec rspec --color --format documentation --exclude-pattern "spec/features/*_spec.rb"
+    ;;
+  features)
+    bundle exec rspec --color --format documentation spec/features/*_spec.rb
     ;;
   *)
     bundle exec rubocop -Dc .rubocop.yml
