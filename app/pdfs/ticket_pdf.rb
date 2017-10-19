@@ -25,20 +25,23 @@ class TicketPdf < Prawn::Document
     move_up @mid_vertical
     draw_text 'TICKET HOLDER', at: [@x, cursor - 30], size: 17
     dash(2, space: 0)
-    stroke_rectangle [@x, cursor - 50], 230, 150
-    move_down 80
-    draw_text 'NAME', at: [@x + 10, cursor], size: 13
-    fill_color '808080'
-    draw_text @user.name.to_s, at: [@x + 10, cursor - 25], size: 20
-    fill_color '000000'
-    draw_text 'EMAIL', at: [@x + 10, cursor - 50], size: 13
-    fill_color '808080'
-    draw_text @user.email.to_s, at: [@x + 10, cursor - 75], size: 20
-    fill_color '000000'
-    move_up 20
+    bounding_box [@x, cursor - 50], width: 230, height: 150 do
+      pad(15) do
+        text_box 'NAME', at: [@x + 10, cursor], size: 13
+        fill_color '808080'
+        text_box @user.name.to_s, at: [@x + 10, cursor - 20], size: 18
+        fill_color '000000'
+        text_box 'EMAIL', at: [@x + 10, cursor - 60], size: 13
+        fill_color '808080'
+        text_box @user.email.to_s, at: [@x + 10, cursor - 80], size: 18, overflow: :shrink_to_fit
+        fill_color '000000'
+      end
+      stroke_bounds
+    end
   end
 
   def draw_second_square
+    move_up 150
     if @conference.picture?
       if 7 * @conference.picture.image[:width] > 12 * @conference.picture.image[:height]
         image "#{Rails.root}/public#{@conference.picture_url}", at: [@mid_horizontal + 30, cursor], width: 120
@@ -51,7 +54,11 @@ class TicketPdf < Prawn::Document
     move_down 70
     draw_text @conference.title.to_s, at: [@mid_horizontal + 30, cursor - 30], size: 12
     draw_text @conference.organization.name.to_s, at: [@mid_horizontal + 30, cursor - 50], size: 12
-    draw_text @conference.venue.name.to_s, at: [@mid_horizontal + 30, cursor - 70]
+    if @conference.venue
+      draw_text @conference.venue.name, at: [@mid_horizontal + 30, cursor - 70]
+      draw_text @conference.venue.street, at: [@mid_horizontal + 30, cursor - 90]
+      draw_text @conference.venue.city, at: [@mid_horizontal + 30, cursor - 110]
+    end
     move_up 130
     move_down @mid_vertical
   end

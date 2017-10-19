@@ -9,13 +9,14 @@
             =link_to 'Add Event', new_admin_conference_program_event_path(@conference.short_title), class: 'button btn btn-default btn-info'
           - if can? :read, Event
             .btn-group
-              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                Export PDF
-                %span.caret
-              %ul.dropdown-menu{ role: 'menu' }
-                %li= link_to 'All Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all')
-                %li= link_to 'Confirmed Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'confirmed')
-                %li= link_to 'All Events with Comments', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all_with_comments')
+              .btn-group
+                %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
+                  Export PDF
+                  %span.caret
+                %ul.dropdown-menu{ role: 'menu' }
+                  %li= link_to 'All Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all')
+                  %li= link_to 'Confirmed Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'confirmed')
+                  %li= link_to 'All Events with Comments', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all_with_comments')
               .btn-group
                 %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
                   Export CSV

@@ -1,4 +1,4 @@
-class PhysicalTicketController < ApplicationController
+class PhysicalTicketsController < ApplicationController
   before_action :authenticate_user!
   load_resource :conference, find_by: :short_title
   load_and_authorize_resource find_by: :token

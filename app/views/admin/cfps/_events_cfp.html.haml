@@ -1,4 +1,8 @@
 %dt
+  Type:
+%dd
+  = @cfp.cfp_type.capitalize
+%dt
   Start Date:
 %dd#start_date
   = @cfp.start_date.strftime('%A, %B %-d. %Y')
@@ -19,7 +23,7 @@
 %dd
   = tracks(@conference)
 %dt
-  Public Schedule
+  Public Schedule:
 %dd#schedule_public
   - if @program.schedule_public
     Yes
@@ -33,6 +37,6 @@
   - else
     No
 %dt
-  Rating Levels
+  Rating Levels:
 %dd#rating
   = @program.rating

@@ -103,7 +103,7 @@ feature Registration do
 
         click_button 'Continue'
 
-        expect(current_path).to eq(conference_physical_ticket_index_path(conference.short_title))
+        expect(current_path).to eq(conference_physical_tickets_path(conference.short_title))
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: free_ticket.id).first
         expect(purchase.quantity).to eq(5)
         expect(purchase.paid).to be true
