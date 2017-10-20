@@ -11,13 +11,13 @@ module Users
 
     def handle(provider)
       auth_hash = request.env['omniauth.auth']
-      uid = auth_hash[:uid]
+      username = auth_hash.info.email.split('@')[0]
       openid = Openid.find_for_oauth(auth_hash) # Get or create openid
       # If openid exists and is associated with a user, sign in with associated user,
       # even if the email of the associated user and the email of the provided openid are different
       unless (user = openid.user)
         user = User.find_for_auth(auth_hash, current_user) # Get or create users
-        user.username = "#{uid}@#{provider}" if user.username.blank?
+        user.username = "#{username}@#{provider}" if user.username.blank?
       end
 
       begin

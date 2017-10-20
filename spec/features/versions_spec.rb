@@ -193,7 +193,9 @@ feature 'Version' do
     click_link 'Reject event'
 
     visit conference_program_proposals_path(conference_id: conference.short_title)
-    click_link 'Re-Submit'
+    within('#events') do
+      click_link 'Re-Submit'
+    end
 
     visit admin_conference_program_events_path(conference.short_title)
     click_button 'New'
