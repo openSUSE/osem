@@ -1,0 +1,131 @@
+.row
+  .col-md-12
+    %h2
+      - if @sponsor.picture?
+        = image_tag(@sponsor.picture.thumb.url, size: '20%', alt: '')
+      = @sponsor.name
+.row
+  .col-md-12
+    .btn-group.pull-right
+      = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, @sponsor),
+      method: :get, class: 'btn btn-primary'
+      = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, @sponsor),
+      method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{@sponsor.name}?" }
+  .col-md-12
+    %table.table
+      %tr
+        - if @sponsor.amount?
+          %td.col-md-2
+            %b Donation amount
+          %td
+            = @sponsor.amount
+      %tr
+        %td.col-md-2
+          %b Sponsorship paid?
+        %td
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.paid,
+          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[paid]=",
+          class: 'switch-checkbox', data: { size: 'small',
+                                            off_color: 'warning',
+                                            on_text: 'Yes',
+                                            off_text: 'No' }
+      - unless @sponsor.responsibe[:responsible_name].blank?
+        %tr
+          %td.col-md-2
+            %b Responsible's name
+          %td
+            = @sponsor.responsibe[:responsible_name]
+      - unless @sponsor.responsibe[:responsible_email].blank?
+        %tr
+          %td.col-md-2
+            %b Responsible's email
+          %td
+            = @sponsor.responsibe[:responsible_email]
+      - if @sponsor.description?
+        %tr
+          %td.col-md-2
+            %b Description
+          %td
+            = markdown(@sponsor.description)
+      %tr
+        %td.col-md-2
+          %b Sponsorship Level
+        %td
+          = @sponsor.sponsorship_level.title
+          (
+          = @sponsor.sponsorship_level.position
+          )
+      %tr
+        %td.col-md-2
+          %b Website url
+        %td
+          = link_to @sponsor.website_url, @sponsor.website_url
+
+
+      - if @sponsor.address?
+        %tr
+          %td.col-md-2
+            %b Sponsor's address
+          %td
+            = @sponsor.address
+      - if @sponsor.vat?
+        %tr
+          %td.col-md-2
+            %b Sponsor's VAT Registration Number
+          %td
+            = @sponsor.vat
+      %tr
+        %td.col-md-2
+          %b Has swag?
+        %td
+          = check_box_tag @conference.short_title, @sponsor.id, @sponsor.has_swag,
+          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[has_swag]=",
+          class: 'switch-checkbox', data: { size: 'small',
+                                            off_color: 'warning',
+                                            on_text: 'Yes',
+                                            off_text: 'No' }
+
+
+      - if @sponsor.swag.any?
+        %tr
+          %td.col-md-2
+            %b Swag's Type
+          %td
+            %b Quantity
+          - @sponsor.swag.each do |key, value|
+            %tr
+              %td.col-md-2
+                = value[:type]
+              %td
+                = value[:quantity]
+
+      - if @sponsor.has_swag
+        %tr
+          %td.col-md-2
+            %b Swags received?
+          %td
+            = check_box_tag @conference.short_title, @sponsor.id, @sponsor.swag_received,
+            method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{@sponsor.id}?sponsor[swag_received]=",
+            class: 'switch-checkbox', data: { size: 'small',
+                                              off_color: 'warning',
+                                              on_text: 'Yes',
+                                              off_text: 'No' }
+    .row
+      .col-md-12
+        %table.table
+          - if @sponsor.swag_transportation.any?
+            %tr
+              %td.col-md-2
+                %b Courrier's name
+              %td.col-md-2
+                %b Tracking Number
+              %td
+                %b Number of boxes
+              - @sponsor.swag_transportation.each do |key, value|
+                %tr
+                  %td.col-md-2
+                    = value[:carrier_name]
+                  %td
+                    = value[:tracking_number]
+                  %td
+                    = value[:boxes]

@@ -4,36 +4,209 @@
       %h1 Sponsors
       %p.text-muted
         People supporting your conference
-- if @conference.sponsors.any?
-  .row
-    .col-md-12
-      %table.table.table-hover#sponsors
-        %thead
-          %th Logo
-          %th Name
-          %th Description
-          %th URL
-          %th Level
-          %th Actions
-        %tbody
-          - @conference.sponsors.each do |sponsor|
-            %tr
-              %td
-                = image_tag(sponsor.picture.thumb.url, width: '20%')
-              %td
-                = sponsor.name
-              %td
-                = truncate(sponsor.description)
-              %td
-                = sponsor.website_url
-              %td
-                = sponsor.sponsorship_level.title
-              %td
-                .btn-group
-                  = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
-                  method: :get, class: 'btn btn-primary'
-                  = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
-                  method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
 .row
   .col-md-12
-    = link_to 'Add Sponsor', new_admin_conference_sponsor_path(@conference.short_title), class: 'btn btn-primary pull-right'
+    %div{ role: 'tabpanel' }
+      %ul.nav.nav-tabs
+        %li.active
+          %a{ 'data-toggle' => 'tab', href: '#sponsorship', role: 'tab' } Sponsorship
+        %li
+          %a{ 'data-toggle' => 'tab', href: '#swags', role: 'tab' } Swags
+        %li
+          %a{ 'data-toggle' => 'tab', href: '#contacted', role: 'tab' } Contacted
+        %li
+          %a{ 'data-toggle' => 'tab', href: '#to_contact', role: 'tab' } To contact
+
+      .tab-content
+        #sponsorship.tab-pane.active
+          - if @conference.sponsors.confirmed.any?
+            .row
+              .col-md-12
+                %table.table.table-hover
+                  %thead
+                    %th Logo
+                    %th Name
+                    %th Donation
+                    %th Payment
+                    %th Level
+                    %th Actions
+                  %tbody
+                    - @conference.sponsors.confirmed.each do |sponsor|
+                      %tr
+                        %td
+                          = image_tag(sponsor.picture.thumb.url, width: '20%')
+                        %td
+                          = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                        %td
+                          = sponsor.amount
+                        %td
+                          - if sponsor.paid
+                            %span.fa.fa-check.text-success
+                          - else
+                            %span.fa.fa-times.text-danger
+                        %td
+                          = sponsor.sponsorship_level.title
+                        %td
+                          .btn-group
+                            = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :get, class: 'btn btn-mini btn-primary'
+                            = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
+                            - if sponsor.transition_possible? :confirm
+                              = link_to 'Confirm',  confirm_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-success'
+                            - if sponsor.transition_possible? :cancel
+                              = link_to 'Cancel', cancel_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-warning'
+          - else
+            %p No confirmed sponsors yet!
+        #swags.tab-pane
+          - if @conference.sponsors.confirmed.any?
+            .row
+              .col-md-12
+                %table.table.table-hover
+                  %thead
+                    %th Logo
+                    %th Name
+                    %th Banner
+                    %th Swags
+                    %th Swag Items
+                    %th Received
+                    %th Actions
+                  %tbody
+                    - @conference.sponsors.confirmed.each do |sponsor|
+                      %tr
+                        %td
+                          - if sponsor.picture?
+                            = image_tag(sponsor.picture.thumb.url, width: '20%')
+                        %td
+                          = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                        %td
+                          - if sponsor.has_banner
+                            %span.fa.fa-check.text-success
+                          - else
+                            %span.fa.fa-times.text-danger
+                        %td
+                          - if sponsor.has_swag
+                            %span.fa.fa-check.text-success
+                          - else
+                            %span.fa.fa-times.text-danger
+                        %td
+                          - if sponsor.swag.length > 0
+                            - sponsor.swag.each do |key, value|
+                              - unless value[:type].blank?
+                                = value[:type]
+                                (
+                                = value[:quantity]
+                                )
+                                %br
+
+                        %td
+                          = check_box_tag @conference.short_title, sponsor.id, sponsor.swag_received,
+                          method: :patch, url: "/admin/conferences/#{@conference.short_title}/sponsors/#{sponsor.id}?sponsor[swag_received]=",
+                          class: 'switch-checkbox', data: { size: 'small',
+                                                            off_color: 'warning',
+                                                            on_text: 'Yes',
+                                                            off_text: 'No' }
+                        %td
+                          .btn-group
+                            = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :get, class: 'btn btn-mini btn-primary'
+                            = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
+                            - if sponsor.transition_possible? :confirm
+                              = link_to 'Confirm',  confirm_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-success'
+                            - if sponsor.transition_possible? :contact
+                              = link_to 'Contacted', contact_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-default'
+                            - if sponsor.transition_possible? :cancel
+                              = link_to 'Cancel', cancel_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-warning'
+
+          - else
+            %p No confirmed sponsors yet!
+        #contacted.tab-pane
+          - if @conference.sponsors.contacted.any?
+            .row
+              .col-md-12
+                %table.table.table-hover
+                  %thead
+                    %th Logo
+                    %th Name
+                    %th Description
+                    %th URL
+                    %th Level
+                    %th Actions
+                  %tbody
+                    - @conference.sponsors.contacted.each do |sponsor|
+                      %tr
+                        %td
+                          = image_tag(sponsor.picture.thumb.url, width: '20%')
+                        %td
+                          = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                        %td
+                          = truncate(sponsor.description)
+                        %td
+                          = link_to sponsor.website_url, sponsor.website_url
+                        %td
+                          = sponsor.sponsorship_level.title
+                        %td
+                          .btn-group
+                            = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :get, class: 'btn btn-mini btn-primary'
+                            = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                            method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
+                            - if sponsor.transition_possible? :confirm
+                              = link_to 'Confirm',  confirm_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-success'
+                            - if sponsor.transition_possible? :cancel
+                              = link_to 'Cancel', cancel_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                              method: :patch, class: 'btn btn-mini btn-warning'
+        #to_contact.tab-pane
+          - if @conference.sponsors.any?
+            .row
+              .col-md-12
+                %table.table.table-hover#sponsors
+                  %thead
+                    %th Logo
+                    %th Name
+                    %th Description
+                    %th URL
+                    %th Level
+                    %th Actions
+                  %tbody
+                    - @conference.sponsors.each do |sponsor|
+                      - if sponsor.state =='to_contact'
+                        %tr
+                          %td
+                            = image_tag(sponsor.picture.thumb.url, width: '20%')
+                          %td
+                            = link_to sponsor.name, admin_conference_sponsor_path(@conference.short_title, sponsor)
+                          %td
+                            = truncate(sponsor.description)
+                          %td
+                            = link_to sponsor.website_url, sponsor.website_url
+                          %td
+                            = sponsor.sponsorship_level.title
+                          %td
+                            .btn-group
+                              = link_to 'Edit', edit_admin_conference_sponsor_path(@conference.short_title, sponsor),
+                              method: :get, class: 'btn btn-mini btn-primary'
+                              = link_to 'Delete', admin_conference_sponsor_path(@conference.short_title, sponsor),
+                              method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Do you really want to delete the sponsor #{sponsor.name}?" }
+                              - if sponsor.transition_possible? :confirm
+                                = link_to 'Confirm',  confirm_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                                method: :patch, class: 'btn btn-mini btn-success'
+                              - if sponsor.transition_possible? :contact
+                                = link_to 'Mark as Contacted', contact_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                                method: :patch, class: 'btn btn-mini btn-default'
+                              - if sponsor.transition_possible? :cancel
+                                = link_to 'Cancel', cancel_admin_conference_sponsor_path(@conference.short_title, sponsor.id),
+                                method: :patch, class: 'btn btn-mini btn-warning'
+
+          - else
+            %p There are no unconfirmed sponsors
+      .row
+        .col-md-12
+          = link_to 'Add Sponsor', new_admin_conference_sponsor_path(@conference.short_title), class: 'btn btn-primary pull-right'
