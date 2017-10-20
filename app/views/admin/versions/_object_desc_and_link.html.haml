@@ -207,10 +207,7 @@
 
 - when 'DifficultyLevel'
   difficulty level
-  - difficulty_level = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, difficulty_level.title,
-          admin_conference_program_difficulty_level_path(conference_short_title, version.item_id),
-          conference
+  = link_to_difficulty_level(version)
 
 - when 'Splashpage'
   = link_if_alive version, 'splashpage',

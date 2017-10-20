@@ -162,4 +162,13 @@ module VersionsHelper
   def users_role_change_description(version)
     version.event == 'create' ? 'added' : 'removed'
   end
+
+
+  def link_to_difficulty_level(version)
+    return 'deleted role' if version.conference_id.nil?
+    conference = Conference.find_by(id: version.conference_id)
+    difficulty_level = DifficultyLevel.find(version.item_id)
+      link_to difficulty_level.title,
+              admin_conference_program_difficulty_levels_path(conference.short_title)
+  end
 end
