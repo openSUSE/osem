@@ -207,7 +207,15 @@
 
 - when 'DifficultyLevel'
   difficulty level
-  = link_to_difficulty_level(version)
+  - difficulty_level = DifficultyLevel.find_by(id: version.item_id)
+  - if difficulty_level.nil?
+    = 'Difficulty Level Deleted'
+  - else
+    - conference = Conference.find_by(id: version.conference_id)
+    - unless conference.nil?
+      = link_to difficulty_level.title, admin_conference_program_difficulty_levels_path(conference.short_title)
+    - else
+      = difficulty_level.title
 
 - when 'Splashpage'
   = link_if_alive version, 'splashpage',
