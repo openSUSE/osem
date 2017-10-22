@@ -162,5 +162,4 @@ module VersionsHelper
   def users_role_change_description(version)
     version.event == 'create' ? 'added' : 'removed'
   end
-  
 end
