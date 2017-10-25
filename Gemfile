@@ -21,6 +21,7 @@ gem 'responders', '~> 2.0'
 # choose only one
 gem 'mysql2'
 # gem 'pg'
+# gem 'sqlite3'
 
 # for tracking data changes
 gem 'paper_trail'
