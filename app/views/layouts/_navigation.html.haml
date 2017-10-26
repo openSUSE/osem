@@ -1,7 +1,8 @@
 .navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
   .container
     .navbar-header
-      - if @conference && @conference.short_title.present?
+
+      - if controller.class.name.split("::").first=="Admin"
         %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', type: 'button' }
           %span.sr-only Toggle navigation
           %span.icon-bar
