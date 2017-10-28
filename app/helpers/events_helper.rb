@@ -39,4 +39,12 @@ module EventsHelper
       content_tag :span, 'REPLACEMENT', class: (['label', 'label-info'] + label_classes)
     end
   end
+
+  def track_selector_input(form)
+    if @program.tracks.confirmed.cfp_active.any?
+      form.input :track_id, as: :select,
+                            collection: @program.tracks.confirmed.cfp_active.pluck(:name, :id),
+                            include_blank: '(Please select)'
+    end
+  end
 end

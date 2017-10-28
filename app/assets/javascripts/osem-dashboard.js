@@ -55,7 +55,6 @@ $(function() {
     }
 
     function draw_line_chart(animation, $canvas){
-        var options = get_animation({}, animation);
         var chart_data = create_dataset($canvas);
         var weeks = $canvas.parent().data('weeks');
         var data = {
@@ -63,8 +62,25 @@ $(function() {
             datasets : chart_data
         }
 
+        var options = get_animation(wholeNumberAxisFix(data), animation);
         var ctx = $canvas.get(0).getContext("2d");
         new Chart(ctx).Line(data, options);
+    }
+
+    function wholeNumberAxisFix(data){
+        var maxValue = false;
+        for(datasetIndex = 0; datasetIndex < data.datasets.length; ++datasetIndex){
+            var setMax = Math.max.apply(null, data.datasets[datasetIndex].data);
+            if (maxValue === false || setMax > maxValue) maxValue = setMax;
+        }
+
+        var steps = maxValue;
+        var stepWidth = 1;
+        if (maxValue > 10) {
+            stepWidth = Math.floor(maxValue / 10);
+            steps = Math.ceil(maxValue / stepWidth);
+        }
+        return { scaleOverride: true, scaleSteps: steps, scaleStepWidth: stepWidth, scaleStartValue: 0 };
     }
 
     function create_dataset($canvas){

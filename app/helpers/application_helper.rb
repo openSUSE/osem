@@ -33,6 +33,11 @@ module ApplicationHelper
     result
   end
 
+  # Returns time with conference timezone
+  def time_with_timezone(time)
+    time.strftime('%F %R') + ' ' + @conference.timezone.to_s
+  end
+
   # Set resource_name for devise so that we can call the devise help links (views/devise/shared/_links) from anywhere (eg sign_up form in proposals#new)
   def resource_name
     :user
@@ -51,7 +56,7 @@ module ApplicationHelper
   end
 
   def tracks(conference)
-    all = conference.program.tracks.map {|t| t.name}
+    all = conference.program.tracks.confirmed.cfp_active.pluck(:name)
     first = all[0...-1]
     last = all[-1]
     ts = ''
@@ -93,25 +98,6 @@ module ApplicationHelper
       .reverse.sub(',', ' dna ').reverse
   end
 
-  # Recieves a model_name and id
-  # Returns nil if model_name is invalid
-  # Returns object in its current state if its alive
-  # Otherwise Returns object state just before deletion
-  def current_or_last_object_state(model_name, id)
-    return nil unless id.present? && model_name.present?
-    begin
-      object = model_name.constantize.find_by(id: id)
-    rescue NameError
-      return nil
-    end
-
-    if object.nil?
-      object_last_version = PaperTrail::Version.where(item_type: model_name, item_id: id).last
-      object = object_last_version.reify if object_last_version
-    end
-    object
-  end
-
   def normalize_array_length(hashmap, length)
     hashmap.each do |_, value|
       if value.length < length
@@ -131,7 +117,7 @@ module ApplicationHelper
 
   def concurrent_events(event)
     return nil unless event.scheduled? && event.program.selected_event_schedules
-    event_schedule = event.program.selected_event_schedules.find_by(event: event)
+    event_schedule = event.program.selected_event_schedules.find { |es| es.event == event }
     other_event_schedules = event.program.selected_event_schedules.reject { |other_event_schedule| other_event_schedule == event_schedule }
     concurrent_events = []
 
@@ -147,7 +133,7 @@ module ApplicationHelper
   end
 
   def speaker_links(event)
-    event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }.join(', ').html_safe
+    safe_join(event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }, ',')
   end
 
   def speaker_selector_input(form)
@@ -155,6 +141,14 @@ module ApplicationHelper
     form.input :speakers, as: :select,
                           collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @event.speakers.map(&:id)),
                           include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
+  end
+
+  def responsibles_selector_input(form)
+    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
+    form.input :responsibles, as: :select,
+                              collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @booth.responsibles.map(&:id)),
+                              include_blank: false, label: 'Responsibles', input_html: { class: 'select-help-toggle', multiple: 'true' },
+                              hint: 'The people responsible for the booth. You can only select existing users.'
   end
 
   def event_types(conference)
@@ -167,5 +161,14 @@ module ApplicationHelper
     else
       new_user_session_path
     end
+  end
+
+  ##
+  # ====Gets
+  # a conference object
+  # ==== Returns
+  # class hidden if conference is over
+  def hidden_if_conference_over(conference)
+    'hidden' if Date.today > conference.end_date
   end
 end

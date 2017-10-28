@@ -4,14 +4,14 @@ function update_price($this){
     // Calculate price for row
     var value = $this.val();
     var price = $('#price_' + id).text();
-    $('#total_row_' + id).text(value * price);
+    $('#total_row_' + id).text((value * price).toFixed(2));
 
     // Calculate total price
     var total = 0;
     $('.total_row').each(function( index ) {
-        total += parseInt($(this).text());
+        total += parseFloat($(this).text());
     });
-    $('#total_price').text(total);
+    $('#total_price').text(total.toFixed(2));
 }
 
 $( document ).ready(function() {

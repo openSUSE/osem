@@ -267,6 +267,10 @@ td.no-padding{
   font-size: 7px;
 }
 
+.non_schedulable{
+  opacity: 0.5;
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .room, .event-title{

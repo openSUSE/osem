@@ -67,6 +67,13 @@
           - else
             No
         %dt
+          Include Booths
+        %dd
+          - if @splashpage.include_booths
+            Yes
+          - else
+            No
+        %dt
           Include Social Media:
         %dd
           - if @splashpage.include_social_media
@@ -90,5 +97,5 @@
 - else
   .row
     .col-md-12.text-right
-      - if can? :create, @conference
+      - if can? :create, @conference.build_splashpage
         = link_to 'Create Splashpage', new_admin_conference_splashpage_path, class: 'btn btn-primary'

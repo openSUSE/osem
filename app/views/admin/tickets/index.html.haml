@@ -4,6 +4,7 @@
       %h1 Tickets
       %p.text-muted
         Tickets to get during registration
+%br
 - if @conference.tickets.any?
   .row
     .col-md-12
@@ -13,6 +14,7 @@
           %th Price
           %th Sold
           %th Turnover
+          %th Registration Ticket
           %th Actions
         %tbody
           - @conference.tickets.each do |ticket|
@@ -25,7 +27,9 @@
               %td
                 = ticket.tickets_sold
               %td
-                = humanized_money_with_symbol ticket.tickets_turnover
+                = humanized_money_with_symbol ticket.tickets_turnover_total(ticket.id)
+              %td
+                = ticket.registration_ticket? ? 'Yes' : 'No'
               %td
                 .btn-group
                   = link_to 'Edit', edit_admin_conference_ticket_path(@conference.short_title, ticket.id),
@@ -36,4 +40,4 @@
 .row
   .col-md-12
     = link_to 'Add Ticket', new_admin_conference_ticket_path, class: 'btn btn-success pull-right'
-
+    = link_to 'Tickets Sold', admin_conference_physical_tickets_path, class: 'button btn btn-default btn-info pull-right'

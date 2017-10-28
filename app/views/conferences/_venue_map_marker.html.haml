@@ -1,0 +1,13 @@
+- if venue.picture?
+  = image_tag venue.picture.thumb.url,
+    alt: venue.name,
+    class: 'img-responsive pull-right'
+%h3= venue.name
+%p
+  = venue.street
+  %br
+  = venue.city
+  %br
+  = venue.country_name
+- if venue.website
+  %p.text-center.clearfix= sanitize(link_to venue.website, venue.website)

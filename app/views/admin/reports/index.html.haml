@@ -17,7 +17,7 @@
       %a{href: '#missing-speakers', 'data-toggle' => 'tab'}
         Missing Speakers
         %span.label.label-danger{style: 'border-radius: 1em;'}
-          = @missing_event_speakers.group(:user_id).length
+          = @missing_event_speakers.distinct(:user_id).length
 
   .tab-content
     #all.tab-pane.active

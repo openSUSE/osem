@@ -1,0 +1,31 @@
+.container
+  .row
+    .col-md-12.page-header
+      %h2
+        Tickets Sold
+      .text-muted
+        Tickets sold for the conference
+  .row
+    .col-md-4
+      = render partial: 'admin/conferences/doughnut_chart',
+      locals: { title: 'Tickets sold', data: @tickets_sold_distribution }
+    .col-md-4
+      = render partial: 'admin/conferences/doughnut_chart',
+      locals: {title: 'Tickets turnover', data: @tickets_turnover_distribution}
+  %br
+  - if @physical_tickets.any?
+    .row
+      .col-md-12
+        %table.table.table-hover.datatable#tickets
+          %thead
+            %th ID
+            %th Type
+            %th User
+            %th Paid
+            %th Actions
+          %tbody
+            - @physical_tickets.each do |physical_ticket|
+              = render "physical_ticket", physical_ticket: physical_ticket,
+                conference: @conference
+  - else
+    %h5 No Tickets sold!

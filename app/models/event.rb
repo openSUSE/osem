@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
   include ActiveRecord::Transitions
+  include RevisionCount
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
@@ -44,6 +45,7 @@ class Event < ActiveRecord::Base
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
   validate :max_attendees_no_more_than_room_size
+  validate :valid_track
 
   scope :confirmed, -> { where(state: 'confirmed') }
   scope :canceled, -> { where(state: 'canceled') }
@@ -83,7 +85,7 @@ class Event < ActiveRecord::Base
   # ====Returns
   # * +true+ or +false+
   def scheduled?
-    event_schedules.find_by(schedule_id: program.selected_schedule_id).present?
+    event_schedules.find_by(schedule_id: selected_schedule_id).present?
   end
 
   def registration_possible?
@@ -115,7 +117,7 @@ class Event < ActiveRecord::Base
   def average_rating
     @total_rating = 0
     votes.each do |vote|
-      @total_rating = @total_rating + vote.rating
+      @total_rating += vote.rating
     end
     @total = votes.size
     @total_rating > 0 ? number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true) : 0
@@ -241,14 +243,22 @@ class Event < ActiveRecord::Base
   def room
     # We use try(:selected_schedule_id) because this function is used for
     # validations so program could not be present there
-    event_schedules.find_by(schedule_id: program.try(:selected_schedule_id)).try(:room)
+    if track.try(:self_organized?)
+      track.room
+    else
+      event_schedules.find_by(schedule_id: program.try(:selected_schedule_id)).try(:room)
+    end
   end
 
   ##
   # Returns the start time at which this event is scheduled
   #
   def time
-    event_schedules.find_by(schedule_id: program.selected_schedule_id).try(:start_time)
+    event_schedules.find_by(schedule_id: selected_schedule_id).try(:start_time)
+  end
+
+  def conference
+    program.conference
   end
 
   private
@@ -297,5 +307,26 @@ class Event < ActiveRecord::Base
 
   def conference_id
     program.conference_id
+  end
+
+  ##
+  # Allow only confirmed tracks that belong to the same program as the event
+  #
+  def valid_track
+    return unless track && track.program && program
+    errors.add(:track, 'is invalid') unless track.confirmed? && track.program == program
+  end
+
+  ##
+  # Return the id of the selected schedule
+  #
+  # ====Returns
+  # * +Integer+ -> selected_schedule_id of self-organized track or program
+  def selected_schedule_id
+    if track.try(:self_organized?)
+      track.selected_schedule_id
+    else
+      program.selected_schedule_id
+    end
   end
 end

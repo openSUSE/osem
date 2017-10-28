@@ -1,4 +1,5 @@
 class Conference < ActiveRecord::Base
+  include RevisionCount
   require 'uri'
   serialize :events_per_week, Hash
   # Needed to call 'Conference.with_role' in /models/ability.rb
@@ -6,6 +7,10 @@ class Conference < ActiveRecord::Base
   resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
+  scope :upcoming, (-> { where('end_date >= ?', Date.current) })
+  scope :past, (-> { where('end_date < ?', Date.current) })
+
+  belongs_to :organization
 
   has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
@@ -17,11 +22,17 @@ class Conference < ActiveRecord::Base
   has_one :email_settings, dependent: :destroy
   has_one :program, dependent: :destroy
   has_one :venue, dependent: :destroy
+  has_many :physical_tickets, through: :ticket_purchases
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
-  has_many :tickets, dependent: :destroy
+  has_many :tickets, dependent: :destroy do
+    def for_registration
+      where(registration_ticket: true)
+    end
+  end
   has_many :resources, dependent: :destroy
+  has_many :booths, dependent: :destroy
 
   has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
@@ -53,7 +64,9 @@ class Conference < ActiveRecord::Base
             :start_date,
             :end_date,
             :start_hour,
-            :end_hour, presence: true
+            :end_hour,
+            :ticket_layout,
+            :organization, presence: true
 
   validates :short_title, uniqueness: true
   validates :short_title, format: { with: /\A[a-zA-Z0-9_-]*\z/ }
@@ -68,6 +81,8 @@ class Conference < ActiveRecord::Base
 
   after_create :create_free_ticket
   after_update :delete_event_schedules
+
+  enum ticket_layout: [:portrait, :landscape]
 
   ##
   # Checks if the user is registered to the conference
@@ -128,7 +143,7 @@ class Conference < ActiveRecord::Base
     result = []
 
     if program && program.cfp && program.events
-      submissions = program.events.group(:week).count
+      submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
       result = calculate_items_per_week(start_week, weeks, submissions)
@@ -176,10 +191,63 @@ class Conference < ActiveRecord::Base
         registration_period.start_date &&
         registration_period.end_date
 
-      reg = registrations.group(:week).count
+      reg = registrations.group(:week).order(:week).count
       start_week = get_registration_start_week
       weeks = registration_weeks
       result = calculate_items_per_week(start_week, weeks, reg)
+    end
+    result
+  end
+
+  ##
+  # Returns an array with the summarized ticket sales per week.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0, second week 3 tickets sold
+  def get_tickets_sold_per_week
+    result = []
+
+    if tickets && ticket_purchases && registration_period
+      tickets_sold = ticket_purchases.paid.group(:week).sum(:quantity)
+      start_week = get_registration_start_week
+      weeks = registration_weeks
+      result = calculate_items_per_week(start_week, weeks, tickets_sold)
+    end
+    result
+  end
+
+  ##
+  # Returns an hash with ticket sales by ticket title
+  # per week.
+  #
+  # ====Returns
+  #  * +Array+ -> e.g. 'Free Access' => [0, 3, 3, 5]  -> first week 0 tickets sold, second week 3 tickets sold.
+  def get_tickets_data
+    result = {}
+    if tickets && ticket_purchases && registration_period
+      tickets_per_ticket_id_and_week = ticket_purchases.paid.group(:ticket_id, :week).sum(:quantity)
+
+      start_week = get_registration_start_week
+      weeks = registration_weeks
+
+      tickets_by_id_per_week = {}
+
+      tickets.each do |ticket|
+        tickets_by_id_per_week[ticket.id] = {}
+        (start_week...(start_week + weeks)).each do |week|
+          tickets_by_id_per_week[ticket.id][week] = 0
+        end
+      end
+
+      tickets_per_ticket_id_and_week.each do |ticket_week, value|
+        tickets_by_id_per_week[ticket_week[0]][ticket_week[1]] = value
+      end
+
+      tickets_by_id_per_week.each do |ticket, values|
+        result[Ticket.find(ticket).title] = pad_array_left_not_kumulative(start_week, values)
+      end
+
+      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
     end
     result
   end
@@ -281,8 +349,8 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def self.get_top_submitter(limit = 5)
-    submitter = EventUser.where('event_role = ?', 'submitter').limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count
+    submitter = EventUser.select(:user_id).where('event_role = ?', 'submitter').limit(limit).group(:user_id)
+    counter = submitter.order('count_all desc').count(:all)
     calculate_user_submission_hash(submitter, counter)
   end
 
@@ -292,10 +360,10 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
-    submitter = EventUser.joins(:event)
+    submitter = EventUser.joins(:event).select(:user_id)
         .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
         .limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count
+    counter = submitter.order('count_all desc').count(:all)
     Conference.calculate_user_submission_hash(submitter, counter)
   end
 
@@ -397,6 +465,46 @@ class Conference < ActiveRecord::Base
   end
 
   ##
+  # Returns a hash with per ticket sales => { "Title" => { value: number of tickets sold,
+  # color: generated from the title using a hash function }, ...}
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def tickets_sold_distribution
+    result = {}
+
+    if tickets && ticket_purchases
+      tickets.each do |ticket|
+        result[ticket.title] = {
+          'value' => ApplicationController.helpers.humanized_money(ticket.tickets_sold).delete(',').to_i,
+          'color' => "\##{Digest::MD5.hexdigest(ticket.title)[0..5]}"
+        }
+      end
+    end
+    result
+  end
+
+  ##
+  # Returns a hash with per ticket turnover => { "Title" => { value: ticket turnover,
+  # color: generated from the title using a hash function }, ...}
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def tickets_turnover_distribution
+    result = {}
+
+    if tickets && ticket_purchases
+      tickets.each do |ticket|
+        result[ticket.title] = {
+          'value' => ApplicationController.helpers.humanized_money(ticket.tickets_turnover_total(ticket.id)).delete(',').to_i,
+          'color' => "\##{Digest::MD5.hexdigest(ticket.title)[0..5]}"
+        }
+      end
+    end
+    result
+  end
+
+  ##
   # Calculates the overall program minutes
   #
   # ====Returns
@@ -460,11 +568,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> track => {color, value}
   def tracks_distribution(state = nil)
-    if state
-      tracks_grouped = program.events.select(:track_id).where('state = ?', state).group(:track_id)
-    else
-      tracks_grouped = program.events.select(:track_id).group(:track_id)
-    end
+    tracks_grouped = if state
+                       program.events.select(:track_id).where('state = ?', state).group(:track_id)
+                     else
+                       program.events.select(:track_id).group(:track_id)
+                     end
     tracks_counted = tracks_grouped.count
 
     calculate_track_distribution_hash(tracks_grouped, tracks_counted)
@@ -547,7 +655,7 @@ class Conference < ActiveRecord::Base
   def self.write_event_distribution_to_db
     week = DateTime.now.end_of_week
 
-    Conference.where('end_date > ?', Date.today).each do |conference|
+    Conference.where('end_date > ?', Date.today).find_each do |conference|
       result = {}
       Event.state_machine.states.each do |state|
         count = conference.program.events.where('state = ?', state.name).count
@@ -632,6 +740,28 @@ class Conference < ActiveRecord::Base
     current_time = Time.find_zone(timezone).now
     current_hour = current_time.strftime('%H').to_i
     (start_hour..(end_hour - 1)).cover?(current_hour) ? current_hour - start_hour : 0
+  end
+
+  ##
+  #
+  # ====Returns
+  # * +True+ -> if accepted booths are equal to the booth limit
+  # * +False+ -> Accepted booths have not reached the booth limit
+  def maximum_accepted_booths?
+    booth_limit > 0 && booths.accepted.count + booths.confirmed.count >= booth_limit
+  end
+
+  ##
+  # Return the current conference object to be used in RevisionCount
+  #
+  # ====Returns
+  # * +ActiveRecord+
+  def conference
+    self
+  end
+
+  def to_param
+    short_title
   end
 
   private
@@ -803,7 +933,7 @@ class Conference < ActiveRecord::Base
         hash[key] = 0
       end
     end
-    Hash[ hash.sort ]
+    Hash[hash.sort]
   end
 
   ##
@@ -889,11 +1019,11 @@ class Conference < ActiveRecord::Base
   # ====Returns
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
-    if state
-      grouped = program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
-    else
-      grouped = program.events.select(group_by_id).group(group_by_id)
-    end
+    grouped = if state
+                program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
+              else
+                program.events.select(group_by_id).group(group_by_id)
+              end
     counted = grouped.count
 
     calculate_distribution_hash(grouped, counted, association_symbol)
@@ -1004,7 +1134,8 @@ class Conference < ActiveRecord::Base
   def self.calculate_user_submission_hash(submitters, counter)
     result = ActiveSupport::OrderedHash.new
     counter.each do |key, value|
-      submitter = submitters.where(user_id: key).first
+      # make PG happy by including the user_id in ORDER
+      submitter = submitters.where(user_id: key).order(:user_id).first
       if submitter
         result[submitter.user] = value
       end

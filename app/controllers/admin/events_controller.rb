@@ -4,8 +4,10 @@ module Admin
     load_and_authorize_resource :program, through: :conference, singleton: true
     load_and_authorize_resource :event, through: :program
     load_and_authorize_resource :events_registration, only: :toggle_attendance
+    # For some reason this doesn't work, so a workaround is used
+    # load_and_authorize_resource :track, through: :program, only: [:index, :show, :edit]
 
-    before_action :get_event, except: [:index, :create, :new]
+    before_action :get_tracks, only: [:index, :show, :edit]
 
     # FIXME: The timezome should only be applied on output, otherwise
     # you get lost in timezone conversions...
@@ -16,8 +18,6 @@ module Admin
     end
 
     def index
-      @events = @program.events
-      @tracks = @program.tracks
       @difficulty_levels = @program.difficulty_levels
       @event_types = @program.event_types
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
@@ -43,7 +43,6 @@ module Admin
     end
 
     def show
-      @tracks = @program.tracks
       @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
@@ -58,7 +57,6 @@ module Admin
 
     def edit
       @event_types = @program.event_types
-      @tracks = Track.all
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
       @user = @event.submitter
@@ -104,7 +102,7 @@ module Admin
         ahoy.track 'Event submission', title: 'New submission'
         redirect_to admin_conference_program_events_path(@conference.short_title), notice: 'Event was successfully submitted.'
       else
-        flash[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
+        flash.now[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"
         render action: 'new'
       end
     end
@@ -187,16 +185,6 @@ module Admin
       params.require(:comment).permit(:commentable, :body, :user_id)
     end
 
-    def get_event
-      @event = @conference.program.events.find(params[:id])
-      unless @event
-        redirect_to admin_conference_program_events_path(conference_id: @conference.short_title),
-                    error: 'Error! Could not find event!'
-        return
-      end
-      @event
-    end
-
     def update_state(transition, notice, mail = false, subject = false, send_mail = false)
       alert = @event.update_state(transition, mail, subject, send_mail, params[:send_mail].blank?)
 
@@ -207,6 +195,10 @@ module Admin
         flash[:error] = alert
         return redirect_back_or_to(admin_conference_program_events_path(conference_id: @conference.short_title)) && return
       end
+    end
+
+    def get_tracks
+      @tracks = Track.accessible_by(current_ability).where(program: @program).confirmed
     end
   end
 end

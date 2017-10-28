@@ -27,8 +27,9 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def show
-    @total_price = Ticket.total_price(@conference, current_user, paid: true)
+    @total_price = Ticket.total_price_user(@conference, current_user, paid: true)
     @tickets = current_user.ticket_purchases.by_conference(@conference).paid
+    @total_price_per_ticket = @tickets.group(:ticket_id).sum('amount_paid * quantity')
     @ticket_payments = @tickets.group_by(&:ticket_id)
     @total_quantity = @tickets.group(:ticket_id).sum(:quantity)
   end
@@ -38,12 +39,12 @@ class ConferenceRegistrationsController < ApplicationController
   def create
     @registration = @conference.registrations.new(registration_params)
 
-    if current_user.nil?
-      # @user variable needs to be set so that _sign_up_form_embedded works properly
-      @user = @registration.build_user(user_params)
-    else
-      @user = current_user
-    end
+    @user = if current_user.nil?
+              # @user variable needs to be set so that _sign_up_form_embedded works properly
+              @registration.build_user(user_params)
+            else
+              current_user
+            end
 
     @registration.user = @user
     authorize! :create, @registration

@@ -1,6 +1,8 @@
 # cannot delete program if there are events submitted
 
 class Cfp < ActiveRecord::Base
+  TYPES = %w(events booths tracks).freeze
+
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
   belongs_to :program
 
@@ -8,6 +10,15 @@ class Cfp < ActiveRecord::Base
   validates :start_date, :end_date, presence: true
   validate :before_end_of_conference
   validate :start_after_end_date
+  validates :cfp_type,
+            presence: true,
+            inclusion: {
+              in: TYPES
+            },
+            uniqueness: {
+              scope: :program,
+              case_sensitive: false
+            }
 
   ##
   # Checks whether cfp date is updated
@@ -55,15 +66,52 @@ class Cfp < ActiveRecord::Base
     result > 0 ? result : 0
   end
 
+  ##
+  # Checks if the call for papers is currently open
+  #
+  # ====Returns
+  # * +false+ -> If the CFP is not set or today isn't in the CFP period.
+  # * +true+ -> If today is in the CFP period.
+  def open?
+    (start_date..end_date).cover?(Date.current)
+  end
+
+  ##
+  # Finds the cfp for events if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'events'
+  def self.for_events
+    find_by(cfp_type: 'events')
+  end
+
+  ##
+  # Finds the cfp for tracks if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'tracks'
+  def self.for_tracks
+    find_by(cfp_type: 'tracks')
+  end
+
+  ##
+  # Finds the cfp for booths if it exists
+  #
+  # ====Returns
+  # * +Cfp+ -> The cfp with type 'booths'
+  def self.for_booths
+    find_by(cfp_type: 'booths')
+  end
+
   private
 
   def before_end_of_conference
-    if program.conference && program.conference.end_date && end_date && (end_date > program.conference.end_date)
+    if program && program.conference && program.conference.end_date && end_date && (end_date > program.conference.end_date)
       errors
       .add(:end_date, "can't be after the conference end date (#{program.conference.end_date})")
     end
 
-    if program.conference && program.conference.end_date && start_date && (start_date > program.conference.end_date)
+    if program && program.conference && program.conference.end_date && start_date && (start_date > program.conference.end_date)
       errors
       .add(:start_date, "can't be after the conference end date (#{program.conference.end_date})")
     end

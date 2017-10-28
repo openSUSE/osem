@@ -7,7 +7,7 @@ describe Program do
 
   describe 'association' do
     it { is_expected.to belong_to :conference }
-    it { is_expected.to have_one(:cfp).dependent(:destroy) }
+    it { is_expected.to have_many(:cfps).dependent(:destroy) }
     it { is_expected.to have_many(:schedules).dependent(:destroy) }
     it { is_expected.to have_many(:event_types).dependent(:destroy) }
     it { is_expected.to have_many(:tracks).dependent(:destroy) }
@@ -141,7 +141,7 @@ describe Program do
   describe '#cfp_open?' do
     describe 'returns true' do
       it 'when there is an open Call for Papers for the conference' do
-        create(:cfp, start_date: Date.today - 2, end_date: Date.today, program_id: program.id)
+        create(:cfp, start_date: Date.current - 2, end_date: Date.current, program_id: program.id)
         expect(program.cfp_open?).to be true
       end
     end
@@ -152,7 +152,7 @@ describe Program do
       end
 
       it 'when the Call for Papers period is over' do
-        build(:cfp, start_date: Date.today - 2, end_date: Date.today - 1, program_id: program.id)
+        create(:cfp, start_date: Date.current - 2, end_date: Date.current - 1, program_id: program.id)
         expect(program.cfp_open?).to be false
       end
     end
@@ -240,4 +240,47 @@ describe Program do
     end
   end
 
+  describe '#cfp' do
+    it 'returns the cfp for events' do
+      create(:cfp, cfp_type: 'events', program: program, end_date: Date.current + 1)
+      expect(program.cfp).to be_a Cfp
+      expect(program.cfp.cfp_type).to eq('events')
+    end
+
+    it 'returns nil if the program doesn\'t have a cfp' do
+      expect(program.cfp).to eq(nil)
+    end
+  end
+
+  describe '#remaining_cfp_types' do
+    it 'returns an array without the \'events\' type, when the cfp for events exists' do
+      create(:cfp, cfp_type: 'events', program: program)
+      expect(program.remaining_cfp_types).to be_a Array
+      expect(program.remaining_cfp_types.include?('events')).to eq false
+    end
+
+    it 'returns an array without the \'booths\' type, when the cfp for booths exists' do
+      create(:cfp, cfp_type: 'booths', program: program)
+      expect(program.remaining_cfp_types).to be_a Array
+      expect(program.remaining_cfp_types.include?('booths')).to eq false
+    end
+
+    it 'returns an array without the \'tracks\' type, when the cfp for tracks exists' do
+      create(:cfp, cfp_type: 'tracks', program: program)
+      expect(program.remaining_cfp_types).to be_a Array
+      expect(program.remaining_cfp_types.include?('tracks')).to eq false
+    end
+
+    it 'returns an empty array when cfps for all the types exist' do
+      create(:cfp, cfp_type: 'events', program: program)
+      create(:cfp, cfp_type: 'booths', program: program)
+      create(:cfp, cfp_type: 'tracks', program: program)
+      expect(program.remaining_cfp_types).to eq([])
+    end
+
+    it 'returns all the possible cfp types when there is no cfp' do
+      expect(program.remaining_cfp_types).to eq(Cfp::TYPES)
+      expect(program.remaining_cfp_types). to eq(%w[events booths tracks])
+    end
+  end
 end

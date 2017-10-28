@@ -49,6 +49,10 @@
       %section#callforpapers
         = render 'call_for_paper'
 
+    - if @conference.program.cfps.for_tracks.try(:open?) && @conference.splashpage.include_cfp
+      %section#callfortracks
+        = render 'call_for_tracks'
+
     - if @conference.venue and @conference.splashpage.include_venue
       %section#venue
         = render 'venue'
@@ -60,6 +64,10 @@
     - if @conference.tickets.any? and @conference.splashpage.include_tickets and @conference.pending?
       %section#tickets
         = render 'tickets'
+
+    - if @conference.booths.confirmed.any? and @conference.splashpage.include_booths
+      %section#booths
+        = render 'booths'
 
     - if @conference.sponsors.any? and @conference.splashpage.include_sponsors
       %section#sponsors
@@ -74,7 +82,7 @@
 
 - content_for :script_head do
   :javascript
-    var triangle_tcs = tinycolor("#{@conference.color}").monochromatic();
+    var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
     var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
     $(function () {
       $(document).ready(function() {

@@ -1,0 +1,30 @@
+.container
+  .row
+    .col-md-12.page-header
+      %h2
+        Ticket Purchases
+      .text-muted
+        Your unpaid ticket purchases for the conference
+
+    .col-md-12
+      - if @unpaid_ticket_purchases.present?
+        %table.table.table-bordered.table-striped.table-hover#roles
+          %thead
+            %th ID
+            %th Type
+            %th Quantity
+            %th Date
+            %th Actions
+          %tbody
+            - @unpaid_ticket_purchases.each do |ticket_purchase|
+              %tr
+                %td= ticket_purchase.id
+                %td= ticket_purchase.ticket.title
+                %td= ticket_purchase.quantity
+                %td= ticket_purchase.created_at.strftime('%B %d, %Y')
+                %td
+                  .btn-group
+                    = link_to 'Pay', new_conference_payment_path,
+                    class: 'btn btn-primary'
+      - else
+        %h5 You don't have any unpaid ticket purchase!

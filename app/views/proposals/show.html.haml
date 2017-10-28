@@ -114,7 +114,7 @@
                   %dl
                     %dt Start Time:
                     %dd
-                      = event.program.selected_event_schedules.find_by(event: event).start_time.strftime("%Y %B %e %H:%M")
+                      = event.program.selected_event_schedules.find { |es| es.event == event }.start_time.strftime("%Y %B %e %H:%M")
                     %br
                       %dt Room:
                       %dd

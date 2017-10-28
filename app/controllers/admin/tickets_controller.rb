@@ -5,6 +5,8 @@ module Admin
 
     def index
       authorize! :update, Ticket.new(conference_id: @conference.id)
+      @tickets_sold_distribution = @conference.tickets_sold_distribution
+      @tickets_turnover_distribution = @conference.tickets_turnover_distribution
     end
 
     def new
@@ -48,7 +50,7 @@ module Admin
     private
 
     def ticket_params
-      params.require(:ticket).permit(:conference, :title, :url, :description, :conference_id, :price_cents, :price_currency, :price)
+      params.require(:ticket).permit(:conference, :title, :url, :description, :conference_id, :price_cents, :price_currency, :price, :registration_ticket)
     end
   end
 end

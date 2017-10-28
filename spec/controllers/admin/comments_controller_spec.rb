@@ -51,7 +51,7 @@ describe Admin::CommentsController, type: :controller do
         comment
         get :index
         expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to match('You are not authorized to access this area!')
+        expect(flash[:alert]).to match('You are not authorized to access this page.')
       end
     end
   end

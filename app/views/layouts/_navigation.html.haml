@@ -1,14 +1,23 @@
 .navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
   .container
     .navbar-header
-      %button{"data-target"=>".navbar-collapse", "data-toggle"=>"collapse", class: 'navbar-toggle', type: 'button'}
+      - if @conference && @conference.short_title.present?
+        %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', type: 'button' }
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+      %button{"data-target"=>"#main-nav", "data-toggle"=>"collapse", class: 'navbar-toggle', type: 'button'}
         %span.sr-only
           Toggle navigation
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = link_to (ENV['OSEM_NAME'] || 'OSEM'), root_path, class: 'navbar-brand', title: 'Open Source Event Manager'
-    .collapse.navbar-collapse
+      - if conference.nil? || conference.new_record?
+        = link_to (ENV['OSEM_NAME'] || 'OSEM'), root_path, class: 'navbar-brand', title: 'Open Source Event Manager'
+      - else
+        = link_to conference.organization.name, organizations_path, class: 'navbar-brand', title: 'Open Source Event Manager'
+    .collapse.navbar-collapse#main-nav
       - if content_for :splash_nav
         %ul.nav.navbar-nav#splash-nav
           = content_for :splash_nav
@@ -60,13 +69,13 @@
             .dropdown-menu
               - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
                 = form_tag User.ichain_login_url do
-                  = text_field_tag 'username', nil, id: 'user_ichain_email_dd', placeholder: 'Username'
-                  = password_field_tag 'password', nil, id: 'user_ichain_password_dd', placeholder: 'Password'
+                  = text_field_tag 'username', nil, id: 'user_ichain_email_dd', class: 'form-control', placeholder: 'Username'
+                  = password_field_tag 'password', nil, id: 'user_ichain_password_dd', class: 'form-control', placeholder: 'Password'
                   %button.btn.btn-success.btn-block Sign in
               - else
                 = form_tag new_user_session_path do
-                  = text_field_tag 'user[login]', nil, id: 'user_login_dd', placeholder: 'Username / E-Mail'
-                  = password_field_tag 'user[password]', nil, id: 'user_password_dd', placeholder: 'Password'
+                  = text_field_tag 'user[login]', nil, id: 'user_login_dd', class: 'form-control', placeholder: 'Username / E-Mail'
+                  = password_field_tag 'user[password]', nil, id: 'user_password_dd', class: 'form-control', placeholder: 'Password'
                   %p.text-right
                     %small
                       %label{for: 'user_remember_me'} Remember me

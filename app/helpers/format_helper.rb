@@ -15,6 +15,19 @@ module FormatHelper
     end
   end
 
+  def booth_status_icon(booth)
+    case booth.state
+    when 'new', 'to_reject', 'to_accept'
+      'fa-eye'
+    when 'accepted'
+      'fa-check text-muted'
+    when 'confirmed'
+      'fa-check text-success'
+    when 'rejected', 'withdrawn', 'canceled'
+      'fa-ban'
+    end
+  end
+
   def event_progress_color(progress)
     progress = progress.to_i
     if progress == 100
@@ -102,13 +115,12 @@ module FormatHelper
     end
   end
 
-  # rubocop:disable Lint/EndAlignment
   def word_pluralize(count, singular, plural = nil)
     word = if (count == 1 || count =~ /^1(\.0+)?$/)
-      singular
-    else
-      plural || singular.pluralize
-    end
+             singular
+           else
+             plural || singular.pluralize
+           end
 
     "#{word}"
   end
@@ -176,7 +188,7 @@ module FormatHelper
     (schedule == @selected_schedule) ? 'Yes' : 'No'
   end
 
-  def markdown(text)
+  def markdown(text, escape_html=true)
     return '' if text.nil?
 
     options = {
@@ -184,12 +196,12 @@ module FormatHelper
       space_after_headers: true,
       no_intra_emphasis: true
     }
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: true), options)
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe
   end
 
   def markdown_hint(text='')
-    markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text")
+    markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text", false)
   end
 
   def quantity_left_of(resource)

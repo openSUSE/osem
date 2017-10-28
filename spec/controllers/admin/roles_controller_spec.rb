@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Admin::RolesController do
-
   let(:conference) { create(:conference) }
   let(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
@@ -55,7 +54,7 @@ describe Admin::RolesController do
   end
 
   describe 'POST #toggle' do
-    before:each do
+    before :each do
       sign_in admin
       post :toggle_user, conference_id: conference.short_title,
                          user: { email: 'user1@osem.io' },

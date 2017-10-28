@@ -48,7 +48,7 @@ describe Conference do
       subject.start_date = Date.today + 6.weeks
       subject.end_date = Date.today + 7.weeks
       subject.save
-      subject.program.cfp = create(:cfp, start_date: Date.today - 3.weeks)
+      create(:cfp, start_date: Date.today - 3.weeks, program: subject.program)
 
       create(:event, program: subject.program, created_at: Date.today)
       options = {}
@@ -115,7 +115,7 @@ describe Conference do
       }
       subject.events_per_week = db_data
       subject.save
-      subject.program.cfp = create(:cfp, start_date: Date.today - 3.weeks)
+      create(:cfp, start_date: Date.today - 3.weeks, program: subject.program)
 
       create(:event, program: subject.program, created_at: Date.today)
       unconfirmed = create(:event, program: subject.program)
@@ -186,7 +186,7 @@ describe Conference do
       subject.events_per_week = db_data
 
       subject.save
-      subject.program.cfp = create(:cfp, start_date: Date.today - 2.weeks)
+      create(:cfp, start_date: Date.today - 2.weeks, program: subject.program)
 
       create(:event, program: subject.program, created_at: Date.today - 2.weeks)
 
@@ -203,7 +203,7 @@ describe Conference do
       subject.start_date = Date.today + 6.weeks
       subject.end_date = Date.today + 7.weeks
       subject.save
-      subject.program.cfp = create(:cfp, start_date: Date.today)
+      create(:cfp, start_date: Date.today, program: subject.program)
       create(:event, program: subject.program)
 
       result = {
@@ -220,7 +220,7 @@ describe Conference do
       subject.start_date = Date.today + 6.weeks
       subject.end_date = Date.today + 7.weeks
       subject.save
-      subject.program.cfp = create(:cfp, start_date: Date.today - 3.weeks)
+      create(:cfp, start_date: Date.today - 3.weeks, program: subject.program)
 
       create(:event, program: subject.program, created_at: Date.today)
       unconfirmed = create(:event, program: subject.program)
@@ -258,7 +258,7 @@ describe Conference do
       subject.events_per_week = db_data
 
       subject.save
-      subject.program.cfp = create(:cfp, start_date: Date.today - 3.weeks)
+      create(:cfp, start_date: Date.today - 3.weeks, program: subject.program)
 
       create(:event, program: subject.program, created_at: Date.today - 3.weeks)
 
@@ -606,8 +606,8 @@ describe Conference do
   describe 'tracks_distribution' do
     before do
       subject.email_settings = create(:email_settings)
-      @track_one = create(:track, name: 'Track One', color: '#000000')
-      @track_two = create(:track, name: 'Track Two', color: '#ffffff')
+      @track_one = create(:track, name: 'Track One', color: '#000000', program: subject.program)
+      @track_two = create(:track, name: 'Track Two', color: '#ffffff', program: subject.program)
     end
 
     describe '#tracks_distribution' do
@@ -992,7 +992,6 @@ describe Conference do
     end
 
     it 'calculates correct for new conference' do
-      subject.program.cfp = nil
       subject.venue = nil
       subject.program.tracks = []
       subject.program.event_types = []
@@ -1006,7 +1005,6 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: subject.end_date - 14,
                                            end_date: subject.end_date, conference: subject)
-      subject.program.cfp = nil
       subject.venue = nil
       subject.program.event_types = []
       subject.program.tracks = []
@@ -1024,7 +1022,7 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: subject.end_date - 14,
                                            end_date: subject.end_date, conference: subject)
-      subject.program.cfp = create(:cfp)
+      create(:cfp, program: subject.program)
       subject.venue = nil
       subject.program.tracks = []
       subject.program.event_types = []
@@ -1043,7 +1041,7 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: subject.end_date - 14,
                                            end_date: subject.end_date, conference: subject)
-      subject.program.cfp = create(:cfp)
+      create(:cfp, program: subject.program)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = []
       subject.program.tracks = []
@@ -1063,7 +1061,7 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14, conference: subject)
-      subject.program.cfp = create(:cfp)
+      create(:cfp, program: subject.program)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.program.tracks = []
@@ -1087,7 +1085,7 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14, conference: subject)
-      subject.program.cfp = create(:cfp)
+      create(:cfp, program: subject.program)
       subject.program.event_types = []
       subject.program.difficulty_levels = []
       subject.splashpage = create(:splashpage, public: false)
@@ -1109,7 +1107,7 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14, conference: subject)
-      subject.program.cfp = create(:cfp)
+      create(:cfp, program: subject.program)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.program.difficulty_levels = []
@@ -1133,7 +1131,7 @@ describe Conference do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.today,
                                            end_date: Date.today + 14, conference: subject)
-      subject.program.cfp = create(:cfp)
+      create(:cfp, program: subject.program)
       subject.venue = create(:venue, conference: subject)
       subject.venue.rooms = [create(:room, venue: subject.venue)]
       subject.splashpage = create(:splashpage, public: true)
@@ -1176,34 +1174,34 @@ describe Conference do
   describe '#cfp_weeks' do
 
     it 'calculates new year' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2013, 12, 30)
       cfp.end_date = Date.new(2013, 12, 30) + 6
-      subject.program.cfp = cfp
+      cfp.save!
       expect(subject.cfp_weeks).to eq(1)
     end
 
     it 'is one if start and end are 6 days apart' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 6
-      subject.program.cfp = cfp
+      cfp.save!
       expect(subject.cfp_weeks).to eq(1)
     end
 
     it 'is one if start and end are the same date' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26)
-      subject.program.cfp = cfp
+      cfp.save!
       expect(subject.cfp_weeks).to eq(1)
     end
 
     it 'is two if start and end are 10 days apart' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 10
-      subject.program.cfp = cfp
+      cfp.save!
       expect(subject.cfp_weeks).to eq(2)
     end
   end
@@ -1211,36 +1209,36 @@ describe Conference do
   describe '#get_submissions_per_week' do
 
     it 'does calculate correct if cfp start date is altered' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) - 7)]
       expect(subject.get_submissions_per_week).to eq([1, 1, 1, 1, 1])
     end
 
     it 'does calculate correct if cfp end date is altered' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 28)]
       expect(subject.get_submissions_per_week).to eq([0, 0, 0, 0, 1])
     end
 
     it 'pads with zeros if there are no submissions' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       expect(subject.get_submissions_per_week).to eq([0, 0, 0, 0])
     end
 
     it 'summarized correct if there are no submissions in one week' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 28
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 7)]
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 14)]
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 28)]
@@ -1248,20 +1246,20 @@ describe Conference do
     end
 
     it 'summarized correct if there are submissions every week except the first' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 7)]
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 14)]
       expect(subject.get_submissions_per_week).to eq([0, 1, 2, 2])
     end
 
     it 'summarized correct if there are submissions every week' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26))]
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 7)]
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 14)]
@@ -1269,29 +1267,29 @@ describe Conference do
     end
 
     it 'pads left' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 21)]
       expect(subject.get_submissions_per_week).to eq([0, 0, 0, 1])
     end
 
     it 'pads middle' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26))]
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26) + 21)]
       expect(subject.get_submissions_per_week).to eq([1, 1, 1, 2])
     end
 
     it 'pads right' do
-      cfp = create(:cfp)
+      cfp = create(:cfp, program: subject.program)
       cfp.start_date = Date.new(2014, 05, 26)
       cfp.end_date = Date.new(2014, 05, 26) + 21
-      subject.program.cfp = cfp
+      cfp.save!
       subject.program.events += [create(:event, created_at: Date.new(2014, 05, 26))]
       expect(subject.get_submissions_per_week).to eq([1, 1, 1, 1])
     end
@@ -1460,7 +1458,7 @@ describe Conference do
     context 'open cfp' do
 
       before do
-        subject.program.cfp = create(:cfp)
+        create(:cfp, program: subject.program)
       end
 
       it '#registration_open? is true' do
@@ -1575,6 +1573,10 @@ describe Conference do
       should validate_presence_of(:end_hour)
     end
 
+    it 'is not valid without a ticket_layout' do
+      should validate_presence_of(:ticket_layout)
+    end
+
     it 'is not valid with a duplicate short title' do
       should validate_uniqueness_of(:short_title)
     end
@@ -1630,7 +1632,7 @@ describe Conference do
   end
 
   describe 'after_create' do
-    let(:conference) { Conference.new(title: 'ABC', short_title: 'XYZ', start_date: Date.today, end_date: Date.today + 10, timezone: 'GMT') }
+    let(:conference) { create(:conference) }
 
     it 'calls back to create free ticket' do
       conference.save
@@ -1657,5 +1659,49 @@ describe Conference do
       conference.end_hour = conference.end_hour - 2
       expect{ conference.save }.to change{ EventSchedule.count }.from(2).to(1)
     end
+  end
+
+  describe '#revision' do
+    let(:track) { create(:track, program: subject.program) }
+    let(:event) { create(:event, program: subject.program, track: track) }
+    let(:venue) { create(:venue, conference: subject) }
+    let(:room)  { create(:room, venue: venue) }
+
+    it 'for change in conference' do
+      subject.title = 'changed'
+      expect{ subject.save }.to change { subject.revision }.by(1)
+    end
+
+    it 'for change in event' do
+      event.title = 'changed'
+      expect{ event.save }.to change { subject.revision }.by(1)
+    end
+
+    it 'for change in track' do
+      track.name = 'changed'
+      expect{ track.save }.to change { subject.revision }.by(1)
+    end
+
+    it 'for change in room' do
+      room.name = 'changed'
+      expect{ room.save }.to change { subject.revision }.by(1)
+    end
+  end
+
+  describe '.upcoming' do
+    let!(:upcoming_conference) { create(:conference) }
+    let!(:past_conference) { create(:conference, start_date: Date.current - 1.days, end_date: Date.current - 1.days) }
+    subject { Conference.upcoming }
+
+    it { is_expected.to eq [upcoming_conference] }
+  end
+
+  describe '.past' do
+    let!(:upcoming_conference) { create(:conference) }
+    let!(:past_conference1) { create(:conference, start_date: Date.current - 1.days, end_date: Date.current - 1.days) }
+    let!(:past_conference2) { create(:conference, start_date: Date.current - 2.days, end_date: Date.current - 1.days) }
+    subject { Conference.past }
+
+    it { is_expected.to eq [past_conference1, past_conference2] }
   end
 end

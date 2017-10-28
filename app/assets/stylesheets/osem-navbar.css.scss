@@ -20,14 +20,6 @@
             color: black;
             background-color: #eeeeee;
         }
-        input[type=text],
-        input[type=password] {
-            text-align: center;
-            padding: 5px;
-            display: block;
-            margin: auto;
-            width: 255px;
-        }
         .btn-group {
             width: 100%;
             text-align: center;
@@ -37,7 +29,7 @@
         }
     }
     .dropdown-menu {
-        padding: 17px 17px 0px 17px;
+        padding: 17px;
         min-width: 225px;
     }
 }

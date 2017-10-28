@@ -4,6 +4,9 @@ describe Admin::VersionsController do
 
   let!(:conference) { create(:conference, short_title: 'exampletitle', description: 'Example Description') }
   let(:admin) { create(:admin) }
+  let(:role_organizer) { conference.roles.find_by(name: 'organizer') }
+  let(:role_cfp) { conference.roles.find_by(name: 'cfp') }
+  let(:role_info_desk) { conference.roles.find_by(name: 'info_desk') }
 
   with_versioning do
     describe 'GET #revert' do
@@ -95,6 +98,58 @@ describe Admin::VersionsController do
         expect(conference.description).to eq 'Some random text'
         expect(conference.title).to eq(before_conference_title)
         expect(flash[:error]).to match('Revert failed. Attribute missing or invalid')
+      end
+    end
+
+    describe 'GET #index' do
+      it 'raises error if user is not of any role' do
+        user = create(:user)
+        sign_in user
+        get :index, conference_id: conference.short_title
+        expect(flash[:alert]).to match('You are not authorized to access this page.')
+      end
+
+      context 'with conference' do
+        before :each do
+          @user = create(:user)
+
+          conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
+          @version_organizer = PaperTrail::Version.last
+          create(:cfp, program: conference.program)
+          @version_cfp = PaperTrail::Version.last
+          registration = create(:registration, conference: conference)
+          registration.update_attributes(attended: true)
+          @version_info_desk = PaperTrail::Version.last
+        end
+
+        it 'when user has role cfp' do
+          @user.roles = [role_cfp]
+          sign_in @user
+          get :index, conference_id: conference.short_title
+
+          expect(assigns(:versions).include?(@version_cfp)).to eq true
+          expect(assigns(:versions).include?(@version_organizer)).to eq false
+        end
+
+        it 'when user has role info_desk' do
+          @user.roles = [role_info_desk]
+          sign_in @user
+          get :index, conference_id: conference.short_title
+
+          expect(assigns(:versions).include?(@version_info_desk)).to eq true
+          expect(assigns(:versions).include?(@version_organizer)).to eq false
+          expect(assigns(:versions).include?(@version_cfp)).to eq false
+        end
+
+        it 'when user has role organizer' do
+          @user.roles = [role_organizer]
+          sign_in @user
+          get :index, conference_id: conference.short_title
+
+          expect(assigns(:versions).include?(@version_organizer)).to eq true
+          expect(assigns(:versions).include?(@version_cfp)).to eq true
+          expect(assigns(:versions).include?(@version_info_desk)).to eq true
+        end
       end
     end
   end

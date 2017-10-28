@@ -21,9 +21,16 @@ class SchedulesController < ApplicationController
     # the schedule takes you to today if it is a date of the schedule
     @current_day = @conference.current_conference_day
     @day = @current_day.present? ? @current_day : @dates.first
-    return unless @current_day
-    # the schedule takes you to the current time if it is beetween the start and the end time.
-    @hour_column = @conference.hours_from_start_time(@conf_start, @conference.end_hour)
+    unless @current_day
+      # the schedule takes you to the current time if it is beetween the start and the end time.
+      @hour_column = @conference.hours_from_start_time(@conf_start, @conference.end_hour)
+    end
+    # Ids of the schedules of confrmed self_organized tracks along with the selected_schedule_id
+    @selected_schedules_ids = [@conference.program.selected_schedule_id]
+    @conference.program.tracks.self_organized.confirmed.each do |track|
+      @selected_schedules_ids << track.selected_schedule_id
+    end
+    @selected_schedules_ids.compact!
   end
 
   def events
@@ -32,11 +39,7 @@ class SchedulesController < ApplicationController
     @events_schedules = @program.selected_event_schedules
     @events_schedules = [] unless @events_schedules
 
-    @unscheduled_events = if @program.selected_schedule
-                            @program.events.confirmed - @program.selected_schedule.events
-                          else
-                            @program.events.confirmed
-                          end
+    @unscheduled_events = @program.events.confirmed - @events_schedules.map(&:event)
 
     day = @conference.current_conference_day
     @tag = day.strftime('%Y-%m-%d') if day
