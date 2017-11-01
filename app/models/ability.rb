@@ -73,6 +73,11 @@ class Ability
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
     can [:new, :create], Payment, user_id: user.id
+
+    can :new, Payment do |payment|
+      payment.conference.end_date >= Date.today
+    end
+
     can [:index, :show], PhysicalTicket, user: user
 
     can [:new, :create], Booth do |booth|
