@@ -11,7 +11,7 @@ function update_price($this){
     $('.total_row').each(function( index ) {
         total += parseFloat($(this).text());
     });
-    $('#total_price').text(total);
+    $('#total_price').text(total.toFixed(2));
 }
 
 $( document ).ready(function() {
