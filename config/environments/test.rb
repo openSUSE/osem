@@ -11,6 +11,13 @@ Osem::Application.configure do
   config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
 
+  # Use memory store for assets cache intest to avoid caching to tmp/assets,
+  # because it causes hiding of deprecation messages in stylesheets, and
+  # reduces performance.
+  config.assets.configure do |env|
+    env.cache = ActiveSupport::Cache.lookup_store(:memory_store)
+  end
+
   # Do not eager load code on boot.
   config.eager_load = false
 

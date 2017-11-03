@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 dist: trusty
 language: ruby
 cache: bundler
@@ -26,7 +26,8 @@ before_script:
 script:
   - "./travis_script.sh $TEST_SUITE"
 env:
-  - TEST_SUITE=rspec
   - TEST_SUITE=linters
+  - TEST_SUITE=rspec
+  - TEST_SUITE=features
 matrix:
   fast_finish: true
