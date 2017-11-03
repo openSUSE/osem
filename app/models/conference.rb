@@ -496,7 +496,7 @@ class Conference < ActiveRecord::Base
     if tickets && ticket_purchases
       tickets.each do |ticket|
         result[ticket.title] = {
-          'value' => ApplicationController.helpers.humanized_money(ticket.tickets_turnover).delete(',').to_i,
+          'value' => ApplicationController.helpers.humanized_money(ticket.tickets_turnover_total(ticket.id)).delete(',').to_i,
           'color' => "\##{Digest::MD5.hexdigest(ticket.title)[0..5]}"
         }
       end

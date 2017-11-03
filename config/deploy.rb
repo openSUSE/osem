@@ -3,7 +3,7 @@ require 'mina/rails'
 require 'mina/git'
 
 set :domain, 'proxy-opensuse.suse.de'
-set :port, 2214
+set :port, 2252
 set :user, 'osem'
 set :deploy_to, '/srv/www/vhosts/opensuse.org/events'
 set :repository, 'https://github.com/openSUSE/osem.git'
@@ -42,7 +42,7 @@ task deploy: :environment do
     #invoke :notify_errbit
 
     to :launch do
-      queue "sudo /etc/init.d/apache2 restart"
+      queue "sudo /usr/bin/systemctl restart apache2"
       queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job start"
     end
 

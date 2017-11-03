@@ -1,0 +1,16 @@
+%tr
+  %td= physical_ticket.id
+  %td= physical_ticket.ticket.title
+  %td= physical_ticket.user.email
+  %td= humanized_money_with_symbol physical_ticket.ticket_purchase.amount_paid
+  %td
+    .btn-group
+      = link_to 'Show',
+      conference_physical_ticket_path(conference.short_title,
+                                      physical_ticket.token),
+      class: 'btn btn-primary'
+      = link_to 'Generate PDF',
+      conference_physical_ticket_path(conference.short_title,
+                                      physical_ticket.token,
+                                      format: :pdf),
+      class: 'button btn btn-default btn-info'
