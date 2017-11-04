@@ -14,6 +14,12 @@ user.password = Devise.friendly_token[0, 20]
 user.skip_confirmation!
 user.save!
 
+# Create sample organization
+organization = Organization.find_or_initialize_by(name: 'OSEM',
+                                                  description: 'Open Source Event Manager',
+                                                  picture: 'osem-logo.png')
+organization.save!
+
 # Questions
 qtype_yesno = QuestionType.find_or_create_by!(title: 'Yes/No')
 QuestionType.find_or_create_by!(title: 'Single Choice')
