@@ -185,6 +185,10 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
+# configurable toggles for functionality
+# https://github.com/mgsnova/feature
+gem 'feature'
+
 # For countable.js
 gem "countable-rails", "~> 0.0.1"
 
