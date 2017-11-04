@@ -420,6 +420,8 @@ GEM
       loggability (~> 0.12)
       rdoc (~> 5.0)
       yajl-ruby (~> 1.3)
+    recaptcha (4.6.2)
+      json
     redcarpet (3.2.3)
     referer-parser (0.2.1)
     request_store (1.1.0)
@@ -636,6 +638,7 @@ DEPENDENCIES
   rails-i18n (~> 4.0.0)
   rails_12factor
   rdoc-generator-fivefish
+  recaptcha
   redcarpet
   responders (~> 2.0)
   rolify

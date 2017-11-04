@@ -44,6 +44,9 @@ gem 'omniauth-openid'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 
+# Bot-filtering
+gem 'recaptcha', require: 'recaptcha/rails'
+
 # as authorization framework
 gem 'cancancan'
 
