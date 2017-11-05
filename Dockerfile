@@ -16,6 +16,12 @@ RUN cd /usr/bin && \
     tar -xf dockerize.tar.gz && \
     rm dockerize.tar.gz
 
+# dumb-init for a proper PID 1
+RUN cd /tmp && \
+    wget https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb && \
+    dpkg -i dumb-init_1.2.0_amd64.deb && \
+    rm dumb-init_1.2.0_amd64.deb
+
 # explicitly add Gemfile and install dependencies using bundler to make use of
 # Docker's caching
 WORKDIR /osem/
@@ -25,12 +31,13 @@ RUN bundle install --without test development
 
 # add OSEM files and prepare them for use inside a Docker container
 COPY . /osem/
-RUN chown osem.osem /osem/ -R && \
+RUN chown -R osem.root /osem/ && \
+    chmod -R g=u /osem/ && \
     mv /osem/config/database.yml.docker /osem/config/database.yml
 
 # data directory is used to cache the secret key in a file
 ENV DATA_DIR /data
-RUN install -d -m 0700 -o osem $DATA_DIR
+RUN install -d -m 0770 -o osem -g root $DATA_DIR
 VOLUME ["$DATA_DIR"]
 
 USER osem
@@ -41,5 +48,8 @@ COPY docker/init.sh /init.sh
 # a user could override this if they wanted to serve the static files directly
 # from a webserver
 ENV RAILS_SERVE_STATIC_FILES 1
+
+# Runs "/usr/bin/dumb-init -- /my/script --with --args"
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
 CMD ["bash", "/init.sh"]
