@@ -43,11 +43,16 @@ elif [[ "$ID" == "centos" || "$VERSION" == "7"  ]]; then
   curl -sL https://rpm.nodesource.com/setup_9.x | bash - > /dev/null
 
   printf "${_YELLOW}installing nodejs and devel tools${_NO_COLOUR}\n"
-  yum install -q -y git make gcc gcc-c++ libxml2-devel libxslt-devel nodejs screen mariadb mariadb-devel sqlite-devel ImageMagick
+  yum install -q -y git make gcc gcc-c++ libxml2-devel libxslt-devel nodejs screen mariadb mariadb-devel sqlite-devel ImageMagick bzip2
 
   # for production: bundle install --without test development
   printf "${_YELLOW}Opening firewall port: 3000${_NO_COLOUR}\n"
   iptables -I INPUT -p tcp --dport 3000 -j ACCEPT
+
+  printf "${_YELLOW}installing phantomjs${_NO_COLOUR}\n"
+  curl -L --silent https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 -o /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2
+  tar jxvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /tmp/  phantomjs-2.1.1-linux-x86_64/bin/phantomjs
+  mv /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
 
 fi
 
