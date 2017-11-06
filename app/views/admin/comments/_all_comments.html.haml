@@ -8,5 +8,5 @@
           %h4.title= link_to event.title, admin_conference_program_event_path(event.program.conference.short_title, event)
           %hr
           - comments.each do |comment|
-            %h5.strong Posted by: #{comment.user.name} | Created at: #{comment.created_at}
+            %h5.strong Posted by: #{comment.user.nil? ? 'Anonymous' : comment.user.name} | Created at: #{comment.created_at}
             %p= comment.body
