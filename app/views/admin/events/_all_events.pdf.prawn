@@ -32,5 +32,5 @@ prawn_document(force_download: true, filename: "#{@file_name}.pdf", page_layout:
   end
 
   pdf.text "#{@conference.short_title} Events", font_size: 25, align: :center
-  pdf.table events_array, header: true, cell_style: {size: 8, border_width: 1}
+  pdf.table events_array, header: true, cell_style: {size: 8, border_width: 1},column_widths: [40,60,90,50,70,65,85,50,55,50,60,45]
 end

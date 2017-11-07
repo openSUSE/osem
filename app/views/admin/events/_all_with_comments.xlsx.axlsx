@@ -37,5 +37,6 @@ wb.add_worksheet(name: 'events with comments') do |sheet|
     row << event.state
     row << all_comments.strip
     sheet.add_row row, style: cell_style
+    sheet.column_widths 10,15,35,13,18,18,28,12,15,15,15,10
   end
 end
