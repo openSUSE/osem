@@ -3,7 +3,24 @@ module Admin
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource through: :conference
 
-    def index; end
+    def index
+      @file_name = "booths_for_#{@conference.short_title}"
+      @booth_export_option = params[:booth_export_option]
+      respond_to do |format|
+        format.html
+        # Explicity call #to_json to avoid the use of EventSerializer
+        format.json { render json: Booth.where(state: :confirmed, program: @program).to_json }
+        format.xlsx do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
+          render 'booths'
+        end
+        format.pdf { render 'booths' }
+        format.csv do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
+          render 'booths'
+        end
+      end
+    end
 
     def show; end
 

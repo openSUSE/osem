@@ -7,7 +7,25 @@ module Admin
     # Show flash message with ajax calls
     after_action :prepare_unobtrusive_flash, only: :toggle_cfp_inclusion
 
-    def index; end
+    def index
+      @file_name = "tracks_for_#{@conference.short_title}"
+      @track_export_option = params[:track_export_option]
+
+      respond_to do |format|
+        format.html
+        # Explicity call #to_json to avoid the use of EventSerializer
+        format.json { render json: Track.where(state: :confirmed, program: @program).to_json }
+        format.xlsx do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
+          render 'tracks'
+        end
+        format.pdf { render 'tracks' }
+        format.csv do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
+          render 'tracks'
+        end
+      end
+    end
 
     def show
       respond_to do |format|
