@@ -58,5 +58,21 @@ describe ApplicationHelper, type: :helper do
         expect(concurrent_events(event).present?).to eq false
       end
     end
+
+    describe 'navigation title link' do
+      it 'should default to OSEM' do
+        ENV.delete('OSEM_NAME')
+        expect(nav_root_link_for(nil)).to match 'OSEM'
+      end
+
+      it 'should use the environment variable' do
+        ENV['OSEM_NAME'] = Faker::Company.name
+        expect(nav_root_link_for(nil)).to match ENV['OSEM_NAME']
+      end
+
+      it 'should use the conference organization name' do
+        expect(nav_root_link_for(conference)).to match conference.organization.name
+      end
+    end
   end
 end

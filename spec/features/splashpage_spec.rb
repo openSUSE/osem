@@ -62,14 +62,18 @@ feature Splashpage do
     end
   end
 
-  context 'public splashpage already created' do
+  context 'navigation' do
     let!(:splashpage) { create(:splashpage, conference: conference, public: true)}
 
-    scenario 'should have organization name', feature: true, js: true do
-      sign_in participant
-      visit conference_path(conference.short_title)
+    context 'multiple organizations' do
+      let!(:additional_organization) { create(:organization) }
 
-      expect(page).to have_text(conference.organization.name)
+      scenario 'should have organization name', feature: true, js: true do
+        sign_in participant
+        visit conference_path(conference.short_title)
+
+        expect(page).to have_text(conference.organization.name)
+      end
     end
   end
 end
