@@ -171,4 +171,18 @@ module ApplicationHelper
   def hidden_if_conference_over(conference)
     'hidden' if Date.today > conference.end_date
   end
+
+  def nav_root_link_for(conference)
+    link_text = (
+      conference.try(:organization).try(:name) ||
+      ENV['OSEM_NAME'] ||
+      'OSEM'
+    )
+    link_to(
+      link_text,
+      root_path,
+      class: 'navbar-brand',
+      title: 'Open Source Event Manager'
+    )
+  end
 end
