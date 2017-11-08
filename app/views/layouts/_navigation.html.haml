@@ -13,10 +13,8 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      - if conference.nil? || conference.new_record?
-        = link_to (ENV['OSEM_NAME'] || 'OSEM'), root_path, class: 'navbar-brand', title: 'Open Source Event Manager'
-      - else
-        = link_to conference.organization.name, organizations_path, class: 'navbar-brand', title: 'Open Source Event Manager'
+      = nav_root_link_for conference
+
     .collapse.navbar-collapse#main-nav
       - if content_for :splash_nav
         %ul.nav.navbar-nav#splash-nav

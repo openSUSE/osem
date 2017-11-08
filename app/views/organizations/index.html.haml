@@ -12,5 +12,7 @@
           .caption
             %h4
               = organization.name
-            %button.btn.btn-success Conferences
+            = link_to 'Conferences',
+              conferences_organization_path(organization),
+              class: 'btn btn-success'
             / = link_to 'Edit', edit_organization_path(organization), class: 'btn btn-mini btn-default'

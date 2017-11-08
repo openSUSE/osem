@@ -48,4 +48,12 @@ feature Organization do
 
     it_behaves_like 'successfully updates an organization'
   end
+
+  context 'anonymously' do
+    scenario 'index should link to conferences list' do
+      visit organizations_path
+
+      expect(page).to have_link('Conferences', href: "/organizations/#{organization.id}/conferences")
+    end
+  end
 end
