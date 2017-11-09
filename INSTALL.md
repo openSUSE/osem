@@ -105,6 +105,7 @@ There are a couple of environment variables you can set to configure OSEM. Check
 | CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
 | STRIPE_PUBLISHABLE_KEY    | *string*          | Publishable Key for Stripe Gateway
 | STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
+| OSEM_REDIS_URL | *string* | Redis server URL e.g. redis://localhost:6379/1
 
 ### Online Ticket Payments
 We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
