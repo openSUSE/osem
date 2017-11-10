@@ -163,6 +163,12 @@ module ApplicationHelper
     end
   end
 
+  def rescheduling_hint(affected_event_count)
+    if affected_event_count > 0
+      "You have #{affected_event_count} scheduled #{'event'.pluralize(affected_event_count)}. Changing the conference hours will unschedule those scheduled outside the conference hours."
+    end
+  end
+
   ##
   # ====Gets
   # a conference object
