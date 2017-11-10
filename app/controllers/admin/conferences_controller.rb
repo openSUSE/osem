@@ -193,6 +193,7 @@ module Admin
     def edit
       @conferences = Conference.all
       @date_string = date_string(@conference.start_date, @conference.end_date)
+      @affected_event_count = @conference.program.events.scheduled(@conference.program.selected_schedule_id).count
       respond_to do |format|
         format.html
         format.json { render json: @conference.to_json }
