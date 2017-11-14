@@ -163,6 +163,12 @@ module ApplicationHelper
     end
   end
 
+  def rescheduling_hint(affected_event_count)
+    if affected_event_count > 0
+      "You have #{affected_event_count} scheduled #{'event'.pluralize(affected_event_count)}. Changing the conference hours will unschedule those scheduled outside the conference hours."
+    end
+  end
+
   ##
   # ====Gets
   # a conference object
@@ -170,5 +176,19 @@ module ApplicationHelper
   # class hidden if conference is over
   def hidden_if_conference_over(conference)
     'hidden' if Date.today > conference.end_date
+  end
+
+  def nav_root_link_for(conference)
+    link_text = (
+      conference.try(:organization).try(:name) ||
+      ENV['OSEM_NAME'] ||
+      'OSEM'
+    )
+    link_to(
+      link_text,
+      root_path,
+      class: 'navbar-brand',
+      title: 'Open Source Event Manager'
+    )
   end
 end

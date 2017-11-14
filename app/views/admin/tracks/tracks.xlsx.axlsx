@@ -1,0 +1,6 @@
+wb = xlsx_package.workbook
+if @track_export_option == 'confirmed'
+  render partial: 'confirmed_tracks', locals: { wb: wb }
+elsif @track_export_option == 'all'
+  render partial: 'all_tracks', locals: { wb: wb }
+end

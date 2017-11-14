@@ -101,7 +101,7 @@
                 = word_pluralize(@total_quantity[ticket_id], 'Ticket')
                 for
                 = tickets.first.price.symbol
-                = humanized_money tickets.first.price
+                = humanized_money @total_price_per_ticket[ticket_id]
             %br
         - if @tickets.any?
           = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"

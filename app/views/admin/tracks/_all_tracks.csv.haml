@@ -1,0 +1,21 @@
+- headers = ['Track ID',
+             'Name',
+             'Description',
+             'Room',
+             'Start Date',
+             'Start Date',
+             'Submitter Name',
+             'Included in Cfp',
+             'State']
+= CSV.generate_line ['All Tracks']
+= CSV.generate_line headers
+- @tracks.each do |track|
+  = CSV.generate_line([track.id,
+                       track.name,
+                       track.description,
+                       track.try(:room).try(:name),
+                       track.start_date,
+                       track.end_date,
+                       track.try(:submitter).try(:name),
+                       track.cfp_active? ? 'Yes' : 'No',
+                       track.state]).html_safe
