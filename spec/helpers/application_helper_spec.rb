@@ -66,12 +66,12 @@ describe ApplicationHelper, type: :helper do
       end
 
       it 'should use the environment variable' do
-        ENV['OSEM_NAME'] = Faker::Company.name
-        expect(nav_root_link_for(nil)).to match ENV['OSEM_NAME']
+        ENV['OSEM_NAME'] = Faker::Company.name + "'"
+        expect(nav_root_link_for(nil)).to match h(ENV['OSEM_NAME'])
       end
 
       it 'should use the conference organization name' do
-        expect(nav_root_link_for(conference)).to match conference.organization.name
+        expect(nav_root_link_for(conference)).to match h(conference.organization.name)
       end
     end
   end
