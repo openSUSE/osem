@@ -42,7 +42,8 @@ class Program < ActiveRecord::Base
   has_many :event_schedules, through: :events
 
   has_many :event_users, through: :events
-  has_many :speakers, -> { distinct }, through: :event_users, source: :user do
+  has_many :program_events_speakers, -> {where(event_role: 'speaker')}, through: :events, source: :event_users
+  has_many :speakers, -> { distinct }, through: :program_events_speakers, source: :user do
     def confirmed
       joins(:events).where(events: { state: :confirmed })
     end

@@ -6,6 +6,14 @@
         %span.notranslate
           = @conference.title
 
+
+  - if @program.cfp_open?
+    - if @program.cfp.description.present?
+      .row
+        .col-md-12
+          = markdown(@program.cfp.description)
+
+
   .row
     .col-md-12
       = render partial: 'encouragement_text'
