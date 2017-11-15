@@ -1,3 +1,5 @@
+@import "bootstrap/mixins";
+
 html {
   position: relative;
   min-height: 100%;
@@ -103,4 +105,13 @@ p.comment-body {
 
 .qr-image{
   margin-left: 120px;
+}
+
+.g-recaptcha {
+    @include clearfix;
+    padding-bottom: 12px;
+    
+    div {
+        float: right;
+    }
 }

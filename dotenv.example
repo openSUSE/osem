@@ -63,3 +63,7 @@ OSEM_SMTP_OPENSSL_VERIFY_MODE=""
 
 # Enable the usage of the devise ichain plugin
 OSEM_ICHAIN_ENABLED=false
+
+# ReCAPTCHA keys
+RECAPTCHA_SITE_KEY=""
+RECAPTCHA_SECRET_KEY=""
