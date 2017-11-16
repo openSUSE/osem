@@ -26,6 +26,10 @@ require 'phantomjs'
 # makes it easier to control when PaperTrail is enabled during testing.
 require 'paper_trail/frameworks/rspec'
 
+# Make htmlescape() available
+require 'erb'
+include ERB::Util
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end

@@ -362,7 +362,7 @@ describe Event do
         new_event.submitter = submitter
         new_event.speakers = [speaker1, speaker2]
 
-        expect(new_event.speaker_names).to eq 'user speaker 1 and user speaker 2'
+        expect(new_event.speaker_names).to eq 'user speaker 1, user speaker 2'
       end
     end
   end
