@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :event_schedule do
+    start_time DateTime.parse("#{Date.today} 10:00").utc
     event
     after(:build) do |event_schedule|
       program = event_schedule.event.program
