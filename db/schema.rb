@@ -505,7 +505,7 @@ ActiveRecord::Schema.define(version: 20170924190528) do
     t.integer  "user_id"
     t.integer  "payment_id"
     t.integer  "week"
-    t.float    "amount_paid"
+    t.float    "amount_paid",   default: 0.0
   end
 
   create_table "ticket_scannings", force: :cascade do |t|
@@ -579,7 +579,6 @@ ActiveRecord::Schema.define(version: 20170924190528) do
     t.boolean  "is_admin",               default: false
     t.string   "username"
     t.boolean  "is_disabled",            default: false
-    t.string   "token"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
