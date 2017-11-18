@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924190528) do
+ActiveRecord::Schema.define(version: 20171118113113) do
 
   create_table "ahoy_events", force: :cascade do |t|
-    t.binary   "visit_id",   limit: 16
+    t.integer  "visit_id"
     t.integer  "user_id"
     t.string   "name"
     t.text     "properties"
