@@ -12,32 +12,34 @@
   .row
     .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
       %p
-        - if @conference.program.event_types.any?
+        - if @conference.event_types.any?
           You can submit proposals for
           %span.notranslate
             = "#{event_types(@conference)}."
-        - if @conference.program.tracks.any?
+        - if @conference.confirmed_tracks.any?
           Proposals should fit in one of the
           %span.notranslate
-            = "#{pluralize(@conference.program.tracks.count, 'track')}:"
+            = "#{pluralize(@conference.confirmed_tracks.length, 'track')}:"
             = "#{tracks(@conference)}."
-        The submission period has begun
-        %em.notranslate
-          = @conference.program.cfp.start_date.strftime('%A, %B %-d. %Y')
-        and closes
-        %em.notranslate
-          = @conference.program.cfp.end_date.strftime('%A, %B %-d. %Y.')
-        - if @conference.program.cfp_open?
-          That means you have only
-          %b.notranslate= pluralize(@conference.program.cfp.remaining_days, 'day')
-          left!
+        - if @conference.call_for_events.try(:open?)
+          The submission period is open
+          %em.notranslate
+            = "#{date_string(@conference.call_for_events.start_date,
+              @conference.call_for_events.end_date)}."
+          %b
+            You have
+            = pluralize(@conference.call_for_events.remaining_days, 'day')
+            left!
           Remember
           %span.notranslate
-            = @conference.short_title
-          will only be as good as the sessions you present. Submit early, submit often!
+            = @conference.title
+          will only be as good as the sessions you present.
+          Submit early, submit often!
         - else
           The submission period is closed.
   .row
     .col-md-12.text-center
       %p.cta-button
-        = link_to "Submit your paper now", conference_program_proposals_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'
+        = link_to "Submit your paper now",
+          conference_program_proposals_path(@conference.short_title),
+          class: 'btn btn-success btn-lg text-center'

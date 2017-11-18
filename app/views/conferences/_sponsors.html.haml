@@ -31,7 +31,7 @@
                       = sponsor.description
                   .modal-footer
                     = link_to nil, "#{sponsor.website_url}", target: '_blank'
-  -if @conference.contact and !@conference.contact.sponsor_email.blank?
+  - if @conference.call_for_sponsors.try(:open?)
     .row
       .col-md-12
         %p.text-muted.text-center

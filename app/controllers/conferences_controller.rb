@@ -9,19 +9,44 @@ class ConferencesController < ApplicationController
   end
 
   def show
-    @conference = if params[:id]
-                    Conference.find_by_short_title(params[:id])
-                  else
-                    load_conference_by_domain
-                  end
+    @conference = Conference.unscoped.eager_load(
+      :organization,
+      :splashpage,
+      :venue,
+      :registration_period,
+      :tickets,
+      :confirmed_tracks,
+      :call_for_events,
+      :event_types,
+      :program,
+      :call_for_tracks,
+      :lodgings,
+      :call_for_booths,
+      :confirmed_booths,
+      :sponsors,
+      :call_for_sponsors,
+      :contact,
+      highlighted_events: [:speakers],
+      sponsorship_levels: [:sponsors]
+    ).order(
+      'sponsorship_levels.position ASC',
+      'sponsors.name',
+      'tracks.name',
+      'booths.title',
+      'lodgings.name',
+      'tickets.price_cents'
+    ).find_by(conference_finder_conditions)
     authorize! :show, @conference
-    @program = @conference.program
   end
 
   private
 
-  def load_conference_by_domain
-    Conference.find_by(custom_domain: request.domain)
+  def conference_finder_conditions
+    if params[:id]
+      { short_title: params[:id] }
+    else
+      { custom_domain: request.domain }
+    end
   end
 
   def respond_to_options
