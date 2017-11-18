@@ -214,6 +214,9 @@ gem 'selectize-rails'
 # CVE-2017-9049, CVE-2017-9050
 gem 'nokogiri', '>= 1.8.1'
 
+# memcached binary connector
+gem 'dalli'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
