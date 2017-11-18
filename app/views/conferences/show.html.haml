@@ -37,7 +37,7 @@
               %h3.text-center
                 = markdown(@conference.description)
 
-    - if @conference.registration_open? and @conference.splashpage.include_registrations
+    - if @conference.splashpage.include_registrations && @conference.registration_open?
       %section#registration
         = render 'registration'
 
@@ -45,35 +45,35 @@
       %section#program
         = render 'schedule_splashpage'
 
-    - if @conference.program.cfp_open? and @conference.splashpage.include_cfp
+    - if @conference.splashpage.include_cfp && @conference.call_for_events.try(:open?)
       %section#callforpapers
         = render 'call_for_paper'
 
-    - if @conference.program.cfps.for_tracks.try(:open?) && @conference.splashpage.include_cfp
+    - if @conference.splashpage.include_cfp && @conference.call_for_tracks.try(:open?)
       %section#callfortracks
         = render 'call_for_tracks'
 
-    - if @conference.venue and @conference.splashpage.include_venue
+    - if @conference.splashpage.include_venue && @conference.venue
       %section#venue
         = render 'venue'
 
-    - if @conference.lodgings.any? and @conference.splashpage.include_lodgings
+    - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
       %section#lodging
         = render 'lodging'
 
-    - if @conference.tickets.any? and @conference.splashpage.include_tickets and @conference.pending?
+    - if @conference.splashpage.include_tickets && @conference.tickets.any? && @conference.pending?
       %section#tickets
         = render 'tickets'
 
-    - if @conference.booths.confirmed.any? and @conference.splashpage.include_booths
+    - if @conference.splashpage.include_booths && @conference.confirmed_booths.any?
       %section#booths
         = render 'booths'
 
-    - if @conference.sponsors.any? and @conference.splashpage.include_sponsors
+    - if @conference.splashpage.include_sponsors && @conference.sponsors.any?
       %section#sponsors
         = render 'sponsors'
 
-    - if @conference.contact.has_social_media? and @conference.splashpage.include_social_media
+    - if @conference.splashpage.include_social_media && @conference.contact.has_social_media?
       %section#social-media
         = render 'social_media'
 

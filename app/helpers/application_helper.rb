@@ -56,17 +56,7 @@ module ApplicationHelper
   end
 
   def tracks(conference)
-    all = conference.program.tracks.confirmed.cfp_active.pluck(:name)
-    first = all[0...-1]
-    last = all[-1]
-    ts = ''
-    if all.length > 1
-      ts << first.join(', ')
-      ts << " and #{last}"
-    else
-      ts = all.join
-    end
-    ts
+    conference.confirmed_tracks.collect(&:name).to_sentence
   end
 
   def difficulty_levels(conference)
@@ -152,7 +142,7 @@ module ApplicationHelper
   end
 
   def event_types(conference)
-    conference.program.event_types.map { |et| et.title.pluralize }.to_sentence
+    conference.event_types.map { |et| et.title.pluralize }.to_sentence
   end
 
   def sign_in_path

@@ -1,3 +1,8 @@
+= content_for :splash_nav do
+  %li
+    =link_to('#program', class: 'smoothscroll') do
+      Program
+
 .container
   .row
     .col-md-12
@@ -5,43 +10,41 @@
         Program
       %p.lead.text-center
         %span.notranslate
-          = @conference.short_title
+          = @conference.title
         has the most awesome program ever!
-        - if @conference.splashpage and @conference.program.tracks.any? and @conference.splashpage.include_tracks
+        - if @conference.splashpage.include_tracks && @conference.confirmed_tracks.any?
           See rock-star speakers cover the topics of
-      - if @conference.splashpage and @conference.splashpage.include_tracks
-        - @conference.program.tracks.confirmed.each_slice(3) do |slice|
-          .row.row-centered
-            - slice.each do |track|
-              .col-md-4.col-sm-4.col-centered.col-top.track
-                %h4.text-center
-                  = track.name
-                = markdown(track.description)
-                - if track.start_date
-                  %br
-                  From: #{track.start_date.strftime('%A, %B %-d. %Y')}
-                - if track.end_date
-                  %br
-                  To: #{track.end_date.strftime('%A, %B %-d. %Y')}
-                - if track.room
-                  %br
-                  In: #{track.room.name}
+          - @conference.confirmed_tracks.each_slice(3) do |slice|
+            .row.row-centered
+              - slice.each do |track|
+                .col-md-4.col-sm-4.col-centered.col-top.track
+                  %h4.text-center
+                    = track.name
+                  = markdown(track.description)
+                  - if track.start_date
+                    %br
+                    From: #{track.start_date.strftime('%A, %B %-d. %Y')}
+                  - if track.end_date
+                    %br
+                    To: #{track.end_date.strftime('%A, %B %-d. %Y')}
+                  - if track.room
+                    %br
+                    In: #{track.room.name}
 
-  - if @conference.program and @conference.program.schedule_public
+  - if @conference.program.try(:schedule_public?)
     .row
       .col-md-12
         %p.cta-button.text-center
           = link_to(conference_schedule_path(@conference.short_title), class: 'btn btn-default btn-lg') do
             Full Schedule
 
-
   %h3.text-center
     Don't miss out!
   %br
-  - if @conference.program.events.highlights.any?
+  - if @conference.highlighted_events.any?
     .row
       .col-md-12
-        - @conference.program.events.highlights.each_slice(2) do |slice|
+        - @conference.highlighted_events.each_slice(2) do |slice|
           .row.row-centered
             - slice.each do |event|
               .col-md-6.col-centered.col-top.highlights
@@ -50,8 +53,3 @@
                 %h5.text-center
                   = markdown truncate(event.abstract, length: 500, separator: ' ')
                   = link_to "Read More", conference_program_proposal_path(@conference.short_title, event)
-
-  = content_for :splash_nav do
-    %li
-      =link_to('#program', class: 'smoothscroll') do
-        Program
