@@ -64,6 +64,9 @@ OSEM_SMTP_OPENSSL_VERIFY_MODE=""
 # Enable the usage of the devise ichain plugin
 OSEM_ICHAIN_ENABLED=false
 
+# enable this to force SSL
+# FORCE_SSL="1"
+
 # ReCAPTCHA keys
 RECAPTCHA_SITE_KEY=""
 RECAPTCHA_SECRET_KEY=""
