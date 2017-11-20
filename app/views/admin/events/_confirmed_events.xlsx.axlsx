@@ -1,6 +1,18 @@
 wb.add_worksheet(name: 'confirmed events') do |sheet|
   bold_style = wb.styles.add_style(b: true)
-  row = ['Event ID', 'Title', 'Abstract', 'Start time', 'Submitter', 'Speaker', 'Event Type', 'Track', 'Difficulty Level', 'Room', 'State']
+  wrap_text = wb.styles.add_style alignment: {wrap_text: true}
+  row = ['Event ID',
+         'Title',
+         'Abstract',
+         'Start time',
+         'Submitter',
+         'Speaker',
+         'Speaker Email',
+         'Event Type',
+         'Track',
+         'Difficulty Level',
+         'Room',
+         'State']
   sheet.add_row row, style: bold_style
 
   @events.confirmed.each do |event|
@@ -11,11 +23,13 @@ wb.add_worksheet(name: 'confirmed events') do |sheet|
     row << (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : '')
     row << event.submitter.name
     row << event.speaker_names
+    row << event.speaker_emails
     row << event.event_type.title
     row << (event.track.present? ? event.track.name : '')
     row << (event.difficulty_level.present? ? event.difficulty_level.title : '')
     row << (event.room.present? ? event.room.name : '')
     row << event.state
-    sheet.add_row row
+    sheet.add_row row , style: wrap_text
+    sheet.column_widths 10,15,35,13,18,18,28,12,15,15,15,10
   end
 end

@@ -4,6 +4,7 @@
              'Start time',
              'Submitter',
              'Speaker',
+             'Speaker Email',
              'Event Type',
              'Track',
              'Difficulty Level',
@@ -12,8 +13,15 @@
 = CSV.generate_line ["Confirmed Events"]
 = CSV.generate_line headers
 - @events.confirmed.each do |event|
-  = CSV.generate_line([event.id, event.title, event.abstract, (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : ''),
-                       event.submitter.name, event.speaker_names, event.event_type.title,
+  = CSV.generate_line([event.id,
+                       event.title,
+                       event.abstract,
+                       (event.time.present? ? "#{event.time.strftime("%Y-%m-%d")} #{event.time.strftime("%I:%M%p")} " : ''),
+                       event.submitter.name,
+                       event.speaker_names,
+                       event.speaker_emails,
+                       event.event_type.title,
                        (event.track.present? ? event.track.name : ''),
                        (event.difficulty_level.present? ? event.difficulty_level.title : ''),
-                       (event.room.present? ? event.room.name : ''), event.state]).html_safe
+                       (event.room.present? ? event.room.name : ''),
+                       event.state]).html_safe
