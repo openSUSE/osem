@@ -237,7 +237,7 @@ feature 'Version' do
 
     click_link 'Edit'
     uncheck('Display program')
-    uncheck('Display call for papers information on splashpage, while cfp is open')
+    uncheck('Display call for papers and call for tracks information on splashpage, while open')
     uncheck('Display venue')
     uncheck('Display tickets')
     uncheck('Display the lodgings')

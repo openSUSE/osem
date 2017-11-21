@@ -289,7 +289,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.4.9)
+    mysql2 (0.4.10)
     nenv (0.3.0)
     netrc (0.11.0)
     nokogiri (1.8.1)

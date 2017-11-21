@@ -21,10 +21,8 @@
     = render 'tickets'
 
   // calls for content, or program
-  - if @conference.splashpage.include_cfp && @conference.call_for_events.try(:open?)
-    = render 'call_for_paper'
-  - if @conference.splashpage.include_cfp && @conference.call_for_tracks.try(:open?)
-    = render 'call_for_tracks'
+  - if @conference.splashpage.include_cfp
+    = render 'call_for_content'
   - if @conference.splashpage.include_program
     = render 'schedule_splashpage'
 
