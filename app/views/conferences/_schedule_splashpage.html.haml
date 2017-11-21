@@ -1,9 +1,9 @@
 = content_for :splash_nav do
   %li
-    =link_to('#program', class: 'smoothscroll') do
-      Program
+    %a.smoothscroll{ href: '#program' } Program
 
-- cache [@confererence, @conference.confirmed_tracks, '#splash#program'] do
+- cache [@confererence, @conference.confirmed_tracks,
+  @conference.confirmed_booths,'#splash#schedule'] do
   %section#program
   .container
     .row
@@ -55,3 +55,6 @@
                   %h5.text-center
                     = markdown truncate(event.abstract, length: 500, separator: ' ')
                     = link_to "Read More", conference_program_proposal_path(@conference.short_title, event)
+
+- if @conference.splashpage.include_booths && @conference.confirmed_booths.any?
+  = render 'booths'

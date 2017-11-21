@@ -1,7 +1,3 @@
-= content_for :splash_nav do
-  %li
-    %a.smoothscroll{ href: '#booths' } Booths
-
 - cache [@conference.confirmed_booths, '#splash#booths'] do
   %section#booths
     .container
