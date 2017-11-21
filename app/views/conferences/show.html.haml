@@ -11,39 +11,38 @@
   = @conference.title
 
 #splash
+  // header/description
   = render 'header'
 
+  // attendance/registration
   - if @conference.splashpage.include_registrations && @conference.registration_open?
     = render 'registration'
-
-  - if @conference.splashpage.include_program
-    = render 'schedule_splashpage'
-
-  - if @conference.splashpage.include_cfp && @conference.call_for_events.try(:open?)
-    = render 'call_for_paper'
-
-  - if @conference.splashpage.include_cfp && @conference.call_for_tracks.try(:open?)
-    = render 'call_for_tracks'
-
-  - if @conference.splashpage.include_venue && @conference.venue
-    = render 'venue'
-
-  - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
-    = render 'lodging'
-
   - if @conference.splashpage.include_tickets && @conference.tickets.any? && @conference.pending?
     = render 'tickets'
 
+  // calls for content - or - program
+  - if @conference.splashpage.include_cfp && @conference.call_for_events.try(:open?)
+    = render 'call_for_paper'
+  - if @conference.splashpage.include_cfp && @conference.call_for_tracks.try(:open?)
+    = render 'call_for_tracks'
+  - if @conference.splashpage.include_program
+    = render 'schedule_splashpage'
   - if @conference.splashpage.include_booths && @conference.confirmed_booths.any?
     = render 'booths'
 
-  - if @conference.splashpage.include_sponsors && @conference.sponsors.any?
+  // geo
+  - if @conference.splashpage.include_venue && @conference.venue
+    = render 'venue'
+  - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
+    = render 'lodging'
+
+  // sponsorship
+  - if @conference.splashpage.include_sponsors
     = render 'sponsors'
 
+  // footer
   - if @conference.splashpage.include_social_media && @conference.contact.has_social_media?
     = render 'social_media'
-
-  // grmbl
   = render 'footer'
 
 - cache [@conference.color, '#splash#inlinejs'] do
