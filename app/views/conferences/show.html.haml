@@ -20,15 +20,13 @@
   - if @conference.splashpage.include_tickets && @conference.tickets.any? && @conference.pending?
     = render 'tickets'
 
-  // calls for content - or - program
+  // calls for content, or program
   - if @conference.splashpage.include_cfp && @conference.call_for_events.try(:open?)
     = render 'call_for_paper'
   - if @conference.splashpage.include_cfp && @conference.call_for_tracks.try(:open?)
     = render 'call_for_tracks'
   - if @conference.splashpage.include_program
     = render 'schedule_splashpage'
-  - if @conference.splashpage.include_booths && @conference.confirmed_booths.any?
-    = render 'booths'
 
   // geo
   - if @conference.splashpage.include_venue && @conference.venue
