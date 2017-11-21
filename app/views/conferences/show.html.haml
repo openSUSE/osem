@@ -11,31 +11,7 @@
   = @conference.title
 
 #splash
-  - cache [@conference, @conference.venue, '#splash#header'] do
-    #banner
-      .container
-        .row
-          .col-md-8.col-md-offset-2#header
-            .row
-              .col-md-4
-                = image_tag(@conference.picture_url, class: 'img-responsive img-center', id: 'splash-logo') if @conference.picture?
-              .col-md-8
-                %h1
-                  = @conference.title
-                %p.lead
-                  - if @conference.venue
-                    = "#{@conference.venue.city} / #{@conference.venue.country_name}"
-                  - if @conference.start_date && @conference.end_date
-                    %br
-                    = date_string(@conference.start_date, @conference.end_date)
-
-    - unless @conference.description.blank?
-      %section#about
-        .container
-          .row
-            .col-md-8.col-md-offset-2
-              %h3.text-center
-                = markdown(@conference.description)
+  = render 'header'
 
   - if @conference.splashpage.include_registrations && @conference.registration_open?
     = render 'registration'
