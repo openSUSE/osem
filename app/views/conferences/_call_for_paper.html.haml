@@ -2,7 +2,10 @@
   %li
     %a.smoothscroll{ href: '#callforpapers' } Call For Papers
 
-.container
+- cache [@conference, @conference.call_for_events, @conference.confirmed_tracks,
+  '#splash#callforpapers'] do
+  %section#callforpapers
+    .container
   .row
     .col-md-12.text-center
       %h2

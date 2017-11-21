@@ -2,27 +2,29 @@
   %li
     %a.smoothscroll{ href: '#callfortracks' } Call For Tracks
 
-.container
-  .row
-    .col-md-12.text-center
-      %h2
-        Call for Tracks
-      %p.lead
-        We are ready to accept requests for tracks!
-  .row
-    .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
-      %p
-        The submission period for track requests is open
-        %em.notranslate
-          = "#{date_string(@conference.call_for_tracks.start_date,
-            @conference.call_for_tracks.end_date)}."
-        %b
-          You have
-          = pluralize(@conference.call_for_tracks.remaining_days, 'day')
-          left!
-  .row
-    .col-md-12.text-center
-      %p.cta-button
-        = link_to("Submit your request for track",
-          conference_program_tracks_path(@conference.short_title),
-          class: 'btn btn-success btn-lg text-center')
+- cache [@conference, @conference.call_for_tracks, '#splash#callfortracks'] do
+  %section#callfortracks
+    .container
+      .row
+        .col-md-12.text-center
+          %h2
+            Call for Tracks
+          %p.lead
+            We are ready to accept requests for tracks!
+      .row
+        .col-md-6.col-md-offset-3.col-sm-10.col-sm-offset-1
+          %p
+            The submission period for track requests is open
+            %em.notranslate
+              = "#{date_string(@conference.call_for_tracks.start_date,
+                @conference.call_for_tracks.end_date)}."
+            %b
+              You have
+              = pluralize(@conference.call_for_tracks.remaining_days, 'day')
+              left!
+      .row
+        .col-md-12.text-center
+          %p.cta-button
+            = link_to("Submit your request for track",
+              conference_program_tracks_path(@conference.short_title),
+              class: 'btn btn-success btn-lg text-center')

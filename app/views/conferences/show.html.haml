@@ -11,87 +11,79 @@
   = @conference.title
 
 #splash
-  #banner
-    .container
-      .row
-        .col-md-8.col-md-offset-2#header
-          .row
-            .col-md-4
-              = image_tag(@conference.picture_url, class: 'img-responsive img-center', id: 'splash-logo') if @conference.picture?
-            .col-md-8
-              %h1
-                = @conference.title
-              %p.lead
-                - if @conference.venue
-                  = "#{@conference.venue.city} / #{@conference.venue.country_name}"
-                - if @conference.start_date && @conference.end_date
-                  %br
-                  = date_string(@conference.start_date, @conference.end_date)
-
-  - unless @conference.description.blank?
-    %section#about
+  - cache [@conference, @conference.venue, '#splash#header'] do
+    #banner
       .container
         .row
-          .col-md-8.col-md-offset-2
-            %h3.text-center
-              = markdown(@conference.description)
+          .col-md-8.col-md-offset-2#header
+            .row
+              .col-md-4
+                = image_tag(@conference.picture_url, class: 'img-responsive img-center', id: 'splash-logo') if @conference.picture?
+              .col-md-8
+                %h1
+                  = @conference.title
+                %p.lead
+                  - if @conference.venue
+                    = "#{@conference.venue.city} / #{@conference.venue.country_name}"
+                  - if @conference.start_date && @conference.end_date
+                    %br
+                    = date_string(@conference.start_date, @conference.end_date)
+
+    - unless @conference.description.blank?
+      %section#about
+        .container
+          .row
+            .col-md-8.col-md-offset-2
+              %h3.text-center
+                = markdown(@conference.description)
 
   - if @conference.splashpage.include_registrations && @conference.registration_open?
-    %section#registration
-      = render 'registration'
+    = render 'registration'
 
   - if @conference.splashpage.include_program
-    %section#program
-      = render 'schedule_splashpage'
+    = render 'schedule_splashpage'
 
   - if @conference.splashpage.include_cfp && @conference.call_for_events.try(:open?)
-    %section#callforpapers
-      = render 'call_for_paper'
+    = render 'call_for_paper'
 
   - if @conference.splashpage.include_cfp && @conference.call_for_tracks.try(:open?)
-    %section#callfortracks
-      = render 'call_for_tracks'
+    = render 'call_for_tracks'
 
   - if @conference.splashpage.include_venue && @conference.venue
-    %section#venue
-      = render 'venue'
+    = render 'venue'
 
   - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
-    %section#lodging
-      = render 'lodging'
+    = render 'lodging'
 
   - if @conference.splashpage.include_tickets && @conference.tickets.any? && @conference.pending?
-    %section#tickets
-      = render 'tickets'
+    = render 'tickets'
 
   - if @conference.splashpage.include_booths && @conference.confirmed_booths.any?
-    %section#booths
-      = render 'booths'
+    = render 'booths'
 
   - if @conference.splashpage.include_sponsors && @conference.sponsors.any?
-    %section#sponsors
-      = render 'sponsors'
+    = render 'sponsors'
 
   - if @conference.splashpage.include_social_media && @conference.contact.has_social_media?
-    %section#social-media
-      = render 'social_media'
+    = render 'social_media'
 
   // grmbl
   = render 'footer'
 
-- content_for :script_head do
-  :javascript
-    var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
-    var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
-    $(function () {
-      $(document).ready(function() {
-        var triangle_width = document.body.clientWidth;
-        var triangle_height = ($( "#banner" ).height() + 200 );
-        var pattern = Trianglify({ width: triangle_width,
-                                   height: triangle_height,
-                                   cell_size: 100,
-                                   x_colors: triangle_colors
-                                  });
-        $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+- cache [@conference.color, '#splash#inlinejs'] do
+  - content_for :script_head do
+    :javascript
+      var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
+      var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
+      $(function () {
+        $(document).ready(function() {
+          var triangle_width = document.body.clientWidth;
+          var triangle_height = ($( "#banner" ).height() + 200 );
+          var pattern = Trianglify({ width: triangle_width,
+                                     height: triangle_height,
+                                     cell_size: 100,
+                                     x_colors: triangle_colors
+                                    });
+          $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+        });
       });
-    });
