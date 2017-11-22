@@ -6,14 +6,14 @@
   %section#lodging
     .container
       .row
-        .col-md-12.text-centers
+        .col-md-12.text-center
           %h2
             Where to stay
             - if @conference.venue
               in
               = @conference.venue.city
           %p.lead
-            We recommend these affordable lodging accommodations for your visit.
+            We recommend the following accommodations for your visit.
 
       .row.row-centered
         - @conference.lodgings.each do |lodging|
@@ -22,9 +22,11 @@
               - if lodging.picture?
                 -if lodging.website_link.present?
                   = link_to(lodging.website_link, class: 'thumbnail') do
-                    = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
+                    = image_tag lodging.picture.large.url,
+                      class: 'img-responsive img-lodging'
                 - else
-                  = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
+                  = image_tag lodging.picture.large.url,
+                    class: 'img-responsive img-lodging'
               - else
                 %p.text-center
                   -if lodging.website_link.present?

@@ -4,7 +4,7 @@
     %h2
       Call for Papers
     %p.lead
-      We are ready to accept your proposals for sessions!
+      We are now accepting proposals for sessions!
     %p
       - if @conference.event_types.any?
         You can submit proposals for
@@ -24,14 +24,7 @@
           You have
           = pluralize(@conference.call_for_events.remaining_days, 'day')
           left!
-        Remember
-        %span.notranslate
-          = @conference.title
-        will only be as good as the sessions you present.
-        Submit early, submit often!
-      - else
-        The submission period is closed.
     %p.cta-button
-      = link_to "Submit your paper now",
+      = link_to "Submit your proposal now",
         conference_program_proposals_path(@conference.short_title),
         class: 'btn btn-success btn-lg text-center'
