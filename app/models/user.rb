@@ -216,7 +216,7 @@ class User < ApplicationRecord
   end
 
   def proposals(conference)
-    events.where('program_id = ? AND event_users.event_role=?', conference.program.id, 'submitter')
+    events.where('program_id = ? AND (event_users.event_role=? OR event_users.event_role=?)', conference.program.id, 'submitter', 'speaker')
   end
 
   def proposal_count(conference)
