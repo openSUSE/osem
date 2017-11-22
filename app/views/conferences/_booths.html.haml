@@ -4,19 +4,23 @@
       .row
         .col-md-12.text-center
           %h2 Booths
-      - @conference.confirmed_booths.each_slice(3).with_index do |slice, index_for_row|
-        .row.row-centered
-          - slice.each.with_index do |booth, index_for_column|
-            .col-md-4.col-sm-4.col-xs-10.col-centered.col-top
-              .thumbnail
-                - if booth.logo_link
-                  = link_to booth.website_url, class: 'thumbnail' do
-                    = image_tag booth.picture.large.url
-                .caption
-                  %h3.text-center
+      .row.row-centered
+        - @conference.confirmed_booths.each do |booth|
+          .col-md-4.col-sm-4.col-centered.col-top
+            .thumbnail.text-center
+              - if booth.picture?
+                = link_to booth.website_url,
+                  class: 'thumbnail', target: '_blank' do
+                  = image_tag booth.picture.large.url, alt: booth.title,
+                    class: 'img-rounded'
+              .caption
+                %h3.text-center
+                  - if booth.logo_link
+                    = link_to booth.title, booth.website_url, target: '_blank'
+                  -else
                     = booth.title
-                  %p.text-center.text-muted
-                    = link_to "#show_description_#{index_for_row}_#{index_for_column}", "data-toggle"=>"collapse" do
-                      learn more
-                  .collapse{ id: "show_description_#{index_for_row}_#{index_for_column}" }
-                    = markdown(booth.description)
+                  = link_to '', "#booth-detail-#{booth.id}",
+                    data: {toggle: 'collapse'}, class: 'caret',
+                    title: 'more info'
+                .collapse{ id: "booth-detail-#{booth.id}" }
+                  = markdown(booth.description)
