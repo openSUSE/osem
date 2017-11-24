@@ -42,6 +42,9 @@ fi
 echo ">>> Upgrading database..."
 bundle exec rake db:migrate
 
+echo ">>> Seed database..."
+bundle exec rake db:seed
+
 rm .my.cnf
 
 echo ">>> Precompiling assets..."
