@@ -181,4 +181,19 @@ module ApplicationHelper
       title: 'Open Source Event Manager'
     )
   end
+
+  # returns the url to be used for logo on basis of sponsorship level position
+  def get_logo(object)
+    if object.try(:sponsorship_level)
+      if object.sponsorship_level.position == 1
+        object.picture.first.url
+      elsif object.sponsorship_level.position == 2
+        object.picture.second.url
+      else
+        object.picture.others.url
+      end
+    else
+      object.picture.large.url
+    end
+  end
 end
