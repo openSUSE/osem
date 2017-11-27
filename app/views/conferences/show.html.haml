@@ -41,6 +41,8 @@
     = render 'social_media'
   = render 'footer'
 
+  = yield :modals
+
 - cache [@conference.color, '#splash#inlinejs'] do
   - content_for :script_head do
     :javascript
