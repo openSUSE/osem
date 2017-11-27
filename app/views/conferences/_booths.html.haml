@@ -6,21 +6,15 @@
           %h2 Booths
       .row.row-centered
         - @conference.confirmed_booths.each do |booth|
-          .col-md-4.col-sm-4.col-centered.col-top
-            .thumbnail.text-center
+          .col-md-2.col-sm-2.col-centered.col-top
+            %a.thumbnail{ href: '#',
+              data: { toggle: 'modal', target: "#modal-booth-#{booth.id}" } }
               - if booth.picture?
-                = link_to booth.website_url,
-                  class: 'thumbnail', target: '_blank' do
-                  = image_tag booth.picture.large.url, alt: booth.title,
-                    class: 'img-rounded'
-              .caption
-                %h3.text-center
-                  - if booth.logo_link
-                    = link_to booth.title, booth.website_url, target: '_blank'
-                  -else
-                    = booth.title
-                  = link_to '', "#booth-detail-#{booth.id}",
-                    data: {toggle: 'collapse'}, class: 'caret',
-                    title: 'more info'
-                .collapse{ id: "booth-detail-#{booth.id}" }
-                  = markdown(booth.description)
+                = image_tag get_logo(booth),
+                  class: ['img-responsive', 'img-rounded'],
+                  title: booth.title
+              - else
+                .caption
+                  %h3.text-center= booth.title
+          - content_for :modals do
+            = render 'modal_description', object: booth
