@@ -234,6 +234,12 @@
       = link_to_organization(version.conference_id)
     - else
       (Organization Deleted)
+  - elsif version.item_type == 'Commercial'
+    - commercial = current_or_last_object_state(version.item_type, version.item_id)
+    - commercialable = current_or_last_object_state(commercial.commercialable_type, commercial.commercialable_id)
+    - unless commercial.commercialable_type == 'Conference'
+      in conference
+      = link_to_conference(version.conference_id)
   - else
     in conference
     = link_to_conference(version.conference_id)
