@@ -5,10 +5,10 @@
 %section#call
   .container
     .row
-      - if @conference.call_for_events.try(:open?) ^ @conference.call_for_tracks.try(:open?)
+      - if one_call_open(conference)
         .col-md-3.col-sm-3.hidden-xs &nbsp;
-      - if @conference.call_for_events.try(:open?)
-        = render 'call_for_paper'
+      - if conference.call_for_events.try(:open?)
+        = render 'call_for_papers', conference: conference
       .col-md-2.col-sm-2 &nbsp;
-      - if @conference.call_for_tracks.try(:open?)
-        = render 'call_for_tracks'
+      - if conference.call_for_tracks.try(:open?)
+        = render 'call_for_tracks', conference: conference
