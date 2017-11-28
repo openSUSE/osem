@@ -1,11 +1,11 @@
-- cache [@conference.confirmed_booths, '#splash#booths'] do
+- cache [conference.confirmed_booths, '#splash#booths'] do
   %section#booths
     .container
       .row
         .col-md-12.text-center
           %h2 Booths
       .row.row-centered
-        - @conference.confirmed_booths.each do |booth|
+        - conference.confirmed_booths.each do |booth|
           .col-md-2.col-sm-2.col-centered.col-top
             %a.thumbnail{ href: '#',
               data: { toggle: 'modal', target: "#modal-booth-#{booth.id}" } }

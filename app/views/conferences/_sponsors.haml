@@ -2,11 +2,12 @@
   %li
     %a.smoothscroll{ href: '#sponsors' } Sponsors
 
-- cache [@conference, @conference.sponsors, @conference.try(:call_for_sponsors), '#splash#sponsors'] do
+- cache [conference, conference.sponsors, conference.try(:call_for_sponsors),
+  '#splash#sponsors'] do
   %section#sponsors
     .container
-      - @conference.sponsorship_levels.each do |sponsorship_level|
-        -if sponsorship_level.sponsors.any?
+      - conference.sponsorship_levels.each do |sponsorship_level|
+        - if sponsorship_level.sponsors.any?
           .row.text-center
             %h3
               = sponsorship_level.title
@@ -14,19 +15,19 @@
           .row.row-centered
             - sponsorship_level.sponsors.each do |sponsor|
               .col-md-4.col-sm-4.col-centered.col-top
-                %a{ href: '#',
-                  data: { toggle: 'modal', target: "#modal-sponsor-#{sponsor.id}" } }
+                %a{ href: '#', data: { toggle: 'modal',
+                  target: "#modal-sponsor-#{sponsor.id}" } }
                   = image_tag get_logo(sponsor),
                     class: ['img-responsive', 'img-sponsor',
                     "img-sponsor-#{sponsorship_level.position}"],
                     title: sponsor.name
               = render 'modal_description', object: sponsor
 
-      - if @conference.call_for_sponsors.try(:open?)
+      - if conference.call_for_sponsors.try(:open?)
         .row
           .col-md-12
             %p.text-muted.text-center
               %small
-                Want to sponsor #{@conference.short_title}?
-                = link_to("mailto: #{@conference.contact.sponsor_email}?subject=#{@conference.short_title}%20Sponsorship") do
+                Want to sponsor #{conference.short_title}?
+                = link_to(sponsorship_mailto(conference)) do
                   Please contact us!

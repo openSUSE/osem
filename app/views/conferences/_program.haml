@@ -1,0 +1,31 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#schedule' } Schedule
+
+- cache [@confererence, conference.confirmed_tracks, '#splash#schedule'] do
+  %section#schedule
+    .container
+      .row
+        .col-md-12
+          %p.lead.text-center
+            %span.notranslate
+              = conference.title
+            has the most awesome program ever!
+
+      - if conference.highlighted_events.any?
+        = render 'highlights', conference: conference
+
+      - if conference.splashpage.include_tracks
+        - if conference.confirmed_tracks.any?
+          = render 'tracks', conference: conference
+
+      - if conference.program.try(:schedule_public?)
+        .row
+          .col-md-12
+            %p.cta-button.text-center
+              = link_to(conference_schedule_path(conference.short_title),
+                class: 'btn btn-success btn-lg') do
+                Full Schedule
+
+- if conference.splashpage.include_booths && conference.confirmed_booths.any?
+  = render 'booths', conference: conference
