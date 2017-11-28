@@ -12,33 +12,35 @@
 
 #splash
   // header/description
-  = render 'header'
+  = render 'header', conference: @conference
 
   // attendance/registration
-  - if @conference.splashpage.include_registrations && @conference.registration_open?
-    = render 'registration'
-  - if @conference.splashpage.include_tickets && @conference.tickets.any? && @conference.pending?
-    = render 'tickets'
+  - if @conference.splashpage.include_registrations
+    - if @conference.registration_open?
+      = render 'registration', conference: @conference
+  - if @conference.splashpage.include_tickets && @conference.tickets.any?
+    = render 'tickets', conference: @conference
 
   // calls for content, or program
   - if @conference.splashpage.include_cfp
-    = render 'call_for_content'
+    = render 'call_for_content', conference: @conference
   - if @conference.splashpage.include_program
-    = render 'schedule_splashpage'
+    = render 'program', conference: @conference
 
   // geo
   - if @conference.splashpage.include_venue && @conference.venue
-    = render 'venue'
+    = render 'venue', conference: @conference
   - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
-    = render 'lodging'
+    = render 'lodging', conference: @conference
 
   // sponsorship
   - if @conference.splashpage.include_sponsors
-    = render 'sponsors'
+    = render 'sponsors', conference: @conference
 
   // footer
-  - if @conference.splashpage.include_social_media && @conference.contact.has_social_media?
-    = render 'social_media'
+  - if @conference.splashpage.include_social_media
+    - if @conference.contact.has_social_media?
+      = render 'social_media', conference: @conference
   = render 'footer'
 
   = yield :modals
@@ -47,7 +49,9 @@
   - content_for :script_head do
     :javascript
       var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
-      var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
+      var triangle_colors = triangle_tcs.map(function(t) {
+        return t.toHexString();
+      });
       $(function () {
         $(document).ready(function() {
           var triangle_width = document.body.clientWidth;
