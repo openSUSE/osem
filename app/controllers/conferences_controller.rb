@@ -12,7 +12,6 @@ class ConferencesController < ApplicationController
     @conference = Conference.unscoped.eager_load(
       :organization,
       :splashpage,
-      :venue,
       :registration_period,
       :tickets,
       :confirmed_tracks,
@@ -26,6 +25,7 @@ class ConferencesController < ApplicationController
       :sponsors,
       :call_for_sponsors,
       :contact,
+      venue:              [:commercial],
       highlighted_events: [:speakers],
       sponsorship_levels: [:sponsors]
     ).order(
