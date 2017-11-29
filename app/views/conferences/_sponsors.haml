@@ -27,8 +27,7 @@
       - if conference.call_for_sponsors.try(:open?)
         .row
           .col-md-12
-            %p.text-muted.text-center
-              %small
-                Want to sponsor #{conference.short_title}?
-                = link_to(sponsorship_mailto(conference)) do
-                  Please contact us!
+            %h3.text-center
+              Want to sponsor?
+              = link_to(sponsorship_mailto(conference)) do
+                Contact us!
