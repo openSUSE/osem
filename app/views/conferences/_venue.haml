@@ -1,0 +1,44 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#venue' } Venue
+
+- cache [conference.venue, conference.venue.commercial, '#splash#venue'] do
+  %section#venue
+    - if conference.venue.location?
+      = render '/conferences/venue_map', conference: conference
+    - else
+      .container
+        .row
+          .col-md-6
+            .thumbnail#venue-pic
+              - if commercial = conference.venue.commercial
+                .flexvideo{ id: "resource-content-#{commercial.id}" }
+                  = render 'shared/media_item',
+                    commercial: commercial
+              - elsif conference.venue.picture?
+                = image_tag conference.venue.picture.url,
+                  title: conference.venue.name, class: "img-responsive"
+              - else
+                %p.text-center
+                  %span.fa.fa-university.fa-5x
+              .caption
+                %h3.text-center
+                  = conference.venue.name
+                - unless conference.venue.description.blank?
+                  = markdown(conference.venue.description)
+          .col-md-6
+            %h2
+              = conference.venue.city
+              \/
+              = conference.venue.country_name
+            %address
+              = conference.venue.street
+              %br
+              = conference.venue.postalcode + ','
+              = conference.venue.city
+              %br
+              = conference.venue.country_name
+              - if conference.venue.website
+                %br
+                = sanitize link_to(h(conference.venue.website),
+                  h(conference.venue.website))

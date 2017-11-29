@@ -1,0 +1,20 @@
+- cache [conference, conference.call_for_tracks, '#splash#callfortracks'] do
+  .col-md-5.col-sm-5.text-center
+    %h2
+      Call for Tracks
+    %p.lead
+      We are now accepting custom track requests!
+    %p
+      Would you like to host a mini-summit, sub-conference, or hack space?
+      The submission period for track requests is open
+      %em
+        = date_string(conference.call_for_tracks.start_date,
+          conference.call_for_tracks.end_date) + '.'
+      %b
+        You have
+        = pluralize(conference.call_for_tracks.remaining_days, 'day')
+        left!
+    %p.cta-button
+      = link_to("Submit your request for track",
+        conference_program_tracks_path(conference.short_title),
+        class: 'btn btn-success btn-lg text-center')

@@ -56,17 +56,7 @@ module ApplicationHelper
   end
 
   def tracks(conference)
-    all = conference.program.tracks.confirmed.cfp_active.pluck(:name)
-    first = all[0...-1]
-    last = all[-1]
-    ts = ''
-    if all.length > 1
-      ts << first.join(', ')
-      ts << " and #{last}"
-    else
-      ts = all.join
-    end
-    return ts
+    conference.confirmed_tracks.collect(&:name).to_sentence
   end
 
   def difficulty_levels(conference)
@@ -152,7 +142,7 @@ module ApplicationHelper
   end
 
   def event_types(conference)
-    conference.program.event_types.map { |et| et.title.pluralize }.to_sentence
+    conference.event_types.map { |et| et.title.pluralize }.to_sentence
   end
 
   def sign_in_path
@@ -190,5 +180,20 @@ module ApplicationHelper
       class: 'navbar-brand',
       title: 'Open Source Event Manager'
     )
+  end
+
+  # returns the url to be used for logo on basis of sponsorship level position
+  def get_logo(object)
+    if object.try(:sponsorship_level)
+      if object.sponsorship_level.position == 1
+        object.picture.first.url
+      elsif object.sponsorship_level.position == 2
+        object.picture.second.url
+      else
+        object.picture.others.url
+      end
+    else
+      object.picture.large.url
+    end
   end
 end
