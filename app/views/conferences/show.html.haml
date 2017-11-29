@@ -11,33 +11,33 @@
   = @conference.title
 
 #splash
-  // header/description
+  -# header/description
   = render 'header', conference: @conference
 
-  // attendance/registration
+  -# calls for content, or program
+  - if @conference.splashpage.include_cfp
+    = render 'call_for_content', conference: @conference
+  - if @conference.splashpage.include_program
+    = render 'program', conference: @conference
+
+  -# attendance/registration
   - if @conference.splashpage.include_registrations
     - if @conference.registration_open?
       = render 'registration', conference: @conference
   - if @conference.splashpage.include_tickets && @conference.tickets.any?
     = render 'tickets', conference: @conference
 
-  // calls for content, or program
-  - if @conference.splashpage.include_cfp
-    = render 'call_for_content', conference: @conference
-  - if @conference.splashpage.include_program
-    = render 'program', conference: @conference
-
-  // geo
+  -# geo
   - if @conference.splashpage.include_venue && @conference.venue
     = render 'venue', conference: @conference
   - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
     = render 'lodging', conference: @conference
 
-  // sponsorship
+  -# sponsorship
   - if @conference.splashpage.include_sponsors
     = render 'sponsors', conference: @conference
 
-  // footer
+  -# footer
   - if @conference.splashpage.include_social_media
     - if @conference.contact.has_social_media?
       = render 'social_media', conference: @conference
