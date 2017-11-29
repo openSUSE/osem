@@ -21,8 +21,6 @@
                     class: ['img-responsive', 'img-sponsor',
                     "img-sponsor-#{sponsorship_level.position}"],
                     title: sponsor.name
-              - content_for :modals do
-                = render 'modal_description', object: sponsor
 
       - if conference.call_for_sponsors.try(:open?)
         .row
@@ -31,3 +29,7 @@
               Want to sponsor?
               = link_to(sponsorship_mailto(conference)) do
                 Contact us!
+
+- conference.sponsors.each do |sponsor|
+  - content_for :modals do
+    = render 'modal_description', object: sponsor

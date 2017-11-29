@@ -2,11 +2,11 @@
   %li
     %a.smoothscroll{ href: '#venue' } Venue
 
-- cache [conference.venue, conference.venue.commercial, '#splash#venue'] do
-  %section#venue
-    - if conference.venue.location?
-      = render '/conferences/venue_map', conference: conference
-    - else
+%section#venue
+  - if conference.venue.location?
+    = render '/conferences/venue_map', conference: conference
+  - else
+    - cache [conference.venue, conference.venue.commercial, '#splash#venue'] do
       .container
         .row
           .col-md-6

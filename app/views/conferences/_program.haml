@@ -31,3 +31,7 @@
               = link_to(conference_schedule_path(conference.short_title),
                 class: 'btn btn-success btn-lg') do
                 Full Schedule
+
+- conference.confirmed_booths.each do |booth|
+  - content_for :modals do
+    = render 'modal_description', object: booth
