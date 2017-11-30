@@ -44,6 +44,9 @@ gem 'omniauth-openid'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
 
+# Bot-filtering
+gem 'recaptcha', require: 'recaptcha/rails'
+
 # as authorization framework
 gem 'cancancan'
 
@@ -182,6 +185,10 @@ gem 'cloudinary'
 # for setting app configuration in the environment
 gem 'dotenv-rails'
 
+# configurable toggles for functionality
+# https://github.com/mgsnova/feature
+gem 'feature'
+
 # For countable.js
 gem "countable-rails", "~> 0.0.1"
 
@@ -212,7 +219,7 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'haml_lint', '~> 0.24.0'
   # for static code analisys
-  gem 'rubocop', '~> 0.49.0', require: false
+  gem 'rubocop', '~> 0.51.0', require: false
   # as database
   gem 'sqlite3'
   # to open mails
