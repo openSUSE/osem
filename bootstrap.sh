@@ -54,6 +54,7 @@ elif [[ "$ID" == "centos" || "$VERSION" == "7"  ]]; then
   tar jxvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /tmp/  phantomjs-2.1.1-linux-x86_64/bin/phantomjs
   mv /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
 
+  pushd /vagrant
 fi
 
 echo -e "\ninstalling your bundle...\n"
