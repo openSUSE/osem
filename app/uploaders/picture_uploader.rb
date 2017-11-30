@@ -80,6 +80,11 @@ class PictureUploader < CarrierWave::Uploader::Base
     process resize_and_pad: [320, 120, 'white']
   end
 
+  version :ticket, if: :conference?
+  version :ticket do
+    process resize_and_pad: [120, 70]
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
@@ -94,5 +99,9 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   def sponsor?(_picture)
     object_class_name == 'sponsors'
+  end
+
+  def conference?(_picture)
+    object_class_name == 'conferences'
   end
 end
