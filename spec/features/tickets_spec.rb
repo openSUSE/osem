@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 feature Ticket do
+  ENV['OSEM_DEFAULT_CURRENCIES'] = "['USD', 'EURO', 'GBP', 'INR', 'CNY']"
   let!(:conference) { create(:conference, title: 'ExampleCon') }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }

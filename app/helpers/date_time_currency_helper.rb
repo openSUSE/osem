@@ -1,4 +1,4 @@
-module DateTimeHelper
+module DateTimeCurrencyHelper
   ##
   # Includes functions related to date or time manipulations
   ##
@@ -33,5 +33,9 @@ module DateTimeHelper
     else
       "#{h} h #{min.round} min"
     end
+  end
+
+  def currencies
+    default_currencies = YAML::load(ENV['OSEM_DEFAULT_CURRENCIES'])
   end
 end

@@ -80,3 +80,5 @@ RECAPTCHA_SECRET_KEY=""
 
 # The url of the redis server
 OSEM_REDIS_URL='redis://localhost:6379/1'
+
+OSEM_DEFAULT_CURRENCIES="['USD', 'EURO', 'GBP', 'INR', 'CNY']"
