@@ -79,6 +79,9 @@ $(function () {
 
   $("#conference-start-datepicker").on("dp.change",function (e) {
       $('#conference-end-datepicker').data("DateTimePicker").setMinDate(e.date);
+      if (!$('#conference-end-datepicker').val()) {
+         $('#conference-end-datepicker').data("DateTimePicker").setDate(e.date);
+      }
   });
   $("#conference-end-datepicker").on("dp.change",function (e) {
       $('#conference-start-datepicker').data("DateTimePicker").setMaxDate(e.date);
