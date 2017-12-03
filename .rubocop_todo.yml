@@ -702,12 +702,6 @@ Style/TrailingCommaInLiteral:
     - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
     - 'spec/models/conference_spec.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/UnneededInterpolation:
-  Exclude:
-    - 'app/helpers/format_helper.rb'
-    - 'spec/controllers/admin/conferences_controller_spec.rb'
 
 # Offense count: 2
 # Configuration parameters: EnforcedStyle, SupportedStyles.
