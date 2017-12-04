@@ -122,7 +122,7 @@ module FormatHelper
              plural || singular.pluralize
            end
 
-    "#{word}"
+    word
   end
 
   # Returns black or white deppending on what of them contrast more with the
