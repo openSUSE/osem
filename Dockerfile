@@ -41,8 +41,9 @@ RUN install -d -m 0770 -o osem -g root $DATA_DIR
 VOLUME ["$DATA_DIR"]
 
 # data persistence for uploaded files (logos, other pictures, etc)
-RUN install -d -m 0755 -o osem -g osem /osem/ /osem/tmp /osem/tmp/uploads/
+RUN install -d -m 0755 -o osem -g osem /osem/ /osem/tmp /osem/tmp/uploads/ /osem/public/ /osem/public/system/
 VOLUME ["/osem/tmp/uploads/"]
+VOLUME ["/osem/public/system/"]
 
 USER osem
 EXPOSE 9292
