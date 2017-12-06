@@ -6,9 +6,39 @@ describe ConferencesController do
   let(:room) { create(:room, venue: conference.venue) }
 
   describe 'GET #index' do
-    it 'Response code is 200' do
-      get :index
-      expect(response.response_code).to eq(200)
+    context 'without conference' do
+      it 'Response code is 200' do
+        conference.destroy!
+        get :index
+        expect(response.response_code).to eq(200)
+      end
+    end
+
+    context 'with one next conference' do
+      describe 'with splashpage' do
+        it 'Response code is 200 when is not public' do
+          current = Conference.first
+          current.splashpage.public = false
+          current.splashpage.save
+          get :index
+          expect(response.response_code).to eq(200)
+        end
+        it 'Response code is 302 when is public' do
+          get :index
+          expect(response.response_code).to eq(302)
+        end
+        it 'Redirect to conference#show' do
+          get :index
+          expect(response).to redirect_to(conference_path(conference))
+        end
+      end
+      describe 'without splashpage' do
+        it 'Response code is 200' do
+          conference.splashpage.destroy!
+          get :index
+          expect(response.response_code).to eq(200)
+        end
+      end
     end
   end
 
