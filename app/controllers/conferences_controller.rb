@@ -6,6 +6,10 @@ class ConferencesController < ApplicationController
   def index
     @current = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
     @antiquated = @conferences - @current
+
+    redirect_to @current.first if @current.count == 1 &&
+                                  @current.first.splashpage &&
+                                  @current.first.splashpage.public
   end
 
   def show

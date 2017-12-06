@@ -75,7 +75,7 @@ feature 'Has correct abilities' do
       # Event, booth, track cfps exist
       call_for_tracks = create(:cfp, cfp_type: 'tracks', program: conference.program)
       visit new_admin_conference_program_cfp_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       # Booth and track cfps exist
       conference.program.cfp.destroy!
@@ -146,17 +146,17 @@ feature 'Has correct abilities' do
 
       create(:registration, user: create(:user), conference: conference)
       visit edit_admin_conference_registration_path(conference.short_title, conference.registrations.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_registration_period_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:registration_period, conference: conference)
       visit edit_admin_conference_registration_period_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_questions_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_program_tracks_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_tracks_path(conference.short_title))
@@ -174,99 +174,99 @@ feature 'Has correct abilities' do
       expect(current_path).to eq(admin_organizations_path)
 
       visit edit_admin_organization_path(organization)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_organization_path
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit edit_admin_conference_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit edit_admin_conference_contact_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_commercials_path(conference.short_title)
       expect(current_path).to eq(admin_conference_commercials_path(conference.short_title))
 
       visit new_admin_conference_splashpage_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit edit_admin_conference_splashpage_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_venue_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       conference.venue = create(:venue)
       visit edit_admin_conference_venue_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_lodgings_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_lodging_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:lodging, conference: conference)
       visit edit_admin_conference_lodging_path(conference.short_title, conference.lodgings.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_registration_period_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:registration_period, conference: conference)
       visit edit_admin_conference_registration_period_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_sponsorship_levels_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_sponsorship_level_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:sponsorship_level, conference: conference)
       visit edit_admin_conference_sponsorship_level_path(conference.short_title, conference.sponsorship_levels.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_sponsors_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_sponsor_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:sponsor, conference: conference, sponsorship_level: conference.sponsorship_levels.first)
       visit edit_admin_conference_sponsor_path(conference.short_title, conference.sponsors.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_tickets_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_ticket_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:ticket, conference: conference)
       visit edit_admin_conference_ticket_path(conference.short_title, conference.tickets.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_campaigns_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_campaign_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:campaign, conference: conference)
       visit edit_admin_conference_campaign_path(conference.short_title, conference.campaigns.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_targets_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit new_admin_conference_target_path(conference.short_title)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       create(:target, conference: conference)
       visit edit_admin_conference_target_path(conference.short_title, conference.targets.first)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_conference_roles_path(conference.short_title)
       expect(current_path).to eq(admin_conference_roles_path(conference.short_title))
@@ -292,10 +292,10 @@ feature 'Has correct abilities' do
       expect(current_path).to eq(edit_admin_conference_resource_path(conference.short_title, conference.resources.first))
 
       visit admin_users_path
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_user_path(user_cfp)
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
 
       visit admin_revision_history_path
       expect(current_path).to eq(admin_revision_history_path)
