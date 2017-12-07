@@ -6,14 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 15
-# Cop supports --auto-correct.
-# Configuration parameters: Include, TreatCommentsAsGroupSeparators.
-# Include: **/Gemfile, **/gems.rb
-Bundler/OrderedGems:
-  Exclude:
-    - 'Gemfile'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, IndentationWidth.
@@ -646,16 +638,6 @@ Style/RedundantParentheses:
   Exclude:
     - 'app/controllers/admin/base_controller.rb'
 
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/format_helper.rb'
-    - 'app/helpers/paths_helper.rb'
-    - 'app/helpers/users_helper.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
@@ -740,10 +722,3 @@ Style/TrailingCommaInLiteral:
     - 'Guardfile'
     - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
     - 'spec/models/conference_spec.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/UnneededInterpolation:
-  Exclude:
-    - 'app/helpers/format_helper.rb'
-    - 'spec/controllers/admin/conferences_controller_spec.rb'
