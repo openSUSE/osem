@@ -66,7 +66,7 @@ module ApplicationHelper
     else
       ts = all.join
     end
-    return ts
+    ts
   end
 
   def difficulty_levels(conference)
@@ -80,7 +80,7 @@ module ApplicationHelper
     else
       ts = all.join
     end
-    return ts
+    ts
   end
 
   def unread_notifications(user)
