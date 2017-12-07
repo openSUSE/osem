@@ -9,7 +9,7 @@ class ConferencesController < ApplicationController
 
     redirect_to @current.first if @current.count == 1 and
                                    @current.first.splashpage and
-                                   @current.first.splashpage.public==true
+                                   @current.first.splashpage.public
 
   end
 
