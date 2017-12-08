@@ -38,12 +38,10 @@ RUN chown -R osem.root /osem/ && \
 # data directory is used to cache the secret key in a file
 ENV DATA_DIR /data
 RUN install -d -m 0770 -o osem -g root $DATA_DIR
-VOLUME ["$DATA_DIR"]
-
 # data persistence for uploaded files (logos, other pictures, etc)
-RUN install -d -m 0755 -o osem -g osem /osem/ /osem/tmp /osem/tmp/uploads/ /osem/public/ /osem/public/system/
-VOLUME ["/osem/tmp/uploads/"]
-VOLUME ["/osem/public/system/"]
+RUN mkdir 0775 -p /osem/tmp/cache /osem/tmp/uploads/ && \
+       chown -R  osem.osem /osem/tmp/
+VOLUME ["$DATA_DIR"] ["/osem/tmp/uploads/"] ["/osem/public/system/"]
 
 USER osem
 EXPOSE 9292
