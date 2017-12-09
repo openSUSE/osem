@@ -99,7 +99,7 @@ module ApplicationHelper
   end
 
   def normalize_array_length(hashmap, length)
-    hashmap.each do |_, value|
+    hashmap.each_value do |value|
       if value.length < length
         value.fill(value[-1], value.length...length)
       end
