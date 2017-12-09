@@ -37,7 +37,8 @@
               %h4
                 = link_to speaker.name, user_path(speaker.id)
                 - if speaker.email_public?
-                  = "(#{speaker.email})"
+                  .br
+                    = content_tag(:a, fa_icon("envelope-o"), href: "mailto:#{speaker.email}", title: "#{speaker.email}")
               - if speaker.affiliation?
                 .text-muted
                   from
