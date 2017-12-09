@@ -98,6 +98,9 @@ $(function () {
 
   $("#registration-period-start-datepicker").on("dp.change",function (e) {
       $('#registration-period-end-datepicker').data("DateTimePicker").setMinDate(e.date);
+      if (!$('#registration-period-end-datepicker').val()) {
+         $('#registration-period-end-datepicker').data("DateTimePicker").setDate(e.date);
+      }
   });
   $("#registration-period-end-datepicker").on("dp.change",function (e) {
       $('#registration-period-start-datepicker').data("DateTimePicker").setMaxDate(e.date);
