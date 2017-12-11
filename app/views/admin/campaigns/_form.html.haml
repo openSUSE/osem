@@ -11,7 +11,7 @@
   .col-md-8
     = semantic_form_for(@campaign, url: (@campaign.new_record? ? admin_conference_campaigns_path : admin_conference_campaign_path(@conference.short_title, @campaign))) do |f|
       = f.inputs do
-        = f.input :name
+        = f.input :name, input_html: { autofocus: true }
         = f.inputs name: 'UTM Parameters' do
           = f.input :utm_campaign, label: 'Campaign', hint: 'Groups all of the content from one campaign. E.g. 20percentpromocode'
           = f.input :utm_source, label: 'Source', hint: 'Which website is sending you traffic. E.g. Facebook, google+, blog'
