@@ -11,6 +11,10 @@
 %dd#end_date
   = @cfp.end_date.strftime('%A, %B %-d. %Y')
 %dt
+  Description:
+%dd#description
+  = markdown(@cfp.description)
+%dt
   Days Left:
 %dd
   = pluralize(@cfp.remaining_days, 'day')

@@ -1,4 +1,4 @@
-class Commercial < ActiveRecord::Base
+class Commercial < ApplicationRecord
   require 'oembed'
 
   belongs_to :commercialable, polymorphic: true

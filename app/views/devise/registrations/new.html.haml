@@ -12,6 +12,8 @@
             = f.input :name, input_html: { required: true }, hint: 'This is your real name'
             = f.input :password, input_html: { required: true }
             = f.input :password_confirmation, input_html: { required: true }
+            - Feature.with(:recaptcha) do
+              = recaptcha_tags
             %p.text-right
               = f.action :submit, as: :button, label: 'Sign Up', button_html: { class: 'btn btn-success' }
 

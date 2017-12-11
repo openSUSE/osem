@@ -12,6 +12,7 @@
           %th Type
           %th Start Date
           %th End Date
+          %th Description
           %th Days Left
           %th Actions
         %tbody
@@ -24,6 +25,9 @@
                 = cfp.start_date.strftime('%A, %B %-d. %Y')
               %td
                 = cfp.end_date.strftime('%A, %B %-d. %Y')
+              %td
+                %p
+                  = truncate(cfp.description)
               %td
                 = pluralize(cfp.remaining_days, 'day')
               %td
