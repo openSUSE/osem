@@ -1,3 +1,3 @@
-class QuestionType < ActiveRecord::Base
+class QuestionType < ApplicationRecord
   has_many :questions
 end

@@ -148,7 +148,7 @@ feature 'Version' do
 
     visit admin_revision_history_path
     expect(page).to have_text("Someone (probably via the console) created new ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated price cents and description of ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated description and price cents of ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
   end
 
@@ -193,7 +193,9 @@ feature 'Version' do
     click_link 'Reject event'
 
     visit conference_program_proposals_path(conference_id: conference.short_title)
-    click_link 'Re-Submit'
+    within('#events') do
+      click_link 'Re-Submit'
+    end
 
     visit admin_conference_program_events_path(conference.short_title)
     click_button 'New'
@@ -341,7 +343,7 @@ feature 'Version' do
     conference.email_settings.update_attributes(registration_subject: 'xxxxx', registration_body: 'yyyyy', accepted_subject: 'zzzzz')
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) updated registration subject, registration body and accepted subject
+    expect(page).to have_text("Someone (probably via the console) updated registration body, registration subject and accepted subject
     of email settings in conference #{conference.short_title}")
   end
 

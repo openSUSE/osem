@@ -1,4 +1,4 @@
-class TicketPurchase < ActiveRecord::Base
+class TicketPurchase < ApplicationRecord
   belongs_to :ticket
   belongs_to :user
   belongs_to :conference
@@ -52,7 +52,8 @@ class TicketPurchase < ActiveRecord::Base
       purchase = new(ticket_id: ticket.id,
                      conference_id: conference.id,
                      user_id: user.id,
-                     quantity: quantity)
+                     quantity: quantity,
+                     amount_paid: ticket.price)
       purchase.pay(nil) if ticket.price_cents.zero?
     end
     purchase

@@ -26,6 +26,10 @@ require 'phantomjs'
 # makes it easier to control when PaperTrail is enabled during testing.
 require 'paper_trail/frameworks/rspec'
 
+# Make htmlescape() available
+require 'erb'
+include ERB::Util
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -59,7 +63,7 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false)
+    Capybara::Poltergeist::Driver.new(app, phantomjs: Phantomjs.path, js_errors: false, window_size: [1920, 1080])
   end
 
   # Includes helpers and connect them to specific types of tests
@@ -82,6 +86,14 @@ RSpec.configure do |config|
   # Types of tests (controller, feature, model) will
   # be inferred from subfolder name
   config.infer_spec_type_from_file_location!
+
+  # Enable this if you like to see what you're debugging
+  # config.after(:example) do |example|
+  #   if example.exception
+  #     save_and_open_screenshot
+  #     save_and_open_page
+  #   end
+  # end
 end
 
 OmniAuth.config.test_mode = true

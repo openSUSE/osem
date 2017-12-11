@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+xlsx_package.use_autowidth = true
+if @booth_export_option == 'confirmed'
+  render partial: 'confirmed_booths', locals: { wb: wb }
+elsif @booth_export_option == 'all'
+  render partial: 'all_booths', locals: { wb: wb }
+end

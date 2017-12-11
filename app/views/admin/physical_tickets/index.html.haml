@@ -21,23 +21,11 @@
             %th ID
             %th Type
             %th User
+            %th Paid
             %th Actions
           %tbody
             - @physical_tickets.each do |physical_ticket|
-              %tr
-                %td= physical_ticket.id
-                %td= physical_ticket.ticket.title
-                %td= physical_ticket.user.email
-                %td
-                  .btn-group
-                    = link_to 'Show',
-                    conference_physical_ticket_path(@conference.short_title,
-                                                    physical_ticket.token),
-                    class: 'btn btn-primary'
-                    = link_to 'Generate PDF',
-                    conference_physical_ticket_path(@conference.short_title,
-                                                    physical_ticket.token,
-                                                    format: :pdf),
-                    class: 'button btn btn-default btn-info'
+              = render "physical_ticket", physical_ticket: physical_ticket,
+                conference: @conference
   - else
     %h5 No Tickets sold!

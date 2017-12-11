@@ -1,4 +1,4 @@
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   resourcify :roles, dependent: :delete_all
 
   has_paper_trail

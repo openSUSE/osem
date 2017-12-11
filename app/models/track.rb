@@ -1,4 +1,4 @@
-class Track < ActiveRecord::Base
+class Track < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
 

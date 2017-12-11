@@ -12,14 +12,17 @@
   - role = Role.find_by(id: users_role.role_id) if users_role
   role
   - if role.name == 'organization_admin'
-    -# organization_admin belongs to organization and not conferences
-    - organization = Organization.find(version.conference_id)
-    = link_if_alive version, role.name,
+    - if Organization.find_by(id: version.conference_id)
+      -# organization_admin belongs to organization and not conferences
+      - organization = Organization.find_by(id: version.conference_id)
+      = link_if_alive version, role.name,
             admins_admin_organization_path(organization), organization
+    - else
+      (Deleted Organization)
   - else
     - conference = Conference.find_by(id: version.conference_id)
     - conference_short_title = conference.try(:short_title) || current_or_last_object_state('Conference', version.conference_id).try(:short_title) || ' '
-    = link_if_alive version, role.try(:name), admin_conference_role_path(role.try(:name) || ' ', conference_short_title), conference
+    = link_if_alive version, role.try(:name), admin_conference_role_path(conference_short_title,role.try(:name) || ' '), conference
 
   = version.event == 'create' ? 'to' : 'from'
   user
@@ -140,10 +143,13 @@
   - role = current_or_last_object_state(version.item_type, version.item_id)
   - role_name = role.try(:name) || PaperTrail::Version.where(item_type: 'Role', item_id: version.item_id).last.changeset[:name].second
   - if role_name == 'organization_admin'
-    -# organization_admin belongs to organization and not conferences
-    - organization = Organization.find(version.conference_id)
-    = link_if_alive version, role_name,
+    - if Organization.find_by(id: version.conference_id)
+      -# organization_admin belongs to organization and not conferences
+      - organization = Organization.find_by(id: version.conference_id)
+      = link_if_alive version, role.name,
             admins_admin_organization_path(organization), organization
+    - else
+      (Role Deleted)
   - else
     - conference = Conference.find_by(id: version.conference_id)
     - conference_short_title = conference.try(:short_title) || current_or_last_object_state('Conference', version.conference_id).try(:short_title) || ' '
@@ -202,9 +208,7 @@
 - when 'DifficultyLevel'
   difficulty level
   - difficulty_level = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, difficulty_level.title,
-          admin_conference_program_difficulty_level_path(conference_short_title, version.item_id),
-          conference
+  = link_if_alive version, difficulty_level.title,admin_conference_program_difficulty_levels_path(conference_short_title), conference
 
 - when 'Splashpage'
   = link_if_alive version, 'splashpage',
@@ -224,7 +228,12 @@
 - unless %w(Conference Subscription Registration User Organization).include?(version.item_type)
   - if (version.item_type == 'Role' && role_name == 'organization_admin') || (version.item_type == 'UsersRole' && role.name == 'organization_admin')
     in organization
-    = link_to_organization(version.conference_id)
+    - if Organization.find_by(id: version.conference_id)
+      -# organization_admin belongs to organization and not conferences
+      - organization = Organization.find_by(id: version.conference_id)
+      = link_to_organization(version.conference_id)
+    - else
+      (Organization Deleted)
   - else
     in conference
     = link_to_conference(version.conference_id)

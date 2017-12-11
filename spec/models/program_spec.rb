@@ -15,8 +15,8 @@ describe Program do
     it { is_expected.to have_many(:events).dependent(:destroy) }
     it { is_expected.to have_many(:event_schedules).through(:events) }
     it { is_expected.to have_many(:event_users).through(:events) }
-    it { is_expected.to have_many(:speakers).through(:event_users).source(:user) }
-
+    it { is_expected.to have_many(:program_events_speakers).through(:events).source(:event_users) }
+    it { is_expected.to have_many(:speakers).through(:program_events_speakers).source(:user) }
     it { is_expected.to accept_nested_attributes_for(:event_types) }
     it { is_expected.to accept_nested_attributes_for(:tracks) }
     it { is_expected.to accept_nested_attributes_for(:difficulty_levels) }
@@ -204,6 +204,7 @@ describe Program do
 
       program.schedule_interval = 10
       program.save!
+      program.reload
       expect(program.event_types.pluck(:length).sort).to eq [10, 20, 30]
     end
   end

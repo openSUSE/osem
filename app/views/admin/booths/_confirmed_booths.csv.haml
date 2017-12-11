@@ -1,0 +1,19 @@
+- headers = ['Booth ID',
+             'Title',
+             'Description',
+             'Reasoning',
+             'Submitter Name',
+             'Submitter Relationship',
+             'Website Url',
+             'State']
+= CSV.generate_line ['All booths']
+= CSV.generate_line headers
+- @booths.confirmed.each do |booth|
+  = CSV.generate_line([booth.id,
+                       booth.title,
+                       booth.description,
+                       booth.reasoning,
+                       booth.submitter.name,
+                       booth.submitter_relationship,
+                       booth.website_url,
+                       booth.state]).html_safe
