@@ -1,4 +1,4 @@
-class Campaign < ActiveRecord::Base
+class Campaign < ApplicationRecord
   validates :name, :utm_campaign, presence: true
 
   has_many :targets, dependent: :nullify

@@ -1,6 +1,6 @@
 # cannot delete program if there are events submitted
 
-class Program < ActiveRecord::Base
+class Program < ApplicationRecord
   has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
 
   belongs_to :conference
