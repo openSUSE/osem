@@ -204,6 +204,7 @@ describe Program do
 
       program.schedule_interval = 10
       program.save!
+      program.reload
       expect(program.event_types.pluck(:length).sort).to eq [10, 20, 30]
     end
   end

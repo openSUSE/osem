@@ -1,4 +1,4 @@
-class Vposition < ActiveRecord::Base
+class Vposition < ApplicationRecord
   belongs_to :conference
 
   has_many :vchoices

@@ -1,4 +1,4 @@
-class Openid < ActiveRecord::Base
+class Openid < ApplicationRecord
   belongs_to :user
   validates :provider, :uid, presence: true
 

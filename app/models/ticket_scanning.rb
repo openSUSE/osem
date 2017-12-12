@@ -1,4 +1,4 @@
-class TicketScanning < ActiveRecord::Base
+class TicketScanning < ApplicationRecord
   belongs_to :physical_ticket
 
   before_create :mark_user_present
