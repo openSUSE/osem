@@ -1,4 +1,4 @@
-class Vchoice < ActiveRecord::Base
+class Vchoice < ApplicationRecord
   belongs_to :vday
   belongs_to :vposition
 
