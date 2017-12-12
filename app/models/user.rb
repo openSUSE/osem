@@ -4,7 +4,7 @@ end
 class UserDisabled < StandardError
 end
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
   has_many :physical_tickets, through: :ticket_purchases do
     def by_conference(conference)

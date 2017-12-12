@@ -1,4 +1,4 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
   belongs_to :resource, polymorphic: true
   has_many :users_roles
   has_many :users, through: :users_roles
