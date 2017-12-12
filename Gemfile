@@ -6,7 +6,10 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 5.0.5'
+
+# Use Puma as the app server
+gem 'puma', '~> 3.0'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider
@@ -31,7 +34,7 @@ gem 'carrierwave-bombshelter'
 gem 'mini_magick'
 
 # for internationalizing
-gem 'rails-i18n', '~> 4.0.0'
+gem 'rails-i18n', '~> 5.0.0'
 
 # as authentification framework
 gem 'devise'
@@ -48,7 +51,7 @@ gem 'omniauth-openid'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # as authorization framework
-gem 'cancancan'
+gem 'cancancan', '~> 2.0'
 
 # for roles
 gem 'rolify'
@@ -76,7 +79,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'cocoon'
-gem 'formtastic', '~> 3.1.1'
+gem 'formtastic', '~> 3.1.5'
 gem 'formtastic-bootstrap'
 
 # as the JavaScript library
@@ -156,7 +159,6 @@ gem 'redcarpet'
 gem 'rdoc-generator-fivefish'
 
 # for visitor tracking
-gem 'activeuuid'
 gem 'ahoy_matey'
 gem 'piwik_analytics', '~> 1.0.1'
 
@@ -253,6 +255,8 @@ group :test do
   gem 'stripe-ruby-mock'
   # For validating JSON schemas
   gem 'json-schema'
+  # For using 'assigns' in tests
+  gem 'rails-controller-testing'
 end
 
 group :development, :test do
