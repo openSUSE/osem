@@ -101,17 +101,17 @@ module FormatHelper
 
   def icon_for_todo(bool)
     if bool
-      return 'fa fa-check'
+      'fa fa-check'
     else
-      return 'fa fa-times'
+      'fa fa-times'
     end
   end
 
   def class_for_todo(bool)
     if bool
-      return 'todolist-ok'
+      'todolist-ok'
     else
-      return 'todolist-missing'
+      'todolist-missing'
     end
   end
 
@@ -122,7 +122,7 @@ module FormatHelper
              plural || singular.pluralize
            end
 
-    "#{word}"
+    word
   end
 
   # Returns black or white deppending on what of them contrast more with the

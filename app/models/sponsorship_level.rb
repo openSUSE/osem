@@ -1,4 +1,4 @@
-class SponsorshipLevel < ActiveRecord::Base
+class SponsorshipLevel < ApplicationRecord
   validates :title, presence: true
   belongs_to :conference
   acts_as_list scope: :conference
