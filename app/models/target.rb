@@ -1,4 +1,4 @@
-class Target < ActiveRecord::Base
+class Target < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   default_scope { order('due_date ASC') }

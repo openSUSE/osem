@@ -1,4 +1,4 @@
-class Room < ActiveRecord::Base
+class Room < ApplicationRecord
   include RevisionCount
   belongs_to :venue
   has_many :event_schedules, dependent: :destroy

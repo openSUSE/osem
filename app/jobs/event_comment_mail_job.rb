@@ -1,4 +1,4 @@
-class EventCommentMailJob < ActiveJob::Base
+class EventCommentMailJob < ApplicationJob
   queue_as :default
 
   def perform(comment)

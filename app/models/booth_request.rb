@@ -1,4 +1,4 @@
-class BoothRequest < ActiveRecord::Base
+class BoothRequest < ApplicationRecord
   belongs_to :booth
   belongs_to :user
 
