@@ -1,4 +1,4 @@
-class Resource < ActiveRecord::Base
+class Resource < ApplicationRecord
   belongs_to :conference
   validates :name, :used, :quantity, presence: true
   validates :used, :quantity, numericality: { greater_than_or_equal_to: 0, only_integer: true }

@@ -1,4 +1,4 @@
-class EventsRegistration < ActiveRecord::Base
+class EventsRegistration < ApplicationRecord
   belongs_to :registration
   belongs_to :event
 

@@ -1,4 +1,4 @@
-class Conference < ActiveRecord::Base
+class Conference < ApplicationRecord
   include RevisionCount
   require 'uri'
   serialize :events_per_week, Hash
