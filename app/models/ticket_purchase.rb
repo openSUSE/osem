@@ -1,4 +1,4 @@
-class TicketPurchase < ActiveRecord::Base
+class TicketPurchase < ApplicationRecord
   belongs_to :ticket
   belongs_to :user
   belongs_to :conference

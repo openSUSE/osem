@@ -27,7 +27,7 @@
                 = cfp.end_date.strftime('%A, %B %-d. %Y')
               %td
                 %p
-                  = markdown(truncate(cfp.description))
+                  = truncate(cfp.description)
               %td
                 = pluralize(cfp.remaining_days, 'day')
               %td
