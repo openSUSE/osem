@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
-  before_filter :set_paper_trail_whodunnit
+  before_action :set_paper_trail_whodunnit
   include ApplicationHelper
   add_flash_types :error
-  protect_from_forgery with: :exception
-  before_filter :get_conferences
-  before_filter :store_location
+  protect_from_forgery with: :exception, prepend: true
+  before_action :get_conferences
+  before_action :store_location
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
 

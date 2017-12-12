@@ -1,4 +1,4 @@
-class Venue < ActiveRecord::Base
+class Venue < ApplicationRecord
   belongs_to :conference
   has_one :commercial, as: :commercialable, dependent: :destroy
   has_many :rooms, dependent: :destroy
