@@ -82,7 +82,7 @@ You can read through current enabled rules in `.rubocop.yml` file. Explanations 
 Additionally you can read through the [ruby style-guide](https://github.com/bbatsov/ruby-style-guide) to better understand core principles.
 
 ### Test Suite
-We are using [rspec](http://rspec.info/)+[capybara](http://jnicklas.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) as a test suite. You can run it locally
+We are using [rspec](http://rspec.info/)+[capybara](http://teamcapybara.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) as a test suite. You can run it locally
 
 ```shell
 vagrant exec bundle exec rspec
