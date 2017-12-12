@@ -6,7 +6,10 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 5.0.5'
+
+# Use Puma as the app server
+gem 'puma', '~> 3.0'
 
 # enables serving assets in production and setting your logger to standard out
 # both of which are required to run an application on a twelve-factor provider
@@ -27,11 +30,11 @@ gem 'paper_trail'
 
 # for upload management
 gem 'carrierwave'
-gem 'mini_magick'
 gem 'carrierwave-bombshelter'
+gem 'mini_magick'
 
 # for internationalizing
-gem 'rails-i18n', '~> 4.0.0'
+gem 'rails-i18n', '~> 5.0.0'
 
 # as authentification framework
 gem 'devise'
@@ -40,12 +43,15 @@ gem 'devise_ichain_authenticatable'
 # for openID authentication
 gem 'omniauth'
 gem 'omniauth-facebook'
-gem 'omniauth-openid'
-gem 'omniauth-google-oauth2'
 gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-openid'
+
+# Bot-filtering
+gem 'recaptcha', require: 'recaptcha/rails'
 
 # as authorization framework
-gem 'cancancan'
+gem 'cancancan', '~> 2.0'
 
 # for roles
 gem 'rolify'
@@ -57,8 +63,8 @@ gem 'unobtrusive_flash', '>=3'
 gem 'transitions', :require => %w( transitions active_record/transitions )
 
 # for comments
-gem 'awesome_nested_set', '~> 3.1.3'
 gem 'acts_as_commentable_with_threading'
+gem 'awesome_nested_set', '~> 3.1.3'
 
 # as templating language
 gem 'haml-rails'
@@ -70,11 +76,11 @@ gem 'sass-rails', '>= 4.0.2'
 gem 'uglifier', '>= 1.3.0'
 
 # as the front-end framework
-gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'autoprefixer-rails'
-gem 'formtastic-bootstrap'
-gem 'formtastic', '~> 3.1.1'
+gem 'bootstrap-sass', '~> 3.3.4.1'
 gem 'cocoon'
+gem 'formtastic', '~> 3.1.5'
+gem 'formtastic-bootstrap'
 
 # as the JavaScript library
 gem 'jquery-rails'
@@ -105,8 +111,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-waypoints'
   # for markdown editors
   gem 'rails-assets-bootstrap-markdown'
-  gem 'rails-assets-to-markdown'
   gem 'rails-assets-markdown'
+  gem 'rails-assets-to-markdown'
 end
 
 # as date picker
@@ -126,9 +132,9 @@ gem 'gravtastic'
 gem 'country_select'
 
 # as PDF generator
+gem 'prawn-qrcode', '~> 0.2.2.1'
 gem 'prawn_rails'
 gem 'rqrcode'
-gem 'prawn-qrcode', '~> 0.2.2.1'
 
 # to render XLS spreadsheets
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
@@ -154,12 +160,11 @@ gem 'rdoc-generator-fivefish'
 
 # for visitor tracking
 gem 'ahoy_matey'
-gem 'activeuuid'
 gem 'piwik_analytics', '~> 1.0.1'
 
 # for recurring jobs
-gem 'whenever', :require => false
 gem 'delayed_job_active_record'
+gem 'whenever', :require => false
 
 # to run scripts
 gem 'daemons'
@@ -181,6 +186,10 @@ gem 'cloudinary'
 
 # for setting app configuration in the environment
 gem 'dotenv-rails'
+
+# configurable toggles for functionality
+# https://github.com/mgsnova/feature
+gem 'feature'
 
 # For countable.js
 gem "countable-rails", "~> 0.0.1"
@@ -209,10 +218,10 @@ gem 'nokogiri', '>= 1.8.1'
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec'
-  gem 'spring-commands-rspec'
   gem 'haml_lint', '~> 0.24.0'
+  gem 'spring-commands-rspec'
   # for static code analisys
-  gem 'rubocop', '~> 0.49.0', require: false
+  gem 'rubocop', '~> 0.51.0', require: false
   # as database
   gem 'sqlite3'
   # to open mails
@@ -227,11 +236,11 @@ end
 
 group :test do
   # as test framework
-  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
-  gem 'database_cleaner'
   gem 'capybara'
-  gem 'poltergeist'
+  gem 'database_cleaner'
   gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'poltergeist'
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   # for measuring test coverage
   gem 'coveralls', require: false
   # for describing models
@@ -246,6 +255,8 @@ group :test do
   gem 'stripe-ruby-mock'
   # For validating JSON schemas
   gem 'json-schema'
+  # For using 'assigns' in tests
+  gem 'rails-controller-testing'
 end
 
 group :development, :test do

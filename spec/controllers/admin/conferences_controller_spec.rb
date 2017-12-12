@@ -56,8 +56,8 @@ describe Admin::ConferencesController do
           conference.reload
           expect(flash[:error])
               .to eq("Updating conference failed. Short title can't be blank.")
-          expect(conference.title).to eq("#{conference.title}")
-          expect(conference.short_title).to eq("#{conference.short_title}")
+          expect(conference.title).to eq(conference.title)
+          expect(conference.short_title).to eq(conference.short_title)
         end
 
         it 're-renders the #show template' do

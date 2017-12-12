@@ -1,6 +1,6 @@
 # cannot delete program if there are events submitted
 
-class Cfp < ActiveRecord::Base
+class Cfp < ApplicationRecord
   TYPES = %w(events booths tracks).freeze
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }

@@ -42,7 +42,7 @@ There are two configurations to deploy OSEM with Docker: *evaluation mode* and *
 
 If you want to evaluate OSEM to see if it fits your needs, the default configuration in `docker-compose.env` will work perfectly fine for you.
 For convenience reasons, `docker-compose.yml` already contains a [MailHog](https://github.com/mailhog/MailHog) service configuration. MailHog
-is going to catch every email sent by OSEM and displays them on a special web service. Thus, it eliminitates the need to set up an SMTP server just to try out OSEM.
+is going to catch every email sent by OSEM and displays them on a special web service. Thus, it eliminates the need to set up an SMTP server just to try out OSEM.
 Just point your browser to http://localhost:8025 to get access to registration confirmation links etc.
 
 Run `docker-compose up --build` to start the services. On first run, it will take a few minutes to initialize the database. Thus, wait a few minutes before you open up
@@ -105,6 +105,7 @@ There are a couple of environment variables you can set to configure OSEM. Check
 | CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
 | STRIPE_PUBLISHABLE_KEY    | *string*          | Publishable Key for Stripe Gateway
 | STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
+| OSEM_REDIS_URL | *string* | Redis server URL e.g. redis://localhost:6379/1
 
 ### Online Ticket Payments
 We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
