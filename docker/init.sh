@@ -37,6 +37,9 @@ dockerize -wait tcp://$DATABASE_HOST:$DATABASE_PORT -timeout 60s true
 if [ $(echo "show tables;" | mysql --host $DATABASE_HOST --port $DATABASE_PORT $MYSQL_DATABASE | wc -l) -le 1 ]; then
     echo ">>> Initializing database..."
     bundle exec rake db:schema:load
+    
+    echo ">>> Seed database..."
+    bundle exec rake db:seed
 fi
 
 echo ">>> Upgrading database..."
