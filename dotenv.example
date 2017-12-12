@@ -70,3 +70,6 @@ OSEM_ICHAIN_ENABLED=false
 # ReCAPTCHA keys
 RECAPTCHA_SITE_KEY=""
 RECAPTCHA_SECRET_KEY=""
+
+# The url of the redis server
+OSEM_REDIS_URL='redis://localhost:6379/1'
