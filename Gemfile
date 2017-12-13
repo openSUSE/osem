@@ -144,7 +144,7 @@ gem 'axlsx_rails'
 gem 'hoptoad_notifier', '~> 2.3'
 
 # to make links faster
-gem 'turbolinks'
+gem 'turbolinks', '~> 5.0.0'
 
 # for JSON serialization of our API
 gem 'active_model_serializers'
