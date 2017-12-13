@@ -141,7 +141,7 @@ gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
 # as error catcher
-gem 'hoptoad_notifier', '~> 2.3'
+gem 'airbrake', '~> 7.1'
 
 # to make links faster
 gem 'turbolinks'
