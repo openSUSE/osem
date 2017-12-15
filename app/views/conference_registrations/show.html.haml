@@ -104,7 +104,9 @@
                 = humanized_money @total_price_per_ticket[ticket_id]
             %br
         - if @tickets.any?
-          = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
+          .btn-group
+            = link_to 'View all tickets', conference_physical_tickets_path(@conference.short_title), class: "btn btn-success"
+            = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
         - else
           You haven't bought any tickets.
           = link_to 'Please get some tickets to support us!', conference_tickets_path(@conference.short_title)
