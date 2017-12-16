@@ -103,7 +103,7 @@ class AdminAbility
   def signed_in_with_organizer_role(user, conf_ids_for_organization_admin = [])
     # ids of all the conferences for which the user has the 'organizer' role and
     # conferences that belong to organizations for which user is 'organization_admin'
-    conf_ids = conf_ids_for_organization_admin.concat(Conference.with_role(:organizer, user).pluck(:id)).uniq
+    conf_ids = conf_ids_for_organization_admin.concat(Conference.with_role(:organizer, user).pluck(:id)).distinct
     # ids of all the tracks that belong to the programs of the above conferences
     track_ids = Track.joins(:program).where('programs.conference_id IN (?)', conf_ids).pluck(:id)
 

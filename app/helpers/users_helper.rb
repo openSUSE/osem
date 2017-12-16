@@ -18,7 +18,7 @@ module UsersHelper
       providers << provider if !ENV["OSEM_#{provider.upcase}_KEY"].blank? && !ENV["OSEM_#{provider.upcase}_SECRET"].blank?
     end
 
-    providers.uniq
+    providers.distinct
   end
 
   # Receives a hash, generated from User model, function get_roles

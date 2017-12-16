@@ -5,7 +5,7 @@ class BoothsController < ApplicationController
   skip_authorize_resource only: [:withdraw, :confirm, :restart]
 
   def index
-    @booths = current_user.booths.where(conference_id: @conference.id).uniq
+    @booths = current_user.booths.where(conference_id: @conference.id).distinct
   end
 
   def show; end

@@ -9,7 +9,7 @@ module Admin
       if current_user.has_role? :organization_admin, :any
         @conferences_with_role = Organization.with_role('organization_admin', current_user).map { |org| org.conferences.pluck :short_title }.flatten
       end
-      @conferences_with_role.uniq!
+      @conferences_with_role.distinct!
 
       return if @conference.blank?
       @versions = PaperTrail::Version.where(conference_id: @conference.id).accessible_by(current_ability)
