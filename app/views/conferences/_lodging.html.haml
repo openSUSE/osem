@@ -13,19 +13,19 @@
       %p.lead
         We recommend these affordable lodging accommodations for your visit.
 
-  .row.row-centered{ style:"display: flex; flex-wrap: wrap" }
+  .row.row-centered{ style:'display: flex; flex-wrap: wrap' }
     - @conference.lodgings.each do |lodging|
-      .col-md-4.col-sm-4.col-centered.col-top{ style:"display:flex;" }
+      .col-md-4.col-sm-4.col-centered.col-top{ style:'display:flex;' }
         .thumbnail
           - if lodging.picture?
-            -if lodging.website_link.present?
+            - if lodging.website_link.present?
               = link_to(lodging.website_link, class: 'thumbnail') do
                 = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
             - else
               = image_tag lodging.picture.large.url, class: 'img-responsive img-lodging'
           - else
             %p.text-center
-              -if lodging.website_link.present?
+              - if lodging.website_link.present?
                 = link_to(lodging.website_link, class: 'thumbnail') do
                   %i.fa.fa-home.fa-5x
               - else
@@ -33,5 +33,5 @@
           .caption
             %h3.text-center
               = lodging.name
-            -if lodging.description.present?
+            - if lodging.description.present?
               = markdown(lodging.description)
