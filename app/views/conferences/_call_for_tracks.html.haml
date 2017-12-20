@@ -27,4 +27,4 @@
   .row
     .col-md-12.text-center
       %p.cta-button
-        = link_to "Submit your request for track", conference_program_tracks_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'
+        = link_to "Submit your request for track", new_conference_program_track_path(@conference.short_title), class: 'btn btn-success btn-lg text-center'
