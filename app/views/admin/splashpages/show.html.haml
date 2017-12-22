@@ -8,92 +8,47 @@
         with all the information for your conference
 - if @splashpage
   .row
-    .col-md-8
-      %dl.dl-horizontal
-        %dt
-          Include Tracks:
-        %dd
-          - if @splashpage.include_tracks
-            Yes
-          - else
-            No
-        %dt
-          Include Program:
-        %dd
-          - if @splashpage.include_program
-            Yes
-          - else
-            No
-        %dt
-          Include CFP:
-        %dd
-          - if @splashpage.include_cfp
-            Yes
-          - else
-            No
-        %dt
-          Include Venue:
-        %dd
-          -if @splashpage.include_venue
-            Yes
-          -else
-            No
-        %dt
-          Include Registrations:
-        %dd
-          - if @splashpage.include_registrations
-            Yes
-          - else
-            No
-        %dt
-          Include Tickets:
-        %dd
-          - if @splashpage.include_tickets
-            Yes
-          - else
-            No
-        %dt
-          Include Lodgins
-        %dd
-          -if @splashpage.include_lodgings
-            Yes
-          -else
-            No
-        %dt
-          Include Sponsors:
-        %dd
-          - if @splashpage.include_sponsors
-            Yes
-          - else
-            No
-        %dt
-          Include Booths
-        %dd
-          - if @splashpage.include_booths
-            Yes
-          - else
-            No
-        %dt
-          Include Social Media:
-        %dd
-          - if @splashpage.include_social_media
-            Yes
-          - else
-            No
-        %dt
-          Public
-        %dd
-          - if @splashpage.public
-            Yes
-          - else
-            No
+    .col-md-12
+      %ul.fa-ul
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_cfp?}" }
+          Display call for papers and call for tracks, while open
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_program?}" }
+          Display the program
+          %ul.fa-ul
+            %li
+              %i{ class: "fa-li #{icon_for_todo @splashpage.include_program?}" }
+              Include confirmed tracks
+            %li
+              %i{ class: "fa-li #{icon_for_todo @splashpage.include_booths?}" }
+              Include confirmed booths
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_registrations?}" }
+          Display the registration period
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_tickets?}" }
+          Display tickets
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_venue?}" }
+          Display the venue
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_lodgings?}" }
+          Display the lodgings
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_sponsors?}" }
+          Display sponsors
+        %li
+          %i{ class: "fa-li #{icon_for_todo @splashpage.include_social_media?}" }
+          Display social media links
+
   .row
     .col-md-12
-    - if can? :update, @splashpage
-      = link_to 'Edit', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
-    - if can? :destroy, @splashpage
-      = link_to 'Delete', admin_conference_splashpage_path,
-                          method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+      - if can? :update, @splashpage
+        = link_to 'Edit', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
+      - if can? :destroy, @splashpage
+        = link_to 'Delete', admin_conference_splashpage_path,
+                            method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
 - else
   .row
     .col-md-12.text-right

@@ -1,0 +1,35 @@
+- cache [conference, venue, '#splash#header'] do
+  #banner
+    .container
+      .row
+        .col-md-8.col-md-offset-2#header
+          .row
+            .col-md-4
+              - if conference.picture?
+                = image_tag(conference.picture_url,
+                  class: 'img-responsive img-center',
+                  id: 'splash-logo')
+            .col-md-8
+              %h1
+                = conference.title
+              %h3
+                - if conference.start_date && conference.end_date
+                  %span.date.text-nowrap
+                    = date_string(conference.start_date, conference.end_date)
+                - if conference.venue
+                  %span.venue.text-nowrap
+                    - if venue.website
+                      = sanitize link_to(venue.name, venue.website)
+                    - else
+                      = venue.city
+                      - if venue.country_name != 'US'
+                        &bull;
+                        = venue.country_name
+
+  - unless conference.description.blank?
+    %section#about
+      .container
+        .row
+          .col-md-8.col-md-offset-2
+            %h3.text-center
+              = markdown(conference.description)

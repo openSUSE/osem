@@ -1,0 +1,38 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#program' } Program
+
+- cache [conference, highlights, tracks, booths, '#splash#program'] do
+  %section#program
+    .container
+      .row
+        .col-md-12
+          %p.lead.text-center
+            %span.notranslate
+              = conference.title
+            has the most awesome program ever!
+
+      - unless highlights.blank?
+        = render 'highlights', conference_id: conference.short_title,
+          highlights: highlights
+
+      - if conference.splashpage.include_tracks
+        - unless tracks.blank?
+          = render 'tracks', tracks: tracks
+
+      - if conference.splashpage.include_booths
+        - unless booths.blank?
+          = render 'booths', booths: booths
+
+      - if conference.program.try(:schedule_public?)
+        .row
+          .col-md-12
+            %p.cta-button.text-center
+              = link_to(conference_schedule_path(conference.short_title),
+                class: 'btn btn-success btn-lg') do
+                Full Schedule
+
+- unless booths.blank?
+  - booths.each do |booth|
+    - content_for :modals do
+      = render 'modal_description', object: booth

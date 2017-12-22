@@ -345,24 +345,34 @@ describe User do
     end
 
     describe 'proposals methods' do
-      let(:submitter) { create(:submitter, user: user) }
+      let(:submitter) { create(:user) }
+      let(:speaker) { create(:user) }
       let(:event1) { create(:event, program: conference.program) }
       let(:event2) { create(:event, program: conference.program) }
 
       before do
-        event1.event_users << create(:event_user, user: user, event_role: 'submitter')
-        event2.event_users << create(:event_user, user: user, event_role: 'submitter')
+        event1.event_users << create(:event_user, user: submitter, event_role: 'submitter')
+        event2.event_users << create(:event_user, user: submitter, event_role: 'submitter')
+        event1.event_users << create(:event_user, user: speaker, event_role: 'speaker')
       end
 
       describe '#proposals' do
         it 'returns events submitted by user' do
-          expect(user.proposals(conference)).to match [event1, event2]
+          expect(submitter.proposals(conference)).to match [event1, event2]
+        end
+
+        it 'returns events in which user is a speaker' do
+          expect(speaker.proposals(conference)).to match [event1]
         end
       end
 
       describe '#proposal_count' do
         it 'returns number of events submitted by user' do
-          expect(user.proposal_count(conference)).to eq 2
+          expect(submitter.proposal_count(conference)).to eq 2
+        end
+
+        it 'returns number of events in which the user is a speaker' do
+          expect(speaker.proposal_count(conference)).to eq 1
         end
       end
     end

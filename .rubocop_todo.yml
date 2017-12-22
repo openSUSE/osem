@@ -376,15 +376,6 @@ Naming/VariableNumber:
   Exclude:
     - 'spec/models/ticket_purchase_spec.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect.
-Performance/HashEachMethods:
-  Exclude:
-    - 'app/controllers/admin/conferences_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
-    - 'spec/factories/event_users.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -422,6 +413,7 @@ Style/DateTime:
     - 'app/models/conference.rb'
     - 'app/models/program.rb'
     - 'spec/models/conference_spec.rb'
+    - 'spec/models/program_spec.rb'
 
 # Offense count: 488
 Style/Documentation:

@@ -9,10 +9,10 @@
     %timeslot_duration= length_timestamp(@conference.program.schedule_interval)
 
   - if @events_xml.any?
-    - @events_xml.keys.each.with_index(1) do |day, index|
+    - @events_xml.each_key.with_index(1) do |day, index|
       %day{ date: day, index: index }
         - events_in_rooms = @events_xml[day].group_by(&:room)
-        - events_in_rooms.keys.each do |room|
+        - events_in_rooms.each_key do |room|
           %room{ name: room.name }
             - events_in_rooms[room].each do |event|
               %event{ guid: event.guid, id: event.id }
