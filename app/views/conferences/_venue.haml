@@ -3,42 +3,41 @@
     %a.smoothscroll{ href: '#venue' } Venue
 
 %section#venue
-  - if conference.venue.location?
-    = render '/conferences/venue_map', conference: conference
+  - if venue.location?
+    = render '/conferences/venue_map', venue: venue
   - else
-    - cache [conference.venue, conference.venue.commercial, '#splash#venue'] do
+    - cache [venue, commercial, '#splash#venue'] do
       .container
         .row
           .col-md-6
             .thumbnail#venue-pic
-              - if commercial = conference.venue.commercial
+              - if commercial
                 .flexvideo{ id: "resource-content-#{commercial.id}" }
                   = render 'shared/media_item',
                     commercial: commercial
-              - elsif conference.venue.picture?
-                = image_tag conference.venue.picture.url,
-                  title: conference.venue.name, class: "img-responsive"
+              - elsif venue.picture?
+                = image_tag venue.picture.url,
+                  title: venue.name, class: "img-responsive"
               - else
                 %p.text-center
                   %span.fa.fa-university.fa-5x
               .caption
                 %h3.text-center
-                  = conference.venue.name
-                - unless conference.venue.description.blank?
-                  = markdown(conference.venue.description)
+                  = venue.name
+                - unless venue.description.blank?
+                  = markdown(venue.description)
           .col-md-6
             %h2
-              = conference.venue.city
+              = venue.city
               \/
-              = conference.venue.country_name
+              = venue.country_name
             %address
-              = conference.venue.street
+              = venue.street
               %br
-              = conference.venue.postalcode + ','
-              = conference.venue.city
+              = venue.postalcode + ','
+              = venue.city
               %br
-              = conference.venue.country_name
-              - if conference.venue.website
+              = venue.country_name
+              - if venue.website
                 %br
-                = sanitize link_to(h(conference.venue.website),
-                  h(conference.venue.website))
+                = sanitize link_to(h(venue.website), h(venue.website))

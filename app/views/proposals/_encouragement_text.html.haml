@@ -1,7 +1,7 @@
 %p.lead
   - if @program.event_types.any?
     You can submit proposals for
-    = "#{event_types(@conference)}."
+    = "#{event_types_sentence(@conference)}."
   - if @program.tracks.confirmed.cfp_active.any?
     Proposals should fit in one of the
     = "#{pluralize(@program.tracks.confirmed.cfp_active.count, 'track')}:"

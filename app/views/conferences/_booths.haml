@@ -2,7 +2,7 @@
   .col-md-12
     %h3.text-center Booths
 .row.row-centered
-  - conference.confirmed_booths.to_a.sort_by!(&:title).each do |booth|
+  - booths.each do |booth|
     .col-md-2.col-sm-2.col-centered.col-top.booth
       %a.thumbnail{ href: '#',
         data: { toggle: 'modal', target: "#modal-booth-#{booth.id}" } }

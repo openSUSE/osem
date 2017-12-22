@@ -1,20 +1,20 @@
-- cache [conference.contact, '#splash#social'] do
+- cache [contact, '#splash#social'] do
   %section#social-media
     .container
       .row
         .col-md-12.text-center
-          - unless conference.contact.facebook.blank?
-            = link_to "#{ conference.contact.facebook }" do
+          - unless contact.facebook.blank?
+            = link_to "#{ contact.facebook }" do
               %i.fa.fa-facebook-square.fa-4x
-          - unless conference.contact.twitter.blank?
-            = link_to "#{ conference.contact.twitter }" do
+          - unless contact.twitter.blank?
+            = link_to "#{ contact.twitter }" do
               %i.fa.fa-twitter.fa-4x
-          - unless conference.contact.instagram.blank?
-            = link_to "#{ conference.contact.instagram }" do
+          - unless contact.instagram.blank?
+            = link_to "#{ contact.instagram }" do
               %i.fa.fa-instagram.fa-4x
-          - unless conference.contact.googleplus.blank?
-            = link_to "#{ conference.contact.googleplus }" do
+          - unless contact.googleplus.blank?
+            = link_to "#{ contact.googleplus }" do
               %i.fa.fa-google-plus-square.fa-4x
-          - unless conference.contact.email.blank?
-            = mail_to "#{ conference.contact.email }" do
+          - unless contact.email.blank?
+            = mail_to "#{ contact.email }" do
               %i.fa.fa-envelope-o.fa-4x

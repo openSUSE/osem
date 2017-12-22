@@ -141,7 +141,7 @@ module ApplicationHelper
                               hint: 'The people responsible for the booth. You can only select existing users.'
   end
 
-  def event_types(conference)
+  def event_types_sentence(conference)
     conference.event_types.map { |et| et.title.pluralize }.to_sentence
   end
 

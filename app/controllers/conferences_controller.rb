@@ -9,34 +9,48 @@ class ConferencesController < ApplicationController
   end
 
   def show
+    # load conference with header content
     @conference = Conference.unscoped.eager_load(
-      :organization,
       :splashpage,
-      :registration_period,
-      :tickets,
-      :confirmed_tracks,
-      :call_for_events,
-      :event_types,
       :program,
-      :call_for_tracks,
-      :lodgings,
-      :call_for_booths,
-      :confirmed_booths,
-      :sponsors,
-      :call_for_sponsors,
+      :registration_period,
       :contact,
-      venue:              [:commercial],
-      highlighted_events: [:speakers],
-      sponsorship_levels: [:sponsors]
-    ).order(
-      'sponsorship_levels.position ASC',
-      'sponsors.name',
-      'tracks.name',
-      'booths.title',
-      'lodgings.name',
-      'tickets.price_cents'
+      venue: :commercial
     ).find_by(conference_finder_conditions)
-    authorize! :show, @conference
+    authorize! :show, @conference # TODO: reduce the 10 queries performed here
+
+    splashpage = @conference.splashpage
+    if splashpage.include_cfp
+      cfps = @conference.program.cfps
+      @call_for_events = cfps.find { |call| call.cfp_type == 'events' }
+      if @call_for_events.try(:open?)
+        @event_types = @conference.event_types.pluck(:title)
+        @track_names = @conference.confirmed_tracks.pluck(:name).sort
+      end
+      @call_for_tracks = cfps.find { |call| call.cfp_type == 'tracks' }
+    end
+    if splashpage.include_program
+      @highlights = @conference.highlighted_events.eager_load(:speakers)
+      if splashpage.include_tracks
+        @tracks = @conference.confirmed_tracks.eager_load(
+          :room
+        ).order('tracks.name')
+      end
+      if splashpage.include_booths
+        @booths = @conference.confirmed_booths.order('title')
+      end
+    end
+    if splashpage.include_registrations || splashpage.include_tickets
+      @tickets = @conference.tickets.order('price_cents')
+    end
+    if splashpage.include_lodgings
+      @lodgings = @conference.lodgings.order('name')
+    end
+    if splashpage.include_sponsors
+      @sponsorship_levels = @conference.sponsorship_levels.eager_load(
+        :sponsors
+      ).order('sponsorship_levels.position ASC', 'sponsors.name')
+    end
   end
 
   private

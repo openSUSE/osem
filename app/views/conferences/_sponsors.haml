@@ -2,11 +2,10 @@
   %li
     %a.smoothscroll{ href: '#sponsors' } Sponsors
 
-- cache [conference, conference.sponsors, conference.sponsorship_levels,
-  conference.try(:call_for_sponsors), '#splash#sponsors'] do
+- cache [conference, sponsorship_levels, '#splash#sponsors'] do
   %section#sponsors
     .container
-      - conference.sponsorship_levels.each do |sponsorship_level|
+      - sponsorship_levels.each do |sponsorship_level|
         - if sponsorship_level.sponsors.any?
           .row.text-center
             %h3
@@ -17,19 +16,21 @@
               .col-md-4.col-sm-4.col-centered.col-top
                 %a{ href: '#', data: { toggle: 'modal',
                   target: "#modal-sponsor-#{sponsor.id}" } }
-                  = image_tag get_logo(sponsor),
-                    class: ['img-responsive', 'img-sponsor',
-                    "img-sponsor-#{sponsorship_level.position}"],
-                    title: sponsor.name
+                  - if sponsor.logo_file_name
+                    = image_tag get_logo(sponsor),
+                      class: ['img-responsive', 'img-sponsor',
+                      "img-sponsor-#{sponsorship_level.position}"],
+                      title: sponsor.name
+                  - else
+                    %h4.text-center= sponsor.name
 
-      - if conference.call_for_sponsors.try(:open?)
-        .row
-          .col-md-12
-            %h3.text-center
-              Want to sponsor?
-              = link_to(sponsorship_mailto(conference)) do
-                Contact us!
+      .row
+        .col-md-12
+          %h3.text-center
+            Want to sponsor?
+            = link_to(sponsorship_mailto(conference)) do
+              Contact us!
 
-- conference.sponsors.each do |sponsor|
+- sponsorship_levels.collect(&:sponsors).flatten.each do |sponsor|
   - content_for :modals do
     = render 'modal_description', object: sponsor

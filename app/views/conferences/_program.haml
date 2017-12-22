@@ -2,8 +2,7 @@
   %li
     %a.smoothscroll{ href: '#program' } Program
 
-- cache [@confererence, @conference.confirmed_tracks,
-  @conference.confirmed_booths,'#splash#program'] do
+- cache [conference, highlights, tracks, booths, '#splash#program'] do
   %section#program
     .container
       .row
@@ -13,16 +12,17 @@
               = conference.title
             has the most awesome program ever!
 
-      - if conference.highlighted_events.any?
-        = render 'highlights', conference: conference
+      - unless highlights.blank?
+        = render 'highlights', conference_id: conference.short_title,
+          highlights: highlights
 
       - if conference.splashpage.include_tracks
-        - if conference.confirmed_tracks.any?
-          = render 'tracks', conference: conference
+        - unless tracks.blank?
+          = render 'tracks', tracks: tracks
 
       - if conference.splashpage.include_booths
-        - if conference.confirmed_booths.any?
-          = render 'booths', conference: conference
+        - unless booths.blank?
+          = render 'booths', booths: booths
 
       - if conference.program.try(:schedule_public?)
         .row
@@ -32,6 +32,7 @@
                 class: 'btn btn-success btn-lg') do
                 Full Schedule
 
-- conference.confirmed_booths.each do |booth|
-  - content_for :modals do
-    = render 'modal_description', object: booth
+- unless booths.blank?
+  - booths.each do |booth|
+    - content_for :modals do
+      = render 'modal_description', object: booth

@@ -6,7 +6,7 @@ describe ConferenceHelper, type: :helper do
 
   describe '#one_call_open' do
     it 'is falsey if neither call is open' do
-      expect(one_call_open(conference)).to be_falsey
+      expect(one_call_open(*conference.program.cfps)).to be_falsey
     end
 
     it 'is truthy if call_for_papers is open' do
@@ -17,8 +17,7 @@ describe ConferenceHelper, type: :helper do
         start_date: conference.start_date,
         end_date:   conference.end_date
       )
-
-      expect(one_call_open(conference)).to be_truthy
+      expect(one_call_open(*conference.program.cfps)).to be_truthy
     end
 
     it 'is truthy if call_for_tracks is open' do
@@ -30,7 +29,7 @@ describe ConferenceHelper, type: :helper do
         end_date:   conference.end_date
       )
 
-      expect(one_call_open(conference)).to be_truthy
+      expect(one_call_open(*conference.program.cfps)).to be_truthy
     end
 
     it 'is falsey if both calls are open' do
@@ -49,7 +48,7 @@ describe ConferenceHelper, type: :helper do
         end_date:   conference.end_date
       )
 
-      expect(one_call_open(conference)).to be_falsey
+      expect(one_call_open(*conference.program.cfps)).to be_falsey
     end
   end
 
