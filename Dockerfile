@@ -41,7 +41,7 @@ RUN install -d -m 0770 -o osem -g root $DATA_DIR
 # data persistence for uploaded files (logos, other pictures, etc)
 RUN mkdir 0775 -p /osem/tmp/cache /osem/tmp/uploads/ && \
        chown -R  osem.osem /osem/tmp/
-VOLUME ["$DATA_DIR"] ["/osem/tmp/uploads/"] ["/osem/public/system/"]
+VOLUME ["$DATA_DIR", "/osem/tmp/uploads/", "/osem/public/system/"]
 
 USER osem
 EXPOSE 9292
