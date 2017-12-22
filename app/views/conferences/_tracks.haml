@@ -2,7 +2,7 @@
   .col-md-12
     %h3.text-center Tracks
 .row.row-centered
-  - conference.confirmed_tracks.to_a.sort_by!(&:name).each do |track|
+  - tracks.each do |track|
     .col-md-3.col-sm-3.col-centered.col-top.track
       .thumbnail
         .caption

@@ -2,21 +2,21 @@
   %li
     %a.smoothscroll{ href: '#lodging' } Lodging
 
-- cache [conference.venue, conference.lodgings, '#splash#lodging'] do
+- cache [venue, lodgings, '#splash#lodging'] do
   %section#lodging
     .container
       .row
         .col-md-12.text-center
           %h2
             Where to stay
-            - if conference.venue
+            - if venue
               in
-              = conference.venue.city
+              = venue.city
           %p.lead
             We recommend the following accommodations for your visit.
 
       .row.row-centered
-        - conference.lodgings.each do |lodging|
+        - lodgings.each do |lodging|
           .col-md-4.col-sm-4.col-centered.col-top
             .thumbnail
               - if lodging.picture?

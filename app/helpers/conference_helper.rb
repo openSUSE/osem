@@ -1,8 +1,7 @@
 module ConferenceHelper
   # Return true if only call_for_papers or call_for_tracks is open
-  def one_call_open(conference)
-    conference.call_for_events.try(:open?) ^
-      conference.call_for_tracks.try(:open?)
+  def one_call_open(*calls)
+    calls.one? { |call| call.try(:open?) }
   end
 
   # URL for sponsorship emails

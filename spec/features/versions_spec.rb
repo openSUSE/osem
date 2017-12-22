@@ -233,18 +233,18 @@ feature 'Version' do
   scenario 'display changes in splashpages', feature: true, versioning: true, js: true do
     visit admin_conference_splashpage_path(conference.short_title)
     click_link 'Create Splashpage'
-    click_button 'Save Splashpage'
+    click_button 'Save Changes'
 
     click_link 'Edit'
-    uncheck('Display program')
-    uncheck('Display call for papers and call for tracks information on splashpage, while open')
-    uncheck('Display venue')
+    uncheck('Display the program')
+    uncheck('Display call for papers and call for tracks, while open')
+    uncheck('Display the venue')
     uncheck('Display tickets')
     uncheck('Display the lodgings')
     uncheck('Display sponsors')
-    uncheck('Display social media')
+    uncheck('Display social media links')
     check('Make splash page public?')
-    click_button 'Save Splashpage'
+    click_button 'Save Changes'
     splashpage_id = conference.splashpage.id
 
     click_link 'Delete'

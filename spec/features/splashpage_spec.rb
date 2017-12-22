@@ -13,7 +13,7 @@ feature Splashpage do
     visit admin_conference_splashpage_path(conference.short_title)
 
     click_link 'Create Splashpage'
-    click_button 'Save Splashpage'
+    click_button 'Save Changes'
 
     expect(flash).to eq('Splashpage successfully created.')
     expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
@@ -28,7 +28,7 @@ feature Splashpage do
 
       click_link 'Edit'
       check('Make splash page public')
-      click_button 'Save Splashpage'
+      click_button 'Save Changes'
 
       expect(flash).to eq('Splashpage successfully updated.')
       expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
