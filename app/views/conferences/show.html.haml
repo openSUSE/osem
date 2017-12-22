@@ -53,6 +53,10 @@
       %section#callfortracks
         = render 'call_for_tracks'
 
+    - if @conference.program.cfps.for_booths.try(:open?) && @conference.splashpage.include_cfp
+      %section#callforbooths
+        = render 'call_for_booths'
+
     - if @conference.venue and @conference.splashpage.include_venue
       %section#venue
         = render 'venue'
