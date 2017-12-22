@@ -6,6 +6,7 @@ describe Ticket do
   let(:user) { create(:user) }
 
   describe 'validation' do
+
     it 'has a valid factory' do
       expect(build(:ticket)).to be_valid
     end
@@ -174,6 +175,27 @@ describe Ticket do
           total_price = Money.new(200000, 'USD')
           expect(Ticket.total_price(conference, user, paid: false)).to eq(total_price)
         end
+      end
+    end
+  end
+
+  describe 'currency updation' do
+    context 'when more than one ticket exist for a conference' do
+      it 'should not allow currency update' do
+        ticket.update(price_currency: 'INR')
+        expected_error_message = 'Price currency is different from the existing tickets of this conference.'
+        expect(ticket.errors.full_messages).to eq([expected_error_message])
+      end
+    end
+
+    context 'when a single ticket exists for a conference' do
+      before do
+        ticket.destroy
+      end
+
+      it 'should allow currency update' do
+        free_ticket = Ticket.first
+        expect { free_ticket.update_attributes(price_currency: 'INR') }.to change { free_ticket.reload.price_currency }.from('USD').to('INR')
       end
     end
   end

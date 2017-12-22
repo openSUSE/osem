@@ -76,7 +76,9 @@ class Ticket < ApplicationRecord
   private
 
   def tickets_of_conference_have_same_currency
-    unless Ticket.where(conference_id: conference_id).all?{|t| t.price_currency == price_currency }
+    tickets = Ticket.where(conference_id: conference_id)
+    return if tickets.count.zero? || (tickets.count == 1 && self == tickets.first)
+    unless tickets.all?{|t| t.price_currency == price_currency }
       errors.add(:price_currency, 'is different from the existing tickets of this conference.')
     end
   end
