@@ -495,7 +495,7 @@ ActiveRecord::Schema.define(version: 20171130172334) do
     t.integer  "user_id"
     t.integer  "payment_id"
     t.integer  "week"
-    t.float    "amount_paid"
+    t.float    "amount_paid",   default: 0.0
   end
 
   create_table "ticket_scannings", force: :cascade do |t|
