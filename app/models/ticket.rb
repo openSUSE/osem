@@ -62,7 +62,7 @@ class Ticket < ApplicationRecord
 
   def tickets_turnover_total(id)
     tickets = TicketPurchase.where(ticket_id: id).paid
-    tickets.inject(0){ |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
+    tickets.inject(Money.new(0,tickets.first.price_currency)){ |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
   end
 
   def tickets_sold
