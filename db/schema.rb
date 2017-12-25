@@ -215,8 +215,8 @@ ActiveRecord::Schema.define(version: 20171130172334) do
     t.integer  "schedule_id"
     t.integer  "room_id"
     t.datetime "start_time"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.boolean  "enabled",     default: true
     t.index ["event_id", "schedule_id"], name: "index_event_schedules_on_event_id_and_schedule_id", unique: true
     t.index ["event_id"], name: "index_event_schedules_on_event_id"
