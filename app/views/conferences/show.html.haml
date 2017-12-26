@@ -29,7 +29,7 @@
     - if @conference.registration_open?
       = render 'registration', conference: @conference,
         registration_period: @conference.registration_period,
-        tickets: @tickets, conference_id: @conference_id.short_title
+        tickets: @tickets, conference_id: @conference.short_title
   - if @conference.splashpage.include_tickets && @conference.tickets.any?
     = render 'tickets', conference: @conference, tickets: @tickets
 
