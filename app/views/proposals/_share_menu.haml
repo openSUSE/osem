@@ -1,0 +1,17 @@
+.btn-group
+  %button.btn.btn-info.dropdown-toggle.share{href: '#', data: {toggle: 'dropdown'}}
+    %i.fa.fa-share-alt
+    %span.caret
+  %ul.dropdown-menu.social-share
+    %li
+      = link_to "#", class: "btn btn-social-icon btn-twitter prettySocial", data: {type: 'twitter', url: request.original_url, description: get_shareable_title(@event).truncate(120), via: get_twitter_handle(@event)} do
+        %i.fa.fa-twitter
+    %li
+      = link_to "#", class: "btn btn-social-icon btn-facebook prettySocial", data: {type: 'facebook', url: request.original_url, description: @event.description, title: get_shareable_title(@event) } do
+        %i.fa.fa-facebook
+    %li
+      = link_to "#", class: "btn btn-social-icon btn-google prettySocial", data: {type: 'googleplus', url: request.original_url, description: get_shareable_title(@event), media: nil} do
+        %i.fa.fa-google
+    %li
+      = link_to "#", class: "btn btn-social-icon btn-linkedin prettySocial", data: {type: 'linkedin', url: request.original_url, description: @event.description} do
+        %i.fa.fa-linkedin

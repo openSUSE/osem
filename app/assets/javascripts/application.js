@@ -25,6 +25,7 @@
 //= require osem-dashboard
 //= require ahoy
 //= require jquery-smooth-scroll
+//= require jquery.prettySocial
 //= require trianglify
 //= require tinycolor
 //= require bootstrap-markdown

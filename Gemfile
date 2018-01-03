@@ -209,6 +209,9 @@ gem 'sprockets-rails'
 # for multiple speakers select on proposal/event forms
 gem 'selectize-rails'
 
+# event social sharing bootstrap buttons
+gem 'bootstrap-social-rails'
+
 # Nokogiri < 1.8.1 is subject to:
 # CVE-2017-0663, CVE-2017-7375, CVE-2017-7376, CVE-2017-9047, CVE-2017-9048,
 # CVE-2017-9049, CVE-2017-9050
