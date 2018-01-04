@@ -7,7 +7,7 @@
 - if @program.cfps
   .row
     .col-md-12
-      %table.table.table-hover.datatable#tickets
+      %table.table.table-hover#tickets
         %thead
           %th Type
           %th Start Date
@@ -27,7 +27,7 @@
                 = cfp.end_date.strftime('%A, %B %-d. %Y')
               %td
                 %p
-                  = markdown(truncate(cfp.description))
+                  = truncate(cfp.description)
               %td
                 = pluralize(cfp.remaining_days, 'day')
               %td

@@ -1,4 +1,4 @@
-class Qanswer < ActiveRecord::Base
+class Qanswer < ApplicationRecord
   belongs_to :question
   belongs_to :answer, dependent: :delete
 

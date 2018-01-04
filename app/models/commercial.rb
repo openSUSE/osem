@@ -1,11 +1,11 @@
-class Commercial < ActiveRecord::Base
+class Commercial < ApplicationRecord
   require 'oembed'
 
   belongs_to :commercialable, polymorphic: true
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
-  validates :url, presence: true
+  validates :url, presence: true, uniqueness: { scope: :commercialable }
   validates :url, format: URI::regexp(%w(http https))
 
   validate :valid_url
@@ -18,6 +18,29 @@ class Commercial < ActiveRecord::Base
     rescue StandardError => exception
       { error: exception.message }
     end
+  end
+
+  def self.read_file(file)
+    errors = {}
+    errors[:no_event] = []
+    errors[:validation_errors] = []
+
+    file.read.each_line do |line|
+      # Get the event id (text before :)
+      id = line.match(/:/).pre_match.to_i
+      # Get the commercial url (text after :)
+      url = line.match(/:/).post_match
+      event = Event.find_by(id: id)
+
+      # Go to next event, if the event is not found
+      errors[:no_event] << id && next unless event
+
+      commercial = event.commercials.new(url: url)
+      unless commercial.save
+        errors[:validation_errors] << "Could not create commercial for event with ID #{event.id} (" + commercial.errors.full_messages.to_sentence + ')'
+      end
+    end
+    errors
   end
 
   private

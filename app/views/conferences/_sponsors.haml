@@ -1,0 +1,36 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#sponsors' } Sponsors
+
+- cache [conference, sponsorship_levels, '#splash#sponsors'] do
+  %section#sponsors
+    .container
+      - sponsorship_levels.each do |sponsorship_level|
+        - if sponsorship_level.sponsors.any?
+          .row.text-center
+            %h3
+              = sponsorship_level.title
+              = 'Sponsor'.pluralize(sponsorship_level.sponsors.length)
+          .row.row-centered
+            - sponsorship_level.sponsors.each do |sponsor|
+              .col-md-4.col-sm-4.col-centered.col-top
+                %a{ href: '#', data: { toggle: 'modal',
+                  target: "#modal-sponsor-#{sponsor.id}" } }
+                  - if sponsor.logo_file_name
+                    = image_tag get_logo(sponsor),
+                      class: ['img-responsive', 'img-sponsor',
+                      "img-sponsor-#{sponsorship_level.position}"],
+                      title: sponsor.name
+                  - else
+                    %h4.text-center= sponsor.name
+
+      .row
+        .col-md-12
+          %h3.text-center
+            Want to sponsor?
+            = link_to(sponsorship_mailto(conference)) do
+              Contact us!
+
+- sponsorship_levels.collect(&:sponsors).flatten.each do |sponsor|
+  - content_for :modals do
+    = render 'modal_description', object: sponsor

@@ -98,7 +98,8 @@ feature Commercial do
     scenario 'does not update a commercial of an event with invalid data', feature: true, versioning: true, js: true do
       commercial = create(:commercial,
                           commercialable_id: event.id,
-                          commercialable_type: 'Event')
+                          commercialable_type: 'Event',
+                          url: 'https://www.youtube.com/watch?v=BTTygyxuGj8')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       fill_in "commercial_url_#{commercial.id}", with: 'invalid_commercial_url'

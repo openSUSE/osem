@@ -8,7 +8,7 @@
     - @organizations.each do |organization|
       .col-md-4
         .thumbnail
-          = image_tag(organization.picture.thumb.url, width: '20%')
+          = image_tag(organization.picture.thumb.url, width: '20%') if organization.picture?
           .caption
             %h4
               = organization.name

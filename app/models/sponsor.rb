@@ -1,4 +1,4 @@
-class Sponsor < ActiveRecord::Base
+class Sponsor < ApplicationRecord
   belongs_to :sponsorship_level
   belongs_to :conference
 

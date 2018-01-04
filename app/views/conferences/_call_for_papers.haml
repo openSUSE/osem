@@ -1,0 +1,27 @@
+- cache [conference_id, call, event_types, tracks, '#splash#callforpapers'] do
+  .col-md-5.col-sm-5.text-center
+    %h2
+      Call for Papers
+    %p.lead
+      We are now accepting proposals for sessions!
+    %p
+      - if event_types.any?
+        You can submit proposals for
+        %span.notranslate
+          = event_types.map(&:pluralize).to_sentence + '.'
+      - if tracks.any?
+        Proposals should fit in one of the
+        %span.notranslate
+          = pluralize(tracks.length, 'track') + ':'
+          = tracks.to_sentence + '.'
+      The submission period is open
+      %em.notranslate
+        = date_string(call.start_date, call.end_date) + '.'
+      %b
+        You have
+        = pluralize(call.remaining_days, 'day')
+        left!
+    %p.cta-button
+      = link_to "Submit your proposal now",
+        conference_program_proposals_path(conference_id),
+        class: 'btn btn-success btn-lg text-center'

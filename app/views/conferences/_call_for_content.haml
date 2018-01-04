@@ -1,0 +1,16 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#call' } Call For Content
+
+%section#call
+  .container
+    .row
+      - if one_call_open(call_for_events, call_for_tracks)
+        .col-md-3.col-sm-3.hidden-xs &nbsp;
+      - if call_for_events.try(:open?)
+        = render 'call_for_papers', conference_id: conference.short_title,
+          call: call_for_events, event_types: event_types, tracks: tracks
+      .col-md-2.col-sm-2 &nbsp;
+      - if call_for_tracks.try(:open?)
+        = render 'call_for_tracks', conference_id: conference.short_title,
+          call: call_for_tracks

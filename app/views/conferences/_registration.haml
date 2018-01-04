@@ -1,0 +1,33 @@
+= content_for :splash_nav do
+  %li
+    %a.smoothscroll{ href: '#registration' } Registration
+
+- cache [conference, registration_period, tickets, '#splash#registration'] do
+  %section#registration
+    .container
+      .row
+        .col-md-12.text-center
+          %h1 Registration
+          - if conference.registration_limit_exceeded?
+            %p
+              Sorry, the conference registration limit has exceeded
+          - elsif tickets.empty?
+            %p.lead
+              Going to
+              = conference.short_title
+              is free of charge.
+            %p
+              We only ask you to register yourself before
+              = date_string(registration_period.end_date)
+              so we can plan for the right amount of people.
+              %p.cta-button
+          - else
+            %p
+              The registration period is open
+              = date_string(registration_period.start_date,
+                registration_period.end_date)
+          - if conference.registration_open?
+            %p.cta-button
+              = link_to('Register Now',
+                new_conference_conference_registration_path(conference_id),
+                class: 'btn btn-lg btn-success')

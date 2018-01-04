@@ -1,0 +1,20 @@
+- cache [contact, '#splash#social'] do
+  %section#social-media
+    .container
+      .row
+        .col-md-12.text-center
+          - unless contact.facebook.blank?
+            = link_to "#{ contact.facebook }" do
+              %i.fa.fa-facebook-square.fa-4x
+          - unless contact.twitter.blank?
+            = link_to "#{ contact.twitter }" do
+              %i.fa.fa-twitter.fa-4x
+          - unless contact.instagram.blank?
+            = link_to "#{ contact.instagram }" do
+              %i.fa.fa-instagram.fa-4x
+          - unless contact.googleplus.blank?
+            = link_to "#{ contact.googleplus }" do
+              %i.fa.fa-google-plus-square.fa-4x
+          - unless contact.email.blank?
+            = mail_to "#{ contact.email }" do
+              %i.fa.fa-envelope-o.fa-4x

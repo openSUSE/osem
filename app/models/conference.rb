@@ -1,4 +1,4 @@
-class Conference < ActiveRecord::Base
+class Conference < ApplicationRecord
   include RevisionCount
   require 'uri'
   serialize :events_per_week, Hash
@@ -33,6 +33,7 @@ class Conference < ActiveRecord::Base
   end
   has_many :resources, dependent: :destroy
   has_many :booths, dependent: :destroy
+  has_many :confirmed_booths, -> { where(state: 'confirmed') }, class_name: 'Booth'
 
   has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
@@ -45,7 +46,15 @@ class Conference < ActiveRecord::Base
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-
+  has_one :call_for_events, -> { where(cfp_type: 'events') }, through: :program, source: :cfps
+  has_one :call_for_booths, -> { where(cfp_type: 'booths') }, through: :program, source: :cfps
+  has_one :call_for_tracks, -> { where(cfp_type: 'tracks') }, through: :program, source: :cfps
+  has_many :confirmed_tracks, -> { where(state: 'confirmed') }, through: :program, source: :tracks
+  has_many :highlighted_events,
+           -> { where(state: :confirmed, is_highlight: true) },
+           through: :program,
+           source:  :events
+  has_many :event_types, through: :program
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :tickets, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
