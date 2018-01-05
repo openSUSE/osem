@@ -110,7 +110,7 @@ p.comment-body {
 .g-recaptcha {
     @include clearfix;
     padding-bottom: 12px;
-    
+
     div {
         float: right;
     }
@@ -120,4 +120,8 @@ p.comment-body {
 #openid-btn-grp{
   display: flex;
   justify-content: center;
+}
+
+.word_break {
+  word-wrap: break-word;
 }
