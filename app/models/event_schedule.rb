@@ -1,4 +1,5 @@
-class EventSchedule < ActiveRecord::Base
+class EventSchedule < ApplicationRecord
+  default_scope { where(enabled: true) }
   belongs_to :schedule
   belongs_to :event
   belongs_to :room
@@ -33,7 +34,7 @@ class EventSchedule < ActiveRecord::Base
   # Returns event schedules that are scheduled in the same room and start_time as event
   #
   def intersecting_event_schedules
-    room.event_schedules.where(start_time: start_time, schedule: schedule).where.not(id: id)
+    EventSchedule.unscoped.where(room: room, start_time: start_time, schedule: schedule).where.not(id: id)
   end
 
   def replacement?

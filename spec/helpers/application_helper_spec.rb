@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe ApplicationHelper, type: :helper do
-  let(:conference) { create(:conference) }
+  let(:conference) { create(:full_conference) }
   let(:event) { create(:event, program: conference.program) }
+  let(:sponsor) { create(:sponsor) }
 
   describe '#date_string' do
     it 'when conference lasts 1 day' do
@@ -66,12 +67,53 @@ describe ApplicationHelper, type: :helper do
       end
 
       it 'should use the environment variable' do
-        ENV['OSEM_NAME'] = Faker::Company.name
-        expect(nav_root_link_for(nil)).to match ENV['OSEM_NAME']
+        ENV['OSEM_NAME'] = Faker::Company.name + "'"
+        expect(nav_root_link_for(nil)).to match h(ENV['OSEM_NAME'])
       end
 
       it 'should use the conference organization name' do
-        expect(nav_root_link_for(conference)).to match conference.organization.name
+        expect(nav_root_link_for(conference)).to match h(conference.organization.name)
+      end
+    end
+  end
+
+  describe '#get_logo' do
+    context 'first sponsorship_level' do
+      before do
+        first_sponsorship_level = create(:sponsorship_level, position: 1)
+        sponsor.update_attributes(sponsorship_level: first_sponsorship_level)
+      end
+
+      it 'returns correct url' do
+        expect(get_logo(sponsor)).to match %r{.*(\bfirst/#{sponsor.logo_file_name}\b)}
+      end
+    end
+
+    context 'second sponsorship_level' do
+      before do
+        second_sponsorship_level = create(:sponsorship_level, position: 2)
+        sponsor.update_attributes(sponsorship_level: second_sponsorship_level)
+      end
+
+      it 'returns correct url' do
+        expect(get_logo(sponsor)).to match %r{.*(\bsecond/#{sponsor.logo_file_name}\b)}
+      end
+    end
+
+    context 'other sponsorship_level' do
+      before do
+        other_sponsorship_level = create(:sponsorship_level, position: 3)
+        sponsor.update_attributes(sponsorship_level: other_sponsorship_level)
+      end
+
+      it 'returns correct url' do
+        expect(get_logo(sponsor)).to match %r{.*(\bothers/#{sponsor.logo_file_name}\b)}
+      end
+    end
+
+    context 'non-sponsor' do
+      it 'returns correct url' do
+        expect(get_logo(conference)).to match %r{.*(\blarge/#{conference.logo_file_name}\b)}
       end
     end
   end

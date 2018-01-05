@@ -5,9 +5,9 @@ module PathsHelper
 
   def active_nav_li(link)
     if current_page?(link)
-      return 'active'
+      'active'
     else
-      return ''
+      ''
     end
   end
 end

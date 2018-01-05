@@ -1,4 +1,4 @@
-class Ticket < ActiveRecord::Base
+class Ticket < ApplicationRecord
   belongs_to :conference
   has_many :ticket_purchases, dependent: :destroy
   has_many :buyers, -> { distinct }, through: :ticket_purchases, source: :user
@@ -61,7 +61,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def tickets_turnover_total(id)
-    tickets = TicketPurchase.where(ticket_id: id)
+    tickets = TicketPurchase.where(ticket_id: id).paid
     tickets.inject(0){ |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
   end
 

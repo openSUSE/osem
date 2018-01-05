@@ -4,7 +4,7 @@ end
 class UserDisabled < StandardError
 end
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
   has_many :physical_tickets, through: :ticket_purchases do
     def by_conference(conference)
@@ -45,8 +45,8 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
   has_many :event_users, dependent: :destroy
-  has_many :events, -> { uniq }, through: :event_users
-  has_many :presented_events, -> { joins(:event_users).where(event_users: {event_role: 'speaker'}).uniq }, through: :event_users, source: :event
+  has_many :events, -> { distinct }, through: :event_users
+  has_many :presented_events, -> { joins(:event_users).where(event_users: {event_role: 'speaker'}).distinct }, through: :event_users, source: :event
   has_many :registrations, dependent: :destroy do
     def for_conference conference
       where(conference: conference).first
@@ -216,7 +216,7 @@ class User < ActiveRecord::Base
   end
 
   def proposals(conference)
-    events.where('program_id = ? AND event_users.event_role=?', conference.program.id, 'submitter')
+    events.where('program_id = ? AND (event_users.event_role=? OR event_users.event_role=?)', conference.program.id, 'submitter', 'speaker')
   end
 
   def proposal_count(conference)

@@ -1,4 +1,4 @@
-class DifficultyLevel < ActiveRecord::Base
+class DifficultyLevel < ApplicationRecord
   belongs_to :program
   has_many :events, dependent: :nullify
 

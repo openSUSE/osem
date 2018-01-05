@@ -49,6 +49,26 @@ module Admin
       end
     end
 
+    ##
+    # Received a file from user
+    # Reads file and creates commercial for event
+    # File content example:
+    # EventID:MyURL
+    def mass_upload
+      errors = Commercial.read_file(params[:file]) if params[:file]
+
+      if errors.all? { |_k, v| v.blank? }
+        flash[:notice] = 'Successfully added commercials.'
+      else
+        errors_text = ''
+        errors_text << 'Unable to find event with ID: ' + errors[:no_event].join(', ') + '. ' if errors[:no_event].any?
+        errors_text << 'There were some errors: ' + errors[:validation_errors].join('. ') if errors[:validation_errors].any?
+
+        flash[:error] = errors_text
+      end
+      redirect_to :back
+    end
+
     private
 
     def commercial_params

@@ -148,7 +148,7 @@ feature 'Version' do
 
     visit admin_revision_history_path
     expect(page).to have_text("Someone (probably via the console) created new ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated price cents and description of ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated description and price cents of ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted ticket Gold with ID #{ticket_id} in conference #{conference.short_title}")
   end
 
@@ -233,18 +233,18 @@ feature 'Version' do
   scenario 'display changes in splashpages', feature: true, versioning: true, js: true do
     visit admin_conference_splashpage_path(conference.short_title)
     click_link 'Create Splashpage'
-    click_button 'Save Splashpage'
+    click_button 'Save Changes'
 
     click_link 'Edit'
-    uncheck('Display program')
-    uncheck('Display call for papers information on splashpage, while cfp is open')
-    uncheck('Display venue')
+    uncheck('Display the program')
+    uncheck('Display call for papers and call for tracks, while open')
+    uncheck('Display the venue')
     uncheck('Display tickets')
     uncheck('Display the lodgings')
     uncheck('Display sponsors')
-    uncheck('Display social media')
+    uncheck('Display social media links')
     check('Make splash page public?')
-    click_button 'Save Splashpage'
+    click_button 'Save Changes'
     splashpage_id = conference.splashpage.id
 
     click_link 'Delete'
@@ -343,7 +343,7 @@ feature 'Version' do
     conference.email_settings.update_attributes(registration_subject: 'xxxxx', registration_body: 'yyyyy', accepted_subject: 'zzzzz')
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) updated registration subject, registration body and accepted subject
+    expect(page).to have_text("Someone (probably via the console) updated registration body, registration subject and accepted subject
     of email settings in conference #{conference.short_title}")
   end
 

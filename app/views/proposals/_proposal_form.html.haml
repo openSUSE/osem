@@ -1,6 +1,6 @@
 = semantic_form_for(@event, url: @url) do |f|
   = f.inputs name: 'Proposal Information' do
-    = f.input :title, as: :string, required: true
+    = f.input :title, as: :string, input_html: { autofocus: true }, required: true
 
     = f.input :subtitle, as: :string
 

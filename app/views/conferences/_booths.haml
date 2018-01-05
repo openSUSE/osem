@@ -1,0 +1,15 @@
+.row
+  .col-md-12
+    %h3.text-center Booths
+.row.row-centered
+  - booths.each do |booth|
+    .col-md-2.col-sm-2.col-centered.col-top.booth
+      %a.thumbnail{ href: '#',
+        data: { toggle: 'modal', target: "#modal-booth-#{booth.id}" } }
+        - if booth.picture?
+          = image_tag get_logo(booth),
+            class: ['img-responsive', 'img-rounded'],
+            title: booth.title
+        - else
+          .caption
+            %h3.text-center= booth.title

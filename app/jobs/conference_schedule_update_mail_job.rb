@@ -1,4 +1,4 @@
-class ConferenceScheduleUpdateMailJob < ActiveJob::Base
+class ConferenceScheduleUpdateMailJob < ApplicationJob
   queue_as :default
 
   def perform(conference)

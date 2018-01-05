@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Program do
   subject { create(:program) }
-  let!(:conference) { create(:conference, end_date: Date.today + 3) }
+  let!(:conference) { create(:conference, end_date: Date.current + 3) }
   let!(:program) { conference.program }
 
   describe 'association' do
@@ -204,6 +204,7 @@ describe Program do
 
       program.schedule_interval = 10
       program.save!
+      program.reload
       expect(program.event_types.pluck(:length).sort).to eq [10, 20, 30]
     end
   end
@@ -237,6 +238,54 @@ describe Program do
     it 'returns the list of readable languages' do
       program.languages = 'en,de,fr,ru,zh'
       expect(program.languages_list).to eq %w(English German French Russian Chinese)
+    end
+  end
+
+  describe '#any_event_for_this_date?' do
+
+    let(:event){ create(:event, program: program) }
+
+    context 'when no schedule is selected for the conference' do
+      let(:schedule) { create(:schedule, program: program) }
+      let!(:event_schedule) { create(:event_schedule, event: event, schedule: schedule, start_time: DateTime.parse("#{Date.current + 1} 10:00").utc) }
+
+      it 'returns false irrespective of any date' do
+        expect(program.any_event_for_this_date?(Date.current + 1)).to eq false
+      end
+
+      it 'returns false if date passed is empty' do
+        expect(program.any_event_for_this_date?('')).to eq false
+      end
+
+      it 'returns false if date passed is nil' do
+        expect(program.any_event_for_this_date?(nil)).to eq false
+      end
+    end
+
+    context 'when schedule is selected for the conference' do
+      let(:schedule) { create(:schedule, program: program) }
+      let!(:event_schedule) { create(:event_schedule, event: event, schedule: schedule, start_time: DateTime.parse("#{Date.current + 1} 10:00").utc) }
+
+      before :each do
+        program.selected_schedule = event_schedule.schedule
+        program.save!
+      end
+
+      it 'returns true if there is any event for this date' do
+        expect(program.any_event_for_this_date?(Date.current + 1)).to eq true
+      end
+
+      it 'returns false if there is no event for this date' do
+        expect(program.any_event_for_this_date?(Date.current + 2)).to eq false
+      end
+
+      it 'returns false if date passed is empty' do
+        expect(program.any_event_for_this_date?('')).to eq false
+      end
+
+      it 'returns false if date passed is nil' do
+        expect(program.any_event_for_this_date?(nil)).to eq false
+      end
     end
   end
 

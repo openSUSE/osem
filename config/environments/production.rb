@@ -15,7 +15,7 @@ Osem::Application.configure do
   config.eager_load = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_files = false
+  config.public_file_server.enabled = false
   # Compress JavaScripts and CSS
   config.assets.compress = true
 
@@ -33,7 +33,7 @@ Osem::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = !!ENV['FORCE_SSL']
 
   # See everything in the log (default is :info)
   config.log_level = :info
@@ -46,6 +46,14 @@ Osem::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
+  if ENV["MEMCACHEDCLOUD_SERVERS"]
+    config.cache_store = :dalli_store, ENV["MEMCACHEDCLOUD_SERVERS"].split(','), {
+      username: ENV["MEMCACHEDCLOUD_USERNAME"],
+      password: ENV["MEMCACHEDCLOUD_PASSWORD"]
+    }
+  else
+    config.cache_store = :memory_store, { size: 64.megabytes }
+  end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

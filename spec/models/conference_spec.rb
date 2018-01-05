@@ -1704,4 +1704,8 @@ describe Conference do
 
     it { is_expected.to eq [past_conference1, past_conference2] }
   end
+
+  it 'should have a picture format for tickets' do
+    expect(create(:conference).picture.ticket.url)
+  end
 end

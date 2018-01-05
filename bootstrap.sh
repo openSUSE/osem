@@ -54,6 +54,7 @@ elif [[ "$ID" == "centos" || "$VERSION" == "7"  ]]; then
   tar jxvf /tmp/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /tmp/  phantomjs-2.1.1-linux-x86_64/bin/phantomjs
   mv /tmp/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
 
+  pushd /vagrant
 fi
 
 echo -e "\ninstalling your bundle...\n"
@@ -64,7 +65,7 @@ if [ ! -f /vagrant/config/database.yml ] && [ -f /vagrant/config/database.yml.ex
   echo -e "\nSetting up your database from config/database.yml...\n"
   cp config/database.yml.example config/database.yml
   if [ ! -f db/development.sqlite3 ] && [ ! -f db/test.sqlite3 ]; then
-    bundle exec rake db:setup
+    su - vagrant -c "cd /vagrant/; bundle exec rake db:setup"
   else
     echo -e "\n\nWARNING: You have already have a development/test database."
     echo -e "WARNING: Please make sure this database works in this vagrant box!\n\n"

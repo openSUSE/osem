@@ -1,4 +1,4 @@
-class Question < ActiveRecord::Base
+class Question < ApplicationRecord
   belongs_to :question_type
   has_and_belongs_to_many :conferences
 
