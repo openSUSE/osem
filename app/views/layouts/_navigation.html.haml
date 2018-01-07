@@ -2,8 +2,15 @@
   .container
     .navbar-header
       - if @conference && @conference.short_title.present?
-        %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', style: 'float:right', type: 'button' }
-          %span.sr-only Toggle navigation
+        - if can? :access, Admin
+          %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', type: 'button' }
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+        %button{"data-target"=>"#main-nav", "data-toggle"=>"collapse", class: 'navbar-toggle', type: 'button'}
+          %span.sr-only
+            Toggle navigation
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
