@@ -9,13 +9,14 @@
 
 - when 'UsersRole'
   - users_role = current_or_last_object_state(version.item_type, version.item_id)
-  - role = Role.find_by(id: users_role.role_id) if users_role
+  - role = current_or_last_object_state('Role', users_role.role_id)
+  - role_name = role.try(:name) || PaperTrail::Version.where(item_type: 'Role', item_id: users_role.role_id).last.changeset[:name].second
   role
-  - if role.name == 'organization_admin'
+  - if role_name == 'organization_admin'
     - if Organization.find_by(id: version.conference_id)
       -# organization_admin belongs to organization and not conferences
       - organization = Organization.find_by(id: version.conference_id)
-      = link_if_alive version, role.name,
+      = link_if_alive version, role_name,
             admins_admin_organization_path(organization), organization
     - else
       (Deleted Organization)
@@ -226,7 +227,7 @@
     = link_to_user(version.item_id)
 
 - unless %w(Conference Subscription Registration User Organization).include?(version.item_type)
-  - if (version.item_type == 'Role' && role_name == 'organization_admin') || (version.item_type == 'UsersRole' && role.name == 'organization_admin')
+  - if (version.item_type == 'Role' && role_name == 'organization_admin') || (version.item_type == 'UsersRole' && role_name == 'organization_admin')
     in organization
     - if Organization.find_by(id: version.conference_id)
       -# organization_admin belongs to organization and not conferences
