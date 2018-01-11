@@ -51,6 +51,10 @@ class Program < ApplicationRecord
     def registered(conference)
       joins(:registrations).where('registrations.conference_id = ?', conference.id)
     end
+
+    def unregistered(conference)
+      self - registered(conference)
+    end
   end
 
   accepts_nested_attributes_for :event_types, allow_destroy: true

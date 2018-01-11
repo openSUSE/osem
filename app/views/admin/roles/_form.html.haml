@@ -10,6 +10,6 @@
 = semantic_form_for @role, url: @url do |f|
   .row
     .col-md-5
-      = f.input :description
+      = f.input :description, input_html: { autofocus: true }
 
       = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

@@ -24,7 +24,7 @@
 
       = u.label 'Add user by email: '
       .input-group
-        = u.input :email, label: false, placeholder: "User's email"
+        = u.input :email, input_html: { autofocus: true }, label: false, placeholder: "User's email"
         .input-group-btn
           = u.submit 'Add', id: 'user-add', class: 'btn btn-primary'
 

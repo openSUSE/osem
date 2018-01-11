@@ -1,7 +1,8 @@
 .row
   .col-md-12
     %h3
-      = image_tag(@booth.picture.thumb.url, size: '20%', alt: '')
+      - if @booth.logo_link
+        = image_tag( @booth.picture.thumb.url, size: '20%', alt: '')
       = @booth.title
       .btn-group.pull-right
         = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'
