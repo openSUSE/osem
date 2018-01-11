@@ -179,7 +179,7 @@ gem 'acts_as_list'
 gem 'bootstrap-switch-rails', '~> 3.0.0'
 
 # for parsing OEmbed data
-gem 'ruby-oembed'
+gem 'ruby-oembed', '~>0.12.0'
 
 # for uploading images to the cloud
 gem 'cloudinary'
@@ -213,6 +213,9 @@ gem 'selectize-rails'
 # CVE-2017-0663, CVE-2017-7375, CVE-2017-7376, CVE-2017-9047, CVE-2017-9048,
 # CVE-2017-9049, CVE-2017-9050
 gem 'nokogiri', '>= 1.8.1'
+
+# memcached binary connector
+gem 'dalli'
 
 # Use guard and spring for testing in development
 group :development do

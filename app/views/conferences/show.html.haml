@@ -11,88 +11,64 @@
   = @conference.title
 
 #splash
-  - if @conference.splashpage
-    #banner
-      .container
-        .row
-          .col-md-8.col-md-offset-2#header
-            .row
-              .col-md-4
-                = image_tag(@conference.picture_url, class: 'img-responsive img-center', id: 'splash-logo') if @conference.picture?
-              .col-md-8
-                %h1
-                  = @conference.title
-                %p.lead
-                  - if @conference.venue
-                    = "#{@conference.venue.city} / #{@conference.venue.country_name}"
-                  - if @conference.start_date && @conference.end_date
-                    %br
-                    = date_string(@conference.start_date, @conference.end_date)
+  -# header/description
+  = render 'header', conference: @conference, venue: @conference.venue
 
-    - unless @conference.description.blank?
-      %section#about
-        .container
-          .row
-            .col-md-8.col-md-offset-2
-              %h3.text-center
-                = markdown(@conference.description)
+  -# calls for content, or program
+  - if @conference.splashpage.include_cfp
+    = render 'call_for_content', conference: @conference,
+      call_for_events: @call_for_events, call_for_tracks: @call_for_tracks,
+      event_types: @event_types, tracks: @track_names
 
-    - if @conference.registration_open? and @conference.splashpage.include_registrations
-      %section#registration
-        = render 'registration'
+  - if @conference.splashpage.include_program
+    = render 'program', conference: @conference, tracks: @tracks,
+      highlights: @highlights, booths: @booths
 
-    - if @conference.splashpage.include_program
-      %section#program
-        = render 'schedule_splashpage'
+  -# attendance/registration
+  - if @conference.splashpage.include_registrations
+    - if @conference.registration_open?
+      = render 'registration', conference: @conference,
+        registration_period: @conference.registration_period,
+        tickets: @tickets, conference_id: @conference.short_title
+  - if @conference.splashpage.include_tickets && @conference.tickets.any?
+    = render 'tickets', conference: @conference, tickets: @tickets
 
-    - if @conference.program.cfp_open? and @conference.splashpage.include_cfp
-      %section#callforpapers
-        = render 'call_for_paper'
+  -# geo
+  - if @conference.splashpage.include_venue && @conference.venue
+    = render 'venue', conference: @conference, venue: @conference.venue,
+      commercial: @conference.venue.commercial
+  - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
+    = render 'lodging', venue: @conference.venue, lodgings: @lodgings
 
-    - if @conference.program.cfps.for_tracks.try(:open?) && @conference.splashpage.include_cfp
-      %section#callfortracks
-        = render 'call_for_tracks'
+  -# sponsorship
+  - if @conference.splashpage.include_sponsors
+    = render 'sponsors', conference: @conference,
+      sponsorship_levels: @sponsorship_levels
 
-    - if @conference.venue and @conference.splashpage.include_venue
-      %section#venue
-        = render 'venue'
+  -# footer
+  - if @conference.splashpage.include_social_media
+    - if @conference.contact.has_social_media?
+      = render 'social_media', contact: @conference.contact
+  = render 'footer'
 
-    - if @conference.lodgings.any? and @conference.splashpage.include_lodgings
-      %section#lodging
-        = render 'lodging'
+  = yield :modals
 
-    - if @conference.tickets.any? and @conference.splashpage.include_tickets and @conference.pending?
-      %section#tickets
-        = render 'tickets'
-
-    - if @conference.booths.confirmed.any? and @conference.splashpage.include_booths
-      %section#booths
-        = render 'booths'
-
-    - if @conference.sponsors.any? and @conference.splashpage.include_sponsors
-      %section#sponsors
-        = render 'sponsors'
-
-    - if @conference.contact.has_social_media? and @conference.splashpage.include_social_media
-      %section#social-media
-        = render 'social_media'
-
-    // grmbl
-    = render 'footer'
-
-- content_for :script_head do
-  :javascript
-    var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
-    var triangle_colors = triangle_tcs.map(function(t) { return t.toHexString(); });
-    $(function () {
-      $(document).ready(function() {
-        var triangle_width = document.body.clientWidth;
-        var triangle_height = ($( "#banner" ).height() + 200 );
-        var pattern = Trianglify({ width: triangle_width,
-                                   height: triangle_height,
-                                   cell_size: 100,
-                                   x_colors: triangle_colors
-                                  });
-        $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+- cache [@conference.color, '#splash#inlinejs'] do
+  - content_for :script_head do
+    :javascript
+      var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
+      var triangle_colors = triangle_tcs.map(function(t) {
+        return t.toHexString();
       });
-    });
+      $(function () {
+        $(document).ready(function() {
+          var triangle_width = document.body.clientWidth;
+          var triangle_height = ($( "#banner" ).height() + 200 );
+          var pattern = Trianglify({ width: triangle_width,
+                                     height: triangle_height,
+                                     cell_size: 100,
+                                     x_colors: triangle_colors
+                                    });
+          $('#banner').css('background-image', 'url("' + pattern.png() + '")');
+        });
+      });

@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class TicketPdf < Prawn::Document
   def initialize(conference, user, physical_ticket, ticket_layout, file_name)
     super(page_layout: ticket_layout, page_size: 'A4', filename: file_name)
@@ -43,11 +45,17 @@ class TicketPdf < Prawn::Document
   def draw_second_square
     move_up 150
     if @conference.picture?
-      if 7 * @conference.picture.image[:width] > 12 * @conference.picture.image[:height]
-        image "#{Rails.root}/public#{@conference.picture_url}", at: [@mid_horizontal + 30, cursor], width: 120
-      else
-        image "#{Rails.root}/public#{@conference.picture_url}", at: [@mid_horizontal + 30, cursor], height: 70
-      end
+      conference_image = case @conference.picture.ticket.url[0, 4]
+                         when 'http', 'ftp:' # CDNs
+                           open(@conference.picture.ticket.url)
+                         when '/sys' # local storage
+                           open([
+                             Rails.root,
+                             '/public',
+                             @conference.picture.ticket.url
+                           ].join)
+                         end
+      image conference_image, at: [@mid_horizontal + 30, cursor]
     else
       image "#{Rails.root}/public/img/osem-logo.png", at: [@mid_horizontal + 30, cursor], height: 70
     end

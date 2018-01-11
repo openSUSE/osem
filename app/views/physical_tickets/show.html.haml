@@ -31,12 +31,7 @@
         = @user.email
     .col-md-5.col-md-offset-2.box.well
       - if @conference.picture?
-        - width = @conference.picture.image[:width]
-        - height = @conference.picture.image[:height]
-        - if 10 * width > 15 * height
-          = image_tag(@conference.picture_url, width: '150')
-        - else
-          = image_tag(@conference.picture_url, height: '100')
+        = image_tag(@conference.picture.ticket.url, class: 'img-responsive')
       - else
         = image_tag('/img/osem-logo.png', class: 'img-responsive')
       %p.text-left

@@ -1,16 +1,29 @@
-#map{style: "height: 500px;" }
+#map{ style: "height: 500px;" }
 - content_for(:script_body) do
+  - marker = escape_javascript(render '/conferences/venue_map_marker',
+    venue: venue)
   :javascript
     // create a map in the "map" div, set the view to a given place and zoom
-    var map = L.map('map', { scrollWheelZoom: false }).setView([#{h(@conference.venue.latitude)}, #{h(@conference.venue.longitude)}], 11);
+    var map = L.map('map', { scrollWheelZoom: false }).setView(
+      [
+        #{venue.latitude.to_f + 0.05},
+        #{h(venue.longitude)}
+      ], 11);
     // add an OpenStreetMap tile layer
     L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: 'Map data &copy; \
+        <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
+        <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
+        Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18
     }).addTo(map);
-    // add a marker in the given location, attach some popup content to it and open the popup
-    L.marker([#{h @conference.venue.latitude}, #{h @conference.venue.longitude}]).addTo(map)
-      .bindPopup("#{escape_javascript(render '/conferences/venue_map_marker', venue: @conference.venue)}")
+    // add a marker in the given location, attach some popup content to it
+    // and open the popup
+    L.marker([
+      #{h venue.latitude},
+      #{h venue.longitude}
+    ]).addTo(map)
+      .bindPopup("#{marker}")
       .openPopup();
     // Turn scrollwheel on when user clicks
     map.on('focus', function(e) {

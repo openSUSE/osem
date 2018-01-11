@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :commercial do
-    sequence(:url) { |n| "https://www.youtube.com/watch?v=BTTygyxuGj#{n}" }
+    sequence(:url) { |n| "https://www.youtube.com/watch?v=4VrhlyIgo3M&factory=#{n}" }
 
     factory :conference_commercial do
       association :commercialable, factory: :conference

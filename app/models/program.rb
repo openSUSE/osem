@@ -51,6 +51,10 @@ class Program < ApplicationRecord
     def registered(conference)
       joins(:registrations).where('registrations.conference_id = ?', conference.id)
     end
+
+    def unregistered(conference)
+      self - registered(conference)
+    end
   end
 
   accepts_nested_attributes_for :event_types, allow_destroy: true
@@ -165,7 +169,7 @@ class Program < ApplicationRecord
   # * +False+ -> If there is not any event for the given date
   def any_event_for_this_date?(date)
     parsed_date = DateTime.parse("#{date} 00:00").utc
-    EventSchedule.where(schedule: selected_schedule).where(start_time: parsed_date..(parsed_date + 1)).any?
+    EventSchedule.where(schedule: selected_schedule).where(start_time: parsed_date..(parsed_date + 1.day)).any?
   end
 
   ##

@@ -13,6 +13,9 @@
       - unless @conference.contact.googleplus.blank?
         = link_to "#{ @conference.contact.googleplus }" do
           %i.fa.fa-google-plus-square.fa-4x
+      - unless @conference.contact.mastodon.blank?
+        = link_to "#{ @conference.contact.mastodon }" do
+          %i.fa.icon-mastodon.fa-4x
       - unless @conference.contact.email.blank?
         = mail_to "#{ @conference.contact.email }" do
           %i.fa.fa-envelope-o.fa-4x

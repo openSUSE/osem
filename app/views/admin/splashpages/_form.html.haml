@@ -2,21 +2,46 @@
   .col-md-12
     .page-header
       %h1 Splashpage
-.row
-  .col-md-8
-    = semantic_form_for(@splashpage, url: admin_conference_splashpage_path(@conference.short_title)) do |f|
+
+= semantic_form_for(@splashpage, url: admin_conference_splashpage_path(@conference.short_title)) do |f|
+  .row
+    .col-md-12
       = f.inputs name: 'Components' do
-        = f.input :include_tracks, label: 'Display tracks', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tracks) }
-        = f.input :include_program, label: 'Display program', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_program) }
-        = f.input :include_cfp, label: 'Display call for papers information on splashpage, while cfp is open', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_cfp) }
-        = f.input :include_venue, label: 'Display venue', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_venue) }
-        = f.input :include_registrations, label: 'Display the registration period', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_registrations) }
-        = f.input :include_tickets, label: 'Display tickets', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tickets) }
-        = f.input :include_lodgings, label: 'Display the lodgings', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_lodgings) }
-        = f.input :include_sponsors, label: 'Display sponsors', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_sponsors) }
-        = f.input :include_booths, label: 'Display confirmed booths', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
-        = f.input :include_social_media, label: 'Display social media', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
+        %ul.fa-ul
+          %li
+            = f.input :include_cfp, label: 'Display call for papers and call for tracks, while open', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_cfp) }
+          %li
+            = f.input :include_program, label: 'Display the program', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_program) }
+
+            %ul.fa-ul
+              %li
+                = f.input :include_tracks, label: 'Include confirmed tracks', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tracks) }
+              %li
+                = f.input :include_booths, label: 'Include confirmed booths', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
+
+          %li
+            = f.input :include_registrations, label: 'Display the registration period', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_registrations) }
+
+          %li
+            = f.input :include_tickets, label: 'Display tickets', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tickets) }
+
+          %li
+            = f.input :include_venue, label: 'Display the venue', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_venue) }
+
+          %li
+            = f.input :include_lodgings, label: 'Display the lodgings', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_lodgings) }
+
+          %li
+            = f.input :include_sponsors, label: 'Display sponsors', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_sponsors) }
+
+          %li
+            = f.input :include_social_media, label: 'Display social media links', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
+
       = f.inputs name: 'Access' do
-        = f.input :public, label: 'Make splash page public?'
+        %ul.fa-ul
+          %li
+            = f.input :public, label: 'Make splash page public?'
+  .row
+    .col-md-12
       %p.text-right
-        = f.submit 'Save Splashpage', class: 'btn btn-primary'
+        = f.submit 'Save Changes', class: 'btn btn-primary'

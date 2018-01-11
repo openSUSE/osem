@@ -33,6 +33,7 @@ class Conference < ApplicationRecord
   end
   has_many :resources, dependent: :destroy
   has_many :booths, dependent: :destroy
+  has_many :confirmed_booths, -> { where(state: 'confirmed') }, class_name: 'Booth'
 
   has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
@@ -45,7 +46,15 @@ class Conference < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-
+  has_one :call_for_events, -> { where(cfp_type: 'events') }, through: :program, source: :cfps
+  has_one :call_for_booths, -> { where(cfp_type: 'booths') }, through: :program, source: :cfps
+  has_one :call_for_tracks, -> { where(cfp_type: 'tracks') }, through: :program, source: :cfps
+  has_many :confirmed_tracks, -> { where(state: 'confirmed') }, through: :program, source: :tracks
+  has_many :highlighted_events,
+           -> { where(state: :confirmed, is_highlight: true) },
+           through: :program,
+           source:  :events
+  has_many :event_types, through: :program
   accepts_nested_attributes_for :venue
   accepts_nested_attributes_for :tickets, allow_destroy: true
   accepts_nested_attributes_for :sponsorship_levels, allow_destroy: true
@@ -586,11 +595,11 @@ class Conference < ApplicationRecord
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
     result = Conference.where('start_date > ?', Time.now)
-        .select('id, short_title, color, start_date')
+        .select('id, short_title, color, start_date, organization_id')
 
     if result.empty?
       result = Conference
-          .select('id, short_title, color, start_date').limit(2)
+          .select('id, short_title, color, start_date, organization_id').limit(2)
           .order(start_date: :desc)
     end
     result
@@ -602,7 +611,7 @@ class Conference < ApplicationRecord
   # ====Returns
   # * +ActiveRecord+
   def self.get_conferences_without_active_for_dashboard(active_conferences)
-    result = Conference.select('id, short_title, color, start_date').order(start_date: :desc)
+    result = Conference.select('id, short_title, color, start_date, organization_id').order(start_date: :desc)
     result - active_conferences
   end
 
@@ -710,7 +719,7 @@ class Conference < ApplicationRecord
   # * +True+ -> If the registration limit has been reached or exceeded
   # * +False+ -> If the registration limit hasn't been exceeded
   def registration_limit_exceeded?
-    registration_limit > 0 && registrations.count + program.speakers.confirmed.count - program.speakers.confirmed.registered(program.conference).count >= registration_limit
+    registration_limit > 0 && registrations.count + program.speakers.confirmed.unregistered(program.conference).count >= registration_limit
   end
 
   # Returns an hexadecimal color given a collection. The returned color changed
