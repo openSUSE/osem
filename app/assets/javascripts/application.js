@@ -57,3 +57,11 @@ $(document).ready(function() {
         delegateSelector: 'a.smoothscroll'
     });
 });
+
+$(document).not('.navbar-collapse .collapse .in').on('click',function() {
+	var elements = document.getElementsByClassName('navbar-collapse collapse in');
+	if (elements.length > 0){
+		collapsibleDivElement = elements[0];
+		collapsibleDivElement.className = "navbar-collapse collapse"
+	}
+});
