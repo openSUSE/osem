@@ -57,7 +57,9 @@ module Admin
     def mass_upload
       errors = Commercial.read_file(params[:file]) if params[:file]
 
-      if errors.all? { |_k, v| v.blank? }
+      if !errors
+        flash[:error] = 'Empty file detected while adding commercials to Event'
+      elsif errors.all? { |_k, v| v.blank? }
         flash[:notice] = 'Successfully added commercials.'
       else
         errors_text = ''
