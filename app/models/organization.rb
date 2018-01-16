@@ -7,7 +7,11 @@ class Organization < ApplicationRecord
 
   after_create :create_roles
 
-  validates :name, presence: true
+  validates :name,
+            uniqueness: {
+              case_sensitive: false
+            },
+            presence: true
 
   mount_uploader :picture, PictureUploader, mount_on: :picture
 
