@@ -22,7 +22,7 @@ class ConferencesController < ApplicationController
     splashpage = @conference.splashpage
 
     unless splashpage.present?
-      redirect_to admin_conference_splashpage_path(@conference.short_title) and return 
+      redirect_to admin_conference_splashpage_path(@conference.short_title) && return
     end
 
     if splashpage.include_cfp
