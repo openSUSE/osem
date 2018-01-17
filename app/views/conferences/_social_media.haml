@@ -15,6 +15,9 @@
           - unless contact.googleplus.blank?
             = link_to "#{ contact.googleplus }" do
               %i.fa.fa-google-plus-square.fa-4x
+          - unless contact.mastodon.blank?
+            = link_to "#{ contact.mastodon }" do
+              %i.fa.icon-mastodon.fa-4x
           - unless contact.email.blank?
             = mail_to "#{ contact.email }" do
               %i.fa.fa-envelope-o.fa-4x
