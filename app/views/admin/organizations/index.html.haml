@@ -2,8 +2,9 @@
   .col-md-12
     .page-header
       %h1 Organizations
-      .btn-group.pull-right
-        = link_to 'Create Organization', new_admin_organization_path, class: 'btn btn-success pull-right'
+      - if can? :manage, :all
+        .btn-group.pull-right
+          = link_to 'Create Organization', new_admin_organization_path, class: 'btn btn-success pull-right'
       %p.text-muted
         Manage organizations in OSEM
 .row
