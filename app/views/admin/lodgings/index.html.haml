@@ -13,10 +13,10 @@
           - unless lodging.picture?
             %p.text-center
               - if lodging.website_link.present?
-                = link_to(lodging.website_link, :style => 'color:inherit') do
-                  %i.fa.fa-home.fa-5x
+                = link_to(lodging.website_link) do
+                  %i.fa.fa-home.fa-5x.linkcolor
               - else
-                %i.fa.fa-home.fa-5x
+                %i.fa.fa-home.fa-5x.linkcolor
           - else
             - if lodging.website_link.present?
               = link_to(lodging.website_link, class: 'thumbnail') do
@@ -37,3 +37,5 @@
 .row
   .col-md-12.text-right
     = link_to 'Add Lodging', new_admin_conference_lodging_path(@conference.short_title), class: 'btn btn-primary'
+
+
