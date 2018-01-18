@@ -55,6 +55,7 @@ class ConferencesController < ApplicationController
       @sponsorship_levels = @conference.sponsorship_levels.eager_load(
         :sponsors
       ).order('sponsorship_levels.position ASC', 'sponsors.name')
+      @sponsors = @conference.sponsors
     end
   end
 
