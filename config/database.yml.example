@@ -9,6 +9,35 @@ development:
   pool: 5
   timeout: 5000
 
+## PostgreSQL
+##   gem install pg
+## 
+##   Ensure the postgres gem is defined in your Gemfile
+##   gem 'pg'
+##   Update with your database name and login credentials
+# development:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: database_name
+#   pool: 5
+#   username: username
+#   password: password
+
+## MySQL
+##   gem install mysql2
+##
+##   Ensure the mysql gem is defined in your Gemfile
+##   gem 'mysql2'
+##   Update with your database name and login credentials
+# development:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: database_name
+#   pool: 5
+#   username: username
+#   password: password
+#   socket: /tmp/mysql.sock
+
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.

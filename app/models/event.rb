@@ -1,4 +1,4 @@
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
@@ -197,6 +197,14 @@ class Event < ActiveRecord::Base
           send(transition)
         end
         save
+        # If the event was previously scheduled, and then withdrawn or cancelled
+        # its event_schedule will have enabled set to false
+        # If the event is now confirmed again, we want it to be available for scheduling
+        Rails.logger.debug "transition is #{transition}"
+        if transition == :confirm
+          Rails.logger.debug "schedules #{EventSchedule.unscoped.where(event: self, enabled: false)}"
+          EventSchedule.unscoped.where(event: self, enabled: false).destroy_all
+        end
       rescue Transitions::InvalidTransition => e
         alert = "Update state failed. #{e.message}"
       end

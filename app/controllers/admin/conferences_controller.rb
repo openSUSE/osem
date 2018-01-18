@@ -155,7 +155,7 @@ module Admin
 
       # Set line color using a hash function
       @tickets = []
-      @tickets_data.keys.each do |title|
+      @tickets_data.each_key do |title|
         @tickets.append(short_title: title, color: "\##{Digest::MD5.hexdigest(title)[0..5]}")
       end
 
