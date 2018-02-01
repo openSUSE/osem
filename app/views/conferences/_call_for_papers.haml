@@ -1,4 +1,5 @@
-- cache [conference_id, call, event_types, tracks, '#splash#callforpapers'] do
+- cache([conference_id, call, event_types, tracks, '#splash#callforpapers'],
+  expires_in: 1.hour) do
   .col-md-4.col-sm-4.text-center
     %h2
       Call for Papers
