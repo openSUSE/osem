@@ -2,6 +2,10 @@ FactoryGirl.define do
   factory :survey_question do
     survey
     title 'What about this question?'
+    kind :boolean
+    min_choices nil
+    max_choices nil
+    possible_answers nil
 
     factory :boolean_non_mandatory do
       title 'Have you attended the conference before? (Non mandatory)'
