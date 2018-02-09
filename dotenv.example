@@ -46,6 +46,10 @@ OSEM_SUSE_SECRET=''
 STRIPE_PUBLISHABLE_KEY=''
 STRIPE_SECRET_KEY=''
 
+# (OPTIONAL) Skylight keys. See https://www.skylight.io/oss.
+# SKYLIGHT_AUTHENTICATION=''
+# SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
+
 # Disable linting of factories in the test suite.
 # Speeds up turn around times of tests
 OSEM_FACTORY_LINT="false"
