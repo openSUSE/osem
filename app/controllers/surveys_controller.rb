@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 class SurveysController < ApplicationController
   load_resource :conference, find_by: :short_title
-  load_and_authorize_resource
+  load_and_authorize_resource except: :reply
+  load_resource only: :reply
+  skip_authorization_check only: :reply
 
   def index
     @surveys = @conference.surveys.select(&:active?)
@@ -11,6 +15,11 @@ class SurveysController < ApplicationController
   end
 
   def reply
+    unless can? :reply, @survey
+      redirect_to conference_survey_path(@conference, @survey), alert: 'This survey is currently closed'
+      return
+    end
+
     survey_submission = params[:survey_submission]
 
     @survey.survey_questions.each do |survey_question|
@@ -22,7 +31,13 @@ class SurveysController < ApplicationController
       else
         survey_question.survey_replies.create!(text: reply_text, user: current_user)
       end
-      @survey.survey_submissions.create!(user: current_user) unless @survey.survey_submissions.find_by(user: current_user)
+
+      user_survey_submission = @survey.survey_submissions.find_by(user: current_user)
+      if user_survey_submission
+        user_survey_submission.update_attributes(updated_at: Time.current)
+      else
+        @survey.survey_submissions.create!(user: current_user)
+      end
     end
 
     redirect_to :back

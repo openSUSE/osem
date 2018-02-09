@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class SurveyQuestion < ActiveRecord::Base
   belongs_to :survey
-  has_many :survey_replies
+  has_many :survey_replies, dependent: :destroy
 
   # Order of this list should not be changed without proper action!
   enum kind: [:boolean, :choice, :string, :text, :datetime, :numeric]
@@ -23,15 +25,15 @@ class SurveyQuestion < ActiveRecord::Base
   end
 
   def possible_answers=(value)
-    self[:possible_answers] = choice? ? value : nil
+    self[:possible_answers] = value if choice?
   end
 
   def min_choices=(value)
-    self[:min_choices] = choice? ? value : nil
+    self[:min_choices] = value if choice?
   end
 
   def max_choices=(value)
-    self[:max_choices] = choice? ? value : nil
+    self[:max_choices] = value if choice?
   end
 
   private

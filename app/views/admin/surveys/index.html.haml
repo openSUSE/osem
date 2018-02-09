@@ -14,6 +14,8 @@
       %table.table.table-hover.datatable#surveys
         %thead
           %th Title
+          %th # of questions
+          %th # of submissions
           %th When
           %th Start Date
           %th End Date
@@ -23,6 +25,10 @@
             %tr
               %td
                 = link_to survey.title, admin_conference_survey_path(@conference.short_title, survey)
+              %td
+                = survey.survey_questions.length
+              %td
+                = survey.survey_submissions.length
               %td
                 = survey.target
               %td

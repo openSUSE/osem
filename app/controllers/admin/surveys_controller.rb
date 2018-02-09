@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class SurveysController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -17,7 +19,7 @@ module Admin
       if @survey.save
         redirect_to new_admin_conference_survey_survey_question_path(@conference.short_title, @survey), notice: 'Successfully created survey'
       else
-        redirect_to new_admin_conference_survey_survey_question_path(@conference.short_title, @survey), error: 'Could not create survey.' + @survey.errors.full_messates.to_sentence
+        redirect_to new_admin_conference_survey_survey_question_path(@conference.short_title, @survey), error: 'Could not create survey.' + @survey.errors.full_messages.to_sentence
       end
     end
 

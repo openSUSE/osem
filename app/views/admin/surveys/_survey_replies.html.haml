@@ -1,0 +1,16 @@
+- @survey.survey_questions.each.with_index(1) do |survey_question, question_index|
+  .panel.panel-default
+    .panel-heading{ type: 'button', 'data-toggle': 'collapse', 'data-target': "#question-#{survey_question.id}", 'aria-expanded': 'true', 'aria-controls': 'collapse' }
+      = render partial: 'survey_question_title', locals:  { survey_question: survey_question, question_index: question_index }
+
+    .panel-body.collapse{ id: "question-#{survey_question.id}" }
+      - if survey_question.survey_replies.any?
+        %table.table
+          %thead
+            %th User Email
+            %th Reply
+          %tbody
+            - survey_question.survey_replies.reload.each do |reply|
+              %tr
+                %td= reply.user.email
+                %td= reply.text
