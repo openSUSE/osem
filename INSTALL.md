@@ -106,6 +106,8 @@ There are a couple of environment variables you can set to configure OSEM. Check
 | STRIPE_PUBLISHABLE_KEY    | *string*          | Publishable Key for Stripe Gateway
 | STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
 | OSEM_REDIS_URL | *string* | Redis server URL e.g. redis://localhost:6379/1
+| SKYLIGHT_AUTHENTICATION	| *string*			| (Optional) Authentication token for Skylight
+| SKYLIGHT_PUBLIC_DASHBOARD_URL | *string*			| (Optional) URL to your public Skylight dashboard
 
 ### Online Ticket Payments
 We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
@@ -130,3 +132,8 @@ Open a separate terminal and go into the directory where the rails app is presen
 ```
 bundle exec rake jobs:work
 ```
+
+## Performance
+If you are experiencing performance issues (or just curious), you may be able to [apply a free Skylight account](https://www.skylight.io/oss).
+Once you have your account setup, simply set `SKYLIGHT_AUTHENTICATION` and `SKYLIGHT_PUBLIC_DASHBOARD_URL` in your `.env` file.
+If you are reporting a performance issue or submiting a performance patch, it would be helpful (but not required) to link to the relevant Skylight data.
