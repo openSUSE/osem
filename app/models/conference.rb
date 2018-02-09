@@ -1235,4 +1235,3 @@ class Conference < ApplicationRecord
     result
   end
 end
-# rubocop:enable Metrics/ClassLength

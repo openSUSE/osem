@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSurveyReplies < ActiveRecord::Migration
   def change
     create_table :survey_replies do |t|

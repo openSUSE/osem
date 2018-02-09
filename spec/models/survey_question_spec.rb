@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe SurveyQuestion do
@@ -7,7 +9,7 @@ describe SurveyQuestion do
 
   let(:single_choice_question) { create(:choice_mandatory_1_reply) }
   let(:multiple_choice_question) { create(:choice_mandatory_2_replies) }
-  let(:boolean_question) { create(:boolean_question, min_choices: 3)}
+  let(:boolean_question) { create(:boolean_question, min_choices: 3) }
 
   describe 'association' do
     it { is_expected.to belong_to(:survey) }
@@ -88,7 +90,7 @@ describe SurveyQuestion do
       end
     end
 
-    fields = ['min_choices', 'max_choices', 'possible_answers']
+    fields = %w[min_choices max_choices possible_answers]
     (SurveyQuestion.kinds.keys - ['choice']).each do |kind|
       fields.each do |field|
         it_behaves_like 'is nil', kind, field

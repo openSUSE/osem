@@ -268,6 +268,18 @@ class Event < ApplicationRecord
     event_schedules.find_by(schedule_id: selected_schedule_id).try(:start_time)
   end
 
+  ##
+  # Returns true or false, if the event is already over or not
+  #
+  # ====Returns
+  # * +true+ -> If the event is over
+  # * +false+ -> If the event is not over yet
+  def ended?
+    event_schedule = event_schedules.find_by(schedule_id: selected_schedule_id)
+    return false unless event_schedule
+    event_schedule.end_time < Time.current
+  end
+
   def conference
     program.conference
   end

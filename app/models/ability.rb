@@ -55,6 +55,8 @@ class Ability
       can [:show, :events], Schedule do |schedule|
         schedule.program.schedule_public
       end
+
+      can [:index, :show], Survey, surveyable_type: 'Conference'
     end
   end
 
@@ -104,8 +106,18 @@ class Ability
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
 
-    # can view and reply a survey
-    can [:show, :reply], Survey, surveyable_type: 'Conference', surveyable_id: user.registrations.pluck(:conference_id)
+    # can view and reply to a survey
+    can [:index, :show, :reply], Survey, surveyable_type: 'Conference'
+    can [:index, :show, :reply], Survey, surveyable_type: 'Registration', surveyable_id: user.registrations.pluck(:conference_id)
+
+    # TODO: this needs to check for more, eg.
+    # if survey target is after_conference, check whether or not the conference is over
+    # if not, do not allow replies.
+
+    # do not allow replies before the start_date or after the end_date of survey
+    cannot :reply, Survey do |survey|
+      survey.start_date > Time.current || survey.end_date < Time.current
+    end
 
     can [:destroy], Openid
 

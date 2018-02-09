@@ -17,7 +17,7 @@
         .col-md-12
           = f.input :title
           = f.input :mandatory
-          %div.survey-possible-answers{ class: @survey_question.choice? ? '' : 'hidden'}
+          .survey-possible-answers{ class: @survey_question.choice? ? '' : 'hidden' }
             = f.input :possible_answers, hint: 'Comma separated', input_html: { rows: 3 }
             .row
               .col-md-6
@@ -38,16 +38,16 @@
           %label
             Preview:
           .panel.panel-default
-            .panel-body{id: 'survey_question_preview'}
-              %p{id: 'title', style: 'word-wrap: break-word'}
+            .panel-body{ id: 'survey_question_preview' }
+              %p{ id: 'title', style: 'word-wrap: break-word' }
                 = @survey_question.title.blank? ? 'What is your answer?' : @survey_question.title
 
-              %div.kinds.boolean{ class: @survey_question.boolean? ? '' : 'hidden'}
-                %input{type: 'radio', name: 'radio'} Yes
+              .kinds.boolean{ class: @survey_question.boolean? ? '' : 'hidden' }
+                %input{ type: 'radio', name: 'radio' } Yes
                 %br
-                %input{type: 'radio', name: 'radio'} No
+                %input{ type: 'radio', name: 'radio' } No
 
-              %div.kinds.choice{ id: '', class: @survey_question.choice? ? '' : 'hidden'}
+              .kinds.choice{ class: @survey_question.choice? ? '' : 'hidden' }
                 - if @survey_question.possible_answers.blank?
                   - if @survey_question.single_choice?
                     %input{ type: 'radio', name: 'radio' } Choice 1
@@ -72,21 +72,21 @@
                         = option
                       %br
 
-              %div.kinds.string{ class: @survey_question.string? ? '' : 'hidden'}
+              .kinds.string{ class: @survey_question.string? ? '' : 'hidden' }
                 %input.form-control
 
-              %div.kinds.text{ class: @survey_question.text? ? '' : 'hidden'}
+              .kinds.text{ class: @survey_question.text? ? '' : 'hidden' }
                 %textarea.form-control{ rows: 4 }
 
 
-              %div.kinds.datetime{ class: @survey_question.datetime? ? '' : 'hidden'}
-                .form-group{class: 'datetimepicker'}
+              .kinds.datetime{ class: @survey_question.datetime? ? '' : 'hidden' }
+                .form-group{ class: 'datetimepicker' }
                   .input-group
                     .input-group-addon
                       %span.fa.fa-calendar
-                    %input.form-control{readonly: 'readonly'}
+                    %input.form-control{ readonly: 'readonly' }
+                    .kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden' }
 
-              %div.kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden'}
                 %input.form-control{ type: 'number' }
 
       = f.submit 'Save', class: 'btn btn-primary'
