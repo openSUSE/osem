@@ -10,16 +10,19 @@ module EventsHelper
     "Registered: #{event.registrations.count}"
   end
 
-  ##
-  # Checks if the voting has already started, or if it has already ended
-  #
-  def voting_open_or_close(program)
-    return if program.voting_period?
-    if program.voting_start_date > Time.current
-      return 'Voting period has not started yet!'
-    else # voting_end_date > Date.today because voting_start_date < voting_end_date
-      return 'Voting period is over!'
-    end
+  def rating_stars(rating, max, options = {})
+    Array.new(max) do |counter|
+      content_tag(
+        'label',
+        '',
+        class: "rating#{' bright' if rating.to_f > counter}",
+        **options
+      )
+    end.join.html_safe
+  end
+
+  def rating_fraction(rating, max, options = {})
+    content_tag('span', "#{rating}/#{max}", **options)
   end
 
   def replacement_event_notice(event_schedule)
@@ -46,5 +49,9 @@ module EventsHelper
                             collection: @program.tracks.confirmed.cfp_active.pluck(:name, :id),
                             include_blank: '(Please select)'
     end
+  end
+
+  def rating_tooltip(event, max_rating)
+    "#{event.average_rating}/#{max_rating}, #{pluralize(event.voters.length, 'vote')}"
   end
 end

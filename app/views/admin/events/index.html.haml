@@ -106,8 +106,11 @@
               = link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
 
             - if @program.rating_enabled?
-              %td.col-md-1{ 'data-order' => "#{event.average_rating}" }
-                = render partial: 'voting_index', locals: { event: event }
+              %td.col-md-1{ data: { order: event.average_rating } }
+                = render 'datatable_row_rating',
+                  event:      event,
+                  show_votes: @program.show_voting?,
+                  max_rating: @program.rating
 
             - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
               - bgcolor = '#F7819F'
