@@ -168,8 +168,14 @@
           %b Requirements
         %td= simple_format(@event.description)
 
-      - if @conference.program && @conference.program.rating && @conference.program.rating > 0
-        = render partial: 'voting'
+      - if @conference.program.rating_enabled?
+        = render 'voting',
+          event:         @event,
+          show_votes:    @program.show_voting?,
+          max_rating:    @program.rating,
+          voting_period: @program.voting_period?,
+          votes:         @votes,
+          conference_id: @conference.short_title
 
 .row
   = link_to "Comments (#{@comment_count})", '#', id: 'event-comment-link'
