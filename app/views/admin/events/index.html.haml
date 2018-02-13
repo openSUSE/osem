@@ -117,22 +117,16 @@
             - else
               - bgcolor = ''
             %td{ style: "background-color: #{bgcolor}" }
-              - if @program.show_voting?
-                - unless event.submitter.nil?
-                  = link_to event.submitter.name, admin_user_path(event.submitter)
-                  - if event.submitter.registrations.count < 1
-                    (Unregistered!)
-                - else
-                  Unknown submitter
+              - unless event.submitter.nil?
+                = link_to event.submitter.name, admin_user_path(event.submitter)
+                - if event.submitter.registrations.count < 1
+                  (Unregistered!)
               - else
-                %i Hidden
+                Unknown submitter
             %td
-              - if @program.show_voting?
-                - event.speakers_ordered.each do |speaker|
-                  .speaker
-                    = link_to speaker.name, admin_user_path(speaker)
-              - else
-                %i Hidden
+              - event.speakers_ordered.each do |speaker|
+                .speaker
+                  = link_to speaker.name, admin_user_path(speaker)
 
             - if @program.languages.present?
               %td
