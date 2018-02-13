@@ -125,6 +125,7 @@ gem 'jquery-datatables-rails', '~> 2.2.1'
 
 # for charts
 gem 'chart-js-rails'
+gem 'chartkick'
 
 # for displaying maps
 gem 'leaflet-rails'
