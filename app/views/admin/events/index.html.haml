@@ -133,24 +133,12 @@
                 = event.language
 
             %td.text-center{ 'data-order' => "#{event.require_registration}" }
-              = check_box_tag @conference.short_title, event.id, event.require_registration,
-                method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
-                class: 'switch-checkbox', data: { size: 'small',
-                                                  off_color: 'warning',
-                                                  on_text: 'Yes',
-                                                  off_text: 'No' }
+              = event_switch_checkbox(event, :require_registration, @conference.short_title)
               - if event.require_registration
-                %br
                 = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
 
             %td.text-center{ 'data-order' => "#{event.is_highlight}" }
-              = check_box_tag @conference.short_title, event.id, event.is_highlight,
-                method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
-                class: 'switch-checkbox', data: { size: 'small',
-                                                  off_color: 'warning',
-                                                  on_text: 'Yes',
-                                                  off_text: 'No' }
-
+              = event_switch_checkbox(event, :is_highlight, @conference.short_title)
             %td
               = event_type_dropdown(event, @event_types, @conference.short_title)
             %td
