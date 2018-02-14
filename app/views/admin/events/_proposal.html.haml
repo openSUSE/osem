@@ -16,20 +16,7 @@
         %td.col-md-2
           %b Type
         %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'type-dropdown', 'data-toggle' => 'dropdown' do
-              - if @event.event_type.nil?
-                Event Type
-              - else
-                = @event.event_type.title
-              <b class='caret'></b>
-            %ul.dropdown-menu
-              - @event_types.each do |type|
-                %li= link_to type.title,
-                admin_conference_program_event_path(@conference.short_title,
-                                            @event,
-                                            event: { event_type_id: type.id }),
-                method: :patch
+          = event_type_dropdown(@event, @event_types, @conference.short_title)
       %tr
         %td
           %b Highlight
@@ -45,47 +32,17 @@
         %td
           %b State
         %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-              = @event.state.humanize
-              <b class='caret'></b>
-            %ul.dropdown-menu
-              = render 'change_state_dropdown', event: @event
+          = state_dropdown(@event, @conference.short_title, @conference.email_settings)
       %tr
         %td
           %b Track
         %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'track-dropdown', 'data-toggle' => 'dropdown' do
-              - if @event.track.nil?
-                Track
-              - else
-                = @event.track.name
-              <b class="caret"></b>
-            %ul.dropdown-menu
-              - @tracks.each do |track|
-                %li= link_to track.name,
-                admin_conference_program_event_path(@conference.short_title,
-                                            @event,
-                                            event: { track_id: track.id }),
-                method: :patch
+          = track_dropdown(@event, @tracks, @conference.short_title)
       %tr
         %td
           %b Difficulty
         %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'difficulty-dropdown', 'data-toggle' => 'dropdown' do
-              - if @event.difficulty_level.nil?
-                Difficulty Level
-              - else
-                = @event.difficulty_level.title
-              <b class="caret"></b>
-            %ul.dropdown-menu
-              - @difficulty_levels.each do |difficulty|
-                %li= link_to difficulty.title, admin_conference_program_event_path(@conference.short_title,
-                                            @event,
-                                            event: { difficulty_level_id: difficulty.id }),
-                method: :patch
+          = difficulty_dropdown(@event, @difficulty_levels, @conference.short_title)
       %tr
         %td
           %b Requires Registration

@@ -189,8 +189,8 @@ feature 'Version' do
     click_button 'Update Proposal'
 
     visit admin_conference_program_events_path(conference.short_title)
-    click_button 'New'
-    click_link 'Reject event'
+    click_on 'New'
+    click_link 'Reject'
 
     visit conference_program_proposals_path(conference_id: conference.short_title)
     within('#events') do
@@ -198,15 +198,15 @@ feature 'Version' do
     end
 
     visit admin_conference_program_events_path(conference.short_title)
-    click_button 'New'
-    click_link 'Accept event'
+    click_on 'New'
+    click_link 'Accept'
 
     visit conference_program_proposals_path(conference_id: conference.short_title)
     click_link 'Confirm'
 
     visit admin_conference_program_events_path(conference.short_title)
-    click_button 'Confirmed'
-    click_link 'Cancel event'
+    click_on 'Confirmed'
+    click_link 'Cancel'
 
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} submitted new event ABC in conference #{conference.short_title}")
