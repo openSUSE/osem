@@ -152,6 +152,27 @@ module EventsHelper
     active_dropdown(selection, options)
   end
 
+  def event_switch_checkbox(event, attribute, conference_id)
+    check_box_tag(
+      conference_id,
+      event.id,
+      event.send(attribute),
+      url:    admin_conference_program_event_path(
+                conference_id,
+                event,
+                event: { attribute => nil }
+              ),
+      method: :patch,
+      class:  'switch-checkbox',
+      data:   {
+        size:      'small',
+        off_color: 'warning',
+        on_text:   'Yes',
+        off_text:  'No'
+      }
+    )
+  end
+
   private
 
   def active_dropdown(selection, options)

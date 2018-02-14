@@ -21,13 +21,7 @@
         %td
           %b Highlight
         %td
-          = check_box_tag @conference.short_title, @event.id, @event.is_highlight,
-            method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{@event.id}?event[is_highlight]=",
-            class: 'switch-checkbox', data: { size: 'small',
-                                              off_color: 'warning',
-                                              on_text: 'Yes',
-                                              off_text: 'No' }
-
+          = event_switch_checkbox(@event, :is_highlight, @conference.short_title)
       %tr
         %td
           %b State
@@ -47,12 +41,7 @@
         %td
           %b Requires Registration
         %td
-          = check_box_tag @conference.short_title, @event.id, @event.require_registration,
-            method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{@event.id}?event[require_registration]=",
-            class: 'switch-checkbox', data: { size: 'small',
-                                              off_color: 'warning',
-                                              on_text: 'Yes',
-                                              off_text: 'No' }
+          = event_switch_checkbox(@event, :require_registration, @conference.short_title)
           - if @event.require_registration
             = registered_text(@event)
 
