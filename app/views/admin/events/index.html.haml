@@ -152,57 +152,12 @@
                                                   off_text: 'No' }
 
             %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  - if event.event_type.nil?
-                    Event Type
-                  - else
-                    = event.event_type.title
-                  %span.caret
-                %ul.dropdown-menu
-                  - @event_types.each do |type|
-                    %li= link_to type.title,
-                    admin_conference_program_event_path(@conference.short_title,
-                                                event,
-                                                event: { event_type_id: type.id }),
-                    method: :patch
+              = event_type_dropdown(event, @event_types, @conference.short_title)
             %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  - if event.track.nil?
-                    Track
-                  - else
-                    = event.track.name
-                  %span.caret
-                %ul.dropdown-menu
-                  - @tracks.each do |track|
-                    %li= link_to track.name,
-                    admin_conference_program_event_path(@conference.short_title,
-                                                event,
-                                                event: { track_id: track.id }),
-                    method: :patch
+              = track_dropdown(event, @tracks, @conference.short_title)
             %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  - if event.difficulty_level.nil?
-                    Difficulty
-                  - else
-                    = event.difficulty_level.title
-                  %span.caret
-                %ul.dropdown-menu
-                  - @difficulty_levels.each do |difficulty_level|
-                    %li= link_to difficulty_level.title,
-                    admin_conference_program_event_path(@conference.short_title,
-                                                event,
-                                                event: { difficulty_level_id: difficulty_level.id }),
-                    method: :patch
-
+              = difficulty_dropdown(event, @difficulty_levels, @conference.short_title)
             %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  = event.state.humanize
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  = render 'change_state_dropdown', event: event
+              = state_dropdown(event, @conference.short_title, @conference.email_settings)
             %td.text-center
               = link_to "#{event.comments_count}", admin_conference_program_event_path(@conference.short_title, event), anchor: 'comments-div'
