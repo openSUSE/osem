@@ -1029,7 +1029,7 @@ class Conference < ApplicationRecord
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
     grouped = if state
-                program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
+                program.events.select(group_by_id).where('state = ?', state).group(group_by_id)
               else
                 program.events.select(group_by_id).group(group_by_id)
               end
