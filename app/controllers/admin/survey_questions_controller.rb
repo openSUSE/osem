@@ -3,7 +3,7 @@
 module Admin
   class SurveyQuestionsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource :survey, through: :conference
+    load_and_authorize_resource :survey
     load_and_authorize_resource through: :survey
 
     def new

@@ -122,3 +122,8 @@
                       %dt Room:
                       %dd
                         = event.room.name
+      .row
+        .col-md-12
+          - if @surveys_after_event.any? && @event.ended?
+            .page-header
+            = render partial: 'surveys/list', locals: { surveys: @surveys_after_event, conference: @conference }

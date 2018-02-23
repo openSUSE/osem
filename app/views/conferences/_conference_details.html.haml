@@ -52,5 +52,5 @@
               = link_to 'Unsubscribe', conference_subscriptions_path(conference.short_title), method: :delete, class: 'btn btn-default'
             - if current_user && current_user.physical_tickets.by_conference(conference).any?
               = link_to 'My Tickets', conference_physical_tickets_path(conference.short_title), class: 'btn btn-default'
-            - surveys = conference.surveys.after_conference.select(&:active?)
-            = link_to 'Surveys', conference_surveys_path(conference.short_title), class: 'btn btn-default' if surveys.any?
+            - surveys_after_conference = conference.surveys.after_conference.select(&:active?)
+            = link_to 'Surveys', conference_surveys_path(conference.short_title), class: 'btn btn-default' if surveys_after_conference.any? && conference.ended?

@@ -6,7 +6,7 @@ module Admin
     load_and_authorize_resource
 
     def index
-      @surveys = @conference.surveys
+      @surveys = @conference.surveys + Survey.where(surveyable: @conference.program.events)
     end
 
     def new

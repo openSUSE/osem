@@ -21,6 +21,7 @@ class Event < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :voters, through: :votes, source: :user
   has_many :commercials, as: :commercialable, dependent: :destroy
+  has_many :surveys, as: :surveyable, dependent: :destroy
   belongs_to :event_type
 
   has_many :events_registrations
