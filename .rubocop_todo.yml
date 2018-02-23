@@ -156,7 +156,6 @@ Layout/MultilineMethodCallIndentation:
 # SupportedStyles: aligned, indented
 Layout/MultilineOperationIndentation:
   Exclude:
-    - 'app/controllers/admin/events_controller.rb'
     - 'app/controllers/application_controller.rb'
     - 'app/models/conference.rb'
     - 'app/models/event.rb'
@@ -212,7 +211,6 @@ Layout/SpaceBeforeSemicolon:
 Layout/SpaceInsideBlockBraces:
   Exclude:
     - 'app/controllers/admin/comments_controller.rb'
-    - 'app/controllers/admin/events_controller.rb'
     - 'app/controllers/admin/questions_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/program.rb'
@@ -325,7 +323,7 @@ Metrics/MethodLength:
 # Offense count: 4
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
-  Max: 171
+  Max: 200
 
 # Offense count: 20
 Metrics/PerceivedComplexity:
@@ -334,7 +332,6 @@ Metrics/PerceivedComplexity:
 # Offense count: 20
 Naming/AccessorMethodName:
   Exclude:
-    - 'app/controllers/admin/events_controller.rb'
     - 'app/controllers/application_controller.rb'
     - 'app/models/campaign.rb'
     - 'app/models/conference.rb'
@@ -473,7 +470,6 @@ Style/HashSyntax:
 # Configuration parameters: MaxLineLength.
 Style/IfUnlessModifier:
   Exclude:
-    - 'app/controllers/admin/events_controller.rb'
     - 'app/controllers/api/v1/events_controller.rb'
     - 'app/controllers/conference_registrations_controller.rb'
     - 'app/controllers/users/omniauth_callbacks_controller.rb'

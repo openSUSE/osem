@@ -7,15 +7,7 @@ module Admin
     # For some reason this doesn't work, so a workaround is used
     # load_and_authorize_resource :track, through: :program, only: [:index, :show, :edit]
 
-    before_action :get_tracks, only: [:index, :show, :edit]
-
-    # FIXME: The timezome should only be applied on output, otherwise
-    # you get lost in timezone conversions...
-    # around_filter :set_timezone_for_this_request
-
-    def set_timezone_for_this_request(&block)
-      Time.use_zone(@conference.timezone, &block)
-    end
+    before_action :assign_tracks, only: [:index, :show, :edit]
 
     def index
       @difficulty_levels = @program.difficulty_levels
@@ -35,7 +27,7 @@ module Admin
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
           render 'events'
         end
-        format.pdf {render 'events'}
+        format.pdf { render 'events' }
         format.csv do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
           render 'events'
@@ -50,10 +42,10 @@ module Admin
       @votes = @event.votes.includes(:user)
       @difficulty_levels = @program.difficulty_levels
       @versions = @event.versions |
-       PaperTrail::Version.where(item_type: 'Commercial').where('object LIKE ?', "%commercialable_id: #{@event.id}\ncommercialable_type: Event%") |
-       PaperTrail::Version.where(item_type: 'Commercial').where('object_changes LIKE ?', "%commercialable_id:\n- \n- #{@event.id}\ncommercialable_type:\n- \n- Event%") |
-       PaperTrail::Version.where(item_type: 'Vote').where('object_changes LIKE ?', "%\nevent_id:\n- \n- #{@event.id}\n%") |
-       PaperTrail::Version.where(item_type: 'Vote').where('object LIKE ?', "%\nevent_id: #{@event.id}\n%")
+                  PaperTrail::Version.where(item_type: 'Commercial').where('object LIKE ?', "%commercialable_id: #{@event.id}\ncommercialable_type: Event%") |
+                  PaperTrail::Version.where(item_type: 'Commercial').where('object_changes LIKE ?', "%commercialable_id:\n- \n- #{@event.id}\ncommercialable_type:\n- \n- Event%") |
+                  PaperTrail::Version.where(item_type: 'Vote').where('object_changes LIKE ?', "%\nevent_id:\n- \n- #{@event.id}\n%") |
+                  PaperTrail::Version.where(item_type: 'Vote').where('object LIKE ?', "%\nevent_id: #{@event.id}\n%")
     end
 
     def edit
@@ -70,9 +62,7 @@ module Admin
       comment.commentable = @event
       comment.user_id = current_user.id
       comment.save!
-      unless params[:parent].nil?
-        comment.move_to_child_of(params[:parent])
-      end
+      comment.move_to_child_of(params[:parent]) unless params[:parent].nil?
 
       redirect_to admin_conference_program_event_path(@conference.short_title, @event)
     end
@@ -207,7 +197,7 @@ module Admin
       end
     end
 
-    def get_tracks
+    def assign_tracks
       @tracks = Track.accessible_by(current_ability).where(program: @program).confirmed
     end
   end
