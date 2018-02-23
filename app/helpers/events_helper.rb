@@ -10,17 +10,6 @@ module EventsHelper
     "Registered: #{event.registrations.count}"
   end
 
-  def rating_stars(rating, max, options = {})
-    max.times.collect do |counter|
-      content_tag(
-        'label',
-        '',
-        class: "rating#{' bright' if rating.to_f > counter}",
-        **options
-      )
-    end.join.html_safe
-  end
-
   def replacement_event_notice(event_schedule)
     if event_schedule.present? && event_schedule.replacement?
       replaced_event = (event_schedule.intersecting_event_schedules.withdrawn.first || event_schedule.intersecting_event_schedules.canceled.first).event
@@ -158,10 +147,10 @@ module EventsHelper
       event.id,
       event.send(attribute),
       url:    admin_conference_program_event_path(
-                conference_id,
-                event,
-                event: { attribute => nil }
-              ),
+        conference_id,
+        event,
+        event: { attribute => nil }
+      ),
       method: :patch,
       class:  'switch-checkbox',
       data:   {
@@ -193,13 +182,13 @@ module EventsHelper
         }
       ) do
         content_tag('span', selection) +
-        content_tag('span', '', class: 'caret')
+          content_tag('span', '', class: 'caret')
       end +
-      content_tag('ul', class: 'dropdown-menu') do
-        options.collect do |option|
-          content_tag('li', link_to(option[0], option[1], method: :patch))
-        end.join.html_safe
-      end
+        content_tag('ul', class: 'dropdown-menu') do
+          options.collect do |option|
+            content_tag('li', link_to(option[0], option[1], method: :patch))
+          end.join.html_safe
+        end
     end
   end
 end

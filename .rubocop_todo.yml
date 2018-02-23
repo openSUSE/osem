@@ -714,3 +714,6 @@ Style/TrailingCommaInLiteral:
     - 'Guardfile'
     - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
     - 'spec/models/conference_spec.rb'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

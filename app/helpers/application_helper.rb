@@ -154,7 +154,7 @@ module ApplicationHelper
   end
 
   def rescheduling_hint(affected_event_count)
-    if affected_event_count > 0
+    if affected_event_count.positive?
       "You have #{affected_event_count} scheduled #{'event'.pluralize(affected_event_count)}. Changing the conference hours will unschedule those scheduled outside the conference hours."
     end
   end
@@ -196,4 +196,23 @@ module ApplicationHelper
       object.picture.large.url
     end
   end
+
+  def rating_stars(rating, max, options = {})
+    Array.new(max) do |counter|
+      content_tag(
+        'label',
+        '',
+        class: "rating#{' bright' if rating.to_f > counter}",
+        **options
+      )
+    end.join.html_safe
+  end
+
+  def rating_fraction(rating, max, options = {})
+    content_tag(
+      'span',
+      "#{rating}/#{max}",
+      **options
+    )
+  end`
 end

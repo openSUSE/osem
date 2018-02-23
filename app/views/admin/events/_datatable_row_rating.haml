@@ -2,11 +2,11 @@
   %div{ data: { toggle: 'tooltip' }, title: rating_tooltip(event, max_rating) }<
     = rating_stars(event.average_rating, max_rating, avgrate: true)
 
-%div.clearfix
+.clearfix
   - if event.voted?(current_user)
     %span.label.label-success
       You voted:
-      = "#{event.user_rating(current_user)}/#{max_rating}"
+      = rating_fraction(event.user_rating(current_user), max_rating)
   - else
     %span.label.label-danger
       Not rated

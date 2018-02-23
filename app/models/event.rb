@@ -120,7 +120,15 @@ class Event < ApplicationRecord
       @total_rating += vote.rating
     end
     @total = votes.size
-    @total_rating > 0 ? number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true) : 0
+    if @total_rating.positive?
+      number_with_precision(
+        @total_rating / @total.to_f,
+        precision:                 2,
+        strip_insignificant_zeros: true
+      )
+    else
+      0
+    end
   end
 
   # get event speakers with the event sumbmitter at the first position
@@ -310,7 +318,7 @@ class Event < ApplicationRecord
 
   def before_end_of_conference
     errors
-        .add(:created_at, "can't be after the conference end date!") if program.conference && program.conference.end_date &&
+        .add(:created_at, "can't be after the conference end date!") if program.conference&.end_date &&
         (Date.today > program.conference.end_date)
   end
 
@@ -322,7 +330,7 @@ class Event < ApplicationRecord
   # Allow only confirmed tracks that belong to the same program as the event
   #
   def valid_track
-    return unless track && track.program && program
+    return unless track&.program && program
     errors.add(:track, 'is invalid') unless track.confirmed? && track.program == program
   end
 

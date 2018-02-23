@@ -80,7 +80,7 @@ class Program < ApplicationRecord
     tracks.self_organized.confirmed.order(start_date: :asc).each do |track|
       event_schedules += track.selected_schedule.event_schedules.order(start_time: :asc) if track.selected_schedule
     end
-    event_schedules.sort_by(&:start_time) if event_schedules
+    event_schedules&.sort_by(&:start_time)
   end
 
   ##
@@ -134,7 +134,7 @@ class Program < ApplicationRecord
   # * +false+ -> If rating is not enabled
   # * +true+ -> If rating is enabled
   def rating_enabled?
-    rating && rating > 0
+    rating&.positive?
   end
 
   ##
@@ -240,7 +240,9 @@ class Program < ApplicationRecord
   # Check if schedule_interval is a divisor of 60 minutes
   #
   def schedule_interval_divisor_60
-    errors.add(:schedule_interval, 'must be a divisor of 60') if schedule_interval > 0 && 60 % schedule_interval > 0
+    if schedule_interval.positive? && 60 % schedule_interval.positive?
+      errors.add(:schedule_interval, 'must be a divisor of 60')
+    end
   end
 
   ##
@@ -248,7 +250,7 @@ class Program < ApplicationRecord
   #
   def unschedule_unfit_events
     unfit_schedules = event_schedules.select do |event_schedule|
-      event_schedule.start_time.min % schedule_interval > 0
+      event_schedule.start_time.min % schedule_interval.positive?
     end
     EventSchedule.where(id: unfit_schedules.map(&:id)).destroy_all
   end

@@ -19,16 +19,16 @@ describe EventsHelper, type: :helper do
     end
   end
 
-  describe "#rating_tooltip" do
+  describe '#rating_tooltip' do
     let(:max_rating) { 5 }
     let(:event) { create(:event) }
     let(:average_rating) { "#{event.average_rating}/#{max_rating}" }
     let(:vote_count) { pluralize(event.voters.length, 'vote') }
 
-    it "includes the average rating" do
+    it 'includes the average rating' do
       expect(rating_tooltip(event, max_rating)).to match(average_rating)
     end
-    it "includes the vote count" do
+    it 'includes the vote count' do
       expect(rating_tooltip(event, max_rating)).to match(vote_count)
     end
   end

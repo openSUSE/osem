@@ -1,5 +1,6 @@
-- cache ['admin/events/index', conference_id, event, event.submitter, event.speakers, event_types, tracks, difficulty_levels] do
-  %tr{id: "event-#{event.id}"}
+- cache ['admin/events/index', conference_id, event, event.submitter,
+  event.speakers, event_types, tracks, difficulty_levels] do
+  %tr{ id: "event-#{event.id}" }
     %td
       = event.id
 
@@ -38,7 +39,8 @@
       = event_switch_checkbox(event, :require_registration, conference_id)
       - if event.require_registration
         = link_to registered_text(event),
-          registrations_admin_conference_program_event_path(conference_id, event),
+          registrations_admin_conference_program_event_path(conference_id,
+            event),
           class: 'btn btn-xs btn-default'
 
     %td.text-center{ data: { order: event.is_highlight.to_s } }
