@@ -111,10 +111,7 @@ module Admin
     end
 
     def show
-      @program = @conference.program
-      unless @conference.program
-        @program = Program.new(conference_id: @conference.id)
-      end
+      @program = @conference.program || Program.new(conference_id: @conference.id)
 
       # Overview and since last login information
       @total_reg = @conference.registrations.count
@@ -147,7 +144,6 @@ module Admin
 
       @submissions = Conference.get_event_state_line_colors
 
-      @submissions_data = {}
       @submissions_data = @conference.get_submissions_data
       @cfp_weeks = 0
       if @submissions_data['Weeks']
@@ -155,7 +151,6 @@ module Admin
         @submissions_data = @submissions_data.except('Weeks')
       end
 
-      @tickets_data = {}
       @tickets_data = @conference.get_tickets_data
       @ticket_weeks = 0
       if @tickets_data['Weeks']
