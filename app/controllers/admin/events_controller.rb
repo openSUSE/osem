@@ -25,6 +25,7 @@ module Admin
       @scheduled_event_distribution = @conference.scheduled_event_distribution
       @file_name = "events_for_#{@conference.short_title}"
       @event_export_option = params[:event_export_option]
+      @export_formats = [:pdf, :csv, :xlsx]
 
       respond_to do |format|
         format.html
