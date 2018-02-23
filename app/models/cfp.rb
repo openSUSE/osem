@@ -42,7 +42,7 @@ class Cfp < ApplicationRecord
   def weeks
     result = end_week - start_week + 1
     weeks = Date.new(start_date.year, 12, 31).strftime('%W').to_i
-    result < 0 ? result + weeks : result
+    result.negative? ? result + weeks : result
   end
 
   ##
@@ -63,7 +63,7 @@ class Cfp < ApplicationRecord
 
   def remaining_days(date = Date.today)
     result = (end_date - date).to_i
-    result > 0 ? result : 0
+    result.positive? ? result : 0
   end
 
   ##
@@ -106,12 +106,12 @@ class Cfp < ApplicationRecord
   private
 
   def before_end_of_conference
-    if program && program.conference && program.conference.end_date && end_date && (end_date > program.conference.end_date)
+    if program&.conference && program.conference.end_date && end_date && (end_date > program.conference.end_date)
       errors
       .add(:end_date, "can't be after the conference end date (#{program.conference.end_date})")
     end
 
-    if program && program.conference && program.conference.end_date && start_date && (start_date > program.conference.end_date)
+    if program&.conference && program.conference.end_date && start_date && (start_date > program.conference.end_date)
       errors
       .add(:start_date, "can't be after the conference end date (#{program.conference.end_date})")
     end

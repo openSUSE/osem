@@ -48,7 +48,7 @@ class TicketPurchase < ApplicationRecord
   end
 
   def self.purchase_ticket(conference, quantity, ticket, user)
-    if quantity > 0
+    if quantity.positive?
       purchase = new(ticket_id: ticket.id,
                      conference_id: conference.id,
                      user_id: user.id,
@@ -65,7 +65,7 @@ class TicketPurchase < ApplicationRecord
                                     user_id: user.id,
                                     paid: false).first
 
-    purchase.quantity = quantity if quantity > 0
+    purchase.quantity = quantity if quantity.positive?
     purchase
   end
 

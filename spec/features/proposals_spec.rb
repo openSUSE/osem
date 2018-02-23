@@ -30,8 +30,8 @@ feature Event do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
 
-      click_button 'New'
-      click_link "reject_event_#{@event.id}"
+      click_on 'New'
+      click_link 'Reject'
       expect(page).to have_content 'Event rejected!'
       @event.reload
       expect(@event.state).to eq('rejected')
@@ -41,8 +41,8 @@ feature Event do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
 
-      click_button 'New'
-      click_link "accept_event_#{@event.id}"
+      click_on 'New'
+      click_link 'Accept'
       expect(page).to have_content 'Event accepted!'
       expect(page).to have_content 'Unconfirmed'
       @event.reload
@@ -54,8 +54,8 @@ feature Event do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
 
-      click_button 'Rejected'
-      click_link "restart_event_#{@event.id}"
+      click_on 'Rejected'
+      click_link 'Start review'
       expect(page).to have_content 'Review started!'
       @event.reload
       expect(@event.state).to eq('new')

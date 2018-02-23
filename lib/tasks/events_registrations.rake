@@ -5,7 +5,7 @@ namespace :events_registrations do
       duplicates = EventsRegistration.all.map { |er| er.id if er.valid? == false}.compact
 
       puts "Duplicates found: #{duplicates.count}"
-      if duplicates.count > 0
+      if duplicates.count.positive?
         puts "With IDs: #{duplicates}"
       end
 

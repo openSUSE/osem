@@ -1,1 +1,10 @@
-$('table#myrating').replaceWith("<%= escape_javascript(render :partial => 'voting') %>");
+$('table#myrating').replaceWith(
+  "<%= escape_javascript(render 'voting', \
+         event:         @event, \
+         show_votes:    @program.show_voting?, \
+         max_rating:    @program.rating, \
+         voting_period: @program.voting_period?, \
+         votes:         @votes, \
+         conference_id: @conference.short_title \
+       ) %>"
+);

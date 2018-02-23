@@ -19,7 +19,7 @@ class Venue < ApplicationRecord
 
   def country_name
     name = ISO3166::Country[country]
-    name.name if name
+    name&.name
   end
 
   def location?

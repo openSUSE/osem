@@ -1,188 +1,136 @@
-.row
-  .col-md-12
-    %h3
-      = @event.title
-      %br
-      %small
-        = @event.subtitle
-      .btn-group.pull-right
-        = link_to 'Registrations', registrations_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-success'
-        = link_to 'Edit', edit_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
+- cache ['admin/event', @conference, @event, @event_types, @tracks, @difficulty_levels] do
+  .row
+    .col-md-12
+      %h3
+        = @event.title
+        %br
+        %small
+          = @event.subtitle
+        .btn-group.pull-right
+          = link_to 'Registrations', registrations_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-success'
+          = link_to 'Edit', edit_admin_conference_program_event_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
 
-.row
-  .col-md-12
-    %table.table
-      %tr
-        %td.col-md-2
-          %b Type
-        %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'type-dropdown', 'data-toggle' => 'dropdown' do
-              - if @event.event_type.nil?
-                Event Type
-              - else
-                = @event.event_type.title
-              <b class='caret'></b>
-            %ul.dropdown-menu
-              - @event_types.each do |type|
-                %li= link_to type.title,
-                admin_conference_program_event_path(@conference.short_title,
-                                            @event,
-                                            event: { event_type_id: type.id }),
-                method: :patch
-      %tr
-        %td
-          %b Highlight
-        %td
-          = check_box_tag @conference.short_title, @event.id, @event.is_highlight,
-            method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{@event.id}?event[is_highlight]=",
-            class: 'switch-checkbox', data: { size: 'small',
-                                              off_color: 'warning',
-                                              on_text: 'Yes',
-                                              off_text: 'No' }
-
-      %tr
-        %td
-          %b State
-        %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-              = @event.state.humanize
-              <b class='caret'></b>
-            %ul.dropdown-menu
-              = render 'change_state_dropdown', event: @event
-      %tr
-        %td
-          %b Track
-        %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'track-dropdown', 'data-toggle' => 'dropdown' do
-              - if @event.track.nil?
-                Track
-              - else
-                = @event.track.name
-              <b class="caret"></b>
-            %ul.dropdown-menu
-              - @tracks.each do |track|
-                %li= link_to track.name,
-                admin_conference_program_event_path(@conference.short_title,
-                                            @event,
-                                            event: { track_id: track.id }),
-                method: :patch
-      %tr
-        %td
-          %b Difficulty
-        %td
-          .dropdown
-            = link_to '#', class: 'dropdown-toggle', id: 'difficulty-dropdown', 'data-toggle' => 'dropdown' do
-              - if @event.difficulty_level.nil?
-                Difficulty Level
-              - else
-                = @event.difficulty_level.title
-              <b class="caret"></b>
-            %ul.dropdown-menu
-              - @difficulty_levels.each do |difficulty|
-                %li= link_to difficulty.title, admin_conference_program_event_path(@conference.short_title,
-                                            @event,
-                                            event: { difficulty_level_id: difficulty.id }),
-                method: :patch
-      %tr
-        %td
-          %b Requires Registration
-        %td
-          = check_box_tag @conference.short_title, @event.id, @event.require_registration,
-            method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{@event.id}?event[require_registration]=",
-            class: 'switch-checkbox', data: { size: 'small',
-                                              off_color: 'warning',
-                                              on_text: 'Yes',
-                                              off_text: 'No' }
-          - if @event.require_registration
-            = registered_text(@event)
-
-      - if @program.languages.present?
+  .row
+    .col-md-12
+      %table.table
+        %tr
+          %td.col-md-2
+            %b Type
+          %td
+            = event_type_dropdown(@event, @event_types, @conference.short_title)
         %tr
           %td
-            %b Language
+            %b Highlight
           %td
-            = @event.language
+            = event_switch_checkbox(@event, :is_highlight, @conference.short_title)
+        %tr
+          %td
+            %b State
+          %td
+            = state_dropdown(@event, @conference.short_title, @conference.email_settings)
+        %tr
+          %td
+            %b Track
+          %td
+            = track_dropdown(@event, @tracks, @conference.short_title)
+        %tr
+          %td
+            %b Difficulty
+          %td
+            = difficulty_dropdown(@event, @difficulty_levels, @conference.short_title)
+        %tr
+          %td
+            %b Requires Registration
+          %td
+            = event_switch_checkbox(@event, :require_registration, @conference.short_title)
+            - if @event.require_registration
+              = registered_text(@event)
 
-      - unless @event.room.nil?
+        - if @program.languages.present?
+          %tr
+            %td
+              %b Language
+            %td
+              = @event.language
+
+        - unless @event.room.nil?
+          %tr
+            %td
+              %b Room
+            %td
+              = @event.room.name
+        - unless @event.time.nil?
+          %tr
+            %td
+              %b Scheduled time
+            %td
+              = time_with_timezone(@event.time)
         %tr
           %td
-            %b Room
+            %b Submitter
           %td
-            = @event.room.name
-      - unless @event.time.nil?
-        %tr
-          %td
-            %b Scheduled time
-          %td
-            = time_with_timezone(@event.time)
-      %tr
-        %td
-          %b Submitter
-        %td
-          - if @program.show_voting?
             = link_to @event.submitter.name, admin_user_path(@event.submitter)
             (
             = link_to @event.submitter.email, "mailto: #{@event.submitter.email}"
             )
-          - else
-            %i Hidden
-      %tr
-        %td
-          %b Speakers
-        %td
-          - if @program.show_voting?
+        %tr
+          %td
+            %b Speakers
+          %td
             - @event.speakers.each do |speaker|
               %div
                 = link_to speaker.name, admin_user_path(speaker)
                 (
                 = link_to speaker.email, "mailto: #{speaker.email}"
                 )
-          - else
-            %i Hidden
-      %tr
-        %td
-          %b Biographies
-        %td
-          - @event.speakers.each do |speaker|
-            - unless speaker.biography.blank?
-              %b
-                = speaker.name
-              = markdown(speaker.biography)
-      %tr
-        %td
-          %b Submitted on
-        %td= @event.created_at
-      %tr
-        %td
-          %b Last updated on
-        %td= @event.updated_at
-      %tr
-        %td
-          %b Abstract
-        %td= markdown(@event.abstract)
-      %tr
-        %td
-          %b Requirements
-        %td= simple_format(@event.description)
+        %tr
+          %td
+            %b Biographies
+          %td
+            - @event.speakers.each do |speaker|
+              - unless speaker.biography.blank?
+                %b
+                  = speaker.name
+                = markdown(speaker.biography)
+        %tr
+          %td
+            %b Submitted on
+          %td= @event.created_at
+        %tr
+          %td
+            %b Last updated on
+          %td= @event.updated_at
+        %tr
+          %td
+            %b Abstract
+          %td= markdown(@event.abstract)
+        %tr
+          %td
+            %b Requirements
+          %td= simple_format(@event.description)
 
-      - if @conference.program && @conference.program.rating && @conference.program.rating > 0
-        = render partial: 'voting'
+        - if @conference.program.rating_enabled?
+          = render 'voting',
+            event:         @event,
+            show_votes:    @program.show_voting?,
+            max_rating:    @program.rating,
+            voting_period: @program.voting_period?,
+            votes:         @votes,
+            conference_id: @conference.short_title
 
-.row
-  = link_to "Comments (#{@comment_count})", '#', id: 'event-comment-link'
-  #comments-div
-    %hr
-    %ul.media
-      %div
-        .row-fluid
-          = semantic_form_for :comment, url: comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post do |f|
-            = f.input :body
-            = f.submit 'Add Comment', class: 'btn btn-primary pull-right'
-        %br
-        %br
-        - @comments.each do |comment|
-          %div
-            = render partial: 'nested_comments', locals: { comment: comment, padding: 0}
+- cache [@conference, @event, @comments] do
+  .row
+    = link_to "Comments (#{@comment_count})", '#', id: 'event-comment-link'
+    #comments-div
+      %hr
+      %ul.media
+        %div
+          .row-fluid
+            = semantic_form_for :comment, url: comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post do |f|
+              = f.input :body
+              = f.submit 'Add Comment', class: 'btn btn-primary pull-right'
+          %br
+          %br
+          - @comments.each do |comment|
+            %div
+              = render partial: 'nested_comments', locals: { comment: comment, padding: 0}

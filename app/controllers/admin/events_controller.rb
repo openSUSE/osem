@@ -25,6 +25,7 @@ module Admin
       @scheduled_event_distribution = @conference.scheduled_event_distribution
       @file_name = "events_for_#{@conference.short_title}"
       @event_export_option = params[:event_export_option]
+      @export_formats = [:pdf, :csv, :xlsx]
 
       respond_to do |format|
         format.html
@@ -46,7 +47,7 @@ module Admin
       @event_types = @program.event_types
       @comments = @event.root_comments
       @comment_count = @event.comment_threads.count
-      @ratings = @event.votes.includes(:user)
+      @votes = @event.votes.includes(:user)
       @difficulty_levels = @program.difficulty_levels
       @versions = @event.versions |
        PaperTrail::Version.where(item_type: 'Commercial').where('object LIKE ?', "%commercialable_id: #{@event.id}\ncommercialable_type: Event%") |
@@ -146,7 +147,7 @@ module Admin
     end
 
     def vote
-      @ratings = @event.votes.includes(:user)
+      @votes = @event.votes.includes(:user)
 
       if (votes = current_user.votes.find_by_event_id(params[:id]))
         votes.update_attributes(rating: params[:rating])

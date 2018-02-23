@@ -6,37 +6,20 @@
         = "(#{@events.length})" if @events.any?
 
         .btn-group.pull-right
-          %button.btn.btn-primary{ 'data-toggle' => 'modal', 'data-target' => '#mass-commercials-modal', title: 'Mass import of commercials for events' }
+          %button.btn.btn-primary{ title: 'Mass import of commercials for events',
+            data: { toggle: 'modal', target: '#mass-commercials-modal' } }
             Add Commercials
 
           - if can? :create, Event
-            = link_to 'Add Event', new_admin_conference_program_event_path(@conference.short_title), class: 'button btn btn-default btn-info'
+            = link_to 'Add Event',
+              new_admin_conference_program_event_path(@conference.short_title),
+              class: 'button btn btn-default btn-info'
 
           - if can? :read, Event
-            .btn-group
-              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                Export PDF
-                %span.caret
-              %ul.dropdown-menu{ role: 'menu' }
-                %li= link_to 'All Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all')
-                %li= link_to 'Confirmed Events', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'confirmed')
-                %li= link_to 'All Events with Comments', admin_conference_program_events_path(@conference.short_title, format: :pdf, event_export_option: 'all_with_comments')
-            .btn-group
-              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                Export CSV
-                %span.caret
-              %ul.dropdown-menu{ role: 'menu' }
-                %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all')
-                %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'confirmed')
-                %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :csv, event_export_option: 'all_with_comments')
-            .btn-group
-              %button.btn.btn-default.dropdown-toggle{ 'data-toggle' => 'dropdown', type: 'button', class: 'btn btn-success' }
-                Export XLS
-                %span.caret
-              %ul.dropdown-menu{ role: 'menu' }
-                %li= link_to 'All', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all')
-                %li= link_to 'Confirmed', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'confirmed')
-                %li= link_to 'All with Comments', admin_conference_program_events_path(@conference.short_title, format: :xlsx, event_export_option: 'all_with_comments')
+            - @export_formats.each do |export_format|
+              = render 'export_menu',
+                export_format: export_format,
+                conference_id: @conference.short_title
 
       %p.text-muted
         All the submissions of your speakers
@@ -54,17 +37,25 @@
           %b 11:https://youtube.com/myvideo
 
       .modal-body
-        = semantic_form_for '', url: mass_upload_commercials_admin_conference_program_path(@conference.short_title), method: :post do |f|
+        = semantic_form_for '',
+          url:    mass_upload_commercials_admin_conference_program_path(@conference.short_title),
+          method: :post do |f|
           = f.input 'file', as: :file
           .modal-footer
             = f.submit 'Add', class: 'btn btn-primary'
 .row
   .col-md-4
-    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Events state', data: @event_distribution }
+    = render 'admin/conferences/doughnut_chart',
+      title: 'Events state',
+      data:  @event_distribution
   .col-md-4
-    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Confirmed events scheduled', data: @scheduled_event_distribution }
+    = render 'admin/conferences/doughnut_chart',
+      title: 'Confirmed events scheduled',
+      data:  @scheduled_event_distribution
   .col-md-4
-    = render partial: 'admin/conferences/doughnut_chart', locals: { title: 'Tracks of confirmed events', data: @tracks_distribution_confirmed }
+    = render 'admin/conferences/doughnut_chart',
+      title: 'Tracks of confirmed events',
+      data:  @tracks_distribution_confirmed
 .row
   .col-md-12
     .margin-event-table
@@ -81,7 +72,7 @@
             %b Submitter
           %th
             %b Speakers
-          -if @program.languages.present?
+          - if @program.languages.present?
             %th
               %b Language
           %th
@@ -99,113 +90,14 @@
           %th
             .fa.fa-comment
         - @events.each do |event|
-          %tr
-            %td
-              = event.id
-            %td
-              = link_to event.title, admin_conference_program_event_path(@conference.short_title, event)
-
-            - if @program.rating_enabled?
-              %td.col-md-1{ 'data-order' => "#{event.average_rating}" }
-                = render partial: 'voting_index', locals: { event: event }
-
-            - if event.submitter && event.submitter.registrations && event.submitter.registrations.count < 1
-              - bgcolor = '#F7819F'
-            - else
-              - bgcolor = ''
-            %td{ style: "background-color: #{bgcolor}" }
-              - if @program.show_voting?
-                - unless event.submitter.nil?
-                  = link_to event.submitter.name, admin_user_path(event.submitter)
-                  - if event.submitter.registrations.count < 1
-                    (Unregistered!)
-                - else
-                  Unknown submitter
-              - else
-                %i Hidden
-            %td
-              - if @program.show_voting?
-                - event.speakers_ordered.each do |speaker|
-                  .speaker
-                    = link_to speaker.name, admin_user_path(speaker)
-              - else
-                %i Hidden
-
-            - if @program.languages.present?
-              %td
-                = event.language
-
-            %td.text-center{ 'data-order' => "#{event.require_registration}" }
-              = check_box_tag @conference.short_title, event.id, event.require_registration,
-                method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[require_registration]=",
-                class: 'switch-checkbox', data: { size: 'small',
-                                                  off_color: 'warning',
-                                                  on_text: 'Yes',
-                                                  off_text: 'No' }
-              - if event.require_registration
-                %br
-                = link_to registered_text(event), registrations_admin_conference_program_event_path(@conference.short_title, event), class: 'btn btn-xs btn-default'
-
-            %td.text-center{ 'data-order' => "#{event.is_highlight}" }
-              = check_box_tag @conference.short_title, event.id, event.is_highlight,
-                method: :patch, url: "/admin/conferences/#{@conference.short_title}/program/events/#{event.id}?event[is_highlight]=",
-                class: 'switch-checkbox', data: { size: 'small',
-                                                  off_color: 'warning',
-                                                  on_text: 'Yes',
-                                                  off_text: 'No' }
-
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  - if event.event_type.nil?
-                    Event Type
-                  - else
-                    = event.event_type.title
-                  %span.caret
-                %ul.dropdown-menu
-                  - @event_types.each do |type|
-                    %li= link_to type.title,
-                    admin_conference_program_event_path(@conference.short_title,
-                                                event,
-                                                event: { event_type_id: type.id }),
-                    method: :patch
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  - if event.track.nil?
-                    Track
-                  - else
-                    = event.track.name
-                  %span.caret
-                %ul.dropdown-menu
-                  - @tracks.each do |track|
-                    %li= link_to track.name,
-                    admin_conference_program_event_path(@conference.short_title,
-                                                event,
-                                                event: { track_id: track.id }),
-                    method: :patch
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  - if event.difficulty_level.nil?
-                    Difficulty
-                  - else
-                    = event.difficulty_level.title
-                  %span.caret
-                %ul.dropdown-menu
-                  - @difficulty_levels.each do |difficulty_level|
-                    %li= link_to difficulty_level.title,
-                    admin_conference_program_event_path(@conference.short_title,
-                                                event,
-                                                event: { difficulty_level_id: difficulty_level.id }),
-                    method: :patch
-
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  = event.state.humanize
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  = render 'change_state_dropdown', event: event
-            %td.text-center
-              = link_to "#{event.comments_count}", admin_conference_program_event_path(@conference.short_title, event), anchor: 'comments-div'
+          = render 'datatable_row',
+            event: event,
+            conference_id: @conference.short_title,
+            program: @program,
+            rating_enabled: @program.rating_enabled?,
+            show_votes: @program.show_voting?,
+            max_rating: @program.rating,
+            event_types: @event_types,
+            tracks: @tracks,
+            difficulty_levels: @difficulty_levels,
+            email_settings: @conference.email_settings

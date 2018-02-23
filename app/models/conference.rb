@@ -102,7 +102,7 @@ class Conference < ApplicationRecord
   # * +false+ -> If the user is registered
   # * +true+ - If the user isn't registered
   def user_registered? user
-    user.present? && registrations.where(user_id: user.id).count > 0
+    user.present? && registrations.where(user_id: user.id).count.positive?
   end
 
   ##
@@ -113,7 +113,7 @@ class Conference < ApplicationRecord
       event_schedules = program.event_schedules.select do |event_schedule|
         event_schedule.start_time.hour < start_hour ||
         event_schedule.end_time.hour > end_hour ||
-        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute > 0)
+        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute.positive?)
       end
       event_schedules.each(&:destroy)
     end
@@ -151,7 +151,7 @@ class Conference < ApplicationRecord
   def get_submissions_per_week
     result = []
 
-    if program && program.cfp && program.events
+    if program&.cfp && program.events
       submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
@@ -168,7 +168,7 @@ class Conference < ApplicationRecord
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
     result = {}
-    if program && program.cfp && program.events
+    if program&.cfp && program.events
       result = get_events_per_week_by_state
 
       start_week = program.cfp.start_week
@@ -182,7 +182,7 @@ class Conference < ApplicationRecord
           result[state] = pad_array_left_not_kumulative(start_week, values)
         end
       end
-      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
+      result['Weeks'] = weeks.positive? ? (1..weeks).to_a : 0
     end
     result
   end
@@ -256,7 +256,7 @@ class Conference < ApplicationRecord
         result[Ticket.find(ticket).title] = pad_array_left_not_kumulative(start_week, values)
       end
 
-      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
+      result['Weeks'] = weeks.positive? ? (1..weeks).to_a : 0
     end
     result
   end
@@ -269,15 +269,14 @@ class Conference < ApplicationRecord
   def registration_weeks
     result = 0
     weeks = 0
-    if registration_period &&
-        registration_period.start_date &&
+    if registration_period&.start_date &&
         registration_period.end_date
       weeks = Date.new(registration_period.start_date.year, 12, 31)
           .strftime('%W').to_i
 
       result = get_registration_end_week - get_registration_start_week + 1
     end
-    result < 0 ? result + weeks : result
+    result.negative? ? result + weeks : result
   end
 
   ##
@@ -343,7 +342,7 @@ class Conference < ApplicationRecord
       tracks: tracks_set?,
       event_types: event_types_set?,
       difficulty_levels: difficulty_levels_set?,
-      splashpage: splashpage && splashpage.public?
+      splashpage: splashpage&.public?
     }
 
     result.update(
@@ -449,11 +448,11 @@ class Conference < ApplicationRecord
         i += 1
       end
     end
-    if others > 0
+    if others.positive?
       result['Others'] = { 'value' => others, 'color' => next_color(i) }
       i += 1
     end
-    result['None'] = { 'value' => none, 'color' => next_color(i) } if none > 0
+    result['None'] = { 'value' => none, 'color' => next_color(i) } if none.positive?
     result
   end
 
@@ -719,7 +718,7 @@ class Conference < ApplicationRecord
   # * +True+ -> If the registration limit has been reached or exceeded
   # * +False+ -> If the registration limit hasn't been exceeded
   def registration_limit_exceeded?
-    registration_limit > 0 && registrations.count + program.speakers.confirmed.unregistered(program.conference).count >= registration_limit
+    registration_limit.positive? && registrations.count + program.speakers.confirmed.unregistered(program.conference).count >= registration_limit
   end
 
   # Returns an hexadecimal color given a collection. The returned color changed
@@ -757,7 +756,7 @@ class Conference < ApplicationRecord
   # * +True+ -> if accepted booths are equal to the booth limit
   # * +False+ -> Accepted booths have not reached the booth limit
   def maximum_accepted_booths?
-    booth_limit > 0 && booths.accepted.count + booths.confirmed.count >= booth_limit
+    booth_limit.positive? && booths.accepted.count + booths.confirmed.count >= booth_limit
   end
 
   ##
@@ -829,7 +828,7 @@ class Conference < ApplicationRecord
   # Reports an error when such a condition is found
   def valid_times_range?
     if start_hour && end_hour
-      errors.add(:start_hour, 'is lower than 0') if start_hour < 0
+      errors.add(:start_hour, 'is lower than 0') if start_hour.negative?
       errors.add(:end_hour, 'is lower or equal than start hour') if end_hour <= start_hour
       errors.add(:end_hour, 'is greater than 24') if end_hour > 24
     end
@@ -843,7 +842,7 @@ class Conference < ApplicationRecord
   def weeks(start_week, end_week)
     weeks = end_week - start_week + 1
     weeks_of_year = Date.new(start_date.year, 12, 31).strftime('%W').to_i
-    weeks < 0 ? weeks + weeks_of_year : weeks
+    weeks.negative? ? weeks + weeks_of_year : weeks
   end
 
   ##
@@ -961,7 +960,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One difficulty level or more
   # * +False+ -> No diffculty level
   def difficulty_levels_set?
-    program.difficulty_levels.count > 0
+    program.difficulty_levels.count.positive?
   end
 
   ##
@@ -971,7 +970,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One difficulty level or more
   # * +False+ -> No diffculty level
   def event_types_set?
-    program.event_types.count > 0
+    program.event_types.count.positive?
   end
 
   ##
@@ -981,7 +980,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One track or more
   # * +False+ -> No track
   def tracks_set?
-    program.tracks.count > 0
+    program.tracks.count.positive?
   end
 
   ##
@@ -991,7 +990,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One room or more
   # * +False+ -> No room
   def rooms_set?
-    venue.present? && venue.rooms.count > 0
+    venue.present? && venue.rooms.count.positive?
   end
 
   # Checks if the conference has a venue object.
@@ -1097,19 +1096,19 @@ class Conference < ApplicationRecord
   # * +hash+ -> hash
   def self.calculate_user_distribution_hash(active_user, unconfirmed_user, dead_user)
     result = {}
-    if active_user > 0
+    if active_user.positive?
       result['Active'] = {
         'color' => 'green',
         'value' => active_user
       }
     end
-    if unconfirmed_user > 0
+    if unconfirmed_user.positive?
       result['Unconfirmed'] = {
         'color' => 'red',
         'value' => unconfirmed_user
       }
     end
-    if dead_user > 0
+    if dead_user.positive?
       result['Dead'] = {
         'color' => 'black',
         'value' => dead_user

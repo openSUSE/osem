@@ -113,10 +113,8 @@ class Track < ApplicationRecord
   def revoke_role_and_cleanup
     role = Role.find_by(name: 'track_organizer', resource: self)
 
-    if role
-      role.users.each do |user|
-        user.remove_role 'track_organizer', self
-      end
+    role&.users&.each do |user|
+      user.remove_role 'track_organizer', self
     end
 
     self.selected_schedule_id = nil

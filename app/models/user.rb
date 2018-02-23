@@ -126,7 +126,7 @@ class User < ApplicationRecord
   def self.for_ichain_username(username, attributes)
     user = find_by(username: username)
 
-    raise UserDisabled if user && user.is_disabled
+    raise UserDisabled if user&.is_disabled
 
     if user
       user.update_attributes(email: attributes[:email],
