@@ -22,6 +22,8 @@ class User < ApplicationRecord
 
   before_create :setup_role
 
+  after_save :touch_events
+
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
 
@@ -229,6 +231,10 @@ class User < ApplicationRecord
     if User.count == 1 && User.first.email == 'deleted@localhost.osem'
       self.is_admin = true
     end
+  end
+
+  def touch_events
+    event_users.each(&:touch)
   end
 
   ##

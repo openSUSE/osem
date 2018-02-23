@@ -1,5 +1,5 @@
 class DifficultyLevel < ApplicationRecord
-  belongs_to :program
+  belongs_to :program, touch: true
   has_many :events, dependent: :nullify
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }

@@ -1,5 +1,5 @@
 class EventType < ApplicationRecord
-  belongs_to :program
+  belongs_to :program, touch: true
   has_many :events, dependent: :restrict_with_error
 
   has_paper_trail meta: { conference_id: :conference_id }

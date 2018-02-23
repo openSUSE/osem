@@ -4,7 +4,7 @@ class Track < ApplicationRecord
 
   resourcify :roles, dependent: :delete_all
 
-  belongs_to :program
+  belongs_to :program, touch: true
   belongs_to :submitter, class_name: 'User'
   belongs_to :room
   belongs_to :selected_schedule, class_name: 'Schedule'
