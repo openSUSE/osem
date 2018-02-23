@@ -3,6 +3,7 @@ inherit_from: .rubocop_todo.yml
 
 # Apply rule to all cops
 AllCops:
+  TargetRubyVersion: 2.4
   Include:
     - '**/Rakefile'
     - '**/config.ru'
