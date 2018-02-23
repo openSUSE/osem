@@ -785,6 +785,16 @@ class Conference < ApplicationRecord
     short_title
   end
 
+  ##
+  # Returns true or false, if the event is already over or not
+  #
+  # ====Returns
+  # * +true+ -> If the event is over
+  # * +false+ -> If the event is not over yet
+  def ended?
+    end_date < Time.current
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are

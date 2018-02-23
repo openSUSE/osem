@@ -38,7 +38,7 @@
               class:  'rating myrating'
       - else
         = rating_stars(event.user_rating(current_user), max_rating, voted: true)
-        = (Voting period is closed)
+        (Voting period is closed)
 
   - if show_votes
     - unless votes.blank?
