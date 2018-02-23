@@ -300,7 +300,7 @@ Lint/UnusedBlockArgument:
 
 # Offense count: 136
 Metrics/AbcSize:
-  Max: 86
+  Max: 98
 
 # Offense count: 258
 # Configuration parameters: CountComments, ExcludedMethods.
@@ -320,7 +320,7 @@ Metrics/LineLength:
 # Offense count: 133
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 56
+  Max: 63
 
 # Offense count: 4
 # Configuration parameters: CountComments.
