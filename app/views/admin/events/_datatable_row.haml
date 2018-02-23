@@ -1,0 +1,63 @@
+- cache ['admin', conference_id, program, event] do
+  %tr{ id: "event-#{event.id}" }
+    %td
+      = event.id
+
+    %td
+      = link_to event.title,
+        admin_conference_program_event_path(conference_id, event)
+
+    - if rating_enabled
+      %td.col-md-1{ data: { order: event.average_rating } }
+        = render 'datatable_row_rating',
+          event:      event,
+          show_votes: show_votes,
+          max_rating: max_rating
+
+    - if event.submitter
+      %td
+        = link_to event.submitter.name, admin_user_path(event.submitter)
+        - unless event.submitter.registrations.for_conference(event.conference)
+          %span.label.label-warning Unregistered
+    - else
+      %td.bg-danger
+        Unknown submitter
+
+    %td
+      - event.speakers_ordered.each do |speaker|
+        .speaker
+          = link_to speaker.name, admin_user_path(speaker)
+          - unless speaker.registrations.for_conference(event.conference)
+            %span.label.label-danger Unregistered
+
+    - if @program.languages.present?
+      %td
+        = event.language
+
+    %td.text-center{ data: { order: event.require_registration.to_s } }
+      = event_switch_checkbox(event, :require_registration, conference_id)
+      - if event.require_registration
+        = link_to registered_text(event),
+          registrations_admin_conference_program_event_path(conference_id,
+            event),
+          class: 'btn btn-xs btn-default'
+
+    %td.text-center{ data: { order: event.is_highlight.to_s } }
+      = event_switch_checkbox(event, :is_highlight, conference_id)
+
+    %td
+      = event_type_dropdown(event, event_types, conference_id)
+
+    %td
+      = track_dropdown(event, tracks, conference_id)
+
+    %td
+      = difficulty_dropdown(event, difficulty_levels, conference_id)
+
+    %td
+      = state_dropdown(event, conference_id, email_settings)
+
+    %td.text-center
+      = link_to "#{event.comments_count}",
+        admin_conference_program_event_path(conference_id, event),
+        anchor: 'comments-div'
