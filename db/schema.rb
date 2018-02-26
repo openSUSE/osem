@@ -216,8 +216,8 @@ ActiveRecord::Schema.define(version: 20180313012253) do
     t.integer  "schedule_id"
     t.integer  "room_id"
     t.datetime "start_time"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.boolean  "enabled",     default: true
     t.index ["event_id", "schedule_id"], name: "index_event_schedules_on_event_id_and_schedule_id", unique: true
     t.index ["event_id"], name: "index_event_schedules_on_event_id"
@@ -226,13 +226,15 @@ ActiveRecord::Schema.define(version: 20180313012253) do
   end
 
   create_table "event_types", force: :cascade do |t|
-    t.string  "title",                                 null: false
-    t.integer "length",                  default: 30
-    t.integer "minimum_abstract_length", default: 0
-    t.integer "maximum_abstract_length", default: 500
-    t.string  "color"
-    t.string  "description"
-    t.integer "program_id"
+    t.string   "title",                                 null: false
+    t.integer  "length",                  default: 30
+    t.integer  "minimum_abstract_length", default: 0
+    t.integer  "maximum_abstract_length", default: 500
+    t.string   "color"
+    t.string   "description"
+    t.integer  "program_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "event_users", force: :cascade do |t|
