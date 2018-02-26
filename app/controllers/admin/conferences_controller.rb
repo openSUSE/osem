@@ -127,8 +127,10 @@ module Admin
       @new_program_length = @conference.new_program_hours(current_user.last_sign_in_at)
 
       @total_withdrawn = @all_events.where(state: :withdrawn).count
-      @new_withdrawn = @all_events
-          .where('state = "withdrawn" and created_at > ?', current_user.last_sign_in_at).count
+      @new_withdrawn = @all_events.where(state: :withdrawn).where(
+        'events.created_at > ?',
+        current_user.last_sign_in_at
+      ).count
 
       #  Step by step list
       @conference_progress = @conference.get_status
