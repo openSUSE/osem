@@ -1,5 +1,5 @@
 .row
-  .col-sm-4.col-xs-4
+  .col-sm-3.col-xs-3
     .dashbox.text-center
       %span.fa.fa-user.fa-lg
       %span.fa.fa-lg
@@ -11,7 +11,7 @@
             %span.label.label-success{ title: "+ #{@new_user} since you last logged in!" }
               +
               = @new_user
-  .col-sm-4.col-xs-4
+  .col-sm-3.col-xs-3
     .dashbox.text-center
       %span.fa.fa-check-square.fa-lg
       %span.fa.fa-lg
@@ -23,7 +23,7 @@
             %span.label.label-success{ title: "+#{@new_reg} since you last logged in!" }
               +
               = @new_reg
-  .col-sm-4.col-xs-4
+  .col-sm-3.col-xs-3
     .dashbox.text-center
       %span.fa.fa-file-text.fa-lg
       %span.fa.fa-lg
@@ -35,6 +35,18 @@
             %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
               +
               = @new_submissions
+  .col-sm-3.col-xs-3
+    .dashbox.text-center
+      %span.fa.fa-archive.fa-lg
+      %span.fa.fa-lg
+        = @total_withdrawn
+      %p
+        %small
+          #{'Withdrawn'.pluralize(@total_withdrawn)}
+          - if @new_withdrawn
+            %span.label.label-success{ title: "+#{@new_withdrawn} since you last logged in!" }
+              +
+              = @new_withdrawn
 
 .row#registrations
   .col-md-8

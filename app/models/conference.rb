@@ -595,11 +595,11 @@ class Conference < ApplicationRecord
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
     result = Conference.where('start_date > ?', Time.now)
-        .select('id, short_title, color, start_date')
+        .select('id, short_title, color, start_date, organization_id')
 
     if result.empty?
       result = Conference
-          .select('id, short_title, color, start_date').limit(2)
+          .select('id, short_title, color, start_date, organization_id').limit(2)
           .order(start_date: :desc)
     end
     result
@@ -611,7 +611,7 @@ class Conference < ApplicationRecord
   # ====Returns
   # * +ActiveRecord+
   def self.get_conferences_without_active_for_dashboard(active_conferences)
-    result = Conference.select('id, short_title, color, start_date').order(start_date: :desc)
+    result = Conference.select('id, short_title, color, start_date, organization_id').order(start_date: :desc)
     result - active_conferences
   end
 
@@ -719,7 +719,7 @@ class Conference < ApplicationRecord
   # * +True+ -> If the registration limit has been reached or exceeded
   # * +False+ -> If the registration limit hasn't been exceeded
   def registration_limit_exceeded?
-    registration_limit > 0 && registrations.count + program.speakers.confirmed.count - program.speakers.confirmed.registered(program.conference).count >= registration_limit
+    registration_limit > 0 && registrations.count + program.speakers.confirmed.unregistered(program.conference).count >= registration_limit
   end
 
   # Returns an hexadecimal color given a collection. The returned color changed
@@ -1029,7 +1029,7 @@ class Conference < ApplicationRecord
   # * +hash+ -> object_type => {color, value}
   def calculate_event_distribution(group_by_id, association_symbol, state = nil)
     grouped = if state
-                program.events.select(group_by_id).where('state = ?', 'confirmed').group(group_by_id)
+                program.events.select(group_by_id).where('state = ?', state).group(group_by_id)
               else
                 program.events.select(group_by_id).group(group_by_id)
               end

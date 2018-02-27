@@ -20,6 +20,11 @@ class ConferencesController < ApplicationController
     authorize! :show, @conference # TODO: reduce the 10 queries performed here
 
     splashpage = @conference.splashpage
+
+    unless splashpage.present?
+      redirect_to admin_conference_splashpage_path(@conference.short_title) && return
+    end
+
     if splashpage.include_cfp
       cfps = @conference.program.cfps
       @call_for_events = cfps.find { |call| call.cfp_type == 'events' }
@@ -50,6 +55,7 @@ class ConferencesController < ApplicationController
       @sponsorship_levels = @conference.sponsorship_levels.eager_load(
         :sponsors
       ).order('sponsorship_levels.position ASC', 'sponsors.name')
+      @sponsors = @conference.sponsors
     end
   end
 

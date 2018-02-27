@@ -18,4 +18,5 @@
  *= require osem-navbar
  *= require selectize
  *= require selectize.bootstrap3
+ *= require mastodon
 */

@@ -297,7 +297,7 @@ GEM
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.1.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -505,6 +505,8 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     sixarm_ruby_unaccent (1.1.1)
+    skylight (1.5.1)
+      activesupport (>= 3.0.0)
     slop (3.6.0)
     sort_alphabetical (1.0.2)
       unicode_utils (>= 1.2.2)
@@ -668,6 +670,7 @@ DEPENDENCIES
   sass-rails (>= 4.0.2)
   selectize-rails
   shoulda-matchers
+  skylight
   spring-commands-rspec
   sprockets-rails
   sqlite3
