@@ -3,8 +3,9 @@ dist: trusty
 language: ruby
 cache: bundler
 rvm:
-  - 2.4.0
+  - 2.4.0@osem
 before_install:
+  - rvm ruby-2.4.0 do rvm gemset create osem
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
 addons:
