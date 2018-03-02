@@ -78,37 +78,6 @@ You should not directly expose the web server port unless you have a good reason
 ## Configure
 There are a couple of environment variables you can set to configure OSEM. Check out the *dotenv.example* file.
 
-| Variable 			| Content 			| Purpose 				|
-|----------			|---------			|---------	       			|
-| OSEM_NAME   			| openSUSE Events		| The name of your page			|
-| OSEM_HOSTNAME 		| events.opensuse.org		| The host this OSEM instance runs on 	|
-| OSEM_EMAIL_ADDRESS 		| events@opensuse.org 		| The address OSEM uses for sending mails |
-| OSEM_ICHAIN_ENABLED 		| true/false 			| Enable the usage of [devise_ichain_authenticatable](https://github.com/openSUSE/devise_ichain_authenticatable) |
-| OSEM_TRANSIFEX_APIKEY 	| *string* 			| Use this api key for [transifex](https://www.transifex.com/). See TRANSLATION.md for details. |
-| OSEM_ERRBIT_HOST 		| errbit.opensuse.org 		| The [errbit](https://github.com/errbit/errbit) host to post exceptions to |
-| OSEM_ERRBIT_APIKEY 		| *string* 			| The api key for the errbit host |
-| OSEM_FACTORY_LINT		| *boolean* (true/false)        | Setting this to false will disable linting of factories before running spec
-| OSEM_GOOGLE_KEY | *string*			| OMNIAUTH Developer Key for GOOGLE
-| OSEM_GOOGLE_SECRET | *string*			| OMNIAUTH Developer Secret for GOOGLE
-| OSEM_FACEBOOK_KEY | *string*		| OMNIAUTH Developer Key for Facebook
-| OSEM_FACEBOOK_SECRET | *string*		| OMNIAUTH Developer Secret for Facebook
-| OSEM_GITHUB_KEY | *string*			| OMNIAUTH Developer Key for GitHub
-| OSEM_GITHUB_SECRET | *string*			| OMNIAUTH Developer Secret for GitHub
-| OSEM_SUSE_KEY | *string*			| OMNIAUTH Developer Key for openSUSE
-| OSEM_SUSE_SECRET | *string*			| OMNIAUTH Developer Secret for openSUSE
-| OSEM_SMTP_ADDRESS		| smtp.opensuse.org		| The smtp server to use
-| OSEM_SMTP_PORT		| *int*				| The port on the smtp server
-| OSEM_SMTP_USERNAME		| *string*			| The user for the smtp server
-| OSEM_SMTP_PASSWORD		| *string*			| The password for the smtp server
-| OSEM_SMTP_AUTHENTICATION	| plain, login or cram_md5      | The auth method for the smtp server
-| OSEM_SMTP_DOMAIN		| opensuse.org			| The HELO domain for the smtp server
-| CLOUDINARY_URL		| *string*			| Configure your cloudinary.com cloud name and api key/secret
-| STRIPE_PUBLISHABLE_KEY    | *string*          | Publishable Key for Stripe Gateway
-| STRIPE_SECRET_KEY    | *string*          | Secret Key for Stripe Gateway
-| OSEM_REDIS_URL | *string* | Redis server URL e.g. redis://localhost:6379/1
-| SKYLIGHT_AUTHENTICATION	| *string*			| (Optional) Authentication token for Skylight
-| SKYLIGHT_PUBLIC_DASHBOARD_URL | *string*			| (Optional) URL to your public Skylight dashboard
-
 ### Online Ticket Payments
 We use [Stripe](https://stripe.com) for accepting your ticket payments securely over the web.
 Our application uses iFrame for accepting your user's payment details without storing them, making the application PCI SAQ-A Compliant.
@@ -123,8 +92,10 @@ If you would like to resize exisiting logos in your OSEM installation you can do
 ```shell
 $ bundle exec rake logo:reprocess
 ```
+### Ruby
+OSEM is using Ruby version 2.4
 
-### openID
+## openID
 In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in the environment variables found in your *.env* file(s).
 
 ## Recurring Jobs
