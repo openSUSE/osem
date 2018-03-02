@@ -95,6 +95,75 @@ describe Admin::ConferencesController do
         get :show, id: conference.short_title
         expect(response).to render_template :show
       end
+
+      it 'assigns conference withdrawn events distribution to event_type_distribution_withdrawn' do
+        conference
+        create(:event, program: conference.program)
+        workshop = create(:event_type, title: 'Workshop', color: '#000000', program: conference.program)
+        lecture = create(:event_type, title: 'Lecture', color: '#ffffff', program: conference.program)
+        get :show, id: conference.short_title
+        expect(assigns(:event_type_distribution_withdrawn)).to be_empty
+        create(:event, program: conference.program, state: 'withdrawn', event_type: lecture)
+        create(:event, program: conference.program, state: 'withdrawn', event_type: workshop)
+        get :show, id: conference.short_title
+        expect(assigns(:event_type_distribution_withdrawn)).not_to be_empty
+        result = {}
+        result['Workshop'] = {
+          'value' => 1,
+          'color' => '#000000'
+        }
+        result['Lecture'] = {
+          'value' => 1,
+          'color' => '#FFFFFF'
+        }
+        expect(assigns(:event_type_distribution_withdrawn)).to eq(result)
+      end
+
+      it 'assigns conference withdrawn difficulty level distribution to difficulty_levels_distribution_withdrawn' do
+        conference
+        create(:event, program: conference.program)
+        get :show, id: conference.short_title
+        expect(assigns(:difficulty_levels_distribution_withdrawn)).to be_empty
+        easy = create(:difficulty_level, title: 'Easy', color: '#000000')
+        hard = create(:difficulty_level, title: 'Hard', color: '#ffffff')
+        create(:event, program: conference.program, state: 'withdrawn', difficulty_level: easy)
+        create(:event, program: conference.program, state: 'withdrawn', difficulty_level: hard)
+        get :show, id: conference.short_title
+        expect(assigns(:difficulty_levels_distribution_withdrawn)).not_to be_empty
+        result = {}
+        result['Easy'] = {
+          'value' => 1,
+          'color' => '#000000'
+        }
+        result['Hard'] = {
+          'value' => 1,
+          'color' => '#FFFFFF'
+        }
+        expect(assigns(:difficulty_levels_distribution_withdrawn)).to eq(result)
+      end
+
+      it 'assigns conference withdrawn track distribution to tracks_distribution_withdrawn' do
+        conference
+        create(:event, program: conference.program)
+        get :show, id: conference.short_title
+        expect(assigns(:tracks_distribution_withdrawn)).to be_empty
+        track_one = create(:track, name: 'Track One', color: '#000000', program: conference.program)
+        track_two = create(:track, name: 'Track Two', color: '#FFFFFF', program: conference.program)
+        create(:event, program: conference.program, state: 'withdrawn', track: track_one)
+        create(:event, program: conference.program, state: 'withdrawn', track: track_two)
+        get :show, id: conference.short_title
+        expect(assigns(:tracks_distribution_withdrawn)).not_to be_empty
+        result = {}
+        result['Track One'] = {
+          'value' => 1,
+          'color' => '#000000'
+        }
+        result['Track Two'] = {
+          'value' => 1,
+          'color' => '#FFFFFF'
+        }
+        expect(assigns(:tracks_distribution_withdrawn)).to eq(result)
+      end
     end
 
     describe 'GET #index' do

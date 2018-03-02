@@ -1,4 +1,5 @@
 class Registration < ApplicationRecord
+  require 'csv'
   belongs_to :user
   belongs_to :conference
 
