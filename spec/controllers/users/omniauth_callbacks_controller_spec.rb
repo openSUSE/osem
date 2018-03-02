@@ -27,5 +27,5 @@ def stub_env_for_omniauth
                                 }
   )
   request.env['omniauth.auth'] = env
-  @controller.stub(:env).and_return(env)
+  allow(@controller).to receive(:env).and_return(env)
 end

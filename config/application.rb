@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+ActiveSupport::Deprecation.debug = true if Rails.env.test?
 include ActionView::Helpers::NumberHelper
 
 if defined?(Bundler)
