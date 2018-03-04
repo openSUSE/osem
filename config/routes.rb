@@ -214,5 +214,9 @@ Osem::Application.routes.draw do
 
   get '/admin' => redirect('/admin/conferences')
 
-  root to: 'conferences#index', via: [:get, :options]
+  unless ENV['OSEM_ROOT_CONFERENCE'].blank?
+    root to: redirect("/conferences/#{ENV['OSEM_ROOT_CONFERENCE']}")
+  else
+    root to: 'conferences#index', via: [:get, :options]
+  end
 end
