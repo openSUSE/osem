@@ -213,6 +213,11 @@ Osem::Application.routes.draw do
   end
 
   get '/admin' => redirect('/admin/conferences')
-
-  root to: 'conferences#index', via: [:get, :options]
+  if Conference.all.count == 1 && Conference.first.splashpage 
+    conference_title=Conference.first.short_title
+    root to: 'conferences#show',id: conference_title
+  else
+    root to: 'conferences#index', via: [:get, :options]
+    
+  end
 end
