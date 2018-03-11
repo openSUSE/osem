@@ -9,9 +9,14 @@ module VersionsHelper
   def link_to_organization(organization_id)
     return 'deleted organization' unless organization_id
 
-    org = Organization.find_by(id: organization_id)
-    return current_or_last_object_state('Organization', organization_id).try(:name) unless org
-    org.name.to_s
+    organization = Organization.find_by(id: organization_id)
+    if organization
+      link_to organization.name,
+              edit_admin_organization_path(organization.id)
+    else
+      name = current_or_last_object_state('Organization', organization_id).try(:name) || ''
+      " #{name} with ID #{organization_id}"
+    end
   end
 
   def link_to_conference(conference_id)
