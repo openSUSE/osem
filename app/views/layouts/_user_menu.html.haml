@@ -37,8 +37,12 @@
         = link_to(admin_conferences_path()) do
           %span.fa.fa-home
           Administration
-      - if can? :new, Conference.new
-        =link_to(new_admin_conference_path) do
+      - if (can? :new, Organization.new) && !Organization.any?
+        = link_to(new_admin_organization_path) do
+          %span.fa.fa-plus
+          New Organization
+      - if (can? :new, Conference.new) && Organization.any?
+        = link_to(new_admin_conference_path) do
           %span.fa.fa-plus
           New Conference
     -if @conference && @conference.id && can?(:show, @conference)
