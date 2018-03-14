@@ -14,7 +14,7 @@ module Admin
     def show
       if can_manage_volunteers?(@conference)
         @volunteers = if @conference.use_vpositions
-                        @conference.registrations.joins(:vchoices).uniq
+                        @conference.registrations.joins(:vchoices).distinct
                       else
                         @conference.registrations.where(volunteer: true)
                       end

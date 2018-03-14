@@ -32,5 +32,5 @@
                   %license/
                   %optout=false #FIXME
                 %persons
-                  - event.speakers.uniq.each do |speaker|
+                  - event.speakers.distinct.each do |speaker|
                     %person{ id: speaker.id }= speaker.name

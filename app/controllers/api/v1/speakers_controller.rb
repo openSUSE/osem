@@ -15,7 +15,7 @@ module Api
           users = User.joins(:event_users)
         end
 
-        users = users.where(event_users: {event_role: :speaker}).uniq
+        users = users.where(event_users: {event_role: :speaker}).distinct
         render json: users, each_serializer: SpeakerSerializer, callback: params['callback']
       end
     end

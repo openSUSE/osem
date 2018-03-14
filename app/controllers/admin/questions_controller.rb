@@ -11,7 +11,7 @@ module Admin
     end
 
     def show
-      @registrations = @conference.registrations.joins(:qanswers).uniq
+      @registrations = @conference.registrations.joins(:qanswers).distinct
     end
 
     def new

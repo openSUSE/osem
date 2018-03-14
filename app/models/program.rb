@@ -231,7 +231,7 @@ class Program < ApplicationRecord
     languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).present?
     languages_array = languages.split(',')
     # We check that languages are not repeated
-    errors.add(:languages, "can't be repeated") && return unless languages_array.uniq!.nil?
+    errors.add(:languages, "can't be repeated") && return unless languages_array.distinct!.nil?
     # We check if every language is a valid ISO 639-1 language
     errors.add(:languages, 'must be ISO 639-1 valid codes') unless languages_array.select{ |x| ISO_639.find(x).nil? }.empty?
   end
