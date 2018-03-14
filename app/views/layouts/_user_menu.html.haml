@@ -1,3 +1,7 @@
+%li
+  = link_to(user_proposals_conferences_path) do
+    %span.fa.fa-comment
+    User Proposals
 - unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
   %li
     = link_to(edit_user_registration_path) do

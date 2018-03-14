@@ -113,6 +113,8 @@ class Ability
     can [:edit, :update], Track do |track|
       user == track.submitter && !(track.accepted? || track.confirmed?)
     end
+
+    can :user_proposals, Conference
   end
 
   # Abilities for users with roles wandering around in non-admin views.

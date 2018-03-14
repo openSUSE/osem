@@ -59,6 +59,11 @@ class ConferencesController < ApplicationController
     end
   end
 
+  def user_proposals
+    event_types = EventType.where(title: 'Talk').collect(&:id)
+    @events = Event.includes(program: :conference).where(event_type_id: event_types).order(created_at: :desc)
+  end
+
   private
 
   def conference_finder_conditions

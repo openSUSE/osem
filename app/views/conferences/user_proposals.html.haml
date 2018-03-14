@@ -1,0 +1,66 @@
+.container
+  .row
+    .col-md-12.page-header
+      %h1
+        User Proposals
+
+
+        %table.table.table-striped#events{ style: "margin-top: 30px;" }
+          - @events.each do |event|
+            %tr
+              %td{ style: "padding:20px 8px 20px 8px;" }
+                %span{ title: event.state.humanize,
+                 class: "fa #{event_status_icon(event)}" }
+
+              %td.col-md-7{ style: "padding:20px 8px 20px 8px;" }
+                = link_to event.title, conference_program_proposal_path(event.conference.short_title, event.id)
+                %br
+                %small.text-muted
+                  = event.event_type.title
+                  = "(#{event.event_type.length} min)"
+                  = "in #{event.track.name}" if event.track
+                  - if event.require_registration
+                    %br
+                    = link_to registered_text(event), registrations_conference_program_proposal_path(event.conference.short_title, event), class: 'btn btn-xs btn-danger'
+
+              %td.col-md-2{ style: "padding:20px 8px 20px 8px;" }
+                = link_to 'Complete your proposal', 'javascript: void(0)', "type"=>"button", "data-trigger"=>"focus", "data-toggle"=>"popover", "title"=>"Your todo list", "data-content"=>"#{render partial: 'tooltip', locals: { event: event,conference: event.conference } }"              
+                - if can? :create, event.conference.registrations.new
+                  - progress_percentage = event.calculate_progress
+                  .progress
+                    %div{ class: "progress-bar #{event_progress_color(progress_percentage)}",
+                     style: "width:#{progress_percentage}%;" }
+                      = event.progress_status.reject{ |_key, value| value || value.nil? }.length
+                      left
+                - else
+                  :ruby
+                    progress_list = event.progress_status
+                    progress_percentage = (100 * progress_list.values.count(true) / (progress_list.values.compact.count-1)).to_s
+                  .progress
+                    %div{ class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;" }
+                      = event.progress_status.reject{ |_key, value| value || value.nil? }.length-1
+                      left
+              %td.col-md-3{ style: "padding:20px 0px 20px 0px;" }
+                .pull-right
+                  - if event.transition_possible? :confirm
+                    = link_to 'Confirm',
+                    confirm_conference_program_proposal_path(event.conference.short_title, event),
+                    method: :patch, class: 'btn btn-mini btn-success', id: "confirm_proposal_#{event.id}"
+
+                  - if event.transition_possible? :withdraw
+                    - if can? :update, event
+                      = link_to 'Withdraw', withdraw_conference_program_proposal_path(event.conference.short_title, event.id), method: :patch,
+                                  data: { confirm: 'Are you sure you want to withdraw this proposal?' }, class: 'btn btn-mini btn-warning',
+                                  id: "delete_proposal_#{event.id}"
+                    - else
+                      = link_to 'Withdraw', withdraw_conference_program_proposal_path(event.conference.short_title, event.id), method: :patch,
+                                  data: { confirm: 'Are you sure you want to withdraw this proposal?' }, class: 'btn disabled btn-mini btn-warning',
+                                  id: "delete_proposal_#{event.id}"                    
+                  - if event.state == 'withdrawn' || event.state == 'rejected'
+                    = link_to 'Re-Submit',
+                    restart_conference_program_proposal_path(event.conference.short_title, event.id),
+                    method: :patch, class: 'btn btn-mini btn-success', id: "review_event_#{event.id}"
+                  - if can? :update, event
+                    = link_to 'Edit', edit_conference_program_proposal_path(event.conference.short_title,event.id), class: 'btn btn-default', id: "edit_proposal_#{event.id}"
+                  - else
+                    = link_to 'Edit', edit_conference_program_proposal_path(event.conference.short_title,event.id), class: 'btn btn-default disabled', id: "edit_proposal_#{event.id}"
