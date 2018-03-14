@@ -2,7 +2,7 @@
   %li
     %a.smoothscroll{ href: '#sponsors' } Sponsors
 
-- cache [conference, sponsorship_levels, '#splash#sponsors'] do
+- cache [conference, sponsors, sponsorship_levels, '#splash#sponsors'] do
   %section#sponsors
     .container
       - sponsorship_levels.each do |sponsorship_level|
@@ -31,6 +31,6 @@
             = link_to(sponsorship_mailto(conference)) do
               Contact us!
 
-- sponsorship_levels.collect(&:sponsors).flatten.each do |sponsor|
+- sponsors.each do |sponsor|
   - content_for :modals do
     = render 'modal_description', object: sponsor

@@ -37,11 +37,14 @@
         %p.muted.text-center
           %small
             This tool is
-            =link_to "free software,", "http://www.gnu.org/philosophy/free-sw.html"
+            #{link_to "free software", "http://www.gnu.org/philosophy/free-sw.html"},
             released under the
-            =link_to "MIT license.", "http://opensource.org/licenses/MIT"
+            #{link_to "MIT license", "http://opensource.org/licenses/MIT"}.
             You can run, copy, distribute, study, change and improve it.
             The source code and the developers are on
-            =link_to "github.", "https://github.com/openSUSE/osem"
+            #{link_to "GitHub", "https://github.com/openSUSE/osem"}.
+            - if ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"].present?
+              Performance data is available on
+              #{link_to "Skylight", ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"]}.
     = yield :script_body
     = piwik_tracking_tag

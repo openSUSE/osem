@@ -43,7 +43,8 @@
   -# sponsorship
   - if @conference.splashpage.include_sponsors
     = render 'sponsors', conference: @conference,
-      sponsorship_levels: @sponsorship_levels
+      sponsorship_levels: @sponsorship_levels,
+      sponsors: @sponsors
 
   -# footer
   - if @conference.splashpage.include_social_media

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :organization do
-    name { Faker::Company.name }
+    sequence(:name) { |n| "#{Faker::Company.name} #{n}" }
     description { Faker::Lorem.paragraph }
 
     # after(:create) do |organization|
