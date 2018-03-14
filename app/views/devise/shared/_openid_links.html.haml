@@ -1,5 +1,5 @@
 .text-center
-  .btn-group.btn-group-lg
+  .btn-group.btn-group-lg#openid-btn-grp
     - omniauth_configured.each do |provider|
       = link_to "user_#{provider}_omniauth_authorize".to_sym, class: "btn btn-success btn-lg",
                                                         id: "omniauth-#{provider}",

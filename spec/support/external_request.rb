@@ -11,9 +11,9 @@ end
 def mock_commercial_request
   response = {
     author_name: 'Confreaks',
-    html: '<iframe width=\'560\' height=\'315\' src=\'https://www.youtube.com/embed/BTTygyxuGj8?feature=oembed\' frameborder=\'0\' allowfullscreen></iframe>',
+    html: '<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>',
     thumbnail_width: 480,
-    thumbnail_url: 'https://i.ytimg.com/vi/BTTygyxuGj8/hqdefault.jpg',
+    thumbnail_url: '/images/rails.png',
     provider_name: 'YouTube',
     width: 459,
     type: 'video',

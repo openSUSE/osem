@@ -6,7 +6,7 @@
           = image_tag(@booth.picture.thumb.url, size: '20%', alt: '')
         = @booth.title
         .btn-group.pull-right
-          = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'
+          = link_to 'Edit', edit_conference_booth_path(@conference.short_title, @booth), class: 'btn btn-mini btn-primary'
 
   .row
     .col-md-12
