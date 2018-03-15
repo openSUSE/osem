@@ -50,91 +50,91 @@ feature 'Has correct abilities' do
       expect(page).to_not have_link('New Conference', href: '/admin/conferences/new')
 
       visit edit_admin_conference_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_contact_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_commercials_path(conference.short_title)
       expect(current_path).to eq admin_conference_commercials_path(conference.short_title)
 
       visit new_admin_conference_splashpage_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_splashpage_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_venue_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       conference.venue = create(:venue)
       visit edit_admin_conference_venue_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_venue_rooms_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:room, venue: conference.venue)
       visit edit_admin_conference_venue_room_path(conference.short_title, conference.venue.rooms.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_lodgings_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_lodging_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:lodging, conference: conference)
       visit edit_admin_conference_lodging_path(conference.short_title, conference.lodgings.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_program_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_program_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_program_cfp_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_program_events_path(conference.short_title)
       expect(current_path).to eq admin_conference_program_events_path(conference.short_title)
 
       create(:event, program: conference.program)
       visit edit_admin_conference_program_event_path(conference.short_title, conference.program.events.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       self_organized_track_event = create(:event, program: conference.program, track: self_organized_track)
       visit edit_admin_conference_program_event_path(conference.short_title, self_organized_track_event)
       expect(current_path).to eq(edit_admin_conference_program_event_path(conference.short_title, self_organized_track_event))
 
       visit admin_conference_program_event_types_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_program_event_type_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_program_event_type_path(conference.short_title, conference.program.event_types.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_program_difficulty_levels_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_program_difficulty_level_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_program_difficulty_level_path(conference.short_title, conference.program.difficulty_levels.first)
-      expect(current_path).to eq root_path
 
+      expect(current_path).to eq conference_path(conference)
       visit admin_conference_schedules_path(conference.short_title)
       expect(current_path).to eq admin_conference_schedules_path(conference.short_title)
 
       create(:schedule, program: conference.program)
       visit admin_conference_schedule_path(conference.short_title, conference.program.schedules.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       self_organized_track_schedule = create(:schedule, program: conference.program, track: self_organized_track)
       visit admin_conference_schedule_path(conference.short_title, self_organized_track_schedule)
@@ -148,92 +148,92 @@ feature 'Has correct abilities' do
 
       create(:registration, user: create(:user), conference: conference)
       visit edit_admin_conference_registration_path(conference.short_title, conference.registrations.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_registration_period_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:registration_period, conference: conference)
       visit edit_admin_conference_registration_period_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_questions_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_sponsorship_levels_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_sponsorship_level_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:sponsorship_level, conference: conference)
       visit edit_admin_conference_sponsorship_level_path(conference.short_title, conference.sponsorship_levels.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_sponsors_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_sponsor_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:sponsor, conference: conference, sponsorship_level: conference.sponsorship_levels.first)
       visit edit_admin_conference_sponsor_path(conference.short_title, conference.sponsors.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_tickets_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_ticket_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:ticket, conference: conference)
       visit edit_admin_conference_ticket_path(conference.short_title, conference.tickets.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_campaigns_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_campaign_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:campaign, conference: conference)
       visit edit_admin_conference_campaign_path(conference.short_title, conference.campaigns.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_targets_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit new_admin_conference_target_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       create(:target, conference: conference)
       visit edit_admin_conference_target_path(conference.short_title, conference.targets.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_program_tracks_path(conference.short_title)
       expect(current_path).to eq admin_conference_program_tracks_path(conference.short_title)
 
       visit new_admin_conference_program_track_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       other_track = create(:track, program: conference.program)
       visit admin_conference_program_track_path(conference.short_title, other_track)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit edit_admin_conference_program_track_path(conference.short_title, other_track)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_program_track_path(conference.short_title, self_organized_track)
       expect(current_path).to eq admin_conference_program_track_path(conference.short_title, self_organized_track)
 
       visit edit_admin_conference_program_track_path(conference.short_title, self_organized_track)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_roles_path(conference.short_title)
       expect(current_path).to eq admin_conference_roles_path(conference.short_title)
 
       visit admin_conference_emails_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_conference_resources_path(conference.short_title)
       expect(current_path).to eq admin_conference_resources_path(conference.short_title)
@@ -243,10 +243,10 @@ feature 'Has correct abilities' do
 
       create(:resource, conference: conference)
       visit edit_admin_conference_resource_path(conference.short_title, conference.resources.first)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       visit admin_revision_history_path
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
     end
   end
 end

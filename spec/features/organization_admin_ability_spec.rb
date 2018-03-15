@@ -20,7 +20,7 @@ feature 'Has correct abilities' do
       expect(current_path).to eq(edit_admin_organization_path(organization))
 
       visit new_admin_organization_path
-      expect(current_path).to eq(root_path)
+      expect(current_path).to eq(conference_path(conference))
     end
 
     scenario 'for conference attributes' do
@@ -118,7 +118,7 @@ feature 'Has correct abilities' do
       # Event, booth, track cfps exist
       call_for_tracks = create(:cfp, cfp_type: 'tracks', program: conference.program)
       visit new_admin_conference_program_cfp_path(conference.short_title)
-      expect(current_path).to eq root_path
+      expect(current_path).to eq conference_path(conference)
 
       # Booth and track cfps exist
       conference.program.cfp.destroy!
