@@ -152,7 +152,7 @@ Osem::Application.routes.draw do
   end
   resources :organizations, only: [:index] do
     member do
-      get :conferences
+      get :conferences, 'code-of-conduct'
     end
   end
   resources :conferences, only: [:index, :show] do
