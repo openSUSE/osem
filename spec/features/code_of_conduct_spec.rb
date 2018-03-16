@@ -43,6 +43,24 @@ feature 'Code of Conduct:' do
           expect(page).to have_text(sample_text)
         end
       end
+
+      context 'on a conference' do
+        let!(:conference) { create(:full_conference, organization: organization) }
+
+        it 'is linked from the index' do
+          visit conferences_path
+          within "#conference-#{conference.id}" do
+            click_on 'Code of Conduct'
+          end
+          expect(page).to have_text(sample_text)
+        end
+
+        it 'is included in the splash page', js: true do
+          visit conference_path(conference)
+          click_on 'Code of Conduct'
+          expect(page).to have_text(sample_text)
+        end
+      end
     end
   end
 end
