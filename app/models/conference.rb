@@ -11,6 +11,7 @@ class Conference < ApplicationRecord
   scope :past, (-> { where('end_date < ?', Date.current) })
 
   belongs_to :organization
+  delegate :code_of_conduct, to: :organization
 
   has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
