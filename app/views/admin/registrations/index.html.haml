@@ -25,6 +25,9 @@
             %th ID#
             %th Name
             %th E-Mail
+            - if @code_of_conduct
+              %th
+                %abbr{ title: 'Code of Conduct' } CoC
             %th Arrival
             %th Departure
             - if @conference.questions.any?
@@ -43,6 +46,13 @@
                     = role.name.titleize
               %td
                 = registration.email
+              - if @code_of_conduct
+                - if registration.accepted_code_of_conduct
+                  %td.text-success.text-center= fa_icon('check', title: 'accepted')
+                - else
+                  %td.text-center.text-warning
+                    = fa_icon('exclamation-circle',
+                      title: 'Has not accepted Code of Conduct')
               %td
                 - if registration.arrival
                   = registration.arrival.strftime('%d %b %H:%M')

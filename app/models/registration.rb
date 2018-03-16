@@ -28,6 +28,10 @@ class Registration < ApplicationRecord
   validate :registration_limit_not_exceed, on: :create
   validate :registration_to_events_only_if_present
 
+  validates :accepted_code_of_conduct, acceptance: {
+    if: -> { conference.code_of_conduct.present? }
+  }
+
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
 
   ##

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316185150) do
+ActiveRecord::Schema.define(version: 20180316220446) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -386,10 +386,11 @@ ActiveRecord::Schema.define(version: 20180316185150) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "other_special_needs"
-    t.boolean  "attended",            default: false
+    t.boolean  "attended",                 default: false
     t.boolean  "volunteer"
     t.integer  "user_id"
     t.integer  "week"
+    t.boolean  "accepted_code_of_conduct"
   end
 
   create_table "registrations_vchoices", id: false, force: :cascade do |t|
