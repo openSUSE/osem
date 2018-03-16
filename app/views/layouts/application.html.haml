@@ -32,6 +32,9 @@
           = render 'layouts/messages'
       #content
         = yield
+
+    = yield :modals
+
     #footer
       .container
         %p.muted.text-center

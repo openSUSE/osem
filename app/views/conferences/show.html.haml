@@ -53,8 +53,6 @@
       = render 'social_media', contact: @conference.contact
   = render 'footer'
 
-  = yield :modals
-
 - cache [@conference.color, '#splash#inlinejs'] do
   - content_for :script_head do
     :javascript
