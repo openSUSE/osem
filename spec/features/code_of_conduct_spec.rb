@@ -30,5 +30,19 @@ feature 'Code of Conduct:' do
         end
       end
     end
+
+    describe 'anonymously' do
+      let!(:organization) { create(:organization, code_of_conduct: sample_text) }
+
+      context 'on the organization' do
+        it 'can be read' do
+          visit organizations_path
+          within "#organization-#{organization.id}" do
+            click_on 'Code of Conduct'
+          end
+          expect(page).to have_text(sample_text)
+        end
+      end
+    end
   end
 end
