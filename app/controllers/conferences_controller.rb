@@ -33,6 +33,7 @@ class ConferencesController < ApplicationController
         @track_names = @conference.confirmed_tracks.pluck(:name).sort
       end
       @call_for_tracks = cfps.find { |call| call.cfp_type == 'tracks' }
+      @call_for_booths = cfps.find { |call| call.cfp_type == 'booths' }
     end
     if splashpage.include_program
       @highlights = @conference.highlighted_events.eager_load(:speakers)
