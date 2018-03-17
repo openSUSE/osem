@@ -179,7 +179,7 @@ describe Ticket do
     end
   end
 
-  describe 'currency updation' do
+  describe 'currency update' do
     context 'when more than one ticket exist for a conference' do
       it 'should not allow currency update' do
         ticket.update(price_currency: 'INR')
