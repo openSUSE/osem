@@ -25,12 +25,12 @@
         = link_to 'Delete', admin_conference_registration_period_path,
         method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
     - else
-      - unless @conference.tickets.for_registration.empty?
-        - if can? :create, @conference.build_registration_period
-          = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'
-      - else
+      - if @conference.tickets.for_registration.empty?
         .h3.text-left
           No Registration Tickets!
           %small
             = link_to 'Create registration tickets', new_admin_conference_ticket_path
             before creating the registration period.
+      - else
+        - if can? :create, @conference.build_registration_period
+          = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'
