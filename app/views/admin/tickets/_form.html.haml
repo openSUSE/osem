@@ -12,7 +12,7 @@
       = f.input :title, input_html: { autofocus: true }
       = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :price
-      = f.input :price_currency, as: :select, class: 'form-control', collection: currencies, include_blank: false
+      = f.input :price_currency, as: :select, class: 'form-control', collection: %W(#{ENV['OSEM_DEFAULT_CURRENCIES']}), include_blank: false
       = f.input :registration_ticket, hint: 'A registration ticket is with which user register for the conference.'
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
