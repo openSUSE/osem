@@ -1,0 +1,19 @@
+- cache [conference_id, call, '#splash#callforbooths'] do
+  .col-md-4.col-sm-4.text-center
+    %h2
+      Call for Booths
+    %p.lead
+      We are now accepting custom booth requests!
+    %p
+      Would you like to request a new booth?
+      The submission period for booth requests is open
+      %em
+        = date_string(call.start_date, call.end_date) + '.'
+      %b
+        You have
+        = pluralize(call.remaining_days, 'day')
+        left!
+    %p.cta-button
+      = link_to("Submit your request for booth",
+        new_conference_booth_path(conference_id),
+        class: 'btn btn-success btn-lg text-center')

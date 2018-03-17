@@ -18,6 +18,7 @@
   - if @conference.splashpage.include_cfp
     = render 'call_for_content', conference: @conference,
       call_for_events: @call_for_events, call_for_tracks: @call_for_tracks,
+      call_for_booths: @call_for_booths,
       event_types: @event_types, tracks: @track_names
 
   - if @conference.splashpage.include_program
