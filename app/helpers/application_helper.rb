@@ -126,12 +126,13 @@ module ApplicationHelper
     safe_join(event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }, ',')
   end
 
-  def speaker_selector_input(form)
-    users = User.active.pluck(:id, :username).map { |user| 
-      [user[0], user[1]] 
-    }.sort_by { |user| 
-      user[1].downcase 
-    }
+  def speaker_selector_input(form, conference)
+    users = conference.participants.pluck(:id, :username).map do |user|
+      [user[0], user[1]]
+    end
+
+    users = users.sort_by { |user| user[1].downcase }
+
     form.input :speakers, as: :select,
                           collection: options_for_select(users.map {|user| [user[1], user[0]]}, @event.speakers.map(&:id)),
                           include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
