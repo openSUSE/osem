@@ -14,6 +14,8 @@ Osem::Application.routes.draw do
                path: 'accounts'
   end
 
+  mount Ahoy::Engine => '/ahoy'
+
   # Use letter_opener_web to open mails in browser (e.g. necessary for Vagrant)
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

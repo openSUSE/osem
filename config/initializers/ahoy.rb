@@ -1,5 +1,7 @@
 module Ahoy
-  class Store < Ahoy::Stores::ActiveRecordStore
-    # customize here
+  class Store < Ahoy::DatabaseStore
+    def visit_model
+      Visit
+    end
   end
 end

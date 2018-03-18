@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20180316220446) do
     t.string   "name"
     t.text     "properties"
     t.datetime "time"
+    t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
     t.index ["time"], name: "index_ahoy_events_on_time"
     t.index ["user_id"], name: "index_ahoy_events_on_user_id"
     t.index ["visit_id"], name: "index_ahoy_events_on_visit_id"
@@ -651,7 +652,10 @@ ActiveRecord::Schema.define(version: 20180316220446) do
     t.string   "utm_content"
     t.string   "utm_campaign"
     t.datetime "started_at"
+    t.string   "visit_token"
+    t.string   "visitor_token"
     t.index ["user_id"], name: "index_visits_on_user_id"
+    t.index ["visit_token"], name: "index_visits_on_visit_token", unique: true
   end
 
   create_table "votes", force: :cascade do |t|
