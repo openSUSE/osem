@@ -111,3 +111,12 @@ section#comments {
   margin-left: auto;
   margin-right: auto;
 }
+
+.row.row-center {
+    text-align: center;
+}
+
+.row.row-center div {
+    display: inline-block;
+    float: none;
+}
