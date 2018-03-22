@@ -31,6 +31,19 @@ $(function () {
         });
     });
 
+    /**
+     * Randomize order of parallel elements by shuffling the decks
+     * Adapted from https://stackoverflow.com/questions/7070054
+     */
+
+    $(document).ready( function() {
+        $.each($(".shuffle-deck"), function(index, deck) {
+            for(var i = deck.children.length; i >= 0; i--) {
+                deck.appendChild(deck.children[Math.random() * i | 0]);
+            }
+        });
+    });
+
     $(".select-help-toggle").change(function () {
         var id = $(this).attr('id');
         $('.' + id).collapse('hide');
