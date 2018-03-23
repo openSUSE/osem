@@ -235,7 +235,7 @@ describe Admin::ConferencesController do
 
           expect(conference.roles.count).to eq 4
 
-          expect(conference.roles).to eq [organizer_role, cfp_role, info_desk_role, volunteers_coordinator_role]
+          expect(conference.roles).to match_array [organizer_role, cfp_role, info_desk_role, volunteers_coordinator_role]
         end
       end
 
