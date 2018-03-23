@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :vday do
-    day { Date.today }
+    day { Time.zone.today }
     description 'Lorem Ipsum dolsum'
     conference
   end

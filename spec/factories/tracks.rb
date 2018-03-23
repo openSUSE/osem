@@ -12,8 +12,8 @@ FactoryGirl.define do
       association :submitter, factory: :user
       state 'new'
       cfp_active false
-      start_date { Date.today }
-      end_date { Date.today }
+      start_date { Time.zone.today }
+      end_date { Time.zone.today }
       room
       relevance { Faker::Hipster.paragraph(2) }
     end

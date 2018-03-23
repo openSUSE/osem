@@ -34,7 +34,7 @@ feature 'Version' do
 
   scenario 'display changes in cfp', feature: true, versioning: true, js: true do
     cfp = create(:cfp, program: conference.program)
-    cfp.update_attributes(start_date: (Date.today + 1).strftime('%d/%m/%Y'), end_date: (Date.today + 3).strftime('%d/%m/%Y'))
+    cfp.update_attributes(start_date: (Time.zone.today + 1).strftime('%d/%m/%Y'), end_date: (Time.zone.today + 3).strftime('%d/%m/%Y'))
     cfp_id = cfp.id
     cfp.destroy
 
@@ -46,7 +46,7 @@ feature 'Version' do
 
   scenario 'display changes in registration_period', feature: true, versioning: true, js: true do
     registration_period = create(:registration_period, conference: conference)
-    registration_period.update_attributes(start_date: (Date.today + 1).strftime('%d/%m/%Y'), end_date: (Date.today + 3).strftime('%d/%m/%Y'))
+    registration_period.update_attributes(start_date: (Time.zone.today + 1).strftime('%d/%m/%Y'), end_date: (Time.zone.today + 3).strftime('%d/%m/%Y'))
     registration_period_id = registration_period.id
     registration_period.destroy
 
