@@ -19,6 +19,12 @@
   = link_to(edit_user_path(current_user.id)) do
     %span.fa.fa-user
     Edit Profile
+- if @conference && ((current_user && @conference.user_registered?(current_user)) || @conference.registration_open?)
+  %li
+    = link_to(conference_conference_registration_path(@conference)) do
+      %span.fa.fa-id-badge
+        = @conference.short_title
+        registration
 -if @conference && @conference.program
   %li
     = link_to(conference_program_proposals_path(@conference.short_title)) do
