@@ -58,7 +58,7 @@ feature Role do
       click_button 'Add'
       user_with_no_role.reload
 
-      expect(user_with_no_role.has_role?(role.name, conference)).to eq true
+      expect(user_with_no_role.has_cached_role?(role.name, conference)).to eq true
     end
 
     scenario "removes role #{role_name}", feature: true, js: true do
@@ -69,7 +69,8 @@ feature Role do
 
       expect(find('.alert').text).to eq "×Successfully removed role #{role_name} from user #{user_with_role.email}"
       expect(by_role_name).to eq(role_name) | eq('organizer')
-      expect(user_with_role.has_role?(role_name, conference)).to eq false
+      user_with_role.reload
+      expect(user_with_role.has_cached_role?(role_name, conference)).to eq false
     end
   end
 
@@ -118,14 +119,15 @@ feature Role do
         click_button 'Add'
         user_with_no_role.reload
 
-        expect(user_with_no_role.has_role?('organization_admin', organization)).to eq true
+        expect(user_with_no_role.has_cached_role?('organization_admin', organization)).to eq true
       end
 
       scenario 'successfully removes role organization_admin' do
         click_link('Admins', href: admins_admin_organization_path(organization.id))
 
         first('tr').find('.btn-danger').click
-        expect(organization_admin.has_role?('organization_admin', organization)).to eq false
+        organization_admin.reload
+        expect(organization_admin.has_cached_role?('organization_admin', organization)).to eq false
       end
     end
 

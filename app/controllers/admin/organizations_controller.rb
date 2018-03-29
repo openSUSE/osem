@@ -45,7 +45,7 @@ module Admin
     end
 
     def assign_org_admins
-      if @user.has_role? 'organization_admin', @organization
+      if @user.has_cached_role? 'organization_admin', @organization
         flash[:error] = "User #{@user.email} already has the role organization admin"
       elsif @user.add_role 'organization_admin', @organization
         flash[:notice] = "Successfully added role organization admin to user #{@user.email}"

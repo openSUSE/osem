@@ -347,17 +347,17 @@ describe Track do
     end
 
     it 'gives the role of the track organizer to the submitter of the track' do
-      expect(@submitter.has_role?(:track_organizer, self_organized_track)).to eq false
+      expect(@submitter.has_cached_role?(:track_organizer, self_organized_track)).to eq false
       self_organized_track.assign_role_to_submitter
-      expect(@submitter.has_role?(:track_organizer, self_organized_track)).to eq true
+      expect(@submitter.has_cached_role?(:track_organizer, self_organized_track)).to eq true
     end
 
     it 'is executed when the track is confirmed' do
       self_organized_track.state = 'accepted'
       self_organized_track.save!
-      expect(@submitter.has_role?(:track_organizer, self_organized_track)).to eq false
+      expect(@submitter.has_cached_role?(:track_organizer, self_organized_track)).to eq false
       self_organized_track.confirm
-      expect(@submitter.has_role?(:track_organizer, self_organized_track)).to eq true
+      expect(@submitter.has_cached_role?(:track_organizer, self_organized_track)).to eq true
     end
   end
 
@@ -374,9 +374,10 @@ describe Track do
     end
 
     it 'revokes the role of the track organizer' do
-      expect(@a_track_organizer.has_role?(:track_organizer, self_organized_track)).to eq true
+      expect(@a_track_organizer.has_cached_role?(:track_organizer, self_organized_track)).to eq true
       self_organized_track.revoke_role_and_cleanup
-      expect(@a_track_organizer.has_role?(:track_organizer, self_organized_track)).to eq false
+      @a_track_organizer.reload
+      expect(@a_track_organizer.has_cached_role?(:track_organizer, self_organized_track)).to eq false
     end
 
     it 'destroys the track\'s schedules' do
@@ -403,14 +404,16 @@ describe Track do
       self_organized_track.state = 'confirmed'
       self_organized_track.save!
       self_organized_track.cancel
-      expect(@a_track_organizer.has_role?(:track_organizer, self_organized_track)).to eq false
+      @a_track_organizer.reload
+      expect(@a_track_organizer.has_cached_role?(:track_organizer, self_organized_track)).to eq false
       @event_of_self_organized_track.reload
       expect(@event_of_self_organized_track.track).to eq nil
     end
 
     it 'is executed when the track is withdrawn' do
       self_organized_track.withdraw
-      expect(@a_track_organizer.has_role?(:track_organizer, self_organized_track)).to eq false
+      @a_track_organizer.reload
+      expect(@a_track_organizer.has_cached_role?(:track_organizer, self_organized_track)).to eq false
       @event_of_self_organized_track.reload
       expect(@event_of_self_organized_track.track).to eq nil
     end
