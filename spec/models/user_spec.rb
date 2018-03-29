@@ -395,22 +395,22 @@ describe User do
       expect(another_user.roles[1]).to eq(cfp_role)
     end
 
-    describe '#has_role?' do
+    describe '#has_cached_role?' do
       describe 'when user has a role' do
         it 'returns true when the user has the role' do
           user = create(:user, role_ids: organizer_role.id)
-          expect(user.has_role?('organizer', conference)).to be true
+          expect(user.has_cached_role?('organizer', conference)).to be true
         end
 
         it 'returns false when the user does not have the role' do
           user = create(:user, role_ids: cfp_role.id)
-          expect(user.has_role?('organizer', conference)).to be false
+          expect(user.has_cached_role?('organizer', conference)).to be false
         end
       end
 
       it 'returns false when the user does not have a role' do
         user = create(:user, role_ids: [])
-        expect(user.has_role?('organizer', conference)).to be false
+        expect(user.has_cached_role?('organizer', conference)).to be false
       end
     end
   end

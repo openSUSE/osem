@@ -86,7 +86,7 @@ module Admin
         else
           flash[:error] = "Could not remove role #{@role.name} from user #{user.email}"
         end
-      elsif user.has_role? @role.name, role_resource
+      elsif user.has_cached_role? @role.name, role_resource
         flash[:error] = "User #{user.email} already has the role #{@role.name}"
         # Add user
       elsif user.add_role @role.name, role_resource

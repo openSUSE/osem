@@ -5,8 +5,8 @@ class AdminAbility
     # Order Abilities
     # (Check https://github.com/CanCanCommunity/cancancan/wiki/Ability-Precedence)
     # Check roles of user, using rolify. Role name is *case sensitive*
-    # user.is_organizer? or user.has_role? :organizer
-    # user.is_cfp_of? Conference or user.has_role? :cfp, Conference
+    # user.is_organizer? or user.has_cached_role? :organizer
+    # user.is_cfp_of? Conference or user.has_cached_role? :cfp, Conference
     # user.is_info_desk_of? Conference
     # user.is_volunteers_coordinator_of? Conference
     # user.is_attendee_of? Conference
@@ -79,12 +79,12 @@ class AdminAbility
 
   # Abilities for signed in users with roles
   def signed_in_with_roles(user)
-    signed_in_with_organization_admin_role(user) if user.has_role? :organization_admin, :any
-    signed_in_with_organizer_role(user) if user.has_role? :organizer, :any
-    signed_in_with_cfp_role(user) if user.has_role? :cfp, :any
-    signed_in_with_info_desk_role(user) if user.has_role? :info_desk, :any
-    signed_in_with_volunteers_coordinator_role(user) if user.has_role? :volunteers_coordinator, :any
-    signed_in_with_track_organizer_role(user) if user.has_role? :track_organizer, :any
+    signed_in_with_organization_admin_role(user) if user.has_cached_role? :organization_admin, :any
+    signed_in_with_organizer_role(user) if user.has_cached_role? :organizer, :any
+    signed_in_with_cfp_role(user) if user.has_cached_role? :cfp, :any
+    signed_in_with_info_desk_role(user) if user.has_cached_role? :info_desk, :any
+    signed_in_with_volunteers_coordinator_role(user) if user.has_cached_role? :volunteers_coordinator, :any
+    signed_in_with_track_organizer_role(user) if user.has_cached_role? :track_organizer, :any
     common_abilities_for_roles(user)
   end
 
