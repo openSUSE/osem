@@ -19,6 +19,9 @@ OSEM_EMAIL_ADDRESS="no-reply@localhost"
 # (Optional) The Conference#short_title to redirect the root URL to
 #OSEM_ROOT_CONFERENCE=''
 
+# (Optional) log level in production environment
+OSEM_LOG_LEVEL='info'
+
 # The api key for transifex.com.
 # See TRANSLATION.md for details
 OSEM_TRANSIFEX_APIKEY=""
