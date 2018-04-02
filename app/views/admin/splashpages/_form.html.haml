@@ -5,7 +5,7 @@
       originalState = originalState && $(this).is(':checked');
     });
     $('form.splashpage .select-all').prop('checked', originalState);
-    
+
     $('form.splashpage').on('change', '.select-all', function(e) {
       var value = $(this).is(':checked');
       var parent = $(this).parents('.inputs:first');
@@ -27,7 +27,7 @@
             .boolean.input.optional.form-group.checkbox
               %span.form-wrapper
                 %label.control-label
-                  %input.select-all{type: 'checkbox'}
+                  %input.select-all{ type: 'checkbox' }
                   %em Select all
       
           %li
