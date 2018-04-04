@@ -62,17 +62,7 @@ module ApplicationHelper
   end
 
   def difficulty_levels(conference)
-    all = conference.program.difficulty_levels.map(&:title)
-    first = all[0...-1]
-    last = all[-1]
-    ts = ''
-    if all.length > 1
-      ts << first.join(', ')
-      ts << " and #{last}"
-    else
-      ts = all.join
-    end
-    ts
+    conference.program.difficulty_levels.map(&:title).to_sentence
   end
 
   def unread_notifications(user)
