@@ -227,7 +227,7 @@ group :development do
   gem 'haml_lint', '~> 0.24.0'
   gem 'spring-commands-rspec'
   # for static code analisys
-  gem 'rubocop', '~> 0.51.0', require: false
+  gem 'rubocop', require: false
   # as database
   gem 'sqlite3'
   # to open mails
