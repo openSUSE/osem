@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Mock external requests to youtube
 require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true, allow: /stripe.com/)
@@ -25,5 +27,5 @@ def mock_commercial_request
     height: 344
   }
   WebMock.stub_request(:get, /.*youtube.*/)
-    .to_return(status: 200, body: response.to_json, headers: {})
+         .to_return(status: 200, body: response.to_json, headers: {})
 end

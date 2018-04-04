@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class MigrateDataRemoveColumnIncludeCfpInSplashAddColumnIncludeCfp < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempCallForPaper < ActiveRecord::Base
+  class TempCallForPaper < ApplicationRecord
     self.table_name = 'call_for_papers'
   end
 
-  class TempSplashpage < ActiveRecord::Base
+  class TempSplashpage < ApplicationRecord
     self.table_name = 'splashpages'
   end
 
@@ -17,11 +19,10 @@ class MigrateDataRemoveColumnIncludeCfpInSplashAddColumnIncludeCfp < ActiveRecor
     TempConference.all.each do |conference|
       cfp = TempCallForPaper.find_by(conference_id: conference.id)
 
-      if cfp && cfp.include_cfp_in_splash
-        splashpage = TempSplashpage.find_or_initialize_by(conference_id: conference.id)
-        splashpage.include_cfp = cfp.include_cfp_in_splash # true
-        splashpage.save!
-      end
+      next unless cfp&.include_cfp_in_splash
+      splashpage = TempSplashpage.find_or_initialize_by(conference_id: conference.id)
+      splashpage.include_cfp = cfp.include_cfp_in_splash # true
+      splashpage.save!
     end
 
     remove_column :call_for_papers, :include_cfp_in_splash, :boolean, default: false

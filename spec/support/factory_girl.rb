@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require_relative 'external_request'
 
 RSpec.configure do |config|
-
   config.before(:suite) do
     if ENV['OSEM_FACTORY_LINT'] != 'false'
       DatabaseCleaner.strategy = :transaction

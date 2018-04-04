@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 wb = xlsx_package.workbook
 xlsx_package.use_autowidth = true
 if @booth_export_option == 'confirmed'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Api::V1::RoomsController do
@@ -9,7 +11,6 @@ describe Api::V1::RoomsController do
   describe 'GET #index' do
     context 'without conference scope' do
       it 'returns all rooms' do
-
         get :index, format: :json
         json = JSON.parse(response.body)['rooms']
 
@@ -23,8 +24,7 @@ describe Api::V1::RoomsController do
 
     context 'with conference scope' do
       it 'returns all rooms of conference' do
-
-        get :index, conference_id: conference.short_title, format: :json
+        get :index, params: { conference_id: conference.short_title, format: :json }
         json = JSON.parse(response.body)['rooms']
 
         expect(response).to be_success

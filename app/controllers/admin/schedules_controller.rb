@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Admin
   class SchedulesController < Admin::BaseController
     # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to
     # the schedule of a conference, which should not be accessed in the first place
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :program, through: :conference, singleton: true
-    load_and_authorize_resource :schedule, through: :program, except: [:new, :create]
+    load_and_authorize_resource :schedule, through: :program, except: %i[new create]
     load_resource :event_schedules, through: :schedule
     load_resource :selected_schedule, through: :program, singleton: true
     load_resource :venue, through: :conference, singleton: true

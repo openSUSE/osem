@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 class RemoveSocialEventsTable < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
 
     has_many :temp_social_events
   end
 
-  class TempSocialEvent < ActiveRecord::Base
+  class TempSocialEvent < ApplicationRecord
     self.table_name = 'social_events'
 
     belongs_to :temp_conference
     has_and_belongs_to_many :temp_registrations
   end
 
-  class TempRegistration < ActiveRecord::Base
+  class TempRegistration < ApplicationRecord
     self.table_name = 'registrations'
 
     belongs_to :temp_conference
@@ -20,20 +22,20 @@ class RemoveSocialEventsTable < ActiveRecord::Migration
     has_and_belongs_to_many :temp_qanswers
   end
 
-  class TempRegistrationsSocialEvent < ActiveRecord::Base
+  class TempRegistrationsSocialEvent < ApplicationRecord
     self.table_name = 'registrations_social_events'
 
     belongs_to :temp_registrations
     belongs_to :temp_social_events
   end
 
-  class TempQuestionType < ActiveRecord::Base
+  class TempQuestionType < ApplicationRecord
     self.table_name = 'question_types'
 
     has_many :temp_questions
   end
 
-  class TempQuestion < ActiveRecord::Base
+  class TempQuestion < ApplicationRecord
     self.table_name = 'questions'
 
     has_many :temp_qanswers
@@ -42,14 +44,14 @@ class RemoveSocialEventsTable < ActiveRecord::Migration
     has_and_belongs_to_many :temp_conferences
   end
 
-  class TempAnswer < ActiveRecord::Base
+  class TempAnswer < ApplicationRecord
     self.table_name = 'answers'
 
     has_many :temp_qanswers
     has_many :temp_questions, through: :temp_qanswers
   end
 
-  class TempQanswer < ActiveRecord::Base
+  class TempQanswer < ApplicationRecord
     self.table_name = 'qanswers'
 
     belongs_to :temp_question
@@ -57,11 +59,11 @@ class RemoveSocialEventsTable < ActiveRecord::Migration
     has_and_belongs_to_many :temp_registrations
   end
 
-  class TempConferencesQuestions < ActiveRecord::Base
+  class TempConferencesQuestions < ApplicationRecord
     self.table_name = 'conferences_questions'
   end
 
-  class TempQanswerRegistration < ActiveRecord::Base
+  class TempQanswerRegistration < ApplicationRecord
     self.table_name = 'qanswers_registrations'
   end
 
@@ -116,17 +118,16 @@ class RemoveSocialEventsTable < ActiveRecord::Migration
     qtype = TempQuestionType.find_by(title: 'Multiple Choice')
 
     TempConference.all.each do |conference|
-      if qtype && (question = TempQuestion.find_by(title: 'Which of the following social events are you going to attend?',
-                                                   conference_id: conference.id, question_type_id: qtype.id))
-        TempQanswer.where(question_id: question.id).each do |qa|
-          TempQanswerRegistration.where(qanswer_id: qa.id).each do |qa_registration|
-            answer = TempAnswer.find(qa.answer_id)
-            registration = TempRegistration.find(qa_registration.registration_id)
-            social_event = TempSocialEvent.find_or_create_by!(title: answer.title,
-                                                              conference_id: conference.id)
-            TempRegistrationsSocialEvent.find_or_create_by!(registration_id: registration.id,
-                                                            social_event_id: social_event.id)
-          end
+      next unless qtype && (question = TempQuestion.find_by(title: 'Which of the following social events are you going to attend?',
+                                                            conference_id: conference.id, question_type_id: qtype.id))
+      TempQanswer.where(question_id: question.id).each do |qa|
+        TempQanswerRegistration.where(qanswer_id: qa.id).each do |qa_registration|
+          answer = TempAnswer.find(qa.answer_id)
+          registration = TempRegistration.find(qa_registration.registration_id)
+          social_event = TempSocialEvent.find_or_create_by!(title: answer.title,
+                                                            conference_id: conference.id)
+          TempRegistrationsSocialEvent.find_or_create_by!(registration_id: registration.id,
+                                                          social_event_id: social_event.id)
         end
       end
     end

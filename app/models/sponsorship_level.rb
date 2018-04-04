@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SponsorshipLevel < ApplicationRecord
   validates :title, presence: true
   belongs_to :conference

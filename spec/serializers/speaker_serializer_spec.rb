@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe SpeakerSerializer, type: :serializer do
   let(:speaker) { create(:user, name: 'John Doe', affiliation: 'JohnDoesInc', biography: nil) }
@@ -18,7 +20,7 @@ describe SpeakerSerializer, type: :serializer do
   end
 
   context 'speaker has biography' do
-    before{ speaker.update_attributes(biography: 'Doest of all Jon Does') }
+    before { speaker.update(biography: 'Doest of all Jon Does') }
 
     it 'sets name, affiliation and biography' do
       expected_json = {

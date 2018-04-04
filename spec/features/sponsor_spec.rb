@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Sponsor do
@@ -13,7 +15,8 @@ feature Sponsor do
       sign_in organizer
 
       visit admin_conference_sponsors_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title
+      )
       # Add sponsors
       click_link 'Add Sponsor'
 

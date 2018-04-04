@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTracksTable < ActiveRecord::Migration
   def up
     create_table :tracks do |t|
@@ -11,6 +13,5 @@ class CreateTracksTable < ActiveRecord::Migration
     end
   end
 
-  def down
-  end
+  def down; end
 end

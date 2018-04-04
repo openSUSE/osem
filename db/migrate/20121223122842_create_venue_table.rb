@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateVenueTable < ActiveRecord::Migration
   def up
     create_table :venues do |t|

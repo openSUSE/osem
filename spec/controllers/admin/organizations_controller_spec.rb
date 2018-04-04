@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::OrganizationsController do
@@ -35,13 +37,13 @@ describe Admin::OrganizationsController do
     describe 'POST #create' do
       it 'does not create new organization' do
         expected = expect do
-          post :create, organization: attributes_for(:organization)
+          post :create, params: { organization: attributes_for(:organization) }
         end
         expected.to_not change(Organization, :count)
       end
 
       it 'redirects to root' do
-        post :create, organization: attributes_for(:organization)
+        post :create, params: { organization: attributes_for(:organization) }
 
         expect(flash[:alert]).to eq('You are not authorized to access this page.')
         expect(response).to redirect_to(root_path)
@@ -51,7 +53,7 @@ describe Admin::OrganizationsController do
     describe 'PATCH #update' do
       it 'does not update and redirects to root' do
         old_name = organization.name
-        patch :update, id: organization.id, organization: attributes_for(:organization, name: 'new name')
+        patch :update, params: { id: organization.id, organization: attributes_for(:organization, name: 'new name') }
 
         organization.reload
         expect(organization.name).to eq(old_name)
@@ -64,13 +66,13 @@ describe Admin::OrganizationsController do
       context 'for a valid organization' do
         it 'does not destroy a resource' do
           expected = expect do
-            delete :destroy, id: organization.id
+            delete :destroy, params: { id: organization.id }
           end
           expected.to_not change(Organization, :count)
         end
 
         it 'redirects to root' do
-          delete :destroy, id: organization.id
+          delete :destroy, params: { id: organization.id }
 
           expect(flash[:alert]).to eq('You are not authorized to access this page.')
           expect(response).to redirect_to(root_path)
@@ -102,13 +104,13 @@ describe Admin::OrganizationsController do
       context 'with valid attributes' do
         it 'creates new organization' do
           expected = expect do
-            post :create, organization: attributes_for(:organization)
+            post :create, params: { organization: attributes_for(:organization) }
           end
           expected.to change { Organization.count }.by(1)
         end
 
         it 'redirects to index' do
-          post :create, organization: attributes_for(:organization)
+          post :create, params: { organization: attributes_for(:organization) }
 
           expect(flash[:notice]).to eq('Organization successfully created')
           expect(response).to redirect_to(admin_organizations_path)
@@ -118,13 +120,13 @@ describe Admin::OrganizationsController do
       context 'with invalid attributes' do
         it 'does not create new organization' do
           expected = expect do
-            post :create, organization: attributes_for(:organization, name: '')
+            post :create, params: { organization: attributes_for(:organization, name: '') }
           end
           expected.to_not change(Organization, :count)
         end
 
         it 'redirects to new' do
-          post :create, organization: attributes_for(:organization, name: '')
+          post :create, params: { organization: attributes_for(:organization, name: '') }
 
           expect(flash[:error]).to eq("Name can't be blank")
           expect(response).to redirect_to(new_admin_organization_path)
@@ -134,7 +136,7 @@ describe Admin::OrganizationsController do
 
     describe 'PATCH #update' do
       it 'saves and redirects to index when the attributes are valid' do
-        patch :update, id: organization.id, organization: attributes_for(:organization, name: 'changed name')
+        patch :update, params: { id: organization.id, organization: attributes_for(:organization, name: 'changed name') }
 
         organization.reload
         expect(organization.name).to eq('changed name')
@@ -143,7 +145,7 @@ describe Admin::OrganizationsController do
       end
 
       it 'redirects to edit when attributes are invalid' do
-        patch :update, id: organization.id, organization: attributes_for(:organization, name: '')
+        patch :update, params: { id: organization.id, organization: attributes_for(:organization, name: '') }
 
         expect(flash[:error]).to eq("Name can't be blank")
         expect(response).to redirect_to(edit_admin_organization_path(organization))
@@ -154,13 +156,13 @@ describe Admin::OrganizationsController do
       context 'for a valid organization' do
         it 'should successfully destroy a resource' do
           expected = expect do
-            delete :destroy, id: organization.id
+            delete :destroy, params: { id: organization.id }
           end
           expected.to change { Organization.count }.by(-1)
         end
 
         it 'redirects to index' do
-          delete :destroy, id: organization.id
+          delete :destroy, params: { id: organization.id }
 
           expect(flash[:notice]).to eq('Organization successfully destroyed')
           expect(response).to redirect_to(admin_organizations_path)
@@ -172,8 +174,7 @@ describe Admin::OrganizationsController do
       let(:org_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
 
       before do
-        post :assign_org_admins, id: organization.id,
-                                 user: { email: user.email }
+        post :assign_org_admins, params: { id: organization.id, user: { email: user.email } }
       end
 
       it 'assigns organization_admin role' do
@@ -186,8 +187,7 @@ describe Admin::OrganizationsController do
       let!(:org_admin_user) { create(:user, role_ids: [org_admin_role.id]) }
 
       before do
-        delete :unassign_org_admins, id: organization.id,
-                                     user: { email: org_admin_user.email }
+        delete :unassign_org_admins, params: { id: organization.id, user: { email: org_admin_user.email } }
       end
 
       it 'unassigns organization_admin role' do

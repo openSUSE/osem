@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # Returns a string build from the start and end date of the given conference.
   #
@@ -60,7 +62,7 @@ module ApplicationHelper
   end
 
   def difficulty_levels(conference)
-    all = conference.program.difficulty_levels.map {|t| t.title}
+    all = conference.program.difficulty_levels.map(&:title)
     first = all[0...-1]
     last = all[-1]
     ts = ''
@@ -83,16 +85,14 @@ module ApplicationHelper
   # Output will be 'title, description and conference'
   def updated_attributes(version)
     version.changeset
-      .reject{ |_, values| values[0].blank? && values[1].blank? }
-      .keys.map{ |key| key.gsub('_id', '').tr('_', ' ')}.join(', ')
-      .reverse.sub(',', ' dna ').reverse
+           .reject { |_, values| values[0].blank? && values[1].blank? }
+           .keys.map { |key| key.gsub('_id', '').tr('_', ' ') }.join(', ')
+           .reverse.sub(',', ' dna ').reverse
   end
 
   def normalize_array_length(hashmap, length)
     hashmap.each_value do |value|
-      if value.length < length
-        value.fill(value[-1], value.length...length)
-      end
+      value.fill(value[-1], value.length...length) if value.length < length
     end
   end
 
@@ -115,28 +115,26 @@ module ApplicationHelper
     other_event_schedules.each do |other_event_schedule|
       next unless other_event_schedule.event.confirmed?
       other_event_time_range = (other_event_schedule.start_time.strftime '%Y-%m-%d %H:%M')...(other_event_schedule.end_time.strftime '%Y-%m-%d %H:%M')
-      if (event_time_range.to_a & other_event_time_range.to_a).present?
-        concurrent_events << other_event_schedule.event
-      end
+      concurrent_events << other_event_schedule.event if (event_time_range.to_a & other_event_time_range.to_a).present?
     end
     concurrent_events
   end
 
   def speaker_links(event)
-    safe_join(event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }, ',')
+    safe_join(event.speakers.map { |speaker| link_to speaker.name, admin_user_path(speaker) }, ',')
   end
 
   def speaker_selector_input(form)
-    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
+    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].presence || user[2], user[2], user[3]] }.sort_by { |user| user[1].downcase }
     form.input :speakers, as: :select,
-                          collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @event.speakers.map(&:id)),
+                          collection: options_for_select(users.map { |user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]] }, @event.speakers.map(&:id)),
                           include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
   end
 
   def responsibles_selector_input(form)
-    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
+    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].presence || user[2], user[2], user[3]] }.sort_by { |user| user[1].downcase }
     form.input :responsibles, as: :select,
-                              collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @booth.responsibles.map(&:id)),
+                              collection: options_for_select(users.map { |user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]] }, @booth.responsibles.map(&:id)),
                               include_blank: false, label: 'Responsibles', input_html: { class: 'select-help-toggle', multiple: 'true' },
                               hint: 'The people responsible for the booth. You can only select existing users.'
   end
@@ -154,9 +152,7 @@ module ApplicationHelper
   end
 
   def rescheduling_hint(affected_event_count)
-    if affected_event_count > 0
-      "You have #{affected_event_count} scheduled #{'event'.pluralize(affected_event_count)}. Changing the conference hours will unschedule those scheduled outside the conference hours."
-    end
+    "You have #{affected_event_count} scheduled #{'event'.pluralize(affected_event_count)}. Changing the conference hours will unschedule those scheduled outside the conference hours." if affected_event_count > 0
   end
 
   ##

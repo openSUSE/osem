@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventType < ApplicationRecord
   belongs_to :program, touch: true
   has_many :events, dependent: :restrict_with_error
@@ -6,7 +8,7 @@ class EventType < ApplicationRecord
                   ignore: %i[updated_at]
 
   validates :title, presence: true
-  validates :length, numericality: {greater_than: 0}
+  validates :length, numericality: { greater_than: 0 }
   validates :minimum_abstract_length, presence: true
   validates :maximum_abstract_length, presence: true
   validate :length_step

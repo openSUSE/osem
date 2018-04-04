@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDifficultyLevels < ActiveRecord::Migration
   def change
     create_table :difficulty_levels do |t|

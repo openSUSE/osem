@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropSplashDescriptionsAndPhoto < ActiveRecord::Migration
   def change
     remove_column :splashpages, :ticket_description

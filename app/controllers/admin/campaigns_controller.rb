@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class CampaignsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -25,7 +27,7 @@ module Admin
     def edit; end
 
     def update
-      if @campaign.update_attributes(campaign_params)
+      if @campaign.update(campaign_params)
         redirect_to admin_conference_campaigns_path(conference_id: @conference.short_title),
                     notice: "Campaign '#{@campaign.name}' successfully updated."
       else

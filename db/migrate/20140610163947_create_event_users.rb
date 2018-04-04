@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class CreateEventUsers < ActiveRecord::Migration
-  class TempPerson < ActiveRecord::Base
+  class TempPerson < ApplicationRecord
     self.table_name = 'people'
   end
 
-  class TempEventPerson < ActiveRecord::Base
+  class TempEventPerson < ApplicationRecord
     self.table_name = 'event_people'
   end
 
-  class TempEventUser < ActiveRecord::Base
+  class TempEventUser < ApplicationRecord
     self.table_name = 'event_users'
   end
 

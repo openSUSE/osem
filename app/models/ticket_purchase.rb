@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketPurchase < ApplicationRecord
   belongs_to :ticket
   belongs_to :user
@@ -38,9 +40,7 @@ class TicketPurchase < ApplicationRecord
                      else
                        purchase_ticket(conference, quantity, ticket, user)
                      end
-          if purchase && !purchase.save
-            errors.push(purchase.errors.full_messages)
-          end
+          errors.push(purchase.errors.full_messages) if purchase && !purchase.save
         end
       end
     end
@@ -75,7 +75,7 @@ class TicketPurchase < ApplicationRecord
   end
 
   def pay(payment)
-    update_attributes(paid: true, payment: payment)
+    update(paid: true, payment: payment)
     PhysicalTicket.transaction do
       quantity.times { physical_tickets.create }
     end
@@ -83,15 +83,11 @@ class TicketPurchase < ApplicationRecord
   end
 
   def one_registration_ticket_per_user
-    if ticket.try(:registration_ticket?) && quantity != 1
-      errors.add(:quantity, 'cannot be greater than one for registration tickets.')
-    end
+    errors.add(:quantity, 'cannot be greater than one for registration tickets.') if ticket.try(:registration_ticket?) && quantity != 1
   end
 
   def registration_ticket_already_purchased
-    if ticket.try(:registration_ticket?) && user.tickets.for_registration(conference).present?
-      errors.add(:quantity, 'cannot be greater than one for registration tickets.')
-    end
+    errors.add(:quantity, 'cannot be greater than one for registration tickets.') if ticket.try(:registration_ticket?) && user.tickets.for_registration(conference).present?
   end
 end
 

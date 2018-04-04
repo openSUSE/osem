@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class UsersRole < ApplicationRecord
   belongs_to :role
   belongs_to :user
 
-  has_paper_trail on: [:create, :destroy], meta: { conference_id: :conference_id }
+  has_paper_trail on: %i[create destroy], meta: { conference_id: :conference_id }
 
   private
 

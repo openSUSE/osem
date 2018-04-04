@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 module Admin
   class LodgingsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource :lodging, through: :conference
 
-    def index
-    end
+    def index; end
 
     def new
       @lodging = @conference.lodgings.new
@@ -24,7 +25,7 @@ module Admin
     def edit; end
 
     def update
-      if @lodging.update_attributes(lodging_params)
+      if @lodging.update(lodging_params)
         redirect_to admin_conference_lodgings_path(conference_id: @conference.short_title),
                     notice: 'Lodging successfully updated.'
       else

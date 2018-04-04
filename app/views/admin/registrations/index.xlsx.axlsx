@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 wb = xlsx_package.workbook
 wb.add_worksheet(name: 'registrations') do |sheet|
   bold_style = wb.styles.add_style(b: true)
-  row = ['Attended', 'Name', 'Nickname', 'Affilιation', 'Email', 'Arrival', 'Departure']
+  row = %w[Attended Name Nickname Affilιation Email Arrival Departure]
 
   @conference.questions.each do |question|
     row << question.title
   end
 
-  sheet.add_row row, :style => bold_style
+  sheet.add_row row, style: bold_style
 
   @registrations.each do |registration|
     row = []
-    row << ( registration.attended ? 'X' : '' )
+    row << (registration.attended ? 'X' : '')
     row << registration.name
     row << registration.nickname
     row << registration.affiliation
@@ -20,7 +22,7 @@ wb.add_worksheet(name: 'registrations') do |sheet|
     row << registration.departure.to_s
     @conference.questions.each do |question|
       qa = registration.qanswers.find_by(question: question)
-      answer = ( qa ? qa.answer.title : '' )
+      answer = (qa ? qa.answer.title : '')
 
       row << answer
     end
@@ -28,4 +30,3 @@ wb.add_worksheet(name: 'registrations') do |sheet|
     sheet.add_row row
   end
 end
-

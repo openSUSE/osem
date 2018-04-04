@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Conference do
-
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
@@ -17,20 +18,22 @@ feature Conference do
       click_button 'Create Cfp'
 
       expect(flash)
-          .to eq('Creating the call for papers failed. ' +
+        .to eq('Creating the call for papers failed. ' \
           "Start date can't be blank. End date can't be blank.")
 
       today = Date.today - 1
       page.execute_script(
-      "$('#registration-period-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
+        "$('#registration-period-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')"
+      )
       page.execute_script(
-      "$('#registration-period-end-datepicker').val('#{(today + 6).strftime('%d/%m/%Y')}')")
+        "$('#registration-period-end-datepicker').val('#{(today + 6).strftime('%d/%m/%Y')}')"
+      )
 
       click_button 'Create Cfp'
 
       # Validations
       expect(flash)
-          .to eq('Call for papers successfully created.')
+        .to eq('Call for papers successfully created.')
 
       visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))
@@ -49,24 +52,27 @@ feature Conference do
 
       # Validate update with empty start date will not saved
       page.execute_script(
-          "$('#registration-period-start-datepicker').val('')")
+        "$('#registration-period-start-datepicker').val('')"
+      )
       click_button 'Update Cfp'
       expect(flash)
-          .to eq('Updating call for papers failed. ' +
+        .to eq('Updating call for papers failed. ' \
                     "Start date can't be blank.")
 
       # Fill in date
       today = Date.today - 9
       page.execute_script(
-        "$('#registration-period-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')")
+        "$('#registration-period-start-datepicker').val('#{today.strftime('%d/%m/%Y')}')"
+      )
       page.execute_script(
-        "$('#registration-period-end-datepicker').val('#{(today + 14).strftime('%d/%m/%Y')}')")
+        "$('#registration-period-end-datepicker').val('#{(today + 14).strftime('%d/%m/%Y')}')"
+      )
 
       click_button 'Update Cfp'
 
       # Validations
       expect(flash)
-          .to eq('Call for papers successfully updated.')
+        .to eq('Call for papers successfully updated.')
 
       visit admin_conference_program_cfp_path(conference.short_title, conference.program.cfp)
       expect(find('#start_date').text).to eq(today.strftime('%A, %B %-d. %Y'))

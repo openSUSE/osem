@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
   load_resource :conference, find_by: :short_title
-  load_and_authorize_resource only: [:create, :destroy], through: :conference
+  load_and_authorize_resource only: %i[create destroy], through: :conference
 
   def create
     @subscription = current_user.subscriptions.build(conference_id: @conference.id)

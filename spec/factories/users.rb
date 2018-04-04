@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 # It is a feature of our app that first signed up user is admin. This property
@@ -54,5 +56,4 @@ FactoryGirl.define do
   factory :user_xss, parent: :user do
     biography '<div id="divInjectedElement"></div>'
   end
-
 end

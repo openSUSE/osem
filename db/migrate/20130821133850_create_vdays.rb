@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateVdays < ActiveRecord::Migration
   def up
     create_table :vdays do |t|

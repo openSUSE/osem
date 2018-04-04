@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class VenuesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -23,7 +25,7 @@ module Admin
     end
 
     def update
-      if @venue.update_attributes(venue_params)
+      if @venue.update(venue_params)
         redirect_to admin_conference_venue_path(conference_id: @conference.short_title),
                     notice: 'Venue was successfully updated.'
       else

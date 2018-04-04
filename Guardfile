@@ -1,4 +1,6 @@
 #!/usr/bin/ruby
+# frozen_string_literal: true
+
 #
 # More info at https://github.com/guard/guard#readme
 
@@ -8,7 +10,9 @@ guard_opts = {
   cmd: 'spring rspec'
 }
 
-def model_specs       ; 'spec/models'       end
+def model_specs
+  'spec/models'
+end
 
 def model_spec(model)
   "spec/models/#{model}_spec.rb"
@@ -19,19 +23,19 @@ def all_testunit_tests
     model_tests,
     controller_tests,
     helper_tests,
-    integration_tests,
+    integration_tests
   ]
 end
 
 def all_specs
   [
-    model_specs,
+    model_specs
   ]
 end
 
 def startup_guards
-  watch(%r{^Gemfile$})                      { yield }
-  watch(%r{^Gemfile.lock$})                 { yield }
+  watch(/^Gemfile$/)                      { yield }
+  watch(/^Gemfile.lock$/)                 { yield }
   watch(%r{^config/routes.rb$})             { yield }
   watch(%r{^config/application\.rb$})       { yield }
   watch(%r{^config/environment\.rb$})       { yield }
@@ -44,14 +48,14 @@ end
 def rspec_guards
   watch(%r{^spec/factories/.+\.rb$})        { all_specs }
   watch(%r{^spec/.+_spec\.rb$})
-  watch(%r{^app/(.+)\.rb$})                 { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^app/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
 end
 
 group :rspec do
   guard 'rspec', guard_opts do
-    #startup_guards { all_specs }
+    # startup_guards { all_specs }
     rspec_guards
-    #all_specs
+    # all_specs
   end
 end
 

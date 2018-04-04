@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Admin
   class CommercialsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference, except: [:new, :create]
+    load_and_authorize_resource through: :conference, except: %i[new create]
 
     def index
       @commercials = @conference.commercials
@@ -43,7 +45,7 @@ module Admin
     def render_commercial
       result = Commercial.render_from_url(params[:url])
       if result[:error]
-        render text: result[:error], status: 400
+        render text: result[:error], status: :bad_request
       else
         render text: result[:html]
       end

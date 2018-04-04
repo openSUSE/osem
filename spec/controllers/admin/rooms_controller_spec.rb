@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::RoomsController do
@@ -10,7 +12,7 @@ describe Admin::RoomsController do
     before { sign_in admin }
 
     describe 'GET #index' do
-      before { get :index, conference_id: conference.short_title }
+      before { get :index, params: { conference_id: conference.short_title } }
 
       it 'assigns conference, venue and rooms variables' do
         expect(assigns(:conference)).to eq conference
@@ -24,7 +26,7 @@ describe Admin::RoomsController do
     end
 
     describe 'GET #edit' do
-      before { get :edit, conference_id: conference.short_title, id: room.id }
+      before { get :edit, params: { conference_id: conference.short_title, id: room.id } }
 
       it 'renders edit template' do
         expect(response).to render_template('edit')
@@ -36,7 +38,7 @@ describe Admin::RoomsController do
     end
 
     describe 'GET #new' do
-      before { get :new, conference_id: conference.short_title }
+      before { get :new, params: { conference_id: conference.short_title } }
 
       it 'renders new template' do
         expect(response).to render_template('new')
@@ -50,7 +52,7 @@ describe Admin::RoomsController do
     describe 'POST #create' do
       context 'saves successfuly' do
         before do
-          post :create, room: attributes_for(:room), conference_id: conference.short_title
+          post :create, params: { room: attributes_for(:room), conference_id: conference.short_title }
         end
 
         it 'redirects to admin room index path' do
@@ -69,7 +71,7 @@ describe Admin::RoomsController do
       context 'save fails' do
         before do
           allow_any_instance_of(Room).to receive(:save).and_return(false)
-          post :create, room: attributes_for(:room), conference_id: conference.short_title
+          post :create, params: { room: attributes_for(:room), conference_id: conference.short_title }
         end
 
         it 'renders new template' do
@@ -89,9 +91,7 @@ describe Admin::RoomsController do
     describe 'PATCH #update' do
       context 'updates successfully' do
         before do
-          patch :update, room: attributes_for(:room, size: 2),
-                         conference_id: conference.short_title,
-                         id: room.id
+          patch :update, params: { room: attributes_for(:room, size: 2), conference_id: conference.short_title, id: room.id }
         end
 
         it 'redirects to admin room index path' do
@@ -111,9 +111,7 @@ describe Admin::RoomsController do
       context 'update fails' do
         before do
           allow_any_instance_of(Room).to receive(:save).and_return(false)
-          patch :update, room: attributes_for(:room, size: 2),
-                         conference_id: conference.short_title,
-                         id: room.id
+          patch :update, params: { room: attributes_for(:room, size: 2), conference_id: conference.short_title, id: room.id }
         end
 
         it 'renders edit template' do
@@ -133,7 +131,7 @@ describe Admin::RoomsController do
 
     describe 'DELETE #destroy' do
       context 'deletes successfully' do
-        before { delete :destroy, conference_id: conference.short_title, id: room.id }
+        before { delete :destroy, params: { conference_id: conference.short_title, id: room.id } }
 
         it 'redirects to admin room index path' do
           expect(response).to redirect_to admin_conference_venue_rooms_path(conference_id: conference.short_title)
@@ -151,7 +149,7 @@ describe Admin::RoomsController do
       context 'delete fails' do
         before do
           allow_any_instance_of(Room).to receive(:destroy).and_return(false)
-          delete :destroy, conference_id: conference.short_title, id: room.id
+          delete :destroy, params: { conference_id: conference.short_title, id: room.id }
         end
 
         it 'redirects to admin room index path' do

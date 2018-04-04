@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeAttachmentDefault < ActiveRecord::Migration
   def up
     change_column_default(:event_attachments, :public, true)

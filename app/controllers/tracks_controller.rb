@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TracksController < ApplicationController
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
@@ -29,7 +31,7 @@ class TracksController < ApplicationController
   end
 
   def update
-    if @track.update_attributes(track_params)
+    if @track.update(track_params)
       redirect_to conference_program_tracks_path(conference_id: @conference.short_title),
                   notice: 'Track request successfully updated.'
     else

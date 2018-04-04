@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Campaign < ApplicationRecord
   validates :name, :utm_campaign, presence: true
 
@@ -66,11 +68,11 @@ class Campaign < ApplicationRecord
   # * +Hash+ -> parameter => value
   def get_parameters
     conditions = {}
-    conditions[:utm_source] = self[:utm_source] unless self[:utm_source].blank?
-    conditions[:utm_medium] = self[:utm_medium] unless self[:utm_medium].blank?
-    conditions[:utm_term] = self[:utm_term] unless self[:utm_term].blank?
-    conditions[:utm_content] = self[:utm_content] unless self[:utm_content].blank?
-    conditions[:utm_campaign] = self[:utm_campaign] unless self[:utm_campaign].blank?
+    conditions[:utm_source] = self[:utm_source] if self[:utm_source].present?
+    conditions[:utm_medium] = self[:utm_medium] if self[:utm_medium].present?
+    conditions[:utm_term] = self[:utm_term] if self[:utm_term].present?
+    conditions[:utm_content] = self[:utm_content] if self[:utm_content].present?
+    conditions[:utm_campaign] = self[:utm_campaign] if self[:utm_campaign].present?
     conditions
   end
 end

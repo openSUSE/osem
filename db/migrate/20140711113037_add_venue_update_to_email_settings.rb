@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVenueUpdateToEmailSettings < ActiveRecord::Migration
   def change
     add_column :email_settings, :send_on_venue_update, :boolean, default: true

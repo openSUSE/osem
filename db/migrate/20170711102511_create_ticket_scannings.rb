@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTicketScannings < ActiveRecord::Migration
   def change
     create_table :ticket_scannings do |t|

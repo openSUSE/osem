@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ApplicationController, type: :controller do
   let(:conference) { create(:conference) }
 
   describe 'user is signed in' do
-
     describe 'as admin' do
       let(:admin) { create(:admin) }
       before { sign_in(admin) }
@@ -31,16 +32,13 @@ describe ApplicationController, type: :controller do
         end
       end
     end
-
   end
-
 end
 
 describe ApplicationController, type: :request do
   let(:conference) { create(:conference) }
 
   describe 'Skylight link' do
-
     around do |example|
       original_value = ENV['SKYLIGHT_PUBLIC_DASHBOARD_URL']
       example.run
@@ -70,7 +68,5 @@ describe ApplicationController, type: :request do
         expect(response.body).to_not match(/skylight/i)
       end
     end
-
   end
-
 end

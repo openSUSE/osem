@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MoveConferencesToOrganizations < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempOrganization < ActiveRecord::Base
+  class TempOrganization < ApplicationRecord
     self.table_name = 'organizations'
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventSchedule < ApplicationRecord
   default_scope { where(enabled: true) }
   belongs_to :schedule
@@ -71,13 +73,9 @@ class EventSchedule < ApplicationRecord
   def during_track
     return unless event.try(:track) && start_time
 
-    if event.track.try(:start_date) && event.track.start_date > start_time
-      errors.add(:start_time, "can't be before the track's start date (#{event.track.start_date})")
-    end
+    errors.add(:start_time, "can't be before the track's start date (#{event.track.start_date})") if event.track.try(:start_date) && event.track.start_date > start_time
 
-    if event.track.try(:end_date) && event.track.end_date + 1.day < end_time
-      errors.add(:end_time, "can't be after the track's end date (#{event.track.end_date})")
-    end
+    errors.add(:end_time, "can't be after the track's end date (#{event.track.end_date})") if event.track.try(:end_date) && event.track.end_date + 1.day < end_time
   end
 
   ##

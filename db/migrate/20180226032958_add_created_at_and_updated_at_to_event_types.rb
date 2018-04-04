@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCreatedAtAndUpdatedAtToEventTypes < ActiveRecord::Migration[5.0]
   def up
     add_column :event_types, :created_at, :datetime

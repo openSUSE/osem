@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Program do
@@ -198,8 +200,8 @@ describe Program do
       program.schedule_interval = 5
       program.save!
 
-      program.event_types.first.update_attributes length: 5
-      program.event_types.last.update_attributes length: 25
+      program.event_types.first.update length: 5
+      program.event_types.last.update length: 25
       create(:event_type, program: program, length: 30)
 
       program.schedule_interval = 10
@@ -237,13 +239,12 @@ describe Program do
   describe '#languages_list' do
     it 'returns the list of readable languages' do
       program.languages = 'en,de,fr,ru,zh'
-      expect(program.languages_list).to eq %w(English German French Russian Chinese)
+      expect(program.languages_list).to eq %w[English German French Russian Chinese]
     end
   end
 
   describe '#any_event_for_this_date?' do
-
-    let(:event){ create(:event, program: program) }
+    let(:event) { create(:event, program: program) }
 
     context 'when no schedule is selected for the conference' do
       let(:schedule) { create(:schedule, program: program) }

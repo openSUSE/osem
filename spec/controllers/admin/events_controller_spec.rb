@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::EventsController do
@@ -16,7 +18,7 @@ describe Admin::EventsController do
     describe 'GET #show' do
       before :each do
         sign_in(organizer)
-        get :show, id: event_without_commercial.id, conference_id: conference.short_title
+        get :show, params: { id: event_without_commercial.id, conference_id: conference.short_title }
       end
 
       it 'assigns versions' do

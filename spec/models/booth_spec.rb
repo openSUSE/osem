@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'Booth' do
@@ -33,8 +35,8 @@ describe 'Booth' do
       end
     end
 
-    states = [:new, :withdrawn, :to_accept, :accepted, :to_reject, :rejected, :canceled, :confirmed]
-    transitions = [:restart, :withdraw, :accept, :reject, :to_accept, :to_reject, :cancel]
+    states = %i[new withdrawn to_accept accepted to_reject rejected canceled confirmed]
+    transitions = %i[restart withdraw accept reject to_accept to_reject cancel]
 
     states_transitions = { new: { restart: false, withdraw: true, accept: true, to_accept: true, to_reject: true, reject: true, cancel: false, confirm: false },
                            withdrawn: { restart: true, withdraw: false, accept: false, to_accept: false, to_reject: false, reject: false, cancel: false, confirm: false },
@@ -51,5 +53,4 @@ describe 'Booth' do
       end
     end
   end
-
 end

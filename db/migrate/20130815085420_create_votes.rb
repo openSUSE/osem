@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateVotes < ActiveRecord::Migration
   def up
     create_table :votes do |t|

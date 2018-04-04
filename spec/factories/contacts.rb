@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :contact do
     social_tag { SecureRandom.urlsafe_base64(4) }

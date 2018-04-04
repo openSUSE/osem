@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Admin
   class QuestionsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference, except: [:new, :create]
+    load_and_authorize_resource through: :conference, except: %i[new create]
 
     def index
       authorize! :index, Question.new(conference_id: @conference.id)
@@ -24,9 +26,7 @@ module Admin
       @question.conference_id = @conference.id
       authorize! :create, @question
 
-      if @question.question_type_id == QuestionType.find_by(title: 'Yes/No').id
-        @question.answers = [Answer.find_by(title: 'Yes'), Answer.find_by(title: 'No')]
-      end
+      @question.answers = [Answer.find_by(title: 'Yes'), Answer.find_by(title: 'No')] if @question.question_type_id == QuestionType.find_by(title: 'Yes/No').id
 
       respond_to do |format|
         if @conference.save
@@ -39,14 +39,12 @@ module Admin
 
     # GET questions/1/edit
     def edit
-      if @question.global
-        redirect_to admin_conference_questions_path(conference_id: @conference.short_title), error: 'Sorry, you cannot edit global questions. Create a new one.'
-      end
+      redirect_to admin_conference_questions_path(conference_id: @conference.short_title), error: 'Sorry, you cannot edit global questions. Create a new one.' if @question.global
     end
 
     # PUT questions/1
     def update
-      if @question.update_attributes(question_params)
+      if @question.update(question_params)
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated."
       else
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}"
@@ -56,7 +54,7 @@ module Admin
     # Update questions used for the conference
     def update_conference
       authorize! :update, Question.new(conference_id: @conference.id)
-      if @conference.update_attributes(conference_params)
+      if @conference.update(conference_params)
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated."
       else
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed."
@@ -73,12 +71,9 @@ module Admin
           # Delete question and its answers
           begin
             Question.transaction do
-
               @question.destroy
-              @question.answers.each do |a|
-                a.destroy
-              end
-              flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map {|a| a.title}.join ','}"
+              @question.answers.each(&:destroy)
+              flash[:notice] = "Deleted question: #{@question.title} and its answers: #{@question.answers.map(&:title).join ','}"
             end
           rescue ActiveRecord::RecordInvalid
             flash[:error] = 'Could not delete question.'
@@ -95,7 +90,7 @@ module Admin
     private
 
     def question_params
-      params.require(:question).permit(:title, :global, :answer_ids, :question_type_id, :conference_id, answers_attributes: [:id, :title])
+      params.require(:question).permit(:title, :global, :answer_ids, :question_type_id, :conference_id, answers_attributes: %i[id title])
     end
 
     def conference_params

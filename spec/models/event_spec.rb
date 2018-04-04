@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Event do
@@ -295,7 +297,7 @@ describe Event do
     it 'counts words in abstract' do
       event = build(:event)
       expect(event.abstract_word_count).to eq(event.abstract.to_s.split.size)
-      event.update_attributes!(abstract: 'abstract.')
+      event.update!(abstract: 'abstract.')
       expect(event.abstract_word_count).to eq(1)
     end
 
@@ -315,16 +317,15 @@ describe Event do
       end
     end
 
-    states = [:new, :withdrawn, :unconfirmed, :confirmed, :canceled, :rejected]
-    transitions = [:restart, :withdraw, :accept, :confirm, :cancel, :reject]
+    states = %i[new withdrawn unconfirmed confirmed canceled rejected]
+    transitions = %i[restart withdraw accept confirm cancel reject]
 
-    states_transitions = { new: { restart: false, withdraw: true, accept: true, confirm: false, cancel: false, reject: true},
-                           withdrawn: { restart: true, withdraw: false, accept: false, confirm: false, cancel: false, reject: false},
-                           unconfirmed: { restart: false, withdraw: true, accept: false, confirm: true, cancel: true, reject: false},
-                           confirmed: { restart: false, withdraw: true, accept: false, confirm: false, cancel: true, reject: false},
-                           canceled: { restart: true, withdraw: false, accept: false, confirm: false, cancel: false, reject: false},
-                           rejected: { restart: true, withdraw: false, accept: false, confirm: false, cancel: false, reject: false}
-                         }
+    states_transitions = { new: { restart: false, withdraw: true, accept: true, confirm: false, cancel: false, reject: true },
+                           withdrawn: { restart: true, withdraw: false, accept: false, confirm: false, cancel: false, reject: false },
+                           unconfirmed: { restart: false, withdraw: true, accept: false, confirm: true, cancel: true, reject: false },
+                           confirmed: { restart: false, withdraw: true, accept: false, confirm: false, cancel: true, reject: false },
+                           canceled: { restart: true, withdraw: false, accept: false, confirm: false, cancel: false, reject: false },
+                           rejected: { restart: true, withdraw: false, accept: false, confirm: false, cancel: false, reject: false } }
 
     states.each do |state|
       transitions.each do |transition|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe EventSerializer, type: :serializer do
   let(:event) { create(:event, title: 'Some Talk', abstract: 'Lorem ipsum dolor sit amet') }
@@ -32,7 +34,7 @@ describe EventSerializer, type: :serializer do
     before do
       event.language = 'English'
       event.speakers = [speaker]
-      create(:event_schedule, event: event, room: room, start_time: Date.new(2014, 03, 04) + 9.hours)
+      create(:event_schedule, event: event, room: room, start_time: Date.new(2014, 0o3, 0o4) + 9.hours)
       event.track = track
     end
 

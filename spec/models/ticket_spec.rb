@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Ticket do
@@ -6,7 +8,6 @@ describe Ticket do
   let(:user) { create(:user) }
 
   describe 'validation' do
-
     it 'has a valid factory' do
       expect(build(:ticket)).to be_valid
     end
@@ -80,14 +81,13 @@ describe Ticket do
     let!(:ticket_purchase) { create(:ticket_purchase, user: user, ticket: ticket) }
 
     context 'user has not paid' do
-
       it 'returns true' do
         expect(ticket.unpaid?(user)).to eq(true)
       end
     end
 
     context 'user has paid' do
-      before { ticket_purchase.update_attributes(paid: true) }
+      before { ticket_purchase.update(paid: true) }
 
       it 'returns false' do
         expect(ticket.unpaid?(user)).to eq(false)
@@ -123,7 +123,7 @@ describe Ticket do
 
     context 'user has paid' do
       let!(:ticket_purchase) { create(:ticket_purchase, user: user, ticket: ticket, quantity: 20) }
-      before { ticket_purchase.update_attributes(paid: true) }
+      before { ticket_purchase.update(paid: true) }
 
       it 'returns the correct value if the user has bought and paid for this ticket' do
         expect(ticket.quantity_bought_by(user, paid: true)).to eq(20)
@@ -138,7 +138,7 @@ describe Ticket do
                user: user,
                ticket: ticket,
                quantity: 20)
-        expect(ticket.total_price(user, paid: false)).to eq(Money.new(100000, 'USD'))
+        expect(ticket.total_price(user, paid: false)).to eq(Money.new(100_000, 'USD'))
       end
 
       it 'returns zero if the user has not bought this ticket' do
@@ -148,10 +148,10 @@ describe Ticket do
 
     context 'user has paid' do
       let!(:ticket_purchase) { create(:ticket_purchase, user: user, ticket: ticket, quantity: 20) }
-      before { ticket_purchase.update_attributes(paid: true) }
+      before { ticket_purchase.update(paid: true) }
 
       it 'returns the correct value if the user has bought this ticket' do
-        expect(ticket.total_price(user, paid: true)).to eq(Money.new(100000, 'USD'))
+        expect(ticket.total_price(user, paid: true)).to eq(Money.new(100_000, 'USD'))
       end
     end
   end
@@ -172,7 +172,7 @@ describe Ticket do
         end
 
         it 'returns the correct total price' do
-          expect(Ticket.total_price(conference, user, paid: false)).to eq(Money.new(100000, 'USD'))
+          expect(Ticket.total_price(conference, user, paid: false)).to eq(Money.new(100_000, 'USD'))
         end
       end
 
@@ -183,7 +183,7 @@ describe Ticket do
         end
 
         it 'returns the correct total price' do
-          total_price = Money.new(200000, 'USD')
+          total_price = Money.new(200_000, 'USD')
           expect(Ticket.total_price(conference, user, paid: false)).to eq(total_price)
         end
       end
@@ -206,7 +206,7 @@ describe Ticket do
 
       it 'should allow currency update' do
         free_ticket = Ticket.first
-        expect { free_ticket.update_attributes(price_currency: 'INR') }.to change { free_ticket.reload.price_currency }.from('USD').to('INR')
+        expect { free_ticket.update(price_currency: 'INR') }.to change { free_ticket.reload.price_currency }.from('USD').to('INR')
       end
     end
   end

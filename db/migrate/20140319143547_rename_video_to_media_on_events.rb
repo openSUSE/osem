@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameVideoToMediaOnEvents < ActiveRecord::Migration
   def up
     rename_column :events, :video_id, :media_id

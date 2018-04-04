@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   load_resource :conference, find_by: :short_title
@@ -8,8 +10,6 @@ class TicketsController < ApplicationController
   def index; end
 
   def check_load_resource
-    if @tickets.empty?
-      redirect_to root_path, notice: "There are no tickets available for #{@conference.title}!"
-    end
+    redirect_to root_path, notice: "There are no tickets available for #{@conference.title}!" if @tickets.empty?
   end
 end

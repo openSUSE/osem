@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::SchedulesController do
   let(:conference) { create(:conference) }
-  let(:schedule) { create(:schedule, program: conference.program)}
+  let(:schedule) { create(:schedule, program: conference.program) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let(:organizer) { create(:user, role_ids: organizer_role.id) }
 
@@ -14,27 +16,28 @@ describe Admin::SchedulesController do
 
     describe 'GET #index' do
       it 'renders the index template' do
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
         expect(response).to render_template :index
       end
     end
 
     describe 'POST #create' do
-      let(:create_action){ post :create, conference_id: conference.short_title }
+      let(:create_action) { post :create, params: { conference_id: conference.short_title } }
 
       it 'saves the schedule to the database' do
-        expect{ create_action }.to change { Schedule.count }.by 1
+        expect { create_action }.to change { Schedule.count }.by 1
       end
 
       it 'redirects to schedules#show' do
         create_action
         expect(response).to redirect_to admin_conference_schedule_path(
-                                        conference.short_title, assigns[:schedule])
+          conference.short_title, assigns[:schedule]
+        )
       end
     end
 
     describe 'GET #show' do
-      let(:show_action){ get :show, id: schedule.id, conference_id: conference.short_title }
+      let(:show_action) { get :show, params: { id: schedule.id, conference_id: conference.short_title } }
 
       it 'assigns the requested schedule to schedule' do
         show_action
@@ -48,10 +51,10 @@ describe Admin::SchedulesController do
     end
 
     describe 'DELETE #destroy' do
-      let(:destroy_action){ delete :destroy, id: schedule.id, conference_id: conference.short_title }
+      let(:destroy_action) { delete :destroy, params: { id: schedule.id, conference_id: conference.short_title } }
 
       it 'deletes the schedule' do
-        expect{ destroy_action }.to change { Schedule.count }.by(-1)
+        expect { destroy_action }.to change { Schedule.count }.by(-1)
       end
 
       it 'redirects to schedules#index' do

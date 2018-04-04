@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    skip_before_filter :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
     skip_authorization_check
 
     User.omniauth_providers.each do |provider|
@@ -11,7 +13,7 @@ module Users
 
     def handle(provider)
       auth_hash = request.env['omniauth.auth']
-      unless auth_hash.info.email.present?
+      if auth_hash.info.email.blank?
         flash[:error] = "Email field is missing in your #{provider} account"
         redirect_to new_user_registration_path
         return
@@ -27,15 +29,13 @@ module Users
 
       begin
         user.save!
-        if openid.user != user
-          openid.user = user
-        end
+        openid.user = user if openid.user != user
         openid.save!
 
         sign_in user
         redirect_to request.env['omniauth.origin'] || root_path,
                     notice: "#{user.email} signed in successfully with #{provider}"
-      rescue => e
+      rescue StandardError => e
         flash[:error] = e.message
         redirect_back_or_to new_user_registration_path
       end

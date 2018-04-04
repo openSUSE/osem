@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Conference do
@@ -18,20 +20,20 @@ feature Conference do
 
       today = Time.zone.today - 1
       page
-      .execute_script("$('#conference-start-datepicker').val('" +
+        .execute_script("$('#conference-start-datepicker').val('" \
                          "#{today.strftime('%d/%m/%Y')}')")
       page
-      .execute_script("$('#conference-end-datepicker').val('" +
+        .execute_script("$('#conference-end-datepicker').val('" \
                          "#{(today + 7).strftime('%d/%m/%Y')}')")
 
       click_button 'Create Conference'
 
       expect(flash)
-          .to eq('Conference was successfully created.')
+        .to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
       expect(Conference.last.organization).to eq(organization)
       user.reload
-      expect(user.has_cached_role? :organizer, Conference.last).to eq(true)
+      expect(user.has_cached_role?(:organizer, Conference.last)).to eq(true)
     end
 
     scenario 'update conference', feature: true, js: true do
@@ -49,22 +51,22 @@ feature Conference do
 
       click_button 'Update Conference'
       expect(flash)
-          .to eq("Updating conference failed. Short title can't be blank.")
+        .to eq("Updating conference failed. Short title can't be blank.")
 
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
 
       day = Time.zone.today + 10
       page
-          .execute_script("$('#conference-start-datepicker').val('" +
+        .execute_script("$('#conference-start-datepicker').val('" \
                              "#{day.strftime('%d/%m/%Y')}')")
       page
-          .execute_script("$('#conference-end-datepicker').val('" +
+        .execute_script("$('#conference-end-datepicker').val('" \
                              "#{(day + 7).strftime('%d/%m/%Y')}')")
 
       click_button 'Update Conference'
       expect(flash)
-          .to eq('Conference was successfully updated.')
+        .to eq('Conference was successfully updated.')
 
       conference.reload
       expect(conference.title).to eq('New Con')

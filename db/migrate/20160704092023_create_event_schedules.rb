@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEventSchedules < ActiveRecord::Migration
   def change
     create_table :event_schedules do |t|

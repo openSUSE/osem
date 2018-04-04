@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AddWeekToRegistration < ActiveRecord::Migration
-  class Registration < ActiveRecord::Base
+  class Registration < ApplicationRecord
   end
 
   def up

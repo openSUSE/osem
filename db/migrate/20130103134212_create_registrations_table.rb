@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRegistrationsTable < ActiveRecord::Migration
   def up
     create_table :registrations do |t|
@@ -14,6 +16,5 @@ class CreateRegistrationsTable < ActiveRecord::Migration
     end
   end
 
-  def down
-  end
+  def down; end
 end

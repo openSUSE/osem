@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVotingDatesToProgram < ActiveRecord::Migration
   def change
     add_column :programs, :voting_start_date, :datetime

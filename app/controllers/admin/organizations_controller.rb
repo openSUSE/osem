@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Admin
   class OrganizationsController < Admin::BaseController
     load_and_authorize_resource :organization
-    before_action :verify_user, only: [:assign_org_admins, :unassign_org_admins]
+    before_action :verify_user, only: %i[assign_org_admins unassign_org_admins]
 
     def index
       @organizations = Organization.all
@@ -25,7 +27,7 @@ module Admin
     def edit; end
 
     def update
-      if @organization.update_attributes(organization_params)
+      if @organization.update(organization_params)
         redirect_to admin_organizations_path,
                     notice: 'Organization successfully updated'
       else

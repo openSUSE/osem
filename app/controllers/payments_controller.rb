@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PaymentsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
@@ -10,9 +12,7 @@ class PaymentsController < ApplicationController
 
   def new
     @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
-    if @total_amount_to_pay.zero?
-      raise CanCan::AccessDenied.new('Nothing to pay for!', :new, Payment)
-    end
+    raise CanCan::AccessDenied.new('Nothing to pay for!', :new, Payment) if @total_amount_to_pay.zero?
     @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
   end
 

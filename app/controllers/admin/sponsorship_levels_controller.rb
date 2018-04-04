@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class SponsorshipLevelsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -25,9 +27,10 @@ module Admin
     end
 
     def update
-      if @sponsorship_level.update_attributes(sponsorship_level_params)
+      if @sponsorship_level.update(sponsorship_level_params)
         redirect_to admin_conference_sponsorship_levels_path(
-                    conference_id: @conference.short_title),
+          conference_id: @conference.short_title
+        ),
                     notice: 'Sponsorship level successfully updated.'
       else
         flash.now[:error] = "Update Sponsorship level failed: #{@sponsorship_level.errors.full_messages.join('. ')}."

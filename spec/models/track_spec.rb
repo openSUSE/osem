@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Track do
@@ -321,8 +323,8 @@ describe Track do
       end
     end
 
-    states = [:new, :to_accept, :accepted, :confirmed, :to_reject, :rejected, :canceled, :withdrawn]
-    transitions = [:restart, :to_accept, :accept, :confirm, :to_reject, :reject, :cancel, :withdraw]
+    states = %i[new to_accept accepted confirmed to_reject rejected canceled withdrawn]
+    transitions = %i[restart to_accept accept confirm to_reject reject cancel withdraw]
 
     states_transitions = { new: { restart: false, to_accept: true, accept: true, confirm: false, to_reject: true, reject: true, cancel: false, withdraw: true },
                            to_accept: { restart: false, to_accept: false, accept: true, confirm: false, to_reject: true, reject: false, cancel: true, withdraw: true },

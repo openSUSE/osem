@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature EmailSettings do
@@ -54,7 +56,7 @@ feature EmailSettings do
       click_button 'Update Email settings'
 
       expect(flash)
-          .to eq('Email settings have been successfully updated.')
+        .to eq('Email settings have been successfully updated.')
 
       expect(find('#email_settings_registration_subject')
                  .value).to eq('Registration subject')
@@ -88,7 +90,6 @@ feature EmailSettings do
                  .value).to eq('Updated conference venue template')
 
       expect(EmailSettings.count).to eq(expected_count)
-
     end
   end
 

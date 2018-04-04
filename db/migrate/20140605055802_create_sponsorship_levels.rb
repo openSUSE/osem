@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSponsorshipLevels < ActiveRecord::Migration
   def change
     create_table :sponsorship_levels do |t|

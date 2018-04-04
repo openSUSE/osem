@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mailbot < ActionMailer::Base
   def registration_mail(conference, user)
     mail(to: user.email,

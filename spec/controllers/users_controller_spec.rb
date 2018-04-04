@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe UsersController do
@@ -6,7 +8,7 @@ describe UsersController do
 
   describe 'GET #show' do
     before :each do
-      get :show, id: user.id
+      get :show, params: { id: user.id }
     end
 
     it 'renders show template' do
@@ -33,7 +35,7 @@ describe UsersController do
   describe 'GET #edit' do
     it 'assigns the right value to @user' do
       sign_in user
-      get :edit, id: user.id
+      get :edit, params: { id: user.id }
       expect(assigns(:user)).to eq user
     end
   end
@@ -42,7 +44,7 @@ describe UsersController do
     context 'with valid attributes' do
       before :each do
         sign_in user
-        patch :update, id: user.id, user: attributes_for(:user, name: 'My Test Name')
+        patch :update, params: { id: user.id, user: attributes_for(:user, name: 'My Test Name') }
         user.reload
       end
 

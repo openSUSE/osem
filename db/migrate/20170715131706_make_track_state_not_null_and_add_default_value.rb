@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class MakeTrackStateNotNullAndAddDefaultValue < ActiveRecord::Migration
-  class TmpTrack < ActiveRecord::Base
+  class TmpTrack < ApplicationRecord
     self.table_name = 'tracks'
   end
 

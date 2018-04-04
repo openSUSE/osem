@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 class ChangeConferenceIdToVenueIdInRooms < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
 
     has_one :temp_venue
   end
 
-  class TempVenue < ActiveRecord::Base
+  class TempVenue < ApplicationRecord
     self.table_name = 'venues'
 
     belongs_to :temp_conference
     has_many :temp_rooms
   end
 
-  class TempRoom < ActiveRecord::Base
+  class TempRoom < ApplicationRecord
     self.table_name = 'rooms'
 
     belongs_to :temp_venue
@@ -43,9 +45,7 @@ class ChangeConferenceIdToVenueIdInRooms < ActiveRecord::Migration
       venue = TempVenue.find(room.venue_id)
       conference = TempConference.find(venue.conference_id)
 
-      if conference
-        room.conference_id = conference.id
-      end
+      room.conference_id = conference.id if conference
 
       room.save!
     end

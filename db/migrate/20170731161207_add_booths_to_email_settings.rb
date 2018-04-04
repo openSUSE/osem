@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBoothsToEmailSettings < ActiveRecord::Migration
   def change
     add_column :email_settings, :send_on_booths_acceptance, :boolean, default: false

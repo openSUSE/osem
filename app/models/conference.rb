@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Conference < ApplicationRecord
   include RevisionCount
   require 'uri'
@@ -12,7 +14,7 @@ class Conference < ApplicationRecord
 
   belongs_to :organization
 
-  has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
+  has_paper_trail ignore: %i[updated_at guid revision events_per_week], meta: { conference_id: :id }
 
   has_and_belongs_to_many :questions
 
@@ -91,7 +93,7 @@ class Conference < ApplicationRecord
   after_create :create_free_ticket
   after_update :delete_event_schedules
 
-  enum ticket_layout: [:portrait, :landscape]
+  enum ticket_layout: %i[portrait landscape]
 
   ##
   # Checks if the user is registered to the conference
@@ -101,7 +103,7 @@ class Conference < ApplicationRecord
   # ====Returns
   # * +false+ -> If the user is registered
   # * +true+ - If the user isn't registered
-  def user_registered? user
+  def user_registered?(user)
     user.present? && registrations.where(user_id: user.id).count > 0
   end
 
@@ -112,8 +114,8 @@ class Conference < ApplicationRecord
     if start_hour_changed? || end_hour_changed?
       event_schedules = program.event_schedules.select do |event_schedule|
         event_schedule.start_time.hour < start_hour ||
-        event_schedule.end_time.hour > end_hour ||
-        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute > 0)
+          event_schedule.end_time.hour > end_hour ||
+          (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute > 0)
       end
       event_schedules.each(&:destroy)
     end
@@ -151,7 +153,7 @@ class Conference < ApplicationRecord
   def get_submissions_per_week
     result = []
 
-    if program && program.cfp && program.events
+    if program&.cfp && program.events
       submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
@@ -168,7 +170,7 @@ class Conference < ApplicationRecord
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
     result = {}
-    if program && program.cfp && program.events
+    if program&.cfp && program.events
       result = get_events_per_week_by_state
 
       start_week = program.cfp.start_week
@@ -196,9 +198,9 @@ class Conference < ApplicationRecord
     result = []
 
     if registrations &&
-        registration_period &&
-        registration_period.start_date &&
-        registration_period.end_date
+       registration_period &&
+       registration_period.start_date &&
+       registration_period.end_date
 
       reg = registrations.group(:week).order(:week).count
       start_week = get_registration_start_week
@@ -269,11 +271,10 @@ class Conference < ApplicationRecord
   def registration_weeks
     result = 0
     weeks = 0
-    if registration_period &&
-        registration_period.start_date &&
-        registration_period.end_date
+    if registration_period&.start_date &&
+       registration_period.end_date
       weeks = Date.new(registration_period.start_date.year, 12, 31)
-          .strftime('%W').to_i
+                  .strftime('%W').to_i
 
       result = get_registration_end_week - get_registration_start_week + 1
     end
@@ -343,7 +344,7 @@ class Conference < ApplicationRecord
       tracks: tracks_set?,
       event_types: event_types_set?,
       difficulty_levels: difficulty_levels_set?,
-      splashpage: splashpage && splashpage.public?
+      splashpage: splashpage&.public?
     }
 
     result.update(
@@ -370,8 +371,8 @@ class Conference < ApplicationRecord
   # * +hash+ -> user: submissions
   def get_top_submitter(limit = 5)
     submitter = EventUser.joins(:event).select(:user_id)
-        .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
-        .limit(limit).group(:user_id)
+                         .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
+                         .limit(limit).group(:user_id)
     counter = submitter.order('count_all desc').count(:all)
     Conference.calculate_user_submission_hash(submitter, counter)
   end
@@ -595,12 +596,12 @@ class Conference < ApplicationRecord
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
     result = Conference.where('start_date > ?', Time.now)
-        .select('id, short_title, color, start_date, organization_id')
+                       .select('id, short_title, color, start_date, organization_id')
 
     if result.empty?
       result = Conference
-          .select('id, short_title, color, start_date, organization_id').limit(2)
-          .order(start_date: :desc)
+               .select('id, short_title, color, start_date, organization_id').limit(2)
+               .order(start_date: :desc)
     end
     result
   end
@@ -671,9 +672,7 @@ class Conference < ApplicationRecord
         result[state.name] = count
       end
 
-      unless conference.events_per_week
-        conference.events_per_week = {}
-      end
+      conference.events_per_week = {} unless conference.events_per_week
 
       # Write to database
       conference.events_per_week[week] = result
@@ -785,7 +784,7 @@ class Conference < ApplicationRecord
   # the color. We make use of big prime numbers to avoid repetition and to make
   # consecutive colors clearly different.
   def next_color_component(component, i)
-    big_prime_numbers = {r: 113, g: 67, b: 151}
+    big_prime_numbers = { r: 113, g: 67, b: 151 }
     ((i * big_prime_numbers[component]) % 239 + 16).to_s(16)
   end
 
@@ -861,12 +860,9 @@ class Conference < ApplicationRecord
     # Completed weeks
     events_per_week.each do |week, values|
       values.each do |state, value|
-        if %i(confirmed unconfirmed).include?(state)
-          unless result[state.to_s.capitalize]
-            result[state.to_s.capitalize] = {}
-          end
-          result[state.to_s.capitalize][week.strftime('%W').to_i] = value
-        end
+        next unless %i[confirmed unconfirmed].include?(state)
+        result[state.to_s.capitalize] = {} unless result[state.to_s.capitalize]
+        result[state.to_s.capitalize][week.strftime('%W').to_i] = value
       end
     end
 
@@ -923,9 +919,7 @@ class Conference < ApplicationRecord
   # * +Array+
   def pad_left(first_week, start_week)
     left = []
-    if first_week > start_week
-      left = Array.new(first_week - start_week - 1, 0)
-    end
+    left = Array.new(first_week - start_week - 1, 0) if first_week > start_week
     left
   end
 
@@ -938,9 +932,7 @@ class Conference < ApplicationRecord
   def assert_keys_are_continuously(hash)
     keys = hash.keys
     (keys.min..keys.max).each do |key|
-      unless hash[key]
-        hash[key] = 0
-      end
+      hash[key] = 0 unless hash[key]
     end
     Hash[hash.sort]
   end
@@ -1048,12 +1040,11 @@ class Conference < ApplicationRecord
 
     grouped.each do |event|
       object = event.send(symbol)
-      if object
-        result[object.title] = {
-          'value' => counter[object.id],
-          'color' => object.color
-        }
-      end
+      next unless object
+      result[object.title] = {
+        'value' => counter[object.id],
+        'color' => object.color
+      }
     end
     result
   end
@@ -1067,12 +1058,11 @@ class Conference < ApplicationRecord
   def calculate_track_distribution_hash(tracks_grouped, tracks_counter)
     result = {}
     tracks_grouped.each do |event|
-      if event.track
-        result[event.track.name] = {
-          'value' => tracks_counter[event.track_id],
-          'color' => event.track.color
-        }
-      end
+      next unless event.track
+      result[event.track.name] = {
+        'value' => tracks_counter[event.track_id],
+        'color' => event.track.color
+      }
     end
     result
   end
@@ -1127,10 +1117,10 @@ class Conference < ApplicationRecord
     result = {}
     states.each do |key, value|
       result[key.capitalize] =
-          {
-            'value' => value,
-            'color' => Event.get_state_color(key)
-          }
+        {
+          'value' => value,
+          'color' => Event.get_state_color(key)
+        }
     end
     result
   end
@@ -1145,9 +1135,7 @@ class Conference < ApplicationRecord
     counter.each do |key, value|
       # make PG happy by including the user_id in ORDER
       submitter = submitters.where(user_id: key).order(:user_id).first
-      if submitter
-        result[submitter.user] = value
-      end
+      result[submitter.user] = value if submitter
     end
     result
   end
@@ -1165,9 +1153,9 @@ class Conference < ApplicationRecord
   #
   def generate_guid
     guid = SecureRandom.urlsafe_base64
-#     begin
-#       guid = SecureRandom.urlsafe_base64
-#     end while User.where(:guid => guid).exists?
+    #     begin
+    #       guid = SecureRandom.urlsafe_base64
+    #     end while User.where(:guid => guid).exists?
     self.guid = guid
   end
 
@@ -1175,19 +1163,17 @@ class Conference < ApplicationRecord
   # Adds a random color to the conference
   #
   def add_color
-    unless color
-      self.color = get_color
-    end
+    self.color = get_color unless color
   end
 
   def get_color
-    %w(
-        #000000 #0000FF #00FF00 #FF0000 #FFFF00 #9900CC
-        #CC0066 #00FFFF #FF00FF #C0C0C0 #00008B #FFD700
-        #FFA500 #FF1493 #FF00FF #F0FFFF #EE82EE #D2691E
-        #C0C0C0 #A52A2A #9ACD32 #9400D3 #8B008B #8B0000
-        #87CEEB #808080 #800080 #008B8B #006400
-      ).sample
+    %w[
+      #000000 #0000FF #00FF00 #FF0000 #FFFF00 #9900CC
+      #CC0066 #00FFFF #FF00FF #C0C0C0 #00008B #FFD700
+      #FFA500 #FF1493 #FF00FF #F0FFFF #EE82EE #D2691E
+      #C0C0C0 #A52A2A #9ACD32 #9400D3 #8B008B #8B0000
+      #87CEEB #808080 #800080 #008B8B #006400
+    ].sample
   end
 
   # Calculates items per week from a hash.
@@ -1206,9 +1192,7 @@ class Conference < ApplicationRecord
 
     items.each do |key, value|
       # Padding
-      if last_key < (key.to_i - 1)
-        result += Array.new(key.to_i - last_key - 1, sum)
-      end
+      result += Array.new(key.to_i - last_key - 1, sum) if last_key < (key.to_i - 1)
 
       sum += value
       result.push(sum)
@@ -1216,9 +1200,7 @@ class Conference < ApplicationRecord
     end
 
     # Padding right
-    if result.length < weeks
-      result += Array.new(weeks - result.length, sum)
-    end
+    result += Array.new(weeks - result.length, sum) if result.length < weeks
 
     result
   end

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MoveBannerDescriptionToConference < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempSplashpage < ActiveRecord::Base
+  class TempSplashpage < ApplicationRecord
     self.table_name = 'splashpages'
   end
 
@@ -15,7 +17,7 @@ class MoveBannerDescriptionToConference < ActiveRecord::Migration
     TempConference.all.each do |conference|
       if TempSplashpage.exists?(conference_id: conference.id)
         splash = TempSplashpage.find_by(conference_id: conference.id)
-        conference.update_attributes(description: splash.banner_description)
+        conference.update(description: splash.banner_description)
       end
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Payment < ApplicationRecord
   has_many :ticket_purchases
   belongs_to :user
@@ -32,7 +34,6 @@ class Payment < ApplicationRecord
     self.authorization_code = gateway_response[:id]
     self.status = 'success'
     true
-
   rescue Stripe::StripeError => error
     errors.add(:base, error.message)
     self.status = 'failure'

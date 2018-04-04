@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePhysicalTickets < ActiveRecord::Migration
   def change
     create_table :physical_tickets do |t|

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe SponsorshipLevel do
   describe 'validation' do
-
     it 'has a valid factory' do
       expect(build(:sponsorship_level)).to be_valid
     end

@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class MigratingSupporterRegistrationsToTicketUsers < ActiveRecord::Migration
-  class TempSupporterRegistrations < ActiveRecord::Base
+  class TempSupporterRegistrations < ApplicationRecord
     self.table_name = 'supporter_registrations'
   end
 
-  class TempUser < ActiveRecord::Base
+  class TempUser < ApplicationRecord
     self.table_name = 'users'
   end
 
-  class TempRegistration < ActiveRecord::Base
+  class TempRegistration < ApplicationRecord
     self.table_name = 'registrations'
   end
 
@@ -39,20 +41,20 @@ class MigratingSupporterRegistrationsToTicketUsers < ActiveRecord::Migration
     # Sum up if a user has bought more than one ticket
     TempSupporterRegistrations.all.each do |s|
       sup_reg = TempSupporterRegistrations.where(
-          ticket_id: s.ticket_id,
-          user_id: s.user_id,
-          conference_id: s.conference_id)
+        ticket_id: s.ticket_id,
+        user_id: s.user_id,
+        conference_id: s.conference_id
+      )
       quantity = sup_reg.count
 
-      if quantity > 1
-        # Save the amount in the first one
-        s.quantity = quantity
-        s.save
+      next unless quantity > 1
+      # Save the amount in the first one
+      s.quantity = quantity
+      s.save
 
-        # Delete the other
-        sup_reg = sup_reg.where('id not in (?)', [s.id])
-        sup_reg.destroy_all
-      end
+      # Delete the other
+      sup_reg = sup_reg.where('id not in (?)', [s.id])
+      sup_reg.destroy_all
     end
 
     remove_column :supporter_registrations, :registration_id

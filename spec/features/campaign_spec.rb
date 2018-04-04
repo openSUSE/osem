@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Campaign do
-
   let!(:conference) { create(:conference, short_title: 'osc14') }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
