@@ -76,4 +76,4 @@ else
 fi
 
 echo -e "\nProvisioning of your OSEM rails app done!"
-echo -e "To start your development OSEM run: vagrant exec /vagrant/bin/rails server -b 0.0.0.0\n"
+echo -e "To start your development OSEM run: vagrant exec bundle exec rails server -b 0.0.0.0\n"
