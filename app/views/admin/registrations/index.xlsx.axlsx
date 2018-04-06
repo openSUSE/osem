@@ -5,7 +5,7 @@ wb.add_worksheet(name: 'registrations') do |sheet|
   bold_style = wb.styles.add_style(b: true)
   row = ['Attended', 'Name', 'Nickname', 'Affilιation', 'Email', 'Arrival', 'Departure']
 
-  @conference.questions.each do |question|
+  @conference.questions.sort_by(&:id).each do |question|
     row << question.title
   end
 
@@ -21,13 +21,10 @@ wb.add_worksheet(name: 'registrations') do |sheet|
     row << registration.arrival.to_s
     row << registration.departure.to_s
     @conference.questions.each do |question|
-      qa = registration.qanswers.find_by(question: question)
-      answer = ( qa ? qa.answer.title : '' )
-
-      row << answer
+      current_qa = registration.qanswers.find{ |qa| qa.question_id == question.id }
+      row << ( current_qa ? current_qa.answer.title : '' )
     end
 
     sheet.add_row row
   end
 end
-

@@ -23,10 +23,8 @@ prawn_document(force_download: true, filename: @pdf_filename, page_layout: :land
     row << registration.departure.to_s || ''
 
     @conference.questions.each do |question|
-      qa = registration.qanswers.find_by(question: question)
-      answer = ( qa ? qa.answer.title : '' )
-
-      row << answer
+      qa = registration.qanswers.find{|qa| qa.question_id == question.id }
+      row << ( qa ? qa.answer.title : '' )
     end
 
     table_array << row
