@@ -69,3 +69,11 @@
 
         %td.col-md-2
           = render partial: 'shared/changelog_actions', locals: { version: version }
+:javascript
+
+  $(document).ready(function(){
+    $('#versionstable').DataTable({
+      pagingType: 'full_numbers',
+      order: [[ 0, 'desc' ]]
+    });
+  });
