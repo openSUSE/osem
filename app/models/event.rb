@@ -305,7 +305,7 @@ class Event < ApplicationRecord
 
   def set_week
     self.week = created_at.strftime('%W')
-    without_versioning do
+    paper_trail.without_versioning do
       save!
     end
   end
