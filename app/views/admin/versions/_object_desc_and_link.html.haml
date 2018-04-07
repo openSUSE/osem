@@ -147,7 +147,7 @@
     - if Organization.find_by(id: version.conference_id)
       -# organization_admin belongs to organization and not conferences
       - organization = Organization.find_by(id: version.conference_id)
-      = link_if_alive version, role.name,
+      = link_if_alive version, role_name,
             admins_admin_organization_path(organization), organization
     - else
       (Role Deleted)
