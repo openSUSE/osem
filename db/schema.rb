@@ -435,7 +435,6 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
     t.boolean  "include_booths"
-    t.boolean  "shuffle_highlights",        default: false, null: false
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -530,6 +529,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.boolean  "registration_ticket", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "visible",             default: true
   end
 
   create_table "tracks", force: :cascade do |t|

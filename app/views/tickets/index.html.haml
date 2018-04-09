@@ -5,7 +5,7 @@
         %h1
           Tickets
       %p.lead
-        Please choose your tickets for 
+        Please choose your tickets for
         %strong
           = @conference.title
         here*
@@ -19,7 +19,7 @@
               %th Price
               %th Total
           %tbody
-          - @conference.tickets.each do |ticket|
+          - @conference.tickets.visible.each do |ticket|
             = render partial: 'ticket', f: f, locals: {ticket: ticket}
           %tr
             %td
