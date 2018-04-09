@@ -103,7 +103,7 @@ feature Ticket do
         click_link('Delete', href: admin_conference_ticket_path(conference.short_title, ticket.id))
         page.accept_alert
         page.find('#flash')
-        expect(flash).to eq('Ticket successfully destroyed.')
+        expect(flash).to eq('Ticket successfully deleted.')
         expect(Ticket.count).to eq(1)
       end
     end
