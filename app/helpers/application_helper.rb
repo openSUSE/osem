@@ -119,18 +119,35 @@ module ApplicationHelper
   end
 
   def speaker_selector_input(form)
-    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
-    form.input :speakers, as: :select,
-                          collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @event.speakers.map(&:id)),
-                          include_blank: false, label: 'Speakers', input_html: { class: 'select-help-toggle', multiple: 'true' }
+    user_selector_input(:speakers, form, '', false)
   end
 
   def responsibles_selector_input(form)
+    user_selector_input(
+      :responsibles,
+      form,
+      'The people responsible for the booth. You can only select existing users.'
+    )
+  end
+
+  def user_selector_input(field, form, hint = '', multiple = true)
     users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
-    form.input :responsibles, as: :select,
-                              collection: options_for_select(users.map {|user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]]}, @booth.responsibles.map(&:id)),
-                              include_blank: false, label: 'Responsibles', input_html: { class: 'select-help-toggle', multiple: 'true' },
-                              hint: 'The people responsible for the booth. You can only select existing users.'
+    form.input(
+      field,
+      as:            :select,
+      include_blank: true,
+      label:         field.to_s.titleize,
+      hint:          hint,
+      collection:    options_for_select(
+        users.map { |user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]] },
+        (form.object.send(field)&.map(&:id) || form.object.send(field)&.id)
+      ),
+      input_html:    {
+        class:       'select-help-toggle',
+        multiple:    multiple,
+        placeholder: (multiple ? 'Select users...' : 'Select a user...')
+      }
+    )
   end
 
   def event_types_sentence(conference)
