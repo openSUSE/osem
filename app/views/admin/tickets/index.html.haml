@@ -16,6 +16,7 @@
             %th Sold
             %th Turnover
             %th Registration Ticket
+            %th Visible?
             %th Actions
         %tbody
           - @conference.tickets.each do |ticket|
@@ -31,6 +32,8 @@
                 = humanized_money_with_symbol ticket.tickets_turnover_total(ticket.id)
               %td
                 = ticket.registration_ticket? ? 'Yes' : 'No'
+              %td
+                = ticket.visible? ? 'Yes' : 'No'
               %td
                 .btn-group
                   = link_to 'Edit', edit_admin_conference_ticket_path(@conference.short_title, ticket.id),
