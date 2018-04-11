@@ -7,6 +7,7 @@
           Ticket
           %small
             = humanized_money_with_symbol @ticket.price
+          = link_to 'Edit Ticket', edit_admin_conference_ticket_path, class: 'btn btn-primary pull-right'
       %p.text-muted
         People who bought this ticket
 .row
