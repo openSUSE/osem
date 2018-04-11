@@ -7,18 +7,18 @@ class SchedulesController < ApplicationController
   before_action :load_withdrawn_event_schedules, only: [:show, :events]
 
   def show
-    @event_schedules = @program.selected_event_schedules(
+    event_schedules = @program.selected_event_schedules(
       includes: [{ event: %i[event_type speakers submitter] }]
     )
 
-    unless @event_schedules
+    unless event_schedules
       redirect_to events_conference_schedule_path(@conference.short_title)
       return
     end
 
     respond_to do |format|
       format.xml do
-        @events_xml = @event_schedules.map(&:event).group_by{ |event| event.time.to_date } if @event_schedules
+        @events_xml = event_schedules.map(&:event).group_by{ |event| event.time.to_date } if event_schedules
       end
 
       format.html do
@@ -41,6 +41,7 @@ class SchedulesController < ApplicationController
           @selected_schedules_ids << track.selected_schedule_id
         end
         @selected_schedules_ids.compact!
+        @event_schedules_by_room_id = event_schedules.select { |s| @selected_schedules_ids.include?(s.schedule_id) }.group_by(&:room_id)
       end
     end
   end
