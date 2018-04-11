@@ -4,8 +4,9 @@ class ConferencesController < ApplicationController
   load_and_authorize_resource find_by: :short_title, except: :show
 
   def index
-    @current = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
-    @antiquated = @conferences - @current
+    @current, @antiquated = Conference.reorder(start_date: :asc).all.partition do |conference|
+      conference.end_date >= Date.current
+    end
   end
 
   def show

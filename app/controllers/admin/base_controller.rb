@@ -1,8 +1,13 @@
 module Admin
   class BaseController < ApplicationController
     before_action :verify_user_admin
+    before_action :load_all_conferences
 
     private
+
+    def load_all_conferences
+      @conferences = Conference.all
+    end
 
     def current_ability
       @current_ability ||= AdminAbility.new(current_user)
