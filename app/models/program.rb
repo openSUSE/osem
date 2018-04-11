@@ -77,12 +77,14 @@ class Program < ApplicationRecord
   validate :check_languages_format
 
   # Returns all event_schedules for the selected schedule ordered by start_time
-  def selected_event_schedules
-    event_schedules = selected_schedule.event_schedules.order(start_time: :asc) if selected_schedule
-    tracks.self_organized.confirmed.order(start_date: :asc).each do |track|
-      event_schedules += track.selected_schedule.event_schedules.order(start_time: :asc) if track.selected_schedule
+  def selected_event_schedules(includes: [:event])
+    event_schedules = []
+    event_schedules = selected_schedule.event_schedules.includes(*includes).order(start_time: :asc) if selected_schedule
+    tracks.self_organized.confirmed.includes(selected_schedule: { event_schedules: includes }).order(start_date: :asc).each do |track|
+      next unless track.selected_schedule
+      event_schedules += track.selected_schedule.event_schedules
     end
-    event_schedules.sort_by(&:start_time) if event_schedules
+    event_schedules.sort_by(&:start_time)
   end
 
   ##
@@ -171,7 +173,8 @@ class Program < ApplicationRecord
   # * +False+ -> If there is not any event for the given date
   def any_event_for_this_date?(date)
     parsed_date = DateTime.parse("#{date} 00:00").utc
-    EventSchedule.where(schedule: selected_schedule).where(start_time: parsed_date..(parsed_date + 1.day)).any?
+    range = parsed_date..(parsed_date + 1.day)
+    selected_schedule.event_schedules.any? { |es| range.cover?(es.start_time) }
   end
 
   ##

@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   add_flash_types :error
   protect_from_forgery with: :exception, prepend: true
-  before_action :get_conferences
   before_action :store_location
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
@@ -35,10 +34,6 @@ class ApplicationController < ActionController::Base
     else
       session[:return_to] || root_path
     end
-  end
-
-  def get_conferences
-    @conferences = Conference.all
   end
 
   def current_ability

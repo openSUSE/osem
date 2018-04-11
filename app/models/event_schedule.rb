@@ -23,7 +23,16 @@ class EventSchedule < ApplicationRecord
   scope :canceled, -> { joins(:event).where('state = ?', 'canceled') }
   scope :withdrawn, -> { joins(:event).where('state = ?', 'withdrawn') }
 
+  scope :with_event_states, ->(*states){ joins(:event).where('events.state IN (?)', states) }
+
   delegate :guid, to: :room, prefix: true
+
+  def self.withdrawn_or_canceled_event_schedules(schedule_ids)
+    EventSchedule
+      .unscoped
+      .where(schedule_id: schedule_ids)
+      .with_event_states(:withdrawn, :canceled)
+  end
 
   ##
   # Returns end of the event
@@ -36,14 +45,40 @@ class EventSchedule < ApplicationRecord
   # Returns event schedules that are scheduled in the same room and start_time as event
   #
   def intersecting_event_schedules
-    EventSchedule.unscoped.where(room: room, start_time: start_time, schedule: schedule).where.not(id: id)
+    EventSchedule
+      .unscoped
+      .where(room_id: room_id, start_time: start_time, schedule_id: schedule_id)
+      .where.not(id: id)
   end
 
-  def replacement?
-    event.state == 'confirmed' && (!intersecting_event_schedules.canceled.empty? || !intersecting_event_schedules.withdrawn.empty?)
+  # event_schedule_source is a cached enumerable object that helps
+  # avoid repetitive EXISTS queries when rendering the schedule carousel partial
+  def replacement?(event_schedule_source = nil)
+    return false unless event.state == 'confirmed'
+    return replaced_event_schedules.exists? unless event_schedule_source
+    event_schedule_source.any? { |event_schedule| intersects_with?(event_schedule) }
+  end
+
+  # the event schedule that `self` replaced
+  def replaced_event_schedule
+    replaced_event_schedules.first
+  end
+
+  # NOTE: This and `intersecting_event_schedules` share the flaw that they do not
+  # detect overlapping schedules where the start times are different (i.e., where
+  # only a portion of the time intersects).
+  def intersects_with?(other)
+    other != self &&
+      other.room_id == room_id &&
+      other.start_time == start_time &&
+      other.schedule_id == schedule_id
   end
 
   private
+
+  def replaced_event_schedules
+    intersecting_event_schedules.with_event_states(:withdrawn, :canceled)
+  end
 
   def start_after_end_hour
     return unless event && start_time && event.program && event.program.conference && event.program.conference.end_hour

@@ -29,13 +29,13 @@
               %td.room{ style: "height: #{ td_height(@rooms) }px;" }
                 .room.elipsis.break-words{ style: "-webkit-line-clamp: #{ room_lines(@rooms) }; height: #{ room_height(@rooms) }px;" }
                   = room.name
-                - event_schedules = room.event_schedules.select{ |e| @selected_schedules_ids.include?(e.schedule_id) && (e.end_time > start_time) && (e.start_time <= (start_time + hrs_per_slide.hour)) }
+                - event_schedules = @event_schedules.select{ |e| e.room_id == room.id && @selected_schedules_ids.include?(e.schedule_id) && (e.end_time > start_time) && (e.start_time <= (start_time + hrs_per_slide.hour)) }
                 - (1..intervals).each do |i|
                   - if span > 1
                     - span -= 1
                   - else
                     - event_schedule = event_schedules.find{ |e| e.start_time <= start_room_time and e.end_time > start_room_time }
-                    - if event_schedule && (event_schedule.event.state == 'canceled' || event_schedule.event.state == 'withdrawn') && !event_schedule.intersecting_event_schedules.confirmed.empty?
+                    - if event_schedule && (event_schedule.event.state == 'canceled' || event_schedule.event.state == 'withdrawn') && event_schedule.intersecting_event_schedules.confirmed.exists?
                       - replacement_event = event_schedule.intersecting_event_schedules.confirmed.first
                       - event_schedule = (replacement_event.start_time <= start_room_time && replacement_event.end_time > start_room_time) ? replacement_event : nil
 
