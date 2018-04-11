@@ -172,6 +172,7 @@ class Program < ApplicationRecord
   # * +True+ -> If there is any event for the given date
   # * +False+ -> If there is not any event for the given date
   def any_event_for_this_date?(date)
+    return false unless selected_schedule.present?
     parsed_date = DateTime.parse("#{date} 00:00").utc
     range = parsed_date..(parsed_date + 1.day)
     selected_schedule.event_schedules.any? { |es| range.cover?(es.start_time) }
