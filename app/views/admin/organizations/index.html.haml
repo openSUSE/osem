@@ -36,3 +36,4 @@
                   method: :get, class: 'btn btn-primary'
                 = link_to 'Delete', admin_organization_path(organization),
                   method: :delete, class: 'btn btn-danger', data: { confirm: "Warning: This will delete #{organization.name} and all its data which includes data for all conferences within #{organization.name}. Do you really want to continue?" }
+                = link_to 'Add Conference', new_admin_conference_path, method: :get, class: 'btn btn-info'
