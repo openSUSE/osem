@@ -3,6 +3,9 @@
     .col-md-12.page-header
       %h2
         Tickets
+        = link_to 'Back to registration',
+                  conference_conference_registration_path(@conference),
+                  class: 'btn btn-success pull-right'
       .text-muted
         Your tickets for the conference
 
