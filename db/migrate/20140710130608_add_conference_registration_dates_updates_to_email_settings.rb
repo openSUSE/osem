@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddConferenceRegistrationDatesUpdatesToEmailSettings < ActiveRecord::Migration
   def change
     add_column :email_settings, :send_on_updated_conference_registration_dates, :boolean, default: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Booth < ApplicationRecord
   include ActiveRecord::Transitions
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
@@ -41,28 +43,28 @@ class Booth < ApplicationRecord
     state :confirmed
 
     event :restart do
-      transitions to: :new, from: [:withdrawn, :rejected, :canceled]
+      transitions to: :new, from: %i[withdrawn rejected canceled]
     end
     event :withdraw do
-      transitions to: :withdrawn, from: [:new, :to_accept, :accepted, :to_reject, :rejected, :confirmed]
+      transitions to: :withdrawn, from: %i[new to_accept accepted to_reject rejected confirmed]
     end
     event :confirm do
       transitions to: :confirmed, from: [:accepted]
     end
     event :to_accept do
-      transitions to: :to_accept, from: [:new, :to_reject]
+      transitions to: :to_accept, from: %i[new to_reject]
     end
     event :to_reject do
-      transitions to: :to_reject, from: [:new, :to_accept]
+      transitions to: :to_reject, from: %i[new to_accept]
     end
     event :accept do
-      transitions to: :accepted, from: [:new, :to_accept]
+      transitions to: :accepted, from: %i[new to_accept]
     end
     event :reject do
-      transitions to: :rejected, from: [:new, :to_reject]
+      transitions to: :rejected, from: %i[new to_reject]
     end
     event :cancel do
-      transitions to: :canceled, from: [:accepted, :rejected, :to_accept, :to_reject, :confirmed]
+      transitions to: :canceled, from: %i[accepted rejected to_accept to_reject confirmed]
     end
   end
 

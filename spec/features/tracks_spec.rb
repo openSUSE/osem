@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Track do
@@ -8,7 +10,6 @@ feature Track do
 
   shared_examples 'admin tracks' do
     scenario 'adds a track', feature: true, js: true do
-
       sign_in organizer
 
       expected = expect do
@@ -78,7 +79,6 @@ feature Track do
 
   shared_examples 'non admin tracks' do
     scenario 'adds a track', feature: true, js: true do
-
       sign_in user
 
       expected = expect do

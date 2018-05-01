@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class ProposalsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :new, :create]
+  before_action :authenticate_user!, except: %i[show new create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
   load_and_authorize_resource :event, parent: false, through: :program
   # We authorize manually in these actions
-  skip_authorize_resource :event, only: [:confirm, :restart, :withdraw]
+  skip_authorize_resource :event, only: %i[confirm restart withdraw]
 
   def index
     @event = @program.events.new
@@ -168,8 +170,7 @@ class ProposalsController < ApplicationController
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :description,
                                   :require_registration, :max_attendees, :language,
-                                  speaker_ids: []
-                                 )
+                                  speaker_ids: [])
   end
 
   def user_params

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameSupporterLevelToTicket < ActiveRecord::Migration
   def up
     rename_table :supporter_levels, :tickets

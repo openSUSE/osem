@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::VersionsController do
-
   let!(:conference) { create(:conference, short_title: 'exampletitle', description: 'Example Description') }
   let(:admin) { create(:admin) }
   let(:role_organizer) { conference.roles.find_by(name: 'organizer') }
@@ -15,8 +16,8 @@ describe Admin::VersionsController do
       end
 
       it 'reverts all changes for update actions' do
-        conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
-        get :revert_object, id: PaperTrail::Version.last.id
+        conference.update(short_title: 'testtitle', description: 'Some random text')
+        get :revert_object, params: { id: PaperTrail::Version.last.id }
         conference.reload
         expect(conference.short_title).to eq 'exampletitle'
         expect(conference.description).to eq 'Example Description'
@@ -25,14 +26,14 @@ describe Admin::VersionsController do
       it 'shows correct flash on trying to revert create event of a deleted object' do
         creation_version_id = conference.program.event_types.first.versions.first.id
         conference.program.event_types.first.destroy
-        get :revert_object, id: creation_version_id
+        get :revert_object, params: { id: creation_version_id }
         expect(flash[:error]).to match('The item is already in the state that you are trying to revert it back to')
       end
 
       it 'reverting deletion of object  creates it again' do
         conference.program.event_types.first.destroy
         event_types_count = conference.program.event_types.count
-        get :revert_object, id: PaperTrail::Version.last.id
+        get :revert_object, params: { id: PaperTrail::Version.last.id }
         conference.reload
         expect(PaperTrail::Version.last.event).to eq 'create'
         expect(conference.program.event_types.count).to eq(event_types_count + 1)
@@ -40,14 +41,14 @@ describe Admin::VersionsController do
 
       it 'reverting creation of object deletes it ' do
         create(:lodging, conference: conference)
-        get :revert_object, id: PaperTrail::Version.last.id
+        get :revert_object, params: { id: PaperTrail::Version.last.id }
         expect(PaperTrail::Version.last.event).to eq 'destroy'
         expect(Lodging.count).to eq 0
       end
 
       it 'reverting creation of conference is not permitted' do
         conference_count_before = Conference.count
-        get :revert_object, id: conference.versions.first.id
+        get :revert_object, params: { id: conference.versions.first.id }
         expect(flash[:alert]).to eq 'You are not authorized to access this page.'
         expect(Conference.count).to eq(conference_count_before)
       end
@@ -59,40 +60,40 @@ describe Admin::VersionsController do
       end
 
       it 'reverts specified change for update actions' do
-        conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
-        get :revert_attribute, id: PaperTrail::Version.last.id, attribute: 'short_title'
+        conference.update(short_title: 'testtitle', description: 'Some random text')
+        get :revert_attribute, params: { id: PaperTrail::Version.last.id, attribute: 'short_title' }
         conference.reload
         expect(conference.short_title).to eq 'exampletitle'
         expect(conference.description).to eq 'Some random text'
       end
 
       it 'shows correct flash on trying to revert to the current state' do
-        conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
-        conference.update_attributes(short_title: 'exampletitle')
-        get :revert_attribute, id: PaperTrail::Version.all[-2].id, attribute: 'short_title'
+        conference.update(short_title: 'testtitle', description: 'Some random text')
+        conference.update(short_title: 'exampletitle')
+        get :revert_attribute, params: { id: PaperTrail::Version.all[-2].id, attribute: 'short_title' }
         expect(flash[:error]).to match('The item is already in the state that you are trying to revert it back to')
         expect(conference.short_title).to eq 'exampletitle'
       end
 
       it 'fails on trying to revert deleted object' do
-        conference.program.event_types.first.update_attributes(title: 'New Event Title')
+        conference.program.event_types.first.update(title: 'New Event Title')
         conference.program.event_types.first.destroy
-        get :revert_attribute, id: PaperTrail::Version.all[-2].id, attribute: 'title'
+        get :revert_attribute, params: { id: PaperTrail::Version.all[-2].id, attribute: 'title' }
         conference.reload
         expect(flash[:alert]).to eq 'You are not authorized to access this page.'
       end
 
       it 'fails on trying to revert creation event' do
         create(:lodging, conference: conference)
-        get :revert_attribute, id: PaperTrail::Version.last.id, attribute: 'name'
+        get :revert_attribute, params: { id: PaperTrail::Version.last.id, attribute: 'name' }
         expect(flash[:alert]).to eq 'You are not authorized to access this page.'
       end
 
       it 'revert fails when attribute is invalid' do
-        conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
+        conference.update(short_title: 'testtitle', description: 'Some random text')
         before_conference_title = conference.title
         # Note: even though title is a valid attribute of conference, it was not updated in the change we are trying to revert
-        get :revert_attribute, id: PaperTrail::Version.last.id, attribute: 'title'
+        get :revert_attribute, params: { id: PaperTrail::Version.last.id, attribute: 'title' }
         conference.reload
         expect(conference.short_title).to eq 'testtitle'
         expect(conference.description).to eq 'Some random text'
@@ -105,7 +106,7 @@ describe Admin::VersionsController do
       it 'raises error if user is not of any role' do
         user = create(:user)
         sign_in user
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
         expect(flash[:alert]).to match('You are not authorized to access this page.')
       end
 
@@ -113,19 +114,19 @@ describe Admin::VersionsController do
         before :each do
           @user = create(:user)
 
-          conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
+          conference.update(short_title: 'testtitle', description: 'Some random text')
           @version_organizer = PaperTrail::Version.last
           create(:cfp, program: conference.program)
           @version_cfp = PaperTrail::Version.last
           registration = create(:registration, conference: conference)
-          registration.update_attributes(attended: true)
+          registration.update(attended: true)
           @version_info_desk = PaperTrail::Version.last
         end
 
         it 'when user has role cfp' do
           @user.roles = [role_cfp]
           sign_in @user
-          get :index, conference_id: conference.short_title
+          get :index, params: { conference_id: conference.short_title }
 
           expect(assigns(:versions).include?(@version_cfp)).to eq true
           expect(assigns(:versions).include?(@version_organizer)).to eq false
@@ -134,7 +135,7 @@ describe Admin::VersionsController do
         it 'when user has role info_desk' do
           @user.roles = [role_info_desk]
           sign_in @user
-          get :index, conference_id: conference.short_title
+          get :index, params: { conference_id: conference.short_title }
 
           expect(assigns(:versions).include?(@version_info_desk)).to eq true
           expect(assigns(:versions).include?(@version_organizer)).to eq false
@@ -144,7 +145,7 @@ describe Admin::VersionsController do
         it 'when user has role organizer' do
           @user.roles = [role_organizer]
           sign_in @user
-          get :index, conference_id: conference.short_title
+          get :index, params: { conference_id: conference.short_title }
 
           expect(assigns(:versions).include?(@version_organizer)).to eq true
           expect(assigns(:versions).include?(@version_cfp)).to eq true

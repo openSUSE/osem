@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature SponsorshipLevel do
@@ -9,7 +11,8 @@ feature SponsorshipLevel do
     scenario 'adds a sponsorship level', feature: true, js: true do
       sign_in organizer
       visit admin_conference_sponsorship_levels_path(
-                conference_id: conference.short_title)
+        conference_id: conference.short_title
+      )
 
       expect(page.has_no_table?('#sponsorship_levels')).to be true
 
@@ -32,7 +35,8 @@ feature SponsorshipLevel do
       level = create(:sponsorship_level, conference_id: conference.id)
       sign_in organizer
       visit edit_admin_conference_sponsorship_level_path(
-                conference_id: conference.short_title, id: level.id)
+        conference_id: conference.short_title, id: level.id
+      )
 
       fill_in 'sponsorship_level_title', with: 'Gold'
 

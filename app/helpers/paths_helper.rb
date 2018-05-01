@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PathsHelper
   ##
   # Includes functions related to links or redirects

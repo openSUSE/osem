@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 class CreateProgramsTable < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempCfp < ActiveRecord::Base
+  class TempCfp < ApplicationRecord
     self.table_name = 'cfps'
   end
 
-  class TempCallForPaper < ActiveRecord::Base
+  class TempCallForPaper < ApplicationRecord
     self.table_name = 'call_for_papers'
   end
 
-  class TempProgram < ActiveRecord::Base
+  class TempProgram < ApplicationRecord
     self.table_name = 'programs'
   end
 
@@ -27,21 +29,19 @@ class CreateProgramsTable < ActiveRecord::Migration
     add_column :call_for_papers, :program_id, :integer
 
     TempConference.all.each do |conference|
-      unless TempProgram.find_by(conference_id: conference.id)
-        program = TempProgram.new
-        program.conference_id = conference.id
-        program.save!
+      next if TempProgram.find_by(conference_id: conference.id)
+      program = TempProgram.new
+      program.conference_id = conference.id
+      program.save!
 
-        if (cfp = TempCallForPaper.find_by(conference_id: conference.id))
-          cfp.program_id = program.id
-          cfp.save!
+      next unless (cfp = TempCallForPaper.find_by(conference_id: conference.id))
+      cfp.program_id = program.id
+      cfp.save!
 
-          program.rating = cfp.rating
-          program.schedule_public = cfp.schedule_public
-          program.schedule_fluid = cfp.schedule_changes
-          program.save!
-        end
-      end
+      program.rating = cfp.rating
+      program.schedule_public = cfp.schedule_public
+      program.schedule_fluid = cfp.schedule_changes
+      program.save!
     end
     remove_column :call_for_papers, :conference_id
     remove_column :call_for_papers, :rating
@@ -58,16 +58,14 @@ class CreateProgramsTable < ActiveRecord::Migration
     add_column :call_for_papers, :schedule_changes, :boolean, default: false
 
     TempConference.all.each do |conference|
-      if (program = TempProgram.find_by(conference_id: conference.id))
-        if (cfp = TempCallForPaper.find_by(program_id: program.id))
-          cfp.conference_id = program.conference_id
-          cfp.rating = program.rating
-          cfp.schedule_public = program.schedule_public
-          cfp.schedule_changes = program.schedule_fluid
+      next unless (program = TempProgram.find_by(conference_id: conference.id))
+      next unless (cfp = TempCallForPaper.find_by(program_id: program.id))
+      cfp.conference_id = program.conference_id
+      cfp.rating = program.rating
+      cfp.schedule_public = program.schedule_public
+      cfp.schedule_changes = program.schedule_fluid
 
-          cfp.save!
-        end
-      end
+      cfp.save!
     end
 
     remove_column :call_for_papers, :program_id

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe TicketPurchase do
-
   describe 'validations' do
     it 'has a valid factory' do
       expect(build(:ticket_purchase)).to be_valid

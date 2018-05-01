@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FormatHelper
   ##
   # Includes functions related to formatting (like adding classes, colors)
@@ -44,24 +46,23 @@ module FormatHelper
   def target_progress_color(progress)
     progress = progress.to_i
     result =
-    case
-    when progress >= 90 then 'green'
-    when progress < 90 && progress >= 80 then 'orange'
-    else 'red'
-    end
+      if progress >= 90 then 'green'
+      elsif progress < 90 && progress >= 80 then 'orange'
+      else 'red'
+      end
 
     result
   end
 
   def days_left_color(days_left)
     days_left = days_left.to_i
-    if days_left > 30
-      result = 'green'
-    elsif days_left < 30 && days_left > 10
-      result = 'orange'
-    else
-      result = 'red'
-    end
+    result = if days_left > 30
+               'green'
+             elsif days_left < 30 && days_left > 10
+               'orange'
+             else
+               'red'
+             end
     result
   end
 
@@ -116,7 +117,7 @@ module FormatHelper
   end
 
   def word_pluralize(count, singular, plural = nil)
-    word = if (count == 1 || count =~ /^1(\.0+)?$/)
+    word = if count == 1 || count =~ /^1(\.0+)?$/
              singular
            else
              plural || singular.pluralize
@@ -134,7 +135,7 @@ module FormatHelper
     g = hexcolor[3..4].to_i(16)
     b = hexcolor[5..6].to_i(16)
     yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
-    (yiq >= 128) ? 'black' : 'white'
+    yiq >= 128 ? 'black' : 'white'
   end
 
   def td_height(rooms)
@@ -178,17 +179,15 @@ module FormatHelper
     item_class = 'item'
     item_class += ' first' if number == 0
     item_class += ' last' if number == (carousel_number - 1)
-    if (col && ((col / num_cols) == number)) || (!col && number == 0)
-      item_class += ' active'
-    end
+    item_class += ' active' if (col && ((col / num_cols) == number)) || (!col && number == 0)
     item_class
   end
 
   def selected_scheduled?(schedule)
-    (schedule == @selected_schedule) ? 'Yes' : 'No'
+    schedule == @selected_schedule ? 'Yes' : 'No'
   end
 
-  def markdown(text, escape_html=true)
+  def markdown(text, escape_html = true)
     return '' if text.nil?
 
     options = {
@@ -200,7 +199,7 @@ module FormatHelper
     markdown.render(text).html_safe
   end
 
-  def markdown_hint(text='')
+  def markdown_hint(text = '')
     markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text", false)
   end
 

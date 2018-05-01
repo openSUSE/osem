@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLogoToConferencesTable < ActiveRecord::Migration
   def change
     add_column :conferences, :logo_file_name, :string

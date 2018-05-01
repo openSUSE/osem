@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class TicketsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -27,7 +29,7 @@ module Admin
     def edit; end
 
     def update
-      if @ticket.update_attributes(ticket_params)
+      if @ticket.update(ticket_params)
         redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
                     notice: 'Ticket successfully updated.'
       else

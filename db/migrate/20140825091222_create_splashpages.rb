@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSplashpages < ActiveRecord::Migration
   def change
     create_table :splashpages do |t|

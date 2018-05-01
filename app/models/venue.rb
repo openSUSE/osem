@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class Venue < ApplicationRecord
   belongs_to :conference
   has_one :commercial, as: :commercialable, dependent: :destroy
   has_many :rooms, dependent: :destroy
   before_create :generate_guid
 
-  has_paper_trail ignore: [:updated_at, :guid], meta: { conference_id: :conference_id }
+  has_paper_trail ignore: %i[updated_at guid], meta: { conference_id: :conference_id }
 
   accepts_nested_attributes_for :commercial, allow_destroy: true
   validates :name, :street, :city, :country, presence: true
@@ -19,7 +21,7 @@ class Venue < ApplicationRecord
 
   def country_name
     name = ISO3166::Country[country]
-    name.name if name
+    name&.name
   end
 
   def location?
@@ -37,7 +39,7 @@ class Venue < ApplicationRecord
     # do not notify unless the address changed
     return false unless name_changed? || street_changed? || city_changed? || country_changed?
     # do not notify unless the mail content is set up
-    (!conference.email_settings.venue_updated_subject.blank? && !conference.email_settings.venue_updated_body.blank?)
+    (conference.email_settings.venue_updated_subject.present? && conference.email_settings.venue_updated_body.present?)
   end
 
   # TODO: create a module to be mixed into model to perform same operation

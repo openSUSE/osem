@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameTemplatesInEmailSettings < ActiveRecord::Migration
   def change
     rename_column :email_settings, :registration_email_template, :registration_body

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'Registration' do
@@ -61,7 +63,7 @@ describe 'Registration' do
   end
 
   describe '#week' do
-    before { subject.created_at = Date.new(2014, 06, 30) }
+    before { subject.created_at = Date.new(2014, 0o6, 30) }
 
     it 'returns week number of created_at' do
       expect(subject.week).to eq(26)

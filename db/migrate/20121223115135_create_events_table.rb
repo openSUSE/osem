@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEventsTable < ActiveRecord::Migration
   def up
     create_table :events do |t|
@@ -26,6 +28,5 @@ class CreateEventsTable < ActiveRecord::Migration
     end
   end
 
-  def down
-  end
+  def down; end
 end

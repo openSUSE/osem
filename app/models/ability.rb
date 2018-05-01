@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
@@ -15,7 +17,7 @@ class Ability
 
   # Abilities for not signed in users (guests)
   def not_signed_in
-    can [:index, :conferences], Organization
+    can %i[index conferences], Organization
     can [:index], Conference
     can [:show], Conference do |conference|
       conference.splashpage && conference.splashpage.public == true
@@ -31,20 +33,16 @@ class Ability
 
     # can view Commercials of confirmed Events
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
-    can [:show, :create], User
+    can %i[show create], User
     unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-      can :show, Registration do |registration|
-        registration.new_record?
-      end
+      can :show, Registration, &:new_record?
 
       can [:new, :create], Registration do |registration|
         conference = registration.conference
         conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
       end
 
-      can :show, Event do |event|
-        event.new_record?
-      end
+      can :show, Event, &:new_record?
 
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
@@ -78,8 +76,8 @@ class Ability
     can :index, Organization
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
-    can [:new, :create], Payment, user_id: user.id
-    can [:index, :show], PhysicalTicket, user: user
+    can %i[new create], Payment, user_id: user.id
+    can %i[index show], PhysicalTicket, user: user
 
     can [:new, :create], Booth do |booth|
       booth.new_record? && booth.conference.program.cfps.for_booths.try(:open?)
@@ -89,7 +87,7 @@ class Ability
       booth.users.include?(user)
     end
 
-    can [:create, :destroy], Subscription, user_id: user.id
+    can %i[create destroy], Subscription, user_id: user.id
 
     can [:new, :create], Event do |event|
       event.program.cfp_open? && event.new_record?
@@ -108,7 +106,7 @@ class Ability
       track.new_record? && track.program.cfps.for_tracks.try(:open?)
     end
 
-    can [:index, :show, :restart, :confirm, :withdraw], Track, submitter_id: user.id
+    can %i[index show restart confirm withdraw], Track, submitter_id: user.id
 
     can [:edit, :update], Track do |track|
       user == track.submitter && !(track.accepted? || track.confirmed?)

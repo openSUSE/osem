@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Api::V1::TracksController do
@@ -8,7 +10,6 @@ describe Api::V1::TracksController do
   describe 'GET #index' do
     context 'without conference scope' do
       it 'returns all tracks' do
-
         get :index, format: :json
         json = JSON.parse(response.body)['tracks']
 
@@ -22,8 +23,7 @@ describe Api::V1::TracksController do
 
     context 'with conference scope' do
       it 'returns all rooms of conference' do
-
-        get :index, conference_id: conference.short_title, format: :json
+        get :index, params: { conference_id: conference.short_title, format: :json }
         json = JSON.parse(response.body)['tracks']
 
         expect(response).to be_success

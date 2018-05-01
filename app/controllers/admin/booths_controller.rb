@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class BoothsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -51,7 +53,7 @@ module Admin
     def update
       @url = admin_conference_booth_path(@conference.short_title, @booth.id)
 
-      @booth.update_attributes(booth_params)
+      @booth.update(booth_params)
 
       if @booth.save
         redirect_to admin_conference_booths_path,
@@ -67,9 +69,7 @@ module Admin
       @booth.accept!
 
       if @booth.save
-        if @conference.email_settings.send_on_booths_acceptance
-          Mailbot.conference_booths_acceptance_mail(@booth).deliver
-        end
+        Mailbot.conference_booths_acceptance_mail(@booth).deliver if @conference.email_settings.send_on_booths_acceptance
         redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
                     notice: 'Booth successfully accepted!'
       else

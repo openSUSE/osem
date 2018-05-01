@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class EventsController < Api::BaseController
@@ -10,9 +12,7 @@ module Api
       def index
         events = Event.includes(:track, :event_type, event_users: :user)
 
-        if @conference
-          events = events.where(program: @conference.program)
-        end
+        events = events.where(program: @conference.program) if @conference
 
         respond_with events.confirmed, callback: params[:callback]
       end

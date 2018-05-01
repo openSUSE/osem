@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class CommentsController < Admin::BaseController
     load_and_authorize_resource
@@ -20,9 +22,9 @@ module Admin
       Comment.accessible_by(current_ability).joins('INNER JOIN events ON commentable_id = events.id').order('events.title', 'comments.created_at DESC')
     end
 
-# Grouping all comments by conference, and by event. It returns {:conference => {:event => [{comment_2}, {comment_1 }]}}
+    # Grouping all comments by conference, and by event. It returns {:conference => {:event => [{comment_2}, {comment_1 }]}}
     def grouped_comments(remarks)
-      remarks.group_by{ |comment| comment.commentable.program.conference }.map {|conference, comments| [conference, comments.group_by{|comment| comment.commentable}]}.to_h
+      remarks.group_by { |comment| comment.commentable.program.conference }.map { |conference, comments| [conference, comments.group_by(&:commentable)] }.to_h
     end
   end
 end

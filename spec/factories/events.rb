@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
@@ -22,9 +24,7 @@ FactoryGirl.define do
         event.commercials << build(:event_commercial, commercialable: event)
         event.difficulty_level = build(:difficulty_level, program: event.program)
         event.track = build(:track, program: event.program)
-        unless event.program.conference.venue
-          create(:venue, conference: event.program.conference)
-        end
+        create(:venue, conference: event.program.conference) unless event.program.conference.venue
         event.comment_threads << build(:comment, commentable: event)
       end
 

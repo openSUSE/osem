@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature 'Has correct abilities' do
-
   let(:organization) { create(:organization) }
   let(:conference) { create(:full_conference, organization: organization) }
   let(:role_cfp) { Role.find_by(name: 'cfp', resource: conference) }

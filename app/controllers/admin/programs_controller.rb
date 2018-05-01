@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ProgramsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -14,7 +16,7 @@ module Admin
       send_mail_on_schedule_public = @program.notify_on_schedule_public?
       event_schedules_count_was = @program.event_schedules.count
 
-      if @program.update_attributes(program_params)
+      if @program.update(program_params)
         ConferenceScheduleUpdateMailJob.perform_later(@conference) if send_mail_on_schedule_public
         respond_to do |format|
           format.html do
@@ -30,7 +32,7 @@ module Admin
             flash.now[:error] = "Updating program failed. #{@program.errors.to_a.join('. ')}."
             render :new
           end
-          format.js { render json: { errors: "The selected schedule couldn't be updated #{@program.errors.to_a.join('. ')}" }, status: 422 }
+          format.js { render json: { errors: "The selected schedule couldn't be updated #{@program.errors.to_a.join('. ')}" }, status: :unprocessable_entity }
         end
       end
     end

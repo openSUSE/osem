@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
@@ -9,7 +11,7 @@ FactoryGirl.define do
     sponsorship_level
 
     after(:create) do |sponsor|
-      File.open("spec/support/logos/#{1 + rand(13)}.png") do |file|
+      File.open("spec/support/logos/#{rand(1..13)}.png") do |file|
         sponsor.picture = file
       end
       sponsor.save!

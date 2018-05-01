@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Program do
-
   let!(:conference) { create(:conference) }
   let!(:program) { conference.program }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
@@ -23,7 +24,7 @@ feature Program do
 
       # Validations
       expect(flash)
-          .to eq('The program was successfully updated.')
+        .to eq('The program was successfully updated.')
       expect(find('#rating').text).to eq('4')
     end
   end

@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 class MoveConferenceRegistrationDataToRegistrationPeriods < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempRegistrationPeriod < ActiveRecord::Base
+  class TempRegistrationPeriod < ApplicationRecord
     self.table_name = 'registration_periods'
   end
 
   def up
     # Move all the settings to the new object
     TempConference.all.each do |conference|
-      unless TempRegistrationPeriod.exists?(conference_id: conference.id)
-        TempRegistrationPeriod.create(conference_id: conference.id,
-                                      start_date: conference.registration_start_date,
-                                      end_date: conference.registration_end_date,
-                                      description: conference.registration_description)
-      end
+      next if TempRegistrationPeriod.exists?(conference_id: conference.id)
+      TempRegistrationPeriod.create(conference_id: conference.id,
+                                    start_date: conference.registration_start_date,
+                                    end_date: conference.registration_end_date,
+                                    description: conference.registration_description)
     end
 
     # Remove Columns

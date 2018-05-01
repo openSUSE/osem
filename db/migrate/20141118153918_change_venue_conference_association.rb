@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class ChangeVenueConferenceAssociation < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempVenue < ActiveRecord::Base
+  class TempVenue < ApplicationRecord
     self.table_name = 'venues'
   end
 
@@ -15,7 +17,7 @@ class ChangeVenueConferenceAssociation < ActiveRecord::Migration
     TempConference.all.each do |conference|
       if TempVenue.exists?(id: conference.venue_id)
         venue = TempVenue.find_by(id: conference.venue_id)
-        venue.update_attributes(conference_id: conference.id)
+        venue.update(conference_id: conference.id)
       end
     end
 

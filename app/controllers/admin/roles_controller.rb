@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class RolesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -34,7 +36,7 @@ module Admin
     def update
       role_name = @role.name
 
-      if @role.update_attributes(role_params)
+      if @role.update(role_params)
         url = if @track
                 admin_conference_program_track_role_path(@conference.short_title, @track, @role.name)
               else

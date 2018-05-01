@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRoomsTable < ActiveRecord::Migration
   def up
     create_table :rooms do |t|

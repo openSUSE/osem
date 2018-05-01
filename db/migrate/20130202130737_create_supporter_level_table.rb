@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSupporterLevelTable < ActiveRecord::Migration
   def up
     create_table :supporter_levels do |t|

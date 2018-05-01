@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConferencesController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :respond_to_options
@@ -21,9 +23,7 @@ class ConferencesController < ApplicationController
 
     splashpage = @conference.splashpage
 
-    unless splashpage.present?
-      redirect_to admin_conference_splashpage_path(@conference.short_title) && return
-    end
+    redirect_to admin_conference_splashpage_path(@conference.short_title) && return if splashpage.blank?
 
     if splashpage.include_cfp
       cfps = @conference.program.cfps
@@ -42,16 +42,10 @@ class ConferencesController < ApplicationController
           :room
         ).order('tracks.name')
       end
-      if splashpage.include_booths
-        @booths = @conference.confirmed_booths.order('title')
-      end
+      @booths = @conference.confirmed_booths.order('title') if splashpage.include_booths
     end
-    if splashpage.include_registrations || splashpage.include_tickets
-      @tickets = @conference.tickets.order('price_cents')
-    end
-    if splashpage.include_lodgings
-      @lodgings = @conference.lodgings.order('name')
-    end
+    @tickets = @conference.tickets.order('price_cents') if splashpage.include_registrations || splashpage.include_tickets
+    @lodgings = @conference.lodgings.order('name') if splashpage.include_lodgings
     if splashpage.include_sponsors
       @sponsorship_levels = @conference.sponsorship_levels.eager_load(
         :sponsors
@@ -71,8 +65,10 @@ class ConferencesController < ApplicationController
   end
 
   def respond_to_options
-    respond_to do |format|
-      format.html { head :ok }
-    end if request.options?
+    if request.options?
+      respond_to do |format|
+        format.html { head :ok }
+      end
+    end
   end
 end

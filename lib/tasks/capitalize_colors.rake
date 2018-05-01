@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   desc 'Catitalize tracks, event types and difficult levels colors'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Openid < ApplicationRecord
   belongs_to :user
   validates :provider, :uid, :email, presence: true

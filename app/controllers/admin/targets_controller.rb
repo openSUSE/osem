@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class TargetsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -23,7 +25,7 @@ module Admin
     def edit; end
 
     def update
-      if @target.update_attributes(target_params)
+      if @target.update(target_params)
         redirect_to admin_conference_targets_path(conference_id: @conference.short_title),
                     notice: 'Target successfully updated.'
       else

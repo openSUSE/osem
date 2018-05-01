@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class RegistrationPeriodsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -21,11 +23,9 @@ module Admin
       end
     end
 
-    def edit
-    end
+    def edit; end
 
-    def show
-    end
+    def show; end
 
     def update
       @registration_period.assign_attributes(registration_period_params)

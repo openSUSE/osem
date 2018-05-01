@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Api::V1::ConferencesController do
@@ -26,7 +28,7 @@ describe Api::V1::ConferencesController do
 
   describe 'GET #show' do
     before(:each) do
-      get :show, id: 'conf_two', format: :json
+      get :show, params: { id: 'conf_two', format: :json }
       @json = JSON.parse(response.body)['conferences']
     end
 

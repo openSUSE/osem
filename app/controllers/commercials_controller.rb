@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommercialsController < ApplicationController
   load_resource :conference, find_by: :short_title
   before_action :set_event
@@ -35,7 +37,7 @@ class CommercialsController < ApplicationController
   def render_commercial
     result = Commercial.render_from_url(params[:url])
     if result[:error]
-      render text: result[:error], status: 400
+      render text: result[:error], status: :bad_request
     else
       render text: result[:html]
     end

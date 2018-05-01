@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ConferencesController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -22,11 +24,11 @@ module Admin
 
       @total_withdrawn = Event.where(state: :withdrawn).count
       @new_withdrawn = Event
-          .where('state = ? and created_at > ?', 'withdrawn', current_user.last_sign_in_at).count
+                       .where('state = ? and created_at > ?', 'withdrawn', current_user.last_sign_in_at).count
 
       @active_conferences = Conference.get_active_conferences_for_dashboard # pending or the last two
       @deactive_conferences = Conference
-          .get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
+                              .get_conferences_without_active_for_dashboard(@active_conferences) # conferences without active
       @conferences = @active_conferences + @deactive_conferences
 
       @recent_users = User.limit(5).order(created_at: :desc)
@@ -99,7 +101,7 @@ module Admin
       @conference.assign_attributes(conference_params)
       send_mail_on_conf_update = @conference.notify_on_dates_changed?
 
-      if @conference.update_attributes(conference_params)
+      if @conference.update(conference_params)
         ConferenceDateUpdateMailJob.perform_later(@conference) if send_mail_on_conf_update
         redirect_to edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.'
@@ -121,7 +123,7 @@ module Admin
 
       @total_submissions = @all_events.count
       @new_submissions = @all_events
-          .where('created_at > ?', current_user.last_sign_in_at).count
+                         .where('created_at > ?', current_user.last_sign_in_at).count
 
       @program_length = @conference.current_program_hours
       @new_program_length = @conference.new_program_hours(current_user.last_sign_in_at)
@@ -136,7 +138,7 @@ module Admin
       @conference_progress = @conference.get_status
 
       # Line charts
-      @registrations = {@conference.short_title => @conference.get_registrations_per_week}
+      @registrations = { @conference.short_title => @conference.get_registrations_per_week }
       @registration_weeks = [0]
       @registration_weeks.push(@registrations[@conference.short_title].length)
 
@@ -173,9 +175,9 @@ module Admin
 
       @difficulty_levels_distribution = @conference.difficulty_levels_distribution
       @difficulty_levels_distribution_confirmed = @conference
-          .difficulty_levels_distribution(:confirmed)
+                                                  .difficulty_levels_distribution(:confirmed)
       @difficulty_levels_distribution_withdrawn = @conference
-          .difficulty_levels_distribution(:withdrawn)
+                                                  .difficulty_levels_distribution(:withdrawn)
 
       @tracks_distribution = @conference.tracks_distribution
       @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)

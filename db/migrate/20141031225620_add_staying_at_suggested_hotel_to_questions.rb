@@ -1,24 +1,26 @@
+# frozen_string_literal: true
+
 class AddStayingAtSuggestedHotelToQuestions < ActiveRecord::Migration
-  class TempRegistration < ActiveRecord::Base
+  class TempRegistration < ApplicationRecord
     self.table_name = 'registrations'
 
     belongs_to :temp_conference
   end
 
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
 
     has_many :temp_registrations
     has_many :temp_questions
   end
 
-  class TempQuestionType < ActiveRecord::Base
+  class TempQuestionType < ApplicationRecord
     self.table_name = 'question_types'
 
     has_many :temp_questions
   end
 
-  class TempQuestion < ActiveRecord::Base
+  class TempQuestion < ApplicationRecord
     self.table_name = 'questions'
 
     has_many :temp_qanswers
@@ -27,25 +29,25 @@ class AddStayingAtSuggestedHotelToQuestions < ActiveRecord::Migration
     has_and_belongs_to_many :temp_conferences
   end
 
-  class TempAnswer < ActiveRecord::Base
+  class TempAnswer < ApplicationRecord
     self.table_name = 'answers'
 
     has_many :temp_qanswers
     has_many :temp_questions, through: :temp_qanswers
   end
 
-  class TempQanswer < ActiveRecord::Base
+  class TempQanswer < ApplicationRecord
     self.table_name = 'qanswers'
 
     belongs_to :temp_question
     belongs_to :temp_answer
   end
 
-  class TempConferencesQuestions < ActiveRecord::Base
+  class TempConferencesQuestions < ApplicationRecord
     self.table_name = 'conferences_questions'
   end
 
-  class TempQanswerRegistration < ActiveRecord::Base
+  class TempQanswerRegistration < ApplicationRecord
     self.table_name = 'qanswers_registrations'
   end
 

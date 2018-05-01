@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CleanupVenue < ActiveRecord::Migration
   def change
     change_column :venues, :name, :string

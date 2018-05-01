@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe Admin::UsersController do
   let(:admin) { create(:admin) }
@@ -21,12 +23,12 @@ describe Admin::UsersController do
   describe 'PATCH #toggle_confirmation' do
     it 'confirms user' do
       user_to_confirm = create(:user, email: 'unconfirmed_user@osem.io', confirmed_at: nil)
-      patch :toggle_confirmation, id: user_to_confirm.id, user: { to_confirm: 'true' }
+      patch :toggle_confirmation, params: { id: user_to_confirm.id, user: { to_confirm: 'true' } }
       user_to_confirm.reload
       expect(user_to_confirm.confirmed?).to eq true
     end
     it 'undo confirmation of user' do
-      patch :toggle_confirmation, id: user.id, user: { to_confirm: 'false' }
+      patch :toggle_confirmation, params: { id: user.id, user: { to_confirm: 'false' } }
       user.reload
       expect(user.confirmed?).to eq false
     end
@@ -34,7 +36,7 @@ describe Admin::UsersController do
   describe 'PATCH #update' do
     context 'valid attributes' do
       before :each do
-        patch :update, id: user.id, user: { name: 'new name', email: 'new_email@osem.io' }
+        patch :update, params: { id: user.id, user: { name: 'new name', email: 'new_email@osem.io' } }
       end
 
       it 'locates requested @user' do
@@ -42,8 +44,9 @@ describe Admin::UsersController do
       end
       it 'changes @users attributes' do
         expect(build(
-          :user, email: 'email_new@osem.io', id: user.id).email)
-              .to eq('email_new@osem.io')
+          :user, email: 'email_new@osem.io', id: user.id
+        ).email)
+          .to eq('email_new@osem.io')
       end
       it 'redirects to the updated user' do
         expect(response).to redirect_to admin_users_path
@@ -64,7 +67,7 @@ describe Admin::UsersController do
   describe 'POST #create' do
     context 'saves successfuly' do
       before do
-        post :create, user: attributes_for(:user)
+        post :create, params: { user: attributes_for(:user) }
       end
 
       it 'redirects to admin users index path' do
@@ -83,7 +86,7 @@ describe Admin::UsersController do
     context 'save fails' do
       before do
         allow_any_instance_of(User).to receive(:save).and_return(false)
-        post :create, user: attributes_for(:user)
+        post :create, params: { user: attributes_for(:user) }
       end
 
       it 'renders new template' do
@@ -96,8 +99,8 @@ describe Admin::UsersController do
 
       it 'does not create new user' do
         expect do
-          post :create, user: attributes_for(:user)
-        end.not_to change{ Event.count }
+          post :create, params: { user: attributes_for(:user) }
+        end.not_to change { Event.count }
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module VersionsHelper
   ##
   # Groups functions related to change description
@@ -119,10 +121,9 @@ module VersionsHelper
   end
 
   def event_change_description(version)
-    case
-    when version.event == 'create' then 'submitted new'
+    if version.event == 'create' then 'submitted new'
 
-    when version.changeset['state']
+    elsif version.changeset['state']
       case version.changeset['state'][1]
       when 'unconfirmed' then 'accepted'
       when 'withdrawn' then 'withdrew'

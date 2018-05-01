@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Target < ApplicationRecord
   include ActionView::Helpers::TextHelper
 

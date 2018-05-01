@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Registration do
@@ -18,7 +20,6 @@ feature Registration do
     end
 
     context 'who is not registered' do
-
       scenario 'purchases and pays for a ticket succcessfully', feature: true, js: true do
         visit root_path
         click_link 'Register'
@@ -143,7 +144,6 @@ feature Registration do
     end
 
     context 'who is registered' do
-
       scenario 'unregisters from conference, but ticket purchases dont delete', feature: true, js: true do
         visit root_path
         click_link 'Register'

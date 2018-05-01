@@ -3,11 +3,13 @@ inherit_from: .rubocop_todo.yml
 
 # Apply rule to all cops
 AllCops:
+  TargetRubyVersion: 2.4
   Include:
     - '**/Rakefile'
     - '**/config.ru'
   Exclude:
     - 'db/schema.rb'
+    - 'db/migrations/*'
     - 'vendor/bundle/**/*'
     - 'bundle/**/*'
     - 'config/**/*'
@@ -25,10 +27,3 @@ Metrics/ClassLength:
   Max: 300
   Exclude:
     - 'app/models/conference.rb'
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/models/conference_spec.rb'
-    - 'spec/features/ability_spec.rb'
-    - 'spec/models/ability_spec.rb'
-    - 'spec/models/admin_ability_spec.rb'

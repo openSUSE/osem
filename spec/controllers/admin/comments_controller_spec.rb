@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::CommentsController, type: :controller do
-
   # It is necessary to use bang version of let to build roles before user
   let(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }

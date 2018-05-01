@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
@@ -43,7 +43,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   # Returns the id of the instance in a split path form. e.g. returns
   # 000/001/234 for an id of 1234. Stolen from paperclip...
   def id_partition
-    ('%09d'.freeze % model.id).scan(/\d{3}/).join('/'.freeze)
+    format('%09d', model.id).scan(/\d{3}/).join('/')
   end
 
   # Override the directory where uploaded files will be stored.
@@ -84,7 +84,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 
   def content_type_whitelist

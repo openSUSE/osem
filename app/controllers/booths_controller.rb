@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class BoothsController < ApplicationController
   before_action :authenticate_user!
   load_resource :conference, find_by: :short_title
   load_and_authorize_resource through: :conference
-  skip_authorize_resource only: [:withdraw, :confirm, :restart]
+  skip_authorize_resource only: %i[withdraw confirm restart]
 
   def index
     @booths = current_user.booths.where(conference_id: @conference.id).uniq
@@ -34,7 +36,7 @@ class BoothsController < ApplicationController
 
   def update
     @url = conference_booth_path(@conference.short_title, @booth.id)
-    @booth.update_attributes(booth_params)
+    @booth.update(booth_params)
 
     if @booth.save
       redirect_to conference_booths_path,

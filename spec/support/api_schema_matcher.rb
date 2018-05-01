@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Source: https://robots.thoughtbot.com/validating-json-schemas-with-an-rspec-matcher
 
 RSpec::Matchers.define :match_response_schema do |schema|

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Event < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
-  has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
+  has_paper_trail on: %i[create update], ignore: %i[updated_at guid week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
 
@@ -61,10 +63,10 @@ class Event < ApplicationRecord
     state :rejected
 
     event :restart do
-      transitions to: :new, from: [:rejected, :withdrawn, :canceled]
+      transitions to: :new, from: %i[rejected withdrawn canceled]
     end
     event :withdraw do
-      transitions to: :withdrawn, from: [:new, :unconfirmed, :confirmed]
+      transitions to: :withdrawn, from: %i[new unconfirmed confirmed]
     end
     event :accept do
       transitions to: :unconfirmed, from: [:new], on_transition: :process_acceptance
@@ -73,7 +75,7 @@ class Event < ApplicationRecord
       transitions to: :confirmed, from: :unconfirmed, on_transition: :process_confirmation
     end
     event :cancel do
-      transitions to: :canceled, from: [:unconfirmed, :confirmed]
+      transitions to: :canceled, from: %i[unconfirmed confirmed]
     end
     event :reject do
       transitions to: :rejected, from: [:new], on_transition: :process_rejection
@@ -108,7 +110,7 @@ class Event < ApplicationRecord
   # ====Returns
   # * +true+ -> If the event has votes (optionally, by the user)
   # * +false+ -> If the event does not have any votes (optionally, by the user)
-  def voted?(user=nil)
+  def voted?(user = nil)
     return votes.where(user: user).any? if user
 
     votes.any?
@@ -128,9 +130,7 @@ class Event < ApplicationRecord
   def speakers_ordered
     speakers_list = speakers.to_a
 
-    if speakers_list.reject! { |speaker| speaker == submitter }
-      speakers_list.unshift(submitter)
-    end
+    speakers_list.unshift(submitter) if speakers_list.reject! { |speaker| speaker == submitter }
 
     speakers_list
   end
@@ -141,28 +141,26 @@ class Event < ApplicationRecord
 
   def process_confirmation
     if program.conference.email_settings.send_on_confirmed_without_registration? &&
-        program.conference.email_settings.confirmed_without_registration_body &&
-        program.conference.email_settings.confirmed_without_registration_subject
-      if program.conference.registrations.where(user_id: submitter.id).first.nil?
-        Mailbot.confirm_reminder_mail(self).deliver_later
-      end
+       program.conference.email_settings.confirmed_without_registration_body &&
+       program.conference.email_settings.confirmed_without_registration_subject
+      Mailbot.confirm_reminder_mail(self).deliver_later if program.conference.registrations.where(user_id: submitter.id).first.nil?
     end
   end
 
   def process_acceptance(options)
     if program.conference.email_settings.send_on_accepted &&
-        program.conference.email_settings.accepted_body &&
-        program.conference.email_settings.accepted_subject &&
-        !options[:send_mail].blank?
+       program.conference.email_settings.accepted_body &&
+       program.conference.email_settings.accepted_subject &&
+       options[:send_mail].present?
       Mailbot.acceptance_mail(self).deliver_later
     end
   end
 
   def process_rejection(options)
     if program.conference.email_settings.send_on_rejected &&
-        program.conference.email_settings.rejected_body &&
-        program.conference.email_settings.rejected_subject &&
-        !options[:send_mail].blank?
+       program.conference.email_settings.rejected_body &&
+       program.conference.email_settings.rejected_subject &&
+       options[:send_mail].present?
       Mailbot.rejection_mail(self).deliver_later
     end
   end
@@ -186,28 +184,26 @@ class Event < ApplicationRecord
 
   def update_state(transition, mail = false, subject = false, send_mail = false, send_mail_param)
     alert = ''
-    if mail && send_mail_param && subject && send_mail
-      alert = 'Update Email Subject before Sending Mails'
-    end
-      begin
-        if mail
-          send(transition,
-               send_mail: send_mail_param)
-        else
-          send(transition)
-        end
-        save
-        # If the event was previously scheduled, and then withdrawn or cancelled
-        # its event_schedule will have enabled set to false
-        # If the event is now confirmed again, we want it to be available for scheduling
-        Rails.logger.debug "transition is #{transition}"
-        if transition == :confirm
-          Rails.logger.debug "schedules #{EventSchedule.unscoped.where(event: self, enabled: false)}"
-          EventSchedule.unscoped.where(event: self, enabled: false).destroy_all
-        end
-      rescue Transitions::InvalidTransition => e
-        alert = "Update state failed. #{e.message}"
+    alert = 'Update Email Subject before Sending Mails' if mail && send_mail_param && subject && send_mail
+    begin
+      if mail
+        send(transition,
+             send_mail: send_mail_param)
+      else
+        send(transition)
       end
+      save
+      # If the event was previously scheduled, and then withdrawn or cancelled
+      # its event_schedule will have enabled set to false
+      # If the event is now confirmed again, we want it to be available for scheduling
+      Rails.logger.debug "transition is #{transition}"
+      if transition == :confirm
+        Rails.logger.debug "schedules #{EventSchedule.unscoped.where(event: self, enabled: false)}"
+        EventSchedule.unscoped.where(event: self, enabled: false).destroy_all
+      end
+    rescue Transitions::InvalidTransition => e
+      alert = "Update state failed. #{e.message}"
+    end
     alert
   end
 
@@ -227,10 +223,10 @@ class Event < ApplicationRecord
     {
       registered: speakers.all? { |speaker| program.conference.user_registered? speaker },
       commercials: commercials.any?,
-      biographies: speakers.all? { |speaker| !speaker.biography.blank? },
-      subtitle: !subtitle.blank?,
-      track: (!track.blank? unless program.tracks.empty?),
-      difficulty_level: !difficulty_level.blank?,
+      biographies: speakers.all? { |speaker| speaker.biography.present? },
+      subtitle: subtitle.present?,
+      track: (track.present? unless program.tracks.empty?),
+      difficulty_level: difficulty_level.present?,
       title: true,
       abstract: true
     }.with_indifferent_access
@@ -266,9 +262,7 @@ class Event < ApplicationRecord
     event_schedules.find_by(schedule_id: selected_schedule_id).try(:start_time)
   end
 
-  def conference
-    program.conference
-  end
+  delegate :conference, to: :program
 
   private
 
@@ -309,9 +303,11 @@ class Event < ApplicationRecord
   end
 
   def before_end_of_conference
-    errors
-        .add(:created_at, "can't be after the conference end date!") if program.conference && program.conference.end_date &&
-        (Date.today > program.conference.end_date)
+    if program.conference&.end_date &&
+       (Date.today > program.conference.end_date)
+      errors
+        .add(:created_at, "can't be after the conference end date!")
+    end
   end
 
   def conference_id
@@ -322,7 +318,7 @@ class Event < ApplicationRecord
   # Allow only confirmed tracks that belong to the same program as the event
   #
   def valid_track
-    return unless track && track.program && program
+    return unless track&.program && program
     errors.add(:track, 'is invalid') unless track.confirmed? && track.program == program
   end
 

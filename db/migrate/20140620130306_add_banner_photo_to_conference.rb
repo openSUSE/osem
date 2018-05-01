@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBannerPhotoToConference < ActiveRecord::Migration
   def change
     add_column :conferences, :banner_photo_file_name, :string

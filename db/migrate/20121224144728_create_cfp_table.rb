@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCfpTable < ActiveRecord::Migration
   def up
     create_table :call_for_papers do |t|

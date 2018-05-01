@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ticket < ApplicationRecord
   belongs_to :conference
   has_many :ticket_purchases, dependent: :destroy
@@ -58,7 +60,7 @@ class Ticket < ApplicationRecord
 
   def self.total_price_user(conference, user, paid: false)
     tickets = TicketPurchase.where(conference: conference, user: user, paid: paid)
-    tickets.inject(0){ |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
+    tickets.inject(0) { |sum, ticket| sum + (ticket.amount_paid * ticket.quantity) }
   end
 
   def tickets_turnover_total(id)
@@ -77,8 +79,6 @@ class Ticket < ApplicationRecord
   def tickets_of_conference_have_same_currency
     tickets = Ticket.where(conference_id: conference_id)
     return if tickets.count.zero? || (tickets.count == 1 && self == tickets.first)
-    unless tickets.all?{|t| t.price_currency == price_currency }
-      errors.add(:price_currency, 'is different from the existing tickets of this conference.')
-    end
+    errors.add(:price_currency, 'is different from the existing tickets of this conference.') unless tickets.all? { |t| t.price_currency == price_currency }
   end
 end

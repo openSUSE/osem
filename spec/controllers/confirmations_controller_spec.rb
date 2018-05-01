@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ConfirmationsController do
@@ -9,7 +11,7 @@ describe ConfirmationsController do
 
   context 'user is not signed in' do
     it 'confirms and signs in user' do
-      get :show, confirmation_token: user.confirmation_token
+      get :show, params: { confirmation_token: user.confirmation_token }
       user.reload
       expect(user.confirmed?).to eq true
       expect(controller.current_user).to eq user
@@ -20,7 +22,7 @@ describe ConfirmationsController do
     before { sign_in user }
 
     it 'confirms user' do
-      get :show, confirmation_token: user.confirmation_token
+      get :show, params: { confirmation_token: user.confirmation_token }
       user.reload
       expect(user.confirmed?).to eq true
     end

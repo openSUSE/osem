@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Role < ApplicationRecord
   belongs_to :resource, polymorphic: true
   has_many :users_roles
   has_many :users, through: :users_roles
 
-  has_paper_trail on: [:create, :update], only: [:name, :description], meta: { conference_id: :resource_id }
+  has_paper_trail on: %i[create update], only: %i[name description], meta: { conference_id: :resource_id }
 
   before_destroy :cancel
   scopify

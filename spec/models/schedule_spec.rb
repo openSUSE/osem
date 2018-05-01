@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Schedule do
-
   describe 'association' do
     it { should belong_to(:program) }
     it { should belong_to(:track) }

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AddTypeToCfps < ActiveRecord::Migration
-  class TmpCfp < ActiveRecord::Base
+  class TmpCfp < ApplicationRecord
     self.table_name = 'cfps'
   end
 

@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 class Comment < ApplicationRecord
-  acts_as_nested_set scope: %i(commentable_id commentable_type)
+  acts_as_nested_set scope: %i[commentable_id commentable_type]
   validates :body, presence: true
   validates :user, presence: true
   after_create :send_notification
 
   # NOTE: install the acts_as_votable plugin if you
   # want user to vote on the quality of comments.
-  #acts_as_votable
+  # acts_as_votable
 
   belongs_to :commentable, counter_cache: true, polymorphic: true
 
   # NOTE: Comments belong to a user
   belongs_to :user
 
-  has_paper_trail on: %i(create destroy), meta: { conference_id: :conference_id }
+  has_paper_trail on: %i[create destroy], meta: { conference_id: :conference_id }
 
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text
@@ -25,7 +27,7 @@ class Comment < ApplicationRecord
       user_id: user_id
   end
 
-  #helper method to check if a comment has children
+  # helper method to check if a comment has children
   def has_children?
     children.any?
   end

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class ChangePersonIdToUserIdInRegistrations < ActiveRecord::Migration
-  class TempPerson < ActiveRecord::Base
+  class TempPerson < ApplicationRecord
     self.table_name = 'people'
   end
 
-  class TempRegistration < ActiveRecord::Base
+  class TempRegistration < ApplicationRecord
     self.table_name = 'registrations'
   end
 
@@ -13,11 +15,10 @@ class ChangePersonIdToUserIdInRegistrations < ActiveRecord::Migration
     TempPerson.all.each do |t|
       registrations = TempRegistration.where(person_id: t.id)
 
-      unless registrations.empty?
-        registrations.each do |r|
-          r.user_id = t.user_id
-          r.save!
-        end
+      next if registrations.empty?
+      registrations.each do |r|
+        r.user_id = t.user_id
+        r.save!
       end
     end
 

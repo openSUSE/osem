@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   desc 'Nullify wrong foreign keys'
 
@@ -20,7 +22,7 @@ namespace :data do
     if collection.any?
       puts "IDs: #{collection.map(&:id)}"
       collection.each do |item|
-        item.send(attribute+'=', nil)
+        item.send(attribute + '=', nil)
         item.save!
       end
       puts "Fixed #{attribute}!"

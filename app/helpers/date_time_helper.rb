@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DateTimeHelper
   ##
   # Includes functions related to date or time manipulations

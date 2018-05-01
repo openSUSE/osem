@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Splashpage < ApplicationRecord
   belongs_to :conference
 

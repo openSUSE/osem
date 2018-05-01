@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 

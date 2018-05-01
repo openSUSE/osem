@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDefaultValueToEmailSettings < ActiveRecord::Migration
   def up
     change_column :email_settings, :send_on_registration, :boolean, default: false

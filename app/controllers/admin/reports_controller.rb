@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ReportsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -13,9 +15,9 @@ module Admin
 
       attended_registrants_ids = @conference.registrations.where(attended: true).pluck(:user_id)
       @missing_event_speakers = EventUser.joins(:event)
-                                .where('event_role = ? and program_id = ?', 'submitter', @program.id)
-                                .where.not(user_id: attended_registrants_ids)
-                                .includes(:user, :event)
+                                         .where('event_role = ? and program_id = ?', 'submitter', @program.id)
+                                         .where.not(user_id: attended_registrants_ids)
+                                         .includes(:user, :event)
     end
   end
 end

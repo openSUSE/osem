@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe TracksController do
@@ -13,7 +15,7 @@ describe TracksController do
 
   describe 'GET #index' do
     before :each do
-      get :index, conference_id: conference.short_title
+      get :index, params: { conference_id: conference.short_title }
     end
 
     it 'assigns @tracks with the correct values' do
@@ -29,7 +31,7 @@ describe TracksController do
 
   describe 'GET #show' do
     before :each do
-      get :show, conference_id: conference.short_title, id: self_organized_track.short_name
+      get :show, params: { conference_id: conference.short_title, id: self_organized_track.short_name }
     end
 
     it 'assigns the correct track' do
@@ -43,7 +45,7 @@ describe TracksController do
 
   describe 'GET #new' do
     before :each do
-      get :new, conference_id: conference.short_title
+      get :new, params: { conference_id: conference.short_title }
     end
 
     it 'assigns a new track with the correct conference' do
@@ -60,7 +62,7 @@ describe TracksController do
   describe 'POST #create' do
     context 'saves successfuly' do
       before :each do
-        post :create, track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title
+        post :create, params: { track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title }
       end
 
       it 'redirects to tracks index path' do
@@ -86,7 +88,7 @@ describe TracksController do
     context 'save fails' do
       before :each do
         allow_any_instance_of(Track).to receive(:save).and_return(false)
-        post :create, track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title
+        post :create, params: { track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title }
       end
 
       it 'assigns a new track with the correct conference' do
@@ -111,7 +113,7 @@ describe TracksController do
 
   describe 'GET #edit' do
     before :each do
-      get :edit, conference_id: conference.short_title, id: self_organized_track.short_name
+      get :edit, params: { conference_id: conference.short_title, id: self_organized_track.short_name }
     end
 
     it 'assigns the correct track' do
@@ -126,9 +128,7 @@ describe TracksController do
   describe 'PATCH #update' do
     context 'updates successfully' do
       before :each do
-        patch :update, track: attributes_for(:track, :self_organized, color: '#FF0000'),
-                       conference_id: conference.short_title,
-                       id: self_organized_track.short_name
+        patch :update, params: { track: attributes_for(:track, :self_organized, color: '#FF0000'), conference_id: conference.short_title, id: self_organized_track.short_name }
       end
 
       it 'assigns the correct track' do
@@ -152,9 +152,7 @@ describe TracksController do
     context 'update fails' do
       before :each do
         allow_any_instance_of(Track).to receive(:save).and_return(false)
-        patch :update, track: attributes_for(:track, :self_organized, color: '#FF0000'),
-                       conference_id: conference.short_title,
-                       id: self_organized_track.short_name
+        patch :update, params: { track: attributes_for(:track, :self_organized, color: '#FF0000'), conference_id: conference.short_title, id: self_organized_track.short_name }
       end
 
       it 'assigns the correct track' do
@@ -180,7 +178,7 @@ describe TracksController do
     before :each do
       self_organized_track.state = 'withdrawn'
       self_organized_track.save!
-      patch :restart, conference_id: conference.short_title, id: self_organized_track.short_name
+      patch :restart, params: { conference_id: conference.short_title, id: self_organized_track.short_name }
       self_organized_track.reload
     end
 
@@ -201,7 +199,7 @@ describe TracksController do
     before :each do
       self_organized_track.state = 'accepted'
       self_organized_track.save!
-      patch :confirm, conference_id: conference.short_title, id: self_organized_track.short_name
+      patch :confirm, params: { conference_id: conference.short_title, id: self_organized_track.short_name }
       self_organized_track.reload
     end
 
@@ -222,7 +220,7 @@ describe TracksController do
     before :each do
       self_organized_track.state = 'confirmed'
       self_organized_track.save!
-      patch :withdraw, conference_id: conference.short_title, id: self_organized_track.short_name
+      patch :withdraw, params: { conference_id: conference.short_title, id: self_organized_track.short_name }
       self_organized_track.reload
     end
 

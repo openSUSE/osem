@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 feature Splashpage do
-
   # It is necessary to use bang version of let to build roles before user
   let!(:conference) { create(:conference) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
@@ -20,7 +21,7 @@ feature Splashpage do
   end
 
   context 'splashpage already created' do
-    let!(:splashpage) { create(:splashpage, conference: conference, public: false)}
+    let!(:splashpage) { create(:splashpage, conference: conference, public: false) }
 
     scenario 'update a valid splashpage', js: true do
       sign_in organizer
@@ -63,7 +64,7 @@ feature Splashpage do
   end
 
   context 'navigation' do
-    let!(:splashpage) { create(:splashpage, conference: conference, public: true)}
+    let!(:splashpage) { create(:splashpage, conference: conference, public: true) }
 
     context 'multiple organizations' do
       let!(:additional_organization) { create(:organization) }

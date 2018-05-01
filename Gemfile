@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # rails-assets requires >= 1.8.4
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
-  abort "Bundler version >= 1.8.4 is required"
-end
+abort 'Bundler version >= 1.8.4 is required' if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 
 # as web framework
 gem 'rails', '~> 5.0.5'
@@ -60,7 +60,7 @@ gem 'rolify'
 gem 'unobtrusive_flash', '>=3'
 
 # as state machine
-gem 'transitions', :require => %w( transitions active_record/transitions )
+gem 'transitions', require: %w[transitions active_record/transitions]
 
 # for comments
 gem 'acts_as_commentable_with_threading'
@@ -164,7 +164,7 @@ gem 'piwik_analytics', '~> 1.0.1'
 
 # for recurring jobs
 gem 'delayed_job_active_record'
-gem 'whenever', :require => false
+gem 'whenever', require: false
 
 # to run scripts
 gem 'daemons'
@@ -192,7 +192,7 @@ gem 'dotenv-rails'
 gem 'feature'
 
 # For countable.js
-gem "countable-rails", "~> 0.0.1"
+gem 'countable-rails', '~> 0.0.1'
 
 # Both are not in a group as we use it also for rake data:demo
 # for fake data
@@ -227,7 +227,7 @@ group :development do
   gem 'haml_lint', '~> 0.24.0'
   gem 'spring-commands-rspec'
   # for static code analisys
-  gem 'rubocop', '~> 0.51.0', require: false
+  gem 'rubocop', require: false
   # as database
   gem 'sqlite3'
   # to open mails
@@ -244,7 +244,7 @@ group :test do
   # as test framework
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
+  gem 'phantomjs', require: 'phantomjs/poltergeist'
   gem 'poltergeist'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   # for measuring test coverage

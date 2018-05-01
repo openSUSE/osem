@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpeakerSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 

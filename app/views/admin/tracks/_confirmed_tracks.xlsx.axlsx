@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'all tracks') do |sheet|
   bold_style = wb.styles.add_style(b: true)
-  wrap_text = wb.styles.add_style alignment: {wrap_text: true}
+  wrap_text = wb.styles.add_style alignment: { wrap_text: true }
   row = ['Track ID',
          'Name',
          'Description',
@@ -23,7 +25,7 @@ wb.add_worksheet(name: 'all tracks') do |sheet|
     row << track.try(:submitter).try(:name)
     row << (track.cfp_active? ? 'Yes' : 'No')
     row << track.state
-    sheet.add_row row , style: wrap_text
-    sheet.column_widths 10,20,50,20,12,12,20,15,10
+    sheet.add_row row, style: wrap_text
+    sheet.column_widths 10, 20, 50, 20, 12, 12, 20, 15, 10
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :vposition do
     title 'Example Volunteer Position'
@@ -8,5 +10,4 @@ FactoryGirl.define do
       vposition.vdays << build(:vday, conference: vposition.conference)
     end
   end
-
 end

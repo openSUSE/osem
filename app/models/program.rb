@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # cannot delete program if there are events submitted
 
 class Program < ApplicationRecord
@@ -42,7 +44,7 @@ class Program < ApplicationRecord
   has_many :event_schedules, through: :events
 
   has_many :event_users, through: :events
-  has_many :program_events_speakers, -> {where(event_role: 'speaker')}, through: :events, source: :event_users
+  has_many :program_events_speakers, -> { where(event_role: 'speaker') }, through: :events, source: :event_users
   has_many :speakers, -> { distinct }, through: :program_events_speakers, source: :user do
     def confirmed
       joins(:events).where(events: { state: :confirmed })
@@ -61,7 +63,7 @@ class Program < ApplicationRecord
   accepts_nested_attributes_for :tracks, reject_if: proc { |r| r['name'].blank? }, allow_destroy: true
   accepts_nested_attributes_for :difficulty_levels, allow_destroy: true
 
-#   validates :conference_id, presence: true, uniqueness: true
+  #   validates :conference_id, presence: true, uniqueness: true
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 10, only_integer: true }
   validates :schedule_interval, numericality: { greater_than_or_equal_to: 5, less_than_or_equal_to: 60 }, presence: true
   validate :schedule_interval_divisor_60
@@ -80,7 +82,7 @@ class Program < ApplicationRecord
     tracks.self_organized.confirmed.order(start_date: :asc).each do |track|
       event_schedules += track.selected_schedule.event_schedules.order(start_time: :asc) if track.selected_schedule
     end
-    event_schedules.sort_by(&:start_time) if event_schedules
+    event_schedules&.sort_by(&:start_time)
   end
 
   ##
@@ -154,11 +156,11 @@ class Program < ApplicationRecord
     # do not notify if the schedule is not public
     return false unless schedule_public
     # do not notify unless the mail content is set up
-    (!conference.email_settings.program_schedule_public_subject.blank? && !conference.email_settings.program_schedule_public_body.blank?)
+    (conference.email_settings.program_schedule_public_subject.present? && conference.email_settings.program_schedule_public_body.present?)
   end
 
   def languages_list
-    languages.split(',').map {|l| ISO_639.find(l).english_name} if languages.present?
+    languages.split(',').map { |l| ISO_639.find(l).english_name } if languages.present?
   end
 
   ##
@@ -224,16 +226,16 @@ class Program < ApplicationRecord
   # Check if languages string has the right format. Used as validation.
   #
   def check_languages_format
-    return unless languages.present?
+    return if languages.blank?
     # All white spaces are removed to allow languages to be separated by ',' and ', '. The languages string without spaces is saved
     self.languages = languages.delete(' ').downcase
-    errors.add(:languages, 'must be two letters separated by commas') && return unless
-    languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).present?
+    errors.add(:languages, 'must be two letters separated by commas') && return if
+    languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).blank?
     languages_array = languages.split(',')
     # We check that languages are not repeated
     errors.add(:languages, "can't be repeated") && return unless languages_array.uniq!.nil?
     # We check if every language is a valid ISO 639-1 language
-    errors.add(:languages, 'must be ISO 639-1 valid codes') unless languages_array.select{ |x| ISO_639.find(x).nil? }.empty?
+    errors.add(:languages, 'must be ISO 639-1 valid codes') unless languages_array.select { |x| ISO_639.find(x).nil? }.empty?
   end
 
   ##
@@ -259,7 +261,7 @@ class Program < ApplicationRecord
   def normalize_event_types_length
     event_types.each do |event_type|
       new_length = event_type.length > schedule_interval ? event_type.length - (event_type.length % schedule_interval) : schedule_interval
-      event_type.update_attributes length: new_length
+      event_type.update length: new_length
     end
   end
 end

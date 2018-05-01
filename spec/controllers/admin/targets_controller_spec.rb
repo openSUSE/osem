@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::TargetsController, type: :controller do
@@ -9,7 +11,7 @@ describe Admin::TargetsController, type: :controller do
     before { sign_in admin }
 
     describe 'GET #index' do
-      before { get :index, conference_id: conference.short_title }
+      before { get :index, params: { conference_id: conference.short_title } }
 
       it 'renders index template' do
         expect(response).to render_template('index')
@@ -22,7 +24,7 @@ describe Admin::TargetsController, type: :controller do
     end
 
     describe 'GET #new' do
-      before { get :new, conference_id: conference.short_title }
+      before { get :new, params: { conference_id: conference.short_title } }
 
       it 'renders new template' do
         expect(response).to render_template('new')
@@ -36,7 +38,7 @@ describe Admin::TargetsController, type: :controller do
     describe 'POST #create' do
       context 'saves successfuly' do
         before do
-          post :create, target: attributes_for(:target), conference_id: conference.short_title
+          post :create, params: { target: attributes_for(:target), conference_id: conference.short_title }
         end
 
         it 'redirects to admin target index path' do
@@ -55,7 +57,7 @@ describe Admin::TargetsController, type: :controller do
       context 'save fails' do
         before do
           allow_any_instance_of(Target).to receive(:save).and_return(false)
-          post :create, target: attributes_for(:target), conference_id: conference.short_title
+          post :create, params: { target: attributes_for(:target), conference_id: conference.short_title }
         end
 
         it 'renders new template' do
@@ -73,7 +75,7 @@ describe Admin::TargetsController, type: :controller do
     end
 
     describe 'GET #edit' do
-      before { get :edit, conference_id: conference.short_title, id: target.id }
+      before { get :edit, params: { conference_id: conference.short_title, id: target.id } }
 
       it 'renders edit template' do
         expect(response).to render_template('edit')
@@ -87,9 +89,7 @@ describe Admin::TargetsController, type: :controller do
     describe 'PATCH #update' do
       context 'updates successfully' do
         before do
-          patch :update, target: attributes_for(:target, target_count: 2),
-                         conference_id: conference.short_title,
-                         id: target.id
+          patch :update, params: { target: attributes_for(:target, target_count: 2), conference_id: conference.short_title, id: target.id }
         end
 
         it 'redirects to admin target index path' do
@@ -109,9 +109,7 @@ describe Admin::TargetsController, type: :controller do
       context 'update fails' do
         before do
           allow_any_instance_of(Target).to receive(:save).and_return(false)
-          patch :update, target: attributes_for(:target, target_count: 2),
-                         conference_id: conference.short_title,
-                         id: target.id
+          patch :update, params: { target: attributes_for(:target, target_count: 2), conference_id: conference.short_title, id: target.id }
         end
 
         it 'renders edit template' do
@@ -130,7 +128,7 @@ describe Admin::TargetsController, type: :controller do
 
     describe 'DELETE #destroy' do
       context 'deletes successfully' do
-        before { delete :destroy, conference_id: conference.short_title, id: target.id }
+        before { delete :destroy, params: { conference_id: conference.short_title, id: target.id } }
 
         it 'redirects to admin target index path' do
           expect(response).to redirect_to admin_conference_targets_path(conference_id: conference.short_title)
@@ -148,7 +146,7 @@ describe Admin::TargetsController, type: :controller do
       context 'delete fails' do
         before do
           allow_any_instance_of(Target).to receive(:destroy).and_return(false)
-          delete :destroy, conference_id: conference.short_title, id: target.id
+          delete :destroy, params: { conference_id: conference.short_title, id: target.id }
         end
 
         it 'redirects to admin target index path' do

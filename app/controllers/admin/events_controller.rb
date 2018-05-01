@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class EventsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -7,7 +9,7 @@ module Admin
     # For some reason this doesn't work, so a workaround is used
     # load_and_authorize_resource :track, through: :program, only: [:index, :show, :edit]
 
-    before_action :assign_tracks, only: [:index, :show, :edit]
+    before_action :assign_tracks, only: %i[index show edit]
 
     def index
       @difficulty_levels = @program.difficulty_levels
@@ -17,7 +19,7 @@ module Admin
       @scheduled_event_distribution = @conference.scheduled_event_distribution
       @file_name = "events_for_#{@conference.short_title}"
       @event_export_option = params[:event_export_option]
-      @export_formats = [:pdf, :csv, :xlsx]
+      @export_formats = %i[pdf csv xlsx]
 
       respond_to do |format|
         format.html
@@ -69,7 +71,7 @@ module Admin
 
     def update
       @languages = @program.languages_list
-      if @event.update_attributes(event_params)
+      if @event.update(event_params)
 
         if request.xhr?
           render js: 'index'
@@ -139,8 +141,8 @@ module Admin
     def vote
       @votes = @event.votes.includes(:user)
 
-      if (votes = current_user.votes.find_by_event_id(params[:id]))
-        votes.update_attributes(rating: params[:rating])
+      if (votes = current_user.votes.find_by(event_id: params[:id]))
+        votes.update(rating: params[:rating])
       else
         @myvote = @event.votes.build
         @myvote.user = current_user
@@ -172,13 +174,14 @@ module Admin
 
     def event_params
       params.require(:event).permit(
-                                    # Set also in proposals controller
-                                    :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
-                                    # Set only in admin/events controller
-                                    :track_id, :state, :language, :is_highlight, :max_attendees,
-                                    # Not used anymore?
-                                    :proposal_additional_speakers, :user, :users_attributes,
-                                    speaker_ids: [])
+        # Set also in proposals controller
+        :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
+        # Set only in admin/events controller
+        :track_id, :state, :language, :is_highlight, :max_attendees,
+        # Not used anymore?
+        :proposal_additional_speakers, :user, :users_attributes,
+        speaker_ids: []
+      )
     end
 
     def comment_params
