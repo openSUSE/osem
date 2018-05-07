@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FormatHelper
   ##
   # Includes functions related to formatting (like adding classes, colors)

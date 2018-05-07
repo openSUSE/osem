@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UseVdaysVpositionsDefaults < ActiveRecord::Migration
   def up
     change_column :conferences, :use_vpositions, :boolean, default: false

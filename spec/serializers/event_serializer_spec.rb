@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe EventSerializer, type: :serializer do
   let(:event) { create(:event, title: 'Some Talk', abstract: 'Lorem ipsum dolor sit amet') }

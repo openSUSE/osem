@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketPurchasesController < ApplicationController
   before_action :authenticate_user!
   load_resource :conference, find_by: :short_title

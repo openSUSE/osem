@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OmniauthMacros
   # The mock_auth configuration allows you to set per-provider (or default)
   # authentication hashes to return during integration testing.

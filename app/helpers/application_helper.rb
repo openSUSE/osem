@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # Returns a string build from the start and end date of the given conference.
   #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc 'setup DATABASE_URL from CLEARDB_DATABASE_URL in config/database.yml'
   task 'cleardb_env' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MigrateRolesForCancancan < ActiveRecord::Migration
   def up
     # Store the number of existing roles

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MakeTrackCfpActiveNotNull < ActiveRecord::Migration
   class TmpTrack < ActiveRecord::Base
     self.table_name = 'tracks'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class EventSchedulesController < Admin::BaseController
     load_and_authorize_resource :event_schedule

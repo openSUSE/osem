@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :roles do
   desc 'Adds back deleted roles to all conferences'
   task add: :environment do

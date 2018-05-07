@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Automatically save the page a test fails
 Capybara.save_and_open_page_path = Rails.root.join('tmp', 'capybara')
 

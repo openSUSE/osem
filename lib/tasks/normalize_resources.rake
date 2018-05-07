@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   desc 'Update resources with nil quantity/used fields'
   task normalize_resources: :environment do

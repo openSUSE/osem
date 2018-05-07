@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TracksController < ApplicationController
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true

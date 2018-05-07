@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CommercialsController < ApplicationController
   load_resource :conference, find_by: :short_title
   before_action :set_event

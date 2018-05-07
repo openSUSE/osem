@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateQanswersRegistrations < ActiveRecord::Migration
   def change
     create_table :qanswers_registrations, id: false do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Vposition < ApplicationRecord
   belongs_to :conference
 

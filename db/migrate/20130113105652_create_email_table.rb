@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEmailTable < ActiveRecord::Migration
   def up
     create_table :email_settings do |t|

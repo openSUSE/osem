@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEventUsers < ActiveRecord::Migration
   class TempPerson < ActiveRecord::Base
     self.table_name = 'people'

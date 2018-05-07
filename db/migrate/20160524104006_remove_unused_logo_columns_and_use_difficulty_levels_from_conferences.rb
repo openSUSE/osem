@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveUnusedLogoColumnsAndUseDifficultyLevelsFromConferences < ActiveRecord::Migration
   def up
     remove_column :conferences, :logo_updated_at

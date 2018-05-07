@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Registration < ApplicationRecord
   require 'csv'
   belongs_to :user

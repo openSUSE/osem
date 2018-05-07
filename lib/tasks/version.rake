@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   desc 'Sets conference_id in all pre-existing PaperTrail::Version objects'
   task set_conference_in_versions: :environment do

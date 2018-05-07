@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActsAsCommentableUpgradeMigration < ActiveRecord::Migration
   def self.up
     rename_column :comments, :comment, :body

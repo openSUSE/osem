@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMinimumAndMaximumAbstractLengthsToEventTypes < ActiveRecord::Migration
   def change
     add_column :event_types, :minimum_abstract_length, :integer, default: 0

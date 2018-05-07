@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketScanning < ApplicationRecord
   belongs_to :physical_ticket
 

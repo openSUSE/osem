@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class SchedulesController < Admin::BaseController
     # By authorizing 'conference' resource, we can ensure there will be no unauthorized access to

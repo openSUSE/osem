@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ConferenceHelper
   # Return true if only call_for_papers or call_for_tracks or call_for_booths is open
   def one_call_open(*calls)

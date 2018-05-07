@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDescriptionAndResourceToRoles < ActiveRecord::Migration
   def change
     add_column :roles, :description, :string

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :events_registrations do
   desc "Deletes dupicate entries"
   task deduplicate: :environment do

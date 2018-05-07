@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConferenceRegistrationsController < ApplicationController
   before_action :authenticate_user!, except: [:new, :create]
   load_resource :conference, find_by: :short_title

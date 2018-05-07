@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class VersionsController < Admin::BaseController
     load_resource :conference, find_by: :short_title, only: :index

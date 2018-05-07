@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Flash
   def flash
     results = all(:css, 'div#flash p')

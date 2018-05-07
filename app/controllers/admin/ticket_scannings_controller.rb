@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class TicketScanningsController < Admin::BaseController
     before_action :authenticate_user!

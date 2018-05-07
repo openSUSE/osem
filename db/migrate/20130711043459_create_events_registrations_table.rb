@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEventsRegistrationsTable < ActiveRecord::Migration
   def up
     create_table :events_registrations, id: false do |t|

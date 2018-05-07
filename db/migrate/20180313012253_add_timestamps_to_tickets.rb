@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTimestampsToTickets < ActiveRecord::Migration[5.0]
   def up
     add_column :tickets, :created_at, :datetime

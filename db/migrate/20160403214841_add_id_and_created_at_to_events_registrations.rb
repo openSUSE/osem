@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIdAndCreatedAtToEventsRegistrations < ActiveRecord::Migration
   def change
     add_column :events_registrations, :id, :primary_key

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSocialUrlsToConference < ActiveRecord::Migration
   def change
     add_column :conferences, :twitter_url, :string

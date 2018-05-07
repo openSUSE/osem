@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropPersonAndEventPersonTables < ActiveRecord::Migration
   def change
     drop_table :people

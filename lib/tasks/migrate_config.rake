@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   namespace :migrate do
     desc 'Create a dotenv file from config/config.yml'

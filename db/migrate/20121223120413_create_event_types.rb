@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEventTypes < ActiveRecord::Migration
   def up
     create_table :event_types do |t|

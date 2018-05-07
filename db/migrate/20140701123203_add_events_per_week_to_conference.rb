@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddEventsPerWeekToConference < ActiveRecord::Migration
   class TempVersion < ActiveRecord::Base
     self.table_name = 'versions'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConferenceSerializer < ActiveModel::Serializer
   include ApplicationHelper
   attributes :short_title, :title, :description, :start_date, :end_date, :picture_url,

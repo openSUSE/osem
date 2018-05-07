@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MigratingSupporterRegistrationsToTicketUsers < ActiveRecord::Migration
   class TempSupporterRegistrations < ActiveRecord::Base
     self.table_name = 'supporter_registrations'
