@@ -17,8 +17,6 @@ AllCops:
 #################### Metrics ###############################
 
 # Start with cops for Ruby >= 2.3 disabled
-Style/FrozenStringLiteralComment:
-  Enabled: false
 Style/SafeNavigation:
   Enabled: false
 Style/NumericPredicate:

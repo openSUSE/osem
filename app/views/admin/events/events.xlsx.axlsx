@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 wb = xlsx_package.workbook
 if @event_export_option == 'confirmed'
   render partial: 'confirmed_events', locals: {:wb => wb}

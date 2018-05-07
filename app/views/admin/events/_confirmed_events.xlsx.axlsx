@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'confirmed events') do |sheet|
   bold_style = wb.styles.add_style(b: true)
   wrap_text = wb.styles.add_style alignment: {wrap_text: true}
