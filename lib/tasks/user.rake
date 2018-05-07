@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :user do
   desc "Makes is_admin attribute true for user based on the supplied email address."
   task :admin, [:email] => :environment do |t, args|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUrlToCommercial < ActiveRecord::Migration
   class TempCommercial < ActiveRecord::Base
     self.table_name = 'commercials'

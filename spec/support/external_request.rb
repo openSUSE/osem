@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Mock external requests to youtube
 require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true, allow: /stripe.com/)

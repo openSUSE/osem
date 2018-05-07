@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration
   class TempEvent < ActiveRecord::Base
     self.table_name = 'events'

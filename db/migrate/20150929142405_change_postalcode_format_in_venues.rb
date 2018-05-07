@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangePostalcodeFormatInVenues < ActiveRecord::Migration
   def up
     change_column :venues, :postalcode, :string

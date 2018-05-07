@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConferenceScheduleUpdateMailJob < ApplicationJob
   queue_as :default
 

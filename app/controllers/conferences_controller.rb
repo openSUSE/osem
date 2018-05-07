@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConferencesController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :respond_to_options

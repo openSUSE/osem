@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 task :dump_db do
   yaml = YAML.load_file("config/database.yml")

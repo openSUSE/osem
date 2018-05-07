@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWeekToTicketPurchases < ActiveRecord::Migration
   class TmpTicketPurchase < ActiveRecord::Base
     self.table_name = 'ticket_purchases'

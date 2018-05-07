@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveDietaryChoicesTable < ActiveRecord::Migration
   class TempDietaryChoice < ActiveRecord::Base
     self.table_name = 'dietary_choices'

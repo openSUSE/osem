@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RebuildConferencePictures < ActiveRecord::Migration
   def up
     Conference.all.each do |conference|

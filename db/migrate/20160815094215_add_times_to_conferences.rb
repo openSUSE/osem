@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTimesToConferences < ActiveRecord::Migration
   def change
     add_column :conferences, :start_hour, :integer, default: 9

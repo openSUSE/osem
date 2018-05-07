@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventsRegistration < ApplicationRecord
   belongs_to :registration
   belongs_to :event

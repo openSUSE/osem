@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Venue < ApplicationRecord
   belongs_to :conference
   has_one :commercial, as: :commercialable, dependent: :destroy

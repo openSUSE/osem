@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAttendingSocialEventsToQuestions < ActiveRecord::Migration
   class TempRegistration < ActiveRecord::Base
     self.table_name = 'registrations'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAhoyEvents < ActiveRecord::Migration
   def change
     create_table :ahoy_events  do |t|

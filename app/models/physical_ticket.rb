@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PhysicalTicket < ApplicationRecord
   belongs_to :ticket_purchase
   has_one :ticket, through: :ticket_purchase

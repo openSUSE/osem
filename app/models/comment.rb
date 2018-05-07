@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Comment < ApplicationRecord
   acts_as_nested_set scope: %i(commentable_id commentable_type)
   validates :body, presence: true

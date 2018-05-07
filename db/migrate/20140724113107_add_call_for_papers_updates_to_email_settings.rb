@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCallForPapersUpdatesToEmailSettings < ActiveRecord::Migration
   def change
     add_column :email_settings, :send_on_call_for_papers_dates_updates, :boolean, default: false

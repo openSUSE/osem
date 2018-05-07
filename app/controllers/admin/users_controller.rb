@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class UsersController < Admin::BaseController
     load_and_authorize_resource

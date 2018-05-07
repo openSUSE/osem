@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPictures < ActiveRecord::Migration
   def change
     add_column :conferences, :picture, :string

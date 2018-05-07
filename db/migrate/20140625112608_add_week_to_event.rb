@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWeekToEvent < ActiveRecord::Migration
   class Event < ActiveRecord::Base
   end

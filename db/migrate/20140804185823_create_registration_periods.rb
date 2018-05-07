@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRegistrationPeriods < ActiveRecord::Migration
   def up
     create_table :registration_periods do |t|

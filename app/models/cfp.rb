@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # cannot delete program if there are events submitted
 
 class Cfp < ApplicationRecord

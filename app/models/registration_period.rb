@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationPeriod < ApplicationRecord
   belongs_to :conference
 

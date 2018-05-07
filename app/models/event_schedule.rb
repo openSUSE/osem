@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventSchedule < ApplicationRecord
   default_scope { where(enabled: true) }
   belongs_to :schedule

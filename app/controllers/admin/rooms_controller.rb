@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class RoomsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTableSupporterRegistrations < ActiveRecord::Migration
   def up
     create_table :supporter_registrations do |t|

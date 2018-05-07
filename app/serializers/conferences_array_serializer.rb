@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Needed in order to add the API version number to the conferences array
 #

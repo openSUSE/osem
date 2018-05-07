@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   module VolunteersHelper
     def can_manage_volunteers?(conference)

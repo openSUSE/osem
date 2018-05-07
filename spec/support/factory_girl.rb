@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'external_request'
 
 RSpec.configure do |config|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SchedulesController < ApplicationController
   load_and_authorize_resource
   protect_from_forgery with: :null_session

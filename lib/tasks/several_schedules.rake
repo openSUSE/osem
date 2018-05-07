@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :data do
   desc 'Move the start_time and room attributes from Event to EventSchedule'
 

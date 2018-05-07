@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module VersionsHelper
   ##
   # Groups functions related to change description

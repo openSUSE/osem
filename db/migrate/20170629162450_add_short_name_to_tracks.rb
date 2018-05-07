@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddShortNameToTracks < ActiveRecord::Migration
   class TmpProgram < ActiveRecord::Base
     self.table_name = 'programs'

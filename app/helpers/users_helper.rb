@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UsersHelper
   ##
   # Includes functions related to users

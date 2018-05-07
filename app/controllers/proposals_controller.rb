@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProposalsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
