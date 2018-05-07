@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 wb = xlsx_package.workbook
 wb.add_worksheet(name: 'registrations') do |sheet|
   bold_style = wb.styles.add_style(b: true)
