@@ -12,9 +12,17 @@ AllCops:
     - 'bundle/**/*'
     - 'config/**/*'
     - 'bin/*'
-
+  TargetRubyVersion: 2.4
 
 #################### Metrics ###############################
+
+# Start with cops for Ruby >= 2.3 disabled
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/SafeNavigation:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
 
 # Avoid deep blocks nesting
 Metrics/BlockNesting:
