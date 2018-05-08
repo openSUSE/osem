@@ -246,6 +246,8 @@ GEM
     json-schema (2.5.0)
       addressable (~> 2.3)
     jwt (1.0.0)
+    knapsack (1.16.0)
+      rake
     launchy (2.4.2)
       addressable (~> 2.3)
     leaflet-rails (0.7.4)
@@ -619,6 +621,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails (~> 4.2.1)
   json-schema
+  knapsack
   leaflet-rails
   letter_opener
   letter_opener_web
