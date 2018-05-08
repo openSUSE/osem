@@ -265,6 +265,8 @@ group :test do
   gem 'rails-controller-testing'
   # For managing the environment
   gem 'climate_control'
+  # parallel tests
+  gem 'knapsack'
 end
 
 group :development, :test do

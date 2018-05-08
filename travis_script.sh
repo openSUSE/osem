@@ -17,7 +17,7 @@ case $TEST_SUITE in
     bundle exec haml-lint app/views
     ;;
   rspec)
-    bundle exec rspec --color --format documentation
+    bundle exec rake "knapsack:rspec[--color --format documentation]"
     ;;
   *)
     bundle exec rubocop -Dc .rubocop.yml

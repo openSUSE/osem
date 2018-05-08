@@ -86,6 +86,8 @@ We are using [rspec](http://rspec.info/)+[capybara](http://teamcapybara.github.i
 
 ```shell
 vagrant exec bundle exec rspec
+# or, in parallel
+vagrant exec bundle exec rake knapsack:rspec
 ```
 
 ### Email Notifications
