@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DateTimeHelper, type: :helper do
+describe DateTimeCurrencyHelper, type: :helper do
 
   describe 'format_datetime' do
     it 'returns nothing if there is no parameter' do

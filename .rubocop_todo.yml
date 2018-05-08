@@ -542,7 +542,7 @@ Style/NumericLiteralPrefix:
   Exclude:
     - 'spec/controllers/admin/conferences_controller_spec.rb'
     - 'spec/controllers/conference_registration_controller_spec.rb'
-    - 'spec/helpers/date_time_helper_spec.rb'
+    - 'spec/helpers/date_time_currency_helper_spec.rb'
     - 'spec/models/conference_spec.rb'
     - 'spec/models/email_settings_spec.rb'
     - 'spec/models/registration_spec.rb'
