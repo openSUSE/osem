@@ -24,6 +24,9 @@ Style/SafeNavigation:
 Style/NumericPredicate:
   Enabled: false
 
+Rails:
+  Enabled: true
+
 # Avoid deep blocks nesting
 Metrics/BlockNesting:
   Max: 4
