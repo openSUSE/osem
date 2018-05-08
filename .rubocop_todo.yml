@@ -277,7 +277,7 @@ Lint/IneffectiveAccessModifier:
     - 'app/models/conference.rb'
 
 # Offense count: 2
-Lint/RescueWithoutErrorClass:
+Style/RescueStandardError:
   Exclude:
     - 'app/controllers/users/omniauth_callbacks_controller.rb'
     - 'lib/tasks/migrate_config.rake'
@@ -705,8 +705,11 @@ Style/TernaryParentheses:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStylesForMultiline.
 # SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
   Exclude:
     - 'Guardfile'
+
+Style/TrailingCommaInHashLiteral:
+  Exclude:
     - 'db/migrate/20140701123203_add_events_per_week_to_conference.rb'
     - 'spec/models/conference_spec.rb'
