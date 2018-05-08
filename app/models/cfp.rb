@@ -108,14 +108,18 @@ class Cfp < ApplicationRecord
   private
 
   def before_end_of_conference
-    if program && program.conference && program.conference.end_date && end_date && (end_date > program.conference.end_date)
-      errors
-      .add(:end_date, "can't be after the conference end date (#{program.conference.end_date})")
+    if program&.conference&.end_date && end_date && (end_date > program.conference.end_date)
+      errors.add(
+        :end_date,
+        "can't be after the conference end date (#{program.conference.end_date})"
+      )
     end
 
-    if program && program.conference && program.conference.end_date && start_date && (start_date > program.conference.end_date)
-      errors
-      .add(:start_date, "can't be after the conference end date (#{program.conference.end_date})")
+    if program&.conference&.end_date && start_date && (start_date > program.conference.end_date)
+      errors.add(
+        :start_date,
+        "can't be after the conference end date (#{program.conference.end_date})"
+      )
     end
   end
 

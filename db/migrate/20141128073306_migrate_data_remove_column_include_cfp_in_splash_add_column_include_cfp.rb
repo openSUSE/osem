@@ -19,7 +19,7 @@ class MigrateDataRemoveColumnIncludeCfpInSplashAddColumnIncludeCfp < ActiveRecor
     TempConference.all.each do |conference|
       cfp = TempCallForPaper.find_by(conference_id: conference.id)
 
-      if cfp && cfp.include_cfp_in_splash
+      if cfp&.include_cfp_in_splash
         splashpage = TempSplashpage.find_or_initialize_by(conference_id: conference.id)
         splashpage.include_cfp = cfp.include_cfp_in_splash # true
         splashpage.save!

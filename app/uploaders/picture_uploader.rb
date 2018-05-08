@@ -44,7 +44,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   # Returns the id of the instance in a split path form. e.g. returns
   # 000/001/234 for an id of 1234. Stolen from paperclip...
   def id_partition
-    ('%09d'.freeze % model.id).scan(/\d{3}/).join('/'.freeze)
+    format('%09d', model.id).scan(/\d{3}/).join('/')
   end
 
   # Override the directory where uploaded files will be stored.
