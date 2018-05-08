@@ -154,7 +154,7 @@ class Conference < ApplicationRecord
   def get_submissions_per_week
     result = []
 
-    if program && program.cfp && program.events
+    if program&.cfp && program&.events
       submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
@@ -171,7 +171,7 @@ class Conference < ApplicationRecord
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
     result = {}
-    if program && program.cfp && program.events
+    if program&.cfp && program&.events
       result = get_events_per_week_by_state
 
       start_week = program.cfp.start_week
@@ -272,9 +272,8 @@ class Conference < ApplicationRecord
   def registration_weeks
     result = 0
     weeks = 0
-    if registration_period &&
-        registration_period.start_date &&
-        registration_period.end_date
+    if registration_period&.start_date &&
+        registration_period&.end_date
       weeks = Date.new(registration_period.start_date.year, 12, 31)
           .strftime('%W').to_i
 
@@ -346,7 +345,7 @@ class Conference < ApplicationRecord
       tracks: tracks_set?,
       event_types: event_types_set?,
       difficulty_levels: difficulty_levels_set?,
-      splashpage: splashpage && splashpage.public?
+      splashpage: splashpage&.public?
     }
 
     result.update(

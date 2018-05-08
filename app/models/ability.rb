@@ -20,7 +20,7 @@ class Ability
     can [:index, :conferences, :code_of_conduct], Organization
     can [:index], Conference
     can [:show], Conference do |conference|
-      conference.splashpage && conference.splashpage.public == true
+      conference.splashpage&.public == true
     end
     # Can view the schedule
     can [:schedule, :events], Conference do |conference|
