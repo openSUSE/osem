@@ -18,6 +18,8 @@ notifications:
       - "chat.freenode.net#osem"
     on_success: change
     on_failure: change
+  webhooks:
+    - https://coveralls.io/webhook?repo_token=DMmQ05c9XLEiHsflEFD8f9RkFDequKGVA
 before_script:
   - cp config/database.yml.travis config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
@@ -29,6 +31,7 @@ env:
   global:
     - CI_NODE_TOTAL=4
     - TEST_SUITE=rspec
+    - COVERALLS_PARALLEL=true
   matrix:
     - TEST_SUITE=linters
     - CI_NODE_INDEX=0
