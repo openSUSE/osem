@@ -250,7 +250,7 @@ group :test do
   gem 'poltergeist'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   # for measuring test coverage
-  gem 'coveralls', require: false
+  gem 'codecov', require: false
   # for describing models
   gem 'shoulda-matchers', require: false
   # for stubing/mocking models
