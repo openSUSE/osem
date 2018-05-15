@@ -5,12 +5,10 @@ require 'knapsack'
 require 'simplecov'
 
 if ENV['TRAVIS']
-  require 'coveralls'
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  Coveralls.wear!('rails')
-else
-  SimpleCov.start 'rails'
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
+SimpleCov.start 'rails'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
