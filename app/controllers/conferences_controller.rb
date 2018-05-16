@@ -28,6 +28,8 @@ class ConferencesController < ApplicationController
       redirect_to admin_conference_splashpage_path(@conference.short_title) && return
     end
 
+    @image_url = "#{request.protocol}#{request.host}#{@conference.picture}"
+
     if splashpage.include_cfp
       cfps = @conference.program.cfps
       @call_for_events = cfps.find { |call| call.cfp_type == 'events' }
