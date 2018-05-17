@@ -3,14 +3,15 @@
   %meta{ property: "og:site_name", content: (ENV['OSEM_NAME'] || 'OSEM') }
   %meta{ property: "og:description", content: @conference.description }
   %meta{ property: "og:url", content: conference_url(@conference.short_title) }
-  %meta{ property: "twitter:card", content: "summary_large_image" }
-  %meta{ property: "twitter:image", content: @image_url }
   %meta{ property: "twitter:title", content: (@conference.title) }
   %meta{ property: "twitter:description", content: @conference.description }
   - if @conference.picture?
     %meta{ property: "og:image", content: @image_url }
     %meta{ property: "og:image:secure_url", content: @image_url }
-
+    %meta{ property: "twitter:card", content: "summary_large_image" }
+    %meta{ property: "twitter:image", content: @image_url }
+  - else
+    %meta{ property: "twitter:card", content: "summary" }
 
 = content_for :title do
   = @conference.title
