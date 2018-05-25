@@ -10,7 +10,7 @@
   %td.col-sm-1.col-md-2.text-center
     = ticket.registration_ticket? ? 'Yes' : 'No'
   %td.col-sm-1.col-md-1
-    - options = { type: 'number', min: 0, class: "form-control quantity", 'data-id' => ticket.id }
+    - options = { type: 'number', min: 0, max: 99, class: "form-control quantity", 'data-id' => ticket.id }
     - if ticket.registration_ticket?
       - options[:max] = 1
       - options[:disabled] = current_user.tickets.for_registration(ticket.conference).present?
