@@ -4,24 +4,11 @@ module FormatHelper
   ##
   # Includes functions related to formatting (like adding classes, colors)
   ##
-  def event_status_icon(event)
-    case event.state
-    when 'new'
-      'fa-eye'
-    when 'unconfirmed'
-      'fa-check text-muted'
-    when 'confirmed'
-      'fa-check text-success'
-    when 'rejected', 'withdrawn', 'canceled'
-      'fa-ban'
-    end
-  end
-
-  def booth_status_icon(booth)
-    case booth.state
+  def status_icon(object)
+    case object.state
     when 'new', 'to_reject', 'to_accept'
       'fa-eye'
-    when 'accepted'
+    when 'unconfirmed', 'accepted'
       'fa-check text-muted'
     when 'confirmed'
       'fa-check text-success'
