@@ -1,4 +1,9 @@
-.col-md-10.col-md-offset-1.changeset{id: "changeset-#{version.id}"}
+:ruby
+  version_item = current_or_last_object_state(version.item_type, version.item_id)
+  previous_version = version.event == 'create' ? version : (version.reify || version.previous_version)
+  version_previous_item = current_or_last_object_state(previous_version.try(:item_type), previous_version.try(:item_id))
+
+.col-md-10.col-md-offset-1.changeset{ id: "changeset-#{version.id}" }
   %br
   %br
   %table.table.table-bordered.table-hover
