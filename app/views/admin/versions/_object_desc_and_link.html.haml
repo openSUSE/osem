@@ -1,3 +1,5 @@
+- object = current_or_last_object_state(version.item_type, version.item_id)
+
 - unless version.item_type == 'Role' || version.item_type == 'UsersRole'
   - conference = Conference.find_by(id: version.conference_id)
   - conference_short_title = conference.try(:short_title) || current_or_last_object_state('Conference', version.conference_id).try(:short_title) || ' '
@@ -8,9 +10,8 @@
   = link_to_organization(version.item_id)
 
 - when 'UsersRole'
-  - users_role = current_or_last_object_state(version.item_type, version.item_id)
-  - role = current_or_last_object_state('Role', users_role.role_id)
-  - role_name = role.try(:name) || PaperTrail::Version.where(item_type: 'Role', item_id: users_role.role_id).last.changeset[:name].second
+  - role = current_or_last_object_state('Role', object.role_id)
+  - role_name = role.try(:name) || PaperTrail::Version.where(item_type: 'Role', item_id: object.role_id).last.changeset[:name].second
   role
   - if role_name == 'organization_admin'
     - if Organization.find_by(id: version.conference_id)
@@ -27,17 +28,16 @@
 
   = version.event == 'create' ? 'to' : 'from'
   user
-  = link_to_user(users_role.user_id)
+  = link_to_user(object.user_id)
 
 - when 'Subscription', 'Registration'
   conference
   = link_to_conference(version.conference_id)
 
 - when 'Commercial'
-  - commercial = current_or_last_object_state(version.item_type, version.item_id)
-  - commercialable = current_or_last_object_state(commercial.commercialable_type, commercial.commercialable_id)
+  - commercialable = current_or_last_object_state(object.commercialable_type, object.commercialable_id)
 
-  - case commercial.commercialable_type
+  - case object.commercialable_type
   - when 'Event'
     commercial in event
     - if commercialable && conference
@@ -68,21 +68,18 @@
 
 - when 'EventsRegistration', 'Comment', 'Vote', 'Event'
   event
-  - object = current_or_last_object_state(version.item_type, version.item_id)
   - event_id = object.try(:event_id) || object.try(:commentable_id) || object.id
   = link_to (current_or_last_object_state('Event', event_id).try(:title) || 'deleted event'),
           admin_conference_program_event_path(conference_short_title, event_id)
 
 - when 'Target'
   target
-  - target = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, target.to_s, admin_conference_targets_path(conference_short_title), conference
+  = link_if_alive version, object.to_s, admin_conference_targets_path(conference_short_title), conference
 
 - when 'EventSchedule'
-  - event_schedule = current_or_last_object_state(version.item_type, version.item_id)
   event
-  = link_to (current_or_last_object_state('Event', event_schedule.event_id).try(:title) || 'deleted'),
-           admin_conference_program_event_path(conference_short_title, event_schedule.event_id)
+  = link_to (current_or_last_object_state('Event', object.event_id).try(:title) || 'deleted'),
+           admin_conference_program_event_path(conference_short_title, object.event_id)
   in
   =  link_to "Schedule #{event_schedule.schedule_id}",
             admin_conference_schedule_path(conference_short_title, event_schedule.schedule_id)
@@ -108,8 +105,7 @@
 
 - when 'Booth'
   = 'booth'
-  - booth = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, booth.title,
+  = link_if_alive version, object.title,
           admin_conference_booth_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id ),
           conference
 
@@ -120,29 +116,25 @@
 
 - when 'Cfp'
   cfp for
-  - cfp = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, cfp.cfp_type,
+  = link_if_alive version, object.cfp_type,
           admin_conference_program_cfp_path(conference_short_title, version.item_id),
           conference
 
 - when 'Track'
   track
-  - track = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, track.name,
-          admin_conference_program_track_path(conference_short_title, track.try(:short_name)),
+  = link_if_alive version, object.name,
+          admin_conference_program_track_path(conference_short_title, object.try(:short_name)),
           conference
 
 - when 'EventType'
   event type
-  - event_type = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, event_type.title,
+  = link_if_alive version, object.title,
           admin_conference_program_event_types_path(conference_short_title),
           conference
 
 - when 'Role'
   role
-  - role = current_or_last_object_state(version.item_type, version.item_id)
-  - role_name = role.try(:name) || PaperTrail::Version.where(item_type: 'Role', item_id: version.item_id).last.changeset[:name].second
+  - role_name = object.try(:name) || PaperTrail::Version.where(item_type: 'Role', item_id: version.item_id).last.changeset[:name].second
   - if role_name == 'organization_admin'
     - if Organization.find_by(id: version.conference_id)
       -# organization_admin belongs to organization and not conferences
@@ -159,57 +151,49 @@
 
 - when 'Venue'
   venue
-  - venue = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, venue.name,
+  = link_if_alive version, object.name,
           admin_conference_venue_path(conference_short_title),
           conference
 
 - when 'Lodging'
   lodging
-  - lodging = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, lodging.name,
+  = link_if_alive version, object.name,
           admin_conference_lodgings_path(conference_short_title),
           conference
 
 - when 'Room'
   room
-  - room = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, room.name,
+  = link_if_alive version, object.name,
           admin_conference_venue_rooms_path(conference_short_title),
           conference
 
 - when 'Sponsor'
   sponsor
-  - sponsor = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, sponsor.name,
+  = link_if_alive version, object.name,
           admin_conference_sponsors_path(conference_short_title),
           conference
 
 - when 'SponsorshipLevel'
   sponsorship level
-  - sponsorship_level = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, sponsorship_level.title,
+  = link_if_alive version, object.title,
           admin_conference_sponsorship_levels_path(conference_short_title),
           conference
 
 - when 'Ticket'
   ticket
-  - ticket = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, ticket.title,
+  = link_if_alive version, object.title,
           admin_conference_ticket_path(conference_short_title, version.item_id),
           conference
 
 - when 'Campaign'
   campaign
-  - campaign = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, campaign.name,
+  = link_if_alive version, object.name,
           admin_conference_campaigns_path(conference_short_title),
           conference
 
 - when 'DifficultyLevel'
   difficulty level
-  - difficulty_level = current_or_last_object_state(version.item_type, version.item_id)
-  = link_if_alive version, difficulty_level.title,admin_conference_program_difficulty_levels_path(conference_short_title), conference
+  = link_if_alive version, object.title,admin_conference_program_difficulty_levels_path(conference_short_title), conference
 
 - when 'Splashpage'
   = link_if_alive version, 'splashpage',
