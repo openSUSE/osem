@@ -24,7 +24,7 @@
                   - show_state = 'new'
                 - else
                   - show_state = booth.state
-                %span{ title: show_state, class: "fa #{booth_status_icon(booth)}" }
+                %span{ title: show_state, class: "fa #{status_icon(booth)}" }
               %td
                 - if booth.logo_link
                   = image_tag(booth.picture.thumb.url, width: '20%')

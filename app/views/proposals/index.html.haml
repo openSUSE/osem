@@ -67,7 +67,7 @@
           - @events.each do |event|
             %tr
               %td{style: "padding:20px 8px 20px 8px;"}
-                %span{ title: event.state.humanize, class: "fa #{event_status_icon(event)}" }
+                %span{ title: event.state.humanize, class: "fa #{status_icon(event)}" }
 
               %td.col-md-7{style: "padding:20px 8px 20px 8px;"}
                 = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
