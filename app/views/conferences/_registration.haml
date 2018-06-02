@@ -28,6 +28,11 @@
                 registration_period.end_date)
           - if conference.registration_open?
             %p.cta-button
-              = link_to('Register Now',
-                new_conference_conference_registration_path(conference_id),
-                class: 'btn btn-lg btn-success')
+              - if conference.user_registered?(current_user)
+                = link_to("Edit Your Registration",
+                  conference_conference_registration_path(conference_id),
+                  class: 'btn btn-success')
+              - else
+                = link_to('Register Now',
+                  new_conference_conference_registration_path(conference_id),
+                  class: 'btn btn-lg btn-success')
