@@ -8,7 +8,7 @@
   - elsif commercial.commercial_type == 'Vimeo'
     %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "//player.vimeo.com/video/#{commercial.commercial_id}"}
   - elsif commercial.commercial_type == 'Speakerdeck'
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "//speakerdeck.com/player/#{commercial.commercial_id}?"}
+    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://speakerdeck.com/player/#{commercial.commercial_id}?"}
   - elsif commercial.commercial_type == 'Instagram'
     %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', scrolling: 'no', allowtransparency: 'true', src: "//instagram.com/p/#{commercial.commercial_id}/embed/"}
   - else
