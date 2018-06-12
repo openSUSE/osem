@@ -81,6 +81,19 @@ vagrant exec bundle exec rubocop
 You can read through current enabled rules in `.rubocop.yml` file. Explanations of the defined [rules](http://rubydoc.info/github/bbatsov/rubocop/master/frames) can be found in modules [Cop::Lint](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Lint) and [Cop::Style](http://rubydoc.info/github/bbatsov/rubocop/master/Rubocop/Cop/Style) and [Cop:Rails](https://rubocop.readthedocs.io/en/latest/cops_rails/).
 Additionally you can read through the [ruby style-guide](https://github.com/bbatsov/ruby-style-guide) to better understand core principles.
 
+### Git Hooks
+We use [overcommit](https://github.com/brigade/overcommit) to automate Rubocop in pre-commit git hooks. You can activate it locally with:
+
+```shell
+# Install overcommit gem
+vagrant exec gem install overcommit
+
+# Activate overcommit
+vagrant exec overcommit install
+```
+
+You can read through the current enabled hooks in the `.overcommit.yml` file.
+
 ### Test Suite
 We are using [rspec](http://rspec.info/)+[capybara](http://teamcapybara.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) as a test suite. You can run it locally
 
