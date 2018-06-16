@@ -1,0 +1,21 @@
+table.datatable {
+  @extend .table, .table-striped, .table-bordered, .table-hover;
+
+  td.actions {
+    vertical-align: middle;
+    align: center;
+
+    div.btn-group {
+      display: flex;
+    }
+
+    a {
+      @extend .btn;
+    }
+  }
+
+  td.truncate {
+    max-width: 1px;
+    @include text-overflow();
+  }
+}

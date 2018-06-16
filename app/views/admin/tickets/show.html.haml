@@ -12,7 +12,7 @@
         People who bought this ticket
 .row
   .col-md-12
-    %table.table.table-hover.datatable
+    %table.datatable
       %thead
         %th #
         %th Name
@@ -35,4 +35,3 @@
               = buyer.affiliation
             %td
               = @ticket.tickets_paid(buyer)
-

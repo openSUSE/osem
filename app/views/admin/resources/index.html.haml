@@ -7,7 +7,7 @@
 - if @conference.resources.any?
   .row
     .col-md-12
-      %table.table.table-hover.datatable
+      %table.datatable
         %thead
           %th Name
           %th Left( Left/Total )
@@ -33,4 +33,3 @@
 .row
   .col-md-12
     = link_to 'Add Resource', new_admin_conference_resource_path, class: 'btn btn-success pull-right', disabled: !(can? :create, Resource.new(conference_id: @conference_id))
-

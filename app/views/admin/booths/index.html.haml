@@ -54,7 +54,7 @@
           = link_to "#{@conference.booth_limit} booths", edit_admin_conference_path(@conference.short_title)
           )
     - if @booths.any?
-      %table.table.table-striped.table-bordered.table-hover.datatable
+      %table.datatable
         %thead
           %th
             %b ID
