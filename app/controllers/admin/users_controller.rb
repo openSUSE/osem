@@ -20,7 +20,12 @@ module Admin
     end
 
     def index
-      @users = User.all
+      respond_to do |format|
+        format.html
+        format.json do
+          render json: UserDatatable.new(view_context)
+        end
+      end
     end
 
     # This action allow admins to manually toggle confirmation state of another user

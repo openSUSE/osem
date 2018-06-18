@@ -10,52 +10,67 @@
             = link_to 'Add User', new_admin_user_path, :class => 'button btn btn-default btn-info'
 .row
   .col-md-12.table-responsive
-    %table.datatable
+    %table.datatable#users{ data: { source: admin_users_path(format: :json) } }
       %thead
-        %th ID
-        %th Confirmed?
-        %th Email
-        %th Name
-        %th Attended Conferences
-        %th Roles
-        %th View
-        %th Edit
+        %th{ width: '0' } ID
+        %th{ width: '0' } Confirmed?
+        %th{ width: '0' } Email
+        %th{ width: '50%' } Name
+        %th{ width: '0' } Conferences Attended
+        %th{ width: '50%' } Roles
+        %th{ width: '0' } Actions
       %tbody
-        - @users.each do |user|
-          %tr
-            %td
-              = user.id
-            %td{ 'data-order' => "#{user.confirmed?}" }
-              - if can? :toggle_confirmation, user
-                = check_box_tag user.id, user.id, user.confirmed?, 
-                  method: :patch, 
-                  url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=", 
-                  class: 'switch-checkbox', 
-                  readonly: false,
-                  data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' } 
-              - else
-                = check_box_tag user.id, user.id, user.confirmed?, 
-                  method: :patch, 
-                  url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=", 
-                  class: 'switch-checkbox', 
-                  readonly: true,
-                  data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }  
-            %td
-              = user.email
-            %td
-              = user.name
-            %td
-              = user.registrations.where(attended: true).count
-            %td
-              - unless user.get_roles.blank?
-                = show_roles(user.get_roles.first(2))
-                - if user.get_roles.count > 2
-                  = '...'
-              - else
-                None
-            %td
-              - if can? :show, user
-                = link_to 'View', admin_user_path(user), class: 'btn btn-success'
-            %td
-              - if can? :update, user
-                = link_to 'Edit', edit_admin_user_path(user), class: 'btn btn-primary'
+
+:javascript
+  $(function () {
+    $('#users.datatable').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "ajax": $('#users.datatable').data('source'),
+      "drawCallback": function(settings) {
+        checkboxSwitch("[class='switch-checkbox']");
+      },
+      "columns": [
+        { "data": "id" },
+        {
+          "data": "confirmed_at",
+          "render": function (data, type, row, meta) {
+            return '<input type="checkbox" class="switch-checkbox" '+
+                   'id="user_'+row.id+'_confirmed" '+
+                   'name="user_'+row.id+'_confirmed" '+
+                   (row.confirmed_at === '' ? '' : 'checked="checked" ')+
+                   'url="/admin/users/'+row.id+'/toggle_confirmation?user[to_confirm]=" '+
+                   '/>'
+          },
+          "searchable": false
+        },
+        { "data": "email" },
+        {
+          "data": "name",
+          "className": "truncate",
+          "render": function (data, type, row, meta) {
+            return '<span data-toggle="tooltip" title="'+data+'">'+data+'</span>'
+          }
+        },
+        { "data": "attended" },
+        {
+          "data": "roles",
+          "className": "truncate" ,
+          "render": function (data, type, row, meta) {
+            return '<span data-toggle="tooltip" title="'+data+'">'+data+'</span>'
+          }
+        },
+        {
+          "data": null,
+          "className": "actions",
+          "sortable": false,
+          "render":    function (data, type, row, meta) {
+            return '<div class="btn-group">'+
+                   '<a class="btn-info" href="'+data.view_url+'">View</a>'+
+                   '<a class="btn-primary" href="'+data.edit_url+'">Edit</a>'+
+                   '</div>';
+          }
+        }
+      ]
+    });
+  });

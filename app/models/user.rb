@@ -220,6 +220,10 @@ class User < ApplicationRecord
     end
   end
 
+  def attended_count
+    attributes['attended_count'] || registrations.where(attended: true).count
+  end
+
   def confirmed?
     !confirmed_at.nil?
   end
