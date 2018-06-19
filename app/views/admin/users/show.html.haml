@@ -27,7 +27,7 @@
                   %td
                     = markdown(@user.biography)
                 - elsif attr == 'email'
-                  %td 
+                  %td
                     = @user.send(attr)
                   %tr
                     %td
@@ -35,19 +35,15 @@
                         Confirmed?
                     %td
                       - if can? :toggle_confirmation, @user
-                        = check_box_tag @user.id, @user.id, @user.confirmed?, 
-                          method: :patch, 
-                          url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=", 
-                          class: 'switch-checkbox', 
-                          readonly: false,
-                          data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' } 
+                        = check_box_tag @user.id, @user.id, @user.confirmed?,
+                          url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=",
+                          class: 'switch-checkbox',
+                          readonly: false
                       - else
-                        = check_box_tag @user.id, @user.id, @user.confirmed?, 
-                          method: :patch, 
-                          url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=", 
-                          class: 'switch-checkbox', 
-                          readonly: true,
-                          data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+                        = check_box_tag @user.id, @user.id, @user.confirmed?,
+                          url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=",
+                          class: 'switch-checkbox',
+                          readonly: true
                 - else
                   %td= @user.send(attr)
         #submissions-content.tab-pane{class: "#{'active' if params[:tab] == 'submissions-content'}"}

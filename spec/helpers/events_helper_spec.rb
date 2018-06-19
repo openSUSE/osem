@@ -71,9 +71,8 @@ describe EventsHelper, type: :helper do
       )
     end
 
-    it 'should patch to the admin event url' do
+    it 'should use the admin event url' do
       expect(result).to include(
-        'method="patch"',
         "url=\"/admin/conferences/#{conference.short_title}/program" \
           "/events/#{event.id}?event%5Bis_highlight%5D=\""
       )

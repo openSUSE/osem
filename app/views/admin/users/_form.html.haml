@@ -6,18 +6,14 @@
           Confirmed?
         - if can? :toggle_confirmation, @user
           = check_box_tag @user.id, @user.id, @user.confirmed?,
-            method: :patch,
             url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=",
             class: 'switch-checkbox',
-            readonly: false,
-            data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+            readonly: false
         - else
           = check_box_tag @user.id, @user.id, @user.confirmed?,
-            method: :patch,
             url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=",
             class: 'switch-checkbox',
-            readonly: true,
-            data: { size: 'small', on_color: 'success', off_color: 'warning', on_text: 'Yes', off_text: 'No' }
+            readonly: true
     = f.input :is_admin, hint: 'An admin can create a new conference, manage users and make other users admins.'
     = f.input :name, as: :string
     = f.input :username, :as => :string if @user.new_record?

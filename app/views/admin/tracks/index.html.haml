@@ -67,13 +67,8 @@
                 = link_to track.submitter.name, admin_user_path(track.submitter) if track.self_organized?
               %td.text-center{ 'id' => "cfp_switch_#{track.id}", 'data-order' => track.cfp_active.to_s }
                 = check_box_tag "#{@conference.short_title}_#{track.short_name}", track.id, track.cfp_active,
-                  class: 'switch-checkbox', method: :patch,
-                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included=",
-                  data: { size: 'small',
-                          on_color: 'success',
-                          off_color: 'warning',
-                          on_text: 'Yes',
-                          off_text: 'No' }
+                  class: 'switch-checkbox',
+                  url: toggle_cfp_inclusion_admin_conference_program_track_path(@conference.short_title, id: track.short_name)+"?included="
 
               %td.text-center
                 - if track.self_organized?

@@ -19,11 +19,8 @@
           value = @schedule.id == @selected_schedule.try(:id)
           url = admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='
         end
-      = check_box_tag @conference.short_title, @schedule.id, value, method: :patch, url: url,
-        class: 'switch-checkbox-schedule', data: { size: 'small',
-                                          off_color: 'warning',
-                                          on_text: 'Yes',
-                                          off_text: 'No' }
+      = check_box_tag @conference.short_title, @schedule.id, value, url: url,
+        class: 'switch-checkbox-schedule'
       .h4
         Unscheduled events
       .unscheduled-events

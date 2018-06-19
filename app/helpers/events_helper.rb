@@ -168,14 +168,7 @@ module EventsHelper
         event,
         event: { attribute => nil }
       ),
-      method: :patch,
-      class:  'switch-checkbox',
-      data:   {
-        size:      'small',
-        off_color: 'warning',
-        on_text:   'Yes',
-        off_text:  'No'
-      }
+      class:  'switch-checkbox'
     )
   end
 
