@@ -1,7 +1,9 @@
-$(function () {
-  $("[class='switch-checkbox']").bootstrapSwitch();
+function checkboxSwitch(selector){
+  $(selector).bootstrapSwitch(
 
-  $('input[class="switch-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+  );
+
+  $(selector).on('switchChange.bootstrapSwitch', function(event, state) {
     var url = $(this).attr('url') + state;
     var method = $(this).attr('method');
 
@@ -11,6 +13,10 @@ $(function () {
       dataType: 'script'
     });
   });
+}
+
+$(function () {
+  checkboxSwitch("[class='switch-checkbox']");
 
   $("[class='switch-checkbox-schedule']").bootstrapSwitch();
 
