@@ -280,6 +280,11 @@ ActiveRecord::Schema.define(version: 20180316220446) do
     t.datetime "created_at"
   end
 
+  create_table "events_users", id: false, force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "user_id"
+  end
+
   create_table "lodgings", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
