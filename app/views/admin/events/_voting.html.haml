@@ -48,7 +48,7 @@
             %td
               = vote.name
             %td
-              = rating_stars(vote, max_rating )
+              = rating_stars(vote.rating, max_rating )
 
 :javascript
   $(".myrating").hover(
