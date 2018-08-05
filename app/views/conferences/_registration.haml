@@ -18,7 +18,8 @@
               is free of charge.
             %p
               We only ask you to register yourself before
-              = date_string(registration_period.end_date)
+              = date_string(registration_period.start_date,
+                registration_period.end_date)
               so we can plan for the right amount of people.
               %p.cta-button
           - else
