@@ -19,6 +19,7 @@ feature Splashpage do
 
     expect(flash).to eq('Splashpage successfully created.')
     expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
+    expect(page.has_text?('Private')).to be true
   end
 
   context 'splashpage already created' do
@@ -34,6 +35,7 @@ feature Splashpage do
 
       expect(flash).to eq('Splashpage successfully updated.')
       expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
+      expect(page.has_text?('Public')).to be true
 
       click_link 'Edit'
       expect(page.has_checked_field?('Make splash page public?')).to be true
