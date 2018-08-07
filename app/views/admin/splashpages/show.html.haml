@@ -50,9 +50,9 @@
         = link_to 'Delete', admin_conference_splashpage_path,
                             method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
       - if @conference.splashpage && @conference.splashpage.public
-        %p.text-muted#publicorprivate  Public
+        %p.text-muted.publicorprivate  Public
       - else
-        %p.text-muted#publicorprivate  Private
+        %p.text-muted.publicorprivate  Private
 - else
   .row
     .col-md-12.text-right
