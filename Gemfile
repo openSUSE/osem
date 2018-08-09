@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+# ruby '2.4'
+
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
   abort "Bundler version >= 1.8.4 is required"
