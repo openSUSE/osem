@@ -41,7 +41,13 @@
         %li
           %i{ class: "fa-li #{icon_for_todo @splashpage.include_social_media?}" }
           Display social media links
-
+        %li
+          - if @conference.splashpage && @conference.splashpage.public
+            %i{ class: "fa-li #{icon_for_todo @splashpage.public?}" }
+            %text-muted.publicorprivate  Public
+          - else
+            %i{ class: "fa-li #{icon_for_todo !@splashpage.public?}" }
+            %text-muted.publicorprivate  Private
   .row
     .col-md-12
       - if can? :update, @splashpage
@@ -49,10 +55,6 @@
       - if can? :destroy, @splashpage
         = link_to 'Delete', admin_conference_splashpage_path,
                             method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-      - if @conference.splashpage && @conference.splashpage.public
-        %p.text-muted.publicorprivate  Public
-      - else
-        %p.text-muted.publicorprivate  Private
 - else
   .row
     .col-md-12.text-right
