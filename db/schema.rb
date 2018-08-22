@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316220446) do
+ActiveRecord::Schema.define(version: 20180822125509) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -210,6 +210,9 @@ ActiveRecord::Schema.define(version: 20180316220446) do
     t.boolean  "send_on_booths_rejection",                      default: false
     t.string   "booths_rejection_subject"
     t.text     "booths_rejection_body"
+    t.boolean  "send_on_submitted_proposal",                    default: false
+    t.string   "submitted_proposal_subject"
+    t.text     "submitted_proposal_body"
   end
 
   create_table "event_schedules", force: :cascade do |t|

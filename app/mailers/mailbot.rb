@@ -35,6 +35,15 @@ class Mailbot < ActionMailer::Base
          body: conference.email_settings.generate_event_mail(event, conference.email_settings.accepted_body))
   end
 
+  def submitted_proposal_mail(event)
+    conference = event.program.conference
+
+    mail(to: event.submitter.email,
+         from: conference.contact.email,
+         subject: conference.email_settings.submitted_proposal_subject,
+         body: conference.email_settings.generate_event_mail(event, conference.email_settings.submitted_proposal_body))
+  end
+
   def rejection_mail(event)
     conference = event.program.conference
 
