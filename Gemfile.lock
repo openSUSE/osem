@@ -96,7 +96,7 @@ GEM
     browser (2.5.3)
     builder (3.2.3)
     byebug (9.0.6)
-    cancancan (2.0.0)
+    cancancan (2.2.0)
     capybara (2.6.2)
       addressable
       mime-types (>= 1.16)
