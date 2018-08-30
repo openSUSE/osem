@@ -233,7 +233,7 @@ GEM
     i18n_data (0.7.0)
     inversion (1.0.0)
       loggability (~> 0.12)
-    iso-639 (0.2.5)
+    iso-639 (0.2.8)
     jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
       jquery-rails
