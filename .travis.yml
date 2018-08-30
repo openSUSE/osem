@@ -4,6 +4,9 @@ language: ruby
 cache: bundler
 rvm:
   - 2.4.0@osem --ignore-gemsets
+branches:
+  only:
+    - master
 before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
