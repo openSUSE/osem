@@ -246,8 +246,8 @@ GEM
     jquery-ui-rails (4.2.1)
       railties (>= 3.2.16)
     json (2.1.0)
-    json-schema (2.5.0)
-      addressable (~> 2.3)
+    json-schema (2.8.0)
+      addressable (>= 2.4)
     jwt (1.0.0)
     knapsack (1.16.0)
       rake
