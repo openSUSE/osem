@@ -184,7 +184,7 @@ GEM
     fastimage (2.0.0)
       addressable (~> 2)
     feature (1.4.0)
-    ffi (1.9.18)
+    ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
     formatador (0.2.5)
