@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-namespace :factory_girl do
+namespace :factory_bot do
   desc "Verify that all FactoryBot factories are valid"
   task lint: :environment do
     if Rails.env.test?
@@ -11,7 +11,7 @@ namespace :factory_girl do
         DatabaseCleaner.clean
       end
     else
-      system("bundle exec rake factory_girl:lint RAILS_ENV='test'")
+      system("bundle exec rake factory_bot:lint RAILS_ENV='test'")
     end
   end
 end

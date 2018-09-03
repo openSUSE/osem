@@ -926,7 +926,7 @@ Style/StringLiterals:
     - 'Vagrantfile'
     - 'lib/tasks/dump_db.rake'
     - 'lib/tasks/events_registrations.rake'
-    - 'lib/tasks/factory_girl.rake'
+    - 'lib/tasks/factory_bot.rake'
     - 'lib/tasks/user.rake'
 
 # Offense count: 14
