@@ -317,10 +317,7 @@ class Event < ApplicationRecord
   end
 
   def set_week
-    self.week = created_at.strftime('%W')
-    paper_trail.without_versioning do
-      save!
-    end
+    update!(week: created_at.strftime('%W'))
   end
 
   def before_end_of_conference

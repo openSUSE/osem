@@ -40,16 +40,6 @@ describe 'Registration' do
   describe 'after create' do
     after { subject.run_callbacks(:create) }
 
-    # set_week and subscribe_to_conference are private methods
-    describe '#set_week' do
-      before { subject.created_at = Time.utc(2014, 5, 10) }
-
-      it 'sets week of registration' do
-        expect(subject).to receive(:set_week)
-        expect(subject.week).to eq 18
-      end
-    end
-
     describe '#subscribe_to_conference' do
       it 'subscribes to conference' do
         expect(subject).to receive(:subscribe_to_conference)
@@ -59,14 +49,6 @@ describe 'Registration' do
 
     it 'sends registrations mail' do
       expect(subject).to receive(:send_registration_mail)
-    end
-  end
-
-  describe '#week' do
-    before { subject.created_at = Date.new(2014, 06, 30) }
-
-    it 'returns week number of created_at' do
-      expect(subject.week).to eq(26)
     end
   end
 
