@@ -2,7 +2,7 @@
 
 namespace :data do
   desc 'Create demo data for our local development'
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   task surveys: :environment do
     conference = create(:full_conference, start_date: Date.current, end_date: Date.current + 1.day)

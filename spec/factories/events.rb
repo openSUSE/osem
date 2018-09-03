@@ -2,7 +2,7 @@
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :event do
     title { Faker::Hipster.sentence }
     abstract { Faker::Hipster.paragraph(2) }

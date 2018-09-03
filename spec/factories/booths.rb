@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :booth do
     title { Faker::Hipster.sentence }
     description { Faker::Lorem.paragraph }

@@ -11,7 +11,7 @@ RSpec.configure do |config|
       begin
         DatabaseCleaner.start
         mock_commercial_request
-        FactoryGirl.lint
+        FactoryBot.lint
       ensure
         DatabaseCleaner.clean
       end
