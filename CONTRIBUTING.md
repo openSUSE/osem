@@ -95,7 +95,7 @@ vagrant exec overcommit install
 You can read through the current enabled hooks in the `.overcommit.yml` file.
 
 ### Test Suite
-We are using [rspec](http://rspec.info/)+[capybara](http://teamcapybara.github.io/capybara/)+[factory girl](https://github.com/thoughtbot/factory_girl) as a test suite. You can run it locally
+We are using [rspec](http://rspec.info/)+[capybara](http://teamcapybara.github.io/capybara/)+[factory bot](https://github.com/thoughtbot/factory_bot) as a test suite. You can run it locally
 
 ```shell
 vagrant exec bundle exec rspec

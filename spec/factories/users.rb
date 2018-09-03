@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
 # It is a feature of our app that first signed up user is admin. This property
 # is set in a before create callback `setup_role` in user model.
