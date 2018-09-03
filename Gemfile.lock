@@ -546,7 +546,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    timecop (0.7.1)
+    timecop (0.9.1)
     transitions (0.1.12)
     ttfunk (1.1.1)
     turbolinks (5.2.0)
