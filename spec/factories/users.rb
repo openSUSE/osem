@@ -15,7 +15,7 @@
 # For a non-admin user, use: `create(:user)`
 # For an admin user, use: `create(:admin)
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "example#{n}@example.com" }
     sequence(:name) { |n| "name#{n}" }

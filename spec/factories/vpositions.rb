@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :vposition do
     title 'Example Volunteer Position'
     description 'Lorem Ipsum dolsum'

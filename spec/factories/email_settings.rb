@@ -2,7 +2,7 @@
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :email_settings do
     send_on_registration true
     send_on_accepted false

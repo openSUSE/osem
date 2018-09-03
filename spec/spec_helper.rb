@@ -73,7 +73,7 @@ RSpec.configure do |config|
   end
 
   # Includes helpers and connect them to specific types of tests
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include OmniauthMacros
   config.include Devise::TestHelpers, type: :controller
   config.include LoginMacros, type: :feature
