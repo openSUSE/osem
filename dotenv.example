@@ -83,3 +83,7 @@ RECAPTCHA_SECRET_KEY=""
 
 # The url of the redis server
 OSEM_REDIS_URL='redis://localhost:6379/1'
+
+# The ruby version you want to use with OSEM
+# Please note: We only test 2.5.0
+OSEM_RUBY_VERSION=2.5.0
