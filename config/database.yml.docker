@@ -1,7 +1,0 @@
-production:
-  adapter: mysql2
-  host: <%= ENV['DATABASE_HOST'] %>
-  port: <%= ENV['DATABASE_PORT'] %>
-  username: <%= ENV['MYSQL_USER'] %>
-  password: <%= ENV['MYSQL_PASSWORD'] %>
-  database: <%= ENV['MYSQL_DATABASE'] %>

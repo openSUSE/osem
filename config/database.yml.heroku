@@ -1,2 +1,0 @@
-production:
-  url: <%= ENV["CLEARDB_DATABASE_URL"].sub(/^mysql/, "mysql2") %>
