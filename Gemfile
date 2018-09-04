@@ -24,10 +24,12 @@ gem 'rails_12factor', group: :production
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
 gem 'responders', '~> 2.0'
 
-# as the database for Active Record
-# choose only one
+# as supported databases
+# WARNING: please refrain from using sqlite for anything serious as it is not
+#          performant enough
 gem 'mysql2'
-# gem 'pg'
+gem 'pg'
+gem 'sqlite3'
 
 # for tracking data changes
 gem 'paper_trail'
@@ -239,8 +241,6 @@ group :development do
   # for static code analisys
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
-  # as database
-  gem 'sqlite3'
   # to open mails
   gem 'letter_opener'
   # to open mails in browser
