@@ -3,7 +3,7 @@ dist: trusty
 language: ruby
 cache: bundler
 rvm:
-  - 2.4.0@osem --ignore-gemsets
+  - 2.5.0@osem --ignore-gemsets
 branches:
   only:
     - master
