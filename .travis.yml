@@ -22,7 +22,7 @@ notifications:
     on_success: change
     on_failure: change
 before_script:
-  - cp config/database.yml.travis config/database.yml
+  - cp config/database.yml.example config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
   - mysql -u root -e 'create database osem_test;'
   - RAILS_ENV=test bundle exec rake db:schema:load --trace
@@ -32,6 +32,12 @@ env:
   global:
     - CI_NODE_TOTAL=4
     - TEST_SUITE=rspec
+    - OSEM_DB_ADAPTER=mysql2
+    - OSEM_DB_USER=root
+    - OSEM_DB_PASSWORD=''
+    - OSEM_DB_HOST=''
+    - OSEM_DB_PORT=''
+    - OSEM_DB_NAME='osem_test'
   matrix:
     - TEST_SUITE=linters
     - CI_NODE_INDEX=0
