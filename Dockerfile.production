@@ -1,8 +1,4 @@
 FROM osem/base
-ARG CONTAINER_USERID
-
-# Configure our user
-RUN usermod -u $CONTAINER_USERID osem
 
 # We copy the Gemfiles into this intermediate build stage so it's checksum
 # changes and all the subsequent stages (a.k.a. the bundle install call below)
@@ -15,8 +11,14 @@ RUN chown -R osem /osem
 # Add our files
 USER osem
 WORKDIR /osem/
+COPY --chown=osem:osem . /osem/
 
 # Install our bundle
-RUN export NOKOGIRI_USE_SYSTEM_LIBRARIES=1; bundle install --jobs=3 --retry=3
+RUN export NOKOGIRI_USE_SYSTEM_LIBRARIES=1; bundle install --jobs=3 --retry=3 --without test development
+
+# Configure OSEM
+RUN mv config/database.yml.example config/database.yml
+
+ENV RAILS_ENV=production
 
 CMD ["foreman", "start"]
