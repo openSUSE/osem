@@ -1,102 +1,106 @@
 # Set environment variables for OSEM in this file and copy it to .env or
 # .env.$environment (like env.production or env.development)
 #
-# The following is a list of variables and default values that OSEM uses to
-# configure some aspects of the app
+# The following is a list of variables that OSEM uses to
+# configure the system/application. Uncomment them to change
+# the defaults.
 
 # Your secret key base. You can generate a secure one with
 # bundle exec rake secret
-SECRET_KEY_BASE=''
+# SECRET_KEY_BASE=12345
 
 # The type of database to use (postgresql, mysql2, sqlite3)
-OSEM_DB_ADAPTER=postgresql
+# OSEM_DB_ADAPTER=mysql2
+
 # The name of the host the database runs on
-OSEM_DB_HOST=database
+# OSEM_DB_HOST=database
+
 # The port the databse runs on
-OSEM_DB_PORT=5432
+# OSEM_DB_PORT=3306
+
 # The user to access the database with
-OSEM_DB_USER=postgres
+# OSEM_DB_USER=root
+
 # The password to access the database with
-OSEM_DB_PASSWORD=mysecretpassword
+# OSEM_DB_PASSWORD=mysecretpassword
+
 # The name of the database
-OSEM_DB_NAME=postgres
+# OSEM_DB_NAME=osem_production
 
 # The ruby version to use
-OSEM_RUBY_VERSION='2.5.0'
+# OSEM_RUBY_VERSION=2.5.0
 
 # The name of your OSEM installation
-OSEM_NAME="OSEM"
+# OSEM_NAME=OSEM
 
 # The host this OSEM instance runs on. Used for
 # generating urls in emails sent
-OSEM_HOSTNAME="localhost:3000"
+# OSEM_HOSTNAME=osem.example.com
 
 # The address OSEM uses for sending mails
-OSEM_EMAIL_ADDRESS="no-reply@localhost"
+# OSEM_EMAIL_ADDRESS="no-reply@example.com"
 
 # The api key for transifex.com.
 # See TRANSLATION.md for details
-OSEM_TRANSIFEX_APIKEY=""
+# OSEM_TRANSIFEX_APIKEY=1234
 
 # The errbit host to post exceptions to
-OSEM_ERRBIT_HOST=""
+# OSEM_ERRBIT_HOST=errbit.example.com
 # The api key for the errbit host
-OSEM_ERRBIT_APIKEY=""
+# OSEM_ERRBIT_APIKEY=1234
 
 # OMNIAUTH Developer Key/Secret for GOOGLE
-OSEM_GOOGLE_KEY=''
-OSEM_GOOGLE_SECRET=''
+# OSEM_GOOGLE_KEY=1234
+# OSEM_GOOGLE_SECRET=5678
 
 # OMNIAUTH Developer Key/Secret for Facebook
-OSEM_FACEBOOK_KEY=''
-OSEM_FACEBOOK_SECRET=''
+# OSEM_FACEBOOK_KEY=1234
+# OSEM_FACEBOOK_SECRET=5678
 
 # OMNIAUTH Developer Key/Secret for GitHub
-OSEM_GITHUB_KEY=''
-OSEM_GITHUB_SECRET=''
+# OSEM_GITHUB_KEY=1234
+# OSEM_GITHUB_SECRET=5678
 
 # OMNIAUTH Developer KEY/Secret for SUSE/openSUSE
-OSEM_SUSE_KEY=''
-OSEM_SUSE_SECRET=''
+# OSEM_SUSE_KEY=1234
+# OSEM_SUSE_SECRET=5678
 
 # STRIPE Publishable/Secret keys
 # test keys for development mode, live for production mode
-STRIPE_PUBLISHABLE_KEY=''
-STRIPE_SECRET_KEY=''
+# STRIPE_PUBLISHABLE_KEY=1234
+# STRIPE_SECRET_KEY=5678
 
 # Disable linting of factories in the test suite.
 # Speeds up turn around times of tests
-OSEM_FACTORY_LINT="false"
+# OSEM_FACTORY_LINT=false
 
 # The smtp configuration. See the rails guides for more
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
-OSEM_SMTP_ADDRESS=""
-OSEM_SMTP_PORT=""
-OSEM_SMTP_USERNAME=""
-OSEM_SMTP_PASSWORD=""
-OSEM_SMTP_AUTHENTICATION=""
-OSEM_SMTP_DOMAIN=""
-OSEM_SMTP_ENABLE_STARTTLS_AUTO=""
-OSEM_SMTP_OPENSSL_VERIFY_MODE=""
+# OSEM_SMTP_ADDRESS=smtp.gmail.com
+# OSEM_SMTP_PORT=587
+# OSEM_SMTP_DOMAIN=example.com
+# OSEM_SMTP_USERNAME=user1
+# OSEM_SMTP_PASSWORD=password123
+# OSEM_SMTP_AUTHENTICATION=plain
+# OSEM_SMTP_ENABLE_STARTTLS_AUTO=true
+# OSEM_SMTP_OPENSSL_VERIFY_MODE=peer
 
 # Enable the usage of the devise ichain plugin
-OSEM_ICHAIN_ENABLED=false
+# OSEM_ICHAIN_ENABLED=false
 
 # ReCAPTCHA keys
-RECAPTCHA_SITE_KEY=""
-RECAPTCHA_SECRET_KEY=""
+# RECAPTCHA_SITE_KEY=1234
+# RECAPTCHA_SECRET_KEY=5678
 
-## Optional settings
-#
 # The Conference#short_title to redirect the root URL to
-# OSEM_ROOT_CONFERENCE=''
+# OSEM_ROOT_CONFERENCE=osc18
 
 # log level in production environment
-# OSEM_LOG_LEVEL='info'
+# OSEM_LOG_LEVEL=info
 
-# enable this to force SSL
-# FORCE_SSL="1"
+# Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+# FORCE_SSL=1
 
 # Your skylight.io keys
-# SKYLIGHT_AUTHENTICATION=''
+# SKYLIGHT_AUTHENTICATION=1234
 # SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
