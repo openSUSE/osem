@@ -35,8 +35,8 @@ pickle-email-*.html
 .env.development
 .env.test
 .env.local
-docker-compose.env
 docker-compose.yml
+docker-compose.override.yml
 .DS_Store
 .byebug_history
 .buildconfig
