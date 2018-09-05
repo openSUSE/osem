@@ -1,0 +1,34 @@
+FROM opensuse/leap:15
+
+# Disable repositories we dont need
+RUN zypper rr openSUSE-Leap-15.0-Non-Oss openSUSE-Leap-15.0-Update-Non-Oss
+
+# Install our requirements
+RUN zypper -n install --no-recommends \
+    # for compiling assets/gems
+    nodejs8 gcc-c++ git-core make \
+    # for ...
+    ImageMagick \
+    # for bundler
+    sudo \
+    # as databases
+    libmariadb-devel postgresql-devel sqlite3-devel \
+    # for nokogiri
+    libxml2-devel libxslt-devel \
+    # as ruby
+    ruby2.5-devel 
+
+# Setup sudo
+RUN echo 'osem ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+
+# Disable versioned gem binary names
+RUN echo 'install: --no-format-executable' >> /etc/gemrc
+
+# Install bundler & foreman
+RUN gem install bundler foreman
+
+# Create our user
+RUN useradd -m --user-group osem
+
+CMD ["/bin/bash", "-l"]
+

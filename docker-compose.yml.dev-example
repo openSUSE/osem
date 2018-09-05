@@ -1,0 +1,17 @@
+version: "2"
+
+services:
+  database:
+    image: postgres
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+  web:
+    build: .
+    # env_file: dotenv.example
+    command: /osem/bin/osem-init.sh 
+    depends_on:
+      - database
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/osem

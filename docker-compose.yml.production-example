@@ -1,0 +1,27 @@
+version: "2"
+
+services:
+  database:
+    image: postgres
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - database:/var/lib/postgresql/data/pgdata
+  web:
+    build: .
+    dockerfile: Dockerfile.production
+    env_file: .env.production # see dotenv.example file
+    depends_on:
+      - database
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/osem
+      - web-data:/osem/public/system
+      - web-logs:/osem/log
+
+# named volumes to persist data
+volumes:
+  database:
+  web-data:
+  web-logs:
