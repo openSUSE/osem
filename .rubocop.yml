@@ -1,41 +1,17 @@
-# Inherit style from another configuration
+require: rubocop-rspec
+
 inherit_from: .rubocop_todo.yml
 
-# Apply rule to all cops
 AllCops:
-  Include:
-    - '**/Rakefile'
-    - '**/config.ru'
-  Exclude:
-    - 'db/schema.rb'
-    - 'vendor/bundle/**/*'
-    - 'bundle/**/*'
-    - 'config/**/*'
-    - 'bin/*'
-  TargetRubyVersion: 2.4
+  UseCache: true
+  CacheRootDirectory: tmp/rubocop_cache_rails_dir
+  MaxFilesInCache: 4000
 
-#################### Metrics ###############################
+#################### Style ###########################
 
-# Start with cops for Ruby >= 2.3 disabled
-Style/NumericPredicate:
-  Enabled: false
+##################### Metrics ##################################
+
+##################### Rails ##################################
 
 Rails:
   Enabled: true
-
-# Avoid deep blocks nesting
-Metrics/BlockNesting:
-  Max: 4
-
-# Avoid writing classes that are more than 300 lines
-Metrics/ClassLength:
-  Max: 300
-  Exclude:
-    - 'app/models/conference.rb'
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/models/conference_spec.rb'
-    - 'spec/features/ability_spec.rb'
-    - 'spec/models/ability_spec.rb'
-    - 'spec/models/admin_ability_spec.rb'
