@@ -4,6 +4,6 @@
 
 FactoryBot.define do
   factory :question_type do
-    title 'Multiple Choice'
+    title { 'Multiple Choice' }
   end
 end

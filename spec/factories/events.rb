@@ -32,7 +32,7 @@ FactoryBot.define do
 
       factory :event_scheduled do
         transient do
-          hour nil
+          hour { nil }
         end
 
         after(:build) do |event, evaluator|

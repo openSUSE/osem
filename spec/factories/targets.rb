@@ -5,8 +5,8 @@
 FactoryBot.define do
   factory :target do
     due_date { 14.days.from_now }
-    target_count 100
-    unit Target.units[:submissions]
+    target_count { 100 }
+    unit { Target.units[:submissions] }
     conference
   end
 end

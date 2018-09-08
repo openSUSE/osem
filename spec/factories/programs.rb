@@ -4,8 +4,8 @@
 
 FactoryBot.define do
   factory :program do
-    schedule_public false
-    schedule_fluid false
+    schedule_public { false }
+    schedule_fluid { false }
     conference
 
     trait :with_cfp do
