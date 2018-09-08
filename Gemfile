@@ -238,6 +238,7 @@ group :development do
   gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
+  gem 'rubocop-rspec'
   # as database
   gem 'sqlite3'
   # to open mails
