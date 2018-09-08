@@ -4,6 +4,6 @@
 
 FactoryBot.define do
   factory :answer do
-    title 'Do you?'
+    title { 'Do you?' }
   end
 end

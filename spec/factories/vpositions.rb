@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :vposition do
-    title 'Example Volunteer Position'
-    description 'Lorem Ipsum dolsum'
+    title { 'Example Volunteer Position' }
+    description { 'Lorem Ipsum dolsum' }
     conference
 
     after(:build) do |vposition|

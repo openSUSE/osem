@@ -9,10 +9,10 @@ FactoryBot.define do
     timezone { Faker::Address.time_zone }
     start_date { Time.zone.today }
     end_date { 6.days.from_now }
-    start_hour 9
-    end_hour 20
-    registration_limit 0
-    ticket_layout 'portrait'
+    start_hour { 9 }
+    end_hour { 20 }
+    registration_limit { 0 }
+    ticket_layout { 'portrait' }
     description { Faker::Hipster.paragraph }
     organization
     after(:create) do |conference|

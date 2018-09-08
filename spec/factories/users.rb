@@ -20,10 +20,10 @@ FactoryBot.define do
     sequence(:email) { |n| "example#{n}@example.com" }
     sequence(:name) { |n| "name#{n}" }
     sequence(:username) { |n| "username#{n}" }
-    password 'changeme'
-    password_confirmation 'changeme'
+    password { 'changeme' }
+    password_confirmation { 'changeme' }
     confirmed_at { Time.now }
-    biography <<-EOS
+    biography { <<-EOS }
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim
       nunc, venenatis non sapien convallis, dictum suscipit purus. Vestibulum
       sed tincidunt tortor. Fusce viverra nisi nisi, quis congue dui faucibus
@@ -31,7 +31,7 @@ FactoryBot.define do
       Quisque cursus facilisis consequat. Etiam volutpat ligula turpis, at
       gravida.
     EOS
-    is_disabled false
+    is_disabled { false }
 
     after(:create) do |user|
       user.is_admin = false
@@ -49,12 +49,12 @@ FactoryBot.define do
     end
 
     trait :disabled do
-      is_disabled true
+      is_disabled { true }
     end
   end
 
   factory :user_xss, parent: :user do
-    biography '<div id="divInjectedElement"></div>'
+    biography { '<div id="divInjectedElement"></div>' }
   end
 
 end

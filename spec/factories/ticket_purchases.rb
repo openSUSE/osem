@@ -5,7 +5,7 @@ FactoryBot.define do
     user
     conference
     ticket
-    quantity 10
+    quantity { 10 }
     factory :paid_ticket_purchase do
       after(:build) do |ticket_purchase|
         payment = create(:payment)

@@ -15,3 +15,8 @@ AllCops:
 
 Rails:
   Enabled: true
+
+##################### RSpec ##################################
+
+FactoryBot/AttributeDefinedStatically:
+  Enabled: true

@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :booth_request do
     booth
     user
-    role 'responsible'
+    role { 'responsible' }
 
   end
 end

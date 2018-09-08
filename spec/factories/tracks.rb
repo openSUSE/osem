@@ -6,14 +6,14 @@ FactoryBot.define do
     description { Faker::Lorem.sentence }
     color { Faker::Color.hex_color }
     short_name { SecureRandom.urlsafe_base64(5) }
-    state 'confirmed'
-    cfp_active true
+    state { 'confirmed' }
+    cfp_active { true }
     program
 
     trait :self_organized do
       association :submitter, factory: :user
-      state 'new'
-      cfp_active false
+      state { 'new' }
+      cfp_active { false }
       start_date { Time.zone.today }
       end_date { Time.zone.today }
       room
