@@ -7,21 +7,23 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - database:/var/lib/postgresql/data/pgdata
-  web:
+  osem:
     build: .
     dockerfile: Dockerfile.production
     env_file: .env.production # see dotenv.example file
     depends_on:
       - database
     ports:
-      - 5000:5000
+      - 3000:3000
     volumes:
       - .:/osem
       - web-data:/osem/public/system
+      - web-assets:/osem/public/assets
       - web-logs:/osem/log
 
 # named volumes to persist data
 volumes:
   database:
   web-data:
+  web-assets:
   web-logs:

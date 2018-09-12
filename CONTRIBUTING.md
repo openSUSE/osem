@@ -27,6 +27,17 @@ based development environment, based on [docker](https://www.docker.com/) and
 [docker-compose](https://docs.docker.com/compose/). Here's a step by step guide
 how to set it up.
 
+**WARNING**: Since we mount the repository into our container, your user id and
+the id of the osem user inside the container need to be the same. If your user
+id (`id -u`) is something else than `1000` you can copy the docker-compose
+override example file and in it, set your user id in the variable
+*CONTAINER_USERID*.
+
+```bash
+sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.override.yml
+```
+
+
 1. Set up the development environment:
     ```bash
     docker-compose run --rm osem bundle exec rake setup:bootstrap
@@ -53,13 +64,6 @@ how to set it up.
     ```bash
     docker-compose exec osem_1 /bin/bash -l
     ```
-
-**WARNING**: Since we mount the repository into our container, your user id and the id of the osem user inside the container need to be the same. If your user id (`id -u`) is something else than `1000` you can copy the docker-compose override example file and in it, set your user id in the variable
-*CONTAINER_USERID*.
-
-```bash
-cp docker-compose.override.yml.example docker-compose.override.yml
-```
 
 ### with Vagrant
 Another option is using [Vagrant](https://www.vagrantup.com/) and [VirtualBox 5.0.10](https://www.virtualbox.org/wiki/Download_Old_Builds_5_0) to create your development environment.

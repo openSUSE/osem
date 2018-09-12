@@ -5,13 +5,15 @@ services:
     image: postgres
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-  web:
-    build: .
-    # env_file: dotenv.example
+  osem:
+    build:
+      context: .
+      args:
+        CONTAINER_USERID: 1000
     command: /osem/bin/osem-init.sh 
     depends_on:
       - database
     ports:
-      - 5000:5000
+      - 3000:3000
     volumes:
       - .:/osem
