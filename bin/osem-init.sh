@@ -6,4 +6,4 @@ bundle check || bundle install --jobs=3 --retry=3
 # Setup the app if it isn't already setup
 bundle exec rake setup:bootstrap
 # Start the app
-foreman start
+foreman start -p 3000
