@@ -2,14 +2,13 @@
   "name": "osem",
   "description": "Open Source Event Manager",
   "env": {
-    "DEPLOY_TASKS": "db:cleardb_env",
     "CLOUDINARY_URL": {
       "description": "Configure your cloudinary.com cloud name and api key/secret",
       "required": true
     },
     "DATABASE_URL": {
       "description": "Configure your database connection",
-      "required": true
+      "required": false
     },
     "SECRET_KEY_BASE": {
       "description": "a key which allows sessions to be verified against a known secure key to prevent tampering",
@@ -73,15 +72,12 @@
     }
   },
   "addons": [
-    "cleardb",
+    "heroku-postgresql",
     "sendgrid"
   ],
   "buildpacks": [
     {
       "url": "heroku/ruby"
-    },
-    {
-      "url": "https://github.com/gunpowderlabs/buildpack-ruby-rake-deploy-tasks"
     }
   ]
 }
