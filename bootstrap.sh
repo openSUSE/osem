@@ -19,7 +19,7 @@ echo -e "\ninstalling your bundle...\n"
 su - vagrant -c "cd /vagrant/; bundle install --quiet"
 
 echo -e "\nConfiguring the app...\n"
-su - vagrant -c "cd /vagrant/; bundle exec rake setup:bootstrap"
+su - vagrant -c "cd /vagrant/; bundle exec rake db:bootstrap"
 
 echo -e "\nProvisioning of your OSEM rails app done!"
 echo -e "To start your development OSEM run: vagrant exec bundle exec rails server -b 0.0.0.0\n"
