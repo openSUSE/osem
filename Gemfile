@@ -25,11 +25,8 @@ gem 'rails_12factor', group: :production
 gem 'responders', '~> 2.0'
 
 # as supported databases
-# WARNING: please refrain from using sqlite for anything serious as it is not
-#          performant enough
 gem 'mysql2'
 gem 'pg'
-gem 'sqlite3'
 
 # for tracking data changes
 gem 'paper_trail'
@@ -249,6 +246,8 @@ group :development do
   gem 'mina'
   # as debugger on error pages
   gem 'web-console', '~> 2.0'
+  # as development database
+  gem 'sqlite3'
 end
 
 group :test do
