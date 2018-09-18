@@ -22,10 +22,8 @@ notifications:
     on_success: change
     on_failure: change
 before_script:
-  - cp config/database.yml.example config/database.yml
-  - cp config/secrets.yml.example config/secrets.yml
   - mysql -u root -e 'create database osem_test;'
-  - RAILS_ENV=test bundle exec rake setup:bootstrap --trace
+  - RAILS_ENV=test bundle exec rake db:bootstrap --trace
 script:
   - "./travis_script.sh $TEST_SUITE"
 env:
