@@ -9,25 +9,22 @@
 # id_site
 #   The id of your website inside Piwik
 #
+
+default: &default
+  id_site:  <%= ENV['OSEM_PIWIK_ID'] %>
+  url: <%= ENV['OSEM_PIWIK_URL'] %>
+  use_async: <%= ENV['OSEM_PIWIK_ASYNC'] || false %>
+  disabled: <%= ENV['OSEM_PIWIK_DISABLED'] || true %>
+  hostname: <%= ENV['OSEM_PIWIK_HOSTNAME'] || 'localhost' %>
+
 production:
   piwik:
-    id_site: 1
-    url: localhost
-    use_async: false
-    disabled: false
+    <<: *default
 
 development:
   piwik:
-    id_site: 1
-    url: localhost
-    disabled: true
-    use_async: false
-    hostname: localhost
+    <<: *default
 
 test:
   piwik:
-    id_site: 1
-    url: localhost
-    disabled: true
-    use_async: false
-    hostname: localhost
+    <<: *default
