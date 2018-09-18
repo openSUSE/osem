@@ -70,9 +70,12 @@
 # STRIPE_PUBLISHABLE_KEY=1234
 # STRIPE_SECRET_KEY=5678
 
-# Disable linting of factories in the test suite.
-# Speeds up turn around times of tests
-# OSEM_FACTORY_LINT=false
+# MATOMO/PIWIK CONFIGURATION
+# OSEM_PIWIK_ID=12345
+# OSEM_PIWIK_URL=localhost
+# OSEM_PIWIK_ASYNC=false
+# OSEM_PIWIK_DISABLED=true
+# OSEM_PIWIK_HOSTNAME=localhost
 
 # The smtp configuration. See the rails guides for more
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
@@ -104,3 +107,8 @@
 # Your skylight.io keys
 # SKYLIGHT_AUTHENTICATION=1234
 # SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
+
+# Disable linting of factories in the test suite.
+# Speeds up turn around times of tests
+# OSEM_FACTORY_LINT=false
+
