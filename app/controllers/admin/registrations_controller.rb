@@ -8,13 +8,17 @@ module Admin
 
     def index
       authorize! :show, Registration.new(conference_id: @conference.id)
-      @pdf_filename = "#{@conference.title}.pdf"
-      @registrations = @conference.registrations.includes(:user).order('registrations.created_at ASC')
-      @attended = @conference.registrations.where('attended = ?', true).count
+      @registrations = @conference.registrations.eager_load(
+        :qanswers, user: :roles
+      ).order('registrations.created_at ASC').to_a
+      @attended = @registrations.count(&:attended)
+      @questions = @conference.questions.to_a
 
       @registration_distribution = @conference.registration_distribution
       @affiliation_distribution = @conference.affiliation_distribution
       @code_of_conduct = @conference.code_of_conduct.present?
+
+      @pdf_filename = "#{@conference.title}.pdf"
     end
 
     def edit; end
