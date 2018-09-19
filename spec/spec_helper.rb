@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'knapsack'
 require 'simplecov'
 
 if ENV['TRAVIS']
@@ -103,4 +102,3 @@ RSpec.configure do |config|
 end
 
 OmniAuth.config.test_mode = true
-Knapsack::Adapters::RSpecAdapter.bind
