@@ -305,7 +305,7 @@ Layout/SpaceInsideBlockBraces:
     - 'spec/controllers/admin/event_schedules_controller_spec.rb'
     - 'spec/controllers/admin/schedules_controller_spec.rb'
     - 'spec/features/splashpage_spec.rb'
-    - 'spec/models/ability_spec.rb'
+    - 'spec/ability/ability_spec.rb'
     - 'spec/models/user_spec.rb'
 
 # Offense count: 39
@@ -528,7 +528,7 @@ RSpec/ContextWording:
 # Offense count: 4
 RSpec/DescribeClass:
   Exclude:
-    - 'spec/models/ability_spec.rb'
+    - 'spec/ability/ability_spec.rb'
     - 'spec/models/admin_ability_spec.rb'
     - 'spec/models/booth_spec.rb'
     - 'spec/models/registration_spec.rb'
@@ -588,7 +588,7 @@ RSpec/EmptyLineAfterHook:
 # Cop supports --auto-correct.
 RSpec/EmptyLineAfterSubject:
   Exclude:
-    - 'spec/models/ability_spec.rb'
+    - 'spec/ability/ability_spec.rb'
     - 'spec/models/admin_ability_spec.rb'
     - 'spec/models/booth_spec.rb'
     - 'spec/models/cfp_spec.rb'
@@ -669,7 +669,7 @@ RSpec/ImplicitExpect:
 # SupportedStyles: single_line_only, disallow
 RSpec/ImplicitSubject:
   Exclude:
-    - 'spec/models/ability_spec.rb'
+    - 'spec/ability/ability_spec.rb'
     - 'spec/models/admin_ability_spec.rb'
     - 'spec/models/booth_spec.rb'
     - 'spec/models/campaign_spec.rb'
@@ -692,7 +692,7 @@ RSpec/InstanceVariable:
 # Cop supports --auto-correct.
 RSpec/LeadingSubject:
   Exclude:
-    - 'spec/models/ability_spec.rb'
+    - 'spec/ability/ability_spec.rb'
     - 'spec/models/admin_ability_spec.rb'
     - 'spec/models/conference_spec.rb'
     - 'spec/models/ticket_spec.rb'
@@ -771,7 +771,7 @@ RSpec/ReturnFromStub:
 # Offense count: 49
 RSpec/ScatteredLet:
   Exclude:
-    - 'spec/models/ability_spec.rb'
+    - 'spec/ability/ability_spec.rb'
     - 'spec/models/admin_ability_spec.rb'
     - 'spec/models/payment_spec.rb'
 

@@ -30,8 +30,6 @@ script:
   - "./travis_script.sh $TEST_SUITE"
 env:
   global:
-    - CI_NODE_TOTAL=4
-    - TEST_SUITE=rspec
     - OSEM_DB_ADAPTER=mysql2
     - OSEM_DB_USER=root
     - OSEM_DB_PASSWORD=''
@@ -39,10 +37,11 @@ env:
     - OSEM_DB_PORT=''
     - OSEM_DB_NAME='osem_test'
   matrix:
+    - TEST_SUITE=ability
+    - TEST_SUITE=features
     - TEST_SUITE=linters
-    - CI_NODE_INDEX=0
-    - CI_NODE_INDEX=1
-    - CI_NODE_INDEX=2
-    - CI_NODE_INDEX=3
+    - TEST_SUITE=models
+    - TEST_SUITE=controllers
+    - TEST_SUITE=rest
 matrix:
   fast_finish: true

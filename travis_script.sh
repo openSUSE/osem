@@ -16,12 +16,19 @@ case $TEST_SUITE in
     bundle exec rubocop -Dc .rubocop.yml
     bundle exec haml-lint app/views
     ;;
-  rspec)
-    bundle exec rake "knapsack:rspec[--color --format documentation]"
+  models)
+    bundle exec rspec --format documentation spec/models
     ;;
-  *)
-    bundle exec rubocop -Dc .rubocop.yml
-    bundle exec haml-lint app/views
-    bundle exec rspec --color --format documentation
+  features)
+    bundle exec rspec --format documentation spec/features
+    ;;
+  controllers)
+    bundle exec rspec --format documentation spec/controllers
+    ;;
+  ability)
+    bundle exec rspec --format documentation spec/ability
+    ;;
+  rest)
+    bundle exec rspec --format documentation --exclude-pattern "spec/{models,features,controllers,ability}/**/*_spec.rb"
     ;;
 esac
