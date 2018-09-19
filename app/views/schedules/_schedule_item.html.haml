@@ -11,7 +11,7 @@
         = link_to('#', onClick: 'starClicked();') do
           %span#star{ class: "fa fa-lg #{ event.favourite_users.exists?(current_user.id) ? 'fa-star' : 'fa-star-o' }", |
                       "aria-hidden" =>"true", |
-                      "data-url" => toogle_favorite_conference_program_proposal_path(@conference.short_title, event.id), |
+                      "data-url" => toggle_favorite_conference_program_proposal_path(@conference.short_title, event.id), |
                       "data-user" => current_user.id }
       = event.title
 

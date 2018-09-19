@@ -6,7 +6,8 @@ class ProposalsController < ApplicationController
   load_resource :program, through: :conference, singleton: true
   load_and_authorize_resource :event, parent: false, through: :program
   # We authorize manually in these actions
-  skip_authorize_resource :event, only: [:confirm, :restart, :toogle_favorite, :withdraw]
+  skip_authorize_resource :event, only: [:confirm, :restart, :withdraw]
+
 
   def index
     @event = @program.events.new
@@ -85,7 +86,8 @@ class ProposalsController < ApplicationController
       render action: 'edit'
     end
   end
-  def toogle_favorite
+
+  def toggle_favorite
     user = User.find(params[:favourite_user_id])
     users = @event.favourite_users
     if users.include? user
