@@ -110,6 +110,10 @@ class Ability
       event.users.include?(user)
     end
 
+    can :toggle_favorite, Event do |event|
+      event.scheduled?
+    end
+
     # can manage the commercials of their own events
     can :manage, Commercial, commercialable_type: 'Event', commercialable_id: user.events.pluck(:id)
 
