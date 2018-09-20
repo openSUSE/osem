@@ -97,13 +97,13 @@ GEM
     builder (3.2.3)
     byebug (10.0.2)
     cancancan (2.2.0)
-    capybara (2.6.2)
+    capybara (3.7.2)
       addressable
-      mime-types (>= 1.16)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      xpath (~> 2.0)
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      xpath (~> 3.1)
     carrierwave (0.11.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -346,10 +346,9 @@ GEM
       actionpack
       activesupport
       rails (>= 3.0.0)
-    poltergeist (1.9.0)
-      capybara (~> 2.1)
+    poltergeist (1.18.1)
+      capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
-      multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.2)
     prawn (1.0.0)
@@ -581,8 +580,8 @@ GEM
     websocket-extensions (0.1.3)
     whenever (0.10.0)
       chronic (>= 0.6.3)
-    xpath (2.0.0)
-      nokogiri (~> 1.3)
+    xpath (3.1.0)
+      nokogiri (~> 1.8)
     yajl-ruby (1.4.1)
 
 PLATFORMS
