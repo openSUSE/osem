@@ -8,9 +8,9 @@
         = "(#{@registrations.length})" if @registrations
         .btn-group.pull-right
           - if can? :read, Registration
-            = link_to 'Export CSV', admin_conference_registrations_path(@conference.short_title, format: :csv), class: 'btn btn-success'
-            = link_to 'Export PDF', admin_conference_registrations_path(@conference.short_title, format: :pdf), class: 'btn btn-success'
-            = link_to 'Export XLS', {format: :xlsx}, class: 'btn btn-success'
+            = link_to 'Export CSV', { format: :csv }, class: 'btn btn-success'
+            = link_to 'Export PDF', { format: :pdf }, class: 'btn btn-success'
+            = link_to 'Export XLS', { format: :xlsx }, class: 'btn btn-success'
       %p.text-muted
         All the people who registered to your event
   .col-md-4
