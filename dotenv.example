@@ -30,6 +30,9 @@
 # The ruby version to use
 # OSEM_RUBY_VERSION=2.5.0
 
+# What time is it?
+# OSEM_TIME_ZONE="UTC"
+
 # The name of your OSEM installation
 # OSEM_NAME=OSEM
 
