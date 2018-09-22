@@ -21,70 +21,96 @@
 .row
   .col-md-12
     %div.margin-event-table
-      %table.datatable#registrations
+      %table.datatable#registrations{ data: { source: admin_conference_registrations_path(conference_id: @conference, format: :json) } }
         %thead
           %tr
-            %th ID#
-            %th Name
-            %th E-Mail
-            - if @code_of_conduct
-              %th
-                %abbr{ title: 'Code of Conduct' } CoC
-            %th Arrival
-            %th Departure
-            - if @conference.questions.any?
-              %th Questions
-            %th Actions
+            %th{ width: '0' } ID#
+            %th{ width: '25%' } Name
+            %th{ width: '0' } Roles
+            %th{ width: '0' } E-Mail
+            %th{ width: '0' }
+              %abbr{ title: 'Code of Conduct' } CoC
+            %th{ width: '0' } Arrival
+            %th{ width: '0' } Departure
+            %th{ width: '0' } Actions
         %tbody
-          - @registrations.each_with_index do |registration, index|
-            %tr
-              %td
-                = registration.id
-              %td
-                = registration.name.present? ? registration.name : registration.username
-                %br
-                - registration.user.roles.where(resource: @conference).each do |role|
-                  %span.label.label-info
-                    = role.name.titleize
-              %td
-                = registration.email
-              - if @code_of_conduct
-                - if registration.accepted_code_of_conduct
-                  %td.text-success.text-center= fa_icon('check', title: 'accepted')
-                - else
-                  %td.text-center.text-warning
-                    = fa_icon('exclamation-circle',
-                      title: 'Has not accepted Code of Conduct')
-              %td
-                - if registration.arrival
-                  = registration.arrival.strftime('%d %b %H:%M')
-                - else
-                  n/a
-              %td
-                - if registration.departure
-                  = registration.departure.strftime('%d %b %H:%M')
-                - else
-                  n/a
-              -if @conference.questions.any?
-                %td
-                  = link_to 'Questions','#', class: 'btn btn-success question-btn', 'data-id' => index, 'data-name' => registration.name
-              %td{ 'data-order' => registration.attended.to_s }
-                = check_box_tag "#{@conference.short_title}_#{registration.id}", registration.id, registration.attended,
-                  class: 'switch-checkbox',
-                  url: toggle_attendance_admin_conference_registration_path(@conference.short_title, id: registration.id)+"?attended="
-                .btn-group
-                  = link_to 'Edit', edit_admin_conference_registration_path(@conference.short_title, id: registration),
-                  method: :get, class: 'btn btn-primary'
-                  = link_to 'Delete', admin_conference_registration_path(@conference.short_title, registration),
-                  method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete the Registration for #{registration.name}?" }
-  - @registrations.each_with_index do |registration, index|
-    .questions{class: "question#{index}", style: 'display:none;'}
-      = render partial: 'questions', locals: { registration: registration }
 
-.modal.fade{ id: 'questions', 'role' => 'dialog', 'aria-hidden' => 'true' }
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %h3{id: 'question-modal-header'}
-          Questions for Foobar
-      .modal-body#question-modal-body
+:javascript
+  $(function () {
+    var codeOfConductPresent = #{@code_of_conduct ? 'true' : 'false'};
+    var registrationsDataTable = $('#registrations.datatable').DataTable({
+      "processing": true,
+      "serverSide": true,
+      "ajax": $('#registrations.datatable').data('source'),
+      "drawCallback": function(settings) {
+        checkboxSwitch("[class='switch-checkbox']");
+        if (codeOfConductPresent) {
+          iconize("td.code-of-conduct", "true", "check", "accepted");
+          iconize("td.code-of-conduct", "false", "exclamation-circle", "Has not accepted Code of Conduct");
+        };
+        // truncatify("td.truncate");
+      },
+      "columns": [
+        {
+          "data": "id"
+        },
+        {
+          "data": "name",
+          "className": "truncate",
+          "render": function(data, type, row) {
+            var content = '<span data-toggle="tooltip" title="' + data + '">' + data + '</span><br/>';
+            $.each(row.roles, function(index, role){
+              content += ' <span class="label label-info">' + role + '</span>'
+            });
+            return content;
+          }
+        },
+        {
+          "name": "roles",
+          "data": "roles",
+          "className": "truncate",
+          "render": function(data, type, row) {
+            return data.join(', ');
+          }
+        },
+        {
+          "data": "email"
+        },
+        {
+          "data": "accepted_code_of_conduct",
+          "className": "code-of-conduct text-center",
+          "searchable": false
+        },
+        {
+          "data": "arrival",
+          "searchable": false,
+          "render": function(data, type, row) {
+            if (data) { return moment(data).format('ll LT'); }
+            return '';
+          }
+        },
+        {
+          "data": "departure",
+          "searchable": false,
+          "render": function(data, type, row) {
+            if (data) { return moment(data).format('ll LT'); }
+            return '';
+          }
+        },
+        {
+          "data": null,
+          "className": "actions",
+          "searchable": false,
+          "sortable": false,
+          "render":    function (data, type, row, meta) {
+            return '<div class="btn-group">'+
+                   '<a class="btn-primary" href="'+data.edit_url+'">Edit</a>'+
+                   '</div>';
+          }
+        }
+      ]
+    });
+
+    registrationsDataTable.columns(3).visible(codeOfConductPresent);
+    registrationsDataTable.columns(2).visible(false);
+  });

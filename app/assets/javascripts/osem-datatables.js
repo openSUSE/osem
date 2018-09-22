@@ -30,3 +30,18 @@ $(function () {
       });
   });
 });
+
+function truncatify(selector) {
+  $(selector).each(function(){
+    var text = $(this).text()
+    $(this).html('<span data-toggle="tooltip" title="' + text + '">' + text + '</span> ')
+  });
+}
+
+function iconize(selector, value, icon, title) {
+	$(selector).each(function(){
+		if ($(this).text() == value) {
+			$(this).html("<i class='fa fa-" + icon + "' title='" + title + "'></i>");
+		}
+	});
+}
