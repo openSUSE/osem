@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180822125509) do
+ActiveRecord::Schema.define(version: 20180924221715) do
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -603,7 +603,7 @@ ActiveRecord::Schema.define(version: 20180822125509) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.boolean  "email_public",           default: true
+    t.boolean  "email_public",           default: false
     t.text     "biography"
     t.string   "nickname"
     t.string   "affiliation"
