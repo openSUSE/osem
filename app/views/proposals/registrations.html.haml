@@ -26,7 +26,11 @@
               %tr
                 %td= index
                 %td= event_registration.name
-                %td= event_registration.email
+                %td
+                  - if event_registration.registration.user.email_public
+                    = event_registration.email
+                  - else
+                    (private)
                 %td= event_registration.created_at
                 %td.text-center
                   - if event_registration.attended

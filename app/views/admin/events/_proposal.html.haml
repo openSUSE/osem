@@ -70,9 +70,10 @@
             %b Submitter
           %td
             = link_to @event.submitter.name, admin_user_path(@event.submitter)
-            (
-            = link_to @event.submitter.email, "mailto: #{@event.submitter.email}"
-            )
+            - if @event.submitter.email_public
+              (
+              = link_to @event.submitter.email, "mailto: #{@event.submitter.email}"
+              )
         %tr
           %td
             %b Speakers
@@ -80,9 +81,10 @@
             - @event.speakers.each do |speaker|
               %div
                 = link_to speaker.name, admin_user_path(speaker)
-                (
-                = link_to speaker.email, "mailto: #{speaker.email}"
-                )
+                - if speaker.email_public
+                  (
+                  = link_to speaker.email, "mailto: #{speaker.email}"
+                  )
         %tr
           %td
             %b Biographies
