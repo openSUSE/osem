@@ -33,7 +33,7 @@ class SchedulesController < ApplicationController
         # the schedule takes you to today if it is a date of the schedule
         @current_day = @conference.current_conference_day
         @day = @current_day.present? ? @current_day : @dates.first
-        unless @current_day
+        if @current_day
           # the schedule takes you to the current time if it is beetween the start and the end time.
           @hour_column = @conference.hours_from_start_time(@conf_start, @conference.end_hour)
         end
