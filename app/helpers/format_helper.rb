@@ -30,6 +30,16 @@ module FormatHelper
     end
   end
 
+  def variant_from_delta(delta, reverse: false)
+    if delta.to_i.positive?
+      reverse ? 'warning' : 'success'
+    elsif delta.to_i.negative?
+      reverse ? 'success' : 'warning'
+    else
+      'info'
+    end
+  end
+
   def target_progress_color(progress)
     progress = progress.to_i
     result =

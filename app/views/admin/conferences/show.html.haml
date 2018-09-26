@@ -6,56 +6,17 @@
 %hr
 .row
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-user.fa-lg
-      %span.fa.fa-lg
-        = @total_reg
-      %p
-        %small
-          #{'Registration'.pluralize(@total_reg)}
-        - if @new_reg
-          %span.label.label-success{ title: "+#{@new_reg} since you last logged in!" }
-            +
-            = @new_reg
-
+    = render "shared/big_statistic",
+      icon: "user", subtitle: "Registration", value: @total_reg, delta: @new_reg
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-check-square.fa-lg
-      %span.fa.fa-lg
-        = @total_submissions
-      %p
-        %small
-          #{'Submission'.pluralize(@total_submissions)}
-        - if @new_submissions
-          %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
-            +
-            = @new_submissions
-
+    = render "shared/big_statistic",
+      icon: "check-square", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-file-text.fa-lg
-      %span.fa.fa-lg
-        = @program_length
-      %p
-        %small
-          #{'Hour'.pluralize(@program_length)}
-        - if @new_reg
-          %span.label.label-success{ title: "+#{@new_program_length} since you last logged in!" }
-            +
-            = @new_program_length
-
+    = render "shared/big_statistic",
+      icon: "file-text", subtitle: "Hour", value: @program_length, delta: @new_program_length
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-archive.fa-lg
-      %span.fa.fa-lg
-        = @total_withdrawn
-      %p
-        %small
-          #{'Withdrawn'.pluralize(@total_withdrawn)}
-        - if @new_withdrawn
-          %span.label.label-success{ title: "+#{@new_withdrawn} since you last logged in!" }
-            +
-            = @new_withdrawn
+    = render "shared/big_statistic",
+      icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn
 
 .row
   .col-md-12

@@ -236,6 +236,7 @@ linters:
       - "app/views/schedules/events.html.haml"
       - "app/views/schedules/show.html.haml"
       - "app/views/schedules/show.xml.haml"
+      - "app/views/shared/_big_statistic.haml"
       - "app/views/shared/_changelog_actions.haml"
       - "app/views/shared/_dynamic_association.html.haml"
       - "app/views/shared/_media_item.html.haml"
