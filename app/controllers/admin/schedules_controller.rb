@@ -31,7 +31,15 @@ module Admin
     end
 
     def show
-      @event_schedules = @schedule.event_schedules
+      @event_schedules = @schedule.event_schedules.eager_load(
+        room: :tracks,
+        event: [
+          :difficulty_level,
+          :track,
+          :event_type,
+          event_users: :user
+        ]
+      )
 
       if @schedule.track
         track = @schedule.track
@@ -42,10 +50,7 @@ module Admin
         @program.tracks.self_organized.confirmed.each do |t|
           @event_schedules += t.selected_schedule.event_schedules if t.selected_schedule
         end
-        self_organized_tracks_events = @program.tracks.self_organized.confirmed.map do |t|
-          t.events.confirmed
-        end
-        self_organized_tracks_events.flatten.compact!
+        self_organized_tracks_events = Event.eager_load(event_users: :user).confirmed.where(track: @program.tracks.self_organized.confirmed)
         @unscheduled_events = @program.events.confirmed - @schedule.events - self_organized_tracks_events
         @dates = @conference.start_date..@conference.end_date
         @rooms = @conference.venue.rooms if @conference.venue
