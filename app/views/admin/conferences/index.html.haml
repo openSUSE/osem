@@ -1,53 +1,17 @@
 = javascript_include_tag 'Chart'
 .row
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-user.fa-lg
-      %span.fa.fa-lg
-        = @total_user
-      %p
-        %small
-          #{'User'.pluralize(@total_user)}
-          - if @new_user
-            %span.label.label-success{ title: "+ #{@new_user} since you last logged in!" }
-              +
-              = @new_user
+    = render "shared/big_statistic",
+      icon: "user", subtitle: "User", value: @total_user, delta: @new_user
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-check-square.fa-lg
-      %span.fa.fa-lg
-        = @total_reg
-      %p
-        %small
-          #{'Registration'.pluralize(@total_reg)}
-          - if @new_reg
-            %span.label.label-success{ title: "+#{@new_reg} since you last logged in!" }
-              +
-              = @new_reg
+    = render "shared/big_statistic",
+      icon: "check-square", subtitle: "Registration", value: @total_reg, delta: @new_reg
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-file-text.fa-lg
-      %span.fa.fa-lg
-        = @total_submissions
-      %p
-        %small
-          #{'Submission'.pluralize(@total_submissions)}
-          - if @new_submissions
-            %span.label.label-success{ title: "+#{@new_submissions} since you last logged in!" }
-              +
-              = @new_submissions
+    = render "shared/big_statistic",
+      icon: "file-text", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
   .col-sm-3.col-xs-3
-    .dashbox.text-center
-      %span.fa.fa-archive.fa-lg
-      %span.fa.fa-lg
-        = @total_withdrawn
-      %p
-        %small
-          #{'Withdrawn'.pluralize(@total_withdrawn)}
-          - if @new_withdrawn
-            %span.label.label-success{ title: "+#{@new_withdrawn} since you last logged in!" }
-              +
-              = @new_withdrawn
+    = render "shared/big_statistic",
+      icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn, reverse: true
 
 .row#registrations
   .col-md-8
