@@ -37,3 +37,5 @@ docker-compose.override.yml
 .DS_Store
 .byebug_history
 .buildconfig
+osem_development
+osem_test
