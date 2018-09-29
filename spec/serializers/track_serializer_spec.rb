@@ -8,11 +8,9 @@ describe TrackSerializer, type: :serializer do
 
   it 'sets guild, name, color' do
     expected_json = {
-      track: {
-        guid:  track.guid,
-        name:  track.name,
-        color: track.color
-      }
+      guid:  track.guid,
+      name:  track.name,
+      color: track.color
     }.to_json
 
     expect(serializer.to_json).to eq expected_json
