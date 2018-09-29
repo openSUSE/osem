@@ -7,11 +7,9 @@ describe RoomSerializer, type: :serializer do
 
   it 'set guid, name and description' do
     expected_json = {
-      room: {
-        guid:        room.guid,
-        name:        room.name,
-        description: ''
-      }
+      guid:        room.guid,
+      name:        room.name,
+      description: ''
     }.to_json
 
     expect(serializer.to_json).to eq expected_json
