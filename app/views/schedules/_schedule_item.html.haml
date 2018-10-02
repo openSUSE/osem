@@ -15,13 +15,6 @@
                       "data-user" => current_user.id }
       = event.title
 
-    - if current_user
-      = link_to('#', onClick: 'starClicked();') do
-        %span#star{ class: "fa fa-lg #{ event.favourite_users.exists?(current_user.id) ? 'fa-star' : 'fa-star-o' }", |
-                    "aria-hidden" =>"true", |
-                    "data-url" => conference_program_proposal_path(@conference.short_title, event.id), |
-                    "data-user" => current_user.id }
-
     - event.speakers_ordered.each do |speaker|
       = image_tag speaker.gravatar_url, :class => "img-circle pull-right speaker-pic", |
                                         :alt => speaker.name, |
