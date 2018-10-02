@@ -8,7 +8,6 @@ class ProposalsController < ApplicationController
   # We authorize manually in these actions
   skip_authorize_resource :event, only: [:confirm, :restart, :withdraw]
 
-
   def index
     @event = @program.events.new
     @event.event_users.new(user: current_user, event_role: 'submitter')
