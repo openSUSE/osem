@@ -71,7 +71,7 @@ describe Ticket do
     let!(:purchase1) { create :ticket_purchase, ticket: ticket, amount_paid: 5_000, quantity: 1, paid: true, user: user }
     let!(:purchase2) { create :ticket_purchase, ticket: ticket, amount_paid: 5_000, quantity: 2, paid: true, user: user }
     let!(:purchase3) { create :ticket_purchase, ticket: ticket, amount_paid: 5_000, quantity: 10, paid: false, user: user }
-    subject { ticket.tickets_turnover_total ticket.id }
+    subject { ticket.tickets_turnover_total }
 
     it 'returns turnover as Money with ticket\'s currency' do
       is_expected.to eq Money.new(5_000 * 3, ticket.price_currency)

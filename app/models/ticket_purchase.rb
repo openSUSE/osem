@@ -71,11 +71,6 @@ class TicketPurchase < ApplicationRecord
     purchase
   end
 
-  # Total amount
-  def self.total
-    sum('amount_paid * quantity')
-  end
-
   def pay(payment)
     update_attributes(paid: true, payment: payment)
     PhysicalTicket.transaction do

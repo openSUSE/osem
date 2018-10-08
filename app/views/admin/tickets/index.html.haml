@@ -27,7 +27,7 @@
               %td
                 = ticket.tickets_sold
               %td
-                = humanized_money_with_symbol ticket.tickets_turnover_total(ticket.id)
+                = humanized_money_with_symbol ticket.tickets_turnover_total
               %td
                 = ticket.registration_ticket? ? 'Yes' : 'No'
               %td
