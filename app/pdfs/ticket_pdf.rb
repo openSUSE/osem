@@ -49,7 +49,11 @@ class TicketPdf < Prawn::Document
     if @conference.picture?
       conference_image = case @conference.picture.ticket.url[0, 4]
                          when 'http', 'ftp:' # CDNs
-                           open(@conference.picture.ticket.url)
+                           begin
+                             open(@conference.picture.ticket.url)
+                           rescue OpenURI::HTTPError
+                             nil
+                           end
                          when '/sys' # local storage
                            open([
                              Rails.root,
@@ -57,10 +61,10 @@ class TicketPdf < Prawn::Document
                              @conference.picture.ticket.url
                            ].join)
                          end
-      image conference_image, at: [@mid_horizontal + 30, cursor]
-    else
-      image "#{Rails.root}/public/img/osem-logo.png", at: [@mid_horizontal + 30, cursor], height: 70
     end
+    conference_image ||= open("#{Rails.root}/public/img/osem-logo.png")
+    image conference_image, at: [@mid_horizontal + 30, cursor], fit: [200, 70]
+
     move_down 70
     draw_text @conference.title.to_s, at: [@mid_horizontal + 30, cursor - 30], size: 12
     draw_text @conference.organization.name.to_s, at: [@mid_horizontal + 30, cursor - 50], size: 12
