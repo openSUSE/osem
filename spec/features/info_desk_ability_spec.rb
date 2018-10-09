@@ -29,9 +29,6 @@ feature 'Has correct abilities' do
       expect(page).to_not have_link('Sponsorship Levels', href: "/admin/conferences/#{conference.short_title}/sponsorship_levels")
       expect(page).to_not have_link('Sponsors', href: "/admin/conferences/#{conference.short_title}/sponsors")
       expect(page).to_not have_link('Tickets', href: "/admin/conferences/#{conference.short_title}/tickets")
-      expect(page).to_not have_text('Objectives')
-      expect(page).to_not have_link('Campaigns', href: "/admin/conferences/#{conference.short_title}/campaigns")
-      expect(page).to_not have_link('Goals', href: "/admin/conferences/#{conference.short_title}/targets")
       expect(page).to have_link('Roles', href: "/admin/conferences/#{conference.short_title}/roles")
       expect(page).to have_link('Resources', href: "/admin/conferences/#{conference.short_title}/resources")
       expect(page).to have_selector('li.nav-header.nav-header-bigger a', text: 'Dashboard')
@@ -126,26 +123,6 @@ feature 'Has correct abilities' do
 
       create(:ticket, conference: conference)
       visit edit_admin_conference_ticket_path(conference.short_title, conference.tickets.first)
-      expect(current_path).to eq(root_path)
-
-      visit admin_conference_campaigns_path(conference.short_title)
-      expect(current_path).to eq(root_path)
-
-      visit new_admin_conference_campaign_path(conference.short_title)
-      expect(current_path).to eq(root_path)
-
-      create(:campaign, conference: conference)
-      visit edit_admin_conference_campaign_path(conference.short_title, conference.campaigns.first)
-      expect(current_path).to eq(root_path)
-
-      visit admin_conference_targets_path(conference.short_title)
-      expect(current_path).to eq(root_path)
-
-      visit new_admin_conference_target_path(conference.short_title)
-      expect(current_path).to eq(root_path)
-
-      create(:target, conference: conference)
-      visit edit_admin_conference_target_path(conference.short_title, conference.targets.first)
       expect(current_path).to eq(root_path)
 
       visit admin_conference_roles_path(conference.short_title)

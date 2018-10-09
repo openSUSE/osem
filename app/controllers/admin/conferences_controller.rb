@@ -189,14 +189,6 @@ module Admin
 
       @top_submitter = @conference.get_top_submitter
 
-      # get targets
-      @registration_targets = @conference.get_targets(Target.units[:registrations])
-      @submission_targets = @conference.get_targets(Target.units[:submissions])
-      @program_minutes_targets = @conference.get_targets(Target.units[:program_minutes])
-
-      # get campaigns
-      @campaigns = @conference.get_campaigns
-
       respond_to do |format|
         format.html
         format.json { render json: @conference.to_json }
@@ -225,8 +217,8 @@ module Admin
                                          :use_vpositions, :use_vdays, :vdays_attributes,
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
-                                         :targets, :targets_attributes,
-                                         :campaigns, :campaigns_attributes, :registration_limit, :organization_id, :ticket_layout, :booth_limit)
+                                         :registration_limit, :organization_id, :ticket_layout,
+                                         :booth_limit)
     end
   end
 end

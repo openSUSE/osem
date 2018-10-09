@@ -76,31 +76,6 @@ $(function () {
         }
     }
 
-    /**
-     /**
-     * Opens a prompt with the URL to copy to clipboard.
-     * Used in the campaign index view.
-     */
-    $('.copyLink').on('click', function(){
-        var url = $(this).data('url');
-        copyToClipboard(url);
-    })
-    function copyToClipboard(text) {
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-    }
-
-    /**
-     * Toggles the targets on the conference site with a more / less link.
-     */
-    $('.show_targets').click(function () {
-        if($(this).text().trim() == 'more'){
-            $(this).text("less");
-        }else{
-            $(this).text("more");
-        }
-        $('#' + $(this).data('name')).toggle();
-    });
-
     $(".comment-reply-link").click(function(){
         $(".comment-reply", $(this).parent()).toggle();
         return false;

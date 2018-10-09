@@ -115,13 +115,6 @@
         = render partial: 'recent_submissions', locals: {recent_events: @recent_events}
   .col-md-4
     = render partial: 'top_submitter', locals: {top_submitter: @top_submitter}
-.row
-  .col-md-12
-    %h3
-      %span
-        %i.fa.fa-flag
-        Campaigns
-    = render partial: 'campaigns', locals: {campaigns: @campaigns, name: 'campaigns'}
 
 :javascript
   $('#recentTable a').click(function (e) {

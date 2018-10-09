@@ -59,16 +59,6 @@ GEM
       activerecord (>= 3.0)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    ahoy_matey (2.1.0)
-      addressable
-      browser (~> 2.0)
-      device_detector
-      geocoder (>= 1.4.5)
-      railties (>= 4.2)
-      referer-parser (>= 0.3)
-      request_store
-      safely_block (>= 0.2.1)
-      user_agent_parser
     airbrake (7.3.5)
       airbrake-ruby (~> 2.10)
     airbrake-ruby (2.11.0)
@@ -93,7 +83,6 @@ GEM
     bootstrap-switch-rails (3.0.2)
     bootstrap3-datetimepicker-rails (3.0.3)
       momentjs-rails (>= 2.8.1)
-    browser (2.5.3)
     builder (3.2.3)
     byebug (10.0.2)
     cancancan (2.2.0)
@@ -153,7 +142,6 @@ GEM
     delayed_job_active_record (4.1.3)
       activerecord (>= 3.0, < 5.3)
       delayed_job (>= 3.0, < 5)
-    device_detector (1.0.1)
     devise (4.5.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -170,7 +158,6 @@ GEM
     dotenv-rails (2.5.0)
       dotenv (= 2.5.0)
       railties (>= 3.2, < 6.0)
-    errbase (0.1.0)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_bot (4.11.1)
@@ -193,7 +180,6 @@ GEM
       actionpack (>= 3.2.13)
     formtastic-bootstrap (3.1.1)
       formtastic (>= 3.0)
-    geocoder (1.4.9)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     gravtastic (3.2.6)
@@ -447,7 +433,6 @@ GEM
     recaptcha (4.12.0)
       json
     redcarpet (3.4.0)
-    referer-parser (0.3.0)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.0)
@@ -503,8 +488,6 @@ GEM
       sexp_processor (~> 4.9)
     rubyzip (1.2.2)
     safe_yaml (1.0.4)
-    safely_block (0.2.1)
-      errbase
     sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -573,7 +556,6 @@ GEM
     unobtrusive_flash (3.3.1)
       railties
     url (0.3.2)
-    user_agent_parser (2.4.1)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (2.3.0)
@@ -601,7 +583,6 @@ DEPENDENCIES
   active_model_serializers
   acts_as_commentable_with_threading
   acts_as_list
-  ahoy_matey
   airbrake (~> 7.1)
   ajax-datatables-rails
   autoprefixer-rails

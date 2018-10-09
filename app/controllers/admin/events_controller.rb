@@ -92,7 +92,6 @@ module Admin
       @event.submitter = current_user
 
       if @event.save
-        ahoy.track 'Event submission', title: 'New submission'
         redirect_to admin_conference_program_events_path(@conference.short_title), notice: 'Event was successfully submitted.'
       else
         flash.now[:error] = "Could not submit proposal: #{@event.errors.full_messages.join(', ')}"

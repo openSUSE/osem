@@ -61,7 +61,6 @@ class ProposalsController < ApplicationController
     end
 
     if @event.save
-      ahoy.track 'Event submission', title: 'New submission'
       Mailbot.submitted_proposal_mail(@event).deliver_later if @conference.email_settings.send_on_submitted_proposal
       redirect_to conference_program_proposals_path(@conference.short_title), notice: 'Proposal was successfully submitted.'
     else

@@ -74,10 +74,6 @@
   = link_to (current_or_last_object_state('Event', event_id).try(:title) || 'deleted event'),
           admin_conference_program_event_path(conference_short_title, event_id)
 
-- when 'Target'
-  target
-  = link_if_alive version, object.to_s, admin_conference_targets_path(conference_short_title), conference
-
 - when 'EventSchedule'
   event
   = link_to (current_or_last_object_state('Event', object.event_id).try(:title) || 'deleted'),
@@ -185,12 +181,6 @@
   ticket
   = link_if_alive version, object.title,
           admin_conference_ticket_path(conference_short_title, version.item_id),
-          conference
-
-- when 'Campaign'
-  campaign
-  = link_if_alive version, object.name,
-          admin_conference_campaigns_path(conference_short_title),
           conference
 
 - when 'DifficultyLevel'

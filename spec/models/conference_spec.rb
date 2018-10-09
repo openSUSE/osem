@@ -302,69 +302,6 @@ describe Conference do
 
   end
 
-  describe '#get_targets' do
-    it 'returns 0 if there is no registration' do
-      target = build(:target, target_count: 10, unit: Target.units[:registrations])
-      subject.targets = [target]
-      result = {
-        "10 Registrations by #{target.due_date}" => '0'
-      }
-      expect(subject.get_targets(Target.units[:registrations])).to eq(result)
-    end
-
-    it 'returns 10 if there is 1 registration of 10' do
-      target = build(:target, target_count: 10, unit: Target.units[:registrations])
-      subject.targets = [target]
-      subject.registrations = [create(:registration)]
-      result = {
-        "10 Registrations by #{target.due_date}" => '10'
-      }
-      expect(subject.get_targets(Target.units[:registrations])).to eq(result)
-    end
-
-    it 'returns an empty hash if there is no target' do
-      expect(subject.get_targets(Target.units[:registrations])).to eq({})
-    end
-
-    it 'returns 0 if there is no submission' do
-      target = build(:target, target_count: 10, unit: Target.units[:submissions])
-      subject.targets = [target]
-      result = {
-        "10 Submissions by #{target.due_date}" => '0'
-      }
-      expect(subject.get_targets(Target.units[:submissions])).to eq(result)
-    end
-
-    it 'returns 10 if there is 1 submissions of 10' do
-      target = build(:target, target_count: 10, unit: Target.units[:submissions])
-      subject.targets = [target]
-      subject.program.events = [create(:event)]
-      result = {
-        "10 Submissions by #{target.due_date}" => '10'
-      }
-      expect(subject.get_targets(Target.units[:submissions])).to eq(result)
-    end
-
-    it 'returns 0 if there is no program minute' do
-      target = build(:target, target_count: 300, unit: Target.units[:program_minutes])
-      subject.targets = [target]
-      result = {
-        "300 Program minutes by #{target.due_date}" => '0'
-      }
-      expect(subject.get_targets(Target.units[:program_minutes])).to eq(result)
-    end
-
-    it 'returns 10 if there is 30 program minutes of 300' do
-      target = build(:target, target_count: 300, unit: Target.units[:program_minutes])
-      subject.targets = [target]
-      subject.program.events = [create(:event)]
-      result = {
-        "300 Program minutes by #{target.due_date}" => '10'
-      }
-      expect(subject.get_targets(Target.units[:program_minutes])).to eq(result)
-    end
-  end
-
   describe 'program hours and minutes' do
     before(:each) do
       @long = create(:event_type, length: 120)

@@ -114,8 +114,6 @@ class AdminAbility
     can :manage, Splashpage, conference_id: conf_ids
     can :manage, Contact, conference_id: conf_ids
     can :manage, EmailSettings, conference_id: conf_ids
-    can :manage, Campaign, conference_id: conf_ids
-    can :manage, Target, conference_id: conf_ids
     can :manage, Commercial, commercialable_type: 'Conference',
                              commercialable_id: conf_ids
     can :manage, Registration, conference_id: conf_ids
