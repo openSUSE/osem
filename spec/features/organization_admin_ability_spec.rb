@@ -52,9 +52,6 @@ feature 'Has correct abilities' do
       expect(page).to have_link('Sponsorship Levels', href: "/admin/conferences/#{conference.short_title}/sponsorship_levels")
       expect(page).to have_link('Sponsors', href: "/admin/conferences/#{conference.short_title}/sponsors")
       expect(page).to have_link('Tickets', href: "/admin/conferences/#{conference.short_title}/tickets")
-      expect(page).to have_text('Objectives')
-      expect(page).to have_link('Campaigns', href: "/admin/conferences/#{conference.short_title}/campaigns")
-      expect(page).to have_link('Goals', href: "/admin/conferences/#{conference.short_title}/targets")
       expect(page).to have_link('E-Mails', href: "/admin/conferences/#{conference.short_title}/emails")
       expect(page).to have_link('Roles', href: "/admin/conferences/#{conference.short_title}/roles")
       expect(page).to have_link('Resources', href: "/admin/conferences/#{conference.short_title}/resources")
@@ -235,26 +232,6 @@ feature 'Has correct abilities' do
       create(:ticket, conference: conference)
       visit edit_admin_conference_ticket_path(conference.short_title, conference.tickets.first)
       expect(current_path).to eq(edit_admin_conference_ticket_path(conference.short_title, conference.tickets.first))
-
-      visit admin_conference_campaigns_path(conference.short_title)
-      expect(current_path).to eq(admin_conference_campaigns_path(conference.short_title))
-
-      visit new_admin_conference_campaign_path(conference.short_title)
-      expect(current_path).to eq(new_admin_conference_campaign_path(conference.short_title))
-
-      create(:campaign, conference: conference)
-      visit edit_admin_conference_campaign_path(conference.short_title, conference.campaigns.first)
-      expect(current_path).to eq(edit_admin_conference_campaign_path(conference.short_title, conference.campaigns.first))
-
-      visit admin_conference_targets_path(conference.short_title)
-      expect(current_path).to eq(admin_conference_targets_path(conference.short_title))
-
-      visit new_admin_conference_target_path(conference.short_title)
-      expect(current_path).to eq(new_admin_conference_target_path(conference.short_title))
-
-      create(:target, conference: conference)
-      visit edit_admin_conference_target_path(conference.short_title, conference.targets.first)
-      expect(current_path).to eq(edit_admin_conference_target_path(conference.short_title, conference.targets.first))
 
       visit admin_conference_program_tracks_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_tracks_path(conference.short_title))

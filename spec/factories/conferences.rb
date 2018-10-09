@@ -46,8 +46,6 @@ FactoryBot.define do
         create_list(:sponsor, 2, sponsorship_level: conference.sponsorship_levels.second, conference: conference)
         create_list(:sponsor, 3, sponsorship_level: conference.sponsorship_levels.third, conference: conference)
 
-        create(:campaign, conference: conference)
-        create(:target, conference: conference)
         create(:question, conferences: [conference])
 
         # Logo...

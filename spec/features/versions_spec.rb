@@ -374,18 +374,6 @@ feature 'Version' do
     expect(page).to have_text("Someone (probably via the console) unregistered #{organizer.name} from event #{event.title} in conference #{conference.short_title}")
   end
 
-  scenario 'display changes in target', feature: true, versioning: true, js: true do
-    target = create(:target, conference: conference)
-    target.update_attributes(due_date: Date.today, target_count: 1000)
-    target_id = target.id
-    target.destroy
-
-    visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new target 1000 Submissions by #{Date.today} with ID #{target_id} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated due date and target count of target 1000 Submissions by #{Date.today} with ID #{target_id} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted target 1000 Submissions by #{Date.today} with ID #{target_id} in conference #{conference.short_title}")
-  end
-
   scenario 'display changes in comment', feature: true, versioning: true, js: true do
     create(:event, program: conference.program, title: 'My first event')
     event = create(:event, program: conference.program, title: 'My second event')
@@ -414,18 +402,6 @@ feature 'Version' do
     expect(page).to have_text("Someone (probably via the console) voted on event My second event in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s vote on event #{event.title} in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s vote on event #{event.title}  in conference #{conference.short_title}")
-  end
-
-  scenario 'display changes in campaign', feature: true, versioning: true, js: true do
-    campaign = create(:campaign, conference: conference, name: 'Test Campaign', utm_campaign: 'campaign')
-    campaign.update_attributes(utm_source: 'source', utm_medium: 'medium', utm_term: 'term', utm_content: 'content')
-    campaign_id = campaign.id
-    campaign.destroy
-
-    visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new campaign Test Campaign with ID #{campaign_id} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated utm source, utm medium, utm term and utm content of campaign Test Campaign with ID #{campaign_id} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted campaign Test Campaign with ID #{campaign_id} in conference #{conference.short_title}")
   end
 
   scenario 'display password reset requests', feature: true, versioning: true, js: true do

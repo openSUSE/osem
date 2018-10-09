@@ -10,19 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180924221715) do
-
-  create_table "ahoy_events", force: :cascade do |t|
-    t.integer  "visit_id"
-    t.integer  "user_id"
-    t.string   "name"
-    t.text     "properties"
-    t.datetime "time"
-    t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
-    t.index ["time"], name: "index_ahoy_events_on_time"
-    t.index ["user_id"], name: "index_ahoy_events_on_user_id"
-    t.index ["visit_id"], name: "index_ahoy_events_on_visit_id"
-  end
+ActiveRecord::Schema.define(version: 20181009000259) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "title"
@@ -51,18 +39,6 @@ ActiveRecord::Schema.define(version: 20180924221715) do
     t.integer  "conference_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-  end
-
-  create_table "campaigns", force: :cascade do |t|
-    t.integer  "conference_id"
-    t.string   "name"
-    t.string   "utm_source"
-    t.string   "utm_medium"
-    t.string   "utm_term"
-    t.string   "utm_content"
-    t.string   "utm_campaign"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "cfps", force: :cascade do |t|
@@ -520,18 +496,7 @@ ActiveRecord::Schema.define(version: 20180924221715) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "target",          default: 0
-  end
-
-  add_index "surveys", ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id"
-
-  create_table "targets", force: :cascade do |t|
-    t.integer  "conference_id"
-    t.integer  "campaign_id"
-    t.date     "due_date"
-    t.integer  "target_count"
-    t.string   "unit"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.index ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id"
   end
 
   create_table "ticket_purchases", force: :cascade do |t|
@@ -671,33 +636,6 @@ ActiveRecord::Schema.define(version: 20180924221715) do
     t.datetime "created_at"
     t.integer  "conference_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
-  end
-
-  create_table "visits", force: :cascade do |t|
-    t.binary   "visitor_id",       limit: 16
-    t.string   "ip"
-    t.text     "user_agent"
-    t.text     "referrer"
-    t.text     "landing_page"
-    t.integer  "user_id"
-    t.string   "referring_domain"
-    t.string   "search_keyword"
-    t.string   "browser"
-    t.string   "os"
-    t.string   "device_type"
-    t.string   "country"
-    t.string   "region"
-    t.string   "city"
-    t.string   "utm_source"
-    t.string   "utm_medium"
-    t.string   "utm_term"
-    t.string   "utm_content"
-    t.string   "utm_campaign"
-    t.datetime "started_at"
-    t.string   "visit_token"
-    t.string   "visitor_token"
-    t.index ["user_id"], name: "index_visits_on_user_id"
-    t.index ["visit_token"], name: "index_visits_on_visit_token", unique: true
   end
 
   create_table "votes", force: :cascade do |t|

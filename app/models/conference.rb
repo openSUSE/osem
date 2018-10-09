@@ -45,8 +45,6 @@ class Conference < ApplicationRecord
   has_many :vpositions, dependent: :destroy
   has_many :sponsorship_levels, -> { order('position ASC') }, dependent: :destroy
   has_many :sponsors, dependent: :destroy
-  has_many :targets, dependent: :destroy
-  has_many :campaigns, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_one :call_for_events, -> { where(cfp_type: 'events') }, through: :program, source: :cfps
@@ -76,8 +74,6 @@ class Conference < ApplicationRecord
   accepts_nested_attributes_for :questions, allow_destroy: true
   accepts_nested_attributes_for :vdays, allow_destroy: true
   accepts_nested_attributes_for :vpositions, allow_destroy: true
-  accepts_nested_attributes_for :targets, allow_destroy: true
-  accepts_nested_attributes_for :campaigns, allow_destroy: true
 
   mount_uploader :picture, PictureUploader, mount_on: :logo_file_name
 
@@ -638,35 +634,6 @@ class Conference < ApplicationRecord
       { short_title: 'Confirmed', color: 'green' },
       { short_title: 'Unconfirmed', color: 'orange' }
     ]
-  end
-
-  ##
-  # A map with all conference targets with progress in percent of a certain unit.
-  #
-  # ====Returns
-  # * +Map+ -> target => progress
-  def get_targets(target_unit)
-    conference_target = targets.where('unit = ?', target_unit)
-    result = {}
-    conference_target.each do |target|
-      result[target.to_s] = target.get_progress
-    end
-    result
-  end
-
-  ##
-  # A map with all conference campaigns associated with targets.
-  #
-  # ====Returns
-  # * +Map+ -> campaign => {actual, target, progress}
-  def get_campaigns
-    result = {}
-    campaigns.each do |campaign|
-      campaign.targets.each do |target|
-        result["#{target} from #{campaign.name}"] = target.get_campaign
-      end
-    end
-    result
   end
 
   ##

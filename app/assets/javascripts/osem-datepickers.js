@@ -112,19 +112,4 @@ $(function () {
   $("#registration-period-end-datepicker").on("dp.change",function (e) {
       $('#registration-period-start-datepicker').data("DateTimePicker").setMaxDate(e.date);
   });
-
-  $(".target-due-date-datepicker").datetimepicker({
-      pickTime: false,
-      format: "YYYY-MM-DD"
-  });
-  /* Appends the datetimepicker to new injected nested target fields. */
-  $('a:contains("Add target")').click(function () {
-      setTimeout(function () {
-          $('.target-due-date-datepicker').not('.hasDatepicker').datetimepicker({
-              pickTime: false,
-              format: "YYYY-MM-DD"
-          });
-      },
-      5)
-  });
 } );

@@ -121,18 +121,6 @@
       = link_to  admin_conference_booths_path(@conference.short_title) do
         %span.fa.fa-shopping-bag
         Booths
-  - if (can? :manage, @conference.targets.build) || (can? :manage, @conference.campaigns.build)
-    %li
-      %a
-        %span.fa.fa-money
-        Objectives
-      %ul
-        - if can? :update, @conference.campaigns.build
-          %li{class: active_nav_li(admin_conference_campaigns_path(@conference.short_title))}
-            = link_to 'Campaigns', admin_conference_campaigns_path(@conference.short_title)
-        - if can? :update, @conference.targets.build
-          %li{class: "#{active_nav_li(admin_conference_targets_path(@conference.short_title))}"}
-            = link_to 'Goals', admin_conference_targets_path(@conference.short_title)
   - if can? :update, @conference.email_settings
     %li{class: active_nav_li(admin_conference_emails_path(@conference.short_title))}
       = link_to(admin_conference_emails_path(@conference.short_title)) do
