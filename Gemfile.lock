@@ -573,7 +573,7 @@ GEM
     timecop (0.9.1)
     transactional_capybara (0.2.0)
       capybara
-    transitions (0.1.12)
+    transitions (1.2.1)
     ttfunk (1.5.1)
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
