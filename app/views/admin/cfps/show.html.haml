@@ -7,10 +7,13 @@
 .row
   .col-md-8
     %dl.dl-horizontal
-      = render "#{@cfp.cfp_type}_cfp"
+      = render "#{@cfp.cfp_type}_cfp", cfp: @cfp, conference: @conference
 .row
   .col-md-12.text-right
-    = link_to(edit_admin_conference_program_cfp_path(@conference.short_title, @cfp.id), class: 'btn btn-primary') do
-      Edit
-    = link_to(admin_conference_program_cfp_path(@conference.short_title, @cfp.id), method: 'delete', class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete the CfP?' }) do
-      Delete
+    = link_to 'Edit',
+      edit_admin_conference_program_cfp_path(@conference, @cfp),
+      class: 'btn btn-primary'
+    = link_to 'Delete',
+      admin_conference_program_cfp_path(@conference, @cfp),
+      method: 'delete', class: 'btn btn-danger',
+      data: { confirm: 'Are you sure you want to delete the CfP?' }

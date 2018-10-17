@@ -1,46 +1,46 @@
 %dt
   Type:
 %dd
-  = @cfp.cfp_type.capitalize
+  = cfp.cfp_type.capitalize
 %dt
   Start Date:
-%dd#start_date
-  = @cfp.start_date.strftime('%A, %B %-d. %Y')
+%dd#start-date
+  = cfp.start_date.strftime('%A, %B %-d. %Y')
 %dt
   End Date:
-%dd#end_date
-  = @cfp.end_date.strftime('%A, %B %-d. %Y')
+%dd#end-date
+  = cfp.end_date.strftime('%A, %B %-d. %Y')
 %dt
   Description:
 %dd#description
-  = markdown(@cfp.description)
+  = markdown(cfp.description)
 %dt
   Days Left:
 %dd
-  = pluralize(@cfp.remaining_days, 'day')
+  = pluralize(cfp.remaining_days, 'day')
 %dt
   Event types:
 %dd
-  = event_types_sentence(@conference)
+  = event_types_sentence(conference)
 %dt
   Tracks:
 %dd
-  = tracks(@conference)
+  = tracks(conference)
 %dt
   Public Schedule:
-%dd#schedule_public
-  - if @program.schedule_public
+%dd#schedule-public
+  - if conference.program.schedule_public
     Yes
   - else
     No
 %dt
   Schedule changeable?
-%dd#schedule_changes
-  - if @program.schedule_fluid
+%dd#schedule-changes
+  - if conference.program.schedule_fluid
     Yes
   - else
     No
 %dt
   Rating Levels:
 %dd#rating
-  = @program.rating
+  = conference.program.rating

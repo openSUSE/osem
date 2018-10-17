@@ -4,10 +4,20 @@
       %h1 Call for Papers
 .row
   .col-md-8
-    = semantic_form_for(@cfp, url: (@cfp.new_record? ? admin_conference_program_cfps_path : admin_conference_program_cfp_path(@conference.short_title, @cfp)), html: {multipart: true}) do |f|
-      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, readonly: 'readonly' }
-      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly' }
-      = f.input :cfp_type, as: :select, collection: (@cfp.new_record? ? @program.remaining_cfp_types : [@cfp.cfp_type] + @program.remaining_cfp_types).map {|type| ["#{type.capitalize}", type]}, include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
-      = f.input :description, input_html: {rows: 2, data: { provide: 'markdown-editable' } }, hint: markdown_hint
+    = semantic_form_for(cfp, url: cfp_form_url(cfp, conference),
+      html: { multipart: true }) do |f|
+      = f.input :start_date, as: :string,
+        input_html: { id: 'registration-period-start-datepicker',
+          start_date: conference.start_date,
+          end_date: conference.end_date, readonly: 'readonly' }
+      = f.input :end_date, as: :string,
+        input_html: { id: 'registration-period-end-datepicker',
+          readonly: 'readonly' }
+      = f.input :cfp_type, as: :select, include_blank: false,
+        collection: select_cfp_types(cfp, conference.program),
+        label: 'Type', input_html: { class: 'select-help-toggle' }
+      = f.input :description, hint: markdown_hint,
+        input_html: { rows: 2, data: { provide: 'markdown-editable' } }
       %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+        = f.action :submit, as: :button,
+          button_html: { class: 'btn btn-primary' }
