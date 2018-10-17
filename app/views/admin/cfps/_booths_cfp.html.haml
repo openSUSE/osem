@@ -1,20 +1,20 @@
 %dt
   Type:
 %dd
-  = @cfp.cfp_type.capitalize
+  = cfp.cfp_type.capitalize
 %dt
   Start Date:
 %dd
-  = @cfp.start_date.strftime('%A, %B %e. %Y')
+  = cfp.start_date.strftime('%A, %B %e. %Y')
 %dt
   End Date:
 %dd
-  = @cfp.end_date.strftime('%A, %B %e. %Y')
+  = cfp.end_date.strftime('%A, %B %e. %Y')
 %dt
   Description
 %dd
-  = markdown(@cfp.description)
+  = markdown(cfp.description)
 %dt
   Days Left
 %dd
-  = pluralize(@cfp.remaining_days, 'day')
+  = pluralize(cfp.remaining_days, 'day')

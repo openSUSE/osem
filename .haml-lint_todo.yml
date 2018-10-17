@@ -23,7 +23,9 @@ linters:
       - "app/views/admin/cfps/_events_cfp.html.haml"
       - "app/views/admin/cfps/_form.html.haml"
       - "app/views/admin/cfps/_tracks_cfp.html.haml"
+      - "app/views/admin/cfps/edit.haml"
       - "app/views/admin/cfps/index.html.haml"
+      - "app/views/admin/cfps/new.haml"
       - "app/views/admin/cfps/show.html.haml"
       - "app/views/admin/comments/_all_comments.html.haml"
       - "app/views/admin/comments/_posted_comments.html.haml"
@@ -262,10 +264,6 @@ linters:
   InstanceVariables:
     exclude:
       - "app/views/admin/booths/_change_state_dropdown.html.haml"
-      - "app/views/admin/cfps/_booths_cfp.html.haml"
-      - "app/views/admin/cfps/_events_cfp.html.haml"
-      - "app/views/admin/cfps/_form.html.haml"
-      - "app/views/admin/cfps/_tracks_cfp.html.haml"
       - "app/views/admin/conferences/_todo_list.html.haml"
       - "app/views/admin/difficulty_levels/_form.html.haml"
       - "app/views/admin/event_types/_form.html.haml"
@@ -319,9 +317,6 @@ linters:
       - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/booths/index.html.haml"
       - "app/views/admin/booths/show.html.haml"
-      - "app/views/admin/cfps/_form.html.haml"
-      - "app/views/admin/cfps/index.html.haml"
-      - "app/views/admin/cfps/show.html.haml"
       - "app/views/admin/comments/_all_comments.html.haml"
       - "app/views/admin/comments/_posted_comments.html.haml"
       - "app/views/admin/comments/_unread_comments.html.haml"
@@ -483,8 +478,6 @@ linters:
   # Offense count: 34
   IdNames:
     exclude:
-      - "app/views/admin/cfps/_events_cfp.html.haml"
-      - "app/views/admin/cfps/_tracks_cfp.html.haml"
       - "app/views/admin/comments/index.html.haml"
       - "app/views/admin/conferences/index.html.haml"
       - "app/views/admin/conferences/show.html.haml"
