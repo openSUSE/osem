@@ -1,11 +1,14 @@
 .row
   .col-md-12
     .page-header
-      %h1 Call for Papers
+      %h1
+        Call for
+        = cfp.cfp_type.capitalize
 .row
   .col-md-8
     = semantic_form_for(cfp, url: cfp_form_url(cfp, conference),
       html: { multipart: true }) do |f|
+      = f.input :cfp_type, as: :hidden
       = f.input :start_date, as: :string,
         input_html: { id: 'registration-period-start-datepicker',
           start_date: conference.start_date,
@@ -13,9 +16,6 @@
       = f.input :end_date, as: :string,
         input_html: { id: 'registration-period-end-datepicker',
           readonly: 'readonly' }
-      = f.input :cfp_type, as: :select, include_blank: false,
-        collection: select_cfp_types(cfp, conference.program),
-        label: 'Type', input_html: { class: 'select-help-toggle' }
       = f.input :description, hint: markdown_hint,
         input_html: { rows: 2, data: { provide: 'markdown-editable' } }
       %p.text-right
