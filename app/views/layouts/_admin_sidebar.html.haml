@@ -68,7 +68,7 @@
         %ul
           - if can? :update, Cfp.new(program_id: @conference.program.id)
             %li{class: active_nav_li(admin_conference_program_cfps_path(@conference.short_title))}
-              = link_to 'Call for Papers', admin_conference_program_cfps_path(@conference.short_title)
+              = link_to 'Calls for Content', admin_conference_program_cfps_path(@conference.short_title)
           - if can? :update, @conference.program.events.build
             %li{class: active_nav_li(admin_conference_program_events_path(@conference.short_title))}
               = link_to 'Events', admin_conference_program_events_path(@conference.short_title)
