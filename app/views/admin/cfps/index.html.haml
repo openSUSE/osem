@@ -43,6 +43,14 @@
 - if can? :new, @program.cfps.new
   .row
     .col-md-12.text-right
-      = link_to 'Create Call for Papers',
-        new_admin_conference_program_cfp_path(@conference),
-        class: 'btn btn-primary'
+      .btn-group
+        %button.btn.btn-primary.dropdown-toggle{ type: 'button',
+          data: { toggle: 'dropdown' } }
+          Add Call for...
+          %span.caret
+        %ul.dropdown-menu
+          - @program.remaining_cfp_types.each do |cfp_type|
+            %li
+              = link_to cfp_type.capitalize,
+                new_admin_conference_program_cfp_path(@conference,
+                  cfp: { cfp_type: cfp_type })

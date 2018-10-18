@@ -11,7 +11,7 @@ module Admin
     def show; end
 
     def new
-      @cfp = @program.cfps.new
+      @cfp = @program.cfps.new(cfp_params_or_first_remaining_type)
     end
 
     def edit; end
@@ -58,6 +58,12 @@ module Admin
 
     def cfp_params
       params.require(:cfp).permit(:start_date, :end_date, :description, :cfp_type)
+    end
+
+    def cfp_params_or_first_remaining_type
+      cfp_params
+    rescue ActionController::ParameterMissing
+      { 'cfp_type' => @program.remaining_cfp_types.first }
     end
   end
 end

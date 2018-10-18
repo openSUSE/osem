@@ -9,11 +9,5 @@ module Admin
         admin_conference_program_cfp_path(conference, cfp)
       end
     end
-
-    def select_cfp_types(cfp, program)
-      cfp_types = program.remaining_cfp_types
-      cfp_types.unshift(cfp.cfp_type) unless cfp.new_record?
-      cfp_types.map { |cfp_type| ["#{cfp_type.capitalize}", cfp_type] }
-    end
   end
 end
