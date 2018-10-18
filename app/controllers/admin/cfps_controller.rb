@@ -57,7 +57,11 @@ module Admin
     private
 
     def cfp_params
-      params.require(:cfp).permit(:start_date, :end_date, :description, :cfp_type)
+      params.require(:cfp).permit(
+        :start_date, :end_date,
+        :description, :cfp_type,
+        :enable_registrations
+      )
     end
 
     def cfp_params_or_first_remaining_type

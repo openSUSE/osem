@@ -18,6 +18,11 @@
           readonly: 'readonly' }
       = f.input :description, hint: markdown_hint,
         input_html: { rows: 2, data: { provide: 'markdown-editable' } }
+      - if cfp.cfp_type == 'events'
+        = f.input :enable_registrations, as: :boolean,
+          hint: 'Allow submitters to request registration?'
+      - else
+        = f.input :enable_registrations, as: :hidden
       %p.text-right
         = f.action :submit, as: :button,
           button_html: { class: 'btn btn-primary' }
