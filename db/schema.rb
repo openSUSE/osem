@@ -42,13 +42,14 @@ ActiveRecord::Schema.define(version: 20181113195810) do
   end
 
   create_table "cfps", force: :cascade do |t|
-    t.date     "start_date",  null: false
-    t.date     "end_date",    null: false
+    t.date     "start_date",                           null: false
+    t.date     "end_date",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "program_id"
     t.string   "cfp_type"
     t.text     "description"
+    t.boolean  "enable_registrations", default: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -434,6 +435,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
     t.boolean  "include_booths"
+    t.boolean  "shuffle_highlights",        default: false, null: false
   end
 
   create_table "sponsors", force: :cascade do |t|

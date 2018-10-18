@@ -94,6 +94,7 @@ feature Event do
 
     scenario 'update a proposal' do
       conference = create(:conference)
+      create(:cfp, program: conference.program)
       proposal = create(:event, program: conference.program)
 
       sign_in proposal.submitter

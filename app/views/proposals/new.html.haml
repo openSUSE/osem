@@ -59,7 +59,8 @@
                   250
                 words.
 
-              = f.input :require_registration, label: 'Require participants to register to your event'
+              - if @program.cfp.enable_registrations?
+                = f.input :require_registration, label: 'Require participants to register to your event'
 
               %p.text-right
                 = link_to '#description',  'data-toggle' => 'collapse', id: 'description_link' do

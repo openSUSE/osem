@@ -43,10 +43,11 @@
         250
       words.
 
-    = f.inputs 'Enable pre-registration' do
-      = f.input :require_registration, label: 'Require participants to register to your event'
-      - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
-      = f.input :max_attendees, hint: 'The maximum number of participants. ' + message
+    - if @program.cfp.enable_registrations?
+      = f.inputs 'Enable pre-registration' do
+        = f.input :require_registration, label: 'Require participants to register to your event'
+        - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
+        = f.input :max_attendees, hint: 'The maximum number of participants. ' + message
 
     - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
       = f.input :is_highlight

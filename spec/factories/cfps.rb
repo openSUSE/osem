@@ -8,6 +8,7 @@ FactoryBot.define do
     end_date { 2.days.from_now }
     cfp_type { 'events' }
     description { 'This is a test description' }
+    enable_registrations { true }
     program
   end
 end

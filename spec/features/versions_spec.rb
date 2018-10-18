@@ -4,6 +4,7 @@ require 'spec_helper'
 
 feature 'Version' do
   let!(:conference) { create(:conference) }
+  let!(:cfp) { create(:cfp, program: conference.program) }
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
   let(:event_with_commercial) { create(:event, program: conference.program) }
@@ -35,7 +36,6 @@ feature 'Version' do
   end
 
   scenario 'display changes in cfp', feature: true, versioning: true, js: true do
-    cfp = create(:cfp, program: conference.program)
     cfp.update_attributes(start_date: (Time.zone.today + 1).strftime('%d/%m/%Y'), end_date: (Time.zone.today + 3).strftime('%d/%m/%Y'))
     cfp_id = cfp.id
     cfp.destroy
