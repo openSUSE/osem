@@ -41,7 +41,7 @@ feature 'Has correct abilities' do
       expect(page).to have_link('Rooms', href: "/admin/conferences/#{conference.short_title}/venue/rooms")
       expect(page).to have_link('Lodgings', href: "/admin/conferences/#{conference.short_title}/lodgings")
       expect(page).to have_link('Program', href: "/admin/conferences/#{conference.short_title}/program")
-      expect(page).to have_link('Call for Papers', href: "/admin/conferences/#{conference.short_title}/program/cfps")
+      expect(page).to have_link('Calls for Content', href: "/admin/conferences/#{conference.short_title}/program/cfps")
       expect(page).to have_link('Events', href: "/admin/conferences/#{conference.short_title}/program/events")
       expect(page).to have_link('Tracks', href: "/admin/conferences/#{conference.short_title}/program/tracks")
       expect(page).to have_link('Event Types', href: "/admin/conferences/#{conference.short_title}/program/event_types")
