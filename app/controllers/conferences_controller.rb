@@ -19,7 +19,7 @@ class ConferencesController < ApplicationController
       :registration_period,
       :contact,
       venue: :commercial
-    ).find_by(conference_finder_conditions)
+    ).find_by!(conference_finder_conditions)
     authorize! :show, @conference # TODO: reduce the 10 queries performed here
 
     splashpage = @conference.splashpage
