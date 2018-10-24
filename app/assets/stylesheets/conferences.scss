@@ -1,0 +1,13 @@
+/* Apply CSS to views of a specific conference by encapsulating the style in
+ * a body tag classed for the conference's short title.
+ * See the example here for 'osemdemo'.
+ * NOTE: when overriding existing CSS, it may be necessary to use !important to
+ * bypass CSS specificity rules.
+*/
+
+body.conference-osemdemo {
+  // style here only applies when working with the 'osemdemo' conference.
+  #header {
+    background-color: #b58e73 !important;
+  }
+}

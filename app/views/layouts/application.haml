@@ -21,7 +21,7 @@
       = javascript_include_tag "//cdn.transifex.com/live.js"
 
     = yield(:head)
-  %body
+  %body{ class: ("conference-#{@conference.short_title}" if @conference) }
     = render 'layouts/navigation', conference: @conference
     -# Admin area
     - if controller.class.name.split("::").first=="Admin"
