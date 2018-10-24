@@ -522,14 +522,6 @@ RSpec/AnyInstance:
 RSpec/ContextWording:
   Enabled: false
 
-# Offense count: 4
-RSpec/DescribeClass:
-  Exclude:
-    - 'spec/ability/ability_spec.rb'
-    - 'spec/models/admin_ability_spec.rb'
-    - 'spec/models/booth_spec.rb'
-    - 'spec/models/registration_spec.rb'
-
 # Offense count: 73
 # Cop supports --auto-correct.
 # Configuration parameters: SkipBlocks, EnforcedStyle.
