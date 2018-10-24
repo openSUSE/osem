@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Registration' do
+describe Registration do
   subject { create(:registration) }
   let!(:user) { create(:user) }
   let!(:conference) { create(:conference) }

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'Booth' do
+describe Booth do
   subject { create(:booth) }
   let!(:conference) { create(:conference) }
 

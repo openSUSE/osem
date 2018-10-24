@@ -20,3 +20,9 @@ Rails:
 
 FactoryBot/AttributeDefinedStatically:
   Enabled: true
+
+
+RSpec/DescribeClass:
+  Exclude:
+    - "spec/views/**/*"
+    - "spec/ability/*"
