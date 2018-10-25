@@ -68,25 +68,33 @@ feature 'Code of Conduct:' do
       let!(:organization) { create(:organization, code_of_conduct: sample_text) }
       let!(:participant) { create(:user) }
 
-      before { sign_in participant }
-
-      it 'must be accepted', js: true do
+      before do
+        sign_in participant
         visit conferences_path
         within "#conference-#{conference.id}" do
           click_on 'Register'
         end
+      end
+
+      it 'can be viewed', js: true do
+        page.find('input#registration_accepted_code_of_conduct')
         expect(page).to have_text('I have read and accept the Code of Conduct')
         expect(page).not_to have_text(sample_text)
         within 'form' do
           click_on 'Code of Conduct'
         end
+        page.find('.modal-dialog')
         expect(page).to have_content(sample_text)
-        find('button.close').click
-        click_on 'Register'
+      end
+
+      it 'must be accepted', js: true do
+        find("input[type='submit']").click
+        page.find('#flash')
         expect(conference.user_registered?(participant)).to be_falsey
-        expect(page).to have_content('Accepted code of conduct must be accepted')
+        expect(flash).to match('Accepted code of conduct must be accepted')
         check 'registration[accepted_code_of_conduct]'
         click_on 'Register'
+        page.find('#flash')
         expect(conference.user_registered?(participant)).to be_truthy
         visit conference_conference_registration_path(conference)
         expect(page).to have_content('You have accepted the Code of Conduct')
