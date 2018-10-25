@@ -85,6 +85,7 @@ feature Event do
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
 
       click_button 'Create Proposal'
+      page.find('#flash')
       expect(page).to have_content 'Proposal was successfully submitted.'
 
       expect(Event.count).to eq(expected_count_event)
@@ -103,6 +104,7 @@ feature Event do
       select('Easy', from: 'event[difficulty_level_id]')
 
       click_button 'Update Proposal'
+      page.find('#flash')
       expect(page).to have_content 'Proposal was successfully updated.'
     end
 
@@ -121,6 +123,7 @@ feature Event do
       fill_in 'event_description', with: 'Lorem ipsum description'
 
       click_button 'Create Proposal'
+      page.find('#flash')
       expect(page).to have_content 'Proposal was successfully submitted.'
 
       expect(current_path).to eq(conference_program_proposals_path(conference.short_title))
@@ -145,6 +148,8 @@ feature Event do
       visit conference_program_proposals_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
       click_link "delete_proposal_#{@event.id}"
+      page.accept_alert
+      page.find('#flash')
       expect(page).to have_content 'Proposal was successfully withdrawn.'
       @event.reload
       expect(@event.state).to eq('withdrawn')

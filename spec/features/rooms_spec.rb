@@ -23,7 +23,7 @@ feature Room do
       fill_in 'room_size', with: '100'
 
       click_button 'Create Room'
-
+      page.find('#flash')
       # Validations
       expect(flash).to eq('Room successfully created.')
       within('table#rooms') do
@@ -42,7 +42,7 @@ feature Room do
       fill_in 'room_size', with: '100'
 
       click_button 'Update Room'
-
+      page.find('#flash')
       # Validations
       expect(flash).to eq('Room successfully updated.')
       within('table#rooms') do

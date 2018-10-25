@@ -37,6 +37,7 @@ feature EmailSettings do
       fill_in 'email_settings_confirmed_without_registration_body',
               with: 'Confirmed without registration email body'
 
+      page.execute_script 'window.scrollTo(0,0)'
       click_link 'Update Notifications'
       fill_in 'email_settings_conference_dates_updated_subject',
               with: 'Updated conference dates subject'
@@ -54,7 +55,7 @@ feature EmailSettings do
               with: 'Updated conference venue template'
 
       click_button 'Update Email settings'
-
+      page.find('#flash')
       expect(flash)
           .to eq('Email settings have been successfully updated.')
 

@@ -21,7 +21,7 @@ feature SponsorshipLevel do
       fill_in 'sponsorship_level_title', with: 'Platin'
 
       click_button 'Create Sponsorship level'
-
+      page.find('#flash')
       # Validations
       expect(flash).to eq('Sponsorship level successfully created.')
       within('table#sponsorship_levels') do
@@ -39,7 +39,7 @@ feature SponsorshipLevel do
       fill_in 'sponsorship_level_title', with: 'Gold'
 
       click_button 'Update Sponsorship level'
-
+      page.find('#flash')
       # Validations
       expect(flash).to eq('Sponsorship level successfully updated.')
       within('table#sponsorship_levels') do

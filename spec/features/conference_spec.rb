@@ -28,6 +28,7 @@ feature Conference do
 
       click_button 'Create Conference'
 
+      page.find('#flash')
       expect(flash)
           .to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
@@ -49,9 +50,14 @@ feature Conference do
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: ''
 
-      click_button 'Update Conference'
+      page.accept_alert do
+        click_button 'Update Conference'
+      end
+
+      page.find('#flash')
       expect(flash)
           .to eq("Updating conference failed. Short title can't be blank.")
+      page.find('#flash .close').click
 
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'
@@ -64,9 +70,12 @@ feature Conference do
           .execute_script("$('#conference-end-datepicker').val('" +
                              "#{(day + 7).strftime('%d/%m/%Y')}')")
 
-      click_button 'Update Conference'
-      expect(flash)
-          .to eq('Conference was successfully updated.')
+      page.accept_alert do
+        click_button 'Update Conference'
+      end
+
+      page.find('#flash')
+      expect(flash).to eq('Conference was successfully updated.')
 
       conference.reload
       expect(conference.title).to eq('New Con')

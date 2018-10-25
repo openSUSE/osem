@@ -18,6 +18,7 @@ feature Conference do
 
       click_button 'Create Cfp'
 
+      page.find('#flash')
       expect(flash)
           .to eq('Creating the call for papers failed. ' +
           "Start date can't be blank. End date can't be blank.")
@@ -53,6 +54,7 @@ feature Conference do
       page.execute_script(
           "$('#registration-period-start-datepicker').val('')")
       click_button 'Update Cfp'
+      page.find('#flash')
       expect(flash)
           .to eq('Updating call for papers failed. ' +
                     "Start date can't be blank.")
@@ -67,6 +69,7 @@ feature Conference do
       click_button 'Update Cfp'
 
       # Validations
+      page.find('#flash')
       expect(flash)
           .to eq('Call for papers successfully updated.')
 

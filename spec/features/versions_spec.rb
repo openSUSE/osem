@@ -250,6 +250,8 @@ feature 'Version' do
     splashpage_id = conference.splashpage.id
 
     click_link 'Delete'
+    page.accept_alert
+
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} created new splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} updated public, include program, include cfp, include venue, include tickets, include lodgings,

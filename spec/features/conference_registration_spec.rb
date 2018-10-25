@@ -35,7 +35,11 @@ feature Registration do
         click_link 'My Registration'
         expect(current_path).to eq(conference_conference_registration_path(conference.short_title))
 
-        click_link 'Unregister'
+        page.accept_alert do
+          click_link 'Unregister'
+        end
+        page.find('#flash')
+        expect(page).to have_content('not registered')
         expect(conference.user_registered?(participant)).to be(false)
       end
     end

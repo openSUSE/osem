@@ -19,10 +19,11 @@ feature RegistrationPeriod do
       click_link 'New Registration Period'
 
       click_button 'Save Registration Period'
+      page.find('#flash')
       expect(flash)
           .to eq('An error prohibited the Registration Period from being saved: ' \
           "Start date can't be blank. End date can't be blank.")
-
+      page.find('#flash .close').click
       page
           .execute_script("$('#registration-period-start-datepicker').val('" +
                              "#{Date.today.strftime('%d/%m/%Y')}')")
@@ -31,7 +32,7 @@ feature RegistrationPeriod do
                              "#{(Date.today + 5).strftime('%d/%m/%Y')}')")
 
       click_button 'Save Registration Period'
-
+      page.find('#flash')
       expect(flash).to eq('Registration Period successfully updated.')
       expect(current_path).to eq(admin_conference_registration_period_path(conference.short_title))
 

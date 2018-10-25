@@ -21,7 +21,7 @@ feature Role do
       fill_in 'role_description', with: 'changed description'
       click_button 'Update Role'
       role.reload
-
+      page.find('#flash')
       expect(flash).to eq("Successfully updated role #{role_name}")
       expect(role.description).to eq('changed description')
     end
@@ -69,7 +69,7 @@ feature Role do
       bootstrap_switch = first('td').find('.bootstrap-switch-container')
       bootstrap_switch.click
 
-      expect(find('.alert').text).to eq "×Successfully removed role #{role_name} from user #{user_with_role.email}"
+      expect(find('.alert').text).to eq "× Successfully removed role #{role_name} from user #{user_with_role.email}"
       expect(by_role_name).to eq(role_name) | eq('organizer')
       user_with_role.reload
       expect(user_with_role.has_cached_role?(role_name, conference)).to eq false

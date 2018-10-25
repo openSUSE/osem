@@ -26,6 +26,7 @@ feature Conference do
               with: 'Lorem ipsum dolor sit amet, consetetur' \
               'sadipscing elitr, sed diam nonumy eirmod tempor'
       click_button 'Create Venue'
+      page.find('#flash')
       expect(flash)
           .to eq('Venue was successfully created.')
       venue = Conference.find(conference.id).venue
@@ -43,6 +44,7 @@ feature Conference do
       fill_in 'venue_website', with: 'www.example.com new'
       fill_in 'venue_description', with: 'new'
       click_button 'Update Venue'
+      page.find('#flash')
       expect(flash)
           .to eq('Venue was successfully updated.')
       venue.reload

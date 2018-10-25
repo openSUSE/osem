@@ -22,7 +22,7 @@ feature Program do
       fill_in 'program_rating', with: '4'
 
       click_button 'Update Program'
-
+      page.find('#flash')
       # Validations
       expect(flash)
           .to eq('The program was successfully updated.')

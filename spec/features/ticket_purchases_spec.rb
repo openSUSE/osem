@@ -32,7 +32,7 @@ feature Registration do
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
 
         click_button 'Continue'
-
+        page.find('#flash')
         expect(current_path).to eq(new_conference_payment_path(conference.short_title))
         expect(flash).to eq('Please pay here to get tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
@@ -68,7 +68,7 @@ feature Registration do
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
 
         click_button 'Continue'
-
+        page.find('#flash')
         expect(current_path).to eq(new_conference_payment_path(conference.short_title))
         expect(flash).to eq('Please pay here to get tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
@@ -87,7 +87,7 @@ feature Registration do
             page.execute_script(%{ $('#submitButton').click(); })
             sleep(20)
           end
-
+          page.find('#flash')
           expect(current_path).to eq(conference_payments_path(conference.short_title))
           expect(flash).to eq('Your card was declined. Please try again with correct credentials.')
         end
@@ -138,7 +138,7 @@ feature Registration do
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
 
         click_button 'Continue'
-
+        page.find('#flash')
         expect(flash).to eq('Oops, something went wrong with your purchase! You cannot buy more than one registration tickets.')
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
       end
@@ -157,7 +157,7 @@ feature Registration do
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
 
         click_button 'Continue'
-
+        page.find('#flash')
         expect(current_path).to eq(new_conference_payment_path(conference.short_title))
         expect(flash).to eq('Please pay here to get tickets.')
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first

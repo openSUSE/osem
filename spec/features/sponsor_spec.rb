@@ -26,7 +26,7 @@ feature Sponsor do
       select(conference.sponsorship_levels.first.title, from: 'sponsor_sponsorship_level_id')
 
       click_button 'Create Sponsor'
-
+      page.find('#flash')
       expect(flash).to eq('Sponsor successfully created.')
       within('table#sponsors') do
         expect(page.has_content?('SUSE')).to be true
@@ -46,6 +46,7 @@ feature Sponsor do
           click_link 'Delete'
         end
       end
+      page.find('#flash')
       expect(flash).to eq('Sponsor successfully deleted.')
       expect(page).to_not have_selector('table#sponsors')
     end

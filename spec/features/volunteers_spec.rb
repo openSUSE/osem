@@ -29,6 +29,7 @@ feature Conference do
 #         find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
 #           set('Example Person')
       click_button 'Update Conference'
+      page.find('#flash')
       expect(flash)
       .to eq('Volunteering options were successfully updated.')
 
@@ -47,6 +48,7 @@ feature Conference do
 #       click_link 'Remove vday'
 #       expect(page.all('div.nested-fields').count == 0).to be true
       click_button 'Update Conference'
+      page.find('#flash')
       expect(flash).to eq('Volunteering options were successfully updated.')
       expect(page.all('div.nested-fields').count == 0).to be true
       sign_out
@@ -75,6 +77,7 @@ feature Conference do
 #         find('div.nested-fields:nth-of-type(1) div:nth-of-type(1) textarea').
 #         set('Example Person')
       click_button 'Update Conference'
+      page.find('#flash')
       expect(flash)
       .to eq('Volunteering options were successfully updated.')
 
@@ -92,6 +95,7 @@ feature Conference do
 #                  "[id$='_vday_ids']").
 #                       find(:option, "#{Date.today.strftime}").select_option
       click_button 'Update Conference'
+      page.find('#flash')
       expect(flash)
       .to eq('Volunteering options were successfully updated.')
 
@@ -111,6 +115,7 @@ feature Conference do
 #       click_link 'Remove vposition'
 #       expect(page.all('div.nested-fields').count == 1).to be true
 #       click_button 'Update Conference'
+      page.find('#flash')
       expect(flash).to eq('Volunteering options were successfully updated.')
 #       click_link 'Remove vday'
 #       expect(page.all('div.nested-fields').count == 0).to be true

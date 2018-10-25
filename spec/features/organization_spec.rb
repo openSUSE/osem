@@ -16,6 +16,7 @@ feature Organization do
       click_button 'Update Organization'
 
       organization.reload
+      page.find('#flash')
       expect(flash).to eq('Organization successfully updated')
       expect(organization.name).to eq('changed name')
     end
@@ -30,7 +31,7 @@ feature Organization do
       fill_in 'organization_name', with: 'Organization name'
 
       click_button 'Create Organization'
-
+      page.find('#flash')
       expect(flash).to eq('Organization successfully created')
       expect(Organization.last.name).to eq('Organization name')
     end
@@ -44,7 +45,7 @@ feature Organization do
     end
     scenario "can't create new organization", feature: true, js: true do
       visit new_admin_organization_path
-
+      page.find('#flash')
       expect(flash).to eq('You are not authorized to access this page.')
     end
 
