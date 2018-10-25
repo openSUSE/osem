@@ -252,10 +252,11 @@ end
 group :test do
   # as test framework
   gem 'capybara'
+  gem 'chromedriver-helper'
   gem 'database_cleaner'
-  gem 'phantomjs', :require => 'phantomjs/poltergeist'
-  gem 'poltergeist'
+  gem 'geckodriver-helper'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+  gem 'selenium-webdriver'
   # for measuring test coverage
   gem 'codecov', require: false
   # for describing models

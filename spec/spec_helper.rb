@@ -18,9 +18,7 @@ require 'shoulda/matchers'
 # all migrations applied
 ActiveRecord::Migration.maintain_test_schema!
 
-# Add poltergeist to use it as JS driver
-require 'capybara/poltergeist'
-require 'phantomjs'
+require 'selenium/webdriver'
 
 # Adds rspec helper provided by paper_trail
 # makes it easier to control when PaperTrail is enabled during testing.
@@ -59,17 +57,36 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  # poltergeist as a underlying mech for Capybara
-  Capybara.javascript_driver = :poltergeist
+  Capybara.register_driver :firefox do |app|
+    Capybara::Selenium::Driver.new(app, browser: :firefox)
+  end
 
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(
-      app,
-      phantomjs:   Phantomjs.path,
-      js_errors:   false,
-      window_size: [1920, 1080]
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  end
+
+  Capybara.register_driver :firefox_headless do |app|
+    options = Selenium::WebDriver::Firefox::Options.new
+    options.args << '--headless'
+    options.args << '--window-size=1920,1080'
+    Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+  end
+
+  Capybara.register_driver :chrome_headless do |app|
+    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: { args: %w(headless disable-gpu) }
+    )
+    Capybara::Selenium::Driver.new(
+      app, browser: :chrome, desired_capabilities: capabilities
     )
   end
+
+  Capybara.default_max_wait_time = 10 # seconds
+
+  # use a real browser for JS tests
+  Capybara.javascript_driver = (
+    ENV['OSEM_TEST_DRIVER'].try(:to_sym) || :chrome_headless
+  )
 
   # Includes helpers and connect them to specific types of tests
   config.include FactoryBot::Syntax::Methods
