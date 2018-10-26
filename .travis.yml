@@ -12,6 +12,7 @@ before_install:
   - "echo `phantomjs -v`"
 addons:
   mariadb: '10.2'
+  chrome: stable
 notifications:
   email:
     on_success: change
