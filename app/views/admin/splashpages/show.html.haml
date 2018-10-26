@@ -3,9 +3,13 @@
     .page-header
       %h1 Splashpage
       %p.text-muted
-        Build a
-        = link_to "splash page", conference_path(@conference.short_title)
-        with all the information for your conference
+        - if @splashpage
+          View the
+          = link_to "splash page", conference_path(@conference.short_title)
+
+        - else
+          Build a splashpage with all the information for your conference
+
 - if @splashpage
   .row
     .col-md-12
