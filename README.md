@@ -7,7 +7,7 @@
   <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
 </a>
 # Open Source Event Manager
-![OSEM Logo](https://cdn.brandisty.com/img?id=570f6dc39c992b6b6700000a&format=png&w=300&h=89)
+![OSEM Logo](doc/osem-logo.png)
 
 An event management tool tailored to Free and Open Source Software conferences.
 
