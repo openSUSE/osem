@@ -8,41 +8,39 @@ feature Contact do
   let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
 
-  shared_examples 'update a contact' do
-
-    scenario 'sucessfully', feature: true, js: true do
+  shared_examples 'contact field' do |field_name, field_value|
+    it 'updates a contact' do
       contact = conference.contact
       expected_count = Contact.count
-      sign_in organizer
 
       visit edit_admin_conference_contact_path(conference.short_title)
-
-      fill_in 'contact_email', with: 'example@example.com'
-      fill_in 'contact_sponsor_email', with: 'sponsor@example.com'
-      fill_in 'contact_social_tag', with: 'example'
-      fill_in 'contact_facebook', with: 'http:\\www.facebook.com'
-      fill_in 'contact_twitter', with: 'http:\\www.twitter.com'
-      fill_in 'contact_instagram', with: 'http:\\www.instagram.com'
-      fill_in 'contact_googleplus', with: 'http:\\www.google.com'
-
+      fill_in 'contact_' + field_name, with: field_value
       click_button 'Update Contact'
 
       expect(flash)
           .to eq('Contact details were successfully updated.')
       contact.reload
-      expect(contact.email).to eq('example@example.com')
-      expect(contact.sponsor_email).to eq('sponsor@example.com')
-      expect(contact.social_tag).to eq('example')
-      expect(contact.facebook).to eq('http:\\www.facebook.com')
-      expect(contact.twitter).to eq('http:\\www.twitter.com')
-      expect(contact.instagram).to eq('http:\\www.instagram.com')
-      expect(contact.googleplus).to eq('http:\\www.google.com')
+
+      expect(contact.send(field_name)).to eq(field_value)
       expect(Contact.count).to eq(expected_count)
     end
   end
 
   describe 'organizer' do
-    it_behaves_like 'update a contact', :organizer
-  end
+    before do
+      sign_in organizer
+    end
 
+    context 'editing', feature: true do
+      it_behaves_like 'contact field', 'email', 'example@example.com'
+      it_behaves_like 'contact field', 'sponsor_email', 'sponsor@example.com'
+      it_behaves_like 'contact field', 'social_tag', 'example'
+      it_behaves_like 'contact field', 'facebook', 'http://www.facebook.com'
+      it_behaves_like 'contact field', 'twitter', 'http://www.twitter.com'
+      it_behaves_like 'contact field', 'instagram', 'http://www.instagram.com'
+      it_behaves_like 'contact field', 'googleplus', 'http://www.google.com'
+      it_behaves_like 'contact field', 'blog', 'http://blog.localdomain'
+      it_behaves_like 'contact field', 'youtube', 'https://youtube.com/osem'
+    end
+  end
 end
