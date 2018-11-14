@@ -16,15 +16,15 @@ end
 def stub_env_for_omniauth
   request.env['devise.mapping'] = Devise.mappings[:user]
   env = OmniAuth::AuthHash.new(
-                                provider: 'google',
-                                uid: 'google-test-uid-1',
-                                info: {
-                                  name: 'google user',
-                                  email: nil,
+                                provider:    'google',
+                                uid:         'google-test-uid-1',
+                                info:        {
+                                  name:     'google user',
+                                  email:    nil,
                                   username: 'user_google'
                                 },
                                 credentials: {
-                                  token: 'google_mock_token',
+                                  token:  'google_mock_token',
                                   secret: 'google_mock_secret'
                                 }
   )

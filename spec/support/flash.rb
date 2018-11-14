@@ -6,6 +6,7 @@ module Flash
     if results.empty?
       return 'none'
     end
+
     if results.count > 1
       texts = results.map { |r| r.text }
       fail "One flash expected, but we had #{texts.inspect}"

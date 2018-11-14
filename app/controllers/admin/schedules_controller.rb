@@ -32,7 +32,7 @@ module Admin
 
     def show
       @event_schedules = @schedule.event_schedules.eager_load(
-        room: :tracks,
+        room:  :tracks,
         event: [
           :difficulty_level,
           :track,

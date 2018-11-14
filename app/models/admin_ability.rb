@@ -115,7 +115,7 @@ class AdminAbility
     can :manage, Contact, conference_id: conf_ids
     can :manage, EmailSettings, conference_id: conf_ids
     can :manage, Commercial, commercialable_type: 'Conference',
-                             commercialable_id: conf_ids
+                             commercialable_id:   conf_ids
     can :manage, Registration, conference_id: conf_ids
     can :manage, RegistrationPeriod do |registration_period|
       conference = registration_period.conference
@@ -137,10 +137,10 @@ class AdminAbility
     can :manage, Track, program: { conference_id: conf_ids }
     can :manage, DifficultyLevel, program: { conference_id: conf_ids }
     can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
+                             commercialable_id:   Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
     can :manage, Venue, conference_id: conf_ids
     can :manage, Commercial, commercialable_type: 'Venue',
-                             commercialable_id: Venue.where(conference_id: conf_ids).pluck(:id)
+                             commercialable_id:   Venue.where(conference_id: conf_ids).pluck(:id)
     can :manage, Lodging, conference_id: conf_ids
     can :manage, Room, venue: { conference_id: conf_ids }
     can :manage, Sponsor, conference_id: conf_ids
@@ -151,7 +151,7 @@ class AdminAbility
       conf_ids.include? conf_id
     end
     can :index, Comment, commentable_type: 'Event',
-                         commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
+                         commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
@@ -188,9 +188,9 @@ class AdminAbility
     can :manage, Cfp, program: { conference_id: conf_ids_for_cfp }
     can :manage, Program, conference_id: conf_ids_for_cfp
     can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+                             commercialable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
     can :index, Comment, commentable_type: 'Event',
-                         commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+                         commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
@@ -306,7 +306,7 @@ class AdminAbility
 
     can :manage, Event, track_id: track_ids_for_track_organizer
     can :manage, Commercial, commercialable_type: 'Event',
-                             commercialable_id: Event.where(track_id: track_ids_for_track_organizer).pluck(:id)
+                             commercialable_id:   Event.where(track_id: track_ids_for_track_organizer).pluck(:id)
 
     # Show Scheduless in the admin sidebar
     can :update, Schedule do |schedule|

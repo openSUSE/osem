@@ -58,9 +58,9 @@ class AddRequireHandicappedAccessToQuestions < ActiveRecord::Migration
     answer_no = TempAnswer.find_or_create_by!(title: 'No')
 
     # Find existing question or initialize it
-    q = TempQuestion.find_or_initialize_by(title: 'Do you need handicapped access?',
+    q = TempQuestion.find_or_initialize_by(title:            'Do you need handicapped access?',
                                            question_type_id: qtype.id,
-                                           global: true)
+                                           global:           true)
     # Save question
     q.save!
 

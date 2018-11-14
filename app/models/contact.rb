@@ -12,6 +12,7 @@ class Contact < ApplicationRecord
 
   def has_social_media?
     return true if facebook.present? || twitter.present? || googleplus.present? || instagram.present? || mastodon.present? || email.present?
+
     false
   end
 end

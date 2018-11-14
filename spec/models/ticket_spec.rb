@@ -39,7 +39,7 @@ describe Ticket do
 
     it 'is not valid if tickets of conference do not have same currency' do
       conflicting_currency_ticket = build(:ticket,
-                                          conference: ticket.conference,
+                                          conference:     ticket.conference,
                                           price_currency: 'INR')
       expected_error_message = 'Price currency is different from the existing tickets of this conference.'
 
@@ -57,7 +57,7 @@ describe Ticket do
   describe '#bought?' do
     it 'returns true if the user has bought this ticket' do
       create(:ticket_purchase,
-             user: user,
+             user:   user,
              ticket: ticket)
       expect(ticket.bought?(user)).to eq(true)
     end
@@ -112,8 +112,8 @@ describe Ticket do
     context 'user has not paid' do
       it 'returns the correct value if the user has bought this ticket' do
         create(:ticket_purchase,
-               user: user,
-               ticket: ticket,
+               user:     user,
+               ticket:   ticket,
                quantity: 20)
         expect(ticket.quantity_bought_by(user, paid: false)).to eq(20)
       end
@@ -137,8 +137,8 @@ describe Ticket do
     context 'user has not paid' do
       it 'returns the correct value if the user has bought this ticket' do
         create(:ticket_purchase,
-               user: user,
-               ticket: ticket,
+               user:     user,
+               ticket:   ticket,
                quantity: 20)
         expect(ticket.total_price(user, paid: false)).to eq(Money.new(100000, 'USD'))
       end

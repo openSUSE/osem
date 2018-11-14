@@ -27,12 +27,12 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
           week = event_version.created_at.end_of_week
 
           no_events = {
-              new: 0,
-              withdrawn: 0,
+              new:         0,
+              withdrawn:   0,
               unconfirmed: 0,
-              confirmed: 0,
-              canceled: 0,
-              rejected: 0,
+              confirmed:   0,
+              canceled:    0,
+              rejected:    0,
           }
 
           if !conference.events_per_week

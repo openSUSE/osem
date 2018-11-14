@@ -57,6 +57,7 @@ module Admin
 
     def sponsorship_level_required
       return unless @conference.sponsorship_levels.empty?
+
       redirect_to admin_conference_sponsorship_levels_path(conference_id: @conference.short_title),
                   alert: 'You need to create atleast one sponsorship level to add a sponsor'
     end

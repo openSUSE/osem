@@ -94,6 +94,7 @@ class Event < ApplicationRecord
   def registration_possible?
     return false unless require_registration && state == 'confirmed'
     return true if max_attendees.nil?
+
     registrations.count < max_attendees
   end
 
@@ -228,14 +229,14 @@ class Event < ApplicationRecord
   # Returns +Hash+
   def progress_status
     {
-      registered: speakers.all? { |speaker| program.conference.user_registered? speaker },
-      commercials: commercials.any?,
-      biographies: speakers.all? { |speaker| !speaker.biography.blank? },
-      subtitle: !subtitle.blank?,
-      track: (!track.blank? unless program.tracks.empty?),
+      registered:       speakers.all? { |speaker| program.conference.user_registered? speaker },
+      commercials:      commercials.any?,
+      biographies:      speakers.all? { |speaker| !speaker.biography.blank? },
+      subtitle:         !subtitle.blank?,
+      track:            (!track.blank? unless program.tracks.empty?),
       difficulty_level: !difficulty_level.blank?,
-      title: true,
-      abstract: true
+      title:            true,
+      abstract:         true
     }.with_indifferent_access
   end
 
@@ -278,6 +279,7 @@ class Event < ApplicationRecord
   def ended?
     event_schedule = event_schedules.find_by(schedule_id: selected_schedule_id)
     return false unless event_schedule
+
     event_schedule.end_time < Time.current
   end
 
@@ -291,12 +293,14 @@ class Event < ApplicationRecord
   # Do not allow, for the event, more attendees than the size of the room
   def max_attendees_no_more_than_room_size
     return unless room && max_attendees_changed?
+
     errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
   end
 
   def abstract_limit
     # If we don't have an event type, there is no need to count anything
     return unless event_type && abstract
+
     len = abstract.split.size
     max_words = event_type.maximum_abstract_length
     min_words = event_type.minimum_abstract_length
@@ -335,6 +339,7 @@ class Event < ApplicationRecord
   #
   def valid_track
     return unless track&.program && program
+
     errors.add(:track, 'is invalid') unless track.confirmed? && track.program == program
   end
 

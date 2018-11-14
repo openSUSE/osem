@@ -8,18 +8,18 @@ describe EmailSettings do
   let(:event) { create(:event, program: conference.program, title: 'Talk about talks', submitter: user) }
   let(:expected_hash) do
     {
-      'email' => 'john@doe.com',
-      'name' => 'John Doe',
-      'conference' => conference.title,
-      'conference_start_date' => Date.new(2014, 05, 01),
-      'conference_end_date' => Date.new(2014, 05, 06),
-      'registrationlink' => 'http://localhost:3000/conferences/goto/register',
+      'email'                  => 'john@doe.com',
+      'name'                   => 'John Doe',
+      'conference'             => conference.title,
+      'conference_start_date'  => Date.new(2014, 05, 01),
+      'conference_end_date'    => Date.new(2014, 05, 06),
+      'registrationlink'       => 'http://localhost:3000/conferences/goto/register',
       'conference_splash_link' => 'http://localhost:3000/conferences/goto',
-      'schedule_link' => 'http://localhost:3000/conferences/goto/schedule',
-      'cfp_end_date' => 'Unknown',
-      'cfp_start_date' => 'Unknown',
-      'venue' => 'Unknown',
-      'venue_address' => 'Unknown'
+      'schedule_link'          => 'http://localhost:3000/conferences/goto/schedule',
+      'cfp_end_date'           => 'Unknown',
+      'cfp_start_date'         => 'Unknown',
+      'venue'                  => 'Unknown',
+      'venue_address'          => 'Unknown'
     }
   end
 
@@ -50,8 +50,8 @@ describe EmailSettings do
       before do
         create(:cfp,
                start_date: Date.new(2014, 04, 29),
-               end_date: Date.new(2014, 05, 06),
-               program: conference.program)
+               end_date:   Date.new(2014, 05, 06),
+               program:    conference.program)
         cfp_dates_hash = { 'cfp_start_date' => Date.new(2014, 04, 29), 'cfp_end_date' => Date.new(2014, 05, 06) }
         expected_hash.merge!(cfp_dates_hash)
       end
@@ -77,7 +77,7 @@ describe EmailSettings do
       before do
         conference.update_attributes(registration_period: create(:registration_period,
                                                                  start_date: Date.new(2014, 05, 03),
-                                                                 end_date: Date.new(2014, 05, 05)))
+                                                                 end_date:   Date.new(2014, 05, 05)))
         registration_period_hash = { 'registration_start_date' => Date.new(2014, 05, 03), 'registration_end_date' => Date.new(2014, 05, 05) }
         expected_hash.merge!(registration_period_hash)
       end

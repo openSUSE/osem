@@ -12,21 +12,21 @@ describe Conference do
     it 'updates pending conferences' do
       create(:conference,
              start_date: Date.today - 2.weeks,
-             end_date: Date.today - 1.weeks)
+             end_date:   Date.today - 1.weeks)
 
       subject.start_date = Date.today + 1.weeks
       subject.end_date = Date.today + 2.weeks
 
       result = {
         DateTime.now.end_of_week =>
-          {
-            confirmed: 0,
-            unconfirmed: 0,
-            new: 0,
-            withdrawn: 0,
-            canceled: 0,
-            rejected: 0
-          },
+                                    {
+                                      confirmed:   0,
+                                      unconfirmed: 0,
+                                      new:         0,
+                                      withdrawn:   0,
+                                      canceled:    0,
+                                      rejected:    0
+                                    },
       }
 
       Conference.write_event_distribution_to_db
@@ -37,7 +37,7 @@ describe Conference do
     it 'does not update past conferences' do
       old_conference = create(:conference,
                               start_date: Date.today - 2.weeks,
-                              end_date: Date.today - 1.weeks)
+                              end_date:   Date.today - 1.weeks)
 
       Conference.write_event_distribution_to_db
       old_conference.reload
@@ -76,14 +76,14 @@ describe Conference do
 
       result = {
         DateTime.now.end_of_week =>
-          {
-            confirmed: 1,
-            unconfirmed: 1,
-            new: 1,
-            withdrawn: 1,
-            canceled: 1,
-            rejected: 1
-          },
+                                    {
+                                      confirmed:   1,
+                                      unconfirmed: 1,
+                                      new:         1,
+                                      withdrawn:   1,
+                                      canceled:    1,
+                                      rejected:    1
+                                    },
       }
 
       subject.reload
@@ -96,23 +96,23 @@ describe Conference do
       subject.end_date = Date.today + 7.weeks
       db_data = {
         DateTime.now.end_of_week - 2.weeks =>
-          {
-            confirmed: 1,
-            unconfirmed: 2,
-            new: 0,
-            withdrawn: 0,
-            canceled: 0,
-            rejected: 0
-          },
+                                              {
+                                                confirmed:   1,
+                                                unconfirmed: 2,
+                                                new:         0,
+                                                withdrawn:   0,
+                                                canceled:    0,
+                                                rejected:    0
+                                              },
         DateTime.now.end_of_week - 1.weeks =>
-          {
-            confirmed: 3,
-            unconfirmed: 4,
-            new: 0,
-            withdrawn: 0,
-            canceled: 0,
-            rejected: 0
-          },
+                                              {
+                                                confirmed:   3,
+                                                unconfirmed: 4,
+                                                new:         0,
+                                                withdrawn:   0,
+                                                canceled:    0,
+                                                rejected:    0
+                                              },
       }
       subject.events_per_week = db_data
       subject.save
@@ -131,32 +131,32 @@ describe Conference do
 
       result = {
         DateTime.now.end_of_week - 2.weeks =>
-          {
-            confirmed: 1,
-            unconfirmed: 2,
-            new: 0,
-            withdrawn: 0,
-            canceled: 0,
-            rejected: 0
-          },
+                                              {
+                                                confirmed:   1,
+                                                unconfirmed: 2,
+                                                new:         0,
+                                                withdrawn:   0,
+                                                canceled:    0,
+                                                rejected:    0
+                                              },
         DateTime.now.end_of_week - 1.weeks =>
-          {
-            confirmed: 3,
-            unconfirmed: 4,
-            new: 0,
-            withdrawn: 0,
-            canceled: 0,
-            rejected: 0
-          },
-        DateTime.now.end_of_week =>
-          {
-            confirmed: 1,
-            unconfirmed: 1,
-            new: 1,
-            withdrawn: 0,
-            canceled: 0,
-            rejected: 0
-          },
+                                              {
+                                                confirmed:   3,
+                                                unconfirmed: 4,
+                                                new:         0,
+                                                withdrawn:   0,
+                                                canceled:    0,
+                                                rejected:    0
+                                              },
+        DateTime.now.end_of_week           =>
+                                              {
+                                                confirmed:   1,
+                                                unconfirmed: 1,
+                                                new:         1,
+                                                withdrawn:   0,
+                                                canceled:    0,
+                                                rejected:    0
+                                              },
       }
 
       subject.reload
@@ -176,11 +176,11 @@ describe Conference do
       # Inject last two weeks to database
       db_data = {
         Date.today.end_of_week - 2.weeks => {
-          confirmed: 1,
+          confirmed:   1,
           unconfirmed: 2,
         },
         Date.today.end_of_week - 1.weeks => {
-          confirmed: 3,
+          confirmed:   3,
           unconfirmed: 4,
         }
       }
@@ -192,10 +192,10 @@ describe Conference do
       create(:event, program: subject.program, created_at: Date.today - 2.weeks)
 
       result = {
-        'Submitted' => [1, 1, 1],
-        'Confirmed' => [1, 3, 0],
+        'Submitted'   => [1, 1, 1],
+        'Confirmed'   => [1, 3, 0],
         'Unconfirmed' => [2, 4, 0],
-        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        'Weeks'       => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       }
       expect(subject.get_submissions_data).to eq(result)
     end
@@ -208,10 +208,10 @@ describe Conference do
       create(:event, program: subject.program)
 
       result = {
-        'Submitted' => [1],
-        'Confirmed' => [0],
+        'Submitted'   => [1],
+        'Confirmed'   => [0],
         'Unconfirmed' => [0],
-        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8]
+        'Weeks'       => [1, 2, 3, 4, 5, 6, 7, 8]
       }
       expect(subject.get_submissions_data).to eq(result)
     end
@@ -233,10 +233,10 @@ describe Conference do
       confirmed.confirm!
 
       result = {
-        'Submitted' => [0, 0, 3],
-        'Confirmed' => [0, 0, 1],
+        'Submitted'   => [0, 0, 3],
+        'Confirmed'   => [0, 0, 1],
         'Unconfirmed' => [0, 0, 1],
-        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        'Weeks'       => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
       }
       expect(subject.get_submissions_data).to eq(result)
     end
@@ -248,11 +248,11 @@ describe Conference do
       # Inject last two weeks to database
       db_data = {
         Date.today.end_of_week - 3.weeks => {
-          confirmed: 1,
+          confirmed:   1,
           unconfirmed: 2,
         },
         Date.today.end_of_week - 1.weeks => {
-          confirmed: 3,
+          confirmed:   3,
           unconfirmed: 4,
         }
       }
@@ -264,10 +264,10 @@ describe Conference do
       create(:event, program: subject.program, created_at: Date.today - 3.weeks)
 
       result = {
-        'Submitted' => [1, 1, 1, 1],
-        'Confirmed' => [1, 0, 3, 0],
+        'Submitted'   => [1, 1, 1, 1],
+        'Confirmed'   => [1, 0, 3, 0],
         'Unconfirmed' => [2, 0, 4, 0],
-        'Weeks' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        'Weeks'       => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
       }
       expect(subject.get_submissions_data).to eq(result)
     end
@@ -1083,7 +1083,7 @@ describe Conference do
     it 'calculates new year' do
       subject.registration_period = create(:registration_period,
                                            start_date: Date.new(2013, 12, 31),
-                                           end_date: Date.new(2013, 12, 30) + 6)
+                                           end_date:   Date.new(2013, 12, 30) + 6)
       expect(subject.registration_weeks).to eq(1)
     end
 

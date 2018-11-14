@@ -41,7 +41,7 @@ describe Mailbot do
       before do
         conference.email_settings.update_attributes(send_on_accepted: true,
                                                     accepted_subject: 'Lorem Ipsum Dolsum',
-                                                    accepted_body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
+                                                    accepted_body:    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
       end
 
       include_examples 'mailer actions' do
@@ -53,7 +53,7 @@ describe Mailbot do
       before do
         conference.email_settings.update_attributes(send_on_rejected: true,
                                                     rejected_subject: 'Lorem Ipsum Dolsum',
-                                                    rejected_body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
+                                                    rejected_body:    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
       end
 
       include_examples 'mailer actions' do
@@ -65,7 +65,7 @@ describe Mailbot do
       before do
         conference.email_settings.update_attributes(send_on_confirmed_without_registration: true,
                                                     confirmed_without_registration_subject: 'Lorem Ipsum Dolsum',
-                                                    confirmed_without_registration_body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
+                                                    confirmed_without_registration_body:    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
       end
 
       include_examples 'mailer actions' do

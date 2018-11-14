@@ -13,7 +13,7 @@ class Organization < ApplicationRecord
             uniqueness: {
               case_sensitive: false
             },
-            presence: true
+            presence:   true
 
   mount_uploader :picture, PictureUploader, mount_on: :picture
 

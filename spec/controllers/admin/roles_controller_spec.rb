@@ -30,7 +30,7 @@ describe Admin::RolesController do
     before :each do
       sign_in(admin)
       xhr :get, :show, conference_id: conference.short_title,
-                       id: 'organizer'
+                       id:            'organizer'
     end
 
     it 'assigns correct value to selection variable' do
@@ -46,8 +46,8 @@ describe Admin::RolesController do
     before :each do
       sign_in admin
       patch :update, conference_id: conference.short_title,
-                     id: 'cfp',
-                     role: { description: 'New description for cfp role!' }
+                     id:            'cfp',
+                     role:          { description: 'New description for cfp role!' }
     end
 
     it 'changes the description of the role' do
@@ -59,8 +59,8 @@ describe Admin::RolesController do
     before :each do
       sign_in admin
       post :toggle_user, conference_id: conference.short_title,
-                         user: { email: 'user1@osem.io' },
-                         id: 'cfp'
+                         user:          { email: 'user1@osem.io' },
+                         id:            'cfp'
     end
 
     context 'assigns correct values to variables' do
@@ -80,16 +80,16 @@ describe Admin::RolesController do
     context 'adds role to user' do
       it 'adds second user' do
         post :toggle_user, conference_id: conference.short_title,
-                           user: { email: 'user2@osem.io' },
-                           id: 'cfp'
+                           user:          { email: 'user2@osem.io' },
+                           id:            'cfp'
 
         expect(user2.roles).to eq [cfp_role]
       end
 
       it 'assigns second role to user' do
         post :toggle_user, conference_id: conference.short_title,
-                           user: { email: 'user1@osem.io' },
-                           id: 'organizer'
+                           user:          { email: 'user1@osem.io' },
+                           id:            'organizer'
 
         expect(user1.roles).to eq [organizer_role, cfp_role]
       end
@@ -98,22 +98,22 @@ describe Admin::RolesController do
     context 'removes role from user' do
       it 'removes role from user' do
         post :toggle_user, conference_id: conference.short_title,
-                           user: { email: 'user1@osem.io', state: 'false' },
-                           id: 'cfp'
+                           user:          { email: 'user1@osem.io', state: 'false' },
+                           id:            'cfp'
 
         expect(user1.roles).to eq []
       end
 
       it 'removes second role from user' do
         post :toggle_user, conference_id: conference.short_title,
-                           user: { email: 'user1@osem.io' },
-                           id: 'organizer'
+                           user:          { email: 'user1@osem.io' },
+                           id:            'organizer'
 
         expect(user1.roles).to eq [organizer_role, cfp_role]
 
         post :toggle_user, conference_id: conference.short_title,
-                           user: { email: 'user1@osem.io', state: 'false' },
-                           id: 'cfp'
+                           user:          { email: 'user1@osem.io', state: 'false' },
+                           id:            'cfp'
 
         user1.reload
         expect(user1.roles).to eq [organizer_role]
@@ -123,14 +123,14 @@ describe Admin::RolesController do
     it 'does not remove role if user is the last organizer' do
       # Add role organizer
       post :toggle_user, conference_id: conference.short_title,
-                         user: { email: 'user1@osem.io', state: 'true' },
-                         id: 'organizer'
+                         user:          { email: 'user1@osem.io', state: 'true' },
+                         id:            'organizer'
       expect(organizer_role.users).to eq [user1]
 
       # Try to remove role organizer, when there is only 1 user as organizer
       post :toggle_user, conference_id: conference.short_title,
-                         user: { email: 'user1@osem.io', state: 'false' },
-                         id: 'organizer'
+                         user:          { email: 'user1@osem.io', state: 'false' },
+                         id:            'organizer'
       expect(organizer_role.users).to eq [user1]
     end
   end

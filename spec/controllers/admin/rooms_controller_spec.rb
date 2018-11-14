@@ -91,9 +91,9 @@ describe Admin::RoomsController do
     describe 'PATCH #update' do
       context 'updates successfully' do
         before do
-          patch :update, room: attributes_for(:room, size: 2),
+          patch :update, room:          attributes_for(:room, size: 2),
                          conference_id: conference.short_title,
-                         id: room.id
+                         id:            room.id
         end
 
         it 'redirects to admin room index path' do
@@ -113,9 +113,9 @@ describe Admin::RoomsController do
       context 'update fails' do
         before do
           allow_any_instance_of(Room).to receive(:save).and_return(false)
-          patch :update, room: attributes_for(:room, size: 2),
+          patch :update, room:          attributes_for(:room, size: 2),
                          conference_id: conference.short_title,
-                         id: room.id
+                         id:            room.id
         end
 
         it 'renders edit template' do

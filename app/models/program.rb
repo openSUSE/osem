@@ -82,6 +82,7 @@ class Program < ApplicationRecord
     event_schedules = selected_schedule.event_schedules.includes(*includes).order(start_time: :asc) if selected_schedule
     tracks.self_organized.confirmed.includes(selected_schedule: { event_schedules: includes }).order(start_date: :asc).each do |track|
       next unless track.selected_schedule
+
       event_schedules += track.selected_schedule.event_schedules
     end
     event_schedules.sort_by(&:start_time)
@@ -157,6 +158,7 @@ class Program < ApplicationRecord
     return false unless conference.email_settings.send_on_program_schedule_public
     # do not notify if the schedule is not public
     return false unless schedule_public
+
     # do not notify unless the mail content is set up
     (!conference.email_settings.program_schedule_public_subject.blank? && !conference.email_settings.program_schedule_public_body.blank?)
   end
@@ -173,6 +175,7 @@ class Program < ApplicationRecord
   # * +False+ -> If there is not any event for the given date
   def any_event_for_this_date?(date)
     return false unless selected_schedule.present?
+
     parsed_date = DateTime.parse("#{date} 00:00").utc
     range = parsed_date..(parsed_date + 1.day)
     selected_schedule.event_schedules.any? { |es| range.cover?(es.start_time) }
@@ -185,6 +188,7 @@ class Program < ApplicationRecord
   # * +ActiveRecord+ -> The program's cfp with cfp_type == 'events'
   def cfp
     return nil if cfps.for_events.blank?
+
     cfps.for_events
   end
 
@@ -231,6 +235,7 @@ class Program < ApplicationRecord
   #
   def check_languages_format
     return unless languages.present?
+
     # All white spaces are removed to allow languages to be separated by ',' and ', '. The languages string without spaces is saved
     self.languages = languages.delete(' ').downcase
     errors.add(:languages, 'must be two letters separated by commas') && return unless

@@ -344,18 +344,18 @@ class Conference < ApplicationRecord
   # * +hash+ -> true -> filled / false -> missing
   def get_status
     result = {
-      registration: registration_date_set?,
-      cfp: cfp_set?,
-      venue: venue_set?,
-      rooms: rooms_set?,
-      tracks: tracks_set?,
-      event_types: event_types_set?,
+      registration:      registration_date_set?,
+      cfp:               cfp_set?,
+      venue:             venue_set?,
+      rooms:             rooms_set?,
+      tracks:            tracks_set?,
+      event_types:       event_types_set?,
       difficulty_levels: difficulty_levels_set?,
-      splashpage: splashpage&.public?
+      splashpage:        splashpage&.public?
     }
 
     result.update(
-      process: calculate_setup_progress(result),
+      process:     calculate_setup_progress(result),
       short_title: short_title
     ).with_indifferent_access
   end
@@ -670,6 +670,7 @@ class Conference < ApplicationRecord
     return false unless email_settings.send_on_conference_dates_updated
     # do not notify unless one of the dates changed
     return false unless start_date_changed? || end_date_changed?
+
     # do not notify unless the mail content is set up
     (email_settings.conference_dates_updated_subject.present? && email_settings.conference_dates_updated_body.present?)
   end
@@ -686,6 +687,7 @@ class Conference < ApplicationRecord
     return false unless registration_period
     # do not notify unless one of the dates changed
     return false unless registration_period.start_date_changed? || registration_period.end_date_changed?
+
     # do not notify unless the mail content is set up
     (email_settings.conference_registration_dates_updated_subject.present? && email_settings.conference_registration_dates_updated_body.present?)
   end
@@ -710,7 +712,7 @@ class Conference < ApplicationRecord
     start_index = {
       tracks: (program.tracks.count + 1),
       levels: (program.difficulty_levels.count + 51),
-      types: (program.event_types.count + 101)
+      types:  (program.event_types.count + 101)
     }
     next_color(start_index[collection])
   end
@@ -842,8 +844,8 @@ class Conference < ApplicationRecord
   # * +Hash+ -> e.g. 'Confirmed' => { 3 => 5, 4 => 6 }
   def get_events_per_week_by_state
     result = {
-      'Submitted' => {},
-      'Confirmed' => {},
+      'Submitted'   => {},
+      'Confirmed'   => {},
       'Unconfirmed' => {}
     }
 

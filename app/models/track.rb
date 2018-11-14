@@ -19,13 +19,13 @@ class Track < ApplicationRecord
   validates :name, presence: true
   validates :color, format: /\A#[0-9A-F]{6}\z/
   validates :short_name,
-            presence: true,
-            format: /\A[a-zA-Z0-9_-]*\z/,
+            presence:   true,
+            format:     /\A[a-zA-Z0-9_-]*\z/,
             uniqueness: {
               scope: :program
             }
   validates :state,
-            presence: true,
+            presence:  true,
             inclusion: { in: %w(new to_accept accepted confirmed to_reject rejected canceled withdrawn) }
   validates :cfp_active, inclusion: { in: [true, false] }
   validates :start_date, presence: true, if: :self_organized_and_accepted_or_confirmed?
@@ -92,6 +92,7 @@ class Track < ApplicationRecord
   # * +false+ -> if the track doesn't have a submitter
   def self_organized?
     return true if submitter
+
     false
   end
 
@@ -200,6 +201,7 @@ class Track < ApplicationRecord
   #
   def dates_within_conference_dates
     return unless start_date && end_date && program.try(:conference).try(:start_date) && program.try(:conference).try(:end_date)
+
     errors.add(:start_date, "can't be outside of the conference's dates (#{program.conference.start_date}-#{program.conference.end_date})") unless (program.conference.start_date..program.conference.end_date).cover?(start_date)
     errors.add(:end_date, "can't be outside of the conference's dates (#{program.conference.start_date}-#{program.conference.end_date})") unless (program.conference.start_date..program.conference.end_date).cover?(end_date)
   end
@@ -209,6 +211,7 @@ class Track < ApplicationRecord
   #
   def start_date_before_end_date
     return unless start_date && end_date
+
     errors.add(:start_date, 'can\'t be after the end date') if start_date > end_date
   end
 
@@ -217,6 +220,7 @@ class Track < ApplicationRecord
   #
   def valid_room
     return unless room.try(:venue).try(:conference) && program.try(:conference)
+
     errors.add(:room, "must be a room of #{program.conference.venue.name}") unless room.venue.conference == program.conference
   end
 
@@ -225,8 +229,10 @@ class Track < ApplicationRecord
   #
   def overlapping
     return unless start_date && end_date && room && program.try(:tracks)
+
     (program.tracks.accepted + program.tracks.confirmed - [self]).each do |existing_track|
       next unless existing_track.room == room && existing_track.start_date && existing_track.end_date
+
       if start_date >= existing_track.start_date && start_date <= existing_track.end_date ||
          end_date >= existing_track.start_date && end_date <= existing_track.end_date ||
          start_date <= existing_track.start_date && end_date >= existing_track.end_date

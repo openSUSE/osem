@@ -13,6 +13,7 @@ module VersionsHelper
 
     org = Organization.find_by(id: organization_id)
     return current_or_last_object_state('Organization', organization_id).try(:name) unless org
+
     org.name.to_s
   end
 
@@ -47,6 +48,7 @@ module VersionsHelper
   # Otherwise Returns object state just before deletion
   def current_or_last_object_state(model_name, id)
     return nil unless id.present? && model_name.present?
+
     begin
       object = model_name.constantize.find_by(id: id)
     rescue NameError

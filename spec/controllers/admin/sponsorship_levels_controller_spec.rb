@@ -51,7 +51,7 @@ describe Admin::SponsorshipLevelsController do
       context 'saves successfuly' do
         before(:each, run: true) do
           post :create, sponsorship_level: attributes_for(:sponsorship_level),
-                        conference_id: conference.short_title
+                        conference_id:     conference.short_title
         end
 
         it 'redirects to admin sponsorship_level index path', run: true do
@@ -65,7 +65,7 @@ describe Admin::SponsorshipLevelsController do
         it 'creates new sponsorship_level' do
           expect do
             post :create, sponsorship_level: attributes_for(:sponsorship_level),
-                          conference_id: conference.short_title
+                          conference_id:     conference.short_title
           end.to change{ conference.sponsorship_levels.count }.from(0).to(1)
         end
       end
@@ -74,7 +74,7 @@ describe Admin::SponsorshipLevelsController do
         before do
           allow_any_instance_of(SponsorshipLevel).to receive(:save).and_return(false)
           post :create, sponsorship_level: attributes_for(:sponsorship_level),
-                        conference_id: conference.short_title
+                        conference_id:     conference.short_title
         end
 
         it 'renders new template' do
@@ -95,8 +95,8 @@ describe Admin::SponsorshipLevelsController do
       context 'updates successfully' do
         before do
           patch :update, sponsorship_level: attributes_for(:sponsorship_level, title: 'Gold'),
-                         conference_id: conference.short_title,
-                         id: sponsorship_level.id
+                         conference_id:     conference.short_title,
+                         id:                sponsorship_level.id
         end
 
         it 'redirects to admin sponsorship_level index path' do
@@ -117,8 +117,8 @@ describe Admin::SponsorshipLevelsController do
         before do
           allow_any_instance_of(SponsorshipLevel).to receive(:save).and_return(false)
           patch :update, sponsorship_level: attributes_for(:sponsorship_level, title: 'Gold'),
-                         conference_id: conference.short_title,
-                         id: sponsorship_level.id
+                         conference_id:     conference.short_title,
+                         id:                sponsorship_level.id
         end
 
         it 'renders edit template' do

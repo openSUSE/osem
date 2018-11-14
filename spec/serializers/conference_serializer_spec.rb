@@ -6,8 +6,8 @@ describe ConferenceSerializer, type: :serializer do
   let(:conference) do
     create(:conference, short_title: 'goto',
                         description: 'Lorem ipsum dolor sit',
-                        start_date: Date.new(2014, 03, 04),
-                        end_date: Date.new(2014, 03, 10))
+                        start_date:  Date.new(2014, 03, 04),
+                        end_date:    Date.new(2014, 03, 10))
   end
 
   let(:serializer) { ConferenceSerializer.new(conference) }

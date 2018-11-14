@@ -234,15 +234,15 @@ describe User do
 
     describe '.find_for_auth' do
       let(:auth) do
-        OmniAuth::AuthHash.new(provider: 'google',
-                               uid: 'google-test-uid-1',
-                               info: {
-                                 name: 'new user name',
-                                 email: 'test-1@gmail.com',
+        OmniAuth::AuthHash.new(provider:    'google',
+                               uid:         'google-test-uid-1',
+                               info:        {
+                                 name:     'new user name',
+                                 email:    'test-1@gmail.com',
                                  username: 'newuser'
                                },
                                credentials: {
-                                 token: 'mock_token',
+                                 token:  'mock_token',
                                  secret: 'mock_secret'
                                }
                               )
@@ -285,7 +285,7 @@ describe User do
       it 'returns hash of role and conference' do
         expected_hash = {
           'organizer' => %w[oSC16 oSC15],
-          'cfp' => ['oSC16']
+          'cfp'       => ['oSC16']
         }
 
         expect(user.get_roles).to eq expected_hash

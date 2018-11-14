@@ -87,7 +87,7 @@ class User < ApplicationRecord
             uniqueness: {
                 case_sensitive: false
             },
-            presence: true
+            presence:   true
 
   validate :biography_limit
 
@@ -103,6 +103,7 @@ class User < ApplicationRecord
     event_registration = event.events_registrations.find_by(registration: registrations)
 
     return false unless event_registration.present?
+
     event_registration.attended
   end
 
@@ -138,8 +139,8 @@ class User < ApplicationRecord
     raise UserDisabled if user&.is_disabled
 
     if user
-      user.update_attributes(email: attributes[:email],
-                             last_sign_in_at: user.current_sign_in_at,
+      user.update_attributes(email:              attributes[:email],
+                             last_sign_in_at:    user.current_sign_in_at,
                              current_sign_in_at: Time.current)
     else
       begin

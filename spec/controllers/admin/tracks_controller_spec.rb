@@ -134,9 +134,9 @@ describe Admin::TracksController do
   describe 'PATCH #update' do
     context 'updates successfully' do
       before :each do
-        patch :update, track: attributes_for(:track, color: '#FF0000'),
+        patch :update, track:         attributes_for(:track, color: '#FF0000'),
                        conference_id: conference.short_title,
-                       id: track.short_name
+                       id:            track.short_name
       end
 
       it 'assigns the correct track' do
@@ -160,9 +160,9 @@ describe Admin::TracksController do
     context 'update fails' do
       before :each do
         allow_any_instance_of(Track).to receive(:save).and_return(false)
-        patch :update, track: attributes_for(:track, color: '#FF0000'),
+        patch :update, track:         attributes_for(:track, color: '#FF0000'),
                        conference_id: conference.short_title,
-                       id: track.short_name
+                       id:            track.short_name
       end
 
       it 'assigns the correct track' do

@@ -9,6 +9,7 @@ module EventsHelper
   # * +String+ -> number of registrations / max allowed registrations
   def registered_text(event)
     return "Registered: #{event.registrations.count}/#{event.max_attendees}" if event.max_attendees
+
     "Registered: #{event.registrations.count}"
   end
 
@@ -47,8 +48,8 @@ module EventsHelper
 
   def track_selector_input(form)
     if @program.tracks.confirmed.cfp_active.any?
-      form.input :track_id, as: :select,
-                            collection: @program.tracks.confirmed.cfp_active.pluck(:name, :id),
+      form.input :track_id, as:            :select,
+                            collection:    @program.tracks.confirmed.cfp_active.pluck(:name, :id),
                             include_blank: '(Please select)'
     end
   end
@@ -163,12 +164,12 @@ module EventsHelper
       conference_id,
       event.id,
       event.send(attribute),
-      url:    admin_conference_program_event_path(
+      url:   admin_conference_program_event_path(
         conference_id,
         event,
         event: { attribute => nil }
       ),
-      class:  'switch-checkbox'
+      class: 'switch-checkbox'
     )
   end
 
