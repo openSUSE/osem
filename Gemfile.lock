@@ -112,7 +112,7 @@ GEM
     cloudinary (1.9.1)
       aws_cf_signer
       rest-client
-    cocoon (1.2.11)
+    cocoon (1.2.12)
     codecov (0.1.10)
       json
       simplecov
