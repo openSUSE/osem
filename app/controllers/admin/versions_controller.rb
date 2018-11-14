@@ -14,6 +14,7 @@ module Admin
       @conferences_with_role.uniq!
 
       return if @conference.blank?
+
       @versions = PaperTrail::Version.where(conference_id: @conference.id).accessible_by(current_ability)
     end
 

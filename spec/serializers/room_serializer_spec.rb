@@ -8,8 +8,8 @@ describe RoomSerializer, type: :serializer do
   it 'set guid, name and description' do
     expected_json = {
       room: {
-        guid: room.guid,
-        name: room.name,
+        guid:        room.guid,
+        name:        room.name,
         description: ''
       }
     }.to_json

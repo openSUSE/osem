@@ -13,7 +13,7 @@ class Payment < ApplicationRecord
   validates :conference_id, presence: true
 
   enum status: {
-    unpaid: 0,
+    unpaid:  0,
     success: 1,
     failure: 2
   }
@@ -23,11 +23,11 @@ class Payment < ApplicationRecord
   end
 
   def purchase
-    gateway_response = Stripe::Charge.create source: stripe_customer_token,
+    gateway_response = Stripe::Charge.create source:        stripe_customer_token,
                                              receipt_email: stripe_customer_email,
-                                             description: "ticket purchases(#{user.username})",
-                                             amount: amount_to_pay,
-                                             currency: conference.tickets.first.price_currency
+                                             description:   "ticket purchases(#{user.username})",
+                                             amount:        amount_to_pay,
+                                             currency:      conference.tickets.first.price_currency
 
     self.amount = gateway_response[:amount]
     self.last4 = gateway_response[:source][:last4]

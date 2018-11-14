@@ -16,7 +16,7 @@ class Booth < ApplicationRecord
 
   validates :title,
             uniqueness: { case_sensitive: false },
-            presence: true
+            presence:   true
 
   validates :description,
             :reasoning,

@@ -174,7 +174,7 @@ describe Admin::OrganizationsController do
       let(:org_admin_role) { Role.find_by(name: 'organization_admin', resource: organization) }
 
       before do
-        post :assign_org_admins, id: organization.id,
+        post :assign_org_admins, id:   organization.id,
                                  user: { email: user.email }
       end
 
@@ -188,7 +188,7 @@ describe Admin::OrganizationsController do
       let!(:org_admin_user) { create(:user, role_ids: [org_admin_role.id]) }
 
       before do
-        delete :unassign_org_admins, id: organization.id,
+        delete :unassign_org_admins, id:   organization.id,
                                      user: { email: org_admin_user.email }
       end
 

@@ -150,13 +150,13 @@ class Ability
       can :manage, Event, program: { conference_id: conf_ids_for_organizer }
       # To access comment link in menu bar
       can :index, Comment, commentable_type: 'Event',
-                           commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
+                           commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
     end
 
     if conf_ids_for_cfp
       # To access comment link in menu bar
       can :index, Comment, commentable_type: 'Event',
-                           commentable_id: Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+                           commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
       # To access conference/proposals
       can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     end

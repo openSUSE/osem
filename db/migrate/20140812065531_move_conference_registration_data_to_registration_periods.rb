@@ -14,9 +14,9 @@ class MoveConferenceRegistrationDataToRegistrationPeriods < ActiveRecord::Migrat
     TempConference.all.each do |conference|
       unless TempRegistrationPeriod.exists?(conference_id: conference.id)
         TempRegistrationPeriod.create(conference_id: conference.id,
-                                      start_date: conference.registration_start_date,
-                                      end_date: conference.registration_end_date,
-                                      description: conference.registration_description)
+                                      start_date:    conference.registration_start_date,
+                                      end_date:      conference.registration_end_date,
+                                      description:   conference.registration_description)
       end
     end
 

@@ -56,6 +56,7 @@ class EventSchedule < ApplicationRecord
   def replacement?(event_schedule_source = nil)
     return false unless event.state == 'confirmed'
     return replaced_event_schedules.exists? unless event_schedule_source
+
     event_schedule_source.any? { |event_schedule| intersects_with?(event_schedule) }
   end
 
@@ -82,11 +83,13 @@ class EventSchedule < ApplicationRecord
 
   def start_after_end_hour
     return unless event && start_time && event.program && event.program.conference && event.program.conference.end_hour
+
     errors.add(:start_time, "can't be after the conference end hour (#{event.program.conference.end_hour})") if start_time.hour >= event.program.conference.end_hour
   end
 
   def start_before_start_hour
     return unless event && start_time && event.program && event.program.conference && event.program.conference.start_hour
+
     errors.add(:start_time, "can't be before the conference start hour (#{event.program.conference.start_hour})") if start_time.hour < event.program.conference.start_hour
   end
 
@@ -99,6 +102,7 @@ class EventSchedule < ApplicationRecord
   #
   def same_room_as_track
     return unless event.try(:track).try(:room)
+
     errors.add(:room, "must be the same as the track's room (#{event.track.room.name})") unless event.track.room == room
   end
 
@@ -122,6 +126,7 @@ class EventSchedule < ApplicationRecord
   #
   def valid_schedule
     return unless event.try(:track).try(:self_organized?) && schedule
+
     errors.add(:schedule, "must be one of #{event.track.name} track's schedules") unless event.track.schedules.include?(schedule)
   end
 end

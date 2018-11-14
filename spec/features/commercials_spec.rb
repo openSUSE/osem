@@ -46,8 +46,8 @@ feature Commercial do
 
     before(:each) do
       event.event_users = [create(:event_user,
-                                  user_id: participant.id,
-                                  event_id: event.id,
+                                  user_id:    participant.id,
+                                  event_id:   event.id,
                                   event_role: 'submitter')]
       sign_in participant
     end
@@ -85,7 +85,7 @@ feature Commercial do
 
     scenario 'updates a commercial of an event', feature: true, versioning: true, js: true do
       commercial = create(:commercial,
-                          commercialable_id: event.id,
+                          commercialable_id:   event.id,
                           commercialable_type: 'Event')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
@@ -99,9 +99,9 @@ feature Commercial do
 
     scenario 'does not update a commercial of an event with invalid data', feature: true, versioning: true, js: true do
       commercial = create(:commercial,
-                          commercialable_id: event.id,
+                          commercialable_id:   event.id,
                           commercialable_type: 'Event',
-                          url: 'https://www.youtube.com/watch?v=BTTygyxuGj8')
+                          url:                 'https://www.youtube.com/watch?v=BTTygyxuGj8')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'
       fill_in "commercial_url_#{commercial.id}", with: 'invalid_commercial_url'
@@ -114,7 +114,7 @@ feature Commercial do
 
     scenario 'deletes a commercial of an event', feature: true, versioning: true, js: true do
       create(:commercial,
-             commercialable_id: event.id,
+             commercialable_id:   event.id,
              commercialable_type: 'Event')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Commercials'

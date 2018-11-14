@@ -326,13 +326,13 @@ describe Track do
     states = [:new, :to_accept, :accepted, :confirmed, :to_reject, :rejected, :canceled, :withdrawn]
     transitions = [:restart, :to_accept, :accept, :confirm, :to_reject, :reject, :cancel, :withdraw]
 
-    states_transitions = { new: { restart: false, to_accept: true, accept: true, confirm: false, to_reject: true, reject: true, cancel: false, withdraw: true },
+    states_transitions = { new:       { restart: false, to_accept: true, accept: true, confirm: false, to_reject: true, reject: true, cancel: false, withdraw: true },
                            to_accept: { restart: false, to_accept: false, accept: true, confirm: false, to_reject: true, reject: false, cancel: true, withdraw: true },
-                           accepted: { restart: false, to_accept: false, accept: false, confirm: true, to_reject: false, reject: false, cancel: true, withdraw: true },
+                           accepted:  { restart: false, to_accept: false, accept: false, confirm: true, to_reject: false, reject: false, cancel: true, withdraw: true },
                            confirmed: { restart: false, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: true, withdraw: true },
                            to_reject: { restart: false, to_accept: true, accept: false, confirm: false, to_reject: false, reject: true, cancel: true, withdraw: true },
-                           rejected: { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false },
-                           canceled: { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false },
+                           rejected:  { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false },
+                           canceled:  { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false },
                            withdrawn: { restart: true, to_accept: false, accept: false, confirm: false, to_reject: false, reject: false, cancel: false, withdraw: false } }
 
     states.each do |state|

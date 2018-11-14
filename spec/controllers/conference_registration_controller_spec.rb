@@ -248,8 +248,8 @@ describe ConferenceRegistrationsController, type: :controller do
         before do
           @ticket = create(:ticket, conference: conference)
           @purchased_ticket = create(:ticket_purchase, conference: conference,
-                                                       user: user,
-                                                       ticket: @ticket)
+                                                       user:       user,
+                                                       ticket:     @ticket)
           get :show, conference_id: conference.short_title
         end
 
@@ -290,13 +290,13 @@ describe ConferenceRegistrationsController, type: :controller do
       before do
         @registration = create(:registration,
                                conference: conference,
-                               user: user,
-                               arrival: Date.new(2014, 04, 25))
+                               user:       user,
+                               arrival:    Date.new(2014, 04, 25))
       end
 
       context 'updates successfully' do
         before do
-          patch :update, registration: attributes_for(:registration, arrival: Date.new(2014, 04, 29)),
+          patch :update, registration:  attributes_for(:registration, arrival: Date.new(2014, 04, 29)),
                          conference_id: conference.short_title
         end
 
@@ -317,7 +317,7 @@ describe ConferenceRegistrationsController, type: :controller do
       context 'update fails' do
         before do
           allow_any_instance_of(Registration).to receive(:update_attributes).and_return(false)
-          patch :update, registration: attributes_for(:registration, arrival: Date.new(2014, 04, 27)),
+          patch :update, registration:  attributes_for(:registration, arrival: Date.new(2014, 04, 27)),
                          conference_id: conference.short_title
         end
 

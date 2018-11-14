@@ -14,9 +14,9 @@ class MoveEventMediaToCommercial < ActiveRecord::Migration
     TempEvent.all.each do |event|
       unless TempCommercial.exists?(commercialable_id: event.id, commercialable_id: 'Conference')
         unless event.media_id.blank? || event.media_type.blank?
-          TempCommercial.create(commercial_id: event.media_id,
-                                commercial_type: event.media_type,
-                                commercialable_id: event.id,
+          TempCommercial.create(commercial_id:       event.media_id,
+                                commercial_type:     event.media_type,
+                                commercialable_id:   event.id,
                                 commercialable_type: 'Event')
         end
       end

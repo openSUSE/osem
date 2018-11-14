@@ -51,21 +51,21 @@ class TicketPurchase < ApplicationRecord
 
   def self.purchase_ticket(conference, quantity, ticket, user)
     if quantity > 0
-      purchase = new(ticket_id: ticket.id,
+      purchase = new(ticket_id:     ticket.id,
                      conference_id: conference.id,
-                     user_id: user.id,
-                     quantity: quantity,
-                     amount_paid: ticket.price)
+                     user_id:       user.id,
+                     quantity:      quantity,
+                     amount_paid:   ticket.price)
       purchase.pay(nil) if ticket.price_cents.zero?
     end
     purchase
   end
 
   def self.update_quantity(conference, quantity, ticket, user)
-    purchase = TicketPurchase.where(ticket_id: ticket.id,
+    purchase = TicketPurchase.where(ticket_id:     ticket.id,
                                     conference_id: conference.id,
-                                    user_id: user.id,
-                                    paid: false).first
+                                    user_id:       user.id,
+                                    paid:          false).first
 
     purchase.quantity = quantity if quantity > 0
     purchase

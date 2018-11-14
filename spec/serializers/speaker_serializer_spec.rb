@@ -9,9 +9,9 @@ describe SpeakerSerializer, type: :serializer do
     it 'sets name and affiliation' do
       expected_json = {
         speaker: {
-          name: 'John Doe',
+          name:        'John Doe',
           affiliation: 'JohnDoesInc',
-          biography: nil
+          biography:   nil
         }
       }.to_json
 
@@ -25,9 +25,9 @@ describe SpeakerSerializer, type: :serializer do
     it 'sets name, affiliation and biography' do
       expected_json = {
         speaker: {
-          name: 'John Doe',
+          name:        'John Doe',
           affiliation: 'JohnDoesInc',
-          biography: 'Doest of all Jon Does'
+          biography:   'Doest of all Jon Does'
         }
       }.to_json
 

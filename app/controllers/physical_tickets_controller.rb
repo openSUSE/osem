@@ -21,8 +21,8 @@ class PhysicalTicketsController < ApplicationController
       format.pdf do
         pdf = TicketPdf.new(@conference, @user, @physical_ticket, @ticket_layout, @file_name)
         send_data pdf.render,
-                  filename: @file_name,
-                  type: 'application/pdf',
+                  filename:    @file_name,
+                  type:        'application/pdf',
                   disposition: 'attachment'
       end
     end

@@ -11,7 +11,7 @@ Osem::Application.routes.draw do
                controllers: {
                    registrations: :registrations, confirmations: :confirmations,
                    omniauth_callbacks: 'users/omniauth_callbacks' },
-               path: 'accounts'
+               path:        'accounts'
   end
 
   # Use letter_opener_web to open mails in browser (e.g. necessary for Vagrant)

@@ -16,14 +16,14 @@ module OmniauthMacros
   def mock_auth_new_user
     OmniAuth.config.mock_auth[:google] =
       OmniAuth::AuthHash.new(
-                              provider: 'google',
-                              uid: 'google-test-uid-1',
-                              info: {
-                                name: 'new user name',
+                              provider:    'google',
+                              uid:         'google-test-uid-1',
+                              info:        {
+                                name:  'new user name',
                                 email: 'test-1@example.com'
                               },
                               credentials: {
-                                token: 'mock_token',
+                                token:  'mock_token',
                                 secret: 'mock_secret'
                               }
                             )
@@ -32,14 +32,14 @@ module OmniauthMacros
   def mock_auth_new_user_fb
     OmniAuth.config.mock_auth[:facebook] =
       OmniAuth::AuthHash.new(
-                              provider: 'facebook',
-                              uid: 'facebook-test-uid-1',
-                              info: {
-                                name: 'new user fb name',
+                              provider:    'facebook',
+                              uid:         'facebook-test-uid-1',
+                              info:        {
+                                name:  'new user fb name',
                                 email: 'test-1@example.com'
                               },
                               credentials: {
-                                token: 'mock_token',
+                                token:  'mock_token',
                                 secret: 'mock_secret'
                               }
                             )
@@ -50,14 +50,14 @@ module OmniauthMacros
     # authentication hashes to return during integration testing.
     OmniAuth.config.mock_auth[:google] =
       OmniAuth::AuthHash.new(
-                              provider: 'google',
-                              uid: 'google-test-uid-participant-1',
-                              info: {
-                                name: 'existing user participant name',
+                              provider:    'google',
+                              uid:         'google-test-uid-participant-1',
+                              info:        {
+                                name:  'existing user participant name',
                                 email: 'test-participant-1@example.com'
                               },
                               credentials: {
-                                token: 'mock_token',
+                                token:  'mock_token',
                                 secret: 'mock_secret'
                               }
                             )
@@ -68,14 +68,14 @@ module OmniauthMacros
     # authentication hashes to return during integration testing.
     OmniAuth.config.mock_auth[:google] =
       OmniAuth::AuthHash.new(
-                              provider: 'google',
-                              uid: 'google-test-uid-admin-1',
-                              info: {
-                                name: 'existing user admin name',
+                              provider:    'google',
+                              uid:         'google-test-uid-admin-1',
+                              info:        {
+                                name:  'existing user admin name',
                                 email: 'test-admin-1@example.com'
                               },
                               credentials: {
-                                token: 'mock_token',
+                                token:  'mock_token',
                                 secret: 'mock_secret'
                               }
                             )
@@ -89,60 +89,60 @@ module OmniauthMacros
   def mock_auth_accounts
     OmniAuth.config.mock_auth[:facebook] =
       OmniAuth::AuthHash.new(
-                              provider: 'facebook',
-                              uid: 'facebook-test-uid-1',
-                              info: {
-                                name: 'facebook user',
-                                email: 'user-facebook@example.com',
+                              provider:    'facebook',
+                              uid:         'facebook-test-uid-1',
+                              info:        {
+                                name:     'facebook user',
+                                email:    'user-facebook@example.com',
                                 username: 'user_facebook'
                               },
                               credentials: {
-                                token: 'fb_mock_token',
+                                token:  'fb_mock_token',
                                 secret: 'fb_mock_secret'
                               }
                             )
 
     OmniAuth.config.mock_auth[:google] =
       OmniAuth::AuthHash.new(
-                              provider: 'google',
-                              uid: 'google-test-uid-1',
-                              info: {
-                                name: 'google user',
-                                email: 'user-google@example.com',
+                              provider:    'google',
+                              uid:         'google-test-uid-1',
+                              info:        {
+                                name:     'google user',
+                                email:    'user-google@example.com',
                                 username: 'user_google'
                               },
                               credentials: {
-                                token: 'google_mock_token',
+                                token:  'google_mock_token',
                                 secret: 'google_mock_secret'
                               }
                             )
 
     OmniAuth.config.mock_auth[:suse] =
       OmniAuth::AuthHash.new(
-                              provider: 'suse',
-                              uid: 'suse-test-uid-1',
-                              info: {
-                                name: 'suse user',
-                                email: 'user-suse@example.com',
+                              provider:    'suse',
+                              uid:         'suse-test-uid-1',
+                              info:        {
+                                name:     'suse user',
+                                email:    'user-suse@example.com',
                                 username: 'user_suse'
                               },
                               credentials: {
-                                token: 'suse_mock_token',
+                                token:  'suse_mock_token',
                                 secret: 'suse_mock_secret'
                               }
                             )
 
     OmniAuth.config.mock_auth[:github] =
       OmniAuth::AuthHash.new(
-                              provider: 'github',
-                              uid: 'github-test-uid-1',
-                              info: {
-                                name: 'github user',
-                                email: 'user-github@example.com',
+                              provider:    'github',
+                              uid:         'github-test-uid-1',
+                              info:        {
+                                name:     'github user',
+                                email:    'user-github@example.com',
                                 username: 'user_github'
                               },
                               credentials: {
-                                token: 'github_mock_token',
+                                token:  'github_mock_token',
                                 secret: 'github_mock_secret'
                               }
                             )

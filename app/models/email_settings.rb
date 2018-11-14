@@ -7,17 +7,17 @@ class EmailSettings < ApplicationRecord
 
   def get_values(conference, user, event = nil, booth = nil)
     h = {
-      'email' => user.email,
-      'name' => user.name,
-      'conference' => conference.title,
-      'conference_start_date' => conference.start_date,
-      'conference_end_date' => conference.end_date,
-      'registrationlink' => Rails.application.routes.url_helpers.conference_conference_registration_url(
+      'email'                  => user.email,
+      'name'                   => user.name,
+      'conference'             => conference.title,
+      'conference_start_date'  => conference.start_date,
+      'conference_end_date'    => conference.end_date,
+      'registrationlink'       => Rails.application.routes.url_helpers.conference_conference_registration_url(
                             conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
       'conference_splash_link' => Rails.application.routes.url_helpers.conference_url(
                                   conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000')),
 
-      'schedule_link' => Rails.application.routes.url_helpers.conference_schedule_url(
+      'schedule_link'          => Rails.application.routes.url_helpers.conference_schedule_url(
                          conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
     }
 

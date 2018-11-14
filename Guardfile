@@ -7,7 +7,7 @@
 guard_opts = {
   all_on_start:   true,
   all_after_pass: true,
-  cmd: 'spring rspec'
+  cmd:            'spring rspec'
 }
 
 def model_specs       ; 'spec/models'       end

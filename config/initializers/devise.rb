@@ -8,7 +8,7 @@ Devise.setup do |config|
 
   config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
   config.omniauth :google_oauth2, (ENV['OSEM_GOOGLE_KEY'] || Rails.application.secrets.google_key), (ENV['OSEM_GOOGLE_SECRET'] || Rails.application.secrets.google_secret),
-                  name: 'google',
+                  name:  'google',
                   scope: 'email'
   config.omniauth :facebook, (ENV['OSEM_FACEBOOK_KEY'] || Rails.application.secrets.facebook_key), (ENV['OSEM_FACEBOOK_SECRET'] || Rails.application.secrets.facebook_secret)
   config.omniauth :github, (ENV['OSEM_GITHUB_KEY'] || Rails.application.secrets.github_key), (ENV['OSEM_GITHUB_SECRET'] || Rails.application.secrets.github_secret)

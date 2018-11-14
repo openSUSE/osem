@@ -18,7 +18,7 @@ class MoveSponsorEmailToContact < ActiveRecord::Migration
         contact.sponsor_email = conference.sponsor_email
         contact.save
       else
-        Contact.create(conference_id: conference.id,
+        Contact.create(conference_id:  conference.id,
                        sponsors_email: conference.sponsor_email)
       end
     end

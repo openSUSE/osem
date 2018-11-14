@@ -67,25 +67,25 @@ class RemoveDietaryChoicesTable < ActiveRecord::Migration
     TempConference.all.each do |conference|
       if TempDietaryChoice.where(conference_id: conference.id).any?
         # Find existing question or initialize it
-        question = TempQuestion.find_or_initialize_by(title: 'Which is your dietary choice?',
-                                                      conference_id: conference.id,
+        question = TempQuestion.find_or_initialize_by(title:            'Which is your dietary choice?',
+                                                      conference_id:    conference.id,
                                                       question_type_id: qtype.id)
         question.save!
         # Enable the question for the conference
         TempConferencesQuestions.find_or_create_by!(conference_id: conference.id,
-                                                    question_id: question.id)
+                                                    question_id:   question.id)
 
         TempDietaryChoice.where(conference_id: conference.id).each do |dietary_choice|
           answer = TempAnswer.find_or_create_by!(title: dietary_choice.title)
           # Associate answer with the question
           qa = TempQanswer.find_or_initialize_by(question_id: question.id,
-                                                 answer_id: answer.id)
+                                                 answer_id:   answer.id)
           qa.save!
 
           # Associate appropriate answer with registration
           TempRegistration.where(dietary_choice_id: dietary_choice.id).each do |registration|
             TempQanswerRegistration.find_or_create_by!(registration_id: registration.id,
-                                                       qanswer_id: qa.id)
+                                                       qanswer_id:      qa.id)
           end
         end
       end
@@ -96,26 +96,26 @@ class RemoveDietaryChoicesTable < ActiveRecord::Migration
       if registration.other_dietary_choice.present?
         conference = TempConference.find(registration.conference_id)
         qtype = TempQuestionType.find_or_create_by!(title: 'Yes/No')
-        question = TempQuestion.find_or_initialize_by(title: 'Do you have another dietary choice?',
-                                                      conference_id: conference.id,
+        question = TempQuestion.find_or_initialize_by(title:            'Do you have another dietary choice?',
+                                                      conference_id:    conference.id,
                                                       question_type_id: qtype.id)
         question.save!
         # Enable the question for the conference
         TempConferencesQuestions.find_or_create_by!(conference_id: conference.id,
-                                                    question_id: question.id)
+                                                    question_id:   question.id)
 
         # Create 'Yes' answer
         answer_yes = TempAnswer.find_or_create_by!(title: 'Yes')
 
         # Associate answer with the question
         qa = TempQanswer.find_or_initialize_by(question_id: question.id,
-                                               answer_id: answer_yes.id)
+                                               answer_id:   answer_yes.id)
 
         qa.save!
 
         # Associate appropriate answer with registration
         TempQanswerRegistration.find_or_create_by!(registration_id: registration.id,
-                                                   qanswer_id: qa.id)
+                                                   qanswer_id:      qa.id)
 
         # Move data from other_dietary_choice to other_special_needs
         registration.other_special_needs << "Other dietary choice: #{registration.other_dietary_choice}."
@@ -148,7 +148,7 @@ class RemoveDietaryChoicesTable < ActiveRecord::Migration
           TempQanswerRegistration.where(qanswer_id: qa.id).each do |qa_registration|
             answer = TempAnswer.find(qa.answer_id)
             registration = TempRegistration.find(qa_registration.registration_id)
-            dietary_choice = TempDietaryChoice.find_or_create_by!(title: answer.title,
+            dietary_choice = TempDietaryChoice.find_or_create_by!(title:         answer.title,
                                                                   conference_id: conference.id)
             registration.dietary_choice_id = dietary_choice.id
             registration.save!

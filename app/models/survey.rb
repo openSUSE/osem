@@ -19,6 +19,7 @@ class Survey < ActiveRecord::Base
   # * +false+ -> If the survey is closed
   def active?
     return true unless start_date || end_date
+
     # Find timezone of conference (survyeable is Conference or Event)
     timezone = surveyable.is_a?(Conference) ? surveyable.timezone : surveyable.conference.timezone
     now = Time.current.in_time_zone(timezone)
