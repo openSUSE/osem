@@ -1313,6 +1313,7 @@ Style/RegexpLiteral:
   Exclude:
     - 'Guardfile'
     - 'config/initializers/airbrake.rb'
+    - 'app/uploaders/picture_uploader.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
