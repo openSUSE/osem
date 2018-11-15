@@ -66,7 +66,7 @@ GEM
       railties (>= 4.0)
     arel (7.1.4)
     ast (2.4.0)
-    autoprefixer-rails (9.1.4)
+    autoprefixer-rails (9.3.1)
       execjs
     awesome_nested_set (3.1.4)
       activerecord (>= 4.0.0, < 5.3)
