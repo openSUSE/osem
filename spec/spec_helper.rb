@@ -18,6 +18,9 @@ require 'shoulda/matchers'
 # all migrations applied
 ActiveRecord::Migration.maintain_test_schema!
 
+# Keep capybara and the database on the same page
+require 'transactional_capybara/rspec'
+
 require 'selenium/webdriver'
 
 # Adds rspec helper provided by paper_trail

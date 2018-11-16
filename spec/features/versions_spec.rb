@@ -319,16 +319,28 @@ feature 'Version' do
     expect(page).to have_text('created new organization New org')
   end
 
-  scenario 'display changes in users_role for organization role', feature: true, versioning: true, js: true do
-    user = create(:user)
-    role = Role.find_by(resource_id: conference.organization.id, resource_type: 'Organization')
-    user.add_role :organization_admin, conference.organization
-    user_role = UsersRole.find_by(user_id: user.id, role_id: role.id)
-    user.remove_role :organization_admin, conference.organization
+  context 'organization role', feature: true, versioning: true, js: true do
+    let!(:user) { create(:user) }
+    let!(:role) do
+      Role.find_by(
+        resource_id:   conference.organization.id,
+        resource_type: 'Organization'
+      )
+    end
 
-    visit admin_revision_history_path
-    expect(page).to have_text("added role organization_admin with ID #{user_role.id} to user #{user.name} in organization #{conference.organization.name}")
-    expect(page).to have_text("removed role organization_admin with ID #{user_role.id} from user #{user.name} in organization #{conference.organization.name}")
+    setup do
+      user.add_role :organization_admin, conference.organization
+      user.remove_role :organization_admin, conference.organization
+      visit admin_revision_history_path
+    end
+
+    it 'is recorded to history when user is added' do
+      expect(page).to have_text(/added role organization_admin with ID \d+ to user #{user.name} in organization #{conference.organization.name}/)
+    end
+
+    it 'is recorded to history when user is removed' do
+      expect(page).to have_text(/removed role organization_admin with ID \d+ from user #{user.name} in organization #{conference.organization.name}/)
+    end
   end
 
   scenario 'display changes in users_role for conference role', feature: true, versioning: true, js: true do
@@ -383,6 +395,7 @@ feature 'Version' do
     click_link 'Comments (0)'
     fill_in 'comment_body', with: 'Sample comment'
     click_button 'Add Comment'
+    TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
     Comment.last.destroy
     PaperTrail::Version.last.reify.save
 
