@@ -498,7 +498,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selectize-rails (0.12.5)
+    selectize-rails (0.12.6)
     sexp_processor (4.11.0)
     shellany (0.0.1)
     shoulda-matchers (2.8.0)
