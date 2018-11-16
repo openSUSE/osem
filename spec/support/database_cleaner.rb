@@ -2,17 +2,16 @@
 
 RSpec.configure do |config|
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:transaction)
     Rails.application.load_seed
   end
 
-  config.before(:each) do |example|
-    DatabaseCleaner.strategy = example.metadata[:js] == true ? :truncation : :transaction
+  config.before(:each) do
     DatabaseCleaner.start
   end
 
   config.after(:each) do |example|
+    TransactionalCapybara::AjaxHelpers.wait_for_ajax(page) if example.metadata[:js]
     DatabaseCleaner.clean
-    Rails.application.load_seed if example.metadata[:js] == true
   end
 end

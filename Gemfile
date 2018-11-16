@@ -257,6 +257,7 @@ group :test do
   gem 'geckodriver-helper'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
   gem 'selenium-webdriver'
+  gem 'transactional_capybara'
   # for measuring test coverage
   gem 'codecov', require: false
   # for describing models
