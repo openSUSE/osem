@@ -69,7 +69,7 @@ feature Role do
       bootstrap_switch = first('td').find('.bootstrap-switch-container')
       bootstrap_switch.click
 
-      expect(find('.alert').text).to eq "× Successfully removed role #{role_name} from user #{user_with_role.email}"
+      expect(page).to have_css('.alert', text: "Successfully removed role #{role_name} from user #{user_with_role.email}")
       expect(by_role_name).to eq(role_name) | eq('organizer')
       user_with_role.reload
       expect(user_with_role.has_cached_role?(role_name, conference)).to eq false

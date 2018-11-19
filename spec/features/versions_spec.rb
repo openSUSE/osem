@@ -254,8 +254,7 @@ feature 'Version' do
 
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} created new splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} updated public, include program, include cfp, include venue, include tickets, include lodgings,
-      include sponsors and include social media of splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} updated public, include program, include cfp, include venue, include tickets, include lodgings, include sponsors and include social media of splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} deleted splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
   end
 
@@ -359,8 +358,7 @@ feature 'Version' do
     conference.email_settings.update_attributes(registration_subject: 'xxxxx', registration_body: 'yyyyy', accepted_subject: 'zzzzz')
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) updated registration body, registration subject and accepted subject
-    of email settings in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated registration body, registration subject and accepted subject of email settings in conference #{conference.short_title}")
   end
 
   scenario 'display changes in conference registrations', feature: true, versioning: true, js: true do
@@ -402,7 +400,7 @@ feature 'Version' do
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} commented on event My second event in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s comment on event #{event.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s comment on event #{event.title}  in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s comment on event #{event.title} in conference #{conference.short_title}")
   end
 
   scenario 'display changes in vote', feature: true, versioning: true, js: true do
@@ -416,7 +414,7 @@ feature 'Version' do
     visit admin_revision_history_path
     expect(page).to have_text("Someone (probably via the console) voted on event My second event in conference #{conference.short_title}")
     expect(page).to have_text("Someone (probably via the console) deleted #{organizer.name}'s vote on event #{event.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s vote on event #{event.title}  in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) re-added #{organizer.name}'s vote on event #{event.title} in conference #{conference.short_title}")
   end
 
   scenario 'display password reset requests', feature: true, versioning: true, js: true do
@@ -439,6 +437,6 @@ feature 'Version' do
     user.update_attributes(nickname: 'testnick', affiliation: 'openSUSE')
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) updated  nickname and affiliation of user #{user.name}")
+    expect(page).to have_text("Someone (probably via the console) updated nickname and affiliation of user #{user.name}")
   end
 end
