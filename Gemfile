@@ -255,7 +255,7 @@ group :test do
   gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'geckodriver-helper'
-  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+  gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'transactional_capybara'
   # for measuring test coverage
