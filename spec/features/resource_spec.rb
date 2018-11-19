@@ -29,10 +29,8 @@ feature Resource do
 
     scenario 'edit an existing resource' do
       visit admin_conference_resources_path(conference.short_title)
-      click_link('Edit', edit_admin_conference_resource_path(conference.short_title, resource.id))
-
+      click_link('Edit')
       fill_in 'resource_name', with: 'changed_name'
-
       click_button 'Update Resource'
       resource.reload
       page.find('#flash')
