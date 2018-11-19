@@ -1,5 +1,8 @@
 # encoding : utf-8
 
+# https://github.com/RubyMoney/money#deprecation
+Money.locale_backend = :i18n
+
 MoneyRails.configure do |config|
 
   # To set the default currency
