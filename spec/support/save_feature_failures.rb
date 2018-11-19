@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Automatically save the page a test fails
-Capybara.save_and_open_page_path = Rails.root.join('tmp', 'capybara')
-
 RSpec.configure do |config|
   config.after(:each, type: :feature) do
     example_filename = RSpec.current_example.full_description
