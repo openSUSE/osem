@@ -11,7 +11,6 @@ before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
 addons:
-  mariadb: '10.2'
   chrome: stable
 notifications:
   email:
@@ -23,15 +22,12 @@ notifications:
     on_success: change
     on_failure: change
 before_script:
-  - mysql -u root -e 'create database osem_test;'
   - RAILS_ENV=test bundle exec rake db:bootstrap --trace
 script:
   - "./travis_script.sh $TEST_SUITE"
 env:
   global:
-    - OSEM_DB_ADAPTER=mysql2
-    - OSEM_DB_USER=root
-    - OSEM_DB_PASSWORD=''
+    - OSEM_DB_ADAPTER=sqlite3
     - OSEM_DB_HOST=''
     - OSEM_DB_PORT=''
     - OSEM_DB_NAME='osem_test'
