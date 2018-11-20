@@ -276,6 +276,8 @@ group :test do
   gem 'rails-controller-testing'
   # For managing the environment
   gem 'climate_control'
+  # For PDFs
+  gem 'pdf-inspector', require: "pdf/inspector"
 end
 
 group :development, :test do
