@@ -34,4 +34,22 @@ describe TicketPdf do
     expect(page_analysis.pages.length).to eq(1)
     expect(page_analysis.pages.first[:strings]).to include(conference.title)
   end
+
+  it 'handles bad logo urls' do
+    allow(conference).to receive(:picture?).and_return(true)
+    allow(conference).to receive(:picture) do
+      double('picture', ticket: double('ticket', url: 'http://broken/link.png'))
+    end
+    stub_request(:get, 'http://broken/link.png')
+      .with(
+        headers: {
+          'Accept'          => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'      => 'Ruby'
+        })
+      .to_return(status: 404, body: '', headers: {})
+
+    pdf = described_class.new(conference, participant, physical_ticket, layout, file_name)
+    expect{ PDF::Inspector::Page.analyze(pdf.render) }.to_not raise_error(OpenURI::HTTPError)
+  end
 end

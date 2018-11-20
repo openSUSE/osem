@@ -777,6 +777,7 @@ RSpec/SubjectStub:
 RSpec/VerifiedDoubles:
   Exclude:
     - 'spec/datatables/user_datatable_spec.rb'
+    - 'spec/pdfs/ticket_pdf_spec.rb'
 
 # Offense count: 1
 RSpec/VoidExpect:
