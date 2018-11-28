@@ -232,7 +232,7 @@ gem 'dalli'
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec'
-  gem 'haml_lint', '~> 0.24.0'
+  gem 'haml_lint'
   gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
