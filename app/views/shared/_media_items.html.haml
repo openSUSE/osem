@@ -5,14 +5,9 @@
   - else
     %ul.nav.nav-tabs{ 'role'=>'tablist' }
       - commercials.each.with_index(1) do  |commercial, index|
-        - if index == 1
-          %li.active
-            %a{ 'href'=>"##{index}", 'role'=>'tab', 'data-toggle'=>'tab' }
-              = index
-        - else
-          %li
-            %a{ 'href'=>"##{index}",' "role"'=>'tab', 'data-toggle'=>'tab' }
-              = index
+        %li{class: "#{active if (index == 1)}"}
+          %a{ 'href'=>"##{index}", 'role'=>'tab', 'data-toggle'=>'tab' }
+            = index
     .tab-content
       - commercials.each.with_index(1) do  |commercial, index|
         - if index == 1
