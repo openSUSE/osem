@@ -118,9 +118,12 @@ feature Event do
       fill_in 'event_title', with: 'Example Proposal'
       select('Example Event Type', from: 'event[event_type_id]')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
-      click_link 'description_link'
+      click_link 'Do you require something special?'
+
+      page.find('#event_description')
       fill_in 'event_description', with: 'Lorem ipsum description'
       click_button 'Create Proposal'
+
       page.find('#flash')
       expect(page).to have_content 'Proposal was successfully submitted.'
       TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
