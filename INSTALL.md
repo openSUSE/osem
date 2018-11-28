@@ -93,7 +93,7 @@ If you would like to resize exisiting logos in your OSEM installation you can do
 $ bundle exec rake logo:reprocess
 ```
 ### Ruby
-OSEM is using Ruby version 2.4
+OSEM is using Ruby version 2.5
 
 ## openID
 In order to use [openID](http://openid.net/) logins for your OSEM installation you need to register your application with the providers ([Google](https://code.google.com/apis/console#:access), [GitHub](https://github.com/settings/applications/new) or [Facebook](https://developers.facebook.com/)) and enter their API keys in the environment variables found in your *.env* file(s).
