@@ -1,5 +1,3 @@
-= javascript_include_tag 'Chart.min'
-
 .container
   .row
     .col-md-12.page-header
@@ -9,11 +7,11 @@
         Tickets sold for the conference
   .row
     .col-md-4
-      = render partial: 'admin/conferences/doughnut_chart',
-      locals: { title: 'Tickets sold', data: @tickets_sold_distribution }
+      = render 'donut_chart', title: 'Tickets sold',
+        combined_data: @tickets_sold_distribution
     .col-md-4
-      = render partial: 'admin/conferences/doughnut_chart',
-      locals: {title: 'Tickets turnover', data: @tickets_turnover_distribution}
+      = render 'donut_chart', title: 'Tickets turnover',
+        combined_data: @tickets_turnover_distribution
   %br
   - if @physical_tickets.any?
     .row

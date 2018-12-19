@@ -99,6 +99,23 @@ describe User do
         expect(User.comment_notifiable(conference)).not_to include(user)
       end
     end
+
+    describe 'user distribution scopes' do
+      it 'scopes active users' do
+        create(:user, last_sign_in_at: Date.today - 3.months + 1.day) # active
+        expect(User.active.count).to eq(1)
+      end
+
+      it 'scopes unconfirmed users' do
+        create(:user, confirmed_at: nil) # unconfirmed
+        expect(User.unconfirmed.count).to eq(1)
+      end
+
+      it 'scopes dead users' do
+        create(:user, last_sign_in_at: Time.zone.now - 1.year - 1.day) # dead
+        expect(User.dead.count).to eq(1)
+      end
+    end
   end
 
   describe 'methods' do

@@ -1,52 +1,32 @@
-= javascript_include_tag 'Chart.min'
 .row
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "user", subtitle: "User", value: @total_user, delta: @new_user
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "check-square", subtitle: "Registration", value: @total_reg, delta: @new_reg
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "file-text", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn, reverse: true
 
 .row#registrations
   .col-md-8
-    = render partial: 'line_chart', locals: { title: 'Registrations over time',
-                                               name: 'registrations',
-                                               conferences: @conferences,
-                                               active_conferences: @active_conferences,
-                                               deactive_conferences: @deactive_conferences,
-                                               y: @registrations,
-                                               x: @registration_weeks,
-                                               unit: 'weeks' }
+    = render 'line_chart', title: 'Registrations per week', data: @registrations
   .col-md-4
-    = render partial: 'doughnut_chart', locals: { title: 'Events', data: @event_distribution }
+    = render 'donut_chart', title: 'Events',
+      data: @event_distribution, colors: @event_distribution_colors
 .row#submissions
   .col-md-8
-    = render partial: 'line_chart', locals: { title: 'Submissions over time',
-                                               name: 'submissions',
-                                               conferences: @conferences,
-                                               active_conferences: @active_conferences,
-                                               deactive_conferences: @deactive_conferences,
-                                               y: @submissions,
-                                               x: @cfp_weeks,
-                                               unit: 'weeks' }
+    = render 'line_chart', title: 'Submissions per week', data: @submissions
   .col-md-4
-    = render partial: 'doughnut_chart', locals: { title: 'User', data: @user_distribution }
+    = render 'donut_chart', title: 'Users',
+      data: @user_distribution,  colors: @user_distribution_colors
 .row#tickets
   .col-md-8
-    = render partial: 'line_chart', locals: { title: 'Tickets sold over time',
-                                               name: 'tickets',
-                                               conferences: @conferences,
-                                               active_conferences: @active_conferences,
-                                               deactive_conferences: @deactive_conferences,
-                                               y: @tickets,
-                                               x: @ticket_weeks,
-                                               unit: 'weeks' }
+    = render 'line_chart', title: 'Tickets sold per week', data: @tickets
 %br
 .row
   .col-md-8
