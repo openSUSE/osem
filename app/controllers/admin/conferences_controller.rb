@@ -37,43 +37,33 @@ module Admin
 
       @top_submitter = Conference.get_top_submitter
 
-      @submissions = {}
-      @cfp_weeks = [0]
-
-      @registrations = {}
-      @registration_weeks = [0]
-
-      @tickets = {}
-      @ticket_weeks = [0]
+      @registrations = []
+      @submissions = []
+      @tickets = []
 
       @conferences.each do |c|
-        # Event submissions over time chart
-        @submissions[c.short_title] = c.get_submissions_per_week
-        @cfp_weeks.push(@submissions[c.short_title].length)
-
         # Conference registrations over time chart
-        @registrations[c.short_title] = c.get_registrations_per_week
-        @registration_weeks.push(@registrations[c.short_title].length)
-
+        @registrations << {
+          name: c.short_title,
+          data: c.get_registrations_per_week
+        }
+        # Event submissions over time chart
+        @submissions << {
+          name: c.short_title,
+          data: c.get_submissions_per_week
+        }
         # Tickets sold over time chart
-        @tickets[c.short_title] = c.get_tickets_sold_per_week
-        @ticket_weeks.push(@tickets[c.short_title].length)
+        @tickets << {
+          name: c.short_title,
+          data: c.get_tickets_sold_per_week
+        }
       end
 
-      @cfp_weeks = @cfp_weeks.max
-      @submissions = normalize_array_length(@submissions, @cfp_weeks)
-      @cfp_weeks = @cfp_weeks > 0 ? (1..@cfp_weeks).to_a : 1
-
-      @registration_weeks = @registration_weeks.max
-      @registrations = normalize_array_length(@registrations, @registration_weeks)
-      @registration_weeks = @registration_weeks > 0 ? (1..@registration_weeks).to_a : 1
-
-      @ticket_weeks = @ticket_weeks.max
-      @tickets = normalize_array_length(@tickets, @ticket_weeks)
-      @ticket_weeks = @ticket_weeks > 0 ? (1..@ticket_weeks).to_a : 1
-
       @event_distribution = Conference.event_distribution
-      @user_distribution = Conference.user_distribution
+      @event_distribution_colors = Event::COLORS.values
+
+      @user_distribution = User.distribution
+      @user_distribution_colors = User::DISTRIBUTION_COLORS.values
     end
 
     def new
@@ -138,35 +128,9 @@ module Admin
       @conference_progress = @conference.get_status
 
       # Line charts
-      @registrations = {@conference.short_title => @conference.get_registrations_per_week}
-      @registration_weeks = [0]
-      @registration_weeks.push(@registrations[@conference.short_title].length)
-
-      @registration_weeks = @registration_weeks.max
-      @registrations = normalize_array_length(@registrations, @registration_weeks)
-      @registration_weeks = @registration_weeks > 0 ? (1..@registration_weeks).to_a : 1
-
-      @submissions = Conference.get_event_state_line_colors
-
-      @submissions_data = @conference.get_submissions_data
-      @cfp_weeks = 0
-      if @submissions_data['Weeks']
-        @cfp_weeks = @submissions_data['Weeks']
-        @submissions_data = @submissions_data.except('Weeks')
-      end
-
-      @tickets_data = @conference.get_tickets_data
-      @ticket_weeks = 0
-      if @tickets_data['Weeks']
-        @ticket_weeks = @tickets_data['Weeks']
-        @tickets_data = @tickets_data.except('Weeks')
-      end
-
-      # Set line color using a hash function
-      @tickets = []
-      @tickets_data.each_key do |title|
-        @tickets.append(short_title: title, color: "\##{Digest::MD5.hexdigest(title)[0..5]}")
-      end
+      @registrations = @conference.get_registrations_per_week
+      @submissions = @conference.get_submissions_data
+      @tickets = @conference.get_tickets_data
 
       # Doughnut charts
       @event_type_distribution = @conference.event_type_distribution

@@ -176,24 +176,22 @@ class Conference < ApplicationRecord
   # ====Returns
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
-    result = {}
-    if program&.cfp && program&.events
-      result = get_events_per_week_by_state
+    return [] unless program&.cfp && program&.events
 
-      start_week = program.cfp.start_week
-      end_week = end_date.strftime('%W').to_i
-      weeks = weeks(start_week, end_week)
-
-      result.each do |state, values|
-        if state == 'Submitted'
-          result['Submitted'] = pad_array_left_kumulative(start_week, values)
-        else
-          result[state] = pad_array_left_not_kumulative(start_week, values)
-        end
+    start_week = program.cfp.start_week
+    get_events_per_week_by_state.collect do |state, values|
+      if state == 'Submitted'
+        {
+          name: 'Submitted',
+          data: add_week_indices(pad_array_left_kumulative(start_week, values))
+        }
+      else
+        {
+          name: state,
+          data: add_week_indices(pad_array_left_not_kumulative(start_week, values))
+        }
       end
-      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
     end
-    result
   end
 
   ##
@@ -202,19 +200,15 @@ class Conference < ApplicationRecord
   # ====Returns
   #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0, second week 3 registrations
   def get_registrations_per_week
-    result = []
+    return [] unless registrations &&
+      registration_period &&
+      registration_period.start_date &&
+      registration_period.end_date
 
-    if registrations &&
-        registration_period &&
-        registration_period.start_date &&
-        registration_period.end_date
-
-      reg = registrations.group(:week).order(:week).count
-      start_week = get_registration_start_week
-      weeks = registration_weeks
-      result = calculate_items_per_week(start_week, weeks, reg)
-    end
-    result
+    reg = registrations.group(:week).order(:week).count
+    start_week = get_registration_start_week
+    weeks = registration_weeks
+    calculate_items_per_week(start_week, weeks, reg)
   end
 
   ##
@@ -223,15 +217,12 @@ class Conference < ApplicationRecord
   # ====Returns
   #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0, second week 3 tickets sold
   def get_tickets_sold_per_week
-    result = []
+    return [] unless tickets && ticket_purchases && registration_period
 
-    if tickets && ticket_purchases && registration_period
-      tickets_sold = ticket_purchases.paid.group(:week).sum(:quantity)
-      start_week = get_registration_start_week
-      weeks = registration_weeks
-      result = calculate_items_per_week(start_week, weeks, tickets_sold)
-    end
-    result
+    tickets_sold = ticket_purchases.paid.group(:week).sum(:quantity)
+    start_week = get_registration_start_week
+    weeks = registration_weeks
+    calculate_items_per_week(start_week, weeks, tickets_sold)
   end
 
   ##
@@ -241,33 +232,32 @@ class Conference < ApplicationRecord
   # ====Returns
   #  * +Array+ -> e.g. 'Free Access' => [0, 3, 3, 5]  -> first week 0 tickets sold, second week 3 tickets sold.
   def get_tickets_data
-    result = {}
-    if tickets && ticket_purchases && registration_period
-      tickets_per_ticket_id_and_week = ticket_purchases.paid.group(:ticket_id, :week).sum(:quantity)
+    return [] unless tickets && ticket_purchases && registration_period
 
-      start_week = get_registration_start_week
-      weeks = registration_weeks
+    tickets_per_ticket_id_and_week = ticket_purchases.paid.group(:ticket_id, :week).sum(:quantity)
 
-      tickets_by_id_per_week = {}
+    start_week = get_registration_start_week
+    weeks = registration_weeks
 
-      tickets.each do |ticket|
-        tickets_by_id_per_week[ticket.id] = {}
-        (start_week...(start_week + weeks)).each do |week|
-          tickets_by_id_per_week[ticket.id][week] = 0
-        end
+    tickets_by_id_per_week = {}
+
+    tickets.each do |ticket|
+      tickets_by_id_per_week[ticket.id] = {}
+      (start_week...(start_week + weeks)).each do |week|
+        tickets_by_id_per_week[ticket.id][week] = 0
       end
-
-      tickets_per_ticket_id_and_week.each do |ticket_week, value|
-        tickets_by_id_per_week[ticket_week[0]][ticket_week[1]] = value
-      end
-
-      tickets_by_id_per_week.each do |ticket, values|
-        result[Ticket.find(ticket).title] = pad_array_left_not_kumulative(start_week, values)
-      end
-
-      result['Weeks'] = weeks > 0 ? (1..weeks).to_a : 0
     end
-    result
+
+    tickets_per_ticket_id_and_week.each do |ticket_week, value|
+      tickets_by_id_per_week[ticket_week[0]][ticket_week[1]] = value
+    end
+
+    tickets_by_id_per_week.collect do |ticket, values|
+      {
+        name: Ticket.find(ticket).title,
+        data: add_week_indices(pad_array_left_not_kumulative(start_week, values))
+      }
+    end
   end
 
   ##
@@ -400,7 +390,9 @@ class Conference < ApplicationRecord
   # ====Returns
   # * +hash+ -> hash
   def event_distribution
-    Conference.calculate_event_distribution_hash(program.events.select(:state).group(:state).count)
+    Conference.calculate_event_distribution_hash(
+      program.events.select(:state).group(:state).count
+    )
   end
 
   ##
@@ -463,22 +455,6 @@ class Conference < ApplicationRecord
     end
     result['None'] = { 'value' => none, 'color' => next_color(i) } if none > 0
     result
-  end
-
-  ##
-  # Returns a hash with user distribution => {value: count of user state, color: color}
-  # active: signed in during the last 3 months
-  # unconfirmed: registered but not confirmed
-  # dead: not signed in during the last year
-  #
-  # ====Returns
-  # * +hash+ -> hash
-  def self.user_distribution
-    active_user = User.where('last_sign_in_at > ?', Date.today - 3.months).count
-    unconfirmed_user = User.where('confirmed_at IS NULL').count
-    dead_user = User.where('last_sign_in_at < ?', Date.today - 1.year).count
-
-    calculate_user_distribution_hash(active_user, unconfirmed_user, dead_user)
   end
 
   ##
@@ -1110,20 +1086,19 @@ class Conference < ApplicationRecord
   end
 
   ##
-  # Helper method. Calculates hash with corresponding colors of event state distribution.
+  # Helper method. Calculates hash of all event states in a consistent order.
   #
   # ====Returns
   # * +hash+ -> hash
-  def self.calculate_event_distribution_hash(states)
-    result = {}
-    states.each do |key, value|
-      result[key.capitalize] =
-          {
-            'value' => value,
-            'color' => Event.get_state_color(key)
-          }
-    end
-    result
+  def self.calculate_event_distribution_hash(counts)
+    return {} if counts.values.sum == 0
+
+    Hash[
+      Event.state_machine.states.collect do |state|
+        state_name = state.name.to_s
+        [state_name.capitalize, counts[state_name] || 0]
+      end
+    ]
   end
 
   ##
@@ -1211,6 +1186,12 @@ class Conference < ApplicationRecord
       result += Array.new(weeks - result.length, sum)
     end
 
-    result
+    add_week_indices(result)
+  end
+
+  def add_week_indices(values)
+    Hash[
+      values.collect.with_index { |value, index| ["Wk #{index + 1}", value] }
+    ]
   end
 end

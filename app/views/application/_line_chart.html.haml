@@ -1,0 +1,15 @@
+:ruby
+  options = {
+    legend:   'bottom',
+    download: true,
+    messages: { empty: 'No data' }
+  }
+
+.row
+  .col-md-12
+    .text-center
+      %h4
+        = title
+.row
+  .col-md-12
+    = line_chart data, options

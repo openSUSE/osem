@@ -128,7 +128,6 @@ gem 'ajax-datatables-rails'
 gem 'jquery-datatables-rails'
 
 # for charts
-gem 'chart-js-rails'
 gem 'chartkick'
 
 # for displaying maps

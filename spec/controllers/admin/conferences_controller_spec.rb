@@ -177,17 +177,6 @@ describe Admin::ConferencesController do
           expect(assigns(:conferences)).to match_array([conference, con2])
         end
 
-        it 'assigns cfp_max an array with maximum weeks' do
-          conference
-          date = Date.new(2014, 05, 26)
-          create(:cfp,
-                 program:    conference.program,
-                 start_date: date,
-                 end_date:   date + 14)
-          get :index
-          expect(assigns(:cfp_weeks)).to match_array([1, 2, 3])
-        end
-
         it 'renders the index template' do
           conference
           get :index

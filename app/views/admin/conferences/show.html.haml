@@ -1,21 +1,19 @@
-= javascript_include_tag 'Chart.min'
-
 %h1
   %span.fa.fa-tachometer
   Dashboard for #{@conference.title}
 %hr
 .row
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "user", subtitle: "Registration", value: @total_reg, delta: @new_reg
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "check-square", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "file-text", subtitle: "Hour", value: @program_length, delta: @new_program_length
   .col-sm-3.col-xs-3
-    = render "shared/big_statistic",
+    = render "big_statistic",
       icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn
 
 .row
@@ -24,37 +22,19 @@
       .col-md-8
         .row#registrations
           .col-md-12
-            = render partial: 'line_chart', locals: { title: 'Registrations over time',
-                                                       name: 'registrations',
-                                                       conferences: [@conference],
-                                                       active_conferences: [@conference],
-                                                       deactive_conferences: [],
-                                                       y: @registrations,
-                                                       x: @registration_weeks,
-                                                       unit: 'weeks' }
+            = render 'line_chart',
+              title: 'Registrations per week', data: @registrations
         .row#submissions
           .col-md-12
-            = render partial: 'line_chart', locals: { title: 'Submissions over time',
-                                                        name: 'submissions',
-                                                        conferences: @submissions,
-                                                        active_conferences: @submissions,
-                                                        deactive_conferences: [],
-                                                        y: @submissions_data,
-                                                        x: @cfp_weeks,
-                                                        unit: 'weeks' }
+            = render 'line_chart',
+              title: 'Submissions per week', data: @submissions
       .col-md-4
-        = render partial: 'todo_list', locals: { conference_progress: @conference_progress,
-                                                 conference: @conference }
+        = render 'todo_list',
+          conference_progress: @conference_progress, conference: @conference
       .row#tickets
         .col-md-8
-          = render partial: 'line_chart', locals: { title: 'Tickets sold over time',
-                                                      name: 'tickets',
-                                                      conferences: @tickets,
-                                                      active_conferences: @tickets,
-                                                      deactive_conferences: [],
-                                                      y: @tickets_data,
-                                                      x: @ticket_weeks,
-                                                      unit: 'weeks' }
+          = render 'line_chart',
+            title: 'Tickets sold per week', data: @tickets
 %br
 .row
   .col-md-12#doughnut
@@ -75,27 +55,36 @@
       .tab-pane.active#distribution_all
         .row
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Event types', data: @event_type_distribution}
+            = render 'donut_chart', title: 'Event types',
+              combined_data: @event_type_distribution
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Difficulty levels', data: @difficulty_levels_distribution}
+            = render 'donut_chart', title: 'Difficulty levels',
+              combined_data: @difficulty_levels_distribution
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Tracks', data: @tracks_distribution}
+            = render 'donut_chart', title: 'Tracks',
+              combined_data: @tracks_distribution
       .tab-pane#distribution_confirmed
         .row
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Event types', data: @event_type_distribution_confirmed}
+            = render 'donut_chart', title: 'Event types',
+              combined_data: @event_type_distribution_confirmed
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Difficulty levels', data: @difficulty_levels_distribution_confirmed}
+            = render 'donut_chart', title: 'Difficulty levels',
+              combined_data: @difficulty_levels_distribution_confirmed
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Tracks', data: @tracks_distribution_confirmed}
+            = render 'donut_chart', title: 'Tracks',
+              combined_data: @tracks_distribution_confirmed
       .tab-pane#distribution_withdrawn
         .row
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Event types', data: @event_type_distribution_withdrawn}
+            = render 'donut_chart', title: 'Event types',
+              combined_data: @event_type_distribution_withdrawn
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Difficulty levels', data: @difficulty_levels_distribution_withdrawn}
+            = render 'donut_chart', title: 'Difficulty levels',
+              combined_data: @difficulty_levels_distribution_withdrawn
           .col-md-4
-            = render partial: 'doughnut_chart', locals: {title: 'Tracks', data: @tracks_distribution_withdrawn}
+            = render 'donut_chart', title: 'Tracks',
+              combined_data: @tracks_distribution_withdrawn
 
 .row
   .col-md-8

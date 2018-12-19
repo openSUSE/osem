@@ -31,6 +31,7 @@ FactoryBot.define do
       Quisque cursus facilisis consequat. Etiam volutpat ligula turpis, at
       gravida.
     EOS
+    last_sign_in_at { Date.today }
     is_disabled { false }
 
     after(:create) do |user|

@@ -1,6 +1,3 @@
-= javascript_include_tag "//www.google.com/jsapi", "chartkick"
-= javascript_include_tag 'chartkick'
-
 = bar_chart @survey.survey_questions.map{ |q| [q.title, q.survey_replies.count] }
 
 - @survey.survey_questions.each.with_index(1) do |survey_question, question_index|
