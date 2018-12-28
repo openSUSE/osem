@@ -15,7 +15,7 @@ feature Ticket do
       sign_out
     end
 
-    scenario 'add a valid ticket', feature: true, js: true do
+    scenario 'add a valid ticket', feature: true do
       visit admin_conference_tickets_path(conference.short_title)
       click_link 'Add Ticket'
 
@@ -29,7 +29,7 @@ feature Ticket do
       expect(Ticket.count).to eq(2)
     end
 
-    scenario 'add a invalid ticket', feature: true, js: true do
+    scenario 'add a invalid ticket', feature: true do
       visit admin_conference_tickets_path(conference.short_title)
       click_link 'Add Ticket'
 
@@ -61,7 +61,7 @@ feature Ticket do
     context 'Ticket already created' do
       let!(:ticket) { create(:ticket, title: 'Business Ticket', price: 100, conference_id: conference.id) }
 
-      scenario 'edit valid ticket', feature: true, js: true do
+      scenario 'edit valid ticket', feature: true do
         visit admin_conference_tickets_path(conference.short_title)
         click_link('Edit', href: edit_admin_conference_ticket_path(conference.short_title, ticket.id))
 
