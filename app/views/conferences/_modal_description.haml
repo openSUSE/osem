@@ -1,5 +1,8 @@
 - content_for :modals do
   - cache [object, '#modal'] do
+    :ruby
+      title = object.try(:title) || object.try(:name)
+      link = object.try(:website_url) || object.try(:website_link)
     .modal.fade{ id: "modal-#{object.class.name.downcase}-#{object.id}" }
       .modal-dialog
         .modal-content
@@ -7,17 +10,17 @@
             %button.close{ data: { dismiss: 'modal' } }
               %i.fa.fa-close
             %h3.modal-title
-              = object.try(:title) || object.try(:name)
+              = title
           .modal-body
             %p.logo
-              = link_to object.website_url || '#', target: '_blank' do
-                - img_classes = ['img-responsive center-block']
-                - if object.is_a? Sponsor
-                  - img_classes << ['img-sponsor',
-                    "img-sponsor-#{object.sponsorship_level.position}"]
-                - if object.picture?
-                  = image_tag get_logo(object), class: img_classes
+              - img_classes = ['img-responsive center-block']
+              - if object.is_a? Sponsor
+                - img_classes << ['img-sponsor',
+                  "img-sponsor-#{object.sponsorship_level.position}"]
+              - if object.picture?
+                = image_tag get_logo(object), class: img_classes
             %p.description
-              = object.description
-          .modal-footer
-            = link_to nil, object.website_url, target: '_blank'
+              = markdown(object.description)
+          - if link
+            .modal-footer
+              = link_to nil, link, target: '_blank'
