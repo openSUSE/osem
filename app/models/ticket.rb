@@ -10,6 +10,8 @@ class Ticket < ApplicationRecord
 
   monetize :price_cents, with_model_currency: :price_currency
 
+  scope :for_registration, -> { where(registration_ticket: true) }
+
   # This validation is for the sake of simplicity.
   # If we would allow different currencies per conference we also have to handle convertions between currencies!
   validate :tickets_of_conference_have_same_currency

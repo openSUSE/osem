@@ -8,29 +8,38 @@
   .row
     .col-md-8
       %dl.dl-horizontal
-        %dt
-          Start Date
-        %dd
-          = @registration_period.start_date
-        %dt
-          End Date
-        %dd
-          = @registration_period.end_date
+        %dt Start Date
+        %dd= @registration_period.start_date
+        %dt End Date
+        %dd= @registration_period.end_date
+        %dt Ticket required?
+        %dd= @conference.tickets.for_registration.any? ? 'Yes' : 'No'
+
+.row
+  .col-md-12
+    %p
+      If you would like to require a ticket purchase for registration, at least
+      one
+      = link_to 'ticket', admin_conference_tickets_path(@conference)
+      must be set as a registration ticket, and the registration process
+      will not proceed without the purchase (or selection of a free) single
+      registration ticket.
+    %p
+      To make ticketing optional, do not mark any
+      = link_to 'tickets', admin_conference_tickets_path(@conference)
+      as registration tickets, and registration can proceed without them.
 .row
   .col-md-12.text-right
-    - if @registration_period
-      - if can? :update, @registration_period
-        = link_to 'Edit', edit_admin_conference_registration_period_path, class: 'btn btn-primary'
-      - if can? :destroy, @registration_period
-        = link_to 'Delete', admin_conference_registration_period_path,
-        method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
-    - else
-      - if @conference.tickets.for_registration.empty?
-        .h3.text-left
-          No Registration Tickets!
-          %small
-            = link_to 'Create registration tickets', new_admin_conference_ticket_path
-            before creating the registration period.
-      - else
-        - if can? :create, @conference.build_registration_period
-          = link_to 'New Registration Period', new_admin_conference_registration_period_path, class: 'btn btn-primary'
+    .btn-group{ role: 'group' }
+      - if @registration_period
+        - if can? :update, @registration_period
+          = link_to 'Edit', edit_admin_conference_registration_period_path,
+            class: 'btn btn-primary'
+        - if can? :destroy, @registration_period
+          = link_to 'Delete', admin_conference_registration_period_path,
+            method: :delete, data: { confirm: 'Are you sure?' },
+            class: 'btn btn-danger'
+      - elsif can? :create, @conference.build_registration_period
+        = link_to 'New Registration Period',
+          new_admin_conference_registration_period_path,
+          class: 'btn btn-primary'

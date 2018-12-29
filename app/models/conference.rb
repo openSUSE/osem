@@ -29,11 +29,7 @@ class Conference < ApplicationRecord
   has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
-  has_many :tickets, dependent: :destroy do
-    def for_registration
-      where(registration_ticket: true)
-    end
-  end
+  has_many :tickets, dependent: :destroy
   has_many :resources, dependent: :destroy
   has_many :booths, dependent: :destroy
   has_many :confirmed_booths, -> { where(state: 'confirmed') }, class_name: 'Booth'

@@ -1094,7 +1094,6 @@ Style/EmptyLiteral:
 Style/EmptyMethod:
   Exclude:
     - 'app/controllers/admin/lodgings_controller.rb'
-    - 'app/controllers/admin/registration_periods_controller.rb'
     - 'app/controllers/users_controller.rb'
     - 'db/migrate/20121223115125_create_tracks_table.rb'
     - 'db/migrate/20121223115135_create_events_table.rb'
