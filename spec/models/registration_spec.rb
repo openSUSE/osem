@@ -51,26 +51,4 @@ describe Registration do
       expect(subject).to receive(:send_registration_mail)
     end
   end
-
-  describe 'registration_to_events_only_if_present' do
-    context 'valid' do
-      it 'when user registers for events happening while user is at the conference' do
-        registration.arrival = conference.start_date
-        registration.departure = conference.end_date
-        registration.events << create(:event, program: conference.program, start_time: conference.end_date)
-
-        expect(registration.valid?).to eq true
-      end
-    end
-
-    context 'invalid' do
-      it 'when user registers for events happening while user is not at the conference' do
-        registration.arrival = conference.start_date
-        registration.departure = conference.start_date
-        registration.events << create(:event, program: conference.program, start_time: conference.end_date)
-
-        expect(registration.valid?).to eq false
-      end
-    end
-  end
 end
