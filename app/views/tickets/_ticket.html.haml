@@ -2,18 +2,26 @@
   %td.col-sm-8.col-md-4
     .media
       .media-body
-        %h4.media-heading
-          = ticket.title
-        %h5.media-heading
-        - unless ticket.description.blank?
-          = markdown(ticket.description)
-  %td.col-sm-1.col-md-2.text-center
-    = ticket.registration_ticket? ? 'Yes' : 'No'
+        %h4.media-heading= ticket.title
+        %h5.media-heading= markdown(ticket.description)
+  - if @conference.tickets.for_registration.any?
+    %td.col-sm-1.col-md-2.text-center
+      = ticket.registration_ticket? ? 'Yes' : 'No'
   %td.col-sm-1.col-md-1
-    - options = { type: 'number', min: 0, max: 99, class: "form-control quantity", 'data-id' => ticket.id }
-    - if ticket.registration_ticket?
-      - options[:max] = 1
-      - options[:disabled] = current_user.tickets.for_registration(ticket.conference).present?
+    :ruby
+      options = {
+        type:     'number',
+        min:      0,
+        max:      99,
+        class:    'form-control quantity',
+        'data-id' => ticket.id
+      }
+      if ticket.registration_ticket?
+        options[:max] = 1
+        options[:disabled] = current_user.tickets.for_registration(
+          ticket.conference
+        ).present?
+      end
     = text_field_tag("tickets[][#{ticket.id}]", 0, options)
   %td.col-sm-1.col-md-1.text-center
     = ticket.price.symbol
