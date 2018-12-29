@@ -30,8 +30,6 @@
             %th{ width: '0' } E-Mail
             %th{ width: '0' }
               %abbr{ title: 'Code of Conduct' } CoC
-            %th{ width: '0' } Arrival
-            %th{ width: '0' } Departure
             %th{ width: '0' } Actions
         %tbody
 
@@ -80,22 +78,6 @@
           "data": "accepted_code_of_conduct",
           "className": "code-of-conduct text-center",
           "searchable": false
-        },
-        {
-          "data": "arrival",
-          "searchable": false,
-          "render": function(data, type, row) {
-            if (data) { return moment(data).format('ll LT'); }
-            return '';
-          }
-        },
-        {
-          "data": "departure",
-          "searchable": false,
-          "render": function(data, type, row) {
-            if (data) { return moment(data).format('ll LT'); }
-            return '';
-          }
         },
         {
           "data": null,
