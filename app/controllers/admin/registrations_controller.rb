@@ -82,7 +82,7 @@ module Admin
 
     def registration_params
       params.require(:registration).permit(
-        :user_id, :conference_id, :arrival, :departure, :attended,
+        :user_id, :conference_id, :attended,
         :volunteer, :other_special_needs, :accepted_code_of_conduct,
         vchoice_ids: [], qanswer_ids: [], qanswers_attributes: [], event_ids: []
       )
