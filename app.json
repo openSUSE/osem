@@ -1,67 +1,21 @@
 {
   "name": "osem",
   "description": "Open Source Event Manager",
+  "repository": "https://github.com/openSUSE/osem",
   "env": {
     "CLOUDINARY_URL": {
-      "description": "Configure your cloudinary.com cloud name and api key/secret",
-      "required": true
-    },
-    "DATABASE_URL": {
-      "description": "Configure your database connection",
-      "required": false
+      "description": "Create a https://cloudinary.com account and set the cloud url here. It starts with cloudinary://"
     },
     "SECRET_KEY_BASE": {
-      "description": "a key which allows sessions to be verified against a known secure key to prevent tampering",
-      "required": true
+      "description": "A key to verify sessions. At least 40 characters. For instance: https://www.randomlists.com/string?base=16&length=64&qty=1",
+      "generator": "secret"
     },
-    "LANG": {
-      "required": false
-    },
-    "OSEM_EMAIL_ADDRESS": {
-      "description": "The address OSEM uses for sending mails",
-      "required": false
-    },
-    "OSEM_HOSTNAME": {
-      "description": "The host this OSEM instance runs on",
-      "required": false
-    },
-    "OSEM_NAME": {
-      "description": "The name of your page",
-      "required": false
-    },
-    "OSEM_SMTP_ADDRESS": {
-      "description": "The smtp server to use",
-      "required": false
-    },
-    "OSEM_SMTP_AUTHENTICATION": {
-      "description": "The auth method for the smtp server",
-      "required": false
-    },
-    "OSEM_SMTP_DOMAIN": {
-      "description": "The HELO domain for the smtp server",
-      "required": false
-    },
-    "OSEM_SMTP_PASSWORD": {
-      "description": "The password for the smtp server",
-      "required": false
-    },
-    "OSEM_SMTP_PORT": {
-      "description": "The port on the smtp server",
-      "required": false
-    },
-    "OSEM_SMTP_USERNAME": {
-      "description": "The user for the smtp server",
-      "required": false
-    },
-    "RACK_ENV": {
-      "required": false
-    },
-    "RAILS_ENV": {
-      "required": false
-    }
+    "NOKOGIRI_USE_SYSTEM_LIBRARIES": "1",
+    "RAILS_ENV": "production",
+    "RACK_ENV": "production"
   },
   "scripts": {
-    "postdeploy": "bundle exec rake db:reset data:demo"
+    "postdeploy": "bundle exec rake db:schema:load db:seed"
   },
   "formation": {
     "web": {
@@ -72,12 +26,11 @@
     }
   },
   "addons": [
-    "heroku-postgresql",
-    "sendgrid"
-  ],
-  "buildpacks": [
     {
-      "url": "heroku/ruby"
+      "plan": "heroku-postgresql"
+    },
+    {
+      "plan": "sendgrid"
     }
   ]
 }
