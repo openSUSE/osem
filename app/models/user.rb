@@ -287,4 +287,8 @@ class User < ApplicationRecord
       errors.add(:biography, 'is limited to 150 words.') if biography.split.length > 150
     end
   end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 end
