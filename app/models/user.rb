@@ -265,12 +265,14 @@ class User < ApplicationRecord
     proposals(conference).count
   end
 
+  def self.empty?
+    User.count == 1 && User.first.email == 'deleted@localhost.osem'
+  end
+
   private
 
   def setup_role
-    if User.count == 1 && User.first.email == 'deleted@localhost.osem'
-      self.is_admin = true
-    end
+    self.is_admin = true if User.empty?
   end
 
   def touch_events

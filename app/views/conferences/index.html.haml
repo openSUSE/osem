@@ -5,7 +5,7 @@
         %h2 Upcoming Conferences
   - @current.each do |conference|
     = render '/conferences/conference_details', conference: conference
-  -if @antiquated and @antiquated.any?
+  - if @antiquated and @antiquated.any?
     .row
       .col-md-12
         %p.text-right
@@ -18,6 +18,8 @@
     #antiquated.collapse
       - @antiquated.each do |conference|
         = render '/conferences/conference_details', conference: conference
+  - if @antiquated.empty? && @current.empty? && User.empty?
+    = render partial: 'new_install'
 
 -content_for :script_body do
   :javascript
