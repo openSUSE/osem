@@ -8,6 +8,7 @@ We need your input and contributions to OSEM. In particular we seek the followin
 * **code**: contribute your expertise in an area by helping us expand OSEM with features/bugfixes/UX
 * **code editing**: fix typos, clarify language, and generally improve the quality of the content of OSEM
 * **ideas**: participate in an issues thread or start your own to have your voice heard
+* **translations**: translate OSEM into other languages than English
 
 Read this guide on how to do that.
 
@@ -106,6 +107,9 @@ You can access the app [localhost:3000](http://localhost:3000). Whatever you cha
     ```
     vagrant ssh
     ```
+
+## How to contribute translations
+Please refer to our [translation guide](https://github.com/openSUSE/osem/wiki/Translation) in the wiki.
 
 ## Want to know more?
 In our wiki you can find more information about what is possible in our development environment,
