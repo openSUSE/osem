@@ -10,6 +10,16 @@ If you never deployed a Ruby on Rails app before we **strongly** suggest you see
 
 *You should know what you do and you have been warned*.
 
+## Versions
+OSEM is an [semantic versioned](http://semver.org/) app. That means given a version number MAJOR.MINOR.PATCH we increment the:
+
+1. MAJOR version when we make incompatible changes,
+2. MINOR version when we add functionality in a backwards-compatible manner
+3. PATCH version when we make backwards-compatible bug fixes
+
+## Download
+You can find the latest OSEM releases on our [release page](https://github.com/openSUSE/osem/releases)
+
 ## Deploy to the cloud
 The easiest way to deploy OSEM is to use one of the many platform as a service providers that support ruby on rails. We have prepared OSEM to be used with [heroku](https://heroku.com). So if you have an account there, you can deploy OSEM by pressing this button:
 
