@@ -69,7 +69,7 @@
 # OSEM_SUSE_SECRET=5678
 
 # STRIPE Publishable/Secret keys
-# test keys for development mode, live for production mode
+# -> https://github.com/openSUSE/osem/wiki/Stripe
 # STRIPE_PUBLISHABLE_KEY=1234
 # STRIPE_SECRET_KEY=5678
 
