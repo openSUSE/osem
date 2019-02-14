@@ -1,63 +1,48 @@
-require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 
-set :domain, 'proxy-opensuse.suse.de'
-set :port, 2252
-set :user, 'osem'
-set :deploy_to, '/srv/www/vhosts/opensuse.org/events'
-set :repository, 'https://github.com/openSUSE/osem.git'
+OSEM_DEPLOY_DOMAIN = ENV.fetch('OSEM_DEPLOY_DOMAIN', 'dale.infra.opensuse.org')
+OSEM_DEPLOY_PORT = ENV.fetch('OSEM_DEPLOY_PORT', '22')
+OSEM_DEPLOY_USER = ENV.fetch('OSEM_DEPLOY_USER', 'osem')
+OSEM_DEPLOY_DIR = ENV.fetch('OSEM_DEPLOY_DIR', '/home/osem/events')
+OSEM_DEPLOY_REPO = ENV.fetch('OSEM_DEPLOY_REPO', 'https://github.com/openSUSE/osem.git')
+OSEM_DEPLOY_BRANCH = ENV.fetch('OSEM_DEPLOY_BRANCH', 'master')
 
-# Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
-# They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, %w{ config/database.yml log public/system config/secrets.yml config/piwik.yml tmp .env.production}
+set :application_name, 'osem'
+set :domain, OSEM_DEPLOY_DOMAIN
+set :user, OSEM_DEPLOY_USER
+set :port, OSEM_DEPLOY_PORT
+set :deploy_to, OSEM_DEPLOY_DIR
+set :repository, OSEM_DEPLOY_REPO
+set :branch, OSEM_DEPLOY_BRANCH
 
-task setup: :environment do
-  queue! %[mkdir -p "#{deploy_to}/shared/log"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
+# Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
+# Some plugins already add folders to shared_dirs like `mina/rails` add `public/assets`, `vendor/bundle` and many more
+# run `mina -d` to see all folders and files already included in `shared_dirs` and `shared_files`
+set :shared_dirs, fetch(:shared_dirs, []).push('public/system')
+set :shared_files, fetch(:shared_files, []).push('.env.production')
 
-  queue! %[mkdir -p "#{deploy_to}/shared/config"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/config"]
-
-  queue! %[touch "#{deploy_to}/shared/config/database.yml"]
-
-  queue! %[touch "#{deploy_to}/shared/system"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/system"]
-  queue  %[echo "-----> Be sure to edit 'shared/config/database.yml'."]
-end
-
-desc 'Deploys the current version to the server.'
-task deploy: :environment do
-  to :prepare do
-    queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job stop"
-  end
-
+desc "Deploys the current version to the server."
+task :deploy do
   deploy do
+    # Put things that will set up an empty directory into a fully set-up
+    # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'dump_db'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    #invoke :notify_errbit
-
-    to :launch do
-      queue "sudo /usr/bin/systemctl restart apache2"
-      queue "cd #{deploy_to}/current && RAILS_ENV=production bin/delayed_job start"
-    end
-
     invoke :'deploy:cleanup'
+
+    on :launch do
+      in_path(fetch(:current_path)) do
+        command %{mkdir -p tmp/}
+        command %{touch tmp/restart.txt}
+      end
+    end
   end
 end
 
-desc 'Notifies the exception handler of the deploy.'
-task :notify_errbit do
-  revision = `git rev-parse HEAD`.strip
-  user = ENV['USER']
-  queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec rake hoptoad:deploy TO=#{rails_env} REVISION=#{revision} REPO=#{repository} USER=#{user}"
-end
-
-desc 'Back ups the database'
-task :dump_db do
-  queue "bundle exec rake dump_db"
-end
+# For help in making your deploy script, see the Mina documentation:
+#
+#  - https://github.com/mina-deploy/mina/tree/master/docs
