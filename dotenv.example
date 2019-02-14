@@ -49,8 +49,10 @@
 
 # The errbit host to post exceptions to
 # OSEM_ERRBIT_HOST=errbit.example.com
-# The api key for the errbit host
-# OSEM_ERRBIT_APIKEY=1234
+# The project to use on the errbit host
+# OSEM_ERRBIT_ID=1234
+# The key for this project
+# OSEM_ERRBIT_KEY=5678
 
 # OMNIAUTH Developer Key/Secret for GOOGLE
 # OSEM_GOOGLE_KEY=1234

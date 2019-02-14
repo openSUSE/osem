@@ -1,7 +1,7 @@
 Airbrake.configure do |config|
   # Change this to some sensible data for your errbit instance
-  config.project_id = ENV['OSEM_ERRBIT_APIKEY'] || Rails.application.secrets.errbit_key || ''
-  config.project_key = ENV['OSEM_ERRBIT_APIKEY'] || Rails.application.secrets.errbit_key || ''
+  config.project_id = ENV['OSEM_ERRBIT_ID'] || Rails.application.secrets.errbit_id || ''
+  config.project_key = ENV['OSEM_ERRBIT_KEY'] || Rails.application.secrets.errbit_key || ''
   config.host    = ENV['OSEM_ERRBIT_HOST']
   config.environment = Rails.env
   if config.project_key.blank? || config.host.blank?
