@@ -1,0 +1,17 @@
+[Unit]
+Description=Open Source Event Manager Delayed Jobs
+Wants=osem.service
+Before=osem.service
+
+[Service]
+User=osem
+EnvironmentFile=/home/osem/events/current/.env.production
+WorkingDirectory=/home/osem/events/current
+ExecStart = /usr/bin/bundle exec bin/delayed_job -e production start
+ExecStop = /usr/bin/bundle exec bin/delayed_job -e production stop
+Type = forking
+PIDFile = /home/osem/events/current/tmp/pids/delayed_job.pid
+
+[Install]
+WantedBy=multi-user.target
+
