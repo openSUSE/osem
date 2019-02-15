@@ -50,13 +50,11 @@ Osem::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
-  if ENV["MEMCACHEDCLOUD_SERVERS"]
-    config.cache_store = :dalli_store, ENV["MEMCACHEDCLOUD_SERVERS"].split(','), {
-      username: ENV["MEMCACHEDCLOUD_USERNAME"],
-      password: ENV["MEMCACHEDCLOUD_PASSWORD"]
+  if ENV["OSEM_MEMCACHED_SERVERS"]
+    config.cache_store = :mem_cache_store, ENV["OSEM_MEMCACHED_SERVERS"].split(','), {
+      username: ENV["OSEM_MEMCACHED_USERNAME"],
+      password: ENV["OSEM_MEMCACHED_PASSWORD"]
     }
-  else
-    config.cache_store = :memory_store, { size: 64.megabytes }
   end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
