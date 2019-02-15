@@ -44,7 +44,7 @@
 # OSEM_EMAIL_ADDRESS="no-reply@example.com"
 
 # The api key for transifex.com.
-# See TRANSLATION.md for details
+# See https://github.com/openSUSE/osem/wiki/Translation
 # OSEM_TRANSIFEX_APIKEY=1234
 
 # The errbit host to post exceptions to
