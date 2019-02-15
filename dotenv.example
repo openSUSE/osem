@@ -93,6 +93,7 @@
 
 # Enable the usage of the devise ichain plugin
 # OSEM_ICHAIN_ENABLED=false
+# OSEM_ICHAIN_BASE_URL=https://example.com
 
 # ReCAPTCHA keys
 # RECAPTCHA_SITE_KEY=1234
