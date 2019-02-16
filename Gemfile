@@ -117,7 +117,7 @@ source 'https://rails-assets.org' do
   # for select with icon
   gem 'rails-assets-bootstrap-select'
   gem 'rails-assets-markdown'
-  gem 'rails-assets-to-markdown'
+  gem 'rails-assets-to-markdown', '~> 3'
 end
 
 # as date picker
