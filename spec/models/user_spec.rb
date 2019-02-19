@@ -27,7 +27,7 @@ describe User do
 
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:username) }
-    it { is_expected.to validate_uniqueness_of(:username) }
+    it { is_expected.to validate_uniqueness_of(:username).ignoring_case_sensitivity }
 
     it 'biography can not have more than 150 words' do
       # Text with 151 words

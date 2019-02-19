@@ -10,7 +10,7 @@ describe Cfp do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:cfp_type) }
     it { is_expected.to validate_inclusion_of(:cfp_type).in_array(Cfp::TYPES) }
-    it { is_expected.to validate_uniqueness_of(:cfp_type).scoped_to(:program_id).case_insensitive }
+    it { is_expected.to validate_uniqueness_of(:cfp_type).ignoring_case_sensitivity.scoped_to(:program_id) }
   end
 
   describe '.for_events' do
