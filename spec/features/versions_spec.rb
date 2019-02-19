@@ -212,7 +212,7 @@ feature 'Version' do
 
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} submitted new event ABC in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} updated difficulty level and subtitle of event ABC in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} updated subtitle and difficulty level of event ABC in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} rejected event ABC in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} resubmitted event ABC in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} accepted event ABC in conference #{conference.short_title}")
