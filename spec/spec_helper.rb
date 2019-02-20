@@ -77,7 +77,7 @@ RSpec.configure do |config|
 
   Capybara.register_driver :chrome_headless do |app|
     capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: { args: %w(headless disable-gpu window-size=1920x1080) }
+      chromeOptions: { args: %w(headless disable-gpu window-size=1920x1080 no-sandbox) }
     )
     Capybara::Selenium::Driver.new(
       app, browser: :chrome, desired_capabilities: capabilities
