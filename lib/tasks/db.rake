@@ -3,9 +3,9 @@
 namespace :db do
   desc 'Bootstrap the database for the current RAILS_ENV (create, setup & seed if the database does not exist)'
   task bootstrap: :environment do
+    Rake::Task['db:create'].invoke
     if ActiveRecord::Base.connection.tables.empty?
       puts 'Bootstrapping the database...'
-      Rake::Task['db:create'].invoke
       Rake::Task['db:setup'].invoke
       Rake::Task['db:seed'].invoke
     else
