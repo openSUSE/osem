@@ -34,14 +34,6 @@ Capybara/FeatureMethods:
 FactoryBot/AttributeDefinedStatically:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_parameter, with_fixed_indentation
-Layout/AlignParameters:
-  Exclude:
-    - 'Vagrantfile'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 Layout/ClosingParenthesisIndentation:
@@ -1347,7 +1339,6 @@ Style/SingleLineMethods:
 Style/StringLiterals:
   Exclude:
     - 'Gemfile'
-    - 'Vagrantfile'
     - 'bin/rspec'
     - 'bin/spring'
     - 'config/deploy.rb'
