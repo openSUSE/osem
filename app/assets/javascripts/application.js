@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
+//= require rails-ujs
 //= require jquery.mobile.custom.min
 //= require jquery.ui.draggable
 //= require jquery.ui.droppable
