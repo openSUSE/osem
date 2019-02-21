@@ -170,6 +170,7 @@ Osem::Application.routes.draw do
       end
     end
     resource :program, only: [] do
+      get 'proposal/:id', to: 'proposals#show' # For backward compatibility
       resources :proposals, except: :destroy do
         get 'commercials/render_commercial' => 'commercials#render_commercial'
         resources :commercials, only: [:create, :update, :destroy]
