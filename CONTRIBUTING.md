@@ -66,48 +66,6 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
     docker-compose exec osem_1 /bin/bash -l
     ```
 
-### with Vagrant
-Another option is using [Vagrant](https://www.vagrantup.com/) and [VirtualBox 5.0.10](https://www.virtualbox.org/wiki/Download_Old_Builds_5_0) to create your development environment.
-
-1. Install [vagrant-exec](https://github.com/p0deje/vagrant-exec):
-
-    ```bash
-    vagrant plugin install vagrant-exec
-    ```
-
-1. Start the development environment
-
-    ```
-    vagrant up
-    ```
-
-1. Start OSEM inside the development environment
-
-    ```
-    vagrant exec /vagrant/bin/rails server -b 0.0.0.0
-    ```
-
-6. Check out your OSEM rails app:
-You can access the app [localhost:3000](http://localhost:3000). Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
-
-7. Changed something? Test your changes!:
-
-    ```
-    vagrant exec bundle exec rspec spec
-    ```
-
-9. Issue any standard `rails`/`rake`/`bundler` command
-
-    ```
-    vagrant exec bundle exec rake db:migrate
-    ```
-
-8. Or explore the development environment:
-
-    ```
-    vagrant ssh
-    ```
-
 ## How to contribute translations
 Please refer to our [translation guide](https://github.com/openSUSE/osem/wiki/Translation) in the wiki.
 
