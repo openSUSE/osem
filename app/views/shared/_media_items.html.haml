@@ -5,7 +5,7 @@
   - else
     %ul.nav.nav-tabs{ 'role'=>'tablist' }
       - commercials.each.with_index(1) do  |commercial, index|
-        %li{class: "#{active if (index == 1)}"}
+        %li{class: "#{'active' if (index == 1)}"}
           %a{ 'href'=>"##{index}", 'role'=>'tab', 'data-toggle'=>'tab' }
             = index
     .tab-content
