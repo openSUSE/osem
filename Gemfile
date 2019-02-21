@@ -88,6 +88,7 @@ gem 'formtastic-bootstrap'
 # as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 4.2.1'
+gem 'rails-ujs'
 
 # for languages validation
 gem 'iso-639'
