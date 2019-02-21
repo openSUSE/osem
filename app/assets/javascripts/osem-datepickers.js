@@ -66,22 +66,19 @@ $(function () {
        format: "YYYY-MM-DD",
    });
 
-   //   end_date_conference >= registration-period-Start_date >= Current_date
-   //   registration-period-Start_date <= registration-period-End_date <= End_date (of conference)
-   $("#registration-period-start-datepicker").datetimepicker({
-       pickTime: false,
-       useCurrent: false,
-       format: "YYYY-MM-DD",
+   // today <= start_registration <= end_registration <= end_conference
+   var end_conference = $('form').data('end-conference');
+
+   $('#registration-period-start-datapicker').datetimepicker({
+       format: 'YYYY-MM-DD',
        minDate : today,
-       maxDate : $("#registration-period-start-datepicker").attr('end_date'),
+       maxDate : end_conference
    });
 
-   $("#registration-period-end-datepicker").datetimepicker({
-       pickTime: false,
-       useCurrent: false,
-       format: "YYYY-MM-DD",
-       minDate: today,
-       maxDate : $("#registration-period-start-datepicker").attr('end_date'),
+   $('#registration-period-end-datapicker').datetimepicker({
+       format: 'YYYY-MM-DD',
+       minDate : today,
+       maxDate : end_conference
    });
 
   $("#conference-start-datepicker").on("dp.change",function (e) {
