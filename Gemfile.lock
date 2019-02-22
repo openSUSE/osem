@@ -266,10 +266,6 @@ GEM
       rails (>= 4.2.0)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    letter_opener_web (1.3.0)
-      actionmailer (>= 3.2)
-      letter_opener (~> 1.0)
-      railties (>= 3.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -664,7 +660,6 @@ DEPENDENCIES
   json-schema
   leaflet-rails
   letter_opener
-  letter_opener_web
   mina
   mini_magick
   money-rails
