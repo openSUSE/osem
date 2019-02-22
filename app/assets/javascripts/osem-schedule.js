@@ -18,13 +18,11 @@ var Schedule = {
     if(event_schedule_id != null){
       var my_url = url + '/' + event_schedule_id;
       var success_callback = function(data) {
-        console.log(data);
         e.attr("event_schedule_id", null);
         e.appendTo($(".unscheduled-events"));
         e.find(".schedule-event-delete-button").hide();
       }
       var error_callback = function(data) {
-        console.log(data);
         showError($.parseJSON(data.responseText).errors);
       }
       $.ajax({
@@ -57,12 +55,10 @@ var Schedule = {
       params['event_schedule']['schedule_id'] = schedule_id;
     }
     var success_callback = function(data) {
-      console.log(data);
       event.attr("event_schedule_id", data.event_schedule_id);
       event.find(".schedule-event-delete-button").show();
       }
     var error_callback = function(data) {
-      console.log(data);
       showError($.parseJSON(data.responseText).errors);
       event.appendTo(previous_parent);
     }
@@ -87,7 +83,6 @@ $(document).ready( function() {
     snap: '.schedule-room-slot',
     revertDuration: 200,
     revert: function (event, ui) {
-        console.log(event.attr);
         return !event;
     },
     stop: function(event, ui) {
@@ -96,7 +91,8 @@ $(document).ready( function() {
     },
     opacity: 0.7,
     snapMode: "inner",
-    zIndex: 2
+    zIndex: 2,
+    scroll: true
   });
 
   // set room cells as droppable
