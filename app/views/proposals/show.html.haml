@@ -83,7 +83,7 @@
                 = @event.room.name
           .col-md-12
             %dt Conference:
-            %dd= @event.program.conference.title
+            %dd= link_to @event.program.conference.title, conference_path(@conference)
           .col-md-12
             %dt Language:
             %dd= @event.language if @event.language
