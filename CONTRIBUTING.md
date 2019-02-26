@@ -51,7 +51,7 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
 
 1. Check out your OSEM rails app. You can access the app at http://localhost:3000. Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
 
-1. Changed something? Test your changes!
+1. Changed something? Run the tests to verify your changes!
     ```bash
     docker-compose run --rm osem bundle exec rspec spec
     ```
