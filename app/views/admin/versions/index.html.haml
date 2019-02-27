@@ -8,8 +8,9 @@
           %span.caret
         %ul.dropdown-menu
           %li= link_to 'All Conferences & Users',  admin_revision_history_path
-          - @conferences_with_role.each do |conference_short_title|
-            %li= link_to conference_short_title,  admin_conference_revision_history_path(conference_id: conference_short_title)
+          - if !@conferences_with_role.nil?
+            - @conferences_with_role.each do |conference_short_title|
+              %li= link_to conference_short_title,  admin_conference_revision_history_path(conference_id: conference_short_title)
 
       %h1 Revision History
       %p.text-muted
