@@ -38,7 +38,14 @@ class Ability
     # can view Commercials of confirmed Events
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
     can [:show, :create], User
-    unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+
+    # Things that are possible without ichain enabled that are **not*+ possible with ichain mode enabled.
+    if ENV['OSEM_ICHAIN_ENABLED'] != 'true'
+      # There is no reliable way for this workflow (enable not logged in users to fill out a form, then telling
+      # them to sign up once they submit) in ichain. So enable it only without ichain.
+
+      # FIXME: The following abilities need to be checked. Are they about the type of  workflow mentioned above? Or are
+      # they just here because they worked in development mode (without ichain). We are suspicious that it's the latter!
       can :show, Registration do |registration|
         registration.new_record?
       end
