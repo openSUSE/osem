@@ -31,6 +31,10 @@ class Ability
       event.state == 'confirmed'
     end
 
+    can [:show, :events], Schedule do |schedule|
+      schedule.program.schedule_public
+    end
+
     # can view Commercials of confirmed Events
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
     can [:show, :create], User
@@ -50,10 +54,6 @@ class Ability
 
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
-      end
-
-      can [:show, :events], Schedule do |schedule|
-        schedule.program.schedule_public
       end
 
       can [:index, :show], Survey, surveyable_type: 'Conference'
