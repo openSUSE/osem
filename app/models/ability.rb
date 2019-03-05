@@ -39,6 +39,8 @@ class Ability
     can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
     can [:show, :create], User
 
+    can [:index, :show], Survey, surveyable_type: 'Conference'
+
     # Things that are possible without ichain enabled that are **not*+ possible with ichain mode enabled.
     if ENV['OSEM_ICHAIN_ENABLED'] != 'true'
       # There is no reliable way for this workflow (enable not logged in users to fill out a form, then telling
@@ -62,8 +64,6 @@ class Ability
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
       end
-
-      can [:index, :show], Survey, surveyable_type: 'Conference'
     end
   end
 
