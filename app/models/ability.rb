@@ -57,10 +57,6 @@ class Ability
         conference.registration_open? && registration.new_record? && !conference.registration_limit_exceeded?
       end
 
-      can :show, Event do |event|
-        event.new_record?
-      end
-
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
       end
