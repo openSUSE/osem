@@ -79,8 +79,8 @@
   = link_to (current_or_last_object_state('Event', object.event_id).try(:title) || 'deleted'),
            admin_conference_program_event_path(conference_short_title, object.event_id)
   in
-  =  link_to "Schedule #{event_schedule.schedule_id}",
-            admin_conference_schedule_path(conference_short_title, event_schedule.schedule_id)
+  =  link_to "Schedule #{version.item.schedule_id}",
+            admin_conference_schedule_path(conference_short_title, version.item.schedule_id)
 
 - when 'Schedule'
   = link_if_alive version, "Schedule #{version.item_id}",

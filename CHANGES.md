@@ -26,6 +26,15 @@ have collected.
 bundle exec rake data:drop_all_ahoy_events RAILS_ENV=production
 ```
 
+### Conference wide revision history
+There is now a conference wide revision history that will show organizers
+everything that is happening. To be able to do this we need to change old
+data.
+
+```
+bundle exec rake data:set_conference_in_versions RAILS_ENV=production
+```
+
 # Changes in OSEM 1.0
 
 [Released May 24, 2016](https://osem.io/1.0)
