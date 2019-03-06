@@ -363,7 +363,7 @@ GEM
     prawn (2.2.2)
       pdf-core (~> 0.7.0)
       ttfunk (~> 1.5)
-    prawn-qrcode (0.3.0)
+    prawn-qrcode (0.3.1)
       prawn (>= 1)
       rqrcode (>= 0.4.1)
     prawn_rails (0.0.11)
