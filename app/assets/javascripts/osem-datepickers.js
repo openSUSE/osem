@@ -2,7 +2,6 @@
 var today = new Date().toISOString().slice(0, 10);
 $(function () {
   $("input[id^='datetimepicker']").datetimepicker({
-    pickTime: true,
     useCurrent: false,
     sideBySide: true,
     autoclose: true,
@@ -10,14 +9,12 @@ $(function () {
   });
 
   $('.datetimepicker').datetimepicker({
-    pickTime: true,
     useCurrent: false,
     sideBySide: true,
     format: 'YYYY-MM-DD HH:mm'
   });
 
   $("#registration-arrival-datepicker").datetimepicker({
-      pickTime: true,
       useCurrent: false,
       minuteStepping: 15,
       sideBySide: true,
@@ -28,7 +25,6 @@ $(function () {
   });
 
   $("#registration-departure-datepicker").datetimepicker({
-      pickTime: true,
       useCurrent: false,
       minuteStepping: 15,
       sideBySide: true,
@@ -53,7 +49,6 @@ $(function () {
    });
 
    $("#conference-start-datepicker").datetimepicker({
-       pickTime: false,
        useCurrent: false,
        format: "YYYY-MM-DD",
        // conference-start-day >= Current_date
@@ -61,7 +56,6 @@ $(function () {
    });
 
    $("#conference-end-datepicker").datetimepicker({
-       pickTime: false,
        useCurrent: false,
        format: "YYYY-MM-DD",
    });
