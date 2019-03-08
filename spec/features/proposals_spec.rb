@@ -121,8 +121,7 @@ feature Event do
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       click_link 'Do you require something special?'
 
-      page.find('#event_description')
-      fill_in 'event_description', with: 'Lorem ipsum description'
+      fill_in 'event_description', with: 'Lorem ipsum description', wait: 60
       click_button 'Create Proposal'
 
       page.find('#flash')
