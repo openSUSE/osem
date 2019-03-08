@@ -63,7 +63,7 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
 
 1. Or explore the development environment:
     ```bash
-    docker-compose exec osem_1 /bin/bash -l
+    docker-compose exec osem /bin/bash -l
     ```
 
 ## How to contribute translations
