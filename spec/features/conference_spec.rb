@@ -50,6 +50,14 @@ feature Conference do
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: ''
 
+      day = Time.zone.today + 10
+      page
+          .execute_script("$('#conference-start-datepicker').val('" +
+                             "#{day.strftime('%d/%m/%Y')}')")
+      page
+          .execute_script("$('#conference-end-datepicker').val('" +
+                             "#{(day + 7).strftime('%d/%m/%Y')}')")
+
       page.accept_alert do
         click_button 'Update Conference'
       end
