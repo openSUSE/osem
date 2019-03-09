@@ -10,8 +10,12 @@ namespace :data do
         version.update_attributes(conference_id: version.item_id)
 
       elsif version.item_type == 'Event'
-        event = (version.item || version.reify || version.next.reify)
-
+        event = version.item
+        unless event || Event.find_by(id: version.item_id)
+          puts 'Not updating versions of deleted event...'
+          next
+        end
+        event ||= (version.reify || version.next.reify)
         conference_id = if event.try(:program)
                           event.program.conference_id
                         # Event had attribute conference_id before it was replaced with program_id
