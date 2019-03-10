@@ -292,6 +292,8 @@ class AdminAbility
       role.resource_type == 'Conference' || role.resource_type == 'Track'
     end
 
+    cannot :toggle_user, Role
+
     can :toggle_user, Role do |role|
       role.resource_type == 'Track' && track_ids_for_track_organizer.include?(role.resource_id)
     end
