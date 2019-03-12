@@ -2,8 +2,16 @@
 
 class CreateAhoyEvents < ActiveRecord::Migration
   def change
+    adapter_type = connection.adapter_name.downcase.to_sym
+
     create_table :ahoy_events  do |t|
-      t.uuid :visit_id
+      case adapter_type
+      when :postgresql
+        t.uuid :visit_id
+      else
+        t.integer :visit_id
+      end
+      
       # user
       t.integer :user_id
       # add t.string :user_type if polymorphic

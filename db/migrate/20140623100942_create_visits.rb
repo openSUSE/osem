@@ -2,8 +2,16 @@
 
 class CreateVisits < ActiveRecord::Migration
   def change
+    adapter_type = connection.adapter_name.downcase.to_sym
+
     create_table :visits do |t|
-      t.uuid :visitor_id
+      case adapter_type
+      when :postgresql
+        t.uuid :visitor_id
+      else
+        t.integer :visitor_id
+      end
+      
 
       # the rest are recommended but optional
       # simply remove the columns you don't want

@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20181113195810) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "answers", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at"
@@ -24,8 +27,8 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.string   "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["booth_id"], name: "index_booth_requests_on_booth_id"
-    t.index ["user_id"], name: "index_booth_requests_on_user_id"
+    t.index ["booth_id"], name: "index_booth_requests_on_booth_id", using: :btree
+    t.index ["user_id"], name: "index_booth_requests_on_user_id", using: :btree
   end
 
   create_table "booths", force: :cascade do |t|
@@ -55,8 +58,8 @@ ActiveRecord::Schema.define(version: 20181113195810) do
   create_table "comments", force: :cascade do |t|
     t.string   "title",            limit: 50, default: ""
     t.text     "body"
-    t.integer  "commentable_id"
     t.string   "commentable_type"
+    t.integer  "commentable_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -64,16 +67,16 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.integer  "parent_id"
     t.integer  "lft"
     t.integer  "rgt"
-    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
-    t.index ["user_id"], name: "index_comments_on_user_id"
+    t.index ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+    t.index ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
   create_table "commercials", force: :cascade do |t|
     t.string   "commercial_id"
     t.string   "commercial_type"
-    t.integer  "commercialable_id"
     t.string   "commercialable_type"
+    t.integer  "commercialable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "url"
@@ -104,7 +107,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.integer  "ticket_layout",      default: 0
     t.string   "custom_domain"
     t.integer  "booth_limit",        default: 0
-    t.index ["organization_id"], name: "index_conferences_on_organization_id"
+    t.index ["organization_id"], name: "index_conferences_on_organization_id", using: :btree
   end
 
   create_table "conferences_questions", id: false, force: :cascade do |t|
@@ -140,7 +143,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.string   "queue"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
   create_table "difficulty_levels", force: :cascade do |t|
@@ -202,10 +205,10 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "enabled",     default: true
-    t.index ["event_id", "schedule_id"], name: "index_event_schedules_on_event_id_and_schedule_id", unique: true
-    t.index ["event_id"], name: "index_event_schedules_on_event_id"
-    t.index ["room_id"], name: "index_event_schedules_on_room_id"
-    t.index ["schedule_id"], name: "index_event_schedules_on_schedule_id"
+    t.index ["event_id", "schedule_id"], name: "index_event_schedules_on_event_id_and_schedule_id", unique: true, using: :btree
+    t.index ["event_id"], name: "index_event_schedules_on_event_id", using: :btree
+    t.index ["room_id"], name: "index_event_schedules_on_room_id", using: :btree
+    t.index ["schedule_id"], name: "index_event_schedules_on_schedule_id", using: :btree
   end
 
   create_table "event_types", force: :cascade do |t|
@@ -308,7 +311,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "token"
-    t.index ["token"], name: "index_physical_tickets_on_token", unique: true
+    t.index ["token"], name: "index_physical_tickets_on_token", unique: true, using: :btree
   end
 
   create_table "programs", force: :cascade do |t|
@@ -324,7 +327,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "voting_end_date"
     t.integer  "selected_schedule_id"
     t.integer  "schedule_interval",    default: 15,    null: false
-    t.index ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id"
+    t.index ["selected_schedule_id"], name: "index_programs_on_selected_schedule_id", using: :btree
   end
 
   create_table "qanswers", force: :cascade do |t|
@@ -394,10 +397,10 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
-    t.integer  "resource_id"
     t.string   "resource_type"
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
-    t.index ["name"], name: "index_roles_on_name"
+    t.integer  "resource_id"
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+    t.index ["name"], name: "index_roles_on_name", using: :btree
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -412,8 +415,8 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "track_id"
-    t.index ["program_id"], name: "index_schedules_on_program_id"
-    t.index ["track_id"], name: "index_schedules_on_track_id"
+    t.index ["program_id"], name: "index_schedules_on_program_id", using: :btree
+    t.index ["track_id"], name: "index_schedules_on_track_id", using: :btree
   end
 
   create_table "splashpages", force: :cascade do |t|
@@ -435,7 +438,6 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "updated_at"
     t.boolean  "include_cfp",               default: false
     t.boolean  "include_booths"
-    t.boolean  "shuffle_highlights",        default: false, null: false
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -495,12 +497,12 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "end_date"
     t.string   "title"
     t.text     "description"
-    t.integer  "surveyable_id"
     t.string   "surveyable_type"
+    t.integer  "surveyable_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "target",          default: 0
-    t.index ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id"
+    t.index ["surveyable_type", "surveyable_id"], name: "index_surveys_on_surveyable_type_and_surveyable_id", using: :btree
   end
 
   create_table "ticket_purchases", force: :cascade do |t|
@@ -549,9 +551,9 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.date     "end_date"
     t.text     "relevance"
     t.integer  "selected_schedule_id"
-    t.index ["room_id"], name: "index_tracks_on_room_id"
-    t.index ["selected_schedule_id"], name: "index_tracks_on_selected_schedule_id"
-    t.index ["submitter_id"], name: "index_tracks_on_submitter_id"
+    t.index ["room_id"], name: "index_tracks_on_room_id", using: :btree
+    t.index ["selected_schedule_id"], name: "index_tracks_on_selected_schedule_id", using: :btree
+    t.index ["submitter_id"], name: "index_tracks_on_submitter_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -587,16 +589,16 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.boolean  "is_admin",               default: false
     t.string   "username"
     t.boolean  "is_disabled",            default: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
   create_table "users_roles", force: :cascade do |t|
     t.integer "role_id"
     t.integer "user_id"
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
   create_table "vchoices", force: :cascade do |t|
@@ -639,7 +641,7 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.text     "object_changes"
     t.datetime "created_at"
     t.integer  "conference_id"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
   create_table "votes", force: :cascade do |t|
@@ -658,4 +660,9 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.datetime "updated_at"
   end
 
+  add_foreign_key "booth_requests", "booths"
+  add_foreign_key "booth_requests", "users"
+  add_foreign_key "conferences", "organizations", on_delete: :cascade
+  add_foreign_key "schedules", "tracks"
+  add_foreign_key "tracks", "rooms"
 end
