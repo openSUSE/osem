@@ -15,11 +15,6 @@ gem 'rails', '~> 5.0.7'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 
-# enables serving assets in production and setting your logger to standard out
-# both of which are required to run an application on a twelve-factor provider
-# like heroku.com
-gem 'rails_12factor', group: :production
-
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
 gem 'responders', '~> 2.0'
