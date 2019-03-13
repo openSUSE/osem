@@ -121,7 +121,7 @@ module ApplicationHelper
   end
 
   def speaker_selector_input(form)
-    user_selector_input(:speakers, form, '', false)
+    user_selector_input(:speakers, form, '', true)
   end
 
   def responsibles_selector_input(form)
