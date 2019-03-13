@@ -39,8 +39,7 @@ feature Conference do
 
     scenario 'update conference', feature: true, js: true do
       conference = create(:conference)
-      organizer_role = Role.find_by(name: 'organizer', resource: conference)
-      organizer = create(:user, role_ids: [organizer_role.id])
+      organizer = create(:organizer, resource: conference)
 
       expected_count = Conference.count
 

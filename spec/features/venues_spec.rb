@@ -4,8 +4,7 @@ require 'spec_helper'
 
 feature Conference do
   let!(:conference) { create(:conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
 
   shared_examples 'venue' do
     scenario 'adds and updates venue' do

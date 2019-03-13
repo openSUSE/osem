@@ -8,8 +8,7 @@ describe Admin::EventSchedulesController do
   let(:room) { create(:room, venue: venue) }
   let(:schedule) { create(:schedule, program: conference.program)}
   let(:event_schedule) { create(:event_schedule, schedule: schedule)}
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let(:organizer) { create(:user, role_ids: organizer_role.id) }
+  let!(:organizer) { create(:organizer, resource: conference) }
 
   context 'logged in as an organizer' do
     before :each do

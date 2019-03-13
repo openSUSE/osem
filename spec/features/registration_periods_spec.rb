@@ -5,8 +5,7 @@ require 'spec_helper'
 feature RegistrationPeriod do
   # It is necessary to use bang version of let to build roles before user
   let!(:conference) { create(:conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, email: 'admin@example.com', resource: conference) }
   let(:start_date) { Date.today }
   let(:end_date) { Date.today + 5 }
 
