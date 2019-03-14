@@ -11,7 +11,7 @@ class CreateAhoyEvents < ActiveRecord::Migration
       else
         t.integer :visit_id
       end
-      
+
       # user
       t.integer :user_id
       # add t.string :user_type if polymorphic

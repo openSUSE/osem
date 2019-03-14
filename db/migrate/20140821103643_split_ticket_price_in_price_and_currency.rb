@@ -7,14 +7,13 @@ class SplitTicketPriceInPriceAndCurrency < ActiveRecord::Migration
 
   def change
     adapter_type = connection.adapter_name.downcase.to_sym
-    
+
     case adapter_type
     when :postgresql
       add_monetize :tickets, :price
     else
       add_money :tickets, :price
     end
-
 
     TempTicket.all.each do |ticket|
       # Replace currency symbol with ISO Code

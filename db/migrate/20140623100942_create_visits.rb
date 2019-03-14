@@ -11,7 +11,6 @@ class CreateVisits < ActiveRecord::Migration
       else
         t.integer :visitor_id
       end
-      
 
       # the rest are recommended but optional
       # simply remove the columns you don't want
