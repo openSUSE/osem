@@ -80,7 +80,8 @@ class Conference < ApplicationRecord
             :start_hour,
             :end_hour,
             :ticket_layout,
-            :organization, presence: true
+            :organization,
+            :timezone, presence: true
 
   validates :short_title, uniqueness: true
   validates :short_title, format: { with: /\A[a-zA-Z0-9_-]*\z/ }
