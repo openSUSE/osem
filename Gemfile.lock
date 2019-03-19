@@ -59,7 +59,7 @@ GEM
       activerecord (>= 4.0)
       activesupport (>= 4.0)
       awesome_nested_set (>= 3.0)
-    acts_as_list (0.9.17)
+    acts_as_list (0.9.19)
       activerecord (>= 3.0)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
