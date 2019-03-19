@@ -1,11 +1,15 @@
-version: "2"
+version: '3.5'
 
 services:
+
   database:
-    image: postgres
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-  osem:
+    container_name: osem-db
+    image: postgres:11
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  web:
+    container_name: osem-web
     build:
       context: .
       args:
@@ -17,3 +21,6 @@ services:
       - 3000:3000
     volumes:
       - .:/osem
+
+volumes:
+  pg-data:
