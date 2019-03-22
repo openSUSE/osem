@@ -4,8 +4,7 @@ require 'spec_helper'
 
 describe Admin::EventsController do
   let(:conference) { create(:conference) }
-  let(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let(:organizer) { create(:user, role_ids: organizer_role.id) }
+  let!(:organizer) { create(:organizer, resource: conference) }
   # The where_object() and where_object_changes() methods of paper_trail gem are broken when having:
   # an Event with ID 1, an Event with ID 2, and a commercial with ID 1, for event with ID 2
   # (the numbers could be different as long as there is this matching of IDs).

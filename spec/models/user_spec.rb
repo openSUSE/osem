@@ -10,7 +10,7 @@ describe User do
   let(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
   let(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
-  let(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let(:organizer) { create(:organizer, resource: conference) }
   let(:user) { create(:user) }
   let(:user_disabled) { create(:user, :disabled) }
 
@@ -417,8 +417,7 @@ describe User do
     describe '#has_cached_role?' do
       describe 'when user has a role' do
         it 'returns true when the user has the role' do
-          user = create(:user, role_ids: organizer_role.id)
-          expect(user.has_cached_role?('organizer', conference)).to be true
+          expect(organizer.has_cached_role?('organizer', conference)).to be true
         end
 
         it 'returns false when the user does not have the role' do

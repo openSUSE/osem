@@ -5,8 +5,7 @@ require 'spec_helper'
 feature 'Version' do
   let!(:conference) { create(:conference) }
   let!(:cfp) { create(:cfp, program: conference.program) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
   let(:event_with_commercial) { create(:event, program: conference.program) }
   let(:event_commercial) { create(:event_commercial, commercialable: event_with_commercial, url: 'https://www.youtube.com/watch?v=M9bq_alk-sw') }
 

@@ -7,8 +7,7 @@ require 'spec_helper'
 describe Admin::CfpsController do
   let!(:today) { Date.today }
   let!(:conference) { create(:conference, start_date: today + 20.days, end_date: today + 30.days) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: organizer_role.id) }
+  let!(:organizer) { create(:organizer, resource: conference) }
   let(:cfp) { create(:cfp, program: conference.program) }
 
   before { sign_in(organizer) }

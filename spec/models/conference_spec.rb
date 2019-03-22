@@ -285,8 +285,7 @@ describe Conference do
 
   describe '#get_top_submitter' do
     let!(:conference) { create(:conference) }
-    let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-    let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+    let!(:organizer) { create(:organizer, resource: conference) }
 
     it 'calculates correct hash with top submitters' do
       event = create(:event, program: subject.program)
@@ -866,8 +865,7 @@ describe Conference do
 
   describe 'self#event_distribution' do
     let!(:conference) { create(:conference) }
-    let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-    let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+    let!(:organizer) { create(:organizer, resource: conference) }
 
     it 'self#user_distribution calculates correct values with user' do
       result = {}
@@ -1386,9 +1384,7 @@ describe Conference do
 
     # It is necessary to use bang version of let to build roles before user
     let!(:conference) { create(:conference) }
-    let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-    let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
-
+    let!(:organizer) { create(:organizer, resource: conference) }
     let(:user) { create(:user) }
 
     context 'user not registered' do

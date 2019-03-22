@@ -5,8 +5,7 @@ require 'spec_helper'
 feature Room do
   let!(:conference) { create(:conference) }
   let!(:venue) { create(:venue, conference: conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
 
   shared_examples 'rooms' do
     scenario 'adds a room', feature: true, js: true do

@@ -4,8 +4,7 @@ require 'spec_helper'
 
 feature Lodging do
   let!(:conference) { create(:conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
 
   scenario 'Add a lodging', feature: true, js: true do
     path = "#{Rails.root}/app/assets/images/rails.png"
