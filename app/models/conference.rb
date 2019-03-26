@@ -94,8 +94,14 @@ class Conference < ApplicationRecord
   before_create :add_color
   before_create :create_email_settings
 
-  after_create :create_free_ticket
   after_update :delete_event_schedules
+
+  after_create do
+    create_free_ticket
+    create_contact
+    create_program
+    create_roles
+  end
 
   enum ticket_layout: [:portrait, :landscape]
 
@@ -115,7 +121,7 @@ class Conference < ApplicationRecord
   # Delete all EventSchedules that are not in the hours range
   # After the conference has been successfully updated
   def delete_event_schedules
-    if start_hour_changed? || end_hour_changed?
+    if start_hour_previously_changed? || end_hour_previously_changed?
       event_schedules = program.event_schedules.select do |event_schedule|
         event_schedule.start_time.hour < start_hour ||
         event_schedule.end_time.hour > end_hour ||
@@ -753,12 +759,6 @@ class Conference < ApplicationRecord
     ((i * big_prime_numbers[component]) % 239 + 16).to_s(16)
   end
 
-  after_create do
-    create_contact
-    create_program
-    create_roles
-  end
-
   ##
   # Creates free ticket for the conference
   # after the conference has been successfully created
@@ -1120,7 +1120,6 @@ class Conference < ApplicationRecord
   #
   def create_email_settings
     build_email_settings
-    true
   end
 
   ##

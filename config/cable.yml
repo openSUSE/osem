@@ -6,4 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV['OSEM_REDIS_URL'] %>
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: osem_production

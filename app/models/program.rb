@@ -72,8 +72,8 @@ class Program < ApplicationRecord
 
   after_create :create_event_types
   after_create :create_difficulty_levels
-  after_save :unschedule_unfit_events, if: :schedule_interval_changed?
-  after_save :normalize_event_types_length, if: :schedule_interval_changed?
+  after_save :unschedule_unfit_events, if: :schedule_interval_previously_changed?
+  after_save :normalize_event_types_length, if: :schedule_interval_previously_changed?
   validate :check_languages_format
 
   # Returns all event_schedules for the selected schedule ordered by start_time

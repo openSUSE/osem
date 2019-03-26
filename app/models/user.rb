@@ -11,11 +11,6 @@ class User < ApplicationRecord
   # prevent N+1 queries with has_cached_role? by preloading roles *always*
   default_scope { preload(:roles) }
 
-  has_many :physical_tickets, through: :ticket_purchases do
-    def by_conference(conference)
-      where('ticket_purchases.conference_id = ?', conference)
-    end
-  end
   has_many :users_roles
   has_many :roles, through: :users_roles, dependent: :destroy
 
@@ -72,6 +67,11 @@ class User < ApplicationRecord
   has_many :tickets, through: :ticket_purchases, source: :ticket do
     def for_registration conference
       where(conference: conference, registration_ticket: true).first
+    end
+  end
+  has_many :physical_tickets, through: :ticket_purchases do
+    def by_conference(conference)
+      where('ticket_purchases.conference_id = ?', conference)
     end
   end
   has_many :votes, dependent: :destroy

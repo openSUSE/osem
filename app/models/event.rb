@@ -3,6 +3,8 @@
 class Event < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
+  include ActionView::Helpers::NumberHelper
+
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable

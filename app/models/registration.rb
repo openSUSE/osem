@@ -76,7 +76,7 @@ class Registration < ApplicationRecord
   end
 
   def registration_limit_not_exceed
-    if conference.registration_limit > 0 && conference.registrations(:reload).count >= conference.registration_limit
+    if conference.registration_limit > 0 && conference.registrations.reload.count >= conference.registration_limit
       errors.add(:base, 'Registration limit exceeded')
     end
   end

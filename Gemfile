@@ -10,7 +10,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 5.0.7'
+gem 'rails', '~> 5.2'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -140,7 +140,7 @@ gem 'prawn_rails'
 gem 'rqrcode'
 
 # to render XLS spreadsheets
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
+gem 'axlsx'
 gem 'axlsx_rails'
 
 # as error catcher
@@ -221,6 +221,9 @@ gem 'nokogiri', '>= 1.8.1'
 
 # memcached binary connector
 gem 'dalli'
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use guard and spring for testing in development
 group :development do
