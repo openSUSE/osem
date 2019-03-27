@@ -11,7 +11,7 @@
       = f.input :languages, hint: "Enter the languages allowed for events as values of #{link_to('ISO 639-1', 'http://www.loc.gov/standards/iso639-2/php/code_list.php', target: "_blank")} language codes separated with commas. The first language would be the default language. Leave it blank if you do not want to specify languages.".html_safe
       = f.input :schedule_interval, input_html: { autofocus: true }, hint: "It is the minimal time interval of your schedule. The value should be 5, 6, 10, 12, 15, 20, 30 or 60. Warning! Some events could be unscheduled when changing this value."
       = f.input :blind_voting, hint: 'Enable this feature if you do not want to show voting results and voters prior to user submitting a vote. For the feature to work you need to set the voting dates below as well'
-      = f.input :voting_start_date, as: :string, input_html: { id: 'datetimepicker-voting_start_date', readonly: true, value: (f.object.voting_start_date.to_formatted_s(:db_without_seconds) unless f.object.voting_start_date.nil?) }
-      = f.input :voting_end_date, as: :string, input_html: { id: 'datetimepicker-voting_start_date', readonly: true, value: (f.object.voting_end_date.to_formatted_s(:db_without_seconds) unless f.object.voting_end_date.nil?) }
+      = f.input :voting_start_date, as: :string, input_html: { id: 'datetimepicker-voting_start_date', value: (f.object.voting_start_date.to_formatted_s(:db_without_seconds) unless f.object.voting_start_date.nil?) }
+      = f.input :voting_end_date, as: :string, input_html: { id: 'datetimepicker-voting_end_date', value: (f.object.voting_end_date.to_formatted_s(:db_without_seconds) unless f.object.voting_end_date.nil?) }
       %p.text-right
         = f.action :submit, as: :button, button_html: {class: 'btn btn-primary'}

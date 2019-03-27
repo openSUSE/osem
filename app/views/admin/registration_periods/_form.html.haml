@@ -5,7 +5,7 @@
 .row
   .col-md-8
     = semantic_form_for(@registration_period, url: admin_conference_registration_period_path(@conference.short_title)) do |f|
-      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker',start_date: @conference.start_date,end_date: @conference.end_date, readonly: 'readonly'  }
-      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly'  }
+      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date }
+      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker' }
       %p.text-right
         = f.submit 'Save Registration Period', class: 'btn btn-primary'
