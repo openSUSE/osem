@@ -28,12 +28,12 @@ module Admin
         format.json { render json: Event.where(state: :confirmed, program: @program).to_json }
         format.xlsx do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
-          render 'events'
+          render 'events', layout: false
         end
-        format.pdf { render 'events' }
+        format.pdf { render 'events', layout: false }
         format.csv do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
-          render 'events'
+          render 'events', layout: false
         end
       end
     end

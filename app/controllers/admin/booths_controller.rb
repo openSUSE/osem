@@ -14,12 +14,12 @@ module Admin
         format.json { render json: Booth.where(state: :confirmed, program: @program).to_json }
         format.xlsx do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
-          render 'booths'
+          render 'booths', layout: false
         end
-        format.pdf { render 'booths' }
+        format.pdf { render 'booths', layout: false }
         format.csv do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
-          render 'booths'
+          render 'booths', layout: false
         end
       end
     end
