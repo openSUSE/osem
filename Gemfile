@@ -36,7 +36,7 @@ gem 'rails-i18n', '~> 5.0.0'
 
 # as authentification framework
 gem 'devise'
-gem 'devise_ichain_authenticatable'
+gem 'devise_ichain_authenticatable', github: 'hennevogel/devise_ichain_authenticatable', branch: 'bugfix/rails_5_filter_names'
 
 # for openID authentication
 gem 'omniauth'
