@@ -36,12 +36,12 @@
                     %td
                       - if can? :toggle_confirmation, @user
                         = check_box_tag @user.id, @user.id, @user.confirmed?,
-                          url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=",
+                          url: "#{toggle_confirmation_admin_user_path(@user)}?user[to_confirm]=",
                           class: 'switch-checkbox',
                           readonly: false
                       - else
                         = check_box_tag @user.id, @user.id, @user.confirmed?,
-                          url: "/admin/users/#{@user.id}/toggle_confirmation?user[to_confirm]=",
+                          url: "#{toggle_confirmation_admin_user_path(@user)}?user[to_confirm]=",
                           class: 'switch-checkbox',
                           readonly: true
                 - else

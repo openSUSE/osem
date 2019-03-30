@@ -32,7 +32,7 @@
               %td= event_registration.email
               %td= event_registration.created_at
               %td
-                = check_box_tag @conference.short_title, @event.id, event_registration.attended, class: 'switch-checkbox', url: "/admin/conferences/#{@conference.short_title}/program/events/#{@event.id}/toggle_attendance?events_registration_id=#{event_registration.id}&&event_registration[attended]="
+                = check_box_tag @conference.short_title, @event.id, event_registration.attended, class: 'switch-checkbox', url: "#{toggle_attendance_admin_conference_program_event_path(@conference, @event, events_registration_id: event_registration)}&&event_registration[attended]="
               %td
                 - if event_registration.registration.attended
                   %i.fa.fa-check.text-success
