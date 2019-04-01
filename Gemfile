@@ -32,7 +32,7 @@ gem 'carrierwave-bombshelter'
 gem 'mini_magick'
 
 # for internationalizing
-gem 'rails-i18n', '~> 5.0.0'
+gem 'rails-i18n'
 
 # as authentification framework
 gem 'devise'
