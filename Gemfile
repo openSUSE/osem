@@ -234,7 +234,7 @@ group :development do
   # as deployment system
   gem 'mina'
   # as debugger on error pages
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   # as development database
   gem 'sqlite3'
 end
