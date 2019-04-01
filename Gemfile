@@ -133,7 +133,7 @@ gem 'gravtastic'
 gem 'country_select'
 
 # as PDF generator
-gem 'prawn-qrcode', '~> 0.3.0'
+gem 'prawn-qrcode'
 gem 'prawn_rails'
 gem 'rqrcode'
 

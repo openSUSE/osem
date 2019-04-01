@@ -668,7 +668,7 @@ DEPENDENCIES
   pdf-inspector
   pg
   piwik_analytics (~> 1.0.1)
-  prawn-qrcode (~> 0.3.0)
+  prawn-qrcode
   prawn_rails
   puma (~> 3.0)
   rails (~> 5.0.7)
