@@ -707,7 +707,6 @@ DEPENDENCIES
   sqlite3
   stripe
   stripe-ruby-mock
-  thor (~> 0.19)
   timecop
   transactional_capybara
   transitions
