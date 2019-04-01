@@ -62,7 +62,7 @@ gem 'transitions', :require => %w( transitions active_record/transitions )
 
 # for comments
 gem 'acts_as_commentable_with_threading'
-gem 'awesome_nested_set', '~> 3.1.3'
+gem 'awesome_nested_set'
 
 # as templating language
 gem 'haml-rails'
