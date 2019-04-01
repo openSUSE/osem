@@ -627,7 +627,7 @@ DEPENDENCIES
   cloudinary
   cocoon
   codecov
-  countable-rails (~> 0.0.1)
+  countable-rails
   country_select
   daemons
   dalli

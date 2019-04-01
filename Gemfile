@@ -192,7 +192,7 @@ gem 'dotenv-rails'
 gem 'feature'
 
 # For countable.js
-gem "countable-rails", "~> 0.0.1"
+gem "countable-rails"
 
 # Both are not in a group as we use it also for rake data:demo
 # for fake data
