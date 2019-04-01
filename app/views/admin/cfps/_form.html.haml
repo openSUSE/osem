@@ -12,10 +12,10 @@
       = f.input :cfp_type, as: :hidden
       = f.input :start_date, as: :string,
         input_html: { class: 'form-control',
-                      id: 'registration-period-start-datapicker' }
+          id: 'registration-period-start-datepicker' }
       = f.input :end_date, as: :string,
         input_html: { class: 'form-control',
-                      id: 'registration-period-end-datapicker' }
+          id: 'registration-period-end-datepicker' }
       = f.input :description, hint: markdown_hint,
         input_html: { rows: 2, data: { provide: 'markdown-editable' } }
       - if cfp.cfp_type == 'events'
