@@ -49,7 +49,7 @@ gem 'omniauth-openid'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # as authorization framework
-gem 'cancancan', '~> 2.0'
+gem 'cancancan'
 
 # for roles
 gem 'rolify'

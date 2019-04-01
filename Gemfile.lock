@@ -617,7 +617,7 @@ DEPENDENCIES
   bootstrap-switch-rails (~> 3.0.0)
   bootstrap3-datetimepicker-rails (~> 4.17.47)
   byebug
-  cancancan (~> 2.0)
+  cancancan
   capybara
   carrierwave
   carrierwave-bombshelter
