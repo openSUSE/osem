@@ -9,9 +9,5 @@ describe Vote do
 
   describe 'validation' do
     it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:event_id) }
-
-    it 'has a valid factory' do
-      expect(build(:vote)).to be_valid
-    end
   end
 end

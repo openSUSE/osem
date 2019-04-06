@@ -6,7 +6,7 @@ class Vote < ApplicationRecord
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
-  validates :user_id, uniqueness: { scope: :event_id }
+  validates :user, uniqueness: { scope: :event }
 
   delegate :name, to: :user
 
