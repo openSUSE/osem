@@ -5,8 +5,8 @@ cache: bundler
 rvm:
   - 2.5.0@osem --ignore-gemsets
 branches:
-  only:
-    - master
+  except:
+    - /^depfu/.*$/
 before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - "echo `phantomjs -v`"
