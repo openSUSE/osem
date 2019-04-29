@@ -15,11 +15,21 @@ module Admin
       @registration_distribution = @conference.registration_distribution
       @affiliation_distribution = @conference.affiliation_distribution
       @code_of_conduct = @conference.code_of_conduct.present?
+      @file_name = "registrations_for_#{@conference.short_title}"
 
       respond_to do |format|
         format.html
         format.json do
           render json: RegistrationDatatable.new(view_context, conference: @conference)
+        end
+        format.pdf { render 'index', layout: false }
+        format.xlsx do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
+          render 'index', layout: false
+        end
+        format.csv do
+          response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
+          render 'index', layout: false
         end
       end
     end

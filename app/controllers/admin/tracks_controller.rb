@@ -19,12 +19,12 @@ module Admin
         format.json { render json: Track.where(state: :confirmed, program: @program).to_json }
         format.xlsx do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
-          render 'tracks'
+          render 'tracks', layout: false
         end
-        format.pdf { render 'tracks' }
+        format.pdf { render 'tracks', layout: false }
         format.csv do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.csv\""
-          render 'tracks'
+          render 'tracks', layout: false
         end
       end
     end
