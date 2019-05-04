@@ -40,6 +40,6 @@ class SurveysController < ApplicationController
       end
     end
 
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 end
