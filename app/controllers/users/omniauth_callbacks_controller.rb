@@ -2,7 +2,7 @@
 
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    skip_before_filter :verify_authenticity_token
+    skip_before_action :verify_authenticity_token
     skip_authorization_check
 
     User.omniauth_providers.each do |provider|
