@@ -13,13 +13,25 @@
       .row.row-centered
         - tickets.each do |ticket|
           .col-md-3.col-sm-3.col-centered.col-top
-            = link_to(conference_tickets_path(conference.short_title),
-              class: 'thumbnail') do
-              .caption
-                %h3.text-center.word_break
-                  = ticket.title
-                .word_break
-                  = markdown(ticket.description)
-                %button.btn-block.btn.btn-lg.btn-success
-                  %i.fa.fa-ticket.fa-fw
-                  = humanized_money_with_symbol(ticket.price)
+            - if conference.registration_open?
+              = link_to(conference_tickets_path(conference.short_title),
+                class: 'thumbnail') do
+                .caption
+                  %h3.text-center.word_break
+                    = ticket.title
+                  .word_break
+                    = markdown(ticket.description)
+                  %button.btn-block.btn.btn-lg.btn-success
+                    %i.fa.fa-ticket.fa-fw
+                    = humanized_money_with_symbol(ticket.price)
+            - else
+              .thumbnail
+                .caption
+                  %h3.text-center.word_break
+                    = ticket.title
+                  .word_break
+                    = markdown(ticket.description)
+                  %button.btn-block.btn.btn-lg.btn-success.disabled
+                    %i.fa.fa-ticket.fa-fw
+                    = humanized_money_with_symbol(ticket.price)
+
