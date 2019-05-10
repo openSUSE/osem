@@ -1120,7 +1120,6 @@ class Conference < ApplicationRecord
   #
   def create_email_settings
     build_email_settings
-    true
   end
 
   ##
