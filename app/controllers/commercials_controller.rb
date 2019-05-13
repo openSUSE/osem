@@ -37,9 +37,9 @@ class CommercialsController < ApplicationController
   def render_commercial
     result = Commercial.render_from_url(params[:url])
     if result[:error]
-      render text: result[:error], status: 400
+      render plain: result[:error], status: 400
     else
-      render text: result[:html]
+      render plain: result[:html]
     end
   end
 
