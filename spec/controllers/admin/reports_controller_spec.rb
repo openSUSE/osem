@@ -25,12 +25,12 @@ describe Admin::ReportsController do
 
     describe 'GET #index' do
       it 'renders the index template' do
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
         expect(response).to render_template :index
       end
 
       it 'initialises missing speakers' do
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
         expect(assigns(:missing_event_speakers).pluck(:user_id)).to eq [user1.id]
       end
     end

@@ -9,7 +9,7 @@ describe SubscriptionsController do
   describe 'POST #create' do
     context 'when user is a guest' do
       it 'redirects to sign in page' do
-        post :create, conference_id: conference.short_title
+        post :create, params: { conference_id: conference.short_title }
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -20,17 +20,17 @@ describe SubscriptionsController do
       end
 
       it 'redirects to home page' do
-        post :create, conference_id: conference.short_title
+        post :create, params: { conference_id: conference.short_title }
         expect(response).to redirect_to root_path
       end
 
       it 'shows success message in flash notice' do
-        post :create, conference_id: conference.short_title
+        post :create, params: { conference_id: conference.short_title }
         expect(flash[:notice]).to match("You have subscribed to receive email notifications for #{conference.title}")
       end
 
       it 'subscribes user to conference' do
-        post :create, conference_id: conference.short_title
+        post :create, params: { conference_id: conference.short_title }
         expect(user.subscriptions.pluck(:conference_id)).to include(conference.id)
       end
     end
@@ -39,17 +39,17 @@ describe SubscriptionsController do
   describe 'DELETE #destroy' do
     before(:each) do
       sign_in(user)
-      post :create, conference_id: conference.short_title
+      post :create, params: { conference_id: conference.short_title }
     end
 
     it 'redirects to home page' do
-      delete :destroy, conference_id: conference.short_title
+      delete :destroy, params: { conference_id: conference.short_title }
       expect(response).to redirect_to root_path
     end
 
     it 'shows success message in flash notice' do
-      delete :destroy, conference_id: conference.short_title
-        expect(flash[:notice]).to match("You have unsubscribed and you will not be receiving email notifications for #{conference.title}.")
+      delete :destroy, params: { conference_id: conference.short_title }
+      expect(flash[:notice]).to match("You have unsubscribed and you will not be receiving email notifications for #{conference.title}.")
     end
   end
 end

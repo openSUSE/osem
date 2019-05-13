@@ -17,12 +17,12 @@ describe ConferencesController do
   describe 'GET #show' do
     context 'conference made public' do
       it 'assigns the requested conference to conference' do
-        get :show, id: conference.short_title
+        get :show, params: { id: conference.short_title }
         expect(assigns(:conference)).to eq conference
       end
 
       it 'renders the show template' do
-        get :show, id: conference.short_title
+        get :show, params: { id: conference.short_title }
         expect(response).to render_template :show
       end
     end
@@ -44,7 +44,7 @@ describe ConferencesController do
 
   describe 'OPTIONS #index' do
     it 'Response code is 200' do
-      process :index, 'OPTIONS'
+      process :index
       expect(response.response_code).to eq(200)
     end
   end

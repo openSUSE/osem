@@ -14,14 +14,14 @@ describe Admin::CfpsController do
 
   describe 'POST #create' do
     it 'successes' do
-      post :create, conference_id: conference.short_title, cfp: { cfp_type: 'events', start_date: today, end_date: today + 6.days, description: 'We call for papers, or tabak, or you know what!' }
+      post :create, params: { conference_id: conference.short_title, cfp: { cfp_type: 'events', start_date: today, end_date: today + 6.days, description: 'We call for papers, or tabak, or you know what!' } }
       expect(flash[:notice]).to match('Call for papers successfully created.')
     end
   end
 
   describe 'POST #update' do
     it 'successes' do
-      patch :update, conference_id: conference.short_title, id: cfp.id, cfp: { end_date: today + 10.days }
+      patch :update, params: { conference_id: conference.short_title, id: cfp.id, cfp: { end_date: today + 10.days } }
       expect(flash[:notice]).to match('Call for papers successfully updated.')
     end
   end

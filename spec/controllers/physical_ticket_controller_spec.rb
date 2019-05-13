@@ -11,7 +11,7 @@ describe PhysicalTicketsController do
   describe 'GET #show' do
     before :each do
       sign_in user
-      get :show, id: physical_ticket.token, conference_id: conference.short_title
+      get :show, params: { id: physical_ticket.token, conference_id: conference.short_title }
     end
 
     it 'assigns ticket_layout' do
