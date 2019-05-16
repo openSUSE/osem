@@ -14,7 +14,7 @@ describe SurveysController do
   describe 'GET #index' do
     context 'guest' do
       before :each do
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
       end
 
       it '@sureveys variable is nil' do
@@ -25,7 +25,7 @@ describe SurveysController do
     context 'signed in user' do
       before :each do
         sign_in user
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
       end
 
       it 'assigns @surveys with active surveys' do

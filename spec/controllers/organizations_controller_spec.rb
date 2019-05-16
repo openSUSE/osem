@@ -37,7 +37,7 @@ describe OrganizationsController do
 
   describe 'GET #conferences' do
     before :each do
-      get :conferences, id: organization.id
+      get :conferences, params: { id: organization.id }
     end
 
     it 'loads the organization' do
