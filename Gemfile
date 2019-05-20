@@ -135,6 +135,8 @@ gem 'country_select'
 # as PDF generator
 gem 'prawn-qrcode'
 gem 'prawn-rails'
+
+# for QR code generation
 gem 'rqrcode'
 
 # to render XLS spreadsheets
