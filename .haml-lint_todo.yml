@@ -228,7 +228,7 @@ linters:
       - "app/views/schedules/_schedule.html.haml"
       - "app/views/schedules/_schedule_item.html.haml"
       - "app/views/schedules/_schedule_tabs.html.haml"
-      - "app/views/schedules/_qr_code_modal.html.haml"
+      - "app/views/schedules/app.html.haml"
       - "app/views/schedules/events.html.haml"
       - "app/views/schedules/show.html.haml"
       - "app/views/schedules/show.xml.haml"
