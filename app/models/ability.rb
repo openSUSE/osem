@@ -31,7 +31,7 @@ class Ability
       event.state == 'confirmed'
     end
 
-    can [:show, :events], Schedule do |schedule|
+    can [:show, :events, :app], Schedule do |schedule|
       schedule.program.schedule_public
     end
 

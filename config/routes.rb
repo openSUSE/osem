@@ -193,6 +193,9 @@ Osem::Application.routes.draw do
     resources :physical_tickets, only: [:index, :show]
     resource :subscriptions, only: [:create, :destroy]
     resource :schedule, only: [:show] do
+      collection do
+        get 'app'
+      end
       member do
         get :events
       end
