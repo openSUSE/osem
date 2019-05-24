@@ -26,6 +26,7 @@
 
           .visible-md-inline.visible-lg-inline
             = render partial: 'carousel', locals: { date: date, hrs_per_slide: 3 }
+    = render partial: 'qr_code_modal', locals: { qr_code: @qr_code }
 
 :javascript
   // change of active tab and the button title when a date is clicked

@@ -44,6 +44,9 @@ class SchedulesController < ApplicationController
         end
         @selected_schedules_ids.compact!
         @event_schedules_by_room_id = event_schedules.select { |s| @selected_schedules_ids.include?(s.schedule_id) }.group_by(&:room_id)
+        @qr_code = RQRCode::QRCode.new(conference_schedule_url).as_svg(offset: 20, color: '000',
+          shape_rendering: 'crispEdges',
+          module_size: 11)
       end
     end
   end

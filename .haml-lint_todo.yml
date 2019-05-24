@@ -228,6 +228,7 @@ linters:
       - "app/views/schedules/_schedule.html.haml"
       - "app/views/schedules/_schedule_item.html.haml"
       - "app/views/schedules/_schedule_tabs.html.haml"
+      - "app/views/schedules/_qr_code_modal.html.haml"
       - "app/views/schedules/events.html.haml"
       - "app/views/schedules/show.html.haml"
       - "app/views/schedules/show.xml.haml"
@@ -310,6 +311,7 @@ linters:
 
   # Offense count: 1074
   LineLength:
+    max: 150
     exclude:
       - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/booths/index.html.haml"

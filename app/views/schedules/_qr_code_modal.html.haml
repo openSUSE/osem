@@ -1,0 +1,27 @@
+/ Button trigger modal
+%button.btn.btn-link.btn-lg.pull-right{ 'data-target': '#schedule-modal',
+                                        'data-toggle': 'modal',
+                                        type: 'button' }
+  Get the mobile app!
+/ Modal
+.modal.fade#schedule-modal{ 'aria-labelledby': 'schedule-modal-label', role: 'dialog', tabindex: '-1' }
+  .modal-dialog{ role: 'document' }
+    .modal-content
+      .modal-header
+        %button.close{ 'aria-label': 'Close', 'data-dismiss': 'modal', type: 'button' }
+          %span{ 'aria-hidden': 'true' }
+        %h4.modal-title#schedule-modal-label
+          Get the schedule on your mobile with Giggity!
+      .modal-body.center-block.text-center
+        = link_to 'https://f-droid.org/packages/net.gaast.giggity' do
+          %img.img-responsive{ alt: 'Get it on F-Droid', src: 'https://fdroid.gitlab.io/artwork/badge/get-it-on.png' }
+        %p
+          \...and point your phone at the QR code...
+        .img-responsive
+          = raw qr_code
+      .modal-footer
+        %p.small.text-muted.pull-left
+          Not free of surveilance capitalism yet? Try the
+          = link_to 'https://play.google.com/store/apps/details?id=net.gaast.giggity' do
+            google play store...
+        %button.btn.btn-default{ 'data-dismiss': 'modal', type: 'button' } Close
