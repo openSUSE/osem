@@ -4,6 +4,7 @@ class CommercialsController < ApplicationController
   load_resource :conference, find_by: :short_title
   before_action :set_event
   load_and_authorize_resource through: :event
+  skip_before_action :verify_authenticity_token
 
   def create
     @commercial = @event.commercials.build(commercial_params)
