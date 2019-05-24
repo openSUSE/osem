@@ -2,7 +2,6 @@
 
 class SchedulesController < ApplicationController
   load_and_authorize_resource
-  protect_from_forgery with: :null_session
   before_action :respond_to_options
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true, except: :index
