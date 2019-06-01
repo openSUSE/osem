@@ -11,7 +11,7 @@
         for
         = @event.title
 
-    - if @event.room && (@event_registrations.length > @event.room.size)
+    - if @event.room.try(:size) && (@event_registrations.length > @event.room.size)
       %b Attention:
       You have more registrations than the capacity of the room!
 
