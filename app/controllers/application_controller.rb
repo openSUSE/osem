@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
 
+  before_action :devise_configure_permitted_parameters, if: :devise_controller?
+
   def store_location
     # store last url - this is needed for post-login redirect to whatever the user last visited.
     return unless request.get?
@@ -64,5 +66,9 @@ class ApplicationController < ActionController::Base
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
+  end
+
+  def devise_configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:username])
   end
 end

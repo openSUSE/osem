@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-md-6.col-md-offset-3
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            %h2= t 'devise.invitations.edit.header'
+        .panel-body
+          = form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put }) do |f|
+            = render 'devise/shared/error_messages', resource: resource
+            = f.hidden_field :invitation_token, readonly: true
+            - if f.object.class.require_password_on_accepting
+              = f.label :username
+              = f.text_field :username, class: 'form-control'
+              = f.label :password
+              = f.password_field :password, class: 'form-control'
+              = f.label :password_confirmation
+              = f.password_field :password_confirmation, class: 'form-control'
+            %br
+            = f.submit t('devise.invitations.edit.submit_button'), class: 'btn btn-default btn-primary'

@@ -161,6 +161,9 @@ GEM
       warden (~> 1.2.3)
     devise_ichain_authenticatable (0.3.2)
       devise (>= 2.2)
+    devise_invitable (2.0.1)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     diff-lcs (1.3)
     docile (1.3.1)
     domain_name (0.5.20180417)
@@ -646,6 +649,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   devise_ichain_authenticatable
+  devise_invitable
   dotenv-rails
   factory_bot_rails
   faker

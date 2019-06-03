@@ -37,6 +37,7 @@ gem 'rails-i18n'
 # as authentification framework
 gem 'devise'
 gem 'devise_ichain_authenticatable'
+gem 'devise_invitable'
 
 # for openID authentication
 gem 'omniauth'
