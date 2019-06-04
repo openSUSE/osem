@@ -4,6 +4,7 @@ module Admin
   class BoothsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
     load_and_authorize_resource through: :conference
+    include Invitation
 
     def index
       @file_name = "booths_for_#{@conference.short_title}"
@@ -38,6 +39,7 @@ module Admin
       @booth.submitter = current_user
 
       if @booth.save
+        booth_responsible_invite
         redirect_to admin_conference_booths_path,
                     notice: 'Booth successfully created.'
       else
@@ -54,7 +56,7 @@ module Admin
       @url = admin_conference_booth_path(@conference.short_title, @booth.id)
 
       @booth.update_attributes(booth_params)
-
+      booth_responsible_invite
       if @booth.save
         redirect_to admin_conference_booths_path,
                     notice: "Successfully updated booth for #{@booth.title}."
