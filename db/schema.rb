@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_143107) do
+ActiveRecord::Schema.define(version: 2019_06_12_161235) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -126,6 +126,8 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.string "mastodon"
     t.string "youtube"
     t.string "blog"
+    t.string "contactable_type"
+    t.integer "contactable_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

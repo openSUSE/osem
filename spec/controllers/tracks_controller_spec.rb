@@ -8,6 +8,7 @@ describe TracksController do
   let(:conference) { create(:conference) }
   let!(:regular_track) { create(:track, program: conference.program) }
   let!(:self_organized_track) { create(:track, :self_organized, program: conference.program, submitter: user, name: 'My awesome track', color: '#800080') }
+  let!(:contact) { create(:contact, contactable_type: 'Track', contactable_id: self_organized_track.id) }
 
   before :each do
     sign_in(user)
