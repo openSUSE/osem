@@ -95,6 +95,7 @@ Osem::Application.routes.draw do
           end
         end
         resources :event_types
+        resources :track_types
         resources :difficulty_levels
         post 'mass_upload_commercials' => 'commercials#mass_upload'
         resources :events do

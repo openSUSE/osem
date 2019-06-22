@@ -45,6 +45,7 @@ feature 'Has correct abilities' do
       expect(page).to have_link('Events', href: "/admin/conferences/#{conference.short_title}/program/events")
       expect(page).to have_link('Tracks', href: "/admin/conferences/#{conference.short_title}/program/tracks")
       expect(page).to have_link('Event Types', href: "/admin/conferences/#{conference.short_title}/program/event_types")
+      expect(page).to have_link('Track Types', href: "/admin/conferences/#{conference.short_title}/program/track_types")
       expect(page).to have_link('Difficulty Levels', href: "/admin/conferences/#{conference.short_title}/program/difficulty_levels")
       expect(page).to have_link('Schedules', href: "/admin/conferences/#{conference.short_title}/schedules")
       expect(page).to have_link('Reports', href: "/admin/conferences/#{conference.short_title}/program/reports")
@@ -172,6 +173,16 @@ feature 'Has correct abilities' do
 
       visit edit_admin_conference_program_event_type_path(conference.short_title, conference.program.event_types.first)
       expect(current_path).to eq(edit_admin_conference_program_event_type_path(conference.short_title, conference.program.event_types.first))
+
+      visit admin_conference_program_track_types_path(conference.short_title)
+      expect(current_path).to eq(admin_conference_program_track_types_path(conference.short_title))
+
+      visit new_admin_conference_program_track_type_path(conference.short_title)
+      expect(current_path).to eq(new_admin_conference_program_track_type_path(conference.short_title))
+
+      create(:track_type, program: conference.program)
+      visit edit_admin_conference_program_track_type_path(conference.short_title, conference.program.track_types.first)
+      expect(current_path).to eq(edit_admin_conference_program_track_type_path(conference.short_title, conference.program.track_types.first))
 
       visit admin_conference_program_difficulty_levels_path(conference.short_title)
       expect(current_path).to eq(admin_conference_program_difficulty_levels_path(conference.short_title))

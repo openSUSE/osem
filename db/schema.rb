@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_143107) do
+ActiveRecord::Schema.define(version: 20190622061319) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -530,6 +530,15 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.boolean "registration_ticket", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "track_types", force: :cascade do |t|
+    t.integer "program_id"
+    t.string "title", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_track_types_on_program_id"
   end
 
   create_table "tracks", force: :cascade do |t|

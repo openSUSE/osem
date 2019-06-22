@@ -10,6 +10,7 @@ class Program < ApplicationRecord
   has_many :cfps, dependent: :destroy
   has_many :event_types, dependent: :destroy
   has_many :tracks, dependent: :destroy
+  has_many :track_types, dependent: :destroy
   has_many :difficulty_levels, dependent: :destroy
   has_many :schedules, dependent: :destroy
   has_many :event_schedules, through: :schedules
