@@ -12,7 +12,10 @@
       = f.input :title, input_html: { autofocus: true }
       = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :price
-      = f.input :price_currency, as: :select, class: 'form-control', collection: ['USD', 'EUR', 'GBP', 'INR', 'CNY', 'CHF'], include_blank: false
+      - if (@conference.tickets.count >= 1 && @ticket.new_record?) || @conference.tickets.count > 1
+        = f.input :price_currency, as: :select, class: 'form-control', collection: [@conference.tickets.first.price_currency], include_blank: false
+      - else
+        = f.input :price_currency, as: :select, class: 'form-control', collection: ['USD', 'EUR', 'GBP', 'INR', 'CNY', 'CHF'], include_blank: false
       = f.input :registration_ticket, hint: 'A registration ticket is with which user register for the conference.'
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
