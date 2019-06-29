@@ -3,4 +3,4 @@ services:
   osem:
     build:
       args:
-        CONTAINER_USERID: 501
+        CONTAINER_USERID: 13042
