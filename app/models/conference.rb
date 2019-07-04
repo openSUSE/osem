@@ -115,7 +115,7 @@ class Conference < ApplicationRecord
   # Delete all EventSchedules that are not in the hours range
   # After the conference has been successfully updated
   def delete_event_schedules
-    if start_hour_changed? || end_hour_changed?
+    if saved_change_to_start_hour? || saved_change_to_end_hour?
       event_schedules = program.event_schedules.select do |event_schedule|
         event_schedule.start_time.hour < start_hour ||
         event_schedule.end_time.hour > end_hour ||
@@ -642,7 +642,7 @@ class Conference < ApplicationRecord
   def notify_on_dates_changed?
     return false unless email_settings.send_on_conference_dates_updated
     # do not notify unless one of the dates changed
-    return false unless start_date_changed? || end_date_changed?
+    return false unless saved_change_to_start_date? || saved_change_to_end_date?
 
     # do not notify unless the mail content is set up
     (email_settings.conference_dates_updated_subject.present? && email_settings.conference_dates_updated_body.present?)
@@ -659,7 +659,7 @@ class Conference < ApplicationRecord
     # do not notify unless we allow a registration
     return false unless registration_period
     # do not notify unless one of the dates changed
-    return false unless registration_period.start_date_changed? || registration_period.end_date_changed?
+    return false unless registration_period.saved_change_to_start_date? || registration_period.saved_change_to_end_date?
 
     # do not notify unless the mail content is set up
     (email_settings.conference_registration_dates_updated_subject.present? && email_settings.conference_registration_dates_updated_body.present?)
