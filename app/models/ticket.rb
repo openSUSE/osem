@@ -75,10 +75,6 @@ class Ticket < ApplicationRecord
 
   private
 
-  def get_price_currency
-    'GBP'
-  end
-
   def tickets_of_conference_have_same_currency
     tickets = Ticket.where(conference_id: conference_id)
     return if tickets.count.zero? || (tickets.count == 1 && self == tickets.first)
