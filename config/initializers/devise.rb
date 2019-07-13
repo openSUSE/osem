@@ -5,7 +5,6 @@ Devise.setup do |config|
   # ==> openIDs configuration
   # Define the available openID providers that can be used to log in
   # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
-
   config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
   config.omniauth :google_oauth2, (ENV['OSEM_GOOGLE_KEY'] || Rails.application.secrets.google_key), (ENV['OSEM_GOOGLE_SECRET'] || Rails.application.secrets.google_secret),
                   name:  'google',

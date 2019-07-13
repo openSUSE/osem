@@ -8,13 +8,9 @@ class Ticket < ApplicationRecord
   has_paper_trail meta:   { conference_id: :conference_id },
                   ignore: %i[updated_at]
 
-  monetize :price_cents, with_model_currency: :price_currency
+  monetize :price_cents, with_currency: ->(ticket) { ticket.conference.price_currency }
 
   scope :for_registration, -> { where(registration_ticket: true) }
-
-  # This validation is for the sake of simplicity.
-  # If we would allow different currencies per conference we also have to handle convertions between currencies!
-  validate :tickets_of_conference_have_same_currency
 
   validates :price_cents, :price_currency, :title, presence: true
 
@@ -78,6 +74,10 @@ class Ticket < ApplicationRecord
   end
 
   private
+
+  def get_price_currency
+    'GBP'
+  end
 
   def tickets_of_conference_have_same_currency
     tickets = Ticket.where(conference_id: conference_id)

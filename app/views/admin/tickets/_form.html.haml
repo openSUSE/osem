@@ -12,7 +12,10 @@
       = f.input :title, input_html: { autofocus: true }
       = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :price
-      = f.input :price_currency, as: :select, class: 'form-control', collection: ['USD', 'EUR', 'GBP', 'INR', 'CNY', 'CHF'], include_blank: false
+      %label
+        Currency
+      %p
+        = @conference.price_currency
       = f.input :registration_ticket, hint: 'A registration ticket is with which user register for the conference.'
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

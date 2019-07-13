@@ -7,6 +7,7 @@
                           input_html: { required: 'required' }
         = f.input :short_title, hint: "A short and unique handle for your conference, using only letters, numbers, underscores, and dashes. This will be used to identify your conference in URLs etc. Example: 'froscon2011'",
                                 input_html: { required: 'required', pattern: '[a-zA-Z0-9_-]+', title: 'Only letters, numbers, underscores, and dashes.' }, prepend: conferences_url + '/'
+      = f.input :price_currency, as: :select, class: 'form-control', collection: ['USD', 'EUR', 'GBP', 'INR', 'CNY', 'CHF'], include_blank: false, hint: "Please select the currency in which the tickets for this conference will be sold"
       = f.inputs 'Scheduling' do
         = f.input :timezone, as: :time_zone, default: Time.zone.name, hint: 'Please select in what time zone your conference will take place.'
         = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', required: 'required' }

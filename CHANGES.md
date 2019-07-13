@@ -4,6 +4,13 @@ Not release yet...
 
 ## Update from 1.0
 
+### Set Conference Price Currency
+Price currency is now set when creating a new conference, for all conferences created before this change the price currency must be set.
+
+```
+bundle exec rake data:set_conference_price_currency RAILS_ENV=production
+```
+
 ### Multiple Schedules
 A conference can have multiple schedules now so it's easier for organizers to
 test schedules and collaborate on different versions.
