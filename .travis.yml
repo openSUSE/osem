@@ -1,17 +1,19 @@
 sudo: required
-dist: trusty
+dist: xenial
+addons:
+  apt:
+    packages:
+      - chromium-browser
 language: ruby
 cache: bundler
 rvm:
-  - 2.5.0@osem --ignore-gemsets
 branches:
   except:
     - /^depfu/.*$/
 before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-  - "echo `phantomjs -v`"
-addons:
-  chrome: stable
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v $(tail -n 1 Gemfile.lock)
 notifications:
   email:
     on_success: change
@@ -23,6 +25,7 @@ notifications:
     on_failure: change
 before_script:
   - RAILS_ENV=test bundle exec rake db:bootstrap --trace
+  - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
 script:
   - "./travis_script.sh $TEST_SUITE"
 env:
