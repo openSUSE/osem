@@ -60,6 +60,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  Capybara.disable_animation = true
+
   Capybara.register_driver :firefox do |app|
     Capybara::Selenium::Driver.new(app, browser: :firefox)
   end
