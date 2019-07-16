@@ -14,14 +14,14 @@ require File.expand_path('../../config/environment', __FILE__)
 
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'webdrivers'
+
 # To avoid confusion on missed migrations - use Rails 4 checker to ensure
 # all migrations applied
 ActiveRecord::Migration.maintain_test_schema!
 
 # Keep capybara and the database on the same page
 require 'transactional_capybara/rspec'
-
-require 'selenium/webdriver'
 
 # Adds rspec helper provided by paper_trail
 # makes it easier to control when PaperTrail is enabled during testing.

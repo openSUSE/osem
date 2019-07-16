@@ -93,13 +93,13 @@ GEM
     builder (3.2.3)
     byebug (11.0.1)
     cancancan (2.3.0)
-    capybara (3.16.2)
+    capybara (3.26.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
-      regexp_parser (~> 1.2)
+      regexp_parser (~> 1.5)
       xpath (~> 3.2)
     carrierwave (1.3.1)
       activemodel (>= 4.0.0)
@@ -112,11 +112,8 @@ GEM
     case_transform (0.2)
       activesupport
     chartkick (3.2.0)
-    childprocess (0.9.0)
-      ffi (~> 1.0, >= 1.0.11)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
+    childprocess (1.0.1)
+      rake (< 13.0)
     chronic (0.10.2)
     chunky_png (1.3.11)
     climate_control (0.2.0)
@@ -285,7 +282,7 @@ GEM
       open4 (~> 1.3.4)
       rake
     mini_magick (4.9.3)
-    mini_mime (1.0.1)
+    mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     momentjs-rails (2.20.1)
@@ -376,7 +373,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     psych (3.1.0)
-    public_suffix (3.0.3)
+    public_suffix (3.1.1)
     puma (3.12.1)
     rack (2.0.7)
     rack-openid (1.3.1)
@@ -449,7 +446,7 @@ GEM
     recaptcha (4.14.0)
       json
     redcarpet (3.4.0)
-    regexp_parser (1.4.0)
+    regexp_parser (1.6.0)
     request_store (1.4.1)
       rack (>= 1.4)
     responders (2.4.1)
@@ -521,8 +518,8 @@ GEM
       ffi (~> 1.9)
       rake
     selectize-rails (0.12.6)
-    selenium-webdriver (3.141.0)
-      childprocess (~> 0.5)
+    selenium-webdriver (3.142.3)
+      childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
     sexp_processor (4.11.0)
     shellany (0.0.1)
@@ -591,6 +588,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webdrivers (4.1.0)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -626,7 +627,6 @@ DEPENDENCIES
   carrierwave
   carrierwave-bombshelter
   chartkick
-  chromedriver-helper
   climate_control
   cloudinary
   cocoon
@@ -703,7 +703,6 @@ DEPENDENCIES
   ruby-oembed
   sass-rails (>= 4.0.2)
   selectize-rails
-  selenium-webdriver
   shoulda-matchers
   skylight
   spring-commands-rspec
@@ -718,6 +717,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unobtrusive_flash (>= 3)
   web-console
+  webdrivers
   webmock
   whenever
 

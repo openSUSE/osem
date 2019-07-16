@@ -244,12 +244,11 @@ end
 group :test do
   # as test framework
   gem 'capybara'
-  gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'geckodriver-helper'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
   gem 'transactional_capybara'
+  gem 'webdrivers'
   # for measuring test coverage
   gem 'codecov', require: false
   # for describing models
