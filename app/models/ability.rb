@@ -36,7 +36,7 @@ class Ability
     end
 
     # can view Commercials of confirmed Events
-    can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
+    can :show, Commercial, commercialable: Event.where(state: 'confirmed')
     can [:show, :create], User
 
     can [:index, :show], Survey, surveyable_type: 'Conference'
