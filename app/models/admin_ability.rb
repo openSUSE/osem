@@ -102,6 +102,7 @@ class AdminAbility
     signed_in_with_organizer_role(user, conf_ids_for_organization_admin)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def signed_in_with_organizer_role(user, conf_ids_for_organization_admin = [])
     # ids of all the conferences for which the user has the 'organizer' role and
     # conferences that belong to organizations for which user is 'organization_admin'
@@ -149,7 +150,8 @@ class AdminAbility
     end
     can :index, Comment, commentable_type: 'Event',
                          commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
-
+    can :index, Comment, commentable_type: 'Track',
+                         commentable_id:   Track.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
       role.resource_type == 'Conference' || role.resource_type == 'Track'
@@ -163,6 +165,7 @@ class AdminAbility
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'User'
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, conference_id: conf_ids
   end
+  # rubocop:enable Metrics/AbcSize
 
   def signed_in_with_cfp_role(user)
     # ids of all the conferences for which the user has the 'cfp' role
@@ -189,6 +192,8 @@ class AdminAbility
     can :index, Comment, commentable_type: 'Event',
                          commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
 
+    can :index, Comment, commentable_type: 'Track',
+                         commentable_id:   Track.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
       role.resource_type == 'Conference' || role.resource_type == 'Track'

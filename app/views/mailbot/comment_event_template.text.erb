@@ -1,0 +1,10 @@
+Dear <%= @user.name %>,
+
+User <%= @comment.user.name %> posted a new comment for event <%= @commentable.title %> of <%= @conference.short_title %> .
+
+"<%= @comment.body %>"
+
+To reply to this comment, please go to <%=  h(admin_conference_program_event_url(@conference.short_title, @commentable, only_path: false)) %>
+
+Best wishes,
+<%= @conference.title %> Team

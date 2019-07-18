@@ -81,6 +81,7 @@ Osem::Application.routes.draw do
             patch :toggle_cfp_inclusion
             patch :restart
             patch :to_accept
+            post :comment
             patch :accept
             patch :confirm
             patch :to_reject

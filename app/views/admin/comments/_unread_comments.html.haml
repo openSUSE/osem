@@ -1,11 +1,14 @@
-- @unread_comments.each do |conference, events|
+- @unread_comments.each do |conference, objects|
   .panel.panel-default
     .panel-heading
       %h4.title.panel-title= conference.title
     .panel-body
-      - events.each do |event, comments|
+      - objects.each do |obj, comments|
         .notifications
-          %h4.title= link_to event.title, admin_conference_program_event_path(event.program.conference.short_title, event)
+          - if obj.class.name == 'Event'
+            %h4.title= link_to obj.title, admin_conference_program_event_path(obj.program.conference.short_title, obj)
+          - if obj.class.name == 'Track'
+            %h4.title= link_to obj.name, admin_conference_program_track_path(obj.program.conference.short_title, obj)
           %hr
           - comments.each do |comment|
             %h5.strong Posted by: #{comment.user.name} | Created at: #{comment.created_at}

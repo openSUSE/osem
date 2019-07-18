@@ -15,6 +15,8 @@ class Track < ApplicationRecord
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
+  acts_as_commentable
+
   before_create :generate_guid
   validates :name, presence: true
   validates :color, format: /\A#[0-9A-F]{6}\z/

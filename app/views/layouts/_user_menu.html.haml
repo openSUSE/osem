@@ -4,8 +4,11 @@
     Notifications (#{unread_notifications(current_user).length})
   - if unread_notifications(current_user).length > 0
     %li.dropdown-header Last 5 Comments for:
-    - unread_notifications(current_user).limit(5).group_by{ |comment| comment.commentable}.each do |event, comments|
-      %li= link_to("#{event.title}(#{comments.count})", admin_conference_program_event_path(event.program.conference.short_title, event.id))
+    - unread_notifications(current_user).limit(5).group_by{ |comment| comment.commentable}.each do |obj, comments|
+      - if obj.class.name === 'Event'
+        %li= link_to("#{obj.title}(#{comments.count})", admin_conference_program_event_path(obj.program.conference.short_title, obj.id))
+      - if obj.class.name === 'Track'
+        %li= link_to("#{obj.name}(#{comments.count})", admin_conference_program_track_path(obj.program.conference.short_title, obj))
     %li.divider
     %li= link_to "See all unread Comments (#{unread_notifications(current_user).length})", admin_comments_path
   %li= link_to 'See all Comments', admin_comments_path(anchor: 'all_comments')

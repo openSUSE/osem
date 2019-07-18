@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2019_06_03_143107) do
+=======
+ActiveRecord::Schema.define(version: 20190720062321) do
+>>>>>>> Add comment functionality to tracks
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -549,6 +553,10 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.date "end_date"
     t.text "relevance"
     t.integer "selected_schedule_id"
+<<<<<<< HEAD
+=======
+    t.integer "comments_count", default: 0, null: false
+>>>>>>> Add comment functionality to tracks
     t.index ["room_id"], name: "index_tracks_on_room_id"
     t.index ["selected_schedule_id"], name: "index_tracks_on_selected_schedule_id"
     t.index ["submitter_id"], name: "index_tracks_on_submitter_id"
@@ -587,6 +595,7 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.boolean "is_admin", default: false
     t.string "username"
     t.boolean "is_disabled", default: false
+<<<<<<< HEAD
     t.string "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -595,6 +604,8 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.string "invited_by_type"
     t.integer "invited_by_id"
     t.integer "invitations_count", default: 0
+=======
+>>>>>>> Add comment functionality to tracks
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

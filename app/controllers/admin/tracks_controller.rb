@@ -30,6 +30,9 @@ module Admin
     end
 
     def show
+      @comments = @track.root_comments
+      @comment_count = @track.comment_threads.count
+
       respond_to do |format|
         format.html { render }
         format.json { render json: @conference.tracks.to_json }
@@ -53,7 +56,20 @@ module Admin
       end
     end
 
-    def edit; end
+    def edit
+      @comments = @track.root_comments
+      @comment_count = @track.comment_threads.count
+    end
+
+    def comment
+      comment = Comment.new(comment_params)
+      comment.commentable = @track
+      comment.user_id = current_user.id
+      comment.save!
+      comment.move_to_child_of(params[:parent]) unless params[:parent].nil?
+
+      redirect_to admin_conference_program_track_path(@conference.short_title, @track)
+    end
 
     def update
       if @track.update_attributes(track_params)
@@ -137,6 +153,10 @@ module Admin
 
     def track_params
       params.require(:track).permit(:name, :description, :color, :short_name, :cfp_active, :start_date, :end_date, :room_id)
+    end
+
+    def comment_params
+      params.require(:comment).permit(:commentable, :body, :user_id)
     end
 
     def update_state(transition, notice)
