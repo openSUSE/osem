@@ -8,6 +8,9 @@ class ConferencesController < ApplicationController
   def index
     @current    = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
     @antiquated = Conference.where('end_date < ?', Date.current)
+    if @antiquated.empty? && @current.empty? && User.empty?
+      render :new_install
+    end
   end
 
   def show
