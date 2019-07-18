@@ -7,7 +7,7 @@
       .panel-body
         %p
           %b Select/Enter Emails
-        = text_field_tag :to, '', class: 'form-control', id: 'admin_email_to'
+        = text_field_tag :to, '', class: 'form-control', id: 'admin_email_to', data: { keys: @keys }
         %br
         %p.text-right
           = link_to 'Send Email', '', class: 'btn btn-primary'
@@ -30,5 +30,27 @@
             item: input
           }
         }
+      })
+      var selectizeControl = $select[0].selectize;
+      var email_hash = $('#admin_email_to').data('keys')
+      for(var key in email_hash){
+        selectizeControl.addOption({item: key});
+      }
+      selectizeControl.on('change', function() {
+            var emails_in_to_field = selectizeControl.getValue();
+            if (emails_in_to_field==''){
+              selectizeControl.clearOptions();
+              for(var key in email_hash){
+                selectizeControl.addOption({item: key});
+              }
+            } else if (emails_in_to_field in email_hash){
+                for (var i = 0, n = email_hash[emails_in_to_field].length; i < n; i++) {
+                    selectizeControl.addOption({item: email_hash[emails_in_to_field][i]});
+                }
+                selectizeControl.setValue(email_hash[emails_in_to_field]);
+                selectizeControl.clearOptions();
+            } else {
+                selectizeControl.refreshOptions();
+            }
       })
     })
