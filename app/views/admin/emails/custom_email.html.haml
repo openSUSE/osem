@@ -7,7 +7,28 @@
       .panel-body
         %p
           %b Select/Enter Emails
-        = text_field_tag :to, '', class: 'form-control'
+        = text_field_tag :to, '', class: 'form-control', id: 'admin_email_to'
         %br
         %p.text-right
           = link_to 'Send Email', '', class: 'btn btn-primary'
+
+  :javascript
+    $(document).ready(function() {
+      var $select = $('#admin_email_to').selectize({
+        delimiter: ',',
+        persist: true,
+        plugins: ['remove_button'],
+        labelField:  'item',
+        valueField:  'item',
+        sortField:   'item',
+        searchField: 'item',
+        create: function(input) {
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)){
+            return {}
+          }
+          return {
+            item: input
+          }
+        }
+      })
+    })
