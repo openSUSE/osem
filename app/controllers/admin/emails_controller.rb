@@ -22,7 +22,27 @@ module Admin
       @settings = @conference.email_settings
     end
 
-    def custom_email; end
+    def custom_email
+      subscriber_ids = @conference.subscriptions.pluck(:user_id)
+      booths_responsible_ids = BoothRequest.where(booth_id: @conference.booth_ids).pluck(:user_id)
+      confirmed_booth_ids = BoothRequest.where(booth_id: @conference.confirmed_booths.ids).pluck(:user_id)
+      confirmed_track_ids = Track.find(@conference.confirmed_tracks.ids).pluck(:submitter_id)
+      roles_ids = {}
+      @conference.roles.each do |u|
+        roles_ids[u.name] = u.users.pluck(:email)
+      end
+      @keys = {}
+      @keys['Subscribers'] = User.find(subscriber_ids).pluck(:email) if subscriber_ids.present?
+      @keys['Booths Responsible'] = User.find(booths_responsible_ids.uniq).pluck(:email) if booths_responsible_ids.present?
+      @keys['Confirmed Booths'] = User.find(confirmed_booth_ids.uniq).pluck(:email) if confirmed_booth_ids.present?
+      @keys['Registered Users'] = @conference.participants.pluck(:email) if @conference.participants.present?
+      @keys['Confirmed Tracks'] = User.find(confirmed_track_ids.uniq).pluck(:email) if confirmed_track_ids.present?
+      @keys['Supporters'] = @conference.supporters.pluck(:email) if @conference.supporters.present?
+      @keys['Conference Organizers'] = roles_ids['organizer']
+      @keys['Cfp'] = roles_ids['cfp'] if roles_ids['cfp'].present?
+      @keys['Info Desk'] = roles_ids['info_desk'] if roles_ids['info_desk'].present?
+      @keys['Volunteer Coordinator'] = roles_ids['volunteers_coordinator'] if roles_ids['volunteers_coordinator'].present?
+    end
 
     private
 
