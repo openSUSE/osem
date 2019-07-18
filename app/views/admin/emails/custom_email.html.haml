@@ -1,0 +1,13 @@
+.row
+  .col-md-6.col-md-offset-2
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          Send an email
+      .panel-body
+        %p
+          %b Select/Enter Emails
+        = text_field_tag :to, '', class: 'form-control'
+        %br
+        %p.text-right
+          = link_to 'Send Email', '', class: 'btn btn-primary'

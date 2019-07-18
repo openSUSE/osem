@@ -126,6 +126,9 @@
       = link_to(admin_conference_emails_path(@conference.short_title)) do
         %span.fa.fa-envelope
         E-Mails
+    %ul
+      %li{class: active_nav_li(admin_conference_custom_email_path(@conference.short_title))}
+        = link_to 'Send E-Mails', admin_conference_custom_email_path(@conference.short_title)
   %li{ class: active_nav_li(admin_conference_surveys_path(@conference.short_title)) }
     = link_to(admin_conference_surveys_path(@conference.short_title)) do
       %span.fa.fa-list-alt

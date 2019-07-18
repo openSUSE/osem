@@ -119,6 +119,7 @@ Osem::Application.routes.draw do
       resources :sponsors, except: [:show]
       resources :lodgings, except: [:show]
       resources :emails, only: [:show, :update, :index]
+      get '/custom_email' => 'emails#custom_email'
       resources :physical_tickets, only: [:index]
       resources :roles, except: [:new, :create] do
         member do

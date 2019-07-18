@@ -22,6 +22,8 @@ module Admin
       @settings = @conference.email_settings
     end
 
+    def custom_email; end
+
     private
 
     def email_params
