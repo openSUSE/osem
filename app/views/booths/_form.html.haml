@@ -29,4 +29,18 @@
         plugins: ['remove_button'],
         minItems: 2
       } )
+      $('#booth_invite_responsible').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)){
+            return {}
+          }
+          return {
+              value: input,
+              text: input
+          }
+        }
+      } )
     });
