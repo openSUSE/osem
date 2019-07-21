@@ -2,7 +2,7 @@
   .row
     .col-md-12.page-header
       %h1
-        Your booth requests for
+        Your #{t'booth'} requests for
         = @conference.title
   .row
     .col-md-12
@@ -48,4 +48,4 @@
                     restart_conference_booth_path(@conference.short_title, booth),
                     method: :patch, class: 'btn btn-mini btn-success', id: "restart_booth_#{booth.id}"
       .pull-right
-        = link_to 'Add Booth', new_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
+        = link_to "Add #{(t'booth').capitalize }", new_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'

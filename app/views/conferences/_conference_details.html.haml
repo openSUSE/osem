@@ -44,9 +44,9 @@
               - if conference.program.cfp_open?
                 = link_to "Submit Proposal", new_conference_program_proposal_path(conference.short_title), class: 'btn btn-default'
             - if current_user && current_user.booths.where(conference_id: conference.id).count > 0
-              = link_to 'My Booth Requests', conference_booths_path(conference.short_title), class: 'btn btn-default'
+              = link_to "My #{(t'booth').capitalize } Requests", conference_booths_path(conference.short_title), class: 'btn btn-default'
             - elsif can? :new, conference.booths.new
-              = link_to 'Request Booth', new_conference_booth_path(conference.short_title), class: 'btn btn-default'
+              = link_to "Request #{(t'booth').capitalize }", new_conference_booth_path(conference.short_title), class: 'btn btn-default'
             - if current_user.nil? || !current_user.subscribed?(conference)
               = link_to 'Subscribe', conference_subscriptions_path(conference.short_title), method: :post, class: 'btn btn-default'
             - else
