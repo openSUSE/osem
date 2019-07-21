@@ -12,6 +12,8 @@
           hint: 'e.g. employee, comunity manager, etc'
         = f.input :website_url
         = responsibles_selector_input f
+        = f.input :invite_responsible,
+          hint: 'This field is to invite unregistered users using their email to become booth responsibles.'
         = image_tag f.object.picture.thumb.url if f.object.picture?
         = f.input :picture
 
@@ -26,5 +28,19 @@
       $('#booth_responsible_ids').selectize({
         plugins: ['remove_button'],
         minItems: 2
+      } )
+      $('#booth_invite_responsible').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)){
+            return {}
+          }
+          return {
+              value: input,
+              text: input
+          }
+        }
       } )
     });

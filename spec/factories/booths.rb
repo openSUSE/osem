@@ -12,5 +12,6 @@ FactoryBot.define do
 
     submitter { create(:user) }
     responsible_ids { [create(:user).id] }
+    invite_responsible { 'user@example.com, example' }
   end
 end

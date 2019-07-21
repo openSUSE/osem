@@ -57,6 +57,18 @@ describe BoothsController do
         it 'shows success message' do
           expect(flash[:notice]).to match('Booth successfully created.')
         end
+
+        it 'creates a new user on inviting booth responsible' do
+          expect(User.where(email: 'user@example.com')).to exist
+        end
+
+        it 'does not create a user with invalid email on inviting booth responsible' do
+          expect(User.where(email: 'example')).not_to exist
+        end
+
+        it 'invited user should be a part of booth responsibles' do
+          expect(Booth.last.responsibles.ids).to include(User.find_by(email: 'user@example.com').id)
+        end
       end
 
       context 'create action fails' do
@@ -93,7 +105,7 @@ describe BoothsController do
 
     describe 'PATCH #update' do
       context 'updates suchessfully' do
-        before { patch :update, params: { id: booth.id, booth: attributes_for(:booth, title: 'different'), conference_id: conference.short_title } }
+        before { patch :update, params: { id: booth.id, booth: attributes_for(:booth, title: 'different', invited_users: 'user@example.com, example'), conference_id: conference.short_title } }
 
         it 'redirects to booth index path' do
           expect(response).to redirect_to conference_booths_path
@@ -106,6 +118,19 @@ describe BoothsController do
         it 'updates booth' do
           booth.reload
           expect(booth.title).to eq('different')
+        end
+
+        it 'creates a new user on inviting booth responsible' do
+          expect(User.where(email: 'user@example.com')).to exist
+        end
+
+        it 'does not create a user with invalid email on inviting booth responsible' do
+          expect(User.where(email: 'example')).not_to exist
+        end
+
+        it 'invited user should be a part of booth responsibles' do
+          booth.reload
+          expect(booth.responsibles.ids).to include(User.find_by(email: 'user@example.com').id)
         end
       end
     end

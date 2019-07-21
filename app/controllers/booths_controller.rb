@@ -5,6 +5,7 @@ class BoothsController < ApplicationController
   load_resource :conference, find_by: :short_title
   load_and_authorize_resource through: :conference
   skip_authorize_resource only: [:withdraw, :confirm, :restart]
+  include Invitation
 
   def index
     @booths = current_user.booths.where(conference_id: @conference.id).uniq
@@ -22,6 +23,7 @@ class BoothsController < ApplicationController
     @booth.submitter = current_user
 
     if @booth.save
+      booth_responsible_invite
       redirect_to conference_booths_path,
                   notice: 'Booth successfully created.'
     else
@@ -38,6 +40,7 @@ class BoothsController < ApplicationController
     @url = conference_booth_path(@conference.short_title, @booth.id)
     @booth.update_attributes(booth_params)
 
+    booth_responsible_invite
     if @booth.save
       redirect_to conference_booths_path,
                   notice: 'Booth successfully updated!'
@@ -94,6 +97,7 @@ class BoothsController < ApplicationController
 
   def booth_params
     params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id,
-                                  :created_at, :updated_at, :submitter_relationship, :website_url, responsible_ids: [])
+                                  :created_at, :updated_at, :submitter_relationship, :website_url, :invite_responsible,
+                                  responsible_ids: [])
   end
 end
