@@ -7,7 +7,7 @@ module Invitation
 
       emails_array.each do |email|
         new_user = User.find_by(email: email)
-        if new_user.nil?
+        if new_user.nil? || !new_user.opted_out?
           User.invite!({ email: email }, current_user)
           new_user = User.find_by(email: email)
         end
