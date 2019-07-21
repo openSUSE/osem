@@ -280,6 +280,8 @@ GEM
     lumberjack (1.0.12)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    mailkick (0.4.0)
+      activesupport (>= 5)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.8.2)
@@ -669,6 +671,7 @@ DEPENDENCIES
   json-schema
   leaflet-rails
   letter_opener
+  mailkick
   mina
   mini_magick
   money-rails

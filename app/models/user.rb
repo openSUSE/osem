@@ -8,6 +8,7 @@ end
 
 class User < ApplicationRecord
   rolify
+  mailkick_user
   # prevent N+1 queries with has_cached_role? by preloading roles *always*
   default_scope { preload(:roles) }
 
