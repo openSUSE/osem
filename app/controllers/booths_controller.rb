@@ -43,6 +43,7 @@ class BoothsController < ApplicationController
                   notice: 'Booth successfully updated!'
     else
       flash.now[:error] = "Booth could not be updated. #{@booth.errors.full_messages.to_sentence}."
+      render :edit
     end
   end
 
