@@ -75,7 +75,7 @@ describe Admin::BoothsController do
         end
 
         it 'shows success message' do
-          expect(flash[:notice]).to match('Booth successfully created.')
+          expect(flash[:notice]).to match("#{(t 'booth').capitalize} successfully created.")
         end
 
         it 'creates a new user on inviting booth responsible' do
@@ -106,7 +106,7 @@ describe Admin::BoothsController do
         end
 
         it 'shows flash message' do
-          expect(flash[:error]).to eq("Creating booth failed. Title can't be blank.")
+          expect(flash[:error]).to eq("Creating #{t 'booth'} failed. Title can't be blank.")
         end
       end
     end
@@ -131,7 +131,7 @@ describe Admin::BoothsController do
         end
 
         it 'shows success message' do
-          expect(flash[:notice]).to match 'Successfully updated booth.'
+          expect(flash[:notice]).to match "Successfully updated #{t 'booth'}."
         end
 
         it 'updates booth' do

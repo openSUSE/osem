@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-wb.add_worksheet(name: 'all booths') do |sheet|
+wb.add_worksheet(name: "all #{(t 'booth').pluralize}") do |sheet|
   bold_style = wb.styles.add_style(b: true)
   wrap_text = wb.styles.add_style alignment: {wrap_text: true}
-  row = ['Booth ID',
+  row = ["#{(t 'booth').capitalize} ID",
          'Title',
          'Description',
          'Reasoning',

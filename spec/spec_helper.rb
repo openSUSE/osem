@@ -121,6 +121,10 @@ RSpec.configure do |config|
   #     save_and_open_page
   #   end
   # end
+
+  # use the config to use
+  # t('some.locale.key') instead of always having to type I18n.t
+  config.include AbstractController::Translation
 end
 
 OmniAuth.config.test_mode = true

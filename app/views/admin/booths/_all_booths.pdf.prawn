@@ -1,6 +1,6 @@
 prawn_document(force_download: true, filename: "#{@file_name}.pdf", page_layout: :landscape) do |pdf|
   booths_array = []
-  header_array = ['Booth ID',
+  header_array = ["#{(t'booth').capitalize } ID",
                   'Title',
                   'Description',
                   'Reasoning',
@@ -21,6 +21,6 @@ prawn_document(force_download: true, filename: "#{@file_name}.pdf", page_layout:
     row << booth.state
     booths_array << row
   end
-  pdf.text "#{@conference.short_title} booths", font_size: 25, align: :center
+  pdf.text "#{@conference.short_title} #{(t'booth').pluralize}", font_size: 25, align: :center
   pdf.table booths_array, header: true, cell_style: {size: 8, border_width: 1},column_widths: [45,70,153,152,70,80,105,45]
 end

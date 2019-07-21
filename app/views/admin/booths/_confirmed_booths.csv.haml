@@ -1,4 +1,4 @@
-- headers = ['Booth ID',
+- headers = ["#{(t'booth').capitalize } ID",
              'Title',
              'Description',
              'Reasoning',
@@ -6,7 +6,7 @@
              'Submitter Relationship',
              'Website Url',
              'State']
-= CSV.generate_line ['All booths']
+= CSV.generate_line ["All #{(t'booth').pluralize}"]
 = CSV.generate_line headers
 - @booths.confirmed.each do |booth|
   = CSV.generate_line([booth.id,

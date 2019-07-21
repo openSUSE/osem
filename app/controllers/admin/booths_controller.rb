@@ -7,7 +7,7 @@ module Admin
     include Invitation
 
     def index
-      @file_name = "booths_for_#{@conference.short_title}"
+      @file_name = "#{(t 'booth').pluralize}_for_#{@conference.short_title}"
       @booth_export_option = params[:booth_export_option]
       respond_to do |format|
         format.html
@@ -41,9 +41,9 @@ module Admin
       if @booth.save
         booth_responsible_invite
         redirect_to admin_conference_booths_path,
-                    notice: 'Booth successfully created.'
+                    notice: "#{(t 'booth').capitalize} successfully created."
       else
-        flash.now[:error] = "Creating booth failed. #{@booth.errors.full_messages.to_sentence}."
+        flash.now[:error] = "Creating #{t 'booth'} failed. #{@booth.errors.full_messages.to_sentence}."
         render :new
       end
     end
@@ -59,9 +59,9 @@ module Admin
       booth_responsible_invite
       if @booth.save
         redirect_to admin_conference_booths_path,
-                    notice: "Successfully updated booth for #{@booth.title}."
+                    notice: "Successfully updated #{t 'booth'} for #{@booth.title}."
       else
-        flash.now[:error] = "An error prohibited the Booth for #{@booth.title} "\
+        flash.now[:error] = "An error prohibited the #{t'booth'} for #{@booth.title} "\
                     "#{@booth.errors.full_messages.join('. ')}."
         render :edit
       end
@@ -75,19 +75,19 @@ module Admin
           Mailbot.conference_booths_acceptance_mail(@booth).deliver_later
         end
         redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
-                    notice: 'Booth successfully accepted!'
+                    notice: "#{(t'booth').capitalize} successfully accepted!"
       else
         redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
-        flash[:error] = "Booth could not be accepted. #{@booth.errors.full_messages.to_sentence}."
+        flash[:error] = "#{(t 'booth').capitalize} could not be accepted. #{@booth.errors.full_messages.to_sentence}."
       end
     end
 
     def to_accept
-      update_state(:to_accept, 'Booth to accept')
+      update_state(:to_accept, "#{(t'booth').capitalize} to accept")
     end
 
     def to_reject
-      update_state(:to_reject, 'Booth to reject')
+      update_state(:to_reject, "#{(t'booth').capitalize} to reject")
     end
 
     def reject
@@ -96,23 +96,23 @@ module Admin
       if @booth.save
         Mailbot.conference_booths_rejection_mail(@booth).deliver_later
         redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
-                    notice: 'Booth successfully rejected.'
+                    notice: "#{(t'booth').capitalize} successfully rejected."
       else
         redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
-        flash[:error] = "Booth could not be rejected. #{@booth.errors.full_messages.to_sentence}."
+        flash[:error] = "#{(t 'booth').capitalize} could not be rejected. #{@booth.errors.full_messages.to_sentence}."
       end
     end
 
     def restart
-      update_state(:restart, 'Booth is submitted')
+      update_state(:restart, "#{(t 'booth').capitalize} is submitted")
     end
 
     def cancel
-      update_state(:cancel, 'Booth is canceled')
+      update_state(:cancel, "#{(t 'booth').capitalize} is canceled")
     end
 
     def confirm
-      update_state(:confirm, 'Booth successfully confirmed')
+      update_state(:confirm, "#{(t 'booth').capitalize} successfully confirmed")
     end
 
     private
