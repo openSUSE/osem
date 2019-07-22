@@ -7,6 +7,7 @@ module Admin
     authorize_resource :role, except: :index
     # Show flash message with ajax calls
     after_action :prepare_unobtrusive_flash, only: :toggle_user
+    include Invitation
 
     def index
       @roles = Role.where(resource: @conference)
@@ -61,13 +62,11 @@ module Admin
             else
               admin_conference_role_path(@conference.short_title, @role.name)
             end
-
+      user ||= invite_via_email
       unless user
-        redirect_to url,
-                    error: 'Could not find user. Please provide a valid email!'
+        redirect_to url, error: 'Could not find user. Please provide a valid email!'
         return
       end
-
       # The conference must have at least 1 organizer
       if @role.name == 'organizer' && state == 'false' && @role.users.count == 1
         redirect_to admin_conference_role_path(@conference.short_title, @role.name),

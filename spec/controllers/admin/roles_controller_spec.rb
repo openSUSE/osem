@@ -95,6 +95,28 @@ describe Admin::RolesController do
       end
     end
 
+    context 'adds role to unregistered user' do
+      it 'adds a new unregistered user' do
+        post :toggle_user, params: { conference_id: conference.short_title,
+                                     user:          { email: 'example@osem.io' },
+                                     id:            'cfp' }
+
+        expect(User.find_by(email: 'example@osem.io').roles).to eq [cfp_role]
+      end
+
+      it 'assigns two role to an unregsitered user' do
+        post :toggle_user, params: { conference_id: conference.short_title,
+                                     user:          { email: 'example@osem.io' },
+                                     id:            'cfp' }
+
+        post :toggle_user, params: { conference_id: conference.short_title,
+                                     user:          { email: 'example@osem.io' },
+                                     id:            'organizer' }
+
+        expect(User.find_by(email: 'example@osem.io').roles).to eq [organizer_role, cfp_role]
+      end
+    end
+
     context 'removes role from user' do
       it 'removes role from user' do
         post :toggle_user, params: { conference_id: conference.short_title,

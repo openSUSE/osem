@@ -18,4 +18,8 @@ module Invitation
       end
     end
   end
+
+  def invite_via_email
+    User.invite!({ email: user_params[:email] }, current_user)
+  end
 end
