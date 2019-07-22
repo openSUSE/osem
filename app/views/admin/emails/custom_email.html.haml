@@ -10,7 +10,7 @@
         = text_field_tag :to, '', class: 'form-control', id: 'admin_email_to', data: { keys: @keys }
         %br
         %p.text-right
-          = link_to 'Send Email', '', class: 'btn btn-primary'
+          = link_to 'Send Email', '', class: 'btn btn-primary', id: 'send_mail'
 
   :javascript
     $(document).ready(function() {
@@ -38,6 +38,9 @@
       }
       selectizeControl.on('change', function() {
             var emails_in_to_field = selectizeControl.getValue();
+            var emails_array = emails_in_to_field.split(",");
+            var text = "mailto:".concat(emails_array.shift(), "?bcc=", emails_array.join());
+            document.getElementById("send_mail").href = text;
             if (emails_in_to_field==''){
               selectizeControl.clearOptions();
               for(var key in email_hash){
