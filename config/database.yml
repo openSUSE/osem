@@ -1,25 +1,32 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
+<%
+  encoding = 'unicode'
+  if ENV['OSEM_DB_ADAPTER'] == 'mysql2'
+    encoding = 'utf8'
+  end
+%>
+
+
 default: &default
-  adapter: sqlite3
+  adapter: <%= ENV['OSEM_DB_ADAPTER'] || 'postgresql' %>
+  encoding: <%= encoding %>
+  host: <%= ENV['OSEM_DB_HOST'] || 'database' %>
+  port: <%= ENV['OSEM_DB_PORT'] || '5432'  %>
+  username: <%= ENV['OSEM_DB_USER'] || 'postgres' %>
+  password: <%= ENV['OSEM_DB_PASSWORD'] || 'mysecretpassword' %>
+  database: <%= ENV['OSEM_DB_NAME'] || 'postgres' %>
   pool: 5
   timeout: 5000
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: osem_development
 
 # Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
+# re-generated when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: db/test.sqlite3
+  database: osem_test
 
 production:
   <<: *default
-  database: db/production.sqlite3

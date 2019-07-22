@@ -155,17 +155,20 @@ class Ability
       can :manage, Registration, conference_id: conf_ids_for_organizer
       # To access conference/proposals
       can :manage, Event, program: { conference_id: conf_ids_for_organizer }
-      can :manage, Comment
       # To access comment link in menu bar
-      # can :index, Comment, commentable_type: 'Event',
-      #                      commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
+      can :index, Comment, commentable_type: 'Event',
+                           commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
+      can :index, Comment, commentable_type: 'Track',
+                           commentable_id:   Track.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
     end
 
     if conf_ids_for_cfp
       # To access comment link in menu bar
-      can :manage, Comment
-      # can :index, Comment, commentable_type: 'Event',
-      #                      commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+      can :index, Comment, commentable_type: 'Event',
+                           commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
+      can :index, Comment, commentable_type: 'Track',
+                           commentable_id:   Track.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
+
       # To access conference/proposals
       can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     end

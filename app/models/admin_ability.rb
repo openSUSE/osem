@@ -193,7 +193,7 @@ class AdminAbility
                          commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
 
     can :index, Comment, commentable_type: 'Track',
-                         commentable_id:   Track.where(program_id: Program.where(conference_id: conf_ids).pluck(:id)).pluck(:id)
+                         commentable_id:   Track.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
       role.resource_type == 'Conference' || role.resource_type == 'Track'
