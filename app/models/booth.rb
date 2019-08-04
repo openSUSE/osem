@@ -84,4 +84,8 @@ class Booth < ApplicationRecord
     end
     alert
   end
+
+  def invited_responsibles
+    responsibles.where(last_sign_in_at: nil)
+  end
 end

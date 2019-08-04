@@ -12,7 +12,7 @@
           hint: 'e.g. employee, comunity manager, etc'
         = f.input :website_url
         = responsibles_selector_input f
-        = f.input :invite_responsible,
+        = f.input :invite_responsible, input_html: { value: invitation_pending_emails },
           hint: "This field is to invite unregistered users using their email to become #{(t'booth_responsible').pluralize}."
         = image_tag f.object.picture.thumb.url if f.object.picture?
         = f.input :picture

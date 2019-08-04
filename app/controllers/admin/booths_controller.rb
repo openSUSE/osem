@@ -50,6 +50,7 @@ module Admin
 
     def edit
       @url = admin_conference_booth_path(@conference.short_title, @booth.id)
+      @invitation_pending_emails = @booth.invited_responsibles.pluck(:email).join(',')
     end
 
     def update
