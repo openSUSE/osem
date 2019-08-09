@@ -37,6 +37,9 @@
         %thead
           %th ID
           %th Name
+          - if @program.rating_enabled?
+            %th
+              %b Rating
           %th Description
           %th Room
           %th Start Date
@@ -54,6 +57,12 @@
                 = link_to admin_conference_program_track_path(@conference.short_title, track), class: 'btn' do
                   %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
                     = track.name
+              - if @program.rating_enabled?
+                %td.col-md-1{ data: { order: track.average_rating } }
+                  = render 'datatable_row_rating',
+                    track:      track,
+                    show_votes: @program.show_voting?,
+                    max_rating: @program.rating
               %td
                 %p
                   = markdown(truncate(track.description))

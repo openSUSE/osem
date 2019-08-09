@@ -104,6 +104,14 @@
                   %b Relevance
                 %td
                   = markdown(@track.relevance)
+            - if @conference.program.rating_enabled?
+              = render 'voting',
+                  track:         @track,
+                  show_votes:    @program.show_voting?,
+                  max_rating:    @program.rating,
+                  voting_period: @program.voting_period?,
+                  votes:         @votes,
+                  conference_id: @conference.short_title
 
     .tab-pane#events
       .col-md-12

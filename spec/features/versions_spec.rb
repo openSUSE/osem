@@ -406,7 +406,7 @@ feature 'Version' do
     conference.program.rating = 1
     create(:event, program: conference.program, title: 'My first event')
     event = create(:event, program: conference.program, title: 'My second event')
-    create(:vote, user: organizer, event: event)
+    create(:vote, user: organizer, votable: event)
     Vote.last.destroy
     PaperTrail::Version.last.reify.save
 

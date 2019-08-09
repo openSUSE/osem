@@ -227,13 +227,13 @@ describe Event do
     end
 
     it 'returns 0 if the event has no votes from that user' do
-      create(:vote, user: another_user, event: event)
+      create(:vote, user: another_user, votable: event)
       expect(event.user_rating(user)).to eq 0
     end
 
     it 'returns the rating if the event has votes from that user' do
-      create(:vote, user: another_user, event: event, rating: 3)
-      create(:vote, user: user, event: event, rating: 2)
+      create(:vote, user: another_user, votable: event, rating: 3)
+      create(:vote, user: user, votable: event, rating: 2)
       expect(event.user_rating(user)).to eq 2
     end
   end
@@ -244,17 +244,17 @@ describe Event do
     end
 
     it 'returns false if the event has no votes by that user' do
-      create(:vote, user: another_user, event: event)
+      create(:vote, user: another_user, votable: event)
       expect(event.voted?(user)).to eq false
     end
 
     it 'returns true when the event has votes' do
-      create(:vote, user: another_user, event: event)
+      create(:vote, user: another_user, votable: event)
       expect(event.voted?).to eq true
     end
 
     it 'returns true when the event has votes by that user' do
-      create(:vote, user: user, event: event)
+      create(:vote, user: user, votable: event)
       expect(event.voted?(user)).to eq true
     end
   end
@@ -269,8 +269,8 @@ describe Event do
     context 'returns the average voting' do
       before :each do
         another_user = create(:user)
-        create(:vote, user: user, event: event, rating: 1)
-        create(:vote, user: another_user, event: event, rating: 3)
+        create(:vote, user: user, votable: event, rating: 1)
+        create(:vote, user: another_user, votable: event, rating: 3)
       end
 
       it 'when there are votes and the average is integer' do
@@ -279,7 +279,7 @@ describe Event do
 
       it 'when there are votes and the average is float' do
         new_user = create(:user)
-        create(:vote, user: new_user, event: event, rating: 3)
+        create(:vote, user: new_user, votable: event, rating: 3)
         expect(event.average_rating).to eq '2.33'
       end
     end

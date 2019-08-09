@@ -70,7 +70,7 @@
 
 - when 'EventsRegistration', 'Comment', 'Vote', 'Event'
   event
-  - event_id = object.try(:event_id) || object.try(:commentable_id) || object.id
+  - event_id = object.try(:votable_id) || object.try(:event_id) || object.try(:commentable_id) || object.id
   = link_to (current_or_last_object_state('Event', event_id).try(:title) || 'deleted event'),
           admin_conference_program_event_path(conference_short_title, event_id)
 

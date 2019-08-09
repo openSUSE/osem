@@ -6,6 +6,8 @@ describe Track do
   subject { create(:track) }
   let(:track) { create(:track) }
   let(:self_organized_track) { create(:track, :self_organized) }
+  let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
 
   describe 'association' do
     it { is_expected.to belong_to(:program) }
@@ -106,6 +108,70 @@ describe Track do
           track = build(:track, start_date: Date.today, end_date: 3.days.from_now, program: @conference.program)
           expect(track.valid?).to eq false
           expect(track.errors[:end_date]).to eq ["can't be outside of the conference's dates (#{1.day.ago.to_date}-#{2.days.from_now.to_date})"]
+        end
+      end
+    end
+
+    describe '#user_rating' do
+      it 'returns 0 if the track has no votes' do
+        expect(track.user_rating(user)).to eq 0
+      end
+
+      it 'returns 0 if the track has no votes from that user' do
+        create(:vote, user: another_user, votable: track)
+        expect(track.user_rating(user)).to eq 0
+      end
+
+      it 'returns the rating if the track has votes from that user' do
+        create(:vote, user: another_user, votable: track, rating: 3)
+        create(:vote, user: user, votable: track, rating: 2)
+        expect(track.user_rating(user)).to eq 2
+      end
+    end
+
+    describe '#voted?' do
+      it 'returns false if the track has no votes' do
+        expect(track.voted?).to eq false
+      end
+
+      it 'returns false if the track has no votes by that user' do
+        create(:vote, user: another_user, votable: track)
+        expect(track.voted?(user)).to eq false
+      end
+
+      it 'returns true when the track has votes' do
+        create(:vote, user: another_user, votable: track)
+        expect(track.voted?).to eq true
+      end
+
+      it 'returns true when the track has votes by that user' do
+        create(:vote, user: user, votable: track)
+        expect(track.voted?(user)).to eq true
+      end
+    end
+
+    describe '#average_rating' do
+      context 'returns 0' do
+        it 'when there are no votes' do
+          expect(track.average_rating).to eq 0
+        end
+      end
+
+      context 'returns the average voting' do
+        before :each do
+          another_user = create(:user)
+          create(:vote, user: user, votable: track, rating: 1)
+          create(:vote, user: another_user, votable: track, rating: 3)
+        end
+
+        it 'when there are votes and the average is integer' do
+          expect(track.average_rating).to eq '2'
+        end
+
+        it 'when there are votes and the average is float' do
+          new_user = create(:user)
+          create(:vote, user: new_user, votable: track, rating: 3)
+          expect(track.average_rating).to eq '2.33'
         end
       end
     end

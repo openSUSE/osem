@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_143107) do
+ActiveRecord::Schema.define(version: 2019_08_07_165246) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -660,6 +660,8 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "user_id"
+    t.string "votable_type"
+    t.integer "votable_id"
   end
 
   create_table "vpositions", force: :cascade do |t|

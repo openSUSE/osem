@@ -18,7 +18,7 @@ class Event < ApplicationRecord
   has_one :submitter_event_user, -> { where(event_role: 'submitter') }, class_name: 'EventUser'
   has_one  :submitter, through: :submitter_event_user, source: :user
 
-  has_many :votes, dependent: :destroy
+  has_many :votes, as: :votable
   has_many :voters, through: :votes, source: :user
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :surveys, as: :surveyable, dependent: :destroy

@@ -1,0 +1,62 @@
+%table.table#myrating
+  - if show_votes
+    %tr
+      %td.col-md-2
+        %b Rating
+      %td
+        #{track.average_rating}/#{max_rating}
+        = rating_stars(track.average_rating, max_rating, avgrate: true)
+    %tr
+      %td
+        %b Voters
+      %td
+        = votes.length
+        - if votes.present?
+          (
+          = votes.collect(&:name).to_sentence
+          )
+  %tr
+    %td.col-md-2
+      %b Your vote
+    %td
+      - if voting_period
+        - max_rating.times do |counter|
+          - if track.user_rating(current_user) > counter
+            = link_to '', vote_admin_conference_program_track_path(conference_id, track, rating: counter + 1),
+              remote: true,
+              id: "label#{counter + 1}",
+              class: 'rating myrating bright',
+              voted: true
+          - else
+            = link_to '', vote_admin_conference_program_track_path(conference_id, track, rating: counter + 1),
+              remote: true,
+              id: "label#{counter + 1}",
+              class: 'rating myrating'
+      - else
+        = rating_stars(track.user_rating(current_user), max_rating, voted: true)
+        (Voting period is closed)
+
+  - if show_votes
+    - if votes.present?
+      - votes.each do |vote|
+        - unless vote.user_id == current_user.id
+          %tr
+            %td
+              = vote.name
+            %td
+              = rating_stars(vote.rating, max_rating)
+
+:javascript
+  $(".myrating").hover(
+    function() {    // mouseover
+        $(this).prevAll().andSelf().addClass('glow');
+    },
+    function() {  // mouseout
+        $(this).siblings().andSelf().removeClass('glow');
+    }
+  );
+
+  $(".myrating").click(function() {
+    $(this).siblings().removeClass("bright");
+    $(this).prevAll().andSelf().addClass("bright");
+  });

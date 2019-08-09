@@ -15,6 +15,8 @@ class Track < ApplicationRecord
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
+  has_many :votes, as: :votable
+  has_many :voters, through: :votes, source: :user
   before_create :generate_guid
   validates :name, presence: true
   validates :color, format: /\A#[0-9A-F]{6}\z/
@@ -98,6 +100,25 @@ class Track < ApplicationRecord
 
   def to_param
     short_name
+  end
+
+  def user_rating(user)
+    (vote = votes.find_by(user: user)) ? vote.rating : 0
+  end
+
+  def voted?(user = nil)
+    return votes.where(user: user).any? if user
+
+    votes.any?
+  end
+
+  def average_rating
+    @total_rating = 0
+    votes.each do |vote|
+      @total_rating += vote.rating
+    end
+    @total = votes.size
+    @total_rating.positive? ? number_with_precision(@total_rating / @total.to_f, precision: 2, strip_insignificant_zeros: true) : 0
   end
 
   def transition_possible?(transition)

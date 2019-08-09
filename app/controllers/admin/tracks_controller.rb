@@ -30,6 +30,7 @@ module Admin
     end
 
     def show
+      @votes = @track.votes.includes(:user)
       respond_to do |format|
         format.html { render }
         format.json { render json: @conference.tracks.to_json }
@@ -62,6 +63,24 @@ module Admin
       else
         flash.now[:error] = "Track update failed: #{@track.errors.full_messages.join('. ')}."
         render :edit
+      end
+    end
+
+    def vote
+      @votes = @track.votes.includes(:user)
+
+      if (votes = current_user.votes.find_by(votable: @track))
+        votes.update_attributes(rating: params[:rating])
+      else
+        @myvote = @track.votes.build
+        @myvote.user = current_user
+        @myvote.rating = params[:rating]
+        @myvote.save
+      end
+
+      respond_to do |format|
+        format.html { redirect_to admin_conference_program_track_path(@conference.short_title, @track) }
+        format.js
       end
     end
 

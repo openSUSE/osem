@@ -1,0 +1,12 @@
+- if show_votes
+  %div{ data: { toggle: 'tooltip' }, title: rating_tooltip(track, max_rating) }<
+    = rating_stars(track.average_rating, max_rating, avgrate: true)
+
+.clearfix
+  - if track.voted?(current_user)
+    %span.label.label-success
+      You voted:
+      = rating_fraction(track.user_rating(current_user), max_rating)
+  - else
+    %span.label.label-danger
+      Not rated
