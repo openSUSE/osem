@@ -2,12 +2,12 @@
 - if booth.transition_possible? :accept
   - if can? :accept, booth
     - if @conference.booth_limit > 0
-      - confirm_message = ' You are able to accept '+ pluralize(@conference.booth_limit - (@conference.booths.accepted.count + @conference.booths.confirmed.count), 'more booth') + " (booth limit set to #{@conference.booth_limit}). Are you sure you want to accept this one?"
+      - confirm_message = ' You are able to accept '+ pluralize(@conference.booth_limit - (@conference.booths.accepted.count + @conference.booths.confirmed.count), "more #{t'booth'}") + " (#{t'booth'} limit set to #{@conference.booth_limit}). Are you sure you want to accept this one?"
     - if @conference.email_settings.send_on_booths_acceptance
       - link = 'Accept with email'
-      - confirm_message = "By accepting this booth, an email will be sent informing the submitter for the acceptance. You may change the state to \'To accept\' until you are completely sure." + confirm_message
+      - confirm_message = "By accepting this #{t'booth'}, an email will be sent informing the submitter for the acceptance. You may change the state to \'To accept\' until you are completely sure." + confirm_message
     - else
-      - link = 'Accept booth'
+      - link = "Accept #{t'booth'}"
     %li= link_to link,
     accept_admin_conference_booth_path(@conference.short_title, booth),
     method: :patch ,id: "accept_booth_#{booth.id}",
@@ -24,7 +24,7 @@
   data: (@conference.email_settings.send_on_booths_rejection ? { confirm: 'By rejecting this booth, an email will be sent informing the submitter about the rejection. You may change the state to \'To reject\' until you are completely sure.'} : nil)
 
 - if booth.transition_possible? :to_reject
-  %li= link_to 'To reject booth',
+  %li= link_to "To reject #{t'booth'}",
   to_reject_admin_conference_booth_path(@conference.short_title, booth),
   method: :patch, id: "to_reject_booth_#{booth.id}"
 
@@ -34,16 +34,16 @@
   method: :patch, id: "restart_booth_#{booth.id}"
 
 - if booth.transition_possible? :to_accept
-  %li= link_to 'To accept booth',
+  %li= link_to "To accept #{t'booth'}",
   to_accept_admin_conference_booth_path(@conference.short_title, booth),
   method: :patch, id: "to_accept_booth_#{booth.id}"
 
 - if booth.transition_possible? :cancel
-  %li= link_to 'Cancel booth',
+  %li= link_to "Cancel #{t'booth'}",
   cancel_admin_conference_booth_path(@conference.short_title, booth),
   method: :patch, id: "cancel_booth_#{booth.id}"
 
 - if booth.transition_possible? :confirm
-  %li= link_to 'Confirm booth',
+  %li= link_to "Confirm #{t'booth'}",
   confirm_admin_conference_booth_path(@conference.short_title, booth),
   method: :patch, id: "confirm_booth_#{booth.id}"

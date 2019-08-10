@@ -38,7 +38,7 @@
   %li
     = link_to (conference_booths_path(@conference.short_title)) do
       %span.fa.fa-shopping-bag
-      My Booth Requests
+      My #{(t'booth').capitalize } Requests
 %li
   - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     = link_to(destroy_user_ichain_session_path, method: 'delete') do

@@ -13,15 +13,15 @@
         = f.input :website_url
         = responsibles_selector_input f
         = f.input :invite_responsible,
-          hint: 'This field is to invite unregistered users using their email to become booth responsibles.'
+          hint: "This field is to invite unregistered users using their email to become #{(t'booth_responsible').pluralize}."
         = image_tag f.object.picture.thumb.url if f.object.picture?
         = f.input :picture
 
         %p.text-right
           - if @booth.new_record?
-            = f.submit 'Create Booth Request', class: 'btn btn-success'
+            = f.submit "Create #{(t'booth').capitalize } Request", class: 'btn btn-success'
           - else
-            = f.submit 'Update Booth Request', class: 'btn btn-success'
+            = f.submit "Update #{(t'booth').capitalize } Request", class: 'btn btn-success'
 
   :javascript
     $(document).ready(function() {
