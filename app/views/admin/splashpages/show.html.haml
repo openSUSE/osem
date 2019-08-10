@@ -26,7 +26,7 @@
               Include confirmed tracks
             %li
               %i{ class: "fa-li #{icon_for_todo @splashpage.include_booths?}" }
-              Include confirmed booths
+              Include confirmed #{(t'booth').pluralize}
         %li
           %i{ class: "fa-li #{icon_for_todo @splashpage.include_registrations?}" }
           Display the registration period

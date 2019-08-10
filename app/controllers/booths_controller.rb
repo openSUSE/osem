@@ -23,9 +23,9 @@ class BoothsController < ApplicationController
 
     if @booth.save
       redirect_to conference_booths_path,
-                  notice: 'Booth successfully created.'
+                  notice: "#{(t 'booth').capitalize} successfully created."
     else
-      flash.now[:error] = "Creating booth failed. #{@booth.errors.full_messages.to_sentence}."
+      flash.now[:error] = "Creating #{t 'booth'} failed. #{@booth.errors.full_messages.to_sentence}."
       render :new
     end
   end

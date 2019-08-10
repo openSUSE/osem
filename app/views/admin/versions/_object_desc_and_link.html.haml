@@ -102,7 +102,7 @@
           conference
 
 - when 'Booth'
-  = 'booth'
+  = t 'booth'
   = link_if_alive version, object.title,
           admin_conference_booth_path(conference_id: Conference.find(version.conference_id).short_title, id: version.item_id ),
           conference

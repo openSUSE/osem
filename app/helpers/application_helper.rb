@@ -127,7 +127,7 @@ module ApplicationHelper
     user_selector_input(
       :responsibles,
       form,
-      'The people responsible for the booth. You can only select existing users.'
+      "The people responsible for the #{t 'booth'}. You can only select existing users."
     )
   end
 

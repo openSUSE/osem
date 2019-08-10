@@ -28,5 +28,5 @@
         = f.input :registration_limit, as: :number, in: 0..9999, hint: 'Limit the number of registrations to the conference (0 no limit). Please note that the registration limit doesn\'t apply to speakers of confirmed events (they will still be able to register even if it has been reached). You currently have ' + pluralize(@conference.registrations.count, 'registration')
       = f.inputs name: 'Booths' do
         = f.input :booth_limit, as: :number, in: 0..9999,
-        hint: 'Booth limit is the maximum number of booths that you can accept for this conference. By setting this number (0 no limit) you can be sure that you are not going to accept more booths than the conference can accommodate. You currently have ' + pluralize(@conference.booths.accepted.count, 'accepted booth') +'.'
+        hint: "#{(t'booth').capitalize } limit is the maximum number of #{(t'booth').pluralize} that you can accept for this conference. By setting this number (0 no limit) you can be sure that you are not going to accept more #{(t'booth').pluralize} than the conference can accommodate. You currently have " + pluralize(@conference.booths.accepted.count, "accepted #{t'booth'}") +'.'
       = f.action :submit, as: :button, button_html: { class: 'btn btn-primary', data: { confirm: 'Are you sure you want to proceed?' } }

@@ -1,6 +1,6 @@
 prawn_document(force_download: true, filename: "#{@file_name}.pdf", page_layout: :landscape) do |pdf|
   booths_array = []
-  header_array = ['Booth ID',
+  header_array = ["#{(t'booth').capitalize } ID",
                   'Title',
                   'Description',
                   'Reasoning',

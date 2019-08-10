@@ -1,12 +1,12 @@
 - cache [conference_id, call, '#splash#callforbooths'] do
   .col-md-4.col-sm-4.text-center
     %h2
-      Call for Booths
+      Call for #{(t'booth').pluralize.capitalize }
     %p.lead
-      We are now accepting custom booth requests!
+      We are now accepting custom #{t'booth'} requests!
     %p
-      Would you like to request a new booth?
-      The submission period for booth requests is open
+      Would you like to request a new #{t'booth'}?
+      The submission period for #{t'booth'} requests is open
       %em
         = date_string(call.start_date, call.end_date) + '.'
       %b
@@ -14,6 +14,6 @@
         = pluralize(call.remaining_days, 'day')
         left!
     %p.cta-button
-      = link_to("Submit your request for booth",
+      = link_to("Submit your request for #{t'booth'}",
         new_conference_booth_path(conference_id),
         class: 'btn btn-success btn-lg text-center')
