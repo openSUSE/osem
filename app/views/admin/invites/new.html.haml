@@ -1,0 +1,28 @@
+.row
+  .col-md-offset-1.col-md-8
+    %h1.text-center Late Submission Invitation
+    = semantic_form_for(@invite, url: admin_conference_invites_path, html: { multipart: true }) do |f|
+      = f.input :emails, class: 'form-control', required: true,
+        hint: 'Add emails to invite people to join the app and submit requests after the cfps deadline.'
+      = f.input :invite_for, as: :select, collection: ['Track', (t 'booth').capitalize]
+      = f.input :end_date, as: :string, input_html: { id: 'invitation-end-date', end_date: @conference.end_date }
+      %p.text-right
+        = f.submit 'Submit', class: 'btn btn-success'
+
+  :javascript
+    $(document).ready(function() {
+      $('#invite_emails').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input)){
+            return {}
+          }
+          return {
+              value: input,
+              text: input
+          }
+        }
+      } )
+    });

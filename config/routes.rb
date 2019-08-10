@@ -45,7 +45,7 @@ Osem::Application.routes.draw do
       get '/volunteers_list' => 'volunteers#show'
       get '/volunteers' => 'volunteers#index', as: 'volunteers_info'
       patch '/volunteers' => 'volunteers#update', as: 'volunteers_update'
-
+      resources :invites
       resources :booths do
         member do
           patch :accept

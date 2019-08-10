@@ -32,6 +32,12 @@ $(function () {
       minDate : $("#registration-arrival-datepicker").attr('start_date')
   });
 
+  $('#invitation-end-date').datetimepicker({
+      format: 'YYYY-MM-DD',
+      maxDate : $("#invitation-end-date").attr('end_date'),
+      minDate : today
+   });
+   
   $("#registration-arrival-datepicker").on("dp.change",function (e) {
       // departure_date > start_date,arrival_date
       if ((new Date(e.date).getTime()) > (new Date($("#registration-arrival-datepicker").attr('start_date')).getTime())){

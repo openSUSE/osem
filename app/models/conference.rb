@@ -33,6 +33,7 @@ class Conference < ApplicationRecord
   has_many :resources, dependent: :destroy
   has_many :booths, dependent: :destroy
   has_many :confirmed_booths, -> { where(state: 'confirmed') }, class_name: 'Booth'
+  has_many :invites, dependent: :destroy
 
   has_many :lodgings, dependent: :destroy
   has_many :registrations, dependent: :destroy
