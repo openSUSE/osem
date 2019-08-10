@@ -1,0 +1,11 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 Edit Invitation
+
+.row
+  .col-md-8
+    = semantic_form_for(@invite, url: admin_conference_invite_path(@conference.short_title), html: { multipart: true }) do |f|
+      = f.input :invite_for, as: :select, collection: ['Track', (t 'booth').capitalize]
+      = f.input :end_date, as: :string, input_html: { id: 'invitation-end-date', end_date: @conference.end_date }
+      = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

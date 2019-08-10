@@ -8,6 +8,7 @@
       = f.input :end_date, as: :string, input_html: { id: 'invitation-end-date', end_date: @conference.end_date }
       %p.text-right
         = f.submit 'Submit', class: 'btn btn-success'
+    = link_to 'View Invitations', admin_conference_invites_path, class: 'btn btn-primary'
 
   :javascript
     $(document).ready(function() {

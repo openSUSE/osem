@@ -100,3 +100,4 @@
   .col-md-12.text-right
     - if can? :create, Booth
       = link_to 'New Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
+      = link_to 'Late Submission Invite', new_admin_conference_invite_path(@conference.short_title), class: 'button btn btn-success'

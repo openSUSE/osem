@@ -1,0 +1,42 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Invitations
+
+.row
+  .col-md-12
+    - if @invites.present?
+      %table.datatable
+        %thead
+          %th
+            %b ID
+          %th
+            %b User
+          %th
+            %b Invited for
+          %th
+            %b Invitation validity
+          %th
+            %b Action
+
+        - @invites.each do |invite|
+          %tr
+            %td
+              = invite.id
+            %td
+              = invite.emails
+            %td
+              = invite.invite_for
+            %td
+              = invite.end_date
+            %td
+              = link_to 'Edit', edit_admin_conference_invite_path(@conference.short_title, invite.id),
+              class: 'btn btn-primary'
+              = link_to 'Delete', admin_conference_invite_path(@conference.short_title, invite.id), method: :delete,
+                data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+
+.row
+  .col-md-12.text-right
+    - if can? :create, Invite
+      = link_to 'Late Submission Invite', new_admin_conference_invite_path(@conference.short_title), class: 'button btn btn-success'
