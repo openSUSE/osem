@@ -94,7 +94,52 @@ describe 'User' do
       it{ should be_able_to(:manage, registration_public) }
       it{ should be_able_to(:manage, registration_not_public) }
 
+      context 'when user wants to submit a booth' do
+        let(:conference) { create(:conference) }
+
+        context 'when booth submission is open' do
+          before :each do
+            create(:cfp, program: conference.program, cfp_type: 'booths')
+          end
+
+          it{ should be_able_to(:new, Booth.new(conference: conference)) }
+          it{ should be_able_to(:create, Booth.new(conference: conference)) }
+        end
+
+        context 'when booth submission is closed' do
+
+          context 'when user is not invited for late booth submssion' do
+            before :each do
+              create(:cfp, program: conference.program, cfp_type: 'booths', start_date: Date.current - 6.days, end_date: Date.current - 6.days)
+            end
+
+            it{ should_not be_able_to(:new, Booth.new(conference: conference)) }
+            it{ should_not be_able_to(:create, Booth.new(conference: conference)) }
+          end
+
+          context 'when user is invited for late booth submssion' do
+            before :each do
+              create(:cfp, program: conference.program, cfp_type: 'booths', start_date: Date.current - 6.days, end_date: Date.current - 6.days)
+              create(:invite, conference_id: conference.id, invite_for: (t 'booth').capitalize.to_s, user_id: user.id, end_date: Date.current + 6.days)
+            end
+
+            it{ should be_able_to(:new, Booth.new(conference: conference)) }
+            it{ should be_able_to(:create, Booth.new(conference: conference)) }
+          end
+
+          context 'when user is invited for late booth submssion but invitation expires' do
+            before :each do
+              create(:cfp, program: conference.program, cfp_type: 'booths', start_date: Date.current - 6.days, end_date: Date.current - 6.days)
+              create(:invite, conference_id: conference.id, invite_for: (t 'booth').capitalize.to_s, user_id: user.id, end_date: Date.current - 2.days)
+            end
+
+            it{ should_not be_able_to(:new, Booth.new(conference: conference)) }
+            it{ should_not be_able_to(:create, Booth.new(conference: conference)) }
+          end
+        end
+      end
       # Test for user can register or not
+
       context 'when user is not a speaker with event confirmed' do
         let(:conference) { create(:conference) }
 

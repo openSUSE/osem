@@ -68,6 +68,7 @@ class Ability
   end
 
   # Abilities for signed in users
+  # rubocop:disable Metrics/AbcSize
   def signed_in(user)
     # Abilities from not_signed_in user are also inherited
     not_signed_in
@@ -93,7 +94,9 @@ class Ability
     can [:index, :show], PhysicalTicket, user: user
 
     can [:new, :create], Booth do |booth|
-      booth.new_record? && booth.conference.program.cfps.for_booths.try(:open?)
+      invited_user = booth.conference.invites.where('end_date >= ?', Date.today).where(
+        user_id: user.id, invite_for: (I18n.t 'booth').capitalize.to_s)
+      invited_user.exists? || (booth.new_record? && booth.conference.program.cfps.for_booths.try(:open?))
     end
 
     can [:edit, :update, :index, :show], Booth do |booth|
@@ -129,7 +132,9 @@ class Ability
     can [:destroy], Openid
 
     can [:new, :create], Track do |track|
-      track.new_record? && track.program.cfps.for_tracks.try(:open?)
+      invited_user = track.conference.invites.where('end_date >= ?', Date.today).where(
+        user_id: user.id, invite_for: 'Track')
+      invited_user.exists? || (track.new_record? && track.program.cfps.for_tracks.try(:open?))
     end
 
     can [:index, :show, :restart, :confirm, :withdraw], Track, submitter_id: user.id
@@ -139,6 +144,7 @@ class Ability
     end
   end
 
+  # rubocop:enable Metrics/AbcSize
   # Abilities for users with roles wandering around in non-admin views.
   def common_abilities_for_admins(user)
     can :access, Admin
