@@ -58,6 +58,7 @@ Osem::Application.routes.draw do
           patch :confirm
         end
       end
+      post '/booths_state' => 'booths#booths_state'
 
       resources :registrations, except: [:create, :new] do
         member do

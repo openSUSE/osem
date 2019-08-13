@@ -10,7 +10,7 @@
       - link = "Accept #{t'booth'}"
     %li= link_to link,
     accept_admin_conference_booth_path(@conference.short_title, booth),
-    method: :patch ,id: "accept_booth_#{booth.id}",
+    method: :patch ,id: "accept_booth_#{booth.id}", class: "common_booth_#{booth.id}",
     data: (confirm_message ? { confirm: confirm_message } : nil)
 
 - if booth.transition_possible? :reject
@@ -20,30 +20,30 @@
     - link = 'Reject'
   %li= link_to link,
   reject_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "reject_booth_#{booth.id}",
+  method: :patch, id: "reject_booth_#{booth.id}", class: "common_booth_#{booth.id}",
   data: (@conference.email_settings.send_on_booths_rejection ? { confirm: 'By rejecting this booth, an email will be sent informing the submitter about the rejection. You may change the state to \'To reject\' until you are completely sure.'} : nil)
 
 - if booth.transition_possible? :to_reject
   %li= link_to "To reject #{t'booth'}",
   to_reject_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "to_reject_booth_#{booth.id}"
+  method: :patch, id: "to_reject_booth_#{booth.id}", class: "common_booth_#{booth.id}"
 
 - if booth.transition_possible? :restart
   %li= link_to 'Start review',
   restart_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "restart_booth_#{booth.id}"
+  method: :patch, id: "restart_booth_#{booth.id}", class: "common_booth_#{booth.id}"
 
 - if booth.transition_possible? :to_accept
   %li= link_to "To accept #{t'booth'}",
   to_accept_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "to_accept_booth_#{booth.id}"
+  method: :patch, id: "to_accept_booth_#{booth.id}", class: "common_booth_#{booth.id}"
 
 - if booth.transition_possible? :cancel
   %li= link_to "Cancel #{t'booth'}",
   cancel_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "cancel_booth_#{booth.id}"
+  method: :patch, id: "cancel_booth_#{booth.id}", class: "common_booth_#{booth.id}"
 
 - if booth.transition_possible? :confirm
   %li= link_to "Confirm #{t'booth'}",
   confirm_admin_conference_booth_path(@conference.short_title, booth),
-  method: :patch, id: "confirm_booth_#{booth.id}"
+  method: :patch, id: "confirm_booth_#{booth.id}", class: "common_booth_#{booth.id}"

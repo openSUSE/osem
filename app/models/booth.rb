@@ -4,7 +4,7 @@ class Booth < ApplicationRecord
   include ActiveRecord::Transitions
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
-  attr_accessor :invite_responsible
+  attr_accessor :invite_responsible, :current_booth_state, :new_booth_state
 
   belongs_to :conference
   has_many :booth_requests, dependent: :destroy

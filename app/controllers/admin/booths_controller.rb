@@ -115,6 +115,10 @@ module Admin
       update_state(:confirm, "#{(t 'booth').capitalize} successfully confirmed")
     end
 
+    def booths_state
+      redirect_to admin_conference_booths_path
+    end
+
     private
 
     def update_state(transition, notice)
@@ -132,7 +136,7 @@ module Admin
     def booth_params
       params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id,
                                     :created_at, :updated_at, :submitter_relationship, :website_url, :invite_responsible,
-                                    responsible_ids: [])
+                                    :current_booth_state, :new_booth_state, responsible_ids: [])
     end
   end
 end

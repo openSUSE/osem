@@ -54,49 +54,71 @@
           = link_to "#{@conference.booth_limit} #{(t'booth').pluralize}", edit_admin_conference_path(@conference.short_title)
           )
     - if @booths.any?
-      %table.datatable
-        %thead
-          %th
-            %b ID
-          %th
-            %b Logo
-          %th
-            %b Title
-          %th
-            %b Submitter
-          %th
-            %b Responsibles
-          %th
-            %b State
-          %th
-            %b Actions
-        - @booths.each do |booth|
-          %tr
-            %td
-              = booth.id
-            %td
-              - if booth.logo_link
-                = image_tag(booth.picture.thumb.url, width: '20%')
-            %td
-              = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
-            %td
-              = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
-            %td
-              .responsibles
-                - booth.responsibles.each_with_index do |responsible, i|
-                  = link_to responsible.name, admin_user_path(responsible)
-                  = ", " unless i == booth.responsibles.length - 1
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  = booth.state.humanize
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  = render 'change_state_dropdown', booth: booth
+      %br
+      = form_for(:booth, url: admin_conference_booths_state_path) do |f|
+        .row
+          .col-md-offset-3.col-md-4
+            = f.select :new_booth_state,
+            [],
+            { include_blank: "Change same state #{(t'booth').pluralize} to other state (select #{(t'booth')} first)" }, { class: 'form-control center', onchange: 'this.form.submit()'}
+        %br
+        %table.datatable
+          %thead
+            %th
+              %b Select
+            %th
+              %b ID
+            %th
+              %b Logo
+            %th
+              %b Title
+            %th
+              %b Submitter
+            %th
+              %b Responsibles
+            %th
+              %b State
+            %th
+              %b Actions
+          - @booths.each do |booth|
+            %tr
               %td
-                = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
-                class: 'btn btn-primary'
+                = f.radio_button :current_booth_state, booth.state, { onclick: "showOptions(#{booth.id})" }
+              %td
+                = booth.id
+              %td
+                - if booth.logo_link
+                  = image_tag(booth.picture.thumb.url, width: '20%')
+              %td
+                = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+              %td
+                = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
+              %td
+                .responsibles
+                  - booth.responsibles.each_with_index do |responsible, i|
+                    = link_to responsible.name, admin_user_path(responsible)
+                    = ", " unless i == booth.responsibles.length - 1
+              %td
+                .btn-group
+                  %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                    = booth.state.humanize
+                    %span.caret
+                  %ul.dropdown-menu{ role: 'menu' }
+                    = render 'change_state_dropdown', booth: booth
+                %td
+                  = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
+                  class: 'btn btn-primary'
 .row
   .col-md-12.text-right
     - if can? :create, Booth
       = link_to 'New Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
+
+  :javascript
+      function showOptions(booth_id){
+        var states = document.getElementsByClassName("common_booth_" + booth_id);
+        var select_tag = $('#booth_new_booth_state');
+        $('#booth_new_booth_state option:not(:first)').remove();
+        for (var state = 0; state < states.length; state++ ){
+          select_tag.append($("<option></option>").text(states[state].textContent));
+        }
+      }
