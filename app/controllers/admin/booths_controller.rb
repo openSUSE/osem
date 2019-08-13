@@ -116,7 +116,37 @@ module Admin
     end
 
     def booths_state
-      redirect_to admin_conference_booths_path
+      current_state = booth_params[:current_booth_state]
+      all_booths = @booths.where(state: current_state)
+      new_state = booth_params[:new_booth_state]
+      failed_booth = []
+      all_booths.each do |booth|
+        if ["Accept #{t 'booth'}", 'Accept with email'].include?(new_state)
+          booth.accept
+        elsif ['Reject', 'Reject with email'].include?(new_state)
+          booth.reject
+        elsif new_state == "To reject #{t 'booth'}"
+          booth.to_reject
+        elsif new_state == 'Start review'
+          booth.restart
+        elsif new_state == "To accept #{t 'booth'}"
+          booth.to_accept
+        elsif new_state == "Cancel #{t'booth'}"
+          booth.cancel
+        elsif new_state == "Confirm #{t 'booth'}"
+          booth.confirm
+        end
+        unless booth.save
+          failed_booth.push(booth.id)
+        end
+      end
+      if failed_booth.empty?
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
+                    notice: "#{(t'booth').capitalize.pluralize} successfully updated."
+      else
+        redirect_to admin_conference_booths_path(conference_id: @conference.short_title)
+        flash[:error] = "#{(t 'booth').capitalize.pluralize} with id  #{failed_booth.join(', ')} aren't updated."
+      end
     end
 
     private
