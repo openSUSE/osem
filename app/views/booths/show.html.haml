@@ -51,6 +51,18 @@
                 = ", " unless i == @booth.responsibles.length - 1
         %tr
           %td.col-md-2
+            %b Invited Responsibles
+          %td
+            - @booth.invited_responsibles.each_with_index do |responsibles, i|
+              .responsibles
+                = link_to responsibles.name, user_path(responsibles)
+                - if responsibles.email_public
+                  (
+                  = responsibles.email
+                  )
+                = ", " unless i == @booth.invited_responsibles.length - 1
+        %tr
+          %td.col-md-2
             %b Submitted on
           %td
             = @booth.created_at
