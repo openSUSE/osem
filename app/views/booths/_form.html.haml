@@ -10,12 +10,32 @@
         = f.input :submitter_relationship, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
           label: 'Submitter\'s relation',
           hint: 'e.g. employee, comunity manager, etc'
+        = f.input :email, hint: 'Contact email address for your stand. This will be public.'
         = f.input :website_url
         = responsibles_selector_input f
         = f.input :invite_responsible,
           hint: "This field is to invite unregistered users using their email to become #{(t'booth_responsible').pluralize}."
         = image_tag f.object.picture.thumb.url if f.object.picture?
         = f.input :picture
+
+        %p.text-right
+          = link_to '#requirements', 'data-toggle' => 'collapse' do
+            Do you have any special requirements?
+        #requirements{ class: "collapse #{ 'in' if booth.special_requirements.present? }" }
+          = f.input :special_requirements, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
+
+        - unless conference.code_of_conduct.blank?
+          - code_of_conduct_link = link_to 'Code of Conduct', '#',
+            data: { toggle: 'modal', target: '#modal-code-of-conduct'}
+          - if booth.accepted_code_of_conduct
+            = fa_icon 'check-square-o'
+            I have read and accepted the
+            = code_of_conduct_link
+          - else
+            = f.input :accepted_code_of_conduct,
+            label: "I have read and accept the #{code_of_conduct_link}".html_safe,
+            required: true
+          = render 'conferences/code_of_conduct', organization: conference.organization
 
         %p.text-right
           - if @booth.new_record?

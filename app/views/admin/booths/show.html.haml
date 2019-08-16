@@ -22,6 +22,11 @@
           = markdown(@booth.reasoning)
       %tr
         %td.col-md-2
+          %b Email
+        %td
+          = markdown(@booth.email)
+      %tr
+        %td.col-md-2
           %b Website
         %td
           - if @booth.website_url.present?
@@ -47,6 +52,12 @@
               = responsibles.email
               )
               = " , " unless i == @booth.responsibles.length - 1
+      %tr
+        %td.col-md-2
+          %b Special Requirements
+        %td
+          - if @booth.special_requirements.present?
+            = @booth.special_requirements
       %tr
         %td.col-md-2
           %b Submitted on
