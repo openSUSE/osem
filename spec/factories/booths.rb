@@ -7,6 +7,7 @@ FactoryBot.define do
     reasoning { Faker::Lorem.paragraph }
     website_url { Faker::Internet.url }
     submitter_relationship { Faker::Lorem.paragraph }
+    email { Faker::Internet.email }
 
     conference
 

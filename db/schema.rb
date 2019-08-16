@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_143107) do
+ActiveRecord::Schema.define(version: 2019_08_16_084920) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.integer "conference_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "accepted_code_of_conduct"
+    t.string "email"
+    t.string "special_requirements"
   end
 
   create_table "cfps", force: :cascade do |t|
