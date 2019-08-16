@@ -25,9 +25,14 @@ class Booth < ApplicationRecord
             :state,
             :responsibles,
             :conference_id,
+            :email,
             :website_url,
             :submitter_relationship,
             presence: true
+
+  validates :accepted_code_of_conduct, acceptance: {
+    if: -> { conference.try(:code_of_conduct).present? }
+  }
 
   scope :accepted, -> { where(state: 'accepted') }
   scope :confirmed, -> { where(state: 'confirmed') }
