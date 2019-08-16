@@ -34,12 +34,32 @@ describe Admin::BoothsController do
     describe 'GET index' do
       before { get :index, params: { conference_id: conference.short_title } }
 
-      it 'assigns attributes for booths' do
-        expect(assigns(:booths)).to eq([booth])
+      context 'only viewing' do
+
+        it 'assigns attributes for booths' do
+          expect(assigns(:booths)).to eq([booth])
+        end
+
+        it 'renders index template' do
+          expect(response).to render_template('index')
+        end
       end
 
-      it 'renders index template' do
-        expect(response).to render_template('index')
+      context 'changing bulk state' do
+        before(:example) do
+          post :create, params: { booth: attributes_for(:booth, title: 'example1'), conference_id: conference.short_title }
+          post :create, params: { booth: attributes_for(:booth, title: 'example2'), conference_id: conference.short_title }
+          get :index, params: { conference_id: conference.short_title }
+        end
+
+        it 'before selecting state' do
+          expect(Booth.where(title: ['example1', 'example2']).pluck(:state)).to eq(['new', 'new'])
+        end
+
+        it 'after selecting state' do
+          post :booths_state, params: { booth: { current_booth_state: 'new', new_booth_state: 'Reject' }, conference_id: conference.short_title }
+          expect(Booth.where(title: ['example1', 'example2']).pluck(:state)).to eq(['rejected', 'rejected'])
+        end
       end
     end
 
