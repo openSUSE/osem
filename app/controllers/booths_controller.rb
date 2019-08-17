@@ -96,7 +96,7 @@ class BoothsController < ApplicationController
   private
 
   def booth_params
-    params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id,
+    params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id, :booth_type_id,
                                   :created_at, :updated_at, :submitter_relationship, :website_url, :invite_responsible,
                                   responsible_ids: [])
   end

@@ -8,6 +8,7 @@ module Admin
 
     def index
       @file_name = "#{(t 'booth').pluralize}_for_#{@conference.short_title}"
+      @booth_types = @conference.program.booth_types
       @booth_export_option = params[:booth_export_option]
       respond_to do |format|
         format.html
@@ -25,7 +26,9 @@ module Admin
       end
     end
 
-    def show; end
+    def show
+      @booth_types = @conference.program.booth_types
+    end
 
     def new
       @url = admin_conference_booths_path(@conference.short_title)
@@ -130,7 +133,7 @@ module Admin
     end
 
     def booth_params
-      params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id,
+      params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id, :booth_type_id,
                                     :created_at, :updated_at, :submitter_relationship, :website_url, :invite_responsible,
                                     responsible_ids: [])
     end
