@@ -1,7 +1,7 @@
 .row
   .col-md-12
     .page-header
-      %h1 #{(t'booth').capitalize} Types
+      %h1 #{(t 'booth').capitalize} Types
       %p.text-muted
         The different types of #{(t 'booth').pluralize} in your conference
 .row
@@ -26,4 +26,4 @@
                 method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{booth_type.title}?" }
 .row
   .col-md-12.text-right
-    = link_to "Add #{(t'booth').capitalize} Type", new_admin_conference_program_booth_type_path(@conference.short_title), class: 'btn btn-primary'
+    = link_to "Add #{(t 'booth').capitalize} Type", new_admin_conference_program_booth_type_path(@conference.short_title), class: 'btn btn-primary'
