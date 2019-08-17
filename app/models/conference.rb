@@ -52,6 +52,7 @@ class Conference < ApplicationRecord
            through: :program,
            source:  :events
   has_many :event_types, through: :program
+  has_many :booth_types, through: :program
 
   has_many :surveys, as: :surveyable, dependent: :destroy do
     def for_registration
