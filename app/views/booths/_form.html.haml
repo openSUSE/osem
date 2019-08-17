@@ -10,6 +10,14 @@
         = f.input :submitter_relationship, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
           label: 'Submitter\'s relation',
           hint: 'e.g. employee, comunity manager, etc'
+
+        = f.input :booth_type_id, as: :select,
+          collection: conference.program.booth_types.map {|type| ["#{type.title}", type.id]},
+          include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' } if conference.program.booth_types.any?
+
+        - conference.program.booth_types.each do |booth_type|
+          %span{ class: 'help-block select-help-text booth_booth_type_id collapse', id: "#{booth_type.id}-help" }
+            = booth_type.description
         = f.input :website_url
         = responsibles_selector_input f
         = f.input :invite_responsible,

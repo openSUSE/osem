@@ -63,6 +63,8 @@
           %th
             %b Title
           %th
+            %b Type
+          %th
             %b Submitter
           %th
             %b Responsibles
@@ -79,6 +81,8 @@
                 = image_tag(booth.picture.thumb.url, width: '20%')
             %td
               = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+            %td
+              = booth_type_dropdown(booth, @booth_types, @conference.short_title)
             %td
               = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
             %td

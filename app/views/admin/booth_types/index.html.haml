@@ -1,0 +1,29 @@
+.row
+  .col-md-12
+    .page-header
+      %h1 #{(t'booth').capitalize} Types
+      %p.text-muted
+        The different types of #{(t 'booth').pluralize} in your conference
+.row
+  .col-md-12
+    %table.table.table-hover#track-types
+      %thead
+        %th Title
+        %th Description
+        %th Actions
+      %tbody
+        - @conference.program.booth_types.each do |booth_type|
+          %tr
+            %td
+              = booth_type.title
+            %td
+              = booth_type.description
+            %td
+              .btn-group{ role: 'group' }
+                = link_to 'Edit', edit_admin_conference_program_booth_type_path(@conference.short_title, booth_type.id),
+                method: :get, class: 'btn btn-primary'
+                = link_to 'Delete', admin_conference_program_booth_type_path(@conference.short_title, booth_type.id),
+                method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{booth_type.title}?" }
+.row
+  .col-md-12.text-right
+    = link_to "Add #{(t'booth').capitalize} Type", new_admin_conference_program_booth_type_path(@conference.short_title), class: 'btn btn-primary'

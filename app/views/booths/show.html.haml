@@ -23,6 +23,11 @@
             = markdown(@booth.reasoning)
         %tr
           %td.col-md-2
+            %b Type
+          %td
+            = @booth.booth_type.title
+        %tr
+          %td.col-md-2
             %b Website
           %td
             - if @booth.website_url.present?

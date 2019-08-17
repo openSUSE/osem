@@ -22,6 +22,11 @@
           = markdown(@booth.reasoning)
       %tr
         %td.col-md-2
+          %b Type
+        %td
+          = booth_type_dropdown(@booth, @booth_types, @conference.short_title)
+      %tr
+        %td.col-md-2
           %b Website
         %td
           - if @booth.website_url.present?
