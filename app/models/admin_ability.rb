@@ -102,6 +102,7 @@ class AdminAbility
     signed_in_with_organizer_role(user, conf_ids_for_organization_admin)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def signed_in_with_organizer_role(user, conf_ids_for_organization_admin = [])
     # ids of all the conferences for which the user has the 'organizer' role and
     # conferences that belong to organizations for which user is 'organization_admin'
@@ -131,6 +132,7 @@ class AdminAbility
     can :manage, Cfp, program: { conference_id: conf_ids }
     can :manage, Event, program: { conference_id: conf_ids }
     can :manage, EventType, program: { conference_id: conf_ids }
+    can :manage, BoothType, program: { conference_id: conf_ids }
     can :manage, Track, program: { conference_id: conf_ids }
     can :manage, DifficultyLevel, program: { conference_id: conf_ids }
     can :manage, Commercial, commercialable_type: 'Event',
@@ -163,6 +165,7 @@ class AdminAbility
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'User'
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, conference_id: conf_ids
   end
+  # rubocop:enable Metrics/AbcSize
 
   def signed_in_with_cfp_role(user)
     # ids of all the conferences for which the user has the 'cfp' role
@@ -175,6 +178,7 @@ class AdminAbility
     can :manage, Booth, conference_id: conf_ids_for_cfp
     can :manage, Event, program: { conference_id: conf_ids_for_cfp }
     can :manage, EventType, program: { conference_id: conf_ids_for_cfp }
+    can :manage, BoothType, program: { conference_id: conf_ids_for_cfp }
     can :manage, Track, program: { conference_id: conf_ids_for_cfp }
     can :manage, DifficultyLevel, program: { conference_id: conf_ids_for_cfp }
     can :manage, EmailSettings, conference_id: conf_ids_for_cfp
@@ -201,7 +205,7 @@ class AdminAbility
     end
 
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version,
-        item_type: %w[Event EventType Track DifficultyLevel EmailSettings Room Cfp Program Comment], conference_id: conf_ids_for_cfp
+        item_type: %w[Event EventType BoothType Track DifficultyLevel EmailSettings Room Cfp Program Comment], conference_id: conf_ids_for_cfp
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version,
         ["item_type = 'Commercial' AND conference_id IN (?) AND (object LIKE '%Event%' OR object_changes LIKE '%Event%')", conf_ids_for_cfp] do |version|
       version.item_type == 'Commercial' && conf_ids_for_cfp.include?(version.conference_id) &&

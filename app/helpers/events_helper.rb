@@ -73,6 +73,21 @@ module EventsHelper
     active_dropdown(selection, options)
   end
 
+  def booth_type_dropdown(booth, booth_types, conference_id)
+    selection = booth.booth_type.try(:title) || 'Booth Type'
+    options = booth_types.collect do |booth_type|
+      [
+        booth_type.title,
+        admin_conference_booth_path(
+          conference_id,
+          booth,
+          booth: { booth_type_id: booth_type.id }
+        )
+      ]
+    end
+    active_dropdown(selection, options)
+  end
+
   def track_dropdown(event, tracks, conference_id)
     selection = event.track.try(:name) || 'Track'
     options = tracks.collect do |track|
