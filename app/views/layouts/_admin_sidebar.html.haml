@@ -121,6 +121,10 @@
       = link_to  admin_conference_booths_path(@conference.short_title) do
         %span.fa.fa-shopping-bag
         = (t'booth').pluralize.capitalize
+      %ul
+        - if can? :update, @conference.program.booth_types.build
+          %li{class: active_nav_li(admin_conference_program_booth_types_path(@conference))}
+            = link_to "#{(t'booth').pluralize.capitalize} Types", admin_conference_program_booth_types_path(@conference.short_title)
   - if can? :update, @conference.email_settings
     %li{class: active_nav_li(admin_conference_emails_path(@conference.short_title))}
       = link_to(admin_conference_emails_path(@conference.short_title)) do
