@@ -8,6 +8,7 @@ module Admin
 
     def index
       @file_name = "#{(t 'booth').pluralize}_for_#{@conference.short_title}"
+      @booth_groups = @conference.program.booth_groups
       @booth_export_option = params[:booth_export_option]
       respond_to do |format|
         format.html

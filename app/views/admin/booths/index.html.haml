@@ -31,72 +31,40 @@
       %p.text-muted
         All the #{t'booth'} requests
 
-.row
-  .col-md-12
-    %h4
-      - if @conference.booth_limit == 0
-        %p
-          Set the
-          = link_to "#{(t'booth').capitalize } limit", edit_admin_conference_path(@conference.short_title)
-          to make sure you are not accepting more #{(t'booth').pluralize} than you can accommodate.
-      - elsif !@conference.maximum_accepted_booths?
-        %p
-          You cannot accept more than
-          %b
-            = pluralize(@conference.booth_limit, "#{t'booth'}")
-          (
-          = pluralize(@conference.booths.accepted.count + @conference.booths.confirmed.count, "accepted #{t'booth'}")
-          so far)
-      - else
-        %p
-          You have reached the maximum number of accepted #{(t'booth').pluralize}.
-          (
-          = link_to "#{@conference.booth_limit} #{(t'booth').pluralize}", edit_admin_conference_path(@conference.short_title)
-          )
-    - if @booths.any?
-      %table.datatable
-        %thead
-          %th
-            %b ID
-          %th
-            %b Logo
-          %th
-            %b Title
-          %th
-            %b Submitter
-          %th
-            %b Responsibles
-          %th
-            %b State
-          %th
-            %b Actions
-        - @booths.each do |booth|
-          %tr
-            %td
-              = booth.id
-            %td
-              - if booth.logo_link
-                = image_tag(booth.picture.thumb.url, width: '20%')
-            %td
-              = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
-            %td
-              = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
-            %td
-              .responsibles
-                - booth.responsibles.each_with_index do |responsible, i|
-                  = link_to responsible.name, admin_user_path(responsible)
-                  = ", " unless i == booth.responsibles.length - 1
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  = booth.state.humanize
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  = render 'change_state_dropdown', booth: booth
-              %td
-                = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
-                class: 'btn btn-primary'
-.row
-  .col-md-12.text-right
-    - if can? :create, Booth
-      = link_to 'New Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      = link_to "All #{(t 'booth').pluralize}", '#all-stands', 'data-toggle' => 'tab'
+    %li
+      = link_to "Combined #{(t 'booth').pluralize}", '#combined-stands', 'data-toggle' => 'tab'
+  .tab-content
+    #all-stands.tab-pane.active
+      = render 'booths'
+    #combined-stands.tab-pane
+      .col-md-12
+        %table.datatable
+          %thead
+            %th ID
+            %th Title
+            %th #{(t 'booth').pluralize.capitalize}
+            %th Actions
+          %tbody
+            - @booth_groups.each do |booth_group|
+              %tr
+                %td
+                  = booth_group.id
+                %td
+                  = booth_group.name
+                %td
+                  - booth_group.booths.each do |booth|
+                    = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+                %td
+                  .btn-group{ role: 'group' }
+                    = link_to 'Edit', edit_admin_conference_program_booth_group_path(@conference.short_title, booth_group.id),
+                      method: :get, class: 'btn btn-primary'
+                    = link_to 'Delete', admin_conference_program_booth_group_path(@conference.short_title, booth_group.id),
+                      method: :delete, class: 'btn btn-danger', data: { confirm: "Do you really want to delete #{booth_group.name}?" }
+      .row
+        .col-md-12.text-right
+          = link_to "Create #{(t 'booth').capitalize} Group", new_admin_conference_program_booth_group_path(@conference.short_title), class: 'btn btn-primary'
+

@@ -1,0 +1,29 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        - if @booth_group.new_record?
+          New
+        #{(t 'booth').capitalize} Group
+        = @booth_group.name
+.row
+  .col-md-12
+    = semantic_form_for(@booth_group, url: (@booth_group.new_record? ? admin_conference_program_booth_groups_path : admin_conference_program_booth_group_path(@conference.short_title, @booth_group))) do |f|
+      = f.input :name, input_html: { autofocus: true }
+      = f.input :color, input_html: {size: 6, type: 'color'}, required: true
+
+      - if @conference.try(:booths).present?
+        = booth_selector_input :booths, f, "The #{(t 'booth').pluralize} that you want to add to this Group."
+      - else
+        %b Please add #{(t 'booth').pluralize} before combining them.
+
+      %p.text-right
+        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+
+  :javascript
+    $(document).ready(function() {
+      $('#booth_group_booth_ids').selectize({
+        plugins: ['remove_button'],
+        minItems: 2
+      } )
+    });

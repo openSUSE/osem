@@ -151,6 +151,26 @@ module ApplicationHelper
     )
   end
 
+  def booth_selector_input(field, form, hint = '', multiple = true)
+    booths = Booth.pluck(:id, :title).map { |booth| [booth[0], booth[1]]}
+    form.input(
+        field,
+        as:            :select,
+        include_blank: true,
+        label:         field.to_s.titleize,
+        hint:          hint,
+        collection:    options_for_select(
+            booths.map { |booth| [booth[1].to_s, booth[0]]},
+            (form.object.send(field)&.map(&:id) || form.object.send(field)&.id)
+          ),
+        input_html:    {
+          class:       'select-help-toggle',
+          multiple:    multiple,
+          placeholder: (multiple ? "Select #{(t 'booth').pluralize}..." : "Select a #{t 'booth'}...")
+        }
+      )
+  end
+
   def event_types_sentence(conference)
     conference.event_types.map { |et| et.title.pluralize }.to_sentence
   end

@@ -1,0 +1,74 @@
+.row
+  .col-md-12
+    %h4
+      - if @conference.booth_limit == 0
+        %p
+          Set the
+          = link_to "#{(t'booth').capitalize } limit", edit_admin_conference_path(@conference.short_title)
+          to make sure you are not accepting more #{(t'booth').pluralize} than you can accommodate.
+      - elsif !@conference.maximum_accepted_booths?
+        %p
+          You cannot accept more than
+          %b
+            = pluralize(@conference.booth_limit, "#{t'booth'}")
+          (
+          = pluralize(@conference.booths.accepted.count + @conference.booths.confirmed.count, "accepted #{t'booth'}")
+          so far)
+      - else
+        %p
+          You have reached the maximum number of accepted #{(t'booth').pluralize}.
+          (
+          = link_to "#{@conference.booth_limit} #{(t'booth').pluralize}", edit_admin_conference_path(@conference.short_title)
+          )
+    - if @booths.any?
+      %table.datatable
+        %thead
+          %th
+            %b ID
+          %th
+            %b Logo
+          %th
+            %b Title
+          %th
+            %b Submitter
+          %th
+            %b Responsibles
+          %th
+            %b State
+          %th
+            %b Actions
+        - @booths.each do |booth|
+          %tr
+            %td
+              = booth.id
+            %td
+              - if booth.logo_link
+                = image_tag(booth.picture.thumb.url, width: '20%')
+            %td{ style: 'padding: 15px 0px 0px 10px;' }
+              - if booth.try(:booth_group).present?
+                = link_to admin_conference_booth_path(@conference.short_title, booth), class: 'btn' do
+                  %span.label{style: "background-color: #{booth.booth_group.color}; color: #{ contrast_color(booth.booth_group.color) }"}
+                    = booth.title
+              - else
+                = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+            %td
+              = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
+            %td
+              .responsibles
+                - booth.responsibles.each_with_index do |responsible, i|
+                  = link_to responsible.name, admin_user_path(responsible)
+                  = ", " unless i == booth.responsibles.length - 1
+            %td
+              .btn-group
+                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                  = booth.state.humanize
+                  %span.caret
+                %ul.dropdown-menu{ role: 'menu' }
+                  = render 'change_state_dropdown', booth: booth
+              %td
+                = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
+                class: 'btn btn-primary'
+.row
+  .col-md-12.text-right
+    - if can? :create, Booth
+      = link_to 'New Booth', new_admin_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'
