@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_03_143107) do
+ActiveRecord::Schema.define(version: 2019_08_18_135624) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "booth_groups", force: :cascade do |t|
+    t.integer "program_id"
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "color", default: "#000000"
+    t.index ["program_id"], name: "index_booth_groups_on_program_id"
   end
 
   create_table "booth_requests", force: :cascade do |t|
@@ -39,6 +48,8 @@ ActiveRecord::Schema.define(version: 2019_06_03_143107) do
     t.integer "conference_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "booth_group_id"
+    t.index ["booth_group_id"], name: "index_booths_on_booth_group_id"
   end
 
   create_table "cfps", force: :cascade do |t|

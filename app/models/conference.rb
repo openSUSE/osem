@@ -52,6 +52,7 @@ class Conference < ApplicationRecord
            through: :program,
            source:  :events
   has_many :event_types, through: :program
+  has_many :booth_groups, through: :program
 
   has_many :surveys, as: :surveyable, dependent: :destroy do
     def for_registration
@@ -683,9 +684,10 @@ class Conference < ApplicationRecord
     # we have different start indices for every collection to generate a
     # different color for every of them.
     start_index = {
-      tracks: (program.tracks.count + 1),
-      levels: (program.difficulty_levels.count + 51),
-      types:  (program.event_types.count + 101)
+      tracks:       (program.tracks.count + 1),
+      levels:       (program.difficulty_levels.count + 51),
+      types:        (program.event_types.count + 101),
+      booth_groups: (program.booth_groups.count + 151)
     }
     next_color(start_index[collection])
   end

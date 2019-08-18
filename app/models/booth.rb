@@ -7,6 +7,7 @@ class Booth < ApplicationRecord
   attr_accessor :invite_responsible
 
   belongs_to :conference
+  belongs_to :booth_group
   has_many :booth_requests, dependent: :destroy
   has_many :users, through: :booth_requests
 
