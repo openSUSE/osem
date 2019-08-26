@@ -6,10 +6,11 @@
     %div
       %a.pull-right.comment-reply-link{ href: '#' } Reply
       .comment-reply
-        = semantic_form_for :comment, url: comment_admin_conference_program_track_path(@conference.short_title, @track.short_name, comment.commentable_id), method: :post do |f|
+        = semantic_form_for :comment, url: comment_admin_conference_program_track_path(@conference.short_title,
+          @track.short_name, comment.commentable_id), method: :post do |f|
           = f.input :body
           %input{ name: 'parent', type: 'hidden', value: comment.id }
-          %input{ name: 'authenticity_token', type: 'hidden', value: '#{form_authenticity_token}' }
+          %input{ name: 'authenticity_token', type: 'hidden', value: form_authenticity_token.to_s }
           %button.btn.btn-primary.pull-right{ name: 'button', type: 'submit' } Add Reply
   - comment.children.each do |child|
     = render 'nested_comments', comment: child, padding: 50
