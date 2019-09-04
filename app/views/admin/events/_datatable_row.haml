@@ -24,11 +24,15 @@
         Unknown submitter
 
     %td
-      - event.speakers_ordered.each do |speaker|
-        .speaker
-          = link_to speaker.name, admin_user_path(speaker)
-          - unless speaker.registrations.for_conference(event.conference)
-            %span.label.label-danger Unregistered
+      - if event.speakers.any?
+        - event.speakers_ordered.each do |speaker|
+          .speaker
+            = link_to speaker.name, admin_user_path(speaker)
+            - unless speaker.registrations.for_conference(event.conference)
+              %span.label.label-danger Unregistered
+      - else
+        .small
+          No Speaker
 
     - if @program.languages.present?
       %td
