@@ -44,7 +44,7 @@ class Event < ApplicationRecord
   validates :abstract, presence: true
   validates :event_type, presence: true
   validates :program, presence: true
-  validates :speakers, presence: true
+  
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
   validate :max_attendees_no_more_than_room_size

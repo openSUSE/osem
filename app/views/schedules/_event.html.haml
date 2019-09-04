@@ -15,7 +15,11 @@
       %small
         = event.subtitle
     %h4
-      presented by #{event.speaker_names}
+      - if(event.speakers.any?)
+        presented by #{event.speaker_names}
+      - else
+        .small
+          (No speaker)
     %p
       = markdown(truncate(event.abstract, length: 400))
       = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400

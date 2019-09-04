@@ -71,7 +71,7 @@
             %td
               - if @event.speakers.count == 1
                 = link_to 'Fill out speaker\'s biography', edit_admin_user_path(@event.speakers.first)
-              - else
+              - elsif @event.speakers.count > 1
                 Fill out speaker's biography:
                 = speaker_links(@event)
             %td{ 'class' => class_for_todo(progress_status['biographies']) }
