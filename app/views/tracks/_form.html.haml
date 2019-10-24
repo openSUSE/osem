@@ -17,4 +17,15 @@
         = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly' }
         = f.input :description, input_html: {rows: 2, data: { provide: 'markdown-editable' } }, required: true, hint: "This will be public #{markdown_hint}".html_safe
         = f.input :relevance, input_html: {rows: 5, data: { provide: 'markdown-editable' } }, required: true, hint: "Please explain here how this track relates to the conference, how you are related to its content and why we should accept it. #{markdown_hint}".html_safe
+
+        = f.inputs name:'Social Media' do
+          = f.semantic_fields_for :contact, @track.contact do |c|
+            = c.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+. Don't include the '#' sign!'", required: false
+            = c.input :facebook, hint: 'This will appear in the social media section as a link to the Facebook.', required: false
+            = c.input :googleplus, label: 'Google+ Url', hint: 'This will appear in the social media section as a link to the Google+ Page of your Track', required: false
+            = c.input :twitter, hint: 'This will appear in the social media section as a link to the Twitter Page of your Track', required: false
+            = c.input :instagram, hint: 'This will appear in the social media section as a link to the Instagram Page of your Track', required: false
+            = c.input :mastodon, hint: 'This will appear in the social media section as a link to the Mastodon Page of your Track', required: false
+            = c.input :youtube, hint: 'This will appear in the social media section as a link to the YouTube channel for your Track.', required: false
+
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

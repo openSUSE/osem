@@ -4,6 +4,7 @@ class Contact < ApplicationRecord
   has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
 
   belongs_to :conference
+  belongs_to :contactable, polymorphic: true
 
   validates :conference, presence: true
   # Conferences only have one contact

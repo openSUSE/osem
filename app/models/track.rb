@@ -12,6 +12,8 @@ class Track < ApplicationRecord
   belongs_to :selected_schedule, class_name: 'Schedule'
   has_many :events, dependent: :nullify
   has_many :schedules
+  has_one :contact, as: :contactable
+  accepts_nested_attributes_for :contact
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 

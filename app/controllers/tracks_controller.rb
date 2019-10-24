@@ -13,12 +13,15 @@ class TracksController < ApplicationController
 
   def new
     @track = @program.tracks.new(color: @conference.next_color_for_collection(:tracks))
+    @track.build_contact
   end
 
   def edit; end
 
   def create
     @track = @program.tracks.new(track_params)
+    @contact = @track.build_contact(track_params[:contact_attributes])
+    @contact.conference = @conference
     @track.submitter = current_user
     @track.cfp_active = false
     if @track.save
@@ -35,7 +38,8 @@ class TracksController < ApplicationController
       redirect_to conference_program_tracks_path(conference_id: @conference.short_title),
                   notice: 'Track request successfully updated.'
     else
-      flash.now[:error] = "Track request update failed: #{@track.errors.full_messages.join('. ')}."
+      flash.now[:error] = "Track request update failed: #{@track.errors.full_messages.join('. ')}" \
+                          "#{@track.contact.errors.full_messages.join('. ')}."
       render :edit
     end
   end
@@ -55,7 +59,8 @@ class TracksController < ApplicationController
   private
 
   def track_params
-    params.require(:track).permit(:name, :description, :color, :short_name, :start_date, :end_date, :relevance)
+    params.require(:track).permit(:name, :description, :color, :short_name, :start_date, :end_date, :relevance,
+                                  contact_attributes: [:id, :social_tag, :facebook, :googleplus, :twitter, :instagram, :mastodon, :youtube])
   end
 
   def update_state(transition, notice)
