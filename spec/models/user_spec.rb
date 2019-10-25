@@ -101,9 +101,9 @@ describe User do
     end
 
     describe 'user distribution scopes' do
-      it 'scopes active users' do
+      it 'scopes recent users' do
         create(:user, last_sign_in_at: Date.today - 3.months + 1.day) # active
-        expect(User.active.count).to eq(1)
+        expect(User.recent.count).to eq(1)
       end
 
       it 'scopes unconfirmed users' do

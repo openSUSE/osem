@@ -34,7 +34,7 @@ class User < ApplicationRecord
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
 
   # scopes for user distributions
-  scope :active, lambda {
+  scope :recent, lambda {
     where('last_sign_in_at > ?', Date.today - 3.months).where(is_disabled: false)
   }
   scope :unconfirmed, -> { where('confirmed_at IS NULL') }
@@ -86,6 +86,9 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
+  scope :active, lambda {
+    where(is_disabled: false)
+  }
 
   validates :email, presence: true
 
@@ -174,7 +177,7 @@ class User < ApplicationRecord
   # * +hash+ -> hash
   def self.distribution
     {
-      'Active'      => User.active.count,
+      'Active'      => User.recent.count,
       'Unconfirmed' => User.unconfirmed.count,
       'Dead'        => User.dead.count
     }
