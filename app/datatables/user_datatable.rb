@@ -42,7 +42,7 @@ class UserDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     User.left_outer_joins(:registrations, :roles)
       .distinct
-      .select("users.id, users.name, users.email, users.confirmed_at COUNT(CASE WHEN registrations.attended = 't' THEN 1 END) AS attended_count")
+      .select("users.id, users.name, users.email, users.confirmed_at, COUNT(CASE WHEN registrations.attended = 't' THEN 1 END) AS attended_count")
       .group('users.id, users.name, users.email, users.confirmed_at')
   end
   # rubocop:enable Naming/AccessorMethodName
