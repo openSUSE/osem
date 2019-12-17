@@ -4,12 +4,12 @@
       .row
         .col-md-8.col-md-offset-2#header
           .row
-            - if conference.picture?
-              .col-md-4
-                = image_tag(conference.picture_url,
-                  class: 'img-responsive img-center',
-                  id: 'splash-logo')
-            .col-md-8
+            -# - if conference.picture?
+            -#   .col-md-4
+            -#     = image_tag(conference.picture_url,
+            -#       class: 'img-responsive img-center',
+            -#       id: 'splash-logo')
+            .col-md-8.col-md-offset-2
               %h1
                 = conference.title
               %h3
