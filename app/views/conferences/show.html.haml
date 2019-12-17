@@ -64,21 +64,22 @@
       = render 'social_media', contact: @conference.contact
   = render 'footer'
 )
--# - content_for :script_head do
--#   :javascript
--#     var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
--#     var triangle_colors = triangle_tcs.map(function(t) {
--#       return t.toHexString();
--#     });
--#     $(function () {
--#       $(document).ready(function() {
--#         var triangle_width = document.body.clientWidth;
--#         var triangle_height = ($( "#banner" ).height() + 200 );
--#         var pattern = Trianglify({ width: triangle_width,
--#                                    height: triangle_height,
--#                                    cell_size: 100,
--#                                    x_colors: triangle_colors
--#                                   });
--#         $('#banner').css('background-image', 'url("' + pattern.png() + '")');
--#       });
--#     });
+
+- content_for :script_head do
+  :javascript
+    var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
+    var triangle_colors = triangle_tcs.map(function(t) {
+      return t.toHexString();
+    });
+    $(function () {
+      $(document).ready(function() {
+        var triangle_width = document.body.clientWidth;
+        var triangle_height = ($( "#banner" ).height() + 200 );
+        var pattern = Trianglify({ width: triangle_width,
+                                   height: triangle_height,
+                                   cell_size: 100,
+                                   x_colors: triangle_colors
+                                  });
+        $('#banner').css('background-image', "'url(\"#{@conference.picture_url\")'");
+      });
+    });
