@@ -1,11 +1,11 @@
 - cache [conference, venue, '#splash#header'] do
-  #banner
+  #banner(style: "background_image: url('#{conference.picture_url})'")
     .container
       .row
         .col-md-8.col-md-offset-2#header
           .row
-            .col-md-4
-              - if conference.picture?
+            - if conference.picture?
+              .col-md-4
                 = image_tag(conference.picture_url,
                   class: 'img-responsive img-center',
                   id: 'splash-logo')
