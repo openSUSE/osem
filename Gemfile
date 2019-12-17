@@ -20,7 +20,7 @@ gem 'puma', '~> 3.0'
 gem 'responders', '~> 2.0'
 
 # as supported databases
-gem 'mysql2'
+# gem 'mysql2'
 gem 'pg'
 
 # for tracking data changes
