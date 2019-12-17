@@ -1,5 +1,5 @@
 - cache [conference, venue, '#splash#header'] do
-  #banner
+  #banner{ style: ("background-image: url(#{conference.picture_url})" if conference.picture_url) }
     .container
       .row
         .col-md-8.col-md-offset-2#header
