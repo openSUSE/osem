@@ -1,10 +1,10 @@
-%html{xmlns: 'http://www.w3.org/1999/html'}
+%html{lang: 'en'}
   %head
     %meta{charset: 'utf-8'}
-    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
     %title= content_for?(:title) ? yield(:title) : (ENV['OSEM_NAME'] || 'OSEM')
-    %meta{content: '', name: 'description'}
-    %meta{content: '', name: 'author'}
+    %meta{content: 'Snap!Con -- A conference all about Snap!, a programing language from UC Berkeley.', name: 'description'}
+    %meta{content: 'Michael Ball, Brian Harvey, Jens Moenig, Bernat Romagosa, Dan Garcia, Lauren Mock', name: 'author'}
     = stylesheet_link_tag "application", media: 'all'
     = javascript_include_tag "application"
 
@@ -45,7 +45,7 @@
             #{link_to "MIT license", "http://opensource.org/licenses/MIT"}.
             You can run, copy, distribute, study, change and improve it.
             The source code and the developers are on
-            #{link_to "GitHub", "https://github.com/openSUSE/osem"}.
+            #{link_to "GitHub", "https://github.com/snap-cloud/snapcon"}. This site is a modification of #{link_to "OSEM", "https://github.com/openSUSE/osem"}.
             - if ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"].present?
               Performance data is available on
               #{link_to "Skylight", ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"]}.

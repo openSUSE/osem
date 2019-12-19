@@ -61,6 +61,7 @@
                     %small
                       %label{for: 'user_remember_me'} Remember me
                       = check_box_tag 'user[remember_me]'
+                  %br
                   %button.btn.btn-success.btn-block Sign in
                   - unless omniauth_configured.empty?
                     .divider
