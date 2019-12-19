@@ -9,8 +9,8 @@
         .col-md-12
           %p.lead.text-center
             %span.notranslate
-              = conference.title
-            has the most awesome program ever!
+              = conference.title.html_safe
+            will have an enaging program!
 
       - unless highlights.blank?
         = render 'highlights', conference_id: conference.short_title,
