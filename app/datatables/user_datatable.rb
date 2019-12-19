@@ -53,7 +53,7 @@ class UserDatatable < AjaxDatatablesRails::Base
   end
 
   def records_filtered_count
-    filter_records(fetch_records).unscope(:group).count(:all)
+    filter_records(fetch_records).unscoped.count
   end
 
   # ==== These methods represent the basic operations to perform on records
