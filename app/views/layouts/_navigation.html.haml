@@ -54,8 +54,8 @@
                   = password_field_tag 'password', nil, id: 'user_ichain_password_dd', class: 'form-control', placeholder: 'Password'
                   %button.btn.btn-success.btn-block Sign in
               - else
-                .container.panel
-                  = form_tag new_user_session_path do
+                .panel{style: "padding: 6px"}
+                  = form_tag new_user_session_path, class: 'form-group' do
                     = text_field_tag 'user[login]', nil, id: 'user_login_dd', class: 'form-control', placeholder: 'Username / E-Mail'
                     = password_field_tag 'user[password]', nil, id: 'user_password_dd', class: 'form-control', placeholder: 'Password'
                     %p.text-right
