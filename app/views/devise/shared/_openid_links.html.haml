@@ -1,7 +1,7 @@
 .text-center
   .btn-group.btn-group-lg#openid-btn-grp
     - omniauth_configured.each do |provider|
-      - if provider == :discourse
+      - if provider.to_s != :discourse
         = link_to "user_#{provider}_omniauth_authorize".to_sym, class: "btn btn-success btn-lg",
                                                           id: "omniauth-#{provider}",
                                                           title: "Your #{provider} login" do
