@@ -62,16 +62,16 @@
                       %small
                         %label{for: 'user_remember_me'} Remember me
                         = check_box_tag 'user[remember_me]'
-                  %br
-                  %button.btn.btn-success.btn-block Sign in
-                  - unless omniauth_configured.empty?
-                    .divider
-                    %h6.text-center
-                      or
-                    = render 'devise/shared/openid_links'
-                  %p.text-right
                     %br
-                    %a.small.btn.btn-xs.btn-default{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
-                      Need Help?
-                    #navbar-devise-help.collapse
-                      = render 'devise/shared/links'
+                    %button.btn.btn-success.btn-block Sign in
+                - unless omniauth_configured.empty?
+                  .divider
+                  %h6.text-center
+                    or
+                  = render 'devise/shared/openid_links'
+                -# %p.text-right
+                -#   %br
+                -#   %a.small.btn.btn-xs.btn-default{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
+                -#     Need Help?
+                -#   #navbar-devise-help.collapse
+                -#     = render 'devise/shared/links'
