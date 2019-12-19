@@ -29,7 +29,9 @@
         }
     }
     .dropdown-menu {
-        padding: 17px;
         min-width: 225px;
+    }
+    .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+        color: #FFF;
     }
 }
