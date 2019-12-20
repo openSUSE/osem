@@ -14,8 +14,7 @@ Devise.setup do |config|
 
   config.omniauth :discourse,
                   sso_url: "https://forum.snap.berkeley.edu/session/sso_provider",
-                  sso_secret: ENV['OSEM_DISCOURSE_SECRET'],
-                  callback_url: user_discourse_omniauth_callback
+                  sso_secret: ENV['OSEM_DISCOURSE_SECRET']
 
   # config.omniauth :facebook, (ENV['OSEM_FACEBOOK_KEY'] || Rails.application.secrets.facebook_key), (ENV['OSEM_FACEBOOK_SECRET'] || Rails.application.secrets.facebook_secret)
   # config.omniauth :github, (ENV['OSEM_GITHUB_KEY'] || Rails.application.secrets.github_key), (ENV['OSEM_GITHUB_SECRET'] || Rails.application.secrets.github_secret)
