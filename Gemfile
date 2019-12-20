@@ -38,13 +38,12 @@ gem 'rails-i18n'
 gem 'devise'
 gem 'devise_ichain_authenticatable'
 
-# for openID authentication
 gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-discourse'
+# gem 'omniauth-openid'
 # gem 'omniauth-facebook'
 # gem 'omniauth-github'
-gem 'omniauth-google-oauth2'
-# gem 'omniauth-openid'
-gem 'omniauth-discourse'
 
 # Bot-filtering
 gem 'recaptcha', require: 'recaptcha/rails'
