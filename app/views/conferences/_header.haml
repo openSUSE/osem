@@ -1,17 +1,17 @@
 - cache [conference, venue, '#splash#header'] do
-  #banner
+  #banner{ style: ("background-image: url(#{conference.picture_url})" if conference.picture_url) }
     .container
       .row
         .col-md-8.col-md-offset-2#header
           .row
-            .col-md-4
-              - if conference.picture?
-                = image_tag(conference.picture_url,
-                  class: 'img-responsive img-center',
-                  id: 'splash-logo')
-            .col-md-8
+            -# - if conference.picture?
+            -#   .col-md-4
+            -#     = image_tag(conference.picture_url,
+            -#       class: 'img-responsive img-center',
+            -#       id: 'splash-logo')
+            .col-md-8.col-md-offset-2
               %h1
-                = conference.title
+                = conference.title.html_safe
               %h3
                 - if conference.start_date && conference.end_date
                   %span.date.text-nowrap

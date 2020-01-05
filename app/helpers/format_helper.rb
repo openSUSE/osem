@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'redcarpet/render_strip'
 
 module FormatHelper
   ##
@@ -191,9 +192,12 @@ module FormatHelper
     return '' if text.nil?
 
     options = {
-      autolink:            true,
+      autolink: true,
       space_after_headers: true,
-      no_intra_emphasis:   true
+      tables: true,
+      strikethrough: true,
+      footnotes: true,
+      superscript: true
     }
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe
@@ -201,6 +205,11 @@ module FormatHelper
 
   def markdown_hint(text='')
     markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text", false)
+  end
+
+  # Return a plain text markdown stripped of formatting.
+  def plain_text(content)
+    Redcarpet::Markdown.new(Redcarpet::Render::StripDown).render(content)
   end
 
   def quantity_left_of(resource)

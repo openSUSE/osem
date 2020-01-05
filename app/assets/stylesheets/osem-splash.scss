@@ -116,14 +116,13 @@
   }
 
   #social-media{
-    background: none repeat scroll 0 0 #2f2f2f;
-    padding-top: 60px;
-    padding-bottom: 60px;
+    background: none repeat scroll 0 0 #0C3559;
+    padding: 50px 20px;
     i{
-      color: #4a4a4a;
+      color: #FFF;
     }
     i:hover{
-      color: #16a085;
+      color: #F2E205;
     }
     a{
       padding-left: 100px;
@@ -164,11 +163,11 @@
     i.fa {
       line-height: inherit;
     }
-    &.show {
-      visibility:visible;
-      cursor:pointer;
-      opacity: 1.0;
-    }
+    // &.show {
+    //   visibility:visible;
+    //   cursor:pointer;
+    //   opacity: 1.0;
+    // }
     a {
       color: white;
     }

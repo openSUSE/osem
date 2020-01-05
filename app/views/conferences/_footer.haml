@@ -1,14 +1,14 @@
-.scroll-top-wrapper
-  = link_to "#banner", class: "smoothscroll" do
-    %i.fa.fa-2x.fa-arrow-circle-up
+-# .scroll-top-wrapper
+-#   = link_to "#banner", class: "smoothscroll" do
+-#     %i.fa.fa-2x.fa-arrow-circle-up
 
-:javascript
-  $(function(){
-    $(document).on( 'scroll', function(){
-      if ($(window).scrollTop() > 100) {
-          $('.scroll-top-wrapper').addClass('show');
-      } else {
-          $('.scroll-top-wrapper').removeClass('show');
-      }
-    });
-  });
+-# :javascript
+-#   $(function(){
+-#     $(document).on( 'scroll', function(){
+-#       if ($(window).scrollTop() > 100) {
+-#           $('.scroll-top-wrapper').addClass('show');
+-#       } else {
+-#           $('.scroll-top-wrapper').removeClass('show');
+-#       }
+-#     });
+-#   });
