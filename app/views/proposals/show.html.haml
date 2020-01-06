@@ -27,7 +27,7 @@
   .row
     .col-md-3
       %h3
-      - if event.speakers.any?
+      - if @event.speakers.any?
         Presented by:
         - @speakers_ordered.each do |speaker|
           .speakerinfo
