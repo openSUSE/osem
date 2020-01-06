@@ -91,6 +91,17 @@ feature Event do
       expect(User.count).to eq(expected_count_user)
     end
 
+    scenario 'edit proposal without cfp' do
+      conference = create(:conference)
+      proposal = create(:event, program: conference.program)
+
+      sign_in proposal.submitter
+
+      visit edit_conference_program_proposal_path(proposal.program.conference.short_title, proposal)
+
+      expect(page).to have_content 'Proposal Information'
+    end
+
     scenario 'update a proposal' do
       conference = create(:conference)
       create(:cfp, program: conference.program)
