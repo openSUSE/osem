@@ -7,7 +7,7 @@
     - if @program.cfp.description.present?
       .row
         .col-md-12
-          = markdown(@program.cfp.description)
+          = markdown(@program.cfp.description, escape_html=false)
   .row
     .col-md-12
       = render partial: 'encouragement_text'
@@ -43,10 +43,10 @@
 
               - @program.event_types.each do |event_type|
                 %span{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help" }
-                  = event_type.description
+                  = markdown(event_type.description)
 
               = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown-editable' } },
-                hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
+                hint: markdown_hint
 
               %p
                 You have used
