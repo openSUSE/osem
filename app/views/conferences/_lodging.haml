@@ -37,7 +37,7 @@
               .caption
                 %h3.text-center
                   - if lodging.website_link.present?
-                    = link_to(lodging.website_link, lodging.name)
+                    = link_to(lodging.name, lodging.website_link)
                   - else
                     = lodging.name
                 - if lodging.description.present?
