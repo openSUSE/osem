@@ -185,7 +185,7 @@ module ApplicationHelper
       'OSEM'
     )
     link_to(
-      link_text,
+      image_tag('snapcon_logo.png'),
       root_path,
       class: 'navbar-brand',
       title: 'Open Source Event Manager'

@@ -92,7 +92,9 @@ module Admin
       @booth.reject!
 
       if @booth.save
-        Mailbot.conference_booths_rejection_mail(@booth).deliver_later
+        if @conference.email_settings.send_on_booths_rejection
+          Mailbot.conference_booths_rejection_mail(@booth).deliver_later
+        end
         redirect_to admin_conference_booths_path(conference_id: @conference.short_title),
                     notice: "#{(t'booth').capitalize} successfully rejected."
       else
