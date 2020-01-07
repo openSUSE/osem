@@ -1,4 +1,6 @@
 @import "breakpoints.scss";
+$navbar-default-link-color: #FFF;
+
 .nav-osem {
     border: none;
     @include breakpoint(xs) {
@@ -31,8 +33,13 @@
     .dropdown-menu {
         min-width: 225px;
     }
-    .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
-        color: #FFF;
+
+    &.navbar-default {
+        .navbar-nav > .open > a {
+            &:hover, &:focus {
+                color: $navbar-default-link-color;
+            }
+        }
     }
 
     .navbar-brand img {
