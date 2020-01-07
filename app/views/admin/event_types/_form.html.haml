@@ -7,7 +7,7 @@
         Event Type
         = @event_type.title
 .row
-  .col-md-12
+  .col-md-8
     - form_url = (@event_type.new_record? ? admin_conference_program_event_types_path : admin_conference_program_event_type_path(@conference.short_title, @event_type))
     = semantic_form_for(@event_type, url: form_url) do |f|
       = f.input :title, input_html: { autofocus: true }
