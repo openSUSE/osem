@@ -5,6 +5,11 @@
 %section#venue
   - if venue.location?
     = render '/conferences/venue_map', venue: venue
+    - if venue.description.present?
+      .container
+        .row
+          .col-md-8.col-md-offset-2
+            = markdown(venue.description, escape_html=false)
   - else
     - cache [venue, commercial, '#splash#venue'] do
       .container

@@ -7,11 +7,12 @@
         Event Type
         = @event_type.title
 .row
-  .col-md-12
-    = semantic_form_for(@event_type, url: (@event_type.new_record? ? admin_conference_program_event_types_path : admin_conference_program_event_type_path(@conference.short_title, @event_type))) do |f|
+  .col-md-8
+    - form_url = (@event_type.new_record? ? admin_conference_program_event_types_path : admin_conference_program_event_type_path(@conference.short_title, @event_type))
+    = semantic_form_for(@event_type, url: form_url) do |f|
       = f.input :title, input_html: { autofocus: true }
       = f.input :length, input_html: {size: 3, type: 'number', step: @event_type.program.schedule_interval, min: @event_type.program.schedule_interval}
-      = f.input :description
+      = f.input :description, as: :text, hint: markdown_hint, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :minimum_abstract_length, input_html: {size: 3}
       = f.input :maximum_abstract_length, input_html: {size: 3}
       = f.input :color, input_html: { size: 6, type: 'color' }
