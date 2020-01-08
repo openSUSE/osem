@@ -2,14 +2,14 @@
   #banner{ style: ("background-image: url(#{conference.picture_url})" if conference.picture_url) }
     .container
       .row
-        .col-md-8.col-md-offset-2#header
+        .col-md-6.col-md-offset-3#header
           .row
             -# - if conference.picture?
             -#   .col-md-4
             -#     = image_tag(conference.picture_url,
             -#       class: 'img-responsive img-center',
             -#       id: 'splash-logo')
-            .col-md-8.col-md-offset-2
+            .col-md-8
               %h1
                 = conference.title.html_safe
               %h3
