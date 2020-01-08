@@ -5,6 +5,10 @@
 - cache [venue, lodgings, '#splash#lodging'] do
   %section#lodging
     .container
+      - if venue.location? and venue.description.present?
+        .row
+          .col-md-8.col-md-offset-2
+            = markdown(venue.description, escape_html=false)
       .row
         .col-md-12.text-center
           %h2
@@ -17,7 +21,7 @@
 
       .row.row-centered
         - lodgings.order(created_at: :asc).each do |lodging|
-          .col-md-4.col-sm-4.col-centered.col-top
+          .col-md-6.col-sm-4.col-centered.col-top
             .thumbnail
               - if lodging.picture?
                 - if lodging.website_link.present?
