@@ -32,10 +32,15 @@
     padding-top: 100px;
     padding-bottom: 100px;
     .container {
-      #header  {
+      #header-no-image  {
         background-color: rgba(224, 224, 224,.80);
         padding-top: 20px;
         padding-bottom: 20px;
+      }
+
+      #header-image {
+        color: #FFF;
+        text-shadow: 1px 1px 3px #ddd;
       }
     }
   }
