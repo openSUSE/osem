@@ -9,12 +9,12 @@
   }
 
   section:nth-child(even) {
-    background: none repeat scroll 0 0 #e0e0e0;
-    color: #555;
+    background: none repeat scroll 0 0 #eee;
+    color: #333;
   }
   section:nth-child(odd) {
     background: none repeat scroll 0 0 #ffffff;
-    color: #7b7b7b;
+    color: #333;
     .thumbnail {
       background: none repeat scroll 0 0 #e0e0e0;
     }
@@ -32,10 +32,15 @@
     padding-top: 100px;
     padding-bottom: 100px;
     .container {
-      #header  {
+      #header-no-image  {
         background-color: rgba(224, 224, 224,.80);
         padding-top: 20px;
         padding-bottom: 20px;
+      }
+
+      #header-image {
+        color: #FFF;
+        // text-shadow: 1px 1px 3px #ddd;
       }
     }
   }
@@ -89,6 +94,14 @@
       .img-lodging{
         max-width: 300px;
         max-height: 200px;
+      }
+    }
+  }
+
+  #tickets {
+    a {
+      &:hover, &:focus {
+        text-decoration: none;
       }
     }
   }

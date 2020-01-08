@@ -16,6 +16,7 @@
             %th ID
             %th Type
             %th User
+            %th Registration?
             %th Actions
           %tbody
             - @physical_tickets.each do |physical_ticket|
@@ -23,6 +24,7 @@
                 %td= physical_ticket.id
                 %td= physical_ticket.ticket.title
                 %td= physical_ticket.user.name
+                %td= physical_ticket.ticket.registration_ticket? ? 'Yes' : 'No'
                 %td
                   .btn-group
                     = link_to 'Show',

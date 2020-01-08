@@ -3,9 +3,9 @@
     .media
       .media-body
         %h4.media-heading= ticket.title
-        %h5.media-heading= markdown(ticket.description)
-  - if @conference.tickets.for_registration.any?
-    %td.col-sm-1.col-md-2.text-center
+        .media-heading= markdown(ticket.description)
+  %td.col-sm-1.col-md-2
+    %span.text-center
       = ticket.registration_ticket? ? 'Yes' : 'No'
   %td.col-sm-1.col-md-1
     :ruby
