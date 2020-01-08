@@ -16,7 +16,7 @@
             We recommend the following accommodations for your visit.
 
       .row.row-centered
-        - lodgings.order(created_at: :asc).each do |lodging|
+        - lodgings.each do |lodging|
           .col-md-6.col-sm-4.col-centered.col-top
             .thumbnail
               - if lodging.picture?

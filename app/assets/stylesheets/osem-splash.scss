@@ -9,12 +9,12 @@
   }
 
   section:nth-child(even) {
-    background: none repeat scroll 0 0 #e0e0e0;
-    color: #555;
+    background: none repeat scroll 0 0 #eee;
+    color: #333;
   }
   section:nth-child(odd) {
     background: none repeat scroll 0 0 #ffffff;
-    color: #7b7b7b;
+    color: #333;
     .thumbnail {
       background: none repeat scroll 0 0 #e0e0e0;
     }
@@ -89,6 +89,14 @@
       .img-lodging{
         max-width: 300px;
         max-height: 200px;
+      }
+    }
+  }
+
+  #tickets {
+    a {
+      &:hover, &:focus {
+        text-decoration: none;
       }
     }
   }
