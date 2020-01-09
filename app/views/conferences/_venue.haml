@@ -10,6 +10,7 @@
         .row
           .col-md-8.col-md-offset-2
             = markdown(venue.description, escape_html=false)
+      .trapezoid
   - else
     - cache [venue, commercial, '#splash#venue'] do
       .container
@@ -46,3 +47,4 @@
               - if venue.website
                 %br
                 = sanitize link_to(h(venue.website), h(venue.website))
+      .trapezoid

@@ -1,4 +1,5 @@
 @import "breakpoints.scss";
+@import "osem-variables.scss";
 
 #splash {
   // Counter the general padding for #content
@@ -6,17 +7,29 @@
   section {
     padding-top: 60px;
     padding-bottom: 60px;
+
+    .trapezoid {
+      top: 60px + $trapezoid-height;
+    }
   }
 
   section:nth-child(even) {
     background: none repeat scroll 0 0 #eee;
     color: #333;
+
+    .trapezoid {
+      border-top-color: #eee;
+    }
   }
   section:nth-child(odd) {
     background: none repeat scroll 0 0 #ffffff;
     color: #333;
     .thumbnail {
       background: none repeat scroll 0 0 #e0e0e0;
+    }
+
+    .trapezoid {
+      border-top-color: #fff;
     }
   }
 
@@ -40,7 +53,6 @@
 
       #header-image {
         color: #FFF;
-        // text-shadow: 1px 1px 3px #ddd;
       }
     }
   }
@@ -71,6 +83,10 @@
     padding-bottom: 0px;
     #venue-pic {
       margin-top: 20px;
+    }
+    // The venue section has less padding.
+    .trapezoid {
+      top: $trapezoid-height;
     }
   }
 
