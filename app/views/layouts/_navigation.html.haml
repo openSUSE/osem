@@ -1,7 +1,6 @@
-.navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
+%nav.navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
   .container
     .navbar-header
-
       - if controller.class.name.split("::").first=="Admin"
         %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', type: 'button' }
           %span.sr-only Toggle navigation
@@ -79,3 +78,4 @@
                 -#     Need Help?
                 -#   #navbar-devise-help.collapse
                 -#     = render 'devise/shared/links'
+  .trapezoid

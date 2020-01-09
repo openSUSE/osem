@@ -22,7 +22,7 @@
                       = sanitize link_to(venue.name, venue.website)
                     - else
                       = venue.city
-                      - if venue.country_name != 'US'
+                      - if venue.country != 'US'
                         &bull;
                         = venue.country_name
 
@@ -32,3 +32,4 @@
         .row
           .col-md-8.col-md-offset-2
             = markdown(conference.description)
+      .trapezoid

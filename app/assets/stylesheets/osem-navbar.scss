@@ -1,5 +1,5 @@
 @import "breakpoints.scss";
-$navbar-default-link-color: #FFF;
+@import "osem-variables.scss";
 
 .nav-osem {
     border: none;
@@ -45,5 +45,9 @@ $navbar-default-link-color: #FFF;
     .navbar-brand img {
         margin-top: -5px;
         max-height: 100%;
+    }
+
+    .trapezoid {
+        border-top-color: $navbar-default-bg;
     }
 }

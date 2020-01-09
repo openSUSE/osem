@@ -1,3 +1,4 @@
+@import "osem-variables";
 @import "bootstrap/mixins";
 
 html {
@@ -15,6 +16,21 @@ body {
 
 #content {
   padding-bottom: 60px;
+}
+
+// Designed to be the last element in a section / nav
+// Makes a little "puzzle piece" connector.
+.trapezoid {
+    position: relative;
+    margin-left: 60px;
+    border-top: $trapezoid-height solid;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    height: 0;
+    width: 64px;
+    margin-top: -1 * $trapezoid-height;
+    top: $trapezoid-height;
+    z-index: 1000;
 }
 
 #footer {

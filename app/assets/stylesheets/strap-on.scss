@@ -1,10 +1,5 @@
-$navbar-default-bg: #0C3559;
-$navbar-default-link-active-bg: rgb(8,8,8);
-$navbar-default-border: 1px solid #d4d4d4;
-$navbar-default-color: #FFF;
-$navbar-default-link-color: #FFF;
-$navbar-default-link-hover-color: #F2E205;
-
+// Place bootstrap variable customizations in the file below.
+@import "osem-variables";
 @import 'bootstrap-datetimepicker';
 @import "bootstrap-sprockets";
 
