@@ -15,13 +15,13 @@ $(function () {
 
    $("#conference-start-datepicker").datetimepicker({
        useCurrent: false,
+       ignoreReadonly: true,
        format: "YYYY-MM-DD",
-       // conference-start-day >= Current_date
-       minDate : today
    });
 
    $("#conference-end-datepicker").datetimepicker({
        useCurrent: false,
+       ignoreReadonly: true,
        format: "YYYY-MM-DD"
    });
 
