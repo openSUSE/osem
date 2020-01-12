@@ -23,8 +23,8 @@
   %li
     = link_to(conference_conference_registration_path(@conference)) do
       %span.fa.fa-id-badge
-        = @conference.short_title
-        registration
+      = @conference.short_title
+      registration
 -if @conference && @conference.program
   %li
     = link_to(conference_program_proposals_path(@conference.short_title)) do
