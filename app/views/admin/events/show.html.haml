@@ -11,7 +11,7 @@
           - progress_status = @event.progress_status
           = progress_status.reject{ |_key, value| value || value.nil? }.length
     %li
-      = link_to 'Commercials', '#proposal-commercials', 'data-toggle' => 'tab'
+      = link_to 'Materials', '#proposal-commercials', 'data-toggle' => 'tab'
 
   .tab-content
     #proposal-content.tab-pane.active
