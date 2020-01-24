@@ -7,6 +7,48 @@ describe Conference do
 
   let(:subject) { create(:conference, start_date: Date.new(2014, 06, 30), end_date: Date.new(2014, 06, 30)) }
 
+  context 'Delegation' do
+    context 'Venue' do
+      context 'when venue has not been set' do
+        it do
+          expect(subject.city).to eq(nil)
+        end
+        it do
+          expect(subject.country_name).to eq(nil)
+        end
+        it do
+          expect(subject.venue_name).to eq(nil)
+        end
+        it do
+          expect(subject.venue_street).to eq(nil)
+        end
+      end
+
+      context 'when venue has been set' do
+        before(:each) do
+          subject.update(venue: venue)
+        end
+
+        let(:venue) do
+          FactoryBot.create(:venue)
+        end
+
+        it do
+          expect(subject.city).to eq(venue.city)
+        end
+        it do
+          expect(subject.country_name).to eq(venue.country_name)
+        end
+        it do
+          expect(subject.venue_name).to eq(venue.name)
+        end
+        it do
+          expect(subject.venue_street).to eq(venue.street)
+        end
+      end
+    end
+  end
+
   describe '#write_event_distribution_to_db' do
 
     it 'updates pending conferences' do
