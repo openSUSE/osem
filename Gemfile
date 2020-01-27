@@ -20,7 +20,7 @@ gem 'puma', '~> 3.0'
 gem 'responders', '~> 2.0'
 
 # as supported databases
-# gem 'mysql2'
+gem 'mysql2'
 gem 'pg'
 
 # for tracking data changes
@@ -41,9 +41,9 @@ gem 'devise_ichain_authenticatable'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-discourse'
-# gem 'omniauth-openid'
-# gem 'omniauth-facebook'
-# gem 'omniauth-github'
+gem 'omniauth-openid'
+gem 'omniauth-facebook'
+gem 'omniauth-github'
 
 # Bot-filtering
 gem 'recaptcha', require: 'recaptcha/rails'
