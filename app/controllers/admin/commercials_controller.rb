@@ -17,10 +17,10 @@ module Admin
 
       if @commercial.save
         redirect_to admin_conference_commercials_path,
-                    notice: 'Commercial was successfully created.'
+                    notice: 'Materials were successfully created.'
       else
         redirect_to admin_conference_commercials_path,
-                    error: 'An error prohibited this Commercial from being saved: '\
+                    error: 'An error prohibited materials from being saved: '\
                     "#{@commercial.errors.full_messages.join('. ')}."
 
       end
@@ -29,17 +29,17 @@ module Admin
     def update
       if @commercial.update(commercial_params)
         redirect_to admin_conference_commercials_path,
-                    notice: 'Commercial was successfully updated.'
+                    notice: 'Materials were successfully updated.'
       else
         redirect_to admin_conference_commercials_path,
-                    error: 'An error prohibited this Commercial from being saved: '\
+                    error: 'An error prohibited materials from being saved: '\
                     "#{@commercial.errors.full_messages.join('. ')}."
       end
     end
 
     def destroy
       @commercial.destroy
-      redirect_to admin_conference_commercials_path, notice: 'Materaisl were successfully removed.'
+      redirect_to admin_conference_commercials_path, notice: 'Materials were successfully removed.'
     end
 
     def render_commercial

@@ -42,7 +42,7 @@
 
                     - else
                       = general_change_description(version)
-                      =  link_to 'commercial',
+                      =  link_to 'materials',
                                 edit_admin_conference_program_event_path(conference_id: @conference.short_title,
                                         id: @event.id, anchor: 'commercials-content')
 
@@ -82,7 +82,7 @@
             %td{ 'class' => class_for_todo(progress_status['subtitle']) }
               %span{ 'class' => [icon_for_todo(progress_status['subtitle']), 'fa-lg'] }
           %tr
-            %td= link_to 'Add a commercial', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event, anchor: 'commercials-content')
+            %td= link_to 'Add materials', edit_admin_conference_program_event_path(@event.program.conference.short_title, @event, anchor: 'commercials-content')
             %td{ 'class' => class_for_todo(progress_status['commercials']) }
               %span{ 'class' => [icon_for_todo(progress_status['commercials']), 'fa-lg'] }
           - unless progress_status['track'].nil?
