@@ -17,7 +17,7 @@ feature Commercial do
 
       # Create valid commercial
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
-      click_button 'Create Commercial'
+      click_button 'Save Materials'
       page.find('#flash')
       expect(flash).to eq('Commercial was successfully created.')
       page.find('#flash .button.close').click
@@ -59,10 +59,10 @@ feature Commercial do
       click_link 'Commercials'
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
 
-      # Workaround to enable the 'Create Commercial' button
+      # Workaround to enable the 'Save Materials' button
       page.execute_script("$('#commercial_submit_action').prop('disabled', false)")
 
-      click_button 'Create Commercial'
+      click_button 'Save Materials'
       page.find('#flash')
       expect(flash).to eq('Commercial was successfully created.')
     end
@@ -72,7 +72,7 @@ feature Commercial do
       click_link 'Commercials'
       fill_in 'commercial_url', with: 'invalid_commercial_url'
       expect(page).to have_content('No embeddable content')
-      expect(page).to have_css("button[type='submit']:disabled", text: 'Create Commercial')
+      expect(page).to have_css("button[type='submit']:disabled", text: 'Save Materials')
     end
 
     scenario 'updates a commercial of an event', feature: true, js: true do
