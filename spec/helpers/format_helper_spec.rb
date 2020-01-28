@@ -11,7 +11,15 @@ describe FormatHelper, type: :helper do
 
     it 'should return HTML for header markdown' do
       expect(Redcarpet::Markdown).to receive(:new)
-      .with(Redcarpet::Render::HTML, autolink: true, space_after_headers: true, no_intra_emphasis: true)
+      .with(
+        Redcarpet::Render::HTML,
+        autolink: true,
+        space_after_headers: true,
+        tables: true,
+        strikethrough: true,
+        footnotes: true,
+        superscript: true
+      )
       .and_call_original
 
       expect(markdown('# this is my header')).to eq "<h1>this is my header</h1>\n"
