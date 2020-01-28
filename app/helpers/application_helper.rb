@@ -184,7 +184,7 @@ module ApplicationHelper
       image_tag('snapcon_logo.png'),
       root_path,
       class: 'navbar-brand',
-      title: ENV['OSEM_NAME']
+      title: nav_link_text(conference)
     )
   end
 

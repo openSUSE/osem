@@ -13,7 +13,7 @@ Devise.setup do |config|
                   scope: 'email'
 
   config.omniauth :discourse,
-                  sso_url: "https://forum.snap.berkeley.edu/session/sso_provider",
+                  sso_url: 'https://forum.snap.berkeley.edu/session/sso_provider',
                   sso_secret: ENV['OSEM_DISCOURSE_SECRET']
 
   # config.omniauth :facebook, (ENV['OSEM_FACEBOOK_KEY'] || Rails.application.secrets.facebook_key), (ENV['OSEM_FACEBOOK_SECRET'] || Rails.application.secrets.facebook_secret)
