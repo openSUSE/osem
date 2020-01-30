@@ -98,7 +98,8 @@ feature Conference do
       sign_in user
       visit admin_conference_path(conference.short_title)
 
-      expect(find('.navbar-brand').text).to eq(conference.organization.name)
+      # expect(find('.navbar-brand')).to eq(conference.organization.name)
+      expect(find('.navbar-brand')).to eq(image_tag('snapcon_logo.png'))
     end
 
     it_behaves_like 'add and update conference'
