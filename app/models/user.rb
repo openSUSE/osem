@@ -50,7 +50,9 @@ class User < ApplicationRecord
                     else
                       [:database_authenticatable, :registerable,
                        :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-                       :omniauthable, omniauth_providers: [:suse, :google, :facebook, :github, :discourse]]
+                       :omniauthable,
+                       # omniauth_providers: [:suse, :google, :facebook, :github, :discourse]
+                       omniauth_providers: [:google, :discourse]
                     end
 
   devise(*devise_modules)
