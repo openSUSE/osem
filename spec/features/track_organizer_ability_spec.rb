@@ -23,7 +23,7 @@ feature 'Has correct abilities' do
       expect(page).to_not have_link('Basics', href: "/admin/conferences/#{conference.short_title}/edit")
       expect(page).to have_text('Basics')
       expect(page).to_not have_link('Contact', href: "/admin/conferences/#{conference.short_title}/contact/edit")
-      expect(page).to have_link('Commercials', href: "/admin/conferences/#{conference.short_title}/commercials")
+      expect(page).to have_link('Materials', href: "/admin/conferences/#{conference.short_title}/commercials")
       expect(page).to_not have_link('Splashpage', href: "/admin/conferences/#{conference.short_title}/splashpage")
       expect(page).to_not have_link('Venue', href: "/admin/conferences/#{conference.short_title}/venue")
       expect(page).to_not have_link('Rooms', href: "/admin/conferences/#{conference.short_title}/venue/rooms")

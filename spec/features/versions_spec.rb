@@ -277,9 +277,9 @@ feature 'Version' do
     conference_commercial.destroy
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new commercial in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated url of commercial in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted commercial in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) created new materials in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated url of materials in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) deleted materials in conference #{conference.short_title}")
   end
 
   scenario 'display changes in event commercials', feature: true, versioning: true, js: true do
@@ -288,9 +288,9 @@ feature 'Version' do
     event_commercial.destroy
 
     visit admin_revision_history_path
-    expect(page).to have_text("Someone (probably via the console) created new commercial in event #{event_with_commercial.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) updated url of commercial in event #{event_with_commercial.title} in conference #{conference.short_title}")
-    expect(page).to have_text("Someone (probably via the console) deleted commercial in event #{event_with_commercial.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) created new materals in event #{event_with_commercial.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) updated url of materials in event #{event_with_commercial.title} in conference #{conference.short_title}")
+    expect(page).to have_text("Someone (probably via the console) deleted materials in event #{event_with_commercial.title} in conference #{conference.short_title}")
   end
 
   scenario 'display changes in event commercials in event history', feature: true, versioning: true, js: true do
@@ -299,10 +299,10 @@ feature 'Version' do
 
     visit admin_conference_program_event_path(conference.short_title, event_with_commercial)
     click_link 'History'
-    expect(page).to have_text('Someone (probably via the console) created new commercial')
+    expect(page).to have_text('Someone (probably via the console) created new materials')
     visit admin_conference_program_event_path(conference.short_title, event_without_commercial)
     click_link 'History'
-    expect(page).to have_no_text('Someone (probably via the console) created new commercial')
+    expect(page).to have_no_text('Someone (probably via the console) created new materials')
   end
 
   scenario 'display changes in organization', feature: true, versioning: true, js: true do
