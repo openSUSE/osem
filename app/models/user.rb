@@ -53,6 +53,7 @@ class User < ApplicationRecord
                        :omniauthable,
                        # omniauth_providers: [:suse, :google, :facebook, :github, :discourse]
                        omniauth_providers: [:google, :discourse]
+                      ]
                     end
 
   devise(*devise_modules)
