@@ -6,9 +6,9 @@
         = "(#{@events.length})" if @events.any?
 
         .btn-group.pull-right
-          %button.btn.btn-primary{ title: 'Mass import of commercials for events',
+          %button.btn.btn-primary{ title: 'Mass import of materials for events',
             data: { toggle: 'modal', target: '#mass-commercials-modal' } }
-            Add Commercials
+            Add Materials
 
           - if can? :create, Event
             = link_to 'Add Event',
@@ -28,7 +28,7 @@
   .modal-dialog
     .modal-content
       .modal-header
-        %h1 Add commercials to events
+        %h1 Add materials to events
         .text-muted
           Upload your file with data in the following format:
           %b Event_ID:Commercial_Link

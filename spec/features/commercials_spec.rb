@@ -17,9 +17,9 @@ feature Commercial do
 
       # Create valid commercial
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
-      click_button 'Create Commercial'
+      click_button 'Save Materials'
       page.find('#flash')
-      expect(flash).to eq('Commercial was successfully created.')
+      expect(flash).to eq('Materials were successfully created.')
       page.find('#flash .button.close').click
       expect(conference.commercials.count).to eq(1)
 
@@ -28,7 +28,7 @@ feature Commercial do
       fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=VNkDJk5_9eU'
       click_button 'Update'
       page.find('#flash')
-      expect(flash).to eq('Commercial was successfully updated.')
+      expect(flash).to eq('Materials were successfully updated.')
       page.find('#flash .button.close').click
       expect(conference.commercials.count).to eq(1)
       commercial.reload
@@ -39,7 +39,7 @@ feature Commercial do
         click_link 'Delete'
       end
       page.find('#flash')
-      expect(flash).to eq('Commercial was successfully destroyed.')
+      expect(flash).to eq('Materials were successfully destroyed.')
       expect(conference.commercials.count).to eq(0)
     end
   end
@@ -56,23 +56,23 @@ feature Commercial do
 
     scenario 'adds a valid commercial of an event', feature: true, js: true do
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
+      click_link 'Materials'
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
 
-      # Workaround to enable the 'Create Commercial' button
+      # Workaround to enable the 'Save Materials' button
       page.execute_script("$('#commercial_submit_action').prop('disabled', false)")
 
-      click_button 'Create Commercial'
+      click_button 'Save Materials'
       page.find('#flash')
-      expect(flash).to eq('Commercial was successfully created.')
+      expect(flash).to eq('Materials were successfully created.')
     end
 
     scenario 'does not add an invalid commercial of an event', feature: true, js: true do
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
+      click_link 'Materials'
       fill_in 'commercial_url', with: 'invalid_commercial_url'
       expect(page).to have_content('No embeddable content')
-      expect(page).to have_css("button[type='submit']:disabled", text: 'Create Commercial')
+      expect(page).to have_css("button[type='submit']:disabled", text: 'Save Materials')
     end
 
     scenario 'updates a commercial of an event', feature: true, js: true do
@@ -80,11 +80,11 @@ feature Commercial do
                           commercialable_id:   event.id,
                           commercialable_type: 'Event')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
+      click_link 'Materials'
       fill_in "commercial_url_#{commercial.id}", with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
       click_button 'Update'
       page.find('#flash')
-      expect(flash).to eq('Commercial was successfully updated.')
+      expect(flash).to eq('Materials were successfully updated.')
       TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
       expect(event.commercials.count).to eq(1)
       commercial.reload
@@ -97,12 +97,12 @@ feature Commercial do
                           commercialable_type: 'Event',
                           url:                 'https://www.youtube.com/watch?v=BTTygyxuGj8')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
+      click_link 'Materials'
       fill_in "commercial_url_#{commercial.id}", with: 'invalid_commercial_url'
       click_button 'Update'
       find('#flash')
       expect(current_path).to eq edit_conference_program_proposal_path(conference.short_title, event.id)
-      expect(flash).to include('An error prohibited this Commercial from being saved:')
+      expect(flash).to include('An error prohibited materials from being saved:')
       commercial.reload
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=BTTygyxuGj8')
     end
@@ -112,12 +112,12 @@ feature Commercial do
              commercialable_id:   event.id,
              commercialable_type: 'Event')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
-      click_link 'Commercials'
+      click_link 'Materials'
       page.accept_alert do
         click_link 'Delete'
       end
       page.find('#flash')
-      expect(flash).to eq('Commercial was successfully destroyed.')
+      expect(flash).to eq('Materials were successfully destroyed.')
       TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
       expect(event.commercials.count).to eq(0)
     end

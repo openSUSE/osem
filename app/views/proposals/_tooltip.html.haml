@@ -20,7 +20,7 @@
       = link_to 'Add a subtitle', edit_conference_program_proposal_path(event.program.conference.short_title, event)
   %li{'class'=>class_for_todo(progress_status['commercials'])}
     %span{'class'=>icon_for_todo(progress_status['commercials'])}
-      = link_to 'Add a commercial', edit_conference_program_proposal_path(event.program.conference.short_title, event, anchor: 'commercials-content')
+      = link_to 'Add materials', edit_conference_program_proposal_path(event.program.conference.short_title, event, anchor: 'commercials-content')
   - unless progress_status['track'].nil?
     %li{'class'=>class_for_todo(progress_status['track'])}
       %span{'class'=>icon_for_todo(progress_status['track'])}
