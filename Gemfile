@@ -20,7 +20,6 @@ gem 'puma', '~> 3.0'
 gem 'responders', '~> 2.0'
 
 # as supported databases
-gem 'mysql2'
 gem 'pg'
 
 # for tracking data changes
@@ -143,8 +142,7 @@ gem 'rqrcode'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
-# as error catcher
-gem 'airbrake'
+gem 'sentry'
 
 # to make links faster
 gem 'turbolinks'
