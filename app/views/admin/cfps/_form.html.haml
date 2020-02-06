@@ -7,15 +7,15 @@
 .row
   .col-md-8
     = semantic_form_for(cfp, url: cfp_form_url(cfp, conference),
-      html: { multipart: true }) do |f|
+      html: { multipart: true,
+              data: { end_conference: conference.end_date.to_s } }) do |f|
       = f.input :cfp_type, as: :hidden
       = f.input :start_date, as: :string,
-        input_html: { id: 'registration-period-start-datepicker',
-          start_date: conference.start_date,
-          end_date: conference.end_date, readonly: 'readonly' }
+        input_html: { class: 'form-control',
+          id: 'registration-period-start-datepicker' }
       = f.input :end_date, as: :string,
-        input_html: { id: 'registration-period-end-datepicker',
-          readonly: 'readonly' }
+        input_html: { class: 'form-control',
+          id: 'registration-period-end-datepicker' }
       = f.input :description, hint: markdown_hint,
         input_html: { rows: 2, data: { provide: 'markdown-editable' } }
       - if cfp.cfp_type == 'events'

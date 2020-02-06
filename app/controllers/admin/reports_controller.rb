@@ -15,8 +15,9 @@ module Admin
 
       attended_registrants_ids = @conference.registrations.where(attended: true).pluck(:user_id)
       @missing_event_speakers = EventUser.joins(:event)
-                                .where('event_role = ? and program_id = ?', 'submitter', @program.id)
+                                .where('event_role = ? and program_id = ?', 'speaker', @program.id)
                                 .where.not(user_id: attended_registrants_ids)
+                                .where(event_id: @events.pluck(:id))
                                 .includes(:user, :event)
     end
   end

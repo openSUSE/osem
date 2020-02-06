@@ -17,6 +17,14 @@ namespace :data do
     nullify_attribute(events_room, 'room_id')
   end
 
+  desc 'Drop all ahoy events'
+  task drop_all_ahoy_events: :environment do
+    class TmpAhoy < ActiveRecord::Base
+      self.table_name = 'ahoy_events'
+    end
+    TmpAhoy.delete_all
+  end
+
   def nullify_attribute(collection, attribute)
     puts "Will nullify #{attribute} in #{ActionController::Base.helpers.pluralize(collection.length, 'event')}."
     if collection.any?

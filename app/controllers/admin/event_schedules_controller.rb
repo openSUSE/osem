@@ -3,6 +3,7 @@
 module Admin
   class EventSchedulesController < Admin::BaseController
     load_and_authorize_resource :event_schedule
+    skip_before_action :verify_authenticity_token
 
     def create
       if @event_schedule.save

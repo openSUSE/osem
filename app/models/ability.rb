@@ -31,10 +31,23 @@ class Ability
       event.state == 'confirmed'
     end
 
+    can [:show, :events, :app], Schedule do |schedule|
+      schedule.program.schedule_public
+    end
+
     # can view Commercials of confirmed Events
-    can :show, Commercial, commercialable_type: 'Event', commercialable_id: Event.where(state: 'confirmed').pluck(:id)
+    can :show, Commercial, commercialable: Event.where(state: 'confirmed')
     can [:show, :create], User
-    unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+
+    can [:index, :show], Survey, surveyable_type: 'Conference'
+
+    # Things that are possible without ichain enabled that are **not*+ possible with ichain mode enabled.
+    if ENV['OSEM_ICHAIN_ENABLED'] != 'true'
+      # There is no reliable way for this workflow (enable not logged in users to fill out a form, then telling
+      # them to sign up once they submit) in ichain. So enable it only without ichain.
+
+      # FIXME: The following abilities need to be checked. Are they about the type of  workflow mentioned above? Or are
+      # they just here because they worked in development mode (without ichain). We are suspicious that it's the latter!
       can :show, Registration do |registration|
         registration.new_record?
       end
@@ -51,12 +64,6 @@ class Ability
       can [:new, :create], Event do |event|
         event.program.cfp_open? && event.new_record?
       end
-
-      can [:show, :events], Schedule do |schedule|
-        schedule.program.schedule_public
-      end
-
-      can [:index, :show], Survey, surveyable_type: 'Conference'
     end
   end
 

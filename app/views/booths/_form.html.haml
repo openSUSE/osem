@@ -17,9 +17,9 @@
 
         %p.text-right
           - if @booth.new_record?
-            = f.submit 'Create Booth Request', class: 'btn btn-success'
+            = f.submit "Create #{(t'booth').capitalize } Request", class: 'btn btn-success'
           - else
-            = f.submit 'Update Booth Request', class: 'btn btn-success'
+            = f.submit "Update #{(t'booth').capitalize } Request", class: 'btn btn-success'
 
   :javascript
     $(document).ready(function() {

@@ -10,7 +10,7 @@ class SurveyQuestion < ActiveRecord::Base
   ICONS = { boolean: 'dot-circle-o', choice: 'check-square-o', string: 'edit', text: 'align-left', datetime: 'clock-o', numeric: 'slack' }.freeze
 
   validates :title, presence: true
-  validates :possible_answers, :max_choices, :min_choices, presence: true, if: 'choice?'
+  validates :possible_answers, :max_choices, :min_choices, presence: true, if: :choice?
   validates :min_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
   validates :max_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
 

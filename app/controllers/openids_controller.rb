@@ -6,6 +6,6 @@ class OpenidsController < ApplicationController
 
   def destroy
     @openid.destroy
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 end

@@ -1,0 +1,13 @@
+[Unit]
+Description=Open Source Event Manager
+Wants=apache2.service
+Before=apache2.service
+
+[Service]
+User=osem
+EnvironmentFile=/home/osem/events/current/.env.production
+WorkingDirectory=/home/osem/events/current
+ExecStart=/usr/bin/bundle exec puma -e production
+
+[Install]
+WantedBy=multi-user.target

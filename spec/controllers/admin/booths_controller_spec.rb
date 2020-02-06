@@ -13,14 +13,14 @@ describe Admin::BoothsController do
 
     describe 'GET index' do
       it 'does not render admin/booths#index' do
-        get :index, conference_id: conference.short_title
+        get :index, params: { conference_id: conference.short_title }
         expect(response).to redirect_to(user_session_path)
       end
     end
 
     describe 'GET show' do
       it 'does not render admin/booths#show' do
-        get :show, id: booth.id, conference_id: conference.short_title
+        get :show, params: { id: booth.id, conference_id: conference.short_title }
         expect(response).to redirect_to(user_session_path)
       end
     end
@@ -32,7 +32,7 @@ describe Admin::BoothsController do
     end
 
     describe 'GET index' do
-      before { get :index, conference_id: conference.short_title }
+      before { get :index, params: { conference_id: conference.short_title } }
 
       it 'assigns attributes for booths' do
         expect(assigns(:booths)).to eq([booth])
@@ -44,7 +44,7 @@ describe Admin::BoothsController do
     end
 
     describe 'GET new' do
-      before { get :new, conference_id: conference.short_title }
+      before { get :new, params: { conference_id: conference.short_title } }
 
       it 'assigns attributes for booths' do
         expect(assigns(:booth)).to be_a_new(Booth)
@@ -57,11 +57,11 @@ describe Admin::BoothsController do
 
     describe 'POST #create' do
       context 'successfully created' do
-        before { post :create, booth: attributes_for(:booth), conference_id: conference.short_title }
+        before { post :create, params: { booth: attributes_for(:booth), conference_id: conference.short_title } }
 
         it 'creates a new booth' do
           expected = expect do
-            post :create, booth: attributes_for(:booth), conference_id: conference.short_title
+            post :create, params: { booth: attributes_for(:booth), conference_id: conference.short_title }
           end
           expected.to change { Booth.count }.by(1)
         end
@@ -75,16 +75,16 @@ describe Admin::BoothsController do
         end
 
         it 'shows success message' do
-          expect(flash[:notice]).to match('Booth successfully created.')
+          expect(flash[:notice]).to match("#{(t 'booth').capitalize} successfully created.")
         end
       end
 
       context 'create action fails' do
-        before { post :create, booth: attributes_for(:booth, title: ''), conference_id: conference.short_title }
+        before { post :create, params: { booth: attributes_for(:booth, title: ''), conference_id: conference.short_title } }
 
         it 'does not create any record' do
           expected = expect do
-            post :create, booth: attributes_for(:booth, title: ''), conference_id: conference.short_title
+            post :create, params: { booth: attributes_for(:booth, title: ''), conference_id: conference.short_title }
           end
           expected.to_not change(Booth, :count)
         end
@@ -94,13 +94,13 @@ describe Admin::BoothsController do
         end
 
         it 'shows flash message' do
-          expect(flash[:error]).to eq("Creating booth failed. Title can't be blank.")
+          expect(flash[:error]).to eq("Creating #{t 'booth'} failed. Title can't be blank.")
         end
       end
     end
 
     describe 'GET #edit' do
-      before { get :edit, id: booth.id, conference_id: conference.short_title }
+      before { get :edit, params: { id: booth.id, conference_id: conference.short_title } }
 
       it 'renders edit template' do
         expect(response).to render_template('edit')
@@ -113,13 +113,13 @@ describe Admin::BoothsController do
 
     describe 'PATCH #update' do
       context 'updates suchessfully' do
-        before { patch :update, id: booth.id, booth: attributes_for(:booth, title: 'different'), conference_id: conference.short_title }
+        before { patch :update, params: { id: booth.id, booth: attributes_for(:booth, title: 'different'), conference_id: conference.short_title } }
         it 'redirects to admin booth index path' do
           expect(response).to redirect_to admin_conference_booths_path
         end
 
         it 'shows success message' do
-          expect(flash[:notice]).to match 'Successfully updated booth.'
+          expect(flash[:notice]).to match "Successfully updated #{t 'booth'}."
         end
 
         it 'updates booth' do

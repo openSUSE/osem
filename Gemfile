@@ -10,15 +10,10 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 5.0.7'
+gem 'rails', '~> 5.2.3'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
-
-# enables serving assets in production and setting your logger to standard out
-# both of which are required to run an application on a twelve-factor provider
-# like heroku.com
-gem 'rails_12factor', group: :production
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
@@ -37,7 +32,7 @@ gem 'carrierwave-bombshelter'
 gem 'mini_magick'
 
 # for internationalizing
-gem 'rails-i18n', '~> 5.0.0'
+gem 'rails-i18n'
 
 # as authentification framework
 gem 'devise'
@@ -54,7 +49,7 @@ gem 'omniauth-openid'
 gem 'recaptcha', require: 'recaptcha/rails'
 
 # as authorization framework
-gem 'cancancan', '~> 2.0'
+gem 'cancancan'
 
 # for roles
 gem 'rolify'
@@ -67,7 +62,7 @@ gem 'transitions', :require => %w( transitions active_record/transitions )
 
 # for comments
 gem 'acts_as_commentable_with_threading'
-gem 'awesome_nested_set', '~> 3.1.3'
+gem 'awesome_nested_set'
 
 # as templating language
 gem 'haml-rails'
@@ -80,7 +75,7 @@ gem 'uglifier', '>= 1.3.0'
 
 # as the front-end framework
 gem 'autoprefixer-rails'
-gem 'bootstrap-sass', '~> 3.3.4.1'
+gem 'bootstrap-sass', '~> 3.4.0'
 gem 'cocoon'
 gem 'formtastic', '~> 3.1.5'
 gem 'formtastic-bootstrap'
@@ -91,8 +86,6 @@ gem 'jquery-ui-rails', '~> 4.2.1'
 
 # for languages validation
 gem 'iso-639'
-
-gem 'thor', '~> 0.19'
 
 # frontend javascripts
 source 'https://rails-assets.org' do
@@ -117,18 +110,17 @@ source 'https://rails-assets.org' do
   # for select with icon
   gem 'rails-assets-bootstrap-select'
   gem 'rails-assets-markdown'
-  gem 'rails-assets-to-markdown'
+  gem 'rails-assets-to-markdown', '~> 3'
 end
 
 # as date picker
-gem 'bootstrap3-datetimepicker-rails', '~> 3.0.2'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 # data tables
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables-rails'
 
 # for charts
-gem 'chart-js-rails'
 gem 'chartkick'
 
 # for displaying maps
@@ -141,8 +133,10 @@ gem 'gravtastic'
 gem 'country_select'
 
 # as PDF generator
-gem 'prawn-qrcode', '~> 0.2.2.1'
-gem 'prawn_rails'
+gem 'prawn-qrcode'
+gem 'prawn-rails'
+
+# for QR code generation
 gem 'rqrcode'
 
 # to render XLS spreadsheets
@@ -150,7 +144,7 @@ gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
 # as error catcher
-gem 'airbrake', '~> 7.1'
+gem 'airbrake'
 
 # to make links faster
 gem 'turbolinks'
@@ -187,7 +181,7 @@ gem 'acts_as_list'
 gem 'bootstrap-switch-rails', '~> 3.0.0'
 
 # for parsing OEmbed data
-gem 'ruby-oembed', '~>0.12.0'
+gem 'ruby-oembed'
 
 # for uploading images to the cloud
 gem 'cloudinary'
@@ -200,7 +194,7 @@ gem 'dotenv-rails'
 gem 'feature'
 
 # For countable.js
-gem "countable-rails", "~> 0.0.1"
+gem "countable-rails"
 
 # Both are not in a group as we use it also for rake data:demo
 # for fake data
@@ -239,12 +233,10 @@ group :development do
   gem 'rubocop-rspec'
   # to open mails
   gem 'letter_opener'
-  # to open mails in browser
-  gem 'letter_opener_web'
   # as deployment system
   gem 'mina'
   # as debugger on error pages
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
   # as development database
   gem 'sqlite3'
 end
@@ -252,12 +244,11 @@ end
 group :test do
   # as test framework
   gem 'capybara'
-  gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'geckodriver-helper'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
   gem 'transactional_capybara'
+  gem 'webdrivers'
   # for measuring test coverage
   gem 'codecov', require: false
   # for describing models

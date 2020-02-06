@@ -14,14 +14,14 @@ require File.expand_path('../../config/environment', __FILE__)
 
 require 'rspec/rails'
 require 'shoulda/matchers'
+require 'webdrivers'
+
 # To avoid confusion on missed migrations - use Rails 4 checker to ensure
 # all migrations applied
 ActiveRecord::Migration.maintain_test_schema!
 
 # Keep capybara and the database on the same page
 require 'transactional_capybara/rspec'
-
-require 'selenium/webdriver'
 
 # Adds rspec helper provided by paper_trail
 # makes it easier to control when PaperTrail is enabled during testing.
@@ -60,6 +60,8 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
+  Capybara.disable_animation = true
+
   Capybara.register_driver :firefox do |app|
     Capybara::Selenium::Driver.new(app, browser: :firefox)
   end
@@ -77,7 +79,7 @@ RSpec.configure do |config|
 
   Capybara.register_driver :chrome_headless do |app|
     capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: { args: %w(headless disable-gpu window-size=1920x1080) }
+      chromeOptions: { args: %w(headless disable-gpu window-size=1920x1080 no-sandbox) }
     )
     Capybara::Selenium::Driver.new(
       app, browser: :chrome, desired_capabilities: capabilities
@@ -119,6 +121,17 @@ RSpec.configure do |config|
   #     save_and_open_page
   #   end
   # end
+
+  # use the config to use
+  # t('some.locale.key') instead of always having to type I18n.t
+  config.include AbstractController::Translation
 end
 
 OmniAuth.config.test_mode = true
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end

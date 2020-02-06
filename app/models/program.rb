@@ -72,8 +72,8 @@ class Program < ApplicationRecord
 
   after_create :create_event_types
   after_create :create_difficulty_levels
-  after_save :unschedule_unfit_events, if: :schedule_interval_changed?
-  after_save :normalize_event_types_length, if: :schedule_interval_changed?
+  after_save :unschedule_unfit_events, if: :saved_change_to_schedule_interval?
+  after_save :normalize_event_types_length, if: :saved_change_to_schedule_interval?
   validate :check_languages_format
 
   # Returns all event_schedules for the selected schedule ordered by start_time
@@ -211,7 +211,6 @@ class Program < ApplicationRecord
     EventType.create(title: 'Workshop', length: 60, color: '#0000FF', description: 'Interactive hands-on practice',
                      minimum_abstract_length: 0,
                      maximum_abstract_length: 500, program_id: id)
-    true
   end
 
   ##
@@ -227,7 +226,6 @@ class Program < ApplicationRecord
     DifficultyLevel.create(title: 'Hard',
                            description: 'Events require expert knowledge of the topic.',
                            color: '#EF6E69', program_id: id)
-    true
   end
 
   ##

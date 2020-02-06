@@ -33,7 +33,7 @@ Osem::Application.configure do
   # config.assets.manifest = YOUR_PATH
 
   # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for apache
+  # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
@@ -43,20 +43,25 @@ Osem::Application.configure do
   config.log_level = ENV['OSEM_LOG_LEVEL'].try(:to_sym) || :info
 
   # Prepend all log lines with the following tags
-  # config.log_tags = [ :subdomain, :uuid ]
+  config.log_tags = [:uuid]
 
-  # Use a different logger for distributed setups
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  # Disable serving static files from the `/public` folder by default since
+  # Apache or NGINX already handles this.
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
-  if ENV["MEMCACHEDCLOUD_SERVERS"]
-    config.cache_store = :dalli_store, ENV["MEMCACHEDCLOUD_SERVERS"].split(','), {
-      username: ENV["MEMCACHEDCLOUD_USERNAME"],
-      password: ENV["MEMCACHEDCLOUD_PASSWORD"]
+  if ENV["OSEM_MEMCACHED_SERVERS"]
+    config.cache_store = :mem_cache_store, ENV["OSEM_MEMCACHED_SERVERS"].split(','), {
+      username: ENV["OSEM_MEMCACHED_USERNAME"],
+      password: ENV["OSEM_MEMCACHED_PASSWORD"]
     }
-  else
-    config.cache_store = :memory_store, { size: 64.megabytes }
   end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server

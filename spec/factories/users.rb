@@ -13,7 +13,8 @@
 #       `create(:admin, is_admin: false)`
 #
 # For a non-admin user, use: `create(:user)`
-# For an admin user, use: `create(:admin)
+# For an admin user, use: `create(:admin)`
+# For an organizer user, use `create(:organizer)`
 
 FactoryBot.define do
   factory :user do
@@ -31,6 +32,7 @@ FactoryBot.define do
       Quisque cursus facilisis consequat. Etiam volutpat ligula turpis, at
       gravida.
     EOS
+    last_sign_in_at { Date.today }
     is_disabled { false }
 
     after(:create) do |user|
@@ -57,4 +59,14 @@ FactoryBot.define do
     biography { '<div id="divInjectedElement"></div>' }
   end
 
+  factory :organizer, parent: :user do
+    transient do
+      resource { create(:resource) }
+    end
+
+    after(:create) do |user, evaluator|
+      user.roles << Role.find_or_create_by(name: 'organizer', resource: evaluator.resource)
+      user.save!
+    end
+  end
 end

@@ -45,7 +45,7 @@ class Track < ApplicationRecord
   scope :cfp_active, -> { where(cfp_active: true) }
   scope :self_organized, -> { where.not(submitter: nil) }
 
-  state_machine initial: :pending do
+  state_machine initial: :new do
     state :new
     state :to_accept
     state :accepted

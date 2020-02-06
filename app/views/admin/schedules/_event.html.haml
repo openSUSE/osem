@@ -1,30 +1,29 @@
-- cache [:admin, @conference, @program, :schedule, event] do
-  - cells_length = event.event_type.length / @program.schedule_interval
-  / this height fits the room cells
-  - compact_grid = @program.schedule_interval < 15
-  - single_cell_height =  compact_grid ? 32 : 58
-  - height = (cells_length * single_cell_height)
-  - height -= 23 unless compact_grid
-  / subtracting the padding before calculate the number of lines
-  - lines = (height - 7) / 23
-  - color = event.track.try(:color).present? ? event.track.try(:color) : 'FFFFFF'
-  - non_schedulable = event_schedule_id && (EventSchedule.find(event_schedule_id).schedule != @schedule)
-  .schedule-event{ style: "height: #{height}px;  background-color: #{color}; color: #{contrast_color(color)}", |
-                   id: "event-#{event.id}", |
-                   event_id: event.id, |
-                   length: cells_length, |
-                   event_schedule_id: event_schedule_id, |
-                   class: "#{'compact' if compact_grid} #{'non_schedulable' if non_schedulable}" }
-    .schedule-event-text{ style: "-webkit-line-clamp: #{lines}; height: #{lines * 23}px;"}
-      %span.schedule-event-delete-button{ onclick: "Schedule.remove(\'event-#{event.id}\');" } X
-      %b
-        = link_to(event.id, admin_conference_program_event_path(@conference, event))
-      = event.speakers.collect(&:name).to_sentence
-      = ':'
-      = event.title
-      - if event.difficulty_level
-        %span.label.label-default= event.difficulty_level.title
-      - if event.event_type
-        %span.label.label-default= event.event_type.title
-      - if event.track
-        %span.label.label-default= event.track.short_name
+- cells_length = event.event_type.length / @program.schedule_interval
+/ this height fits the room cells
+- compact_grid = @program.schedule_interval < 15
+- single_cell_height =  compact_grid ? 32 : 58
+- height = (cells_length * single_cell_height)
+- height -= 23 unless compact_grid
+/ subtracting the padding before calculate the number of lines
+- lines = (height - 7) / 23
+- color = event.track.try(:color).present? ? event.track.try(:color) : 'FFFFFF'
+- non_schedulable = event_schedule_id && (EventSchedule.find(event_schedule_id).schedule != @schedule)
+.schedule-event{ style: "height: #{height}px;  background-color: #{color}; color: #{contrast_color(color)}", |
+                 id: "event-#{event.id}", |
+                 event_id: event.id, |
+                 length: cells_length, |
+                 event_schedule_id: event_schedule_id, |
+                 class: "#{'compact' if compact_grid} #{'non_schedulable' if non_schedulable}" }
+  .schedule-event-text{ style: "-webkit-line-clamp: #{lines}; height: #{lines * 23}px;"}
+    %span.schedule-event-delete-button{ onclick: "Schedule.remove(\'event-#{event.id}\');" } X
+    %b
+      = link_to(event.id, admin_conference_program_event_path(@conference, event))
+    = event.speakers.collect(&:name).to_sentence
+    = ':'
+    = event.title
+    - if event.difficulty_level
+      %span.label.label-default= event.difficulty_level.title
+    - if event.event_type
+      %span.label.label-default= event.event_type.title
+    - if event.track
+      %span.label.label-default= event.track.short_name

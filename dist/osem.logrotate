@@ -1,0 +1,13 @@
+/home/osem/events/shared/log/*.log {
+    compress
+    dateext
+    maxage 31
+    rotate 99
+    size=+4096k
+    missingok
+    notifempty
+    create 644 osem osem
+    postrotate
+      /usr/bin/touch /home/osem/events/current/tmp/restart.txt
+    endscript
+}

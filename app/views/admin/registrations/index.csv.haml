@@ -1,4 +1,16 @@
-- headers = ['Name', 'Email']
+- headers = ['Attended',
+             'Name',
+             'Nickname',
+             'Affilιation',
+             'Email',
+             'Arrival',
+             'Departure']
 = CSV.generate_line headers
 - @registrations.each do |registration|
-  = CSV.generate_line([registration.name, registration.email])
+  = CSV.generate_line([registration.attended ? 'X' : '',
+                       registration.name,
+                       registration.nickname,
+                       registration.affiliation,
+                       registration.email,
+                       registration.arrival.to_s,
+                       registration.departure.to_s])

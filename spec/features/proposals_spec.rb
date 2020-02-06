@@ -6,8 +6,7 @@ feature Event do
   let!(:conference) { create(:conference) }
   let!(:registration_period) { create(:registration_period, conference: conference, start_date: Date.current) }
   let!(:cfp) { create(:cfp, program_id: conference.program.id) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
   let!(:participant) { create(:user) }
   let!(:participant_without_bio) { create(:user, biography: '') }
 
@@ -119,10 +118,11 @@ feature Event do
       fill_in 'event_title', with: 'Example Proposal'
       select('Example Event Type', from: 'event[event_type_id]')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
-      click_link 'Do you require something special?'
+      expect(page).to have_text('You have used 3 words')
 
-      page.find('#event_description')
+      click_link 'Do you require something special?'
       fill_in 'event_description', with: 'Lorem ipsum description'
+
       click_button 'Create Proposal'
 
       page.find('#flash')

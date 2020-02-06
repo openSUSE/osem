@@ -12,8 +12,8 @@
       = f.input :name, input_html: { autofocus: true }
       = f.input :short_name, hint: "A short and unique handle for the track, using only letters, numbers, underscores, and dashes. This will be used to identify the track in URLs etc. Example: 'my_awesome_track'", input_html: { required: 'required', pattern: '[a-zA-Z0-9_-]+', title: 'Only letters, numbers, underscores, and dashes.' }
       = f.input :color, input_html: {size: 6, type: 'color'}, required: true
-      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, readonly: 'readonly', required: @track.self_organized_and_accepted_or_confirmed? }
-      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly', required: @track.self_organized_and_accepted_or_confirmed? }
+      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, required: @track.self_organized_and_accepted_or_confirmed? }
+      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', required: @track.self_organized_and_accepted_or_confirmed? }
       - if @conference.venue.try(:rooms).present?
         = f.input :room, as: :select, collection: (@conference.venue.rooms).map {|room| ["#{room.name}", room.id]}, include_blank: true, label: 'Room', input_html: { class: 'select-help-toggle', required: @track.self_organized_and_accepted_or_confirmed? }
       - else

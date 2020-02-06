@@ -27,27 +27,28 @@
   .row
     .col-md-3
       %h3
+      - if @event.speakers.any?
         Presented by:
-      - @speakers_ordered.each do |speaker|
-        .speakerinfo
-          .row
-            .col-md-4
-              = image_tag speaker.gravatar_url(:size => 120), class: 'img-responsive img-rounded'
-            .col-md-8
-              %h4
-                = link_to speaker.name, user_path(speaker.id)
-                %br
-                - if speaker.email_public?
-                  = mail_to "#{ speaker.email }" do
-                    %i.fa.fa-envelope-o.fa-2x
-              - if speaker.affiliation?
-                .text-muted
-                  from
-                  = speaker.affiliation
-          -if speaker.biography?
-            .row.speakerbio
-              .col-md-12
-                = markdown(speaker.biography)
+        - @speakers_ordered.each do |speaker|
+          .speakerinfo
+            .row
+              .col-md-4
+                = image_tag speaker.gravatar_url(:size => 120), class: 'img-responsive img-rounded'
+              .col-md-8
+                %h4
+                  = link_to speaker.name, user_path(speaker.id)
+                  %br
+                  - if speaker.email_public?
+                    = mail_to "#{ speaker.email }" do
+                      %i.fa.fa-envelope-o.fa-2x
+                - if speaker.affiliation?
+                  .text-muted
+                    from
+                    = speaker.affiliation
+            -if speaker.biography?
+              .row.speakerbio
+                .col-md-12
+                  = markdown(speaker.biography)
     .col-md-9
       .row
         .col-md-12
@@ -83,7 +84,7 @@
                 = @event.room.name
           .col-md-12
             %dt Conference:
-            %dd= @event.program.conference.title
+            %dd= link_to @event.program.conference.title, conference_path(@conference)
           .col-md-12
             %dt Language:
             %dd= @event.language if @event.language

@@ -5,8 +5,7 @@ require 'spec_helper'
 feature Contact do
 
   let!(:conference) { create(:conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
 
   shared_examples 'contact field' do |field_name, field_value|
     it 'updates a contact' do

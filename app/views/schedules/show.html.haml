@@ -26,6 +26,9 @@
 
           .visible-md-inline.visible-lg-inline
             = render partial: 'carousel', locals: { date: date, hrs_per_slide: 3 }
+    %p.pull-right
+      = link_to app_conference_schedule_path do
+        Get the mobile app!
 
 :javascript
   // change of active tab and the button title when a date is clicked

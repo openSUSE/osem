@@ -39,8 +39,7 @@ feature Conference do
 
     scenario 'update conference', feature: true, js: true do
       conference = create(:conference)
-      organizer_role = Role.find_by(name: 'organizer', resource: conference)
-      organizer = create(:user, role_ids: [organizer_role.id])
+      organizer = create(:organizer, resource: conference)
 
       expected_count = Conference.count
 
@@ -49,6 +48,14 @@ feature Conference do
 
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: ''
+
+      day = Time.zone.today + 10
+      page
+          .execute_script("$('#conference-start-datepicker').val('" +
+                             "#{day.strftime('%d/%m/%Y')}')")
+      page
+          .execute_script("$('#conference-end-datepicker').val('" +
+                             "#{(day + 7).strftime('%d/%m/%Y')}')")
 
       page.accept_alert do
         click_button 'Update Conference'

@@ -4,9 +4,9 @@ require 'spec_helper'
 
 describe Role do
   let(:conference) { create(:conference) }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
-  let!(:organizer) { create(:user, role_ids: organizer_role.id) }
+  let!(:organizer_role) { Role.find_or_create_by(name: 'organizer', resource: conference) }
+  let!(:cfp_role) { Role.find_or_create_by(name: 'cfp', resource: conference) }
+  let!(:organizer) { create(:organizer, resource: conference) }
   let(:user) { create(:user) }
 
   it 'get_users' do

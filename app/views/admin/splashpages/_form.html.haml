@@ -9,6 +9,13 @@
       = f.inputs name: 'Components' do
         %ul.fa-ul
           %li
+            %th
+              %button.btn.btn-default#select-all{ type: "button" }
+                Select All
+            %th
+              %button.btn.btn-default#unselect-all{ type: "button" }
+                Unselect All
+          %li
             = f.input :include_cfp, label: 'Display call for papers and call for tracks, while open', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_cfp) }
           %li
             = f.input :include_program, label: 'Display the program', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_program) }
@@ -17,7 +24,7 @@
               %li
                 = f.input :include_tracks, label: 'Include confirmed tracks', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tracks) }
               %li
-                = f.input :include_booths, label: 'Include confirmed booths', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
+                = f.input :include_booths, label: "Include confirmed #{(t'booth').pluralize}", input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
 
           %li
             = f.input :include_registrations, label: 'Display the registration period', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_registrations) }
@@ -45,3 +52,15 @@
     .col-md-12
       %p.text-right
         = f.submit 'Save Changes', class: 'btn btn-primary'
+
+:javascript
+  $(document).ready(function(){
+    $('#select-all').click(function(event) {
+      var parent = $(this).parents('.inputs:last');
+      parent.find('.input.checkbox input[type=checkbox]').prop('checked',true);
+      });
+    $('#unselect-all').click(function(event) {
+      var parent = $(this).parents('.inputs:last');
+      parent.find('.input.checkbox input[type=checkbox]').prop('checked',false);
+      });
+  });

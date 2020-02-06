@@ -14,10 +14,7 @@
             %td= link_to user.email, admin_user_path(user.id)
             %td= user.created_at.strftime('%m/%d/%Y')
             %td
-              = check_box_tag user.id, user.id, user.confirmed?,
-                url: "/admin/users/#{user.id}/toggle_confirmation?user[to_confirm]=",
-                class: 'switch-checkbox',
-                readonly: true
+              = user.confirmed? ? 'Yes' : 'No'
 - else
   %h5.text-warning.text-center
     No sign ups!

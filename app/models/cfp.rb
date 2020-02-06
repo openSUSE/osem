@@ -18,7 +18,7 @@ class Cfp < ApplicationRecord
               in: TYPES
             },
             uniqueness: {
-              scope:          :program,
+              scope:          :program_id,
               case_sensitive: false
             }
 

@@ -31,7 +31,7 @@ class Registration < ApplicationRecord
   validate :registration_to_events_only_if_present
 
   validates :accepted_code_of_conduct, acceptance: {
-    if: -> { conference.code_of_conduct.present? }
+    if: -> { conference.try(:code_of_conduct).present? }
   }
 
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
@@ -76,7 +76,7 @@ class Registration < ApplicationRecord
   end
 
   def registration_limit_not_exceed
-    if conference.registration_limit > 0 && conference.registrations(:reload).count >= conference.registration_limit
+    if conference.registration_limit > 0 && conference.registrations.count >= conference.registration_limit
       errors.add(:base, 'Registration limit exceeded')
     end
   end

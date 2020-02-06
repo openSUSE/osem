@@ -16,9 +16,11 @@ class TicketPurchasesController < ApplicationController
       elsif current_user.ticket_purchases.by_conference(@conference).paid.any?
         redirect_to conference_physical_tickets_path,
                     notice: 'You have free tickets for the conference.'
-      else
+      elsif @conference.tickets.for_registration.any?
         redirect_to conference_tickets_path(@conference.short_title),
                     error: 'Please get at least one ticket to continue.'
+      else
+        redirect_to conference_conference_registration_path(@conference.short_title)
       end
     else
       redirect_to conference_tickets_path(@conference.short_title),

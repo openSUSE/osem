@@ -18,6 +18,6 @@
                 - if object.picture?
                   = image_tag get_logo(object), class: img_classes
             %p.description
-              = object.description
+              = markdown(object.description)
           .modal-footer
             = link_to nil, object.website_url, target: '_blank'

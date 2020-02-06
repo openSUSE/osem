@@ -1,10 +1,5 @@
 FROM opensuse/leap:15
 
-# Enable/Disable the repositories we need/don't need
-RUN zypper rr openSUSE-Leap-15.0-Non-Oss openSUSE-Leap-15.0-Update-Non-Oss \
-    zypper ar -f https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.0/devel:tools.repo \
-    zypper --gpg-auto-import-keys refresh
-
 # Install our requirements
 RUN zypper -n install --no-recommends \
     # for compiling assets/gems
@@ -18,11 +13,11 @@ RUN zypper -n install --no-recommends \
     # for nokogiri
     libxml2-devel libxslt-devel \
     # for the interactive shell
-    ack curl wget w3m \
-    # for running our tests
-    phantomjs which \
+    ack curl wget w3m vim which \
     # as ruby
-    ruby2.5-devel 
+    ruby2.5-devel \
+    # as browser for feature tests
+    chromium
 
 # Setup sudo
 RUN echo 'osem ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
@@ -31,7 +26,7 @@ RUN echo 'osem ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 RUN echo 'install: --no-format-executable' >> /etc/gemrc
 
 # Install bundler & foreman
-RUN gem install bundler foreman
+RUN gem install bundler:1.17.3 foreman
 
 # Create our user
 RUN useradd -m --user-group osem

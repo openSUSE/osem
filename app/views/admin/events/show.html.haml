@@ -69,9 +69,10 @@
               %span{ 'class' => [icon_for_todo(progress_status['registered']), 'fa-lg'] }
           %tr
             %td
-              - if @event.speakers.count == 1
+              - speakers_count = @event.speakers.count
+              - if speakers_count == 1
                 = link_to 'Fill out speaker\'s biography', edit_admin_user_path(@event.speakers.first)
-              - else
+              - elsif speakers_count > 1
                 Fill out speaker's biography:
                 = speaker_links(@event)
             %td{ 'class' => class_for_todo(progress_status['biographies']) }

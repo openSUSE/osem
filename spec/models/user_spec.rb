@@ -10,7 +10,7 @@ describe User do
   let(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
   let(:cfp_role) { Role.find_by(name: 'cfp', resource: conference) }
   let(:volunteers_coordinator_role) { Role.find_by(name: 'volunteers_coordinator', resource: conference) }
-  let(:organizer) { create(:user, role_ids: [organizer_role.id]) }
+  let(:organizer) { create(:organizer, resource: conference) }
   let(:user) { create(:user) }
   let(:user_disabled) { create(:user, :disabled) }
 
@@ -27,7 +27,7 @@ describe User do
 
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:username) }
-    it { is_expected.to validate_uniqueness_of(:username) }
+    it { is_expected.to validate_uniqueness_of(:username).ignoring_case_sensitivity }
 
     it 'biography can not have more than 150 words' do
       # Text with 151 words
@@ -97,6 +97,23 @@ describe User do
 
       it 'excludes ordinary user' do
         expect(User.comment_notifiable(conference)).not_to include(user)
+      end
+    end
+
+    describe 'user distribution scopes' do
+      it 'scopes recent users' do
+        create(:user, last_sign_in_at: Date.today - 3.months + 1.day) # active
+        expect(User.recent.count).to eq(1)
+      end
+
+      it 'scopes unconfirmed users' do
+        create(:user, confirmed_at: nil) # unconfirmed
+        expect(User.unconfirmed.count).to eq(1)
+      end
+
+      it 'scopes dead users' do
+        create(:user, last_sign_in_at: Time.zone.now - 1.year - 1.day) # dead
+        expect(User.dead.count).to eq(1)
       end
     end
   end
@@ -400,8 +417,7 @@ describe User do
     describe '#has_cached_role?' do
       describe 'when user has a role' do
         it 'returns true when the user has the role' do
-          user = create(:user, role_ids: organizer_role.id)
-          expect(user.has_cached_role?('organizer', conference)).to be true
+          expect(organizer.has_cached_role?('organizer', conference)).to be true
         end
 
         it 'returns false when the user does not have the role' do

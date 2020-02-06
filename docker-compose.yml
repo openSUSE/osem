@@ -10,7 +10,7 @@ services:
       context: .
       args:
         CONTAINER_USERID: 1000
-    command: /osem/bin/osem-init.sh 
+    command: /osem/bin/osem-init.sh
     depends_on:
       - database
     ports:

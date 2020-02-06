@@ -4,8 +4,7 @@ require 'spec_helper'
 
 feature Ticket do
   let!(:conference) { create(:conference, title: 'ExampleCon') }
-  let!(:organizer_role) { Role.find_by(name: 'organizer', resource: conference) }
-  let!(:organizer) { create(:user, email: 'admin@example.com', role_ids: [organizer_role.id]) }
+  let!(:organizer) { create(:organizer, resource: conference) }
 
   context 'as a organizer' do
     before(:each) do

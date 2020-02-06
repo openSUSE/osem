@@ -20,8 +20,9 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require cocoon
 //= require bootstrap
+//= require Chart.bundle
+//= require chartkick
 //= require osem
-//= require osem-dashboard
 //= require jquery-smooth-scroll
 //= require trianglify
 //= require tinycolor

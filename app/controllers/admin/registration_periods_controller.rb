@@ -23,12 +23,6 @@ module Admin
       end
     end
 
-    def edit
-    end
-
-    def show
-    end
-
     def update
       @registration_period.assign_attributes(registration_period_params)
       send_mail_on_reg_update = @conference.notify_on_registration_dates_changed?

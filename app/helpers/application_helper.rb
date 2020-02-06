@@ -88,10 +88,9 @@ module ApplicationHelper
     end
   end
 
-  # Same as redirect_to(:back) if there is a valid HTTP referer, otherwise redirect_to()
   def redirect_back_or_to(options = {}, response_status = {})
     if request.env['HTTP_REFERER']
-      redirect_to :back
+      redirect_back(fallback_location: root_path)
     else
       redirect_to options, response_status
     end
@@ -121,19 +120,19 @@ module ApplicationHelper
   end
 
   def speaker_selector_input(form)
-    user_selector_input(:speakers, form, '', false)
+    user_selector_input(:speakers, form, '', true)
   end
 
   def responsibles_selector_input(form)
     user_selector_input(
       :responsibles,
       form,
-      'The people responsible for the booth. You can only select existing users.'
+      "The people responsible for the #{t 'booth'}. You can only select existing users."
     )
   end
 
   def user_selector_input(field, form, hint = '', multiple = true)
-    users = User.active.pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
+    users = User.where(is_disabled: false).pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
     form.input(
       field,
       as:            :select,

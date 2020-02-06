@@ -1,3 +1,12 @@
+#schedule-content .carousel-control{
+  width: 12%;
+}
+
+@media (min-width: 768px){
+  #schedule-content .carousel-control{
+    width: 5%;
+  }
+}
 
 .room-name{
   font-weight: bold;

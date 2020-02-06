@@ -44,7 +44,6 @@ class Event < ApplicationRecord
   validates :abstract, presence: true
   validates :event_type, presence: true
   validates :program, presence: true
-  validates :speakers, presence: true
   validates :max_attendees, numericality: { only_integer: true, greater_than_or_equal_to: 1, allow_nil: true }
 
   validate :max_attendees_no_more_than_room_size
@@ -82,6 +81,15 @@ class Event < ApplicationRecord
       transitions to: :rejected, from: [:new], on_transition: :process_rejection
     end
   end
+
+  COLORS = {
+    new:         '#0000FF', # blue
+    withdrawn:   '#FF8000', # orange
+    unconfirmed: '#FFFF00', # yellow
+    confirmed:   '#00FF00', # green
+    canceled:    '#848484', # grey
+    rejected:    '#FF0000'  # red
+  }.freeze
 
   ##
   # Checkes if the event has a start_time and a room for the selected schedule if there is any
@@ -176,16 +184,7 @@ class Event < ApplicationRecord
   end
 
   def self.get_state_color(state)
-    color = {
-      new:         '#0000FF', # blue
-      withdrawn:   '#FF8000', # orange
-      confirmed:   '#00FF00', # green
-      unconfirmed: '#FFFF00', # yellow
-      rejected:    '#FF0000', # red
-      canceled:    '#848484'  # grey
-    }[state.to_sym]
-
-    color || '#00FFFF' # azure
+    COLORS[state.to_sym] || '#00FFFF' # azure
   end
 
   def update_state(transition, mail = false, subject = false, send_mail = false, send_mail_param)

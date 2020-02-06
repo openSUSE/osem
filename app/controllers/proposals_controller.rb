@@ -104,7 +104,7 @@ class ProposalsController < ApplicationController
         @event.event_schedules.destroy_all
       end
     rescue Transitions::InvalidTransition
-      redirect_to :back, error: "Event can't be withdrawn"
+      redirect_back(fallback_location: root_path, error: "Event can't be withdrawn")
       return
     end
 
@@ -124,7 +124,7 @@ class ProposalsController < ApplicationController
     begin
       @event.confirm
     rescue Transitions::InvalidTransition
-      redirect_to :back, error: "Event can't be confirmed"
+      redirect_back(fallback_location: root_path, error: "Event can't be confirmed")
       return
     end
 

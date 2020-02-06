@@ -97,37 +97,48 @@
   - if @conference.tickets.visible.any?
     .row
       .col-md-12
-        -if @tickets.any?
-          %h4
-            %span.fa-stack
-              %i.fa.fa-square-o.fa-stack-2x
-              %i.fa.fa-ticket.fa-stack-1x
-            Ticket Purchases
-            = "(#{@tickets.first.price.symbol}#{humanized_money @total_price})"
-        %ul
-          .col-md-12
-            - @ticket_payments.each_pair do |ticket_id, tickets|
-              %li
-                = @total_quantity[ticket_id]
-                = tickets.first.title
-                = word_pluralize(@total_quantity[ticket_id], 'Ticket')
-                for
-                = tickets.first.price.symbol
-                = humanized_money @total_price_per_ticket[ticket_id]
-            %br
+        %h4
+          %span.fa-stack
+            %i.fa.fa-square-o.fa-stack-2x
+            %i.fa.fa-ticket.fa-stack-1x
+          Tickets
         - if @tickets.any?
-          .btn-group
-            = link_to 'View all tickets', conference_physical_tickets_path(@conference.short_title), class: "btn btn-success"
-            = link_to 'Get more tickets', conference_tickets_path(@conference.short_title), class: "btn btn-default"
+          Total Purchased:
+          = "(#{@tickets.first.price.symbol}#{humanized_money @total_price})"
+          %ul
+            .col-md-12
+              - @ticket_payments.each_pair do |ticket_id, tickets|
+                %li
+                  = @total_quantity[ticket_id]
+                  = tickets.first.title
+                  = word_pluralize(@total_quantity[ticket_id], 'Ticket')
+                  for
+                  = tickets.first.price.symbol
+                  = humanized_money @total_price_per_ticket[ticket_id]
+              %br
+          .btn-group{ role: 'group' }
+            = link_to 'View all tickets',
+              conference_physical_tickets_path(@conference.short_title),
+              class: 'btn btn-success'
+            = link_to 'Get more tickets',
+              conference_tickets_path(@conference.short_title),
+              class: 'btn btn-default'
         - else
-          You haven't bought any tickets.
-          = link_to 'Please get some tickets to support us!', conference_tickets_path(@conference.short_title)
           %p
-            (Your participation won't be valid without getting a registration ticket)
+            You haven't bought any tickets.
+            = link_to 'Please get some tickets to support us!', conference_tickets_path(@conference.short_title)
+          - if @conference.tickets.for_registration.any?
+            %p
+              %em
+                Your participation won't be valid without getting a
+                registration ticket.
+          = link_to 'Get tickets',
+            conference_tickets_path(@conference.short_title),
+            class: 'btn btn-default'
 
   .row
     .col-md-12
-      -if @registration
+      - if @registration
         .btn-group-vertical.pull-right
           = link_to 'Edit your Registration', edit_conference_conference_registration_path(@conference.short_title), class: 'btn btn-success', disabled: @conference.end_date < Date.today
           - if @tickets.any?

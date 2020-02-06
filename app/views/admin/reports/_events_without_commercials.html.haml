@@ -18,4 +18,8 @@
           %td= event.id
           %td= link_to event.title, edit_admin_conference_program_event_path(@conference.short_title, event)
           %td
-            = speaker_links(event)
+            - if(event.speakers.any?)
+              = speaker_links(event)
+            - else
+              .small
+                (No speaker)

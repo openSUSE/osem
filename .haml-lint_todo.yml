@@ -83,7 +83,6 @@ linters:
       - "app/views/admin/questions/index.html.haml"
       - "app/views/admin/questions/show.html.haml"
       - "app/views/admin/registration_periods/_form.html.haml"
-      - "app/views/admin/registration_periods/show.html.haml"
       - "app/views/admin/registrations/_questions.html.haml"
       - "app/views/admin/registrations/edit.html.haml"
       - "app/views/admin/registrations/index.csv.haml"
@@ -209,7 +208,7 @@ linters:
       - "app/views/layouts/_messages.html.haml"
       - "app/views/layouts/_navigation.html.haml"
       - "app/views/layouts/_user_menu.html.haml"
-      - "app/views/layouts/application.haml"
+      - "app/views/layouts/application.html.haml"
       - "app/views/organizations/index.html.haml"
       - "app/views/payments/_payment.html.haml"
       - "app/views/payments/new.html.haml"
@@ -229,6 +228,7 @@ linters:
       - "app/views/schedules/_schedule.html.haml"
       - "app/views/schedules/_schedule_item.html.haml"
       - "app/views/schedules/_schedule_tabs.html.haml"
+      - "app/views/schedules/app.html.haml"
       - "app/views/schedules/events.html.haml"
       - "app/views/schedules/show.html.haml"
       - "app/views/schedules/show.xml.haml"
@@ -242,8 +242,6 @@ linters:
       - "app/views/surveys/index.html.haml"
       - "app/views/surveys/show.html.haml"
       - "app/views/ticket_purchases/index.html.haml"
-      - "app/views/tickets/_ticket.html.haml"
-      - "app/views/tickets/index.html.haml"
       - "app/views/tracks/_form.html.haml"
       - "app/views/tracks/index.html.haml"
       - "app/views/tracks/show.html.haml"
@@ -313,6 +311,7 @@ linters:
 
   # Offense count: 1074
   LineLength:
+    max: 150
     exclude:
       - "app/views/admin/booths/_change_state_dropdown.html.haml"
       - "app/views/admin/booths/index.html.haml"
@@ -359,7 +358,6 @@ linters:
       - "app/views/admin/questions/index.html.haml"
       - "app/views/admin/questions/show.html.haml"
       - "app/views/admin/registration_periods/_form.html.haml"
-      - "app/views/admin/registration_periods/show.html.haml"
       - "app/views/admin/registrations/edit.html.haml"
       - "app/views/admin/registrations/index.html.haml"
       - "app/views/admin/reports/_all_events.html.haml"
@@ -441,7 +439,7 @@ linters:
       - "app/views/layouts/_messages.html.haml"
       - "app/views/layouts/_navigation.html.haml"
       - "app/views/layouts/_user_menu.html.haml"
-      - "app/views/layouts/application.haml"
+      - "app/views/layouts/application.html.haml"
       - "app/views/organizations/index.html.haml"
       - "app/views/payments/_payment.html.haml"
       - "app/views/proposals/_form.html.haml"
@@ -467,8 +465,6 @@ linters:
       - "app/views/surveys/_list.html.haml"
       - "app/views/surveys/index.html.haml"
       - "app/views/surveys/show.html.haml"
-      - "app/views/tickets/_ticket.html.haml"
-      - "app/views/tickets/index.html.haml"
       - "app/views/tracks/_form.html.haml"
       - "app/views/tracks/index.html.haml"
       - "app/views/tracks/show.html.haml"
@@ -546,7 +542,7 @@ linters:
       - "app/views/layouts/_admin_sidebar_index.html.haml"
       - "app/views/layouts/_messages.html.haml"
       - "app/views/layouts/_navigation.html.haml"
-      - "app/views/layouts/application.haml"
+      - "app/views/layouts/application.html.haml"
       - "app/views/payments/_payment.html.haml"
       - "app/views/proposals/_form.html.haml"
       - "app/views/proposals/_tooltip.html.haml"
@@ -560,7 +556,6 @@ linters:
       - "app/views/shared/_media_item.html.haml"
       - "app/views/shared/_media_items.html.haml"
       - "app/views/tickets/_ticket.html.haml"
-      - "app/views/tickets/index.html.haml"
       - "app/views/tracks/index.html.haml"
       - "app/views/tracks/show.html.haml"
 
@@ -596,14 +591,13 @@ linters:
       - "app/views/layouts/_admin.html.haml"
       - "app/views/layouts/_navigation.html.haml"
       - "app/views/layouts/_user_menu.html.haml"
-      - "app/views/layouts/application.haml"
+      - "app/views/layouts/application.html.haml"
       - "app/views/proposals/_encouragement_text.html.haml"
       - "app/views/proposals/new.html.haml"
       - "app/views/proposals/registrations.html.haml"
       - "app/views/proposals/show.html.haml"
       - "app/views/schedules/events.html.haml"
       - "app/views/schedules/show.xml.haml"
-      - "app/views/tickets/index.html.haml"
 
   # Offense count: 2
   FinalNewline:
@@ -642,7 +636,6 @@ linters:
       - "app/views/conference_registrations/_volunteer.html.haml"
       - "app/views/devise/passwords/new.html.haml"
       - "app/views/payments/new.html.haml"
-      - "app/views/tickets/index.html.haml"
 
 
   # Offense count: 13

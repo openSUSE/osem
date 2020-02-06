@@ -11,6 +11,7 @@ class User < ApplicationRecord
   # prevent N+1 queries with has_cached_role? by preloading roles *always*
   default_scope { preload(:roles) }
 
+  has_many :ticket_purchases, dependent: :destroy
   has_many :physical_tickets, through: :ticket_purchases do
     def by_conference(conference)
       where('ticket_purchases.conference_id = ?', conference)
@@ -31,6 +32,13 @@ class User < ApplicationRecord
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
+
+  # scopes for user distributions
+  scope :recent, lambda {
+    where('last_sign_in_at > ?', Date.today - 3.months).where(is_disabled: false)
+  }
+  scope :unconfirmed, -> { where('confirmed_at IS NULL') }
+  scope :dead, -> { where('last_sign_in_at < ?', Date.today - 1.year) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -60,7 +68,6 @@ class User < ApplicationRecord
     end
   end
   has_many :events_registrations, through: :registrations
-  has_many :ticket_purchases, dependent: :destroy
   has_many :payments, dependent: :destroy
   has_many :tickets, through: :ticket_purchases, source: :ticket do
     def for_registration conference
@@ -79,7 +86,9 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :roles
 
   scope :admin, -> { where(is_admin: true) }
-  scope :active, -> { where(is_disabled: false) }
+  scope :active, lambda {
+    where(is_disabled: false)
+  }
 
   validates :email, presence: true
 
@@ -90,6 +99,12 @@ class User < ApplicationRecord
             presence:   true
 
   validate :biography_limit
+
+  DISTRIBUTION_COLORS = {
+    'Active'      => 'green',
+    'Unconfirmed' => 'red',
+    'Dead'        => 'black'
+  }.freeze
 
   ##
   # Checkes if the user attended the event
@@ -150,6 +165,22 @@ class User < ApplicationRecord
       end
     end
     user
+  end
+
+  ##
+  # Returns a hash with user distribution => {value: count of user state, color: color}
+  # active: signed in during the last 3 months
+  # unconfirmed: registered but not confirmed
+  # dead: not signed in during the last year
+  #
+  # ====Returns
+  # * +hash+ -> hash
+  def self.distribution
+    {
+      'Active'      => User.recent.count,
+      'Unconfirmed' => User.unconfirmed.count,
+      'Dead'        => User.dead.count
+    }
   end
 
   def self.find_for_database_authentication(warden_conditions)
@@ -237,12 +268,14 @@ class User < ApplicationRecord
     proposals(conference).count
   end
 
+  def self.empty?
+    User.count == 1 && User.first.email == 'deleted@localhost.osem'
+  end
+
   private
 
   def setup_role
-    if User.count == 1 && User.first.email == 'deleted@localhost.osem'
-      self.is_admin = true
-    end
+    self.is_admin = true if User.empty?
   end
 
   def touch_events
@@ -256,5 +289,9 @@ class User < ApplicationRecord
     if biography.present?
       errors.add(:biography, 'is limited to 150 words.') if biography.split.length > 150
     end
+  end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 end

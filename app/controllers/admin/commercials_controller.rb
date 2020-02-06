@@ -45,9 +45,9 @@ module Admin
     def render_commercial
       result = Commercial.render_from_url(params[:url])
       if result[:error]
-        render text: result[:error], status: 400
+        render plain: result[:error], status: 400
       else
-        render text: result[:html]
+        render plain: result[:html]
       end
     end
 
@@ -70,7 +70,7 @@ module Admin
 
         flash[:error] = errors_text
       end
-      redirect_to :back
+      redirect_back(fallback_location: root_path)
     end
 
     private

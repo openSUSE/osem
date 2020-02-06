@@ -1,0 +1,19 @@
+.container
+  .page-header
+    %h1
+      Get the schedule on your mobile with Giggity!
+  = link_to 'https://f-droid.org/packages/net.gaast.giggity' do
+    %img.img-responsive.center-block{ alt: 'Get it on F-Droid', src: 'https://fdroid.gitlab.io/artwork/badge/get-it-on.png' }
+  %p
+    The schedule URL:
+  %p.lead.text-center
+    = link_to conference_schedule_url(format: :xml) do
+      = conference_schedule_url(format: :xml)
+  %p
+    Or point your phone at the QR code:
+  .img-responsive.text-center
+    = raw @qr_code
+  %p.text-muted
+    Not free of surveilance capitalism yet? Use the
+    = link_to 'https://play.google.com/store/apps/details?id=net.gaast.giggity' do
+      google play store...

@@ -4,6 +4,7 @@ class CommercialsController < ApplicationController
   load_resource :conference, find_by: :short_title
   before_action :set_event
   load_and_authorize_resource through: :event
+  skip_before_action :verify_authenticity_token
 
   def create
     @commercial = @event.commercials.build(commercial_params)
@@ -37,9 +38,9 @@ class CommercialsController < ApplicationController
   def render_commercial
     result = Commercial.render_from_url(params[:url])
     if result[:error]
-      render text: result[:error], status: 400
+      render plain: result[:error], status: 400
     else
-      render text: result[:html]
+      render plain: result[:html]
     end
   end
 

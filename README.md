@@ -6,21 +6,16 @@
 <a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
 </a>
-# Open Source Event Manager
+# Open Source Event Manager - [osem.io](https://osem.io)
 ![OSEM Logo](doc/osem-logo.png)
 
 An event management tool tailored to Free and Open Source Software conferences.
 
-OSEM actively participates in [GSoC](https://summerofcode.withgoogle.com/) and [RGSoC](https://railsgirlssummerofcode.org/).
-
 ## Installation
-Please refer to [INSTALL](INSTALL.md) documentation file
+Please refer to our [installation guide](INSTALL.md).
 
 ## How to contribute to OSEM
-Please refer to our [CONTRIBUTING guide](CONTRIBUTING.md)
-
-## How to translate OSEM into your language
-Please refer to our [TRANSLATION guide](TRANSLATION.md)
+Please refer to our [contributing guide](CONTRIBUTING.md).
 
 ## Contact
 GitHub issues are the primary way for communicating about specific proposed changes to this project. If you have other questions feel free to subscribe to the [opensuse-web@opensuse.org](http://lists.opensuse.org/opensuse-web/) mailinglist, all OSEM contributors are on that list! Additionally you can use #osem channel on freenode IRC.
