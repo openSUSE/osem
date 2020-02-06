@@ -12,7 +12,7 @@ describe Admin::TicketsController do
     before { sign_in admin }
 
     describe 'GET #index' do
-      before { get :index, conference_id: conference }
+      before { get :index, params: { conference_id: conference } }
 
       it 'assigns conference and tickets variables via cancancan' do
         expect(assigns(:conference)).to eq conference
@@ -25,7 +25,7 @@ describe Admin::TicketsController do
     end
 
     describe 'GET #edit' do
-      before { get :edit, conference_id: conference, id: ticket }
+      before { get :edit, params: { conference_id: conference, id: ticket } }
 
       it 'assigns ticket variable via cancancan' do
         expect(assigns(:ticket)).to eq ticket
@@ -37,7 +37,7 @@ describe Admin::TicketsController do
     end
 
     describe 'GET #new' do
-      before { get :new, conference_id: conference }
+      before { get :new, params: { conference_id: conference } }
 
       it 'assigns ticket variable' do
         expect(assigns(:ticket)).to be_instance_of(Ticket)
@@ -51,7 +51,7 @@ describe Admin::TicketsController do
     describe 'POST #create' do
       context 'saves successfuly' do
         before(:each, run: true) do
-          post :create, conference_id: conference, ticket: attributes_for(:ticket)
+          post :create, params: { conference_id: conference, ticket: attributes_for(:ticket) }
         end
 
         let!(:ticket_count) { conference.tickets.count }
@@ -68,8 +68,10 @@ describe Admin::TicketsController do
 
         it 'creates new ticket' do
           expect do
-            post :create, ticket:        attributes_for(:ticket),
-                          conference_id: conference
+            post :create, params: {
+                ticket: attributes_for(:ticket),
+                conference_id: conference
+            }
           end.to change{ conference.tickets.count }.from(ticket_count).to(ticket_count + 1)
         end
       end
@@ -77,7 +79,7 @@ describe Admin::TicketsController do
       context 'save fails' do
         before do
           allow_any_instance_of(Ticket).to receive(:save).and_return(false)
-          post :create, conference_id: conference, ticket: attributes_for(:ticket)
+          post :create, params: { conference_id: conference, ticket: attributes_for(:ticket) }
         end
 
         let!(:ticket_count) { conference.tickets.count }
@@ -99,8 +101,10 @@ describe Admin::TicketsController do
     describe 'PATCH #update' do
       context 'updates successfully' do
         before do
-          patch :update, conference_id: conference, id: ticket,
+          patch :update, params: {
+            conference_id: conference, id: ticket,
             ticket: attributes_for(:ticket, title: new_title)
+          }
         end
 
         it 'redirects to index path' do
@@ -122,8 +126,10 @@ describe Admin::TicketsController do
       context 'update fails' do
         before do
           allow_any_instance_of(Ticket).to receive(:save).and_return(false)
-          patch :update, conference_id: conference, id: ticket,
+          patch :update, params: {
+            conference_id: conference, id: ticket,
             ticket: attributes_for(:ticket, title: new_title)
+          }
         end
 
         it 'renders edit template' do
@@ -144,7 +150,7 @@ describe Admin::TicketsController do
     describe 'DELETE #destroy' do
       context 'deletes successfully' do
         before(:each, run: true) do
-          delete :destroy, conference_id: conference, id: ticket
+          delete :destroy, params: { conference_id: conference, id: ticket }
         end
 
         let!(:ticket_count) { conference.tickets.count }
@@ -161,7 +167,7 @@ describe Admin::TicketsController do
 
         it 'deletes the ticket' do
           expect do
-            delete :destroy, conference_id: conference, id: ticket
+            delete :destroy, params: { conference_id: conference, id: ticket }
           end.to change{ conference.tickets.count }.from(ticket_count).to(ticket_count - 1)
         end
       end
@@ -171,7 +177,7 @@ describe Admin::TicketsController do
 
         before do
           allow_any_instance_of(Ticket).to receive(:destroy).and_return(false)
-          delete :destroy, conference_id: conference, id: ticket
+          delete :destroy, params: { conference_id: conference, id: ticket }
         end
 
         it 'redirects to index path' do
@@ -195,8 +201,10 @@ describe Admin::TicketsController do
         let!(:purchase_count) { admin.ticket_purchases.count }
 
         before do
-          post :give, conference_id: conference, id: ticket,
+          post :give, params: {
+            conference_id: conference, id: ticket,
             ticket_purchase: { user_id: admin.id }
+          }
         end
 
         it 'redirects to ticket' do
@@ -220,8 +228,10 @@ describe Admin::TicketsController do
       context 'giving fails' do
         before do
           allow_any_instance_of(TicketPurchase).to receive(:save).and_return(false)
-          post :give, conference_id: conference, id: ticket,
+          post :give, params: {
+            conference_id: conference, id: ticket,
             ticket_purchase: { user_id: admin.id }
+          }
         end
 
         let(:purchase_count) { admin.ticket_purchases.count }
