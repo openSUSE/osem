@@ -32,7 +32,7 @@ class TicketPurchase < ApplicationRecord
       errors.push('You cannot buy more than one registration tickets.')
     else
       ActiveRecord::Base.transaction do
-        conference.tickets.each do |ticket|
+        conference.tickets.visible.each do |ticket|
           quantity = purchases[ticket.id.to_s].to_i
           # if the user bought the ticket and is still unpaid, just update the quantity
           purchase = if ticket.bought?(user) && ticket.unpaid?(user)
