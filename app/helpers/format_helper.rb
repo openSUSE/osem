@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'redcarpet/render_strip'
 
 module FormatHelper
@@ -43,12 +44,11 @@ module FormatHelper
 
   def target_progress_color(progress)
     progress = progress.to_i
-    result =
-    case
-    when progress >= 90 then 'green'
-    when progress < 90 && progress >= 80 then 'orange'
-    else 'red'
-    end
+    result = case
+             when progress >= 90 then 'green'
+             when progress < 90 && progress >= 80 then 'orange'
+             else 'red'
+             end
 
     result
   end
@@ -100,19 +100,11 @@ module FormatHelper
   end
 
   def icon_for_todo(bool)
-    if bool
-      'fa fa-check'
-    else
-      'fa fa-times'
-    end
+    bool ? 'fa fa-check' : 'fa fa-times'
   end
 
   def class_for_todo(bool)
-    if bool
-      'todolist-ok'
-    else
-      'todolist-missing'
-    end
+    bool ? 'todolist-ok' : 'todolist-missing'
   end
 
   def word_pluralize(count, singular, plural = nil)

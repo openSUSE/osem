@@ -7,8 +7,10 @@
                                                           title: "Your #{provider} login" do
           %i{class: "fa fa-#{provider}"}
       - else
-        = link_to("Snap!",
-                  "user_#{provider}_omniauth_authorize".to_sym,
+        = link_to("user_#{provider}_omniauth_authorize".to_sym,
                   class: "btn btn-success btn-lg",
                   id: "omniauth-#{provider}",
-                  title: "Your #{provider} login")
+                  title: "Your #{provider} login") do
+          %span
+            Snap
+            %em> !
