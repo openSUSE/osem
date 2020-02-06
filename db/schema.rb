@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181113195810) do
+ActiveRecord::Schema.define(version: 20181229233811) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -364,8 +364,6 @@ ActiveRecord::Schema.define(version: 20181113195810) do
 
   create_table "registrations", force: :cascade do |t|
     t.integer "conference_id"
-    t.datetime "arrival"
-    t.datetime "departure"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "other_special_needs"

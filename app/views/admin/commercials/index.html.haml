@@ -1,11 +1,11 @@
 .row
   .col-md-12
     .page-header
-      %h1 Commercials
+      %h1 Session Materials
       %p.text-muted
-        Conference commercials will be displayed on the events in the
+        Conference materials will be displayed on the events in the
         = link_to 'schedule,', conference_schedule_path(@conference.short_title)
-        if the event speaker didn't add an event commercial.
+        if the event speaker didn't add any event materials.
 - if can? :create, @conference.commercials.new
   .row
     .col-md-6

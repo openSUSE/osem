@@ -1,4 +1,6 @@
 @import "breakpoints.scss";
+@import "osem-variables.scss";
+
 .nav-osem {
     border: none;
     @include breakpoint(xs) {
@@ -29,7 +31,23 @@
         }
     }
     .dropdown-menu {
-        padding: 17px;
         min-width: 225px;
+    }
+
+    &.navbar-default {
+        .navbar-nav > .open > a {
+            &:hover, &:focus {
+                color: $navbar-default-link-color;
+            }
+        }
+    }
+
+    .navbar-brand img {
+        margin-top: -5px;
+        max-height: 100%;
+    }
+
+    .trapezoid {
+        border-top-color: $navbar-default-bg;
     }
 }

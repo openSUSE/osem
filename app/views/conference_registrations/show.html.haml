@@ -33,28 +33,6 @@
                 data: { toggle: 'modal', target: '#modal-code-of-conduct'}
           = render 'conferences/code_of_conduct',
             organization: @conference.organization
-  .row
-    .col-md-12
-      %h4
-        %span.fa-stack
-          %i.fa.fa-square-o.fa-stack-2x
-          %i.fa.fa-plane.fa-stack-1x
-        Travel Schedule
-      %ul
-        %li
-          - if @registration.arrival.present?
-            arrive at
-            %strong
-              = @registration.arrival.strftime('%A, %B %-d. %Y %H:%M')
-          - else
-            You haven't scheduled your arrival
-        %li
-          - if @registration.departure.present?
-            depart at
-            %strong
-              = @registration.departure.strftime('%A, %B %-d. %Y %H:%M')
-          - else
-            You haven't scheduled your departure
   - if @conference.surveys.for_registration.any?
     .row
       .col-md-12

@@ -39,7 +39,7 @@ class Commercial < ApplicationRecord
 
       commercial = event.commercials.new(url: url)
       unless commercial.save
-        errors[:validation_errors] << "Could not create commercial for event with ID #{event.id} (" + commercial.errors.full_messages.to_sentence + ')'
+        errors[:validation_errors] << "Could not create materials for event with ID #{event.id} (" + commercial.errors.full_messages.to_sentence + ')'
       end
     end
     errors

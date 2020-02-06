@@ -13,8 +13,7 @@
           %thead
             %tr
               %th Ticket
-              - if @conference.tickets.for_registration.any?
-                %th Registration Ticket
+              %th Registration?
               %th Quantity
               %th Price
               %th Total
@@ -23,8 +22,7 @@
             = render 'ticket', f: f, ticket: ticket
           %tr
             %td
-            - if @conference.tickets.for_registration.any?
-              %td
+            %td
             %td
             %td.col-sm-1.col-md-1.text-center
               %h4

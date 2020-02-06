@@ -12,27 +12,27 @@ class CommercialsController < ApplicationController
 
     if @commercial.save
       redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
-                  notice: 'Commercial was successfully created.'
+                  notice: 'Materials were successfully created.'
     else
       redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
-                  error: "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
+                  error: "An error prohibited these materials from being saved: #{@commercial.errors.full_messages.join('. ')}."
     end
   end
 
   def update
     if @commercial.update(commercial_params)
       redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
-                  notice: 'Commercial was successfully updated.'
+                  notice: 'Materials were successfully updated.'
     else
       redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id, anchor: 'commercials-content'),
-                  error: "An error prohibited this Commercial from being saved: #{@commercial.errors.full_messages.join('. ')}."
+                  error: "An error prohibited materials from being saved: #{@commercial.errors.full_messages.join('. ')}."
     end
   end
 
   def destroy
     @commercial.destroy
     redirect_to edit_conference_program_proposal_path(conference_id: @conference.short_title, id: @event.id),
-                notice: 'Commercial was successfully destroyed.'
+                notice: 'Materials were successfully destroyed.'
   end
 
   def render_commercial

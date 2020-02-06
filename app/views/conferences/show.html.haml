@@ -1,10 +1,10 @@
 - content_for :head do
   %meta{ property: "og:title", content: @conference.title }
   %meta{ property: "og:site_name", content: (ENV['OSEM_NAME'] || 'OSEM') }
-  %meta{ property: "og:description", content: @conference.description }
+  %meta{ property: "og:description", content: plain_text(@conference.description) }
   %meta{ property: "og:url", content: conference_url(@conference.short_title) }
   %meta{ property: "twitter:title", content: (@conference.title) }
-  %meta{ property: "twitter:description", content: @conference.description }
+  %meta{ property: "twitter:description", content: plain_text(@conference.description) }
   - if @conference.picture?
     %meta{ property: "og:image", content: @image_url }
     %meta{ property: "og:image:secure_url", content: @image_url }
@@ -64,21 +64,22 @@
       = render 'social_media', contact: @conference.contact
   = render 'footer'
 
-- content_for :script_head do
-  :javascript
-    var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
-    var triangle_colors = triangle_tcs.map(function(t) {
-      return t.toHexString();
-    });
-    $(function () {
-      $(document).ready(function() {
-        var triangle_width = document.body.clientWidth;
-        var triangle_height = ($( "#banner" ).height() + 200 );
-        var pattern = Trianglify({ width: triangle_width,
-                                   height: triangle_height,
-                                   cell_size: 100,
-                                   x_colors: triangle_colors
-                                  });
-        $('#banner').css('background-image', 'url("' + pattern.png() + '")');
-      });
-    });
+
+-# - content_for :script_head do
+-#   :javascript
+-#     var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
+-#     var triangle_colors = triangle_tcs.map(function(t) {
+-#       return t.toHexString();
+-#     });
+-#     $(function () {
+-#       $(document).ready(function() {
+-#         var triangle_width = document.body.clientWidth;
+-#         var triangle_height = ($( "#banner" ).height() + 200 );
+-#         var pattern = Trianglify({ width: triangle_width,
+-#                                    height: triangle_height,
+-#                                    cell_size: 100,
+-#                                    x_colors: triangle_colors
+-#                                   });
+-#         $('#banner').css('background-image', 'url(' + 0 + ')');
+-#       });
+-#     });

@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '2.5.0'
+ruby ENV['OSEM_RUBY_VERSION'] || '2.5.5'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -20,7 +20,7 @@ gem 'puma', '~> 3.0'
 gem 'responders', '~> 2.0'
 
 # as supported databases
-gem 'mysql2'
+# gem 'mysql2'
 gem 'pg'
 
 # for tracking data changes
@@ -38,12 +38,12 @@ gem 'rails-i18n'
 gem 'devise'
 gem 'devise_ichain_authenticatable'
 
-# for openID authentication
 gem 'omniauth'
-gem 'omniauth-facebook'
-gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
-gem 'omniauth-openid'
+gem 'omniauth-discourse'
+# gem 'omniauth-openid'
+# gem 'omniauth-facebook'
+# gem 'omniauth-github'
 
 # Bot-filtering
 gem 'recaptcha', require: 'recaptcha/rails'

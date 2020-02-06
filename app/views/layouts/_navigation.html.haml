@@ -1,7 +1,6 @@
-.navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
+%nav.navbar.navbar-default.navbar-fixed-top.nav-osem{role: 'navigation'}
   .container
     .navbar-header
-
       - if controller.class.name.split("::").first=="Admin"
         %button{ "data-target"=>"#side-nav", "data-toggle"=>"collapse", class: 'navbar-toggle side-nav-btn', type: 'button' }
           %span.sr-only Toggle navigation
@@ -14,7 +13,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      = nav_root_link_for conference
+      = nav_root_link_for(conference)
 
     .collapse.navbar-collapse#main-nav
       - if content_for :splash_nav
@@ -42,34 +41,41 @@
               = link_to(new_registration_path('user')) do
                 %span.fa.fa-heart
                 Sign Up
-          %li.dropdown.visible-desktop
-            %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
-              %span.fa.fa-user
-              Sign In
-              %span.caret
-            .dropdown-menu
-              - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-                = form_tag User.ichain_login_url do
-                  = text_field_tag 'username', nil, id: 'user_ichain_email_dd', class: 'form-control', placeholder: 'Username'
-                  = password_field_tag 'password', nil, id: 'user_ichain_password_dd', class: 'form-control', placeholder: 'Password'
-                  %button.btn.btn-success.btn-block Sign in
-              - else
-                = form_tag new_user_session_path do
-                  = text_field_tag 'user[login]', nil, id: 'user_login_dd', class: 'form-control', placeholder: 'Username / E-Mail'
-                  = password_field_tag 'user[password]', nil, id: 'user_password_dd', class: 'form-control', placeholder: 'Password'
-                  %p.text-right
-                    %small
-                      %label{for: 'user_remember_me'} Remember me
-                      = check_box_tag 'user[remember_me]'
-                  %button.btn.btn-success.btn-block Sign in
-                  - unless omniauth_configured.empty?
-                    .divider
-                    %h6.text-center
-                      or
-                    = render 'devise/shared/openid_links'
-                  %p.text-right
-                    %br
-                    %a.small.btn.btn-xs.btn-default{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
-                      Need Help?
-                    #navbar-devise-help.collapse
-                      = render 'devise/shared/links'
+            %li{class: ""}
+              = link_to(sign_in_path) do
+                %span.fa.fa-user
+                Sign In
+          -# %li.dropdown.visible-desktop
+          -#   %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
+          -#     %span.fa.fa-user
+          -#     Sign In
+          -#     %span.caret
+          -#   .dropdown-menu
+          -#     - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+          -#       = form_tag User.ichain_login_url do
+          -#         = text_field_tag 'username', nil, id: 'user_ichain_email_dd', class: 'form-control', placeholder: 'Username'
+          -#         = password_field_tag 'password', nil, id: 'user_ichain_password_dd', class: 'form-control', placeholder: 'Password'
+          -#         %button.btn.btn-success.btn-block Sign in
+          -#     - else
+          -#       %div{style: "padding: 6px"}
+          -#         = form_tag new_user_session_path, class: 'form-group' do
+          -#           = text_field_tag 'user[login]', nil, id: 'user_login_dd', class: 'form-control', placeholder: 'Username / E-Mail'
+          -#           = password_field_tag 'user[password]', nil, id: 'user_password_dd', class: 'form-control', placeholder: 'Password'
+          -#           %p.text-right
+          -#             %small
+          -#               %label{for: 'user_remember_me'} Remember me
+          -#               = check_box_tag 'user[remember_me]'
+          -#           %br
+          -#           %button.btn.btn-success.btn-block Sign in
+          -#       - unless omniauth_configured.empty?
+          -#         .divider
+          -#         %h6.text-center
+          -#           or
+          -#         = render 'devise/shared/openid_links'
+                -# %p.text-right
+                -#   %br
+                -#   %a.small.btn.btn-xs.btn-default{"data-toggle" => "collapse", "data-target" =>  "#navbar-devise-help"}
+                -#     Need Help?
+                -#   #navbar-devise-help.collapse
+                -#     = render 'devise/shared/links'
+  .trapezoid

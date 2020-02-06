@@ -27,9 +27,10 @@
       .row
         .col-md-12
           %h3.text-center
-            Want to sponsor?
+            = "Interested in sponsoring #{conference.title}?"
             = link_to(sponsorship_mailto(conference)) do
-              Contact us!
+              Please, contact us!
+    .trapezoid
 
 - sponsors.each do |sponsor|
   - content_for :modals do

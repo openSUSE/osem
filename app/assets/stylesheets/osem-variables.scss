@@ -1,0 +1,14 @@
+// This file is included *early* in CSS order!
+// These variables change bootstrap defaults.
+
+$navbar-default-bg: #0C3559;
+$navbar-default-link-active-bg: rgb(8,8,8);
+$navbar-default-border: 1px solid #d4d4d4;
+$navbar-default-color: #FFF;
+$navbar-default-link-color: #FFF;
+$navbar-default-link-hover-color: #F2E205;
+$navbar-default-link-active-hover-color: #FFF;
+
+
+// The hiegh of the section tabs that are like Snap! blocks.
+$trapezoid-height: 14px;

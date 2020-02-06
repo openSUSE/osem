@@ -43,7 +43,7 @@
             = link_to 'Contact', edit_admin_conference_contact_path(@conference.short_title)
         - if can? :index, @conference.commercials.build
           %li{class: "#{active_nav_li(admin_conference_commercials_path(@conference.short_title))}"}
-            = link_to 'Commercials', admin_conference_commercials_path(@conference.short_title)
+            = link_to 'Materials', admin_conference_commercials_path(@conference.short_title)
         - if can? :update, @conference
           %li{class: active_nav_li(edit_admin_conference_splashpage_path(@conference.short_title))}
             = link_to 'Splashpage', admin_conference_splashpage_path(@conference.short_title)

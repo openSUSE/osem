@@ -3,15 +3,15 @@
     %li.active
       = link_to 'Proposal', '#proposal-content', 'data-toggle' => 'tab'
     %li
-      = link_to 'Commercials', '#commercials-content', 'data-toggle' => 'tab'
+      = link_to 'Materials', '#commercials-content', 'data-toggle' => 'tab'
   .tab-content
     #proposal-content.tab-pane.active
       = render 'proposals/proposal_form'
     #commercials-content.tab-pane
       %p.text-muted
-        You can add commercials for your proposal. These commercials will be displayed on the
+        You can add materals for your proposal. These materials will be displayed on the
         = link_to 'public proposal page.', conference_program_proposal_path(@conference.short_title, @event)
-        If you don't add a commercial, the conference commercial will be displayed!
+        If you don't add any materials, the conference materials will be displayed.
       - if can? :create, @event.commercials.new
         .row
           .col-md-6

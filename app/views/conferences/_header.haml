@@ -1,28 +1,28 @@
 - cache [conference, venue, '#splash#header'] do
-  #banner
+  #banner{ style: ("background-image: url(#{conference.picture_url})" if conference.picture_url) }
     .container
       .row
-        .col-md-8.col-md-offset-2#header
+        .col-md-6.col-md-offset-3{id: (conference.picture? ? "header-image" : "header-no-image")}
           .row
-            .col-md-4
-              - if conference.picture?
-                = image_tag(conference.picture_url,
-                  class: 'img-responsive img-center',
-                  id: 'splash-logo')
+            -# - if conference.picture?
+            -#   .col-md-4
+            -#     = image_tag(conference.picture_url,
+            -#       class: 'img-responsive img-center',
+            -#       id: 'splash-logo')
             .col-md-8
               %h1
-                = conference.title
+                = conference.title.html_safe
               %h3
                 - if conference.start_date && conference.end_date
                   %span.date.text-nowrap
                     = date_string(conference.start_date, conference.end_date)
                 - if conference.venue
                   %span.venue.text-nowrap
-                    - if venue.website
+                    - if venue.website.present?
                       = sanitize link_to(venue.name, venue.website)
                     - else
                       = venue.city
-                      - if venue.country_name != 'US'
+                      - if venue.country != 'US'
                         &bull;
                         = venue.country_name
 
@@ -32,3 +32,4 @@
         .row
           .col-md-8.col-md-offset-2
             = markdown(conference.description)
+      .trapezoid
