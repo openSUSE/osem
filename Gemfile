@@ -142,7 +142,7 @@ gem 'rqrcode'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
-gem 'sentry'
+gem 'sentry-raven'
 
 # to make links faster
 gem 'turbolinks'

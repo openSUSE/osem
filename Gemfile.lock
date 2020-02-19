@@ -518,7 +518,8 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sentry (0.5.3)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     sexp_processor (4.11.0)
     shellany (0.0.1)
     shoulda-matchers (4.1.2)
@@ -698,7 +699,7 @@ DEPENDENCIES
   ruby-oembed
   sass-rails (>= 4.0.2)
   selectize-rails
-  sentry
+  sentry-raven
   shoulda-matchers
   skylight
   spring-commands-rspec
