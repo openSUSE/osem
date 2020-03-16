@@ -32,9 +32,6 @@
 # OSEM_MEMCACHED_USERNAME='root'
 # OSEM_MEMCACHED_PASSWORD='1234'
 
-# The ruby version to use
-# OSEM_RUBY_VERSION=2.5.0
-
 # What time is it?
 # OSEM_TIME_ZONE="UTC"
 
