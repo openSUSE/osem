@@ -47,10 +47,12 @@ class UserDatatable < AjaxDatatablesRails::Base
   end
   # rubocop:enable Naming/AccessorMethodName
 
+  # Workaround for jbox-web/ajax-datatables-rails#293
   def records_total_count
     fetch_records.unscope(:group).count(:all)
   end
 
+  # Workaround for jbox-web/ajax-datatables-rails#293
   def records_filtered_count
     filter_records(fetch_records).unscope(:group).count(:all)
   end
