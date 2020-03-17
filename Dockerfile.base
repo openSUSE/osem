@@ -17,7 +17,7 @@ RUN zypper -n install --no-recommends \
     # as ruby
     ruby2.5-devel \
     # as browser for feature tests
-    chromium
+    chromium xorg-x11-fonts
 
 # Setup sudo
 RUN echo 'osem ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
