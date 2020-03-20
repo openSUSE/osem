@@ -18,7 +18,7 @@ describe Admin::VersionsController do
 
       it 'reverts all changes for update actions' do
         conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
-        get :revert_object, params: { id: PaperTrail::Version.last.id }
+        get :revert_object, params: { id: conference.versions.last.id }
         conference.reload
         expect(conference.short_title).to eq 'exampletitle'
         expect(conference.description).to eq 'Example Description'
@@ -32,18 +32,19 @@ describe Admin::VersionsController do
       end
 
       it 'reverting deletion of object  creates it again' do
-        conference.program.event_types.first.destroy
+        event_type = conference.program.event_types.first
+        event_type.destroy
         event_types_count = conference.program.event_types.count
-        get :revert_object, params: { id: PaperTrail::Version.last.id }
+        get :revert_object, params: { id: event_type.versions.last.id }
         conference.reload
-        expect(PaperTrail::Version.last.event).to eq 'create'
+        expect(event_type.versions.last.event).to eq 'create'
         expect(conference.program.event_types.count).to eq(event_types_count + 1)
       end
 
       it 'reverting creation of object deletes it ' do
-        create(:lodging, conference: conference)
-        get :revert_object, params: { id: PaperTrail::Version.last.id }
-        expect(PaperTrail::Version.last.event).to eq 'destroy'
+        lodging = create(:lodging, conference: conference)
+        get :revert_object, params: { id: lodging.versions.last.id }
+        expect(lodging.versions.last.event).to eq 'destroy'
         expect(Lodging.count).to eq 0
       end
 
@@ -62,7 +63,7 @@ describe Admin::VersionsController do
 
       it 'reverts specified change for update actions' do
         conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
-        get :revert_attribute, params: { id: PaperTrail::Version.last.id, attribute: 'short_title' }
+        get :revert_attribute, params: { id: conference.versions.last.id, attribute: 'short_title' }
         conference.reload
         expect(conference.short_title).to eq 'exampletitle'
         expect(conference.description).to eq 'Some random text'
@@ -71,22 +72,23 @@ describe Admin::VersionsController do
       it 'shows correct flash on trying to revert to the current state' do
         conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
         conference.update_attributes(short_title: 'exampletitle')
-        get :revert_attribute, params: { id: PaperTrail::Version.all[-2].id, attribute: 'short_title' }
+        get :revert_attribute, params: { id: conference.versions[-2].id, attribute: 'short_title' }
         expect(flash[:error]).to match('The item is already in the state that you are trying to revert it back to')
         expect(conference.short_title).to eq 'exampletitle'
       end
 
       it 'fails on trying to revert deleted object' do
-        conference.program.event_types.first.update_attributes(title: 'New Event Title')
-        conference.program.event_types.first.destroy
-        get :revert_attribute, params: { id: PaperTrail::Version.all[-2].id, attribute: 'title' }
+        event_type = conference.program.event_types.first
+        event_type.update_attributes(title: 'New Event Title')
+        event_type.destroy
+        get :revert_attribute, params: { id: event_type.versions[-2].id, attribute: 'title' }
         conference.reload
         expect(flash[:alert]).to eq 'You are not authorized to access this page.'
       end
 
       it 'fails on trying to revert creation event' do
-        create(:lodging, conference: conference)
-        get :revert_attribute, params: { id: PaperTrail::Version.last.id, attribute: 'name' }
+        lodging = create(:lodging, conference: conference)
+        get :revert_attribute, params: { id: lodging.versions.last.id, attribute: 'name' }
         expect(flash[:alert]).to eq 'You are not authorized to access this page.'
       end
 
@@ -94,7 +96,7 @@ describe Admin::VersionsController do
         conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
         before_conference_title = conference.title
         # Note: even though title is a valid attribute of conference, it was not updated in the change we are trying to revert
-        get :revert_attribute, params: { id: PaperTrail::Version.last.id, attribute: 'title' }
+        get :revert_attribute, params: { id: conference.versions.last.id, attribute: 'title' }
         conference.reload
         expect(conference.short_title).to eq 'testtitle'
         expect(conference.description).to eq 'Some random text'
@@ -116,12 +118,12 @@ describe Admin::VersionsController do
           @user = create(:user)
 
           conference.update_attributes(short_title: 'testtitle', description: 'Some random text')
-          @version_organizer = PaperTrail::Version.last
-          create(:cfp, program: conference.program)
-          @version_cfp = PaperTrail::Version.last
+          @version_organizer = conference.versions.last
+          cfp = create(:cfp, program: conference.program)
+          @version_cfp = cfp.versions.last
           registration = create(:registration, conference: conference)
           registration.update_attributes(attended: true)
-          @version_info_desk = PaperTrail::Version.last
+          @version_info_desk = registration.versions.last
         end
 
         it 'when user has role cfp' do
