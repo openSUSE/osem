@@ -16,7 +16,7 @@ class SurveysController < ApplicationController
 
   def reply
     unless can? :reply, @survey
-      redirect_to conference_survey_path(@conference, @survey), alert: 'This survey is currently closed'
+      redirect_to conference_survey_path(@conference, @survey), alert: 'This survey is not available'
       return
     end
 
@@ -33,11 +33,20 @@ class SurveysController < ApplicationController
       end
 
       user_survey_submission = @survey.survey_submissions.find_by(user: current_user)
-      if user_survey_submission
-        user_survey_submission.update_attributes(updated_at: Time.current)
-      else
-        @survey.survey_submissions.create!(user: current_user)
+      begin
+        if user_survey_submission
+          user_survey_submission.update_attributes(updated_at: Time.current)
+        else
+          @survey.survey_submissions.create!(user: current_user)
+        end
+      rescue => error
+        Rails.logger.info "Could not save submission reply for user #{current_user.email} with error: #{error.message}"
+        flash[:error] = "Something went wrong, please try again!"
       end
+    end
+
+    unless flash[:error]
+      flash[:success] = 'Thank you for your submission!'
     end
 
     redirect_back(fallback_location: root_path)
