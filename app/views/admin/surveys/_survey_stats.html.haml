@@ -7,4 +7,4 @@
     .panel-body
       - question_replies = survey_question.survey_replies
       - if question_replies.any?
-        = pie_chart question_replies.group(:text).count, library: { legend: 'bottom', plotOptions: { pie: { dataLabels: { enabled: false }, showInLegend: true } } }
+        = pie_chart question_replies.group(:text).count, library: { legend: { position: 'bottom' }, plotOptions: { pie: { dataLabels: { enabled: false }, showInLegend: true } } }
