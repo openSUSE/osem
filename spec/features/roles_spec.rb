@@ -66,7 +66,7 @@ feature Role do
     scenario "removes role #{role_name}", feature: true, js: true do
       click_link('Users', href: admin_conference_role_path(conference.short_title, role_name))
 
-      bootstrap_switch = first('td').find('.bootstrap-switch-container')
+      bootstrap_switch = find('tr', text: user_with_role.name).find('.bootstrap-switch-container')
       bootstrap_switch.click
 
       expect(page).to have_css('.alert', text: "Successfully removed role #{role_name} from user #{user_with_role.email}")
