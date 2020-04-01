@@ -17,7 +17,7 @@ describe Api::V1::RoomsController do
 
         expect(response).to be_success
 
-        expect(json.map { |r| r['name'] }).to contain_exactly('Conference Room', 'Test Room')
+        expect(json.pluck('name')).to contain_exactly('Conference Room', 'Test Room')
       end
     end
 

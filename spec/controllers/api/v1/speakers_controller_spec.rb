@@ -22,7 +22,7 @@ describe Api::V1::SpeakersController do
         get :index, params: { format: :json }
         json = JSON.parse(response.body)['speakers']
         expect(response).to be_success
-        expect(json.map { |u| u['name'] }).to contain_exactly('Conf_Speaker', 'Speaker')
+        expect(json.pluck('name')).to contain_exactly('Conf_Speaker', 'Speaker')
       end
     end
 

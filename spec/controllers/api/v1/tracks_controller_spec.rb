@@ -16,7 +16,7 @@ describe Api::V1::TracksController do
 
         expect(response).to be_success
 
-        expect(json.map { |t| t['name'] }).to contain_exactly('Conference Track', 'Test Track')
+        expect(json.pluck('name')).to contain_exactly('Conference Track', 'Test Track')
       end
     end
 
