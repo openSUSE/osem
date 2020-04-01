@@ -320,12 +320,6 @@ feature 'Version' do
 
   context 'organization role', feature: true, versioning: true, js: true do
     let!(:user) { create(:user) }
-    let!(:role) do
-      Role.find_by(
-        resource_id:   conference.organization.id,
-        resource_type: 'Organization'
-      )
-    end
 
     setup do
       user.add_role :organization_admin, conference.organization
