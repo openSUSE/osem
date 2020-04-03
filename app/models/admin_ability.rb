@@ -99,6 +99,8 @@ class AdminAbility
     can :manage, Conference, organization_id: org_ids_for_organization_admin
     can [:index, :show], Role
 
+    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, organization_id: org_ids_for_organization_admin
+
     signed_in_with_organizer_role(user, conf_ids_for_organization_admin)
   end
 
