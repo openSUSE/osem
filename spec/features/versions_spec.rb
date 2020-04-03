@@ -331,12 +331,10 @@ feature 'Version' do
     end
 
     it 'is recorded to history when user is added' do
-      skip('fails since paper_trail 12.2.0')
       expect(page).to have_text(/added role organization_admin with ID \d+ to user #{user.name} in organization #{conference.organization.name}/)
     end
 
     it 'is recorded to history when user is removed' do
-      skip('fails since paper_trail 12.2.0')
       expect(page).to have_text(/removed role organization_admin with ID \d+ from user #{user.name} in organization #{conference.organization.name}/)
     end
   end
