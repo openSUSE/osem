@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181113195810) do
+ActiveRecord::Schema.define(version: 2020_03_31_214534) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -639,7 +639,9 @@ ActiveRecord::Schema.define(version: 20181113195810) do
     t.text "object_changes"
     t.datetime "created_at"
     t.integer "conference_id"
+    t.integer "organization_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["organization_id"], name: "index_versions_on_organization_id"
   end
 
   create_table "votes", force: :cascade do |t|
