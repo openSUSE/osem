@@ -6,6 +6,8 @@ AllCops:
   UseCache: true
   CacheRootDirectory: tmp/rubocop_cache_rails_dir
   MaxFilesInCache: 4000
+  Exclude:
+    - db/schema.rb
 
 #################### Style ###########################
 
