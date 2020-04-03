@@ -318,11 +318,14 @@ feature 'Version' do
   end
 
   context 'organization role', feature: true, versioning: true, js: true do
+    let!(:organization_admin) { create(:organization_admin, organization: conference.organization) }
     let!(:user) { create(:user) }
 
     setup do
       user.add_role :organization_admin, conference.organization
       user.remove_role :organization_admin, conference.organization
+
+      sign_in organization_admin
       visit admin_revision_history_path
     end
 
