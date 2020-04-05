@@ -392,7 +392,7 @@ feature 'Version' do
     click_link 'Comments (0)'
     fill_in 'comment_body', with: 'Sample comment'
     click_button 'Add Comment'
-    TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
+    expect(page).to have_text('Comments (1)')
     Comment.last.destroy
     PaperTrail::Version.last.reify.save
 
