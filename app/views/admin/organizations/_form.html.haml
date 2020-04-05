@@ -2,11 +2,11 @@
   = f.inputs name: 'Organization details' do
     = f.input :name, as: :string, required: true
     = f.input :description, as: :text,
-      input_html: { rows: 10, data: { provide: 'markdown-editable' } },
+      input_html: { rows: 10, data: { provide: 'markdown' } },
       hint: markdown_hint,
       placeholder: 'Decribe about your organization...'
     = f.input :code_of_conduct, as: :text,
-      input_html: { rows: 10, data: { provide: 'markdown-editable' } },
+      input_html: { rows: 10, data: { provide: 'markdown' } },
       hint: markdown_hint,
       placeholder: 'Rules governing behavior and dispute resolution...'
     = image_tag f.object.picture.thumb.url if f.object.picture?

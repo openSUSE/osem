@@ -9,7 +9,7 @@
     = semantic_form_for(@conference, url: admin_conference_path(@conference.short_title), html: {multipart: true}) do |f|
       = f.input :title, hint: "The full title of the conference, e.g. 'openSUSE Conference 2014'"
       = f.input :short_title, hint: "A short title, e.g. 'oSC14', to be used in URLs"
-      = f.input :description, hint: markdown_hint('A description of the conference.'), input_html: { rows: 5, data: { provide: 'markdown-editable' } }
+      = f.input :description, hint: markdown_hint('A description of the conference.'), input_html: { rows: 5, data: { provide: 'markdown' } }
       = f.input :color, hint: 'The color will be used eg for the dashboard.', input_html: {size: 6, type: 'color'}
       = f.label 'Conference Logo'
       %br

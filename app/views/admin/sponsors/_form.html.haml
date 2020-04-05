@@ -10,7 +10,7 @@
   .col-md-8
     = semantic_form_for(@sponsor, url: (@sponsor.new_record? ? admin_conference_sponsors_path : admin_conference_sponsor_path(@conference.short_title, @sponsor))) do |f|
       = f.input :name, input_html: { autofocus: true }
-      = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint
+      = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown' } }, hint: markdown_hint
       = image_tag f.object.picture.thumb.url if f.object.picture?
       = f.input :picture
       = f.input :website_url
