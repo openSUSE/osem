@@ -15,6 +15,6 @@
         = f.input :color, input_html: {size: 6, type: 'color'}, required: true
         = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, readonly: 'readonly' }
         = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker', readonly: 'readonly' }
-        = f.input :description, input_html: {rows: 2, data: { provide: 'markdown-editable' } }, required: true, hint: "This will be public #{markdown_hint}".html_safe
-        = f.input :relevance, input_html: {rows: 5, data: { provide: 'markdown-editable' } }, required: true, hint: "Please explain here how this track relates to the conference, how you are related to its content and why we should accept it. #{markdown_hint}".html_safe
+        = f.input :description, input_html: {rows: 2, data: { provide: 'markdown' } }, required: true, hint: "This will be public #{markdown_hint}".html_safe
+        = f.input :relevance, input_html: {rows: 5, data: { provide: 'markdown' } }, required: true, hint: "Please explain here how this track relates to the conference, how you are related to its content and why we should accept it. #{markdown_hint}".html_safe
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
