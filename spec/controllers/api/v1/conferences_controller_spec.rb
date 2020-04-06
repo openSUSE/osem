@@ -21,7 +21,7 @@ describe Api::V1::ConferencesController do
     end
 
     it 'returns correct conferences' do
-      expect(@json.map { |c| c['short_title'] }).to contain_exactly('conf_one', 'conf_two')
+      expect(@json.pluck('short_title')).to contain_exactly('conf_one', 'conf_two')
     end
   end
 

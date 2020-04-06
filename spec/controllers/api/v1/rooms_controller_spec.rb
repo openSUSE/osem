@@ -17,9 +17,7 @@ describe Api::V1::RoomsController do
 
         expect(response).to be_success
 
-        expect(json.length).to eq(2)
-        expect(json[0]['name']).to eq('Conference Room')
-        expect(json[1]['name']).to eq('Test Room')
+        expect(json.pluck('name')).to contain_exactly('Conference Room', 'Test Room')
       end
     end
 
