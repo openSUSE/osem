@@ -114,9 +114,12 @@ feature Event do
 
       visit conference_program_proposals_path(conference.short_title)
       click_link 'New Proposal'
+      expect(page).to have_selector(".in[id='#{find_field('event[event_type_id]').value}-help']") # End of animation
 
       fill_in 'event_title', with: 'Example Proposal'
       select('Example Event Type', from: 'event[event_type_id]')
+      expect(page).to have_selector(".in[id='#{find_field('event[event_type_id]').value}-help']") # End of animation
+
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       expect(page).to have_text('You have used 3 words')
 
