@@ -2,7 +2,7 @@
 
 class RebuildConferencePictures < ActiveRecord::Migration
   def up
-    Conference.all.each do |conference|
+    Conference.where.not(picture: nil).each do |conference|
       conference.picture.recreate_versions!
     end
   end
