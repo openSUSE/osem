@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSurveySubmissions < ActiveRecord::Migration
+class CreateSurveySubmissions < ActiveRecord::Migration[5.0]
   def change
     create_table :survey_submissions do |t|
       t.integer :user_id
