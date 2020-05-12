@@ -6,6 +6,8 @@ class MakeTrackStateNotNullAndAddDefaultValue < ActiveRecord::Migration
   end
 
   def change
+    TmpTrack.reset_column_information
+
     TmpTrack.where(state: nil).each do |track|
       track.state = 'confirmed'
       track.save!
