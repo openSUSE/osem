@@ -18,6 +18,7 @@ services:
     env_file: .env.production # see dotenv.example file
     environment:
      OSEM_DB_HOST: production_database
+     RAILS_SERVE_STATIC_FILES: 'true'
     command: /osem/bin/osem-init.sh
     volumes:
       - osem_production_web_data:/osem/public/system
