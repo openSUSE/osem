@@ -15,9 +15,7 @@ describe Api::V1::EventsController do
         json = JSON.parse(response.body)['events']
         expect(response).to be_success
 
-        expect(json.length).to eq(2)
-        expect(json[0]['title']).to eq('Example Event')
-        expect(json[1]['title']).to eq('Conference Event')
+        expect(json.pluck('title')).to contain_exactly('Conference Event', 'Example Event')
       end
     end
 

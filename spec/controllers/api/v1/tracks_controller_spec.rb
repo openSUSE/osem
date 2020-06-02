@@ -16,9 +16,7 @@ describe Api::V1::TracksController do
 
         expect(response).to be_success
 
-        expect(json.length).to eq(2)
-        expect(json[0]['name']).to eq('Conference Track')
-        expect(json[1]['name']).to eq('Test Track')
+        expect(json.pluck('name')).to contain_exactly('Conference Track', 'Test Track')
       end
     end
 

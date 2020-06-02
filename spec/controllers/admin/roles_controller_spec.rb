@@ -91,7 +91,7 @@ describe Admin::RolesController do
                                      user:          { email: 'user1@osem.io' },
                                      id:            'organizer' }
 
-        expect(user1.roles).to eq [organizer_role, cfp_role]
+        expect(user1.roles).to contain_exactly(cfp_role, organizer_role)
       end
     end
 
@@ -109,7 +109,7 @@ describe Admin::RolesController do
                                      user:          { email: 'user1@osem.io' },
                                      id:            'organizer' }
 
-        expect(user1.roles).to eq [organizer_role, cfp_role]
+        expect(user1.roles).to contain_exactly(cfp_role, organizer_role)
 
         post :toggle_user, params: { conference_id: conference.short_title,
                                      user:          { email: 'user1@osem.io', state: 'false' },
