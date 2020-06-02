@@ -17,10 +17,10 @@ module Admin
 
       if @commercial.save
         redirect_to admin_conference_commercials_path,
-                    notice: 'Commercial was successfully created.'
+                    notice: 'Materials were successfully created.'
       else
         redirect_to admin_conference_commercials_path,
-                    error: 'An error prohibited this Commercial from being saved: '\
+                    error: 'An error prohibited materials from being saved: '\
                     "#{@commercial.errors.full_messages.join('. ')}."
 
       end
@@ -29,17 +29,17 @@ module Admin
     def update
       if @commercial.update(commercial_params)
         redirect_to admin_conference_commercials_path,
-                    notice: 'Commercial was successfully updated.'
+                    notice: 'Materials were successfully updated.'
       else
         redirect_to admin_conference_commercials_path,
-                    error: 'An error prohibited this Commercial from being saved: '\
+                    error: 'An error prohibited materials from being saved: '\
                     "#{@commercial.errors.full_messages.join('. ')}."
       end
     end
 
     def destroy
       @commercial.destroy
-      redirect_to admin_conference_commercials_path, notice: 'Commercial was successfully destroyed.'
+      redirect_to admin_conference_commercials_path, notice: 'Materials were successfully removed.'
     end
 
     def render_commercial
@@ -60,9 +60,9 @@ module Admin
       errors = Commercial.read_file(params[:file]) if params[:file]
 
       if !params[:file]
-        flash[:error] = 'Empty file detected while adding commercials to Event'
+        flash[:error] = 'Empty file detected while adding materials to Event'
       elsif errors.all? { |_k, v| v.blank? }
-        flash[:notice] = 'Successfully added commercials.'
+        flash[:notice] = 'Successfully added materials.'
       else
         errors_text = ''
         errors_text << 'Unable to find event with ID: ' + errors[:no_event].join(', ') + '. ' if errors[:no_event].any?

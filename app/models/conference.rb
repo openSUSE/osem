@@ -25,8 +25,8 @@ class Conference < ApplicationRecord
   has_one :email_settings, dependent: :destroy
   has_one :program, dependent: :destroy
   has_one :venue, dependent: :destroy
-  has_many :physical_tickets, through: :ticket_purchases
   has_many :ticket_purchases, dependent: :destroy
+  has_many :physical_tickets, through: :ticket_purchases
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
   has_many :tickets, dependent: :destroy

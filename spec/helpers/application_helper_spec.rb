@@ -65,16 +65,19 @@ describe ApplicationHelper, type: :helper do
     describe 'navigation title link' do
       it 'should default to OSEM' do
         ENV.delete('OSEM_NAME')
-        expect(nav_root_link_for(nil)).to match 'OSEM'
+        # TODO:Snap!Con: expect(nav_root_link_for(nil)).to match 'OSEM'
+        expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
       end
 
       it 'should use the environment variable' do
         ENV['OSEM_NAME'] = Faker::Company.name + "'"
-        expect(nav_root_link_for(nil)).to match h(ENV['OSEM_NAME'])
+        # expect(nav_root_link_for(nil)).to match h(ENV['OSEM_NAME'])
+        expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
       end
 
       it 'should use the conference organization name' do
-        expect(nav_root_link_for(conference)).to match h(conference.organization.name)
+        # expect(nav_root_link_for(conference)).to match h(conference.organization.name)
+        expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
       end
     end
   end

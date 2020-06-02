@@ -57,7 +57,7 @@ class ConferenceRegistrationsController < ApplicationController
         sign_in(@registration.user)
       end
 
-      if @conference.tickets.any? && !current_user.supports?(@conference)
+      if @conference.tickets.visible.any? && !current_user.supports?(@conference)
         redirect_to conference_tickets_path(@conference.short_title),
                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       else
@@ -108,9 +108,9 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def registration_params
-    params.require(:registration)
+    params.permit(:registration)
         .permit(
-          :conference_id, :arrival, :departure,
+          :conference_id,
           :volunteer, :accepted_code_of_conduct,
           vchoice_ids: [], qanswer_ids: [],
           qanswers_attributes: [],

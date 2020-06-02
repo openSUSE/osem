@@ -6,12 +6,25 @@ Devise.setup do |config|
   # Define the available openID providers that can be used to log in
   # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
 
-  config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
-  config.omniauth :google_oauth2, (ENV['OSEM_GOOGLE_KEY'] || Rails.application.secrets.google_key), (ENV['OSEM_GOOGLE_SECRET'] || Rails.application.secrets.google_secret),
+  # config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
+
+  config.omniauth :google_oauth2,
+                  (ENV['OSEM_GOOGLE_KEY'] || Rails.application.secrets.google_key),
+                  (ENV['OSEM_GOOGLE_SECRET'] || Rails.application.secrets.google_secret),
                   name:  'google',
                   scope: 'email'
-  config.omniauth :facebook, (ENV['OSEM_FACEBOOK_KEY'] || Rails.application.secrets.facebook_key), (ENV['OSEM_FACEBOOK_SECRET'] || Rails.application.secrets.facebook_secret)
-  config.omniauth :github, (ENV['OSEM_GITHUB_KEY'] || Rails.application.secrets.github_key), (ENV['OSEM_GITHUB_SECRET'] || Rails.application.secrets.github_secret)
+
+  config.omniauth :discourse,
+                  sso_url: 'https://forum.snap.berkeley.edu/session/sso_provider',
+                  sso_secret: ENV['OSEM_DISCOURSE_SECRET']
+
+  config.omniauth :facebook,
+                  (ENV['OSEM_FACEBOOK_KEY'] || Rails.application.secrets.facebook_key),
+                  (ENV['OSEM_FACEBOOK_SECRET'] || Rails.application.secrets.facebook_secret)
+
+  config.omniauth :github,
+                  (ENV['OSEM_GITHUB_KEY'] || Rails.application.secrets.github_key),
+                  (ENV['OSEM_GITHUB_SECRET'] || Rails.application.secrets.github_secret)
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,

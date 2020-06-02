@@ -1,6 +1,6 @@
 .div
   .col-md-12.table-responsive
-    %table.table.table-hover
+    %table.table.table-hover.table-striped
       %thead
         %tr
           %th Ticket
@@ -20,8 +20,13 @@
             = humanized_money_with_symbol ticket.quantity * ticket.price
 
 = form_tag conference_payments_path do
-  %script.stripe-button{ src: "https://checkout.stripe.com/checkout.js",
-        data: { amount: @total_amount_to_pay.cents, label: "Pay #{humanized_money_with_symbol @total_amount_to_pay}",
-          email: current_user.email, currency: @total_amount_to_pay.currency, name: ENV['OSEM_NAME'] || 'OSEM',
-          description: "book your tickets", key: Rails.application.secrets.stripe_publishable_key, locale: "auto"}}
-  = link_to 'Edit Purchase', conference_tickets_path(@conference.short_title), class: 'btn btn-default'
+  %script.stripe-button{'src': "https://checkout.stripe.com/checkout.js",
+    'data': {amount: @total_amount_to_pay.cents,
+      label: "Pay #{humanized_money_with_symbol @total_amount_to_pay}",
+      email: current_user.email,
+      currency: @total_amount_to_pay.currency,
+      name: ENV['OSEM_NAME'] || 'OSEM',
+      description: "#{ENV['OSEM_NAME']} tickets",
+      key: ENV['STRIPE_PUBLISHABLE_KEY'] || Rails.application.secrets.stripe_publishable_key, locale: "auto"}}
+  = link_to('Edit Purchase', conference_tickets_path(@conference.short_title),
+            class: 'btn btn-default')

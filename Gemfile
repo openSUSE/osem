@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '2.5.0'
+ruby ENV['OSEM_RUBY_VERSION'] || '2.5.5'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -20,7 +20,6 @@ gem 'puma', '~> 3.0'
 gem 'responders', '~> 2.0'
 
 # as supported databases
-gem 'mysql2'
 gem 'pg'
 
 # for tracking data changes
@@ -38,8 +37,8 @@ gem 'rails-i18n'
 gem 'devise'
 gem 'devise_ichain_authenticatable'
 
-# for openID authentication
 gem 'omniauth'
+gem 'omniauth-discourse'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
@@ -143,8 +142,7 @@ gem 'rqrcode'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
-# as error catcher
-gem 'airbrake'
+gem 'sentry-raven'
 
 # to make links faster
 gem 'turbolinks'

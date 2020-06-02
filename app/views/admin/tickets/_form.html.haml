@@ -14,5 +14,6 @@
       = f.input :price
       = f.input :price_currency, as: :select, class: 'form-control', collection: ['USD', 'EUR', 'GBP', 'INR', 'CNY', 'CHF'], include_blank: false
       = f.input :registration_ticket, hint: 'A registration ticket is with which user register for the conference.'
+      = f.input :visible, hint: 'Only visible tickets are available to registrants. Non-visible tickets can only be managed by Admins.'
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

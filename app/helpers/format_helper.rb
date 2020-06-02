@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'redcarpet/render_strip'
+
 module FormatHelper
   ##
   # Includes functions related to formatting (like adding classes, colors)
@@ -42,12 +44,11 @@ module FormatHelper
 
   def target_progress_color(progress)
     progress = progress.to_i
-    result =
-    case
-    when progress >= 90 then 'green'
-    when progress < 90 && progress >= 80 then 'orange'
-    else 'red'
-    end
+    result = case
+             when progress >= 90 then 'green'
+             when progress < 90 && progress >= 80 then 'orange'
+             else 'red'
+             end
 
     result
   end
@@ -99,19 +100,11 @@ module FormatHelper
   end
 
   def icon_for_todo(bool)
-    if bool
-      'fa fa-check'
-    else
-      'fa fa-times'
-    end
+    bool ? 'fa fa-check' : 'fa fa-times'
   end
 
   def class_for_todo(bool)
-    if bool
-      'todolist-ok'
-    else
-      'todolist-missing'
-    end
+    bool ? 'todolist-ok' : 'todolist-missing'
   end
 
   def word_pluralize(count, singular, plural = nil)
@@ -191,9 +184,12 @@ module FormatHelper
     return '' if text.nil?
 
     options = {
-      autolink:            true,
+      autolink: true,
       space_after_headers: true,
-      no_intra_emphasis:   true
+      tables: true,
+      strikethrough: true,
+      footnotes: true,
+      superscript: true
     }
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe
@@ -201,6 +197,11 @@ module FormatHelper
 
   def markdown_hint(text='')
     markdown("#{text} Please look at #{link_to '**Markdown Syntax**', 'https://daringfireball.net/projects/markdown/syntax', target: '_blank'} to format your text", false)
+  end
+
+  # Return a plain text markdown stripped of formatting.
+  def plain_text(content)
+    Redcarpet::Markdown.new(Redcarpet::Render::StripDown).render(content)
   end
 
   def quantity_left_of(resource)

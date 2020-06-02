@@ -1,25 +1,26 @@
 - if ENV['OSEM_ICHAIN_ENABLED'] != 'true'
-  = form_tag(new_user_session_path, class: 'form-horizontal') do
-    %legend
-      %span
-        Sign In
-    .form-group
-      %label{for: "user[login]", class: 'col-sm-2 control-label'}
-        Username
-      .col-sm-10
-        = text_field_tag 'user[login]', nil, placeholder: 'Username', class: 'form-control', required: 'required'
-    .form-group
-      %label{for: "user[password]", class: 'col-sm-2 control-label'}
-        Password
-      .col-sm-10
-        = password_field_tag 'user[password]', nil, placeholder: 'Password', class: 'form-control', required: 'required'
-    .form-group
-      .col-sm-12
-        %button.btn.btn-success.pull-right
-          Sign in
-    = render partial: 'devise/shared/openid'
-    %p.text-right
-      %a.small.btn.btn-default{"data-toggle" => "collapse", "data-target" =>  "#devise-help-sign-in"}
-        Need Help?
-      #devise-help-sign-in.collapse
-        = render partial: 'devise/shared/links'
+  .container.panel
+    = form_tag(new_user_session_path, class: '') do
+      %legend
+        %span
+          Sign In
+      .form-group
+        %label{for: "user[login]", class: 'col-sm-2 control-label'}
+          Username
+        .col-sm-10
+          = text_field_tag 'user[login]', nil, placeholder: 'Username', class: 'form-control', required: 'required'
+      .form-group
+        %label{for: "user[password]", class: 'col-sm-2 control-label'}
+          Password
+        .col-sm-10
+          = password_field_tag 'user[password]', nil, placeholder: 'Password', class: 'form-control', required: 'required'
+      .form-group
+        .col-sm-12
+          %button.btn.btn-success.pull-right
+            Sign in
+      = render partial: 'devise/shared/openid'
+      %p.text-right
+        %a.small.btn.btn-default{"data-toggle" => "collapse", "data-target" =>  "#devise-help-sign-in"}
+          Need Help?
+  #devise-help-sign-in.collapse
+    = render partial: 'devise/shared/links'

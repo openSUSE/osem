@@ -7,19 +7,21 @@
     .container
       .row
         .col-md-12.text-center
-          %h2
-            Support
-            = conference.title
+          %h2 Sign Up for Snap<em>!</em>Con
+          %br
+          -# %h2
+          -#   Support
+          -#   = conference.title
       .row.row-centered
         - tickets.each do |ticket|
-          .col-md-3.col-sm-3.col-centered.col-top
-            = link_to(conference_tickets_path(conference.short_title),
-              class: 'thumbnail') do
+          .col-lg-4.col-md-3.col-sm-3.col-centered.col-top
+            = link_to(conference_tickets_path(conference.short_title), class: 'thumbnail') do
               .caption
                 %h3.text-center.word_break
                   = ticket.title
                 .word_break
                   = markdown(ticket.description)
                 %button.btn-block.btn.btn-lg.btn-success
-                  %i.fa.fa-ticket.fa-fw
+                  %i.fa.fa-ticket.fa-fw{"aria-hidden": true}
                   = humanized_money_with_symbol(ticket.price)
+    .trapezoid

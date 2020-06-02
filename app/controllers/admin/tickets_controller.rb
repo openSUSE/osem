@@ -38,13 +38,30 @@ module Admin
       end
     end
 
+    def give
+      ticket_purchase = @ticket.ticket_purchases.new(gift_ticket_params)
+      recipient = ticket_purchase.user
+      if ticket_purchase.save
+        redirect_to(
+          admin_conference_ticket_path(@conference.short_title, @ticket),
+          notice: "#{recipient.name} was given a #{@ticket.title} ticket."
+        )
+      else
+        redirect_back(
+          fallback_location: admin_conference_ticket_path(@conference.short_title, @ticket),
+          error:             "Unable to give #{recipient.name} a #{@ticket.title} ticket: " +
+                             ticket_purchase.errors.full_messages.to_sentence
+        )
+      end
+    end
+
     def destroy
       if @ticket.destroy
         redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
-                    notice: 'Ticket successfully destroyed.'
+                    notice: 'Ticket successfully deleted.'
       else
         redirect_to admin_conference_tickets_path(conference_id: @conference.short_title),
-                    error: 'Ticket was successfully destroyed.' \
+                    error: 'Deleting ticket failed! ' \
                     "#{@ticket.errors.full_messages.join('. ')}."
       end
     end
@@ -52,7 +69,19 @@ module Admin
     private
 
     def ticket_params
-      params.require(:ticket).permit(:conference, :title, :url, :description, :conference_id, :price_cents, :price_currency, :price, :registration_ticket)
+      params.require(:ticket).permit(
+        :conference, :conference_id,
+        :title, :url, :description,
+        :price_cents, :price_currency, :price,
+        :registration_ticket, :visible
+      )
+    end
+
+    def gift_ticket_params
+      response = params.require(:ticket_purchase).permit(
+        :user_id
+      )
+      response.merge(paid: true, amount_paid: 0, conference: @conference)
     end
   end
 end

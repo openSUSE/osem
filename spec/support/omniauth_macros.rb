@@ -6,12 +6,12 @@ module OmniauthMacros
 
   ENV['OSEM_GOOGLE_KEY'] = 'test key google'
   ENV['OSEM_GOOGLE_SECRET'] = 'test secret google'
-  ENV['OSEM_FACEBOOK_KEY'] = 'test key facebook'
-  ENV['OSEM_FACEBOOK_SECRET'] = 'test secret facebook'
-  ENV['OSEM_SUSE_KEY'] = 'test key suse'
-  ENV['OSEM_SUSE_SECRET'] = 'test secret suse'
-  ENV['OSEM_GITHUB_KEY'] = 'test key github'
-  ENV['OSEM_GITHUB_SECRET'] = 'test secret github'
+  # ENV['OSEM_FACEBOOK_KEY'] = 'test key facebook'
+  # ENV['OSEM_FACEBOOK_SECRET'] = 'test secret facebook'
+  # ENV['OSEM_SUSE_KEY'] = 'test key suse'
+  # ENV['OSEM_SUSE_SECRET'] = 'test secret suse'
+  # ENV['OSEM_GITHUB_KEY'] = 'test key github'
+  # ENV['OSEM_GITHUB_SECRET'] = 'test secret github'
 
   def mock_auth_new_user
     OmniAuth.config.mock_auth[:google] =

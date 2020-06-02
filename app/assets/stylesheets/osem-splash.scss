@@ -1,4 +1,5 @@
 @import "breakpoints.scss";
+@import "osem-variables.scss";
 
 #splash {
   // Counter the general padding for #content
@@ -6,17 +7,29 @@
   section {
     padding-top: 60px;
     padding-bottom: 60px;
+
+    .trapezoid {
+      top: 60px + $trapezoid-height;
+    }
   }
 
   section:nth-child(even) {
-    background: none repeat scroll 0 0 #e0e0e0;
-    color: #555;
+    background: none repeat scroll 0 0 #eee;
+    color: #333;
+
+    .trapezoid {
+      border-top-color: #eee;
+    }
   }
   section:nth-child(odd) {
     background: none repeat scroll 0 0 #ffffff;
-    color: #7b7b7b;
+    color: #333;
     .thumbnail {
       background: none repeat scroll 0 0 #e0e0e0;
+    }
+
+    .trapezoid {
+      border-top-color: #fff;
     }
   }
 
@@ -32,10 +45,14 @@
     padding-top: 100px;
     padding-bottom: 100px;
     .container {
-      #header  {
+      #header-no-image  {
         background-color: rgba(224, 224, 224,.80);
         padding-top: 20px;
         padding-bottom: 20px;
+      }
+
+      #header-image {
+        color: #FFF;
       }
     }
   }
@@ -67,6 +84,10 @@
     #venue-pic {
       margin-top: 20px;
     }
+    // The venue section has less padding.
+    .trapezoid {
+      top: $trapezoid-height;
+    }
   }
 
   #lodging {
@@ -89,6 +110,14 @@
       .img-lodging{
         max-width: 300px;
         max-height: 200px;
+      }
+    }
+  }
+
+  #tickets {
+    a {
+      &:hover, &:focus {
+        text-decoration: none;
       }
     }
   }
@@ -116,14 +145,13 @@
   }
 
   #social-media{
-    background: none repeat scroll 0 0 #2f2f2f;
-    padding-top: 60px;
-    padding-bottom: 60px;
+    background: none repeat scroll 0 0 #0C3559;
+    padding: 50px 20px;
     i{
-      color: #4a4a4a;
+      color: #FFF;
     }
     i:hover{
-      color: #16a085;
+      color: #F2E205;
     }
     a{
       padding-left: 100px;
@@ -164,11 +192,11 @@
     i.fa {
       line-height: inherit;
     }
-    &.show {
-      visibility:visible;
-      cursor:pointer;
-      opacity: 1.0;
-    }
+    // &.show {
+    //   visibility:visible;
+    //   cursor:pointer;
+    //   opacity: 1.0;
+    // }
     a {
       color: white;
     }

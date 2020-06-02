@@ -51,10 +51,10 @@ class ConferencesController < ApplicationController
       end
     end
     if splashpage.include_registrations || splashpage.include_tickets
-      @tickets = @conference.tickets.order('price_cents')
+      @tickets = @conference.tickets.visible.order('price_cents')
     end
     if splashpage.include_lodgings
-      @lodgings = @conference.lodgings.order('name')
+      @lodgings = @conference.lodgings.order('id')
     end
     if splashpage.include_sponsors
       @sponsorship_levels = @conference.sponsorship_levels.eager_load(

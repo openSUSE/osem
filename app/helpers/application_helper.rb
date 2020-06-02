@@ -178,18 +178,20 @@ module ApplicationHelper
     'hidden' if Date.today > conference.end_date
   end
 
+  # TODO:Snap!Con: Replace this with a search for a conference logo.
   def nav_root_link_for(conference)
-    link_text = (
-      conference.try(:organization).try(:name) ||
-      ENV['OSEM_NAME'] ||
-      'OSEM'
-    )
     link_to(
-      link_text,
+      image_tag('snapcon_logo.png'),
       root_path,
       class: 'navbar-brand',
-      title: 'Open Source Event Manager'
+      title: nav_link_text(conference)
     )
+  end
+
+  def nav_link_text(conference)
+    conference.try(:organization).try(:name) ||
+    ENV['OSEM_NAME'] ||
+    'OSEM'
   end
 
   # returns the url to be used for logo on basis of sponsorship level position
