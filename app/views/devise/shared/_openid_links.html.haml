@@ -5,7 +5,8 @@
         = link_to "user_#{provider}_omniauth_authorize".to_sym, class: "btn btn-success btn-lg",
                                                           id: "omniauth-#{provider}",
                                                           title: "Your #{provider} login" do
-          %i{class: "fa fa-#{provider}"}
+          -# %i{class: "fa fa-#{provider}"}
+          = provider.capitalize
       - else
         = link_to("user_#{provider}_omniauth_authorize".to_sym,
                   class: "btn btn-success btn-lg",

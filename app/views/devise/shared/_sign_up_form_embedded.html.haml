@@ -1,4 +1,8 @@
 - unless current_user
+  %p
+    %strong Create an account directly for Snap!Con, or sign in using Google.
+  %p
+    Snap!Con uses a different account system, but please use the same username or email address if possible. (We're working on improving this!)
   = semantic_fields_for @user do |u|
     = u.input :username, input_html: { required: 'required', autocomplete: 'off' }
     = u.input :email, input_html: { required: 'required', autocomplete: 'off' }
