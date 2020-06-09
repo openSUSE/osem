@@ -26,21 +26,25 @@
         %th E-Mail
         %th Affiliation
         %th Paid
+        %th Date
       %tbody
         - @ticket.buyers.each_with_index do |buyer, index|
+          - purchases = buyer.ticket_purchases.where(ticket_id: @ticket.id)
           %tr
             %td
               = index + 1
             %td
               = buyer.name
             %td
-              = buyer.ticket_purchases.where(ticket_id: @ticket.id).sum('quantity')
+              = purchases.sum('quantity')
             %td
               = buyer.email
             %td
               = buyer.affiliation
             %td
               = @ticket.tickets_paid(buyer)
+            %td
+              = purchases.first.created_at
 
 - content_for :modals do
   .modal.fade{ id: "modal-give-ticket-#{@ticket.id}" }
