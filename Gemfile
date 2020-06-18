@@ -231,6 +231,8 @@ group :development do
   gem 'rubocop-rspec'
   # to open mails
   gem 'letter_opener'
+  # view mail at /letter_opener/
+  gem 'letter_opener_web', '~> 1.0'
   # as deployment system
   gem 'mina'
   # as debugger on error pages
