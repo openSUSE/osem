@@ -9,6 +9,13 @@
       .text-muted
         Your tickets for the conference
 
+      - if !@confernce.user_registered?(@user)
+        %strong
+          You are not yet registered for the conference.
+          = link_to 'Complete Registration',
+                  conference_conference_registration_path(@conference),
+                  class: 'btn btn-success pull-right'
+
     .col-md-12
       - if @physical_tickets.present?
         %table.table.table-bordered.table-striped.table-hover#roles
