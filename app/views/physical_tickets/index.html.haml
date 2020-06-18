@@ -9,14 +9,14 @@
       .text-muted
         Your tickets for the conference
 
-  - if !@conference.user_registered?(@user)
-    .row
-      .col-md-12
-        %strong
-          You are not yet registered for the conference.
-          = link_to 'Complete Registration',
-                  conference_conference_registration_path(@conference),
-                  class: 'btn btn-success pull-right'
+    - if !@conference.user_registered?(@user)
+      .row
+        .col-md-12
+          %strong
+            You are not yet registered for the conference.
+            = link_to 'Complete Registration',
+                    conference_conference_registration_path(@conference),
+                    class: 'btn btn-success pull-right'
 
     .col-md-12
       - if @physical_tickets.present?
