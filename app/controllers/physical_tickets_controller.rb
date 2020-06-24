@@ -9,6 +9,7 @@ class PhysicalTicketsController < ApplicationController
   def index
     @physical_tickets = current_user.physical_tickets.by_conference(@conference)
     @unpaid_ticket_purchases = current_user.ticket_purchases.by_conference(@conference).unpaid
+    @user = current_user
   end
 
   def show

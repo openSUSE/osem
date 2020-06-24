@@ -67,6 +67,11 @@ class Commercial < ApplicationRecord
         OEmbed::Providers::Instagram,
         speakerdeck
     )
+
+    OEmbed::Providers.register_fallback(
+      OEmbed::ProviderDiscovery,
+      OEmbed::Providers::Noembed
+    )
   end
 
   def conference_id

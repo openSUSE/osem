@@ -29,6 +29,7 @@
                   - if @conference.user_registered?(current_user)
                     = f.action :submit, button_html: { value: 'Update Registration', class: 'btn btn-primary' }
                   - else
-                    = link_to('Get Tickets', conference_tickets_path(@conference), class: 'btn btn-primary')
+                    = f.action :submit, button_html: { value: 'Register', class: 'btn btn-primary', id: 'register' }
+
         .tab-pane{role: 'tabpanel', id: 'signin'}
           = render partial: 'devise/shared/sign_in_form_embedded'
