@@ -5,6 +5,7 @@ services:
     image: postgres
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: $OSEM_DB_PASSWORD
   osem:
     build:
       context: .
