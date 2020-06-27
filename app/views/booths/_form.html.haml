@@ -3,11 +3,11 @@
     .col-md-8
       = semantic_form_for(@booth,  url: @url, html: { multipart: true }) do |f|
         = f.input :title, as: :string, input_html: { autofocus: true }, required: true
-        = f.input :description, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
+        = f.input :description, input_html: { rows: 5, data: { provide: 'markdown' } }, required: true,
           hint: 'This field becomes public upon request acceptance'
-        = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
+        = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown' } }, required: true,
           label: 'How it fits the conference'
-        = f.input :submitter_relationship, input_html: { rows: 5, data: { provide: 'markdown-editable' } }, required: true,
+        = f.input :submitter_relationship, input_html: { rows: 5, data: { provide: 'markdown' } }, required: true,
           label: 'Submitter\'s relation',
           hint: 'e.g. employee, comunity manager, etc'
         = f.input :website_url

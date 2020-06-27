@@ -23,6 +23,6 @@
           with
           = link_to 'rooms', admin_conference_venue_rooms_path(@conference.short_title)
           , if you want to select a room for the track.
-      = f.input :description, input_html: {rows: 2, data: { provide: 'markdown-editable' } }, hint: markdown_hint
+      = f.input :description, input_html: {rows: 2, data: { provide: 'markdown' } }, hint: markdown_hint
       = f.input :cfp_active, label: 'Allow event submitters to select this track for their proposal'
       = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }

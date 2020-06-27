@@ -11,7 +11,7 @@
     = semantic_form_for(@lodging, url: (@lodging.new_record? ? admin_conference_lodgings_path : admin_conference_lodging_path(@conference.short_title, @lodging))) do |f|
       = f.input :name, input_html: { autofocus: true}
       = f.input :website_link, input_html: { type: :url }
-      = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint
+      = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown' } }, hint: markdown_hint
       - if @lodging.picture?
         = image_tag @lodging.picture.thumb.url
       = f.input :picture
