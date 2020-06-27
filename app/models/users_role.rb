@@ -4,11 +4,8 @@ class UsersRole < ApplicationRecord
   belongs_to :role
   belongs_to :user
 
-  has_paper_trail on: [:create, :destroy], meta: { conference_id: :conference_id }
+  delegate :conference_id, :organization_id, to: :role
 
-  private
-
-  def conference_id
-    role.resource_id
-  end
+  has_paper_trail on:   [:create, :destroy],
+                  meta: { conference_id: :conference_id, organization_id: :organization_id }
 end

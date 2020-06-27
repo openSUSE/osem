@@ -59,6 +59,17 @@ FactoryBot.define do
     biography { '<div id="divInjectedElement"></div>' }
   end
 
+  factory :organization_admin, parent: :user do
+    transient do
+      organization { create(:organization) }
+    end
+
+    after(:create) do |user, evaluator|
+      user.roles << Role.find_or_create_by(name: 'organization_admin', resource: evaluator.organization)
+      user.save!
+    end
+  end
+
   factory :organizer, parent: :user do
     transient do
       resource { create(:resource) }
