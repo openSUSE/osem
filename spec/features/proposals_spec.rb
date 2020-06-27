@@ -127,7 +127,6 @@ feature Event do
 
       page.find('#flash')
       expect(page).to have_content 'Proposal was successfully submitted.'
-      TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
       expect(current_path).to eq(conference_program_proposals_path(conference.short_title))
       expect(Event.count).to eq(expected_count)
     end

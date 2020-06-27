@@ -85,7 +85,6 @@ feature Commercial do
       click_button 'Update'
       page.find('#flash')
       expect(flash).to eq('Commercial was successfully updated.')
-      TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
       expect(event.commercials.count).to eq(1)
       commercial.reload
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=M9bq_alk-sw')
@@ -118,7 +117,6 @@ feature Commercial do
       end
       page.find('#flash')
       expect(flash).to eq('Commercial was successfully destroyed.')
-      TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
       expect(event.commercials.count).to eq(0)
     end
   end

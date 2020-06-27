@@ -566,8 +566,6 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.9)
     timecop (0.9.1)
-    transactional_capybara (0.2.0)
-      capybara
     transitions (1.2.1)
     ttfunk (1.5.1)
     turbolinks (5.2.1)
@@ -715,7 +713,6 @@ DEPENDENCIES
   stripe
   stripe-ruby-mock
   timecop
-  transactional_capybara
   transitions
   turbolinks
   uglifier (>= 1.3.0)

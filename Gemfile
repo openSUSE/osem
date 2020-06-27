@@ -247,7 +247,6 @@ group :test do
   gem 'database_cleaner'
   gem 'geckodriver-helper'
   gem 'rspec-rails'
-  gem 'transactional_capybara'
   gem 'webdrivers'
   # for measuring test coverage
   gem 'codecov', require: false
