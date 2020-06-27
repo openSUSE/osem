@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateBooths < ActiveRecord::Migration
+class CreateBooths < ActiveRecord::Migration[4.2]
   def change
     create_table :booths do |t|
       t.string :title
