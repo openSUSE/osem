@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 class UserDatatable < AjaxDatatablesRails::Base
@@ -40,20 +41,21 @@ class UserDatatable < AjaxDatatablesRails::Base
 
   # rubocop:disable Naming/AccessorMethodName
   def get_raw_records
-    User.left_outer_joins(:registrations, :roles).select(
-        "DISTINCT users.id, users.name, users.email, users.confirmed_at, COUNT(CASE WHEN registrations.attended = 't' THEN 1 END) AS attended_count"
-      ).group(
-        'users.id, users.name, users.email, users.confirmed_at'
-      )
+    User.left_outer_joins(:registrations, :roles)
+      .distinct
+      .select("users.*, COUNT(CASE WHEN registrations.attended = 't' THEN 1 END) AS attended_count")
+      .group('users.id')
   end
   # rubocop:enable Naming/AccessorMethodName
 
+  # Workaround for jbox-web/ajax-datatables-rails#293
   def records_total_count
-    fetch_records.unscoped.count(:id)
+    fetch_records.unscope(:group, :select).count(:all)
   end
 
+  # Workaround for jbox-web/ajax-datatables-rails#293
   def records_filtered_count
-    filter_records(fetch_records).unscoped.count
+    filter_records(fetch_records).unscope(:group, :select).count(:all)
   end
 
   # ==== These methods represent the basic operations to perform on records
