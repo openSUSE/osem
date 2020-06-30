@@ -17,7 +17,7 @@
         input_html: { class: 'form-control',
           id: 'registration-period-end-datepicker' }
       = f.input :description, hint: markdown_hint,
-        input_html: { rows: 2, data: { provide: 'markdown-editable' } }
+        input_html: { rows: 2, data: { provide: 'markdown' } }
       - if cfp.cfp_type == 'events'
         = f.input :enable_registrations, as: :boolean,
           hint: 'Allow submitters to request registration?'

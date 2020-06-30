@@ -75,7 +75,7 @@ feature Commercial do
       expect(page).to have_css("button[type='submit']:disabled", text: 'Save Materials')
     end
 
-    scenario 'updates a commercial of an event', feature: true, js: true do
+    scenario 'updates materials of an event', feature: true, js: true do
       commercial = create(:commercial,
                           commercialable_id:   event.id,
                           commercialable_type: 'Event')
@@ -85,7 +85,6 @@ feature Commercial do
       click_button 'Update'
       page.find('#flash')
       expect(flash).to eq('Materials were successfully updated.')
-      TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
       expect(event.commercials.count).to eq(1)
       commercial.reload
       expect(commercial.url).to eq('https://www.youtube.com/watch?v=M9bq_alk-sw')
@@ -117,8 +116,7 @@ feature Commercial do
         click_link 'Delete'
       end
       page.find('#flash')
-      expect(flash).to eq('Materials were successfully destroyed.')
-      TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
+      expect(flash).to eq('Materials successfully destroyed.')
       expect(event.commercials.count).to eq(0)
     end
   end

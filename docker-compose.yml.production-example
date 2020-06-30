@@ -1,10 +1,11 @@
-version: "2"
+version: "2.4"
 
 services:
   production_database:
     image: postgres
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: $OSEM_DB_PASSWORD
     volumes:
       - osem_production_database:/var/lib/postgresql/data/pgdata
   production_web:
@@ -18,6 +19,7 @@ services:
     env_file: .env.production # see dotenv.example file
     environment:
      OSEM_DB_HOST: production_database
+     RAILS_SERVE_STATIC_FILES: 'true'
     command: /osem/bin/osem-init.sh
     volumes:
       - osem_production_web_data:/osem/public/system

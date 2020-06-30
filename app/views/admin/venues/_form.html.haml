@@ -14,7 +14,7 @@
       .col-md-8
         = semantic_form_for(@venue, url: admin_conference_venue_path(@conference.short_title)) do |f|
           = f.inputs :name, :website
-          = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown-editable' } }, hint: markdown_hint
+          = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown' } }, hint: markdown_hint
           = f.label 'Venue Logo'
           %br
           - if @venue.picture?

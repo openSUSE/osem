@@ -37,7 +37,7 @@ There is a rudimentary docker-compose configuration for production usage (`docke
 
 
 1. Configure OSEM
-   You have at least to set `SECRET_KEY_BASE`
+   You have at least to set `OSEM_DB_PASSWORD` and `SECRET_KEY_BASE`
    ```
    cp dotenv.example .env.production
    vim .env.production

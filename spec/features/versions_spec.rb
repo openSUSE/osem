@@ -318,17 +318,14 @@ feature 'Version' do
   end
 
   context 'organization role', feature: true, versioning: true, js: true do
+    let!(:organization_admin) { create(:organization_admin, organization: conference.organization) }
     let!(:user) { create(:user) }
-    let!(:role) do
-      Role.find_by(
-        resource_id:   conference.organization.id,
-        resource_type: 'Organization'
-      )
-    end
 
     setup do
       user.add_role :organization_admin, conference.organization
       user.remove_role :organization_admin, conference.organization
+
+      sign_in organization_admin
       visit admin_revision_history_path
     end
 
@@ -392,7 +389,7 @@ feature 'Version' do
     click_link 'Comments (0)'
     fill_in 'comment_body', with: 'Sample comment'
     click_button 'Add Comment'
-    TransactionalCapybara::AjaxHelpers.wait_for_ajax(page)
+    expect(page).to have_text('Comments (1)')
     Comment.last.destroy
     PaperTrail::Version.last.reify.save
 

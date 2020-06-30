@@ -1,10 +1,11 @@
-version: "2"
+version: "2.4"
 
 services:
   database:
     image: postgres
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: $OSEM_DB_PASSWORD
   osem:
     build:
       context: .

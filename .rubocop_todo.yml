@@ -1156,7 +1156,6 @@ Style/StringLiterals:
     - 'config/deploy.rb'
     - 'config/environments/production.rb'
     - 'config/puma.rb'
-    - 'db/schema.rb'
     - 'lib/tasks/dump_db.rake'
     - 'lib/tasks/events_registrations.rake'
     - 'lib/tasks/factory_bot.rake'

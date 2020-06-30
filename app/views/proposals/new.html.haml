@@ -47,7 +47,7 @@
                   collection: @languages,
                   include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
 
-              = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown-editable' } },
+              = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
                 hint: markdown_hint
 
               %p
