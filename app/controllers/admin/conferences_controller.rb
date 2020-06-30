@@ -112,20 +112,20 @@ module Admin
       @all_events = @program.events
 
       @total_submissions = @all_events.count
-      @new_submissions = @all_events
-          .where('created_at > ?', current_user.last_sign_in_at).count
+      # @new_submissions = @all_events
+      #     .where('created_at > ?', current_user.last_sign_in_at).count
 
       @program_length = @conference.current_program_hours
-      @new_program_length = @conference.new_program_hours(current_user.last_sign_in_at)
+      # @new_program_length = @conference.new_program_hours(current_user.last_sign_in_at)
 
       @total_withdrawn = @all_events.where(state: :withdrawn).count
-      @new_withdrawn = @all_events.where(state: :withdrawn).where(
-        'events.created_at > ?',
-        current_user.last_sign_in_at
-      ).count
+      # @new_withdrawn = @all_events.where(state: :withdrawn).where(
+      #   'events.created_at > ?',
+      #   current_user.last_sign_in_at
+      # ).count
 
       #  Step by step list
-      @conference_progress = @conference.get_status
+      # @conference_progress = @conference.get_status
 
       # Line charts
       @registrations = @conference.get_registrations_per_week
@@ -134,18 +134,18 @@ module Admin
 
       # Doughnut charts
       @event_type_distribution = @conference.event_type_distribution
-      @event_type_distribution_confirmed = @conference.event_type_distribution(:confirmed)
-      @event_type_distribution_withdrawn = @conference.event_type_distribution(:withdrawn)
+      # @event_type_distribution_confirmed = @conference.event_type_distribution(:confirmed)
+      # @event_type_distribution_withdrawn = @conference.event_type_distribution(:withdrawn)
 
       @difficulty_levels_distribution = @conference.difficulty_levels_distribution
-      @difficulty_levels_distribution_confirmed = @conference
-          .difficulty_levels_distribution(:confirmed)
-      @difficulty_levels_distribution_withdrawn = @conference
-          .difficulty_levels_distribution(:withdrawn)
+      # @difficulty_levels_distribution_confirmed = @conference
+      #     .difficulty_levels_distribution(:confirmed)
+      # @difficulty_levels_distribution_withdrawn = @conference
+      #     .difficulty_levels_distribution(:withdrawn)
 
       @tracks_distribution = @conference.tracks_distribution
-      @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
-      @tracks_distribution_withdrawn = @conference.tracks_distribution(:withdrawn)
+      # @tracks_distribution_confirmed = @conference.tracks_distribution(:confirmed)
+      # @tracks_distribution_withdrawn = @conference.tracks_distribution(:withdrawn)
 
       # Recent actions information
       @recent_events = @conference.program.events.limit(5).order(created_at: :desc)
