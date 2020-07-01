@@ -126,7 +126,6 @@ GEM
       url
     coderay (1.1.1)
     concurrent-ruby (1.1.6)
-    connection_pool (2.2.2)
     countable-rails (0.0.1)
       railties (>= 3.1)
     countries (3.0.0)

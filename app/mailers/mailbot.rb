@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 SNAPCON_BCC_ADDRESS = 'messages@snap.berkeley.edu'
+YTLF_TICKET_ID = 50
 
 class Mailbot < ActionMailer::Base
   def registration_mail(conference, user)
@@ -24,7 +25,6 @@ class Mailbot < ActionMailer::Base
     end
 
     template_name = 'ticket_confirmation_template'
-    YTLF_TICKET_ID = 50
     if @ticket_purchase.ticket_id = YTLF_TICKET_ID
       template_name = 'young_thinkers_ticket_confirmation_template'
     end
