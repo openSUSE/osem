@@ -23,10 +23,16 @@ class Mailbot < ActionMailer::Base
       attachments["ticket_for_#{@conference.short_title}_#{physical_ticket.id}.pdf"] = pdf.render
     end
 
+    template_name = 'ticket_confirmation_template'
+    YTLF_TICKET_ID = 50
+    if @ticket_purchase.ticket_id = YTLF_TICKET_ID
+      template_name = 'young_thinkers_ticket_confirmation_template'
+    end
+
     mail(to:            @user.email,
          bcc:           SNAPCON_BCC_ADDRESS,
          from:          @conference.contact.email,
-         template_name: 'ticket_confirmation_template',
+         template_name: template_name,
          subject:       "#{@conference.title} | Ticket Confirmation and PDF!")
   end
 

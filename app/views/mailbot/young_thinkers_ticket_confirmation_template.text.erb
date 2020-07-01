@@ -1,0 +1,10 @@
+Dear <%= @user.name %>,
+
+Thanks! You have successfully booked <%= @ticket_purchase.quantity %> <%= @ticket_purchase.ticket.title %> ticket(s) for the event <%= @conference.title %>. Your transaction id is <%= @ticket_purchase.id %>.
+
+Please, find the ticket(s) pdf attached.
+
+The SAP Young Thinkers team will reach out to you with information on how to participate in the event soon. In the meantime, you can check the event page (https://events.sap.com/yt-learning-festival-at-snapcon-2020/en/home) or send an email with your questions to youngthinkers@sap.com.
+
+Best wishes,
+<%= @conference.title %> Team
