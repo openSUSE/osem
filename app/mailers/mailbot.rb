@@ -25,7 +25,7 @@ class Mailbot < ActionMailer::Base
     end
 
     template_name = 'ticket_confirmation_template'
-    if @ticket_purchase.ticket_id = YTLF_TICKET_ID
+    if @ticket_purchase.ticket_id == YTLF_TICKET_ID
       template_name = 'young_thinkers_ticket_confirmation_template'
     end
 
