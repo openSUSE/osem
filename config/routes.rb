@@ -230,4 +230,6 @@ Osem::Application.routes.draw do
   else
     root to: 'conferences#index', via: [:get, :options]
   end
+
+  get '/.well-known/apple-developer-merchantid-domain-association', to: 'application#apple_pay'
 end

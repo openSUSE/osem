@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_03_31_214534) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "answers", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at"
@@ -638,7 +641,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_214534) do
     t.text "object_changes"
     t.datetime "created_at"
     t.integer "conference_id"
-    t.integer "organization_id"
+    t.bigint "organization_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
     t.index ["organization_id"], name: "index_versions_on_organization_id"
   end
