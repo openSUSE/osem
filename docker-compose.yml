@@ -10,6 +10,7 @@ services:
       context: .
       args:
         CONTAINER_USERID: 1000
+        OSEM_RUBY_VERSION: 2.5.0
     command: /osem/bin/osem-init.sh
     depends_on:
       - database

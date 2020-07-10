@@ -4,3 +4,4 @@ services:
     build:
       args:
         CONTAINER_USERID: 13042
+        OSEM_RUBY_VERSION: 2.5.8

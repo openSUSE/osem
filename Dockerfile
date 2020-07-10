@@ -1,5 +1,6 @@
 FROM osem/base
 ARG CONTAINER_USERID
+ARG OSEM_RUBY_VERSION
 
 # Configure our user
 RUN usermod -u $CONTAINER_USERID osem
