@@ -89,6 +89,9 @@ override example file and in it, set your user id in the variable
 sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.override.yml
 ```
 
+Another use of the override example file, is to overwrite the variable *OSEM_RUBY_VERSION*,
+which defines in what's the Ruby version to be used for the container. This argument is only
+read during the container build time.
 
 1. Set up the development environment:
     ```bash
