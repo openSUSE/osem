@@ -30,6 +30,7 @@ class Conference < ApplicationRecord
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
   has_many :tickets, dependent: :destroy
+  has_many :registration_tickets, -> { for_registration }, class_name: 'Ticket'
   has_many :resources, dependent: :destroy
   has_many :booths, dependent: :destroy
   has_many :confirmed_booths, -> { where(state: 'confirmed') }, class_name: 'Booth'
@@ -109,6 +110,13 @@ class Conference < ApplicationRecord
   # * +true+ - If the user isn't registered
   def user_registered? user
     user.present? && registrations.where(user_id: user.id).count > 0
+  end
+
+  ##
+  # True when there is at least one ticket marked as "registration"
+  # A user must get a registration ticket before registering.
+  def registration_ticket_required?
+    registration_tickets.any?
   end
 
   ##

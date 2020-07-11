@@ -32,6 +32,8 @@ class Registration < ApplicationRecord
     if: -> { conference.try(:code_of_conduct).present? }
   }
 
+  validate :user_has_registration_ticket, if: -> { conference.registration_ticket_required? }
+
   after_create :set_week, :subscribe_to_conference, :send_registration_mail
 
   ##
@@ -63,6 +65,14 @@ class Registration < ApplicationRecord
   def registration_limit_not_exceed
     if conference.registration_limit > 0 && conference.registrations.count >= conference.registration_limit
       errors.add(:base, 'Registration limit exceeded')
+    end
+  end
+
+  def user_has_registration_ticket
+    return if TicketPurchase.where(user: user, ticket: conference.registration_tickets).paid.any?
+    errors.add(:base, 'You must purchase a registration ticket before registering')
+    if TicketPurchase.where(user: user, ticket: conference.registration_tickets).unpaid.any?
+      errors.add(:base, 'You currently have a ticket with an unfinished purchase')
     end
   end
 end
