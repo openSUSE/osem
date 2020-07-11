@@ -27,6 +27,10 @@ class ConferencesController < ApplicationController
       redirect_to admin_conference_splashpage_path(@conference.short_title) && return
     end
 
+    # User messages at the top of the page.
+    @unpaid_tickets = current_user_has_unpaid_tickets?
+    @user_needs_to_register = current_user_needs_to_register?
+
     @image_url = "#{request.protocol}#{request.host}#{@conference.picture}"
 
     if splashpage.include_cfp
@@ -78,5 +82,18 @@ class ConferencesController < ApplicationController
     respond_to do |format|
       format.html { head :ok }
     end if request.options?
+  end
+
+  def current_user_tickets
+    @current_user_tickets ||= current_user.ticket_purchases.by_conference(@conference)
+  end
+
+  def current_user_needs_to_register?
+    current_user && !@conference.user_registered?(current_user) &&
+      current_user_tickets.where(ticket: @conference.registration_tickets).paid.any?
+  end
+
+  def current_user_has_unpaid_tickets?
+    current_user && current_user_tickets.unpaid.any?
   end
 end

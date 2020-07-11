@@ -16,6 +16,28 @@
 = content_for :title do
   = @conference.title
 
+= content_for :additional_messages do
+  - if @unpaid_tickets
+    .row
+      .col-md-12
+        .alert.alert-dismissable.alert-info.text-center#unpaid-tickets{role: 'alert'}
+          %button.button.close{"data-dismiss" => "alert", "aria-label"=>"close"}
+            &times;
+          %p
+            You have unpaid tickets. Please complete your purchase.
+            = link_to('Purchase Tickets', new_conference_payment_path(@conference), class: 'btn btn-success btn-lg')
+
+
+  - if @user_needs_to_register
+    .row
+    .col-md-12
+      .alert.alert-dismissable.alert-warning.text-center#flash{role: 'alert'}
+        %button.button.close{"data-dismiss" => "alert", 'aria-label': 'close'}
+          &times;
+        %p
+          You still need to complete your registration for #{@conference.title}.
+          = link_to('Complete Registration', new_conference_conference_registration_path(@conference), class: 'btn btn-success btn-lg')
+
 
 #splash
   - if @conference.code_of_conduct.present?

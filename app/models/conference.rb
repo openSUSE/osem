@@ -116,7 +116,7 @@ class Conference < ApplicationRecord
   # True when there is at least one ticket marked as "registration"
   # A user must get a registration ticket before registering.
   def registration_ticket_required?
-    tickets.for_registration.any?
+    registration_tickets.any?
   end
 
   ##
