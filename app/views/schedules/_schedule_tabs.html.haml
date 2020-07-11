@@ -1,7 +1,7 @@
 %div{ role: "tabpanel" }
   / Nav tabs
   %ul.nav.nav-tabs{ role: "tablist" }
-    %li{ class: "schedule #{ 'active' if active == 'schedule' }", role: "presentation" }
-      = link_to('Schedule', conference_schedule_path(@conference.short_title))
     %li{ class: "program #{ 'active' if active == 'program' }", role: "presentation" }
       = link_to('All events', events_conference_schedule_path(@conference.short_title))
+    %li{ class: "schedule #{ 'active' if active == 'schedule' }", role: "presentation" }
+      = link_to('Schedule', conference_schedule_path(@conference.short_title))
