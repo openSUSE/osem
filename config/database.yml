@@ -11,14 +11,15 @@ default: &default
   encoding: <%= encoding %>
   host: <%= ENV['OSEM_DB_HOST'] || 'database' %>
   port: <%= ENV['OSEM_DB_PORT'] || '5432'  %>
-  username: <%= ENV['OSEM_DB_USER'] || 'postgres' %>
-  password: <%= ENV['OSEM_DB_PASSWORD'] || 'mysecretpassword' %>
+  # username: <%= ENV['OSEM_DB_USER'] || 'postgres' %>
+  # password: <%= ENV['OSEM_DB_PASSWORD'] || 'mysecretpassword' %>
   database: <%= ENV['OSEM_DB_NAME'] || 'postgres' %>
   pool: 5
   timeout: 5000
 
 development:
   <<: *default
+  host: localhost
   database: osem_development
 
 # Warning: The database defined as "test" will be erased and
@@ -26,6 +27,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  host: localhost
   database: osem_test
 
 production:
