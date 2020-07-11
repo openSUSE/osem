@@ -19,6 +19,10 @@
       - if content_for :splash_nav
         %ul.nav.navbar-nav#splash-nav
           = content_for :splash_nav
+          %li
+            = link_to 'https://snap.berkeley.edu', target: '_blank' do
+              Snap
+              %em !
       -if user_signed_in?
         .btn-group.pull-right
           %ul.nav.navbar-nav.navbar-right

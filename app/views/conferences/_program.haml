@@ -1,6 +1,8 @@
 = content_for :splash_nav do
   %li
     %a.smoothscroll{ href: '#program' } Program
+  %li
+    = link_to('Schedule', conference_schedule_path(@conference))
 
 - cache [conference, highlights, tracks, booths, '#splash#program'] do
   %section#program

@@ -115,6 +115,9 @@ $(document).ready( function() {
 });
 
 function eventClicked(e, element){
+  if (e.target.href) {
+    return;
+  }
   var url = $(element).data('url');
   if(e.ctrlKey)
     window.open(url,'_blank');

@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :store_location
   # Ensure every controller authorizes resource or skips authorization (skip_authorization_check)
   check_authorization unless: :devise_controller?
+  skip_authorization_check if:
 
   def store_location
     # store last url - this is needed for post-login redirect to whatever the user last visited.
@@ -64,5 +65,10 @@ class ApplicationController < ActionController::Base
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
+  end
+
+  skip_authorization_check only: :apple_pay
+  def apple_pay
+    render plain: ENV['OSEM_APPLE_PAY_ID']
   end
 end

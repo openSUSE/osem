@@ -8,21 +8,25 @@
     %meta{ property: "og:image:secure_url", content: @speakers_ordered.first.gravatar_url }
 
 .container
-  .row
-    .col-md-12.page-header
+  .row.page-header
+    .col-md-10
       %h2
         = @event.title
         - if @event.subtitle
           %br
           %small
             = @event.subtitle
-        .btn-group.pull-right
-          - if can? :update, @event
-            = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
-          - if can? :edit, @event
-            = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
-          - if can? :schedule, @conference
-            = link_to "Schedule", conference_schedule_path(@conference.short_title), class: 'btn btn-success'
+      - if @event.room&.url && @conference.user_registered?(current_user)
+        %h3
+          = link_to('Join Event', @event.room.url, target: '_blank')
+    .col-md-2
+      %p{style: "margin-top: 20px"}
+        - if can?(:update, @event) && @event.require_registration?
+          = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
+        - if can?(:edit, @event)
+          = link_to "Edit", edit_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-primary'
+        - if can? :schedule, @conference
+          = link_to "Schedule", conference_schedule_path(@conference.short_title), class: 'btn btn-success'
 
   .row
     .col-md-3
@@ -58,7 +62,7 @@
 
           - if @event.commercials.empty?
             %h5.text-warning
-              No video of the event yet, sorry!
+              No materials for the event yet, sorry!
               - unless @conference.commercials.empty?
                 Meanwhile...
             - unless @conference.commercials.empty?
