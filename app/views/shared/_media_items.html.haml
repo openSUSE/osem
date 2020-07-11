@@ -1,7 +1,6 @@
 - unless commercials.empty?
   - if commercials.length == 1
-    .flexvideo
-      = render partial: 'shared/media_item', locals: { commercial: commercials.first }
+    = render partial: 'shared/media_item', locals: { commercial: commercials.first }
   - else
     %ul.nav.nav-tabs{ 'role'=>'tablist' }
       - commercials.each.with_index(1) do  |commercial, index|
@@ -12,9 +11,7 @@
       - commercials.each.with_index(1) do  |commercial, index|
         - if index == 1
           .tab-pane.active{'id'=>"#{index}"}
-            .flexvideo
-              = render partial: 'shared/media_item', locals: { commercial: commercial }
+            = render partial: 'shared/media_item', locals: { commercial: commercial }
         - else
           .tab-pane{'id'=>"#{index}"}
-            .flexvideo
-              = render partial: 'shared/media_item', locals: { commercial: commercial }
+            = render partial: 'shared/media_item', locals: { commercial: commercial }

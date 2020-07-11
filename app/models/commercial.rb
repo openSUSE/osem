@@ -18,8 +18,14 @@ class Commercial < ApplicationRecord
       resource = OEmbed::Providers.get(url, maxwidth: 560, maxheight: 315)
       { html: resource.html.html_safe }
     rescue StandardError => exception
-      { error: exception.message }
+      { html: iframe_fallback(url) }
+      # { error: exception.message }
     end
+  end
+
+  def self.iframe_fallback(url)
+    # <br><a href='#{url}' target=_blank>Open in a new tab</a>
+    "<iframe src=\"#{url}\"></iframe>".html_safe
   end
 
   def self.read_file(file)
@@ -67,11 +73,10 @@ class Commercial < ApplicationRecord
         OEmbed::Providers::Instagram,
         speakerdeck
     )
-
-    OEmbed::Providers.register_fallback(
-      OEmbed::ProviderDiscovery,
-      OEmbed::Providers::Noembed
-    )
+    # OEmbed::Providers.register_fallback(
+    #   OEmbed::ProviderDiscovery,
+    #   OEmbed::Providers::Noembed
+    # )
   end
 
   def conference_id

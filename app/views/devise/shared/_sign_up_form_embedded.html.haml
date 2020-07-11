@@ -2,7 +2,10 @@
   %p
     %strong Create an account directly for Snap!Con, or sign in using Google.
   %p
-    Snap!Con uses a different account system, but please use the same username or email address if possible. (We're working on improving this!)
+    You may sign in via Snap!, but the first time you try, you
+    %em might not
+    be redirected back to Snap!Con. If that happens, try a second time and the login will work.
+    We're trying to fix this issue. Thanks!
   = semantic_fields_for @user do |u|
     = u.input :username, input_html: { required: 'required', autocomplete: 'off' }
     = u.input :email, input_html: { required: 'required', autocomplete: 'off' }

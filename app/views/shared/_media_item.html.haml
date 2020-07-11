@@ -1,15 +1,19 @@
-- if commercial.url
-  = Commercial.render_from_url(commercial.url)[:html]
-- else
-  - if commercial.commercial_type == 'SlideShare'
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://www.slideshare.net/slideshow/embed_code/#{commercial.commercial_id}"}
-  - elsif commercial.commercial_type == 'Flickr'
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://flic.kr/p/#{commercial.commercial_id}/player/268a054da2"}
-  - elsif commercial.commercial_type == 'Vimeo'
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "//player.vimeo.com/video/#{commercial.commercial_id}"}
-  - elsif commercial.commercial_type == 'Speakerdeck'
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://speakerdeck.com/player/#{commercial.commercial_id}?"}
-  - elsif commercial.commercial_type == 'Instagram'
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', scrolling: 'no', allowtransparency: 'true', src: "//instagram.com/p/#{commercial.commercial_id}/embed/"}
+.flexvideo
+  - if commercial.url
+    = Commercial.render_from_url(commercial.url)[:html]
   - else
-    %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://www.youtube.com/embed/#{commercial.commercial_id}?rel=0"}
+    - if commercial.commercial_type == 'SlideShare'
+      %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://www.slideshare.net/slideshow/embed_code/#{commercial.commercial_id}"}
+    - elsif commercial.commercial_type == 'Flickr'
+      %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://flic.kr/p/#{commercial.commercial_id}/player/268a054da2"}
+    - elsif commercial.commercial_type == 'Vimeo'
+      %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "//player.vimeo.com/video/#{commercial.commercial_id}"}
+    - elsif commercial.commercial_type == 'Speakerdeck'
+      %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://speakerdeck.com/player/#{commercial.commercial_id}?"}
+    - elsif commercial.commercial_type == 'Instagram'
+      %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', scrolling: 'no', allowtransparency: 'true', src: "//instagram.com/p/#{commercial.commercial_id}/embed/"}
+    - else
+      %iframe{width: '560', height: '315', frameborder: '0', allowfullscreen: 'true', src: "https://www.youtube.com/embed/#{commercial.commercial_id}?rel=0"}
+- if commercial.url
+  %br
+  = link_to('Open in a new tab', commercial.url, target: '_blank')
