@@ -9,14 +9,17 @@
       .text-muted
         Your tickets for the conference
 
-    - if !@conference.user_registered?(@user)
-      .row
-        .col-md-12
+    -# TODO: And if they have a registration ticket?
+    - if !@conference.user_registered?(@user) && @has_registration_ticket
+      .col-md-12
+        .alert.alert-success{role: 'alert'}
+          = link_to 'Complete Registration',
+            new_conference_conference_registration_path(@conference),
+            class: 'btn btn-info pull-right btn-lg'
+          %h3
+            🎉 Thanks for getting a #{@conference.title} ticket! One last step...
           %strong
             You are not yet registered for the conference.
-            = link_to 'Complete Registration',
-                    conference_conference_registration_path(@conference),
-                    class: 'btn btn-success pull-right'
 
     .col-md-12
       - if @physical_tickets.present?
