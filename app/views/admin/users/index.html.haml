@@ -24,6 +24,7 @@
 :javascript
   $(function () {
     $('#users.datatable').DataTable({
+      "buttons": { buttons: ["csv"] },
       "processing": true,
       "serverSide": true,
       "ajax": $('#users.datatable').data('source'),

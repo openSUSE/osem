@@ -8,7 +8,8 @@ module Admin
     # load_and_authorize_resource :event, through: :program
 
     def index
-      @events = Event.accessible_by(current_ability).where(program: @program)
+      @events = Event.accessible_by(current_ability).where(program: @program,
+                                                           state: [:confirmed, :unconfirmed])
       @events_commercials = Commercial.where(commercialable_type: 'Event', commercialable_id: @events.pluck(:id))
       @events_missing_commercial = @events.where.not(id: @events_commercials.pluck(:commercialable_id))
       @events_with_requirements = @events.where.not(description: ['', nil])

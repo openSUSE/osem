@@ -1,5 +1,7 @@
 $(function () {
   $.extend(true, $.fn.dataTable.defaults, {
+    "buttons": ["csv"],
+    "dom": "lBfrtip",
     "stateSave": true,
     "autoWidth": false,
     "pagingType": "full_numbers",
