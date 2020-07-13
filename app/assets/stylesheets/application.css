@@ -1,7 +1,13 @@
 /*
+ *= require dataTables/dataTables.bootstrap
+ *= require datatables/extensions/Responsive/responsive.dataTables
+ *= require dataTables/extensions/Responsive/responsive.bootstrap
+ *= require dataTables/extensions/Select/select.bootstrap
+ *= require dataTables/extensions/Buttons/buttons.dataTables
+ *= require dataTables/extensions/Buttons/buttons.bootstrap
  *= require strap-on
  *= require formtastic-bootstrap
- *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+
  *= require selectize
  *= require selectize.bootstrap3
  *= require bootstrap-select

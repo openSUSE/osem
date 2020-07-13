@@ -16,8 +16,14 @@
 //= require jquery.ui.draggable
 //= require jquery.ui.droppable
 //= require waypoints/jquery.waypoints
+
 //= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require dataTables/dataTables.bootstrap
+//= require datatables/extensions/Buttons/dataTables.buttons
+//= require datatables/extensions/Buttons/buttons.bootstrap
+// = require datatables/extensions/Buttons/buttons.html5
+// = require datatables/extensions/Buttons/buttons.dataTables
+
 //= require cocoon
 //= require bootstrap
 //= require Chart.bundle
