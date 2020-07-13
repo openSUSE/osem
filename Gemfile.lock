@@ -302,7 +302,7 @@ GEM
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.5.2)
-    nokogiri (1.10.9)
+    nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -591,7 +591,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    websocket-driver (0.7.2)
+    websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     whenever (0.10.0)
@@ -670,7 +670,7 @@ DEPENDENCIES
   prawn-qrcode
   prawn-rails
   puma (~> 3.0)
-  rails (~> 5.2.3)
+  rails (~> 5.2.4.3)
   rails-assets-bootstrap-markdown!
   rails-assets-bootstrap-select!
   rails-assets-date.format!

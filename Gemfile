@@ -10,7 +10,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4.3'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -118,7 +118,6 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 # data tables
 gem 'jquery-datatables'
 gem 'ajax-datatables-rails'
-# gem 'jquery-datatables-rails'
 
 # for charts
 gem 'chartkick'
