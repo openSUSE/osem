@@ -22,10 +22,15 @@ class Payment < ApplicationRecord
     Ticket.total_price(conference, user, paid: false).cents
   end
 
+  def stripe_description
+    #"ticket purchases(#{user.username})"
+    "Tickets for #{conference.title} #{user.name} #{user.email}"
+  end
+
   def purchase
     gateway_response = Stripe::Charge.create source:        stripe_customer_token,
                                              receipt_email: stripe_customer_email,
-                                             description:   "ticket purchases(#{user.username})",
+                                             description:   stripe_description,
                                              amount:        amount_to_pay,
                                              currency:      conference.tickets.first.price_currency
 
