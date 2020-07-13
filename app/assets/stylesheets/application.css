@@ -1,9 +1,9 @@
 /*
  *= require strap-on
 
-*= require dataTables/dataTables.bootstrap
- *= require dataTables/extensions/Buttons/buttons.dataTables
- *= require dataTables/extensions/Buttons/buttons.bootstrap
+*= require datatables/dataTables.bootstrap
+ *= require datatables/extensions/Buttons/buttons.dataTables
+ *= require datatables/extensions/Buttons/buttons.bootstrap
  *= require formtastic-bootstrap
 
  *= require selectize
