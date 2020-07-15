@@ -145,7 +145,7 @@
           Registered
           = word_pluralize(@conference.participants.count, 'Attendee')
         - @conference.participants.each do |participant|
-          = link_to image_tag(participant.gravatar_url(size: '25'), title: "#{participant.name}!", class: 'img-circle'), user_path(participant)
+          = link_to image_tag(participant.profile_picture(size: '25'), title: "#{participant.name}!", class: 'img-circle'), user_path(participant)
     .col-md-4.col-md-offset-2
       - if @conference.program.speakers.confirmed.any?
         %h4
@@ -156,4 +156,4 @@
           Confirmed
           = word_pluralize(@conference.program.speakers.confirmed.count, 'Speaker')
         - @conference.program.speakers.confirmed.each do |speaker|
-          = link_to image_tag(speaker.gravatar_url(size: '25'), title: "#{speaker.name}!", class: 'img-circle'), user_path(speaker)
+          = link_to image_tag(speaker.profile_picture(size: '25'), title: "#{speaker.name}!", class: 'img-circle'), user_path(speaker)
