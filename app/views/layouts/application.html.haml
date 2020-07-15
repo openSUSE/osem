@@ -21,6 +21,10 @@
       = javascript_include_tag "//cdn.transifex.com/live.js"
 
     = yield(:head)
+    - if @conference && @conference.custom_css?
+      %style{type: 'text/css'}
+        = @conference.custom_css
+
   %body{ class: ("conference-#{@conference.short_title}" if @conference) }
     = render 'layouts/navigation', conference: @conference
     -# Admin area

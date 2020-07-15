@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_10_215300) do
+ActiveRecord::Schema.define(version: 2020_07_15_001812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2020_07_10_215300) do
     t.integer "ticket_layout", default: 0
     t.string "custom_domain"
     t.integer "booth_limit", default: 0
+    t.text "custom_css"
     t.index ["organization_id"], name: "index_conferences_on_organization_id"
   end
 
@@ -406,7 +407,7 @@ ActiveRecord::Schema.define(version: 2020_07_10_215300) do
     t.string "name", null: false
     t.integer "size"
     t.integer "venue_id", null: false
-    t.string "url"
+    t.text "url"
   end
 
   create_table "schedules", force: :cascade do |t|

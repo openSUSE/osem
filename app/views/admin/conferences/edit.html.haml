@@ -17,6 +17,11 @@
         = image_tag @conference.picture.thumb.url
       = f.input :picture, label: false, hint: 'This will be displayed on the front page.'
       = f.hidden_field :picture_cache
+
+      = f.input :custom_css,
+        hint: "Add Custon CSS to the main page. You might find the class '.conference-#{@conference.short_title}' useful.",
+        input_html: { rows: 5 }
+
       = f.input :ticket_layout, as: :select, collection: Conference.ticket_layouts.keys, hint: "Layout type for tickets of the conference."
       = f.inputs name: 'Scheduling' do
         = f.input :timezone, as: :time_zone, hint: 'The conference time zone'
