@@ -62,6 +62,10 @@ class PictureUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [100, 100]
   end
 
+  version :tiny do
+    process resize_to_fit: [32, 32]
+  end
+
   version :first, if: :sponsor?
   version :first do
     process resize_and_pad: [320, 180, 'white']

@@ -23,8 +23,12 @@ class User < ApplicationRecord
   has_paper_trail on: [:create, :update], ignore: [:sign_in_count, :remember_created_at, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :unconfirmed_email,
                                                    :avatar_content_type, :avatar_file_size, :avatar_updated_at, :updated_at, :confirmation_sent_at, :confirmation_token, :reset_password_token]
 
+  # A user may have an uploaded avatar or use gravatar.
+  # The uploaded picture takes precedence.
   include Gravtastic
   gravtastic size: 32
+
+  mount_uploader :picture, PictureUploader, mount_on: :picture
 
   before_create :setup_role
 
@@ -149,6 +153,21 @@ class User < ApplicationRecord
 
   def supports? conference
     ticket_purchases.find_by(conference_id: conference.id).present?
+  end
+
+  ##
+  # Returns a user's profile picture URL.
+  # Partials should *not* directly call `gravatar_url`
+  def profile_picture(opts = {})
+    return gravatar_url(opts) unless picture.present?
+    size = (opts[:size] || 0).to_i
+    if size < 50
+      picture.tiny.url
+    elsif size <= 100
+      picture.thumb.url
+    else
+      picture.large.url
+    end
   end
 
   def self.for_ichain_username(username, attributes)

@@ -1,7 +1,7 @@
 .panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
   .panel-body
     - event.speakers_ordered.each do |speaker|
-      = image_tag speaker.gravatar_url, :class => "img-circle pull-right all-speaker-pic", |
+      = image_tag speaker.profile_picture, :class => "img-circle pull-right all-speaker-pic", |
                                         :alt => speaker.name, |
                                         :title => speaker.name |
 
