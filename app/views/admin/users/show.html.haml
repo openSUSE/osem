@@ -26,6 +26,9 @@
                 - elsif attr == 'biography'
                   %td
                     = markdown(@user.biography)
+                - elsif attr == 'profile_picture'
+                  %td
+                    = image_tag @user.profile_picture(size: '100'), alt: ''
                 - elsif attr == 'email'
                   %td
                     = @user.send(attr)

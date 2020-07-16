@@ -160,7 +160,6 @@ class User < ApplicationRecord
   # Partials should *not* directly call `gravatar_url`
   def profile_picture(opts = {})
     return gravatar_url(opts) unless picture.present?
-    puts "ASKED FOR PROFILE PIC!! #{opts[:size]}"
     size = (opts[:size] || 0).to_i
     if size < 50
       picture.tiny.url

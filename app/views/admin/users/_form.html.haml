@@ -19,6 +19,18 @@
     = f.input :username, :as => :string if @user.new_record?
     = f.input :email
     = f.input :password if @user.new_record?
+    .control-label
+      Gravatar
+      = image_tag(@user.profile_picture(size: '48'), alt: '')
+    %p
+      Or upload a picture.
+    = f.input :picture, hint: 'If you upload a picture, it will be used in place of Gravatar.'
+    - if @user.picture?
+      %p
+        Current Picture
+        %br
+        = image_tag(@user.picture.url, width: '20%')
+
     = f.input :affiliation, as: :string
     = f.input :biography, input_html: { rows: 10, data: { provide: 'markdown' } },
       hint: markdown_hint
