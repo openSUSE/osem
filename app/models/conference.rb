@@ -119,7 +119,7 @@ class Conference < ApplicationRecord
       event_schedules = program.event_schedules.select do |event_schedule|
         event_schedule.start_time.hour < start_hour ||
         event_schedule.end_time.hour > end_hour ||
-        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.minute > 0)
+        (event_schedule.end_time.hour == end_hour && event_schedule.end_time.min > 0)
       end
       event_schedules.each(&:destroy)
     end
