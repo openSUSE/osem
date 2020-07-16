@@ -158,9 +158,17 @@ class User < ApplicationRecord
   ##
   # Returns a user's profile picture URL.
   # Partials should *not* directly call `gravatar_url`
-  def profile_picture(opts)
-    # TODO: Figure out how to align sizes?
-    picture.thumb.url || gravatar_url(opts)
+  def profile_picture(opts = {})
+    return gravatar_url(opts) unless picture.present?
+    puts "ASKED FOR PROFILE PIC!! #{opts[:size]}"
+    size = (opts[:size] || 0).to_i
+    if size < 50
+      picture.tiny.url
+    elsif size <= 100
+      picture.thumb.url
+    else
+      picture.large.url
+    end
   end
 
   def self.for_ichain_username(username, attributes)

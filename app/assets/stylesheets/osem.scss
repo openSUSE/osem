@@ -51,6 +51,11 @@ body {
   margin: 0 auto;
 }
 
+nav #current-user-detail .profile-thumnail {
+  max-height: 20px;
+  max-width: 20px;
+}
+
 /* centered columns styles */
 .row-centered {
   text-align:center;

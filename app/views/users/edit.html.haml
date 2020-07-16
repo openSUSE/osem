@@ -12,13 +12,14 @@
           = "Avatar"
         = image_tag(@user.profile_picture(size: '48'), title: "Yo #{@user.name}!", alt: '')
         = link_to 'Change your avatar here', 'https://gravatar.com'
-      %br
         %p
           Or upload a picture.
-        = image_tag f.object.picture.thumb.url if f.object.picture?
-        - if @user.picture?
-          = image_tag(@user.picture.thumb.url, width: '20%')
         = f.input :picture, hint: 'If you upload a picture, it will be used in place of Gravatar.'
+        - if @user.picture?
+          %p
+            Current Picture
+            %br
+            = image_tag(@user.picture.thumb.url, width: '20%')
 
         = f.input :affiliation, as: :string,
           hint: 'This could be a company, a user group, or nothing at all.'
