@@ -12,15 +12,18 @@
         %thead
           %th Name
           %th Capacity
+          %th Order
           %th URL
           %th Actions
         %tbody
           - @rooms.each_with_index do |room, index|
             %tr
-              %td
+              %th
                 = room.name
               %td
                 = room.size
+              %td
+                = room.order
               %td
                 = room.url
               %td
