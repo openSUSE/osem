@@ -407,7 +407,7 @@ ActiveRecord::Schema.define(version: 2020_07_16_181602) do
     t.string "name", null: false
     t.integer "size"
     t.integer "venue_id", null: false
-    t.text "url"
+    t.string "url"
     t.integer "order"
   end
 
