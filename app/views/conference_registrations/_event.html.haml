@@ -1,4 +1,4 @@
-.panel.panel-default
+.panel.panel-default{class: ("panel-success" if event.registrations.include?(@registration)) }
   .panel-heading
     %label{for: "registration_event_ids_#{event.id}"}
       %h3{style: 'margin: 0 auto;'}
@@ -14,17 +14,17 @@
     %p
       - if event.speakers.any?
         presented by #{event.speaker_names}
+    - if event_schedule.present?
+      .h4.track
+        %span.fa.fa-clock-o
+        %span.label{ style: "background-color: grey" }
+          = event_schedule.start_time.strftime('%A, %B %-d %H:%M')
+          \-
+          = event_schedule.end_time.strftime('%H:%M')
     %p
       = markdown(truncate(event.abstract, length: 250))
       -# TODO: More informative text or aria-label.
       = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id), target: '_blank'
-    - if event_schedule.present?
-      %span.track
-        %span.fa.fa-clock-o
-        %span.label{ style: "background-color: grey" }
-          = event_schedule.start_time.strftime('%A, %d %b %-d %H:%M')
-          \-
-          = event_schedule.end_time.strftime('%H:%M')
 
     - if event.track
       %span.track
