@@ -31,6 +31,8 @@ class Event < ApplicationRecord
   belongs_to :track
   belongs_to :difficulty_level
   belongs_to :program
+  belongs_to :room
+  delegate :url, to: :room, allow_nil: true
 
   accepts_nested_attributes_for :event_users, allow_destroy: true
   accepts_nested_attributes_for :speakers, allow_destroy: true
@@ -284,6 +286,10 @@ class Event < ApplicationRecord
 
   def conference
     program.conference
+  end
+
+  def <=>(other)
+    time <=> other.time
   end
 
   private

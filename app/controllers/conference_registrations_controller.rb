@@ -108,7 +108,7 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def registration_params
-    params.permit(:registration)
+    params.require(:registration)
         .permit(
           :conference_id,
           :volunteer, :accepted_code_of_conduct,

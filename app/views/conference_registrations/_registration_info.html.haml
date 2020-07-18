@@ -13,15 +13,11 @@
 - if @conference.program.events.with_registration_open.any? || @registration.events.any?
   = f.inputs 'Pre-registration required for the following:' do
 
+    -# TODO: This needs to be easier to use.
+    %p
+      You are registered for #{pluralize(@registration.events.count, 'event')}.
+      They are at the end of this list.
     - @registration.events_ordered.each do |event|
-      %label
-        = hidden_field_tag "registration[event_ids][]", nil
-        = check_box_tag "registration[event_ids][]", event.id, event.registrations.include?(@registration)
-        = event.title
-        .text-muted
-          = registered_text(event)
-          - if event.scheduled?
-            (Scheduled on: #{event.time.to_date})
-      %br
+      = render 'event', event: event, event_schedule: event.event_schedules.first
 
 = render 'conferences/code_of_conduct', organization: @conference.organization

@@ -173,6 +173,24 @@ module EventsHelper
     )
   end
 
+  def join_event_link(event, current_user)
+    return unless event.url.present? && current_user
+
+    conference = event.conference
+    is_today = event.time&.today?
+    if current_user.roles.where(id: conference.roles).any?
+      # Show Pre-Event links for any memeber of the conference team.
+      link_to("Join Live Event #{'(Pre-Event)' unless is_today}",
+                      event.url, target: '_blank')
+    elsif current_user.registered_to_event?(conference)
+      if is_today
+        link_to('Join Live Event', event.url, target: '_blank')
+      else
+        link_to('Live Event Link Coming Soon', '#')
+      end
+    end
+  end
+
   private
 
   def active_dropdown(selection, options)

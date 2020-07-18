@@ -2,7 +2,7 @@
   %li
     %a.smoothscroll{ href: '#program' } Program
   %li
-    = link_to('Schedule', conference_schedule_path(@conference))
+    = link_to('Schedule', events_conference_schedule_path(@conference))
 
 - cache [conference, highlights, tracks, booths, '#splash#program'] do
   %section#program
@@ -30,7 +30,7 @@
         .row
           .col-md-12
             %p.cta-button.text-center
-              = link_to(conference_schedule_path(conference.short_title),
+              = link_to(events_conference_schedule_path(conference.short_title),
                 class: 'btn btn-success btn-lg') do
                 Full Schedule
     .trapezoid

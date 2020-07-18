@@ -1,0 +1,33 @@
+.panel.panel-default{class: ("panel-success" if event.registrations.include?(@registration)) }
+  .panel-heading
+    %label{for: "registration_event_ids_#{event.id}"}
+      %h3{style: 'margin: 0 auto;'}
+        = hidden_field_tag "registration[event_ids][]", nil
+        = check_box_tag "registration[event_ids][]", event.id, event.registrations.include?(@registration), id: "registration_event_ids_#{event.id}"
+        = event.title
+        %small
+          = event.subtitle
+  .panel-body
+    -# %p
+    -#   = canceled_replacement_event_label(event, event_schedule)
+    -#   = replacement_event_notice(event_schedule)
+    %p
+      - if event.speakers.any?
+        presented by #{event.speaker_names}
+    - if event_schedule.present?
+      .h4.track
+        %span.fa.fa-clock-o
+        %span.label{ style: "background-color: grey" }
+          = event_schedule.start_time.strftime('%A, %B %-d %H:%M')
+          \-
+          = event_schedule.end_time.strftime('%H:%M')
+    %p
+      = markdown(truncate(event.abstract, length: 250))
+      -# TODO: More informative text or aria-label.
+      = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id), target: '_blank'
+
+    - if event.track
+      %span.track
+        %span.fa.fa-road
+        %span.label{ style: "background-color: #{event.track.color}; color: #{ contrast_color(event.track.color) }" }
+          = event.track.name
