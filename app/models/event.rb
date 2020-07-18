@@ -288,6 +288,10 @@ class Event < ApplicationRecord
     program.conference
   end
 
+  def <=>(other)
+    time <=> other.time
+  end
+
   private
 
   ##
