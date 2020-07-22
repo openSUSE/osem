@@ -70,7 +70,7 @@ module VersionsHelper
 
   def registration_change_description(version)
     if version.item_type == 'Registration'
-      user_id = current_or_last_object_state(version.item_type, version.item_id).user_id
+      user_id = current_or_last_object_state(version.item_type, version.item_id)&.user_id
     elsif version.item_type == 'EventsRegistration'
       registration_id = current_or_last_object_state(version.item_type, version.item_id).registration_id
       user_id = current_or_last_object_state('Registration', registration_id).user_id
