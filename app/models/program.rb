@@ -85,7 +85,7 @@ class Program < ApplicationRecord
 
       event_schedules += track.selected_schedule.event_schedules
     end
-    event_schedules.sort_by(&:start_time)
+    event_schedules.sort_by(&:sortable_timestamp)
   end
 
   ##

@@ -42,6 +42,13 @@ class EventSchedule < ApplicationRecord
   end
 
   ##
+  # Returns a time + room number string for sorting.
+  #
+  def sortable_timestamp
+    "#{start_time.to_i}-#{room&.order}"
+  end
+
+  ##
   # Returns event schedules that are scheduled in the same room and start_time as event
   #
   def intersecting_event_schedules
