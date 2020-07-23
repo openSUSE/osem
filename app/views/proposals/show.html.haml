@@ -76,7 +76,9 @@
         %dl#proposal-info
           .col-md-12
             %dt Date:
-            %dd= @event_schedule.start_time.strftime("%Y %B %e - %H:%M") if @event_schedule
+            %dd
+              = inyourtz(@event_schedule.start_time, @conference.timezone) do
+                = @event_schedule.start_time.strftime("%Y %B %e - %H:%M") if @event_schedule
           .col-md-12
             %dt Duration:
             %dd= show_time(@event.event_type.length)
@@ -121,7 +123,9 @@
                   %dl
                     %dt Start Time:
                     %dd
-                      = event.program.selected_event_schedules.find { |es| es.event == event }.start_time.strftime("%Y %B %e %H:%M")
+                      - event_schedule = event.program.selected_event_schedules.find { |es| es.event == event }
+                      = inyourtz(event_schedule.start_time, @conference.timezone) do
+                        = event_schedule.start_time.strftime("%Y %B %e %H:%M")
                     %br
                       %dt Room:
                       %dd

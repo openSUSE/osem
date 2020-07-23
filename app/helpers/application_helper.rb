@@ -180,9 +180,10 @@ module ApplicationHelper
 
   # TODO:Snap!Con: Replace this with a search for a conference logo.
   def nav_root_link_for(conference)
+    path = conference.present? ? conference_path(conference) : root_path
     link_to(
       image_tag('snapcon_logo.png'),
-      root_path,
+      path,
       class: 'navbar-brand',
       title: nav_link_text(conference)
     )
@@ -206,6 +207,17 @@ module ApplicationHelper
       end
     else
       object.picture.large.url
+    end
+  end
+
+  # Embed links with a localized timezone URL
+  # Timestamps are stored at UTC but in the real timezone.
+  # We must convert then shift the time back to get the correct value.
+  def inyourtz(time, timezone = 'GMT', &block)
+    time = time.in_time_zone(timezone)
+    time -= time.utc_offset
+    link_to "https://inyourtime.zone/t?#{time.to_i}", target: '_blank' do
+      block.call
     end
   end
 end

@@ -24,12 +24,13 @@
       -# TODO: More informative text or aria-label.
       = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400
     - if event_schedule.present?
-      %span.track
-        %span.fa.fa-clock-o
-        %span.label{ style: "background-color: grey" }
-          = event_schedule.start_time.strftime('%H:%M')
-          \-
-          = event_schedule.end_time.strftime('%H:%M')
+      = inyourtz(event_schedule.start_time, @conference.timezone) do
+        %span.track
+          %span.fa.fa-clock-o
+          %span.label{ style: "background-color: grey" }
+            = event_schedule.start_time.strftime('%H:%M')
+            \-
+            = event_schedule.end_time.strftime('%H:%M')
       %span.track
         %span.fa.fa-map-marker
         %span.label{ style: "background-color: grey" }
