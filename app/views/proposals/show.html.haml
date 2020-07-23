@@ -77,8 +77,11 @@
           .col-md-12
             %dt Date:
             %dd
-              = inyourtz(@event_schedule.start_time, @conference.timezone) do
-                = @event_schedule.start_time.strftime("%Y %B %e - %H:%M") if @event_schedule
+              - if @event_schedule.present?
+                = inyourtz(@event_schedule.start_time, @conference.timezone) do
+                  = @event_schedule.start_time.strftime("%Y %B %e - %H:%M") if @event_schedule
+              - else
+                Unscheduled
           .col-md-12
             %dt Duration:
             %dd= show_time(@event.event_type.length)
