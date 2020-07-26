@@ -12,6 +12,7 @@ class ProposalsController < ApplicationController
     @event = @program.events.new
     @event.event_users.new(user: current_user, event_role: 'submitter')
     @events = current_user.proposals(@conference)
+    @volunteer_events = current_user.volunteer_duties(@conference)
   end
 
   def show
@@ -171,7 +172,7 @@ class ProposalsController < ApplicationController
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :description,
                                   :require_registration, :max_attendees, :language,
-                                  speaker_ids: []
+                                  speaker_ids: [], volunteer_ids: []
                                  )
   end
 

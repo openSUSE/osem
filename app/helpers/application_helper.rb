@@ -123,6 +123,16 @@ module ApplicationHelper
     user_selector_input(:speakers, form, '', true)
   end
 
+  def volunteer_links(event)
+    safe_join(event.volunteers.map do |volunteer|
+      link_to(volunteer.name, admin_user_path(volunteer))
+    end, ',')
+  end
+
+  def volunteer_selector_input(form)
+    user_selector_input(:volunteers, form, '', true)
+  end
+
   def responsibles_selector_input(form)
     user_selector_input(
       :responsibles,
@@ -144,7 +154,7 @@ module ApplicationHelper
         (form.object.send(field)&.map(&:id) || form.object.send(field)&.id)
       ),
       input_html:    {
-        class:       'select-help-toggle',
+        class:       'select-help-toggle js-userSelector',
         multiple:    multiple,
         placeholder: (multiple ? 'Select users...' : 'Select a user...')
       }

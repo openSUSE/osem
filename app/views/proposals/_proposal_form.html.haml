@@ -6,6 +6,9 @@
 
     = speaker_selector_input f
 
+    - if current_user.manages_volunteers?(@conference)
+      = volunteer_selector_input f
+
     = track_selector_input f
 
     = f.input :event_type_id, as: :select,
@@ -67,8 +70,8 @@
 
 :javascript
   $(document).ready(function() {
-    $('#event_speaker_ids').selectize({
+    $('.js-userSelector').selectize({
       plugins: ['remove_button'],
       maxItems: 100
-    } )
+    })
   });

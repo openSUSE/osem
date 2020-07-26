@@ -18,6 +18,6 @@
       You are registered for #{pluralize(@registration.events.count, 'event')}.
       They are at the end of this list.
     - @registration.events_ordered.each do |event|
-      = render 'event', event: event, event_schedule: event.event_schedules.first
+      = render 'conference_registrations/event', event: event, event_schedule: event.event_schedules.first
 
 = render 'conferences/code_of_conduct', organization: @conference.organization

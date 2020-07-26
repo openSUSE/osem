@@ -70,6 +70,9 @@
                 %span{ title: event.state.humanize, class: "fa #{status_icon(event)}" }
 
               %td.col-md-7{style: "padding:20px 8px 20px 8px;"}
+                - if event.volunteers.include?(current_user)
+                  %strong You are volunteer host for:
+                  %br
                 = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
                 %br
                 %small.text-muted
@@ -113,6 +116,13 @@
                     method: :patch, class: 'btn btn-mini btn-success', id: "review_event_#{event.id}"
                   = link_to 'Edit', edit_conference_program_proposal_path(@conference.short_title, event.id),
                   class: 'btn btn-default', id: "edit_proposal_#{event.id}"
+
+        - if @volunteer_events.any?
+          %h2
+            Volunteer Events
+            %small
+              Thanks for being a host at #{@conference.title}
+          = render 'volunteers_table', events: @volunteer_events
   .row
     .col-md-12
       - if can? :create, @event
