@@ -1,0 +1,19 @@
+.speakerinfo
+  .row
+    .col-md-4
+      = image_tag speaker.profile_picture(:size => 120), class: 'img-responsive img-rounded'
+    .col-md-8
+      %h4
+        = link_to speaker.name, user_path(speaker.id)
+        %br
+        - if speaker.email_public?
+          = mail_to "#{ speaker.email }" do
+            %i.fa.fa-envelope-o.fa-2x
+      - if speaker.affiliation?
+        .text-muted
+          from
+          = speaker.affiliation
+  - if speaker.biography?
+    .row.speakerbio
+      .col-md-12
+        = markdown(speaker.biography)

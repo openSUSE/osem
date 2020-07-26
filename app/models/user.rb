@@ -256,6 +256,12 @@ class User < ApplicationRecord
     result
   end
 
+  # TODO: Use a real authorization in the right place....
+  def manages_volunteers?(conference)
+    organizer_roles = get_roles['organizer']
+  organizer_roles&.include?(conference.short_title) # TODO or Volunteer Coorinator.
+  end
+
   def registered
     registrations = self.registrations
     if registrations.count == 0
@@ -289,6 +295,11 @@ class User < ApplicationRecord
   def proposal_count(conference)
     proposals(conference).count
   end
+
+  def volunteer_duties(conference)
+    events.where(program_id: conference.program.id, 'event_users.event_role': 'volunteer')
+  end
+
 
   def self.empty?
     User.count == 1 && User.first.email == 'deleted@localhost.osem'

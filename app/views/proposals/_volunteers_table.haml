@@ -1,0 +1,19 @@
+%table.table.table-striped#events
+  - events.each do |event|
+    %tr
+      %td.col-md-7{style: "padding:20px 8px 20px 8px;"}
+        = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
+        %br
+        %small.text-muted
+          = event.event_type.title
+          = "(#{event.event_type.length} min)"
+          = "in #{event.track.name}" if event.track
+          - if event.require_registration
+            %br
+            = link_to registered_text(event), registrations_conference_program_proposal_path(@conference.short_title, event), class: 'btn btn-xs btn-danger'
+
+      %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
+        - event_schedule = event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
+        - if event_schedule.present?
+          = inyourtz(event_schedule.start_time, @conference.timezone) do
+            = event_schedule.start_time.strftime("%Y %B %e - %H:%M")
