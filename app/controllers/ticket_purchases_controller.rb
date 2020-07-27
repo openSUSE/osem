@@ -15,7 +15,7 @@ class TicketPurchasesController < ApplicationController
                     notice: 'Please pay here to get tickets.'
       elsif current_user.ticket_purchases.by_conference(@conference).paid.any?
         redirect_to conference_physical_tickets_path,
-                    notice: 'You have free tickets for the conference.'
+                    notice: 'You already have tickets for the conference.'
       elsif @conference.tickets.for_registration.any?
         redirect_to conference_tickets_path(@conference.short_title),
                     error: 'Please get at least one ticket to continue.'
