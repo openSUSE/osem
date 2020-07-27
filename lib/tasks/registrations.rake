@@ -39,7 +39,7 @@ namespace :registrations do
     puts
 
     unpaid.each do |user|
-      puts "'#{user.name}',#{user.email}"
+      puts "'#{user.name}'<#{user.email}>, "
     end
     puts ""
   end
