@@ -34,6 +34,10 @@
         .small
           No Speaker
 
+    %td
+      - if event.speakers.any?
+        = volunteer_links(event)
+
     - if @program.languages.present?
       %td
         = event.language

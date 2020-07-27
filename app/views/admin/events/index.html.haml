@@ -56,7 +56,7 @@
 .row
   .col-md-12
     .margin-event-table
-      %table.datatable
+      %table.datatable.table
         %thead
           %th
             %b ID
@@ -69,6 +69,8 @@
             %b Submitter
           %th
             %b Speakers
+          %th
+            %b Volunteers
           - if @program.languages.present?
             %th
               %b Language
