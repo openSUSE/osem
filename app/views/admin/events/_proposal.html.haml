@@ -87,6 +87,11 @@
                   )
         %tr
           %td
+            %b Volunteers
+          %td
+            = volunteer_links(@event)
+        %tr
+          %td
             %b Biographies
           %td
             - @event.speakers.each do |speaker|

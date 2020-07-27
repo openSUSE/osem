@@ -126,7 +126,7 @@ module ApplicationHelper
   def volunteer_links(event)
     safe_join(event.volunteers.map do |volunteer|
       link_to(volunteer.name, admin_user_path(volunteer))
-    end, ',')
+    end, ', ')
   end
 
   def volunteer_selector_input(form)

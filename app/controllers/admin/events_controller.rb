@@ -180,7 +180,7 @@ module Admin
                                     :track_id, :state, :language, :is_highlight, :max_attendees,
                                     # Not used anymore?
                                     :proposal_additional_speakers, :user, :users_attributes,
-                                    speaker_ids: [])
+                                    speaker_ids: [], volunteer_ids: [])
     end
 
     def comment_params

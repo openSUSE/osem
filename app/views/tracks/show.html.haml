@@ -45,3 +45,7 @@
           Relevance
         %dd
           = markdown(@track.relevance)
+
+  .row
+    - @track.events.each do |event|
+      = render 'schedules/event', event: event, event_schedule: event.event_schedules.first
