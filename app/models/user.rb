@@ -259,7 +259,7 @@ class User < ApplicationRecord
   # TODO: Use a real authorization in the right place....
   def manages_volunteers?(conference)
     organizer_roles = get_roles['organizer']
-  organizer_roles&.include?(conference.short_title) # TODO or Volunteer Coorinator.
+    organizer_roles&.include?(conference.short_title) # TODO or Volunteer Coorinator.
   end
 
   def registered

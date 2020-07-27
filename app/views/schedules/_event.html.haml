@@ -9,12 +9,13 @@
       = canceled_replacement_event_label(event, event_schedule)
       = replacement_event_notice(event_schedule)
 
-    %span.h3{style: "margin-bottom: 20px"}
+    %span.h3{style: "margin-bottom: 14px"}
       = event.title
       %br
-      %small
+      %small{style: "color: #{contrast_color(header_color)}"}
         = event.subtitle
   .trapezoid{style: "color: #{header_color}; top: 12px;"}
+
   .panel-body
     %h4
       - if(event.speakers.any?)
