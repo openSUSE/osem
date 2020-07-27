@@ -1,19 +1,18 @@
 .panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
-  .panel-body
+  .panel-heading{ style: event.track&.color && "background-color: #{event.track.color}; color: #{ contrast_color(event.track.color) }" }
     - event.speakers_ordered.each do |speaker|
-      = image_tag speaker.profile_picture, :class => "img-circle pull-right all-speaker-pic", |
-                                        :alt => speaker.name, |
-                                        :title => speaker.name |
+      = image_tag speaker.profile_picture, class: "img-circle pull-right",  alt: speaker.name, style: "padding: 2px;"
 
     %p
       = canceled_replacement_event_label(event, event_schedule)
       = replacement_event_notice(event_schedule)
 
-    %span.h3
+    %span.h3{style: "margin-bottom: 20px"}
       = event.title
       %br
       %small
         = event.subtitle
+  .panel-body
     %h4
       - if(event.speakers.any?)
         presented by #{event.speaker_names}
