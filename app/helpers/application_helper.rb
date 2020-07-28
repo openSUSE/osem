@@ -190,7 +190,7 @@ module ApplicationHelper
 
   # TODO:Snap!Con: Replace this with a search for a conference logo.
   def nav_root_link_for(conference)
-    path = conference.present? ? conference_path(conference) : root_path
+    path = conference ? conference_path(conference) : root_path
     link_to(
       image_tag('snapcon_logo.png'),
       path,
