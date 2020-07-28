@@ -7,6 +7,10 @@
     %meta{ property: "og:image", content: @speakers_ordered.first.profile_picture }
     %meta{ property: "og:image:secure_url", content: @speakers_ordered.first.profile_picture }
 
+= content_for :splash_nav do
+  %li
+    = link_to('Schedule', events_conference_schedule_path(@conference))
+
 .container
   .row.page-header
     .col-md-10
