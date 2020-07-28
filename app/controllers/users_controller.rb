@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :load_user
   load_and_authorize_resource
 
   # GET /users/1
@@ -27,5 +28,10 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :biography, :nickname, :affiliation,
                                   :picture, :picture_cache)
+  end
+
+  # Somewhat of a hack: users/current/edit
+  def load_user
+    @user ||= (params[:user_id] && params[:user_id] != 'current' && User.find(params[:user_id]) || current_user)
   end
 end
