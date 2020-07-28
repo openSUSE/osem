@@ -31,6 +31,7 @@ class UserDatatable < AjaxDatatablesRails::Base
         confirmed_at: record.confirmed_at,
         email:        record.email,
         name:         record.name,
+        username:     record.username,
         attended:     record.attended_count,
         roles:        record.roles.any? ? show_roles(record.get_roles) : 'None',
         view_url:     admin_user_path(record),
