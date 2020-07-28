@@ -14,6 +14,7 @@ class UserDatatable < AjaxDatatablesRails::Base
       confirmed_at: { source: 'User.confirmed_at', searchable: false },
       email:        { source: 'User.email' },
       name:         { source: 'User.name' },
+      username:     { source: 'User.username' },
       attended:     { source: 'attended_count', searchable: false },
       roles:        { source: 'Role.name' },
       view_url:     { source: 'User.id', searchable: false, orderable: false },
