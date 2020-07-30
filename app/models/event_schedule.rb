@@ -27,7 +27,7 @@ class EventSchedule < ApplicationRecord
 
   delegate :guid, to: :room, prefix: true
 
-  delegate :timezone, to: event
+  delegate :timezone, to: :event
 
   ##
   # True within 1 hour before and after the event.
