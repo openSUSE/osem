@@ -32,8 +32,10 @@ class EventSchedule < ApplicationRecord
   ##
   # True within 1 hour before and after the event.
   #
-  def happening_now?(threshold=1.hour)
-    false
+  def happening_now?(threshold=30.minutes)
+    pre_start_time = (start_time - threshold).in_time_zone(timezone)
+    end_time_with_threshold = (end_time + threshold).in_time_zone(timezone)
+    (pre_start_time..end_time_with_threshold).cover?(Time.now.in_time_zone(timezone))
   end
 
   def self.withdrawn_or_canceled_event_schedules(schedule_ids)

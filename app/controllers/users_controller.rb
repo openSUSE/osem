@@ -32,6 +32,6 @@ class UsersController < ApplicationController
 
   # Somewhat of a hack: users/current/edit
   def load_user
-    @user ||= (params[:user_id] && params[:user_id] != 'current' && User.find(params[:user_id]) || current_user)
+    @user ||= (params[:id] && params[:id] != 'current' && User.find(params[:id]) || current_user)
   end
 end
