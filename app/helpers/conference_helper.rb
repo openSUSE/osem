@@ -24,6 +24,6 @@ module ConferenceHelper
 
   def short_ticket_description(ticket)
     return unless ticket.description
-    markdown(ticket.description&.split("\n").first&.strip)
+    markdown(ticket.description.split("\n").first&.strip)
   end
 end

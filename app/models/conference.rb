@@ -700,7 +700,7 @@ class Conference < ApplicationRecord
 
   # Returns the current day if it is a day of the schedule or nil otherwise
   def current_conference_day
-    day = Time.find_zone(timezone).today
+    day = Time.now.in_time_zone(timezone).today
     day if (start_date..end_date).cover? day
   end
 
