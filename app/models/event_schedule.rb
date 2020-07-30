@@ -27,6 +27,15 @@ class EventSchedule < ApplicationRecord
 
   delegate :guid, to: :room, prefix: true
 
+  delegate :timezone, to: event
+
+  ##
+  # True within 1 hour before and after the event.
+  #
+  def happening_now?(threshold=1.hour)
+    false
+  end
+
   def self.withdrawn_or_canceled_event_schedules(schedule_ids)
     EventSchedule
       .unscoped
