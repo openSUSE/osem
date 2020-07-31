@@ -20,7 +20,7 @@
     %h2
       #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
     %h3
-      This page was loaded at #{Time.now.strftime('%Y-%m-%d at %H:%M %P')}
+      This page was loaded at #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
     %p
       P.S. This page is in beta, and if it doesn't make sense, we're sorry.
     %small
@@ -33,14 +33,9 @@
         = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
 
 :javascript
-  $('.program-selector').on('click', function(e) {
-    $('.li-dropdown-program').removeClass('active');
-  });
-
   // Go to current date and time
   $(document).ready(function(){
-    tag = "#{ @tag }";
-    if(tag !== ""){
-      document.getElementById(tag).scrollIntoView();
-    }
+    setTimeout(function() {
+      window.location = window.location;
+    }, 5 * 60 * 1000);
   });
