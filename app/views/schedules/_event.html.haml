@@ -31,9 +31,9 @@
         %span.track
           %span.fa.fa-clock-o
           %span.label{ style: "background-color: grey" }
-            = event_schedule.start_time.strftime('%H:%M')
+            = event_schedule.start_time.strftime('%l:%M %P')
             \-
-            = event_schedule.end_time.strftime('%H:%M')
+            = event_schedule.end_time.strftime('%l:%M %P')
       %span.track
         %span.fa.fa-map-marker
         %span.label{ style: "background-color: grey" }
