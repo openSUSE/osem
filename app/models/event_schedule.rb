@@ -36,12 +36,16 @@ class EventSchedule < ApplicationRecord
   #
   def happening_now?(threshold=30.minutes)
     in_tz_start = start_time.in_time_zone(timezone)
-    in_tz_end = start_time.in_time_zone(timezone)
+    in_tz_end = end_time.in_time_zone(timezone)
     in_tz_start -= in_tz_start.utc_offset
     in_tz_end -= in_tz_end.utc_offset
     begin_range = Time.now - threshold
     end_range = Time.now + threshold + 1.minute # The range is exclusive.
-    (begin_range..end_range).include?(in_tz_start..in_tz_end) # || (begin_range..end_range).cover?(in_tz_end)
+    # event_time_range = in_tz_start.strftime('%Y-%m-%d %H:%M')..in_tz_end.strftime('%Y-%m-%d %H:%M')
+    # now_range = begin_range.strftime('%Y-%m-%d %H:%M')..end_range.strftime('%Y-%m-%d %H:%M')
+    event_time_range = in_tz_start..in_tz_end
+    now_range = begin_range..end_range
+    event_time_range.overlaps?(now_range) # || (begin_range..end_range).cover?(in_tz_end)
   end
 
   def self.withdrawn_or_canceled_event_schedules(schedule_ids)
