@@ -191,6 +191,29 @@ module EventsHelper
     end
   end
 
+  def calendar_timestamp(timestamp, timezone)
+    timestamp = timestamp.in_time_zone('GMT')
+    timestamp -= timestamp.utc_offset
+    timestamp.strftime('%Y%m%dT%H%M%S')
+  end
+
+  def google_calendar_link(event_schedule)
+    event = event_schedule.event
+    conference = event.conference
+    calendar_base = 'https://www.google.com/calendar/render'
+    start_timestamp = calendar_timestamp(event_schedule.start_time, conference.timezone)
+    end_timestamp = calendar_timestamp(event_schedule.end_time, conference.timezone)
+    event_details = {
+      action: 'TEMPLATE',
+      text: "#{event.title} at #{conference.title}",
+      details: "#{conference.title}:\n\n#{event.room&.url}\n\n#{truncate(event.abstract, length: 200)}",
+      location: "#{event.room.name} #{event.room&.url}",
+      dates: "#{start_timestamp}/#{end_timestamp}",
+      ctz: event_schedule.timezone
+    }
+    "#{calendar_base}?#{event_details.to_param}"
+  end
+
   private
 
   def active_dropdown(selection, options)

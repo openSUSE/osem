@@ -27,7 +27,7 @@
       -# TODO: More informative text or aria-label.
       = link_to 'more', conference_program_proposal_path(@conference.short_title, event.id) if event.abstract.length > 400
     - if event_schedule.present?
-      = inyourtz(event_schedule.start_time, @conference.timezone) do
+      = inyourtz(event_schedule.start_time) do
         %span.track
           %span.fa.fa-clock-o
           %span.label{ style: "background-color: grey" }

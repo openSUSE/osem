@@ -13,7 +13,7 @@
 
 .container
   .row.page-header
-    .col-md-10
+    .col-md-8
       %h2
         = @event.title
         - if @event.subtitle
@@ -22,8 +22,12 @@
             = @event.subtitle
       %h3
         = join_event_link(@event, current_user)
-    .col-md-2
+    .col-md-4
       %p{style: "margin-top: 20px"}
+        - if @event_schedule.start_time
+          = link_to google_calendar_link(@event_schedule), target: '_blank', class: 'btn btn-success' do
+            %i.fa.fa-calendar
+            Google Calendar
         - if can?(:update, @event) && @event.require_registration?
           = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
         - if can?(:edit, @event)
