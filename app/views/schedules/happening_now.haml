@@ -17,14 +17,17 @@
   -#         = link_to('Unscheduled', "#unscheduled", class: 'program-selector')
 
   .row
-    %h2
-      #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
-    %h3
-      This page was loaded at #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
-    %p
-      P.S. This page is in beta, and if it doesn't make sense, we're sorry.
-    %small
-      Times & Timezones...only of the many 2 hard problems in computer science.
+    .col-md-12
+      %h2
+        #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
+      %h3
+        This page was loaded at
+          = inyourtz(Time.now, @conference.timezone)
+            #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
+      %p
+        P.S. This page is in beta, and if it doesn't make sense, we're sorry.
+      %small
+        Times & Timezones...only one of the many "2 hard problems in computer science".
 
   .row
     / scheduled events
