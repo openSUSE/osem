@@ -1,0 +1,41 @@
+.container#program
+  = render partial: 'schedule_tabs', locals: { active: 'now' }
+
+  %h1.text-center
+    Happening Now at
+    = @conference.title
+  -# .dropdown.program-dropdown
+  -#   %button{ type: "button", class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown" }
+  -#     Dates
+  -#     %span.caret
+  -#   %ul.dropdown-menu
+  -#     - @dates.each do |date|
+  -#       %li.li-dropdown-program
+  -#         = link_to date, "##{date}", class: "program-selector#{ ' no-events-day' unless @conference.program.any_event_for_this_date?(date) }"
+  -#     - if @unscheduled_events.any?
+  -#       %li.li-dropdown-program
+  -#         = link_to('Unscheduled', "#unscheduled", class: 'program-selector')
+
+  .row
+    %h2
+      #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
+    %h3
+      This page was loaded at #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
+    %p
+      P.S. This page is in beta, and if it doesn't make sense, we're sorry.
+    %small
+      Times & Timezones...only of the many 2 hard problems in computer science.
+
+  .row
+    / scheduled events
+    - @events_schedules.each do |event_schedule|
+      .col-xs-12.col-md-11.col-md-offset-1
+        = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
+
+:javascript
+  // Go to current date and time
+  $(document).ready(function(){
+    setTimeout(function() {
+      window.location = window.location;
+    }, 5 * 60 * 1000);
+  });

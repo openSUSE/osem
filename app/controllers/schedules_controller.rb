@@ -60,6 +60,14 @@ class SchedulesController < ApplicationController
     @tag = day.strftime('%Y-%m-%d') if day
   end
 
+  def happening_now
+    @events_schedules = @program.selected_event_schedules(
+      includes: [:room, { event: %i[track event_type speakers submitter] }]
+    ).select(&:happening_now?)
+    @events_schedules = [] unless @events_schedules
+    @current_time = Time.now.in_time_zone(@conference.timezone)
+  end
+
   def app
     @qr_code = RQRCode::QRCode.new(conference_schedule_url).as_svg(offset: 20, color: '000', shape_rendering: 'crispEdges', module_size: 11)
   end
