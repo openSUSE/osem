@@ -204,6 +204,7 @@ Osem::Application.routes.draw do
       end
       member do
         get :events
+        get :happening_now
       end
     end
   end

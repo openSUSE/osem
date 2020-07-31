@@ -177,14 +177,14 @@ module EventsHelper
     return unless event.url.present? && current_user
 
     conference = event.conference
-    is_today = event.time&.in_time_zone(conference.timezone).to_date == conference.current_conference_day
+    is_now = event.happening_now?
 
     if current_user.roles.where(id: conference.roles).any?
       # Show Pre-Event links for any memeber of the conference team.
-      link_to("Join Live Event #{'(Pre-Event)' unless is_today}",
+      link_to("Join Live Event #{'(Pre-Event)' unless is_now}",
                       event.url, target: '_blank')
     elsif current_user.registered_to_event?(conference)
-      if is_today
+      if is_now
         link_to('Join Live Event', event.url, target: '_blank')
       else
         link_to('Live Event Link Coming Soon', '#')

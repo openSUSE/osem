@@ -275,6 +275,14 @@ class Event < ApplicationRecord
   end
 
   ##
+  # Returns the start time at which this event is scheduled
+  #
+  def happening_now?
+    event_schedules.find_by(schedule_id: selected_schedule_id).try(:happening_now?)
+  end
+
+
+  ##
   # Returns true or false, if the event is already over or not
   #
   # ====Returns
