@@ -31,9 +31,28 @@
 
   .row
     / scheduled events
+    - date = nil
+    - time = nil
     - @events_schedules.each do |event_schedule|
-      .col-xs-12.col-md-11.col-md-offset-1
-        = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
+      - unless event_schedule.start_time.strftime('%Y-%m-%d').eql?(date)
+        .col-xs-12.col-md-12
+          .date-content
+            %span{ class: 'date-title', id: "#{ event_schedule.start_time.strftime('%Y-%m-%d') }" }
+              = inyourtz(event_schedule.start_time, @conference.timezone) do
+                = date = event_schedule.start_time.strftime('%Y-%m-%d')
+            %a{ title: "Go up", class: "pull-right", href: "#program" }
+              %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
+      - unless event_schedule.start_time.strftime('%H:%M').eql?(time)
+        .col-xs-12.col-md-1
+          .start-time
+            = inyourtz(event_schedule.start_time, @conference.timezone) do
+              = time = event_schedule.start_time.strftime('%H:%M')
+        .col-xs-12.col-md-11
+          .new-time-event
+            = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
+      - else
+        .col-xs-12.col-md-11.col-md-offset-1
+          = render partial: 'event', locals: { event: event_schedule.event, event_schedule: event_schedule }
 
 :javascript
   // Go to current date and time

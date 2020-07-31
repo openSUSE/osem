@@ -41,7 +41,7 @@ class EventSchedule < ApplicationRecord
     in_tz_end -= in_tz_end.utc_offset
     begin_range = Time.now - threshold
     end_range = Time.now + threshold + 1.minute # The range is exclusive.
-    (begin_range..end_range).cover?(in_tz_start) || (begin_range..end_range).cover?(in_tz_end)
+    (begin_range..end_range).include?(in_tz_start..in_tz_end) # || (begin_range..end_range).cover?(in_tz_end)
   end
 
   def self.withdrawn_or_canceled_event_schedules(schedule_ids)
