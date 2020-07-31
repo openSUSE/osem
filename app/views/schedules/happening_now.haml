@@ -22,7 +22,7 @@
         #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
       %h3
         This page was loaded at
-          = inyourtz(Time.now, @conference.timezone)
+          = inyourtz(Time.now, @conference.timezone) do
             #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
       %p
         P.S. This page is in beta, and if it doesn't make sense, we're sorry.

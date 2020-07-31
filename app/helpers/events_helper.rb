@@ -181,14 +181,13 @@ module EventsHelper
 
     if current_user.roles.where(id: conference.roles).any?
       # Show Pre-Event links for any memeber of the conference team.
-      link_to("Join Live Event #{'(Pre-Event)' unless is_now}",
+      link_to("Join Live Event",
                       event.url, target: '_blank')
     elsif current_user.registered_to_event?(conference)
-      if is_now
-        link_to('Join Live Event', event.url, target: '_blank')
-      else
-        link_to('Live Event Link Coming Soon', '#')
-      end
+      link_to('Join Live Event', event.url, target: '_blank')
+      # else
+      #   link_to('Live Event Link Coming Soon', '#')
+      # end
     end
   end
 
