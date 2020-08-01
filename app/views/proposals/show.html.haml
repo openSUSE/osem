@@ -24,7 +24,7 @@
         = join_event_link(@event, current_user)
     .col-md-4
       %p{style: "margin-top: 20px"}
-        - if @event_schedule.start_time
+        - if @event_schedule&.start_time
           = link_to google_calendar_link(@event_schedule), target: '_blank', class: 'btn btn-success' do
             %i.fa.fa-calendar
             Google Calendar
