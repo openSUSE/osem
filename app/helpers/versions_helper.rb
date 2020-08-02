@@ -75,7 +75,7 @@ module VersionsHelper
       registration_id = current_or_last_object_state(version.item_type, version.item_id).registration_id
       user_id = current_or_last_object_state('Registration', registration_id).user_id
     end
-    user_name = User.find_by(id: user_id).try(:name) || current_or_last_object_state('User', user_id).try(:name) || PaperTrail::Version.where(item_type: 'User', item_id: user_id).last&.changeset[:name].second
+    user_name = User.find_by(id: user_id).try(:name) || current_or_last_object_state('User', user_id).try(:name) || (PaperTrail::Version.where(item_type: 'User', item_id: user_id).last&.changeset || {})[:name]&.second
 
     if user_id.to_s == version.whodunnit
       case version.event
