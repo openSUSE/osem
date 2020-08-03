@@ -174,6 +174,7 @@ module EventsHelper
   end
 
   def join_event_link(event, current_user)
+    # TODO: Should this take in an event_schedule?
     return unless event.url.present? && current_user
 
     conference = event.conference
@@ -181,13 +182,14 @@ module EventsHelper
 
     if current_user.roles.where(id: conference.roles).any?
       # Show Pre-Event links for any memeber of the conference team.
-      link_to("Join Live Event (debug is now?: #{is_now})",
+      link_to("Join Live Event #{'(Admin link)' unless is_now}",
                       event.url, target: '_blank')
     elsif current_user.registered_to_event?(conference)
-      link_to('Join Live Event', event.url, target: '_blank')
-      # else
-      #   link_to('Live Event Link Coming Soon', '#')
-      # end
+      if is_now
+        link_to('Join Live Event', event.url, target: '_blank')
+      else
+        link_to('(Live Event Link Available During Event)', '#')
+      end
     end
   end
 
