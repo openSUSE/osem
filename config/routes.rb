@@ -2,10 +2,6 @@ Osem::Application.routes.draw do
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
-  constraints DomainConstraint do
-    get '/', to: 'conferences#show'
-  end
-
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
@@ -230,6 +226,10 @@ Osem::Application.routes.draw do
     root to: redirect("/conferences/#{ENV['OSEM_ROOT_CONFERENCE']}")
   else
     root to: 'conferences#index', via: [:get, :options]
+  end
+
+  constraints DomainConstraint do
+    root to: 'conferences#show'
   end
 
   get '/.well-known/apple-developer-merchantid-domain-association', to: 'application#apple_pay'
