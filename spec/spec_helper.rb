@@ -78,12 +78,12 @@ RSpec.configure do |config|
   end
 
   Capybara.register_driver :chrome_headless do |app|
-    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: { args: %w(headless disable-gpu window-size=1920x1080 no-sandbox) }
-    )
-    Capybara::Selenium::Driver.new(
-      app, browser: :chrome, desired_capabilities: capabilities
-    )
+    options = ::Selenium::WebDriver::Chrome::Options.new
+    options.args << '--window-size=1920x1080'
+    options.args << '--headless'
+    options.args << '--no-sandbox'
+    options.args << '--disable-gpu'
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
   end
 
   Capybara.default_max_wait_time = 10 # seconds
