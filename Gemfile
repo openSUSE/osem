@@ -10,7 +10,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
