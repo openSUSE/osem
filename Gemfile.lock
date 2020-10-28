@@ -80,8 +80,8 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.6.4)
       execjs
-    awesome_nested_set (3.1.4)
-      activerecord (>= 4.0.0, < 5.3)
+    awesome_nested_set (3.2.1)
+      activerecord (>= 4.0.0, < 7.0)
     aws_cf_signer (0.1.3)
     axlsx_rails (0.5.2)
       actionpack (>= 3.1)
