@@ -165,7 +165,7 @@ describe Conference do
   end
 
   describe '#get_submissions_data' do
-    it 'returns emtpy hash if there is no cfp or events' do
+    it 'returns empty hash if there is no cfp or events' do
       expect(subject.get_submissions_data).to eq []
     end
 

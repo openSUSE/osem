@@ -35,7 +35,7 @@ describe User do
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
         vestibulum, augue ut accumsan feugiat, mauris eros accumsan nunc,
         volutpat vulputate eros orci quis nulla. Cum sociis natoque penatibus
-        et magnis dis parturient montes, nascetur ridiculus mus. Sed varius
+        et magnis dis parturient montes, nascetur ridiculous mus. Sed varius
         orci ut lectus convallis, et ultrices ex finibus. Praesent orci augue,
         aliquet at cursus at, placerat id ligula. Vestibulum a mauris non
         felis pretium laoreet. Cras vel nisl convallis, pharetra ipsum at,
