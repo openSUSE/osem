@@ -1,4 +1,4 @@
-FROM opensuse/leap:15
+FROM opensuse/leap:15.1
 
 # Install our requirements
 RUN zypper -n install --no-recommends \
