@@ -69,7 +69,7 @@ module ApplicationHelper
     Comment.accessible_by(current_ability).find_since_last_login(user)
   end
 
-  # Recieves a PaperTrail::Version object
+  # Receives a PaperTrail::Version object
   # Outputs the list of attributes that were changed in the version (ignoring changes from one blank value to another)
   # Eg: If version.changeset = '{"title"=>[nil, "Premium"], "description"=>[nil, "Premium = Super cool"], "conference_id"=>[nil, 3]}'
   # Output will be 'title, description and conference'
