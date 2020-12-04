@@ -373,7 +373,7 @@ feature 'Version' do
     EventsRegistration.create(registration: registration, event: event)
     EventsRegistration.first.update_attributes(attended: true)
     EventsRegistration.last.destroy
-    # Here registration is deleted to ensure the event registration related change still displays the asociated user's name
+    # Here registration is deleted to ensure the event registration related change still displays the associated user's name
     registration.destroy
 
     visit admin_revision_history_path

@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.mobile.custom.min
-//= require jquery.ui.draggable
-//= require jquery.ui.droppable
+//= require jquery-ui/widgets/draggable
+//= require jquery-ui/widgets/droppable
 //= require waypoints/jquery.waypoints
 
 //= require datatables/jquery.dataTables

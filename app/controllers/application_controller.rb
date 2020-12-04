@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
     Rails.logger.debug('IChain Record was not Unique!')
     sign_out(current_user)
     redirect_to root_path,
-                error: 'Your E-Mail adress is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!'
+                error: 'Your E-Mail address is already registered at OSEM. Please contact the admin if you want to attach your openSUSE Account to OSEM!'
   end
 
   rescue_from UserDisabled do

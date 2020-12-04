@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 namespace :events_registrations do
-  desc "Deletes dupicate entries"
+  desc "Deletes duplicate entries"
   task deduplicate: :environment do
     if ActiveRecord::Migrator.get_all_versions.include? 20160403214841
       duplicates = EventsRegistration.all.map { |er| er.id if er.valid? == false}.compact

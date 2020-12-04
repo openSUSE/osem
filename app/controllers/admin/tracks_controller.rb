@@ -15,7 +15,7 @@ module Admin
 
       respond_to do |format|
         format.html
-        # Explicity call #to_json to avoid the use of EventSerializer
+        # Explicitly call #to_json to avoid the use of EventSerializer
         format.json { render json: Track.where(state: :confirmed, program: @program).to_json }
         format.xlsx do
           response.headers['Content-Disposition'] = "attachment; filename=\"#{@file_name}.xlsx\""
