@@ -209,7 +209,7 @@ module EventsHelper
       action: 'TEMPLATE',
       text: "#{event.title} at #{conference.title}",
       details: calendar_event_text(event, event_schedule, conference),
-      location: "#{event.room.name} #{event.room&.url}",
+      location: "#{event.room.name} #{event.url}",
       dates: "#{start_timestamp}/#{end_timestamp}",
       ctz: event_schedule.timezone
     }
@@ -223,10 +223,10 @@ module EventsHelper
     #{conference.title} - #{event.title}
     #{event_schedule.start_time.strftime("%Y %B %e - %H:%M")} #{event_schedule.timezone}
 
-    More Info: #{event.url}
-    Join: #{event.room&.url}
+    More Info: #{conference_program_proposal_url(conference, event)}
+    Join: #{event.url}
 
-    #{truncate(event.abstract, length: 200)}"
+    #{truncate(event.abstract, length: 200)}
     TEXT
   end
 
