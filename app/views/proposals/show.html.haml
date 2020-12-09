@@ -25,9 +25,9 @@
     .col-md-4
       %p{style: "margin-top: 20px"}
         - if @event_schedule&.start_time
-          = link_to google_calendar_link(@event_schedule), target: '_blank', class: 'btn btn-success' do
+          = link_to google_calendar_link(@event_schedule), target: '_blank', class: 'btn btn-success btn-mini' do
             %i.fa.fa-calendar
-            Google Calendar
+            Add to Google Calendar (beta)
         - if can?(:update, @event) && @event.require_registration?
           = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
         - if can?(:edit, @event)
@@ -96,16 +96,16 @@
             .col-md-12
               %dt Language:
               %dd= @event.language
-          .col-md-12
-            %dt Track:
-            %dd
-              - if @event.track
+          - if @event.track
+            .col-md-12
+              %dt Track:
+              %dd
                 %span.label{style: "background-color: #{@event.track.color}; color: #{ contrast_color(@event.track.color) }"}
                   = @event.track.name
-          .col-md-12
-            %dt Difficulty:
-            %dd
-              - if @event.difficulty_level
+          - if @event.difficulty_level
+            .col-md-12
+              %dt Difficulty:
+              %dd
                 %span.label{style: "background-color: #{@event.difficulty_level.color}; color: #{ contrast_color(@event.difficulty_level.color) };"}
                   = @event.difficulty_level.title
 

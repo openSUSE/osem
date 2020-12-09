@@ -164,7 +164,7 @@ module EventsHelper
       conference_id,
       event.id,
       event.send(attribute),
-      url:   admin_conference_program_event_path(
+      url: admin_conference_program_event_path(
         conference_id,
         event,
         event: { attribute => nil }
@@ -208,7 +208,7 @@ module EventsHelper
     event_details = {
       action: 'TEMPLATE',
       text: "#{event.title} at #{conference.title}",
-      details: "#{conference.title}:\n\n#{event.room&.url}\n\n#{truncate(event.abstract, length: 200)}",
+      details: calendar_event_text(event, event_schedule, conference),
       location: "#{event.room.name} #{event.room&.url}",
       dates: "#{start_timestamp}/#{end_timestamp}",
       ctz: event_schedule.timezone
@@ -217,6 +217,18 @@ module EventsHelper
   end
 
   private
+
+  def calendar_event_text(event, event_schedue, conference)
+    <<~TEXT
+    #{conference.title} - #{event.title}
+    #{event_schedule.start_time.strftime("%Y %B %e - %H:%M")} #{event_schedule.timezone}
+
+    More Info: #{event.url}
+    Join: #{event.room&.url}
+
+    #{truncate(event.abstract, length: 200)}"
+    TEXT
+  end
 
   def active_dropdown(selection, options)
     # Consistent rendering of dropdown lists that submit patched changes
