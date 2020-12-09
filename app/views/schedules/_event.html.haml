@@ -1,5 +1,5 @@
 .panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
-  - header_color = event.track&.color || '#f5f5f5'
+  - header_color = event.event_type&.color || '#f5f5f5'
   .trapezoid{style: "color: white; top: 12px; z-index: 100;"}
   .panel-heading{ style: "background-color: #{header_color}; color: #{ contrast_color(header_color) }; border-radius: 4px" }
     - event.speakers_ordered.each do |speaker|
