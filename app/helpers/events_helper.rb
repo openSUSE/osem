@@ -218,7 +218,7 @@ module EventsHelper
 
   private
 
-  def calendar_event_text(event, event_schedue, conference)
+  def calendar_event_text(event, event_schedule, conference)
     <<~TEXT
     #{conference.title} - #{event.title}
     #{event_schedule.start_time.strftime("%Y %B %e - %H:%M")} #{event_schedule.timezone}
