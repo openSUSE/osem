@@ -11,8 +11,8 @@ default: &default
   encoding: <%= encoding %>
   host: <%= ENV['OSEM_DB_HOST'] || 'database' %>
   port: <%= ENV['OSEM_DB_PORT'] || '5432'  %>
-  # username: <%= ENV['OSEM_DB_USER'] || 'postgres' %>
-  # password: <%= ENV['OSEM_DB_PASSWORD'] || 'mysecretpassword' %>
+  username: <%= ENV['OSEM_DB_USER'] || 'postgres' %>
+  password: <%= ENV['OSEM_DB_PASSWORD'] || 'mysecretpassword' %>
   database: <%= ENV['OSEM_DB_NAME'] || 'postgres' %>
   pool: 5
   timeout: 50000
