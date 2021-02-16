@@ -46,6 +46,20 @@
         250
       words.
 
+    = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' } },
+      hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
+
+    %p
+      You have used
+      %span#abstract-count #{@event.submission_word_count}
+      words.  Submission descriptions must be between
+      %span#abstract-minimum-word-count
+        0
+      and
+      %span#abstract-maximum-word-count
+        250
+      words.
+
     - if current_user.is_admin? or @program.cfp.enable_registrations?
       = f.inputs 'Enable pre-registration' do
         = f.input :require_registration, label: 'Require participants to register to your event'

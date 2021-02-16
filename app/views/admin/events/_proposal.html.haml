@@ -113,6 +113,10 @@
           %td= markdown(@event.abstract)
         %tr
           %td
+            %b Submission Description
+          %td= markdown(@event.submission_text)
+        %tr
+          %td
             %b Requirements
           %td= simple_format(@event.description)
 
