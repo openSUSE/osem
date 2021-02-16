@@ -73,6 +73,7 @@ class Event < ApplicationRecord
   before_create :generate_guid
 
   validate :abstract_limit
+  validate :submission_limit
   validate :before_end_of_conference, on: :create
   validates :title, presence: true
   validates :abstract, presence: true
@@ -217,6 +218,10 @@ class Event < ApplicationRecord
     abstract.to_s.split.size
   end
 
+  def submission_word_count
+    submission_text.to_s.split.size
+  end
+
   def self.get_state_color(state)
     COLORS[state.to_sym] || '#00FFFF' # azure
   end
@@ -351,6 +356,18 @@ class Event < ApplicationRecord
 
     errors.add(:abstract, "cannot have less than #{min_words} words") if len < min_words
     errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
+  end
+
+   def submission_limit
+    # If we don't have an event type, there is no need to count anything
+    return unless event_type && submission_text
+
+    len = submission_text.split.size
+    max_words = event_type.maximum_abstract_length
+    min_words = event_type.minimum_abstract_length
+
+    errors.add(:submission_text, "cannot have less than #{min_words} words") if len < min_words
+    errors.add(:submission_text, "cannot have more than #{max_words} words") if len > max_words
   end
 
   # TODO: create a module to be mixed into model to perform same operation
