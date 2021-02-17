@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/openSUSE/osem.svg?branch=master)](https://travis-ci.org/openSUSE/osem)
-[![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
-[![codecov](https://codecov.io/gh/opensuse/osem/branch/master/graph/badge.svg)](https://codecov.io/gh/opensuse/osem)
-[![Security Status](https://hakiri.io/github/openSUSE/osem/master.svg)](https://hakiri.io/github/openSUSE/osem/master)
-[![Dependencies](https://badges.depfu.com/badges/8fcd630367d20f5b48d393774c00c5fd/overview.svg)](https://depfu.com/repos/openSUSE/osem)
+[![Build Status](https://travis-ci.com/CactusPuppy/snapcon.svg?branch=master)](https://travis-ci.com/CactusPuppy/snapcon)
+[![Maintainability](https://api.codeclimate.com/v1/badges/6c7fc446b3b10866ba71/maintainability)](https://codeclimate.com/github/CactusPuppy/snapcon/maintainability)
+[![codecov](https://codecov.io/gh/CactusPuppy/snapcon/branch/master/graph/badge.svg?token=y4aEAtw6KJ)](https://codecov.io/gh/CactusPuppy/snapcon)
+[![Security Status](https://hakiri.io/github/CactusPuppy/snapcon/master.svg)](https://hakiri.io/github/CactusPuppy/snapcon/master)
+[![Depfu](https://badges.depfu.com/badges/16eb1ffb3a9f1a36c4e595a5ae2a1dca/overview.svg)](https://depfu.com/github/CactusPuppy/snapcon?project_id=22682)
 <a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
 </a>
