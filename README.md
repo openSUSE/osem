@@ -3,6 +3,7 @@
 [![codecov](https://codecov.io/gh/CactusPuppy/snapcon/branch/master/graph/badge.svg?token=y4aEAtw6KJ)](https://codecov.io/gh/CactusPuppy/snapcon)
 [![Security Status](https://hakiri.io/github/CactusPuppy/snapcon/master.svg)](https://hakiri.io/github/CactusPuppy/snapcon/master)
 [![Depfu](https://badges.depfu.com/badges/16eb1ffb3a9f1a36c4e595a5ae2a1dca/overview.svg)](https://depfu.com/github/CactusPuppy/snapcon?project_id=22682)
+[![Bluejay Dashboard](https://img.shields.io/badge/Bluejay-Dashboard_5-blue.svg)](http://dashboard.bluejay.governify.io/dashboard/script/dashboardLoader.js?dashboardURL=https://reporter.bluejay.governify.io/api/v4/dashboards/tpa-CS169L-GH-CactusPuppy_snapcon/main)
 <a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
 </a>
