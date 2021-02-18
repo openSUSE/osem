@@ -82,6 +82,7 @@ feature Event do
       fill_in 'event_title', with: 'Example Proposal'
       select('Example Event Type', from: 'event[event_type_id]')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
+      fill_in 'event_submission_text', with: 'Lorem ipsum submission'
 
       click_button 'Submit Proposal'
       page.find('#flash')
@@ -122,6 +123,9 @@ feature Event do
 
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       expect(page).to have_text('You have used 3 words')
+
+      fill_in 'event_submission_text', with: 'Lorem ipsum submission_text'
+      expect(page).to have_text('Submission description')
 
       click_link 'Do you require something special?'
       fill_in 'event_description', with: 'Lorem ipsum description'
