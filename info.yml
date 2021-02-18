@@ -6,7 +6,7 @@ project:
     pivotal:
       url: 'https://www.pivotaltracker.com/n/projects/2487653'
     heroku:
-      url: 'https://http://cs169l-sp2021-snapcon.herokuapp.com'
+      url: 'https://cs169l-sp2021-snapcon.herokuapp.com'
     travis:
       url: 'https://travis-ci.com/github/CactusPuppy/snapcon'
     codeclimate:
