@@ -7,6 +7,8 @@ addons:
 language: ruby
 cache: bundler
 rvm:
+  - 2.5
+  - 2.6
 branches:
   except:
     - /^depfu/.*$/
@@ -42,4 +44,4 @@ env:
     - TEST_SUITE=controllers
     - TEST_SUITE=rest
 matrix:
-  fast_finish: true
+  fast_finish: false
