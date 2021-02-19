@@ -13,7 +13,7 @@
 
     = f.input :event_type_id, as: :select,
       collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-      data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
+      data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length, help: type.description }]},
       include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
     - if @program.languages.present?
@@ -46,17 +46,19 @@
         250
       words.
 
-    = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' } },
-      hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
+    %br
+
+    = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
+      hint: markdown_hint('Only conference organizers will read this.')
 
     %p
       You have used
-      %span#abstract-count #{@event.submission_word_count}
+      %span#submission-count #{@event.submission_word_count}
       words.  Submission descriptions must be between
-      %span#abstract-minimum-word-count
+      %span#submission-minimum-word-count
         0
       and
-      %span#abstract-maximum-word-count
+      %span#submission-maximum-word-count
         250
       words.
 
