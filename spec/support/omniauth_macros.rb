@@ -15,8 +15,6 @@ module OmniauthMacros
   ENV['OSEM_DISCOURSE_KEY'] = 'test key discourse'
   ENV['OSEM_DISCOURSE_SECRET'] = 'test secret discourse'
 
-
-
   def mock_auth_new_user
     OmniAuth.config.mock_auth[:google] =
       OmniAuth::AuthHash.new(
@@ -90,6 +88,10 @@ module OmniauthMacros
   # account is available for every supported omniauth provider.
   # These must be identical to the ones in /config/environments/development.rb
   # Remember to keep them in sync with development.rb
+  #
+  # Note that the method length check is disabled to allow for better formatting
+  # of the user params.
+  # rubocop:disable Metrics/MethodLength
   def mock_auth_accounts
     OmniAuth.config.mock_auth[:facebook] =
       OmniAuth::AuthHash.new(
@@ -166,4 +168,5 @@ module OmniauthMacros
                               }
                             )
   end
+  # rubocop:enable Metrics/MethodLength
 end

@@ -66,7 +66,7 @@ class ConferenceRegistrationsController < ApplicationController
       end
     elsif @conference.registration_ticket_required? && !current_user.supports?(@conference)
       redirect_to conference_tickets_path(@conference.short_title),
-                error: 'You must buy a registration ticket before registering.'
+                  error: 'You must buy a registration ticket before registering.'
     else
       flash.now[:error] = "Could not create your registration for #{@conference.title}: "\
                         "#{@registration.errors.full_messages.join('. ')}."

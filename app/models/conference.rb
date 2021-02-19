@@ -35,6 +35,7 @@
 #
 #  index_conferences_on_organization_id  (organization_id)
 #
+# rubocop:disable Metrics/ClassLength
 class Conference < ApplicationRecord
   include RevisionCount
   require 'uri'
@@ -86,7 +87,7 @@ class Conference < ApplicationRecord
   has_many :highlighted_events,
            -> { where(state: :confirmed, is_highlight: true) },
            through: :program,
-           source: :events
+           source:  :events
   has_many :event_types, through: :program
 
   has_many :surveys, as: :surveyable, dependent: :destroy do
@@ -1234,3 +1235,4 @@ class Conference < ApplicationRecord
     ]
   end
 end
+# rubocop:enable Metrics/ClassLength
