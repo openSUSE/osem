@@ -281,7 +281,6 @@ class Event < ApplicationRecord
     event_schedules.find_by(schedule_id: selected_schedule_id).try(:happening_now?)
   end
 
-
   ##
   # Returns true or false, if the event is already over or not
   #

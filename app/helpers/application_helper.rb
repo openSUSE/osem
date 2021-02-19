@@ -112,7 +112,7 @@ module ApplicationHelper
         concurrent_events << other_event_schedule.event
       end
     end
-    concurrent_events.sort_by { |event_schedule| event_schedule.room&.order }
+    concurrent_events.sort_by { |schedule| schedule.room&.order }
   end
 
   def speaker_links(event)
@@ -188,7 +188,7 @@ module ApplicationHelper
     'hidden' if Date.today > conference.end_date
   end
 
-  # TODO:Snap!Con: Replace this with a search for a conference logo.
+  # TODO: Snap!Con: Replace this with a search for a conference logo.
   def nav_root_link_for(conference = nil)
     path = conference&.id.present? ? conference_path(conference) : root_path
     link_to(
@@ -201,8 +201,8 @@ module ApplicationHelper
 
   def nav_link_text(conference)
     conference.try(:organization).try(:name) ||
-    ENV['OSEM_NAME'] ||
-    'OSEM'
+      ENV['OSEM_NAME'] ||
+      'OSEM'
   end
 
   # returns the url to be used for logo on basis of sponsorship level position

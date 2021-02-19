@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class Conference < ApplicationRecord
   include RevisionCount
   require 'uri'
@@ -1199,3 +1200,4 @@ class Conference < ApplicationRecord
     ]
   end
 end
+# rubocop:enable Metrics/ClassLength

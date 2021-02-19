@@ -107,6 +107,7 @@ end
 def count_purchased_registration_tickets(conference, purchases)
   # TODO: WHAT CAUSED THIS???
   return 0 unless purchases
+
   conference.tickets.for_registration.inject(0) do |sum, registration_ticket|
     sum + purchases[registration_ticket.id.to_s].to_i
   end

@@ -65,7 +65,7 @@ describe ApplicationHelper, type: :helper do
     describe 'navigation title link' do
       it 'should default to OSEM' do
         ENV.delete('OSEM_NAME')
-        # TODO:Snap!Con: expect(nav_root_link_for(nil)).to match 'OSEM'
+        # TODO: Snap!Con: expect(nav_root_link_for(nil)).to match 'OSEM'
         expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
       end
 

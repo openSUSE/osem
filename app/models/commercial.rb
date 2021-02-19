@@ -17,7 +17,7 @@ class Commercial < ApplicationRecord
     begin
       resource = OEmbed::Providers.get(url, maxwidth: 560, maxheight: 315)
       { html: resource.html.html_safe }
-    rescue StandardError => exception
+    rescue StandardError
       { html: iframe_fallback(url) }
       # { error: exception.message }
     end
