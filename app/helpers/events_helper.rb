@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# TODO: Split this module into smaller modules
+# rubocop:disable Metrics/ModuleLength
 module EventsHelper
   ##
   # Includes functions related to events
@@ -193,7 +195,7 @@ module EventsHelper
     end
   end
 
-  def calendar_timestamp(timestamp, timezone)
+  def calendar_timestamp(timestamp, _timezone)
     timestamp = timestamp.in_time_zone('GMT')
     timestamp -= timestamp.utc_offset
     timestamp.strftime('%Y%m%dT%H%M%S')
@@ -221,7 +223,7 @@ module EventsHelper
   def calendar_event_text(event, event_schedule, conference)
     <<~TEXT
       #{conference.title} - #{event.title}
-      #{event_schedule.start_time.strftime("%Y %B %e - %H:%M")} #{event_schedule.timezone}
+      #{event_schedule.start_time.strftime('%Y %B %e - %H:%M')} #{event_schedule.timezone}
 
       More Info: #{conference_program_proposal_url(conference, event)}
       Join: #{event.url}
@@ -256,3 +258,4 @@ module EventsHelper
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength

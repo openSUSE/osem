@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
                                      !request.xhr?) # don't store ajax calls
                                    session[:return_to] = request.fullpath
                                  end
-  end
+                               end
 
   def after_sign_in_path_for(_resource)
     if (can? :view, Conference) &&

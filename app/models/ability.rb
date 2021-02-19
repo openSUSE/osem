@@ -68,6 +68,8 @@ class Ability
   end
 
   # Abilities for signed in users
+  # TODO: Refactor into multiple functions
+  # rubocop:disable Metrics/AbcSize
   def signed_in(user)
     # Abilities from not_signed_in user are also inherited
     not_signed_in
@@ -140,6 +142,7 @@ class Ability
       user == track.submitter && !(track.accepted? || track.confirmed?)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # Abilities for users with roles wandering around in non-admin views.
   def common_abilities_for_admins(user)
