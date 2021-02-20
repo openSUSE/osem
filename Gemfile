@@ -240,6 +240,7 @@ group :development do
   gem 'web-console'
   # as development database
   gem 'sqlite3'
+  gem 'annotate'
 end
 
 group :test do
