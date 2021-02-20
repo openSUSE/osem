@@ -525,6 +525,8 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    sentry-delayed_job (4.2.1)
+      sentry-ruby-core (~> 4.2.0)
     sentry-rails (4.2.2)
       rails (>= 5.0)
       sentry-ruby-core (~> 4.2.0)
@@ -712,6 +714,7 @@ DEPENDENCIES
   ruby-oembed
   sass-rails (>= 4.0.2)
   selectize-rails
+  sentry-delayed_job
   sentry-rails
   sentry-ruby
   shoulda-matchers

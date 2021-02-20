@@ -143,6 +143,7 @@ gem 'axlsx_rails'
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem 'sentry-delayed_job'
 
 # to make links faster
 gem 'turbolinks'
