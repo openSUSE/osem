@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: registrations
+#
+#  id                       :bigint           not null, primary key
+#  accepted_code_of_conduct :boolean
+#  attended                 :boolean          default(FALSE)
+#  other_special_needs      :text
+#  volunteer                :boolean
+#  week                     :integer
+#  created_at               :datetime
+#  updated_at               :datetime
+#  conference_id            :integer
+#  user_id                  :integer
+#
 class Registration < ApplicationRecord
   require 'csv'
   belongs_to :user

@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: organizations
+#
+#  id              :bigint           not null, primary key
+#  code_of_conduct :text
+#  description     :text
+#  name            :string           not null
+#  picture         :string
+#
 class Organization < ApplicationRecord
   resourcify :roles, dependent: :delete_all
 

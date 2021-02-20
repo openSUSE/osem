@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: openids
+#
+#  id         :bigint           not null, primary key
+#  email      :string
+#  provider   :string
+#  uid        :string
+#  created_at :datetime
+#  updated_at :datetime
+#  user_id    :integer
+#
 class Openid < ApplicationRecord
   belongs_to :user
   validates :provider, :uid, :email, presence: true

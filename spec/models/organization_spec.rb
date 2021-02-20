@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: organizations
+#
+#  id              :bigint           not null, primary key
+#  code_of_conduct :text
+#  description     :text
+#  name            :string           not null
+#  picture         :string
+#
 require 'spec_helper'
 
 describe Organization do

@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
-# Read about factories at https://github.com/thoughtbot/factory_bot
+# == Schema Information
+#
+# Table name: registration_periods
+#
+#  id            :bigint           not null, primary key
+#  end_date      :date
+#  start_date    :date
+#  created_at    :datetime
+#  updated_at    :datetime
+#  conference_id :integer
+#
 
 FactoryBot.define do
   factory :registration_period do
