@@ -2,14 +2,13 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.5.0'
+# ruby '~> 2.5.0'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
   abort "Bundler version >= 1.8.4 is required"
 end
 
-# as web framework
 gem 'rails', '~> 5.2'
 
 # Use Puma as the app server
@@ -142,7 +141,9 @@ gem 'rqrcode'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
-gem 'sentry-raven'
+gem 'sentry-ruby'
+gem 'sentry-rails'
+gem 'sentry-delayed_job'
 
 # to make links faster
 gem 'turbolinks'
