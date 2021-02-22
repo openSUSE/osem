@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: cfps
+#
+#  id                   :bigint           not null, primary key
+#  cfp_type             :string
+#  description          :text
+#  enable_registrations :boolean          default(FALSE)
+#  end_date             :date             not null
+#  start_date           :date             not null
+#  created_at           :datetime
+#  updated_at           :datetime
+#  program_id           :integer
+#
 # cannot delete program if there are events submitted
 
 class Cfp < ApplicationRecord

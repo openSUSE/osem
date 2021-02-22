@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: organizations
+#
+#  id              :bigint           not null, primary key
+#  code_of_conduct :text
+#  description     :text
+#  name            :string           not null
+#  picture         :string
+#
 FactoryBot.define do
   factory :organization do
     sequence(:name) { |n| "#{Faker::Company.name} #{n}" }

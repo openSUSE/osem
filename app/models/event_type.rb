@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: event_types
+#
+#  id                      :bigint           not null, primary key
+#  color                   :string
+#  description             :string
+#  length                  :integer          default(30)
+#  maximum_abstract_length :integer          default(500)
+#  minimum_abstract_length :integer          default(0)
+#  title                   :string           not null
+#  created_at              :datetime
+#  updated_at              :datetime
+#  program_id              :integer
+#
 class EventType < ApplicationRecord
   belongs_to :program, touch: true
   has_many :events, dependent: :restrict_with_error
