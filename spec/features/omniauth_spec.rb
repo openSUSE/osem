@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-feature Openid do
+feature Openid, type: :feature, js: true do
   shared_examples 'sign in with openid' do
 
     scenario 'has option to log in with Google account' do
