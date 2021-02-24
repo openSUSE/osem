@@ -57,7 +57,11 @@
   <div id="border">
     <div class="row">
       <!-- Uncomment below to get logo -->
-      <div class="col-md-2"><%= image_tag(@logo, style: "display:block") %></div>
+      <div class="col-md-2">
+        <% if !@logo.nil? %>
+          <%= image_tag(@logo, style: "display:block") %>
+        <% end %>
+      </div>
       <div class="col-md-10"><h1></h1></div>
     </div>
   </div>
