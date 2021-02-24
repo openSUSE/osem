@@ -35,6 +35,6 @@ def mock_commercial_request
 end
 
 def mock_image_request
-  WebMock.stub_request(:post, "https://api.cloudinary.com/v1_1/snapcon/image/destroy").
-    to_return(status: 200, body: {}.to_json, headers: {})
+  WebMock.stub_request(:post, "https://api.cloudinary.com/v1_1/snapcon/image/destroy")
+    .to_return(status: 200, body: {}.to_json, headers: {})
 end

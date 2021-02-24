@@ -201,8 +201,8 @@ module ApplicationHelper
 
   def nav_link_text(conference)
     conference.try(:organization).try(:name) ||
-    ENV['OSEM_NAME'] ||
-    'OSEM'
+      ENV['OSEM_NAME'] ||
+      'OSEM'
   end
 
   # returns the url to be used for logo on basis of sponsorship level position

@@ -36,7 +36,7 @@
 #
 #  index_conferences_on_organization_id  (organization_id)
 #
-#!/bin/env ruby
+# !/bin/env ruby
 require 'spec_helper'
 
 describe Conference do

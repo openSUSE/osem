@@ -46,8 +46,8 @@ end
 lowlevel_error_handler do |ex, env|
   Sentry.capture_exception(
     ex,
-    :message => ex.message,
-    :extra => { :puma => env },
+    :message     => ex.message,
+    :extra       => { :puma => env },
     :transaction => "Puma"
   )
   # note the below is just a Rack response

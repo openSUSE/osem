@@ -16,7 +16,7 @@ Devise.setup do |config|
 
   # TODO-SNAPCON: This ought to be configurable. Use OSEM_DISCOURSE_KEY?
   config.omniauth :discourse,
-                  sso_url: 'https://forum.snap.berkeley.edu/session/sso_provider',
+                  sso_url:    'https://forum.snap.berkeley.edu/session/sso_provider',
                   sso_secret: ENV['OSEM_DISCOURSE_SECRET']
 
   config.omniauth :facebook,
