@@ -36,15 +36,5 @@ end
 
 def mock_image_request
   WebMock.stub_request(:post, "https://api.cloudinary.com/v1_1/snapcon/image/destroy").
-    with(
-      body: {},
-      headers: {
-      'Accept'=>'*/*',
-      'Accept-Encoding'=>'gzip, deflate',
-      'Content-Length'=>'111',
-      'Content-Type'=>'application/x-www-form-urlencoded',
-      'Host'=>'api.cloudinary.com',
-      'User-Agent'=>'CloudinaryRuby/1.11.1'
-      }).
     to_return(status: 200, body: {}.to_json, headers: {})
 end
