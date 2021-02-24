@@ -221,6 +221,8 @@ GEM
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
+    haml-lint (0.999.999)
+      haml_lint
     haml-rails (1.0.0)
       actionpack (>= 4.0.1)
       activesupport (>= 4.0.1)
@@ -703,8 +705,8 @@ DEPENDENCIES
   geckodriver-helper
   gravtastic
   guard-rspec
+  haml-lint
   haml-rails
-  haml_lint
   iso-639
   jquery-datatables
   jquery-rails
@@ -758,7 +760,6 @@ DEPENDENCIES
   rqrcode
   rspec-activemodel-mocks
   rspec-rails
-  rubocop
   rubocop-rspec
   ruby-oembed
   sass-rails (>= 4.0.2)
