@@ -23,7 +23,7 @@ describe Mailbot do
       end
 
       it 'assigns the email body' do
-        expect(mail.body).to eq 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
+        expect(mail.body).to include 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
       end
 
       it 'delivers the email' do
