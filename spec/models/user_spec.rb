@@ -514,7 +514,7 @@ describe User do
 
   describe '.omniauth_providers' do
     it 'contains providers' do
-      expect(User.omniauth_providers).to eq [:suse, :google, :facebook, :github, discourse]
+      expect(User.omniauth_providers).to eq [:suse, :google, :facebook, :github, :discourse]
     end
   end
 end
