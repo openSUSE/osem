@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-feature Registration do
+feature Registration, feature: true, js: true do
   let!(:ticket) { create(:ticket) }
   let!(:free_ticket) { create(:ticket, price_cents: 0) }
   let!(:first_registration_ticket) { create(:registration_ticket, price_cents: 0) }
@@ -146,7 +146,7 @@ feature Registration do
 
     context 'who is registered' do
 
-      scenario 'unregisters from conference, but ticket purchases dont delete', feature: true, js: true do
+      scenario 'unregisters from conference, but ticket purchases dont delete' do
         visit root_path
         click_link 'Register'
 
