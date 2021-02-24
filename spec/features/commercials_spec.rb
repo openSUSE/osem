@@ -69,7 +69,7 @@ feature Commercial do
 
     scenario 'does not add an invalid commercial of an event', feature: true, js: true do
       # TODO (snapcon)
-      pending("Snap!Con allows all materials to be saved.")
+      skip("Snap!Con allows all materials to be saved.")
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Materials'
       fill_in 'commercial_url', with: 'invalid_commercial_url'
