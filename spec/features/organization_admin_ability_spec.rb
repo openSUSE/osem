@@ -189,7 +189,12 @@ feature 'Has correct abilities' do
       visit admin_conference_registrations_path(conference.short_title)
       expect(current_path).to eq(admin_conference_registrations_path(conference.short_title))
 
-      create(:registration, user: create(:user), conference: conference)
+      # Create a registration for a user, which requires a registration ticket.
+      other_user = create(:user)
+      ticket = conference.registration_tickets.first
+      create(:paid_ticket_purchase,
+        user: other_user, ticket: ticket, quantity: 1, conference: conference)
+      create(:registration, user: other_user, conference: conference)
       visit edit_admin_conference_registration_path(conference.short_title, conference.registrations.first)
       expect(current_path).to eq(edit_admin_conference_registration_path(conference.short_title, conference.registrations.first))
 
