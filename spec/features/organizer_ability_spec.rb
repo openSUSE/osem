@@ -61,7 +61,7 @@ feature 'Has correct abilities' do
       expect(page).to_not have_link('New Conference', href: '/admin/conferences/new')
 
       visit admin_conference_path(other_conference.short_title)
-      # TODO (snapcon): This conference already seems to have a venue.
+      # TODO-SNAPCON: This conference already seems to have a venue.
       # expect(page).to have_link('Add venue', href: "/admin/conferences/#{other_conference.short_title}/venue/new")
 
       visit edit_admin_conference_path(conference.short_title)

@@ -17,8 +17,8 @@ AllCops:
 
 Style/CommentAnnotation:
   Keywords:
+    - TODO-SNAPCON
     - TODO
-    - TODO (snapcon)
     - OPTIMIZE
     - HACK
     - REVIEW

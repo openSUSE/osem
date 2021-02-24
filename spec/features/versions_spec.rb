@@ -231,7 +231,7 @@ feature 'Version' do
     expect(page).to have_text("Someone (probably via the console) deleted difficulty level Expert with ID #{difficulty_level_id} in conference #{conference.short_title}")
   end
 
-  # TODO (snapcon): Figure out why this is failing!!
+  # TODO-SNAPCON: Figure out why this is failing!!
   skip 'display changes in splashpages', feature: true, versioning: true, js: true do
     visit admin_conference_splashpage_path(conference.short_title)
     click_link 'Create Splashpage'
@@ -300,7 +300,7 @@ feature 'Version' do
 
     visit admin_conference_program_event_path(conference.short_title, event_with_commercial)
     click_link 'History'
-    # TODO (snapcon): Figure out why this is here...
+    # TODO-SNAPCON: Figure out why this is here...
     # expect(page).to have_text('Someone (probably via the console) created new commercial')
     visit admin_conference_program_event_path(conference.short_title, event_without_commercial)
     click_link 'History'
