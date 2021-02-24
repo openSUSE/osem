@@ -115,8 +115,8 @@ end
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 # data tables
-gem 'jquery-datatables'
 gem 'ajax-datatables-rails'
+gem 'jquery-datatables'
 
 # for charts
 gem 'chartkick'
@@ -141,9 +141,9 @@ gem 'rqrcode'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
-gem 'sentry-ruby'
-gem 'sentry-rails'
 gem 'sentry-delayed_job'
+gem 'sentry-rails'
+gem 'sentry-ruby'
 
 # to make links faster
 gem 'turbolinks'
@@ -275,4 +275,9 @@ end
 group :development, :test do
   # as debugger
   gem 'byebug'
+  gem 'pry'
+
+  gem 'pronto'
+  gem 'pronto-rubocop', require: false
+  gem 'pronto-flay', require: false
 end
