@@ -225,11 +225,7 @@ gem 'dalli'
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec'
-  gem 'haml_lint'
   gem 'spring-commands-rspec'
-  # for static code analisys
-  gem 'rubocop', require: false
-  gem 'rubocop-rspec'
   # to open mails
   gem 'letter_opener'
   # view mail at /letter_opener/
@@ -240,6 +236,7 @@ group :development do
   gem 'web-console'
   # as development database
   gem 'sqlite3'
+  # prepend models with db schema
   gem 'annotate'
 end
 
@@ -277,9 +274,12 @@ group :development, :test, :linters do
   gem 'byebug'
   gem 'pry'
 
-  gem 'pronto'
-  gem 'pronto-haml', require: false
+  # Linters and static analysis.
+  gem 'pronto', require: false
   gem 'pronto-flay', require: false
+  gem 'pronto-haml', require: false
   gem 'pronto-rubocop', require: false
   gem 'rubocop-rspec', require: false
+
+  gem 'haml-lint', require: false
 end
