@@ -22,7 +22,7 @@
             = semantic_form_for(@event.commercials.build, url: conference_program_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event)) do |f|
               = f.input :url, label: 'URL', as: :string, input_html: { required: 'required', type: 'url' },
               hint: 'Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.'
-              = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right', disabled: true }
+              = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right', disabled: true }, label: "Save Materials"
         %hr
       - @event.commercials.each_slice(3) do |slice|
         .row
