@@ -51,7 +51,7 @@ class Conference < ApplicationRecord
   has_many :highlighted_events,
            -> { where(state: :confirmed, is_highlight: true) },
            through: :program,
-           source:  :events
+           source: :events
   has_many :event_types, through: :program
 
   has_many :surveys, as: :surveyable, dependent: :destroy do
