@@ -14,9 +14,9 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
       - name: Setup bundler # Install only the linters group.
-        run: bundle config --local set without default development test staging production
+        run: bundle config --global set without default development test staging production
       - name: Install pronto
-        run: bundle install
+        run: bundle install --without default development test staging production
       - name: Run Pronto
         run: pronto run -f github_status github_pr -c origin/${{ github.base_ref }}
         env:
