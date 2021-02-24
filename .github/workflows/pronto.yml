@@ -13,8 +13,10 @@ jobs:
           git fetch --no-tags --prune --depth=150 origin +refs/heads/*:refs/remotes/origin/*
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-      - name: Setup pronto
-        run: gem install pronto pronto-rubocop pronto-haml pronto-flay
+      - name: Setup bundler # Install only the linters group.
+        run: bundle config --local set without default development test staging production
+      - name: Install pronto
+        run: bundle install
       - name: Run Pronto
         run: pronto run -f github_status github_pr -c origin/${{ github.base_ref }}
         env:

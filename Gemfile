@@ -272,7 +272,7 @@ group :test do
   gem 'pdf-inspector', require: "pdf/inspector"
 end
 
-group :development, :test do
+group :development, :test, :linters do
   # as debugger
   gem 'byebug'
   gem 'pry'
@@ -281,4 +281,5 @@ group :development, :test do
   gem 'pronto-haml', require: false
   gem 'pronto-flay', require: false
   gem 'pronto-rubocop', require: false
+  gem 'rubocop-rspec', require: false
 end
