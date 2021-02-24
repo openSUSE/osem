@@ -278,6 +278,7 @@ group :development, :test do
   gem 'pry'
 
   gem 'pronto'
-  gem 'pronto-rubocop', require: false
+  gem 'pronto-haml', require: false
   gem 'pronto-flay', require: false
+  gem 'pronto-rubocop', require: false
 end

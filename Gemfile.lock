@@ -401,6 +401,10 @@ GEM
     pronto-flay (0.11.0)
       flay (~> 2.8)
       pronto (~> 0.11.0)
+    pronto-haml (0.11.0)
+      haml_lint (~> 0.23)
+      pronto (~> 0.11.0)
+      rubocop (< 1.0)
     pronto-rubocop (0.11.1)
       pronto (~> 0.11.0)
       rubocop (>= 0.63.1, < 2.0)
@@ -727,6 +731,7 @@ DEPENDENCIES
   prawn-rails
   pronto
   pronto-flay
+  pronto-haml
   pronto-rubocop
   pry
   puma (~> 3.0)
