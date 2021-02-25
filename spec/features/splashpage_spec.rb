@@ -72,11 +72,11 @@ feature Splashpage do
     context 'multiple organizations' do
       let!(:additional_organization) { create(:organization) }
 
-      scenario 'should have organization name', feature: true, js: true do
+      scenario 'should have organization logo', feature: true, js: true do
         sign_in participant
         visit conference_path(conference.short_title)
 
-        expect(page).to have_text(conference.organization.name)
+        expect(find('.navbar-brand img')['alt']).to have_content conference.organization.name
       end
     end
   end

@@ -112,7 +112,7 @@ module ApplicationHelper
         concurrent_events << other_event_schedule.event
       end
     end
-    concurrent_events.sort_by { |event_schedule| event_schedule.room&.order }
+    concurrent_events.sort_by { |schedule| schedule.room&.order }
   end
 
   def speaker_links(event)
@@ -188,11 +188,12 @@ module ApplicationHelper
     'hidden' if Date.today > conference.end_date
   end
 
-  # TODO:Snap!Con: Replace this with a search for a conference logo.
+  # TODO-SNAPCON: Replace this with a search for a conference logo.
+  # TODO: If conference is defined, the alt text should be conference name.
   def nav_root_link_for(conference = nil)
     path = conference&.id.present? ? conference_path(conference) : root_path
     link_to(
-      image_tag('snapcon_logo.png'),
+      image_tag('snapcon_logo.png', alt: nav_link_text(conference)),
       path,
       class: 'navbar-brand',
       title: nav_link_text(conference)
@@ -201,8 +202,8 @@ module ApplicationHelper
 
   def nav_link_text(conference)
     conference.try(:organization).try(:name) ||
-    ENV['OSEM_NAME'] ||
-    'OSEM'
+      ENV['OSEM_NAME'] ||
+      'OSEM'
   end
 
   # returns the url to be used for logo on basis of sponsorship level position

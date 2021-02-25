@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: rooms
+#
+#  id       :bigint           not null, primary key
+#  guid     :string           not null
+#  name     :string           not null
+#  order    :integer
+#  size     :integer
+#  url      :string
+#  venue_id :integer          not null
+#
 require 'spec_helper'
 
 describe Room do

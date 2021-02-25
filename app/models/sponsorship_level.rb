@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: sponsorship_levels
+#
+#  id            :bigint           not null, primary key
+#  position      :integer
+#  title         :string
+#  created_at    :datetime
+#  updated_at    :datetime
+#  conference_id :integer
+#
 class SponsorshipLevel < ApplicationRecord
   validates :title, presence: true
   belongs_to :conference

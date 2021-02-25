@@ -44,11 +44,11 @@ on_worker_boot do
 end
 
 lowlevel_error_handler do |ex, env|
-  Raven.capture_exception(
+  Sentry.capture_exception(
     ex,
-    :message => ex.message,
-    :extra => { :puma => env },
-    :transaction => "Puma"
+    message:     ex.message,
+    extra:       { puma: env },
+    transaction: "Puma"
   )
   # note the below is just a Rack response
   [500, {}, ["An error has occurred, and engineers have been informed. Please reload the page. If you continue to have problems, contact conference@snap.berkeley.edu\n"]]

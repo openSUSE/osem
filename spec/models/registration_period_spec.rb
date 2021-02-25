@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: registration_periods
+#
+#  id            :bigint           not null, primary key
+#  end_date      :date
+#  start_date    :date
+#  created_at    :datetime
+#  updated_at    :datetime
+#  conference_id :integer
+#
 require 'spec_helper'
 
 describe RegistrationPeriod do

@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: questions
+#
+#  id               :bigint           not null, primary key
+#  global           :boolean
+#  title            :string
+#  created_at       :datetime
+#  updated_at       :datetime
+#  conference_id    :integer
+#  question_type_id :integer
+#
 class Question < ApplicationRecord
   belongs_to :question_type
   has_and_belongs_to_many :conferences

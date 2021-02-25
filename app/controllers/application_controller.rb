@@ -10,22 +10,22 @@ class ApplicationController < ActionController::Base
   check_authorization unless: :devise_controller?
   skip_authorization_check if:
 
-  def store_location
-    # store last url - this is needed for post-login redirect to whatever the user last visited.
-    return unless request.get?
+                               def store_location
+                                 # store last url - this is needed for post-login redirect to whatever the user last visited.
+                                 return unless request.get?
 
-    if (request.path != '/accounts/sign_in' &&
-        request.path != '/accounts/sign_up' &&
-        request.path != '/accounts/password/new' &&
-        request.path != '/accounts/password/edit' &&
-        request.path != '/accounts/confirmation' &&
-        request.path != '/accounts/sign_out' &&
-        request.path != '/users/ichain_registration/ichain_sign_up' &&
-        !request.path.starts_with?(Devise.ichain_base_url) &&
-        !request.xhr?) # don't store ajax calls
-      session[:return_to] = request.fullpath
-    end
-  end
+                                 if (request.path != '/accounts/sign_in' &&
+                                     request.path != '/accounts/sign_up' &&
+                                     request.path != '/accounts/password/new' &&
+                                     request.path != '/accounts/password/edit' &&
+                                     request.path != '/accounts/confirmation' &&
+                                     request.path != '/accounts/sign_out' &&
+                                     request.path != '/users/ichain_registration/ichain_sign_up' &&
+                                     !request.path.starts_with?(Devise.ichain_base_url) &&
+                                     !request.xhr?) # don't store ajax calls
+                                   session[:return_to] = request.fullpath
+                                 end
+                               end
 
   def after_sign_in_path_for(_resource)
     if (can? :view, Conference) &&

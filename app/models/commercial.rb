@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: commercials
+#
+#  id                  :bigint           not null, primary key
+#  commercial_type     :string
+#  commercialable_type :string
+#  url                 :string
+#  created_at          :datetime
+#  updated_at          :datetime
+#  commercial_id       :string
+#  commercialable_id   :integer
+#
 class Commercial < ApplicationRecord
   require 'oembed'
 
@@ -17,7 +30,7 @@ class Commercial < ApplicationRecord
     begin
       resource = OEmbed::Providers.get(url, maxwidth: 560, maxheight: 315)
       { html: resource.html.html_safe }
-    rescue StandardError => exception
+    rescue StandardError
       { html: iframe_fallback(url) }
       # { error: exception.message }
     end

@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: resources
+#
+#  id            :bigint           not null, primary key
+#  description   :text
+#  name          :string
+#  quantity      :integer
+#  used          :integer          default(0)
+#  conference_id :integer
+#
 class Resource < ApplicationRecord
   belongs_to :conference
   validates :name, :used, :quantity, presence: true

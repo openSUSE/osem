@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: survey_questions
+#
+#  id               :bigint           not null, primary key
+#  kind             :integer          default("boolean")
+#  mandatory        :boolean          default(FALSE)
+#  max_choices      :integer
+#  min_choices      :integer
+#  possible_answers :text
+#  title            :string
+#  survey_id        :integer
+#
 FactoryBot.define do
   factory :survey_question do
     survey
