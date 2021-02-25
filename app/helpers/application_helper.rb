@@ -188,7 +188,8 @@ module ApplicationHelper
     'hidden' if Date.today > conference.end_date
   end
 
-  # TODO:Snap!Con: Replace this with a search for a conference logo.
+  # TODO-SNAPCON: Replace this with a search for a conference logo.
+  # TODO: If conference is defined, the alt text should be conference name.
   def nav_root_link_for(conference = nil)
     path = conference&.id.present? ? conference_path(conference) : root_path
     link_to(
