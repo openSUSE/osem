@@ -221,7 +221,7 @@ module EventsHelper
   def calendar_event_text(event, event_schedule, conference)
     <<~TEXT
       #{conference.title} - #{event.title}
-      #{event_schedule.start_time.strftime("%Y %B %e - %H:%M")} #{event_schedule.timezone}
+      #{event_schedule.start_time.strftime('%Y %B %e - %H:%M')} #{event_schedule.timezone}
 
       More Info: #{conference_program_proposal_url(conference, event)}
       Join: #{event.url}
