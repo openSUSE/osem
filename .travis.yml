@@ -25,16 +25,28 @@ notifications:
     on_success: change
     on_failure: change
 before_script:
+  # install CodeClimate test reporter and tell it we are starting a test run
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
+  - chmod +x $CCTR
+  - $CCTR before-build
   - RAILS_ENV=test bundle exec rake db:bootstrap --trace
   - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
 script:
   - "./travis_script.sh $TEST_SUITE"
+  -  $CCTR format-coverage -t simplecov --output coverage/codeclimate.$SUITE.json
+after_script:
+  # combine coverage from all suites, and upload to CodeClimate
+  - $CCTR sum-coverage coverage/codeclimate.*.json | $CCTR upload-coverage
+  - $CCTR after-build --exit-code $TRAVIS_TEST_RESULT
+
 env:
   global:
     - OSEM_DB_ADAPTER=sqlite3
     - OSEM_DB_HOST=''
     - OSEM_DB_PORT=''
     - OSEM_DB_NAME='osem_test'
+    - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER
+    - CCTR=./cc-test-reporter
   matrix:
     - TEST_SUITE=ability
     - TEST_SUITE=features
