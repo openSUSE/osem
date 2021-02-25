@@ -10,6 +10,7 @@ WebMock.disable_net_connect!(allow_localhost: true, allow: [*driver_urls, /strip
 RSpec.configure do |config|
   config.before(:each) do
     mock_commercial_request
+    mock_image_request
   end
 end
 
@@ -31,4 +32,10 @@ def mock_commercial_request
   }
   WebMock.stub_request(:get, /.*youtube.*/)
     .to_return(status: 200, body: response.to_json, headers: {})
+end
+
+def mock_image_request
+  # TODO-SNAPCON: This needs to be configurable somehow.
+  WebMock.stub_request(:post, 'https://api.cloudinary.com/v1_1/snapcon/image/destroy')
+    .to_return(status: 200, body: {}.to_json, headers: {})
 end

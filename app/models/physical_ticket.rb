@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: physical_tickets
+#
+#  id                 :bigint           not null, primary key
+#  token              :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  ticket_purchase_id :integer          not null
+#
+# Indexes
+#
+#  index_physical_tickets_on_token  (token) UNIQUE
+#
 class PhysicalTicket < ApplicationRecord
   belongs_to :ticket_purchase
   has_one :ticket, through: :ticket_purchase

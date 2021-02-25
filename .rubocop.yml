@@ -15,6 +15,14 @@ AllCops:
 
 #################### Style ###########################
 
+Style/CommentAnnotation:
+  Keywords:
+    - TODO-SNAPCON
+    - TODO
+    - OPTIMIZE
+    - HACK
+    - REVIEW
+
 ##################### Metrics ##################################
 
 ##################### Rails ##################################

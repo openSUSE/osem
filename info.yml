@@ -1,0 +1,20 @@
+project:
+  name: 'snapcon'
+  owner: 'cs169'
+  teamId: '5'
+  identities:
+    pivotal:
+      url: 'https://www.pivotaltracker.com/n/projects/2487653'
+    heroku:
+      url: 'https://cs169l-sp2021-snapcon.herokuapp.com'
+    travis:
+      url: 'https://travis-ci.com/github/CactusPuppy/snapcon'
+    codeclimate:
+      url: 'https://codeclimate.com/github/CactusPuppy/snapcon'
+  members:
+    member1:
+      name: 'Coby'
+      surname: 'Zhong'
+      githubUsername: 'CactusPuppy'
+      pivotalUsername: 'cobyzhong'
+      herokuEmail: 'coby.zhong@berkeley.edu'

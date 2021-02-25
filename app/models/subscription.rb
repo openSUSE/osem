@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: subscriptions
+#
+#  id            :bigint           not null, primary key
+#  created_at    :datetime
+#  updated_at    :datetime
+#  conference_id :integer
+#  user_id       :integer
+#
 class Subscription < ApplicationRecord
   belongs_to :conference
   belongs_to :user

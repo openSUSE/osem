@@ -1,5 +1,26 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: venues
+#
+#  id              :bigint           not null, primary key
+#  city            :string
+#  country         :string
+#  description     :text
+#  guid            :string
+#  latitude        :string
+#  longitude       :string
+#  name            :string
+#  photo_file_name :string
+#  picture         :string
+#  postalcode      :string
+#  street          :string
+#  website         :string
+#  created_at      :datetime
+#  updated_at      :datetime
+#  conference_id   :integer
+#
 class Venue < ApplicationRecord
   belongs_to :conference
   has_one :commercial, as: :commercialable, dependent: :destroy

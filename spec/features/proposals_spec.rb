@@ -83,7 +83,7 @@ feature Event do
       select('Example Event Type', from: 'event[event_type_id]')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
 
-      click_button 'Create Proposal'
+      click_button 'Submit Proposal'
       page.find('#flash')
       expect(page).to have_content 'Proposal was successfully submitted.'
 
@@ -126,7 +126,7 @@ feature Event do
       click_link 'Do you require something special?'
       fill_in 'event_description', with: 'Lorem ipsum description'
 
-      click_button 'Create Proposal'
+      click_button 'Submit Proposal'
 
       page.find('#flash')
       expect(page).to have_content 'Proposal was successfully submitted.'

@@ -62,22 +62,36 @@ describe ApplicationHelper, type: :helper do
       end
     end
 
-    describe 'navigation title link' do
+    describe 'navigation image link' do
       it 'should default to OSEM' do
         ENV.delete('OSEM_NAME')
-        # TODO:Snap!Con: expect(nav_root_link_for(nil)).to match 'OSEM'
-        expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
+        expect(nav_root_link_for(nil)).to include image_tag('snapcon_logo.png', alt: 'OSEM')
       end
 
       it 'should use the environment variable' do
         ENV['OSEM_NAME'] = Faker::Company.name + "'"
-        # expect(nav_root_link_for(nil)).to match h(ENV['OSEM_NAME'])
-        expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
+        expect(nav_root_link_for(nil)).to include image_tag('snapcon_logo.png', alt: ENV['OSEM_NAME'])
+      end
+
+      # TODO-SNAPCON: This is an indicator in a conference it should be the conference name.
+      it 'should use the conference organization name' do
+        expect(nav_root_link_for(conference)).to include image_tag('snapcon_logo.png', alt: conference.organization.name)
+      end
+    end
+
+    describe 'navigation link title text' do
+      it 'should default to OSEM' do
+        ENV.delete('OSEM_NAME')
+        expect(nav_link_text(nil)).to match 'OSEM'
+      end
+
+      it 'should use the environment variable' do
+        ENV['OSEM_NAME'] = Faker::Company.name + "'"
+        expect(nav_link_text(nil)).to match ENV['OSEM_NAME']
       end
 
       it 'should use the conference organization name' do
-        # expect(nav_root_link_for(conference)).to match h(conference.organization.name)
-        expect(nav_root_link_for(nil)).to match image_tag('snapcon_logo.png')
+        expect(nav_link_text(conference)).to match conference.organization.name
       end
     end
   end
