@@ -33,7 +33,8 @@ before_script:
   - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
 script:
   - "./travis_script.sh $TEST_SUITE"
-  -  $CCTR format-coverage -t simplecov --output coverage/codeclimate.$SUITE.json
+  # TODO Get this working.
+  # -  $CCTR format-coverage -t simplecov --output coverage/codeclimate.$SUITE.json
 after_script:
   # combine coverage from all suites, and upload to CodeClimate
   - $CCTR sum-coverage coverage/codeclimate.*.json | $CCTR upload-coverage
