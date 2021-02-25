@@ -7,9 +7,7 @@ addons:
 language: ruby
 cache: bundler
 rvm:
-  - 2.6
-  - 2.7
-  - 3.0
+  - 2.6.6
 branches:
   except:
     - /^depfu/.*$/
