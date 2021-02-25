@@ -136,7 +136,7 @@ class Mailbot < ActionMailer::Base
   def conference_cfp_update_mail(conference, user)
     @logo = conference.picture.thumb.url
     @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.cfp_dates_updated_body)
-    
+
     mail(to:            user.email,
          from:          conference.contact.email,
          subject:       conference.email_settings.cfp_dates_updated_subject,
