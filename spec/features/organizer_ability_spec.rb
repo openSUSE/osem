@@ -61,7 +61,7 @@ feature 'Has correct abilities' do
       expect(page).to_not have_link('New Conference', href: '/admin/conferences/new')
 
       visit admin_conference_path(other_conference.short_title)
-      # TODO (snapcon): This conference already seems to have a venue.
+      # TODO-SNAPCON: This conference already seems to have a venue.
       # expect(page).to have_link('Add venue', href: "/admin/conferences/#{other_conference.short_title}/venue/new")
 
       visit edit_admin_conference_path(conference.short_title)
@@ -200,7 +200,7 @@ feature 'Has correct abilities' do
       other_user = create(:user)
       ticket = conference.registration_tickets.first
       create(:paid_ticket_purchase,
-        user: other_user, ticket: ticket, quantity: 1, conference: conference)
+             user: other_user, ticket: ticket, quantity: 1, conference: conference)
       create(:registration, user: other_user, conference: conference)
       visit edit_admin_conference_registration_path(conference.short_title, conference.registrations.first)
       expect(current_path).to eq(edit_admin_conference_registration_path(conference.short_title, conference.registrations.first))

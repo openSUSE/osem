@@ -101,9 +101,8 @@ class User < ApplicationRecord
                       [:database_authenticatable, :registerable,
                        :recoverable, :rememberable, :trackable, :validatable, :confirmable,
                        :omniauthable,
-                       omniauth_providers: [:suse, :google, :facebook, :github, :discourse]
+                       omniauth_providers: [:suse, :google, :facebook, :github, :discourse]]
                       #  omniauth_providers: [:google, :discourse]
-                      ]
                     end
 
   devise(*devise_modules)
@@ -206,6 +205,7 @@ class User < ApplicationRecord
   # Partials should *not* directly call `gravatar_url`
   def profile_picture(opts = {})
     return gravatar_url(opts) unless picture.present?
+
     size = (opts[:size] || 0).to_i
     if size < 50
       picture.tiny.url
@@ -345,7 +345,6 @@ class User < ApplicationRecord
   def volunteer_duties(conference)
     events.where(program_id: conference.program.id, 'event_users.event_role': 'volunteer')
   end
-
 
   def self.empty?
     User.count == 1 && User.first.email == 'deleted@localhost.osem'

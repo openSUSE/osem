@@ -37,7 +37,7 @@ class Payment < ApplicationRecord
   end
 
   def stripe_description
-    #"ticket purchases(#{user.username})"
+    # "ticket purchases(#{user.username})"
     "Tickets for #{conference.title} #{user.name} #{user.email}"
   end
 

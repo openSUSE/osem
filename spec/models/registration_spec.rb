@@ -45,7 +45,7 @@ describe Registration do
 
   describe 'association' do
     it { is_expected.to belong_to(:user) }
-    # TODO (snapcon): This fails because conference is nil, but obviously this works...
+    # TODO-SNAPCON: This fails because conference is nil, but obviously this works...
     # it { is_expected.to belong_to(:conference) }
     it { is_expected.to have_and_belong_to_many(:qanswers) }
     it { is_expected.to have_and_belong_to_many(:vchoices) }

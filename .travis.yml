@@ -39,7 +39,6 @@ env:
   matrix:
     - TEST_SUITE=ability
     - TEST_SUITE=features
-    - TEST_SUITE=linters
     - TEST_SUITE=models
     - TEST_SUITE=controllers
     - TEST_SUITE=rest

@@ -164,7 +164,7 @@ module EventsHelper
       conference_id,
       event.id,
       event.send(attribute),
-      url: admin_conference_program_event_path(
+      url:   admin_conference_program_event_path(
         conference_id,
         event,
         event: { attribute => nil }
@@ -183,7 +183,7 @@ module EventsHelper
     if current_user.roles.where(id: conference.roles).any?
       # Show Pre-Event links for any memeber of the conference team.
       link_to("Join Live Event #{'(Admin link)' unless is_now}",
-                      event.url, target: '_blank')
+              event.url, target: '_blank')
     elsif current_user.registered_to_event?(conference)
       if is_now
         link_to('Join Live Event', event.url, target: '_blank')
@@ -206,12 +206,12 @@ module EventsHelper
     start_timestamp = calendar_timestamp(event_schedule.start_time, conference.timezone)
     end_timestamp = calendar_timestamp(event_schedule.end_time, conference.timezone)
     event_details = {
-      action: 'TEMPLATE',
-      text: "#{event.title} at #{conference.title}",
-      details: calendar_event_text(event, event_schedule, conference),
+      action:   'TEMPLATE',
+      text:     "#{event.title} at #{conference.title}",
+      details:  calendar_event_text(event, event_schedule, conference),
       location: "#{event.room.name} #{event.url}",
-      dates: "#{start_timestamp}/#{end_timestamp}",
-      ctz: event_schedule.timezone
+      dates:    "#{start_timestamp}/#{end_timestamp}",
+      ctz:      event_schedule.timezone
     }
     "#{calendar_base}?#{event_details.to_param}"
   end
@@ -220,13 +220,13 @@ module EventsHelper
 
   def calendar_event_text(event, event_schedule, conference)
     <<~TEXT
-    #{conference.title} - #{event.title}
-    #{event_schedule.start_time.strftime("%Y %B %e - %H:%M")} #{event_schedule.timezone}
+      #{conference.title} - #{event.title}
+      #{event_schedule.start_time.strftime('%Y %B %e - %H:%M')} #{event_schedule.timezone}
 
-    More Info: #{conference_program_proposal_url(conference, event)}
-    Join: #{event.url}
+      More Info: #{conference_program_proposal_url(conference, event)}
+      Join: #{event.url}
 
-    #{truncate(event.abstract, length: 200)}
+      #{truncate(event.abstract, length: 200)}
     TEXT
   end
 

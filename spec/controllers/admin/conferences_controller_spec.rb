@@ -98,7 +98,7 @@ describe Admin::ConferencesController do
         expect(response).to render_template :show
       end
 
-      # TODO (snapcon): This is currently disabled due to slow performance.
+      # TODO-SNAPCON: This is currently disabled due to slow performance.
       skip 'assigns conference withdrawn events distribution to event_type_distribution_withdrawn' do
         conference
         create(:event, program: conference.program)
@@ -122,7 +122,7 @@ describe Admin::ConferencesController do
         expect(assigns(:event_type_distribution_withdrawn)).to eq(result)
       end
 
-      # TODO (snapcon): This is currently disabled due to slow performance.
+      # TODO-SNAPCON: This is currently disabled due to slow performance.
       skip 'assigns conference withdrawn difficulty level distribution to difficulty_levels_distribution_withdrawn' do
         conference
         create(:event, program: conference.program)
@@ -146,7 +146,7 @@ describe Admin::ConferencesController do
         expect(assigns(:difficulty_levels_distribution_withdrawn)).to eq(result)
       end
 
-      # TODO (snapcon): This is currently disabled due to slow performance.
+      # TODO-SNAPCON: This is currently disabled due to slow performance.
       skip 'assigns conference withdrawn track distribution to tracks_distribution_withdrawn' do
         conference
         create(:event, program: conference.program)

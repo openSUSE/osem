@@ -184,12 +184,12 @@ module FormatHelper
     return '' if text.nil?
 
     options = {
-      autolink: true,
+      autolink:            true,
       space_after_headers: true,
-      tables: true,
-      strikethrough: true,
-      footnotes: true,
-      superscript: true
+      tables:              true,
+      strikethrough:       true,
+      footnotes:           true,
+      superscript:         true
     }
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe

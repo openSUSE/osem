@@ -69,8 +69,8 @@ describe Admin::TicketsController do
         it 'creates new ticket' do
           expect do
             post :create, params: {
-                ticket: attributes_for(:ticket),
-                conference_id: conference
+              ticket:        attributes_for(:ticket),
+              conference_id: conference
             }
           end.to change{ conference.tickets.count }.from(ticket_count).to(ticket_count + 1)
         end
