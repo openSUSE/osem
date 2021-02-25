@@ -1,5 +1,4 @@
-sudo: required
-dist: focal
+dist: bionic
 addons:
   apt:
     packages:
@@ -32,7 +31,7 @@ before_script:
   - RAILS_ENV=test bundle exec rake db:bootstrap --trace
   - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
 script:
-  - "./travis_script.sh $TEST_SUITE"
+  - "bin/travis_script.sh $TEST_SUITE"
   # TODO Get this working.
   # -  $CCTR format-coverage -t simplecov --output coverage/codeclimate.$SUITE.json
 # after_script:
