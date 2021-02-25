@@ -1,12 +1,14 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.6.6
 dist: bionic
 addons:
   apt:
     packages:
       - chromium-browser
-language: ruby
-cache: bundler
-rvm:
-  - 2.6.6
+services:
+  - postgresql
 branches:
   except:
     - /^depfu/.*$/
