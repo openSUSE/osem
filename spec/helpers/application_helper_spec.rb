@@ -91,7 +91,7 @@ describe ApplicationHelper, type: :helper do
       end
 
       it 'should use the conference organization name' do
-        expect(nav_link_text(nil)).to match conference.organization.name)
+        expect(nav_link_text(nil)).to match conference.organization.name
       end
     end
   end
