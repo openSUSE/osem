@@ -27,6 +27,21 @@ feature Event do
       sign_in organizer
     end
 
+    scenario 'can preview a proposal if it is public', feature: true, js: true do
+      visit admin_conference_program_event_path(conference.short_title, @event)
+      expect(page).to have_selector(:link_or_button, 'Preview')
+      click_link 'Preview'
+      expect(current_path).to eq(conference_program_proposal_path(conference.short_title, @event.id))
+    end
+
+    scenario 'cannot preview a proposal if it is not public', feature: true, js: true do
+      event = create(:event, program: conference.program, title: 'Example Proposal')
+      event.public = false
+      event.save!
+      visit admin_conference_program_event_path(conference.short_title, event)
+      expect(page).to_not have_selector(:link_or_button, 'Preview')
+    end
+
     scenario 'rejects a proposal', feature: true, js: true do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
