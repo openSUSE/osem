@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: difficulty_levels
+#
+#  id          :bigint           not null, primary key
+#  color       :string
+#  description :text
+#  title       :string
+#  created_at  :datetime
+#  updated_at  :datetime
+#  program_id  :integer
+#
 class DifficultyLevel < ApplicationRecord
   belongs_to :program, touch: true
   has_many :events, dependent: :nullify

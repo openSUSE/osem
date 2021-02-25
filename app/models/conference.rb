@@ -1,5 +1,41 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: conferences
+#
+#  id                 :bigint           not null, primary key
+#  booth_limit        :integer          default(0)
+#  color              :string
+#  custom_css         :text
+#  custom_domain      :string
+#  description        :text
+#  end_date           :date             not null
+#  end_hour           :integer          default(20)
+#  events_per_week    :text
+#  guid               :string           not null
+#  logo_file_name     :string
+#  picture            :string
+#  registration_limit :integer          default(0)
+#  revision           :integer          default(0), not null
+#  short_title        :string           not null
+#  start_date         :date             not null
+#  start_hour         :integer          default(9)
+#  ticket_layout      :integer          default("portrait")
+#  timezone           :string           not null
+#  title              :string           not null
+#  use_vdays          :boolean          default(FALSE)
+#  use_volunteers     :boolean
+#  use_vpositions     :boolean          default(FALSE)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  organization_id    :integer
+#
+# Indexes
+#
+#  index_conferences_on_organization_id  (organization_id)
+#
+# rubocop:disable Metrics/ClassLength
 class Conference < ApplicationRecord
   include RevisionCount
   require 'uri'
@@ -51,7 +87,7 @@ class Conference < ApplicationRecord
   has_many :highlighted_events,
            -> { where(state: :confirmed, is_highlight: true) },
            through: :program,
-           source: :events
+           source:  :events
   has_many :event_types, through: :program
 
   has_many :surveys, as: :surveyable, dependent: :destroy do
@@ -1199,3 +1235,4 @@ class Conference < ApplicationRecord
     ]
   end
 end
+# rubocop:enable Metrics/ClassLength

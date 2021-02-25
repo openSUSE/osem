@@ -39,7 +39,7 @@ feature Commercial do
         click_link 'Delete'
       end
       page.find('#flash')
-      expect(flash).to eq('Materials were successfully destroyed.')
+      expect(flash).to eq('Materials were successfully removed.')
       expect(conference.commercials.count).to eq(0)
     end
   end
@@ -68,6 +68,8 @@ feature Commercial do
     end
 
     scenario 'does not add an invalid commercial of an event', feature: true, js: true do
+      # TODO-SNAPCON
+      skip('Snap!Con allows all materials to be saved.')
       visit edit_conference_program_proposal_path(conference.short_title, event.id)
       click_link 'Materials'
       fill_in 'commercial_url', with: 'invalid_commercial_url'
@@ -116,7 +118,7 @@ feature Commercial do
         click_link 'Delete'
       end
       page.find('#flash')
-      expect(flash).to eq('Materials successfully destroyed.')
+      expect(flash).to eq('Materials were successfully destroyed.')
       expect(event.commercials.count).to eq(0)
     end
   end

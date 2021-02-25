@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: ticket_purchases
+#
+#  id            :bigint           not null, primary key
+#  amount_paid   :float            default(0.0)
+#  paid          :boolean          default(FALSE)
+#  quantity      :integer          default(1)
+#  week          :integer
+#  created_at    :datetime
+#  conference_id :integer
+#  payment_id    :integer
+#  ticket_id     :integer
+#  user_id       :integer
+#
 class TicketPurchase < ApplicationRecord
   belongs_to :ticket
   belongs_to :user
@@ -107,6 +122,7 @@ end
 def count_purchased_registration_tickets(conference, purchases)
   # TODO: WHAT CAUSED THIS???
   return 0 unless purchases
+
   conference.tickets.for_registration.inject(0) do |sum, registration_ticket|
     sum + purchases[registration_ticket.id.to_s].to_i
   end

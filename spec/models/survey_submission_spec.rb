@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: survey_submissions
+#
+#  id         :bigint           not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  survey_id  :integer
+#  user_id    :integer
+#
 require 'spec_helper'
 
 describe SurveySubmission do

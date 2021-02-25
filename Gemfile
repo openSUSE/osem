@@ -2,14 +2,13 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.5.0'
+# ruby '~> 2.5.0'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
   abort "Bundler version >= 1.8.4 is required"
 end
 
-# as web framework
 gem 'rails', '~> 5.2'
 
 # Use Puma as the app server
@@ -116,8 +115,8 @@ end
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 # data tables
-gem 'jquery-datatables'
 gem 'ajax-datatables-rails'
+gem 'jquery-datatables'
 
 # for charts
 gem 'chartkick'
@@ -142,7 +141,9 @@ gem 'rqrcode'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
-gem 'sentry-raven'
+gem 'sentry-delayed_job'
+gem 'sentry-rails'
+gem 'sentry-ruby'
 
 # to make links faster
 gem 'turbolinks'
@@ -224,11 +225,7 @@ gem 'dalli'
 group :development do
   # to launch specs when files are modified
   gem 'guard-rspec'
-  gem 'haml_lint'
   gem 'spring-commands-rspec'
-  # for static code analisys
-  gem 'rubocop', require: false
-  gem 'rubocop-rspec'
   # to open mails
   gem 'letter_opener'
   # view mail at /letter_opener/
@@ -239,6 +236,8 @@ group :development do
   gem 'web-console'
   # as development database
   gem 'sqlite3'
+  # prepend models with db schema
+  gem 'annotate'
 end
 
 group :test do
@@ -270,7 +269,17 @@ group :test do
   gem 'pdf-inspector', require: "pdf/inspector"
 end
 
-group :development, :test do
+group :development, :test, :linters do
   # as debugger
   gem 'byebug'
+  gem 'pry'
+
+  # Linters and static analysis.
+  gem 'pronto', require: false
+  gem 'pronto-flay', require: false
+  gem 'pronto-haml', require: false
+  gem 'pronto-rubocop', require: false
+  gem 'rubocop-rspec', require: false
+
+  gem 'haml-lint', require: false
 end

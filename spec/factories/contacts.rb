@@ -1,5 +1,24 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: contacts
+#
+#  id            :bigint           not null, primary key
+#  blog          :string
+#  email         :string
+#  facebook      :string
+#  googleplus    :string
+#  instagram     :string
+#  mastodon      :string
+#  social_tag    :string
+#  sponsor_email :string
+#  twitter       :string
+#  youtube       :string
+#  created_at    :datetime
+#  updated_at    :datetime
+#  conference_id :integer
+#
 FactoryBot.define do
   factory :contact do
     social_tag { SecureRandom.urlsafe_base64(4) }

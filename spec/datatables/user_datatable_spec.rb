@@ -8,7 +8,7 @@ describe UserDatatable do
   end
 
   let(:data_cols) do
-    [:id, :confirmed_at, :email, :name, :attended, :roles, :view_url, :edit_url, :DT_RowId]
+    [:id, :confirmed_at, :email, :name, :username, :attended, :roles, :view_url, :edit_url, :DT_RowId]
   end
   let(:view) do
     view = double(
