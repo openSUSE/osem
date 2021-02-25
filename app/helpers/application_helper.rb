@@ -192,7 +192,7 @@ module ApplicationHelper
   def nav_root_link_for(conference = nil)
     path = conference&.id.present? ? conference_path(conference) : root_path
     link_to(
-      image_tag('snapcon_logo.png'),
+      image_tag('snapcon_logo.png', alt: nav_link_text(conference)),
       path,
       class: 'navbar-brand',
       title: nav_link_text(conference)

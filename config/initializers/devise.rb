@@ -6,7 +6,7 @@ Devise.setup do |config|
   # Define the available openID providers that can be used to log in
   # Pass each provider to User model in :omniauth_providers (for open_id providers use their name)
 
-  # config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
+  config.omniauth :open_id, name: 'suse', identifier: 'http://www.opensuse.org/openid/user'
 
   config.omniauth :google_oauth2,
                   (ENV['OSEM_GOOGLE_KEY'] || Rails.application.secrets.google_key),
@@ -14,6 +14,7 @@ Devise.setup do |config|
                   name:  'google',
                   scope: 'email'
 
+  # TODO-SNAPCON: This ought to be configurable. Use OSEM_DISCOURSE_KEY?
   config.omniauth :discourse,
                   sso_url:    'https://forum.snap.berkeley.edu/session/sso_provider',
                   sso_secret: ENV['OSEM_DISCOURSE_SECRET']

@@ -6,12 +6,14 @@ module OmniauthMacros
 
   ENV['OSEM_GOOGLE_KEY'] = 'test key google'
   ENV['OSEM_GOOGLE_SECRET'] = 'test secret google'
-  # ENV['OSEM_FACEBOOK_KEY'] = 'test key facebook'
-  # ENV['OSEM_FACEBOOK_SECRET'] = 'test secret facebook'
-  # ENV['OSEM_SUSE_KEY'] = 'test key suse'
-  # ENV['OSEM_SUSE_SECRET'] = 'test secret suse'
-  # ENV['OSEM_GITHUB_KEY'] = 'test key github'
-  # ENV['OSEM_GITHUB_SECRET'] = 'test secret github'
+  ENV['OSEM_FACEBOOK_KEY'] = 'test key facebook'
+  ENV['OSEM_FACEBOOK_SECRET'] = 'test secret facebook'
+  ENV['OSEM_SUSE_KEY'] = 'test key suse'
+  ENV['OSEM_SUSE_SECRET'] = 'test secret suse'
+  ENV['OSEM_GITHUB_KEY'] = 'test key github'
+  ENV['OSEM_GITHUB_SECRET'] = 'test secret github'
+  ENV['OSEM_DISCOURSE_KEY'] = 'test key discourse'
+  ENV['OSEM_DISCOURSE_SECRET'] = 'test secret discourse'
 
   def mock_auth_new_user
     OmniAuth.config.mock_auth[:google] =
@@ -86,6 +88,10 @@ module OmniauthMacros
   # account is available for every supported omniauth provider.
   # These must be identical to the ones in /config/environments/development.rb
   # Remember to keep them in sync with development.rb
+  #
+  # Note that the method length check is disabled to allow for better formatting
+  # of the user params.
+  # rubocop:disable Metrics/MethodLength
   def mock_auth_accounts
     OmniAuth.config.mock_auth[:facebook] =
       OmniAuth::AuthHash.new(
@@ -146,5 +152,21 @@ module OmniauthMacros
                                 secret: 'github_mock_secret'
                               }
                             )
+
+    OmniAuth.config.mock_auth[:discourse] =
+      OmniAuth::AuthHash.new(
+                              provider:    'discourse',
+                              uid:         'discourse-test-uid-1',
+                              info:        {
+                                name:     'discourse user',
+                                email:    'user-discourse@example.com',
+                                username: 'user_discourse'
+                              },
+                              credentials: {
+                                token:  'discourse_mock_token',
+                                secret: 'discourse_mock_secret'
+                              }
+                            )
   end
+  # rubocop:enable Metrics/MethodLength
 end

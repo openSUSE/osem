@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: schedules
+#
+#  id         :bigint           not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  program_id :integer
+#  track_id   :integer
+#
+# Indexes
+#
+#  index_schedules_on_program_id  (program_id)
+#  index_schedules_on_track_id    (track_id)
+#
 class Schedule < ApplicationRecord
   belongs_to :program
   belongs_to :track

@@ -3,11 +3,13 @@
 / use smaller cell heights for more compact grids
 - cell_height = compact_grid ? 32 : 58
 - date_event_schedules = @event_schedules.select{ |e| e.start_time.to_date.eql? date }
+/ Dynamically set the column width, but no narrower than 2 (on a BS grid of 12)
+- col_size = [2, (12 / @rooms.count).to_i ].max
 .row
   - @rooms.each do |room|
     - non_schedulable = room.tracks.self_organized.confirmed.any? do |track|
       - !track.schedules.include?(@schedule) && (track.start_date..track.end_date).include?(date)
-    .col-md-2.col-xs-6{ class: ('non_schedulable' if non_schedulable) }
+    .col-xs-6{ class: "#{('non_schedulable' if non_schedulable)} col-md-#{col_size}" }
       .room-name
         - room_date_event_schedules = date_event_schedules.select{ |e| e.room == room }
         = room.name

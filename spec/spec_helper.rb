@@ -120,6 +120,9 @@ RSpec.configure do |config|
   # use the config to use
   # t('some.locale.key') instead of always having to type I18n.t
   config.include AbstractController::Translation
+
+  # enable debugging with --only-failures
+  config.example_status_persistence_file_path = 'tmp/spec_failures.txt'
 end
 
 OmniAuth.config.test_mode = true

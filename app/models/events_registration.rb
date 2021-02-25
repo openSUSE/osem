@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: events_registrations
+#
+#  id              :bigint           not null, primary key
+#  attended        :boolean          default(FALSE), not null
+#  created_at      :datetime
+#  event_id        :integer
+#  registration_id :integer
+#
 class EventsRegistration < ApplicationRecord
   belongs_to :registration
   belongs_to :event

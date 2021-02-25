@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: booths
+#
+#  id                     :bigint           not null, primary key
+#  description            :text
+#  logo_link              :string
+#  reasoning              :text
+#  state                  :string
+#  submitter_relationship :text
+#  title                  :string
+#  website_url            :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  conference_id          :integer
+#
 class Booth < ApplicationRecord
   include ActiveRecord::Transitions
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
