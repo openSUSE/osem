@@ -358,7 +358,7 @@ class Event < ApplicationRecord
     errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
   end
 
-   def submission_limit
+  def submission_limit
     # If we don't have an event type, there is no need to count anything
     return unless event_type && submission_text
 
