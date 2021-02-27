@@ -110,6 +110,35 @@ describe Event do
       end
     end
 
+    describe '#submission_limit' do
+      before :each do
+        event.event_type.maximum_abstract_length = 3
+        event.event_type.minimum_abstract_length = 2
+      end
+
+      context 'is invalid' do
+        it 'when submission text is too long' do
+          event.submission_text = 'four too many words'
+          expect(event.valid?).to eq false
+          expect(event.errors[:submission_text]).to eq ['cannot have more than 3 words']
+        end
+
+        it 'when submission text is too short' do
+          event.submission_text = 'word'
+          expect(event.valid?).to eq false
+          expect(event.errors[:submission_text]).to eq ['cannot have less than 2 words']
+        end
+      end
+
+      context 'is valid' do
+        it 'when submission text is within limts' do
+          event.abstract = 'the magic three'
+          expect(event.valid?).to eq true
+          expect(event.errors.size).to eq 0
+        end
+      end
+    end
+
     describe '#before_end_of_conference' do
       context 'is invalid' do
         it 'when event is created after the conference end_date, and returns an error message' do
