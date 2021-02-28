@@ -349,7 +349,7 @@ class Event < ApplicationRecord
 
   def word_limit(field)
     # If we don't have an event type or the requested field, don't count
-    return unless event_type && self.respond_to?(field) && self[field]
+    return unless event_type && respond_to?(field) && self[field]
 
     len = self[field].split.size
     # TODO: Use different limits for different text fields
