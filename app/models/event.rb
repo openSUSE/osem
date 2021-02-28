@@ -347,28 +347,28 @@ class Event < ApplicationRecord
     errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
   end
 
-  def abstract_limit
-    # If we don't have an event type, there is no need to count anything
-    return unless event_type && abstract
+  def word_limit(field)
+    # If we don't have an event type or the requested field, don't count
+    return unless event_type && self.respond_to?(field) && self[field]
 
-    len = abstract.split.size
+    len = self[field].split.size
+    # TODO: Use different limits for different text fields
+    # Uncomment the two lines below this when the separate word limits are implemented.
+    # max_words = event_type["maximum_#{field}_length"]
+    # min_words = event_type["minimum_#{field}_length"]
     max_words = event_type.maximum_abstract_length
     min_words = event_type.minimum_abstract_length
 
-    errors.add(:abstract, "cannot have less than #{min_words} words") if len < min_words
-    errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
+    errors.add(field.to_sym, "cannot have less than #{min_words} words") if len < min_words
+    errors.add(field.to_sym, "cannot have more than #{max_words} words") if len > max_words
+  end
+
+  def abstract_limit
+    word_limit(:abstract)
   end
 
   def submission_limit
-    # If we don't have an event type, there is no need to count anything
-    return unless event_type && submission_text
-
-    len = submission_text.split.size
-    max_words = event_type.maximum_abstract_length
-    min_words = event_type.minimum_abstract_length
-
-    errors.add(:submission_text, "cannot have less than #{min_words} words") if len < min_words
-    errors.add(:submission_text, "cannot have more than #{max_words} words") if len > max_words
+    word_limit(:submission_text)
   end
 
   # TODO: create a module to be mixed into model to perform same operation
