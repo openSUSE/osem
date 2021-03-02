@@ -18,6 +18,7 @@
 #  require_registration         :boolean
 #  start_time                   :datetime
 #  state                        :string           default("new"), not null
+#  submission_text              :text
 #  subtitle                     :string
 #  title                        :string           not null
 #  week                         :integer
@@ -73,6 +74,7 @@ class Event < ApplicationRecord
   before_create :generate_guid
 
   validate :abstract_limit
+  validate :submission_limit
   validate :before_end_of_conference, on: :create
   validates :title, presence: true
   validates :abstract, presence: true
@@ -217,6 +219,10 @@ class Event < ApplicationRecord
     abstract.to_s.split.size
   end
 
+  def submission_word_count
+    submission_text.to_s.split.size
+  end
+
   def self.get_state_color(state)
     COLORS[state.to_sym] || '#00FFFF' # azure
   end
@@ -341,16 +347,28 @@ class Event < ApplicationRecord
     errors.add(:max_attendees, "cannot be more than the room's capacity (#{room.size})") if max_attendees && (max_attendees > room.size)
   end
 
-  def abstract_limit
-    # If we don't have an event type, there is no need to count anything
-    return unless event_type && abstract
+  def word_limit(field)
+    # If we don't have an event type or the requested field, don't count
+    return unless event_type && respond_to?(field) && self[field]
 
-    len = abstract.split.size
+    len = self[field].split.size
+    # TODO: Use different limits for different text fields
+    # Uncomment the two lines below this when the separate word limits are implemented.
+    # max_words = event_type["maximum_#{field}_length"]
+    # min_words = event_type["minimum_#{field}_length"]
     max_words = event_type.maximum_abstract_length
     min_words = event_type.minimum_abstract_length
 
-    errors.add(:abstract, "cannot have less than #{min_words} words") if len < min_words
-    errors.add(:abstract, "cannot have more than #{max_words} words") if len > max_words
+    errors.add(field.to_sym, "cannot have less than #{min_words} words") if len < min_words
+    errors.add(field.to_sym, "cannot have more than #{max_words} words") if len > max_words
+  end
+
+  def abstract_limit
+    word_limit(:abstract)
+  end
+
+  def submission_limit
+    word_limit(:submission_text)
   end
 
   # TODO: create a module to be mixed into model to perform same operation
