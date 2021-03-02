@@ -15,20 +15,20 @@ case $TEST_SUITE in
   linters)
     bundle exec rubocop -Dc .rubocop.yml
     bundle exec haml-lint app/views
-    ;;
-  models)
+    ;;&
+  models|all)
     bundle exec rspec --format documentation spec/models
-    ;;
-  features)
+    ;;&
+  features|all)
     bundle exec rspec --format documentation spec/features
-    ;;
-  controllers)
+    ;;&
+  controllers|all)
     bundle exec rspec --format documentation spec/controllers
-    ;;
-  ability)
+    ;;&
+  ability|all)
     bundle exec rspec --format documentation spec/ability
-    ;;
-  rest)
+    ;;&
+  rest|all)
     bundle exec rspec --format documentation --exclude-pattern "spec/{models,features,controllers,ability}/**/*_spec.rb"
     ;;
 esac
