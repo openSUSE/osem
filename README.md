@@ -1,12 +1,16 @@
-[![Build Status](https://travis-ci.org/openSUSE/osem.svg?branch=master)](https://travis-ci.org/openSUSE/osem)
-[![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
-[![codecov](https://codecov.io/gh/opensuse/osem/branch/master/graph/badge.svg)](https://codecov.io/gh/opensuse/osem)
-[![Security Status](https://hakiri.io/github/openSUSE/osem/master.svg)](https://hakiri.io/github/openSUSE/osem/master)
-[![Dependencies](https://badges.depfu.com/badges/8fcd630367d20f5b48d393774c00c5fd/overview.svg)](https://depfu.com/repos/openSUSE/osem)
-<a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
+[![Build Status](https://travis-ci.com/snap-cloud/snapcon.svg?branch=master)](https://travis-ci.com/snap-cloud/snapcon)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b7b0d559a03bf218663a/maintainability)](https://codeclimate.com/github/snap-cloud/snapcon/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b7b0d559a03bf218663a/test_coverage)](https://codeclimate.com/github/snap-cloud/snapcon/test_coverage)
+[![codecov](https://codecov.io/gh/snap-cloud/snapcon/branch/master/graph/badge.svg)](https://codecov.io/gh/snap-cloud/snapcon)
+[![Security Status](https://hakiri.io/github/snap-cloud/snapcon/master.svg)](https://hakiri.io/github/snap-cloud/snapcon/master)
+[![Dependencies](https://badges.depfu.com/badges/8fcd630367d20f5b48d393774c00c5fd/overview.svg)](https://depfu.com/repos/snap-cloud/snapcon)
+<a href="https://heroku.com/deploy?template=https://github.com/snap-cloud/snapcon/tree/v1.0">
   <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
 </a>
-# Open Source Event Manager - [osem.io](https://osem.io)
+
+# [Snap!Con](https://snapcon.org)
+forked from:
+## Open Source Event Manager - [osem.io](https://osem.io)
 ![OSEM Logo](doc/osem-logo.png)
 
 An event management tool tailored to Free and Open Source Software conferences.
