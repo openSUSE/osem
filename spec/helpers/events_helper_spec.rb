@@ -41,7 +41,7 @@ describe EventsHelper, type: :helper do
         expect(canceled_replacement_event_label(event, nil, 'test-class')).to eq '<span class="label label-danger test-class">CANCELED</span>'
       end
 
-      it "when the event is a replacement but is not canceled" do
+      it 'when the event is a replacement but is not canceled' do
         event.state = 'confirmed'
         allow(event_schedule).to receive(:replacement?) { true }
         expect(canceled_replacement_event_label(event, event_schedule, 'tent-class')).to eq '<span class="label label-info tent-class">REPLACEMENT</span>'
