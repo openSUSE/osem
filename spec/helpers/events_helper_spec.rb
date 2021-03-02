@@ -5,6 +5,7 @@ require 'spec_helper'
 describe EventsHelper, type: :helper do
   let(:conference) { create(:conference) }
   let(:event) { create(:event_full, program: conference.program) }
+  let(:event_schedule) { create(:event_schedule) }
   let(:my_vote) { 3 }
   let(:max_rating) { 5 }
   let(:fraction) { my_vote.to_s + '/' + max_rating.to_s }
@@ -25,6 +26,27 @@ describe EventsHelper, type: :helper do
         event.registrations << create(:registration, user: event.submitter)
         expect(registered_text(event)).to eq 'Registered: 1/3'
       end
+    end
+  end
+
+  describe '#canceled_replacement_event_label' do
+    describe 'returns nothing' do
+      it "when the event isn't cancelled and is not a replacement" do
+        event.state == 'confirmed'
+        expect(canceled_replacement_event_label(event, nil, 'text-class')).to eq nil
+      end
+
+      it 'when the event is canceled' do
+        event.state = 'canceled'
+        expect(canceled_replacement_event_label(event, nil, 'test-class')).to eq '<span class="label label-danger test-class">CANCELED</span>'
+      end
+
+      it "when the event is a replacement but is not canceled" do
+        event.state == 'confirmed'
+        allow(event_schedule).to receive(:replacement?) { true }
+        expect(canceled_replacement_event_label(event, event_schedule, 'tent-class')).to eq '<span class="label label-info tent-class">REPLACEMENT</span>'
+      end
+
     end
   end
 
