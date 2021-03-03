@@ -31,7 +31,9 @@ class UsersController < ApplicationController
   end
 
   # Somewhat of a hack: users/current/edit
+  # rubocop:disable Naming/MemoizedInstanceVariableName
   def load_user
     @user ||= (params[:id] && params[:id] != 'current' && User.find(params[:id]) || current_user)
   end
+  # rubocop:enable Naming/MemoizedInstanceVariableName
 end

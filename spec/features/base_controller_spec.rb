@@ -13,6 +13,10 @@ feature 'BaseController' do
 
   describe 'GET #verify_user_admin' do
     context 'when user is a guest' do
+      before(:each) do
+        sign_out
+      end
+
       it 'redirects to sign in page' do
         visit admin_conferences_path
         expect(current_path).to eq new_user_session_path

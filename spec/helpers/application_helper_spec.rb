@@ -79,7 +79,7 @@ describe ApplicationHelper, type: :helper do
       end
     end
 
-    describe 'navigation link titke text' do
+    describe 'navigation link title text' do
       it 'should default to OSEM' do
         ENV.delete('OSEM_NAME')
         expect(nav_link_text(nil)).to match 'OSEM'

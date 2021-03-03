@@ -58,20 +58,16 @@
     <div class="row">
       <!-- Uncomment below to get logo -->
       <div class="col-md-2">
+        <% if !@logo.nil? %>
+          <%= image_tag(@logo, style: "display:block") %>
+        <% end %>
       </div>
       <div class="col-md-10"><h1></h1></div>
     </div>
   </div>
   <div id="content">
     <span style="white-space: pre-line">
-      Dear <%= @user.name %>,
-
-      Thanks! You have successfully booked <%= @ticket_purchase.quantity %> <%= @ticket_purchase.ticket.title %> ticket(s) for the event <%= @conference.title %>. Your transaction id is <%= @ticket_purchase.id %>.
-      
-      Please, find the ticket(s) pdf attached.
-      
-      Best wishes,
-      <%= @conference.title %> Team    
+      <%= @email_body %>
     </span>
   </div>
   <div id="border">

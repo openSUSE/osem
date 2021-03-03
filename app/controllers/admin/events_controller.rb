@@ -175,7 +175,7 @@ module Admin
     def event_params
       params.require(:event).permit(
                                     # Set also in proposals controller
-                                    :title, :subtitle, :event_type_id, :abstract, :description, :require_registration, :difficulty_level_id,
+                                    :title, :subtitle, :event_type_id, :abstract, :submission_text, :description, :require_registration, :difficulty_level_id,
                                     # Set only in admin/events controller
                                     :track_id, :state, :language, :is_highlight, :max_attendees,
                                     # Not used anymore?

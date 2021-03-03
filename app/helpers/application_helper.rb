@@ -112,7 +112,7 @@ module ApplicationHelper
         concurrent_events << other_event_schedule.event
       end
     end
-    concurrent_events.sort_by { |event_schedule| event_schedule.room&.order }
+    concurrent_events.sort_by { |schedule| schedule.room&.order }
   end
 
   def speaker_links(event)
