@@ -1,3 +1,4 @@
+### Spring 2021 Student Project
 [![Build Status](https://travis-ci.com/CactusPuppy/snapcon.svg?branch=master)](https://travis-ci.com/CactusPuppy/snapcon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/6c7fc446b3b10866ba71/maintainability)](https://codeclimate.com/github/CactusPuppy/snapcon/maintainability)
 [![codecov](https://codecov.io/gh/CactusPuppy/snapcon/branch/master/graph/badge.svg?token=y4aEAtw6KJ)](https://codecov.io/gh/CactusPuppy/snapcon)
@@ -13,7 +14,21 @@
   <img src="https://www.pivotaltracker.com/marketing_assets/shared_home/tracker-4679313e699d9ba696371344953de96c81d207d967a43f121d353391c81c9ba7.svg" height="20px" alt="Pivotal Tracker">
 </a>
 
-# Open Source Event Manager - [osem.io](https://osem.io)
+---
+
+[![Build Status](https://travis-ci.com/snap-cloud/snapcon.svg?branch=master)](https://travis-ci.com/snap-cloud/snapcon)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b7b0d559a03bf218663a/maintainability)](https://codeclimate.com/github/snap-cloud/snapcon/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b7b0d559a03bf218663a/test_coverage)](https://codeclimate.com/github/snap-cloud/snapcon/test_coverage)
+[![codecov](https://codecov.io/gh/snap-cloud/snapcon/branch/master/graph/badge.svg)](https://codecov.io/gh/snap-cloud/snapcon)
+[![Security Status](https://hakiri.io/github/snap-cloud/snapcon/master.svg)](https://hakiri.io/github/snap-cloud/snapcon/master)
+[![Dependencies](https://badges.depfu.com/badges/8fcd630367d20f5b48d393774c00c5fd/overview.svg)](https://depfu.com/repos/snap-cloud/snapcon)
+<a href="https://heroku.com/deploy?template=https://github.com/snap-cloud/snapcon/tree/v1.0">
+  <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
+</a>
+
+# [Snap!Con](https://snapcon.org)
+forked from:
+## Open Source Event Manager - [osem.io](https://osem.io)
 
 ![OSEM Logo](doc/osem-logo.png)
 
