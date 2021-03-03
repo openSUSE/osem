@@ -19,6 +19,7 @@
 #  require_registration         :boolean
 #  start_time                   :datetime
 #  state                        :string           default("new"), not null
+#  submission_text              :text
 #  subtitle                     :string
 #  title                        :string           not null
 #  week                         :integer
