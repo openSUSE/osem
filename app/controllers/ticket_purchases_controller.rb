@@ -8,19 +8,20 @@ class TicketPurchasesController < ApplicationController
 
   def create
     current_user.ticket_purchases.by_conference(@conference).unpaid.destroy_all
+    if current_user.ticket_purchases.by_conference(@conference).paid.any?
+      redirect_to conference_physical_tickets_path,
+                  notice: 'You already have tickets for the conference.'
+    end
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets].try(:first))
     if message.blank?
       if current_user.ticket_purchases.by_conference(@conference).unpaid.any?
         redirect_to new_conference_payment_path,
                     notice: 'Please pay here to get tickets.'
-      elsif current_user.ticket_purchases.by_conference(@conference).paid.any?
-        redirect_to conference_physical_tickets_path,
-                    notice: 'You already have tickets for the conference.'
       elsif @conference.tickets.for_registration.any?
         redirect_to conference_tickets_path(@conference.short_title),
                     error: 'Please get at least one ticket to continue.'
       else
-        redirect_to conference_conference_registration_path(@conference.short_title)
+        redirect_to new_conference_conference_registration_path(@conference.short_title)
       end
     else
       redirect_to conference_tickets_path(@conference.short_title),
