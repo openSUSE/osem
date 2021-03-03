@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_16_181602) do
+ActiveRecord::Schema.define(version: 2021_03_03_052026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 2020_07_16_181602) do
     t.integer "program_id"
     t.integer "max_attendees"
     t.integer "comments_count", default: 0, null: false
+    t.text "committee_review"
   end
 
   create_table "events_registrations", force: :cascade do |t|
