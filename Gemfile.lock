@@ -419,6 +419,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.8.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     public_suffix (3.1.1)
     puma (5.2.1)
       nio4r (~> 2.0)
@@ -746,6 +749,7 @@ DEPENDENCIES
   pronto-haml
   pronto-rubocop
   pry
+  pry-byebug
   puma (~> 5.2)
   rails (~> 5.2)
   rails-assets-bootstrap-markdown!

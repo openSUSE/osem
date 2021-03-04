@@ -273,6 +273,7 @@ group :development, :test, :linters do
   # as debugger
   gem 'byebug'
   gem 'pry'
+  gem 'pry-byebug'
 
   # Linters and static analysis.
   gem 'pronto', require: false
