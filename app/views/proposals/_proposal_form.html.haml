@@ -62,6 +62,11 @@
         250
       words.
 
+    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
+      %br
+      = f.input :committee_review, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
+        hint: markdown_hint('This field is shared with the submission authors.')
+
     - if current_user.is_admin? or @program.cfp.enable_registrations?
       = f.inputs 'Enable pre-registration' do
         = f.input :require_registration, label: 'Require participants to register to your event'

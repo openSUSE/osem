@@ -122,6 +122,11 @@
             %b Requirements
           %td= simple_format(@event.description)
 
+        %tr
+          %td
+            %b Committee Review
+          %td= markdown(@event.committee_review)
+
         - if @conference.program.rating_enabled?
           = render 'voting',
             event:         @event,
