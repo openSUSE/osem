@@ -11,6 +11,7 @@ class TicketPurchasesController < ApplicationController
 
     # Create a ticket purchase which can be paid or unpaid
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets].try(:first))
+    # The new ticket_purchase has been added to the database. current_user.ticket_purchases contains the new one.
     current_ticket_purchase = ?
 
     # Failed to create ticket purchase
