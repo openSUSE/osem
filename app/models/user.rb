@@ -348,7 +348,7 @@ class User < ApplicationRecord
 
   def count_registration_tickets(conference)
     count = 0
-    for ticket_purchase in current_user.ticket_purchases.by_conference(@conference)
+    for ticket_purchase in ticket_purchases.by_conference(conference)
       for physical_ticket in ticket_purchase.physical_tickets
         if physical_ticket.ticket.registration_ticket
           count += 1

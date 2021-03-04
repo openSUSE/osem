@@ -47,7 +47,6 @@ class TicketPurchasesController < ApplicationController
     # Current user didn't have a registration ticket and is purchasing one
     if count_registration_tickets_before == 0 && count_registration_tickets_after == 1
       redirect_to new_conference_conference_registration_path(@conference.short_title)
-    
     else 
       redirect_to conference_physical_tickets_path
     end    
