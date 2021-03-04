@@ -110,6 +110,11 @@ class TicketPurchase < ApplicationRecord
       errors.add(:quantity, 'cannot be greater than one for registration tickets.')
     end
   end
+
+  # def has_registration_ticket_for?(conference)
+  #   # BUG: ticket_purchase has only one ticket?
+  #   ticket.try(:registration_ticket?)
+  # end
 end
 
 private

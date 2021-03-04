@@ -11,6 +11,7 @@ class TicketPurchasesController < ApplicationController
 
     # Create a ticket purchase which can be paid or unpaid
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets].try(:first))
+    current_ticket_purchase = ?
 
     # Failed to create ticket purchase
     if !message.blank?
@@ -32,7 +33,14 @@ class TicketPurchasesController < ApplicationController
     # this works? maybe 
 
     # TODO: Need to check 
+
+    # user has a registration ticket
+    # current_user.tickets.for_registration(@conference).present?
+
+    # current ticket purchase 
     if current_user.ticket_purchases.by_conference(@conference).paid.any?
+      && current_user.has_registration_ticket_for?(@conference) == true
+    end
       for ticket_purchase in current_user.ticket_purchases.by_conference(@conference)
         if ticket_purchase.paid?
           for physical_ticket in ticket_purchase.physical_tickets
@@ -47,17 +55,8 @@ class TicketPurchasesController < ApplicationController
 
     # TODO: User wants to purchase a non-registration ticket but does not have a registration ticket but conference requires one
     # BUG: When the user only purchases a non-registration ticket, 
-    if @conference.registration_ticket_required?
-      seen_registration = false
-      for ticket_purchase in current_user.ticket_purchases.by_conference(@conference)
-        for physical_ticket in ticket_purchase.physical_tickets
-          if physical_ticket.ticket.registration_ticket
-            seen = true
-            break
-          end
-        end
-      end
-      if !seen
+    if @conference.registration_ticket_required? 
+      && current_user.has_registration_ticket_for?(@conference) == false
         redirect_to conference_tickets_path(@conference.short_title),
                     error: 'Please get at least one registration ticket to continue.'
         return
@@ -65,9 +64,15 @@ class TicketPurchasesController < ApplicationController
     end
 
     # TODO: Need to check if the current user didn't have a registration ticket and is purchasing one
-    redirect_to new_conference_conference_registration_path(@conference.short_title)
-    # # otherwise
-    # redirect_to conference_physical_tickets_path
+    if current_user.tickets.for_registration(@conference).nil?
+      if current_user.has_registration_ticket_for?(@conference) == true
+        redirect_to new_conference_conference_registration_path(@conference.short_title)
+      else
+        redirect_to conference_physical_tickets_path
+      end
+    else 
+      redirect_to conference_physical_tickets_path
+    end
   end
 
   def index
