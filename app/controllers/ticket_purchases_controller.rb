@@ -10,10 +10,11 @@ class TicketPurchasesController < ApplicationController
     current_user.ticket_purchases.by_conference(@conference).unpaid.destroy_all
 
     # Create a ticket purchase which can be paid or unpaid
+    count_registration_tickets_before = current_user.count_registration_tickets(@conference)
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets].try(:first))
     # The new ticket_purchase has been added to the database. current_user.ticket_purchases contains the new one.
-    current_ticket_purchase = ?
-
+    count_registration_tickets_after = current_user.count_registration_tickets(@conference)
+  
     # Failed to create ticket purchase
     if !message.blank?
       redirect_to conference_tickets_path(@conference.short_title),
@@ -28,52 +29,28 @@ class TicketPurchasesController < ApplicationController
       return
     end
 
-    # TODO: User already paid for a registration ticket and ticket purchase contains one
-    # BUG: When the ticket is free, user will see the notice after they click `Continue`
-
-    # this works? maybe 
-
-    # TODO: Need to check 
-
-    # user has a registration ticket
-    # current_user.tickets.for_registration(@conference).present?
-
-    # current ticket purchase 
-    if current_user.ticket_purchases.by_conference(@conference).paid.any?
-      && current_user.has_registration_ticket_for?(@conference) == true
-    end
-      for ticket_purchase in current_user.ticket_purchases.by_conference(@conference)
-        if ticket_purchase.paid?
-          for physical_ticket in ticket_purchase.physical_tickets
-            if physical_ticket.ticket.registration_ticket?
-              redirect_to conference_physical_tickets_path,
-                    notice: 'You already have tickets for the conference.'
-              return
-          end
-        end
-      end
+    # Current user already paid for a registration ticket and the current ticket purchase contains one
+    if count_registration_tickets_before == 1 && count_registration_tickets_after > 1
+      redirect_to conference_physical_tickets_path,
+            notice: 'You already have tickets for the conference.'
+      return
     end
 
-    # TODO: User wants to purchase a non-registration ticket but does not have a registration ticket but conference requires one
-    # BUG: When the user only purchases a non-registration ticket, 
-    if @conference.registration_ticket_required? 
-      && current_user.has_registration_ticket_for?(@conference) == false
-        redirect_to conference_tickets_path(@conference.short_title),
-                    error: 'Please get at least one registration ticket to continue.'
-        return
-      end
+    # Conference requires a registration ticket but the current user wants to purchase a non-registration ticket 
+    # and does not have a registration ticket 
+    if @conference.registration_ticket_required? && count_registration_tickets_after == 0
+      redirect_to conference_tickets_path(@conference.short_title),
+              error: 'Please get at least one registration ticket to continue.'
+      return   
     end
 
-    # TODO: Need to check if the current user didn't have a registration ticket and is purchasing one
-    if current_user.tickets.for_registration(@conference).nil?
-      if current_user.has_registration_ticket_for?(@conference) == true
-        redirect_to new_conference_conference_registration_path(@conference.short_title)
-      else
-        redirect_to conference_physical_tickets_path
-      end
+    # Current user didn't have a registration ticket and is purchasing one
+    if count_registration_tickets_before == 0 && count_registration_tickets_after == 1
+      redirect_to new_conference_conference_registration_path(@conference.short_title)
+    
     else 
       redirect_to conference_physical_tickets_path
-    end
+    end    
   end
 
   def index

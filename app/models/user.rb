@@ -346,18 +346,17 @@ class User < ApplicationRecord
     events.where(program_id: conference.program.id, 'event_users.event_role': 'volunteer')
   end
 
-  def has_registration_ticket_for?(conference)
-    seen_registration = false
+  def count_registration_tickets(conference)
+    count = 0
     for ticket_purchase in current_user.ticket_purchases.by_conference(@conference)
       for physical_ticket in ticket_purchase.physical_tickets
         if physical_ticket.ticket.registration_ticket
-          seen_registration = true
-          break
+          count += 1
         end
       end
     end
 
-    return seen_registration
+    return count
   end
 
   def self.empty?
