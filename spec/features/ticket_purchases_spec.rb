@@ -7,7 +7,8 @@ feature Registration, feature: true, js: true do
   let!(:free_ticket) { create(:ticket, price_cents: 0) }
   let!(:first_registration_ticket) { create(:registration_ticket, price_cents: 0) }
   let!(:second_registration_ticket) { create(:registration_ticket, price_cents: 0) }
-  let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket, first_registration_ticket, second_registration_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
+  let!(:third_registration_ticket) { create(:registration_ticket, price_cents: 10) }
+  let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket, first_registration_ticket, second_registration_ticket, third_registration_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
   let!(:participant) { create(:user) }
 
   context 'as a participant' do
@@ -109,6 +110,61 @@ feature Registration, feature: true, js: true do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: free_ticket.id).first
         expect(purchase.quantity).to eq(5)
         expect(purchase.paid).to be true
+      end
+
+      scenario 'purchases a free registartion ticket' do
+        visit root_path
+        click_link 'Register'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
+
+        fill_in "tickets__#{first_registration_ticket.id}", with: '1'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        expect(flash).to eq('Thanks! Your ticket is booked successfully. Please register for the conference.')
+
+        purchase = TicketPurchase.where(user_id: participant.id, ticket_id: first_registration_ticket.id).first
+        expect(purchase.quantity).to eq(1)
+        expect(purchase.paid).to be true
+      end
+
+      scenario 'purchases a non-free registartion ticket' do
+        visit root_path
+        click_link 'Register'
+
+        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        click_button 'Register'
+
+        fill_in "tickets__#{third_registration_ticket.id}", with: '1'
+        expect(current_path).to eq(conference_tickets_path(conference.short_title))
+
+        click_button 'Continue'
+        page.find('#flash')
+        expect(current_path).to eq(new_conference_payment_path(conference.short_title))
+        expect(flash).to eq('Please pay here to get tickets.')
+        purchase = TicketPurchase.where(user_id: participant.id, ticket_id: third_registration_ticket.id).first
+        expect(purchase.quantity).to eq(1)
+
+        if Rails.application.secrets.stripe_publishable_key
+          find('.stripe-button-el').click
+
+          stripe_iframe = all('iframe[name=stripe_checkout_app]').last
+          sleep(5)
+          Capybara.within_frame stripe_iframe do
+            expect(page).to have_content('book your tickets')
+            page.execute_script(%{ $('input#card_number').val('4242424242424242'); })
+            page.execute_script(%{ $('input#cc-exp').val('08/22'); })
+            page.execute_script(%{ $('input#cc-csc').val('123'); })
+            page.execute_script(%{ $('#submitButton').click(); })
+            sleep(20)
+          end
+
+          expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+          expect(flash).to eq('Thanks! Your ticket is booked successfully. Please register for the conference.')
+        end
       end
 
       scenario 'purchases more than one registration tickets of a single type' do
