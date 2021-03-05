@@ -12,7 +12,7 @@ else
 fi
 
 case $TEST_SUITE in
-  linters)
+  linters|all)
     bundle exec rubocop -Dc .rubocop.yml
     bundle exec haml-lint app/views
     ;;&
