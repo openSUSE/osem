@@ -1,0 +1,21 @@
+name: Linters
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    env:
+      OSEM_RUBY_VERSION: 2.5.8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+      - run: bundle exec rubocop
+      - run: bundle exec haml-lint app/views

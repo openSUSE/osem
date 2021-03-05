@@ -234,8 +234,6 @@ group :development do
   gem 'mina'
   # as debugger on error pages
   gem 'web-console'
-  # as development database
-  gem 'sqlite3'
 end
 
 group :test do
@@ -271,4 +269,6 @@ end
 group :development, :test do
   # as debugger
   gem 'byebug'
+  # as development/test database
+  gem 'sqlite3'
 end

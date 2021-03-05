@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/openSUSE/osem.svg?branch=master)](https://travis-ci.org/openSUSE/osem)
+[![Build Status](https://github.com/openSUSE/osem/actions/workflows/spec.yml/badge.svg?branch=master)](https://github.com/openSUSE/osem/actions)
 [![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
 [![codecov](https://codecov.io/gh/opensuse/osem/branch/master/graph/badge.svg)](https://codecov.io/gh/opensuse/osem)
 [![Security Status](https://hakiri.io/github/openSUSE/osem/master.svg)](https://hakiri.io/github/openSUSE/osem/master)

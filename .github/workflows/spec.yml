@@ -1,0 +1,34 @@
+name: Specs
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    name: spec
+    env:
+      OSEM_DB_ADAPTER: sqlite3
+      OSEM_RUBY_VERSION: 2.5.8
+      RAILS_ENV: test
+    strategy:
+      matrix:
+        suite: [models, features, controllers, ability, leftovers]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+      - name: Prepare spec
+        run: |
+          rm -f osem_test osem_development
+          bundle exec rake db:setup --trace
+          bundle exec bin/rails webdrivers:chromedriver:update
+      - name: spec/${{ matrix.suite }}
+        run: bundle exec rake spec:${{ matrix.suite }}
+
