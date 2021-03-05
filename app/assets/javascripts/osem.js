@@ -189,6 +189,18 @@ $( document ).ready(function() {
         var max = $selected.data("max-words");
         word_count(this, 'submission-count', max);
     });
+
+    /* Listen for reset template button, wait for confirm, and reset. */
+    $('#sub_text_reset').click((e) => {
+        let $selected = $("#event_event_type_id option:selected");
+        let $this = $(e.target);
+        let affirm = confirm($this.data('confirm'));
+        if (affirm) {
+            let sub_text = $('#event_submission_text');
+            sub_text.val($selected.data('help'));
+            sub_text.trigger('change');
+        }
+    });
 });
 
 /* Commodity function for modal windows */
