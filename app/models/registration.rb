@@ -69,7 +69,7 @@ class Registration < ApplicationRecord
 
   def send_registration_mail
     if conference.email_settings.send_on_registration?
-      Mailbot.registration_mail(conference, user).deliver_later
+      Mailbot.registration_mail(conference, user).deliver_now
     end
   end
 

@@ -1,5 +1,5 @@
-<%= render "layouts/_mailbot_header" %>
-  <%= @email_body  %>
-<% end %>
-<%= render "layouts/_mailbot_footer" %>
-    
+<%= render partial: "layouts/mailbot_header" %>
+  <span style="white-space: pre-line">
+    <%= @email_body  %>
+  </span>
+<%= render partial: "layouts/mailbot_footer" %>

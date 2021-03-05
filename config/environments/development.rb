@@ -114,4 +114,5 @@ Osem::Application.configure do
     end
   end
 
+  config.assets.precompile += ['mailbot.css']
 end
