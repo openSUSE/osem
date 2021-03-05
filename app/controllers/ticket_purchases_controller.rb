@@ -22,13 +22,6 @@ class TicketPurchasesController < ApplicationController
       return
     end
 
-    # Ticket purchase created but not paid
-    if current_user.ticket_purchases.by_conference(@conference).unpaid.any?
-      redirect_to new_conference_payment_path,
-                  notice: 'Please pay here to get tickets.'
-      return
-    end
-
     # Current user already paid for a registration ticket and the current ticket purchase contains one
     if count_registration_tickets_before == 1 && count_registration_tickets_after > 1
       redirect_to conference_physical_tickets_path,
@@ -44,10 +37,17 @@ class TicketPurchasesController < ApplicationController
       return
     end
 
+    # Ticket purchase created but not paid
+    if current_user.ticket_purchases.by_conference(@conference).unpaid.any?
+      redirect_to new_conference_payment_path,
+                  notice: 'Please pay here to get tickets.'
+      return
+    end
+
     # Current user didn't have a registration ticket and is purchasing one
     if count_registration_tickets_before == 0 && count_registration_tickets_after == 1
       redirect_to new_conference_conference_registration_path(@conference.short_title)
-    else
+    else 
       redirect_to conference_physical_tickets_path
     end
   end
