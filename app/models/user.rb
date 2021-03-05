@@ -348,15 +348,15 @@ class User < ApplicationRecord
 
   def count_registration_tickets(conference)
     count = 0
-    for ticket_purchase in ticket_purchases.by_conference(conference)
-      for physical_ticket in ticket_purchase.physical_tickets
+    ticket_purchases.by_conference(conference).each do |ticket_purchase|
+      ticket_purchase.physical_tickets.each do |physical_ticket|
         if physical_ticket.ticket.registration_ticket
           count += 1
         end
       end
     end
 
-    return count
+    count
   end
 
   def self.empty?

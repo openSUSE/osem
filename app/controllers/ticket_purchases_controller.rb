@@ -14,9 +14,9 @@ class TicketPurchasesController < ApplicationController
     message = TicketPurchase.purchase(@conference, current_user, params[:tickets].try(:first))
     # The new ticket_purchase has been added to the database. current_user.ticket_purchases contains the new one.
     count_registration_tickets_after = current_user.count_registration_tickets(@conference)
-  
+
     # Failed to create ticket purchase
-    if !message.blank?
+    unless message.blank?
       redirect_to conference_tickets_path(@conference.short_title),
                   error: "Oops, something went wrong with your purchase! #{message}"
       return
@@ -25,15 +25,15 @@ class TicketPurchasesController < ApplicationController
     # Current user already paid for a registration ticket and the current ticket purchase contains one
     if count_registration_tickets_before == 1 && count_registration_tickets_after > 1
       redirect_to conference_physical_tickets_path,
-            notice: 'You already have tickets for the conference.'
+                  notice: 'You already have tickets for the conference.'
       return
     end
 
-    # Conference requires a registration ticket but the current user wants to purchase a non-registration ticket 
-    # and does not have a registration ticket 
+    # Conference requires a registration ticket but the current user wants to purchase a non-registration ticket
+    # and does not have a registration ticket
     if @conference.registration_ticket_required? && count_registration_tickets_after == 0
       redirect_to conference_tickets_path(@conference.short_title),
-              error: 'Please get at least one registration ticket to continue.'
+                  error: 'Please get at least one registration ticket to continue.'
       return
     end
 
@@ -47,7 +47,7 @@ class TicketPurchasesController < ApplicationController
     # Current user didn't have a registration ticket and is purchasing one
     if count_registration_tickets_before == 0 && count_registration_tickets_after == 1
       redirect_to new_conference_conference_registration_path(@conference.short_title)
-    else 
+    else
       redirect_to conference_physical_tickets_path
     end
   end
