@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '2.5.0'
+ruby ENV['OSEM_RUBY_VERSION'] || '2.5.8'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -157,9 +157,6 @@ gem 'font-awesome-rails'
 
 # for markdown
 gem 'redcarpet'
-
-# as rdoc generator
-gem 'rdoc-generator-fivefish'
 
 # for visitor tracking
 gem 'piwik_analytics', '~> 1.0.1'
