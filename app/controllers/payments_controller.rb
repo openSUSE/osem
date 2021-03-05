@@ -16,6 +16,7 @@ class PaymentsController < ApplicationController
       raise CanCan::AccessDenied.new('Nothing to pay for!', :new, Payment)
     end
 
+    @has_registration_ticket = params[:has_registration_ticket]
     @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
   end
 
@@ -24,8 +25,17 @@ class PaymentsController < ApplicationController
 
     if @payment.purchase && @payment.save
       update_purchased_ticket_purchases
-      redirect_to conference_physical_tickets_path,
-                  notice: 'Thanks! Your ticket is booked successfully.'
+
+      has_registration_ticket = params[:has_registration_ticket]
+      if has_registration_ticket.present? && has_registration_ticket == 'true'
+        redirect_to new_conference_conference_registration_path(@conference.short_title),
+                    notice: 'Thanks! Your ticket is booked successfully. Please register for the conference.'
+      else
+        redirect_to conference_physical_tickets_path,
+                    notice: 'Thanks! Your ticket is booked successfully.'
+      end
+
+      @has_registration_ticket = nil
     else
       @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
       @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)

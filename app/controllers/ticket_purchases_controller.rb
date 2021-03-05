@@ -25,30 +25,25 @@ class TicketPurchasesController < ApplicationController
     # Current user already paid for a registration ticket and the current ticket purchase contains one
     if count_registration_tickets_before == 1 && count_registration_tickets_after > 1
       redirect_to conference_physical_tickets_path,
-                  notice: 'You already have tickets for the conference.'
+                  error: 'You already have one registration ticket for the conference.'
       return
     end
 
-    # Conference requires a registration ticket but the current user wants to purchase a non-registration ticket
-    # and does not have a registration ticket
-    if @conference.registration_ticket_required? && count_registration_tickets_after == 0
-      redirect_to conference_tickets_path(@conference.short_title),
-                  error: 'Please get at least one registration ticket to continue.'
-      return
-    end
-
-    # Ticket purchase created but not paid
+    # User needs to pay for tickets if any of them is not free.
     if current_user.ticket_purchases.by_conference(@conference).unpaid.any?
-      redirect_to new_conference_payment_path,
+      has_registration_ticket = count_registration_tickets_before == 0 && count_registration_tickets_after == 1
+      redirect_to new_conference_payment_path(has_registration_ticket: has_registration_ticket),
                   notice: 'Please pay here to get tickets.'
       return
     end
 
-    # Current user didn't have a registration ticket and is purchasing one
+    # Redirect to registration page for a user who didn't have a registration ticket and is purchasing one
     if count_registration_tickets_before == 0 && count_registration_tickets_after == 1
-      redirect_to new_conference_conference_registration_path(@conference.short_title)
+      redirect_to new_conference_conference_registration_path(@conference.short_title),
+                  notice: 'Thanks! Your ticket is booked successfully. Please register for the conference.'
     else
-      redirect_to conference_physical_tickets_path
+      redirect_to conference_physical_tickets_path,
+                  notice: 'Thanks! Your ticket is booked successfully.'
     end
   end
 
