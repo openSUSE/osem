@@ -3,7 +3,8 @@
 
 #splash {
   // Counter the general padding for #content
-  margin-bottom: -60px;
+  margin-bottom: -65px;
+
   section {
     padding-top: 60px;
     padding-bottom: 60px;
@@ -142,6 +143,10 @@
         max-width: 280px;
       }
     }
+  }
+
+  .social-media.trapezoid {
+    border-top-color: #0C3559; // TODO: Use @conference color?
   }
 
   #social-media{

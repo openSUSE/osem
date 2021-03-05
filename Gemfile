@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# ruby '~> 2.5.0'
+ruby ENV['TRAVIS_RUBY_VERSION'] || '2.6.6'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -12,7 +12,7 @@ end
 gem 'rails', '~> 5.2'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 5.2'
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
