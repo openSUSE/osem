@@ -29,7 +29,7 @@
       %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
         = difficulty_level.description
 
-    = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown-editable' } },
+    = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
       hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
 
     %p
