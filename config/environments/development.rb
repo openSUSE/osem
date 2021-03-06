@@ -113,5 +113,5 @@ Osem::Application.configure do
       devise_config.ichain_test_mode = true
     end
   end
-
+  config.active_record.verbose_query_logs = true
 end
