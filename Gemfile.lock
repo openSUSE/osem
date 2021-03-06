@@ -449,7 +449,7 @@ GEM
     rbtree3 (0.5.0)
     recaptcha (4.14.0)
       json
-    redcarpet (3.5.0)
+    redcarpet (3.5.1)
     regexp_parser (1.6.0)
     request_store (1.4.1)
       rack (>= 1.4)
