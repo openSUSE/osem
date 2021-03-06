@@ -144,7 +144,7 @@ gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
 gem 'axlsx_rails'
 
 # as error catcher
-gem 'airbrake'
+gem 'sentry-rails'
 
 # to make links faster
 gem 'turbolinks'
