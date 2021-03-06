@@ -15,6 +15,7 @@
       = f.input :description, as: :text, hint: markdown_hint, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :minimum_abstract_length, input_html: {size: 3}
       = f.input :maximum_abstract_length, input_html: {size: 3}
+      = f.input :submission_instructions, as: :text, hint: markdown_hint, input_html: { rows: 5, data: { provide: 'markdown-editable' } }
       = f.input :color, input_html: { size: 6, type: 'color' }
       %p.text-right
         = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
