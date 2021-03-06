@@ -219,6 +219,8 @@ Osem::Application.routes.draw do
 
   get '/admin' => redirect('/admin/conferences')
 
+  get '/calendar' => 'conferences#calendar'
+
   unless ENV['OSEM_ROOT_CONFERENCE'].blank?
     root to: redirect("/conferences/#{ENV['OSEM_ROOT_CONFERENCE']}")
   else

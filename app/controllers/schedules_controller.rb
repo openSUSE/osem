@@ -21,6 +21,12 @@ class SchedulesController < ApplicationController
       format.xml do
         @events_xml = event_schedules.map(&:event).group_by{ |event| event.time.to_date } if event_schedules
       end
+      format.ics do
+        cal = Icalendar::Calendar.new
+        cal = icalendar_proposals(cal, event_schedules.map(&:event), @conference)
+        cal.publish
+        render inline: cal.to_ical
+      end
 
       format.html do
         @rooms = @conference.venue.rooms if @conference.venue

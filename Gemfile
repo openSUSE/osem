@@ -219,6 +219,8 @@ gem 'nokogiri', '>= 1.8.1'
 # memcached binary connector
 gem 'dalli'
 
+gem 'icalendar'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
