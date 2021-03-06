@@ -8,7 +8,20 @@ on:
   workflow_dispatch:
 
 jobs:
+  linters:
+    runs-on: ubuntu-latest
+    env:
+      OSEM_RUBY_VERSION: 2.5.8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+      - run: bundle exec rubocop
+      - run: bundle exec haml-lint app/views
   spec:
+    needs: linters
     runs-on: ubuntu-latest
     name: spec
     env:
@@ -31,4 +44,8 @@ jobs:
           bundle exec bin/rails webdrivers:chromedriver:update
       - name: spec/${{ matrix.suite }}
         run: bundle exec rake spec:${{ matrix.suite }}
-
+      - name: coverage upload ${{ matrix.suite }}
+        uses: codacy/codacy-coverage-reporter-action@master
+        if: github.ref == 'refs/heads/master'
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
