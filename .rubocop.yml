@@ -2,10 +2,16 @@ require: rubocop-rspec
 
 inherit_from: .rubocop_todo.yml
 
+inherit_mode:
+  merge:
+    - Exclude
+
 AllCops:
   UseCache: true
   CacheRootDirectory: tmp/rubocop_cache_rails_dir
   MaxFilesInCache: 4000
+  Exclude:
+    - db/schema.rb
 
 #################### Style ###########################
 
