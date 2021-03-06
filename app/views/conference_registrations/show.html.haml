@@ -9,9 +9,9 @@
           -if @conference.venue
             at
             %strong
-              = "#{@conference.venue.name},"
-            = "#{@conference.venue.street},"
-            = "#{@conference.venue.city} / #{@conference.venue.country_name}."
+              = "#{@conference.venue_name},"
+            = "#{@conference.venue_street},"
+            = "#{@conference.city} / #{@conference.country_name}."
           %small
             = date_string(@conference.start_date, @conference.end_date)
   - unless @conference.code_of_conduct.blank?
