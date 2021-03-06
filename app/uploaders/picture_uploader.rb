@@ -6,6 +6,8 @@ class PictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::Compatibility::Paperclip
   include CarrierWave::BombShelter
 
+  storage :file
+
   # use cloudinary if it's configured
   if Cloudinary.config.cloud_name
     # use https by default
