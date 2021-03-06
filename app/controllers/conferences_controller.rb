@@ -6,8 +6,8 @@ class ConferencesController < ApplicationController
   load_and_authorize_resource find_by: :short_title, except: :show
 
   def index
-    @current    = Conference.where('end_date >= ?', Date.current).reorder(start_date: :asc)
-    @antiquated = Conference.where('end_date < ?', Date.current)
+    @current    = Conference.upcoming.reorder(start_date: :asc)
+    @antiquated = Conference.past
     if @antiquated.empty? && @current.empty? && User.empty?
       render :new_install
     end
