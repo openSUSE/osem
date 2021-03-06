@@ -245,7 +245,7 @@ group :test do
   gem 'transactional_capybara'
   gem 'webdrivers'
   # for measuring test coverage
-  gem 'codecov', require: false
+  gem 'simplecov-cobertura'
   # for describing models
   gem 'shoulda-matchers', require: false
   # for stubing/mocking models
