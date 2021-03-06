@@ -18,8 +18,6 @@
     #antiquated.collapse
       - @antiquated.each do |conference|
         = render '/conferences/conference_details', conference: conference
-  - if @antiquated.empty? && @current.empty? && User.empty?
-    = render partial: 'new_install'
 
 -content_for :script_body do
   :javascript
