@@ -2,9 +2,10 @@ version: "2"
 
 services:
   database:
-    image: postgres
+    image: postgres:12-alpine
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: mysecretpassword
   osem:
     build:
       context: .
