@@ -22,6 +22,7 @@
             = render partial: 'devise/shared/sign_up_form_embedded'
 
             = render partial: 'registration_info', locals: { f: f }
+            = f.input :conference_id, as: :hidden, value: @conference.id
             .row
               .col-md-12
                 %p.pull-right
