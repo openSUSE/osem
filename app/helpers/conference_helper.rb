@@ -36,13 +36,15 @@ module ConferenceHelper
         e.uid = proposal.guid
         e.url = conference_program_proposal_url(conference.short_title, proposal.id)
         v = conference.venue
-        e.geo = v.latitude, v.longitude if v.latitude && v.longitude
-        location = ''
-        location += "#{proposal.room.name} - " if proposal.room.name
-        location += " - #{v.street}, " if v.street
-        location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
-        location += "#{v.country_name}, " if v.country_name
-        e.location = location
+        if v
+          e.geo = v.latitude, v.longitude if v.latitude && v.longitude
+          location = ''
+          location += "#{proposal.room.name} - " if proposal.room.name
+          location += " - #{v.street}, " if v.street
+          location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
+          location += "#{v.country_name}, " if v.country_name
+          e.location = location
+        end
         e.categories = conference.title, "Difficulty: #{proposal.difficulty_level.title}", "Track: #{proposal.track.name}"
       end
     end

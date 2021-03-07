@@ -91,12 +91,14 @@ class ConferencesController < ApplicationController
               e.uid = conf.guid
               e.url = conference_url(conf.short_title)
               v = conf.venue
-              e.geo = v.latitude, v.longitude if v.latitude && v.longitude
-              location = ''
-              location += "#{v.street}, " if v.street
-              location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
-              location += v.country_name if v.country_name
-              e.location = location if location
+              if v
+                e.geo = v.latitude, v.longitude if v.latitude && v.longitude
+                location = ''
+                location += "#{v.street}, " if v.street
+                location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
+                location += v.country_name if v.country_name
+                e.location = location if location
+              end
             end
           end
         end
