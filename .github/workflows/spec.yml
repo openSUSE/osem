@@ -11,12 +11,12 @@ jobs:
   linters:
     runs-on: ubuntu-latest
     env:
-      OSEM_RUBY_VERSION: 2.5.8
+      OSEM_RUBY_VERSION: 2.6.6
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.5
+          ruby-version: 2.6
           bundler-cache: true
       - run: bundle exec rubocop
       - run: bundle exec haml-lint app/views
@@ -26,7 +26,7 @@ jobs:
     name: spec
     env:
       OSEM_DB_ADAPTER: sqlite3
-      OSEM_RUBY_VERSION: 2.5.8
+      OSEM_RUBY_VERSION: 2.6.6
       RAILS_ENV: test
     strategy:
       matrix:
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.5
+          ruby-version: 2.6
           bundler-cache: true
       - name: Prepare spec
         run: |
