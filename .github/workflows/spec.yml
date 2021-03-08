@@ -21,7 +21,6 @@ jobs:
       - run: bundle exec rubocop
       - run: bundle exec haml-lint app/views
   spec:
-    needs: linters
     runs-on: ubuntu-latest
     name: spec
     env:
