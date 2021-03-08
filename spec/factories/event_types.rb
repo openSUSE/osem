@@ -24,7 +24,7 @@ FactoryBot.define do
     minimum_abstract_length { 0 }
     maximum_abstract_length { 500 }
     description { 'Example Event Description' }
-    submission_instructions { 'Example Event Instructions'}
+    submission_instructions { 'Example Event Instructions' }
     color { '#ffffff' }
     program
   end
