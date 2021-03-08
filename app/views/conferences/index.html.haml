@@ -10,12 +10,12 @@
       .col-md-12
         %p.text-right
           %button{ type: 'button', class: 'btn btn-link btn-sm', 'data-toggle' => 'collapse', 'data-target' => '#antiquated', 'aria-expanded' => 'true', 'aria-controls' => 'antiquated'}
-            Older conferences
+            Past Conferences
             %span.notranslate
               = "(#{@antiquated.count})"
-            %i.fa.fa-chevron-right
-            %i.fa.fa-chevron-down{ style: 'display: none' }
-    #antiquated.collapse
+            %i.fa.fa-chevron-right{ style: 'display: none' }
+            %i.fa.fa-chevron-down
+    #antiquated
       - @antiquated.each do |conference|
         = render '/conferences/conference_details', conference: conference
   - if @antiquated.empty? && @current.empty? && User.empty?
