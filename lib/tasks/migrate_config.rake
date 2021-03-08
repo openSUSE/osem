@@ -34,7 +34,7 @@ namespace :data do
       dot_env.puts "OSEM_SMTP_USERNAME=\"#{CONFIG['mail_username']}\""
       dot_env.puts "OSEM_SMTP_PASSWORD=\"#{CONFIG['mail_password']}\""
       dot_env.puts "OSEM_SMTP_AUTHENTICATION=\"#{CONFIG['mail_authentication']}\""
-      dot_env.puts 'OSEM_SMTP_DOMAIN=""'
+      dot_env.puts '# OSEM_SMTP_DOMAIN="example.com"'
       dot_env.close
 
       puts "Migrated config/config.yml to .env.#{Rails.env}"
