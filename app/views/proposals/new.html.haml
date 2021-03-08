@@ -33,7 +33,7 @@
               = f.input :title, as: :string, required: true, input_html: { required: true }
               = f.input :event_type_id, as: :select,
                 collection: @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
+                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length, help: type.description }]},
                 include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
               - if @program.languages.present?
