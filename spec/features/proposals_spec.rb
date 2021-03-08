@@ -177,5 +177,24 @@ feature Event do
       @event.reload
       expect(@event.state).to eq('withdrawn')
     end
+
+    scenario 'can reset to text template', feature: true, js: true do
+      event_type = conference.program.event_types[-1]
+      event_type.description = 'Example event description'
+      event_type.save!
+
+      sign_in participant
+      visit new_conference_program_proposal_path(conference.short_title)
+
+      fill_in 'event_title', with: 'Example Proposal'
+      select(event_type.title, from: 'event[event_type_id]')
+      fill_in 'event_submission_text', with: 'Lorem ipsum example submission text'
+
+      accept_confirm do
+        click_button 'Reset to Template'
+      end
+
+      expect(page.find('#event_submission_text').value).to eq(event_type.description)
+    end
   end
 end
