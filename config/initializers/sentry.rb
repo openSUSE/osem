@@ -9,19 +9,15 @@ Sentry.init do |config|
   config.traces_sample_rate = 0.5
   # or
   # config.traces_sampler = lambda do |context|
-<<<<<<< HEAD
-  #   true
-  # end
-=======
   #  true
   # end
 
   # During deployment we touch tmp/restart.txt, let's use its last access time as release.
   # Unless someone has set a variable of course...
-  osem_version_from_file = nil
-  version_file = File.expand_path('../../tmp/restart.txt', __dir__)
-  osem_version_from_file = File.new(version_file).atime.to_i if File.file?(version_file)
-  osem_version = ENV.fetch('OSEM_SENTRY_RELEASE', osem_version_from_file)
+  # osem_version_from_file = nil
+  # version_file = File.expand_path('../../tmp/restart.txt', __dir__)
+  # osem_version_from_file = File.new(version_file).atime.to_i if File.file?(version_file)
+  # osem_version = ENV.fetch('OSEM_SENTRY_RELEASE', osem_version_from_file)
+  osem_version = ENV['HEROKU_RELEASE_VERSION']
   config.release = osem_version if osem_version
->>>>>>> osem-master
 end
