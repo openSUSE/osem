@@ -22,7 +22,6 @@
 #
 #  index_programs_on_selected_schedule_id  (selected_schedule_id)
 #
-# cannot delete program if there are events submitted
 
 class Program < ApplicationRecord
   has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
