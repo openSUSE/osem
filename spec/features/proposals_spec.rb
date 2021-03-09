@@ -156,7 +156,6 @@ feature Event do
       # Submission Instructions content
       expect(page).to have_text('Example Event Instructions')
 
-
       click_link 'Do you require something special?'
       fill_in 'event_description', with: 'Lorem ipsum description'
 

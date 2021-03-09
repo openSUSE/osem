@@ -114,27 +114,27 @@ describe UserDatatable do
       let(:user_data) { output[:data].first }
 
       it 'id' do
-          expect(user_data[:id].to_i).to eq(user.id)
+        expect(user_data[:id].to_i).to eq(user.id)
       end
 
       it 'name' do
-          expect(user_data[:name]).to eq(user.name)
+        expect(user_data[:name]).to eq(user.name)
       end
 
       it 'email' do
-          expect(user_data[:email]).to eq(user.email)
+        expect(user_data[:email]).to eq(user.email)
       end
 
       it 'confirmed_at' do
-          expect(Date.parse(user_data[:confirmed_at])).to eq(user.confirmed_at.to_date)
+        expect(Date.parse(user_data[:confirmed_at])).to eq(user.confirmed_at.to_date)
       end
 
       it 'attended' do
-          expect(user_data[:attended].to_i).to eq(user.attended_count)
+        expect(user_data[:attended].to_i).to eq(user.attended_count)
       end
 
       it 'roles' do
-          expect(user_data[:roles]).to eq('None')
+        expect(user_data[:roles]).to eq('None')
       end
     end
   end
