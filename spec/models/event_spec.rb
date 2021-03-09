@@ -7,6 +7,7 @@
 #  id                           :bigint           not null, primary key
 #  abstract                     :text
 #  comments_count               :integer          default(0), not null
+#  committee_review             :text
 #  description                  :text
 #  guid                         :string           not null
 #  is_highlight                 :boolean          default(FALSE)
@@ -114,20 +115,6 @@ describe Event do
       before :each do
         event.event_type.maximum_abstract_length = 3
         event.event_type.minimum_abstract_length = 2
-      end
-
-      context 'is invalid' do
-        it 'when submission text is too long' do
-          event.submission_text = 'four too many words'
-          expect(event.valid?).to eq false
-          expect(event.errors[:submission_text]).to eq ['cannot have more than 3 words']
-        end
-
-        it 'when submission text is too short' do
-          event.submission_text = 'word'
-          expect(event.valid?).to eq false
-          expect(event.errors[:submission_text]).to eq ['cannot have less than 2 words']
-        end
       end
 
       context 'is valid' do

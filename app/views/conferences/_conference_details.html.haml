@@ -15,7 +15,7 @@
               = "#{conference.city}/#{conference.country_name}"
           - unless conference.description.blank?
             %p
-              = markdown(conference.description)
+              = markdown(conference.description, escape_html=false)
         .col-md-2
           .btn-group-vertical
             - if !@conference || @conference != conference

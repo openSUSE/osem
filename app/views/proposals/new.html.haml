@@ -61,21 +61,20 @@
                   250
                 words.
 
+              %br
+              - @conference.program.event_types.each do |event_type|
+                %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
+                  %h3
+                    = event_type.name
+                    Instructions
+                  %p Please use this as the template for your submission.
+                  This part of the submission is intended only for the conference committee.
+                  %hr
+                  = markdown(event_type.submission_instructions)
+
+
               = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' } },
                 hint: markdown_hint
-
-              %p
-                You have used
-                %span#submission-count #{@event.submission_word_count}
-                words. Submission descriptions must be between
-                %span#submission-minimum-word-count
-                  0
-                and
-                %span#submission-maximum-word-count
-                  250
-                words.
-
-
 
               - if @program.cfp.enable_registrations?
                 = f.input :require_registration, label: 'Require participants to register to your event'

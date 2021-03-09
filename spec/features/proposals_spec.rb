@@ -147,11 +147,15 @@ feature Event do
       select('Example Event Type', from: 'event[event_type_id]')
       expect(page).to have_selector(".in[id='#{find_field('event[event_type_id]').value}-help']") # End of animation
 
+      expect(page).to have_text('Example Event Description')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       expect(page).to have_text('You have used 3 words')
 
       fill_in 'event_submission_text', with: 'Lorem ipsum submission_text'
-      expect(page).to have_text('Submission description')
+      expect(page).to have_text('Submission text')
+      # Submission Instructions content
+      expect(page).to have_text('Example Event Instructions')
+
 
       click_link 'Do you require something special?'
       fill_in 'event_description', with: 'Lorem ipsum description'
