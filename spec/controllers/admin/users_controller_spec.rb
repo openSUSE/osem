@@ -103,4 +103,21 @@ describe Admin::UsersController do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    before do
+      delete :destroy, params: { id: user.id }
+    end
+    it 'redirects to admin users index path' do
+      expect(response).to redirect_to admin_users_path
+    end
+
+    it 'shows success message in flash notice' do
+      expect(flash[:notice]).to match("User #{user.id} (#{user.email}) deleted.")
+    end
+
+    it 'deletes the user' do
+      expect { user.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

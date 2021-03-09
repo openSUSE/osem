@@ -35,7 +35,8 @@ class UserDatatable < AjaxDatatablesRails::Base
         roles:        record.roles.any? ? show_roles(record.get_roles) : 'None',
         view_url:     admin_user_path(record),
         edit_url:     edit_admin_user_path(record),
-        DT_RowId:     record.id
+        DT_RowId:     record.id,
+        confirmed:    record.confirmed_at.present?
       }
     end
   end
