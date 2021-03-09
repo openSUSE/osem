@@ -7,6 +7,11 @@
         = event.title
         %small
           = event.subtitle
+        .text-muted
+          = registered_text(event)
+          - if event.scheduled?
+            (Scheduled on: #{event.time.to_date})
+
   .panel-body
     -# %p
     -#   = canceled_replacement_event_label(event, event_schedule)

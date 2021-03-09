@@ -57,7 +57,18 @@
     = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
       hint: markdown_hint('Only conference organizers will read this.')
 
-    - if current_user.is_admin? or @program.cfp.enable_registrations?
+    %p
+      You have used
+      %span#submission-count #{@event.submission_word_count}
+      words.  Submission descriptions must be between
+      %span#submission-minimum-word-count
+        0
+      and
+      %span#submission-maximum-word-count
+        250
+      words.
+
+    - if current_user.is_admin? or @program.cfp&.enable_registrations?
       = f.inputs 'Enable pre-registration' do
         = f.input :require_registration, label: 'Require participants to register to your event'
         - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'

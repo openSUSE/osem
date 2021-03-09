@@ -126,7 +126,6 @@ describe UserDatatable do
       end
 
       it 'confirmed_at' do
-
         expect(Date.parse(user_data[:confirmed_at])).to eq(user.confirmed_at.to_date)
       end
 

@@ -39,6 +39,34 @@
 # !/bin/env ruby
 require 'spec_helper'
 
+context 'Delegation' do
+  subject do
+    FactoryBot.create(:conference, start_date: 1.month.from_now, end_date: 2.month.from_now)
+  end
+
+  context 'Venue' do
+    context 'when venue has not been set' do
+      it 'the accessors should be nil' do
+        expect(subject.city).to eq(nil)
+        expect(subject.country_name).to eq(nil)
+        expect(subject.venue_name).to eq(nil)
+        expect(subject.venue_street).to eq(nil)
+      end
+    end
+
+    context 'when venue has been set' do
+      it 'should delegate to venue' do
+        venue = FactoryBot.create(:venue)
+        subject.update(venue: venue)
+        expect(subject.city).to eq(venue.city)
+        expect(subject.country_name).to eq(venue.country_name)
+        expect(subject.venue_name).to eq(venue.name)
+        expect(subject.venue_street).to eq(venue.street)
+      end
+    end
+  end
+end
+
 describe Conference do
 
   let(:subject) { create(:conference, start_date: Date.new(2014, 06, 30), end_date: Date.new(2014, 06, 30)) }

@@ -13,11 +13,13 @@ $(function () {
 
    $("#conference-start-datepicker").datetimepicker({
        useCurrent: false,
-       format: "YYYY-MM-DD"
+       ignoreReadonly: true,
+       format: "YYYY-MM-DD",
    });
 
    $("#conference-end-datepicker").datetimepicker({
        useCurrent: false,
+       ignoreReadonly: true,
        format: "YYYY-MM-DD"
    });
 

@@ -1,4 +1,4 @@
-FROM osem/base
+FROM registry.opensuse.org/opensuse/infrastructure/osem/containers/osem/base:latest
 ARG CONTAINER_USERID
 
 # Configure our user
@@ -16,6 +16,8 @@ RUN chown -R osem /osem
 USER osem
 WORKDIR /osem/
 
+# Install bundler & foreman
+RUN sudo gem install bundler:1.17.3 foreman
 # Install our bundle
 RUN export NOKOGIRI_USE_SYSTEM_LIBRARIES=1; bundle install --jobs=3 --retry=3
 

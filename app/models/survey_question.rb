@@ -24,8 +24,8 @@ class SurveyQuestion < ActiveRecord::Base
 
   validates :title, presence: true
   validates :possible_answers, :max_choices, :min_choices, presence: true, if: :choice?
-  validates :min_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
-  validates :max_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true
+  validates :min_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true, if: :choice?
+  validates :max_choices, numericality: { greater_than_or_equal_to: 1 }, allow_blank: true, if: :choice?
 
   validate :max_choices_greater_than_min
 
