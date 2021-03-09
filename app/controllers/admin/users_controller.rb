@@ -66,6 +66,12 @@ module Admin
 
     def edit; end
 
+    def delete
+      @user.destroy!
+      flash[:notice] = "User #{@user.id} (#{@user.emai}) successfully deleted."
+      redirect_to admin_users_path
+    end
+
     private
 
     def user_params
