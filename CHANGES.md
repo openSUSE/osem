@@ -43,8 +43,8 @@ bundle exec rake data:set_conference_in_versions RAILS_ENV=production
 
 ### Organization admins
 
-We have a new role `organization admins` which allow a user to manage his the
-organization and create and manage conference within the organization. This
+We have a new role `organization admins` which allow a user to manage their
+organization and create and manage a conference within the organization. This
 needs the role to exist in the database, otherwise the application crashes
 as it is assumed to exist. For that, run the following rake task:
 

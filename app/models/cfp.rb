@@ -14,7 +14,6 @@
 #  updated_at           :datetime
 #  program_id           :integer
 #
-# cannot delete program if there are events submitted
 
 class Cfp < ApplicationRecord
   TYPES = %w(events booths tracks).freeze

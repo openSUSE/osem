@@ -47,6 +47,12 @@
       words.
 
     %br
+    - @conference.program.event_types.each do |event_type|
+      %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
+        %h3
+          = event_type.name
+          Instructions
+        = markdown(event_type.submission_instructions)
 
     = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
       hint: markdown_hint('Only conference organizers will read this.')
@@ -63,7 +69,7 @@
         250
       words.
 
-    - if current_user.is_admin? or @program.cfp.enable_registrations?
+    - if current_user.is_admin? or @program.cfp&.enable_registrations?
       = f.inputs 'Enable pre-registration' do
         = f.input :require_registration, label: 'Require participants to register to your event'
         - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
