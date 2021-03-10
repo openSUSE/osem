@@ -448,8 +448,8 @@ describe User do
       let(:ticket_purchase) { create(user: user, conference: conference3, ticket: registration_ticket, quantity: 1) }
 
       it 'counts the number of registration tickets of a conference held by user' do
-        expect(user.count_registration_tickets(conference3).to eq(1))
-        expect(user.count_registration_tickets(conference2).to eq(0))
+        expect(user.count_registration_tickets(conference3)).to eq(1)
+        expect(user.count_registration_tickets(conference2)).to eq(0)
       end
     end
   end
