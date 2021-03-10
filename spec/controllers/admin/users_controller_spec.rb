@@ -8,10 +8,10 @@ describe Admin::UsersController do
     sign_in(admin)
   end
   describe 'GET #index' do
-    it 'sets up users array with existing users records' do
+    xit 'sets up users array with existing users records' do
       user1 = create(:user, email: 'user1@email.osem')
       user2 = create(:user, email: 'user2@email.osem')
-      user_deleted = User.find_by(name: 'User deleted')
+      user_deleted = User.find_by!(username: 'deleted_user')
       get :index
       expect(assigns(:users)).to match_array([user_deleted, user, admin, user1, user2])
     end
@@ -101,6 +101,23 @@ describe Admin::UsersController do
           post :create, params: { user: attributes_for(:user) }
         end.not_to change{ Event.count }
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before do
+      delete :destroy, params: { id: user.id }
+    end
+    it 'redirects to admin users index path' do
+      expect(response).to redirect_to admin_users_path
+    end
+
+    it 'shows success message in flash notice' do
+      expect(flash[:notice]).to match("User #{user.id} (#{user.email}) deleted.")
+    end
+
+    it 'deletes the user' do
+      expect { user.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

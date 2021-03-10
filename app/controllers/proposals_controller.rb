@@ -170,7 +170,7 @@ class ProposalsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
-                                  :title, :subtitle, :abstract, :description,
+                                  :title, :subtitle, :abstract, :submission_text, :description,
                                   :require_registration, :max_attendees, :language,
                                   speaker_ids: [], volunteer_ids: []
                                  )

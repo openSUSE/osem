@@ -13,6 +13,10 @@ feature 'BaseController' do
 
   describe 'GET #verify_user_admin' do
     context 'when user is a guest' do
+      before(:each) do
+        sign_out
+      end
+
       it 'redirects to sign in page' do
         visit admin_conferences_path
         expect(current_path).to eq new_user_session_path
@@ -30,31 +34,31 @@ feature 'BaseController' do
         expect(flash).to eq 'You are not authorized to access this page.'
       end
 
-      it 'an admin he can access the admin area' do
+      it 'an admin they can access the admin area' do
         user.is_admin = true
         visit admin_conferences_path
         expect(current_path).to eq admin_conferences_path
       end
 
-      it 'an organizer he can access the admin area' do
+      it 'an organizer they can access the admin area' do
         user.role_ids = organizer_role.id
         visit admin_conferences_path
         expect(current_path).to eq admin_conferences_path
       end
 
-      it 'a volunteers_coordinator he can access the admin area' do
+      it 'a volunteers_coordinator they can access the admin area' do
         user.role_ids = volunteers_coordinator_role.id
         visit admin_conferences_path
         expect(current_path).to eq admin_conferences_path
       end
 
-      it 'a cfp he can access the admin area' do
+      it 'a cfp they can access the admin area' do
         user.role_ids = cfp_role.id
         visit admin_conferences_path
         expect(current_path).to eq admin_conferences_path
       end
 
-      it 'an info_desk he can access the admin area' do
+      it 'an info_desk they can access the admin area' do
         user.role_ids = info_desk_role.id
         visit admin_conferences_path
         expect(current_path).to eq admin_conferences_path

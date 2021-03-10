@@ -85,7 +85,7 @@ GEM
     axlsx_rails (0.5.2)
       actionpack (>= 3.1)
       axlsx (>= 2.0.1)
-    bcrypt (3.1.13)
+    bcrypt (3.1.16)
     bindex (0.6.0)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
@@ -104,10 +104,13 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    carrierwave (1.3.2)
-      activemodel (>= 4.0.0)
-      activesupport (>= 4.0.0)
-      mime-types (>= 1.16)
+    carrierwave (2.1.1)
+      activemodel (>= 5.0.0)
+      activesupport (>= 5.0.0)
+      addressable (~> 2.6)
+      image_processing (~> 1.1)
+      mimemagic (>= 0.3.0)
+      mini_mime (>= 0.1.3)
       ssrf_filter (~> 1.0)
     carrierwave-bombshelter (0.2.2)
       activesupport (>= 3.2.0)
@@ -115,7 +118,7 @@ GEM
       fastimage
     case_transform (0.2)
       activesupport
-    chartkick (3.4.0)
+    chartkick (3.4.2)
     childprocess (3.0.0)
     chronic (0.10.2)
     chunky_png (1.3.11)
@@ -123,10 +126,9 @@ GEM
     cloudinary (1.11.1)
       aws_cf_signer
       rest-client
-    cocoon (1.2.14)
-    codecov (0.2.11)
-      json
-      simplecov
+    cocoon (1.2.15)
+    codecov (0.5.0)
+      simplecov (>= 0.15, < 0.22)
     coderay (1.1.1)
     concurrent-ruby (1.1.8)
     countable-rails (0.0.1)
@@ -142,7 +144,7 @@ GEM
       safe_yaml (~> 1.0.0)
     crass (1.0.6)
     daemons (1.3.1)
-    dalli (2.7.10)
+    dalli (2.7.11)
     dante (0.2.0)
     database_cleaner (1.7.0)
     delayed_job (4.1.8)
@@ -150,7 +152,7 @@ GEM
     delayed_job_active_record (4.1.4)
       activerecord (>= 3.0, < 6.1)
       delayed_job (>= 3.0, < 5)
-    devise (4.7.1)
+    devise (4.7.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -159,13 +161,13 @@ GEM
     devise_ichain_authenticatable (0.3.2)
       devise (>= 2.2)
     diff-lcs (1.3)
-    docile (1.3.2)
+    docile (1.3.5)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
-    dotenv (2.7.5)
-    dotenv-rails (2.7.5)
-      dotenv (= 2.7.5)
-      railties (>= 3.2, < 6.1)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     erubi (1.10.0)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -189,8 +191,8 @@ GEM
       path_expander (~> 1.0)
       ruby_parser (~> 3.0)
       sexp_processor (~> 4.0)
-    font-awesome-rails (4.7.0.5)
-      railties (>= 3.2, < 6.1)
+    font-awesome-rails (4.7.0.7)
+      railties (>= 3.2, < 7)
     formatador (0.2.5)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
@@ -252,8 +254,12 @@ GEM
     i18n (1.8.9)
       concurrent-ruby (~> 1.0)
     i18n_data (0.8.0)
-    inversion (1.1.1)
-      loggability (~> 0.12)
+    icalendar (2.7.0)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.3)
+    image_processing (1.12.1)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
     io-like (0.3.0)
     iso-639 (0.2.8)
     jaro_winkler (1.5.3)
@@ -264,7 +270,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.3.1)
+    json (2.5.1)
     json-schema (2.8.1)
       addressable (>= 2.4)
     jsonapi-renderer (0.2.2)
@@ -283,7 +289,6 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loggability (0.14.0)
     loofah (2.9.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -295,7 +300,7 @@ GEM
     method_source (0.8.2)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.1104)
+    mime-types-data (3.2021.0225)
     mimemagic (0.3.5)
     mina (1.2.3)
       open4 (~> 1.3.4)
@@ -303,7 +308,7 @@ GEM
     mini_magick (4.9.5)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
-    minitest (5.14.3)
+    minitest (5.14.4)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     monetize (1.9.2)
@@ -320,7 +325,7 @@ GEM
     multipart-post (2.1.1)
     nenv (0.3.0)
     netrc (0.11.0)
-    nio4r (2.5.5)
+    nio4r (2.5.7)
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
@@ -366,7 +371,7 @@ GEM
     parser (2.6.5.0)
       ast (~> 2.4.0)
     path_expander (1.1.0)
-    pdf-core (0.7.0)
+    pdf-core (0.9.0)
     pdf-inspector (1.3.0)
       pdf-reader (>= 1.0, < 3.0.a)
     pdf-reader (2.2.0)
@@ -380,13 +385,13 @@ GEM
       actionpack
       activesupport
       rails (>= 3.0.0)
-    prawn (2.2.2)
-      pdf-core (~> 0.7.0)
-      ttfunk (~> 1.5)
+    prawn (2.4.0)
+      pdf-core (~> 0.9.0)
+      ttfunk (~> 1.7)
     prawn-qrcode (0.3.1)
       prawn (>= 1)
       rqrcode (>= 0.4.1)
-    prawn-rails (1.2.0)
+    prawn-rails (1.3.0)
       prawn
       prawn-table
       rails (>= 3.1.0)
@@ -414,8 +419,12 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.8.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     public_suffix (3.1.1)
-    puma (3.12.6)
+    puma (5.2.2)
+      nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-openid (1.3.1)
@@ -456,10 +465,10 @@ GEM
     rails-assets-to-markdown (3.1.1)
     rails-assets-trianglify (1.2.0)
     rails-assets-waypoints (4.0.0)
-    rails-controller-testing (1.0.4)
-      actionpack (>= 5.0.1.x)
-      actionview (>= 5.0.1.x)
-      activesupport (>= 5.0.1.x)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -479,12 +488,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    rdoc (6.0.4)
-    rdoc-generator-fivefish (0.4.0)
-      inversion (~> 1.1)
-      loggability (~> 0.12)
-      rdoc (~> 6.0)
-      yajl-ruby (~> 1.3)
     recaptcha (4.14.0)
       json
     redcarpet (3.5.1)
@@ -540,6 +543,8 @@ GEM
     ruby-openid (2.9.2)
     ruby-progressbar (1.10.1)
     ruby-rc4 (0.1.5)
+    ruby-vips (2.0.17)
+      ffi (~> 1.9)
     ruby2_keywords (0.0.4)
     ruby_dep (1.5.0)
     ruby_parser (3.11.0)
@@ -584,10 +589,14 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
-    simplecov (0.19.0)
+    simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (1.4.2)
+      simplecov (~> 0.8)
     simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.2)
     sixarm_ruby_unaccent (1.2.0)
     skylight (3.1.5)
       skylight-core (= 3.1.5)
@@ -622,7 +631,7 @@ GEM
     tilt (2.0.9)
     timecop (0.9.1)
     transitions (1.2.1)
-    ttfunk (1.5.1)
+    ttfunk (1.7.0)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -637,8 +646,8 @@ GEM
     unicode_utils (1.4.0)
     unobtrusive_flash (3.3.1)
       railties
-    warden (1.2.8)
-      rack (>= 2.0.6)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     web-console (3.7.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -659,7 +668,6 @@ GEM
       chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yajl-ruby (1.4.1)
 
 PLATFORMS
   ruby
@@ -686,7 +694,6 @@ DEPENDENCIES
   climate_control
   cloudinary
   cocoon
-  codecov
   countable-rails
   country_select
   daemons
@@ -707,6 +714,7 @@ DEPENDENCIES
   guard-rspec
   haml-lint
   haml-rails
+  icalendar
   iso-639
   jquery-datatables
   jquery-rails
@@ -736,7 +744,8 @@ DEPENDENCIES
   pronto-haml
   pronto-rubocop
   pry
-  puma (~> 3.0)
+  pry-byebug
+  puma (~> 5.2)
   rails (~> 5.2)
   rails-assets-bootstrap-markdown!
   rails-assets-bootstrap-select!
@@ -752,7 +761,6 @@ DEPENDENCIES
   rails-assets-waypoints!
   rails-controller-testing
   rails-i18n
-  rdoc-generator-fivefish
   recaptcha
   redcarpet
   responders (~> 2.0)
@@ -768,6 +776,7 @@ DEPENDENCIES
   sentry-rails
   sentry-ruby
   shoulda-matchers
+  simplecov-cobertura
   skylight
   spring-commands-rspec
   sprockets-rails
@@ -783,6 +792,9 @@ DEPENDENCIES
   webdrivers
   webmock
   whenever
+
+RUBY VERSION
+   ruby 2.6.6p146
 
 BUNDLED WITH
    1.17.3

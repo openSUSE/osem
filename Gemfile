@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# ruby '~> 2.5.0'
+ruby ENV['TRAVIS_RUBY_VERSION'] || '2.6.6'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -12,7 +12,7 @@ end
 gem 'rails', '~> 5.2'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 5.2'
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
@@ -157,9 +157,6 @@ gem 'font-awesome-rails'
 # for markdown
 gem 'redcarpet'
 
-# as rdoc generator
-gem 'rdoc-generator-fivefish'
-
 # for visitor tracking
 gem 'piwik_analytics', '~> 1.0.1'
 
@@ -221,6 +218,8 @@ gem 'nokogiri', '>= 1.8.1'
 # memcached binary connector
 gem 'dalli'
 
+gem 'icalendar'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
@@ -234,8 +233,6 @@ group :development do
   gem 'mina'
   # as debugger on error pages
   gem 'web-console'
-  # as development database
-  gem 'sqlite3'
   # prepend models with db schema
   gem 'annotate'
 end
@@ -248,7 +245,7 @@ group :test do
   gem 'rspec-rails'
   gem 'webdrivers'
   # for measuring test coverage
-  gem 'codecov', require: false
+  gem 'simplecov-cobertura'
   # for describing models
   gem 'shoulda-matchers', require: false
   # for stubing/mocking models
@@ -269,10 +266,11 @@ group :test do
   gem 'pdf-inspector', require: "pdf/inspector"
 end
 
-group :development, :test, :linters do
+group :development, :test do
   # as debugger
   gem 'byebug'
   gem 'pry'
+  gem 'pry-byebug'
 
   # Linters and static analysis.
   gem 'pronto', require: false
@@ -282,4 +280,6 @@ group :development, :test, :linters do
   gem 'rubocop-rspec', require: false
 
   gem 'haml-lint', require: false
+  # as development/test database
+  gem 'sqlite3'
 end

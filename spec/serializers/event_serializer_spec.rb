@@ -7,6 +7,7 @@
 #  id                           :bigint           not null, primary key
 #  abstract                     :text
 #  comments_count               :integer          default(0), not null
+#  committee_review             :text
 #  description                  :text
 #  guid                         :string           not null
 #  is_highlight                 :boolean          default(FALSE)
@@ -18,6 +19,7 @@
 #  require_registration         :boolean
 #  start_time                   :datetime
 #  state                        :string           default("new"), not null
+#  submission_text              :text
 #  subtitle                     :string
 #  title                        :string           not null
 #  week                         :integer

@@ -27,6 +27,21 @@ feature Event do
       sign_in organizer
     end
 
+    scenario 'can preview a proposal if it is public', feature: true, js: true do
+      visit admin_conference_program_event_path(conference.short_title, @event)
+      expect(page).to have_selector(:link_or_button, 'Preview')
+      click_link 'Preview'
+      expect(current_path).to eq(conference_program_proposal_path(conference.short_title, @event.id))
+    end
+
+    scenario 'cannot preview a proposal if it is not public', feature: true, js: true do
+      event = create(:event, program: conference.program, title: 'Example Proposal')
+      event.public = false
+      event.save!
+      visit admin_conference_program_event_path(conference.short_title, event)
+      expect(page).to_not have_selector(:link_or_button, 'Preview')
+    end
+
     scenario 'rejects a proposal', feature: true, js: true do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
@@ -82,6 +97,7 @@ feature Event do
       fill_in 'event_title', with: 'Example Proposal'
       select('Example Event Type', from: 'event[event_type_id]')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
+      fill_in 'event_submission_text', with: 'Lorem ipsum submission'
 
       click_button 'Submit Proposal'
       page.find('#flash')
@@ -89,6 +105,17 @@ feature Event do
 
       expect(Event.count).to eq(expected_count_event)
       expect(User.count).to eq(expected_count_user)
+    end
+
+    scenario 'edit proposal without cfp' do
+      conference = create(:conference)
+      proposal = create(:event, program: conference.program)
+
+      sign_in proposal.submitter
+
+      visit edit_conference_program_proposal_path(proposal.program.conference.short_title, proposal)
+
+      expect(page).to have_content 'Proposal Information'
     end
 
     scenario 'update a proposal' do
@@ -120,8 +147,14 @@ feature Event do
       select('Example Event Type', from: 'event[event_type_id]')
       expect(page).to have_selector(".in[id='#{find_field('event[event_type_id]').value}-help']") # End of animation
 
+      expect(page).to have_text('Example Event Description')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       expect(page).to have_text('You have used 3 words')
+
+      fill_in 'event_submission_text', with: 'Lorem ipsum submission_text'
+      expect(page).to have_text('Submission text')
+      # Submission Instructions content
+      expect(page).to have_text('Example Event Instructions')
 
       click_link 'Do you require something special?'
       fill_in 'event_description', with: 'Lorem ipsum description'
@@ -157,6 +190,25 @@ feature Event do
       expect(page).to have_content 'Proposal was successfully withdrawn.'
       @event.reload
       expect(@event.state).to eq('withdrawn')
+    end
+
+    scenario 'can reset to text template', feature: true, js: true do
+      event_type = conference.program.event_types[-1]
+      event_type.description = 'Example event description'
+      event_type.save!
+
+      sign_in participant
+      visit new_conference_program_proposal_path(conference.short_title)
+
+      fill_in 'event_title', with: 'Example Proposal'
+      select(event_type.title, from: 'event[event_type_id]')
+      fill_in 'event_submission_text', with: 'Lorem ipsum example submission text'
+
+      accept_confirm do
+        click_button 'Reset to Template'
+      end
+
+      expect(page.find('#event_submission_text').value).to eq(event_type.description)
     end
   end
 end
