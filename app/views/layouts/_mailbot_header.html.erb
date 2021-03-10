@@ -13,12 +13,12 @@
     <div id="border">
       <div class="row">
         <div class="col-md-2">
-          <% if !@logo.nil? %>
+          <% if @logo.present? %>
             <%= image_tag(@logo, style: "display:block") %>
           <% end %>
         </div>
         <div class="col-md-10">
-          <h1></h1>
+          <h1>Snap!Con -- A conference all about Snap!, a programing language from UC Berkeley.</h1>
         </div>
       </div>
     </div>
