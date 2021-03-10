@@ -164,7 +164,7 @@ $( document ).ready(function() {
         var max = $selected.data("max-words");
         var min = $selected.data("min-words");
 
-        // Set the placeholder text for the abstract
+        // Set the filler text for the submission text
         fill_if_empty('event_submission_text', $selected.data("help"));
 
         $("#abstract-maximum-word-count").text(max);
