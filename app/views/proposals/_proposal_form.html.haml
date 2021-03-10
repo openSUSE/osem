@@ -50,6 +50,7 @@
 
     = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
       hint: markdown_hint('Only conference organizers will read this.')
+    %button.btn.btn-primary.primary-button{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } } Reset to Template
 
     %p
       You have used

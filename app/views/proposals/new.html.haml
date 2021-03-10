@@ -33,7 +33,7 @@
               = f.input :title, as: :string, required: true, input_html: { required: true }
               = f.input :event_type_id, as: :select,
                 collection: @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
+                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length, help: type.description }]},
                 include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
               - @program.event_types.each do |event_type|
@@ -63,6 +63,7 @@
 
               = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' } },
                 hint: markdown_hint
+              %button.btn.btn-primary.primary-button{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } } Reset to Template
 
               %p
                 You have used
