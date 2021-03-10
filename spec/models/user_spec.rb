@@ -441,6 +441,17 @@ describe User do
         end
       end
     end
+
+    describe '#count_registration_tickets' do
+      let(:registration_ticket) { create(:registration_ticket, price_cents: 0) }
+      let(:conference3) { create(:conference, short_title: 'oSC17', title: 'openSUSE Conference 2017', tickets: [registration_ticket]) }
+      let(:ticket_purchase) { create(user: user, conference: conference3, ticket: registration_ticket, quantity: 1) }
+      
+      it 'counts the number of registration tickets of a conference held by user' do
+        expect(user.count_registration_tickets(conference3).eq(1))
+        expect(user.count_registration_tickets(conference2).eq(0))
+      end
+    end
   end
 
   describe 'rolify' do

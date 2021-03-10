@@ -34,8 +34,6 @@ class PaymentsController < ApplicationController
         redirect_to conference_physical_tickets_path,
                     notice: 'Thanks! Your ticket is booked successfully.'
       end
-
-      @has_registration_ticket = nil
     else
       @total_amount_to_pay = Ticket.total_price(@conference, current_user, paid: false)
       @unpaid_ticket_purchases = current_user.ticket_purchases.unpaid.by_conference(@conference)
