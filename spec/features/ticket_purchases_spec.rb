@@ -11,7 +11,7 @@ feature Registration, feature: true, js: true do
   let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket, first_registration_ticket, second_registration_ticket, third_registration_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
   let!(:participant) { create(:user) }
 
-  def make_stripe_purchase(card_number='4242424242424242')
+  def make_stripe_purchase(card_number = '4242424242424242')
     find('.stripe-button-el').click
 
     stripe_iframe = all('iframe[name=stripe_checkout_app]').last
