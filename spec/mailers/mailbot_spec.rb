@@ -22,8 +22,8 @@ describe Mailbot do
         expect(mail.from).to eq ['conf@domain.com']
       end
 
-      it 'assigns the email body' do
-        expect(mail.body).to include 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
+      it 'assigns the email body with the correct logo' do
+        expect(mail.body).to include 'snapcon_logo'
       end
 
       it 'delivers the email' do
@@ -76,5 +76,29 @@ describe Mailbot do
 
   context 'update notifications' do
     it 'is a pending test'
+  end
+
+  context 'helper methods' do
+    let(:organization) { create(:organization) }
+    let(:conference2) { create(:conference, organization: organization) }
+
+    describe '#logo_url' do
+      it 'gives the correct logo url' do
+        mailbot = Mailbot.new
+        expect(mailbot.send(:logo_url, conference2)).to eq('snapcon_logo.png')
+
+        File.open('spec/support/logos/1.png') do |file|
+          organization.picture = file
+        end
+
+        expect(mailbot.send(:logo_url, conference2)).to include('1.png')
+
+        File.open('spec/support/logos/2.png') do |file|
+          conference2.picture = file
+        end
+
+        expect(mailbot.send(:logo_url, conference2)).to include('2.png')
+      end
+    end
   end
 end

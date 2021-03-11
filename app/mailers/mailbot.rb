@@ -7,21 +7,23 @@ DEFAULT_LOGO = 'snapcon_logo.png'
 
 class Mailbot < ActionMailer::Base
   default bcc:              -> { SNAPCON_BCC_ADDRESS },
-          template_name:    -> { EMAIL_TEMPLATE }
+          template_name:    -> { EMAIL_TEMPLATE },
+          to:               -> { @user.email },
+          from:             -> { @conference.contact.email}
 
   def registration_mail(conference, user)
-    @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.registration_body)
-    @logo_url = logo_url(conference)
+    @user = user
+    @conference = conference
+    @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.registration_body)
+    @logo_url = logo_url(@conference)
 
-    mail(to:            user.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.registration_subject)
+    mail(subject:       @conference.email_settings.registration_subject)
   end
 
   def ticket_confirmation_mail(ticket_purchase)
     @ticket_purchase = ticket_purchase
-    @conference = ticket_purchase.conference
     @user = ticket_purchase.user
+    @conference = ticket_purchase.conference
     @logo_url = logo_url(@conference)
 
     PhysicalTicket.last(ticket_purchase.quantity).each do |physical_ticket|
@@ -34,123 +36,111 @@ class Mailbot < ActionMailer::Base
       template_name = 'young_thinkers_ticket_confirmation_template'
     end
 
-    mail(to:            @user.email,
-         from:          @conference.contact.email,
-         template_name: template_name,
-         subject:       "#{@conference.title} | Ticket Confirmation and PDF!")
+    mail(subject:       "#{@conference.title} | Ticket Confirmation and PDF!",
+         template_name: template_name)
   end
 
   def acceptance_mail(event)
-    conference = event.program.conference
+    @user = event.submitter
+    @conference = event.program.conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.accepted_body)
 
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_event_mail(event, conference.email_settings.accepted_body)
-
-    mail(to:            event.submitter.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.accepted_subject)
+    mail(subject:       @conference.email_settings.accepted_subject)
   end
 
   def submitted_proposal_mail(event)
-    conference = event.program.conference
+    @user = event.submitter
+    @conference = event.program.conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.submitted_proposal_body)
 
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_event_mail(event, conference.email_settings.submitted_proposal_body)
-
-    mail(to:            event.submitter.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.submitted_proposal_subject)
+    mail(subject:       @conference.email_settings.submitted_proposal_subject)
   end
 
   def rejection_mail(event)
-    conference = event.program.conference
+    @user = event.submitter
+    @conference = event.program.conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.rejected_body)
 
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_event_mail(event, conference.email_settings.rejected_body)
-
-    mail(to:            event.submitter.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.rejected_subject)
+    mail(subject:       @conference.email_settings.rejected_subject)
   end
 
   def confirm_reminder_mail(event)
-    conference = event.program.conference
+    @user = event.submitter
+    @conference = event.program.conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.confirmed_without_registration_body)
 
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_event_mail(event, conference.email_settings.confirmed_without_registration_body)
-
-    mail(to:            event.submitter.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.confirmed_without_registration_subject)
+    mail(subject:       @conference.email_settings.confirmed_without_registration_subject)
   end
 
   def conference_date_update_mail(conference, user)
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.conference_dates_updated_body)
+    @user = user
+    @conference = @conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.conference_dates_updated_body)
 
-    mail(to:            user.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.conference_dates_updated_subject)
+    mail(subject:       @conference.email_settings.conference_dates_updated_subject)
   end
 
   def conference_registration_date_update_mail(conference, user)
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.conference_registration_dates_updated_body)
+    @user = user
+    @conference = conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.conference_registration_dates_updated_body)
 
-    mail(to:            user.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.conference_registration_dates_updated_subject)
+    mail(subject:       @conference.email_settings.conference_registration_dates_updated_subject)
   end
 
   def conference_venue_update_mail(conference, user)
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.venue_updated_body)
+    @user = user
+    @conference = conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.venue_updated_body)
 
-    mail(to:            user.email,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.venue_updated_subject)
+    mail(subject:       @conference.email_settings.venue_updated_subject)
   end
 
   def conference_schedule_update_mail(conference, user)
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.program_schedule_public_body)
+    @user = user
+    @conference = conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.program_schedule_public_body)
 
-    mail(to:            user.email,
-         bcc:           nil,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.program_schedule_public_subject)
+    mail(bcc:           nil,
+         subject:       @conference.email_settings.program_schedule_public_subject)
   end
 
   def conference_cfp_update_mail(conference, user)
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_email_on_conf_updates(conference, user, conference.email_settings.cfp_dates_updated_body)
+    @user = user
+    @conference = conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.cfp_dates_updated_body)
 
-    mail(to:            user.email,
-         bcc:           nil,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.cfp_dates_updated_subject)
+    mail(bcc:           nil,
+         subject:       @conference.email_settings.cfp_dates_updated_subject)
   end
 
   def conference_booths_acceptance_mail(booth)
-    conference = booth.conference
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_booth_mail(booth, conference.email_settings.booths_acceptance_body)
+    @user = booth.submitter
+    @conference = booth.conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_booth_mail(booth, @conference.email_settings.booths_acceptance_body)
 
-    mail(to:            booth.submitter.email,
-         bcc:           nil,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.booths_acceptance_subject)
+    mail(bcc:           nil,
+         subject:       @conference.email_settings.booths_acceptance_subject)
   end
 
   def conference_booths_rejection_mail(booth)
-    conference = booth.conference
-    @logo_url = logo_url(conference)
-    @email_body = conference.email_settings.generate_booth_mail(booth, conference.email_settings.booths_rejection_body)
+    @user = booth.submitter
+    @conference = booth.conference
+    @logo_url = logo_url(@conference)
+    @email_body = @conference.email_settings.generate_booth_mail(booth, @conference.email_settings.booths_rejection_body)
 
-    mail(to:            booth.submitter.email,
-         bcc:           nil,
-         from:          conference.contact.email,
-         subject:       conference.email_settings.booths_rejection_subject)
+    mail(bcc:           nil,
+         subject:       @conference.email_settings.booths_rejection_subject)
   end
 
   def event_comment_mail(comment, user)
@@ -160,9 +150,7 @@ class Mailbot < ActionMailer::Base
     @user = user
     @logo_url = logo_url(@conference)
 
-    mail(to:            @user.email,
-         bcc:           nil,
-         from:          @conference.contact.email,
+    mail(bcc:           nil,
          template_name: 'comment_template',
          subject:       "New comment has been posted for #{@event.title}")
   end
