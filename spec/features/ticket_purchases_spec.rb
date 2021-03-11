@@ -7,7 +7,7 @@ feature Registration, feature: true, js: true do
   let!(:free_ticket) { create(:ticket, price_cents: 0) }
   let!(:first_registration_ticket) { create(:registration_ticket, price_cents: 0) }
   let!(:second_registration_ticket) { create(:registration_ticket, price_cents: 0) }
-  let!(:third_registration_ticket) { create(:registration_ticket, price_cents: 10) }
+  let!(:third_registration_ticket) { create(:registration_ticket, price_cents: 2000) }
   let!(:conference) { create(:conference, title: 'ExampleCon', tickets: [ticket, free_ticket, first_registration_ticket, second_registration_ticket, third_registration_ticket], registration_period: create(:registration_period, start_date: 3.days.ago)) }
   let!(:participant) { create(:user) }
 
@@ -17,7 +17,7 @@ feature Registration, feature: true, js: true do
     stripe_iframe = all('iframe[name=stripe_checkout_app]').last
     sleep(5)
     Capybara.within_frame stripe_iframe do
-      expect(page).to have_content("#{ENV['OSEM_NAME']} tickets")
+      expect(page).to have_content(:all, "#{ENV['OSEM_NAME']} tickets")
       fill_in 'Card number', with: card_number
       fill_in 'Expiry', with: '08/22'
       fill_in 'CVC', with: '123'
@@ -145,22 +145,10 @@ feature Registration, feature: true, js: true do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: third_registration_ticket.id).first
         expect(purchase.quantity).to eq(1)
 
-        if Rails.application.secrets.stripe_publishable_key
-          find('.stripe-button-el').click
-
-          stripe_iframe = all('iframe[name=stripe_checkout_app]').last
-          sleep(5)
-          Capybara.within_frame stripe_iframe do
-            expect(page).to have_content('book your tickets')
-            page.execute_script(%{ $('input#card_number').val('4242424242424242'); })
-            page.execute_script(%{ $('input#cc-exp').val('08/22'); })
-            page.execute_script(%{ $('input#cc-csc').val('123'); })
-            page.execute_script(%{ $('#submitButton').click(); })
-            sleep(20)
-          end
-
+        if ENV['STRIPE_PUBLISHABLE_KEY'] || Rails.application.secrets.stripe_publishable_key
+          make_stripe_purchase
           expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
-          expect(flash).to eq('Thanks! Your ticket is booked successfully. Please register for the conference.')
+          expect(page).to have_content 'Your ticket is booked successfully.'
         end
       end
 
