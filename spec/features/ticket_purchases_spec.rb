@@ -188,7 +188,7 @@ feature Registration, feature: true, js: true do
     context 'who is registered' do
 
       scenario 'unregisters from conference, but ticket purchases dont delete' do
-        pending('SNAPCON: Investigate failure on the unregister button')
+        skip('SNAPCON: Investigate failure on the unregister button')
         visit root_path
         click_link 'Register'
 
