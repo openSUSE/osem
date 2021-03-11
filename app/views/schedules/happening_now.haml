@@ -9,10 +9,10 @@
     .col-md-12
       %h2
         #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
-      %h3
-        This page was loaded at
-        = inyourtz(Time.now) do
-          #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
+        %small
+          This page was loaded at
+          = inyourtz(Time.now) do
+            #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
 
   .row
     / TODO: Clean this up, merge with all events page.
@@ -27,7 +27,6 @@
                 = date = event_schedule.start_time.strftime('%Y-%m-%d')
             %a{ title: 'Go up', class: 'pull-right', href: '#program' }
               %i.fa.fa-angle-double-up.fa-lg{ 'aria-hidden': true }
-      -# rubocop:disable  Style/UnlessElse
       - if !event_schedule.start_time.strftime('%H:%M').eql?(time)
         .col-xs-12.col-md-1
           .start-time
@@ -40,7 +39,6 @@
         -# TODO: Add comment describing this condition.
         .col-xs-12.col-md-11.col-md-offset-1
           = render 'event', event: event_schedule.event, event_schedule: event_schedule
-      -# rubocop:enable  Style/UnlessElse
 
 :javascript
   // Refresh the page every 5 minutes.
