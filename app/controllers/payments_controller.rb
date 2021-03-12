@@ -27,7 +27,7 @@ class PaymentsController < ApplicationController
       update_purchased_ticket_purchases
 
       has_registration_ticket = params[:has_registration_ticket]
-      if has_registration_ticket.present? && has_registration_ticket == 'true'
+      if has_registration_ticket == 'true'
         redirect_to new_conference_conference_registration_path(@conference.short_title),
                     notice: 'Thanks! Your ticket is booked successfully. Please register for the conference.'
       else
