@@ -38,6 +38,7 @@ describe Mailbot do
         expect(mail.body).to include('background-color: ' + conference.color)
       end
 
+      # TODO: test on non-default logo
       it 'assigns the email body with the correct logo' do
         expect(mail.body).to include 'snapcon_logo'
       end
@@ -92,29 +93,5 @@ describe Mailbot do
 
   context 'update notifications' do
     it 'is a pending test'
-  end
-
-  context 'helper methods' do
-    let(:organization) { create(:organization) }
-    let(:conference2) { create(:conference, organization: organization) }
-
-    describe '#logo_url' do
-      it 'gives the correct logo url' do
-        mailbot = Mailbot.new
-        expect(mailbot.send(:logo_url, conference2)).to eq('snapcon_logo.png')
-
-        File.open('spec/support/logos/1.png') do |file|
-          organization.picture = file
-        end
-
-        expect(mailbot.send(:logo_url, conference2)).to include('1.png')
-
-        File.open('spec/support/logos/2.png') do |file|
-          conference2.picture = file
-        end
-
-        expect(mailbot.send(:logo_url, conference2)).to include('2.png')
-      end
-    end
   end
 end

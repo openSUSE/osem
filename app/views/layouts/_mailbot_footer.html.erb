@@ -7,11 +7,6 @@
     <%= stylesheet_link_tag "mailbot" %>
   </head>
   <body>
-  <% if @conference.present? && @conference.color.present? %>
-    <div id="border" style="background-color: <%= @conference.color %>">
-  <% else %>
-    <div id="border">
-  <% end %>
-  </div>
+  <div id="border" style="background-color: <%= conference_color(@conference) %>"></div>
   </body>
 </html>

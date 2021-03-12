@@ -67,4 +67,26 @@ describe ConferenceHelper, type: :helper do
       expect(sponsorship_mailto(conference)).to match conference.short_title
     end
   end
+
+  describe '#conference_logo_url' do
+    let(:organization) { create(:organization) }
+    let(:conference2) { create(:conference, organization: organization) }
+
+    it 'gives the correct logo url' do
+      mailbot = Mailbot.new
+      expect(conference_logo_url(conference2)).to eq('snapcon_logo.png')
+
+      File.open('spec/support/logos/1.png') do |file|
+        organization.picture = file
+      end
+
+      expect(conference_logo_url(conference2)).to include('1.png')
+
+      File.open('spec/support/logos/2.png') do |file|
+        conference2.picture = file
+      end
+
+      expect(conference_logo_url(conference2)).to include('2.png')
+    end
+  end
 end
