@@ -22,6 +22,10 @@ describe Mailbot do
         expect(mail.from).to eq ['conf@domain.com']
       end
 
+      it 'assigns the email body' do
+        expect(mail.body).to include 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
+      end
+      
       it 'assigns the email body with the correct logo' do
         expect(mail.body).to include 'snapcon_logo'
       end
