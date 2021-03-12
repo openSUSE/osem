@@ -88,4 +88,15 @@ describe ConferenceHelper, type: :helper do
       expect(conference_logo_url(conference2)).to include('2.png')
     end
   end
+
+  describe '#conference_color' do
+    let(:conference2) { create(:conference, color: '#000000') }
+
+    it 'gives the correct conference color' do
+      expect(conference_color(conference2)).to eq('#000000')
+
+      conference2.color = ''
+      expect(conference_color(conference2)).to eq('#0B3559')
+    end
+  end
 end
