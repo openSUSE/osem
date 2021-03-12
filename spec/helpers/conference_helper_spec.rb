@@ -73,7 +73,6 @@ describe ConferenceHelper, type: :helper do
     let(:conference2) { create(:conference, organization: organization) }
 
     it 'gives the correct logo url' do
-      mailbot = Mailbot.new
       expect(conference_logo_url(conference2)).to eq('snapcon_logo.png')
 
       File.open('spec/support/logos/1.png') do |file|
