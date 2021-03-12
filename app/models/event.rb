@@ -7,7 +7,6 @@
 #  id                           :bigint           not null, primary key
 #  abstract                     :text
 #  comments_count               :integer          default(0), not null
-#  committee_review             :text
 #  description                  :text
 #  guid                         :string           not null
 #  is_highlight                 :boolean          default(FALSE)
@@ -336,6 +335,10 @@ class Event < ApplicationRecord
 
   def <=>(other)
     time <=> other.time
+  end
+
+  def is_live?
+    start_time >= Time.now && Time.now <= start_time + event_type.length  
   end
 
   private

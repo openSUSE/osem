@@ -784,6 +784,16 @@ class Conference < ApplicationRecord
     end_date < Time.current
   end
 
+  def find_live_events()
+    live_events = []
+    for event in program.events
+      if event.is_live?
+        live_events.append(event) 
+      end
+    end
+    live_events
+  end
+
   private
 
   # Returns a different html colour for every i and consecutive colors are
