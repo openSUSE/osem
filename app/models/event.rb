@@ -337,6 +337,10 @@ class Event < ApplicationRecord
     time <=> other.time
   end
 
+  def is_live?
+    start_time >= Time.now && Time.now <= start_time + event_type.length  
+  end
+
   private
 
   ##
