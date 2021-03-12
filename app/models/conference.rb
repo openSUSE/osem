@@ -784,7 +784,7 @@ class Conference < ApplicationRecord
     end_date < Time.current
   end
 
-  def find_live_events()
+  def find_live_events
     live_events = []
     for event in program.events
       if event.is_live?
