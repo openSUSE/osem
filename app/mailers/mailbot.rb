@@ -6,10 +6,10 @@ YTLF_TICKET_ID = 50
 DEFAULT_LOGO = 'snapcon_logo.png'
 
 class Mailbot < ActionMailer::Base
-  default bcc:              -> { SNAPCON_BCC_ADDRESS },
-          template_name:    -> { EMAIL_TEMPLATE },
-          to:               -> { @user.email },
-          from:             -> { @conference.contact.email}
+  default bcc:           -> { SNAPCON_BCC_ADDRESS },
+          template_name: -> { EMAIL_TEMPLATE },
+          to:            -> { @user.email },
+          from:          -> { @conference.contact.email }
 
   def registration_mail(conference, user)
     @user = user
@@ -17,7 +17,7 @@ class Mailbot < ActionMailer::Base
     @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.registration_body)
     @logo_url = logo_url(@conference)
 
-    mail(subject:       @conference.email_settings.registration_subject)
+    mail(subject: @conference.email_settings.registration_subject)
   end
 
   def ticket_confirmation_mail(ticket_purchase)
@@ -46,7 +46,7 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.accepted_body)
 
-    mail(subject:       @conference.email_settings.accepted_subject)
+    mail(subject: @conference.email_settings.accepted_subject)
   end
 
   def submitted_proposal_mail(event)
@@ -55,7 +55,7 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.submitted_proposal_body)
 
-    mail(subject:       @conference.email_settings.submitted_proposal_subject)
+    mail(subject: @conference.email_settings.submitted_proposal_subject)
   end
 
   def rejection_mail(event)
@@ -64,7 +64,7 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.rejected_body)
 
-    mail(subject:       @conference.email_settings.rejected_subject)
+    mail(subject: @conference.email_settings.rejected_subject)
   end
 
   def confirm_reminder_mail(event)
@@ -73,16 +73,16 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_event_mail(event, @conference.email_settings.confirmed_without_registration_body)
 
-    mail(subject:       @conference.email_settings.confirmed_without_registration_subject)
+    mail(subject: @conference.email_settings.confirmed_without_registration_subject)
   end
 
-  def conference_date_update_mail(conference, user)
+  def conference_date_update_mail(_conference, user)
     @user = user
     @conference = @conference
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.conference_dates_updated_body)
 
-    mail(subject:       @conference.email_settings.conference_dates_updated_subject)
+    mail(subject: @conference.email_settings.conference_dates_updated_subject)
   end
 
   def conference_registration_date_update_mail(conference, user)
@@ -91,7 +91,7 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.conference_registration_dates_updated_body)
 
-    mail(subject:       @conference.email_settings.conference_registration_dates_updated_subject)
+    mail(subject: @conference.email_settings.conference_registration_dates_updated_subject)
   end
 
   def conference_venue_update_mail(conference, user)
@@ -100,7 +100,7 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.venue_updated_body)
 
-    mail(subject:       @conference.email_settings.venue_updated_subject)
+    mail(subject: @conference.email_settings.venue_updated_subject)
   end
 
   def conference_schedule_update_mail(conference, user)
@@ -109,8 +109,8 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.program_schedule_public_body)
 
-    mail(bcc:           nil,
-         subject:       @conference.email_settings.program_schedule_public_subject)
+    mail(bcc:     nil,
+         subject: @conference.email_settings.program_schedule_public_subject)
   end
 
   def conference_cfp_update_mail(conference, user)
@@ -119,8 +119,8 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_email_on_conf_updates(@conference, @user, @conference.email_settings.cfp_dates_updated_body)
 
-    mail(bcc:           nil,
-         subject:       @conference.email_settings.cfp_dates_updated_subject)
+    mail(bcc:     nil,
+         subject: @conference.email_settings.cfp_dates_updated_subject)
   end
 
   def conference_booths_acceptance_mail(booth)
@@ -129,8 +129,8 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_booth_mail(booth, @conference.email_settings.booths_acceptance_body)
 
-    mail(bcc:           nil,
-         subject:       @conference.email_settings.booths_acceptance_subject)
+    mail(bcc:     nil,
+         subject: @conference.email_settings.booths_acceptance_subject)
   end
 
   def conference_booths_rejection_mail(booth)
@@ -139,8 +139,8 @@ class Mailbot < ActionMailer::Base
     @logo_url = logo_url(@conference)
     @email_body = @conference.email_settings.generate_booth_mail(booth, @conference.email_settings.booths_rejection_body)
 
-    mail(bcc:           nil,
-         subject:       @conference.email_settings.booths_rejection_subject)
+    mail(bcc:     nil,
+         subject: @conference.email_settings.booths_rejection_subject)
   end
 
   def event_comment_mail(comment, user)
@@ -156,14 +156,14 @@ class Mailbot < ActionMailer::Base
   end
 
   private
-  
+
   def logo_url(conference)
     if conference.picture.present?
-      return conference.picture.thumb.url
+      conference.picture.thumb.url
     elsif conference.organization.picture.present?
-      return conference.organization.picture.thumb.url
+      conference.organization.picture.thumb.url
     else
-      return DEFAULT_LOGO
+      DEFAULT_LOGO
     end
   end
 end
