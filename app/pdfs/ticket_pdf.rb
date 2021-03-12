@@ -69,9 +69,9 @@ class TicketPdf < Prawn::Document
     draw_text @conference.title.to_s, at: [@mid_horizontal + 30, cursor - 30], size: 12
     draw_text @conference.organization.name.to_s, at: [@mid_horizontal + 30, cursor - 50], size: 12
     if @conference.venue
-      draw_text @conference.venue.name, at: [@mid_horizontal + 30, cursor - 70]
-      draw_text @conference.venue.street, at: [@mid_horizontal + 30, cursor - 90]
-      draw_text @conference.venue.city, at: [@mid_horizontal + 30, cursor - 110]
+      draw_text @conference.venue_name, at: [@mid_horizontal + 30, cursor - 70]
+      draw_text @conference.venue_street, at: [@mid_horizontal + 30, cursor - 90]
+      draw_text @conference.city, at: [@mid_horizontal + 30, cursor - 110]
     end
     move_up 130
     move_down @mid_vertical

@@ -8,7 +8,7 @@ describe UserDatatable do
   end
 
   let(:data_cols) do
-    [:id, :confirmed_at, :email, :name, :username, :attended, :roles, :view_url, :edit_url, :DT_RowId]
+    [:id, :confirmed_at, :email, :name, :username, :attended, :roles, :view_url, :edit_url, :DT_RowId, :confirmed]
   end
   let(:view) do
     view = double(
@@ -126,7 +126,6 @@ describe UserDatatable do
       end
 
       it 'confirmed_at' do
-
         expect(Date.parse(user_data[:confirmed_at])).to eq(user.confirmed_at.to_date)
       end
 

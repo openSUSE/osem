@@ -66,6 +66,16 @@ module Admin
 
     def edit; end
 
+    def destroy
+      if @user.destroy
+        redirect_to admin_users_path,
+                    notice: "User #{@user.id} (#{@user.email}) deleted."
+      else
+        redirect_to admin_users_path,
+                    error: "User #{@user.id} (#{@user.emai}) could not be deleted. #{@user.full_messages.join(',')}"
+      end
+    end
+
     private
 
     def user_params

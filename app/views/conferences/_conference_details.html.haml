@@ -12,10 +12,10 @@
               = date_string(conference.start_date, conference.end_date)
           - if conference.venue
             %p
-              = "#{conference.venue.city}/#{conference.venue.country_name}"
+              = "#{conference.city}/#{conference.country_name}"
           - unless conference.description.blank?
             %p
-              = markdown(conference.description)
+              = markdown(conference.description, escape_html=false)
         .col-md-2
           .btn-group-vertical
             - if !@conference || @conference != conference

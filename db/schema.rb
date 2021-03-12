@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_15_213515) do
+ActiveRecord::Schema.define(version: 2021_03_06_185903) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -219,6 +222,7 @@ ActiveRecord::Schema.define(version: 2021_02_15_213515) do
     t.integer "program_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text "submission_instructions"
   end
 
   create_table "event_users", force: :cascade do |t|
