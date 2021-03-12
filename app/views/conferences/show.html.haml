@@ -20,24 +20,22 @@
   - if @unpaid_tickets
     .row
       .col-md-12
-        .alert.alert-dismissable.alert-info.text-center#unpaid-tickets{role: 'alert'}
-          %button.button.close{"data-dismiss" => "alert", "aria-label"=>"close"}
+        .alert.alert-dismissable.alert-info.text-center#unpaid-tickets{ role: 'alert' }
+          %button.button.close{ "data-dismiss" => "alert", "aria-label"=>"close" }
             &times;
           %p
             You have unpaid tickets. Please complete your purchase.
             = link_to('Purchase Tickets', new_conference_payment_path(@conference), class: 'btn btn-success btn-lg')
 
-
   - if @user_needs_to_register
     .row
-    .col-md-12
-      .alert.alert-dismissable.alert-warning.text-center#flash{role: 'alert'}
-        %button.button.close{"data-dismiss" => "alert", 'aria-label': 'close'}
-          &times;
-        %p
-          You still need to complete your registration for #{@conference.title}.
-          = link_to('Complete Registration', new_conference_conference_registration_path(@conference), class: 'btn btn-success btn-lg')
-
+      .col-md-12
+        .alert.alert-dismissable.alert-warning.text-center#flash{ role: 'alert' }
+          %button.button.close{ "data-dismiss" => "alert", 'aria-label': 'close' }
+            &times;
+          %p
+            You still need to complete your registration for #{@conference.title}.
+            = link_to('Complete Registration', new_conference_conference_registration_path(@conference), class: 'btn btn-success btn-lg')
 
 #splash
   - if @conference.code_of_conduct.present?
@@ -79,29 +77,8 @@
       sponsorship_levels: @sponsorship_levels,
       sponsors: @sponsors
 
-
   -# footer
   - if @conference.splashpage.include_social_media
     - if @conference.contact.has_social_media?
       = render 'social_media', contact: @conference.contact
   = render 'footer'
-
-
--# - content_for :script_head do
--#   :javascript
--#     var triangle_tcs = tinycolor("#{h(@conference.color)}").monochromatic();
--#     var triangle_colors = triangle_tcs.map(function(t) {
--#       return t.toHexString();
--#     });
--#     $(function () {
--#       $(document).ready(function() {
--#         var triangle_width = document.body.clientWidth;
--#         var triangle_height = ($( "#banner" ).height() + 200 );
--#         var pattern = Trianglify({ width: triangle_width,
--#                                    height: triangle_height,
--#                                    cell_size: 100,
--#                                    x_colors: triangle_colors
--#                                   });
--#         $('#banner').css('background-image', 'url(' + 0 + ')');
--#       });
--#     });
