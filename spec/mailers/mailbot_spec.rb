@@ -27,18 +27,9 @@ describe Mailbot do
       end
 
       it 'assigns the email body with the correct color' do
-        # p mail.body
-        # expect(mail.body).to have_selector('#border.background-color', '#0B3559')
-        # Capybara.within_frame(mail.body) do
-        #   color = find('#border').native.css_value('background-color')
-        #   expect(color).to eq('#0B3559')
-        # end
-
-        # TODO: select border ...
         expect(mail.body).to include('background-color: ' + conference.color)
       end
 
-      # TODO: test on non-default logo
       it 'assigns the email body with the correct logo' do
         expect(mail.body).to include 'snapcon_logo'
       end
