@@ -5,7 +5,7 @@ module External
     def create_lead(user)
       # TODO
       begin
-        uri = URI("api.mailbluster.com/api/leads")
+        uri = URI("http://api.mailbluster.com/api/leads")
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Post.new(uri.path,
           {'Authorization' => ENV["MAILBLUSTER_API_KEY"]}) # TODO Authorization=APIKEY
@@ -14,6 +14,7 @@ module External
             'subscribed' => true,
             'tags' => ["snapcon"],
             'overrideExisting' => true}.to_json
+        puts request
         response = http.request(request)
         puts response
         return true
