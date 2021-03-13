@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe MailblusterHelper, type: :helper do
+describe  External::MailblusterHelper, type: :helper do
   let!(:user) { create(:user) }
 
   describe 'create_lead' do
