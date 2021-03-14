@@ -9,11 +9,13 @@ module External
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Post.new(uri.path,
           {'Authorization' => ENV["MAILBLUSTER_API_KEY"]}) # TODO Authorization=APIKEY
-        request.body = {'firstName' => user.name,
+        request.body = {
             'email' => user.email,
+            'firstName' => user.name,
+            'overrideExisting' => true,
             'subscribed' => true,
             'tags' => ["snapcon"],
-            'overrideExisting' => true}.to_json
+        }.to_json
         puts request.body.to_json
         response = http.request(request)
         puts response.body.to_json
