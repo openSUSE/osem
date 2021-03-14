@@ -31,15 +31,17 @@ describe  External::MailblusterHelper, type: :helper do
               "source": "Lead API"
             },
             "tags": [
-              "iPhone User",
-              "Startup"
+              "snapcon"
             ],
-            "createdAt": "2016-07-23T08:03:18.954Z",
-            "updatedAt": "2016-07-23T08:03:18.954Z"
           }
         }', status: 200)
       create_lead(user)
-      expect(WebMock).to have_requested(:post, "api.mailbluster.com/api/leads")
+      expect(WebMock).to have_requested(:post, "api.mailbluster.com/api/leads").with(body: {
+        'firstName': user.name,
+        'email': user.email,
+        'subscribed': true,
+        'tags': ["snapcon"],
+        'overrideExisting': true})
     end
   end
 end
