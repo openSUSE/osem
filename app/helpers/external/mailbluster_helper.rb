@@ -14,13 +14,13 @@ module External
             'subscribed' => true,
             'tags' => ["snapcon"],
             'overrideExisting' => true}.to_json
-        puts request
+        puts request.body.to_json
         response = http.request(request)
-        puts response
-        return true
+        puts response.body.to_json
+        return response.to_json
       rescue => e
         puts "ERROR #{e}"
-        return false
+        return nil
       end
     end
   end
