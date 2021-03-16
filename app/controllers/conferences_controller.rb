@@ -114,7 +114,7 @@ class ConferencesController < ApplicationController
 
   def live_events
     conference = Conference.find_by(short_title: params[:conference_id])
-    conference.find_live_events.to_json
+    render json: conference.find_live_events.to_json
   end
 
   private
