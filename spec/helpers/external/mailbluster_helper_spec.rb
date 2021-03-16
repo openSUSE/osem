@@ -36,4 +36,17 @@ describe External::MailblusterHelper, type: :helper do
       expect(response).to eq(response_body)
     end
   end
+
+  describe 'delete_lead' do
+    it 'correctly requests the right URL and gets a valid response' do
+      email_hash = Digest::MD5.hexdigest user.email
+      response_body = "{\"message\":\"Lead deleted\",\"leadHash\":\"#{email_hash}\"}"
+      stub_request(:delete, "https://api.mailbluster.com/api/leads/#{email_hash}")
+        .to_return(body: response_body)
+      response = delete_lead(user)
+
+      expect(WebMock).to have_requested(:delete, "api.mailbluster.com/api/leads/#{email_hash}")
+      expect(response).to eq(response_body)
+    end
+  end
 end
