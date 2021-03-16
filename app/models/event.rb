@@ -338,7 +338,7 @@ class Event < ApplicationRecord
   end
 
   def is_live?
-    time() >= Time.now && Time.now <= time() + event_type.length  
+    time >= Time.now && Time.now <= time + event_type.length
   end
 
   private
