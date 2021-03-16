@@ -3,11 +3,11 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe  External::MailblusterHelper, type: :helper do
+describe External::MailblusterHelper, type: :helper do
   let!(:user) { create(:user) }
 
   describe 'create_lead' do
-    it 'makes a post request to Mailbluster\'s API' do
+    it 'makes a post request to Mailbluster\'s API and gets the correct response' do
       response_body = "{
         \"message\": \"Lead created\",
         \"lead\": {
@@ -22,15 +22,16 @@ describe  External::MailblusterHelper, type: :helper do
           ],
         }
       }"
-      stub_request(:post, "http://api.mailbluster.com/api/leads")
+      stub_request(:post, 'https://api.mailbluster.com/api/leads')
         .to_return(body: response_body, status: 200)
       response = create_lead(user)
-      expect(WebMock).to have_requested(:post, "api.mailbluster.com/api/leads").with(body: {
-        'email': user.email,
-        'firstName': user.name,
+
+      expect(WebMock).to have_requested(:post, 'api.mailbluster.com/api/leads').with(body: {
+        'email':            user.email,
+        'firstName':        user.name,
         'overrideExisting': true,
-        'subscribed': true,
-        'tags': ["snapcon"],
+        'subscribed':       true,
+        'tags':             ['snapcon']
       }.to_json)
       expect(response).to eq(response_body)
     end
