@@ -786,9 +786,9 @@ class Conference < ApplicationRecord
 
   def find_live_events
     live_events = []
-    for event in program.events
-      if event.is_live?
-        live_events.append(event) 
+    program.events.each do |event|
+      if event.live?
+        live_events.append(event)
       end
     end
     live_events
