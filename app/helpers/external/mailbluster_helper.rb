@@ -2,6 +2,10 @@
 
 module External
   module MailblusterHelper
+    def query_api()
+      
+    end
+
     def create_lead(user)
       # TODO
       begin
@@ -16,14 +20,18 @@ module External
             'subscribed' => true,
             'tags' => ["snapcon"],
         }.to_json
-        puts request.body.to_json
         response = http.request(request)
-        puts response.body.to_json
+        # puts request.body.to_json
+        # puts response.body.to_json
         return response.to_json
       rescue => e
         puts "ERROR #{e}"
         return nil
       end
+    end
+
+    def delete_lead(user)
+
     end
   end
 end
