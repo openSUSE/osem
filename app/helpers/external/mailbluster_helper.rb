@@ -21,7 +21,7 @@ module External
         'tags'             => ['snapcon']
       }.to_json
       response = http.request(request)
-      response.to_json
+      response.body
     rescue StandardError => e
       puts "ERROR #{e}"
       nil
@@ -34,7 +34,7 @@ module External
       request = Net::HTTP::Delete.new(uri.path,
                                     'Authorization' => ENV['MAILBLUSTER_API_KEY'])
       response = http.request(request)
-      response.to_json
+      response.body
     rescue StandardError => e
       puts "ERROR #{e}"
       nil

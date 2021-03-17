@@ -5,7 +5,7 @@ require 'webmock/rspec'
 
 describe External::MailblusterHelper, type: :helper do
   let!(:user) { create(:user) }
-  url = 'https://api.mailbluster.com/api/leads/'
+  url = 'http://api.mailbluster.com:443/api/leads/'
 
   describe 'create_lead' do
     it 'makes a post request to Mailbluster\'s API and gets the correct response' do
@@ -27,7 +27,7 @@ describe External::MailblusterHelper, type: :helper do
         .to_return(body: response_body, status: 200)
       response = create_lead(user)
 
-      expect(WebMock).to have_requested(:post, 'api.mailbluster.com/api/leads').with(body: {
+      expect(WebMock).to have_requested(:post, url).with(body: {
         'email':            user.email,
         'firstName':        user.name,
         'overrideExisting': true,
@@ -44,7 +44,7 @@ describe External::MailblusterHelper, type: :helper do
       response_body = "{
         \"message\":\"Lead deleted\",
         \"leadHash\":\"#{email_hash}\"
-        }"
+      }"
       lead_url = url + email_hash.to_s
       stub_request(:delete, lead_url)
         .to_return(body: response_body)
