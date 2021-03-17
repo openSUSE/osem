@@ -32,7 +32,7 @@ before_script:
 script:
   - "bin/travis_script.sh $TEST_SUITE"
 after_success:
-  - - bash <(curl -Ls https://coverage.codacy.com/get.sh) -r coverage/coverage.xml
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) -r coverage/coverage.xml
 
 env:
   global:
