@@ -35,6 +35,7 @@ after_success:
   - bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l Ruby -r coverage/coverage.xml
 
 jobs:
+  fast_finish: false
   include:
     - stage: finalize
       script: bash <(curl -Ls https://coverage.codacy.com/get.sh) final
@@ -45,11 +46,9 @@ env:
     - OSEM_DB_HOST=''
     - OSEM_DB_PORT=''
     - OSEM_DB_NAME='osem_test'
-  matrix:
+  jobs:
     - TEST_SUITE=ability
     - TEST_SUITE=features
     - TEST_SUITE=models
     - TEST_SUITE=controllers
     - TEST_SUITE=rest
-matrix:
-  fast_finish: false
