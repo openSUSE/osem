@@ -2,7 +2,7 @@
   %li
     %a.smoothscroll{ href: '#program' } Program
   %li
-    = link_to('Schedule', events_conference_schedule_path(@conference))
+    = link_to('Schedule', events_conference_schedule_path(conference))
 
 - cache [conference, highlights, tracks, booths, '#splash#program'] do
   %section#program

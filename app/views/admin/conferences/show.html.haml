@@ -29,8 +29,9 @@
             = render 'line_chart',
               title: 'Submissions per week', data: @submissions
       .col-md-4
-        -# = render 'todo_list',
-        -#   conference_progress: @conference_progress, conference: @conference
+        -#
+          = render 'todo_list',
+            conference_progress: @conference_progress, conference: @conference
       .row#tickets
         .col-md-8
           = render 'line_chart',
@@ -58,22 +59,27 @@
             = render 'donut_chart', title: 'Event types',
               combined_data: @event_type_distribution
           .col-md-4
-            -# = render 'donut_chart', title: 'Difficulty levels',
-            -#   combined_data: @difficulty_levels_distribution
+            -#
+              = render 'donut_chart', title: 'Difficulty levels',
+                combined_data: @difficulty_levels_distribution
           .col-md-4
-            -# = render 'donut_chart', title: 'Tracks',
-            -#   combined_data: @tracks_distribution
+            -#
+              = render 'donut_chart', title: 'Tracks',
+                combined_data: @tracks_distribution
       .tab-pane#distribution_confirmed
         .row
           .col-md-4
-            -# = render 'donut_chart', title: 'Event types',
-            -#   combined_data: @event_type_distribution_confirmed
+            -#
+              = render 'donut_chart', title: 'Event types',
+                combined_data: @event_type_distribution_confirmed
           .col-md-4
-            -# = render 'donut_chart', title: 'Difficulty levels',
-            -#   combined_data: @difficulty_levels_distribution_confirmed
+            -#
+              = render 'donut_chart', title: 'Difficulty levels',
+                combined_data: @difficulty_levels_distribution_confirmed
           .col-md-4
-            -# = render 'donut_chart', title: 'Tracks',
-            -#   combined_data: @tracks_distribution_confirmed
+            -#
+              = render 'donut_chart', title: 'Tracks',
+                combined_data: @tracks_distribution_confirmed
       .tab-pane#distribution_withdrawn
         .row
           .col-md-4
