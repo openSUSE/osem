@@ -32,7 +32,12 @@ before_script:
 script:
   - "bin/travis_script.sh $TEST_SUITE"
 after_success:
-  - bash <(curl -Ls https://coverage.codacy.com/get.sh) -r coverage/coverage.xml
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l Ruby -r coverage/coverage.xml
+
+jobs:
+  include:
+    - stage: finalize
+      script: bash <(curl -Ls https://coverage.codacy.com/get.sh) final
 
 env:
   global:
@@ -40,8 +45,6 @@ env:
     - OSEM_DB_HOST=''
     - OSEM_DB_PORT=''
     - OSEM_DB_NAME='osem_test'
-    - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER
-    - CCTR=./cc-test-reporter
   matrix:
     - TEST_SUITE=ability
     - TEST_SUITE=features
