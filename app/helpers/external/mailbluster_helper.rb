@@ -2,17 +2,17 @@
 
 module External
   module MailblusterHelper
-    MAILBLUSTER_URL = 'https://api.mailbluster.com/api/leads'
+    MAILBLUSTER_URL = 'https://api.mailbluster.com/api/leads/'
 
-    def query_api; end
+    # def query_api(user, method)
+    # TODO? General helper for all queries
+    # end
 
     def create_lead(user)
-      # TODO
-
       uri = URI(MAILBLUSTER_URL)
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.path,
-                                    'Authorization' => ENV['MAILBLUSTER_API_KEY']) # TODO: Authorization=APIKEY
+                                    'Authorization' => ENV['MAILBLUSTER_API_KEY'])
       request.body = {
         'email'            => user.email,
         'firstName'        => user.name,
@@ -21,8 +21,6 @@ module External
         'tags'             => ['snapcon']
       }.to_json
       response = http.request(request)
-      # puts request.body.to_json
-      # puts response.body.to_json
       response.to_json
     rescue StandardError => e
       puts "ERROR #{e}"
@@ -30,7 +28,16 @@ module External
     end
 
     def delete_lead(user)
-      # TODO
+      email_hash = Digest::MD5.hexdigest user.email
+      uri = URI(MAILBLUSTER_URL + email_hash)
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Delete.new(uri.path,
+                                    'Authorization' => ENV['MAILBLUSTER_API_KEY'])
+      response = http.request(request)
+      response.to_json
+    rescue StandardError => e
+      puts "ERROR #{e}"
+      nil
     end
   end
 end

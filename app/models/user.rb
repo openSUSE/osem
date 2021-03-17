@@ -361,6 +361,8 @@ class User < ApplicationRecord
     User.count == 1 && User.first.email == 'deleted@localhost.osem'
   end
 
+  # TODO email_hash function for mailbluster
+
   private
 
   def setup_role
