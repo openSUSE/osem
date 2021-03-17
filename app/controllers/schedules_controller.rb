@@ -72,6 +72,11 @@ class SchedulesController < ApplicationController
     ).select(&:happening_now?)
     @events_schedules = [] unless @events_schedules
     @current_time = Time.now.in_time_zone(@conference.timezone)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @events_schedules.to_json }
+    end
   end
 
   def app
