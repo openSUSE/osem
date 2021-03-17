@@ -154,8 +154,6 @@ Osem::Application.routes.draw do
     end
   end
   resources :conferences, only: [:index, :show] do
-    get 'live_events', to: 'conferences#live_events'
-
     resources :booths do
       member do
         patch :withdraw

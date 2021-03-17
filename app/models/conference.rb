@@ -784,10 +784,6 @@ class Conference < ApplicationRecord
     end_date < Time.current
   end
 
-  def find_live_events
-    program.events.select(&:happening_now?)
-  end
-
   private
 
   # Returns a different html colour for every i and consecutive colors are
