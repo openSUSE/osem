@@ -5,6 +5,7 @@ require 'webmock/rspec'
 
 describe External::MailblusterHelper, type: :helper do
   let!(:user) { create(:user) }
+  url = 'https://api.mailbluster.com/api/leads/'
 
   describe 'create_lead' do
     it 'makes a post request to Mailbluster\'s API and gets the correct response' do
@@ -22,7 +23,7 @@ describe External::MailblusterHelper, type: :helper do
           ],
         }
       }"
-      stub_request(:post, 'https://api.mailbluster.com/api/leads')
+      stub_request(:post, url)
         .to_return(body: response_body, status: 200)
       response = create_lead(user)
 
@@ -40,12 +41,16 @@ describe External::MailblusterHelper, type: :helper do
   describe 'delete_lead' do
     it 'correctly requests the right URL and gets a valid response' do
       email_hash = Digest::MD5.hexdigest user.email
-      response_body = "{\"message\":\"Lead deleted\",\"leadHash\":\"#{email_hash}\"}"
-      stub_request(:delete, "https://api.mailbluster.com/api/leads/#{email_hash}")
+      response_body = "{
+        \"message\":\"Lead deleted\",
+        \"leadHash\":\"#{email_hash}\"
+        }"
+      lead_url = url + email_hash.to_s
+      stub_request(:delete, lead_url)
         .to_return(body: response_body)
       response = delete_lead(user)
 
-      expect(WebMock).to have_requested(:delete, "api.mailbluster.com/api/leads/#{email_hash}")
+      expect(WebMock).to have_requested(:delete, lead_url)
       expect(response).to eq(response_body)
     end
   end
