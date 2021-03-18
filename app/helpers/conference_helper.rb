@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+DEFAULT_LOGO = 'snapcon_logo.png'
+DEFAULT_COLOR = '#0B3559'
+
 module ConferenceHelper
   # Return true if only call_for_papers or call_for_tracks or call_for_booths is open
   def one_call_open(*calls)
@@ -26,6 +29,24 @@ module ConferenceHelper
     return unless ticket.description
 
     markdown(ticket.description.split("\n").first&.strip)
+  end
+
+  def conference_logo_url(conference)
+    if conference.picture.present?
+      conference.picture.thumb.url
+    elsif conference.organization.picture.present?
+      conference.organization.picture.thumb.url
+    else
+      DEFAULT_LOGO
+    end
+  end
+
+  def conference_color(conference)
+    if conference.color.present?
+      conference.color
+    else
+      DEFAULT_COLOR
+    end
   end
 
   # adds events to icalendar for proposals in a conference

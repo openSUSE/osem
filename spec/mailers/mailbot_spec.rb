@@ -26,6 +26,14 @@ describe Mailbot do
         expect(mail.body).to include 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit'
       end
 
+      it 'assigns the email body with the correct color' do
+        expect(mail.body).to include('background-color: ' + conference.color)
+      end
+
+      it 'assigns the email body with the correct logo' do
+        expect(mail.body).to include 'snapcon_logo'
+      end
+
       it 'delivers the email' do
         expect(ActionMailer::Base.deliveries).to include(mail)
       end
