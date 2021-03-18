@@ -16,6 +16,8 @@ before_install:
   - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
   - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
   - gem install bundler -v $(tail -n 1 Gemfile.lock)
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
+  - chmod +x $CCTR
 notifications:
   email:
     on_success: change
@@ -26,20 +28,17 @@ notifications:
     on_success: change
     on_failure: change
 before_script:
-  # install CodeClimate test reporter and tell it we are starting a test run
-  # - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
-  # - chmod +x $CCTR
-  # - $CCTR before-build
   - RAILS_ENV=test bundle exec rake db:bootstrap --trace
   - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
+  - $CCTR before-build
 script:
   - "bin/travis_script.sh $TEST_SUITE"
   # TODO Get this working.
-  # -  $CCTR format-coverage -t simplecov --output coverage/codeclimate.$SUITE.json
-# after_script:
+after_script:
   # combine coverage from all suites, and upload3 to CodeClimate
-  # - $CCTR sum-coverage coverage/codeclimate.*.json | $CCTR upload-coverage
-  # - $CCTR after-build --exit-code $TRAVIS_TEST_RESULT
+  - $CCTR format-coverage -t simplecov --output coverage/codeclimate.$TEST_SUITE.json
+  - $CCTR sum-coverage coverage/codeclimate.*.json
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then $CCTR upload-coverage; fi
 
 env:
   global:
