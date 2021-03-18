@@ -48,9 +48,7 @@ jobs:
         - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
         - $CCTR before-build
       script:
-        - "bin/travis_script.sh $TEST_SUITE"
-      after_success:
-        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.1.json ./coverage/spec/.resultset.json
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.1.json ./coverage/spec/.resultset.json"
       env:
         - TEST_SUITE=ability
       workspaces:
@@ -61,8 +59,8 @@ jobs:
     - <<: *tests
       env:
         - TEST_SUITE=features
-      after_success:
-        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.2.json ./coverage/spec/.resultset.json
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.2.json ./coverage/spec/.resultset.json"
       workspaces:
         create:
           name: ws2
@@ -71,8 +69,8 @@ jobs:
     - <<: *tests
       env:
         - TEST_SUITE=models
-      after_success:
-        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.3.json ./coverage/spec/.resultset.json
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.3.json ./coverage/spec/.resultset.json"
       workspaces:
         create:
           name: ws3
@@ -81,8 +79,8 @@ jobs:
     - <<: *tests
       env:
         - TEST_SUITE=controllers
-      after_success:
-        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.4.json ./coverage/spec/.resultset.json
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.4.json ./coverage/spec/.resultset.json"
       workspaces:
         create:
           name: ws4
@@ -91,14 +89,17 @@ jobs:
     - <<: *tests
       env:
         - TEST_SUITE=features
-      after_success:
-        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.5.json ./coverage/spec/.resultset.json
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.5.json ./coverage/spec/.resultset.json"
       workspaces:
         create:
           name: ws5
           paths:
             - coverage/codeclimate.5.json
     - stage: finalize
+      before_install:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
+        - chmod +x $CCTR
       workspaces:
         use:
           - ws1
