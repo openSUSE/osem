@@ -27,4 +27,42 @@ describe SchedulesController do
       end
     end
   end
+
+  describe 'GET #happening_now' do
+    before do
+      @conference2 = create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now)
+      @program = @conference2.program
+      @selected_schedule = create(:schedule, program: @program)
+      @program.update_attributes!(selected_schedule: @selected_schedule)
+      @scheduled_event1 = create(:event, program: @program, state: 'confirmed')
+      @event_schedule1 = create(:event_schedule, event: @scheduled_event1, schedule: @selected_schedule, start_time: Time.now)
+      @scheduled_event2 = create(:event, program: @program, state: 'confirmed')
+      @event_schedule2 = create(:event_schedule, event: @scheduled_event2, schedule: @selected_schedule, start_time: Time.now + 1.hour)
+    end
+    
+    context 'html' do
+      before :each do
+        get :happening_now, params: { conference_id: @conference2.short_title }
+      end
+
+      it 'has 200 status code' do
+        expect(response).to be_success
+      end
+    end
+
+    context 'json' do
+      before :each do
+        get :happening_now, format: :json, params: { conference_id: @conference2.short_title }
+      end
+      
+      it 'has 200 status code' do
+        expect(response).to be_success
+      end
+
+      it 'returns the events that are happening now' do
+        expect(response.body).to include(@event_schedule1.to_json)
+        expect(response.body).not_to include(@event_schedule2.to_json)
+      end
+    end
+  end
 end
