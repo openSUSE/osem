@@ -48,7 +48,7 @@ jobs:
         - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
         - $CCTR before-build
       script:
-        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.1.json ./coverage/spec/.resultset.json"
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.1.json ./coverage/spec/coverage.xml"
       env:
         - TEST_SUITE=ability
       workspaces:
@@ -60,7 +60,7 @@ jobs:
       env:
         - TEST_SUITE=features
       script:
-        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.2.json ./coverage/spec/.resultset.json"
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.2.json ./coverage/spec/coverage.xml"
       workspaces:
         create:
           name: ws2
@@ -70,7 +70,7 @@ jobs:
       env:
         - TEST_SUITE=models
       script:
-        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.3.json ./coverage/spec/.resultset.json"
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.3.json ./coverage/spec/coverage.xml"
       workspaces:
         create:
           name: ws3
@@ -80,7 +80,7 @@ jobs:
       env:
         - TEST_SUITE=controllers
       script:
-        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.4.json ./coverage/spec/.resultset.json"
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.4.json ./coverage/spec/coverage.xml"
       workspaces:
         create:
           name: ws4
@@ -90,7 +90,7 @@ jobs:
       env:
         - TEST_SUITE=features
       script:
-        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.5.json ./coverage/spec/.resultset.json"
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.5.json ./coverage/spec/coverage.xml"
       workspaces:
         create:
           name: ws5
