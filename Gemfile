@@ -266,7 +266,7 @@ group :test do
   gem 'pdf-inspector', require: "pdf/inspector"
 end
 
-group :development, :test do
+group :development, :test, :linters do
   # as debugger
   gem 'byebug'
   gem 'pry'

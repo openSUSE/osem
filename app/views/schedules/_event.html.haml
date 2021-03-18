@@ -1,20 +1,20 @@
-.panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', "data-url" => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
+.panel.panel-default.event-panel{ onClick: 'eventClicked(event, this);', 'data-url' => "#{url_for(conference_program_proposal_path(@conference.short_title, event.id))}" }
   - header_color = event.event_type&.color || '#f5f5f5'
-  .trapezoid{style: "color: white; top: 12px; z-index: 100;"}
+  .trapezoid{ style: 'color: white; top: 12px; z-index: 100;' }
   .panel-heading{ style: "background-color: #{header_color}; color: #{ contrast_color(header_color) }; border-radius: 4px" }
     - event.speakers_ordered.each do |speaker|
-      = image_tag speaker.profile_picture, class: "img-circle pull-right",  alt: speaker.name, style: "padding: 2px;"
+      = image_tag speaker.profile_picture, class: 'img-circle pull-right',  alt: speaker.name, style: 'padding: 2px;'
 
     %p
       = canceled_replacement_event_label(event, event_schedule)
       = replacement_event_notice(event_schedule)
 
-    %span.h3{style: "margin-bottom: 14px"}
+    %span.h3{ style: 'margin-bottom: 14px' }
       = event.title
       %br
-      %small{style: "color: #{contrast_color(header_color)}"}
+      %small{ style: "color: #{contrast_color(header_color)}" }
         = event.subtitle
-  .trapezoid{style: "color: #{header_color}; top: 12px;"}
+  .trapezoid{ style: "color: #{header_color}; top: 12px;" }
 
   .panel-body
     %h4
@@ -30,13 +30,13 @@
       = inyourtz(event_schedule.start_time) do
         %span.track
           %span.fa.fa-clock-o
-          %span.label{ style: "background-color: grey" }
+          %span.label{ style: 'background-color: grey' }
             = event_schedule.start_time.strftime('%l:%M %P')
             \-
             = event_schedule.end_time.strftime('%l:%M %P')
       %span.track
         %span.fa.fa-map-marker
-        %span.label{ style: "background-color: grey" }
+        %span.label{ style: 'background-color: grey' }
           = event_schedule.room.name
     - if event.track
       %span.track
