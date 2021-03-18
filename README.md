@@ -1,7 +1,7 @@
 ### Spring 2021 Student Project
 [![Build Status](https://travis-ci.com/CactusPuppy/snapcon.svg?branch=master)](https://travis-ci.com/CactusPuppy/snapcon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/6c7fc446b3b10866ba71/maintainability)](https://codeclimate.com/github/CactusPuppy/snapcon/maintainability)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/fd87bbd10aff42fb9f0a16755e78968f)](https://www.codacy.com/gh/CactusPuppy/snapcon/dashboard?utm_source=github.com&utm_medium=referral&utm_content=CactusPuppy/snapcon&utm_campaign=Badge_Coverage)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6c7fc446b3b10866ba71/test_coverage)](https://codeclimate.com/github/CactusPuppy/snapcon/test_coverage)
 [![Security Status](https://hakiri.io/github/CactusPuppy/snapcon/master.svg)](https://hakiri.io/github/CactusPuppy/snapcon/master)
 [![Depfu](https://badges.depfu.com/badges/16eb1ffb3a9f1a36c4e595a5ae2a1dca/overview.svg)](https://depfu.com/github/CactusPuppy/snapcon?project_id=22682)
 [![Bluejay Dashboard](https://img.shields.io/badge/Bluejay-Dashboard_5-blue.svg)](http://dashboard.bluejay.governify.io/dashboard/script/dashboardLoader.js?dashboardURL=https://reporter.bluejay.governify.io/api/v4/dashboards/tpa-CS169L-GH-CactusPuppy_snapcon/main)
