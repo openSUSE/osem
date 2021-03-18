@@ -35,74 +35,75 @@ env:
     - CCTR=./cc-test-reporter
     - TOTAL_TEST_SUITES=5
 jobs:
-  - &tests
-    before_install:
-      - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-      - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-      - gem install bundler -v $(tail -n 1 Gemfile.lock)
-      - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
-      - chmod +x $CCTR
-    before_script:
-      - RAILS_ENV=test bundle exec rake db:bootstrap --trace
-      - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
-      - $CCTR before-build
-    script:
-      - "bin/travis_script.sh $TEST_SUITE"
-    after_success:
-      - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.1.json ./coverage/spec/.resultset.json
-    env:
-      - TEST_SUITE=ability
-    workspaces:
-      create:
-        name: ws1
-        paths:
-          - coverage/codeclimate.1.json
-  - <<: *tests
-    env:
-      - TEST_SUITE=features
-    after_success:
-      - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.2.json ./coverage/spec/.resultset.json
-    workspaces:
-      create:
-        name: ws2
-        paths:
-          - coverage/codeclimate.2.json
-  - <<: *tests
-    env:
-      - TEST_SUITE=models
-    after_success:
-      - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.3.json ./coverage/spec/.resultset.json
-    workspaces:
-      create:
-        name: ws3
-        paths:
-          - coverage/codeclimate.3.json
-  - <<: *tests
-    env:
-      - TEST_SUITE=controllers
-    after_success:
-      - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.4.json ./coverage/spec/.resultset.json
-    workspaces:
-      create:
-        name: ws4
-        paths:
-          - coverage/codeclimate.4.json
-  - <<: *tests
-    env:
-      - TEST_SUITE=features
-    after_success:
-      - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.5.json ./coverage/spec/.resultset.json
-    workspaces:
-      create:
-        name: ws5
-        paths:
-          - coverage/codeclimate.5.json
-  - stage: finalize
-    workspaces:
-      use:
-        - ws1
-        - ws2
-        - ws3
-        - ws4
-        - ws5
-    script: $CCTR sum-coverage --output - --parts $TOTAL_TEST_SUITES coverage/codeclimate.*.json | $CCTR upload-coverage --input -
+  include:
+    - &tests
+      before_install:
+        - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+        - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+        - gem install bundler -v $(tail -n 1 Gemfile.lock)
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
+        - chmod +x $CCTR
+      before_script:
+        - RAILS_ENV=test bundle exec rake db:bootstrap --trace
+        - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
+        - $CCTR before-build
+      script:
+        - "bin/travis_script.sh $TEST_SUITE"
+      after_success:
+        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.1.json ./coverage/spec/.resultset.json
+      env:
+        - TEST_SUITE=ability
+      workspaces:
+        create:
+          name: ws1
+          paths:
+            - coverage/codeclimate.1.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=features
+      after_success:
+        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.2.json ./coverage/spec/.resultset.json
+      workspaces:
+        create:
+          name: ws2
+          paths:
+            - coverage/codeclimate.2.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=models
+      after_success:
+        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.3.json ./coverage/spec/.resultset.json
+      workspaces:
+        create:
+          name: ws3
+          paths:
+            - coverage/codeclimate.3.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=controllers
+      after_success:
+        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.4.json ./coverage/spec/.resultset.json
+      workspaces:
+        create:
+          name: ws4
+          paths:
+            - coverage/codeclimate.4.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=features
+      after_success:
+        - $CCTR format-coverage -t simplecov -o ./coverage/codeclimate.5.json ./coverage/spec/.resultset.json
+      workspaces:
+        create:
+          name: ws5
+          paths:
+            - coverage/codeclimate.5.json
+    - stage: finalize
+      workspaces:
+        use:
+          - ws1
+          - ws2
+          - ws3
+          - ws4
+          - ws5
+      script: $CCTR sum-coverage --output - --parts $TOTAL_TEST_SUITES coverage/codeclimate.*.json | $CCTR upload-coverage --input -
