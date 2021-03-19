@@ -19,7 +19,7 @@ describe External::MailblusterHelper, type: :helper do
           \"email\": \"#{user.email}\",
           \"subscribed\": true,
           \"tags\": [
-            \"snapcon\"
+            #{ENV['OSEM_NAME'] || 'snapcon'}
           ],
         }
       }"
@@ -32,7 +32,7 @@ describe External::MailblusterHelper, type: :helper do
         'firstName':        user.name,
         'overrideExisting': true,
         'subscribed':       true,
-        'tags':             ['snapcon']
+        'tags':             [ENV['OSEM_NAME'] || 'snapcon']
       }.to_json)
       expect(response).to eq(response_body)
     end

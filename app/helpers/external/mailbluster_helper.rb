@@ -20,7 +20,7 @@ module External
         'firstName'        => user.name,
         'overrideExisting' => true,
         'subscribed'       => true,
-        'tags'             => ['snapcon']
+        'tags'             => [ENV['OSEM_NAME'] || 'snapcon']
       }.to_json
       response = http.request(request)
       response.body
