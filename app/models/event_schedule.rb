@@ -55,9 +55,10 @@ class EventSchedule < ApplicationRecord
   # True within `threshold` before and after the event.
   #
   def happening_now?(threshold = 30.minutes)
+    return false if end_time < Time.now
     event_time_range = start_time..end_time
     now_range = (Time.now - threshold)..(Time.now + threshold)
-    event_time_range.overlaps?(now_range) && (end_time > Time.now)
+    event_time_range.overlaps?(now_range)
   end
 
   def self.withdrawn_or_canceled_event_schedules(schedule_ids)
