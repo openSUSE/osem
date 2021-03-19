@@ -49,7 +49,7 @@
 require 'spec_helper'
 
 describe User do
-
+  
   let(:user_admin) { create(:admin) }
   let(:conference) { create(:conference, short_title: 'oSC16', title: 'openSUSE Conference 2016') }
   let(:conference2) { create(:conference, short_title: 'oSC15', title: 'openSUSE Conference 2015') }
@@ -528,6 +528,43 @@ describe User do
   describe '.omniauth_providers' do
     it 'contains providers' do
       expect(User.omniauth_providers).to eq [:suse, :google, :facebook, :github, :discourse]
+    end
+  end
+
+  describe 'mailbluster' do
+    it 'creates a Mailbluster lead on creating a user' do
+      user_mailbluster = User.new(name: 'John Doe', email: 'snap@qwertyuiop.org')
+
+      response_body = "{
+        \"message\": \"Lead created\",
+        \"lead\": {
+          \"id\": 329395,
+          \"firstName\": \"#{user_mailbluster.name}\",
+          \"lastName\": \"\",
+          \"fullName\": \"#{user_mailbluster.name}\",
+          \"email\": \"#{user_mailbluster.email}\",
+          \"subscribed\": true,
+          \"tags\": [
+            #{ENV['OSEM_NAME'] || 'snapcon'}
+          ],
+        }
+      }"
+      stub_request(:post, url_mailbluster)
+        .to_return(body: response_body, status: 200)
+
+      # Do not request before save
+      expect(WebMock).not_to have_requested(:post, url)
+
+      # Request after save
+      user_mailbluster.save!
+
+      expect(WebMock).to have_requested(:post, url).with(body: {
+        'email':            user_mailbluster.email,
+        'firstName':        user_mailbluster.name,
+        'overrideExisting': true,
+        'subscribed':       true,
+        'tags':             [ENV['OSEM_NAME'] || 'snapcon']
+      }.to_json)
     end
   end
 end
