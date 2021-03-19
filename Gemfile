@@ -280,6 +280,9 @@ group :development, :test, :linters do
   gem 'rubocop-rspec', require: false
 
   gem 'haml-lint', require: false
+end
+
+group :development, :test do
   # as development/test database
   gem 'sqlite3'
 end

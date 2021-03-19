@@ -1,0 +1,25 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>
+      <%= 'Email' %>
+    </title>
+    <meta content="Snap!Con -- A conference all about Snap!, a programing language from UC Berkeley." name="description"/>
+    <meta content="Michael Ball, Brian Harvey, Jens Moenig, Bernat Romagosa, Dan Garcia, Lauren Mock" name="author"/>
+    <%= stylesheet_link_tag "mailbot" %>
+  </head>
+  <body> 
+    <div id="border" style="background-color: <%= conference_color(@conference) %>">
+      <div class="row">
+        <div class="col-md-2">
+          <% if @conference.present? %>
+            <%= image_tag(conference_logo_url(@conference), style: "display:block;height:70px;width:auto;", alt: @conference.title + ' logo') %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </body>
+
+
+           

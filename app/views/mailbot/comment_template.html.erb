@@ -1,0 +1,16 @@
+<%= render partial: "layouts/mailbot_header" %>
+  <div id="content">
+    <span style="white-space: pre-line">
+        Dear <%= @user.name %>,
+
+        User <%= @comment.user.name %> posted a new comment for event <%= @event.title %> of <%= @conference.short_title %> .
+        
+        "<%= @comment.body %>"
+        
+        To reply to this comment, please go to <%=  h(admin_conference_program_event_url(@conference.short_title, @event, only_path: false)) %>
+        
+        Best wishes,
+        <%= @conference.title %> Team
+    </span>
+  </div>
+<%= render partial: "layouts/mailbot_footer" %>
