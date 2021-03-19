@@ -56,6 +56,7 @@ class EventSchedule < ApplicationRecord
   #
   def happening_now?(threshold = 30.minutes)
     return false if end_time < Time.now
+
     event_time_range = start_time..end_time
     now_range = (Time.now - threshold)..(Time.now + threshold)
     event_time_range.overlaps?(now_range)
