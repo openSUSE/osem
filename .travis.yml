@@ -1,21 +1,8 @@
-language: ruby
-cache: bundler
-rvm:
-  - 2.6.6
+os: linux
 dist: bionic
-addons:
-  apt:
-    packages:
-      - chromium-browser
-services:
-  - postgresql
 branches:
   except:
     - /^depfu/.*$/
-before_install:
-  - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-  - gem install bundler -v $(tail -n 1 Gemfile.lock)
 notifications:
   email:
     on_success: change
@@ -25,30 +12,100 @@ notifications:
       - "chat.freenode.net#osem"
     on_success: change
     on_failure: change
-before_script:
-  - RAILS_ENV=test bundle exec rake db:bootstrap --trace
-  - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
-  - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
-script:
-  - "bin/travis_script.sh $TEST_SUITE"
-after_success:
-  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -l Ruby -r coverage/coverage.xml
-
-jobs:
-  fast_finish: false
-  include:
-    - stage: finalize
-      script: bash <(curl -Ls https://coverage.codacy.com/get.sh) final
-
+stages:
+  - test
+  - finalize
 env:
   global:
     - OSEM_DB_ADAPTER=sqlite3
     - OSEM_DB_HOST=''
     - OSEM_DB_PORT=''
     - OSEM_DB_NAME='osem_test'
-  jobs:
-    - TEST_SUITE=ability
-    - TEST_SUITE=features
-    - TEST_SUITE=models
-    - TEST_SUITE=controllers
-    - TEST_SUITE=rest
+    - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER
+    - CCTR=./cc-test-reporter
+    - TOTAL_TEST_SUITES=5
+jobs:
+  include:
+    - &tests
+      language: ruby
+      cache: bundler
+      rvm:
+        - 2.6.6
+      addons:
+        apt:
+          packages:
+            - chromium-browser
+      services:
+        - postgresql
+      before_install:
+        - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
+        - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+        - gem install bundler -v $(tail -n 1 Gemfile.lock)
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
+        - chmod +x $CCTR
+      before_script:
+        - RAILS_ENV=test bundle exec rake db:bootstrap --trace
+        - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update
+        - $CCTR before-build
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.1.json ./coverage/coverage.xml"
+      env:
+        - TEST_SUITE=ability
+      workspaces:
+        create:
+          name: ws1
+          paths:
+            - coverage/codeclimate.1.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=features
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.2.json ./coverage/coverage.xml"
+      workspaces:
+        create:
+          name: ws2
+          paths:
+            - coverage/codeclimate.2.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=models
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.3.json ./coverage/coverage.xml"
+      workspaces:
+        create:
+          name: ws3
+          paths:
+            - coverage/codeclimate.3.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=controllers
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.4.json ./coverage/coverage.xml"
+      workspaces:
+        create:
+          name: ws4
+          paths:
+            - coverage/codeclimate.4.json
+    - <<: *tests
+      env:
+        - TEST_SUITE=features
+      script:
+        - "bin/travis_script.sh $TEST_SUITE && $CCTR format-coverage -t cobertura -o ./coverage/codeclimate.5.json ./coverage/coverage.xml"
+      workspaces:
+        create:
+          name: ws5
+          paths:
+            - coverage/codeclimate.5.json
+    - stage: finalize
+      language: minimal
+      before_install:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
+        - chmod +x $CCTR
+      workspaces:
+        use:
+          - ws1
+          - ws2
+          - ws3
+          - ws4
+          - ws5
+      script: $CCTR sum-coverage --output - --parts $TOTAL_TEST_SUITES coverage/codeclimate.*.json | $CCTR upload-coverage --input -
