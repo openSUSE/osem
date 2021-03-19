@@ -1,15 +1,5 @@
 os: linux
 dist: bionic
-language: ruby
-cache: bundler
-rvm:
-  - 2.6.6
-addons:
-  apt:
-    packages:
-      - chromium-browser
-services:
-  - postgresql
 branches:
   except:
     - /^depfu/.*$/
@@ -37,6 +27,16 @@ env:
 jobs:
   include:
     - &tests
+      language: ruby
+      cache: bundler
+      rvm:
+        - 2.6.6
+      addons:
+        apt:
+          packages:
+            - chromium-browser
+      services:
+        - postgresql
       before_install:
         - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
         - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
