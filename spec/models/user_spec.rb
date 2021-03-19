@@ -533,7 +533,8 @@ describe User do
 
   describe 'mailbluster' do
     it 'creates a Mailbluster lead on creating a user' do
-      user_mailbluster = User.new(name: 'John Doe', email: 'snap@qwertyuiop.org')
+      user_mailbluster = build(:user)
+      url = 'https://api.mailbluster.com/api/leads/'
 
       response_body = "{
         \"message\": \"Lead created\",
@@ -549,7 +550,7 @@ describe User do
           ],
         }
       }"
-      stub_request(:post, url_mailbluster)
+      stub_request(:post, url)
         .to_return(body: response_body, status: 200)
 
       # Do not request before save
