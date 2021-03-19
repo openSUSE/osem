@@ -5,7 +5,7 @@ require 'webmock/rspec'
 
 describe External::MailblusterHelper, type: :helper do
   let!(:user) { create(:user) }
-  url = 'http://api.mailbluster.com:443/api/leads/'
+  url = 'https://api.mailbluster.com/api/leads/'
 
   describe 'create_lead' do
     it 'makes a post request to Mailbluster\'s API and gets the correct response' do
