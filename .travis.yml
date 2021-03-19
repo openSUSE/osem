@@ -97,6 +97,7 @@ jobs:
           paths:
             - coverage/codeclimate.5.json
     - stage: finalize
+      language: minimal
       before_install:
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
         - chmod +x $CCTR
