@@ -29,6 +29,10 @@ module External
       nil
     end
 
+    def edit_lead(user, add_tags, remove_tags)
+      puts 'PENDING'
+    end
+
     def delete_lead(user)
       email_hash = Digest::MD5.hexdigest user.email
       uri = URI(MAILBLUSTER_URL + email_hash)
