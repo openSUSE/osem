@@ -30,7 +30,7 @@ describe SchedulesController do
 
   describe 'GET #happening_now' do
     before do
-      @conference2 = create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now)
+      @conference2 = create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24)
       @program = @conference2.program
       @selected_schedule = create(:schedule, program: @program)
       @program.update_attributes!(selected_schedule: @selected_schedule)

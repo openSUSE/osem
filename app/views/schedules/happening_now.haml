@@ -12,7 +12,7 @@
       %h3
         This page was loaded at
         = inyourtz(Time.now) do
-          #{Time.now.strftime('%a %b %d at %I:%M %P (%z)').to_s}
+          = Time.now.strftime('%a %b %d at %I:%M %P (%z)')
 
   .row
     / TODO: Clean this up, merge with all events page.
