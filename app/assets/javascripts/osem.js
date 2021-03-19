@@ -148,7 +148,7 @@ function word_count(text, divId, maxcount) {
 };
 
 function fill_if_empty(text_area, filler) {
-    var area = $('#' + text_area);
+    let area = $('#' + text_area);
 
     if (!area.val()) {
         area.val(filler);
@@ -192,11 +192,11 @@ $( document ).ready(function() {
 
     /* Listen for reset template button, wait for confirm, and reset. */
     $('#sub_text_reset').click((e) => {
-        var $selected = $("#event_event_type_id option:selected");
-        var $this = $(e.target);
-        var affirm = confirm($this.data('confirm'));
+        let $selected = $("#event_event_type_id option:selected");
+        let $this = $(e.target);
+        let affirm = confirm($this.data('confirm'));
         if (affirm) {
-            var sub_text = $('#event_submission_text');
+            let sub_text = $('#event_submission_text');
             sub_text.val($selected.data('help'));
             sub_text.trigger('change');
         }
