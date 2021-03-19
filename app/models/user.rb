@@ -80,6 +80,8 @@ class User < ApplicationRecord
 
   after_save :touch_events
 
+  after_commit :mailbluster_create_lead, on: :create
+
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
 
@@ -362,11 +364,18 @@ class User < ApplicationRecord
   end
 
   # TODO email_hash function for mailbluster
+  # def email_hash
+  #   Digest::MD5.hexdigest user.email
+  # end
 
   private
 
   def setup_role
     self.is_admin = true if User.empty?
+  end
+
+  def mailbluster_create_lead
+    ApplicationController.helpers.create_lead(self)
   end
 
   def touch_events

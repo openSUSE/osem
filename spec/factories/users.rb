@@ -80,8 +80,27 @@ FactoryBot.define do
     last_sign_in_at { Date.today }
     is_disabled { false }
 
+    url_mailbluster = 'https://api.mailbluster.com/api/leads/'
+    response_body = "{
+      \"message\": \"Lead created\",
+      \"lead\": {
+        \"id\": 329395,
+        \"firstName\": \"#{name}\",
+        \"lastName\": \"\",
+        \"fullName\": \"#{name}\",
+        \"email\": \"#{email}\",
+        \"subscribed\": true,
+        \"tags\": [
+          #{ENV['OSEM_NAME'] || 'snapcon'}
+        ],
+      }
+    }"
+    WebMock.stub_request(:post, url_mailbluster)
+    # Called by every user creation
+
     after(:create) do |user|
       user.is_admin = false
+
       # save with bang cause we want change in DB and not just in object instance
       user.save!
     end
