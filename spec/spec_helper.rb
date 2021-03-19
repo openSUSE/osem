@@ -3,7 +3,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 
-if ENV['GITHUB_ACTIONS']
+if ENV['GITHUB_ACTIONS'] || ENV['TRAVIS']
   require 'simplecov-cobertura'
   SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 end
