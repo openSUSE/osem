@@ -193,7 +193,6 @@ feature Event do
     end
 
     scenario 'can reset to text template', feature: true, js: true do
-      pending('Something with Selenium or Capybara is not picking up the JavaScript popup modal. Must investigate further.')
       event_type = conference.program.event_types[-1]
       event_type.description = 'Example event description'
       event_type.save!
