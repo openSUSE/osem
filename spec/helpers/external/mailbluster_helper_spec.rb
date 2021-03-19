@@ -38,6 +38,10 @@ describe External::MailblusterHelper, type: :helper do
     end
   end
 
+  describe 'edit_lead' do
+    pending
+  end
+
   describe 'delete_lead' do
     it 'correctly requests the right URL and gets a valid response' do
       email_hash = Digest::MD5.hexdigest user.email
