@@ -26,7 +26,7 @@ Osem::Application.configure do
   config.assets.digest = true
 
   config.assets.css_compressor = :sass
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   config.assets.gzip = true
 
   # Defaults to nil and saved in location specified by config.assets.prefix
