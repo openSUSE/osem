@@ -1,9 +1,9 @@
-.panel.panel-default{class: ("panel-success" if event.registrations.include?(@registration)) }
+.panel.panel-default{c lass: ("panel-success" if event.registrations.include?(@registration)) }
   .panel-heading
-    %label{for: "registration_event_ids_#{event.id}"}
-      %h3{style: 'margin: 0 auto;'}
-        = hidden_field_tag "registration[event_ids][]", nil
-        = check_box_tag "registration[event_ids][]", event.id, event.registrations.include?(@registration), id: "registration_event_ids_#{event.id}"
+    %label{ for: "registration_event_ids_#{event.id}" }
+      %h3{ style: 'margin: 0 auto;' }
+        = hidden_field_tag 'registration[event_ids][]', nil
+        = check_box_tag 'registration[event_ids][]', event.id, event.registrations.include?(@registration), id: "registration_event_ids_#{event.id}"
         = event.title
         %small
           = event.subtitle
@@ -13,16 +13,16 @@
             (Scheduled on: #{event.time.to_date})
 
   .panel-body
-    -# %p
-    -#   = canceled_replacement_event_label(event, event_schedule)
-    -#   = replacement_event_notice(event_schedule)
+    %p
+      = canceled_replacement_event_label(event, event_schedule)
+      = replacement_event_notice(event_schedule)
     %p
       - if event.speakers.any?
         presented by #{event.speaker_names}
     - if event_schedule.present?
       .h4.track
         %span.fa.fa-clock-o
-        %span.label{ style: "background-color: grey" }
+        %span.label{ style: 'background-color: grey' }
           = event_schedule.start_time.strftime('%A, %B %-d %H:%M')
           \-
           = event_schedule.end_time.strftime('%H:%M')

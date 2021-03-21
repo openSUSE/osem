@@ -28,9 +28,9 @@
           .col-md-12
             = render 'line_chart',
               title: 'Submissions per week', data: @submissions
-      .col-md-4
-        -# = render 'todo_list',
-        -#   conference_progress: @conference_progress, conference: @conference
+      -# .col-md-4
+      -#   = render 'todo_list',
+      -#     conference_progress: @conference_progress, conference: @conference
       .row#tickets
         .col-md-8
           = render 'line_chart',
@@ -43,14 +43,14 @@
         %a{ href: '#distribution_all', 'data-toggle' => 'tab' }
           %span.fa.fa-star
           All
-      %li
-        %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
-          %span.fa.fa-comment
-          Confirmed
-      %li
-        %a{ href: '#distribution_withdrawn', 'data-toggle' => 'tab' }
-          %span.fa.fa-archive
-          Withdrawn
+      -# %li
+      -#   %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
+      -#     %span.fa.fa-comment
+      -#     Confirmed
+      -# %li
+      -#   %a{ href: '#distribution_withdrawn', 'data-toggle' => 'tab' }
+      -#     %span.fa.fa-archive
+      -#     Withdrawn
     .tab-content
       .tab-pane.active#distribution_all
         .row
@@ -58,33 +58,33 @@
             = render 'donut_chart', title: 'Event types',
               combined_data: @event_type_distribution
           .col-md-4
-            -# = render 'donut_chart', title: 'Difficulty levels',
-            -#   combined_data: @difficulty_levels_distribution
-          .col-md-4
-            -# = render 'donut_chart', title: 'Tracks',
-            -#   combined_data: @tracks_distribution
-      .tab-pane#distribution_confirmed
-        .row
-          .col-md-4
-            -# = render 'donut_chart', title: 'Event types',
-            -#   combined_data: @event_type_distribution_confirmed
-          .col-md-4
-            -# = render 'donut_chart', title: 'Difficulty levels',
-            -#   combined_data: @difficulty_levels_distribution_confirmed
-          .col-md-4
-            -# = render 'donut_chart', title: 'Tracks',
-            -#   combined_data: @tracks_distribution_confirmed
-      .tab-pane#distribution_withdrawn
-        .row
-          .col-md-4
-            = render 'donut_chart', title: 'Event types',
-              combined_data: @event_type_distribution_withdrawn
-          .col-md-4
             = render 'donut_chart', title: 'Difficulty levels',
-              combined_data: @difficulty_levels_distribution_withdrawn
+              combined_data: @difficulty_levels_distribution
           .col-md-4
             = render 'donut_chart', title: 'Tracks',
-              combined_data: @tracks_distribution_withdrawn
+              combined_data: @tracks_distribution
+      -# .tab-pane#distribution_confirmed
+      -#   .row
+      -#     .col-md-4
+      -#       = render 'donut_chart', title: 'Event types',
+      -#         combined_data: @event_type_distribution_confirmed
+      -#     .col-md-4
+      -#       = render 'donut_chart', title: 'Difficulty levels',
+      -#         combined_data: @difficulty_levels_distribution_confirmed
+      -#     .col-md-4
+      -#       = render 'donut_chart', title: 'Tracks',
+      -#         combined_data: @tracks_distribution_confirmed
+      -# .tab-pane#distribution_withdrawn
+      -#   .row
+      -#     .col-md-4
+      -#       = render 'donut_chart', title: 'Event types',
+      -#         combined_data: @event_type_distribution_withdrawn
+      -#     .col-md-4
+      -#       = render 'donut_chart', title: 'Difficulty levels',
+      -#         combined_data: @difficulty_levels_distribution_withdrawn
+      -#     .col-md-4
+      -#       = render 'donut_chart', title: 'Tracks',
+      -#         combined_data: @tracks_distribution_withdrawn
 
 .row
   .col-md-8

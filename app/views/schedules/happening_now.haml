@@ -9,26 +9,25 @@
     .col-md-12
       %h2
         #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
-      %h3
-        This page was loaded at
-        = inyourtz(Time.now) do
-          #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
+        %small
+          This page was loaded at
+          = inyourtz(Time.now) do
+            #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
 
   .row
     / TODO: Clean this up, merge with all events page.
-    / scheduled events
     - date = nil
     - time = nil
     - @events_schedules.each do |event_schedule|
       - unless event_schedule.start_time.strftime('%Y-%m-%d').eql?(date)
         .col-xs-12.col-md-12
           .date-content
-            %span{ class: 'date-title', id: "#{ event_schedule.start_time.strftime('%Y-%m-%d') }" }
+            %span{ class: 'date-title', id: event_schedule.start_time.strftime('%Y-%m-%d') }
               = inyourtz(event_schedule.start_time, @conference.timezone) do
                 = date = event_schedule.start_time.strftime('%Y-%m-%d')
-            %a{ title: "Go up", class: "pull-right", href: "#program" }
-              %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
-      - unless event_schedule.start_time.strftime('%H:%M').eql?(time)
+            %a{ title: 'Go up', class: 'pull-right', href: '#program' }
+              %i.fa.fa-angle-double-up.fa-lg{ 'aria-hidden': true }
+      - if !event_schedule.start_time.strftime('%H:%M').eql?(time)
         .col-xs-12.col-md-1
           .start-time
             = inyourtz(event_schedule.start_time, @conference.timezone) do
@@ -37,6 +36,7 @@
           .new-time-event
             = render 'event', event: event_schedule.event, event_schedule: event_schedule
       - else
+        -# TODO: Add comment describing this condition.
         .col-xs-12.col-md-11.col-md-offset-1
           = render 'event', event: event_schedule.event, event_schedule: event_schedule
 
