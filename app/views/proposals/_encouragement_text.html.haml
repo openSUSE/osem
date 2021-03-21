@@ -16,7 +16,7 @@
     That means you have
     %b.notranslate= pluralize(@program.cfp.remaining_days, 'day')
     left!
-    %span.notranslate #{@conference.title}
+    %span.notranslate= @conference.title
     will only be as good as the content you present. Submit early, submit often!
   - else
     The submission period is closed now.
