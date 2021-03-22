@@ -195,6 +195,7 @@ feature Event do
     scenario 'can reset to text template', feature: true, js: true do
       event_type = conference.program.event_types[-1]
       event_type.description = 'Example event description'
+      event_type.submisson_instructions = '## Fill Me In!'
       event_type.save!
 
       sign_in participant
@@ -208,7 +209,7 @@ feature Event do
         click_button 'Reset to Template'
       end
 
-      expect(page.find('#event_submission_text').value).to eq(event_type.description)
+      expect(page.find('#event_submission_text').value).to eq(event_type.submisson_instructions)
     end
   end
 end
