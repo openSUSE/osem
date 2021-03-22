@@ -9,10 +9,12 @@
     .col-md-12
       %h2
         #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
+        %br
         %small
           This page was loaded at
           = inyourtz(Time.now) do
-            #{Time.now.strftime('%a %b %d at %I:%M %P (%z)')}
+            = Time.now.strftime('%a %b %d at %I:%M %P (%z)')
+          \.
 
   .row
     / TODO: Clean this up, merge with all events page.
@@ -26,7 +28,7 @@
               = inyourtz(event_schedule.start_time, @conference.timezone) do
                 = date = event_schedule.start_time.strftime('%Y-%m-%d')
             %a.pull-right{ title: 'Go up', href: '#program' }
-              %i.fa.fa-angle-double-up.fa-lg{ 'aria-hidden': true }
+              %i.fa.fa-angle-double-up.fa-lg{ 'aria-hidden' => true }
       - if event_schedule.start_time.strftime('%H:%M').eql?(time)
         .col-xs-12.col-md-11.col-md-offset-1
           = render 'event', event: event_schedule.event, event_schedule: event_schedule
