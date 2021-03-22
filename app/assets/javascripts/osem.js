@@ -49,6 +49,8 @@ $(function () {
         $('.' + id).collapse('hide');
 
         $('#' + $(this).val() + '-help.' + id).collapse('show');
+        $('#' + $(this).val() + '-instructions.' + id).collapse('show');
+
     });
     $('.dropdown-toggle').dropdown();
 
@@ -165,7 +167,7 @@ $( document ).ready(function() {
         var min = $selected.data("min-words");
 
         // Set the filler text for the submission text
-        fill_if_empty('event_submission_text', $selected.data("help"));
+        fill_if_empty('event_submission_text', $selected.data("instructions"));
 
         $("#abstract-maximum-word-count").text(max);
         $("#submission-maximum-word-count").text(max);
