@@ -28,9 +28,10 @@
           .col-md-12
             = render 'line_chart',
               title: 'Submissions per week', data: @submissions
-      -# .col-md-4
-        = render 'todo_list',
-          conference_progress: @conference_progress, conference: @conference
+      .col-md-4
+        - unless @conference.ended?
+          = render 'todo_list',
+            conference_progress: @conference_todo_list, conference: @conference
       .row#tickets
         .col-md-8
           = render 'line_chart',
