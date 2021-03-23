@@ -714,6 +714,7 @@ DEPENDENCIES
   guard-rspec
   haml-lint
   haml-rails
+  httparty
   icalendar
   iso-639
   jquery-datatables

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'httparty'
 
 module External
   module MailblusterHelper
@@ -9,40 +10,53 @@ module External
     # end
 
     def create_lead(user)
-      uri = URI(MAILBLUSTER_URL)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Post.new(uri.path,
-                                    'Authorization' => ENV['MAILBLUSTER_API_KEY'])
-      request['Content-Type'] = 'application/json'
-      request.body = {
-        'email'            => user.email,
-        'firstName'        => user.name,
-        'overrideExisting' => true,
-        'subscribed'       => true,
-        'tags'             => [ENV['OSEM_NAME'] || 'snapcon']
-      }.to_json
-      response = http.request(request)
-      response.body
+      options = {
+        headers: {
+          'Content-Type' => 'application/json',
+          'Authorization' => ENV['MAILBLUSTER_API_KEY']
+        },
+        body: {
+          'email'            => user.email,
+          'firstName'        => user.name,
+          'overrideExisting' => true,
+          'subscribed'       => true,
+          'tags'             => [ENV['OSEM_NAME'] || 'snapcon']
+        }.to_json
+      }
+      HTTParty.post(MAILBLUSTER_URL, options).parsed_response
     rescue StandardError => e
       puts "ERROR #{e}"
       nil
     end
 
-    def edit_lead(user, add_tags, remove_tags)
-      puts 'PENDING'
+    def edit_lead(user, add_tags: [], remove_tags: [], old_email: nil)
+      options = {
+        headers: {
+          'Content-Type' => 'application/json',
+          'Authorization' => ENV['MAILBLUSTER_API_KEY']
+        },
+        body: {
+          'email'            => user.email,
+          'firstName'        => user.name,
+          'overrideExisting' => true,
+          'subscribed'       => true,
+          'addTags'          => add_tags,
+          'removeTags'       => remove_tags
+        }.to_json
+      }
+      email_hash = Digest::MD5.hexdigest(old_email.presence || user.email)
+      HTTParty.put(MAILBLUSTER_URL + email_hash, options).parsed_response
     end
 
     def delete_lead(user)
       email_hash = Digest::MD5.hexdigest user.email
-      uri = URI(MAILBLUSTER_URL + email_hash)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Delete.new(uri.path,
-                                    'Authorization' => ENV['MAILBLUSTER_API_KEY'])
-      request['Content-Type'] = 'application/json'
-      response = http.request(request)
-      response.body
+      options = {
+        headers: {
+          'Content-Type' => 'application/json',
+          'Authorization' => ENV['MAILBLUSTER_API_KEY']
+        }
+      }
+      HTTParty.delete(MAILBLUSTER_URL + email_hash, options).parsed_response
     rescue StandardError => e
       puts "ERROR #{e}"
       nil

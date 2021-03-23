@@ -221,6 +221,9 @@ gem 'dalli'
 
 gem 'icalendar'
 
+# for making external requests easier
+gem 'httparty'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
