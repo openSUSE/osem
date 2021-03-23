@@ -9,24 +9,27 @@
     = semantic_form_for(@conference, url: admin_conference_path(@conference.short_title), html: {multipart: true}) do |f|
       = f.input :title, hint: "The full title of the conference, e.g. 'openSUSE Conference 2014'"
       = f.input :short_title, hint: "A short title, e.g. 'oSC14', to be used in URLs"
-      = f.input :description, hint: markdown_hint('A description of the conference. This supports unsafe HTML and JavaScript.'), input_html: { rows: 5, data: { provide: 'markdown' } }
-      = f.input :color, hint: 'The color will be used eg for the dashboard.', input_html: {size: 6, type: 'color'}
-      = f.label 'Conference Logo'
+      = f.input :description,
+                hint: markdown_hint('A description of the conference. (Supports unsafe HTML.)'),
+                input_html: { rows: 5, data: { provide: 'markdown' } }
+      = f.input :color, hint: 'The will be used in emails.',
+                input_html: {size: 6, type: 'color'}
+      = f.label 'Conference Logo', for: 'conference_picture'
       %br
       - if @conference.picture?
         = image_tag @conference.picture.thumb.url
-      = f.input :picture, label: false, hint: 'This will be displayed on the front page.'
+      = f.input :picture, label: false, hint: 'This will be shown in the navigation bar and emails.'
       = f.hidden_field :picture_cache
 
       = f.input :custom_css,
-        hint: "Add custon CSS to all pages within the conference. The class <code>.conference-#{@conference.short_title}</code> is included on the body element.".html_safe,
-        input_html: { rows: 10, style: 'font-family: monospace' }
+                hint: "Add custon CSS to all pages within the conference. The class <code>.conference-#{@conference.short_title}</code> is included on the body element.".html_safe,
+                input_html: { rows: 10, style: 'font-family: monospace' }
 
       = f.input :ticket_layout, as: :select, collection: Conference.ticket_layouts.keys, hint: "Layout type for tickets of the conference."
       = f.inputs name: 'Scheduling' do
         = f.input :timezone, as: :time_zone, hint: 'The conference time zone'
-        = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', readonly: 'readonly' }
-        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker', readonly: 'readonly' }
+        = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker' }
+        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker' }
         = f.input :start_hour, input_html: {size: 2, type: 'number', min: 0, max: 23}, hint: rescheduling_hint(@affected_event_count)
         = f.input :end_hour, input_html: {size: 2, type: 'number', min: 1, max: 24}, hint: rescheduling_hint(@affected_event_count)
       = f.inputs name: 'Registrations' do
