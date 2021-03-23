@@ -25,6 +25,7 @@
     %li{'class'=>class_for_todo(progress_status['track'])}
       %span{'class'=>icon_for_todo(progress_status['track'])}
         = link_to 'Add a track', edit_conference_program_proposal_path(event.program.conference.short_title, event)
-  %li{'class'=>class_for_todo(progress_status['difficulty_level'])}
-    %span{'class'=>icon_for_todo(progress_status['difficulty_level'])}
-      = link_to 'Add a difficulty level', edit_conference_program_proposal_path(event.program.conference.short_title, event)
+  - unless progress_status[:difficulty_level].nil?
+    %li{'class'=>class_for_todo(progress_status['difficulty_level'])}
+      %span{'class'=>icon_for_todo(progress_status['difficulty_level'])}
+        = link_to 'Add a difficulty level', edit_conference_program_proposal_path(event.program.conference.short_title, event)
