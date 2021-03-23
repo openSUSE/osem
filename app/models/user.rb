@@ -81,6 +81,7 @@ class User < ApplicationRecord
   after_save :touch_events
 
   after_commit :mailbluster_create_lead, on: :create
+  after_commit :mailbluster_delete_lead, on: :destroy
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
@@ -376,6 +377,10 @@ class User < ApplicationRecord
 
   def mailbluster_create_lead
     ApplicationController.helpers.create_lead(self)
+  end
+
+  def mailbluster_delete_lead
+    ApplicationController.helpers.delete_lead(self)
   end
 
   def touch_events

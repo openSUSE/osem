@@ -39,8 +39,6 @@ module External
         body:    {
           'email'            => user.email,
           'firstName'        => user.name,
-          'overrideExisting' => true,
-          'subscribed'       => true,
           'addTags'          => add_tags,
           'removeTags'       => remove_tags
         }.to_json
