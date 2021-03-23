@@ -3,16 +3,16 @@
   Dashboard for #{@conference.title}
 %hr
 .row
-  .col-sm-3.col-xs-3
+  .col-sm-3
     = render "big_statistic",
       icon: "user", subtitle: "Registration", value: @total_reg, delta: @new_reg
-  .col-sm-3.col-xs-3
+  .col-sm-3
     = render "big_statistic",
       icon: "check-square", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
-  .col-sm-3.col-xs-3
+  .col-sm-3
     = render "big_statistic",
       icon: "file-text", subtitle: "Hour", value: @program_length, delta: @new_program_length
-  .col-sm-3.col-xs-3
+  .col-sm-3
     = render "big_statistic",
       icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn
 
