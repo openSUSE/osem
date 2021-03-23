@@ -63,14 +63,14 @@ describe External::MailblusterHelper, type: :helper do
         .to_return(body: response_body, status: 200)
       add_tags = ['2021']
       old_email = user.email
-      user.email = "new@new.org"
+      user.email = 'new@new.org'
       user.save
       response = edit_lead(user, old_email: old_email)
 
       expect(WebMock).to have_requested(:put, url + Digest::MD5.hexdigest(old_email)).with(body: {
-        'email': user.email,
-        'firstName': user.name,
-        'addTags': add_tags,
+        'email':      user.email,
+        'firstName':  user.name,
+        'addTags':    add_tags,
         'removeTags': []
       }.to_json)
       expect(response).to eq(response_body)
@@ -97,9 +97,9 @@ describe External::MailblusterHelper, type: :helper do
       response = edit_lead(user, add_tags: add_tags)
 
       expect(WebMock).to have_requested(:put, url).with(body: {
-        'email': user.email,
-        'firstName': user.name,
-        'addTags': add_tags,
+        'email':      user.email,
+        'firstName':  user.name,
+        'addTags':    add_tags,
         'removeTags': []
       }.to_json)
       expect(response).to eq(response_body)

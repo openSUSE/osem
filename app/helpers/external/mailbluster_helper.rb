@@ -37,10 +37,10 @@ module External
           'Authorization' => ENV['MAILBLUSTER_API_KEY']
         },
         body:    {
-          'email'            => user.email,
-          'firstName'        => user.name,
-          'addTags'          => add_tags,
-          'removeTags'       => remove_tags
+          'email'      => user.email,
+          'firstName'  => user.name,
+          'addTags'    => add_tags,
+          'removeTags' => remove_tags
         }.to_json
       }
       email_hash = Digest::MD5.hexdigest(old_email.presence || user.email)
