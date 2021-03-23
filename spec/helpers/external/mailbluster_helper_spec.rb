@@ -44,7 +44,66 @@ describe External::MailblusterHelper, type: :helper do
   end
 
   describe 'edit_lead' do
-    pending
+    it 'makes a put request to Mailbluster\'s API to change the email and gets the correct response' do
+      response_body = "{
+        \"message\": \"Lead updated\",
+        \"lead\": {
+          \"id\": 329395,
+          \"firstName\": \"#{user.name}\",
+          \"lastName\": \"\",
+          \"fullName\": \"#{user.name}\",
+          \"email\": \"#{user.email}\",
+          \"subscribed\": true,
+          \"tags\": [
+            #{ENV['OSEM_NAME'] || 'snapcon'}
+          ],
+        }
+      }"
+      stub_request(:put, url)
+        .to_return(body: response_body, status: 200)
+      add_tags = ['2021']
+      old_email = user.email
+      user.email = "new@new.org"
+      user.save
+      response = edit_lead(user, old_email: old_email)
+
+      expect(WebMock).to have_requested(:put, url + Digest::MD5.hexdigest(old_email)).with(body: {
+        'email': user.email,
+        'firstName': user.name,
+        'addTags': add_tags,
+        'removeTags': []
+      }.to_json)
+      expect(response).to eq(response_body)
+    end
+
+    it 'makes a put request to Mailbluster\'s API to add a tag and gets the correct response' do
+      response_body = "{
+        \"message\": \"Lead updated\",
+        \"lead\": {
+          \"id\": 329395,
+          \"firstName\": \"#{user.name}\",
+          \"lastName\": \"\",
+          \"fullName\": \"#{user.name}\",
+          \"email\": \"#{user.email}\",
+          \"subscribed\": true,
+          \"tags\": [
+            #{ENV['OSEM_NAME'] || 'snapcon'}, '2021'
+          ],
+        }
+      }"
+      stub_request(:put, url + Digest::MD5.hexdigest(user.email))
+        .to_return(body: response_body, status: 200)
+      add_tags = ['2021']
+      response = edit_lead(user, add_tags: add_tags)
+
+      expect(WebMock).to have_requested(:put, url).with(body: {
+        'email': user.email,
+        'firstName': user.name,
+        'addTags': add_tags,
+        'removeTags': []
+      }.to_json)
+      expect(response).to eq(response_body)
+    end
   end
 
   describe 'delete_lead' do
