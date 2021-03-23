@@ -97,6 +97,7 @@ FactoryBot.define do
         }
       }"
       WebMock.stub_request(:post, url_mailbluster)
+        .to_return(body: response_body, status: 200)
     end
     # Called by every user creation
 
