@@ -49,7 +49,7 @@
 require 'spec_helper'
 
 describe User do
-  
+
   let(:user_admin) { create(:admin) }
   let(:conference) { create(:conference, short_title: 'oSC16', title: 'openSUSE Conference 2016') }
   let(:conference2) { create(:conference, short_title: 'oSC15', title: 'openSUSE Conference 2015') }
