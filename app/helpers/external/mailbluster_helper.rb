@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'httparty'
 
 module External
@@ -12,10 +13,10 @@ module External
     def create_lead(user)
       options = {
         headers: {
-          'Content-Type' => 'application/json',
+          'Content-Type'  => 'application/json',
           'Authorization' => ENV['MAILBLUSTER_API_KEY']
         },
-        body: {
+        body:    {
           'email'            => user.email,
           'firstName'        => user.name,
           'overrideExisting' => true,
@@ -32,10 +33,10 @@ module External
     def edit_lead(user, add_tags: [], remove_tags: [], old_email: nil)
       options = {
         headers: {
-          'Content-Type' => 'application/json',
+          'Content-Type'  => 'application/json',
           'Authorization' => ENV['MAILBLUSTER_API_KEY']
         },
-        body: {
+        body:    {
           'email'            => user.email,
           'firstName'        => user.name,
           'overrideExisting' => true,
@@ -52,7 +53,7 @@ module External
       email_hash = Digest::MD5.hexdigest user.email
       options = {
         headers: {
-          'Content-Type' => 'application/json',
+          'Content-Type'  => 'application/json',
           'Authorization' => ENV['MAILBLUSTER_API_KEY']
         }
       }
