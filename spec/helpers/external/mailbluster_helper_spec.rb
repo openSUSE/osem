@@ -5,6 +5,11 @@ require 'webmock/rspec'
 
 describe External::MailblusterHelper, type: :helper do
   let!(:user) { create(:user) }
+
+  before(:each) do
+    WebMock.reset_executed_requests!
+  end
+
   url = 'https://api.mailbluster.com/api/leads/'
 
   describe 'create_lead' do
