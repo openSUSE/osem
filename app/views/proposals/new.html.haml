@@ -5,6 +5,7 @@
         %h1 New #{@conference.title} Proposal
   - if @program.cfp_open?
     - if @program.cfp.description.present?
+      %h2 Call for Proposals
       .row
         .col-md-12
           = markdown(@program.cfp.description, escape_html=false)
@@ -43,41 +44,61 @@
                 include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
               - @program.event_types.each do |event_type|
-                %div{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help"}
+                .help-block.event_event_type_id.collapse{ id: "#{event_type.id}-help" }
                   %strong Description
                   %div
                     = markdown(event_type.description)
 
-              = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
-                hint: markdown_hint
+              %h3 Submission Abstract
+              %p
+                The abstract is reviewed by the committee and included in the conference program.
+                You are encouraged to include links or other references as appropriate.
 
+              = f.label :abstract, class: 'sr-only'
+              = f.input :abstract, required: true, label: false,
+                        input_html: { rows: 5, data: { provide: 'markdown' } },
+                        hint: markdown_hint
               %p
                 You have used
                 %span#abstract-count #{@event.abstract_word_count}
                 words. Abstracts must be between
-                %span#abstract-minimum-word-count
-                  0
+                %span#abstract-minimum-word-count 0
                 and
-                %span#abstract-maximum-word-count
-                  250
+                %span#abstract-maximum-word-count 250
                 words.
 
-              %br
+              %hr
+              %h3
+                Submission Details
+              %p
+                This part of the submission is intended only for the conference committee.
+
               - @conference.program.event_types.each do |event_type|
-                %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-instructions" }
-                  %h3
-                    = event_type.name
-                    Instructions
-                  %p Please use this as the template for your submission.
-                  This part of the submission is intended only for the conference committee.
-                  %hr
-                  = markdown(event_type.submission_instructions)
+                .help-block.select-help-text.event_event_type_id.collapse{ id: "#{event_type.id}-instructions" }
+                  - if event_type.submission_instructions.blank?
+                    Use this space to include any additional inforrmation that is helpful in reviewing your submission. If you have any co-presenters, please include them
+                    below. After submission, you will have the opportunity to add them to the
+                    speakers list. (However, they must have an active #{ENV['OSEM_NAME']} account.)
+                  - else
+                    %p
+                      Please use the following as the template for your submission. This will help the conference committee review your submission with all the details they need. If you have any co-presenters, please include them below. After
+                      submission, you will have the opportunity to add them to the speakers
+                      list. (However, they must have an active #{ENV['OSEM_NAME']} account.)
+                    .panel.panel-primary
+                      .panel-heading
+                        = event_type.name
+                        Template
+                      .panel-body
+                        = markdown(event_type.submission_instructions)
+                      .panel-footer
+                        %button.btn.btn-warning.btn-xs{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } } Reset Submission to Template
+                        %span.small
+                          You may want to use this if you have changed the submission type.
 
-
-              = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' } },
-                hint: markdown_hint
-
-              %button.btn.btn-primary.primary-button{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } } Reset to Template
+              = f.label :submission_text, class: 'sr-only'
+              = f.input :submission_text, label: false,
+                        input_html: { rows: 10, data: { provide: 'markdown' } },
+                        hint: markdown_hint
 
               - if @program.cfp.enable_registrations?
                 = f.input :require_registration, label: 'Require participants to register to your event'
@@ -90,7 +111,7 @@
                 = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
             %p.text-right
-              = f.submit 'Submit Proposal', class: 'btn btn-success'
+              = f.submit 'Submit Proposal', class: 'btn btn-success btn-lg'
 
         .tab-pane{role: 'tabpanel', id: 'signin'}
           = render partial: 'devise/shared/sign_in_form_embedded'
