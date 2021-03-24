@@ -67,21 +67,7 @@
             -#
               = render 'donut_chart', title: 'Tracks',
                 combined_data: @tracks_distribution
-      .tab-pane#distribution_confirmed
-        .row
-          .col-md-4
-            -#
-              = render 'donut_chart', title: 'Event types',
-                combined_data: @event_type_distribution_confirmed
-          .col-md-4
-            -#
-              = render 'donut_chart', title: 'Difficulty levels',
-                combined_data: @difficulty_levels_distribution_confirmed
-          .col-md-4
-            -#
-              = render 'donut_chart', title: 'Tracks',
-                combined_data: @tracks_distribution_confirmed
-      .tab-pane#distribution_withdrawn
+      -# .tab-pane#distribution_withdrawn
         .row
           .col-md-4
             = render 'donut_chart', title: 'Event types',
@@ -103,17 +89,6 @@
           .col-md-4
             = render 'donut_chart', title: 'Tracks',
               combined_data: @tracks_distribution_confirmed
-      .tab-pane#distribution_withdrawn
-        .row
-          .col-md-4
-            = render 'donut_chart', title: 'Event types',
-              combined_data: @event_type_distribution_withdrawn
-          .col-md-4
-            = render 'donut_chart', title: 'Difficulty levels',
-              combined_data: @difficulty_levels_distribution_withdrawn
-          .col-md-4
-            = render 'donut_chart', title: 'Tracks',
-              combined_data: @tracks_distribution_withdrawn
 
 .row
   .col-md-8
