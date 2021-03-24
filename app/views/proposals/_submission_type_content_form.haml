@@ -1,5 +1,4 @@
 -# PARTIAL FOR EVENT/PROPOSAL FORM
--# `f` a current from helper.
 
 = f.input :event_type_id, as: :select, include_blank: false, label: 'Type',
   input_html: { class: 'select-help-toggle' },
@@ -24,7 +23,7 @@
 
 %p
   You have used
-  %span#abstract-count #{@event.abstract_word_count}
+  %span#abstract-count 0
   words. Abstracts must be between
   %span#abstract-minimum-word-count 0
   and
@@ -46,9 +45,11 @@
         speakers list. (However, they must have an active #{ENV['OSEM_NAME']} account.)
     - else
       %p
-        Please use the following as the template for your submission. This will help the conference committee review your submission with all the details they need. If you have any co-presenters, please include them below. After
-        submission, you will have the opportunity to add them to the speakers
-        list. (However, they must have an active #{ENV['OSEM_NAME']} account.)
+        Please use the following as the template for your submission. This will help the conference
+        committee review your submission with all the details they need. If you have any
+        co-presenters, please include them below. After submission, you will have the opportunity
+        to add them to the speakers list. (However, they must have an active #{ENV['OSEM_NAME']}
+        account.)
       .panel.panel-primary
         .panel-heading
           = event_type.name
@@ -56,7 +57,8 @@
         .panel-body
           = markdown(event_type.submission_instructions)
         .panel-footer
-          %button.btn.btn-warning.btn-xs.js-resetSubmissionText{ type: 'button', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } }
+          %button.btn.btn-warning.btn-xs.js-resetSubmissionText{ type: 'button',
+            data: { confirm: 'Do you really want to reset your submission text to the provided template?' } }
             Reset Submission to Template
           %span.small You may want to use this if you have changed the submission type.
 
