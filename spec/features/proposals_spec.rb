@@ -209,7 +209,7 @@ feature Event do
         click_button 'Reset Submission to Template'
       end
 
-      expect(page.find('#event_submission_text').value).to eq(event_type.submisson_instructions)
+      expect(page.find('#event_submission_text').value).to eq(event_type.submission_instructions)
     end
   end
 end
