@@ -56,7 +56,7 @@
         .panel-body
           = markdown(event_type.submission_instructions)
         .panel-footer
-          %button.btn.btn-warning.btn-xs{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } }
+          %button.btn.btn-warning.btn-xs.js-resetSubmissionText{ type: 'button', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } }
             Reset Submission to Template
           %span.small You may want to use this if you have changed the submission type.
 

@@ -25,7 +25,7 @@
         %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
           = difficulty_level.description
 
-    = render 'submission_type_content_form', f: f, program: @program
+    = render 'proposals/submission_type_content_form', f: f, program: @program
 
     - if @program.cfp&.enable_registrations?
       = f.inputs 'Enable pre-registration' do

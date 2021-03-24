@@ -175,8 +175,7 @@ $( document ).ready(function() {
         $("#submission-minimum-word-count").text(min);
         word_count($('#event_abstract').get(0), 'abstract-count', max);
         word_count($('#event_submission_text').get(0), 'submission-count', max);
-    })
-        .trigger('change');
+    }).trigger('change');
 
     /* Count the proposal abstract length */
     $("#event_abstract").bind('change keyup paste input', function() {
@@ -193,7 +192,7 @@ $( document ).ready(function() {
     });
 
     /* Listen for reset template button, wait for confirm, and reset. */
-    $('#sub_text_reset').click((e) => {
+    $('.js-resetSubmissionText').click((e) => {
         let $selected = $("#event_event_type_id option:selected");
         let $this = $(e.target);
         let affirm = confirm($this.data('confirm'));

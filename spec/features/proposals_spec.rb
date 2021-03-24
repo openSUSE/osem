@@ -206,7 +206,7 @@ feature Event do
       fill_in 'event_submission_text', with: 'Lorem ipsum example submission text'
 
       accept_confirm do
-        click_button 'Reset to Template'
+        click_button 'Reset Submission to Template'
       end
 
       expect(page.find('#event_submission_text').value).to eq(event_type.submisson_instructions)
