@@ -49,6 +49,8 @@ $(function () {
         $('.' + id).collapse('hide');
 
         $('#' + $(this).val() + '-help.' + id).collapse('show');
+        $('#' + $(this).val() + '-instructions.' + id).collapse('show');
+
     });
     $('.dropdown-toggle').dropdown();
 
@@ -147,6 +149,15 @@ function word_count(text, divId, maxcount) {
     });
 };
 
+function fill_if_empty(text_area, filler) {
+    let area = $('#' + text_area);
+
+    if (!area.val()) {
+        area.val(filler);
+        area.trigger('change');
+    }
+}
+
 /* Wait for the DOM to be ready before attaching events to the elements */
 $( document ).ready(function() {
     /* Set the minimum and maximum proposal abstract and submission text word length */
@@ -155,17 +166,16 @@ $( document ).ready(function() {
         var max = $selected.data("max-words");
         var min = $selected.data("min-words");
 
+        // Set the filler text for the submission text
+        fill_if_empty('event_submission_text', $selected.data("instructions"));
+
         $("#abstract-maximum-word-count").text(max);
         $("#submission-maximum-word-count").text(max);
         $("#abstract-minimum-word-count").text(min);
         $("#submission-minimum-word-count").text(min);
         word_count($('#event_abstract').get(0), 'abstract-count', max);
         word_count($('#event_submission_text').get(0), 'submission-count', max);
-
-        // Set the placeholder text for the abstract
-        $('#event_submission_text').attr("placeholder", $selected.data("help"));
-    })
-        .trigger('change');
+    }).trigger('change');
 
     /* Count the proposal abstract length */
     $("#event_abstract").bind('change keyup paste input', function() {
@@ -179,6 +189,18 @@ $( document ).ready(function() {
         var $selected = $("event_event_type_id option:selected")
         var max = $selected.data("max-words");
         word_count(this, 'submission-count', max);
+    });
+
+    /* Listen for reset template button, wait for confirm, and reset. */
+    $('.js-resetSubmissionText').click((e) => {
+        let $selected = $("#event_event_type_id option:selected");
+        let $this = $(e.target);
+        let affirm = confirm($this.data('confirm'));
+        if (affirm) {
+            let sub_text = $('#event_submission_text');
+            sub_text.val($selected.data('instructions'));
+            sub_text.trigger('change');
+        }
     });
 });
 

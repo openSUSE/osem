@@ -52,4 +52,5 @@ Osem::Application.configure do
     ActiveSupport::Deprecation.silenced = true
   end
 
+  config.assets.precompile += ['mailbot.css']
 end

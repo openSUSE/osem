@@ -121,7 +121,7 @@
         Volunteer Duties
         %small
           Thanks for being a host at #{@conference.title}
-      = render 'volunteers_table', events: @volunteer_events
+      = render 'volunteers_table', events: @volunteer_events, conference: @conference, program: @program
 
   .row
     .col-md-12

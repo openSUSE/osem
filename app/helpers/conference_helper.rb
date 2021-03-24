@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+DEFAULT_LOGO = 'snapcon_logo.png'
+DEFAULT_COLOR = '#0B3559'
+
 module ConferenceHelper
   # Return true if only call_for_papers or call_for_tracks or call_for_booths is open
   def one_call_open(*calls)
@@ -26,5 +29,52 @@ module ConferenceHelper
     return unless ticket.description
 
     markdown(ticket.description.split("\n").first&.strip)
+  end
+
+  def conference_logo_url(conference)
+    if conference.picture.present?
+      conference.picture.thumb.url
+    elsif conference.organization.picture.present?
+      conference.organization.picture.thumb.url
+    else
+      DEFAULT_LOGO
+    end
+  end
+
+  def conference_color(conference)
+    if conference.color.present?
+      conference.color
+    else
+      DEFAULT_COLOR
+    end
+  end
+
+  # adds events to icalendar for proposals in a conference
+  def icalendar_proposals(calendar, proposals, conference)
+    proposals.each do |proposal|
+      calendar.event do |e|
+        e.dtstart = proposal.time
+        e.dtend = proposal.time + proposal.event_type.length * 60
+        e.duration = "PT#{proposal.event_type.length}M"
+        e.created = proposal.created_at
+        e.last_modified = proposal.updated_at
+        e.summary = proposal.title
+        e.description = proposal.abstract
+        e.uid = proposal.guid
+        e.url = conference_program_proposal_url(conference.short_title, proposal.id)
+        v = conference.venue
+        if v
+          e.geo = v.latitude, v.longitude if v.latitude && v.longitude
+          location = ''
+          location += "#{proposal.room.name} - " if proposal.room.name
+          location += " - #{v.street}, " if v.street
+          location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
+          location += "#{v.country_name}, " if v.country_name
+          e.location = location
+        end
+        e.categories = conference.title, "Difficulty: #{proposal.difficulty_level.title}", "Track: #{proposal.track.name}"
+      end
+    end
+    calendar
   end
 end

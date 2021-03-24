@@ -15,7 +15,7 @@
 
       .row
         .col-md-12
-          = f.input :title
+          = f.input :title, input_html: { autofocus: true }
           = f.input :mandatory
           .survey-possible-answers{ class: @survey_question.choice? ? '' : 'hidden' }
             = f.input :possible_answers, hint: 'Comma separated', input_html: { rows: 3 }

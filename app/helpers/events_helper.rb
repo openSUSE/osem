@@ -60,6 +60,20 @@ module EventsHelper
     "#{event.average_rating}/#{max_rating}, #{pluralize(event.voters.length, 'vote')}"
   end
 
+  def event_type_options(event_types)
+    event_types.map do |type|
+      [
+        "#{type.title} - #{show_time(type.length)}",
+        type.id,
+        data: {
+          min_words:    type.minimum_abstract_length,
+          max_words:    type.maximum_abstract_length,
+          instructions: type.submission_instructions
+        }
+      ]
+    end
+  end
+
   def event_type_dropdown(event, event_types, conference_id)
     selection = event.event_type.try(:title) || 'Event Type'
     options = event_types.collect do |event_type|

@@ -274,7 +274,7 @@ class Event < ApplicationRecord
       biographies:      speakers.all? { |speaker| !speaker.biography.blank? },
       subtitle:         !subtitle.blank?,
       track:            (!track.blank? unless program.tracks.empty?),
-      difficulty_level: !difficulty_level.blank?,
+      difficulty_level: (difficulty_level.present? unless program.difficulty_levels.empty?),
       title:            true,
       abstract:         true
     }.with_indifferent_access

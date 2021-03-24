@@ -10,6 +10,7 @@
 #  length                  :integer          default(30)
 #  maximum_abstract_length :integer          default(500)
 #  minimum_abstract_length :integer          default(0)
+#  submission_instructions :text
 #  title                   :string           not null
 #  created_at              :datetime
 #  updated_at              :datetime

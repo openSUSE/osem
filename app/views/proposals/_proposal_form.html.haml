@@ -11,70 +11,33 @@
 
     = track_selector_input f
 
-    = f.input :event_type_id, as: :select,
-      collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-      data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length, help: type.description }]},
-      include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
-
     - if @program.languages.present?
       = f.input :language, as: :select,
         collection: @languages,
         include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
 
-    - @conference.program.event_types.each do |event_type|
-      %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
-        = event_type.description
+    - if @program.difficulty_levels.present?
+      = f.input :difficulty_level, as: :select, collection: @program.difficulty_levels,
+        input_html: { class: 'select-help-toggle' },
+        include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
 
-    = f.input :difficulty_level, as: :select, collection: @conference.program.difficulty_levels, input_html: { class: 'select-help-toggle' },
-      include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
+      - @program.difficulty_levels.each do |difficulty_level|
+        %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
+          = difficulty_level.description
 
-    - @conference.program.difficulty_levels.each do |difficulty_level|
-      %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
-        = difficulty_level.description
+    = render 'proposals/submission_type_content_form', f: f, program: @program
 
-    = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
-      hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
-
-    %p
-      You have used
-      %span#abstract-count #{@event.abstract_word_count}
-      words.  Abstracts must be between
-      %span#abstract-minimum-word-count
-        0
-      and
-      %span#abstract-maximum-word-count
-        250
-      words.
-
-    %br
-
-    = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
-      hint: markdown_hint('Only conference organizers will read this.')
-
-    %p
-      You have used
-      %span#submission-count #{@event.submission_word_count}
-      words.  Submission descriptions must be between
-      %span#submission-minimum-word-count
-        0
-      and
-      %span#submission-maximum-word-count
-        250
-      words.
-
+    -# TODO-SNAPCON: Extract this to be a `conference_committee_role?`
     - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
       %br
-      = f.input :committee_review, input_html: { rows: 5, data: { provide: 'markdown' }, placeholder: '' },
-        hint: markdown_hint('This field is shared with the submission authors.')
+      = f.input :committee_review, input_html: { rows: 5, data: { provide: 'markdown' } },
+                hint: markdown_hint('This field is shared with the submission authors.')
 
-    - if current_user.is_admin? or @program.cfp.enable_registrations?
+    - if @program.cfp&.enable_registrations?
       = f.inputs 'Enable pre-registration' do
         = f.input :require_registration, label: 'Require participants to register to your event'
         - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
         = f.input :max_attendees, hint: 'The maximum number of participants. ' + message
-
-    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
-      = f.input :is_highlight
 
     %p.text-right
       = link_to '#description', 'data-toggle' => 'collapse' do
@@ -82,12 +45,15 @@
     #description{ class: "collapse #{ 'in' if @event.description.present? }" }
       = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
+    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
+      %p (Admin Only)
+      = f.input :is_highlight
 
   %p.text-right
     - if @event.new_record?
       = f.submit 'Submit Proposal', class: 'btn btn-success'
     - else
-      = f.submit 'Update Proposal', class: 'btn btn-success'
+      = f.submit 'Update Proposal', class: 'btn btn-primary'
 
 :javascript
   $(document).ready(function() {

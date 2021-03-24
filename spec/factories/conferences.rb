@@ -49,6 +49,7 @@ FactoryBot.define do
     ticket_layout { 'portrait' }
     description { Faker::Hipster.paragraph }
     organization
+    color { '#FFFFFF' }
     after(:create) do |conference|
       Role.where(name: 'organizer', resource: conference).first_or_create(description: 'For the organizers of the conference (who shall have full access)')
       Role.where(name: 'cfp', resource: conference).first_or_create(description: 'For the members of the CfP team')

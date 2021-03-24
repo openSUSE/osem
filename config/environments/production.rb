@@ -26,7 +26,7 @@ Osem::Application.configure do
   config.assets.digest = true
 
   config.assets.css_compressor = :sass
-  config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
   config.assets.gzip = true
 
   # Defaults to nil and saved in location specified by config.assets.prefix
@@ -97,7 +97,7 @@ Osem::Application.configure do
     domain:               ENV['OSEM_SMTP_DOMAIN'],
     enable_starttls_auto: ENV['OSEM_SMTP_ENABLE_STARTTLS_AUTO'],
     openssl_verify_mode:  ENV['OSEM_SMTP_OPENSSL_VERIFY_MODE']
-  }
+  }.compact
 
   # Set the secret_key_base from the env, if not set by any other means
   config.secret_key_base ||= ENV["SECRET_KEY_BASE"]

@@ -221,8 +221,8 @@ Osem::Application.routes.draw do
     end
   end
 
-  get '/admin' => redirect('/admin/conferences')
-
+  # Handle conferences on custom domains.
+  # This *must* come before any other root definition.
   constraints DomainConstraint do
     root to: 'conferences#show'
   end
@@ -233,5 +233,7 @@ Osem::Application.routes.draw do
     root to: 'conferences#index', via: [:get, :options]
   end
 
+  get '/admin' => redirect('/admin/conferences')
+  get '/calendar' => 'conferences#calendar'
   get '/.well-known/apple-developer-merchantid-domain-association', to: 'application#apple_pay'
 end

@@ -346,6 +346,17 @@ class User < ApplicationRecord
     events.where(program_id: conference.program.id, 'event_users.event_role': 'volunteer')
   end
 
+  def count_registration_tickets(conference)
+    count = 0
+    ticket_purchases.by_conference(conference).each do |ticket_purchase|
+      if ticket_purchase.ticket.registration_ticket
+        count += 1
+      end
+    end
+
+    count
+  end
+
   def self.empty?
     User.count == 1 && User.first.email == 'deleted@localhost.osem'
   end
