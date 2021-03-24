@@ -73,6 +73,7 @@ module EventsHelper
       ]
     end
   end
+
   def event_type_dropdown(event, event_types, conference_id)
     selection = event.event_type.try(:title) || 'Event Type'
     options = event_types.collect do |event_type|
