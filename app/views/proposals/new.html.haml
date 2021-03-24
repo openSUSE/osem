@@ -38,67 +38,16 @@
                   collection: @languages,
                   include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
 
-              = f.input :event_type_id, as: :select,
-                collection: @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length, instructions: type.submission_instructions }]},
-                include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
+              - if @program.difficulty_levels.present?
+                = f.input :difficulty_level, as: :select, collection: @program.difficulty_levels,
+                  input_html: { class: 'select-help-toggle' },
+                  include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
 
-              - @program.event_types.each do |event_type|
-                .help-block.event_event_type_id.collapse{ id: "#{event_type.id}-help" }
-                  %strong Description
-                  %div
-                    = markdown(event_type.description)
+                - @program.difficulty_levels.each do |difficulty_level|
+                  %span.help-block.select-help-text.collapse.event_difficulty_level_id{ id: "#{difficulty_level.id}-help" }
+                    = difficulty_level.description
 
-              %h3 Submission Abstract
-              %p
-                The abstract is reviewed by the committee and included in the conference program.
-                You are encouraged to include links or other references as appropriate.
-
-              = f.label :abstract, class: 'sr-only'
-              = f.input :abstract, required: true, label: false,
-                        input_html: { rows: 5, data: { provide: 'markdown' } },
-                        hint: markdown_hint
-              %p
-                You have used
-                %span#abstract-count #{@event.abstract_word_count}
-                words. Abstracts must be between
-                %span#abstract-minimum-word-count 0
-                and
-                %span#abstract-maximum-word-count 250
-                words.
-
-              %hr
-              %h3
-                Submission Details
-              %p
-                This part of the submission is intended only for the conference committee.
-
-              - @conference.program.event_types.each do |event_type|
-                .help-block.select-help-text.event_event_type_id.collapse{ id: "#{event_type.id}-instructions" }
-                  - if event_type.submission_instructions.blank?
-                    Use this space to include any additional inforrmation that is helpful in reviewing your submission. If you have any co-presenters, please include them
-                    below. After submission, you will have the opportunity to add them to the
-                    speakers list. (However, they must have an active #{ENV['OSEM_NAME']} account.)
-                  - else
-                    %p
-                      Please use the following as the template for your submission. This will help the conference committee review your submission with all the details they need. If you have any co-presenters, please include them below. After
-                      submission, you will have the opportunity to add them to the speakers
-                      list. (However, they must have an active #{ENV['OSEM_NAME']} account.)
-                    .panel.panel-primary
-                      .panel-heading
-                        = event_type.name
-                        Template
-                      .panel-body
-                        = markdown(event_type.submission_instructions)
-                      .panel-footer
-                        %button.btn.btn-warning.btn-xs{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } } Reset Submission to Template
-                        %span.small
-                          You may want to use this if you have changed the submission type.
-
-              = f.label :submission_text, class: 'sr-only'
-              = f.input :submission_text, label: false,
-                        input_html: { rows: 10, data: { provide: 'markdown' } },
-                        hint: markdown_hint
+              = render 'submission_type_content_form', f: f, program: @program
 
               - if @program.cfp.enable_registrations?
                 = f.input :require_registration, label: 'Require participants to register to your event'

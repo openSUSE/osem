@@ -199,7 +199,7 @@ $( document ).ready(function() {
         let affirm = confirm($this.data('confirm'));
         if (affirm) {
             let sub_text = $('#event_submission_text');
-            sub_text.val($selected.data('help'));
+            sub_text.val($selected.data('instructions'));
             sub_text.trigger('change');
         }
     });
