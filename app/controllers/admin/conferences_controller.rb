@@ -124,8 +124,7 @@ module Admin
       #   current_user.last_sign_in_at
       # ).count
 
-      #  Step by step list
-      # @conference_progress = @conference.get_status
+      @conference_todo_list = @conference.get_status
 
       # Line charts
       @registrations = @conference.get_registrations_per_week

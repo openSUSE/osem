@@ -1,13 +1,14 @@
-.list-group
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)}" }
+%ul.list-group
+  .list-group-item
     %h4
       Conference progress
     .progress
-      .progress-bar{ 'role' => 'progressbar', 'aria-valuenow' => "#{conference_progress['process']}", 'aria-valuemin' => '0',
-                    'aria-valuemax' => '100', 'style' => "width: #{conference_progress['process']}%;" }
+      .progress-bar{ role: 'progressbar', 'aria-valuenow': conference_progress['process'],
+                     'aria-valuemin': 0, 'aria-valuemax': 100,
+                     style: "width: #{conference_progress['process']}%;" }
         = conference_progress['process'] + '%'
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)}  #{class_for_todo(conference_progress['registration'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['registration']) }
+  %li.list-group-item{ class: class_for_todo(conference_progress['registration']) }
+    %span{ class: icon_for_todo(conference_progress['registration']) }
     - if can? :update, @conference
       - if conference.registration_period
         = link_to 'Set up registration period', edit_admin_conference_registration_period_path(conference_progress['short_title'])
@@ -15,14 +16,14 @@
         = link_to 'Set up registration period', new_admin_conference_registration_period_path(conference_progress['short_title'])
     - else
       Set up registration period
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)}  #{class_for_todo(conference_progress['cfp'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['cfp']) }
+  %li.list-group-item{ class: class_for_todo(conference_progress['cfp']) }
+    %span{ class: icon_for_todo(conference_progress['cfp']) }
     - if can? :update, Cfp.new(program_id: @program.id)
       = link_to 'Set up call for papers', admin_conference_program_cfps_path(conference_progress['short_title'])
     - else
       Set up call for papers
-  %li{'class'=>"list-group-item #{hidden_if_conference_over(conference)} #{class_for_todo(conference_progress['venue'])}"}
-    %span{'class'=>icon_for_todo(conference_progress['venue'])}
+  %li.list-group-item{ class: class_for_todo(conference_progress['venue']) }
+    %span{ class: icon_for_todo(conference_progress['venue'])}
     - if can? :update, Venue.new(conference: @conference)
       - @conference.reload
       - if conference.venue
@@ -32,32 +33,32 @@
     - else
       - @conference.reload
       Add venue
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)} #{class_for_todo(conference_progress['rooms'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['rooms']) }
+  %li.list-group-item{ class: class_for_todo(conference_progress['rooms']) }
+    %span{ class: icon_for_todo(conference_progress['rooms']) }
     - if @conference.venue && (can? :update, @conference.venue.rooms.build)
       = link_to 'Add rooms', admin_conference_venue_rooms_path(conference_progress['short_title'])
     - else
       Add rooms
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)} #{class_for_todo(conference_progress['tracks'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['tracks']) }
+  %li.list-group-item{ class: class_for_todo(conference_progress['tracks']) }
+    %span{ class: icon_for_todo(conference_progress['tracks']) }
     - if can? :update, @conference.program.tracks.build
       = link_to 'Add tracks', admin_conference_program_tracks_path(conference_progress['short_title'])
     - else
       Add tracks
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)} #{class_for_todo(conference_progress['event_types'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['event_types']) }
+  %li{ class: "list-group-item #{class_for_todo(conference_progress['event_types'])}" }
+    %span{ class: icon_for_todo(conference_progress['event_types']) }
     - if can? :update, @conference.program.event_types.build
       = link_to 'Add event types', admin_conference_program_event_types_path(conference_progress['short_title'])
     - else
       Add event types
-  %li{ 'class' => "list-group-item #{hidden_if_conference_over(conference)} #{class_for_todo(conference_progress['difficulty_levels'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['difficulty_levels']) }
+  %li{ class: "list-group-item #{class_for_todo(conference_progress['difficulty_levels'])}" }
+    %span{ class: icon_for_todo(conference_progress['difficulty_levels']) }
     - if can? :update, @conference.program.difficulty_levels.build
       = link_to 'Add difficulty levels', admin_conference_program_difficulty_levels_path(conference_progress['short_title'])
     - else
       Add difficulty levels
-  %li{ class: "list-group-item #{hidden_if_conference_over(conference)} #{class_for_todo(conference_progress['splashpage'])}" }
-    %span{ 'class' => icon_for_todo(conference_progress['splashpage']) }
+  %li.list-group-item{ class: "#{class_for_todo(conference_progress['splashpage'])}" }
+    %span{ class: icon_for_todo(conference_progress['splashpage']) }
     - if can? :update, @conference
       = link_to 'Set up a Splashpage', admin_conference_splashpage_path(conference_progress['short_title'])
     - else

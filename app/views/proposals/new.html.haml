@@ -5,6 +5,7 @@
         %h1 New #{@conference.title} Proposal
   - if @program.cfp_open?
     - if @program.cfp.description.present?
+      %h2 Call for Proposals
       .row
         .col-md-12
           = markdown(@program.cfp.description, escape_html=false)
@@ -31,52 +32,22 @@
 
             = f.inputs name: 'Proposal Information' do
               = f.input :title, as: :string, required: true, input_html: { required: true }
-              = f.input :event_type_id, as: :select,
-                collection: @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length, help: type.description }]},
-                include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
 
               - if @program.languages.present?
                 = f.input :language, as: :select,
                   collection: @languages,
                   include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
 
-              - @program.event_types.each do |event_type|
-                %div{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help"}
-                  %strong Directions
-                  %div
-                    = markdown(event_type.description)
+              - if @program.difficulty_levels.present?
+                = f.input :difficulty_level, as: :select, collection: @program.difficulty_levels,
+                  input_html: { class: 'select-help-toggle' },
+                  include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
 
-              = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
-                hint: markdown_hint
+                - @program.difficulty_levels.each do |difficulty_level|
+                  %span.help-block.select-help-text.collapse.event_difficulty_level_id{ id: "#{difficulty_level.id}-help" }
+                    = difficulty_level.description
 
-              %p
-                You have used
-                %span#abstract-count #{@event.abstract_word_count}
-                words. Abstracts must be between
-                %span#abstract-minimum-word-count
-                  0
-                and
-                %span#abstract-maximum-word-count
-                  250
-                words.
-
-              %br
-              - @conference.program.event_types.each do |event_type|
-                %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
-                  %h3
-                    = event_type.name
-                    Instructions
-                  %p Please use this as the template for your submission.
-                  This part of the submission is intended only for the conference committee.
-                  %hr
-                  = markdown(event_type.submission_instructions)
-
-
-              = f.input :submission_text, input_html: { rows: 5, data: { provide: 'markdown' } },
-                hint: markdown_hint
-
-              %button.btn.btn-primary.primary-button{ type: 'button', id: 'sub_text_reset', data: { confirm: 'Do you really want to reset your submission text to the provided template?' } } Reset to Template
+              = render 'submission_type_content_form', f: f, program: @program
 
               - if @program.cfp.enable_registrations?
                 = f.input :require_registration, label: 'Require participants to register to your event'
@@ -89,7 +60,7 @@
                 = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
 
             %p.text-right
-              = f.submit 'Submit Proposal', class: 'btn btn-success'
+              = f.submit 'Submit Proposal', class: 'btn btn-success btn-lg'
 
         .tab-pane{role: 'tabpanel', id: 'signin'}
           = render partial: 'devise/shared/sign_in_form_embedded'
