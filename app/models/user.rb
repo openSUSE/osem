@@ -80,8 +80,9 @@ class User < ApplicationRecord
 
   after_save :touch_events
 
-  after_commit :mailbluster_create_lead, on: :create
-  after_commit :mailbluster_delete_lead, on: :destroy
+  after_create_commit :mailbluster_create_lead
+  after_destory_commit :mailbluster_delete_lead
+  after_update_commit :mailbluster_update_email, if: :saved_change_to_email?
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
