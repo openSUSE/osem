@@ -59,18 +59,17 @@ describe External::MailblusterHelper, type: :helper do
           ],
         }
       }"
-      stub_request(:put, url)
-        .to_return(body: response_body, status: 200)
-      add_tags = ['2021']
       old_email = user.email
       user.email = 'new@new.org'
       user.save
+      stub_request(:put, url + Digest::MD5.hexdigest(old_email))
+        .to_return(body: response_body, status: 200)
       response = edit_lead(user, old_email: old_email)
 
       expect(WebMock).to have_requested(:put, url + Digest::MD5.hexdigest(old_email)).with(body: {
         'email':      user.email,
         'firstName':  user.name,
-        'addTags':    add_tags,
+        'addTags':    [],
         'removeTags': []
       }.to_json)
       expect(response).to eq(response_body)
@@ -96,7 +95,7 @@ describe External::MailblusterHelper, type: :helper do
       add_tags = ['2021']
       response = edit_lead(user, add_tags: add_tags)
 
-      expect(WebMock).to have_requested(:put, url).with(body: {
+      expect(WebMock).to have_requested(:put, url + Digest::MD5.hexdigest(user.email)).with(body: {
         'email':      user.email,
         'firstName':  user.name,
         'addTags':    add_tags,
