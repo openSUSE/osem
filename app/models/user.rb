@@ -376,11 +376,15 @@ class User < ApplicationRecord
   end
 
   def mailbluster_create_lead
-    ApplicationController.helpers.create_lead(self)
+    MailblusterCreateLeadJob.perform_later self
   end
 
   def mailbluster_delete_lead
-    ApplicationController.helpers.delete_lead(self)
+    MailblusterDeleteLeadJob.perform_later self
+  end
+
+  def mailbluster_update_email
+    MailblusterEditLeadJob.perform_later(self, old_email: email_before_last_save)
   end
 
   def touch_events
