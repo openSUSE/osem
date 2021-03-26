@@ -530,42 +530,4 @@ describe User do
       expect(User.omniauth_providers).to eq [:suse, :google, :facebook, :github, :discourse]
     end
   end
-
-  describe 'mailbluster' do
-    it 'creates a Mailbluster lead on creating a user' do
-      user_mailbluster = build(:user)
-      url = 'https://api.mailbluster.com/api/leads/'
-
-      response_body = "{
-        \"message\": \"Lead created\",
-        \"lead\": {
-          \"id\": 329395,
-          \"firstName\": \"#{user_mailbluster.name}\",
-          \"lastName\": \"\",
-          \"fullName\": \"#{user_mailbluster.name}\",
-          \"email\": \"#{user_mailbluster.email}\",
-          \"subscribed\": true,
-          \"tags\": [
-            #{ENV['OSEM_NAME'] || 'snapcon'}
-          ],
-        }
-      }"
-      stub_request(:post, url)
-        .to_return(body: response_body, status: 200)
-
-      # Do not request before save
-      expect(WebMock).not_to have_requested(:post, url)
-
-      # Request after save
-      user_mailbluster.save!
-
-      expect(WebMock).to have_requested(:post, url).with(body: {
-        'email':            user_mailbluster.email,
-        'firstName':        user_mailbluster.name,
-        'overrideExisting': true,
-        'subscribed':       true,
-        'tags':             [ENV['OSEM_NAME'] || 'snapcon']
-      }.to_json)
-    end
-  end
 end
