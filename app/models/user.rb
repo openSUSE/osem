@@ -385,6 +385,7 @@ class User < ApplicationRecord
   end
 
   def mailbluster_update_email
+    # FIXME: May fail if multiple saves occur in one commit
     MailblusterEditLeadJob.perform_later(self, old_email: email_before_last_save)
   end
 
