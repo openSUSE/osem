@@ -1,4 +1,4 @@
-class MailblusterDeleteLeadJobJob < ApplicationJob
+class MailblusterDeleteLeadJob < ApplicationJob
   queue_as :default
 
   def perform(user)
