@@ -9,14 +9,15 @@
     .col-md-12
       %h2
         #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
-      %h3
-        This page was loaded at
-        = inyourtz(Time.now) do
-          Time.now.strftime('%a %b %d at %I:%M %P (%z)').to_s
+        %br
+        %small
+          This page was loaded at
+          = inyourtz(Time.now) do
+            = Time.now.strftime('%a %b %d at %I:%M %P (%z)')
+          \.
 
   .row
     / TODO: Clean this up, merge with all events page.
-    / scheduled events
     - date = nil
     - time = nil
     - @events_schedules.each do |event_schedule|

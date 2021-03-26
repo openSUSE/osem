@@ -49,6 +49,8 @@ $(function () {
         $('.' + id).collapse('hide');
 
         $('#' + $(this).val() + '-help.' + id).collapse('show');
+        $('#' + $(this).val() + '-instructions.' + id).collapse('show');
+
     });
     $('.dropdown-toggle').dropdown();
 
@@ -165,7 +167,7 @@ $( document ).ready(function() {
         var min = $selected.data("min-words");
 
         // Set the filler text for the submission text
-        fill_if_empty('event_submission_text', $selected.data("help"));
+        fill_if_empty('event_submission_text', $selected.data("instructions"));
 
         $("#abstract-maximum-word-count").text(max);
         $("#submission-maximum-word-count").text(max);
@@ -173,8 +175,7 @@ $( document ).ready(function() {
         $("#submission-minimum-word-count").text(min);
         word_count($('#event_abstract').get(0), 'abstract-count', max);
         word_count($('#event_submission_text').get(0), 'submission-count', max);
-    })
-        .trigger('change');
+    }).trigger('change');
 
     /* Count the proposal abstract length */
     $("#event_abstract").bind('change keyup paste input', function() {
@@ -191,13 +192,13 @@ $( document ).ready(function() {
     });
 
     /* Listen for reset template button, wait for confirm, and reset. */
-    $('#sub_text_reset').click((e) => {
+    $('.js-resetSubmissionText').click((e) => {
         let $selected = $("#event_event_type_id option:selected");
         let $this = $(e.target);
         let affirm = confirm($this.data('confirm'));
         if (affirm) {
             let sub_text = $('#event_submission_text');
-            sub_text.val($selected.data('help'));
+            sub_text.val($selected.data('instructions'));
             sub_text.trigger('change');
         }
     });
