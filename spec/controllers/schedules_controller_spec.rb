@@ -29,20 +29,23 @@ describe SchedulesController do
   end
 
   describe 'GET #happening_now' do
-    before do
-      @conference2 = create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24)
-      @program = @conference2.program
-      @selected_schedule = create(:schedule, program: @program)
-      @program.update_attributes!(selected_schedule: @selected_schedule)
-      @scheduled_event1 = create(:event, program: @program, state: 'confirmed')
-      @event_schedule1 = create(:event_schedule, event: @scheduled_event1, schedule: @selected_schedule, start_time: Time.now)
-      @scheduled_event2 = create(:event, program: @program, state: 'confirmed')
-      @event_schedule2 = create(:event_schedule, event: @scheduled_event2, schedule: @selected_schedule, start_time: Time.now + 1.hour)
+    let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
+    let!(:program) { conference2.program }
+    let!(:selected_schedule) { create(:schedule, program: program) }
+    let!(:scheduled_event1) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
     end
-    
+    let!(:event_schedule1) { create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S')) }
+    let!(:scheduled_event2) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:event_schedule2) { create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S')) }
+
     context 'html' do
       before :each do
-        get :happening_now, params: { conference_id: @conference2.short_title }
+        get :happening_now, params: { conference_id: conference2.short_title }
       end
 
       it 'has 200 status code' do
@@ -52,16 +55,16 @@ describe SchedulesController do
 
     context 'json' do
       before :each do
-        get :happening_now, format: :json, params: { conference_id: @conference2.short_title }
+        get :happening_now, format: :json, params: { conference_id: conference2.short_title }
       end
-      
+
       it 'has 200 status code' do
         expect(response).to be_success
       end
 
       it 'returns the events that are happening now' do
-        expect(response.body).to include(@event_schedule1.to_json)
-        expect(response.body).not_to include(@event_schedule2.to_json)
+        expect(response.body).to include(event_schedule1.to_json(include: :event))
+        expect(response.body).not_to include(event_schedule2.to_json(include: :event))
       end
     end
   end
