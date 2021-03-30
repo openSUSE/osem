@@ -11,7 +11,7 @@
             = f.input :password
             - if devise_mapping.rememberable?
               %p.text-right.small
-                = f.label 'Remember me'
+                = f.label 'Remember me', for: 'user_remember_me'
                 = f.check_box :remember_me
             %p.text-right
               = f.action :submit, as: :button, label: 'Sign In', button_html: {class: 'btn btn-success'}

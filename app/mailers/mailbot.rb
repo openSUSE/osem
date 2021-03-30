@@ -7,8 +7,9 @@ YTLF_TICKET_ID = 50
 class Mailbot < ActionMailer::Base
   helper ConferenceHelper
 
-  default bcc:           -> { SNAPCON_BCC_ADDRESS },
-          template_name: -> { EMAIL_TEMPLATE },
+  default bcc:           SNAPCON_BCC_ADDRESS,
+          template_name: EMAIL_TEMPLATE,
+          content_type:  'text/html',
           to:            -> { @user.email },
           from:          -> { @conference.contact.email }
 

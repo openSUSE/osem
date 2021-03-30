@@ -3,16 +3,16 @@
   Dashboard for #{@conference.title}
 %hr
 .row
-  .col-sm-3.col-xs-3
+  .col-sm-3.col-xs-6
     = render "big_statistic",
       icon: "user", subtitle: "Registration", value: @total_reg, delta: @new_reg
-  .col-sm-3.col-xs-3
+  .col-sm-3.col-xs-6
     = render "big_statistic",
       icon: "check-square", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
-  .col-sm-3.col-xs-3
+  .col-sm-3.col-xs-6
     = render "big_statistic",
       icon: "file-text", subtitle: "Hour", value: @program_length, delta: @new_program_length
-  .col-sm-3.col-xs-3
+  .col-sm-3.col-xs-6
     = render "big_statistic",
       icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn
 
@@ -29,9 +29,20 @@
             = render 'line_chart',
               title: 'Submissions per week', data: @submissions
       .col-md-4
-        -#
+        - unless @conference.ended?
           = render 'todo_list',
-            conference_progress: @conference_progress, conference: @conference
+            conference_progress: @conference_todo_list, conference: @conference
+        - else
+          .list-group
+            .list-group-item
+              %h4
+                Conference Progress
+              .progress
+                .progress-bar{ role: 'progressbar', 'aria-valuenow': 100,
+                              'aria-valuemin': 0, 'aria-valuemax': 100,
+                              style: 'width: 100%;' }
+                  Conference Complete!
+
       .row#tickets
         .col-md-8
           = render 'line_chart',
@@ -44,14 +55,15 @@
         %a{ href: '#distribution_all', 'data-toggle' => 'tab' }
           %span.fa.fa-star
           All
-      %li
-        %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
-          %span.fa.fa-comment
-          Confirmed
-      %li
-        %a{ href: '#distribution_withdrawn', 'data-toggle' => 'tab' }
-          %span.fa.fa-archive
-          Withdrawn
+      -# TODO-SNAP: Disabled for Snap!Con
+        %li
+          %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
+            %span.fa.fa-comment
+            Confirmed
+        %li
+          %a{ href: '#distribution_withdrawn', 'data-toggle' => 'tab' }
+            %span.fa.fa-archive
+            Withdrawn
     .tab-content
       .tab-pane.active#distribution_all
         .row
@@ -59,38 +71,33 @@
             = render 'donut_chart', title: 'Event types',
               combined_data: @event_type_distribution
           .col-md-4
-            -#
-              = render 'donut_chart', title: 'Difficulty levels',
-                combined_data: @difficulty_levels_distribution
+            = render 'donut_chart', title: 'Difficulty levels',
+              combined_data: @difficulty_levels_distribution
           .col-md-4
-            -#
-              = render 'donut_chart', title: 'Tracks',
-                combined_data: @tracks_distribution
-      .tab-pane#distribution_confirmed
-        .row
-          .col-md-4
-            -#
-              = render 'donut_chart', title: 'Event types',
-                combined_data: @event_type_distribution_confirmed
-          .col-md-4
-            -#
-              = render 'donut_chart', title: 'Difficulty levels',
-                combined_data: @difficulty_levels_distribution_confirmed
-          .col-md-4
-            -#
-              = render 'donut_chart', title: 'Tracks',
-                combined_data: @tracks_distribution_confirmed
-      .tab-pane#distribution_withdrawn
+            = render 'donut_chart', title: 'Tracks',
+              combined_data: @tracks_distribution
+      -# .tab-pane#distribution_withdrawn
         .row
           .col-md-4
             = render 'donut_chart', title: 'Event types',
               combined_data: @event_type_distribution_withdrawn
           .col-md-4
             = render 'donut_chart', title: 'Difficulty levels',
-              combined_data: @difficulty_levels_distribution_withdrawn
+              combined_data: @difficulty_levels_distribution
           .col-md-4
             = render 'donut_chart', title: 'Tracks',
-              combined_data: @tracks_distribution_withdrawn
+              combined_data: @tracks_distribution
+      -# .tab-pane#distribution_confirmed
+        .row
+          .col-md-4
+            = render 'donut_chart', title: 'Event types',
+              combined_data: @event_type_distribution_confirmed
+          .col-md-4
+            = render 'donut_chart', title: 'Difficulty levels',
+              combined_data: @difficulty_levels_distribution_confirmed
+          .col-md-4
+            = render 'donut_chart', title: 'Tracks',
+              combined_data: @tracks_distribution_confirmed
 
 .row
   .col-md-8

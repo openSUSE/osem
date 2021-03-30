@@ -20,7 +20,7 @@
         combined_data: @registration_distribution
 .row
   .col-md-12
-    %div.margin-event-table
+    .margin-event-table
       %table.datatable#registrations{ data: { source: admin_conference_registrations_path(conference_id: @conference, format: :json) } }
         %thead
           %tr
