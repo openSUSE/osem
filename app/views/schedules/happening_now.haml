@@ -9,19 +9,12 @@
     .col-md-12
       %h2
         #{pluralize(@events_schedules.count, 'Event')} Occurring Within The Next 30 minutes.
-<<<<<<< HEAD
-      %h3
-        This page was loaded at
-        = inyourtz(Time.now) do
-          = Time.now.strftime('%a %b %d at %I:%M %P (%z)')
-=======
         %br
         %small
           This page was loaded at
           = inyourtz(Time.now) do
             = Time.now.strftime('%a %b %d at %I:%M %P (%z)')
           \.
->>>>>>> b194ad8ad6e0af95b48002a350a87a514cd8593a
 
   .row
     / TODO: Clean this up, merge with all events page.
