@@ -33,6 +33,8 @@
 class Event < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
+  include FormatHelper
+
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
 
   acts_as_commentable
@@ -335,6 +337,10 @@ class Event < ApplicationRecord
 
   def <=>(other)
     time <=> other.time
+  end
+
+  def serializable_hash(options = {})
+    super(options).merge('rendered_abstract' => markdown(abstract))
   end
 
   private

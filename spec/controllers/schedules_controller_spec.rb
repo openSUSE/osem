@@ -34,7 +34,7 @@ describe SchedulesController do
     let!(:selected_schedule) { create(:schedule, program: program) }
     let!(:scheduled_event1) do
       program.update_attributes!(selected_schedule: selected_schedule)
-      create(:event, program: program, state: 'confirmed')
+      create(:event, program: program, state: 'confirmed', abstract: '`markdown`')
     end
     let!(:event_schedule1) { create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S')) }
     let!(:scheduled_event2) do
@@ -65,6 +65,10 @@ describe SchedulesController do
       it 'returns the events that are happening now' do
         expect(response.body).to include(event_schedule1.to_json(include: :event))
         expect(response.body).not_to include(event_schedule2.to_json(include: :event))
+      end
+
+      it 'contains the rendered markdown in HTML of events that are happening now' do
+        expect(response.body).to include('code')
       end
     end
   end
