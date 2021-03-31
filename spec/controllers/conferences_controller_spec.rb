@@ -48,5 +48,4 @@ describe ConferencesController do
       expect(response.response_code).to eq(200)
     end
   end
-
 end

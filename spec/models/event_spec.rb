@@ -448,4 +448,14 @@ describe Event do
       end
     end
   end
+
+  describe '#serializable_hash' do
+    let(:event2) { create(:event, program: conference.program, abstract: '`markdown`') }
+
+    context 'serializes event correctly' do
+      it 'contains rendered markdown in HTML' do
+        expect(event2.serializable_hash['rendered_abstract']).to include('<code>markdown</code>')
+      end
+    end
+  end
 end
