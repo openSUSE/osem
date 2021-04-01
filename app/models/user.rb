@@ -82,7 +82,12 @@ class User < ApplicationRecord
 
   after_create_commit :mailbluster_create_lead
   after_destroy_commit :mailbluster_delete_lead
-  after_update_commit :mailbluster_update_email, if: :saved_change_to_email?
+  # Note that because a commit may cause multiple changes
+  # which are not fully tracked by ActiveRecord::Dirty,
+  # we must resort to using a ActiveRecord::Concern which accumulates
+  # changes from a commit (app/models/concerns/track_saved_changes.rb)
+  # See https://github.com/ccmcbeck/after-commit
+  after_update_commit :mailbluster_update_email, if: ->(obj){ obj.saved_changes.key? 'email' }
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
@@ -386,7 +391,7 @@ class User < ApplicationRecord
 
   def mailbluster_update_email
     # FIXME: May fail if multiple saves occur in one commit
-    MailblusterEditLeadJob.perform_later(self, old_email: email_before_last_save)
+    MailblusterEditLeadJob.perform_later(self, old_email: self.saved_changes['email'][0])
   end
 
   def touch_events
