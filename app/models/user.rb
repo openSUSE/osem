@@ -391,7 +391,7 @@ class User < ApplicationRecord
 
   def mailbluster_update_email
     # FIXME: May fail if multiple saves occur in one commit
-    MailblusterEditLeadJob.perform_later(self, old_email: self.saved_changes['email'][0])
+    MailblusterEditLeadJob.perform_later(self, old_email: saved_changes['email'][0])
   end
 
   def touch_events
