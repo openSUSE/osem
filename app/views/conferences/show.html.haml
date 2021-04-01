@@ -44,6 +44,10 @@
   -# header/description
   = render 'header', conference: @conference, venue: @conference.venue
 
+  -# happening now events
+  - if @conference.splashpage.include_happening_now
+    = 'Hello Word'
+
   -# calls for content, or program
   - if @conference.splashpage.include_cfp
     = render 'call_for_content', conference: @conference,
