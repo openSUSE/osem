@@ -50,7 +50,7 @@ module Admin
                                          :include_venue, :include_registrations,
                                          :include_tickets, :include_lodgings,
                                          :include_sponsors, :include_social_media,
-                                         :include_booths)
+                                         :include_booths, :include_happening_now)
     end
   end
 end

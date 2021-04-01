@@ -44,6 +44,9 @@
           %li
             = f.input :include_social_media, label: 'Display social media links', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
 
+          %li
+            = f.input :include_happening_now, label: 'Display events happening now', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_happening_now) }
+
       = f.inputs name: 'Access' do
         %ul.fa-ul
           %li

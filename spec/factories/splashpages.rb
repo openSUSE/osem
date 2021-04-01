@@ -45,6 +45,7 @@ FactoryBot.define do
       include_sponsors { true }
       include_lodgings { true }
       include_cfp { true }
+      include_happening_now { true }
     end
   end
 end
