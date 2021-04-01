@@ -4,6 +4,6 @@ class MailblusterCreateLeadJob < ApplicationJob
   queue_as :default
 
   def perform(user)
-    ApplicationController.helpers.create_lead(user)
+    MailblusterManager.create_lead(user)
   end
 end

@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe External::MailblusterHelper, type: :helper do
+describe MailblusterManager, type: :model do
   let!(:user) { create(:user) }
 
   before(:each) do
@@ -30,7 +30,7 @@ describe External::MailblusterHelper, type: :helper do
       }"
       stub_request(:post, url)
         .to_return(body: response_body, status: 200)
-      response = create_lead(user)
+      response = MailblusterManager.create_lead(user)
 
       expect(WebMock).to have_requested(:post, url).with(body: {
         'email':            user.email,
@@ -64,7 +64,7 @@ describe External::MailblusterHelper, type: :helper do
       user.save
       stub_request(:put, url + Digest::MD5.hexdigest(old_email))
         .to_return(body: response_body, status: 200)
-      response = edit_lead(user, old_email: old_email)
+      response = MailblusterManager.edit_lead(user, old_email: old_email)
 
       expect(WebMock).to have_requested(:put, url + Digest::MD5.hexdigest(old_email)).with(body: {
         'email':      user.email,
@@ -93,7 +93,7 @@ describe External::MailblusterHelper, type: :helper do
       stub_request(:put, url + Digest::MD5.hexdigest(user.email))
         .to_return(body: response_body, status: 200)
       add_tags = ['2021']
-      response = edit_lead(user, add_tags: add_tags)
+      response = MailblusterManager.edit_lead(user, add_tags: add_tags)
 
       expect(WebMock).to have_requested(:put, url + Digest::MD5.hexdigest(user.email)).with(body: {
         'email':      user.email,
@@ -115,7 +115,7 @@ describe External::MailblusterHelper, type: :helper do
       lead_url = url + email_hash.to_s
       stub_request(:delete, lead_url)
         .to_return(body: response_body)
-      response = delete_lead(user)
+      response = MailblusterManager.delete_lead(user)
 
       expect(WebMock).to have_requested(:delete, lead_url)
       expect(response).to eq(response_body)
