@@ -88,6 +88,7 @@ class User < ApplicationRecord
   # changes from a commit (app/models/concerns/track_saved_changes.rb)
   # See https://github.com/ccmcbeck/after-commit
   after_update_commit :mailbluster_update_email, if: ->(obj){ obj.saved_changes.key? 'email' }
+  after_update_commit :mailbluster_update_name, if: ->(obj){ obj.saved_changes.key? 'name' }
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
@@ -392,6 +393,10 @@ class User < ApplicationRecord
   def mailbluster_update_email
     # FIXME: May fail if multiple saves occur in one commit
     MailblusterEditLeadJob.perform_later(self, old_email: saved_changes['email'][0])
+  end
+
+  def mailbluster_update_name
+    # TODO
   end
 
   def touch_events
