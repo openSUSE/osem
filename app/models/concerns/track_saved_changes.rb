@@ -17,7 +17,7 @@ module TrackSavedChanges
 
   # filter out any changes that result in the original value
   def saved_changes
-    @saved_changes_unfiltered.reject { |k,v| v[0] == v[1] }
+    @saved_changes_unfiltered.reject { |_k, v| v[0] == v[1] }
   end
 
   private
@@ -31,20 +31,18 @@ module TrackSavedChanges
   end
 
   # v is an an array of [prev, current]
-  def track_saved_change(k, v)
-    if @saved_changes_unfiltered.key? k
-      @saved_changes_unfiltered[k][1] = track_saved_value v[1]
+  def track_saved_change(key, value)
+    if @saved_changes_unfiltered.key? key
+      @saved_changes_unfiltered[key][1] = track_saved_value value[1]
     else
-      @saved_changes_unfiltered[k] = v.dup
+      @saved_changes_unfiltered[key] = value.dup
     end
   end
 
   # type safe dup inspred by http://stackoverflow.com/a/20955038
-  def track_saved_value(v)
-    begin
-      v.dup
-    rescue TypeError
-      v
-    end
+  def track_saved_value(value)
+    value.dup
+  rescue TypeError
+    value
   end
 end
