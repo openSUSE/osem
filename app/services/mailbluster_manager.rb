@@ -13,11 +13,11 @@ class MailblusterManager
     options = @@auth_headers.merge({
       body:    body.to_json
     })
-    method(path, options).parsed_response
+    send(method, path, options).parsed_response
   end
 
   def self.create_lead(user)
-    query_api(post, '/', {
+    query_api(:post, '/', {
       'email'            => user.email,
       'firstName'        => user.name,
       'overrideExisting' => true,
@@ -28,7 +28,7 @@ class MailblusterManager
 
   def self.edit_lead(user, add_tags: [], remove_tags: [], old_email: nil)
     email_hash = Digest::MD5.hexdigest(old_email.presence || user.email)
-    query_api(put, "/#{email_hash}", {
+    query_api(:put, "/#{email_hash}", {
         'email'      => user.email,
         'firstName'  => user.name,
         'addTags'    => add_tags,
@@ -38,6 +38,6 @@ class MailblusterManager
 
   def self.delete_lead(user)
     email_hash = Digest::MD5.hexdigest user.email
-    query_api(delete, "/#{email_hash}", {})
+    query_api(:delete, "/#{email_hash}", {})
   end
 end
