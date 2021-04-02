@@ -8,7 +8,7 @@ class MailblusterManager
     }
   }
 
-  def query_api(method, path, body)
+  def self.query_api(method, path, body)
     #TODO
     options = @@auth_headers.merge({
       body:    body.to_json
