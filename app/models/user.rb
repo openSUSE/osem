@@ -53,6 +53,7 @@ class UserDisabled < StandardError
 end
 
 class User < ApplicationRecord
+  include TrackSavedChanges
   rolify
   # prevent N+1 queries with has_cached_role? by preloading roles *always*
   default_scope { preload(:roles) }
