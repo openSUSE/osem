@@ -12,6 +12,22 @@ describe MailblusterManager, type: :model do
 
   url = 'https://api.mailbluster.com/api/leads/'
 
+  describe 'query_api' do
+    it 'translates :get to a get request' do
+      stub_request(:get, url)
+      described_class.query_api(:get, '/')
+
+      expect(WebMock).to have_requested(:get, url)
+    end
+
+    it 'translates :post to a post request' do
+      stub_request(:post, url + 'path')
+      described_class.query_api(:post, '/path', body: { key: 'value' })
+
+      expect(WebMock).to have_requested(:post, url + 'path').with(body: { key: 'value' })
+    end
+  end
+
   describe 'create_lead' do
     it 'makes a post request to Mailbluster\'s API and gets the correct response' do
       response_body = "{
