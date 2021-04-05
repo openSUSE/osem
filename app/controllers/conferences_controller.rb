@@ -69,6 +69,9 @@ class ConferencesController < ApplicationController
       ).order('sponsorship_levels.position ASC', 'sponsors.name')
       @sponsors = @conference.sponsors
     end
+    if splashpage.include_happening_now
+      @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
+    end
   end
 
   def calendar
