@@ -75,7 +75,7 @@ class SchedulesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @events_schedules.as_json(root: false, include: :event) }
+      format.json { render json: @events_schedules.to_json(root: false, include: :event) }
     end
   end
 

@@ -46,7 +46,11 @@
 
   -# happening now events
   - if @conference.splashpage.include_happening_now
-    = 'test'
+    .row
+      .col-md-12
+        #happening_now_panel
+          %h3.text-center There are no events happening now.
+
   -# calls for content, or program
   - if @conference.splashpage.include_cfp
     = render 'call_for_content', conference: @conference,
@@ -103,4 +107,9 @@
   var renderTemplate = function(data) {
     console.log(data);
     console.log("template rendered");
+
+    for (key in data) {
+      event_schedule = data[key];
+      console.log(event_schedule['event']);
+    }
   }
