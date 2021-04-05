@@ -46,8 +46,7 @@
 
   -# happening now events
   - if @conference.splashpage.include_happening_now
-    = 'Hello Word'
-
+    = 'test'
   -# calls for content, or program
   - if @conference.splashpage.include_cfp
     = render 'call_for_content', conference: @conference,
@@ -86,3 +85,22 @@
     - if @conference.contact.has_social_media?
       = render 'social_media', contact: @conference.contact
   = render 'footer'
+
+:javascript
+  var loadData = function() {
+            $.ajax({
+              type: 'GET',
+              contentType: 'application/json; charset=utf-8',
+              url: '#{@happening_now_url}',
+              dataType: 'json',
+              success: renderTemplate,
+              failure: function(){
+                console.log('error');
+              }
+            });
+          };
+  
+  var renderTemplate = function(data) {
+    console.log(data);
+    console.log("template rendered");
+  }
