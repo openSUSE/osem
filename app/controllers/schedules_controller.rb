@@ -69,7 +69,7 @@ class SchedulesController < ApplicationController
   end
 
   def happening_now
-    @events_schedules = get_happening_now_events_schedules_schedules(@conference)
+    @events_schedules = get_happening_now_events_schedules(@conference)
     @current_time = Time.now.in_time_zone(@conference.timezone)
 
     respond_to do |format|
