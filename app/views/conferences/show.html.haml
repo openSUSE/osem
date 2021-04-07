@@ -46,10 +46,15 @@
 
   -# happening now events
   - if @conference.splashpage.include_happening_now
-    .row
-      .col-md-12
-        #happening_now_panel
-          %h3.text-center There are no events happening now.
+    - if @events_schedules.any?
+      - for event_schedule in @events_schedules
+        .container
+          = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
+    - else
+      .row
+        .col-md-12
+          #happening_now_panel
+            %h3.text-center There are no events happening now.
 
   -# calls for content, or program
   - if @conference.splashpage.include_cfp

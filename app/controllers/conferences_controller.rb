@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ConferencesController < ApplicationController
+  include ConferenceHelper
+
   protect_from_forgery with: :null_session
   before_action :respond_to_options
   load_and_authorize_resource find_by: :short_title, except: :show
@@ -70,6 +72,7 @@ class ConferencesController < ApplicationController
       @sponsors = @conference.sponsors
     end
     if splashpage.include_happening_now
+      @events_schedules = get_happening_now_events_schedules(@conference)
       @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
     end
   end
