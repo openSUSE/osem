@@ -27,8 +27,8 @@ gem 'paper_trail'
 # for upload management
 gem 'carrierwave'
 gem 'carrierwave-bombshelter'
-gem 'mini_magick'
 gem 'mimemagic', '~> 0.3.6'
+gem 'mini_magick'
 
 # for internationalizing
 gem 'rails-i18n'
