@@ -90,9 +90,11 @@ describe UserDatatable do
     it { is_expected.to respond_to(:view_columns) }
   end
 
-  skip 'outputs' do
+  context 'outputs' do
     let(:user) { User.first }
     let(:output) { user_datatable.as_json }
+
+    before { pending('Investigate CI failures') }
 
     it 'recordsTotal' do
       expect(output[:recordsTotal]).to eq(1)
