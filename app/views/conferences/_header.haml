@@ -26,11 +26,3 @@
                       - if venue.country != 'US'
                         &bull;
                         = venue.country_name
-
-  - unless conference.description.blank?
-    %section#about
-      .container
-        .row
-          .col-md-8.col-md-offset-2
-            = markdown(conference.description, escape_html=false)
-      .trapezoid

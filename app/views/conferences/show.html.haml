@@ -41,23 +41,31 @@
   - if @conference.code_of_conduct.present?
     = render 'code_of_conduct', organization: @conference.organization
 
-  -# header/description
+  -# header
   = render 'header', conference: @conference, venue: @conference.venue
 
-  -# happening now events
-  %section#happening-now
-    - if @conference.splashpage.include_happening_now
-      - if @events_schedules.any?
-        .row
-          .col-md-12
-            %h2.text-center Happening Now
-        .container{ style: "padding: 20;" }
-          - for event_schedule in @events_schedules
-            = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
-      - else
-        .row
-          .col-md-12
-            %h3.text-center There are no events happening now.
+  -# description / happening now
+  %section#about-and-happening-now
+    .container
+      .row
+        -# happening now events are displayed second in md or lg view
+        .col-md-4.col-md-push-8
+          #happening-now
+            - if @conference.splashpage.include_happening_now
+              - if @events_schedules.any?
+                .row
+                  %h2.text-center Happening Now
+                - for event_schedule in @events_schedules
+                  = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
+              - else
+                .row
+                  %h3.text-center There are no events happening now.
+        - if @conference.description.present?
+          .col-md-8.col-md-pull-4
+            #about
+              .row
+                = markdown(@conference.description, escape_html=false)
+              .trapezoid
 
   -# calls for content, or program
   - if @conference.splashpage.include_cfp
