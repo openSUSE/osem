@@ -45,13 +45,13 @@
   = render 'header', conference: @conference, venue: @conference.venue
 
   -# happening now events
-  %section#happening_now
+  %section#happening-now
     - if @conference.splashpage.include_happening_now
       - if @events_schedules.any?
         .row
           .col-md-12
             %h2.text-center Happening Now
-        .container{style: "padding: 20;"}
+        .container{ style: "padding: 20;" }
           - for event_schedule in @events_schedules
             = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
       - else
@@ -111,7 +111,7 @@
               }
             });
           };
-  
+
   var renderTemplate = function(data) {
     console.log(data);
     console.log("template rendered");
