@@ -94,7 +94,7 @@ describe UserDatatable do
     let(:user) { User.first }
     let(:output) { user_datatable.as_json }
 
-    before { pending('Investigate CI failures') }
+    before { skip('Investigate CI failures') }
 
     it 'recordsTotal' do
       expect(output[:recordsTotal]).to eq(1)
