@@ -43,8 +43,8 @@ jobs:
           bundle exec bin/rails webdrivers:chromedriver:update
       - name: spec/${{ matrix.suite }}
         run: |
-          bundle exec rake spec:${{ matrix.suite }}
-          bundle exec rake spec:leftovers --exclude-pattern "**/user_datatable_spec.rb"
+          bundle exec rspec spec/${{ matrix.suite }}
+          bundle exec rspec --exclude-pattern "spec/{models, features, controllers, ability}/**/*_spec.rb"
       - name: coverage upload ${{ matrix.suite }}
         uses: codacy/codacy-coverage-reporter-action@master
         if: github.ref == 'refs/heads/master'
