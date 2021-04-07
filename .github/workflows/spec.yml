@@ -42,10 +42,10 @@ jobs:
           bundle exec rake db:setup --trace
           bundle exec bin/rails webdrivers:chromedriver:update
       - name: spec/${{ matrix.suite }}
-        if: ${{ matrix.suite }} != 'leftovers'
+        if: matrix.suite != 'leftovers'
         run: bundle exec rspec spec/${{ matrix.suite }}
       - name: spec/leftovers
-        if: ${{ matrix.suite }} == 'leftovers'
+        if: matrix.suite == 'leftovers'
         run: bundle exec rspec --exclude-pattern "spec/{models, features, controllers, ability}/**/*_spec.rb, spec/datatables/**/*_spec.rb"
       - name: coverage upload ${{ matrix.suite }}
         uses: codacy/codacy-coverage-reporter-action@master
