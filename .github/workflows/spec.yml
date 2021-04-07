@@ -29,7 +29,7 @@ jobs:
       RAILS_ENV: test
     strategy:
       matrix:
-        suite: [models, features, controllers, ability, leftovers]
+        suite: [models, features, controllers, ability]
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
@@ -42,7 +42,9 @@ jobs:
           bundle exec rake db:setup --trace
           bundle exec bin/rails webdrivers:chromedriver:update
       - name: spec/${{ matrix.suite }}
-        run: bundle exec rake spec:${{ matrix.suite }}
+        run: |
+          bundle exec rake spec:${{ matrix.suite }}
+          bundle exec rake spec:leftovers --exclude-pattern "**/user_datatable_spec.rb"
       - name: coverage upload ${{ matrix.suite }}
         uses: codacy/codacy-coverage-reporter-action@master
         if: github.ref == 'refs/heads/master'
