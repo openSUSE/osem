@@ -72,7 +72,8 @@ class ConferencesController < ApplicationController
       @sponsors = @conference.sponsors
     end
     if splashpage.include_happening_now
-      @events_schedules = get_happening_now_events_schedules(@conference)
+      @event_list = get_happening_now_events_schedules(@conference)
+      @pagy, @events_schedules = pagy_array(@event_list, items: 2)
       @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
     end
   end
