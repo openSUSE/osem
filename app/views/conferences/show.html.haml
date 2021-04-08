@@ -54,11 +54,12 @@
             - if @conference.splashpage.include_happening_now
               - if @events_schedules.any?
                 .row
-                  %h2.text-center Happening Now
+                  %h2.text-center{:style => "margin-bottom:30px"} Happening Now 
                 - for event_schedule in @events_schedules
                   = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
-                .container{:style => "margin:auto; width:50%"}
-                  != pagy_nav(@pagy) 
+                - if @events_schedules.length > 3
+                  .container{:style => "margin:auto; width:50%"}
+                    != pagy_nav(@pagy) 
               - else
                 .row
                   %h3.text-center There are no events happening now.
@@ -66,6 +67,7 @@
           .col-md-6.col-md-pull-6.col-lg-8.col-lg-pull-4
             #about
               .row
+                %h2.text-left{:style => "margin-bottom:30px"} About the Conference
                 = markdown(@conference.description, escape_html=false)
               .trapezoid
 
