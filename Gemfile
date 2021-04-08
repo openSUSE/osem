@@ -221,7 +221,7 @@ gem 'dalli'
 
 gem 'icalendar'
 
-#pagination
+# pagination
 gem 'pagy', '<4.0'
 
 # Use guard and spring for testing in development
