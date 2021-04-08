@@ -57,9 +57,8 @@
                   %h2.text-center{:style => "margin-bottom:30px"} Happening Now 
                 - for event_schedule in @events_schedules
                   = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
-                - if @events_schedules.length > 3
-                  .container{:style => "margin:auto; width:50%"}
-                    != pagy_nav(@pagy) 
+                .container{:style => "margin:auto; width:50%"}
+                  != pagy_nav(@pagy) 
               - else
                 .row
                   %h3.text-center There are no events happening now.

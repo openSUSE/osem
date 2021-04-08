@@ -82,7 +82,7 @@ module ConferenceHelper
   def get_happening_now_events_schedules(conference)
     events_schedules = conference.program.selected_event_schedules(
       includes: [:room, { event: %i[track event_type speakers submitter] }]
-    ).select(&:happening_now?)
+    )#.select(&:happening_now?)
     events_schedules ||= []
     events_schedules
   end
