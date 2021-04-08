@@ -221,6 +221,9 @@ gem 'dalli'
 
 gem 'icalendar'
 
+#pagination
+gem 'pagy', '<4.0'
+
 # Use guard and spring for testing in development
 group :development do
   # to launch specs when files are modified
