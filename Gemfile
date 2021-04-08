@@ -221,10 +221,11 @@ gem 'dalli'
 
 gem 'icalendar'
 
+
 # for making external requests easier
 gem 'httparty'
 
-#pagination
+# pagination
 gem 'pagy', '<4.0'
 
 # Use guard and spring for testing in development
