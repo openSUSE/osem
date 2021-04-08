@@ -88,8 +88,8 @@ class User < ApplicationRecord
   # we must resort to using a ActiveRecord::Concern which accumulates
   # changes from a commit (app/models/concerns/track_saved_changes.rb)
   # See https://github.com/ccmcbeck/after-commit
-  after_update_commit :mailbluster_update_email, if: ->(obj){ obj.saved_changes.key? 'email' }
-  after_update_commit :mailbluster_update_name, if: ->(obj){ obj.saved_changes.key? 'name' }
+  after_update_commit :mailbluster_update_email, if: ->(obj){ obj.ts_saved_changes.key? 'email' }
+  after_update_commit :mailbluster_update_name, if: ->(obj){ obj.ts_saved_changes.key? 'name' }
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
