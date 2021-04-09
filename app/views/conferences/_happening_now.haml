@@ -3,7 +3,7 @@
     .row
       %h2.text-center{ style: 'margin-bottom:30px' } Happening Now
     - events_schedules.each do |event_schedule|
-      = render 'schedules/event', conference: conference, event_schedule: event_schedule, event: event_schedule.event
+      = render 'schedules/event', conference: conference, event_schedule: event_schedule, event: event_schedule.event, is_brief: true
     - if events_schedules_length > events_schedules_limit
       .container{ style: 'width:100%; text-align:center' }
         != pagy_bootstrap_nav_js(pagy)
