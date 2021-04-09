@@ -131,7 +131,7 @@ describe MailblusterManager, type: :model do
       lead_url = url + email_hash.to_s
       stub_request(:delete, lead_url)
         .to_return(body: response_body)
-      response = described_class.delete_lead(user)
+      response = described_class.delete_lead(user.email)
 
       expect(WebMock).to have_requested(:delete, lead_url)
       expect(response).to eq(response_body)
