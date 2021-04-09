@@ -385,7 +385,7 @@ class User < ApplicationRecord
   end
 
   def mailbluster_delete_lead
-    MailblusterDeleteLeadJob.perform_later self.email
+    MailblusterDeleteLeadJob.perform_later email
     ts_reset_saved_changes
   end
 
