@@ -85,7 +85,7 @@ class User < ApplicationRecord
   after_commit :mailbluster_create_lead, on: :create
   # after_destroy_commit :mailbluster_delete_lead
   after_commit :mailbluster_delete_lead, on: :destroy
-  after_commit :mailbluster_update_lead, on: :update, if: ->(user){ ['name','email'].any? { |key| user.ts_saved_changes.key? key } }
+  after_commit :mailbluster_update_lead, on: :update, if: ->(user){ ['name', 'email'].any? { |key| user.ts_saved_changes.key? key } }
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
