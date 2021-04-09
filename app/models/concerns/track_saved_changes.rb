@@ -25,7 +25,7 @@ module TrackSavedChanges
   # on save
   def ts_track_saved_changes
     # maintain an array of ActiveModel::Dirty.changes
-    @ts_saved_changes_history << changes.dup
+    @ts_saved_changes_history << previous_changes.dup
     # accumulate the most recent changes
     @ts_saved_changes_history.last.each_pair { |k, v| ts_track_saved_change k, v }
   end
