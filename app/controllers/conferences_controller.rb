@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+EVENTS_PER_PAGE = 3
+
 class ConferencesController < ApplicationController
   include ConferenceHelper
 
@@ -72,9 +74,10 @@ class ConferencesController < ApplicationController
       @sponsors = @conference.sponsors
     end
     if splashpage.include_happening_now
-      @event_list = get_happening_now_events_schedules(@conference)
-      @event_limit = 3
-      @pagy, @events_schedules = pagy_array(@event_list, items: @event_limit)
+      events_schedules_list = get_happening_now_events_schedules(@conference)
+      @events_schedules_limit = EVENTS_PER_PAGE
+      @events_schedules_length = events_schedules_list.length
+      @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit)
       @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
     end
   end
