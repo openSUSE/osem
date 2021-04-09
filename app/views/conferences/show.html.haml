@@ -45,32 +45,7 @@
   = render 'header', conference: @conference, venue: @conference.venue
 
   -# description / happening now
-  %section#about-and-happening-now
-    .container
-      .row
-        -# happening now events are displayed second in md or lg view
-        .col-md-6.col-md-push-6.col-lg-4.col-lg-push-8
-          #happening-now
-            - if @conference.splashpage.include_happening_now
-              - if @events_schedules.any?
-                .row
-                  %h2.text-center{ style: "margin-bottom:30px" } Happening Now
-                - for event_schedule in @events_schedules
-                  = render 'schedules/event', conference: @conference, event_schedule: event_schedule, event: event_schedule.event
-                - if @events_schedules_length > @events_schedules_limit
-                  .container{ style: "width:100%; text-align:center" }
-                    != pagy_bootstrap_nav(@pagy)
-              - else
-                .row
-                  %h3.text-center There are no events happening now.
-        - if @conference.description.present?
-          .col-md-6.col-md-pull-6.col-lg-8.col-lg-pull-4
-            #about
-              .row
-                %h2.text-left{ style: "margin-bottom:30px" } About the Conference
-                = markdown(@conference.description, escape_html=false)
-              .trapezoid
-
+  = render 'about_and_happening_now'
 
   -# calls for content, or program
   - if @conference.splashpage.include_cfp
@@ -110,27 +85,3 @@
     - if @conference.contact.has_social_media?
       = render 'social_media', contact: @conference.contact
   = render 'footer'
-
-:javascript
-  var loadData = function() {
-            $.ajax({
-              type: 'GET',
-              contentType: 'application/json; charset=utf-8',
-              url: '#{@happening_now_url}',
-              dataType: 'json',
-              success: renderTemplate,
-              failure: function(){
-                console.log('error');
-              }
-            });
-          };
-
-  var renderTemplate = function(data) {
-    console.log(data);
-    console.log("template rendered");
-
-    for (key in data) {
-      event_schedule = data[key];
-      console.log(event_schedule['event']);
-    }
-  }
