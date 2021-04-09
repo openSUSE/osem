@@ -33,8 +33,8 @@ class MailblusterManager
               })
   end
 
-  def self.delete_lead(user)
-    email_hash = Digest::MD5.hexdigest user.email
+  def self.delete_lead(email)
+    email_hash = Digest::MD5.hexdigest email
     query_api(:delete, "/#{email_hash}")
   end
 end

@@ -81,9 +81,9 @@ class User < ApplicationRecord
 
   after_save :touch_events
 
-  # after_create_commit :mailbluster_create_lead
+  # Note that using after_create_commit and after_update_commit does not work.
+  # See https://github.com/CactusPuppy/snapcon/pull/43#discussion_r609458034
   after_commit :mailbluster_create_lead, on: :create
-  # after_destroy_commit :mailbluster_delete_lead
   after_commit :mailbluster_delete_lead, on: :destroy
   after_commit :mailbluster_update_lead, on: :update, if: ->(user){ ['name', 'email'].any? { |key| user.ts_saved_changes.key? key } }
 
@@ -381,10 +381,12 @@ class User < ApplicationRecord
 
   def mailbluster_create_lead
     MailblusterCreateLeadJob.perform_later self
+    ts_reset_saved_changes
   end
 
   def mailbluster_delete_lead
-    MailblusterDeleteLeadJob.perform_later self
+    MailblusterDeleteLeadJob.perform_later self.email
+    ts_reset_saved_changes
   end
 
   def mailbluster_update_lead
