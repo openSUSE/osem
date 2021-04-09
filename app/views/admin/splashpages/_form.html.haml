@@ -25,6 +25,8 @@
                 = f.input :include_tracks, label: 'Include confirmed tracks', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tracks) }
               %li
                 = f.input :include_booths, label: "Include confirmed #{(t'booth').pluralize}", input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
+              %li
+                = f.input :include_happening_now, label: 'Include events happening now', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_happening_now) }
 
           %li
             = f.input :include_registrations, label: 'Display the registration period', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_registrations) }
@@ -43,9 +45,6 @@
 
           %li
             = f.input :include_social_media, label: 'Display social media links', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
-
-          %li
-            = f.input :include_happening_now, label: 'Display events happening now', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_happening_now) }
 
       = f.inputs name: 'Access' do
         %ul.fa-ul

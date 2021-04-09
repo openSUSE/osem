@@ -1,4 +1,4 @@
-- if conference.splashpage.include_happening_now
+- if conference.splashpage.include_program && conference.splashpage.include_happening_now
   - if events_schedules.any?
     .row
       %h2.text-center{ style: 'margin-bottom:30px' } Happening Now

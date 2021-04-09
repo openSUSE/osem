@@ -60,6 +60,13 @@ class ConferencesController < ApplicationController
       if splashpage.include_booths
         @booths = @conference.confirmed_booths.order('title')
       end
+      if splashpage.include_happening_now
+        events_schedules_list = get_happening_now_events_schedules(@conference)
+        @events_schedules_limit = EVENTS_PER_PAGE
+        @events_schedules_length = events_schedules_list.length
+        @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
+        @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
+      end
     end
     if splashpage.include_registrations || splashpage.include_tickets
       @tickets = @conference.tickets.visible.order('price_cents')
@@ -72,13 +79,6 @@ class ConferencesController < ApplicationController
         :sponsors
       ).order('sponsorship_levels.position ASC', 'sponsors.name')
       @sponsors = @conference.sponsors
-    end
-    if splashpage.include_happening_now
-      events_schedules_list = get_happening_now_events_schedules(@conference)
-      @events_schedules_limit = EVENTS_PER_PAGE
-      @events_schedules_length = events_schedules_list.length
-      @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
-      @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
     end
   end
 
