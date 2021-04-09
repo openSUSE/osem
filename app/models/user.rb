@@ -81,15 +81,11 @@ class User < ApplicationRecord
 
   after_save :touch_events
 
-  after_create_commit :mailbluster_create_lead
-  after_destroy_commit :mailbluster_delete_lead
-  # Note that because a commit may cause multiple changes
-  # which are not fully tracked by ActiveRecord::Dirty,
-  # we must resort to using a ActiveRecord::Concern which accumulates
-  # changes from a commit (app/models/concerns/track_saved_changes.rb)
-  # See https://github.com/ccmcbeck/after-commit
-  after_update_commit :mailbluster_update_email, if: ->(obj){ obj.ts_saved_changes.key? 'email' }
-  after_update_commit :mailbluster_update_name, if: ->(obj){ obj.ts_saved_changes.key? 'name' }
+  # after_create_commit :mailbluster_create_lead
+  after_commit :mailbluster_create_lead, on: :create
+  # after_destroy_commit :mailbluster_delete_lead
+  after_commit :mailbluster_delete_lead, on: :destroy
+  after_commit :mailbluster_update_lead, on: :update, if: ->(user){ ['name','email'].any? { |key| user.ts_saved_changes.key? key } }
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
@@ -391,12 +387,9 @@ class User < ApplicationRecord
     MailblusterDeleteLeadJob.perform_later self
   end
 
-  def mailbluster_update_email
-    MailblusterEditLeadJob.perform_later(self, old_email: saved_changes['email'][0])
-  end
-
-  def mailbluster_update_name
-    MailblusterEditLeadJob.perform_later self
+  def mailbluster_update_lead
+    MailblusterEditLeadJob.perform_later(self, old_email: ts_saved_changes.fetch('email', [nil])[0])
+    ts_reset_saved_changes
   end
 
   def touch_events
