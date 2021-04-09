@@ -77,7 +77,7 @@ class ConferencesController < ApplicationController
       events_schedules_list = get_happening_now_events_schedules(@conference)
       @events_schedules_limit = EVENTS_PER_PAGE
       @events_schedules_length = events_schedules_list.length
-      @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit)
+      @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
       @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
     end
   end
