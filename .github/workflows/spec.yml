@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
+  continue-on-error: true
   linters:
     runs-on: ubuntu-latest
     env:
