@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Pagy::Frontend
   # Returns a string build from the start and end date of the given conference.
   #
   # If the conference is only one day long

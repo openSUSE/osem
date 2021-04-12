@@ -54,6 +54,7 @@
 //= require selectize
 //= require bootstrap-select
 //= require osem-survey
+//= require pagy
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
@@ -63,4 +64,6 @@ $(document).ready(function() {
     $('body').smoothScroll({
         delegateSelector: 'a.smoothscroll'
     });
+
+    window.addEventListener("load", Pagy.init);
 });

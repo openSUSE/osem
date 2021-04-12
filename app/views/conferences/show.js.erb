@@ -1,0 +1,5 @@
+$('#happening-now').html("<%= j(render 'happening_now', conference: @conference,
+                                events_schedules: @events_schedules, pagy: @pagy,
+                                events_schedules_length: @events_schedules_length,
+                                events_schedules_limit: @events_schedules_limit)%>");
+Pagy.init(document.getElementById('happening-now'));
