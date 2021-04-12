@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  continue-on-error: true
   linters:
+    continue-on-error: true
     runs-on: ubuntu-latest
     env:
       OSEM_RUBY_VERSION: 2.6.6
@@ -22,6 +22,7 @@ jobs:
       - run: bundle exec rubocop
       - run: bundle exec haml-lint app/views
   spec:
+    continue-on-error: true
     runs-on: ubuntu-latest
     name: spec
     env:
