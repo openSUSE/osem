@@ -66,6 +66,18 @@ module Osem
 
     config.active_job.queue_adapter = :delayed_job
 
+    config.conference = {
+      events_per_page: 3,
+      default_logo:    'snapcon_logo.png',
+      default_color:   '#0B3559'
+    }
+
+    config.mailbot = {
+      bcc_address:    'messages@snap.berkeley.edu',
+      email_template: 'email_template',
+      ytlf_ticket_id: 50
+    }
+
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       if File.exist?(env_file)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-DEFAULT_LOGO = 'snapcon_logo.png'
-DEFAULT_COLOR = '#0B3559'
+DEFAULT_LOGO = Rails.configuration.conference[:default_logo]
+DEFAULT_COLOR = Rails.configuration.conference[:default_color]
 
 module ConferenceHelper
   # Return true if only call_for_papers or call_for_tracks or call_for_booths is open
