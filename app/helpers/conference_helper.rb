@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-DEFAULT_LOGO = Rails.configuration.conference[:default_logo]
+DEFAULT_LOGO = Rails.configuration.conference[:default_logo_filename]
 DEFAULT_COLOR = Rails.configuration.conference[:default_color]
 
 module ConferenceHelper

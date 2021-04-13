@@ -67,15 +67,13 @@ module Osem
     config.active_job.queue_adapter = :delayed_job
 
     config.conference = {
-      events_per_page: 3,
-      default_logo:    'snapcon_logo.png',
-      default_color:   '#0B3559'
+      events_per_page:       (ENV['EVENTS_PER_PAGE'] || 3),
+      default_logo_filename: (ENV['DEFAULT_LOGO_FILENAME'] || 'snapcon_logo.png'),
+      default_color:         (ENV['DEFAULT_COLOR'] || '#0B3559')
     }
 
     config.mailbot = {
-      bcc_address:    'messages@snap.berkeley.edu',
-      email_template: 'email_template',
-      ytlf_ticket_id: 50
+      ytlf_ticket_id: (ENV['YTLF_TICKET_ID'] || 50)
     }
 
     config.before_configuration do

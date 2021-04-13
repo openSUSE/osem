@@ -53,4 +53,9 @@ Osem::Application.configure do
   end
 
   config.assets.precompile += ['mailbot.css']
+
+  # Test email address
+  config.mailbot = {
+    bcc_address: 'test@test.com'
+  }
 end

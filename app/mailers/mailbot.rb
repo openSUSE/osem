@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+EMAIL_TEMPLATE = 'email_template'
+
 SNAPCON_BCC_ADDRESS = Rails.configuration.mailbot[:bcc_address]
-EMAIL_TEMPLATE = Rails.configuration.mailbot[:email_template]
 YTLF_TICKET_ID = Rails.configuration.mailbot[:ytlf_ticket_id]
 
 class Mailbot < ActionMailer::Base
