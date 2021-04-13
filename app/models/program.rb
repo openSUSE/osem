@@ -195,7 +195,7 @@ class Program < ApplicationRecord
   # * +True+ -> If there is any event for the given date
   # * +False+ -> If there is not any event for the given date
   def any_event_for_this_date?(date)
-    return false if date.nil? || date.empty?
+    return false if date.nil? || date == ''
     return false unless selected_schedule.present?
 
     parsed_date = DateTime.parse("#{date} 00:00").utc
