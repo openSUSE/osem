@@ -51,4 +51,10 @@ Osem::Application.configure do
     Timecop.travel(t)
     ActiveSupport::Deprecation.silenced = true
   end
+
+  # Test mailbot settings
+  config.mailbot = {
+    ytlf_ticket_id: 50,
+    bcc_address:    'test@test.com'
+  }
 end

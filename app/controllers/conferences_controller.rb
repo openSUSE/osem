@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-EVENTS_PER_PAGE = 3
+EVENTS_PER_PAGE = Rails.configuration.conference[:events_per_page]
 
 class ConferencesController < ApplicationController
   include ConferenceHelper
