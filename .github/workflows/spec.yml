@@ -11,7 +11,7 @@ jobs:
   linters:
     runs-on: ubuntu-latest
     env:
-      OSEM_RUBY_VERSION: 2.5.8
+      OSEM_RUBY_VERSION: 2.5.9
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
@@ -26,7 +26,7 @@ jobs:
     name: spec
     env:
       OSEM_DB_ADAPTER: sqlite3
-      OSEM_RUBY_VERSION: 2.5.8
+      OSEM_RUBY_VERSION: 2.5.9
       RAILS_ENV: test
     strategy:
       matrix:
