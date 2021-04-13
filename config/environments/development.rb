@@ -119,6 +119,5 @@ Osem::Application.configure do
     end
   end
 
-  config.assets.precompile += ['mailbot.css']
   config.active_record.verbose_query_logs = true
 end
