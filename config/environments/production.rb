@@ -102,8 +102,9 @@ Osem::Application.configure do
   # Set the secret_key_base from the env, if not set by any other means
   config.secret_key_base ||= ENV["SECRET_KEY_BASE"]
 
-  # Set bcc email address
+  # Mailbot settings
   config.mailbot = {
+    ytlf_ticket_id: (ENV['YTLF_TICKET_ID'] || 50)
     bcc_address: ENV['OSEM_MESSAGE_BCC_ADDRESS']
   }
 end

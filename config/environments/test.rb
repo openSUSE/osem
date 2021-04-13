@@ -52,8 +52,9 @@ Osem::Application.configure do
     ActiveSupport::Deprecation.silenced = true
   end
 
-  # Test email address
+  # Test mailbot settings
   config.mailbot = {
+    ytlf_ticket_id: 50
     bcc_address: 'test@test.com'
   }
 end

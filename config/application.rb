@@ -72,10 +72,6 @@ module Osem
       default_color:         (ENV['DEFAULT_COLOR'] || '#0B3559')
     }
 
-    config.mailbot = {
-      ytlf_ticket_id: (ENV['YTLF_TICKET_ID'] || 50)
-    }
-
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       if File.exist?(env_file)
