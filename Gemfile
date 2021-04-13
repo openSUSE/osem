@@ -221,7 +221,6 @@ gem 'dalli'
 
 gem 'icalendar'
 
-
 # for making external requests easier
 gem 'httparty'
 
