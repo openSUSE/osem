@@ -11,6 +11,7 @@ RSpec.configure do |config|
   config.before(:each) do
     mock_commercial_request
     mock_image_request
+    mock_default_mailbluster
   end
 end
 
@@ -38,4 +39,8 @@ def mock_image_request
   # TODO-SNAPCON: This needs to be configurable somehow.
   WebMock.stub_request(:post, 'https://api.cloudinary.com/v1_1/snapcon/image/destroy')
     .to_return(status: 200, body: {}.to_json, headers: {})
+end
+
+def mock_default_mailbluster
+  WebMock.stub_request(:any, /api.mailbluster.com/)
 end

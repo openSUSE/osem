@@ -221,6 +221,9 @@ gem 'dalli'
 
 gem 'icalendar'
 
+# for making external requests easier
+gem 'httparty'
+
 # pagination
 gem 'pagy', '<4.0'
 

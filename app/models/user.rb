@@ -53,6 +53,7 @@ class UserDisabled < StandardError
 end
 
 class User < ApplicationRecord
+  include TrackSavedChanges
   rolify
   # prevent N+1 queries with has_cached_role? by preloading roles *always*
   default_scope { preload(:roles) }
@@ -79,6 +80,12 @@ class User < ApplicationRecord
   before_create :setup_role
 
   after_save :touch_events
+
+  # Note that using after_create_commit and after_update_commit does not work.
+  # See https://github.com/CactusPuppy/snapcon/pull/43#discussion_r609458034
+  after_commit :mailbluster_create_lead, on: :create
+  after_commit :mailbluster_delete_lead, on: :destroy
+  after_commit :mailbluster_update_lead, on: :update, if: ->(user){ ['name', 'email'].any? { |key| user.ts_saved_changes.key? key } }
 
   # add scope
   scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
@@ -361,10 +368,30 @@ class User < ApplicationRecord
     User.count == 1 && User.first.email == 'deleted@localhost.osem'
   end
 
+  # TODO: email_hash function for mailbluster
+  # def email_hash
+  #   Digest::MD5.hexdigest user.email
+  # end
+
   private
 
   def setup_role
     self.is_admin = true if User.empty?
+  end
+
+  def mailbluster_create_lead
+    MailblusterCreateLeadJob.perform_later self
+    ts_reset_saved_changes
+  end
+
+  def mailbluster_delete_lead
+    MailblusterDeleteLeadJob.perform_later email
+    ts_reset_saved_changes
+  end
+
+  def mailbluster_update_lead
+    MailblusterEditLeadJob.perform_later(self, old_email: ts_saved_changes.fetch('email', [nil])[0])
+    ts_reset_saved_changes
   end
 
   def touch_events
