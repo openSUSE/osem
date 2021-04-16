@@ -234,8 +234,7 @@ group :development do
   gem 'spring-commands-rspec'
   # to open mails
   gem 'letter_opener'
-  # view mail at /letter_opener/
-  gem 'letter_opener_web', '~> 1.0'
+  gem 'letter_opener_web'
   # as deployment system
   gem 'mina'
   # as debugger on error pages
