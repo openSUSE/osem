@@ -28,9 +28,10 @@
     = render 'proposals/submission_type_content_form', f: f, program: @program
 
     -# TODO-SNAPCON: Extract this to be a `conference_committee_role?`
-    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
+    - read_only = !current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
       %br
-      = f.input :committee_review, input_html: { rows: 5, data: { provide: 'markdown' } },
+      = f.input :committee_review,
+                input_html: { rows: 5, data: { provide: 'markdown' }, readonly: read_only },
                 hint: markdown_hint('This field is shared with the submission authors.')
 
     - if @program.cfp&.enable_registrations?
