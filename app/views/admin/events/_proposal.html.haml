@@ -73,7 +73,7 @@
           %td
             = link_to @event.submitter.name, admin_user_path(@event.submitter)
             - if @event.submitter.email_public
-              = "(#{mail_to(@event.submitter.email)})"
+              (#{mail_to(@event.submitter.email)})
         %tr
           %td
             %b Speakers
@@ -82,7 +82,7 @@
               %div
                 = link_to speaker.name, admin_user_path(speaker)
                 - if speaker.email_public
-                  = "(#{mail_to(speaker.email)})"
+                  (#{mail_to(speaker.email)})
         %tr
           %td
             %b Volunteers
