@@ -236,4 +236,7 @@ Osem::Application.routes.draw do
   get '/admin' => redirect('/admin/conferences')
   get '/calendar' => 'conferences#calendar'
   get '/.well-known/apple-developer-merchantid-domain-association', to: 'application#apple_pay'
+
+  # A Short Fallback Route
+  get '/:id', to: 'conferences#show'
 end
