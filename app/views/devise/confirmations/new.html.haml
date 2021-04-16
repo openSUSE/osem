@@ -4,7 +4,7 @@
       .panel.panel-default
         .panel-heading
           %h3.panel-title
-            Resend confirmation instructions
+            Resend account confirmation instructions
         .panel-body
           = semantic_form_for(resource, as: resource_name, url: confirmation_path(resource_name), method: :post) do |f|
             = f.input :email, input_html: { autofocus: true, required: true }
