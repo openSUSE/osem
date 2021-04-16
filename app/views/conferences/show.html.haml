@@ -49,7 +49,8 @@
     = render 'about_and_happening_now', conference: @conference,
       events_schedules: @events_schedules, pagy: @pagy,
       events_schedules_length: @events_schedules_length,
-      events_schedules_limit: @events_schedules_limit
+      events_schedules_limit: @events_schedules_limit,
+      is_happening_next: @is_happening_next
 
   -# calls for content, or program
   - if @conference.splashpage.include_cfp

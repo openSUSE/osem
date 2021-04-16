@@ -85,4 +85,20 @@ module ConferenceHelper
     events_schedules ||= []
     events_schedules
   end
+
+  def get_happening_next_events_schedules(conference)
+    events_schedules = conference.program.selected_event_schedules(
+      includes: [:room, { event: %i[track event_type speakers submitter] }]
+    ).select(&:happening_next?)
+
+    if events_schedules.empty?
+      return []
+    end
+
+    # events_schedules have been sorted by start_time in selected_event_schedules
+    happening_next_time = events_schedules[0].start_time
+    events_schedules = events_schedules.select { |s| s.start_time == happening_next_time }
+
+    events_schedules
+  end
 end
