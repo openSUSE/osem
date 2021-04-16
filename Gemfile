@@ -139,8 +139,8 @@ gem 'prawn-rails'
 gem 'rqrcode'
 
 # to render XLS spreadsheets
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'axlsx_rails'
+gem 'caxlsx'
+gem 'caxlsx_rails'
 
 gem 'sentry-delayed_job'
 gem 'sentry-rails'
