@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-DEFAULT_LOGO = 'snapcon_logo.png'
-DEFAULT_COLOR = '#0B3559'
+DEFAULT_LOGO = Rails.configuration.conference[:default_logo_filename]
+DEFAULT_COLOR = Rails.configuration.conference[:default_color]
 
 module ConferenceHelper
   # Return true if only call_for_papers or call_for_tracks or call_for_booths is open
@@ -76,5 +76,13 @@ module ConferenceHelper
       end
     end
     calendar
+  end
+
+  def get_happening_now_events_schedules(conference)
+    events_schedules = conference.program.selected_event_schedules(
+      includes: [:room, { event: %i[track event_type speakers submitter] }]
+    ).select(&:happening_now?)
+    events_schedules ||= []
+    events_schedules
   end
 end

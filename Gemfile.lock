@@ -358,6 +358,7 @@ GEM
       rack-openid (~> 1.3.1)
     open4 (1.3.4)
     orm_adapter (0.5.0)
+    pagy (3.12.0)
     paper_trail (10.3.1)
       activerecord (>= 4.2)
       request_store (~> 1.1)
@@ -708,6 +709,7 @@ DEPENDENCIES
   guard-rspec
   haml-lint
   haml-rails
+  httparty
   icalendar
   iso-639
   jquery-datatables
@@ -717,6 +719,7 @@ DEPENDENCIES
   leaflet-rails
   letter_opener
   letter_opener_web (~> 1.0)
+  mimemagic (~> 0.3.6)
   mina
   mini_magick
   money-rails
@@ -727,6 +730,7 @@ DEPENDENCIES
   omniauth-github
   omniauth-google-oauth2
   omniauth-openid
+  pagy (< 4.0)
   paper_trail
   pdf-inspector
   pg

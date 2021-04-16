@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+EVENTS_PER_PAGE = Rails.configuration.conference[:events_per_page]
+
 class ConferencesController < ApplicationController
+  include ConferenceHelper
+
   protect_from_forgery with: :null_session
   before_action :respond_to_options
   load_and_authorize_resource find_by: :short_title, except: :show
@@ -55,6 +59,13 @@ class ConferencesController < ApplicationController
       end
       if splashpage.include_booths
         @booths = @conference.confirmed_booths.order('title')
+      end
+      if splashpage.include_happening_now
+        events_schedules_list = get_happening_now_events_schedules(@conference)
+        @events_schedules_limit = EVENTS_PER_PAGE
+        @events_schedules_length = events_schedules_list.length
+        @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
+        @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
       end
     end
     if splashpage.include_registrations || splashpage.include_tickets
