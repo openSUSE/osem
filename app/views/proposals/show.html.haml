@@ -138,3 +138,22 @@
           - if @surveys_after_event.any? && @event.ended?
             .page-header
             = render partial: 'surveys/list', locals: { surveys: @surveys_after_event, conference: @conference }
+
+  - if @event.committee_review.present? || @event.submission_text.present? && can?(:edit, @event)
+    %hr
+    %p Information for event authors only:
+    .panel.panel-info
+      .panel-heading
+        Committee Review
+        %button.btn.btn-primary.btn-xs{ type: "button", 'data-toggle': "collapse", 'data-target': "#committee-panel", 'aria-expanded': "false", 'aria-controls': "committee-panel" }
+          Toggle
+      .panel-body.collapse#committee-panel
+        = markdown(@event.committee_review)
+
+    .panel.panel-info
+      .panel-heading
+        Submission Details
+        %button.btn.btn-primary.btn-xs{ type: "button", 'data-toggle': "collapse", 'data-target': "#submission-panel", 'aria-expanded': "false", 'aria-controls': "submission-panel" }
+          Toggle
+      .panel-body.collapse#submission-panel
+        = markdown(@event.submission_text)
