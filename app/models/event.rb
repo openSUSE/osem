@@ -7,6 +7,7 @@
 #  id                           :bigint           not null, primary key
 #  abstract                     :text
 #  comments_count               :integer          default(0), not null
+#  committee_review             :text
 #  description                  :text
 #  guid                         :string           not null
 #  is_highlight                 :boolean          default(FALSE)
