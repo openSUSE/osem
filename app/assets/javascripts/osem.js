@@ -149,13 +149,23 @@ function word_count(text, divId, maxcount) {
     });
 };
 
-function fill_if_empty(text_area, filler) {
-    let area = $('#' + text_area);
+function replace_defaut_submission_text(input_selector, new_text, valid_defaults) {
+    let $area = $(input_selector);
+    let current_text = $area.val();
 
-    if (!area.val()) {
-        area.val(filler);
-        area.trigger('change');
+    if (!current_text) {
+        $area.val(new_text);
+        $area.trigger('change');
+        return;
     }
+
+    valid_defaults.some(default_text => {
+        if (current_text == default_text) {
+            $area.val(new_text);
+            $area.trigger('change');
+            return true;
+        }
+    });
 }
 
 /* Wait for the DOM to be ready before attaching events to the elements */
@@ -166,8 +176,13 @@ $( document ).ready(function() {
         var max = $selected.data("max-words");
         var min = $selected.data("min-words");
 
-        // Set the filler text for the submission text
-        fill_if_empty('event_submission_text', $selected.data("instructions"));
+        // We replace the default text only if the current field is empty,
+        // or is set to the default text of another event type.
+        replace_defaut_submission_text(
+            '#event_submission_text',
+            $selected.data("instructions"),
+            $("#event_event_type_id option").toArray().map(e => $(e).data('instructions'))
+        );
 
         $("#abstract-maximum-word-count").text(max);
         $("#submission-maximum-word-count").text(max);
