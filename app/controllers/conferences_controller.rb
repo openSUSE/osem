@@ -61,11 +61,7 @@ class ConferencesController < ApplicationController
         @booths = @conference.confirmed_booths.order('title')
       end
       if splashpage.include_happening_now
-        events_schedules_list = get_happening_now_events_schedules(@conference)
-        @events_schedules_limit = EVENTS_PER_PAGE
-        @events_schedules_length = events_schedules_list.length
-        @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
-        @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
+        load_happening_now
       end
     end
     if splashpage.include_registrations || splashpage.include_tickets
@@ -150,5 +146,18 @@ class ConferencesController < ApplicationController
 
   def current_user_has_unpaid_tickets?
     current_user && current_user_tickets.unpaid.any?
+  end
+
+  def load_happening_now
+    events_schedules_list = get_happening_now_events_schedules(@conference)
+    @is_happening_next = false
+    if events_schedules_list.empty?
+      events_schedules_list = get_happening_next_events_schedules(@conference)
+      @is_happening_next = true
+    end
+    @events_schedules_limit = EVENTS_PER_PAGE
+    @events_schedules_length = events_schedules_list.length
+    @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
+    @happening_now_url = happening_now_conference_schedule_path(conference_id: @conference.short_title, format: :json)
   end
 end
