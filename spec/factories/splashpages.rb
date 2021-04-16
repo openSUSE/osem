@@ -11,6 +11,7 @@
 #  banner_photo_updated_at   :datetime
 #  include_booths            :boolean
 #  include_cfp               :boolean          default(FALSE)
+#  include_happening_now     :boolean
 #  include_lodgings          :boolean
 #  include_program           :boolean
 #  include_registrations     :boolean
@@ -44,6 +45,7 @@ FactoryBot.define do
       include_sponsors { true }
       include_lodgings { true }
       include_cfp { true }
+      include_happening_now { true }
     end
   end
 end

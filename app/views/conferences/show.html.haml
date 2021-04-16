@@ -41,8 +41,15 @@
   - if @conference.code_of_conduct.present?
     = render 'code_of_conduct', organization: @conference.organization
 
-  -# header/description
+  -# header
   = render 'header', conference: @conference, venue: @conference.venue
+
+  -# description / happening now
+  - if @conference.splashpage.include_happening_now? || @conference.description.present?
+    = render 'about_and_happening_now', conference: @conference,
+      events_schedules: @events_schedules, pagy: @pagy,
+      events_schedules_length: @events_schedules_length,
+      events_schedules_limit: @events_schedules_limit
 
   -# calls for content, or program
   - if @conference.splashpage.include_cfp

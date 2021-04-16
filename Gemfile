@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby ENV['TRAVIS_RUBY_VERSION'] || '2.6.6'
+ruby ENV['TRAVIS_RUBY_VERSION'] || '~>2.6.6'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -27,6 +27,7 @@ gem 'paper_trail'
 # for upload management
 gem 'carrierwave'
 gem 'carrierwave-bombshelter'
+gem 'mimemagic', '~> 0.3.6'
 gem 'mini_magick'
 
 # for internationalizing
@@ -138,8 +139,8 @@ gem 'prawn-rails'
 gem 'rqrcode'
 
 # to render XLS spreadsheets
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'axlsx_rails'
+gem 'caxlsx'
+gem 'caxlsx_rails'
 
 gem 'sentry-delayed_job'
 gem 'sentry-rails'
@@ -219,6 +220,12 @@ gem 'nokogiri', '>= 1.8.1'
 gem 'dalli'
 
 gem 'icalendar'
+
+# for making external requests easier
+gem 'httparty'
+
+# pagination
+gem 'pagy', '<4.0'
 
 # Use guard and spring for testing in development
 group :development do

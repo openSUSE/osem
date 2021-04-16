@@ -51,8 +51,8 @@ en:
       failure: 'Could not authenticate you from %{kind} because "%{reason}".'
     mailer:
       confirmation_instructions:
-        subject: 'Confirmation instructions'
+        subject: 'Snap!Con: New Account Confirmation'
       reset_password_instructions:
-        subject: 'Reset password instructions'
+        subject: 'Snap!Con: Reset Your Password'
       unlock_instructions:
-        subject: 'Unlock Instructions'
+        subject: 'Snap!Con: Unlock Your Account'

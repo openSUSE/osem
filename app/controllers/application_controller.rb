@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit
   include ApplicationHelper
+  include Pagy::Backend
   add_flash_types :error
   protect_from_forgery with: :exception, prepend: true
   before_action :store_location

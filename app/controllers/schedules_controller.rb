@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SchedulesController < ApplicationController
+  include ConferenceHelper
+
   load_and_authorize_resource
   before_action :respond_to_options
   load_resource :conference, find_by: :short_title
@@ -67,11 +69,13 @@ class SchedulesController < ApplicationController
   end
 
   def happening_now
-    @events_schedules = @program.selected_event_schedules(
-      includes: [:room, { event: %i[track event_type speakers submitter] }]
-    ).select(&:happening_now?)
-    @events_schedules = [] unless @events_schedules
+    @events_schedules = get_happening_now_events_schedules(@conference)
     @current_time = Time.now.in_time_zone(@conference.timezone)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @events_schedules.to_json(root: false, include: :event) }
+    end
   end
 
   def app

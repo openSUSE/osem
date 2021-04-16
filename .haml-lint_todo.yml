@@ -248,6 +248,11 @@ linters:
       - "app/views/users/edit.html.haml"
       - "app/views/users/show.html.haml"
 
+  ConsecutiveComments:
+    exclude:
+      # This one seems like a bug in haml-lint.
+      - "app/views/admin/conferences/show.html.haml"
+
   # Offense count: 24
   ConsecutiveSilentScripts:
     exclude:
@@ -605,11 +610,6 @@ linters:
       - "app/views/admin/registrations/index.csv.haml"
       - "app/views/layouts/_admin.html.haml"
 
-  # Offense count: 1
-  ImplicitDiv:
-    exclude:
-      - "app/views/admin/registrations/index.html.haml"
-
   # Offense count: 9
   MultilinePipe:
     exclude:
@@ -636,7 +636,6 @@ linters:
       - "app/views/conference_registrations/_volunteer.html.haml"
       - "app/views/devise/passwords/new.html.haml"
       - "app/views/payments/new.html.haml"
-
 
   # Offense count: 13
   ViewLength:
