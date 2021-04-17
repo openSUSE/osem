@@ -89,7 +89,7 @@ module ConferenceHelper
   def get_happening_next_events_schedules(conference)
     events_schedules = conference.program.selected_event_schedules(
       includes: [:room, { event: %i[track event_type speakers submitter] }]
-    ).select(&:happening_next?)
+    ).select(&:happening_later?)
 
     if events_schedules.empty?
       return []
