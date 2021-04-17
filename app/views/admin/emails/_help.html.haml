@@ -57,7 +57,7 @@
       - if @conference.program.schedule_public
         %td {schedule_link}
         %td The link to complete schedule of the conference
-    - if @conference.splashpage && @conference.splashpage.public
+    - if @conference.splashpage && @conference.splashpage.public?
       %tr
         %td {conference_splash_link}
         %td The link to conference splash page

@@ -40,7 +40,7 @@ class ConferencesController < ApplicationController
 
     @image_url = "#{request.protocol}#{request.host}#{@conference.picture}"
 
-    if splashpage.include_cfp
+    if splashpage.include_cfp?
       cfps = @conference.program.cfps
       @call_for_events = cfps.find { |call| call.cfp_type == 'events' }
       if @call_for_events.try(:open?)
@@ -50,27 +50,27 @@ class ConferencesController < ApplicationController
       @call_for_tracks = cfps.find { |call| call.cfp_type == 'tracks' }
       @call_for_booths = cfps.find { |call| call.cfp_type == 'booths' }
     end
-    if splashpage.include_program
+    if splashpage.include_program?
       @highlights = @conference.highlighted_events.eager_load(:speakers)
-      if splashpage.include_tracks
+      if splashpage.include_tracks?
         @tracks = @conference.confirmed_tracks.eager_load(
           :room
         ).order('tracks.name')
       end
-      if splashpage.include_booths
+      if splashpage.include_booths?
         @booths = @conference.confirmed_booths.order('title')
       end
-      if splashpage.include_happening_now
+      if splashpage.include_happening_now?
         load_happening_now
       end
     end
-    if splashpage.include_registrations || splashpage.include_tickets
+    if splashpage.include_registrations? || splashpage.include_tickets?
       @tickets = @conference.tickets.visible.order('price_cents')
     end
-    if splashpage.include_lodgings
+    if splashpage.include_lodgings?
       @lodgings = @conference.lodgings.order('id')
     end
-    if splashpage.include_sponsors
+    if splashpage.include_sponsors?
       @sponsorship_levels = @conference.sponsorship_levels.eager_load(
         :sponsors
       ).order('sponsorship_levels.position ASC', 'sponsors.name')
