@@ -135,9 +135,9 @@ describe EmailSettings do
     context 'conference has event' do
       before do
         event_hash = {
-          'eventtitle': 'Talk about talks',
-          'proposalslink': 'http://localhost:3000/conferences/goto/program/proposals',
-          'committee_review': '',
+          'eventtitle':            'Talk about talks',
+          'proposalslink':         'http://localhost:3000/conferences/goto/program/proposals',
+          'committee_review':      '',
           'committee_review_html': ''
         }
         expected_hash.merge!(event_hash)
