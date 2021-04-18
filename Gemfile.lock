@@ -497,7 +497,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rexml (3.2.4)
-    rolify (5.2.0)
+    rolify (5.3.0)
     rqrcode (0.10.1)
       chunky_png (~> 1.0)
     rspec (3.6.0)
