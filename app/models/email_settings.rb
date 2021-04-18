@@ -91,6 +91,8 @@ class EmailSettings < ApplicationRecord
       h['eventtitle'] = event.title
       h['proposalslink'] = Rails.application.routes.url_helpers.conference_program_proposals_url(
                            conference.short_title, host: (ENV['OSEM_HOSTNAME'] || 'localhost:3000'))
+      h['committee_review'] = event.committee_review
+      h['committee_review_html'] = ApplicationController.helpers.markdown(event.committee_review)
     end
 
     if booth
