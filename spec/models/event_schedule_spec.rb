@@ -185,7 +185,7 @@ describe EventSchedule do
       create(:event, program: program, state: 'confirmed')
     end
     let!(:event_schedule3) { create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) - 1.hour).strftime('%a, %d %b %Y %H:%M:%S')) }
-    
+
     it 'returns true if the event is happening in the future' do
       expect(event_schedule1.happening_later?).to be true
       expect(event_schedule2.happening_later?).to be true
