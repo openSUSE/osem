@@ -81,7 +81,7 @@ feature Splashpage do
     end
   end
 
-  context 'happening now section', js: true do
+  context 'happening now section', feature: true, js: true do
     let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
     let!(:program) { conference2.program }
     let!(:selected_schedule) { create(:schedule, program: program) }
