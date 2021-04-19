@@ -85,7 +85,7 @@ feature Splashpage do
     let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
     let!(:program) { conference2.program }
     let!(:selected_schedule) { create(:schedule, program: program) }
-    let!(:splashpage) { create(:splashpage, conference: conference2, public: true)}
+    let!(:splashpage) { create(:full_splashpage, conference: conference2, public: true)}
 
     let!(:scheduled_event1) do
       program.update_attributes!(selected_schedule: selected_schedule)
