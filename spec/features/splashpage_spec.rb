@@ -81,7 +81,7 @@ feature Splashpage do
     end
   end
 
-  context 'happening now section is turned on' do
+  context 'happening now section', js: true do
     let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
     let!(:program) { conference2.program }
     let!(:selected_schedule) { create(:schedule, program: program) }
@@ -159,6 +159,7 @@ feature Splashpage do
       expect(happening_now).not_to have_content(event_schedule4.event.title)
 
       visit conference_path(conference2.short_title, page: 2)
+      happening_now = page.find('#happening-now')
       expect(happening_now).to have_content(event_schedule4.event.title)
     end
   end
