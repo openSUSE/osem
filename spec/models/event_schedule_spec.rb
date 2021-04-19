@@ -165,4 +165,31 @@ describe EventSchedule do
       end
     end
   end
+
+  describe 'happening_later' do
+    let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
+    let!(:program) { conference2.program }
+    let!(:selected_schedule) { create(:schedule, program: program) }
+    let!(:scheduled_event1) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed', abstract: '`markdown`')
+    end
+    let!(:event_schedule1) { create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S')) }
+    let!(:scheduled_event2) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:event_schedule2) { create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 2.hour).strftime('%a, %d %b %Y %H:%M:%S')) }
+    let!(:scheduled_event3) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:event_schedule3) { create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) - 1.hour).strftime('%a, %d %b %Y %H:%M:%S')) }
+    
+    it 'returns true if the event is happening in the future' do
+      expect(event_schedule1.happening_later?).to be true
+      expect(event_schedule2.happening_later?).to be true
+      expect(event_schedule3.happening_later?).to be false
+    end
+  end
 end
