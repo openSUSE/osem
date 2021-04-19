@@ -80,4 +80,86 @@ feature Splashpage do
       end
     end
   end
+
+  context 'happening now section is turned on' do
+    let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
+    let!(:program) { conference2.program }
+    let!(:selected_schedule) { create(:schedule, program: program) }
+    let!(:splashpage) { create(:splashpage, conference: conference2, public: true)}
+
+    let!(:scheduled_event1) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed', abstract: '`markdown`')
+    end
+    let!(:scheduled_event2) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:scheduled_event3) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:scheduled_event4) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+
+    before :each do
+      sign_in participant
+    end
+
+    it 'displays \'There are no events happening now and next.\' if nothing is happening now and next' do
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content('There are no events happening now and next.')
+    end
+
+    it 'shows all events happening next if nothing is happening now' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule1.event.title)
+      expect(happening_now).to have_content(event_schedule2.event.title)
+    end
+
+    it 'only shows all events happening now if something is happening now and next' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule3 = create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S'))
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule3.event.title)
+      expect(happening_now).not_to have_content(event_schedule1.event.title)
+      expect(happening_now).not_to have_content(event_schedule2.event.title)
+    end
+
+    it 'only shows events happening at the earliest time, not at a later time in the future' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule3 = create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: (Time.now.in_time_zone(conference2.timezone) + 2.hours).strftime('%a, %d %b %Y %H:%M:%S'))
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule1.event.title)
+      expect(happening_now).to have_content(event_schedule2.event.title)
+      expect(happening_now).not_to have_content(event_schedule3.event.title)
+    end
+
+    it 'only shows 3 events happening now because of pagination' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule3 = create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule4 = create(:event_schedule, event: scheduled_event4, schedule: selected_schedule, start_time: Time.now.in_time_zone(conference2.timezone).strftime('%a, %d %b %Y %H:%M:%S'))
+
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule1.event.title)
+      expect(happening_now).to have_content(event_schedule2.event.title)
+      expect(happening_now).to have_content(event_schedule3.event.title)
+      expect(happening_now).not_to have_content(event_schedule4.event.title)
+
+      visit conference_path(conference2.short_title, page: 2)
+      expect(happening_now).to have_content(event_schedule4.event.title)
+    end
+  end
 end
