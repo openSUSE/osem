@@ -104,6 +104,7 @@ feature Splashpage do
       create(:event, program: program, state: 'confirmed')
     end
     let!(:current_time) { Time.now.in_time_zone(conference2.timezone) }
+
     before :each do
       sign_in participant
     end
