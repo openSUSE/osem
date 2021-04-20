@@ -108,10 +108,10 @@ feature Splashpage do
       sign_in participant
     end
 
-    scenario 'displays \'There are no events happening now and next.\' if nothing is happening now and next' do
+    scenario 'displays \'There are no events scheduled yet.\' if nothing is happening now and next' do
       visit conference_path(conference2.short_title)
       happening_now = page.find('#happening-now')
-      expect(happening_now).to have_content('There are no events happening now and next.')
+      expect(happening_now).to have_content('There are no events scheduled yet.')
     end
 
     scenario 'shows all events happening next if nothing is happening now' do
