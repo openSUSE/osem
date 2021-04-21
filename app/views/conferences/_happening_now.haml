@@ -1,10 +1,10 @@
 - if events_schedules.present? && events_schedules.any?
   .row
-    %h2.text-center{ style: 'margin-bottom:30px' }
+    %h3.text-left{ style: 'margin-bottom:30px; padding-left:20px' }
       - if is_happening_next
-        Happening Next
+        Events Happening Next
       - else
-        Happening Now
+        Events Happening Now
   - events_schedules.each do |event_schedule|
     = render 'schedules/event', conference: conference, event_schedule: event_schedule, event: event_schedule.event, is_brief: true
   - if events_schedules_length > events_schedules_limit
