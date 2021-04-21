@@ -1,4 +1,4 @@
-- if events_schedules.any?
+- if events_schedules.present? && events_schedules.any?
   .row
     %h2.text-center{ style: 'margin-bottom:30px' }
       - if is_happening_next
