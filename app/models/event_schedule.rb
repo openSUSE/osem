@@ -70,6 +70,14 @@ class EventSchedule < ApplicationRecord
     event_time_range.overlaps?(now_range)
   end
 
+  def happening_later?
+    # TODO: Save start_time with local timezone info when making an event schedule
+    in_tz_start = start_time.in_time_zone(timezone)
+    in_tz_start -= in_tz_start.utc_offset
+
+    in_tz_start >= Time.now
+  end
+
   def self.withdrawn_or_canceled_event_schedules(schedule_ids)
     EventSchedule
       .unscoped
