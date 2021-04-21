@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+EVENTS_PER_PAGE = Rails.configuration.conference[:events_per_page]
+
 class ProposalsController < ApplicationController
+  include ConferenceHelper
   before_action :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
@@ -19,6 +22,7 @@ class ProposalsController < ApplicationController
     @event_schedule = @event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
     @speakers_ordered = @event.speakers_ordered
     @surveys_after_event = @event.surveys.after_event.select(&:active?)
+    load_happening_now
   end
 
   def new
@@ -166,6 +170,8 @@ class ProposalsController < ApplicationController
 
   def registrations; end
 
+  
+
   private
 
   def event_params
@@ -178,5 +184,17 @@ class ProposalsController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :username)
+  end
+
+  def load_happening_now
+    events_schedules_list = get_happening_now_events_schedules(@conference)
+    @is_happening_next = false
+    if events_schedules_list.empty?
+      events_schedules_list = get_happening_next_events_schedules(@conference)
+      @is_happening_next = true
+    end
+    @events_schedules_limit = EVENTS_PER_PAGE
+    @events_schedules_length = events_schedules_list.length
+    @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
   end
 end
