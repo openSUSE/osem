@@ -147,16 +147,4 @@ class ConferencesController < ApplicationController
   def current_user_has_unpaid_tickets?
     current_user && current_user_tickets.unpaid.any?
   end
-
-  def load_happening_now
-    events_schedules_list = get_happening_now_events_schedules(@conference)
-    @is_happening_next = false
-    if events_schedules_list.empty?
-      events_schedules_list = get_happening_next_events_schedules(@conference)
-      @is_happening_next = true
-    end
-    @events_schedules_limit = EVENTS_PER_PAGE
-    @events_schedules_length = events_schedules_list.length
-    @pagy, @events_schedules = pagy_array(events_schedules_list, items: @events_schedules_limit, link_extra: 'data-remote="true"')
-  end
 end
