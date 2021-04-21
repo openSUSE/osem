@@ -170,8 +170,6 @@ class ProposalsController < ApplicationController
 
   def registrations; end
 
-  
-
   private
 
   def event_params
