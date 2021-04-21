@@ -1,16 +1,15 @@
-- if conference.splashpage.include_program && conference.splashpage.include_happening_now
-  - if events_schedules.any?
-    .row
-      %h2.text-center{ style: 'margin-bottom:30px' }
-        - if is_happening_next
-          Happening Next
-        - else
-          Happening Now
-    - events_schedules.each do |event_schedule|
-      = render 'schedules/event', conference: conference, event_schedule: event_schedule, event: event_schedule.event, is_brief: true
-    - if events_schedules_length > events_schedules_limit
-      .container{ style: 'width:100%; text-align:center' }
-        != pagy_bootstrap_nav_js(pagy)
-  - else
-    .row
-      %h3.text-center There are no events scheduled yet.
+- if events_schedules.any?
+  .row
+    %h2.text-center{ style: 'margin-bottom:30px' }
+      - if is_happening_next
+        Happening Next
+      - else
+        Happening Now
+  - events_schedules.each do |event_schedule|
+    = render 'schedules/event', conference: conference, event_schedule: event_schedule, event: event_schedule.event, is_brief: true
+  - if events_schedules_length > events_schedules_limit
+    .container{ style: 'width:100%; text-align:center' }
+      != pagy_bootstrap_nav_js(pagy)
+- else
+  .row
+    %h3.text-center There are no events scheduled yet.
