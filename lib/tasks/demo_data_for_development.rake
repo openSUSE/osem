@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'webmock'
-
 namespace :data do
   desc 'Create demo data for our local development'
   include FactoryBot::Syntax::Methods
