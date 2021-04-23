@@ -80,25 +80,6 @@ FactoryBot.define do
     last_sign_in_at { Date.today }
     is_disabled { false }
 
-    after(:build) do |user|
-      url_mailbluster = 'https://api.mailbluster.com/api/leads/'
-      response_body = "{
-        \"message\": \"Lead created\",
-        \"lead\": {
-          \"id\": 329395,
-          \"firstName\": \"#{user.name}\",
-          \"lastName\": \"\",
-          \"fullName\": \"#{user.name}\",
-          \"email\": \"#{user.email}\",
-          \"subscribed\": true,
-          \"tags\": [
-            #{ENV['OSEM_NAME'] || 'snapcon'}
-          ],
-        }
-      }"
-      WebMock.stub_request(:post, url_mailbluster)
-        .to_return(body: response_body, status: 200)
-    end
     # Called by every user creation
 
     after(:create) do |user|
