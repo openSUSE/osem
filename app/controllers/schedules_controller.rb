@@ -75,7 +75,39 @@ class SchedulesController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @events_schedules.to_json(root: false, include: :event) }
+
     end
+  end
+
+  def vertical_schedule
+      @event_schedules = @program.selected_event_schedules(
+        includes: [{ event: %i[event_id title speaker] }]
+      )
+
+      respond_to do |format|
+        format.xml do
+          @events_xml = event_schedules.map(&:event).group_by{ |event| event.time.to_date } if event_schedules
+        end
+
+        format.ics do
+          cal = Icalendar::Calendar.new
+          cal = icalendar_proposals(cal, event_schedules.map(&:event), @conference)
+          cal.publish
+          render inline: cal.to_ical
+        end
+
+        format.html do
+          @rooms = @conference.venue.rooms if @conference.venue
+          @dates = @conference.start_date..@conference.end_date
+
+          # Ids of the @event_schedules of confrmed self_organized tracks along with the selected_schedule_id
+          @selected_schedules_ids = [@conference.program.selected_schedule_id]
+          @conference.program.tracks.self_organized.confirmed.each do |track|
+            @selected_schedules_ids << track.selected_schedule_id
+          end
+          @selected_schedules_ids.compact!
+          @event_schedules_by_room_id = event_schedules.select { |s| @selected_schedules_ids.include?(s.schedule_id) }.group_by(&:room_id)
+        end
   end
 
   def app
