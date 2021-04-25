@@ -10,14 +10,14 @@ feature Commercial do
   let!(:participant) { create(:user) }
 
   context 'in admin area' do
-    
+
     before do
       sign_in organizer
       visit admin_conference_commercials_path(conference.short_title)
     end
 
     scenario 'contains the conference name in the title', feature: true, js: true do
-      header = conference.title + " Materials"
+      header = conference.title + ' Materials'
       expect(page).to have_content(header)
     end
 
