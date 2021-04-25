@@ -5,7 +5,7 @@ feature Schedule do
   let!(:program) { conference.program }
 
   context 'as a conference participant' do
-    scenario 'who visits the schedule page' do
+    context 'who visits the schedule page' do
       before(:each) do
         visit vertical_schedule_conference_schedule_path
       end
