@@ -201,6 +201,7 @@ Osem::Application.routes.draw do
       member do
         get :events
         get :happening_now
+        get :vertical_schedule
       end
     end
   end
