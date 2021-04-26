@@ -4,3 +4,19 @@
   %h1.text-center
     Vertical Schedule for
     = @conference.title
+
+  #calendar
+
+:javascript
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      timeZone: 'UTC',
+      initialView: 'resourceTimeGridDay',
+      resources: "<%= @rooms >",
+      events: "<%= @event_schedules >"
+    });
+
+    calendar.render();
+  });
