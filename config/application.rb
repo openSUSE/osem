@@ -80,5 +80,7 @@ module Osem
         end
       end
     end
+
+    config.assets.paths << Rails.root.join('node_modules')
   end
 end

@@ -30,18 +30,18 @@ describe FullCalendarFormatter do
       resources = described_class.event_schedules_to_resources(event_schedules)
       expected_json = [
         {
-          id:     event_schedule1.event.guid,
-          title:  event_schedule1.event.title,
-          start:  event_schedule1.start_time,
-          end:    event_schedule1.end_time,
-          source: room1.guid
+          id:         event_schedule1.event.guid,
+          title:      event_schedule1.event.title,
+          start:      event_schedule1.start_time,
+          end:        event_schedule1.end_time,
+          resourceId: room1.guid
         },
         {
-          id:     event_schedule2.event.guid,
-          title:  event_schedule2.event.title,
-          start:  event_schedule2.start_time,
-          end:    event_schedule2.end_time,
-          source: room2.guid
+          id:         event_schedule2.event.guid,
+          title:      event_schedule2.event.title,
+          start:      event_schedule2.start_time,
+          end:        event_schedule2.end_time,
+          resourceId: room2.guid
         }
       ].to_json
       expect(resources).to eq(expected_json)
