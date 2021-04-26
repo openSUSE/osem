@@ -79,12 +79,17 @@ class SchedulesController < ApplicationController
   end
 
   def vertical_schedule
-    @event_schedules = @program.selected_event_schedules(
+    event_schedules = @program.selected_event_schedules(
       includes: [{ event: %i[event_type speakers submitter] }]
     )
 
-    @rooms = @conference.venue.rooms if @conference.venue
-    @dates = @conference.start_date..@conference.end_date
+    unless event_schedules
+      redirect_to events_conference_schedule_path(@conference.short_title)
+      return
+    end
+
+    @rooms = FullCalendarFormatter.rooms_to_resources(@conference.venue.rooms) if @conference.venue
+    @event_schedules = FullCalendarFormatter.event_schedules_to_resources(event_schedules)
   end
 
   def app
