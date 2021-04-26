@@ -9,6 +9,10 @@ feature Schedule do
       before(:each) do
         visit vertical_schedule_conference_schedule_path
       end
+
+      it 'returns a successful response' do
+        expect(response.status).to eq(200)
+      end
     end
   end
 end
