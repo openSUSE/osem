@@ -19,11 +19,11 @@ class FullCalendarFormatter
 
     def event_schedule_to_resource(event_schedule)
       {
-        id:     event_schedule.event.guid,
-        title:  event_schedule.event.title,
-        start:  event_schedule.start_time,
-        end:    event_schedule.end_time,
-        source: event_schedule.room.guid
+        id:         event_schedule.event.guid,
+        title:      event_schedule.event.title,
+        start:      event_schedule.start_time,
+        end:        event_schedule.end_time,
+        resourceId: event_schedule.room.guid
       }
     end
   end

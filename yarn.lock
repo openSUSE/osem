@@ -66,6 +66,11 @@
     "@fullcalendar/daygrid" "~5.6.0"
     tslib "^2.0.3"
 
+fullcalendar-scheduler@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/fullcalendar-scheduler/-/fullcalendar-scheduler-5.6.0.tgz#8328318d3d5901188a4ccb8c3cd4b756d2c76e16"
+  integrity sha512-0jx/Q+6QqzvIGWU/52OE27UVjVAiM9E0o/qRwRcEhyuKlL54ypTF/yXP/wo0ctUtui5dDsilGNsSsba1xmARJA==
+
 tslib@^2.0.3:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
