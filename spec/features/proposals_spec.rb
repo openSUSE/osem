@@ -213,7 +213,8 @@ feature Event do
     end
   end
 
-  context 'as a user, looking at a conference with scheduled events' do
+
+  context 'as a user, looking at a conference with scheduled events' do, feature: true
     before(:each) do
       @program = conference.program
       @selected_schedule = create(:schedule, program: @program)
