@@ -213,7 +213,6 @@ feature Event do
     end
   end
 
-
   context 'as a user, looking at a conference with scheduled events' do
     before(:each) do
       @program = conference.program
@@ -233,7 +232,7 @@ feature Event do
       visit conference_program_proposal_path(conference.short_title, @scheduled_event1.id)
       expect(page).not_to have_content('Add to Google Calendar (beta)')
 
-  context 'happening now or next section', feature: true
+  context 'happening now or next section' do
     let!(:conference1) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
     let!(:program) { conference1.program }
     let!(:selected_schedule) { create(:schedule, program: program) }
