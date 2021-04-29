@@ -55,7 +55,7 @@
 //= require bootstrap-select
 //= require osem-survey
 //= require pagy
-//= require @fullcalendar/common/main.js
+//= require fullcalendar-scheduler/main.js
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
