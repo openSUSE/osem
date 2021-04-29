@@ -333,9 +333,7 @@ feature Event do
         expect(happening_now).not_to have_content(event_schedule3.event.title)
         expect(happening_now).not_to have_content(event_schedule1.event.title)
         expect(happening_now).not_to have_content(event_schedule2.event.title)
-
         expect(happening_now).to have_content(event_schedule4.event.title)
-
       end
     end
   end
