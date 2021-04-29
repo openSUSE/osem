@@ -5,18 +5,5 @@
     Vertical Schedule for
     = @conference.title
 
-  #calendar
-
-:javascript
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      timeZone: 'UTC',
-      initialView: 'resourceTimeGridDay',
-      resources: #{@rooms.html_safe},
-      events: #{@event_schedules.html_safe}
-    });
-
-    calendar.render();
-  });
+  #vert-schedule-full-calendar
+  #fullcalendar{ data: { rooms: @rooms, events: @event_schedules, day: @day } }

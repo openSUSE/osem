@@ -79,6 +79,10 @@ class SchedulesController < ApplicationController
   end
 
   def vertical_schedule
+    dates = @conference.start_date..@conference.end_date
+    # the schedule takes you to today if it is a date of the schedule
+    current_day = @conference.current_conference_day
+    @day = current_day.present? ? current_day : dates.first
     event_schedules = @program.selected_event_schedules(
       includes: [{ event: %i[event_type speakers submitter] }]
     )

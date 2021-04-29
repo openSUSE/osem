@@ -56,6 +56,7 @@
 //= require osem-survey
 //= require pagy
 //= require fullcalendar-scheduler/main.js
+//= require fullcalendar
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){
