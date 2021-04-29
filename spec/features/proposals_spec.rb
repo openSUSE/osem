@@ -214,7 +214,7 @@ feature Event do
   end
 
 
-  context 'as a user, looking at a conference with scheduled events' do, feature: true
+  context 'as a user, looking at a conference with scheduled events' do
     before(:each) do
       @program = conference.program
       @selected_schedule = create(:schedule, program: @program)
@@ -223,13 +223,13 @@ feature Event do
       @event_schedule1 = create(:event_schedule, event: @scheduled_event1, schedule: @selected_schedule, start_time: conference.start_hour + 1.hour)
     end
 
-    scenario 'for a scheduled event, can add an event to google calendar if signed in', feature: true, js: true do
+    scenario 'for a scheduled event, can add an event to google calendar if signed in', feature: true do
       sign_in participant
       visit conference_program_proposal_path(conference.short_title, @scheduled_event1.id)
       expect(page).to have_content('Add to Google Calendar (beta)')
     end
 
-    scenario 'for a scheduled event, cannot add an event to google calendar if not signed on', feature: true, js: true do
+    scenario 'for a scheduled event, cannot add an event to google calendar if not signed on', feature: true do
       visit conference_program_proposal_path(conference.short_title, @scheduled_event1.id)
       expect(page).not_to have_content('Add to Google Calendar (beta)')
     end
