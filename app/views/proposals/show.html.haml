@@ -52,7 +52,7 @@
         - @event.volunteers.each do |volunteer|
           = render 'volunteer_info', speaker: volunteer, show_bio: false
 
-    .col-md-9
+    .col-md-6
       .row
         .col-md-12
           .lead
@@ -139,3 +139,11 @@
           - if @surveys_after_event.any? && @event.ended?
             .page-header
             = render partial: 'surveys/list', locals: { surveys: @surveys_after_event, conference: @conference }
+    .col-md-3
+      #happening-now
+        = render 'conferences/happening_now', conference: @conference,
+          events_schedules: @events_schedules, pagy: @pagy,
+          events_schedules_length: @events_schedules_length,
+          events_schedules_limit: @events_schedules_limit,
+          is_happening_next: @is_happening_next
+
