@@ -213,7 +213,6 @@ feature Event do
     end
   end
 
-
   context 'as a user, looking at a conference with scheduled events' do
     before(:each) do
       @program = conference.program
@@ -235,7 +234,7 @@ feature Event do
     end
   end
 
-  context 'happening now or next section', feature: true
+  context 'happening now or next section' do
     let!(:conference1) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
     let!(:program) { conference1.program }
     let!(:selected_schedule) { create(:schedule, program: program) }
