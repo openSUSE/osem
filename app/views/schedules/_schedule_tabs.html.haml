@@ -7,5 +7,3 @@
       = link_to('Happening Now', happening_now_conference_schedule_path(@conference.short_title))
     %li{ class: "schedule #{ 'active' if active == 'schedule' }", role: "presentation" }
       = link_to('Schedule', conference_schedule_path(@conference.short_title))
-    %li{ class: "vertical_schedule #{ 'active' if active == 'vertical_schedule' }", role: "presentation" }
-      = link_to('Vertical Schedule', vertical_schedule_conference_schedule_path(@conference.short_title))
