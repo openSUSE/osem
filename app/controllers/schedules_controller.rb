@@ -94,6 +94,7 @@ class SchedulesController < ApplicationController
 
     @rooms = FullCalendarFormatter.rooms_to_resources(@conference.venue.rooms) if @conference.venue
     @event_schedules = FullCalendarFormatter.event_schedules_to_resources(event_schedules)
+    @scheduler_license_key = Rails.configuration.fullcalendar[:license_key]
   end
 
   def app

@@ -82,5 +82,9 @@ module Osem
     end
 
     config.assets.paths << Rails.root.join('node_modules')
+
+    config.fullcalendar = {
+      license_key: ENV['FULL_CALENDAR_LICENSE_KEY']
+    }
   end
 end
