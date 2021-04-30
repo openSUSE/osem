@@ -20,7 +20,7 @@
   .col-md-12
     %table.datatable
       %thead
-        %th #
+        %th ID
         %th Name
         %th Quantity
         %th E-Mail
@@ -32,7 +32,7 @@
           - purchases = buyer.ticket_purchases.where(ticket_id: @ticket.id)
           %tr
             %td
-              = index + 1
+              = purchases.length == 1 ? purchases.first.id : purchases.map(&:id)
             %td
               = buyer.name
             %td
