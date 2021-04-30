@@ -63,6 +63,7 @@ describe FullCalendarFormatter do
           textColor:       'white'
         }
       ].to_json
+
       expect(resources).to eq(expected_json)
     end
   end
