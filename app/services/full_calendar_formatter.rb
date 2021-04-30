@@ -29,8 +29,8 @@ class FullCalendarFormatter
       {
         id:              event_schedule.event.guid,
         title:           event_schedule.event.title,
-        start:           event_schedule.start_time,
-        end:             event_schedule.end_time,
+        start:           event_schedule.start_time_in_conference_timezone,
+        end:             event_schedule.end_time_in_conference_timezone,
         resourceId:      event_schedule.room.guid,
         url:             url,
         borderColor:     event_type_color,

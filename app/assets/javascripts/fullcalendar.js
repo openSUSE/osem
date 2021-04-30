@@ -6,6 +6,7 @@ $( document ).ready(function() {
     var calendar = new FullCalendar.Calendar(calendarEl, {
       schedulerLicenseKey: fullcalData.data('schedulerLicenseKey'),
       nowIndicator: true,
+      now: fullcalData.data('now'),
       expandRows: true,
       allDaySlot: false,
       slotMinTime: fullcalData.data('startHour') + ':00:00',
@@ -14,7 +15,7 @@ $( document ).ready(function() {
         start: fullcalData.data('startDate'),
         end: fullcalData.data('endDate')
       },
-      timeZone: 'UTC', // TODO: Events are stored in conference's timezone implicitly (UTC+0) in the database 
+      timeZone: fullcalData.data('timezone'),
       initialDate: fullcalData.data('day'),
       initialView: 'resourceTimeGridDay',
       resources: fullcalData.data('rooms'),
