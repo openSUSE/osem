@@ -6,4 +6,5 @@
     = @conference.title
 
   #vert-schedule-full-calendar
-  #fullcalendar{ data: { rooms: @rooms, events: @event_schedules, day: @day } }
+  #fullcalendar{ data: { rooms: @rooms, events: @event_schedules, day: @day, |
+    'start-hour': @conference.start_hour, 'end-hour': @conference.end_hour } }
