@@ -33,6 +33,7 @@ class FullCalendarFormatter
         end:             event_schedule.end_time,
         resourceId:      event_schedule.room.guid,
         url:             url,
+        borderColor:     event_type_color,
         backgroundColor: event_type_color,
         textColor:       contrast_color(event_type_color)
       }
