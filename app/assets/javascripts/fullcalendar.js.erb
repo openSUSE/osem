@@ -3,8 +3,10 @@ $( document ).ready(function() {
     if (!calendarEl) return; //check that we need a vertical schedule
     let fullcalData = $('#fullcalendar');
 
+    let license_key = "<%= Rails.configuration.fullcalendar[:license_key] %>";
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      schedulerLicenseKey: fullcalData.data('schedulerLicenseKey'),
+      schedulerLicenseKey: license_key,
       nowIndicator: true,
       now: fullcalData.data('now'),
       expandRows: true,
