@@ -496,7 +496,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rexml (3.2.4)
+    rexml (3.2.5)
     rolify (5.2.0)
     rqrcode (0.10.1)
       chunky_png (~> 1.0)
@@ -719,7 +719,7 @@ DEPENDENCIES
   leaflet-rails
   letter_opener
   letter_opener_web (~> 1.0)
-  mimemagic (~> 0.3.6)
+  mimemagic
   mina
   mini_magick
   money-rails
@@ -762,6 +762,7 @@ DEPENDENCIES
   recaptcha
   redcarpet
   responders (~> 2.0)
+  rexml (~> 3.2)
   rolify
   rqrcode
   rspec-activemodel-mocks
