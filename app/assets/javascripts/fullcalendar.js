@@ -4,7 +4,7 @@ $( document ).ready(function() {
     let fullcalData = $('#fullcalendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      timeZone: 'UTC',
+      timeZone: 'UTC', // TODO: Events are stored in conference's timezone implicitly (UTC+0) in the database 
       initialDate: fullcalData.data('day'),
       initialView: 'resourceTimeGridDay',
       resources: fullcalData.data('rooms'),
