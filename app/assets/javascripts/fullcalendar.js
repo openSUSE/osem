@@ -4,6 +4,7 @@ $( document ).ready(function() {
     let fullcalData = $('#fullcalendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+      schedulerLicenseKey: fullcalData.data('schedulerLicenseKey'),
       expandRows: true,
       allDaySlot: false,
       slotMinTime: fullcalData.data('startHour') + ':00:00',
