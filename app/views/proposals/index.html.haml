@@ -80,25 +80,25 @@
                     %br
                     = link_to registered_text(event), registrations_conference_program_proposal_path(@conference.short_title, event), class: 'btn btn-xs btn-danger'
 
-              %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
-                %a{href: '#', type: "button", "data-trigger": "click focus", "data-toggle": "popover",
-                    title: "Your todo list",
-                    "data-content": "#{render 'tooltip', event: event}" }
-                  Complete your proposal
-                - if can? :create, @conference.registrations.new
-                  - progress_percentage = event.calculate_progress
-                  .progress
-                    %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}
-                      = event.progress_status.reject{ |_key, value| value || value.nil? }.length
-                      left
-                - else
-                  :ruby
-                    progress_list = event.progress_status
-                    progress_percentage = (100 * progress_list.values.count(true) / (progress_list.values.compact.count-1)).to_s
-                  .progress
-                    %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}
-                      = event.progress_status.reject{ |_key, value| value || value.nil? }.length-1
-                      left
+              -# %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
+              -#   %a{href: '#', type: "button", "data-trigger": "click focus", "data-toggle": "popover",
+              -#       title: "Your todo list",
+              -#       "data-content": "#{render 'tooltip', event: event}" }
+              -#     Complete your proposal
+              -#   - if can? :create, @conference.registrations.new
+              -#     - progress_percentage = event.calculate_progress
+              -#     .progress
+              -#       %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}
+              -#         = event.progress_status.reject{ |_key, value| value || value.nil? }.length
+              -#         left
+              -#   - else
+              -#     :ruby
+              -#       progress_list = event.progress_status
+              -#       progress_percentage = (100 * progress_list.values.count(true) / (progress_list.values.compact.count-1)).to_s
+              -#     .progress
+              -#       %div{class: "progress-bar #{event_progress_color(progress_percentage)}", style: "width:#{progress_percentage}%;"}
+              -#         = event.progress_status.reject{ |_key, value| value || value.nil? }.length-1
+              -#         left
               %td.col-md-3{style: "padding:20px 0px 20px 0px;"}
                 .pull-right
                   - if event.transition_possible? :confirm
