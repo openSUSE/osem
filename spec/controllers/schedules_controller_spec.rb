@@ -72,4 +72,20 @@ describe SchedulesController do
       end
     end
   end
+
+  describe 'GET #vertical_schedule' do
+    let!(:program) { conference.program }
+
+    context 'as a conference participant' do
+      context 'who visits the schedule page' do
+        before(:each) do
+          get :vertical_schedule, params: { conference_id: conference.short_title }
+        end
+
+        it 'returns a successful response' do
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
 end
