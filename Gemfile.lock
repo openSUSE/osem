@@ -719,7 +719,6 @@ DEPENDENCIES
   leaflet-rails
   letter_opener
   letter_opener_web (~> 1.0)
-  mimemagic (~> 0.3.6)
   mina
   mini_magick
   money-rails
