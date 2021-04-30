@@ -164,4 +164,35 @@ feature Splashpage do
       expect(happening_now).to have_content(event_schedule4.event.title)
     end
   end
+
+  context 'clarify registration status' do
+    let!(:splashpage) { create(:splashpage, conference: conference, public: true)}
+    let!(:ticket_1) { create(:ticket) }
+    let!(:free_ticket) { create(:ticket, price_cents: 0) }
+
+    scenario 'user signed in with no tickets', feature: true do
+      sign_in participant
+      visit conference_path(conference.short_title)
+      expect(page).to have_content ("You have not purchased any tickets for this conference yet.")
+    end
+
+    scenario 'user signed in with 1 free ticket', feature: true do
+      sign_in participant
+      purchase = create(:ticket_purchase, conference: conference, user: participant, ticket: ticket_1, quantity: 1)
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content ("You have not purchased any tickets for this conference yet.")
+    end
+
+    scenario 'user signed in with 1 paid ticket', feature: true do
+      sign_in participant
+      purchase = create(:ticket_purchase, conference: conference, user: participant, ticket: ticket_1, quantity: 1)
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content ("You have not purchased any tickets for this conference yet.")
+    end
+
+    scenario 'user not signed in', feature: true do
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content ("You have not purchased any tickets for this conference yet.")
+    end
+  end
 end
