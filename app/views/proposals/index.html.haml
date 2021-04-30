@@ -33,35 +33,35 @@
 
     .row
       .col-md-12
-        %p.text-right
-          = link_to '#status-help', class: 'btn btn-default',  "data-toggle"=>"collapse" do
-            Help?
-        .collapse#status-help
-          %p
-            %strong
-              What happens next with my proposal?
-          %p
-            If you submit a proposal, the conference organizers will review it and either accept or reject it.
-            %br
-            If your proposal is accepted, the conference organizers expect you to confirm that you will be able to hold it.
-            %br
-            If your proposal is rejected, you can either live with that or adapt it and resubmit it for review again.
-            %br
-            If something changes and you can't hold the presentation any more, you should withdraw it.
+        -# %p.text-right
+        -#   = link_to '#status-help', class: 'btn btn-default',  "data-toggle": "collapse" do
+        -#     Help?
+        -# .collapse#status-help
+        -#   %p
+        -#     %strong
+        -#       What happens next with my proposal?
+        -#   %p
+        -#     If you submit a proposal, the conference organizers will review it and either accept or reject it.
+        -#     %br
+        -#     If your proposal is accepted, the conference organizers expect you to confirm that you will be able to hold it.
+        -#     %br
+        -#     If your proposal is rejected, you can either live with that or adapt it and resubmit it for review again.
+        -#     %br
+        -#     If something changes and you can't hold the presentation any more, you should withdraw it.
 
-          %p
-            %strong
-              Why do I need to add more information?
-          %p
-            The more information you add to your proposal, the more likely it is that the conference organizers accept your proposal.
-            %br
-            It will also be more likely that visitors find your proposal interesting enough to attend.
-          - if can? :create, @conference.registrations.new
-            %p
-              %strong
-                Why do I need to register to the conference?
-            %p
-              Knowing the number of visitors for the conference helps the organizers plan better.
+        -#   %p
+        -#     %strong
+        -#       Why do I need to add more information?
+        -#   %p
+        -#     The more information you add to your proposal, the more likely it is that the conference organizers accept your proposal.
+        -#     %br
+        -#     It will also be more likely that visitors find your proposal interesting enough to attend.
+        -#   - if can? :create, @conference.registrations.new
+        -#     %p
+        -#       %strong
+        -#         Why do I need to register to the conference?
+        -#     %p
+        -#       Knowing the number of visitors for the conference helps the organizers plan better.
 
         %table.table.table-striped#events
           - @events.each do |event|
@@ -81,7 +81,10 @@
                     = link_to registered_text(event), registrations_conference_program_proposal_path(@conference.short_title, event), class: 'btn btn-xs btn-danger'
 
               %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
-                = link_to 'Complete your proposal', 'javascript: void(0)', "type"=>"button", "data-trigger"=>"focus", "data-toggle"=>"popover", "title"=>"Your todo list", "data-content"=>"#{render partial: 'tooltip', locals: { event: event} }"
+                %a{href: '#', type: "button", "data-trigger": "click focus", "data-toggle": "popover",
+                    title: "Your todo list",
+                    "data-content": "#{render 'tooltip', event: event}" }
+                  Complete your proposal
                 - if can? :create, @conference.registrations.new
                   - progress_percentage = event.calculate_progress
                   .progress
