@@ -190,6 +190,14 @@ feature Splashpage do
       expect(page).not_to have_content ("You have not purchased any tickets for this conference yet.")
     end
 
+    scenario 'user signed in with multiple ticket', feature: true do
+      sign_in participant
+      purchase1 = create(:ticket_purchase, conference: conference, user: participant, ticket: ticket_1, quantity: 1)
+      purchase2 = create(:ticket_purchase, conference: conference, user: participant, ticket: free_ticket, quantity: 1)
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content ("You have not purchased any tickets for this conference yet.")
+    end
+
     scenario 'user not signed in', feature: true do
       visit conference_path(conference.short_title)
       expect(page).not_to have_content ("You have not purchased any tickets for this conference yet.")
