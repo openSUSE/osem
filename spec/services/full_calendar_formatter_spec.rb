@@ -45,8 +45,8 @@ describe FullCalendarFormatter do
         {
           id:              event_schedule1.event.guid,
           title:           event_schedule1.event.title,
-          start:           event_schedule1.start_time,
-          end:             event_schedule1.end_time,
+          start:           event_schedule1.start_time_in_conference_timezone,
+          end:             event_schedule1.end_time_in_conference_timezone,
           resourceId:      room1.guid,
           url:             Rails.application.routes.url_helpers.conference_program_proposal_path(conference.short_title, event1.id),
           borderColor:     event1.event_type.color,
@@ -56,8 +56,8 @@ describe FullCalendarFormatter do
         {
           id:              event_schedule2.event.guid,
           title:           event_schedule2.event.title,
-          start:           event_schedule2.start_time,
-          end:             event_schedule2.end_time,
+          start:           event_schedule2.start_time_in_conference_timezone,
+          end:             event_schedule2.end_time_in_conference_timezone,
           resourceId:      room2.guid,
           url:             Rails.application.routes.url_helpers.conference_program_proposal_path(conference.short_title, event2.id),
           borderColor:     event2.event_type.color,

@@ -94,6 +94,7 @@ class SchedulesController < ApplicationController
 
     @rooms = FullCalendarFormatter.rooms_to_resources(@conference.venue.rooms) if @conference.venue
     @event_schedules = FullCalendarFormatter.event_schedules_to_resources(event_schedules)
+    @now = Time.now.in_time_zone(@conference.timezone).strftime('%FT%T%:z')
     @scheduler_license_key = Rails.configuration.fullcalendar[:license_key]
   end
 

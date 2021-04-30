@@ -133,6 +133,14 @@ class EventSchedule < ApplicationRecord
       other.schedule_id == schedule_id
   end
 
+  def start_time_in_conference_timezone
+    time_in_conference_timezone(start_time)
+  end
+
+  def end_time_in_conference_timezone
+    time_in_conference_timezone(end_time)
+  end
+
   private
 
   def replaced_event_schedules
@@ -186,5 +194,11 @@ class EventSchedule < ApplicationRecord
     return unless event.try(:track).try(:self_organized?) && schedule
 
     errors.add(:schedule, "must be one of #{event.track.name} track's schedules") unless event.track.schedules.include?(schedule)
+  end
+
+  def time_in_conference_timezone(time)
+    time_in_tz = time.in_time_zone(timezone)
+    time_in_tz -= time_in_tz.utc_offset
+    time_in_tz
   end
 end
