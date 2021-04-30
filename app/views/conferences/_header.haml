@@ -1,10 +1,11 @@
 - cache [conference, venue, '#splash#header'] do
   #banner{ style: ("background-image: url(#{conference.picture_url})" if conference.picture_url) }
     .container
-      - if current_user.ticket_purchases.by_conference(@conference).empty?
-        .alert.bg-info{:role => "alert", :style => "margin-bottom: 100px"}
-          You have not registered for any event yet. 
-          = link_to "Register now!",  "#tickets"
+      - if user_signed_in? 
+        - if current_user.ticket_purchases.by_conference(@conference).empty?
+          .alert.bg-info{:role => "alert", :style => "margin-bottom: 100px"}
+            You have not purchased any tickets for this conference yet. 
+            = link_to "Book you tickets now!",  "#tickets"
       .row
         .col-md-6.col-md-offset-3{ id: (conference.picture? ? "header-image" : "header-no-image") }
           .row
