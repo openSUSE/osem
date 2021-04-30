@@ -723,6 +723,7 @@ DEPENDENCIES
   leaflet-rails
   letter_opener
   letter_opener_web (~> 1.0)
+  mimemagic
   mina
   mini_magick
   money-rails
@@ -765,6 +766,7 @@ DEPENDENCIES
   recaptcha
   redcarpet
   responders (~> 2.0)
+  rexml (~> 3.2)
   rolify
   rqrcode
   rspec-activemodel-mocks
