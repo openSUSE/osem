@@ -123,9 +123,6 @@ RSpec.configure do |config|
 
   # enable debugging with --only-failures
   config.example_status_persistence_file_path = 'tmp/spec_failures.txt'
-
-  # include path helpers
-  config.include Rails.application.routes.url_helpers
 end
 
 OmniAuth.config.test_mode = true
