@@ -12,7 +12,7 @@ class FullCalendarFormatter
 
   class << self
     include FormatHelper
-    
+
     private
 
     def room_to_resource(room)
