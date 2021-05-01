@@ -5,7 +5,7 @@
         - if current_user.ticket_purchases.by_conference(@conference).empty?
           .alert.bg-info{ :role => "alert", :style => "margin-bottom: 100px" }
             You have not purchased any tickets for this conference yet.
-            = link_to "Book you tickets now!",  "#tickets"
+            = link_to "Book your tickets now!",  "#tickets"
       .row
         .col-md-6.col-md-offset-3{ id: (conference.picture? ? "header-image" : "header-no-image") }
           .row
