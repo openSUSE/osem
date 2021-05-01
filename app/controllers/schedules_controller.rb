@@ -78,6 +78,25 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def vertical_schedule
+    dates = @conference.start_date..@conference.end_date
+    # the schedule takes you to today if it is a date of the schedule
+    current_day = @conference.current_conference_day
+    @day = current_day.present? ? current_day : dates.first
+    event_schedules = @program.selected_event_schedules(
+      includes: [{ event: %i[event_type speakers submitter] }]
+    )
+
+    unless event_schedules
+      redirect_to events_conference_schedule_path(@conference.short_title)
+      return
+    end
+
+    @rooms = FullCalendarFormatter.rooms_to_resources(@conference.venue.rooms) if @conference.venue
+    @event_schedules = FullCalendarFormatter.event_schedules_to_resources(event_schedules)
+    @now = Time.now.in_time_zone(@conference.timezone).strftime('%FT%T%:z')
+  end
+
   def app
     @qr_code = RQRCode::QRCode.new(conference_schedule_url).as_svg(offset: 20, color: '000', shape_rendering: 'crispEdges', module_size: 11)
   end
