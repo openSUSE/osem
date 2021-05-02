@@ -2,12 +2,18 @@
   .row
     .col-xs-6.col-xs-offset-3
       %h1
-        Payment Summary : 
+        Payment Summary :
         = humanized_money_with_symbol @total_amount_to_pay
     .col-xs-8.col-xs-offset-2.well
       = render partial: 'payment'
   .row
     .col-md-13
+      %p.text-center
+        %strong
+          If you do not have a credit card, please reach out to use at
+          = mail_to(@conference.contact.email)
+      %hr
+
       %p.text-muted.text-center
         %small
           All payments are handled securely by our payment processor,

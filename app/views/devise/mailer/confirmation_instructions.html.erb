@@ -1,0 +1,9 @@
+<%= render partial: "layouts/mailbot_header" %>
+  <div id="content">
+    <p>Welcome to Snap!Con <%= @email %>!</p>
+
+    <p>You can confirm your account email through the link below:</p>
+
+    <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+  </div>
+<%= render partial: "layouts/mailbot_footer" %>

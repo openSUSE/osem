@@ -17,6 +17,12 @@
       %tr
         %td {eventtitle}
         %td The title of an accepted or rejected proposal
+      %tr
+        %td {committee_review}
+        %td The raw text in the committee review for the proposal
+      %tr
+        %td {committee_review_html}
+        %td The committee review markdown rendered as HTML.
     %tr
       %td {conference_start_date}
       %td The start date of the conference
@@ -56,9 +62,6 @@
         %td {conference_splash_link}
         %td The link to conference splash page
     - if @conference.booths
-      %tr
-        %td {submitter_name}
-        %td Submitter's name
       %tr
         %td {booth_title}
         %td Booth's title
