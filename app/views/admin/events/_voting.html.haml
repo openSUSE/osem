@@ -22,20 +22,20 @@
       - if voting_period
         - max_rating.times do |counter|
           - if event.user_rating(current_user) > counter
-            = link_to '',
+            = link_to('',
               vote_admin_conference_program_event_path(conference_id,
                 event, rating: counter + 1),
               remote: true,
               id:     "label#{counter + 1}",
               class:  'rating myrating bright',
-              voted:  true
+              voted:  true)
           - else
-            = link_to '',
+            = link_to('',
               vote_admin_conference_program_event_path(conference_id,
                 event, rating: counter + 1),
               remote: true,
               id:     "label#{counter + 1}",
-              class:  'rating myrating'
+              class:  'rating myrating')
       - else
         = rating_stars(event.user_rating(current_user), max_rating, voted: true)
         (Voting period is closed)
