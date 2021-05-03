@@ -250,8 +250,9 @@ linters:
 
   ConsecutiveComments:
     exclude:
-      # This one seems like a bug in haml-lint.
+      # These seems like a bug in haml-lint.
       - "app/views/admin/conferences/show.html.haml"
+      - "app/views/proposals/index.html.haml"
 
   # Offense count: 24
   ConsecutiveSilentScripts:

@@ -1,12 +1,7 @@
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <meta content="Snap!Con -- A conference all about Snap!, a programing language from UC Berkeley." name="description"/>
-    <meta content="Michael Ball, Brian Harvey, Jens Moenig, Bernat Romagosa, Dan Garcia, Lauren Mock" name="author"/>
-    <%= stylesheet_link_tag "mailbot" %>
-  </head>
-  <body>
-  <div id="border" style="background-color: <%= conference_color(@conference) %>"></div>
+    <% if @conference.present? %>
+      <div id="border" style="background-color: <%= conference_color(@conference) %>">
+    <% else %>
+      <div id="border" style="background-color: #003262">
+    <% end %>
   </body>
 </html>
