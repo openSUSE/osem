@@ -49,21 +49,22 @@
     = render 'about_and_happening_now', conference: @conference,
       events_schedules: @events_schedules, pagy: @pagy,
       events_schedules_length: @events_schedules_length,
-      events_schedules_limit: @events_schedules_limit
+      events_schedules_limit: @events_schedules_limit,
+      is_happening_next: @is_happening_next
 
   -# calls for content, or program
-  - if @conference.splashpage.include_cfp
+  - if @conference.splashpage.include_cfp?
     = render 'call_for_content', conference: @conference,
       call_for_events: @call_for_events, call_for_tracks: @call_for_tracks,
       call_for_booths: @call_for_booths,
       event_types: @event_types, tracks: @track_names
 
-  - if @conference.splashpage.include_program
+  - if @conference.splashpage.include_program?
     = render 'program', conference: @conference, tracks: @tracks,
       highlights: @highlights, booths: @booths
 
   -# attendance/registration
-  - if @conference.splashpage.include_registrations
+  - if @conference.splashpage.include_registrations?
     - if @conference.registration_open?
       = render 'registration', conference: @conference,
         registration_period: @conference.registration_period,
@@ -72,20 +73,20 @@
     = render 'tickets', conference: @conference, tickets: @tickets
 
   -# geo
-  - if @conference.splashpage.include_venue && @conference.venue
+  - if @conference.splashpage.include_venue? && @conference.venue
     = render 'venue', conference: @conference, venue: @conference.venue,
       commercial: @conference.venue.commercial
   - if @conference.splashpage.include_lodgings && @conference.lodgings.any?
     = render 'lodging', venue: @conference.venue, lodgings: @lodgings
 
   -# sponsorship
-  - if @conference.splashpage.include_sponsors
+  - if @conference.splashpage.include_sponsors?
     = render 'sponsors', conference: @conference,
       sponsorship_levels: @sponsorship_levels,
       sponsors: @sponsors
 
   -# footer
-  - if @conference.splashpage.include_social_media
+  - if @conference.splashpage.include_social_media?
     - if @conference.contact.has_social_media?
       = render 'social_media', contact: @conference.contact
   = render 'footer'

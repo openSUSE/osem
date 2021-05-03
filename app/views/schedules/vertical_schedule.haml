@@ -1,0 +1,12 @@
+.container#program
+  = render 'schedule_tabs', active: 'vertical_schedule'
+
+  %h1.text-center
+    Vertical Schedule for
+    = @conference.title
+
+  #vert-schedule-full-calendar
+  #fullcalendar{ data: { rooms: @rooms, events: @event_schedules, day: @day,
+  'start-hour': @conference.start_hour, 'end-hour': @conference.end_hour,
+  'start-date': @conference.start_date, 'end-date': @conference.end_date + 1.day,
+  'timezone': @conference.timezone, 'now': @now } }

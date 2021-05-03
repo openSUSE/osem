@@ -10,11 +10,18 @@ feature Commercial do
   let!(:participant) { create(:user) }
 
   context 'in admin area' do
-    scenario 'adds, updates, deletes of a conference', feature: true, js: true do
+
+    before do
       sign_in organizer
-
       visit admin_conference_commercials_path(conference.short_title)
+    end
 
+    scenario 'contains the conference name in the title', feature: true, js: true do
+      header = conference.title + ' Materials'
+      expect(page).to have_content(header)
+    end
+
+    scenario 'adds, updates, deletes of a conference', feature: true, js: true do
       # Create valid commercial
       fill_in 'commercial_url', with: 'https://www.youtube.com/watch?v=M9bq_alk-sw'
       click_button 'Save Materials'

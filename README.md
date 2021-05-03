@@ -1,21 +1,3 @@
-### Spring 2021 Student Project
-[![Build Status](https://travis-ci.com/CactusPuppy/snapcon.svg?branch=master)](https://travis-ci.com/CactusPuppy/snapcon)
-[![Maintainability](https://api.codeclimate.com/v1/badges/6c7fc446b3b10866ba71/maintainability)](https://codeclimate.com/github/CactusPuppy/snapcon/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/6c7fc446b3b10866ba71/test_coverage)](https://codeclimate.com/github/CactusPuppy/snapcon/test_coverage)
-[![Security Status](https://hakiri.io/github/CactusPuppy/snapcon/master.svg)](https://hakiri.io/github/CactusPuppy/snapcon/master)
-[![Depfu](https://badges.depfu.com/badges/16eb1ffb3a9f1a36c4e595a5ae2a1dca/overview.svg)](https://depfu.com/github/CactusPuppy/snapcon?project_id=22682)
-[![Bluejay Dashboard](https://img.shields.io/badge/Bluejay-Dashboard_5-blue.svg)](http://dashboard.bluejay.governify.io/dashboard/script/dashboardLoader.js?dashboardURL=https://reporter.bluejay.governify.io/api/v4/dashboards/tpa-CS169L-GH-CactusPuppy_snapcon/main)
-
-<a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
-  <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
-</a>
-
-<a href="https://www.pivotaltracker.com/n/projects/2487653">
-  <img src="https://www.pivotaltracker.com/marketing_assets/shared_home/tracker-4679313e699d9ba696371344953de96c81d207d967a43f121d353391c81c9ba7.svg" height="20px" alt="Pivotal Tracker">
-</a>
-
----
-
 [![Build Status](https://travis-ci.com/snap-cloud/snapcon.svg?branch=master)](https://travis-ci.com/snap-cloud/snapcon)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b7b0d559a03bf218663a/maintainability)](https://codeclimate.com/github/snap-cloud/snapcon/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b7b0d559a03bf218663a/test_coverage)](https://codeclimate.com/github/snap-cloud/snapcon/test_coverage)

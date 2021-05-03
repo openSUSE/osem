@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+EVENTS_PER_PAGE = Rails.configuration.conference[:events_per_page]
+
 class ProposalsController < ApplicationController
+  include ConferenceHelper
   before_action :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
@@ -19,6 +22,7 @@ class ProposalsController < ApplicationController
     @event_schedule = @event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
     @speakers_ordered = @event.speakers_ordered
     @surveys_after_event = @event.surveys.after_event.select(&:active?)
+    load_happening_now
   end
 
   def new

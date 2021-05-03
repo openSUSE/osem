@@ -38,6 +38,12 @@ jobs:
         with:
           ruby-version: 2.6.6
           bundler-cache: true
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install JavaScript libraries via npm
+        run: npm install
       - name: Prepare spec
         run: |
           rm -f osem_test osem_development

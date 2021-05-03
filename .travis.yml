@@ -43,6 +43,7 @@ jobs:
         - gem install bundler -v $(tail -n 1 Gemfile.lock)
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > $CCTR
         - chmod +x $CCTR
+        - npm install
       before_script:
         - RAILS_ENV=test bundle exec rake db:bootstrap --trace
         - RAILS_ENV=test bundle exec bin/rails webdrivers:chromedriver:update

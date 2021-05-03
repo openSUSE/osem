@@ -26,4 +26,6 @@
  *= require osem-navbar
  *= require mastodon
  *= require conferences
+
+ *= require fullcalendar-scheduler/main.css
 */
