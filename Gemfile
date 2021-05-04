@@ -27,8 +27,9 @@ gem 'paper_trail'
 # for upload management
 gem 'carrierwave'
 gem 'carrierwave-bombshelter'
-gem 'mimemagic', '~> 0.3.6'
 gem 'mini_magick'
+# for uploading images to the cloud
+gem 'cloudinary'
 
 # for internationalizing
 gem 'rails-i18n'
@@ -115,6 +116,9 @@ end
 # as date picker
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
+# for switch checkboxes
+gem 'bootstrap-switch-rails', '~> 3.0.0'
+
 # data tables
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables'
@@ -142,6 +146,7 @@ gem 'rqrcode'
 gem 'caxlsx'
 gem 'caxlsx_rails'
 
+# Application Monitoring
 gem 'sentry-delayed_job'
 gem 'sentry-rails'
 gem 'sentry-ruby'
@@ -174,14 +179,8 @@ gem 'money-rails'
 # for lists
 gem 'acts_as_list'
 
-# for switch checkboxes
-gem 'bootstrap-switch-rails', '~> 3.0.0'
-
 # for parsing OEmbed data
 gem 'ruby-oembed'
-
-# for uploading images to the cloud
-gem 'cloudinary'
 
 # for setting app configuration in the environment
 gem 'dotenv-rails'
@@ -214,7 +213,7 @@ gem 'skylight'
 # Nokogiri < 1.8.1 is subject to:
 # CVE-2017-0663, CVE-2017-7375, CVE-2017-7376, CVE-2017-9047, CVE-2017-9048,
 # CVE-2017-9049, CVE-2017-9050
-gem 'nokogiri', '>= 1.8.1'
+gem 'nokogiri'
 
 # memcached binary connector
 gem 'dalli'
@@ -234,6 +233,7 @@ group :development do
   gem 'spring-commands-rspec'
   # to open mails
   gem 'letter_opener'
+  # view mail at /letter_opener/
   gem 'letter_opener_web'
   # as deployment system
   gem 'mina'

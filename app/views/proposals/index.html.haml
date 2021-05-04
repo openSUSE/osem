@@ -33,10 +33,10 @@
 
     .row
       .col-md-12
-        %p.text-right
-          = link_to '#status-help', class: 'btn btn-default',  "data-toggle"=>"collapse" do
+        -# %p.text-right
+          = link_to '#status-help', class: 'btn btn-default',  "data-toggle": "collapse" do
             Help?
-        .collapse#status-help
+        -# .collapse#status-help
           %p
             %strong
               What happens next with my proposal?
@@ -80,8 +80,11 @@
                     %br
                     = link_to registered_text(event), registrations_conference_program_proposal_path(@conference.short_title, event), class: 'btn btn-xs btn-danger'
 
-              %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
-                = link_to 'Complete your proposal', 'javascript: void(0)', "type"=>"button", "data-trigger"=>"focus", "data-toggle"=>"popover", "title"=>"Your todo list", "data-content"=>"#{render partial: 'tooltip', locals: { event: event} }"
+              -# %td.col-md-2{style: "padding:20px 8px 20px 8px;"}
+                %a{href: '#', type: "button", "data-trigger": "click focus", "data-toggle": "popover",
+                    title: "Your todo list",
+                    "data-content": "#{render 'tooltip', event: event}" }
+                  Complete your proposal
                 - if can? :create, @conference.registrations.new
                   - progress_percentage = event.calculate_progress
                   .progress

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+EVENTS_PER_PAGE = Rails.configuration.conference[:events_per_page]
+
 class ProposalsController < ApplicationController
+  include ConferenceHelper
   before_action :authenticate_user!, except: [:show, :new, :create]
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true
@@ -19,6 +22,7 @@ class ProposalsController < ApplicationController
     @event_schedule = @event.event_schedules.find_by(schedule_id: @program.selected_schedule_id)
     @speakers_ordered = @event.speakers_ordered
     @surveys_after_event = @event.surveys.after_event.select(&:active?)
+    load_happening_now
   end
 
   def new
@@ -169,11 +173,11 @@ class ProposalsController < ApplicationController
   private
 
   def event_params
+    # TODO-SNAPCON: Restrict committee review to admins.
     params.require(:event).permit(:event_type_id, :track_id, :difficulty_level_id,
                                   :title, :subtitle, :abstract, :submission_text, :description,
                                   :require_registration, :max_attendees, :language,
-                                  speaker_ids: [], volunteer_ids: []
-                                 )
+                                  :committee_review, speaker_ids: [], volunteer_ids: [])
   end
 
   def user_params

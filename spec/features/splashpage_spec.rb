@@ -80,4 +80,127 @@ feature Splashpage do
       end
     end
   end
+
+  context 'happening now section', feature: true, js: true do
+    let!(:conference2) { create(:full_conference, start_date: 1.day.ago, end_date: 7.days.from_now, start_hour: 0, end_hour: 24) }
+    let!(:program) { conference2.program }
+    let!(:selected_schedule) { create(:schedule, program: program) }
+    let!(:splashpage) { create(:full_splashpage, conference: conference2, public: true)}
+
+    let!(:scheduled_event1) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed', abstract: '`markdown`')
+    end
+    let!(:scheduled_event2) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:scheduled_event3) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:scheduled_event4) do
+      program.update_attributes!(selected_schedule: selected_schedule)
+      create(:event, program: program, state: 'confirmed')
+    end
+    let!(:current_time) { Time.now.in_time_zone(conference2.timezone) }
+
+    before :each do
+      sign_in participant
+    end
+
+    scenario 'displays \'There are no events scheduled yet.\' if nothing is happening now and next' do
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content('There are no events scheduled yet.')
+    end
+
+    scenario 'shows all events happening next if nothing is happening now' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (current_time + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (current_time + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule1.event.title)
+      expect(happening_now).to have_content(event_schedule2.event.title)
+    end
+
+    scenario 'only shows all events happening now if something is happening now and next' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (current_time + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (current_time + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule3 = create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: current_time.strftime('%a, %d %b %Y %H:%M:%S'))
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule3.event.title)
+      expect(happening_now).not_to have_content(event_schedule1.event.title)
+      expect(happening_now).not_to have_content(event_schedule2.event.title)
+    end
+
+    scenario 'only shows events happening at the earliest time, not at a later time in the future' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: (current_time + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: (current_time + 1.hour).strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule3 = create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: (current_time + 2.hours).strftime('%a, %d %b %Y %H:%M:%S'))
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule1.event.title)
+      expect(happening_now).to have_content(event_schedule2.event.title)
+      expect(happening_now).not_to have_content(event_schedule3.event.title)
+    end
+
+    scenario 'only shows 3 events happening now because of pagination' do
+      event_schedule1 = create(:event_schedule, event: scheduled_event1, schedule: selected_schedule, start_time: current_time.strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule2 = create(:event_schedule, event: scheduled_event2, schedule: selected_schedule, start_time: current_time.strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule3 = create(:event_schedule, event: scheduled_event3, schedule: selected_schedule, start_time: current_time.strftime('%a, %d %b %Y %H:%M:%S'))
+      event_schedule4 = create(:event_schedule, event: scheduled_event4, schedule: selected_schedule, start_time: current_time.strftime('%a, %d %b %Y %H:%M:%S'))
+
+      visit conference_path(conference2.short_title)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule1.event.title)
+      expect(happening_now).to have_content(event_schedule2.event.title)
+      expect(happening_now).to have_content(event_schedule3.event.title)
+      expect(happening_now).not_to have_content(event_schedule4.event.title)
+
+      visit conference_path(conference2.short_title, page: 2)
+      happening_now = page.find('#happening-now')
+      expect(happening_now).to have_content(event_schedule4.event.title)
+    end
+  end
+
+  context 'clarify registration status' do
+    let!(:splashpage) { create(:splashpage, conference: conference, public: true)}
+    let!(:ticket_1) { create(:ticket) }
+    let!(:free_ticket) { create(:ticket, price_cents: 0) }
+
+    scenario 'user signed in with no tickets', feature: true do
+      sign_in participant
+      visit conference_path(conference.short_title)
+      expect(page).to have_content 'You have not purchased any tickets for this conference yet.'
+    end
+
+    scenario 'user signed in with 1 free ticket', feature: true do
+      sign_in participant
+      create(:ticket_purchase, conference: conference, user: participant, ticket: free_ticket, quantity: 1)
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content 'You have not purchased any tickets for this conference yet.'
+    end
+
+    scenario 'user signed in with 1 paid ticket', feature: true do
+      sign_in participant
+      create(:ticket_purchase, conference: conference, user: participant, ticket: ticket_1, quantity: 1)
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content 'You have not purchased any tickets for this conference yet.'
+    end
+
+    scenario 'user signed in with multiple ticket', feature: true do
+      sign_in participant
+      create(:ticket_purchase, conference: conference, user: participant, ticket: ticket_1, quantity: 1)
+      create(:ticket_purchase, conference: conference, user: participant, ticket: free_ticket, quantity: 1)
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content 'You have not purchased any tickets for this conference yet.'
+    end
+
+    scenario 'user not signed in', feature: true do
+      visit conference_path(conference.short_title)
+      expect(page).not_to have_content 'You have not purchased any tickets for this conference yet.'
+    end
+  end
 end

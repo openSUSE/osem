@@ -25,9 +25,10 @@
     .col-md-4
       %p{style: "margin-top: 20px"}
         - if @event_schedule&.start_time
-          = link_to google_calendar_link(@event_schedule), target: '_blank', class: 'btn btn-success btn-mini' do
-            %i.fa.fa-calendar
-            Add to Google Calendar (beta)
+          - if user_signed_in?
+            = link_to google_calendar_link(@event_schedule), target: '_blank', class: 'btn btn-success btn-mini' do
+              %i.fa.fa-calendar
+              Add to Google Calendar (beta)
         - if can?(:update, @event) && @event.require_registration?
           = link_to 'Registrations', registrations_conference_program_proposal_path(@conference.short_title, @event), class: 'btn btn-mini btn-success'
         - if can?(:edit, @event)
@@ -51,7 +52,7 @@
         - @event.volunteers.each do |volunteer|
           = render 'volunteer_info', speaker: volunteer, show_bio: false
 
-    .col-md-9
+    .col-md-6
       .row
         .col-md-12
           .lead
@@ -138,3 +139,29 @@
           - if @surveys_after_event.any? && @event.ended?
             .page-header
             = render partial: 'surveys/list', locals: { surveys: @surveys_after_event, conference: @conference }
+    .col-md-3
+      #happening-now
+        = render 'conferences/happening_now', conference: @conference,
+          events_schedules: @events_schedules, pagy: @pagy,
+          events_schedules_length: @events_schedules_length,
+          events_schedules_limit: @events_schedules_limit,
+          is_happening_next: @is_happening_next
+
+  - if @event.committee_review.present? || @event.submission_text.present? && can?(:edit, @event)
+    %hr
+    %p Information for event authors only:
+    .panel.panel-info
+      .panel-heading
+        Committee Review
+        %button.btn.btn-primary.btn-xs{ type: "button", 'data-toggle': "collapse", 'data-target': "#committee-panel", 'aria-expanded': "false", 'aria-controls': "committee-panel" }
+          Toggle
+      .panel-body.collapse#committee-panel
+        = markdown(@event.committee_review)
+
+    .panel.panel-info
+      .panel-heading
+        Submission Details
+        %button.btn.btn-primary.btn-xs{ type: "button", 'data-toggle': "collapse", 'data-target': "#submission-panel", 'aria-expanded': "false", 'aria-controls': "submission-panel" }
+          Toggle
+      .panel-body.collapse#submission-panel
+        = markdown(@event.submission_text)

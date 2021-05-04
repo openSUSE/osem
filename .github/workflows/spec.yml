@@ -38,6 +38,12 @@ jobs:
         with:
           ruby-version: 2.6.6
           bundler-cache: true
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install JavaScript libraries via npm
+        run: npm install
       - name: Prepare spec
         run: |
           rm -f osem_test osem_development
@@ -46,7 +52,7 @@ jobs:
       - name: spec/${{ matrix.suite }}
         run: bundle exec rake spec:${{ matrix.suite }}
       - name: coverage upload ${{ matrix.suite }}
-        uses: codacy/codacy-coverage-reporter-action@master
+        uses: codacy/codacy-coverage-reporter-action@v1
         if: github.ref == 'refs/heads/master'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
