@@ -1,8 +1,6 @@
 Osem::Application.routes.draw do
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
-  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
-
   if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
