@@ -726,7 +726,7 @@ DEPENDENCIES
   mina
   mini_magick
   money-rails
-  nokogiri (>= 1.8.1)
+  nokogiri
   omniauth
   omniauth-discourse
   omniauth-facebook
