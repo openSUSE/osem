@@ -110,15 +110,12 @@ class Program < ApplicationRecord
   end
 
   ##
-  # Checks if blind_voting is enabled and if voting period is over
+  # Checks if blind_voting is enabled OR if voting period is over
   # ====Returns
   # * +true+ -> If we can show voting details
   # * +false+ -> If we cannot show voting details
   def show_voting?
-    return true unless blind_voting
-
-    # TODO-SNAPCON: UPDATE TESTS
-    # Time.current > voting_end_date
+    !blind_voting || Time.current > voting_end_date
   end
 
   ##
