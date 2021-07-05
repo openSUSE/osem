@@ -1,4 +1,4 @@
-FROM opensuse/infrastructure/osem/containers/osem/base
+FROM registry.opensuse.org/opensuse/infrastructure/osem/containers/osem/base
 
 # Add our files
 COPY --chown=1000:1000 . /osem/
