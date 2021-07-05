@@ -1,5 +1,8 @@
 FROM registry.opensuse.org/opensuse/infrastructure/osem/containers/osem/base
 
+# Install bundler & foreman
+RUN gem install bundler:1.17.3 foreman
+
 # Add our files
 COPY --chown=1000:1000 . /osem/
 
