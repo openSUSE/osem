@@ -526,10 +526,10 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sentry-rails (4.5.1)
+    sentry-rails (4.6.0)
       railties (>= 5.0)
-      sentry-ruby-core (~> 4.5.0)
-    sentry-ruby-core (4.5.2)
+      sentry-ruby-core (~> 4.6.0)
+    sentry-ruby-core (4.6.0)
       concurrent-ruby
       faraday
     sexp_processor (4.15.3)
