@@ -73,7 +73,7 @@ GEM
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
-    ast (2.4.0)
+    ast (2.4.2)
     autoprefixer-rails (9.6.4)
       execjs
     awesome_nested_set (3.4.0)
