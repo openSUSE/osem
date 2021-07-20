@@ -440,7 +440,7 @@ GEM
     rails-assets-tinycolor (1.4.1)
     rails-assets-to-markdown (3.1.1)
     rails-assets-trianglify (1.2.0)
-    rails-assets-waypoints (4.0.0)
+    rails-assets-waypoints (4.0.1)
     rails-controller-testing (1.0.5)
       actionpack (>= 5.0.1.rc1)
       actionview (>= 5.0.1.rc1)
