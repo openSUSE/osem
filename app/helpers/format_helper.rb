@@ -191,9 +191,11 @@ module FormatHelper
     return '' if text.nil?
 
     options = {
-      autolink:            true,
-      space_after_headers: true,
-      no_intra_emphasis:   true
+      autolink:                     true,
+      space_after_headers:          true,
+      no_intra_emphasis:            true,
+      fenced_code_blocks:           true,
+      disable_indented_code_blocks: true
     }
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
     markdown.render(text).html_safe
