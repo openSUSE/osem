@@ -17,7 +17,7 @@ gem 'puma', '~> 4.3'
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
-gem 'responders', '~> 2.0'
+gem 'responders', '~> 3.0'
 
 # as supported databases
 gem 'mysql2'
