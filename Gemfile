@@ -140,8 +140,7 @@ gem 'prawn-rails'
 gem 'rqrcode'
 
 # to render XLS spreadsheets
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'axlsx_rails'
+gem 'caxlsx_rails'
 
 # as error catcher
 gem 'sentry-rails'
