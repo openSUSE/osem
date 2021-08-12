@@ -74,7 +74,7 @@ GEM
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
-    bootstrap-switch-rails (3.0.2)
+    bootstrap-switch-rails (3.3.5)
     bootstrap3-datetimepicker-rails (4.17.47)
       momentjs-rails (>= 2.8.1)
     builder (3.2.4)
@@ -631,7 +631,7 @@ DEPENDENCIES
   autoprefixer-rails
   awesome_nested_set
   bootstrap-sass (~> 3.4.0)
-  bootstrap-switch-rails (~> 3.0.0)
+  bootstrap-switch-rails (~> 3.3.5)
   bootstrap3-datetimepicker-rails (~> 4.17.47)
   byebug
   cancancan

@@ -174,7 +174,7 @@ gem 'money-rails'
 gem 'acts_as_list'
 
 # for switch checkboxes
-gem 'bootstrap-switch-rails', '~> 3.0.0'
+gem 'bootstrap-switch-rails', '~> 3.3.5'
 
 # for parsing OEmbed data
 gem 'ruby-oembed'
