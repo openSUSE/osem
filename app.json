@@ -4,7 +4,8 @@
   "repository": "https://github.com/openSUSE/osem",
   "env": {
     "CLOUDINARY_URL": {
-      "description": "Create a https://cloudinary.com account and set the cloud url here. It starts with cloudinary://"
+      "description": "Create a https://cloudinary.com account and set the cloud url here. It starts with cloudinary://",
+      "required": false
     },
     "SECRET_KEY_BASE": {
       "description": "A key to verify sessions. At least 40 characters. For instance: https://www.randomlists.com/string?base=16&length=64&qty=1",
