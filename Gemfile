@@ -44,6 +44,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-openid'
+gem 'omniauth-rails_csrf_protection'
 
 # Bot-filtering
 gem 'recaptcha', require: 'recaptcha/rails'
