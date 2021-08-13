@@ -229,7 +229,8 @@ group :development do
   gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
-  gem 'rubocop-rspec'
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-rails', require: false
   # to open mails
   gem 'letter_opener'
   gem 'letter_opener_web'
