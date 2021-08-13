@@ -284,7 +284,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.11.0)
+    loofah (2.12.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.12)
@@ -541,10 +541,10 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sentry-rails (4.6.0)
+    sentry-rails (4.6.4)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.6.0)
-    sentry-ruby-core (4.6.0)
+    sentry-ruby-core (4.6.5)
       concurrent-ruby
       faraday
     sexp_processor (4.15.3)
