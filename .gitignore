@@ -36,3 +36,14 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+# master branch
+public/
+coverage/
+.ackrc
+.bundle
+.byebug_history
+docker-compose.override.yml
+log/
+tmp/
+
