@@ -41,3 +41,4 @@ docker-compose.override.yml
 osem_development
 osem_test
 .ackrc
+spec/support/deprecation_shitlist.json
