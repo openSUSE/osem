@@ -1,3 +1,6 @@
+def next?
+  File.basename(__FILE__) == "Gemfile.next"
+end
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
@@ -10,7 +13,11 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 5.2'
+if next?
+  gem 'rails', '~> 6'
+else
+  gem 'rails', '~> 5.2'
+end
 
 # Use Puma as the app server
 gem 'puma', '~> 4.3'
@@ -274,4 +281,6 @@ group :development, :test do
   gem 'byebug'
   # as development/test database
   gem 'sqlite3'
+  # to test new rails version
+  gem 'next_rails'
 end
