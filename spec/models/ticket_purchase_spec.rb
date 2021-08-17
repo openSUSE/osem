@@ -37,9 +37,7 @@ describe TicketPurchase do
       let(:registration_ticket) { create(:registration_ticket) }
       let(:ticket_purchase) { build(:ticket_purchase, ticket: registration_ticket, quantity: 1) }
 
-      it 'it is valid, if quantity for registration tickets is less than or equal to one' do
-        expect(ticket_purchase.valid?).to eq true
-      end
+      it { is_expected.to validate_numericality_of(:quantity) }
 
       it 'it is not valid, if quantity for registration tickets is greater than to one' do
         ticket_purchase.quantity = 4

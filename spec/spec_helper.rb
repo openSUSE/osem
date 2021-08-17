@@ -91,11 +91,11 @@ RSpec.configure do |config|
   # Includes helpers and connect them to specific types of tests
   config.include FactoryBot::Syntax::Methods
   config.include OmniauthMacros
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include LoginMacros, type: :feature
   config.include Flash, type: :feature
   config.include Sidebar, type: :view
-  config.include Devise::TestHelpers, type: :view
+  config.include Devise::Test::ControllerHelpers, type: :view
 
   # As we start from scratch in April 2014, let's forbid the old :should syntax
   config.expect_with :rspec do |c|
