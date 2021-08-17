@@ -32,11 +32,6 @@ jobs:
         suite: [models, features, controllers, ability, leftovers]
     steps:
       - uses: actions/checkout@v2
-      - name: Sets env vars for next-rails
-        run: |
-          echo "BUNDLE_GEMFILE=Gemfile.next" >> $GITHUB_ENV
-          echo "BUNDLE_CACHE_PATH=vendor/cache.next" >> $GITHUB_ENV
-        if: contains(github.head_ref, 'next-rails')
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.5
