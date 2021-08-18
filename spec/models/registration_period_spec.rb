@@ -8,10 +8,6 @@ describe RegistrationPeriod do
   let!(:registration_period) { create(:registration_period, start_date: Date.today - 2, end_date: Date.today - 1, conference: conference) }
 
   describe 'validations' do
-    it 'has a valid factory' do
-      expect(build(:registration_period)).to be_valid
-    end
-
     it 'is not valid without a start_date' do
       should validate_presence_of(:start_date)
     end

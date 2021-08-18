@@ -38,15 +38,6 @@ describe Admin::UsersController do
       before :each do
         patch :update, params: { id: user.id, user: { name: 'new name', email: 'new_email@osem.io' } }
       end
-
-      it 'locates requested @user' do
-        expect(build(:user, id: user.id)).to eq(user)
-      end
-      it 'changes @users attributes' do
-        expect(build(
-          :user, email: 'email_new@osem.io', id: user.id).email)
-              .to eq('email_new@osem.io')
-      end
       it 'redirects to the updated user' do
         expect(response).to redirect_to admin_users_path
       end

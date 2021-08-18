@@ -17,10 +17,6 @@ describe Track do
   end
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:track)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to allow_value('#ABCDEF').for(:color) }
     it { is_expected.to allow_value('#124689').for(:color) }

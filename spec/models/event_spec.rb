@@ -18,10 +18,6 @@ describe Event do
   end
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:event)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:abstract) }
     it { is_expected.to validate_presence_of(:program) }

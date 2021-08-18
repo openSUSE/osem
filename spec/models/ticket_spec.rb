@@ -8,11 +8,6 @@ describe Ticket do
   let(:user) { create(:user) }
 
   describe 'validation' do
-
-    it 'has a valid factory' do
-      expect(build(:ticket)).to be_valid
-    end
-
     it 'is not valid without a title' do
       should validate_presence_of(:title)
     end

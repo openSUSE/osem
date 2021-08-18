@@ -12,10 +12,6 @@ describe EventSchedule do
   end
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:event_schedule)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:schedule) }
     it { is_expected.to validate_presence_of(:event) }
     it { is_expected.to validate_presence_of(:room) }

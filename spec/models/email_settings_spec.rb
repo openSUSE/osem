@@ -23,10 +23,6 @@ describe EmailSettings do
     }
   end
 
-  it 'has a valid factory' do
-    expect(build(:email_settings)).to be_valid
-  end
-
   describe '#get_values' do
     context 'user has name' do
       it 'returns correct key-value pairs' do

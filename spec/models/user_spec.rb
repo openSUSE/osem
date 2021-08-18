@@ -21,10 +21,6 @@ describe User do
   let(:events_registration) { create(:events_registration, event: event1, registration: registration) }
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:user)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:username) }
     it { is_expected.to validate_uniqueness_of(:username).ignoring_case_sensitivity }

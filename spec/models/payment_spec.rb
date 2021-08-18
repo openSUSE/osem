@@ -13,14 +13,8 @@ describe Payment do
   end
 
   describe 'validations' do
-    it 'has a valid factory' do
-      expect(build(:payment)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:status) }
-
     it { is_expected.to validate_presence_of(:user_id) }
-
     it { is_expected.to validate_presence_of(:conference_id) }
   end
 
