@@ -1,17 +1,14 @@
-# frozen_string_literal: true
-
 namespace :factory_bot do
   desc "Verify that all FactoryBot factories are valid"
   task lint: :environment do
     if Rails.env.test?
-      begin
-        DatabaseCleaner.start
+      conn = ActiveRecord::Base.connection
+      conn.transaction do
         FactoryBot.lint
-      ensure
-        DatabaseCleaner.clean
+        raise ActiveRecord::Rollback
       end
     else
-      system("bundle exec rake factory_bot:lint RAILS_ENV='test'")
+      raise "\nERROR: You should not run this outside the test environment...\n\n"
     end
   end
 end

@@ -115,10 +115,6 @@
 # SKYLIGHT_AUTHENTICATION=1234
 # SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
 
-# Disable linting of factories in the test suite.
-# Speeds up turn around times of tests
-# OSEM_FACTORY_LINT=false
-
 # How should browser tests be performed?
 # For headless Chrome (default):
 # OSEM_TEST_DRIVER=chrome_headless

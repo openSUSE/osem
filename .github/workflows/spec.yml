@@ -41,6 +41,7 @@ jobs:
           rm -f osem_test osem_development
           bundle exec rake db:setup --trace
           bundle exec bin/rails webdrivers:chromedriver:update
+          bundle exec rake factory_bot:lint RAILS_ENV=test
       - name: spec/${{ matrix.suite }}
         run: bundle exec rake spec:${{ matrix.suite }}
       - name: coverage upload ${{ matrix.suite }}
