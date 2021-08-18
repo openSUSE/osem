@@ -140,4 +140,4 @@ GitHub issues and pull requests are the primary way for communicating about spec
 changes to this project. If you have other questions feel free to subscribe to
 the [opensuse-web@opensuse.org](http://lists.opensuse.org/opensuse-web/)
 mailinglist, all OSEM contributors are on that list! Additionally you can use the #osem channel
-on freenode IRC.
+on [libera.chat IRC](https://libera.chat).
