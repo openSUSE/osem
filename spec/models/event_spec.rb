@@ -293,22 +293,6 @@ describe Event do
     end
   end
 
-  describe '#abstract_word_count' do
-    it 'counts words in abstract' do
-      event = build(:event)
-      expect(event.abstract_word_count).to eq(event.abstract.to_s.split.size)
-      event.update_attributes!(abstract: 'abstract.')
-      expect(event.abstract_word_count).to eq(1)
-    end
-
-    it 'counts 0 when abstract is empty' do
-      event = build(:event, abstract: nil)
-      expect(event.abstract_word_count).to eq(0)
-      event.abstract = ''
-      expect(event.abstract_word_count).to eq(0)
-    end
-  end
-
   describe '#transition_possible?(transition)' do
     shared_examples 'transition_possible?(transition)' do |state, transition, expected|
       it "returns #{expected} for #{transition} transition, when the event is #{state}}" do
