@@ -12,10 +12,6 @@ describe EventType do
   end
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:event_type)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:minimum_abstract_length) }
     it { is_expected.to validate_presence_of(:maximum_abstract_length) }

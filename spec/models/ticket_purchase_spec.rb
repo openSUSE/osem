@@ -5,10 +5,6 @@ require 'spec_helper'
 describe TicketPurchase do
 
   describe 'validations' do
-    it 'has a valid factory' do
-      expect(build(:ticket_purchase)).to be_valid
-    end
-
     it 'is not valid without a conference_id' do
       should validate_presence_of(:conference_id)
     end
