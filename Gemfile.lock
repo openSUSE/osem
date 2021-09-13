@@ -581,7 +581,7 @@ GEM
       activesupport (>= 4.2.0)
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
-    spring (1.6.3)
+    spring (2.1.1)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
     sprockets (3.7.2)
