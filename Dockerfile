@@ -1,4 +1,4 @@
-FROM registry.opensuse.org/opensuse/infrastructure/osem/containers/osem/base:latest
+FROM registry.opensuse.org/opensuse/infrastructure/dale/containers/osem/base:latest
 ARG CONTAINER_USERID
 
 # Configure our user
