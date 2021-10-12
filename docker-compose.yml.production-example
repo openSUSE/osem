@@ -11,6 +11,8 @@ services:
   production_web:
     build:
       context: .
+      args:
+        CONTAINER_USERID: 1000        
       dockerfile: Dockerfile.production
     depends_on:
       - production_database
