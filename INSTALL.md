@@ -42,13 +42,21 @@ There is a rudimentary docker-compose configuration for production usage (`docke
    cp dotenv.example .env.production
    vim .env.production
    ```
-1. Build the docker image (only once)
+2. Build the docker image (only once)
    ```
-   docker-compose -f docker-compose.yml.production-example build
+   docker-compose -f docker-compose.yml build
    ```
-1. Start the services
+3. Start the services
    ```
-   docker-compose -f docker-compose.yml.production-example up
+   docker-compose -f docker-compose.yml up
+   ```
+4. Stop the services
+   ```
+   docker-compose -f docker-compose.yml down
+   ```
+5. Before starting the service again remove the server pid file.
+   ```
+   rm -Rf tmp/pids/server.pid
    ```
 
 ## Configuration
