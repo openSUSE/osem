@@ -20,7 +20,7 @@ services:
     environment:
      OSEM_DB_HOST: production_database
      RAILS_SERVE_STATIC_FILES: 'true'
-    command: /osem/bin/osem-init.sh
+    command: foreman start -p 3000
     volumes:
       - osem_production_web_data:/osem/public/system
       - osem_production_web_assets:/osem/public/assets
