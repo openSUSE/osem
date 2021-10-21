@@ -11,7 +11,7 @@ services:
       context: .
       args:
         CONTAINER_USERID: 1000
-    command: /osem/bin/osem-init.sh
+    command: foreman start -p 3000
     depends_on:
       - database
     ports:
