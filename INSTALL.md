@@ -53,7 +53,7 @@ There is a rudimentary docker-compose configuration for production usage (`docke
    ```
 1. Setup the database (only once)
    ```
-   docker-compose -f docker-compose.yml.production-example run --rm osem bundle exec rake db:bootstrap
+   docker-compose -f docker-compose.yml.production-example run --rm production_web bundle exec rake db:bootstrap
    ```
 1. Start the services
    ```
