@@ -109,7 +109,7 @@
 # OSEM_LOG_LEVEL=info
 
 # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-# FORCE_SSL=1
+# FORCE_SSL=true
 
 # Your skylight.io keys
 # SKYLIGHT_AUTHENTICATION=1234
