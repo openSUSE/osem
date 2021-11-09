@@ -26,3 +26,8 @@
       .row
         .col-md-10.col-md-offset-1
           = f.submit 'Submit', class: 'btn btn-primary pull-right', disabled: !(can? :reply, @survey)
+          .pull-left
+            - if @survey.during_registration?
+              = link_to 'Back to Registration', conference_conference_registration_path(@conference)
+            - elsif @survey.after_event?
+              = link_to 'Back', conference_program_proposal_path(@conference, @survey.surveyable)
