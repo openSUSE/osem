@@ -242,7 +242,7 @@ describe Admin::ConferencesController do
         it 're-renders the new template' do
           post :create, params: { conference:
                                               attributes_for(:conference, short_title: nil, organization_id: organization.id) }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 
@@ -259,7 +259,7 @@ describe Admin::ConferencesController do
         it 're-renders the new template' do
           conference
           post :create, params: { conference: attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id) }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
     end

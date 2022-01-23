@@ -21,7 +21,7 @@ describe Api::V1::SpeakersController do
 
         get :index, params: { format: :json }
         json = JSON.parse(response.body)['speakers']
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(json.pluck('name')).to contain_exactly('Conf_Speaker', 'Speaker')
       end
     end
@@ -32,7 +32,7 @@ describe Api::V1::SpeakersController do
         get :index, params: { conference_id: conference.short_title, format: :json }
         json = JSON.parse(response.body)['speakers']
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(json.length).to eq(1)
         expect(json[0]['name']).to eq('Conf_Speaker')
