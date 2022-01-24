@@ -29,7 +29,7 @@ class SchedulesController < ApplicationController
       end
 
       format.html do
-        @rooms = @conference.venue.rooms if @conference.venue
+        @rooms = @conference.venue.rooms.order(:name) if @conference.venue
         @dates = @conference.start_date..@conference.end_date
         @step_minutes = @program.schedule_interval.minutes
         @conf_start = @conference.start_hour
