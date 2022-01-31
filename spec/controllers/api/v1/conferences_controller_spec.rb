@@ -13,7 +13,7 @@ describe Api::V1::ConferencesController do
     end
 
     it 'returns successful response' do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'returns all conferences' do
@@ -32,7 +32,7 @@ describe Api::V1::ConferencesController do
     end
 
     it 'returns successful response' do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'returns only one conference' do

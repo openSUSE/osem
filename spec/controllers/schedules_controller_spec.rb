@@ -23,7 +23,7 @@ describe SchedulesController do
       end
 
       it 'has 200 status code' do
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
