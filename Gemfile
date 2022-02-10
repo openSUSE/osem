@@ -228,16 +228,12 @@ gem 'dalli'
 
 gem 'icalendar'
 
-# Use guard and spring for testing in development
 group :development do
-  # to launch specs when files are modified
-  gem 'guard-rspec'
-  gem 'haml_lint'
-  gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rails', require: false
+  gem 'haml_lint'
   # to open mails
   gem 'letter_opener'
   gem 'letter_opener_web'
