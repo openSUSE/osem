@@ -143,6 +143,9 @@ gem 'country_select'
 # as PDF generator
 gem 'prawn-qrcode'
 gem 'prawn-rails'
+# FIXME: for prawn, matrix isn't in the default set of Ruby 3.1 anymore
+# see https://github.com/prawnpdf/prawn/commit/3658d5125c3b20eb11484c3b039ca6b89dc7d1b7
+gem 'matrix', '~> 0.4'
 
 # for QR code generation
 gem 'rqrcode'

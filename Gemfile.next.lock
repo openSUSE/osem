@@ -324,6 +324,7 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (1.0.1)
+    matrix (0.4.2)
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
@@ -699,6 +700,7 @@ DEPENDENCIES
   leaflet-rails
   letter_opener
   letter_opener_web
+  matrix (~> 0.4)
   mina
   mini_magick
   money-rails
