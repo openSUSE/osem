@@ -5,7 +5,7 @@ end
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '2.5.9'
+ruby ENV['OSEM_RUBY_VERSION'] || '3.1.0'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -14,7 +14,7 @@ end
 
 # as web framework
 if next?
-  gem 'rails', '~> 6'
+  gem 'rails', '~> 7'
 else
   gem 'rails', '~> 5.2'
 end
