@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RegistrationDatatable < AjaxDatatablesRails::Base
+  extend Forwardable
+
   def_delegator :@view, :edit_admin_conference_registration_path
 
   def view_columns
