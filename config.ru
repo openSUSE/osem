@@ -5,4 +5,4 @@
 require_relative 'config/environment'
 
 run Rails.application
-Rails.application.load_server if Rails::VERSION::MAJOR == 6
+Rails.application.load_server if Rails::VERSION::MAJOR == 7
