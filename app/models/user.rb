@@ -7,7 +7,6 @@ class UserDisabled < StandardError
 end
 
 class User < ApplicationRecord
-  rolify
   # prevent N+1 queries with has_cached_role? by preloading roles *always*
   default_scope { preload(:roles) }
 
@@ -17,8 +16,15 @@ class User < ApplicationRecord
       where('ticket_purchases.conference_id = ?', conference)
     end
   end
+  has_many :tickets, through: :ticket_purchases, source: :ticket do
+    def for_registration conference
+      where(conference: conference, registration_ticket: true).first
+    end
+  end
+
   has_many :users_roles
   has_many :roles, through: :users_roles, dependent: :destroy
+  rolify
 
   has_paper_trail on: [:create, :update], ignore: [:sign_in_count, :remember_created_at, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :unconfirmed_email,
                                                    :avatar_content_type, :avatar_file_size, :avatar_updated_at, :updated_at, :confirmation_sent_at, :confirmation_token, :reset_password_token]
@@ -69,11 +75,7 @@ class User < ApplicationRecord
   end
   has_many :events_registrations, through: :registrations
   has_many :payments, dependent: :destroy
-  has_many :tickets, through: :ticket_purchases, source: :ticket do
-    def for_registration conference
-      where(conference: conference, registration_ticket: true).first
-    end
-  end
+
   has_many :votes, dependent: :destroy
   has_many :voted_events, through: :votes, source: :events
   has_many :subscriptions, dependent: :destroy
