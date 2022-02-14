@@ -25,7 +25,7 @@ module Admin
     end
 
     def update
-      if @resource.update_attributes(resource_params)
+      if @resource.update(resource_params)
         redirect_to admin_conference_resources_path(conference_id: @conference.short_title),
                     notice: 'Resource successfully updated.'
       else

@@ -53,7 +53,7 @@ module Admin
     def update
       @url = admin_conference_booth_path(@conference.short_title, @booth.id)
 
-      @booth.update_attributes(booth_params)
+      @booth.update(booth_params)
 
       if @booth.save
         redirect_to admin_conference_booths_path,

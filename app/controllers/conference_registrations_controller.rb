@@ -72,7 +72,7 @@ class ConferenceRegistrationsController < ApplicationController
   end
 
   def update
-    if @registration.update_attributes(registration_params)
+    if @registration.update(registration_params)
       redirect_to  conference_conference_registration_path(@conference.short_title),
                    notice: 'Registration was successfully updated.'
     else

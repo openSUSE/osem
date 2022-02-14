@@ -36,7 +36,7 @@ namespace :data do
 
       selected_schedule = create(:schedule, program: program)
       demo_schedule = create(:schedule, program: program)
-      program.update_attributes!(selected_schedule: selected_schedule)
+      program.update_attribute(:selected_schedule, selected_schedule)
 
       create(:event, program: program, title: 'Demo Event', abstract: 'This is a demo event instance whose state not defined.')
       create(:event, program: program, title: 'Demo Rejected Event', state: 'rejected', abstract: 'This is demo event instance in a rejected state.')
@@ -72,9 +72,9 @@ namespace :data do
     # So that events can be created without any failure in validations.
     conference = create(:full_conference, title: 'Jangouts Demo Conference', short_title: 'jangouts', start_date: 7.days.ago, end_date: 6.days.from_now, start_hour: 15, end_hour: 20, description: 'This is a full conference demo instance happened in the past. It contains open cfp, venue/rooms, submitted talks by multiple speakers, partly confirmed talks and multiple schedules.')
     generate_program conference
-    conference.program.cfp.update_attributes!(start_date: 4.days.ago, end_date: 2.days.ago)
-    conference.update_attributes!(end_date: 1.day.ago)
-    conference.registration_period.update_attributes!(start_date: 9.days.ago, end_date: 8.days.ago)
+    conference.program.cfp.update!(start_date: 4.days.ago, end_date: 2.days.ago)
+    conference.update_attribute!(:end_date, 1.day.ago)
+    conference.registration_period.update!(start_date: 9.days.ago, end_date: 8.days.ago)
 
     # This is a conference that will happen in the future
     # It only has a registration period and unscheduled events

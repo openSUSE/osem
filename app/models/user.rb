@@ -156,9 +156,9 @@ class User < ApplicationRecord
     raise UserDisabled if user&.is_disabled
 
     if user
-      user.update_attributes(email:              attributes[:email],
-                             last_sign_in_at:    user.current_sign_in_at,
-                             current_sign_in_at: Time.current)
+      user.update(email:              attributes[:email],
+                  last_sign_in_at:    user.current_sign_in_at,
+                  current_sign_in_at: Time.current)
     else
       begin
         user = create!(username: username, email: attributes[:email])

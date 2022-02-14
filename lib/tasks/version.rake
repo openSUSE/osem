@@ -7,7 +7,7 @@ namespace :data do
     PaperTrail::Version.where(conference_id: nil, item_type: %w[Conference Event]).each do |version|
       # All pre-existing versions are either of Conference or Event
       if version.item_type == 'Conference'
-        version.update_attributes(conference_id: version.item_id)
+        version.update_attribute(:conference_id, version.item_id)
 
       elsif version.item_type == 'Event'
         event = version.item
@@ -30,7 +30,7 @@ namespace :data do
                           puts "Setting conference_id value failed for PaperTrail::Version object with ID=#{version.id}"
                           nil
                         end
-        version.update_attributes(conference_id: conference_id)
+        version.update_attribute(:conference_id, conference_id)
       end
     end
     puts 'All done!'

@@ -28,7 +28,7 @@ module Admin
     end
 
     def update
-      if @difficulty_level.update_attributes(difficulty_level_params)
+      if @difficulty_level.update(difficulty_level_params)
         redirect_to admin_conference_program_difficulty_levels_path(conference_id: @conference.short_title),
                     notice: 'Difficulty level successfully updated.'
       else

@@ -192,8 +192,8 @@ describe Program do
       program.schedule_interval = 5
       program.save!
 
-      program.event_types.first.update_attributes length: 5
-      program.event_types.last.update_attributes length: 25
+      program.event_types.first.update_attribute(:length, 5)
+      program.event_types.last.update_attribute(:length, 25)
       create(:event_type, program: program, length: 30)
 
       program.schedule_interval = 10
