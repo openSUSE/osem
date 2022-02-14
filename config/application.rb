@@ -33,5 +33,7 @@ module Osem
     config.active_support.escape_html_entities_in_json = true
     # Don't generate system test files.
     config.generators.system_tests = nil
+    # This is a nightmare with our current data model, no one ever thought about this.
+    config.active_record.belongs_to_required_by_default = false
   end
 end
