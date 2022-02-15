@@ -168,9 +168,6 @@ gem 'font-awesome-rails'
 # for markdown
 gem 'redcarpet'
 
-# for visitor tracking
-gem 'piwik_analytics', '~> 1.0.1'
-
 # for recurring jobs
 gem 'delayed_job_active_record'
 gem 'whenever', :require => false

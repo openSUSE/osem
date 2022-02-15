@@ -379,10 +379,6 @@ GEM
       ruby-rc4
       ttfunk
     pg (1.2.3)
-    piwik_analytics (1.0.2)
-      actionpack
-      activesupport
-      rails (>= 3.0.0)
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
@@ -563,7 +559,7 @@ GEM
     sqlite3 (1.4.2)
     ssrf_filter (1.0.7)
     stripe (5.38.0)
-    stripe-ruby-mock (3.0.1)
+    stripe-ruby-mock (3.1.0.rc3)
       dante (>= 0.2.0)
       multi_json (~> 1.0)
       stripe (> 5, < 6)
@@ -679,7 +675,6 @@ DEPENDENCIES
   paper_trail
   pdf-inspector
   pg
-  piwik_analytics (~> 1.0.1)
   prawn-qrcode
   prawn-rails
   puma (~> 4.3)
@@ -718,7 +713,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3
   stripe
-  stripe-ruby-mock
+  stripe-ruby-mock (~> 3.1.0.rc3)
   timecop
   transitions
   turbolinks

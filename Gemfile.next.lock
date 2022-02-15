@@ -420,10 +420,6 @@ GEM
       ruby-rc4
       ttfunk
     pg (1.2.3)
-    piwik_analytics (1.0.2)
-      actionpack
-      activesupport
-      rails (>= 3.0.0)
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
@@ -716,7 +712,6 @@ DEPENDENCIES
   paper_trail
   pdf-inspector
   pg
-  piwik_analytics (~> 1.0.1)
   prawn-qrcode
   prawn-rails
   puma (~> 4.3)
