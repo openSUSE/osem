@@ -243,10 +243,6 @@ GEM
     ffi (1.15.3)
     font-awesome-rails (4.7.0.8)
       railties (>= 3.2, < 8.0)
-    formtastic (3.1.5)
-      actionpack (>= 3.2.13)
-    formtastic-bootstrap (3.1.1)
-      formtastic (>= 3.0)
     geckodriver-helper (0.24.0)
       archive-zip (~> 0.7)
     globalid (1.0.0)
@@ -681,8 +677,6 @@ DEPENDENCIES
   faker
   feature
   font-awesome-rails
-  formtastic (~> 3.1.5)
-  formtastic-bootstrap
   geckodriver-helper
   gravtastic
   haml-rails

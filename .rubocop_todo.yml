@@ -42,13 +42,6 @@ Layout/CommentIndentation:
     - 'app/models/track.rb'
     - 'spec/features/volunteers_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowBorderComment, AllowMarginComment.
-Layout/EmptyComment:
-  Exclude:
-    - 'config/initializers/formtastic.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Layout/EmptyLineAfterGuardClause:
@@ -1005,7 +998,6 @@ Style/EmptyMethod:
 Style/Encoding:
   Exclude:
     - 'app/uploaders/picture_uploader.rb'
-    - 'config/initializers/formtastic.rb'
     - 'spec/models/conference_spec.rb'
 
 # Offense count: 3
