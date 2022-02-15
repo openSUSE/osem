@@ -264,7 +264,7 @@ group :test do
   # for mocking external requests
   gem 'webmock'
   # for mocking Stripe responses in tests
-  gem 'stripe-ruby-mock'
+  gem 'stripe-ruby-mock', '~> 3.1.0.rc3'
   # For validating JSON schemas
   gem 'json-schema'
   # For using 'assigns' in tests

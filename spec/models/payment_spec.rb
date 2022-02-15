@@ -113,7 +113,7 @@ describe Payment do
 
       context 'when the request to Stripe is invalid' do
         it 'raises exception' do
-          StripeMock.prepare_error(Stripe::InvalidRequestError.new('Your request is invalid.', code: 402))
+          StripeMock.prepare_error(Stripe::InvalidRequestError.new('Your request is invalid.', {}, code: 402))
           expect{ payment.purchase }.not_to raise_error
         end
       end
