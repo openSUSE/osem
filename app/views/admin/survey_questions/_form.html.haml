@@ -11,82 +11,85 @@
           = @survey_question.title
 
   .col-md-6
-    = semantic_form_for @survey_question, url: @url do |f|
-
-      .row
-        .col-md-12
-          = f.input :title, input_html: { autofocus: true }
-          = f.input :mandatory
-          .survey-possible-answers{ class: @survey_question.choice? ? '' : 'hidden' }
-            = f.input :possible_answers, hint: 'Comma separated', input_html: { rows: 3 }
-            .row
-              .col-md-6
-                = f.input :min_choices
-              .col-md-6
-                = f.input :max_choices
-      %hr
-      .row
-        .col-md-6
-          %label{ required: 'required' }
-            Type of Question:
-          .form-group
-            %select.selectpicker.form-control{ id: 'survey_question_kind', name: 'survey_question[kind]' }
-              - SurveyQuestion.kinds.each do |kind|
-                %option{ id: "#{kind.second}", 'data-icon' => "fa fa-#{SurveyQuestion::ICONS[kind.first.to_sym]}", selected: @survey_question.kind == kind.first }
-                  = kind.first
-        .col-md-6
+    = form_for @survey_question, url: @url do |f|
+      .form-group
+        = f.text_field :title, autofocus: true, class: 'form-control'
+        .checkbox
           %label
-            Preview:
-          .panel.panel-default
-            .panel-body{ id: 'survey_question_preview' }
-              %p{ id: 'title', style: 'word-wrap: break-word' }
-                = @survey_question.title.blank? ? 'What is your answer?' : @survey_question.title
-
-              .kinds.boolean{ class: @survey_question.boolean? ? '' : 'hidden' }
-                %input{ type: 'radio', name: 'radio' } Yes
+            = f.check_box :mandatory
+            Mandatory?
+      .survey-possible-answers{ class: @survey_question.choice? ? '' : 'hidden' }
+        .form-group
+          = f.text_area :possible_answers, rows: 3, class: 'form-control'
+          %span.help-block
+            Comma separated
+        .form-group
+          = f.label :min_choices
+          = f.number_field :min_choices, class: 'form-control'
+        .form-group
+          = f.label :max_choices
+          = f.number_field :max_choices, class: 'form-control'
+      .form-group
+        %label{ required: 'required' }
+          Type of Question:
+        .form-group
+          %select.selectpicker.form-control{ id: 'survey_question_kind', name: 'survey_question[kind]' }
+            - SurveyQuestion.kinds.each do |kind|
+              %option{ id: "#{kind.second}", 'data-icon' => "fa fa-#{SurveyQuestion::ICONS[kind.first.to_sym]}", selected: @survey_question.kind == kind.first }
+                = kind.first
+        = f.submit nil, class: 'btn btn-primary'
+  .col-md-6
+    %label
+      Preview:
+    %span.help-block
+      This is how you visitors will see the question in the survey.
+    .panel.panel-default
+      .panel-body{ id: 'survey_question_preview' }
+        %p{ id: 'title', style: 'word-wrap: break-word' }
+          = @survey_question.title.blank? ? 'What is your answer?' : @survey_question.title
+        .kinds.boolean{ class: @survey_question.boolean? ? '' : 'hidden' }
+          %input{ type: 'radio', name: 'radio' } Yes
+          %br
+          %input{ type: 'radio', name: 'radio' } No
+        .kinds.choice{ class: @survey_question.choice? ? '' : 'hidden' }
+          - if @survey_question.possible_answers.blank?
+            - if @survey_question.single_choice?
+              .radio
+                %label
+                  %input{ type: 'radio' }
+                  Choice
+            - else
+              .checkbox
+                %label
+                  %input{ type: 'checkbox' }
+                  Choice 1
+              .checkbox
+                %label
+                  %input{ type: 'checkbox' }
+                  Choice 2
+              .checkbox
+                %label
+                  %input{ type: 'checkbox' }
+                  Choice 3
+          - else
+            - @survey_question.possible_answers.split(',').map(&:strip).each do |option|
+              - if @survey_question.single_choice?
+                %input{ type: 'radio', name: 'radio' }
+                  = option
                 %br
-                %input{ type: 'radio', name: 'radio' } No
-
-              .kinds.choice{ class: @survey_question.choice? ? '' : 'hidden' }
-                - if @survey_question.possible_answers.blank?
-                  - if @survey_question.single_choice?
-                    %input{ type: 'radio', name: 'radio' } Choice 1
-                    %br
-                    %input{ type: 'radio', name: 'radio' } Choice 2
-                    %br
-                    %input{ type: 'radio', name: 'radio' } Choice 3
-                  - else
-                    %input{ type: 'checkbox', name: 'checkbox' } Choice 1
-                    %br
-                    %input{ type: 'checkbox', name: 'checkbox' } Choice 2
-                    %br
-                    %input{ type: 'checkbox', name: 'checkbox' } Choice 3
-                - else
-                  - @survey_question.possible_answers.split(',').map(&:strip).each do |option|
-                    - if @survey_question.single_choice?
-                      %input{ type: 'radio', name: 'radio' }
-                        = option
-                      %br
-                    - else
-                      %input{ type: 'checkbox', name: 'checkbox' }
-                        = option
-                      %br
-
-              .kinds.string{ class: @survey_question.string? ? '' : 'hidden' }
-                %input.form-control
-
-              .kinds.text{ class: @survey_question.text? ? '' : 'hidden' }
-                %textarea.form-control{ rows: 4 }
-
-
-              .kinds.datetime{ class: @survey_question.datetime? ? '' : 'hidden' }
-                .form-group{ class: 'datetimepicker' }
-                  .input-group
-                    .input-group-addon
-                      %span.fa.fa-calendar
-                    %input.form-control{ readonly: 'readonly' }
-                    .kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden' }
-
-                %input.form-control{ type: 'number' }
-
-      = f.submit 'Save', class: 'btn btn-primary'
+              - else
+                %input{ type: 'checkbox', name: 'checkbox' }
+                  = option
+                %br
+        .kinds.string{ class: @survey_question.string? ? '' : 'hidden' }
+          %input.form-control
+        .kinds.text{ class: @survey_question.text? ? '' : 'hidden' }
+          %textarea.form-control{ rows: 4 }
+        .kinds.datetime{ class: @survey_question.datetime? ? '' : 'hidden' }
+          .form-group{ class: 'datetimepicker' }
+            .input-group
+              .input-group-addon
+                %span.fa.fa-calendar
+              %input.form-control{ readonly: 'readonly' }
+              .kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden' }
+          %input.form-control{ type: 'number' }

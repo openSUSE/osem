@@ -8,15 +8,11 @@
 
 .row.col-md-3
   - if ( can? :assign_org_admins, @organization )
-    = semantic_form_for :user,
-      url: assign_org_admins_admin_organization_path(@organization,
-      @role.name), method: :post do |u|
-
-      = u.label 'Add user by email: '
-      .input-group
-        = u.input :email, label: false, placeholder: "User's email"
-        .input-group-btn
-          = u.submit 'Add', id: 'user-add', class: 'btn btn-primary'
+    = form_for :user, url: assign_org_admins_admin_organization_path(@organization, @role.name), method: :post do |f|
+      .form-group
+        = f.label :email, 'Add user by email: '
+        = f.text_field :email, placeholder: "User's email", class: 'form-control', required: true
+      = f.submit 'Add', id: 'user-add', class: 'btn btn-primary'
 
 .row
   .col-md-12

@@ -1,10 +1,14 @@
-= f.inputs title do
-  - if hint
-    %p.inline-hint= hint
-  %div{class: association_name.to_s}
-    = f.semantic_fields_for association_name do |association_form|
-      = render association_name.to_s.singularize + "_fields", f: association_form
-    .links
+%h4
+  Title
+%hr
+- if hint
+  %p.inline-hint
+    = hint
+%div{class: association_name.to_s}
+  = f.fields_for association_name do |association_form|
+    = render association_name.to_s.singularize + "_fields", f: association_form
+  .links
+    %p
       = add_association_link association_name, f, association_name
-      %br
-      %br
+    %br
+    %br

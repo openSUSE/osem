@@ -68,7 +68,6 @@ module Admin
 
     def new
       @conference = Conference.new
-      @organizations = Organization.accessible_by(current_ability, :update).pluck(:name, :id)
     end
 
     def create

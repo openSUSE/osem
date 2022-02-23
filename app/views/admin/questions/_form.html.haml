@@ -1,10 +1,17 @@
 .row
   .col-md-6
     %legend Question
-    = f.input :title, label: 'Your Question'
-    = f.input :question_type
-    = f.input :global, label: 'Make Global',
-              hint: '(Global questions are available for selection to all conferences)'
+    .form-group
+      = f.label :title, 'Your Question'
+      = f.text_field :title, class: 'form-control'
+    .form-group
+      = f.select :question_type_id, QuestionType.all.pluck(:title, :id), {}, { class: 'form-control' }
+    .checkbox
+      %label
+        = f.check_box :global
+        Make Global
+      %span.help-block
+        Global questions are available for selection to all conferences
   .col-md-6.hidden{id: 'answers_col'}
     = dynamic_association :answers, 'Answers', f,
                           hint: 'Insert your answers in the order you want them to appear'

@@ -24,7 +24,7 @@ class ConferenceRegistrationsController < ApplicationController
     end
     authorize! :new, @registration, message: message
 
-    # @user variable needs to be set so that _sign_up_form_embedded works properly
+    # @user needs to be set for devise/registrations/new_embedded
     @user = @registration.build_user
   end
 
@@ -42,7 +42,7 @@ class ConferenceRegistrationsController < ApplicationController
     @registration = @conference.registrations.new(registration_params)
 
     @user = if current_user.nil?
-              # @user variable needs to be set so that _sign_up_form_embedded works properly
+              # @user needs to be set for devise/registrations/new_embedded
               @registration.build_user(user_params)
             else
               current_user

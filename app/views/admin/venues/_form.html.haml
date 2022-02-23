@@ -12,17 +12,47 @@
   .tab-content
     #details-content.tab-pane.active
       .col-md-8
-        = semantic_form_for(@venue, url: admin_conference_venue_path(@conference.short_title)) do |f|
-          = f.inputs :name, :website
-          = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown' } }, hint: markdown_hint
-          = f.label 'Venue Logo'
-          %br
-          - if @venue.picture?
-            = image_tag @venue.picture.thumb.url
-          = f.input :picture, label: false, hint: 'This will be displayed on the venue are of the splash page.'
-          = f.hidden_field :picture_cache
-          = f.inputs :street, :postalcode, :city, :country, :latitude, :longitude
-          = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+        = form_for(@venue, url: admin_conference_venue_path(@conference.short_title)) do |f|
+          .form-group
+            = f.label :name
+            %abbr{title: 'This field is required'} *
+            = f.text_field :name, required: true, class: 'form-control'
+          .form-group
+            = f.label :website
+            = f.url_field :website, class: 'form-control'
+          .form-group
+            = f.label :description
+            = f.text_area :description, rows: 5, cols: 20, data: { provide: 'markdown' }
+            %span.help-block
+              = markdown_hint
+          .form-group
+            = f.label 'Logo'
+            %br
+            - if @venue.picture?
+              = image_tag @venue.picture.thumb.url
+            = f.file_field :picture
+            = f.hidden_field :picture_cache
+            %span.help-block
+              This will be displayed on the venue are of the splash page.
+          .form-group
+            = f.label :street
+            %abbr{title: 'This field is required'} *
+            = f.text_field :street, required: true, class: 'form-control'
+            = f.label :postalcode
+            = f.text_field :postalcode, class: 'form-control'
+            = f.label :city
+            %abbr{title: 'This field is required'} *
+            = f.text_field :city, required: true, class: 'form-control'
+          .form-group
+            = f.label :country
+            = f.select :country, I18nData.countries.invert, { include_hidden: false }, { class: 'form-control' }
+          .form-group
+            = f.label :latitude
+            = f.text_field :latitude, class: 'form-control'
+          .form-group
+            = f.label :longitude
+            = f.text_field :longitude, class: 'form-control'
+          = f.submit nil, class: 'btn btn-primary'
 
     #commercials-content.tab-pane
       - if can? :create, @venue.commercial and @venue.id
@@ -34,10 +64,13 @@
 
           .row
             .col-md-6
-              = semantic_form_for(Commercial.new,as: :commercial, url: admin_conference_venue_venue_commercial_path(conference_id: @conference.short_title)) do |f|
-                = f.input :url, label: 'URL', as: :string, input_html: { required: 'required', type: 'url' },
-                hint: 'Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.'
-                = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right', disabled: true }
+              = form_for(Commercial.new,as: :commercial, url: admin_conference_venue_venue_commercial_path(conference_id: @conference.short_title)) do |f|
+                .form-group
+                  = f.label :url
+                  = f.url_field :url, class: 'form-control', required: 'required'
+                %span.help-block
+                  Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.
+                = f.submit nil, class: 'btn btn-primary pull-right', id: 'commercial_submit_action', disabled: true
           %hr
         - else
           - if @venue.commercial.persisted?
@@ -47,9 +80,13 @@
                   = render partial: 'shared/media_item', locals: { commercial: @venue.commercial }
                 .caption
                   - if can? :update, @venue.commercial
-                    = semantic_form_for @venue.commercial, as: :commercial, url: admin_conference_venue_venue_commercial_path(conference_id: @conference.short_title, id: @venue.commercial.id) do |f|
-                      = f.input :url, label: 'URL', as: :string, input_html: { id: "commercial_url_#{@venue.commercial.id}", required: 'required' }, hint: 'Just paste the url of your video/photo provider'
-                      = f.action :submit, as: :button, button_html: { class: 'btn btn-success' }, label: 'Update'
+                    = form_for @venue.commercial, as: :commercial, url: admin_conference_venue_venue_commercial_path(conference_id: @conference.short_title, id: @venue.commercial.id) do |f|
+                      .form-group
+                        = f.label :url
+                        = f.url_field :url, id: "commercial_url_#{@venue.commercial.id}", class: 'form-control', required: 'required'
+                        %span.help-block
+                          Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.
+                      = f.submit nil, class: 'btn btn-success'
                       - if can? :destroy, @venue.commercial
                         = link_to 'Delete', admin_conference_venue_venue_commercial_path(conference_id: @conference.short_title, id: @venue.commercial.id),
                           method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

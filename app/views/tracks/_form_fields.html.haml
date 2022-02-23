@@ -1,0 +1,60 @@
+.form-group
+  = f.label :name, "Name"
+  = f.text_field :name, autofocus: true, class: 'form-control', placeholder: 'Name'
+.form-group
+  = f.label :short_name, "Short Name"
+  %abbr{title: 'This field is required'} *
+  = f.text_field :short_name, required: true, pattern: '[a-zA-Z0-9_-]+', class: 'form-control', placeholder: 'Short Name'
+  %span.help-block
+    A short and unique handle for the track, using only letters, numbers, underscores, and dashes. This will be used to identify the track in URLs etc. Example: 'my_awesome_track'
+.form-group
+  = f.label :color, "Color"
+  %abbr{title: 'This field is required'} *
+  = f.color_field :color, size: 6, required: true, class: 'form-control'
+.form-group
+  = f.label :start_date, "Start Date"
+  = f.text_field :start_date, id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control'
+  - if @track.self_organized_and_accepted_or_confirmed?
+    %abbr{title: 'This field is required'} *
+.form-group
+  = f.label :end_date, "End Date"
+  = f.text_field :end_date, id: 'registration-period-end-datepicker', required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control'
+  - if @track.self_organized_and_accepted_or_confirmed?
+    %abbr{title: 'This field is required'} *
+- if current_user.is_admin?
+  - if @conference.venue.try(:rooms).present?
+    .form-group
+      = f.label :room, "Room"
+      = f.select :room, @conference.venue.rooms.map {|room| ["#{room.name}", room.id]}, { include_blank: true }, { required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control select-help-toggle' }
+  - else
+    %p
+      Please add a
+      = link_to admin_conference_venue_path(@conference.short_title) do
+        venue
+      with
+      = link_to admin_conference_venue_rooms_path(@conference.short_title) do
+        rooms
+      if you want to select a room for the track.
+.form-group
+  = f.label :description, "Description"
+  = f.text_area :description, rows: 4, data: { provide: 'markdown' }, class: 'form-control'
+  %span.help-block
+    = markdown_hint
+- unless current_user.has_cached_role?(:organizer, @conference) || current_user.has_cached_role?(:cfp, @conference) || current_user.is_admin
+  .form-group
+    = f.label :relevance, "Relevance"
+    = f.text_area :relevance, rows: 4, data: { provide: 'markdown' }, required: true, class: 'form-control'
+    %span.help-block
+      Please explain here how this track relates to the conference, how you are related to its content and why we should accept it.
+      = markdown_hint
+- if current_user.is_admin?
+  .checkbox
+    %label
+      = f.check_box :cfp_active
+      Allow event submitters to select this track for their proposal
+%p.text-right
+  %button{type: 'submit', class: 'btn btn-success'}
+    - if @track.new_record?
+      Create Track
+    - else
+      Update Track

@@ -1,0 +1,5 @@
+- unless current_user
+  = fields_for @user do |u|
+    = render partial: 'devise/registrations/form_fields', locals: { f: u }
+  = render partial: 'devise/shared/openid'
+  = render partial: 'devise/shared/help'

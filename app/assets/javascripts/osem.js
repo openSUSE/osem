@@ -94,11 +94,6 @@ $(function () {
         return false;
     });
 
-    $("#event-comment-link").click(function(){
-        $("#comments-div").toggle();
-        return false;
-    });
-
     $(".comment-reply").hide();
     $(".user-details-popover").popover();
     $("#comments-div").hide();

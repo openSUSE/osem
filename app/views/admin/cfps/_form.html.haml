@@ -1,28 +1,20 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        Call for
-        = cfp.cfp_type.capitalize
-.row
-  .col-md-8
-    = semantic_form_for(cfp, url: cfp_form_url(cfp, conference),
-      html: { multipart: true,
-              data: { end_conference: conference.end_date.to_s } }) do |f|
-      = f.input :cfp_type, as: :hidden
-      = f.input :start_date, as: :string,
-        input_html: { class: 'form-control',
-          id: 'registration-period-start-datepicker' }
-      = f.input :end_date, as: :string,
-        input_html: { class: 'form-control',
-          id: 'registration-period-end-datepicker' }
-      = f.input :description, hint: markdown_hint,
-        input_html: { rows: 2, data: { provide: 'markdown' } }
-      - if cfp.cfp_type == 'events'
-        = f.input :enable_registrations, as: :boolean,
-          hint: 'Allow submitters to request registration?'
-      - else
-        = f.input :enable_registrations, as: :hidden
-      %p.text-right
-        = f.action :submit, as: :button,
-          button_html: { class: 'btn btn-primary' }
+= form_for(@cfp, url: (@cfp.new_record? ? admin_conference_program_cfps_path : admin_conference_program_cfp_path(@conference.short_title, @cfp)), data: { end_conference: @conference.end_date.to_s }) do |f|
+  = f.hidden_field :cfp_type
+  .form-group
+    = f.label :start_date, "Start Date"
+    = f.text_field :start_date, class: 'form-control', id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date
+  .form-group
+    = f.label :end_date, "End Date"
+    = f.text_field :end_date, class: 'form-control', id: 'registration-period-end-datepicker', start_date: @conference.start_date, end_date: @conference.end_date
+  .form-group
+    = f.label :description, "Description"
+    = f.text_area :description, rows: 2, data: { provide: 'markdown' }
+    %span.help-block
+      = markdown_hint
+  - if @cfp.cfp_type == 'events'
+    .checkbox
+      %label
+        = f.check_box :enable_registrations
+        Allow submitters to request registration?
+  %p.text-right
+    = f.submit nil, { class: 'btn btn-success' }

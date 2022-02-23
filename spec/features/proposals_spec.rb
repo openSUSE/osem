@@ -73,12 +73,12 @@ feature Event do
       expected_count_user = User.count + 1
 
       visit new_conference_program_proposal_path(conference.short_title)
-
-      fill_in 'user_username', with: 'Test User'
-      fill_in 'user_email', with: 'testuser@osem.io'
-      fill_in 'password_inline', with: 'testuserpassword'
-      fill_in 'user_password_confirmation', with: 'testuserpassword'
-
+      within('#signup') do
+        fill_in 'user_username', with: 'Test User'
+        fill_in 'user_email', with: 'testuser@osem.io'
+        fill_in 'user_password', with: 'testuserpassword'
+        fill_in 'user_password_confirmation', with: 'testuserpassword'
+      end
       fill_in 'event_title', with: 'Example Proposal'
       select('Example Event Type', from: 'event[event_type_id]')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
@@ -134,7 +134,7 @@ feature Event do
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
       expect(page).to have_text('You have used 3 words')
 
-      click_link 'Do you require something special?'
+      click_link 'Do you require something special for your event?'
       fill_in 'event_description', with: 'Lorem ipsum description'
 
       click_button 'Create Proposal'

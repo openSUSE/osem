@@ -1,37 +1,37 @@
-= semantic_form_for(@event, url: @url) do |f|
-  = f.inputs name: 'Proposal Information' do
-    = f.input :title, as: :string, input_html: { autofocus: true }, required: true
-
-    = f.input :subtitle, as: :string
-
-    = speaker_selector_input f
-
-    = track_selector_input f
-
-    = f.input :event_type_id, as: :select,
-      collection: @conference.program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-      data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
-      include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
-
-    - if @program.languages.present?
-      = f.input :language, as: :select,
-        collection: @languages,
-        include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
-
-    - @conference.program.event_types.each do |event_type|
-      %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
-        = event_type.description
-
-    = f.input :difficulty_level, as: :select, collection: @conference.program.difficulty_levels, input_html: { class: 'select-help-toggle' },
-      include_blank: '(Please select)' if @conference.program.difficulty_levels.any?
-
+= form_for(@event, url: @url) do |f|
+  %h4
+    Proposal Information
+  %hr
+  .form-group
+    = f.label :title
+    %abbr{title: 'This field is required'} *
+    = f.text_field :title, autofocus: true, required: true, class: 'form-control'
+  .form-group
+    = f.label :subtitle
+    = f.text_field :subtitle, class: 'form-control'
+  = # speaker_selector_input f
+  - if @program.tracks.confirmed.cfp_active.any?
+    = f.label :track_id, 'Track'
+    = f.select :track_id, @program.tracks.confirmed.cfp_active.pluck(:name, :id), include_blank: '(Please select)'
+  = f.label :event_type_id, 'Type'
+  = f.select :event_type_id, event_type_select_options(@conference.program.event_types), { include_blank: false }, { class: 'select-help-toggle form-control' }
+  - if @program.languages.present?
+    = f.label :language
+    = f.select :language, @languages, { include_blank: false}, { class: 'select-help-toggle form-control' }
+  - @conference.program.event_types.each do |event_type|
+    %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
+      = event_type.description
+  - if @conference.program.difficulty_levels.any?
+    = f.label :difficulty_level
+    = f.select :difficulty_level_id, @conference.program.difficulty_levels.map{|level| [level.title, level.id ] }, {include_blank: false}, { class: 'select-help-toggle form-control' }
     - @conference.program.difficulty_levels.each do |difficulty_level|
       %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
         = difficulty_level.description
-
-    = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
-      hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
-
+  .form-group
+    = f.label :abstract
+    = f.text_area :abstract, required: true, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      = markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
     %p
       You have used
       %span#abstract-count #{@event.abstract_word_count}
@@ -42,28 +42,35 @@
       %span#abstract-maximum-word-count
         250
       words.
-
-    - if current_user.is_admin? or @program.cfp&.enable_registrations?
-      = f.inputs 'Enable pre-registration' do
-        = f.input :require_registration, label: 'Require participants to register to your event'
-        - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
-        = f.input :max_attendees, hint: 'The maximum number of participants. ' + message
-
-    - if current_user.has_any_role? :admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference }
-      = f.input :is_highlight
-
+    - if current_user.is_admin? || @program.cfp&.enable_registrations?
+      %h4
+        Event Registration
+      %hr
+      .checkbox
+        %label
+          = f.check_box :require_registration
+          Require participants to register to your event
+      .form-group
+        = f.number_field :max_attendees
+        %span.help-block
+          - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
+          = 'The maximum number of participants. ' + message
+    - if current_user.has_any_role?(:admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference })
+      .checkbox
+        %label
+          = f.check_box :is_highlight
+          Is a highlight?
     %p.text-right
       = link_to '#description', 'data-toggle' => 'collapse' do
-        Do you require something special?
+        Do you require something special for your event?
     #description{ class: "collapse #{ 'in' if @event.description.present? }" }
-      = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
-
-
+      .form-group
+        = f.label :description, 'Requirements'
+        = f.text_area :description, rows: 5
+        %span.help-block
+          Eg. Whiteboard, printer, or something like that.
   %p.text-right
-    - if @event.new_record?
-      = f.submit 'Create Proposal', class: 'btn btn-success'
-    - else
-      = f.submit 'Update Proposal', class: 'btn btn-success'
+    = f.submit 'Update Proposal', class: 'btn btn-success'
 
 :javascript
   $(document).ready(function() {

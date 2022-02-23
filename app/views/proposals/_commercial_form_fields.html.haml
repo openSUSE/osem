@@ -1,0 +1,18 @@
+.form-group
+  = f.label :url
+  %abbr{title: 'This field is required'} *
+  = f.text_field :url, required: 'required', class: 'form-control'
+  %span.help-block
+    Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.
+  .form-group
+    - if f.object.new_record?
+      = f.submit nil, class: 'btn btn-primary pull-right', id: 'commercial_submit_action', disabled: true
+    - else
+      = f.submit nil, class: 'btn btn-primary pull-right'
+      - if can? :destroy, commercial
+        = link_to('Delete', conference_program_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
+                  :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger')
+      - if f.object.versions.any?
+        .text-right
+          added by
+          = link_to_user(commercial.versions.last.whodunnit)

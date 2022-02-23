@@ -11,7 +11,7 @@
 .row
   .col-md-12
     - if @questions.count > 0
-      = semantic_form_for(@conference, url: update_conference_admin_conference_questions_path(@conference.short_title)) do |f|
+      = form_for(@conference, url: update_conference_admin_conference_questions_path(@conference.short_title)) do |f|
         .questions{id: 'myquestions'}
           = render partial: 'questions'
         - if can? :update, Question.new(conference_id: @conference.id)
@@ -25,7 +25,7 @@
             %h3{id: 'new-question-header'}
               Add new question
           .modal-body
-            = semantic_form_for(@new_question, url: admin_conference_questions_path(@conference.short_title), method: :post) do |f|
+            = form_for(@new_question, url: admin_conference_questions_path(@conference.short_title), method: :post) do |f|
               = render partial: 'form', locals: {f: f}
               %button{class: 'btn btn-primary'}
                 Save

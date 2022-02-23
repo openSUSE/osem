@@ -122,17 +122,19 @@
 
 - cache [@conference, @event, @comments] do
   .row
-    = link_to "Comments (#{@comment_count})", '#', id: 'event-comment-link'
-    #comments-div
+    .col-md-12
+      %h4
+        Comments
+        = "(#{@comment_count})"
+        = link_to('#comment-collapse', class: 'btn btn-link', role: 'button', data: {toggle: "collapse" }) do
+          Show
       %hr
-      %ul.media
-        %div
-          .row-fluid
-            = semantic_form_for :comment, url: comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post do |f|
-              = f.input :body
-              = f.submit 'Add Comment', class: 'btn btn-primary pull-right'
-          %br
-          %br
-          - @comments.each do |comment|
-            %div
-              = render partial: 'nested_comments', locals: { comment: comment, padding: 0}
+      .collapse#comment-collapse
+        - @comments.each do |comment|
+          = render partial: 'nested_comments', locals: { comment: comment, padding: 0}
+        = form_for(:comment, url: comment_admin_conference_program_event_path(@conference.short_title, @event.id), method: :post) do |f|
+          .form-group
+            = f.text_area :body, class: 'form-control'
+          .text-right
+            = f.submit nil, class: 'btn btn-primary'
+

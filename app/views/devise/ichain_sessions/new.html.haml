@@ -6,15 +6,21 @@
           %h3.panel-title
             Sign in
         .panel-body
-          = semantic_form_for '', method: :post, enctype: 'application/x-www-form-urlencoded', url: @login_url do |f|
-            = f.input :url, as: :hidden, input_html: { value: @back_url }
-            = f.input :context, as: :hidden, input_html: { value: @context }
-            = f.input :proxypath, as: :hidden, input_html: { value: @proxypath }
+          = form_for(@login_url, method: :post, enctype: 'application/x-www-form-urlencoded', id: 'session' do |f|
+            = f.hidden_field :url, value: @back_url
+            = f.hidden_field :context, value: @context
+            = f.hidden_field :proxypath, value: @proxypath
 
-            = f.input :username, input_html: { autofocus: true }
-            = f.input :password, as: :password
-
+            .form-group
+              = f.label :username, "Username"
+              %abbr{title: 'This field is required'} *
+              = f.text_field :username, autofocus: true, required: true, class: 'form-control', placeholder: 'Username'
+            .form-group
+              = f.label :password, "Password"
+              %abbr{title: 'This field is required'} *
+              = f.password_field :password, required: true, class: 'form-control', placeholder: 'Password'
             %p.text-right
-              = f.action :submit, as: :button, label: 'Sign In', button_html: { class: 'btn btn-success' }
+              %button{type: 'submit', class: 'btn btn-success'}
+                Sign In
 
             = render partial: 'devise/shared/help'

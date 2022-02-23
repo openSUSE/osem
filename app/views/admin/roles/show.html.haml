@@ -17,16 +17,15 @@
           = link_to @track.name, admin_conference_program_track_path(@conference.short_title, @track)
 
 
-.row.col-md-3
-  - if ( can? :toggle_user, @role ) && !@role.new_record?
+.row
+  .col-md-3
+    - if ( can? :toggle_user, @role ) && !@role.new_record?
 
-    = semantic_form_for :user, url: @url, method: :post do |u|
-
-      = u.label 'Add user by email: '
-      .input-group
-        = u.input :email, input_html: { autofocus: true }, label: false, placeholder: "User's email"
-        .input-group-btn
-          = u.submit 'Add', id: 'user-add', class: 'btn btn-primary'
+      = form_for :user, url: @url, method: :post do |f|
+        .form-group
+          = f.label :email, 'Add user by email: '
+          = f.email_field :email, autofocus: true, placeholder: "User's email", class: 'form-control'
+        = f.submit 'Add', id: 'user-add', class: 'btn btn-primary'
 
 .row
   .col-md-12

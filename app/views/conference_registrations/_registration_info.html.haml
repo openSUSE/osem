@@ -6,22 +6,25 @@
     I have read and accepted the
     = code_of_conduct_link
   - else
-    = f.input :accepted_code_of_conduct,
-      label: "I have read and accept the #{code_of_conduct_link}".html_safe,
-      required: true
+    .checkbox
+      %label
+        = f.check_box :accepted_code_of_conduct, required: true
+        I have read and accept the
+        = code_of_conduct_link
+        %abbr{title: 'This field is required'} *
 
 - if @conference.program.events.with_registration_open.any? || @registration.events.any?
-  = f.inputs 'Pre-registration required for the following:' do
-
-    - @registration.events_ordered.each do |event|
-      %label
-        = hidden_field_tag "registration[event_ids][]", nil
-        = check_box_tag "registration[event_ids][]", event.id, event.registrations.include?(@registration)
-        = event.title
-        .text-muted
-          = registered_text(event)
-          - if event.scheduled?
-            (Scheduled on: #{event.time.to_date})
-      %br
+  %h4
+    Pre-registration required for the following:
+  - @registration.events_ordered.each do |event|
+    %label
+      = hidden_field_tag "registration[event_ids][]", nil
+      = check_box_tag "registration[event_ids][]", event.id, event.registrations.include?(@registration)
+      = event.title
+      .text-muted
+        = registered_text(event)
+        - if event.scheduled?
+          (Scheduled on: #{event.time.to_date})
+    %br
 
 = render 'conferences/code_of_conduct', organization: @conference.organization
