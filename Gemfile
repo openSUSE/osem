@@ -14,9 +14,9 @@ end
 
 # as web framework
 if next?
-  gem 'rails', '~> 7'
+  gem 'rails', '~> 7.1'
 else
-  gem 'rails', '~> 5.2'
+  gem 'rails', '~> 7.0'
 end
 
 # Use Puma as the app server
