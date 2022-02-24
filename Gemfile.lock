@@ -240,7 +240,7 @@ GEM
     faraday-rack (1.0.0)
     fastimage (2.2.5)
     feature (1.4.0)
-    ffi (1.15.3)
+    ffi (1.15.5)
     font-awesome-rails (4.7.0.8)
       railties (>= 3.2, < 8.0)
     geckodriver-helper (0.24.0)
