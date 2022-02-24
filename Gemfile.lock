@@ -18,7 +18,7 @@ GEM
     rails-assets-spectrum (1.8.0)
       rails-assets-jquery (>= 1.7.2)
     rails-assets-tinycolor (1.4.1)
-    rails-assets-to-markdown (3.1.1)
+    rails-assets-to-markdown (5.0.1)
     rails-assets-trianglify (1.2.0)
     rails-assets-waypoints (4.0.1)
 
@@ -719,7 +719,7 @@ DEPENDENCIES
   rails-assets-momentjs!
   rails-assets-spectrum!
   rails-assets-tinycolor!
-  rails-assets-to-markdown (~> 3)!
+  rails-assets-to-markdown (~> 5)!
   rails-assets-trianglify!
   rails-assets-waypoints!
   rails-controller-testing
