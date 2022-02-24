@@ -145,6 +145,10 @@ gem 'prawn-rails'
 # see https://github.com/prawnpdf/prawn/commit/3658d5125c3b20eb11484c3b039ca6b89dc7d1b7
 gem 'matrix', '~> 0.4'
 
+# FIXME: for selenium-webdriver, rexml isn't in the default set of Ruby 3.1 anymore
+# see https://github.com/SeleniumHQ/selenium/commit/526fd9d0de60a53746ffa982feab985fed09a278
+gem 'rexml'
+
 # for QR code generation
 gem 'rqrcode'
 

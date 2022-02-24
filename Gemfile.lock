@@ -727,6 +727,7 @@ DEPENDENCIES
   recaptcha
   redcarpet
   responders (~> 3.0)
+  rexml
   rolify
   rqrcode
   rspec-activemodel-mocks
