@@ -1,4 +1,3 @@
 .nested-fields
-  = f.inputs do
-    = f.input :title
-    = remove_association_link :answer, f
+  = f.text_field :title
+  = remove_association_link :answer, f

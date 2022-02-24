@@ -1,6 +1,9 @@
-.container
-  %h1
-    Editing
-    = @booth.title
-
-  = render 'form'
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Edit Booth
+        = @booth.title
+.row
+  .col-md-8
+    = render 'form'

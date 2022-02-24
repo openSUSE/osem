@@ -24,30 +24,26 @@
               Already have an account?
       .tab-content
         .tab-pane.active{role: 'tabpanel', id: 'signup'}
-
-          = semantic_form_for(@event, url: @url) do |f|
-
-            = render partial: 'devise/shared/sign_up_form_embedded'
-
-            = f.inputs name: 'Proposal Information' do
-              = f.input :title, as: :string, required: true, input_html: { required: true }
-              = f.input :event_type_id, as: :select,
-                collection: @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id,
-                data: { min_words: type.minimum_abstract_length, max_words: type.maximum_abstract_length }]},
-                include_blank: false, label: 'Type', input_html: { class: 'select-help-toggle' }
-
-              - if @program.languages.present?
-                = f.input :language, as: :select,
-                  collection: @languages,
-                  include_blank: false, label: 'Language', input_html: { class: 'select-help-toggle' }
-
-              - @program.event_types.each do |event_type|
-                %span{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help" }
-                  = event_type.description
-
-              = f.input :abstract, required: true, input_html: { rows: 5, data: { provide: 'markdown' } },
-                hint: markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
-
+          = form_for(@event, url: @url) do |f|
+            = render partial: 'devise/registrations/new_embedded'
+            %h4
+              Proposal Information
+            %hr
+            .form-group
+              = f.label :title
+              = f.text_field :title, required: true, class: 'form-control'
+            = f.label :event_type_id, 'Type'
+            = f.select :event_type_id, @program.event_types.map {|type| ["#{type.title} - #{show_time(type.length)}", type.id] }, { include_blank: false }, { class: 'select-help-toggle form-control' }
+            - if @program.languages.present?
+              = f.label :language
+              = f.select :language, @languages, include_blank: false, class: 'select-help-toggle form-control'
+            - @program.event_types.each do |event_type|
+              %span{ class: 'help-block event_event_type_id collapse', id: "#{event_type.id}-help" }
+                = event_type.description
+            .form-group
+              = f.label :abstract
+              = f.text_area :abstract, required: true, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
+              %span.help-block
               %p
                 You have used
                 %span#abstract-count #{@event.abstract_word_count}
@@ -58,18 +54,21 @@
                 %span#abstract-maximum-word-count
                   250
                 words.
-
+                = markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
               - if @program.cfp.enable_registrations?
-                = f.input :require_registration, label: 'Require participants to register to your event'
-
+                .form-group
+                  = f.label :require_registration, 'Require participants to register to your event'
+                  = f.check_box :require_registration, class: 'form-control'
               %p.text-right
                 = link_to '#description',  'data-toggle' => 'collapse', id: 'description_link' do
-                  Do you require something special?
+                  Do you require something special for your event?
               .collapse#description
-                = f.input :description, input_html: { rows: 5 }, label: 'Requirements', placeholder: 'Eg. Whiteboard, printer, or something like that.'
-
+                .form-group
+                  = f.label :description, 'Requirements'
+                  = f.text_area :description, rows: 5, class: 'form-control'
+                  %span.help-block
+                    Tell us what you need for your event. A whiteboard, a printer or something like that.
             %p.text-right
               = f.submit 'Create Proposal', class: 'btn btn-success'
-
         .tab-pane{role: 'tabpanel', id: 'signin'}
-          = render partial: 'devise/shared/sign_in_form_embedded'
+          = render partial: 'devise/sessions/new_embedded'

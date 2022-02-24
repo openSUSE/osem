@@ -57,12 +57,4 @@
   $(document).ready(function(){
     // hide the left control when the page is ready
     $('.carousel').children('.left.carousel-control').hide();
-
-    // carousel swipe
-    $(".carousel-inner").swiperight(function() {
-      $(this).parent().carousel('prev');
-    });
-    $(".carousel-inner").swipeleft(function() {
-      $(this).parent().carousel('next');
-    });
   });

@@ -2,8 +2,6 @@
   Edit Question
 %h3
   "#{@question.title}"
-= semantic_form_for(@question, url: admin_conference_question_path(@conference.short_title, @question.id)) do |f|
-
+= form_for(@question, url: admin_conference_question_path(@conference.short_title, @question.id)) do |f|
   = render partial: 'form', locals: {f: f}
-
   = f.submit 'Save', class: 'btn btn-primary', confirm: 'Are you sure you want to make these changes?'

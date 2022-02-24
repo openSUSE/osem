@@ -28,8 +28,8 @@ class Conference < ApplicationRecord
   delegate :city, :country_name, to: :venue, allow_nil: true
   delegate :name, :street, to: :venue, prefix: true, allow_nil: true
 
-  has_many :physical_tickets, through: :ticket_purchases
   has_many :ticket_purchases, dependent: :destroy
+  has_many :physical_tickets, through: :ticket_purchases
   has_many :payments, dependent: :destroy
   has_many :supporters, through: :ticket_purchases, source: :user
   has_many :tickets, dependent: :destroy

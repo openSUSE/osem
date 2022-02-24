@@ -1,15 +1,9 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        - if @room.new_record?
-          New
-        Room
-        = @room.name
-.row
-  .col-md-8
-    = semantic_form_for(@room, url: (@room.new_record? ? admin_conference_venue_rooms_path : admin_conference_venue_room_path(@conference.short_title, @room))) do |f|
-      = f.input :name, input_html: { autofocus: true }
-      = f.input :size, label: 'Capacity', input_html: {size: 5}
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@room, url: (@room.new_record? ? admin_conference_venue_rooms_path : admin_conference_venue_room_path(@conference.short_title, @room))) do |f|
+  .form-group
+    = f.label :name
+    %abbr{title: 'This field is required'} *
+    = f.text_field :name, autofocus: true, required: true, class: 'form-control'
+    = f.label :size, 'Capacity'
+    = f.number_field :size, size: 5, class: 'form-control'
+  %p.text-right
+    = f.submit nil, class: 'btn btn-primary'

@@ -56,7 +56,7 @@ module Admin
     def edit; end
 
     def update
-      if @track.update_attributes(track_params)
+      if @track.update(track_params)
         redirect_to admin_conference_program_tracks_path(conference_id: @conference.short_title),
                     notice: 'Track successfully updated.'
       else
@@ -122,7 +122,7 @@ module Admin
     end
 
     def update_selected_schedule
-      if @track.update_attributes(params.require(:track).permit(:selected_schedule_id))
+      if @track.update(params.require(:track).permit(:selected_schedule_id))
         respond_to do |format|
           format.js { render json: {} }
         end

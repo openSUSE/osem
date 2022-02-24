@@ -1,14 +1,15 @@
 .row
   .col-md-8
-    = semantic_form_for(@conference, url: admin_conference_volunteers_update_path(@conference.short_title)) do |f|
-      = f.action :submit, as: :button, button_html: {class: 'btn btn-primary'}
-      %br
-      %br
-      = f.input :use_volunteers, label: 'Enable Volunteering'
-      .row
-        .col-md-6
-          = f.input :use_vdays, label: false  
-          = dynamic_association :vdays, "Volunteer Days", f
-        .col-md-6
-          = f.input :use_vpositions, label: false  
-          = dynamic_association :vpositions, "Volunteer positions", f
+    = form_for(@conference, url: admin_conference_volunteers_update_path(@conference.short_title)) do |f|
+      = f.submit nil, class: 'btn btn-primary'
+      .checkbox
+        %label
+          = f.check_box :use_volunteers
+          Enable Volunteering
+      .checkbox
+        %label
+        = f.check_box :use_vdays
+        = dynamic_association :vdays, "Volunteer Days", f
+      .col-md-6
+        = f.check_box :use_vpositions
+        = dynamic_association :vpositions, "Volunteer positions", f

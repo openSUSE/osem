@@ -28,21 +28,21 @@
   .modal-dialog
     .modal-content
       .modal-header
-        %h1 Add commercials to events
-        .text-muted
-          Upload your file with data in the following format:
-          %b Event_ID:Commercial_Link
-          , eg.
-          %br
-          %b 11:https://youtube.com/myvideo
-
+        %h1
+          Add commercials to events
       .modal-body
-        = semantic_form_for '',
-          url:    mass_upload_commercials_admin_conference_program_path(@conference.short_title),
-          method: :post do |f|
-          = f.input 'file', as: :file
+        = form_for('', url: mass_upload_commercials_admin_conference_program_path(@conference.short_title), method: :post) do |f|
+          .form-group
+            = f.file_field 'file', as: :file
+            %span.help-block
+              Upload your file with data in the following format:
+              %b Event_ID:Commercial_Link
+              for instance:
+              %pre
+                11:https://youtube.com/myvideo
+                23:https://vimeo.com/myvideo
           .modal-footer
-            = f.submit 'Add', class: 'btn btn-primary'
+            = f.submit nil, class: 'btn btn-primary'
 .row
   .col-md-4
     = render 'donut_chart', title: 'Events state',

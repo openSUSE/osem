@@ -34,7 +34,10 @@
         %dt
           Languages:
         %dd
-          = @program.languages
+          - if @program.languages.present?
+            = @program.languages_list.to_sentence
+          - else
+            Any Language
         %dt
           Public Schedule
         %dd#schedule_public

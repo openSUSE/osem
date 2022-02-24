@@ -1,16 +1,13 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        - if @difficulty_level.new_record?
-          New
-        Difficulty Level
-        = @difficulty_level.title
-.row
-  .col-md-8
-    = semantic_form_for(@difficulty_level, url: (@difficulty_level.new_record? ? admin_conference_program_difficulty_levels_path : admin_conference_program_difficulty_level_path(@conference.short_title, @difficulty_level))) do |f|
-      = f.input :title, input_html: { autofocus: true }, required: true
-      = f.input :description, input_html: {rows: 3, class: 'span6'}
-      = f.input :color, input_html: {size: 6, type: 'color'}
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@difficulty_level, url: (@difficulty_level.new_record? ? admin_conference_program_difficulty_levels_path : admin_conference_program_difficulty_level_path(@conference.short_title, @difficulty_level))) do |f|
+  .form-group
+    = f.label :title
+    %abbr{title: 'This field is required'} *
+    = f.text_field :title, autofocus: true , required: true, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 3, class: 'span6 form-control'
+  .form-group
+    = f.label :color
+    = f.color_field :color, class: 'form-control'
+  %p.text-right
+    = f.submit nil, class: 'btn btn-primary'

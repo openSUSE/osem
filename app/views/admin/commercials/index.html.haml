@@ -13,10 +13,13 @@
       #resource-placeholder{ style: 'background-color:#d3d3d3; float: left; width: 400px; height: 250px; margin: 5px; border-width: 1px; border-style: solid; border-color: rgba(0,0,0,.2);' }
   .row
     .col-md-6
-      = semantic_form_for(@commercial, url: admin_conference_commercials_path(conference_id: @conference.short_title)) do |f|
-        = f.input :url, label: 'URL', as: :string, input_html: { required: 'required', autofocus: true },
-        hint: 'Just paste the url of your video/photo provider. YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.'
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right', disabled: true }
+      = form_for(@commercial, url: admin_conference_commercials_path(conference_id: @conference.short_title)) do |f|
+        .form-group
+          = f.label :url
+          = f.url_field :url, required: 'required', autofocus: true, class: 'form-control'
+        %span.help-block
+          Just paste the url of your video/photo provider. YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.
+        = f.submit nil, { class: 'btn btn-primary pull-right', id: 'commercial_submit_action', disabled: true }
   %hr
 
 - @commercials.each_slice(3) do |slice|
@@ -29,9 +32,13 @@
               = render partial: 'shared/media_item', locals: { commercial: commercial }
             .caption
               - if can? :update, commercial
-                = semantic_form_for commercial, url: admin_conference_commercial_path(conference_id: @conference.short_title, id: commercial) do |f|
-                  = f.input :url, label: 'URL', as: :string, input_html: { id: "commercial_url_#{commercial.id}", required: 'required' }, hint: 'Just paste the url of your video/photo provider'
-                  = f.action :submit, as: :button, button_html: { class: 'btn btn-success' }, label: 'Update'
+                = form_for commercial, url: admin_conference_commercial_path(conference_id: @conference.short_title, id: commercial) do |f|
+                  .form-group
+                    = f.label :url
+                    = f.url_field :url, id: "commercial_url_#{commercial.id}", required: 'required'
+                    %span.help-block
+                      Just paste the url of your video/photo provider
+                  = f.submit nil, { class: 'btn btn-success' }
                   - if can? :destroy, commercial
                     = link_to 'Delete', admin_conference_commercial_path(@conference.short_title, commercial.id),
                       method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

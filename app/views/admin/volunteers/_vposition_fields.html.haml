@@ -1,0 +1,6 @@
+.nested-fields
+  = f.text_field :title
+  = f.text_area :description, rows: '2', class: 'col-md-8'
+  = f.label :vdays, 'Position is required for the following days:'
+  = f.select :vdays, @conference.vdays.pluck(:day, :id)
+  = remove_association_link :vposition, f

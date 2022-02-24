@@ -1,0 +1,23 @@
+- if omniauth_configured.present? && @user == current_user
+  %h4
+    OpenID
+  %hr
+  - openids = Openid.where(user: @user).order(:provider)
+  - if openids.any?
+    %p
+      Currently the following openIDs are associated with your account
+    - openids.each do |openid|
+      %li{ style: "list-style: none; margin-left: 20px;" }
+        = link_to user_openid_path(openid, user_id: current_user.id), method: :delete,
+        data: { confirm: "Remove association with #{openid.provider} account?" } do
+          %span.fa.fa-times{ style: "color: red;" }
+        %span #{openid.provider}:#{openid.email}
+      %br
+  - else
+    %p
+      Currently there are no openIDs are associated with your account.
+  %p
+    To add an openID with a different email address to your account, sign in with your
+    openID while logged in to OSEM
+  #openidlinks
+    = render 'devise/shared/openid_links'

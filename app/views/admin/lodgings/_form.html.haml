@@ -1,19 +1,20 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        - if @lodging.new_record?
-          New
-        Lodging
-        = @lodging.name
-.row
-  .col-md-8
-    = semantic_form_for(@lodging, url: (@lodging.new_record? ? admin_conference_lodgings_path : admin_conference_lodging_path(@conference.short_title, @lodging))) do |f|
-      = f.input :name, input_html: { autofocus: true}
-      = f.input :website_link, input_html: { type: :url }
-      = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown' } }, hint: markdown_hint
-      - if @lodging.picture?
-        = image_tag @lodging.picture.thumb.url
-      = f.input :picture
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@lodging, url: (@lodging.new_record? ? admin_conference_lodgings_path : admin_conference_lodging_path(@conference.short_title, @lodging))) do |f|
+  .form-group
+    = f.label :name
+    %abbr{title: 'This field is required'} *
+    = f.text_field :name, require: true, autofocus: true, class: 'form-control'
+  .form-group
+    = f.label :website_link
+    = f.url_field :website_link, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 5, cols: 20, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      = markdown_hint
+  .form-group
+    - if @lodging.picture?
+      = image_tag @lodging.picture.thumb.url
+    = f.label :picture
+    = f.file_field :picture, class: 'form-control'
+  %p.text-right
+    = f.submit nil, { class: 'btn btn-primary' }

@@ -11,7 +11,6 @@
       %label
         %input{ type: 'radio', name: "survey_submission[#{survey_question.id}][]", value: 'No', checked: survey_reply.text == 'No' }
         No
-
     - elsif survey_question.choice?
       %input{ type: 'hidden', name: "survey_submission[#{survey_question.id}][]" }
       - possible_answers = survey_question.possible_answers.split(',').map(&:strip)

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UserDatatable < AjaxDatatablesRails::Base
+  extend Forwardable
+
   def_delegator :@view, :show_roles
   def_delegator :@view, :admin_user_path
   def_delegator :@view, :edit_admin_user_path

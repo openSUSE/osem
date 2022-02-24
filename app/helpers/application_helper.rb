@@ -88,14 +88,6 @@ module ApplicationHelper
     end
   end
 
-  def redirect_back_or_to(options = {}, response_status = {})
-    if request.env['HTTP_REFERER']
-      redirect_back(fallback_location: root_path)
-    else
-      redirect_to options, response_status
-    end
-  end
-
   def concurrent_events(event)
     return nil unless event.scheduled? && event.program.selected_event_schedules
 
@@ -121,14 +113,6 @@ module ApplicationHelper
 
   def speaker_selector_input(form)
     user_selector_input(:speakers, form, '', true)
-  end
-
-  def responsibles_selector_input(form)
-    user_selector_input(
-      :responsibles,
-      form,
-      "The people responsible for the #{t 'booth'}. You can only select existing users."
-    )
   end
 
   def user_selector_input(field, form, hint = '', multiple = true)

@@ -67,14 +67,6 @@
       }
     });
 
-    // carousel swipe
-    $(".carousel-inner").swiperight(function() {
-      $(this).parent().carousel('prev');
-    });
-    $(".carousel-inner").swipeleft(function() {
-      $(this).parent().carousel('next');
-    });
-
     var day = "#{@current_day}";
     // we only go to the date tag in the url if the conference is not taking place now
     if(day === ""){

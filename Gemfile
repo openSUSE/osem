@@ -5,7 +5,7 @@ end
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '2.5.9'
+ruby ENV['OSEM_RUBY_VERSION'] || '3.1.0'
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -14,7 +14,7 @@ end
 
 # as web framework
 if next?
-  gem 'rails', '~> 6'
+  gem 'rails', '~> 7'
 else
   gem 'rails', '~> 5.2'
 end
@@ -85,8 +85,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.4.0'
 gem 'cocoon'
-gem 'formtastic', '~> 3.1.5'
-gem 'formtastic-bootstrap'
 
 # as the JavaScript library
 gem 'jquery-rails'
@@ -143,6 +141,9 @@ gem 'country_select'
 # as PDF generator
 gem 'prawn-qrcode'
 gem 'prawn-rails'
+# FIXME: for prawn, matrix isn't in the default set of Ruby 3.1 anymore
+# see https://github.com/prawnpdf/prawn/commit/3658d5125c3b20eb11484c3b039ca6b89dc7d1b7
+gem 'matrix', '~> 0.4'
 
 # for QR code generation
 gem 'rqrcode'
@@ -164,9 +165,6 @@ gem 'font-awesome-rails'
 
 # for markdown
 gem 'redcarpet'
-
-# for visitor tracking
-gem 'piwik_analytics', '~> 1.0.1'
 
 # for recurring jobs
 gem 'delayed_job_active_record'
@@ -228,16 +226,12 @@ gem 'dalli'
 
 gem 'icalendar'
 
-# Use guard and spring for testing in development
 group :development do
-  # to launch specs when files are modified
-  gem 'guard-rspec'
-  gem 'haml_lint'
-  gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rails', require: false
+  gem 'haml_lint'
   # to open mails
   gem 'letter_opener'
   gem 'letter_opener_web'
@@ -265,7 +259,7 @@ group :test do
   # for mocking external requests
   gem 'webmock'
   # for mocking Stripe responses in tests
-  gem 'stripe-ruby-mock'
+  gem 'stripe-ruby-mock', '~> 3.1.0.rc3'
   # For validating JSON schemas
   gem 'json-schema'
   # For using 'assigns' in tests

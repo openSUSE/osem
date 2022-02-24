@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
-class RegistrationDatatable < AjaxDatatablesRails::Base
+class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
+  extend Forwardable
+
   def_delegator :@view, :edit_admin_conference_registration_path
+
+  def initialize(params, opts = {})
+    @view = opts[:view_context]
+    super
+  end
 
   def view_columns
     @view_columns ||= {

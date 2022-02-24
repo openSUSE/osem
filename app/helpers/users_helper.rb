@@ -10,6 +10,8 @@ module UsersHelper
   end
 
   def omniauth_configured
+    return Devise.omniauth_providers if OmniAuth.config.test_mode
+
     providers = []
     Devise.omniauth_providers.each do |provider|
       provider_key = "#{provider}_key"

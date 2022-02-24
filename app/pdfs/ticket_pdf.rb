@@ -51,7 +51,7 @@ class TicketPdf < Prawn::Document
                          when 'http', 'ftp:' # CDNs
                            begin
                              open(@conference.picture.ticket.url)
-                           rescue OpenURI::HTTPError
+                           rescue OpenURI::HTTPError, Errno::ENOENT
                              nil
                            end
                          when '/sys' # local storage

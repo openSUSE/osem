@@ -1,11 +1,11 @@
-.row
-  .col-md-12
-    .page-header
-      %h1 Registration Period
-.row
-  .col-md-8
-    = semantic_form_for(@registration_period, url: admin_conference_registration_period_path(@conference.short_title)) do |f|
-      = f.input :start_date, as: :string, input_html: { id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date }
-      = f.input :end_date, as: :string, input_html: { id: 'registration-period-end-datepicker' }
-      %p.text-right
-        = f.submit 'Save Registration Period', class: 'btn btn-primary'
+= form_for(@registration_period, url: admin_conference_registration_period_path(@conference.short_title)) do |f|
+  .form-group
+    = f.label :start_date
+    %abbr{title: 'This field is required'} *
+    = f.text_field :start_date, required: true, 'data-end-conference': @conference.end_date.to_s, id: 'registration-period-start-datepicker', class: 'form-control'
+  .form-group
+    = f.label :end_date
+    %abbr{title: 'This field is required'} *
+    = f.text_field :end_date, required: true, id: 'registration-period-end-datepicker', class: 'form-control'
+  %p.text-right
+    = f.submit 'Save Registration Period', class: 'btn btn-primary'

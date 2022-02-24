@@ -1,19 +1,23 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        -if @sponsor.new_record?
-          New
-        Sponsor
-        = @sponsor.name
-.row
-  .col-md-8
-    = semantic_form_for(@sponsor, url: (@sponsor.new_record? ? admin_conference_sponsors_path : admin_conference_sponsor_path(@conference.short_title, @sponsor))) do |f|
-      = f.input :name, input_html: { autofocus: true }
-      = f.input :description, input_html: { rows: 5, cols: 20, data: { provide: 'markdown' } }, hint: markdown_hint
-      = image_tag f.object.picture.thumb.url if f.object.picture?
-      = f.input :picture
-      = f.input :website_url
-      = f.input :sponsorship_level, collection: @conference.sponsorship_levels
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@sponsor, url: (@sponsor.new_record? ? admin_conference_sponsors_path : admin_conference_sponsor_path(@conference.short_title, @sponsor))) do |f|
+  .form-group
+    = f.label :name
+    %abbr{title: 'This field is required'} *
+    = f.text_field :name, required: true, autofocus: true, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 5, cols: 20, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      = markdown_hint
+  .form-group
+    = f.label :picture
+    = image_tag f.object.picture.thumb.url if f.object.picture?
+    = f.file_field :picture
+  .form-group
+    = f.label :website_url
+    %abbr{title: 'This field is required'} *
+    = f.url_field :website_url, required: true, class: 'form-control'
+  .form-group
+    = f.label :sponsorship_level_id, 'Level'
+    = f.select :sponsorship_level_id, @conference.sponsorship_levels.pluck(:title, :id), { include_blank: false }, { class: 'form-control' }
+  %p.text-right
+    = f.submit nil, class: 'btn btn-primary'

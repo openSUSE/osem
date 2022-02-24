@@ -3,16 +3,6 @@
 class RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create]
 
-  def edit
-    @openids = Openid.where(user_id: current_user.id).order(:provider)
-    super
-  end
-
-  def update
-    @openids = Openid.where(user_id: current_user.id).order(:provider)
-    super
-  end
-
   protected
 
   def after_update_path_for(resource)

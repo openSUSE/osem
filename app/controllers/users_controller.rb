@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: :search
   load_and_authorize_resource
 
   # GET /users/1
@@ -19,6 +20,14 @@ class UsersController < ApplicationController
     else
       flash.now[:error] = "An error prohibited your Profile from being saved: #{@user.errors.full_messages.join('. ')}."
       render :edit
+    end
+  end
+
+  def search
+    respond_to do |format|
+      format.json do
+        render json: { users: User.where('username like ?', "%#{params[:query]}%").select(:username, :id) }
+      end
     end
   end
 

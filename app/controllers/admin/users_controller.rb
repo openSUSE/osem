@@ -23,7 +23,7 @@ module Admin
       respond_to do |format|
         format.html
         format.json do
-          render json: UserDatatable.new(view_context)
+          render json: UserDatatable.new(view_context: view_context)
         end
       end
     end
@@ -56,7 +56,7 @@ module Admin
         end
       end
 
-      if @user.update_attributes(user_params)
+      if @user.update(user_params)
         redirect_to admin_users_path, notice: "Updated #{@user.name} (#{@user.email})!" + message
       else
         redirect_to admin_users_path, error: "Could not update #{@user.name} (#{@user.email}). #{@user.errors.full_messages.join('. ')}."

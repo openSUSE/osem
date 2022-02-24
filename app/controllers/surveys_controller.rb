@@ -27,14 +27,14 @@ class SurveysController < ApplicationController
       reply_text = survey_submission[survey_question.id.to_s].reject(&:blank?).join(',')
 
       if reply
-        reply.update_attributes(text: reply_text) unless reply.text == reply_text
+        reply.update(text: reply_text) unless reply.text == reply_text
       else
         survey_question.survey_replies.create!(text: reply_text, user: current_user)
       end
 
       user_survey_submission = @survey.survey_submissions.find_by(user: current_user)
       if user_survey_submission
-        user_survey_submission.update_attributes(updated_at: Time.current)
+        user_survey_submission.update_attribute(:updated_at, Time.current)
       else
         @survey.survey_submissions.create!(user: current_user)
       end

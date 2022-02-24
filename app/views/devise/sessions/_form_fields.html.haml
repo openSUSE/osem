@@ -1,0 +1,15 @@
+.form-group
+  = f.label :login, "Username"
+  %abbr{title: 'This field is required'} *
+  = f.text_field :login, autofocus: true, required: true, class: 'form-control', placeholder: 'Username'
+.form-group
+  = f.label :password, "Password"
+  %abbr{title: 'This field is required'} *
+  = f.password_field :password, required: true, class: 'form-control', placeholder: 'Password'
+- if devise_mapping.rememberable?
+  %p.text-right.small
+    = f.label 'Remember me'
+    = f.check_box :remember_me
+%p.text-right
+  %button{type: 'submit', class: 'btn btn-success'}
+    Sign In

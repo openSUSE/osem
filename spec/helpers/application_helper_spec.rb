@@ -29,7 +29,7 @@ describe ApplicationHelper, type: :helper do
     before :each do
       @other_event = create(:event, program: conference.program, state: 'confirmed')
       schedule = create(:schedule, program: conference.program)
-      conference.program.update_attributes!(selected_schedule: schedule)
+      conference.program.update_attribute(:selected_schedule, schedule)
       @event_schedule = create(:event_schedule, event: event, start_time: conference.start_date + conference.start_hour.hours, room: create(:room), schedule: schedule)
       @other_event_schedule = create(:event_schedule, event: @other_event, start_time: conference.start_date + conference.start_hour.hours, room: create(:room), schedule: schedule)
     end
@@ -40,7 +40,7 @@ describe ApplicationHelper, type: :helper do
       end
 
       it 'when event is in between the other event' do
-        @event_schedule.update_attributes!(start_time: @other_event_schedule.start_time + 10.minutes)
+        @event_schedule.update_attribute(:start_time, @other_event_schedule.start_time + 10.minutes)
         expect(concurrent_events(event).include?(@other_event)).to eq true
       end
     end
@@ -52,12 +52,12 @@ describe ApplicationHelper, type: :helper do
       end
 
       it 'when one event starts and other ends at the same time' do
-        @event_schedule.update_attributes!(start_time: @other_event_schedule.end_time)
+        @event_schedule.update_attribute(:start_time, @other_event_schedule.end_time)
         expect(concurrent_events(event).present?).to eq false
       end
 
       it 'when conference program does not have a selected schedule' do
-        conference.program.update_attributes!(selected_schedule_id: nil)
+        conference.program.update_attribute(:selected_schedule_id, nil)
         expect(concurrent_events(event).present?).to eq false
       end
     end
@@ -83,7 +83,7 @@ describe ApplicationHelper, type: :helper do
     context 'first sponsorship_level' do
       before do
         first_sponsorship_level = create(:sponsorship_level, position: 1)
-        sponsor.update_attributes(sponsorship_level: first_sponsorship_level)
+        sponsor.update_attribute(:sponsorship_level, first_sponsorship_level)
       end
 
       it 'returns correct url' do
@@ -94,7 +94,7 @@ describe ApplicationHelper, type: :helper do
     context 'second sponsorship_level' do
       before do
         second_sponsorship_level = create(:sponsorship_level, position: 2)
-        sponsor.update_attributes(sponsorship_level: second_sponsorship_level)
+        sponsor.update_attribute(:sponsorship_level, second_sponsorship_level)
       end
 
       it 'returns correct url' do
@@ -105,7 +105,7 @@ describe ApplicationHelper, type: :helper do
     context 'other sponsorship_level' do
       before do
         other_sponsorship_level = create(:sponsorship_level, position: 3)
-        sponsor.update_attributes(sponsorship_level: other_sponsorship_level)
+        sponsor.update_attribute(:sponsorship_level, other_sponsorship_level)
       end
 
       it 'returns correct url' do

@@ -32,7 +32,7 @@ describe EmailSettings do
 
     context 'user does not have name' do
       before do
-        user.update_attributes(name: nil)
+        user.update(name: nil)
         username_hash = { 'name' => 'johnd' }
         expected_hash.merge!(username_hash)
       end
@@ -59,7 +59,7 @@ describe EmailSettings do
 
     context 'conference has venue' do
       before do
-        conference.update_attributes(venue: create(:venue))
+        conference.venue = create(:venue)
         venue_hash = { 'venue' => conference.venue.name, 'venue_address' => conference.venue.address }
         expected_hash.merge!(venue_hash)
       end
@@ -71,9 +71,9 @@ describe EmailSettings do
 
     context 'conference has registration period' do
       before do
-        conference.update_attributes(registration_period: create(:registration_period,
-                                                                 start_date: Date.new(2014, 05, 03),
-                                                                 end_date:   Date.new(2014, 05, 05)))
+        conference.registration_period = create(:registration_period,
+                                                start_date: Date.new(2014, 05, 03),
+                                                end_date:   Date.new(2014, 05, 05))
         registration_period_hash = { 'registration_start_date' => Date.new(2014, 05, 03), 'registration_end_date' => Date.new(2014, 05, 05) }
         expected_hash.merge!(registration_period_hash)
       end

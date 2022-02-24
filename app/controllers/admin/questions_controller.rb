@@ -3,7 +3,7 @@
 module Admin
   class QuestionsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
-    load_and_authorize_resource through: :conference, except: [:new, :create]
+    load_and_authorize_resource except: [:new, :create]
 
     def index
       authorize! :index, Question.new(conference_id: @conference.id)
@@ -48,7 +48,7 @@ module Admin
 
     # PUT questions/1
     def update
-      if @question.update_attributes(question_params)
+      if @question.update(question_params)
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Question '#{@question.title}' for #{@conference.short_title} successfully updated."
       else
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed. #{@question.errors.full_messages.join('. ')}"
@@ -58,7 +58,7 @@ module Admin
     # Update questions used for the conference
     def update_conference
       authorize! :update, Question.new(conference_id: @conference.id)
-      if @conference.update_attributes(conference_params)
+      if @conference.update(conference_params)
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Questions for #{@conference.short_title} successfully updated."
       else
         redirect_to admin_conference_questions_path(conference_id: @conference.short_title), notice: "Update of questions for #{@conference.short_title} failed."
