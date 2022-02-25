@@ -126,8 +126,9 @@ GEM
     builder (3.2.4)
     byebug (11.1.3)
     cancancan (3.3.0)
-    capybara (3.35.3)
+    capybara (3.36.0)
       addressable
+      matrix
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
       rack (>= 1.6.0)
@@ -462,7 +463,7 @@ GEM
     recaptcha (5.8.1)
       json
     redcarpet (3.5.1)
-    regexp_parser (2.2.0)
+    regexp_parser (2.2.1)
     request_store (1.5.1)
       rack (>= 1.4)
     responders (3.0.1)
