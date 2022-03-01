@@ -32,8 +32,8 @@
 # OSEM_MEMCACHED_USERNAME='root'
 # OSEM_MEMCACHED_PASSWORD='1234'
 
-# Set this if you want to deviate from our 'standar' ruby version
-# OSEM_RUBY_VERSION=3.1.0
+# Set this if you want to deviate from our 'standard' ruby version
+# OSEM_RUBY_VERSION=3.1.1
 
 # What time is it?
 # OSEM_TIME_ZONE="UTC"
