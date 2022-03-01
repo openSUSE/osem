@@ -1,6 +1,5 @@
 FROM registry.opensuse.org/opensuse/infrastructure/dale/containers/osem/base:latest
 ARG CONTAINER_USERID
-ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=1
 
 # Configure our user
 RUN usermod -u $CONTAINER_USERID osem
@@ -14,8 +13,8 @@ COPY Gemfile.lock /osem/
 RUN chown -R osem /osem
 
 # Install bundler & foreman
-RUN gem.ruby3.1 install bundler -v "$(grep -A 1 "BUNDLED WITH" /osem/Gemfile.lock | tail -n 1)"; \
-    gem.ruby3.1 install foreman
+RUN gem install bundler -v "$(grep -A 1 "BUNDLED WITH" /osem/Gemfile.lock | tail -n 1)"; \
+    gem install foreman
 
 # Continue as user
 USER osem
