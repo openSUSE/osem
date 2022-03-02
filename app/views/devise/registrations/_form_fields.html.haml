@@ -1,7 +1,8 @@
-.form-group
-  = f.label :username
-  %abbr{title: 'This field is required'} *
-  = f.text_field :username, required: true, autocomplete: 'off', class: 'form-control', placeholder: 'Username'
+- unless @user.persisted?
+  .form-group
+    = f.label :username
+    %abbr{title: 'This field is required'} *
+    = f.text_field :username, required: true, autocomplete: 'off', class: 'form-control', placeholder: 'Username'
 .form-group
   = f.label :email
   %abbr{title: 'This field is required'} *
@@ -10,17 +11,17 @@
   .checkbox
     %label
       = f.check_box :email_public
-      Check if you want your email address to appear publicly (e.g. on sessions, registration lists, etc.)
-  .form-group
-  = f.label :name, 'Real Name'
-  = f.text_field :name, required: true, class: 'form-control', placeholder: 'Name'
+      Do you want your email address to appear publicly
+    %span.help-block
+      For instance on sessions pages or registration lists.
 .form-group
   = f.label :password, 'Password'
-  %abbr{title: 'This field is required'} *
-  = f.password_field :password, required: true, class: 'form-control', placeholder: 'Password'
+  - if !@user.persisted?
+    %abbr{title: 'This field is required'} *
+  = f.password_field :password, required: !@user.persisted?, class: 'form-control', placeholder: 'Password'
 .form-group
   = f.label :password_confirmation, 'Password Confirmation'
-  = f.password_field :password_confirmation, required: true, class: 'form-control', placeholder: 'Password Confirmation'
+  = f.password_field :password_confirmation, required: !@user.persisted?, class: 'form-control', placeholder: 'Password Confirmation'
 - if @user.persisted?
   %p.text-muted
     Leave blank if you don't want to change your password
@@ -32,16 +33,16 @@
       is Admin?
     %span.help-block
       An admin can create a new conference, manage users and make other users admins.
-- elsif @user.persisted?
+- if @user.persisted?
   %h4
     Confirmation
   %hr
   .form-group
     = f.label :password, "Current Password"
     %abbr{title: 'This field is required'} *
-    = f.password_field :current_password, autocomplete: 'off', class: 'form-control', placeholder: 'Password'
+    = f.password_field :current_password, required: true, autocomplete: 'off', class: 'form-control', placeholder: 'Password'
   %p.text-muted
-    We need your current password to confirm password, email or username changes
+    We need your current password to confirm changes
 - Feature.with(:recaptcha) do
   .form-group
     = recaptcha_tags
