@@ -24,7 +24,8 @@
     %abbr{title: 'This field is required'} *
     = f.text_field :website_url, class: 'form-control', required: true, placeholder: 'URL'
   .form-group
-    = f.text_field :responsible_ids, multiple: true, class: "form-control", id: "booth_responsibles", placeholder: "Responsibles"
+    = f.label :responsible_ids, 'Responsibles'
+    = f.select :responsible_ids, [], {}, { multiple: true, class: 'form-control', id: 'users_selectize', placeholder: 'Responsibles' }
     %span.help-block
       The people responsible for the `t('booth')`. You can only select existing users.
   .form-group
@@ -38,33 +39,5 @@
       - else
         Update `(t'booth').capitalize` Request
 
-:javascript
-  $(document).ready(function() {
-    $('#booth_responsibles').selectize({
-      persist: false,
-      create: false,
-      valueField: 'id',
-      labelField: 'username',
-      searchField: 'username',
-      load: function(query, callback) {
-        if (!query.length) return callback();
-        $.ajax({
-          url: "#{search_users_path}.json",
-          type: 'GET',
-          dataType: 'json',
-          data: {
-            query: query,
-          },
-          error: function(res) {
-            console.log("selectize error");
-            callback();
-          },
-          success: function(res) {
-            console.log("selectize success");
-            // console.log(res);
-            callback(res.users);
-          }
-        });
-      }
-    });
-  });
+= render partial: 'shared/user_selectize'
+

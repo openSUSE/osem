@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def search
     respond_to do |format|
       format.json do
-        render json: { users: User.where('username like ?', "%#{params[:query]}%").select(:username, :id) }
+        render json: { users: User.active.where('username like ?', "%#{params[:query]}%").select(:username, :id) }
       end
     end
   end
