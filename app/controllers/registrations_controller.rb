@@ -26,14 +26,9 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def account_update_params
-    params.require(:user).permit(
-      :email,
-      :password,
-      :password_confirmation,
-      :current_password,
-      :username,
-      :email_public
-    )
+    user_attributes = [:email, :name, :password, :password_confirmation, :current_password, :email_public]
+    user_attributes << :is_admin if current_user.is_admin?
+    params.require(:user).permit(user_attributes)
   end
 
   def check_captcha

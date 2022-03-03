@@ -56,9 +56,10 @@
                 words.
                 = markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
               - if @program.cfp.enable_registrations?
-                .form-group
-                  = f.label :require_registration, 'Require participants to register to your event'
-                  = f.check_box :require_registration, class: 'form-control'
+                .checkbox
+                  %label
+                    = f.check_box :require_registration
+                    Require participants to register to your event?
               %p.text-right
                 = link_to '#description',  'data-toggle' => 'collapse', id: 'description_link' do
                   Do you require something special for your event?
