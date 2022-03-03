@@ -20,7 +20,7 @@ else
 end
 
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma'
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
