@@ -344,7 +344,6 @@ feature 'Version' do
   end
 
   scenario 'display changes in users_role for conference role', feature: true, versioning: true, js: true do
-    skip('fails since paper_trail 12.2.0')
     user = create(:user)
     role = Role.find_by(name: 'cfp', resource_id: conference.id, resource_type: 'Conference')
     user.add_role :cfp, conference
