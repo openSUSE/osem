@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe UserDatatable do
   subject! do
-    described_class.new(view)
+    described_class.new({}, view_context: view)
   end
 
   let(:data_cols) do
