@@ -234,18 +234,18 @@ feature 'Version' do
   xscenario 'display changes in splashpages', feature: true, versioning: true, js: true do
     visit admin_conference_splashpage_path(conference.short_title)
     click_link 'Create Splashpage'
-    click_button 'Save Changes'
+    click_button 'Save'
 
-    click_link 'Edit'
-    uncheck('Display the program')
-    uncheck('Display call for papers and call for tracks, while open')
-    uncheck('Display the venue')
-    uncheck('Display tickets')
-    uncheck('Display the lodgings')
-    uncheck('Display sponsors')
-    uncheck('Display social media links')
+    click_link 'Configure'
+    check('Display the program?')
+    check('Display call for papers and call for tracks?')
+    check('Display the venue?')
+    check('Display the tickets?')
+    check('Display the lodgings?')
+    check('Display the sponsors?')
+    check('Display the social media links?')
     check('Make splash page public?')
-    click_button 'Save Changes'
+    click_button 'Save'
 
     click_link 'Delete'
     page.accept_alert
@@ -253,7 +253,7 @@ feature 'Version' do
 
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} created new splashpage in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} updated public, include program, include cfp, include venue, include tickets, include lodgings, include sponsors and include social media of splashpage in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} updated public, include program, include social media, include venue, include tickets, include sponsors, include lodgings and include cfp of splashpage in conference #{conference.short_title}")
     expect(page).to have_text("#{organizer.name} deleted splashpage in conference #{conference.short_title}")
   end
 
