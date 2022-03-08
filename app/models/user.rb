@@ -23,8 +23,8 @@ class User < ApplicationRecord
   end
 
   has_many :users_roles
-  has_many :roles, through: :users_roles, dependent: :destroy
   rolify
+  has_many :roles, through: :users_roles, dependent: :destroy
 
   has_paper_trail on: [:create, :update], ignore: [:sign_in_count, :remember_created_at, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :unconfirmed_email,
                                                    :avatar_content_type, :avatar_file_size, :avatar_updated_at, :updated_at, :confirmation_sent_at, :confirmation_token, :reset_password_token]
