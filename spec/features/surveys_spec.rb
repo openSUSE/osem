@@ -52,4 +52,30 @@ feature Survey do
       expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Thank you for filling out the survey')
     end
   end
+
+  context 'as a speaker' do
+    let(:speaker) { create(:user) }
+
+    before :each do
+      sign_in speaker
+    end
+
+    scenario 'respond to a survey during proposal submission', feature: true, js: true do
+      create :cfp, program: conference.program
+      create :event, program: conference.program, submitter: speaker
+      survey = create(:survey, surveyable: conference, target: :during_proposal)
+      create :boolean_mandatory, survey: survey
+
+      visit conference_program_proposals_path(conference.short_title)
+      expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Please fill out the survey')
+
+      click_link survey.title
+      choose 'Yes'
+      click_button 'Submit'
+      expect(flash).to eq('Successfully responded to survey.')
+
+      visit conference_program_proposals_path(conference.short_title)
+      expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Thank you for filling out the survey')
+    end
+  end
 end

@@ -57,6 +57,10 @@ class Conference < ApplicationRecord
   has_many :event_types, through: :program
 
   has_many :surveys, as: :surveyable, dependent: :destroy do
+    def during_proposal
+      where(target: targets[:during_proposal])
+    end
+
     def for_registration
       where(target: targets[:during_registration])
     end
