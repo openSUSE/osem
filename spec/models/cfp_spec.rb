@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Cfp do
   subject { create(:cfp) }
-  let!(:conference) { create(:conference, end_date: Date.today) }
+  let!(:conference) { create(:conference, start_date: Date.today - 1, end_date: Date.today) }
   let!(:cfp) { create(:cfp, cfp_type: 'events', start_date: Date.today - 2, end_date: Date.today - 1, program_id: conference.program.id) }
 
   describe 'validations' do
@@ -131,25 +131,131 @@ describe Cfp do
   end
 
   describe '#open?' do
-    context 'returns false' do
-      it 'when start and end dates are in the past' do
-        cfp.start_date = Date.current - 3
-        cfp.end_date = Date.current - 1
-        expect(cfp.open?).to eq(false)
+    let!(:server_timezone) { Time.zone }
+    let(:timezone_plus14) { 'Pacific/Apia' }
+    let(:timezone_plus14) { 'Pacific/Apia' }
+
+    after do
+      Time.zone = server_timezone
+    end
+
+    context 'when is the same timezone between the conference and server' do
+      before :each do
+        Time.zone = timezone_minus11
+        Timecop.freeze(Time.zone.now)
+
+        cfp.program.conference.timezone = timezone_minus11
       end
 
-      it 'when start and end dates are in the future' do
-        cfp.start_date = Date.current + 1
-        cfp.end_date = Date.current + 3
-        expect(cfp.open?).to eq(false)
+      after :each do
+        Timecop.return
+      end
+
+      context 'when the current day is before call for papers days' do
+        it 'returns false' do
+          cfp.start_date = Time.zone.now + 1.day
+          cfp.end_date = Time.zone.now + 2.day
+
+          expect(cfp).not_to be_open
+        end
+      end
+
+      context 'when the current day matches call for papers days' do
+        it 'returns true' do
+          cfp.start_date = Time.zone.now - 1.day
+          cfp.end_date = Time.zone.now + 1.day
+
+          expect(cfp).to be_open
+        end
+      end
+
+      context 'when the current day is after call for papers days' do
+        it 'returns false' do
+          cfp.start_date = Time.zone.now - 2.day
+          cfp.end_date = Time.zone.now - 1.day
+
+          expect(cfp).not_to be_open
+        end
       end
     end
 
-    context 'returns true' do
-      it 'when start date is in the past and end date is in the future' do
-        cfp.start_date = Date.current - 1
-        cfp.end_date = Date.current + 1
-        expect(cfp.open?).to eq(true)
+    context 'when the timezone from conference is behind the server' do
+      before :each do
+        Time.zone = timezone_plus14
+        Timecop.freeze(Time.zone.now)
+
+        cfp.program.conference.timezone = timezone_minus11
+      end
+
+      after :each do
+        Timecop.return
+      end
+
+      context 'when the current day is before call for papers days' do
+        it 'returns false' do
+          cfp.start_date = Time.zone.now
+          cfp.end_date = Time.zone.now + 1.day
+
+          expect(cfp).not_to be_open
+        end
+      end
+
+      context 'when the current day matches call for papers days' do
+        it 'returns true' do
+          cfp.start_date = Time.zone.now - 2.day
+          cfp.end_date = Time.zone.now - 1.day
+
+          expect(cfp).to be_open
+        end
+      end
+
+      context 'when the current day is after call for papers days' do
+        it 'returns false' do
+          cfp.start_date = Time.zone.now - 3.day
+          cfp.end_date = Time.zone.now - 2.day
+
+          expect(cfp).not_to be_open
+        end
+      end
+    end
+
+    context 'when the timezone from conference is ahead the server' do
+      before :each do
+        Time.zone = timezone_minus11
+        Timecop.freeze(Time.zone.now)
+
+        cfp.program.conference.timezone = timezone_plus14
+      end
+
+      after :each do
+        Timecop.return
+      end
+
+      context 'when the current day is before call for papers days' do
+        it 'returns false' do
+          cfp.start_date = Time.zone.now + 2.day
+          cfp.end_date = Time.zone.now + 3.day
+
+          expect(cfp).not_to be_open
+        end
+      end
+
+      context 'when the current day matches call for papers days' do
+        it 'returns true' do
+          cfp.start_date = Time.zone.now + 1.day
+          cfp.end_date = Time.zone.now + 2.day
+
+          expect(cfp).to be_open
+        end
+      end
+
+      context 'when the current day is after call for papers days' do
+        it 'returns false' do
+          cfp.start_date = Time.zone.now - 1.day
+          cfp.end_date = Time.zone.now
+
+          expect(cfp).not_to be_open
+        end
       end
     end
   end
