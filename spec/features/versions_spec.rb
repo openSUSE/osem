@@ -231,7 +231,7 @@ feature 'Version' do
     expect(page).to have_text("Someone (probably via the console) deleted difficulty level Expert with ID #{difficulty_level_id} in conference #{conference.short_title}")
   end
 
-  xscenario 'display changes in splashpages', feature: true, versioning: true, js: true do
+  scenario 'display changes in splashpages', feature: true, versioning: true, js: true do
     visit admin_conference_splashpage_path(conference.short_title)
     click_link 'Create Splashpage'
     click_button 'Save'
@@ -246,15 +246,16 @@ feature 'Version' do
     check('Display the social media links?')
     check('Make splash page public?')
     click_button 'Save'
+    splashpage_id = conference.splashpage.id
 
     click_link 'Delete'
     page.accept_alert
     expect(page).to have_text('Splashpage was successfully destroyed')
 
     visit admin_revision_history_path
-    expect(page).to have_text("#{organizer.name} created new splashpage in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} updated public, include program, include social media, include venue, include tickets, include sponsors, include lodgings and include cfp of splashpage in conference #{conference.short_title}")
-    expect(page).to have_text("#{organizer.name} deleted splashpage in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} created new splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} updated public, include program, include social media, include venue, include tickets, include sponsors, include lodgings and include cfp of splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
+    expect(page).to have_text("#{organizer.name} deleted splashpage with ID #{splashpage_id} in conference #{conference.short_title}")
   end
 
   scenario 'displays users subscribe/unsubscribe to conferences', feature: true, versioning: true, js: true do
