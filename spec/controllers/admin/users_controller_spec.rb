@@ -8,7 +8,7 @@ describe Admin::UsersController do
     sign_in(admin)
   end
   describe 'GET #index' do
-    xit 'sets up users array with existing users records' do
+    it 'sets up users array with existing users records' do
       user1 = create(:user, email: 'user1@email.osem')
       user2 = create(:user, email: 'user2@email.osem')
       user_deleted = User.find_by!(username: 'deleted_user')
