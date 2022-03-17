@@ -9,6 +9,10 @@ describe FormatHelper, type: :helper do
       expect(markdown(nil)).to eq ''
     end
 
+    it "doesn't render unsafe URI schemes" do
+      expect(markdown('[a](javascript:b)')).to eq "<p><a>a</a></p>\n"
+    end
+
     it 'should return HTML for header markdown' do
       expect(markdown('# this is my header')).to eq "<h1>this is my header</h1>\n"
     end
