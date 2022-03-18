@@ -51,7 +51,7 @@ class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   # override upstream santitation, which converts everything to strings
-  def sanitize(records)
+  def sanitize_data(records)
     records
   end
 end

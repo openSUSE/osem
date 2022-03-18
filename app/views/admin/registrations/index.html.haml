@@ -71,13 +71,13 @@
           "searchable": false
         },
         {
-          "data": null,
+          "data": "actions",
           "className": "actions",
           "searchable": false,
           "sortable": false,
           "render":    function (data, type, row, meta) {
             return '<div class="btn-group">'+
-                   '<a class="btn-primary" href="'+data.edit_url+'">Edit</a>'+
+                   '<a class="btn-primary" href="'+row.edit_url+'">Edit</a>'+
                    '</div>';
           }
         }
