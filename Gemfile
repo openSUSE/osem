@@ -184,7 +184,7 @@ gem 'money-rails'
 gem 'acts_as_list'
 
 # for switch checkboxes
-gem 'bootstrap-switch-rails', '~> 3.3.5'
+gem 'bootstrap-switch-rails', '3.3.3' # Locked pending Bttstrp/bootstrap-switch#707
 
 # for parsing OEmbed data
 gem 'ruby-oembed'
