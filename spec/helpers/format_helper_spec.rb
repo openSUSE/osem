@@ -9,11 +9,11 @@ describe FormatHelper, type: :helper do
       expect(markdown(nil)).to eq ''
     end
 
-    it 'should return HTML for header markdown' do
-      expect(Redcarpet::Markdown).to receive(:new)
-      .with(Redcarpet::Render::HTML, autolink: true, space_after_headers: true, no_intra_emphasis: true, fenced_code_blocks: true, disable_indented_code_blocks: true, safe_links_only: true)
-      .and_call_original
+    it "doesn't render links with unsafe URI schemes" do
+      expect(markdown('[a](javascript:b)')).to eq "<p>[a](javascript:b)</p>\n"
+    end
 
+    it 'should return HTML for header markdown' do
       expect(markdown('# this is my header')).to eq "<h1>this is my header</h1>\n"
     end
   end
