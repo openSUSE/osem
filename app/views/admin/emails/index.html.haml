@@ -21,8 +21,8 @@
               #onboarding.tab-pane.active{ role: 'tabpanel' }
                 .checkbox
                   %label
-                  = f.check_box :send_on_registration, data: {name: 'email_settings_registration_subject'}, class: 'send_on_radio'
-                  Send an email when the user registers for the conference?
+                    = f.check_box :send_on_registration, data: {name: 'email_settings_registration_subject'}, class: 'send_on_radio'
+                    Send an email when the user registers for the conference?
                 .form-group
                   = f.label :registration_subject, 'Subject'
                   = f.text_field :registration_subject, class: 'form-control'
@@ -38,7 +38,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_submitted_proposal, data: { name: 'email_settings_proposal_submited_subject'}, class: 'send_on_radio'
-                    Send an email when the proposal is submitted
+                    Send an email when the proposal is submitted?
                 .form-group
                   = f.label :submitted_proposal_subject, 'Subject'
                   = f.text_field :submitted_proposal_subject, class: 'form-control'
@@ -50,8 +50,8 @@
                 = render partial: 'help', locals: { id: 'submitted_proposal_help', show_event_variables: true }
                 .checkbox
                   %label
-                  = f.check_box :send_on_accepted, data: { name: 'email_settings_accepted_subject' }, class: 'send_on_radio'
-                  Send an email when the proposal is accepted?
+                    = f.check_box :send_on_accepted, data: { name: 'email_settings_accepted_subject' }, class: 'send_on_radio'
+                    Send an email when the proposal is accepted?
                 .form-group
                   = f.label :accepted_subject, 'Subject'
                   = f.text_field :accepted_subject, class: 'form-control'
@@ -100,7 +100,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_conference_dates_updated, data: { name: 'email_settings_conference_dates_updated_subject'}, class: 'send_on_radio'
-                    Send an email when to all participants if the conference dates are changed?
+                    Send an email to all participants if the conference dates are changed?
                 .form-group
                   = f.label :conference_dates_updated_subject, 'Subject'
                   = f.text_field :conference_dates_updated_subject, class: 'form-control'
@@ -116,7 +116,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_conference_registration_dates_updated, data: { name: 'email_settings_conference_registration_dates_updated_subject' }, class: 'send_on_radio'
-                    Send an email when to all participants if the conference registration dates changed?
+                    Send an email to all participants if the conference registration dates changed?
                 .form-group
                   = f.label :conference_registration_dates_updated_subject, 'Subject'
                   = f.text_field :conference_registration_dates_updated_subject, class: 'form-control'
@@ -132,7 +132,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_venue_updated, data: { name: 'email_settings_venue_updated_subject'}, class: 'send_on_radio'
-                    Send an email on updating the Venue?
+                    Send an email on updating the venue?
                 .form-group
                   = f.label :venue_updated_subject, 'Subject'
                   = f.text_field :venue_updated_subject, class: 'form-control'
@@ -147,9 +147,9 @@
                 = render partial: 'help', locals: {id: 'updated_venue_help', show_event_variables: false}
               #cfp.tab-pane{ role: 'tabpanel' }
                 .checkbox
-                  %labl
+                  %label
                     = f.check_box :send_on_program_schedule_public
-                    Send an email when to all participants if the schedule is made public?
+                    Send an email to all participants if the schedule is made public?
                 .form-group
                   = f.label :program_schedule_public_subject, 'Subject'
                   = f.text_field :program_schedule_public_subject, class: 'form-control'
@@ -165,7 +165,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_cfp_dates_updated
-                    Send an email when to all participants if call for paper dates are updated?
+                    Send an email to all participants if call for paper dates are updated?
                 .form-group
                   = f.label :cfp_dates_updated_subject, 'Subject'
                   = f.text_field :cfp_dates_updated_subject, class: 'form-control'
@@ -179,9 +179,10 @@
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_cfp_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_cfp_help', show_event_variables: false}
               #booth.tab-pane{ role: 'tabpanel' }
-                .check_box
+                .checkbox
                   %label
-                  = f.check_box :send_on_booths_acceptance
+                    = f.check_box :send_on_booths_acceptance
+                    Send an email when the booth is accepted?
                 .form-group
                   = f.label :booths_acceptance_subject, 'Subject'
                   = f.text_field :booths_acceptance_subject, class: 'form-control'
@@ -197,6 +198,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_booths_rejection
+                    Send an email when the booth is rejected?
                 .form-group
                   = f.label :booths_rejection_subject, 'Subject'
                   = f.text_field :booths_rejection_subject, class: 'form-control'
