@@ -122,9 +122,7 @@ class Ability
     # if not, do not allow replies.
 
     # do not allow replies before the start_date or after the end_date of survey
-    cannot :reply, Survey do |survey|
-      survey.start_date > Time.current || survey.end_date < Time.current
-    end
+    cannot :reply, Survey, &:closed?
 
     can [:destroy], Openid
 
