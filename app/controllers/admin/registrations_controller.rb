@@ -20,7 +20,7 @@ module Admin
       respond_to do |format|
         format.html
         format.json do
-          render json: RegistrationDatatable.new({}, conference: @conference, view_context: view_context)
+          render json: RegistrationDatatable.new(params, conference: @conference, view_context: view_context)
         end
         format.pdf { render 'index', layout: false }
         format.xlsx do

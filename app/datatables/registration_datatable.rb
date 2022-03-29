@@ -14,7 +14,6 @@ class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
     @view_columns ||= {
       id:                       { source: 'Registration.id', cond: :eq },
       name:                     { source: 'User.name' },
-      roles:                    { source: 'Role.name' },
       email:                    { source: 'User.email' },
       accepted_code_of_conduct: { source: 'Registration.accepted_code_of_conduct', searchable: false },
       actions:                  { source: 'Registration.id', searchable: false, orderable: false }
@@ -41,7 +40,6 @@ class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
         roles:                    conference_role_titles(record.user),
         email:                    record.email,
         accepted_code_of_conduct: !!record.accepted_code_of_conduct, # rubocop:disable Style/DoubleNegation
-        questions:                {},
         edit_url:                 edit_admin_conference_registration_path(conference, record),
         DT_RowId:                 record.id
       }
@@ -53,7 +51,7 @@ class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   # override upstream santitation, which converts everything to strings
-  def sanitize(records)
+  def sanitize_data(records)
     records
   end
 end
