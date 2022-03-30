@@ -30,35 +30,35 @@ describe SurveyQuestion do
 
     it 'max_choices > min_choices' do
       survey_question = build(:survey_question, kind: :choice, min_choices: 3, max_choices: 2)
-      expect(survey_question.valid?).to eq false
+      expect(survey_question.valid?).to be false
       expect(survey_question.errors[:max_choices]).to eq ['Max choices should not be less than min choices']
     end
   end
 
   describe '#multiple_choice?' do
     it 'returns false, when choice with 1 max_choice' do
-      expect(single_choice_question.multiple_choice?).to eq false
+      expect(single_choice_question.multiple_choice?).to be false
     end
 
     it 'returns true, when choice with 2 max_choices' do
-      expect(multiple_choice_question.multiple_choice?).to eq true
+      expect(multiple_choice_question.multiple_choice?).to be true
     end
   end
 
   describe '#single_choice?' do
     it 'returns true, when choice with 1 max_choice' do
-      expect(single_choice_question.single_choice?).to eq true
+      expect(single_choice_question.single_choice?).to be true
     end
 
     it 'returns false, when choice with 2 max_choices' do
-      expect(multiple_choice_question.single_choice?).to eq false
+      expect(multiple_choice_question.single_choice?).to be false
     end
   end
 
   describe 'min_choices value' do
     it 'nil, when boolean question' do
       boolean_question = create(:boolean_mandatory, min_choices: 3)
-      expect(boolean_question.min_choices).to eq nil
+      expect(boolean_question.min_choices).to be_nil
     end
 
     it 'not nil, when choice question' do
@@ -86,7 +86,7 @@ describe SurveyQuestion do
     shared_examples 'is nil' do |question_kind, field|
       scenario "when question is #{question_kind} and field is #{field}" do
         question = create(:survey_question, kind: question_kind.to_sym, field => 3)
-        expect(question.send(field)).to eq nil
+        expect(question.send(field)).to be_nil
       end
     end
 

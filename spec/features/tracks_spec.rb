@@ -90,8 +90,8 @@ feature Track do
       expected.to change { Track.count }.by 1
       expect(flash).to eq('Track request successfully created.')
       within('table#tracks') do
-        expect(page.has_content?('Distribution')).to eq true
-        expect(page.has_content?('Events about our Linux dist...')).to eq true
+        expect(page.has_content?('Distribution')).to be true
+        expect(page.has_content?('Events about our Linux dist...')).to be true
       end
     end
 
@@ -111,8 +111,8 @@ feature Track do
       expected.to_not(change { Track.count })
       expect(flash).to eq("Track #{track.name} withdrawn.")
       within('table#tracks') do
-        expect(page.has_content?(track.name)).to eq true
-        expect(page.has_link?('Re-Submit')).to eq true
+        expect(page.has_content?(track.name)).to be true
+        expect(page.has_link?('Re-Submit')).to be true
       end
     end
 
@@ -134,8 +134,8 @@ feature Track do
       expected.to_not(change { Track.count })
       expect(flash).to eq('Track request successfully updated.')
       within('table#tracks') do
-        expect(page.has_content?('Distribution')).to eq true
-        expect(page.has_content?('Events about our Linux dist...')).to eq true
+        expect(page.has_content?('Distribution')).to be true
+        expect(page.has_content?('Events about our Linux dist...')).to be true
       end
     end
   end

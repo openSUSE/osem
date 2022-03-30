@@ -31,7 +31,7 @@ describe Admin::VersionsController do
         expect(flash[:error]).to match('The item is already in the state that you are trying to revert it back to')
       end
 
-      it 'reverting deletion of object  creates it again' do
+      it 'reverting deletion of object creates it again' do
         event_type = conference.program.event_types.first
         event_type.destroy
         event_types_count = conference.program.event_types.count
@@ -41,7 +41,7 @@ describe Admin::VersionsController do
         expect(conference.program.event_types.count).to eq(event_types_count + 1)
       end
 
-      it 'reverting creation of object deletes it ' do
+      it 'reverting creation of object deletes it' do
         lodging = create(:lodging, conference: conference)
         get :revert_object, params: { id: lodging.versions.last.id }
         expect(lodging.versions.last.event).to eq 'destroy'
@@ -131,8 +131,8 @@ describe Admin::VersionsController do
           sign_in @user
           get :index, params: { conference_id: conference.short_title }
 
-          expect(assigns(:versions).include?(@version_cfp)).to eq true
-          expect(assigns(:versions).include?(@version_organizer)).to eq false
+          expect(assigns(:versions).include?(@version_cfp)).to be true
+          expect(assigns(:versions).include?(@version_organizer)).to be false
         end
 
         it 'when user has role info_desk' do
@@ -140,9 +140,9 @@ describe Admin::VersionsController do
           sign_in @user
           get :index, params: { conference_id: conference.short_title }
 
-          expect(assigns(:versions).include?(@version_info_desk)).to eq true
-          expect(assigns(:versions).include?(@version_organizer)).to eq false
-          expect(assigns(:versions).include?(@version_cfp)).to eq false
+          expect(assigns(:versions).include?(@version_info_desk)).to be true
+          expect(assigns(:versions).include?(@version_organizer)).to be false
+          expect(assigns(:versions).include?(@version_cfp)).to be false
         end
 
         it 'when user has role organizer' do
@@ -150,9 +150,9 @@ describe Admin::VersionsController do
           sign_in @user
           get :index, params: { conference_id: conference.short_title }
 
-          expect(assigns(:versions).include?(@version_organizer)).to eq true
-          expect(assigns(:versions).include?(@version_cfp)).to eq true
-          expect(assigns(:versions).include?(@version_info_desk)).to eq true
+          expect(assigns(:versions).include?(@version_organizer)).to be true
+          expect(assigns(:versions).include?(@version_cfp)).to be true
+          expect(assigns(:versions).include?(@version_info_desk)).to be true
         end
       end
     end

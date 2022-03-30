@@ -35,14 +35,14 @@ describe Event do
       it 'it is valid, if max_attendees is less than room size' do
         event.max_attendees = 2
 
-        expect(event.valid?).to eq true
+        expect(event.valid?).to be true
         expect(event.errors.full_messages).to eq []
       end
 
       it 'it is not valid, if max_attendees attribute is bigger than size of room' do
         event.max_attendees = 4
 
-        expect(event.valid?).to eq false
+        expect(event.valid?).to be false
         expect(event.errors[:max_attendees]).to eq ['cannot be more than the room\'s capacity (3)']
       end
     end
@@ -56,13 +56,13 @@ describe Event do
       context 'is invalid' do
         it 'when abstract is too long' do
           event.abstract = 'Test abstract here'
-          expect(event.valid?).to eq false
+          expect(event.valid?).to be false
           expect(event.errors[:abstract]).to eq ['cannot have more than 2 words']
         end
 
         it 'when abstract is too short' do
           event.abstract = 'Test'
-          expect(event.valid?).to eq false
+          expect(event.valid?).to be false
           expect(event.errors[:abstract]).to eq ['cannot have less than 2 words']
         end
       end
@@ -70,7 +70,7 @@ describe Event do
       context 'is valid' do
         it 'when abstract length is within limits' do
           event.abstract = 'Test abstract'
-          expect(event.valid?).to eq true
+          expect(event.valid?).to be true
           expect(event.errors.size).to eq 0
         end
       end
@@ -81,7 +81,7 @@ describe Event do
         it 'when event is created after the conference end_date, and returns an error message' do
           conference = create(:conference, start_date: Date.today - 1, end_date: Date.today - 1)
           new_event = build(:event, program: conference.program)
-          expect(new_event.valid?).to eq false
+          expect(new_event.valid?).to be false
           expect(new_event.errors[:created_at]).to eq ["can't be after the conference end date!"]
         end
       end
@@ -90,7 +90,7 @@ describe Event do
         it 'when event is created before the conference end_date' do
           conference = create(:conference, start_date: Date.today - 1, end_date: Date.today + 1)
           new_event = build(:event, program: conference.program)
-          expect(new_event.valid?).to eq true
+          expect(new_event.valid?).to be true
         end
       end
     end
@@ -100,7 +100,7 @@ describe Event do
         it 'when the track belongs to the same program and is confirmed' do
           track = create(:track, state: 'confirmed', program: conference.program)
           event = build(:event, program: conference.program, track: track)
-          expect(event.valid?).to eq true
+          expect(event.valid?).to be true
         end
       end
 
@@ -108,7 +108,7 @@ describe Event do
         it 'when the track doesn\'t have the same program' do
           track = create(:track, state: 'confirmed')
           event = build(:event, program: conference.program, track: track)
-          expect(event.valid?).to eq false
+          expect(event.valid?).to be false
           expect(event.errors[:track]).to eq ['is invalid']
         end
 
@@ -116,7 +116,7 @@ describe Event do
           track = create(:track, program: conference.program)
           allow(track).to receive(:confirmed?).and_return(false)
           event = build(:event, program: conference.program, track: track)
-          expect(event.valid?).to eq false
+          expect(event.valid?).to be false
           expect(event.errors[:track]).to eq ['is invalid']
         end
       end
@@ -146,7 +146,7 @@ describe Event do
     end
   end
 
-  describe 'scope ' do
+  describe 'scope' do
     context 'confirmed' do
       it 'returns only confirmed events' do
         my_event = create(:event, state: 'confirmed', program: conference.program)
@@ -165,10 +165,10 @@ describe Event do
   end
 
   describe '#scheduled?' do
-    it { expect(event.scheduled?).to eq false }
+    it { expect(event.scheduled?).to be false }
     it 'returns true if the event is scheduled' do
       create(:event_schedule, event: event)
-      expect(event.scheduled?).to eq true
+      expect(event.scheduled?).to be true
     end
   end
 
@@ -185,34 +185,34 @@ describe Event do
       it 'returns true, if the event has no max_attendees' do
         event.max_attendees = nil
         event.save!
-        expect(event.registration_possible?).to eq true
+        expect(event.registration_possible?).to be true
       end
 
       it 'returns true, if the limit has not been reached' do
-        expect(event.registration_possible?).to eq true
+        expect(event.registration_possible?).to be true
       end
 
       it 'returns true, if the event is confirmed' do
         event.save!
-        expect(event.registration_possible?).to eq true
+        expect(event.registration_possible?).to be true
       end
 
       it 'returns false, if the limit has been reached' do
         event.registrations << create(:registration)
         event.registrations << create(:registration)
-        expect(event.registration_possible?).to eq false
+        expect(event.registration_possible?).to be false
       end
 
       it 'returns false, if the event is not confirmed' do
         event.state = 'new'
         event.save!
-        expect(event.registration_possible?).to eq false
+        expect(event.registration_possible?).to be false
       end
     end
 
     describe 'when the event does not require registration' do
       it 'returns false' do
-        expect(event.registration_possible?).to eq false
+        expect(event.registration_possible?).to be false
       end
     end
   end
@@ -236,22 +236,22 @@ describe Event do
 
   describe '#voted?' do
     it 'returns false if the event has no votes' do
-      expect(event.voted?).to eq false
+      expect(event.voted?).to be false
     end
 
     it 'returns false if the event has no votes by that user' do
       create(:vote, user: another_user, event: event)
-      expect(event.voted?(user)).to eq false
+      expect(event.voted?(user)).to be false
     end
 
     it 'returns true when the event has votes' do
       create(:vote, user: another_user, event: event)
-      expect(event.voted?).to eq true
+      expect(event.voted?).to be true
     end
 
     it 'returns true when the event has votes by that user' do
       create(:vote, user: user, event: event)
-      expect(event.voted?(user)).to eq true
+      expect(event.voted?(user)).to be true
     end
   end
 

@@ -42,7 +42,7 @@ describe TicketPurchase do
       it 'it is not valid, if quantity for registration tickets is greater than to one' do
         ticket_purchase.quantity = 4
 
-        expect(ticket_purchase.valid?).to eq false
+        expect(ticket_purchase.valid?).to be false
         expect(ticket_purchase.errors[:quantity]).to eq ['cannot be greater than one for registration tickets.']
       end
     end

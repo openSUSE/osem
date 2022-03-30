@@ -17,10 +17,10 @@ describe Survey do
   end
 
   describe '#active?' do
-    it { expect(survey_active.active?).to eq true }
-    it { expect(survey_inactive.active?).to eq false }
+    it { expect(survey_active.active?).to be true }
+    it { expect(survey_inactive.active?).to be false }
     it 'returns true, if both start_date and end_date are not set' do
-      expect(create(:survey, start_date: nil, end_date: nil, surveyable: create(:conference)).active?).to eq true
+      expect(create(:survey, start_date: nil, end_date: nil, surveyable: create(:conference)).active?).to be true
     end
   end
 end
