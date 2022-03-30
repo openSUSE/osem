@@ -346,7 +346,7 @@ describe User do
     describe '#confirmed?' do
       context 'confirmed user' do
         it 'returns true' do
-          expect(user.confirmed?).to eq true
+          expect(user.confirmed?).to be true
         end
       end
 
@@ -354,7 +354,7 @@ describe User do
         before { user.update_attribute(:confirmed_at, nil) }
 
         it 'returns false' do
-          expect(user.confirmed?).to eq false
+          expect(user.confirmed?).to be false
         end
       end
     end
@@ -395,7 +395,7 @@ describe User do
 
   describe 'rolify' do
     it 'returns the correct role' do
-      expect(user_admin.is_admin).to eq(true)
+      expect(user_admin.is_admin).to be(true)
       expect(organizer.roles.first).to eq(organizer_role)
     end
 

@@ -19,7 +19,7 @@ feature 'BaseController' do
       end
     end
 
-    context 'when user is ' do
+    context 'when user is' do
       before(:each) do
         sign_in(user)
       end

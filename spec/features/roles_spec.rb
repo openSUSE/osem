@@ -37,7 +37,7 @@ feature Role do
       visit admin_conference_roles_path(conference.short_title)
     end
     scenario "role #{role_name}" do
-      expect(page.has_link?('Edit', href: edit_admin_conference_role_path(conference.short_title, role_name))).to eq false
+      expect(page.has_link?('Edit', href: edit_admin_conference_role_path(conference.short_title, role_name))).to be false
     end
   end
 
@@ -60,7 +60,7 @@ feature Role do
       click_button 'Add'
       user_with_no_role.reload
 
-      expect(user_with_no_role.has_cached_role?(role.name, conference)).to eq true
+      expect(user_with_no_role.has_cached_role?(role.name, conference)).to be true
     end
 
     scenario "removes role #{role_name}", feature: true, js: true do
@@ -72,7 +72,7 @@ feature Role do
       expect(page).to have_css('.alert', text: "Successfully removed role #{role_name} from user #{user_with_role.email}")
       expect(by_role_name).to eq(role_name) | eq('organizer')
       user_with_role.reload
-      expect(user_with_role.has_cached_role?(role_name, conference)).to eq false
+      expect(user_with_role.has_cached_role?(role_name, conference)).to be false
     end
   end
 
@@ -91,13 +91,13 @@ feature Role do
     scenario "add role #{role_name}", feature: true, js: true do
       click_link('Users', href: admin_conference_role_path(conference.short_title, role_name))
 
-      expect(page.has_field?('user_email')).to eq false
+      expect(page.has_field?('user_email')).to be false
     end
 
     scenario "remove role #{role_name}", feature: true, js: true do
       click_link('Users', href: admin_conference_role_path(conference.short_title, role_name))
 
-      expect(first('td').has_css?('.bootstrap-switch-container')).to eq false
+      expect(first('td').has_css?('.bootstrap-switch-container')).to be false
     end
   end
 
@@ -121,7 +121,7 @@ feature Role do
         click_button 'Add'
         user_with_no_role.reload
 
-        expect(user_with_no_role.has_cached_role?('organization_admin', organization)).to eq true
+        expect(user_with_no_role.has_cached_role?('organization_admin', organization)).to be true
       end
 
       scenario 'successfully removes role organization_admin' do
@@ -129,7 +129,7 @@ feature Role do
 
         first('tr').find('.btn-danger').click
         organization_admin.reload
-        expect(organization_admin.has_cached_role?('organization_admin', organization)).to eq false
+        expect(organization_admin.has_cached_role?('organization_admin', organization)).to be false
       end
     end
 
@@ -137,12 +137,12 @@ feature Role do
       scenario 'does not successfully add role organization_admin' do
         click_link('Admins', href: admins_admin_organization_path(other_organization.id))
 
-        expect(page.has_field?('user_email')).to eq false
+        expect(page.has_field?('user_email')).to be false
       end
 
       scenario 'does not successfully removes role organization_admin' do
         click_link('Admins', href: admins_admin_organization_path(other_organization.id))
-        expect(page.has_css?('.btn-danger')).to eq false
+        expect(page.has_css?('.btn-danger')).to be false
       end
     end
   end

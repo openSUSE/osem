@@ -75,7 +75,7 @@ describe Program do
       end
       it 'returns true if blind_voting is disabled' do
         program.blind_voting = false
-        expect(program.show_voting?).to eq true
+        expect(program.show_voting?).to be true
       end
     end
 
@@ -86,19 +86,19 @@ describe Program do
 
       it 'returns true if voting period is over' do
         program.voting_end_date = Date.today - 1
-        expect(program.show_voting?).to eq true
+        expect(program.show_voting?).to be true
       end
 
       it 'returns false if we are still in votig period' do
         program.voting_end_date = Date.today + 1
-        expect(program.show_voting?).to eq false
+        expect(program.show_voting?).to be false
       end
     end
   end
 
   describe 'voting_period?' do
     it 'retuns true when voting dates are not set' do
-      expect(program.voting_period?).to eq true
+      expect(program.voting_period?).to be true
     end
 
     shared_examples 'voting period' do |voting_start_date, voting_end_date, returns|
@@ -125,7 +125,7 @@ describe Program do
       expect(program.rating_enabled?).to be true
     end
 
-    it 'returns false if proposals cannot be rated (program.rating == 0) ' do
+    it 'returns false if proposals cannot be rated (program.rating == 0)' do
       program = conference.program
       program.rating = 0
       expect(program.rating_enabled?).to be false
@@ -156,7 +156,7 @@ describe Program do
     it 'and creates events_types' do
       program.destroy!
       conference.reload
-      expect(conference.program).to eq nil
+      expect(conference.program).to be_nil
 
       create(:program, conference_id: conference.id)
       conference.reload
@@ -166,7 +166,7 @@ describe Program do
     it 'and creates difficulty_levels' do
       program.destroy!
       conference.reload
-      expect(conference.program).to eq nil
+      expect(conference.program).to be_nil
 
       create(:program, conference_id: conference.id)
       conference.reload
@@ -206,25 +206,25 @@ describe Program do
   describe 'languages' do
     it "is not valid if languages aren't two letters separated by commas" do
       program.languages = 'eng, De es'
-      expect(program.valid?).to eq false
+      expect(program.valid?).to be false
       expect(program.errors[:languages]).to eq ['must be two letters separated by commas']
     end
 
     it 'is not valid if languages are repeated' do
       program.languages = 'en,de,es,en'
-      expect(program.valid?).to eq false
+      expect(program.valid?).to be false
       expect(program.errors[:languages]).to eq ["can't be repeated"]
     end
 
     it "is not valid if languages aren't ISO 639-1 valid codes" do
       program.languages = 'en,hh,yu,zi,oo'
-      expect(program.valid?).to eq false
+      expect(program.valid?).to be false
       expect(program.errors[:languages]).to eq ['must be ISO 639-1 valid codes']
     end
 
     it 'is valid otherwise' do
       program.languages = 'en,De, ES, ru,el'
-      expect(program.valid?).to eq true
+      expect(program.valid?).to be true
     end
   end
 
@@ -244,15 +244,15 @@ describe Program do
       let!(:event_schedule) { create(:event_schedule, event: event, schedule: schedule, start_time: DateTime.parse("#{Date.current + 1} 10:00").utc) }
 
       it 'returns false irrespective of any date' do
-        expect(program.any_event_for_this_date?(Date.current + 1)).to eq false
+        expect(program.any_event_for_this_date?(Date.current + 1)).to be false
       end
 
       it 'returns false if date passed is empty' do
-        expect(program.any_event_for_this_date?('')).to eq false
+        expect(program.any_event_for_this_date?('')).to be false
       end
 
       it 'returns false if date passed is nil' do
-        expect(program.any_event_for_this_date?(nil)).to eq false
+        expect(program.any_event_for_this_date?(nil)).to be false
       end
     end
 
@@ -266,19 +266,19 @@ describe Program do
       end
 
       it 'returns true if there is any event for this date' do
-        expect(program.any_event_for_this_date?(Date.current + 1)).to eq true
+        expect(program.any_event_for_this_date?(Date.current + 1)).to be true
       end
 
       it 'returns false if there is no event for this date' do
-        expect(program.any_event_for_this_date?(Date.current + 2)).to eq false
+        expect(program.any_event_for_this_date?(Date.current + 2)).to be false
       end
 
       it 'returns false if date passed is empty' do
-        expect(program.any_event_for_this_date?('')).to eq false
+        expect(program.any_event_for_this_date?('')).to be false
       end
 
       it 'returns false if date passed is nil' do
-        expect(program.any_event_for_this_date?(nil)).to eq false
+        expect(program.any_event_for_this_date?(nil)).to be false
       end
     end
   end
@@ -291,7 +291,7 @@ describe Program do
     end
 
     it 'returns nil if the program doesn\'t have a cfp' do
-      expect(program.cfp).to eq(nil)
+      expect(program.cfp).to be_nil
     end
   end
 
@@ -299,19 +299,19 @@ describe Program do
     it 'returns an array without the \'events\' type, when the cfp for events exists' do
       create(:cfp, cfp_type: 'events', program: program)
       expect(program.remaining_cfp_types).to be_a Array
-      expect(program.remaining_cfp_types.include?('events')).to eq false
+      expect(program.remaining_cfp_types.include?('events')).to be false
     end
 
     it 'returns an array without the \'booths\' type, when the cfp for booths exists' do
       create(:cfp, cfp_type: 'booths', program: program)
       expect(program.remaining_cfp_types).to be_a Array
-      expect(program.remaining_cfp_types.include?('booths')).to eq false
+      expect(program.remaining_cfp_types.include?('booths')).to be false
     end
 
     it 'returns an array without the \'tracks\' type, when the cfp for tracks exists' do
       create(:cfp, cfp_type: 'tracks', program: program)
       expect(program.remaining_cfp_types).to be_a Array
-      expect(program.remaining_cfp_types.include?('tracks')).to eq false
+      expect(program.remaining_cfp_types.include?('tracks')).to be false
     end
 
     it 'returns an empty array when cfps for all the types exist' do

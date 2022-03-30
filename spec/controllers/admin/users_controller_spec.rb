@@ -25,12 +25,12 @@ describe Admin::UsersController do
       user_to_confirm = create(:user, email: 'unconfirmed_user@osem.io', confirmed_at: nil)
       patch :toggle_confirmation, params: { id: user_to_confirm.id, user: { to_confirm: 'true' } }
       user_to_confirm.reload
-      expect(user_to_confirm.confirmed?).to eq true
+      expect(user_to_confirm.confirmed?).to be true
     end
     it 'undo confirmation of user' do
       patch :toggle_confirmation, params: { id: user.id, user: { to_confirm: 'false' } }
       user.reload
-      expect(user.confirmed?).to eq false
+      expect(user.confirmed?).to be false
     end
   end
   describe 'PATCH #update' do

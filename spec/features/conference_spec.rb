@@ -34,7 +34,7 @@ feature Conference do
       expect(Conference.count).to eq(expected_count)
       expect(Conference.last.organization).to eq(organization)
       user.reload
-      expect(user.has_cached_role? :organizer, Conference.last).to eq(true)
+      expect(user.has_cached_role? :organizer, Conference.last).to be(true)
     end
 
     scenario 'update conference', feature: true, js: true do
