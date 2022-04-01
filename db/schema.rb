@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181229233811) do
+ActiveRecord::Schema.define(version: 2022_04_01_000955) do
 
   create_table "answers", force: :cascade do |t|
     t.string "title"
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 20181229233811) do
     t.boolean "send_on_submitted_proposal", default: false
     t.string "submitted_proposal_subject"
     t.text "submitted_proposal_body"
+    t.boolean "send_on_event_comment", default: true
   end
 
   create_table "event_schedules", force: :cascade do |t|

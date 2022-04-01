@@ -63,7 +63,13 @@ class Comment < ApplicationRecord
 
   private
 
+  def conference
+    commentable.program.conference
+  end
+
   def send_notification
+    return unless conference.email_settings.send_on_event_comment?
+
     EventCommentMailJob.perform_later(self)
   end
 end
