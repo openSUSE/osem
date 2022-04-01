@@ -4,9 +4,7 @@ class EventCommentMailJob < ApplicationJob
   queue_as :default
 
   def perform(comment)
-    conference = comment.commentable.program.conference
-
-    User.comment_notifiable(conference).each do |user|
+    User.comment_notifiable(comment.conference_id).each do |user|
       Mailbot.event_comment_mail(comment, user).deliver_now
     end
   end

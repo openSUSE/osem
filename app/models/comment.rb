@@ -57,13 +57,13 @@ class Comment < ApplicationRecord
     commentable_str.constantize.find(commentable_id)
   end
 
+  def conference_id
+    commentable.program.conference_id
+  end
+
   private
 
   def send_notification
     EventCommentMailJob.perform_later(self)
-  end
-
-  def conference_id
-    commentable.program.conference_id
   end
 end
