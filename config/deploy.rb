@@ -36,7 +36,7 @@ task :deploy do
 
     on :launch do
       in_path(fetch(:current_path)) do
-        command %{bundle exec pumactl restart -e production}
+        command %{sudo systemctl restart osem}
         command %{sudo systemctl restart osem-dj}
       end
     end
