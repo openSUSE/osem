@@ -16,6 +16,6 @@
                 class: ['img-responsive', 'img-circle'],
                 title: speaker.name
             .caption
-              - unless speaker.nil?
+              - if speaker
                 %h3.text-center= speaker.name
               %h4.text-center= event.title
