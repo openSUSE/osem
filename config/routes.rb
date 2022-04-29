@@ -206,6 +206,8 @@ Osem::Application.routes.draw do
     end
   end
 
+  resources :calendars, only: :index
+
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       resources :conferences, only: [ :index, :show ] do
@@ -222,8 +224,6 @@ Osem::Application.routes.draw do
   end
 
   get '/admin' => redirect('/admin/conferences')
-
-  get '/calendar' => 'conferences#calendar'
 
   unless ENV['OSEM_ROOT_CONFERENCE'].blank?
     root to: redirect("/conferences/#{ENV['OSEM_ROOT_CONFERENCE']}")
