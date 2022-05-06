@@ -116,7 +116,7 @@ module ApplicationHelper
   end
 
   def sign_in_path
-    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+    if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
       new_user_ichain_session_path
     else
       new_user_session_path
@@ -140,9 +140,7 @@ module ApplicationHelper
 
   def nav_root_link_for(conference)
     link_text = (
-      conference.try(:organization).try(:name) ||
-      ENV['OSEM_NAME'] ||
-      'OSEM'
+      conference.try(:organization).try(:name) || ENV.fetch('OSEM_NAME', 'OSEM')
     )
     link_to(
       link_text,

@@ -42,7 +42,7 @@ class Ability
     can [:index, :show], Survey, surveyable_type: 'Conference'
 
     # Things that are possible without ichain enabled that are **not*+ possible with ichain mode enabled.
-    if ENV['OSEM_ICHAIN_ENABLED'] != 'true'
+    if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) != 'true'
       # There is no reliable way for this workflow (enable not logged in users to fill out a form, then telling
       # them to sign up once they submit) in ichain. So enable it only without ichain.
 

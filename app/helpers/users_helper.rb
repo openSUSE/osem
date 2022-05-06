@@ -19,7 +19,7 @@ module UsersHelper
       unless Rails.application.secrets.send(provider_key).blank? || Rails.application.secrets.send(provider_secret).blank?
         providers << provider
       end
-      providers << provider if !ENV["OSEM_#{provider.upcase}_KEY"].blank? && !ENV["OSEM_#{provider.upcase}_SECRET"].blank?
+      providers << provider if ENV.fetch("OSEM_#{provider.upcase}_KEY", nil).present? && ENV.fetch("OSEM_#{provider.upcase}_SECRET", nil).present?
     end
 
     providers.uniq

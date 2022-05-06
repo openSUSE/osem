@@ -13,9 +13,9 @@
 default: &default
   id_site:  <%= ENV['OSEM_PIWIK_ID'] %>
   url: <%= ENV['OSEM_PIWIK_URL'] %>
-  use_async: <%= ENV['OSEM_PIWIK_ASYNC'] || false %>
-  disabled: <%= ENV['OSEM_PIWIK_DISABLED'] || true %>
-  hostname: <%= ENV['OSEM_PIWIK_HOSTNAME'] || 'localhost' %>
+  use_async: <%= ENV.fetch('OSEM_PIWIK_ASYNC', false) %>
+  disabled: <%= ENV.fetch('OSEM_PIWIK_DISABLED', true) %>
+  hostname: <%= ENV.fetch('OSEM_PIWIK_HOSTNAME', 'localhost') %>
 
 production:
   piwik:

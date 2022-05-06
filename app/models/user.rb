@@ -51,7 +51,7 @@ class User < ApplicationRecord
   # :lockable, :timeoutable and :omniauthable
   devise_modules = []
 
-  devise_modules += if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+  devise_modules += if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
                       [:ichain_authenticatable, :ichain_registerable, :omniauthable, omniauth_providers: []]
                     else
                       [:database_authenticatable, :registerable,

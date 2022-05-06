@@ -22,6 +22,6 @@
 = form_tag conference_payments_path do
   %script.stripe-button{ src: "https://checkout.stripe.com/checkout.js",
         data: { amount: @total_amount_to_pay.cents, label: "Pay #{humanized_money_with_symbol @total_amount_to_pay}",
-          email: current_user.email, currency: @total_amount_to_pay.currency, name: ENV['OSEM_NAME'] || 'OSEM',
+          email: current_user.email, currency: @total_amount_to_pay.currency, name: ENV.fetch('OSEM_NAME', 'OSEM'),
           description: "book your tickets", key: Rails.application.secrets.stripe_publishable_key, locale: "auto"}}
   = link_to 'Edit Purchase', conference_tickets_path(@conference.short_title), class: 'btn btn-default'

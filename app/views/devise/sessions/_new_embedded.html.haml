@@ -1,4 +1,4 @@
-- if ENV['OSEM_ICHAIN_ENABLED'] != 'true'
+- if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) != 'true'
   = form_tag(new_user_session_path, class: 'form-horizontal') do
     %legend
       %span
