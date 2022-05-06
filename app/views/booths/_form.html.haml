@@ -25,7 +25,7 @@
     = f.text_field :website_url, class: 'form-control', required: true, placeholder: 'URL'
   .form-group
     = f.label :responsible_ids, 'Responsibles'
-    = f.select :responsible_ids, [], {}, { multiple: true, class: 'form-control', id: 'users_selectize', placeholder: 'Responsibles' }
+    = f.select :responsible_ids, @booth.responsibles.pluck(:username, :id), {}, { multiple: true, class: 'form-control', id: 'users_selectize', placeholder: 'Responsibles' }
     %span.help-block
       The people responsible for the `t('booth')`. You can only select existing users.
   .form-group
