@@ -11,11 +11,7 @@
     = f.text_field :subtitle, class: 'form-control'
   .form-group
     = f.label :speaker_ids, 'Speakers'
-    - if f.object.speakers.any?
-      %p
-        Current:
-        = f.object.speakers.pluck(:username).join(', ')
-    = f.select :speaker_ids, [], {}, {  multiple: true, class: "form-control", id: "users_selectize", placeholder: "Speakers" }
+    = f.select :speaker_ids, f.object.speakers.pluck(:username, :id), {}, {  multiple: true, class: "form-control", id: "users_selectize", placeholder: "Speakers" }
     %span.help-block
       The people responsible for the event, beside you. You can only select existing users.
   - if @program.tracks.confirmed.cfp_active.any?
