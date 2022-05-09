@@ -9,7 +9,7 @@
           installation!
         %p
           The first user to
-          - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+          - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
             = link_to(new_ichain_registration_path('user')) do
               sign up
           - else

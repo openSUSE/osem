@@ -1,19 +1,19 @@
 <%
   encoding = 'unicode'
-  if ENV['OSEM_DB_ADAPTER'] == 'mysql2'
+  if ENV.fetch('OSEM_DB_ADAPTER', nil) == 'mysql2'
     encoding = 'utf8'
   end
 %>
 
 
 default: &default
-  adapter: <%= ENV['OSEM_DB_ADAPTER'] || 'postgresql' %>
+  adapter: <%= ENV.fetch('OSEM_DB_ADAPTER', 'postgresql') %>
   encoding: <%= encoding %>
-  host: <%= ENV['OSEM_DB_HOST'] || 'database' %>
-  port: <%= ENV['OSEM_DB_PORT'] || '5432'  %>
-  username: <%= ENV['OSEM_DB_USER'] || 'postgres' %>
-  password: <%= ENV['OSEM_DB_PASSWORD'] || 'mysecretpassword' %>
-  database: <%= ENV['OSEM_DB_NAME'] || 'postgres' %>
+  host: <%= ENV.fetch('OSEM_DB_HOST', 'database') %>
+  port: <%= ENV.fetch('OSEM_DB_PORT', '5432')  %>
+  username: <%= ENV.fetch('OSEM_DB_USER', 'postgres') %>
+  password: <%= ENV.fetch('OSEM_DB_PASSWORD', 'mysecretpassword') %>
+  database: <%= ENV.fetch('OSEM_DB_NAME', 'postgres') %>
   pool: 5
   timeout: 5000
 

@@ -85,7 +85,7 @@ RSpec.configure do |config|
 
   # use a real browser for JS tests
   Capybara.javascript_driver = (
-    ENV['OSEM_TEST_DRIVER'].try(:to_sym) || :chrome_headless
+    ENV.fetch('OSEM_TEST_DRIVER', 'chrome_headless').to_sym
   )
 
   # Includes helpers and connect them to specific types of tests

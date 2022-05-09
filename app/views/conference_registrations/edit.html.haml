@@ -11,7 +11,7 @@
         %legend
           %span
             =link_to('#signup', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
-              = ENV['OSEM_NAME'] || 'OSEM'
+              = ENV.fetch('OSEM_NAME', 'OSEM')
               Account
           %span.pull-right#account-already
             =link_to('#signin', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
