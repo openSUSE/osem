@@ -585,7 +585,7 @@ GEM
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
-    timecop (0.9.4)
+    timecop (0.9.5)
     timeout (0.2.0)
     transitions (1.2.1)
     ttfunk (1.7.0)
