@@ -149,7 +149,7 @@ GEM
       fastimage
     case_transform (0.2)
       activesupport
-    caxlsx (3.1.1)
+    caxlsx (3.2.0)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
