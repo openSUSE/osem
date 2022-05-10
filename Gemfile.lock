@@ -349,7 +349,7 @@ GEM
       net-protocol
       timeout
     netrc (0.11.0)
-    next_rails (1.0.4)
+    next_rails (1.0.5)
       colorize (>= 0.8.1)
     nio4r (2.5.8)
     nokogiri (1.13.6)
