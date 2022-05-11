@@ -526,7 +526,7 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_parser (3.18.1)
+    ruby_parser (3.19.1)
       sexp_processor (~> 4.16)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
