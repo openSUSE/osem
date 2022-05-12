@@ -363,7 +363,7 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
-    omniauth-facebook (8.0.0)
+    omniauth-facebook (9.0.0)
       omniauth-oauth2 (~> 1.2)
     omniauth-github (2.0.0)
       omniauth (~> 2.0)
