@@ -14,7 +14,7 @@ GEM
     rails-assets-jquery-smooth-scroll (2.2.0)
       rails-assets-jquery (>= 1.7.0)
     rails-assets-markdown (0.5.0)
-    rails-assets-momentjs (2.22.2)
+    rails-assets-momentjs (2.29.3)
     rails-assets-spectrum (1.8.0)
       rails-assets-jquery (>= 1.7.2)
     rails-assets-tinycolor (1.4.1)
