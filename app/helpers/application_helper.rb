@@ -111,36 +111,12 @@ module ApplicationHelper
     safe_join(event.speakers.map{ |speaker| link_to speaker.name, admin_user_path(speaker) }, ',')
   end
 
-  def speaker_selector_input(form)
-    user_selector_input(:speakers, form, '', true)
-  end
-
-  def user_selector_input(field, form, hint = '', multiple = true)
-    users = User.where(is_disabled: false).pluck(:id, :name, :username, :email).map { |user| [user[0], user[1].blank? ? user[2] : user[1], user[2], user[3]] }.sort_by { |user| user[1].downcase }
-    form.input(
-      field,
-      as:            :select,
-      include_blank: true,
-      label:         field.to_s.titleize,
-      hint:          hint,
-      collection:    options_for_select(
-        users.map { |user| ["#{user[1]} (#{user[2]}) #{user[3]}", user[0]] },
-        (form.object.send(field)&.map(&:id) || form.object.send(field)&.id)
-      ),
-      input_html:    {
-        class:       'select-help-toggle',
-        multiple:    multiple,
-        placeholder: (multiple ? 'Select users...' : 'Select a user...')
-      }
-    )
-  end
-
   def event_types_sentence(conference)
     conference.event_types.map { |et| et.title.pluralize }.to_sentence
   end
 
   def sign_in_path
-    if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+    if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
       new_user_ichain_session_path
     else
       new_user_session_path
@@ -164,9 +140,7 @@ module ApplicationHelper
 
   def nav_root_link_for(conference)
     link_text = (
-      conference.try(:organization).try(:name) ||
-      ENV['OSEM_NAME'] ||
-      'OSEM'
+      conference.try(:organization).try(:name) || ENV.fetch('OSEM_NAME', 'OSEM')
     )
     link_to(
       link_text,

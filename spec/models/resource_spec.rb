@@ -26,6 +26,6 @@ describe Resource do
 
   it 'is not valid with used greater than quantity' do
     resource.used = resource.quantity + 1
-    expect(resource.valid?).to eq false
+    expect(resource.valid?).to be false
   end
 end

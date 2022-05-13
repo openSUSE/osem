@@ -30,7 +30,7 @@
           = f.label :max_choices
           = f.number_field :max_choices, class: 'form-control'
       .form-group
-        %label{ required: 'required' }
+        %label{ for: 'survey_question_kind', required: 'required' }
           Type of Question:
         .form-group
           %select.selectpicker.form-control{ id: 'survey_question_kind', name: 'survey_question[kind]' }

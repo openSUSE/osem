@@ -1,21 +1,22 @@
-.row
-  .col-md-12
-    .well
-      %h1
-        Welcome to your new
-        = link_to('https://osem.io') do
-          Open Source Event Manager
-        installation!
-      %p
-        The first user to
-        - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
-          = link_to(new_ichain_registration_path('user')) do
-            sign up
-        - else
-          = link_to(new_registration_path('user')) do
-            sign up
-        will the be administrator of it.
-      %p
-        We hope you enjoy using OSEM, if you have any question don't hesitate to
-        = link_to('https://osem.io/#contact') do
-          contact us!
+.container
+  .row
+    .col-md-12
+      .well
+        %h1
+          Welcome to your new
+          = link_to('https://osem.io') do
+            Open Source Event Manager
+          installation!
+        %p
+          The first user to
+          - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
+            = link_to(new_ichain_registration_path('user')) do
+              sign up
+          - else
+            = link_to(new_registration_path('user')) do
+              sign up
+          will the be administrator of it.
+        %p
+          We hope you enjoy using OSEM, if you have any question don't hesitate to
+          = link_to('https://osem.io/#contact') do
+            contact us!

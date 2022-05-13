@@ -54,11 +54,11 @@ describe Ticket do
       create(:ticket_purchase,
              user:   user,
              ticket: ticket)
-      expect(ticket.bought?(user)).to eq(true)
+      expect(ticket.bought?(user)).to be(true)
     end
 
     it 'returns false if the user has not bought this ticket' do
-      expect(ticket.bought?(user)).to eq(false)
+      expect(ticket.bought?(user)).to be(false)
     end
   end
 
@@ -79,7 +79,7 @@ describe Ticket do
     context 'user has not paid' do
 
       it 'returns true' do
-        expect(ticket.unpaid?(user)).to eq(true)
+        expect(ticket.unpaid?(user)).to be(true)
       end
     end
 
@@ -87,7 +87,7 @@ describe Ticket do
       before { ticket_purchase.update_attribute(:paid, true) }
 
       it 'returns false' do
-        expect(ticket.unpaid?(user)).to eq(false)
+        expect(ticket.unpaid?(user)).to be(false)
       end
     end
   end

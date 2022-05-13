@@ -20,8 +20,8 @@ describe TracksController do
 
     it 'assigns @tracks with the correct values' do
       expect(assigns(:tracks).length).to eq 1
-      expect(assigns(:tracks).include?(regular_track)).to eq false
-      expect(assigns(:tracks).include?(self_organized_track)).to eq true
+      expect(assigns(:tracks).include?(regular_track)).to be false
+      expect(assigns(:tracks).include?(self_organized_track)).to be true
     end
 
     it 'renders the index template' do
@@ -50,7 +50,7 @@ describe TracksController do
 
     it 'assigns a new track with the correct conference' do
       expect(assigns(:track)).to be_a Track
-      expect(assigns(:track).new_record?).to eq true
+      expect(assigns(:track).new_record?).to be true
       expect(assigns(:track).program_id).to eq conference.program.id
     end
 
@@ -74,14 +74,14 @@ describe TracksController do
       end
 
       it 'creates new track' do
-        expect(assigns(:track).new_record?).to eq false
+        expect(assigns(:track).new_record?).to be false
       end
 
       it 'the new tracks has the correct attributes' do
         expect(assigns(:track).program_id).to eq conference.program.id
         expect(assigns(:track).submitter).to eq user
         expect(assigns(:track).state).to eq 'new'
-        expect(assigns(:track).cfp_active).to eq false
+        expect(assigns(:track).cfp_active).to be false
       end
     end
 
@@ -93,7 +93,7 @@ describe TracksController do
 
       it 'assigns a new track with the correct conference' do
         expect(assigns(:track)).to be_a Track
-        expect(assigns(:track).new_record?).to eq true
+        expect(assigns(:track).new_record?).to be true
         expect(assigns(:track).program_id).to eq conference.program.id
       end
 
@@ -106,7 +106,7 @@ describe TracksController do
       end
 
       it 'does not create a new track' do
-        expect(conference.program.tracks.find_by(short_name: 'my_track')).to eq nil
+        expect(conference.program.tracks.find_by(short_name: 'my_track')).to be_nil
       end
     end
   end

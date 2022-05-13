@@ -23,7 +23,7 @@ module Admin
       respond_to do |format|
         format.html
         format.json do
-          render json: UserDatatable.new(view_context: view_context)
+          render json: UserDatatable.new(params, view_context: view_context)
         end
       end
     end

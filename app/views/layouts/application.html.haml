@@ -2,7 +2,7 @@
   %head
     %meta{charset: 'utf-8'}
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
-    %title= content_for?(:title) ? yield(:title) : (ENV['OSEM_NAME'] || 'OSEM')
+    %title= content_for?(:title) ? yield(:title) : ENV.fetch('OSEM_NAME', 'OSEM')
     %meta{content: '', name: 'description'}
     %meta{content: '', name: 'author'}
     = stylesheet_link_tag "application", media: 'all'
@@ -10,7 +10,7 @@
 
     = csrf_meta_tags
     = content_for(:script_head)
-    - if ENV['OSEM_TRANSIFEX_APIKEY']
+    - if ENV.fetch('OSEM_TRANSIFEX_APIKEY', nil)
       :javascript
         window.liveSettings = {
           api_key: "#{ENV['OSEM_TRANSIFEX_APIKEY']}",
@@ -46,7 +46,7 @@
             You can run, copy, distribute, study, change and improve it.
             The source code and the developers are on
             #{link_to "GitHub", "https://github.com/openSUSE/osem"}.
-            - if ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"].present?
+            - if ENV.fetch('SKYLIGHT_PUBLIC_DASHBOARD_URL', nil)
               Performance data is available on
               #{link_to "Skylight", ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"]}.
     = yield :script_body

@@ -6,7 +6,7 @@ describe DateTimeHelper, type: :helper do
 
   describe 'format_datetime' do
     it 'returns nothing if there is no parameter' do
-      expect(format_datetime(nil)).to eq nil
+      expect(format_datetime(nil)).to be_nil
     end
 
     it 'returns formatted string' do

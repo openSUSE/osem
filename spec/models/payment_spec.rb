@@ -24,7 +24,7 @@ describe Payment do
     let(:ticket_1) { create(:ticket, price: 10, price_currency: 'USD', conference: conference) }
     let(:payment) { create(:payment, user: user, conference: conference) }
 
-    it ' returns correct unpaid amount' do
+    it 'returns correct unpaid amount' do
       create(:ticket_purchase, ticket: ticket_1, user: user, quantity: 8)
       expect(payment.amount_to_pay).to eq(8000)
     end
@@ -71,7 +71,7 @@ describe Payment do
       context 'when the card is invalid' do
         it 'returns false' do
           payment_result = payment.purchase
-          expect(payment_result).to eq false
+          expect(payment_result).to be false
         end
 
         it 'assigns "failure" to payment.status' do

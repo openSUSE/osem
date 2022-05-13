@@ -1,20 +1,22 @@
 FROM registry.opensuse.org/opensuse/infrastructure/dale/containers/osem/base:latest
 
-# Install bundler & foreman
-RUN gem install bundler:1.17.3 foreman
+ENV RAILS_ENV=production
 
 # Add our files
 COPY --chown=1000:1000 . /osem/
+
+# Install bundler & foreman
+RUN gem install bundler -v "$(grep -A 1 "BUNDLED WITH" /osem/Gemfile.lock | tail -n 1)"; \
+    gem install foreman
 
 USER osem
 WORKDIR /osem/
 
 # Install our bundle
-RUN export NOKOGIRI_USE_SYSTEM_LIBRARIES=1; bundle install --jobs=3 --retry=3 --without test development
+RUN bundle config set --local without 'test development'
+RUN bundle install --jobs=3 --retry=3
 
 # Generate assets
-RUN export RAILS_ENV=production; bundle exec rake assets:precompile
-
-ENV RAILS_ENV=production
+RUN bundle exec rake assets:precompile
 
 CMD ["foreman", "start"]

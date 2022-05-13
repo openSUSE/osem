@@ -9,13 +9,20 @@
   .form-group
     = f.label :subtitle
     = f.text_field :subtitle, class: 'form-control'
-  = # speaker_selector_input f
+  .form-group
+    = f.label :speaker_ids, 'Speakers'
+    = f.select :speaker_ids, f.object.speakers.pluck(:username, :id), {}, {  multiple: true, class: "form-control", id: "users_selectize", placeholder: "Speakers" }
+    %span.help-block
+      The people responsible for the event, beside you. You can only select existing users.
   - if @program.tracks.confirmed.cfp_active.any?
-    = f.label :track_id, 'Track'
-    = f.select :track_id, @program.tracks.confirmed.cfp_active.pluck(:name, :id), include_blank: '(Please select)'
-  = f.label :event_type_id, 'Type'
-  = f.select :event_type_id, event_type_select_options(@conference.program.event_types), { include_blank: false }, { class: 'select-help-toggle form-control' }
+    .form-group
+      = f.label :track_id, 'Track'
+      = f.select :track_id, @program.tracks.confirmed.cfp_active.pluck(:name, :id), { include_blank: '(Please select)' }, { class: 'form-control' }
+  .form-group
+    = f.label :event_type_id, 'Type'
+    = f.select :event_type_id, event_type_select_options(@conference.program.event_types), { include_blank: false }, { class: 'select-help-toggle form-control' }
   - if @program.languages.present?
+    .form-group
     = f.label :language
     = f.select :language, @languages, { include_blank: false}, { class: 'select-help-toggle form-control' }
   - @conference.program.event_types.each do |event_type|
@@ -72,10 +79,5 @@
   %p.text-right
     = f.submit 'Update Proposal', class: 'btn btn-success'
 
-:javascript
-  $(document).ready(function() {
-    $('#event_speaker_ids').selectize({
-      plugins: ['remove_button'],
-      maxItems: 5
-    } )
-  });
+= render partial: 'shared/user_selectize'
+

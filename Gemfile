@@ -5,7 +5,7 @@ end
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '3.1.0'
+ruby ENV.fetch('OSEM_RUBY_VERSION', '3.1.2')
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -20,7 +20,7 @@ else
 end
 
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma'
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
@@ -145,6 +145,10 @@ gem 'prawn-rails'
 # see https://github.com/prawnpdf/prawn/commit/3658d5125c3b20eb11484c3b039ca6b89dc7d1b7
 gem 'matrix', '~> 0.4'
 
+# FIXME: for selenium-webdriver, rexml isn't in the default set of Ruby 3.1 anymore
+# see https://github.com/SeleniumHQ/selenium/commit/526fd9d0de60a53746ffa982feab985fed09a278
+gem 'rexml'
+
 # for QR code generation
 gem 'rqrcode'
 
@@ -180,7 +184,7 @@ gem 'money-rails'
 gem 'acts_as_list'
 
 # for switch checkboxes
-gem 'bootstrap-switch-rails', '~> 3.3.5'
+gem 'bootstrap-switch-rails', '3.3.3' # Locked pending Bttstrp/bootstrap-switch#707
 
 # for parsing OEmbed data
 gem 'ruby-oembed'

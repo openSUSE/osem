@@ -426,7 +426,7 @@ Lint/UriRegexp:
 # Offense count: 127
 # Configuration parameters: IgnoredMethods, CountRepeatedAttributes.
 Metrics/AbcSize:
-  Max: 71
+  Max: 72
 
 # Offense count: 313
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
@@ -457,7 +457,7 @@ Metrics/MethodLength:
 # Offense count: 5
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:
-  Max: 173
+  Max: 174
 
 # Offense count: 26
 # Configuration parameters: IgnoredMethods.

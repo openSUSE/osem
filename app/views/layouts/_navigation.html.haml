@@ -32,7 +32,7 @@
                 = render 'layouts/user_menu'
       - else
         %ul.nav.navbar-nav.navbar-right
-          - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+          - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
             %li{class: "#{active_nav_li(new_ichain_registration_path('user'))}"}
               = link_to(new_ichain_registration_path('user')) do
                 %span.fa.fa-heart
@@ -48,7 +48,7 @@
               Sign In
               %span.caret
             .dropdown-menu
-              - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+              - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
                 = form_tag User.ichain_login_url do
                   = text_field_tag 'username', nil, id: 'user_ichain_email_dd', class: 'form-control', placeholder: 'Username'
                   = password_field_tag 'password', nil, id: 'user_ichain_password_dd', class: 'form-control', placeholder: 'Password'

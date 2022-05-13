@@ -8,12 +8,12 @@ describe Commercial do
 
   it 'validates url format' do
     commercial = build(:conference_commercial, url: 'ftp://example.com')
-    expect(commercial.valid?).to eq false
+    expect(commercial.valid?).to be false
     expect(commercial.errors['url']).to eq ['is invalid']
   end
 
   it 'validates url rendering' do
     commercial = build(:conference_commercial)
-    expect(commercial.valid?).to eq true
+    expect(commercial.valid?).to be true
   end
 end
