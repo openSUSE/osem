@@ -517,7 +517,7 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
     rubocop-rspec (2.10.0)
       rubocop (~> 1.19)
-    ruby-oembed (0.15.0)
+    ruby-oembed (0.16.1)
     ruby-openid (2.9.2)
     ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
