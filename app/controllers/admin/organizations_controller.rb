@@ -27,7 +27,7 @@ module Admin
     def edit; end
 
     def update
-      if @organization.update_attributes(organization_params)
+      if @organization.update(organization_params)
         redirect_to admin_organizations_path,
                     notice: 'Organization successfully updated'
       else

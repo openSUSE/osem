@@ -1,6 +1,6 @@
 - content_for :head do
   %meta{ property: "og:title", content: @conference.title }
-  %meta{ property: "og:site_name", content: (ENV['OSEM_NAME'] || 'OSEM') }
+  %meta{ property: "og:site_name", content: ENV.fetch('OSEM_NAME', 'OSEM') }
   %meta{ property: "og:description", content: @conference.description }
   %meta{ property: "og:url", content: conference_url(@conference.short_title) }
   %meta{ property: "twitter:title", content: (@conference.title) }

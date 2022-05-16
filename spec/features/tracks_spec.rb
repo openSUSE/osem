@@ -18,8 +18,6 @@ feature Track do
 
         fill_in 'track_name', with: 'Distribution'
         fill_in 'track_short_name', with: 'Distribution'
-        page.find('#track_color').set('#B94D4D')
-        fill_in 'track_description', with: 'Events about our Linux distribution'
         click_button 'Create Track'
         page.find('#flash')
       end
@@ -28,7 +26,6 @@ feature Track do
       expect(flash).to eq('Track successfully created.')
       within('table#tracks') do
         expect(page.has_content?('Distribution')).to be true
-        expect(page.has_content?('Events about our Linux')).to be true
       end
     end
 
@@ -45,7 +42,6 @@ feature Track do
       expect(flash).to eq('Track successfully deleted.')
       expect(page.has_css?('table#tracks')).to be false
       expect(page.has_content?(track.name)).to be false
-      expect(page.has_content?(track.description)).to be false
       expect(Track.count).to eq(0)
     end
 
@@ -61,7 +57,6 @@ feature Track do
 
         fill_in 'track_name', with: 'Distribution'
         fill_in 'track_short_name', with: 'Distribution'
-        page.find('#track_color').set('#B94D4D')
         fill_in 'track_description', with: 'Events about our Linux distribution'
         click_button 'Update Track'
         page.find('#flash')
@@ -86,7 +81,6 @@ feature Track do
 
         fill_in 'track_name', with: 'Distribution'
         fill_in 'track_short_name', with: 'Distribution'
-        page.find('#track_color').set('#B94D4D')
         fill_in 'track_description', with: 'Events about our Linux distribution'
         fill_in 'track_relevance', with: 'Maintainer of super awesome distribution'
         click_button 'Create Track'
@@ -96,8 +90,8 @@ feature Track do
       expected.to change { Track.count }.by 1
       expect(flash).to eq('Track request successfully created.')
       within('table#tracks') do
-        expect(page.has_content?('Distribution')).to eq true
-        expect(page.has_content?('Events about our Linux dist...')).to eq true
+        expect(page.has_content?('Distribution')).to be true
+        expect(page.has_content?('Events about our Linux dist...')).to be true
       end
     end
 
@@ -117,8 +111,8 @@ feature Track do
       expected.to_not(change { Track.count })
       expect(flash).to eq("Track #{track.name} withdrawn.")
       within('table#tracks') do
-        expect(page.has_content?(track.name)).to eq true
-        expect(page.has_link?('Re-Submit')).to eq true
+        expect(page.has_content?(track.name)).to be true
+        expect(page.has_link?('Re-Submit')).to be true
       end
     end
 
@@ -132,7 +126,6 @@ feature Track do
 
         fill_in 'track_name', with: 'Distribution'
         fill_in 'track_short_name', with: 'Distribution'
-        page.find('#track_color').set('#B94D4D')
         fill_in 'track_description', with: 'Events about our Linux distribution'
         click_button 'Update Track'
         page.find('#flash')
@@ -141,8 +134,8 @@ feature Track do
       expected.to_not(change { Track.count })
       expect(flash).to eq('Track request successfully updated.')
       within('table#tracks') do
-        expect(page.has_content?('Distribution')).to eq true
-        expect(page.has_content?('Events about our Linux dist...')).to eq true
+        expect(page.has_content?('Distribution')).to be true
+        expect(page.has_content?('Events about our Linux dist...')).to be true
       end
     end
   end

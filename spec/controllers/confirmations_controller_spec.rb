@@ -13,7 +13,7 @@ describe ConfirmationsController do
     it 'confirms and signs in user' do
       get :show, params: { confirmation_token: user.confirmation_token }
       user.reload
-      expect(user.confirmed?).to eq true
+      expect(user.confirmed?).to be true
       expect(controller.current_user).to eq user
     end
   end
@@ -24,7 +24,7 @@ describe ConfirmationsController do
     it 'confirms user' do
       get :show, params: { confirmation_token: user.confirmation_token }
       user.reload
-      expect(user.confirmed?).to eq true
+      expect(user.confirmed?).to be true
     end
   end
 end

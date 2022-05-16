@@ -1,16 +1,20 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        - if @resource.new_record?
-          New
-        Resource
-.row
-  .col-md-8
-    = semantic_form_for(@resource, :url => (@resource.new_record? ? admin_conference_resources_path : admin_conference_resource_path(@conference.short_title, @resource))) do |f|
-      = f.input :name, input_html: { autofocus: true }
-      = f.input :description, input_html: { rows: 5, data: { provide: 'markdown' } }
-      = f.input :used
-      = f.input :quantity
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@resource, :url => (@resource.new_record? ? admin_conference_resources_path : admin_conference_resource_path(@conference.short_title, @resource))) do |f|
+  .form-group
+    = f.label :name
+    %abbr{title: 'This field is required'} *
+    = f.text_field :name, required: true, autofocus: true, class: 'form-control'
+  .form-group
+    = f.label :description
+    = f.text_area :description, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      = markdown_hint
+  .form-group
+    = f.label :used
+    %abbr{title: 'This field is required'} *
+    = f.number_field :used, required: true, class: 'form-control'
+  .form-group
+    = f.label :quantity
+    %abbr{title: 'This field is required'} *
+    = f.number_field :quantity, required: true, class: 'form-control'
+  %p.text-right
+    = f.submit nil, { class: 'btn btn-primary' }

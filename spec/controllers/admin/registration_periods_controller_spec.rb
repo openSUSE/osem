@@ -104,7 +104,7 @@ describe Admin::RegistrationPeriodsController do
                                                 start_date: nil,
                                                 end_date:   nil)
           }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
     end

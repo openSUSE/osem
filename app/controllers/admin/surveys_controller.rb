@@ -28,7 +28,7 @@ module Admin
     end
 
     def update
-      if @survey.update_attributes(survey_params)
+      if @survey.update(survey_params)
         redirect_to admin_conference_surveys_path(@conference.short_title)
       else
         @url = admin_conference_survey_path(@conference.short_title, @survey)

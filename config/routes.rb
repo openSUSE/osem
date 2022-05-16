@@ -1,10 +1,11 @@
 Osem::Application.routes.draw do
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   constraints DomainConstraint do
     get '/', to: 'conferences#show'
   end
 
-  if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+  if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
     devise_for :users, controllers: { registrations: :registrations }
   else
     devise_for :users,
@@ -15,6 +16,9 @@ Osem::Application.routes.draw do
   end
 
   resources :users, except: [:new, :index, :create, :destroy] do
+    collection do
+      get :search
+    end
     resources :openids, only: :destroy
   end
 
@@ -222,8 +226,8 @@ Osem::Application.routes.draw do
 
   get '/calendar' => 'conferences#calendar'
 
-  unless ENV['OSEM_ROOT_CONFERENCE'].blank?
-    root to: redirect("/conferences/#{ENV['OSEM_ROOT_CONFERENCE']}")
+  if ENV.fetch('OSEM_ROOT_CONFERENCE', nil)
+    root to: redirect("/conferences/#{ENV.fetch('OSEM_ROOT_CONFERENCE')}")
   else
     root to: 'conferences#index', via: [:get, :options]
   end

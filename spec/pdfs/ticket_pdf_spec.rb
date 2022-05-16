@@ -50,6 +50,6 @@ describe TicketPdf do
       .to_return(status: 404, body: '', headers: {})
 
     pdf = described_class.new(conference, participant, physical_ticket, layout, file_name)
-    expect{ PDF::Inspector::Page.analyze(pdf.render) }.to_not raise_error(OpenURI::HTTPError)
+    expect{ PDF::Inspector::Page.analyze(pdf.render) }.to_not raise_error
   end
 end

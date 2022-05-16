@@ -6,10 +6,6 @@ describe Vote do
   let!(:vote) { create(:vote) }
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:vote)).to be_valid
-    end
-
     it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:event_id) }
 
     # This is testing the relationship instead of using the shoulda-matchers

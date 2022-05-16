@@ -13,7 +13,7 @@ describe Api::V1::EventsController do
 
         get :index, params: { format: :json }
         json = JSON.parse(response.body)['events']
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(json.pluck('title')).to contain_exactly('Conference Event', 'Example Event')
       end
@@ -25,7 +25,7 @@ describe Api::V1::EventsController do
         get :index, params: { conference_id: conference.short_title, format: :json }
         json = JSON.parse(response.body)['events']
 
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(json.length).to eq(1)
         expect(json[0]['title']).to eq('Conference Event')

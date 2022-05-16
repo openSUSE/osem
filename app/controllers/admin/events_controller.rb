@@ -72,7 +72,7 @@ module Admin
 
     def update
       @languages = @program.languages_list
-      if @event.update_attributes(event_params)
+      if @event.update(event_params)
 
         if request.xhr?
           render js: 'index'
@@ -142,7 +142,7 @@ module Admin
       @votes = @event.votes.includes(:user)
 
       if (votes = current_user.votes.find_by_event_id(params[:id]))
-        votes.update_attributes(rating: params[:rating])
+        votes.update(rating: params[:rating])
       else
         @myvote = @event.votes.build
         @myvote.user = current_user

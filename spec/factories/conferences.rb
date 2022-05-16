@@ -33,7 +33,7 @@ FactoryBot.define do
         # Contact/Program is created by Conference callbacks
         conference.contact.destroy
         conference.contact = create(:contact, conference: conference)
-        conference.program.update_attributes(schedule_public: true)
+        conference.program.update_attribute(:schedule_public, true)
 
         create(:cfp, program: conference.program)
         create_list(:track, 2, program: conference.program)

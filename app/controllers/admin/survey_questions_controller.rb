@@ -28,7 +28,7 @@ module Admin
 
     # PUT questions/1
     def update
-      if @survey_question.update_attributes(survey_question_params)
+      if @survey_question.update(survey_question_params)
         redirect_to admin_conference_survey_path(@conference.short_title, @survey), notice: 'Successfully updated Survey Question.'
       else
         @url = admin_conference_survey_survey_question_path(@conference.short_title, @survey, @survey_question)

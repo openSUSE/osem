@@ -71,7 +71,7 @@ feature Openid do
       expect(flash).to eq('test-participant-1@example.com signed in successfully with google')
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
-      expect(Openid.where(email: 'test-1@example.com').first.nil?).to eq(false)
+      expect(Openid.where(email: 'test-1@example.com').first.nil?).to be(false)
     end
 
     scenario 'signs in with openID using the same email as another associated openid' do
@@ -105,8 +105,8 @@ feature Openid do
       page.find('#flash .close').click
       expect(Openid.count).to eq(expected_count_openid)
       expect(User.count).to eq(expected_count_user)
-      expect(Openid.where(email: 'test-participant-1@example.com').first.nil?).to eq(false)
-      expect(Openid.where(email: 'test-1@example.com').first.nil?).to eq(false)
+      expect(Openid.where(email: 'test-participant-1@example.com').first.nil?).to be(false)
+      expect(Openid.where(email: 'test-1@example.com').first.nil?).to be(false)
 
       # Sign in with different openID using same email (test-1@gmail.com)
       sign_out
@@ -131,8 +131,8 @@ feature Openid do
   shared_examples 'sign up with openid' do |provider|
     scenario "has option to sign in with #{provider}" do
       visit '/accounts/sign_up'
-      expect(page.has_content?('or sign in using')).to eq true
-      expect(page.has_link?("omniauth-#{provider}")).to eq true
+      expect(page.has_content?('or sign in using')).to be true
+      expect(page.has_link?("omniauth-#{provider}")).to be true
     end
 
     scenario "sign up with #{provider}" do

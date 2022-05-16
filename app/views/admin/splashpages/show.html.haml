@@ -55,7 +55,7 @@
   .row
     .col-md-12
       - if can? :update, @splashpage
-        = link_to 'Edit', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
+        = link_to 'Configure', edit_admin_conference_splashpage_path, class: 'btn btn-primary'
       - if can? :destroy, @splashpage
         = link_to 'Delete', admin_conference_splashpage_path,
                             method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'

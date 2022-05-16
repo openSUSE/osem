@@ -33,7 +33,7 @@ describe Admin::EventSchedulesController do
 
         it 'has 200 status code' do
           create_action
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 
@@ -80,7 +80,7 @@ describe Admin::EventSchedulesController do
         end
 
         it 'has 200 status code' do
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 
@@ -115,7 +115,7 @@ describe Admin::EventSchedulesController do
 
       it 'has 200 status code' do
         destroy_action
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end

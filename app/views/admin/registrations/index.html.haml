@@ -26,7 +26,6 @@
           %tr
             %th{ width: '0' } ID#
             %th{ width: '25%' } Name
-            %th{ width: '0' } Roles
             %th{ width: '0' } E-Mail
             %th{ width: '0' }
               %abbr{ title: 'Code of Conduct' } CoC
@@ -64,14 +63,6 @@
           }
         },
         {
-          "name": "roles",
-          "data": "roles",
-          "className": "truncate",
-          "render": function(data, type, row) {
-            return data.join(', ');
-          }
-        },
-        {
           "data": "email"
         },
         {
@@ -80,13 +71,13 @@
           "searchable": false
         },
         {
-          "data": null,
+          "data": "actions",
           "className": "actions",
           "searchable": false,
           "sortable": false,
           "render":    function (data, type, row, meta) {
             return '<div class="btn-group">'+
-                   '<a class="btn-primary" href="'+data.edit_url+'">Edit</a>'+
+                   '<a class="btn-primary" href="'+row.edit_url+'">Edit</a>'+
                    '</div>';
           }
         }
@@ -94,5 +85,4 @@
     });
 
     registrationsDataTable.columns(3).visible(codeOfConductPresent);
-    registrationsDataTable.columns(2).visible(false);
   });

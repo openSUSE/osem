@@ -16,7 +16,7 @@
             This survey does not accept replies at this monent.
 .row
   .col-md-12
-    = semantic_form_for @survey_submission, url: reply_conference_survey_path(@conference.short_title, @survey) do |f|
+    = form_for(@survey_submission, url: reply_conference_survey_path(@conference.short_title, @survey)) do |f|
       - @survey.survey_questions.each.with_index(1) do |survey_question, question_index|
         .row
           .col-md-10.col-md-offset-1

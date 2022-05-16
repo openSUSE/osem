@@ -1,0 +1,23 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        %h1
+          Registration for
+          = @conference.title
+  .row
+    .col-md-8
+      - unless current_user
+        %legend
+          %span
+            =link_to('#signup', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
+              = ENV.fetch('OSEM_NAME', 'OSEM')
+              Account
+          %span.pull-right#account-already
+            =link_to('#signin', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
+              Already have an account?
+      .tab-content
+        .tab-pane.active{role: 'tabpanel', id: 'signup'}
+          = render partial: 'form'
+        .tab-pane{role: 'tabpanel', id: 'signin'}
+          = render partial: 'devise/sessions/new_embedded'

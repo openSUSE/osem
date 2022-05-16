@@ -1,15 +1,5 @@
-.row
-  .col-md-12
-    .page-header
-      %h2
-        Role
-        = @role.name.titleize
-      .text-muted
-        = @role.description
-
-= semantic_form_for @role, url: @url do |f|
-  .row
-    .col-md-5
-      = f.input :description, input_html: { autofocus: true }
-
-      = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for @role, url: @url do |f|
+  .form-group
+    = f.label :description
+    = f.text_field :description, autofocus: true, class: 'form-control'
+  = f.submit nil, { class: 'btn btn-primary' }

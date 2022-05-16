@@ -19,10 +19,8 @@
             #resource-placeholder{ style: 'background-color:#d3d3d3; float: left; width: 400px; height: 250px; margin: 5px; border-width: 1px; border-style: solid; border-color: rgba(0,0,0,.2);' }
         .row
           .col-md-6
-            = semantic_form_for(@event.commercials.build, url: conference_program_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event)) do |f|
-              = f.input :url, label: 'URL', as: :string, input_html: { required: 'required', type: 'url' },
-              hint: 'Just paste the url of your video/photo provider. Currently supported: YouTube, Vimeo, SpeakerDeck, SlideShare, Instagram, Flickr.'
-              = f.action :submit, as: :button, button_html: { class: 'btn btn-primary pull-right', disabled: true }
+            = form_for(@event.commercials.new, url: conference_program_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event)) do |f|
+              = render partial: 'proposals/commercial_form_fields', locals: { f: f, commercial: @event.commercials.build }
         %hr
       - @event.commercials.each_slice(3) do |slice|
         .row
@@ -34,13 +32,6 @@
                     = render partial: 'shared/media_item', locals: { commercial: commercial }
                   .caption
                     - if can? :update, commercial
-                      = semantic_form_for commercial, url: conference_program_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event, id: commercial) do |f|
-                        = f.input :url, label: 'URL', as: :string, input_html: { id: "commercial_url_#{commercial.id}", required: 'required', type: 'url' }
-                        = f.action :submit, as: :button, button_html: { class: 'btn btn-success' }, label: 'Update'
-                        - if can? :destroy, commercial
-                          = link_to 'Delete', conference_program_proposal_commercial_path(@conference.short_title, @event.id, commercial.id),
-                          :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger'
-                    - if commercial.versions.any?
-                      .text-right
-                        = "added by "
-                        = link_to_user(commercial.versions.last.whodunnit)
+                      = form_for(commercial, url: conference_program_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event, id: commercial)) do |f|
+                        = render partial: 'proposals/commercial_form_fields', locals: { f: f, commercial: commercial }
+

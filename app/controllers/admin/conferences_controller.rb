@@ -68,7 +68,6 @@ module Admin
 
     def new
       @conference = Conference.new
-      @organizations = Organization.accessible_by(current_ability, :update).pluck(:name, :id)
     end
 
     def create
@@ -91,7 +90,7 @@ module Admin
       @conference.assign_attributes(conference_params)
       send_mail_on_conf_update = @conference.notify_on_dates_changed?
 
-      if @conference.update_attributes(conference_params)
+      if @conference.update(conference_params)
         ConferenceDateUpdateMailJob.perform_later(@conference) if send_mail_on_conf_update
         redirect_to edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.'

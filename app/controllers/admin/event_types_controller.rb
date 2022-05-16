@@ -26,7 +26,7 @@ module Admin
     end
 
     def update
-      if @event_type.update_attributes(event_type_params)
+      if @event_type.update(event_type_params)
         redirect_to admin_conference_program_event_types_path(conference_id: @conference.short_title),
                     notice: 'Event type successfully updated.'
       else

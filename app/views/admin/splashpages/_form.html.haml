@@ -1,66 +1,71 @@
-.row
-  .col-md-12
-    .page-header
-      %h1 Splashpage
-
-= semantic_form_for(@splashpage, url: admin_conference_splashpage_path(@conference.short_title)) do |f|
-  .row
-    .col-md-12
-      = f.inputs name: 'Components' do
-        %ul.fa-ul
-          %li
-            %th
-              %button.btn.btn-default#select-all{ type: "button" }
-                Select All
-            %th
-              %button.btn.btn-default#unselect-all{ type: "button" }
-                Unselect All
-          %li
-            = f.input :include_cfp, label: 'Display call for papers and call for tracks, while open', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_cfp) }
-          %li
-            = f.input :include_program, label: 'Display the program', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_program) }
-
-            %ul.fa-ul
-              %li
-                = f.input :include_tracks, label: 'Include confirmed tracks', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tracks) }
-              %li
-                = f.input :include_booths, label: "Include confirmed #{(t'booth').pluralize}", input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_booths) }
-
-          %li
-            = f.input :include_registrations, label: 'Display the registration period', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_registrations) }
-
-          %li
-            = f.input :include_tickets, label: 'Display tickets', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_tickets) }
-
-          %li
-            = f.input :include_venue, label: 'Display the venue', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_venue) }
-
-          %li
-            = f.input :include_lodgings, label: 'Display the lodgings', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_lodgings) }
-
-          %li
-            = f.input :include_sponsors, label: 'Display sponsors', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_sponsors) }
-
-          %li
-            = f.input :include_social_media, label: 'Display social media links', input_html: { checked: params[:action] == 'new' || @splashpage.try(:include_social_media) }
-
-      = f.inputs name: 'Access' do
-        %ul.fa-ul
-          %li
-            = f.input :public, label: 'Make splash page public?'
-  .row
-    .col-md-12
-      %p.text-right
-        = f.submit 'Save Changes', class: 'btn btn-primary'
+= form_for(@splashpage, url: admin_conference_splashpage_path) do |f|
+  .checkbox
+    %label
+      = f.check_box :include_cfp
+      Display call for papers and call for tracks?
+  .checkbox
+    %label
+      = f.check_box :include_program
+      Display the program?
+  .checkbox
+    %label
+      = f.check_box :include_tracks
+      Include confirmed tracks in the program?
+  .checkbox
+    %label
+      = f.check_box :include_booths
+      Include confirmed
+      = (t'booth').pluralize
+      in the program?
+  .checkbox
+    %label
+      = f.check_box :include_registrations
+      Display the registration period?
+  .checkbox
+    %label
+      = f.check_box :include_tickets
+      Display the tickets?
+  .checkbox
+    %label
+      = f.check_box :include_venue
+      Display the venue?
+  .checkbox
+    %label
+      = f.check_box :include_lodgings
+      Display the lodgings?
+  .checkbox
+    %label
+      = f.check_box :include_sponsors
+      Display the sponsors?
+  .checkbox
+    %label
+      = f.check_box :include_social_media
+      Display the social media links?
+  %h4
+    Access
+  %hr
+  .checkbox
+    %label
+      = f.check_box :public
+      Make splash page public?
+  .text-right
+    .checkbox
+      %label
+        = check_box_tag 'selectAll'
+        Select / Deselect All
+    = f.submit 'Save', { class: 'btn btn-primary' }
 
 :javascript
   $(document).ready(function(){
-    $('#select-all').click(function(event) {
-      var parent = $(this).parents('.inputs:last');
-      parent.find('.input.checkbox input[type=checkbox]').prop('checked',true);
-      });
-    $('#unselect-all').click(function(event) {
-      var parent = $(this).parents('.inputs:last');
-      parent.find('.input.checkbox input[type=checkbox]').prop('checked',false);
-      });
+    $('#selectAll').click(function() {
+      if (this.checked) {
+          $(':checkbox').each(function() {
+              this.checked = true;
+          });
+      } else {
+          $(':checkbox').each(function() {
+              this.checked = false;
+          });
+      }
+    });
   });

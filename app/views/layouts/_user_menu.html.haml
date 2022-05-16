@@ -10,7 +10,7 @@
     %li= link_to "See all unread Comments (#{unread_notifications(current_user).length})", admin_comments_path
   %li= link_to 'See all Comments', admin_comments_path(anchor: 'all_comments')
   %li.divider
-- unless ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+- unless ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
   %li
     = link_to(edit_user_registration_path) do
       %span.fa.fa-wrench
@@ -40,7 +40,7 @@
       %span.fa.fa-shopping-bag
       My #{(t'booth').capitalize } Requests
 %li
-  - if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+  - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
     = link_to(destroy_user_ichain_session_path, method: 'delete') do
       %span.fa.fa-minus
       Sign out
@@ -76,7 +76,7 @@
     = link_to(admin_revision_history_path) do
       %span.fa.fa-history
       Revision History
-  - if ENV['ORGANIZATIONS_ENABLED'] == 'true'
+  - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
     %li
       = link_to(admin_organizations_path) do
         %span.fa.fa-group

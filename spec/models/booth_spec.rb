@@ -7,10 +7,6 @@ describe Booth do
   let!(:conference) { create(:conference) }
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:booth)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:reasoning) }
     it { is_expected.to validate_presence_of(:description) }
     it { is_expected.to validate_presence_of(:responsibles) }

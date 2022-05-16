@@ -1,30 +1,43 @@
-.container
-  .row
-    .col-md-8
-      = semantic_form_for(@booth,  url: @url, html: { multipart: true }) do |f|
-        = f.input :title, as: :string, input_html: { autofocus: true }, required: true
-        = f.input :description, input_html: { rows: 5, data: { provide: 'markdown' } }, required: true,
-          hint: 'This field becomes public upon request acceptance'
-        = f.input :reasoning, input_html: { rows: 5, data: { provide: 'markdown' } }, required: true,
-          label: 'How it fits the conference'
-        = f.input :submitter_relationship, input_html: { rows: 5, data: { provide: 'markdown' } }, required: true,
-          label: 'Submitter\'s relation',
-          hint: 'e.g. employee, comunity manager, etc'
-        = f.input :website_url
-        = responsibles_selector_input f
-        = image_tag f.object.picture.thumb.url if f.object.picture?
-        = f.input :picture
+= form_for(@booth,  url: @url) do |f|
+  .form-group
+    = f.label :title, 'Title'
+    %abbr{title: 'This field is required'} *
+    = f.text_field :title, autofocus: true, required: true, class: 'form-control', placeholder: 'Title'
+  .form-group
+    = f.label :description, 'Description'
+    %abbr{title: 'This field is required'} *
+    = f.text_area :description, rows: 5, data: { provide: 'markdown' }, required: true, class: 'form-control'
+    %span.help-block
+      This field becomes public upon request acceptance
+  .form-group
+    = f.label :reasoning, 'How it fits the conference'
+    %abbr{title: 'This field is required'} *
+    = f.text_area :reasoning, rows: 5, data: { provide: 'markdown' }, required: true, class: 'form-control'
+  .form-group
+    = f.label :submitter_relationship, 'Submitter\'s relation'
+    %abbr{title: 'This field is required'} *
+    = f.text_field :submitter_relationship, rows: 5, required: true, class: 'form-control'
+    %span.help-block
+      e.g. employee, comunity manager, etc
+  .form-group
+    = f.label :website_url, 'Website URL'
+    %abbr{title: 'This field is required'} *
+    = f.text_field :website_url, class: 'form-control', required: true, placeholder: 'URL'
+  .form-group
+    = f.label :responsible_ids, 'Responsibles'
+    = f.select :responsible_ids, @booth.responsibles.pluck(:username, :id), {}, { multiple: true, class: 'form-control', id: 'users_selectize', placeholder: 'Responsibles' }
+    %span.help-block
+      The people responsible for the `t('booth')`. You can only select existing users.
+  .form-group
+    = image_tag f.object.picture.thumb.url if f.object.picture?
+    = f.label :picture, 'Picture'
+    = f.file_field :picture
+  %p.text-right
+    %button{type: 'submit', class: 'btn btn-success'}
+      - if @booth.new_record?
+        Create `(t'booth').capitalize` Request
+      - else
+        Update `(t'booth').capitalize` Request
 
-        %p.text-right
-          - if @booth.new_record?
-            = f.submit "Create #{(t'booth').capitalize } Request", class: 'btn btn-success'
-          - else
-            = f.submit "Update #{(t'booth').capitalize } Request", class: 'btn btn-success'
+= render partial: 'shared/user_selectize'
 
-  :javascript
-    $(document).ready(function() {
-      $('#booth_responsible_ids').selectize({
-        plugins: ['remove_button'],
-        minItems: 2
-      } )
-    });

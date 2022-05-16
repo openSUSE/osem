@@ -18,7 +18,7 @@ describe SpeakerSerializer, type: :serializer do
   end
 
   context 'speaker has biography' do
-    before{ speaker.update_attributes(biography: 'Doest of all Jon Does') }
+    before{ speaker.update_attribute(:biography, 'Doest of all Jon Does') }
 
     it 'sets name, affiliation and biography' do
       expected_json = {

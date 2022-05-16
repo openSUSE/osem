@@ -32,8 +32,8 @@
 # OSEM_MEMCACHED_USERNAME='root'
 # OSEM_MEMCACHED_PASSWORD='1234'
 
-# The ruby version to use
-# OSEM_RUBY_VERSION=2.5.0
+# Set this if you want to deviate from our 'standard' ruby version
+# OSEM_RUBY_VERSION=3.1.2
 
 # What time is it?
 # OSEM_TIME_ZONE="UTC"
@@ -109,15 +109,11 @@
 # OSEM_LOG_LEVEL=info
 
 # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-# FORCE_SSL=1
+# FORCE_SSL=true
 
 # Your skylight.io keys
 # SKYLIGHT_AUTHENTICATION=1234
 # SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
-
-# Disable linting of factories in the test suite.
-# Speeds up turn around times of tests
-# OSEM_FACTORY_LINT=false
 
 # How should browser tests be performed?
 # For headless Chrome (default):

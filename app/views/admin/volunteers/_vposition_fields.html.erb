@@ -1,8 +1,0 @@
-<div class="nested-fields">
-    <%= f.inputs do %>
-        <%= f.input :title %>
-        <%= f.input :description, input_html: {rows: '2', class: 'col-md-8'}%>
-        <%= f.input :vdays, collection: @conference.vdays.map {|x| [x.day, x.id]}, label: 'Position is required for the following days:'%>
-        <%= remove_association_link :vposition, f %>
-    <% end %>
-</div>

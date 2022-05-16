@@ -1,14 +1,8 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        - if @sponsorship_level.new_record?
-          New
-        Sponsorship Level
-        = @sponsorship_level.title
-.row
-  .col-md-8
-    = semantic_form_for(@sponsorship_level, url: (@sponsorship_level.new_record? ? admin_conference_sponsorship_levels_path : admin_conference_sponsorship_level_path(@conference.short_title, @sponsorship_level))) do |f|
-      = f.input :title, input_html: { autofocus: true }
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@sponsorship_level, url: (@sponsorship_level.new_record? ? admin_conference_sponsorship_levels_path : admin_conference_sponsorship_level_path(@conference.short_title, @sponsorship_level))) do |f|
+  .form-group
+    = f.label :title
+    %abbr{title: 'This field is required'} *
+    = f.text_field :title, autofocus: true, required: true, class: 'form-control'
+  %p.text-right
+    = f.submit nil, class: 'btn btn-primary'
+

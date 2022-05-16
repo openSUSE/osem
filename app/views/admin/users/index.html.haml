@@ -61,13 +61,13 @@
           }
         },
         {
-          "data": null,
+          "data": "actions",
           "className": "actions",
           "sortable": false,
           "render":    function (data, type, row, meta) {
             return '<div class="btn-group">'+
-                   '<a class="btn-info" href="'+data.view_url+'">View</a>'+
-                   '<a class="btn-primary" href="'+data.edit_url+'">Edit</a>'+
+                   '<a class="btn-info" href="'+row.view_url+'">View</a>'+
+                   '<a class="btn-primary" href="'+row.edit_url+'">Edit</a>'+
                    '</div>';
           }
         }

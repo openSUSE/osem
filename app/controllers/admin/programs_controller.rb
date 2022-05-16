@@ -12,11 +12,12 @@ module Admin
     def update
       authorize! :update, @conference.program
       @program = @conference.program
+      params['program']['languages'] = params['program']['languages'].join(',') if params['program']['languages'].present?
       @program.assign_attributes(program_params)
       send_mail_on_schedule_public = @program.notify_on_schedule_public?
       event_schedules_count_was = @program.event_schedules.count
 
-      if @program.update_attributes(program_params)
+      if @program.save
         ConferenceScheduleUpdateMailJob.perform_later(@conference) if send_mail_on_schedule_public
         respond_to do |format|
           format.html do
@@ -40,7 +41,7 @@ module Admin
     private
 
     def program_params
-      params.require(:program).permit(:rating, :schedule_public, :schedule_interval, :schedule_fluid, :languages, :blind_voting, :voting_start_date, :voting_end_date, :selected_schedule_id)
+      params.require(:program).permit(:rating, :schedule_public, :schedule_interval, :schedule_fluid, :blind_voting, :voting_start_date, :voting_end_date, :selected_schedule_id, :languages)
     end
   end
 end

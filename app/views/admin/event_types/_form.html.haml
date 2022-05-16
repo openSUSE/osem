@@ -1,19 +1,29 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        - if @event_type.new_record?
-          New
-        Event Type
-        = @event_type.title
-.row
-  .col-md-12
-    = semantic_form_for(@event_type, url: (@event_type.new_record? ? admin_conference_program_event_types_path : admin_conference_program_event_type_path(@conference.short_title, @event_type))) do |f|
-      = f.input :title, input_html: { autofocus: true }
-      = f.input :length, input_html: {size: 3, type: 'number', step: @event_type.program.schedule_interval, min: @event_type.program.schedule_interval}
-      = f.input :description
-      = f.input :minimum_abstract_length, input_html: {size: 3}
-      = f.input :maximum_abstract_length, input_html: {size: 3}
-      = f.input :color, input_html: { size: 6, type: 'color' }
-      %p.text-right
-        = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+= form_for(@event_type, url: (@event_type.new_record? ? admin_conference_program_event_types_path : admin_conference_program_event_type_path(@conference.short_title, @event_type))) do |f|
+  .form-group
+    = f.label :title
+    %abbr{title: 'This field is required'} *
+    = f.text_field :title, autofocus: true, required: true, class: 'form-control'
+  .form-group
+    = f.label :length
+    = f.number_field :length, size: 3, step: @event_type.program.schedule_interval, min: @event_type.program.schedule_interval, class: 'form-control'
+    %span.help-block
+      In steps of
+      = @event_type.program.schedule_interval
+      and minimum
+      = @event_type.program.schedule_interval
+  .form-group
+    = f.label :description
+    = f.text_field :description, class: 'form-control'
+  .form-group
+    = f.label :minimum_abstract_length
+    %abbr{title: 'This field is required'} *
+    = f.number_field :minimum_abstract_length, size: 3, required: true, class: 'form-control'
+  .form-group
+    = f.label :maximum_abstract_length
+    %abbr{title: 'This field is required'} *
+    = f.number_field :maximum_abstract_length, size: 3, required: true, class: 'form-control'
+  .form-group
+    = f.label :color
+    = f.color_field :color, class: 'form-control'
+  %p.text-right
+    = f.submit nil, class: 'btn btn-primary'

@@ -1,34 +1,9 @@
-.container
-  .row
-    .col-md-12
-      .page-header
-        %h1
-          Registration for
-          = @conference.title
-  .row
-    .col-md-8
-      - unless current_user
-        %legend
-          %span
-            =link_to('#signup', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
-              = ENV['OSEM_NAME'] || 'OSEM'
-              Account
-          %span.pull-right#account-already
-            =link_to('#signin', role: 'tab', "aria-controls" => "home", "data-toggle" => "tab") do
-              Already have an account?
-      .tab-content
-        .tab-pane.active{role: 'tabpanel', id: 'signup'}
-          = semantic_form_for(@registration, url: conference_conference_registration_path(@conference.short_title)) do |f|
-            = render partial: 'devise/shared/sign_up_form_embedded'
-
-            = render partial: 'registration_info', locals: { f: f }
-            = f.input :conference_id, as: :hidden, value: @conference.id
-            .row
-              .col-md-12
-                %p.pull-right
-                  - if @conference.user_registered?(current_user)
-                    = f.action :submit, button_html: { value: 'Update Registration', class: 'btn btn-primary' }
-                  - else
-                    =f.action :submit, button_html: { value: 'Register', class: 'btn btn-primary', id: 'register' }
-        .tab-pane{role: 'tabpanel', id: 'signin'}
-          = render partial: 'devise/shared/sign_in_form_embedded'
+= form_for(@registration, url: conference_conference_registration_path(@conference.short_title)) do |f|
+  = render partial: 'devise/registrations/new_embedded'
+  = render partial: 'registration_info', locals: { f: f }
+  = f.hidden_field :conference_id, value: @conference.id
+  %p.pull-right
+    - if @conference.user_registered?(current_user)
+      = f.submit 'Update Registration', { class: 'btn btn-primary' }
+    - else
+      =f.submit 'Register', { class: 'btn btn-primary', id: 'register' }

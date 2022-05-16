@@ -9,10 +9,6 @@ describe Registration do
   let!(:registration) { create(:registration, conference: conference, user: user) }
 
   describe 'validation' do
-    it 'has a valid factory' do
-      expect(build(:registration)).to be_valid
-    end
-
     it { is_expected.to validate_presence_of(:user) }
 
     it 'validates uniqueness of user in scope of conference' do

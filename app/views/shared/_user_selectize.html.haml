@@ -1,0 +1,30 @@
+:javascript
+  $(document).ready(function() {
+    $('#users_selectize').selectize({
+      persist: false,
+      create: false,
+      valueField: 'id',
+      labelField: 'username',
+      searchField: 'username',
+      load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+          url: "#{search_users_path}.json",
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            query: query,
+          },
+          error: function(res) {
+            console.log("selectize error");
+            callback();
+          },
+          success: function(res) {
+            console.log("selectize success");
+            // console.log(res);
+            callback(res.users);
+          }
+        });
+      }
+    });
+  });

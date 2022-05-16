@@ -6,17 +6,53 @@
         How people can contact you
 .row
   .col-md-8
-    = semantic_form_for(@contact, url: admin_conference_contact_path(@conference.short_title), html: {multipart: true}) do |f|
-      = f.inputs name: 'Mail' do
-        = f.input :email, input_html: { autofocus: true }, hint: 'Contact email address for your conference. Will be used as reply-to address in emails sent out by the system.'
-        = f.input :sponsor_email, hint: 'This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers'
-      = f.inputs name: 'Social Media' do
-        = f.input :social_tag, hint: "The hashtag you'll use on Twitter and Google+. Don't include the '#' sign!'"
-        = f.input :blog, hint: 'This will appear in the social media section as a link to your conference blog.'
-        = f.input :facebook, hint: 'This will appear in the social media section as a link to the Facebook page of your Conference'
-        = f.input :googleplus, label: 'Google+ Url', hint: 'This will appear in the social media section as a link to the Google+ Page of your Conference'
-        = f.input :twitter, hint: 'This will appear in the social media section as a link to the Twitter Page of your Conference'
-        = f.input :instagram, hint: 'This will appear in the social media section as a link to the Instagram Page of your Conference'
-        = f.input :mastodon, hint: 'This will appear in the social media section as a link to the Mastodon Page of your Conference'
-        = f.input :youtube, hint: 'This will appear in the social media section as a link to the YouTube channel for your conference.'
-      = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+    = form_for(@contact, url: admin_conference_contact_path(@conference.short_title), html: {multipart: true}) do |f|
+      %h4
+        Mail
+      %hr
+      .form-group
+        = f.label :email
+        = f.email_field :email, autofocus: true, class: 'form-control'
+        %span.help-block
+          Contact email address for your conference. Will be used as reply-to address in emails sent out by the system.
+        = f.label :sponsor_email
+        = f.email_field :sponsor_email, class: 'form-control'
+        %span.help-block
+          This will appear in the sponsor segment of the splash for the sponsors to contact to the organizers.
+      %h4
+        Social Media
+      %hr
+      .form-group
+        = f.label :social_tag
+        = f.text_field :social_tag, class: 'form-control'
+        %span.help-block
+          The hashtag you'll use on Twitter and Google+. Don't include the '#' sign!
+        = f.label :blog, 'Blog URL'
+        = f.url_field :blog, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to your conference blog.
+        = f.label :facebook, 'Facebook URL'
+        = f.url_field :facebook, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to the Facebook page of your Conference'
+        = f.label :googleplus, 'Google+ URL'
+        = f.url_field :googleplus, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to the Google+ Page of your Conference'
+        = f.label :twitter, 'Twitter URL'
+        = f.url_field :twitter, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to the Twitter Page of your Conference'
+        = f.label :instagram, 'Insta URL'
+        = f.url_field :instagram, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to the Instagram Page of your Conference
+        = f.label :mastodon, 'Mastodon URL'
+        = f.url_field :mastodon, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to the Mastodon Page of your Conference
+        = f.label :youtube, 'Youtube URL'
+        = f.url_field :youtube, class: 'form-control'
+        %span.help-block
+          This will appear in the social media section as a link to the YouTube channel for your conference.
+      = f.submit nil, class: 'btn btn-primary'

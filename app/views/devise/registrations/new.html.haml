@@ -6,16 +6,8 @@
           %h3.panel-title
             Sign Up
         .panel-body
-          = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-            = f.input :username, input_html: { required: true }, hint: 'This is how the other users see you, not your real name'
-            = f.input :email, input_html: { required: true }
-            = f.input :name, input_html: { required: true }, hint: 'This is your real name'
-            = f.input :password, input_html: { required: true }
-            = f.input :password_confirmation, input_html: { required: true }
-            - Feature.with(:recaptcha) do
-              = recaptcha_tags
-            %p.text-right
-              = f.action :submit, as: :button, label: 'Sign Up', button_html: { class: 'btn btn-success' }
+          = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+            = render partial: 'form_fields', locals: { f: f }
 
           = render partial: 'devise/shared/openid'
           = render partial: 'devise/shared/help'

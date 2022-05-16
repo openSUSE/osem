@@ -22,8 +22,8 @@ describe Admin::TracksController do
 
     it 'assigns @tracks with the correct values' do
       expect(assigns(:tracks).length).to eq 2
-      expect(assigns(:tracks).include?(track)).to eq true
-      expect(assigns(:tracks).include?(self_organized_track)).to eq true
+      expect(assigns(:tracks).include?(track)).to be true
+      expect(assigns(:tracks).include?(self_organized_track)).to be true
     end
 
     it 'renders the index template' do
@@ -52,7 +52,7 @@ describe Admin::TracksController do
 
     it 'assigns a new track with the correct conference' do
       expect(assigns(:track)).to be_a Track
-      expect(assigns(:track).new_record?).to eq true
+      expect(assigns(:track).new_record?).to be true
       expect(assigns(:track).program_id).to eq conference.program.id
     end
 
@@ -69,7 +69,7 @@ describe Admin::TracksController do
 
       it 'assigns a new track with the correct conference' do
         expect(assigns(:track)).to be_a Track
-        expect(assigns(:track).new_record?).to eq false
+        expect(assigns(:track).new_record?).to be false
         expect(assigns(:track).program_id).to eq conference.program.id
       end
 
@@ -87,7 +87,7 @@ describe Admin::TracksController do
 
       it 'the new track has the correct attributes' do
         expect(assigns(:track).state).to eq 'confirmed'
-        expect(assigns(:track).cfp_active).to eq true
+        expect(assigns(:track).cfp_active).to be true
       end
     end
 
@@ -99,7 +99,7 @@ describe Admin::TracksController do
 
       it 'assigns a new track with the correct conference' do
         expect(assigns(:track)).to be_a Track
-        expect(assigns(:track).new_record?).to eq true
+        expect(assigns(:track).new_record?).to be true
         expect(assigns(:track).program_id).to eq conference.program.id
       end
 
@@ -112,7 +112,7 @@ describe Admin::TracksController do
       end
 
       it 'does not create a new track' do
-        expect(conference.program.tracks.find_by(short_name: 'my_track')).to eq nil
+        expect(conference.program.tracks.find_by(short_name: 'my_track')).to be_nil
       end
     end
   end
@@ -199,7 +199,7 @@ describe Admin::TracksController do
       end
 
       it 'deletes the track' do
-        expect(Track.find_by(id: track)).to eq nil
+        expect(Track.find_by(id: track)).to be_nil
       end
     end
 
@@ -249,7 +249,7 @@ describe Admin::TracksController do
         end
 
         it 'becomes true' do
-          expect(self_organized_track.cfp_active).to eq true
+          expect(self_organized_track.cfp_active).to be true
         end
       end
 
@@ -269,7 +269,7 @@ describe Admin::TracksController do
         end
 
         it 'stays false' do
-          expect(self_organized_track.cfp_active).to eq false
+          expect(self_organized_track.cfp_active).to be false
         end
       end
     end
@@ -295,7 +295,7 @@ describe Admin::TracksController do
         end
 
         it 'becomes false' do
-          expect(self_organized_track.cfp_active).to eq false
+          expect(self_organized_track.cfp_active).to be false
         end
       end
 
@@ -315,7 +315,7 @@ describe Admin::TracksController do
         end
 
         it 'stays true' do
-          expect(self_organized_track.cfp_active).to eq true
+          expect(self_organized_track.cfp_active).to be true
         end
       end
     end

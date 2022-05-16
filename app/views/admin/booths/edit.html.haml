@@ -1,5 +1,9 @@
-%h1
-  Editing
-  = @booth.title
-
-= render 'booths/form'
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Edit #{t'booth'}
+        = @booth.title
+.row
+  .col-md-8
+    = render 'booths/form'

@@ -24,12 +24,8 @@ describe Resource do
 
   it { is_expected.to allow_value(0).for(:quantity) }
 
-  it 'has a valid factory' do
-    expect(build(:resource)).to be_valid
-  end
-
   it 'is not valid with used greater than quantity' do
     resource.used = resource.quantity + 1
-    expect(resource.valid?).to eq false
+    expect(resource.valid?).to be false
   end
 end

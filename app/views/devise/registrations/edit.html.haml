@@ -5,30 +5,5 @@
         %h1 Edit your Account
   .row
     .col-md-12
-      = semantic_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-        = f.input :username, required: false, input_html: { autocomplete: 'off' }
-        = f.input :email, required: false, input_html: { autocomplete: 'off' }
-        = f.input :email_public,
-          hint: "Do you want your email address to appear publicly? (e.g. on sessions, registration lists, etc.)"
-        = f.input :password, hint: "(Leave blank if you don't want to change it)", input_html: { autocomplete: 'off' }
-        = f.input :password_confirmation, input_html: { autocomplete: 'off' }
-        = f.inputs name: 'OpenID' do
-          %h4
-            Currently the following openIDs are associated with your account
-          - @openids.each do |openid|
-            %li{ style: "list-style: none; margin-left: 20px;" }
-              = link_to user_openid_path(openid, user_id: current_user.id), method: :delete,
-              data: { confirm: "Remove association with #{openid.provider} account?" } do
-                %span.fa.fa-times{ style: "color: red;" }
-              %span #{openid.provider}:#{openid.email}
-            %br
-          %h4
-            To add an openID with a different email address to your account, sign in with your
-            openID while logged in to OSEM
-          - if User.omniauth_providers.present?
-            #openidlinks
-              = render 'devise/shared/openid_links'
-        = f.inputs name: 'Confirmation' do
-          = f.input :current_password, input_html: {autocomplete: 'off'},
-                    hint: '(we need your current password to confirm password, email or username changes)'
-        = f.action :submit, as: :button, label: 'Update Account', button_html: {class: 'btn btn-primary'}
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+        = render partial: 'form_fields', locals: { f: f, full: true, edit: true }

@@ -1,17 +1,51 @@
-.row
-  .col-md-12
-    .page-header
-      %h1 Program
-.row
-  .col-md-8
-    = semantic_form_for(@program, url: admin_conference_program_path(@conference.short_title), html: {multipart: true}) do |f|
-      = f.input :schedule_public, label: 'Show Schedule on the home and splash page'
-      = f.input :schedule_fluid, label: 'Allow submitters to change their event after it is scheduled'
-      = f.input :rating, hint: 'Enter the number of different rating levels you want to have for voting on proposals. Enter 0 if you do not want to vote on proposals.'
-      = f.input :languages, hint: "Enter the languages allowed for events as values of #{link_to('ISO 639-1', 'http://www.loc.gov/standards/iso639-2/php/code_list.php', target: "_blank")} language codes separated with commas. The first language would be the default language. Leave it blank if you do not want to specify languages.".html_safe
-      = f.input :schedule_interval, input_html: { autofocus: true }, hint: "It is the minimal time interval of your schedule. The value should be 5, 6, 10, 12, 15, 20, 30 or 60. Warning! Some events could be unscheduled when changing this value."
-      = f.input :blind_voting, hint: 'Enable this feature if you do not want to show voting results and voters prior to user submitting a vote. For the feature to work you need to set the voting dates below as well'
-      = f.input :voting_start_date, as: :string, input_html: { id: 'datetimepicker-voting_start_date', value: (f.object.voting_start_date.to_formatted_s(:db_without_seconds) unless f.object.voting_start_date.nil?) }
-      = f.input :voting_end_date, as: :string, input_html: { id: 'datetimepicker-voting_end_date', value: (f.object.voting_end_date.to_formatted_s(:db_without_seconds) unless f.object.voting_end_date.nil?) }
-      %p.text-right
-        = f.action :submit, as: :button, button_html: {class: 'btn btn-primary'}
+= form_for(@program, url: admin_conference_program_path(@conference.short_title), html: {multipart: true}) do |f|
+  .checkbox
+    %label
+      = f.check_box :schedule_public
+      Show Schedule on the home and splash page
+  .checkbox
+    %label
+      = f.check_box :schedule_fluid
+      Allow submitters to change their event after it is scheduled
+  %h4
+    Voting
+  %hr
+  .form-group
+    = f.label :rating
+    = f.number_field :rating, class: 'form-control'
+    %span.help-block
+      Enter the number of different rating levels you want to have for voting on proposals.
+      Enter 0 if you do not want to vote on proposals.
+  .checkbox
+    %label
+      = f.check_box :blind_voting
+      Enable blind voting
+  %span.help-block
+    If you do not want to show other peoples votes prior to submitting a vote.
+    For the feature to work you need to set the voting dates below as well
+  .form-group
+    = f.label :voting_start_date
+    = f.text_field :voting_start_date, id: 'datetimepicker-voting_start_date', value: (f.object.voting_start_date.to_formatted_s(:db_without_seconds) unless f.object.voting_start_date.nil?), class: 'form-control'
+    = f.label :voting_end_date
+    = f.text_field :voting_end_date, id: 'datetimepicker-voting_end_date', value: (f.object.voting_end_date.to_formatted_s(:db_without_seconds) unless f.object.voting_end_date.nil?), class: 'form-control'
+  %h4
+    Languages
+  %hr
+  %p
+    Current Languages:
+    - if f.object.languages.present?
+      = f.object.languages_list.to_sentence
+    - else
+      Any Language
+  .form-group
+    = f.label :languages
+    = f.select :languages, I18nData.languages.invert, { include_blank: 'Any Language', include_hidden: false }, { multiple: true, class: 'form-control' }
+    %span.help-block
+      The languages allowed for events.
+  .form-group
+    = f.number_field :schedule_interval, autofocus: true, class: 'form-control'
+    %span.help-block
+      It is the minimal time interval of your schedule. The value should be 5, 6, 10, 12, 15, 20, 30 or 60.
+      Warning! Some events could be unscheduled when changing this value.
+  %p.text-right
+    = f.submit nil, class: 'btn btn-primary'

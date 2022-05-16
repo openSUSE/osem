@@ -6,9 +6,13 @@
           %h3.panel-title
             Forgot your password?
         .panel-body
-          = semantic_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-            = f.input :email, input_html: { autofocus: true, required: true}
+          = form_for(resource, as: resource_name, url: password_path(resource_name), method: :post) do |f|
+            .form-group
+              = f.label :email, "Email"
+              %abbr{title: 'This field is required'} *
+              = f.email_field :email, autofocus: true, required: true, class: 'form-control', placeholder: 'Email'
             %p.text-right
-              = f.action :submit, as: :button, label: 'Send me reset password instructions', button_html: { class: 'btn btn-success' }
+              %button{type: 'submit', class: 'btn btn-success'}
+                Send me reset password instructions
               
           = render partial: 'devise/shared/help'

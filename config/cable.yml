@@ -1,9 +1,0 @@
-development:
-  adapter: async
-
-test:
-  adapter: async
-
-production:
-  adapter: redis
-  url: <%= ENV['OSEM_REDIS_URL'] %>

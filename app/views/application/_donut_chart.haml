@@ -3,14 +3,7 @@
   data ||= chart_values(combined_data)
   colors ||= chart_colors(combined_data)
 
-  options = {
-    donut:    true,
-    legend:   'bottom',
-    download: true,
-    messages: { empty: 'No data' }
-  }
-  options[:colors] = colors if colors.present?
-
 .text-center
-  %h4= title
-  = pie_chart data, options
+  %h4
+    = title
+  = pie_chart data, donut: true, legend: 'bottom', download: true, messages: { empty: 'No data' }, colors: colors

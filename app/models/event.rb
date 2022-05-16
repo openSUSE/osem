@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Event < ApplicationRecord
+  include ActionView::Helpers::NumberHelper # for number_with_precision
   include ActiveRecord::Transitions
   include RevisionCount
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }

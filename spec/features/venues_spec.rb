@@ -37,8 +37,6 @@ feature Conference do
 
       # edit the venue
       click_link 'Edit Venue'
-      expect(page.find("//*[@id='venue_submit_action']")
-                 .text).to eq('Update Venue')
       fill_in 'venue_name', with: 'Example University new'
       fill_in 'venue_website', with: 'www.example.com new'
       fill_in 'venue_description', with: 'new'

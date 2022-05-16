@@ -36,7 +36,7 @@ module Admin
     def update
       role_name = @role.name
 
-      if @role.update_attributes(role_params)
+      if @role.update(role_params)
         url = if @track
                 admin_conference_program_track_role_path(@conference.short_title, @track, @role.name)
               else

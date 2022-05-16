@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :track do
-    name { Faker::Commerce.department(2, true) }
+    name { Faker::Commerce.department(max: 2, fixed_amount: true) }
     description { Faker::Lorem.sentence }
     color { Faker::Color.hex_color }
     short_name { SecureRandom.urlsafe_base64(5) }
@@ -17,7 +17,7 @@ FactoryBot.define do
       start_date { Time.zone.today }
       end_date { Time.zone.today }
       room
-      relevance { Faker::Hipster.paragraph(2) }
+      relevance { Faker::Hipster.paragraph(sentence_count: 2) }
     end
   end
 end

@@ -21,7 +21,7 @@ describe Cfp do
 
     it 'returns nil when the cfp for events doesn\'t exist' do
       cfp.destroy!
-      expect(conference.program.cfps.for_events).to eq nil
+      expect(conference.program.cfps.for_events).to be_nil
     end
   end
 
@@ -32,7 +32,7 @@ describe Cfp do
     end
 
     it 'returns nil when the cfp for tracks doesn\'t exist' do
-      expect(conference.program.cfps.for_tracks).to eq nil
+      expect(conference.program.cfps.for_tracks).to be_nil
     end
   end
 
@@ -81,24 +81,24 @@ describe Cfp do
     describe 'returns true' do
       it 'when end_date changed' do
         cfp.end_date = Date.today
-        expect(cfp.start_date_changed?).to eq false
-        expect(cfp.end_date_changed?).to eq true
-        expect(cfp.notify_on_cfp_date_update?).to eq true
+        expect(cfp.start_date_changed?).to be false
+        expect(cfp.end_date_changed?).to be true
+        expect(cfp.notify_on_cfp_date_update?).to be true
       end
 
       it 'when start_date changed' do
         cfp.start_date = Date.today
-        expect(cfp.end_date_changed?).to eq false
-        expect(cfp.start_date_changed?).to eq true
-        expect(cfp.notify_on_cfp_date_update?).to eq true
+        expect(cfp.end_date_changed?).to be false
+        expect(cfp.start_date_changed?).to be true
+        expect(cfp.notify_on_cfp_date_update?).to be true
       end
     end
 
     describe 'returns false' do
       it 'when there is no change in cfp dates' do
-        expect(cfp.start_date_changed?).to eq false
-        expect(cfp.end_date_changed?).to eq false
-        expect(cfp.notify_on_cfp_date_update?).to eq false
+        expect(cfp.start_date_changed?).to be false
+        expect(cfp.end_date_changed?).to be false
+        expect(cfp.notify_on_cfp_date_update?).to be false
       end
 
       it 'when send_on_cfp_dates_updates is not set' do
@@ -106,8 +106,8 @@ describe Cfp do
         conference.email_settings.save!
         cfp.end_date = Date.today
 
-        expect(cfp.end_date_changed?).to eq true
-        expect(cfp.notify_on_cfp_date_update?).to eq false
+        expect(cfp.end_date_changed?).to be true
+        expect(cfp.notify_on_cfp_date_update?).to be false
       end
 
       it 'when cfp_dates_updates_subject is not set' do
@@ -115,8 +115,8 @@ describe Cfp do
         conference.email_settings.save!
         cfp.end_date = Date.today
 
-        expect(cfp.end_date_changed?).to eq true
-        expect(cfp.notify_on_cfp_date_update?).to eq false
+        expect(cfp.end_date_changed?).to be true
+        expect(cfp.notify_on_cfp_date_update?).to be false
       end
 
       it 'when cfp_dates_updates_template is not set' do
@@ -124,8 +124,8 @@ describe Cfp do
         conference.email_settings.save!
         cfp.end_date = Date.today
 
-        expect(cfp.end_date_changed?).to eq true
-        expect(cfp.notify_on_cfp_date_update?).to eq false
+        expect(cfp.end_date_changed?).to be true
+        expect(cfp.notify_on_cfp_date_update?).to be false
       end
     end
   end
@@ -135,13 +135,13 @@ describe Cfp do
       it 'when start and end dates are in the past' do
         cfp.start_date = Date.current - 3
         cfp.end_date = Date.current - 1
-        expect(cfp.open?).to eq(false)
+        expect(cfp.open?).to be(false)
       end
 
       it 'when start and end dates are in the future' do
         cfp.start_date = Date.current + 1
         cfp.end_date = Date.current + 3
-        expect(cfp.open?).to eq(false)
+        expect(cfp.open?).to be(false)
       end
     end
 
@@ -149,7 +149,7 @@ describe Cfp do
       it 'when start date is in the past and end date is in the future' do
         cfp.start_date = Date.current - 1
         cfp.end_date = Date.current + 1
-        expect(cfp.open?).to eq(true)
+        expect(cfp.open?).to be(true)
       end
     end
   end

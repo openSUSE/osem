@@ -34,7 +34,7 @@ feature Conference do
       expect(Conference.count).to eq(expected_count)
       expect(Conference.last.organization).to eq(organization)
       user.reload
-      expect(user.has_cached_role? :organizer, Conference.last).to eq(true)
+      expect(user.has_cached_role? :organizer, Conference.last).to be(true)
     end
 
     scenario 'update conference', feature: true, js: true do
@@ -45,26 +45,6 @@ feature Conference do
 
       sign_in organizer
       visit edit_admin_conference_path(conference.short_title)
-
-      fill_in 'conference_title', with: 'New Con'
-      fill_in 'conference_short_title', with: ''
-
-      day = Time.zone.today + 10
-      page
-          .execute_script("$('#conference-start-datepicker').val('" +
-                             "#{day.strftime('%d/%m/%Y')}')")
-      page
-          .execute_script("$('#conference-end-datepicker').val('" +
-                             "#{(day + 7).strftime('%d/%m/%Y')}')")
-
-      page.accept_alert do
-        click_button 'Update Conference'
-      end
-
-      page.find('#flash')
-      expect(flash)
-          .to eq("Updating conference failed. Short title can't be blank.")
-      page.find('#flash .close').click
 
       fill_in 'conference_title', with: 'New Con'
       fill_in 'conference_short_title', with: 'NewCon'

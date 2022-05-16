@@ -268,7 +268,7 @@ class Program < ApplicationRecord
   def normalize_event_types_length
     event_types.each do |event_type|
       new_length = event_type.length > schedule_interval ? event_type.length - (event_type.length % schedule_interval) : schedule_interval
-      event_type.update_attributes length: new_length
+      event_type.update_attribute(:length, new_length)
     end
   end
 end

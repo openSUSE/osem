@@ -1,15 +1,4 @@
 .row
   .col-md-8
-    = semantic_form_for(@conference, url: admin_conferences_path) do |f|
-      = f.inputs 'Basic Information' do
-        = f.input :organization, as: :select, collection: @organizations
-        = f.input :title, hint: "The name of your conference as it shall appear throughout the site. Example: 'OpenSUSE Conference 2013'",
-                          input_html: { required: 'required' }
-        = f.input :short_title, hint: "A short and unique handle for your conference, using only letters, numbers, underscores, and dashes. This will be used to identify your conference in URLs etc. Example: 'froscon2011'",
-                                input_html: { required: 'required', pattern: '[a-zA-Z0-9_-]+', title: 'Only letters, numbers, underscores, and dashes.' }, prepend: conferences_url + '/'
-      = f.inputs 'Scheduling' do
-        = f.input :timezone, as: :time_zone, default: Time.zone.name, hint: 'Please select in what time zone your conference will take place.'
-        = f.input :start_date, as: :string, input_html: { id: 'conference-start-datepicker', required: 'required' }
-        = f.input :end_date, as: :string, input_html: { id: 'conference-end-datepicker', required: 'required' }
-      = f.actions do
-        = f.action :submit, button_html: {class: 'btn btn-success pull-right'}
+    = form_for(@conference, url: admin_conferences_path) do |f|
+      = render partial: 'form_fields', locals: { f: f }

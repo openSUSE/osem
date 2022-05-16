@@ -1,10 +1,3 @@
-:ruby
-  options = {
-    legend:   'bottom',
-    download: true,
-    messages: { empty: 'No data' }
-  }
-
 .row
   .col-md-12
     .text-center
@@ -12,4 +5,4 @@
         = title
 .row
   .col-md-12
-    = line_chart data, options
+    = line_chart data, legend: 'bottom', download: true, messages: { empty: 'No data' }

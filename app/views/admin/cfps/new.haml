@@ -1,1 +1,9 @@
-= render 'form', cfp: @cfp, conference: @conference
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Call for
+        = @cfp.cfp_type.capitalize
+.row
+  .col-md-8
+    = render 'form'

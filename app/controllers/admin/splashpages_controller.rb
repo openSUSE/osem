@@ -25,7 +25,7 @@ module Admin
     end
 
     def update
-      if @splashpage.update_attributes(splashpage_params)
+      if @splashpage.update(splashpage_params)
         redirect_to admin_conference_splashpage_path,
                     notice: 'Splashpage successfully updated.'
       else

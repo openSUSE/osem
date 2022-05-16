@@ -36,7 +36,7 @@ class BoothsController < ApplicationController
 
   def update
     @url = conference_booth_path(@conference.short_title, @booth.id)
-    @booth.update_attributes(booth_params)
+    @booth.update(booth_params)
 
     if @booth.save
       redirect_to conference_booths_path,

@@ -1,0 +1,95 @@
+%h4
+  Basic Information
+%hr
+- if f.object.new_record?
+  .form-group
+    = f.label :organization, "Organization"
+    = f.select :organization_id, Organization.accessible_by(current_ability, :update).pluck(:name, :id)
+.form-group
+  = f.label :title, "Title"
+  %abbr{title: 'This field is required'} *
+  = f.text_field :title, required: true, class: 'form-control', placeholder: 'Title'
+  %span.help-block
+    The name of your conference as it shall appear throughout the site. Example: 'openSUSE Conference 2013'
+.form-group
+  = f.label :title, "Short Title"
+  %abbr{title: 'This field is required'} *
+  = f.text_field :short_title, required: true, pattern: '[a-zA-Z0-9_-]+', title: 'Only letters, numbers, underscores, and dashes.', prepend: conferences_url + '/', class: 'form-control', placeholder: 'Short Title'
+  %span.help-block
+    A short and unique handle for your conference, using only letters, numbers, underscores, and dashes. This will be used to identify your conference in URLs etc. Example:
+    %em
+      froscon2011
+- unless f.object.new_record? # We are showing more fields on the edit form
+  .form-group
+    = f.text_area :description, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      = markdown_hint('A description of the conference.')
+  .form-group
+    = f.color_field :color, size: 6, class: 'form-control'
+    %span.help-block
+      The color will be used for the dashboard, for instance.
+  .form-group
+    = f.label :picture, 'Conference Logo'
+    - if f.object.picture?
+      = image_tag f.object.picture.thumb.url
+    = f.file_field :picture
+    %span.help-block
+      This will be displayed on the front page.
+    = f.hidden_field :picture_cache
+  = f.select :ticket_layout, Conference.ticket_layouts.keys, {}, class: 'form-control'
+  %span.help-block
+    Layout type for tickets of the conference.
+
+%h4
+  Scheduling
+%hr
+= f.time_zone_select :timezone, nil, { default: 'UTC' }, { class: 'form-control' }
+%span.help-block
+  Please select in what time zone your conference will take place.
+.form-group
+  = f.label :start_date, "Start Date"
+  %abbr{title: 'This field is required'} *
+  = f.text_field :start_date, id: 'conference-start-datepicker', required: true, class: 'form-control'
+.form-group
+  = f.label :end_date, "End Date"
+  %abbr{title: 'This field is required'} *
+  = f.text_field :end_date,  id: 'conference-end-datepicker', required: true, class: 'form-control'
+- unless f.object.new_record? # We are showing more fields on the edit form
+  .form-group
+    = f.number_field :start_hour, size: 2, min: 0, max: 23, class: 'form-control'
+    %span.help-block
+      = rescheduling_hint(@affected_event_count)
+  .form-group
+    = f.number_field :end_hour, size: 2, min: 1, max: 24, class: 'form-control'
+    %span.help-block
+      = rescheduling_hint(@affected_event_count)
+  %h4
+    Registrations
+  %hr
+  .form-group
+    = f.number_field :registration_limit, in: 0..9999, class: 'form-control'
+    %span.help-block
+      Limit the number of registrations to the conference (0 no limit). Please note that the registration limit
+      does not apply to speakers of confirmed events, they will still be able to register even if the limit has been reached.
+      You currently have
+      = pluralize(@conference.registrations.count, 'registration')
+  %h4
+    Booths
+  %hr
+  .form-group
+    = f.number_field :booth_limit, in: 0..9999, class: 'form-control'
+    %span.help-block
+      = (t'booth').capitalize
+      limit is the maximum number of
+      = (t'booth').pluralize
+      that you can accept for this conference. By setting this number (0 no limit) you can be sure that you are not
+      going to accept more
+      = (t'booth').pluralize
+      than the conference can accommodate. You currently have
+      = pluralize(@conference.booths.accepted.count, "accepted #{t'booth'}") + '.'
+%p.text-right
+  - if f.object.new_record?
+    = f.submit nil, { class: 'btn btn-success' }
+  - else
+    = f.submit nil, { class: 'btn btn-success', data: { confirm: 'Are you sure you want to proceed?' } }
+

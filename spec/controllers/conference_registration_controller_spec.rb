@@ -316,7 +316,7 @@ describe ConferenceRegistrationsController, type: :controller do
 
       context 'update fails' do
         before do
-          allow_any_instance_of(Registration).to receive(:update_attributes).and_return(false)
+          allow_any_instance_of(Registration).to receive(:update).and_return(false)
           patch :update, params: {
             registration:  attributes_for(:registration, volunteer: true),
             conference_id: conference.short_title

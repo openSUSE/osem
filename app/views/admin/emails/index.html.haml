@@ -1,6 +1,6 @@
 .row
   .col-md-8
-    = semantic_form_for(@settings, url: admin_conference_email_path(@conference.short_title, @conference.email_settings), html: {multipart: true}) do |f|
+    = form_for(@settings, url: admin_conference_email_path(@conference.short_title, @conference.email_settings), html: {multipart: true}) do |f|
       .row
         .col-md-12
           %div{ role: 'tabpanel' }
@@ -19,43 +19,77 @@
             / Tab panes
             .tab-content
               #onboarding.tab-pane.active{ role: 'tabpanel' }
-                = f.input :send_on_registration, label: 'Send an email when the user registers for the conference?', input_html: {'data-name' => 'email_settings_registration_subject', 'class' => 'send_on_radio'}
-                = f.input :registration_subject
-                = f.input :registration_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_registration, data: {name: 'email_settings_registration_subject'}, class: 'send_on_radio'
+                    Send an email when the user registers for the conference?
+                .form-group
+                  = f.label :registration_subject, 'Subject'
+                  = f.text_field :registration_subject, class: 'form-control'
+                .form-group
+                  = f.label :registration_body, 'Body'
+                  = f.text_area :registration_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_registration_subject', 'data-subject-text' => 'Thank you for registering',
                 'data-body-input-id' => 'email_settings_registration_body',
                 'data-body-text' => "Dear {name},\n\nThank you for Registering for the conference {conference}.\nPlease complete your registration by filling out your travel information.\n\nIf you are unable to attend please unregister online:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\nWe look forward to see you there.\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'registration_help' } Show Help
                 = render partial: 'help', locals: { id: 'registration_help', show_event_variables: false }
               #proposal.tab-pane{ role: 'tabpanel' }
-                = f.input :send_on_submitted_proposal, label: 'Send an email when the proposal is submitted', input_html: { 'data-name' => 'email_settings_proposal_submited_subject', 'class' => 'send_on_radio' }
-                = f.input :submitted_proposal_subject
-                = f.input :submitted_proposal_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_submitted_proposal, data: { name: 'email_settings_proposal_submited_subject'}, class: 'send_on_radio'
+                    Send an email when the proposal is submitted?
+                .form-group
+                  = f.label :submitted_proposal_subject, 'Subject'
+                  = f.text_field :submitted_proposal_subject, class: 'form-control'
+                .form-group
+                  = f.label :submitted_proposal_body, 'Body'
+                  = f.text_area :submitted_proposal_body, input_html: { rows: 10, cols: 20 }, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_submitted_proposal_subject', 'data-subject-text' => 'Your proposal has been submitted successfully', 'data-body-input-id' => 'email_settings_submitted_proposal_body', 'data-body-text' => "Dear {name}\n\nThank you for submitting your proposal {eventtitle}.\n\nOur team will review it and get back to you as soon as possible.\n\nFeel free to contact us with any questions or concerns.\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'submitted_proposal_help' } Show Help
                 = render partial: 'help', locals: { id: 'submitted_proposal_help', show_event_variables: true }
-
-                = f.input :send_on_accepted, label: 'Send an email when the proposal is accepted?', input_html: { 'data-name' => 'email_settings_accepted_subject', 'class' => 'send_on_radio' }
-                = f.input :accepted_subject
-                = f.input :accepted_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_accepted, data: { name: 'email_settings_accepted_subject' }, class: 'send_on_radio'
+                    Send an email when the proposal is accepted?
+                .form-group
+                  = f.label :accepted_subject, 'Subject'
+                  = f.text_field :accepted_subject, class: 'form-control'
+                .form-group
+                  = f.label :accepted_body, 'Body'
+                  = f.text_area :accepted_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_accepted_subject',
                 'data-subject-text' => 'Your submission has been accepted',
                 'data-body-input-id' => 'email_settings_accepted_body',
                 'data-body-text' => "Dear {name}\n\nWe are very pleased to inform you that your submission {eventtitle} has been accepted for the conference {conference}.\n\nThe public page of your submission can be found at:\n{proposalslink}\nIf you haven´t already registered for {conference}, please do as soon as possible:\n{registrationlink}\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'accepted_help' } Show Help
                 = render partial: 'help', locals: { id: 'accepted_help', show_event_variables: true }
-                = f.input :send_on_rejected, label: 'Send an email when the proposal is rejected?', input_html: { 'data-name' => 'email_settings_rejected_subject', 'class' => 'send_on_radio' }
-                = f.input :rejected_subject
-                = f.input :rejected_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_rejected, data: { name: 'email_settings_rejected_subject'}, class: 'send_on_radio'
+                    Send an email when the proposal is rejected?
+                .form-group
+                  = f.label :rejected_subject, 'Subject'
+                  = f.text_field :rejected_subject, class: 'form-control'
+                .form-group
+                  = f.label :rejected_body, 'Body'
+                  = f.text_area :rejected_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_rejected_subject',
                 'data-subject-text' => 'Your submission has been rejected',
                 'data-body-input-id' => 'email_settings_rejected_body',
                 'data-body-text' => "Dear {name},\n\nThank you for your submission {eventtitle} for the conference {conference}.\nAfter careful consideration we are sorry to inform you that your submission has been rejected.\n\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'rejected_help' } Show Help
                 = render partial: 'help', locals: {id: 'rejected_help', show_event_variables: true}
-                = f.input :send_on_confirmed_without_registration, label: "Send an email when a user has a confirmed proposal, but isn't yet registered?", input_html: {'data-name' => 'email_settings_confirmed_without_registration_subject', 'class' => 'send_on_radio'}
-                = f.input :confirmed_without_registration_subject
-                = f.input :confirmed_without_registration_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_confirmed_without_registration, data: {name: 'email_settings_confirmed_without_registration_subject'}, class: 'send_on_radio'
+                    Send an email when a user has a confirmed proposal, but isn't yet registered?
+                .form-group
+                  = f.label :confirmed_without_registration_subject, 'Subject'
+                  = f.text_field :confirmed_without_registration_subject, class: 'form-control'
+                .form-group
+                  = f.label :confirmed_without_registration_body, 'Body'
+                  = f.text_area :confirmed_without_registration_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_confirmed_without_registration_subject',
                 'data-subject-text' => 'Your proposal has been confirmed without registration',
                 'data-body-input-id' => 'email_settings_confirmed_without_registration_body',
@@ -63,27 +97,48 @@
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'confirmed_help' } Show Help
                 = render partial: 'help', locals: {id: 'confirmed_help', show_event_variables: true}
               #notifications.tab-pane{ role: 'tabpanel' }
-                = f.input :send_on_conference_dates_updated, label: 'This is to notify all participants that the conference dates has been changed.', input_html: { 'data-name' => 'email_settings_conference_dates_updated_subject', 'class' => 'send_on_radio' }
-                = f.input :conference_dates_updated_subject
-                = f.input :conference_dates_updated_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_conference_dates_updated, data: { name: 'email_settings_conference_dates_updated_subject'}, class: 'send_on_radio'
+                    Send an email to all participants if the conference dates are changed?
+                .form-group
+                  = f.label :conference_dates_updated_subject, 'Subject'
+                  = f.text_field :conference_dates_updated_subject, class: 'form-control'
+                .form-group
+                  = f.label :conference_dates_updated_body, 'Body'
+                  = f.text_area :conference_dates_updated_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_conference_dates_updated_subject',
                 'data-subject-text' => 'The dates of the conference have changed',
                 'data-body-input-id' => 'email_settings_conference_dates_updated_body',
                 'data-body-text' => "Dear {name},\n\nThe date of {conference} has changed.\n New Dates : {conference_start_date} - {conference_end_date}.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_dates_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_dates_help', show_event_variables: false}
-                = f.input :send_on_conference_registration_dates_updated, label: 'This is to notify all participants that the conference registration dates has been changed.', input_html: {'data-name' => 'email_settings_conference_registration_dates_updated_subject', 'class' => 'send_on_radio'}
-                = f.input :conference_registration_dates_updated_subject
-                = f.input :conference_registration_dates_updated_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_conference_registration_dates_updated, data: { name: 'email_settings_conference_registration_dates_updated_subject' }, class: 'send_on_radio'
+                    Send an email to all participants if the conference registration dates changed?
+                .form-group
+                  = f.label :conference_registration_dates_updated_subject, 'Subject'
+                  = f.text_field :conference_registration_dates_updated_subject, class: 'form-control'
+                .form-group
+                  = f.label :conference_registration_dates_updated_body, 'Body'
+                  = f.text_area :conference_registration_dates_updated_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_conference_registration_dates_updated_subject',
                 'data-subject-text' => 'The registration dates have changed',
                 'data-body-input-id' => 'email_settings_conference_registration_dates_updated_body',
                 'data-body-text' => "Dear {name},\n\nThe registration date of {conference} has changed.\n New Dates : {registration_start_date} - {registration_end_date}.\n\nFeel free to contact us with any questions or concerns.\n\nWe look forward to seeing you there.\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_registrations_dates_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_registrations_dates_help', show_event_variables: false}
-                = f.input :send_on_venue_updated, label: 'Send an email on updating the Venue.', input_html: { 'data-name' => 'email_settings_venue_updated_subject', 'class' => 'send_on_radio' }
-                = f.input :venue_updated_subject
-                = f.input :venue_updated_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_venue_updated, data: { name: 'email_settings_venue_updated_subject'}, class: 'send_on_radio'
+                    Send an email on updating the venue?
+                .form-group
+                  = f.label :venue_updated_subject, 'Subject'
+                  = f.text_field :venue_updated_subject, class: 'form-control'
+                .form-group
+                  = f.label :venue_updated_body, 'Body'
+                  = f.text_area :venue_updated_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_venue_updated_subject',
                 'data-subject-text' => 'The venue has changed',
                 'data-body-input-id' => 'email_settings_venue_updated_body',
@@ -91,18 +146,32 @@
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_venue_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_venue_help', show_event_variables: false}
               #cfp.tab-pane{ role: 'tabpanel' }
-                = f.input :send_on_program_schedule_public, hint: 'This will notify all participants when the dates are updated or when the schedule is made public'
-                = f.input :program_schedule_public_subject, hint: 'This subject will used whenever dates are updated or when the schedule is made public'
-                = f.input :program_schedule_public_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_program_schedule_public
+                    Send an email to all participants if the schedule is made public?
+                .form-group
+                  = f.label :program_schedule_public_subject, 'Subject'
+                  = f.text_field :program_schedule_public_subject, class: 'form-control'
+                .form-group
+                  = f.label :program_schedule_public_body, 'Body'
+                  = f.text_area :program_schedule_public_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_program_schedule_public_subject',
                 'data-subject-text' => 'The schedule has been released',
                 'data-body-input-id' => 'email_settings_program_schedule_public_body',
                 'data-body-text' => "Dear {name},\n\nThe schedule for {conference} has been announced.\nLink to Schedule {schedule_link}\n\nBest wishes\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_cfp_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_cfp_help', show_event_variables: false}
-                = f.input :send_on_cfp_dates_updated, hint: 'This will notify all participants when the dates are updated or when the schedule is made public'
-                = f.input :cfp_dates_updated_subject, hint: 'This subject will used whenever dates are updated or when the schedule is made public'
-                = f.input :cfp_dates_updated_body, input_html: { rows: 10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_cfp_dates_updated
+                    Send an email to all participants if call for paper dates are updated?
+                .form-group
+                  = f.label :cfp_dates_updated_subject, 'Subject'
+                  = f.text_field :cfp_dates_updated_subject, class: 'form-control'
+                .form-group
+                  = f.label :cfp_dates_updated_body, 'Body'
+                  = f.text_area :cfp_dates_updated_body, rows: 10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_cfp_dates_updated_subject',
                 'data-subject-text' => 'The Call for Papers dates have changed',
                 'data-body-input-id' => 'email_settings_cfp_dates_updated_body',
@@ -110,18 +179,32 @@
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'updated_cfp_help' } Show Help
                 = render partial: 'help', locals: {id: 'updated_cfp_help', show_event_variables: false}
               #booth.tab-pane{ role: 'tabpanel' }
-                = f.input :send_on_booths_acceptance
-                = f.input :booths_acceptance_subject
-                = f.input :booths_acceptance_body, input_html: { rows:10, cols: 20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_booths_acceptance
+                    Send an email when the booth is accepted?
+                .form-group
+                  = f.label :booths_acceptance_subject, 'Subject'
+                  = f.text_field :booths_acceptance_subject, class: 'form-control'
+                .form-group
+                  = f.label :booths_acceptance_body, 'Body'
+                  = f.text_area :booths_acceptance_body, rows:10, cols: 20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_booths_acceptance_subject',
                 'data-subject-text' => "Your #{t'booth'} has been accepted!",
                 'data-body-input-id' => 'email_settings_booths_acceptance_body',
                 'data-body-text' => "Dear {name},\n\nWe are pleased to inform you that your #{t'booth'} request {booth_title} has been accepted for the conference {conference}.\nPlease click the confirm button to let us know you can make it as soon as possible!\n\nFeel free to contact us with any questions or concerns.\n\nWe are looking forward to seeing you there.\n\nBest wishes\n\n{conference} Team"} Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'booth_acceptance_help' } Show help
                 =  render partial: 'help', locals: {id: 'booth_acceptance_help', show_event_variables: false}
-                = f.input :send_on_booths_rejection
-                = f.input :booths_rejection_subject
-                = f.input :booths_rejection_body, input_html: { rows:10, cols:20 }
+                .checkbox
+                  %label
+                    = f.check_box :send_on_booths_rejection
+                    Send an email when the booth is rejected?
+                .form-group
+                  = f.label :booths_rejection_subject, 'Subject'
+                  = f.text_field :booths_rejection_subject, class: 'form-control'
+                .form-group
+                  = f.label :booths_rejection_body, 'Body'
+                  = f.text_area :booths_rejection_body, rows:10, cols:20, class: 'form-control'
                 %a.btn.btn-link.control_label.load_template{ 'data-subject-input-id' => 'email_settings_booths_rejection_subject',
                 'data-subject-text' => "Your #{t'booth'} request has been rejected",
                 'data-body-input-id' => 'email_settings_booths_rejection_body',
@@ -131,4 +214,4 @@
 
       .row
         .col-md-12
-          = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+          = f.submit nil, { class: 'btn btn-primary' }

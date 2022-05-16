@@ -415,7 +415,7 @@ describe ProposalsController do
     end
 
     describe 'PATCH #confirm' do
-      before { event.update_attributes(state: 'unconfirmed') }
+      before { event.update_attribute(:state, 'unconfirmed') }
 
       context 'confirmed successfully' do
         describe 'when require_registration is set' do
@@ -501,7 +501,7 @@ describe ProposalsController do
 
       context 'event save fails' do
         before do
-          event.update_attributes(state: 'unconfirmed')
+          event.update_attribute(:state, 'unconfirmed')
           allow_any_instance_of(Event).to receive(:save).and_return(false)
           patch :confirm, params: { conference_id: conference.short_title, id: event.id }
         end
@@ -521,7 +521,7 @@ describe ProposalsController do
     end
 
     describe 'PATCH #restart' do
-      before { event.update_attributes(state: 'withdrawn') }
+      before { event.update_attribute(:state, 'withdrawn') }
 
       it 'assigns url variable' do
         patch :restart, params: { conference_id: conference.short_title, id: event.id }

@@ -77,7 +77,7 @@ class TicketPurchase < ApplicationRecord
   end
 
   def pay(payment)
-    update_attributes(paid: true, payment: payment)
+    update(paid: true, payment: payment)
     PhysicalTicket.transaction do
       quantity.times { physical_tickets.create }
     end

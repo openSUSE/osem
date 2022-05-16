@@ -8,10 +8,6 @@ describe RegistrationPeriod do
   let!(:registration_period) { create(:registration_period, start_date: Date.today - 2, end_date: Date.today - 1, conference: conference) }
 
   describe 'validations' do
-    it 'has a valid factory' do
-      expect(build(:registration_period)).to be_valid
-    end
-
     it 'is not valid without a start_date' do
       should validate_presence_of(:start_date)
     end
@@ -26,13 +22,13 @@ describe RegistrationPeriod do
       it 'when start_date and end_date are before conference end_date' do
         registration_period.start_date = conference.end_date - 2
         registration_period.end_date = conference.end_date - 1
-        expect(registration_period.valid?).to eq true
+        expect(registration_period.valid?).to be true
       end
 
       it 'when start_date and end_date are the same day as conference end_date' do
         registration_period.start_date = conference.end_date
         registration_period.end_date = conference.end_date
-        expect(registration_period.valid?).to eq true
+        expect(registration_period.valid?).to be true
       end
     end
 
@@ -40,13 +36,13 @@ describe RegistrationPeriod do
       it 'when start_date and end_date are after conference end_date' do
         registration_period.start_date = conference.end_date + 1
         registration_period.end_date = conference.end_date + 2
-        expect(registration_period.valid?).to eq false
+        expect(registration_period.valid?).to be false
       end
 
       it 'when end_date is after conference end_date' do
         registration_period.start_date = conference.end_date - 1
         registration_period.end_date = conference.end_date + 1
-        expect(registration_period.valid?).to eq false
+        expect(registration_period.valid?).to be false
       end
     end
   end
@@ -56,13 +52,13 @@ describe RegistrationPeriod do
       it 'when start_date is before end_date' do
         registration_period.start_date = conference.end_date - 2
         registration_period.end_date = conference.end_date - 1
-        expect(registration_period.valid?).to eq true
+        expect(registration_period.valid?).to be true
       end
 
       it 'when start_date and end_date are on the same day' do
         registration_period.start_date = conference.end_date - 2
         registration_period.end_date = conference.end_date - 2
-        expect(registration_period.valid?).to eq true
+        expect(registration_period.valid?).to be true
       end
     end
 
@@ -70,7 +66,7 @@ describe RegistrationPeriod do
       it 'when start_date is after end_date' do
         registration_period.start_date = conference.start_date + 2
         registration_period.end_date = conference.start_date + 1
-        expect(registration_period.valid?).to eq false
+        expect(registration_period.valid?).to be false
       end
     end
   end

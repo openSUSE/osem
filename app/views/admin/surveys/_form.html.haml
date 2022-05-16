@@ -7,12 +7,22 @@
         %h1 Edit Survey: #{ @survey.title }
 
   .col-md-6
-    = semantic_form_for @survey, url: @url do |f|
+    = form_for @survey, url: @url do |f|
       = f.hidden_field :surveyable_type
       = f.hidden_field :surveyable_id
-      = f.input :title
-      = f.input :description, input_html: { rows: 3 }
-      = f.input :target, as: :select, collection: Survey.targets.keys, label: "When to ask"
-      = f.input :start_date, as: :string, input_html: { class: 'datetimepicker' }
-      = f.input :end_date, as: :string, input_html: { class: 'datetimepicker' }
-      = f.submit 'Save', class: 'btn btn-primary'
+      .form-group
+        = f.label :title
+        %abbr{title: 'This field is required'} *
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = f.label :description
+        = f.text_area :description, rows: 3, class: 'form-control'
+      .form-group
+        = f.label :target, "When to ask"
+        = f.select :target, Survey.targets.keys, class: 'form-control'
+      .form-group
+        = f.label :start_date
+        = f.text_field :start_date, class: 'datetimepicker form-control'
+        = f.label :end_date
+        = f.text_field :end_date, class: 'datetimepicker form-control'
+      = f.submit nil, class: 'btn btn-primary'

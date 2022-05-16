@@ -1,8 +1,11 @@
+def next?
+  File.basename(__FILE__) == "Gemfile.next"
+end
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
 
-ruby ENV['OSEM_RUBY_VERSION'] || '2.5.8'
+ruby ENV.fetch('OSEM_RUBY_VERSION', '3.1.2')
 
 # rails-assets requires >= 1.8.4
 if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
@@ -10,14 +13,18 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
 end
 
 # as web framework
-gem 'rails', '~> 5.2'
+if next?
+  gem 'rails', '~> 7.1'
+else
+  gem 'rails', '~> 7.0'
+end
 
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma'
 
 # respond_to methods have been extracted to the responders gem
 # http://edgeguides.rubyonrails.org/upgrading_ruby_on_rails.html#responders
-gem 'responders', '~> 2.0'
+gem 'responders', '~> 3.0'
 
 # as supported databases
 gem 'mysql2'
@@ -44,6 +51,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-openid'
+gem 'omniauth-rails_csrf_protection'
 
 # Bot-filtering
 gem 'recaptcha', require: 'recaptcha/rails'
@@ -77,8 +85,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass', '~> 3.4.0'
 gem 'cocoon'
-gem 'formtastic', '~> 3.1.5'
-gem 'formtastic-bootstrap'
 
 # as the JavaScript library
 gem 'jquery-rails'
@@ -135,13 +141,19 @@ gem 'country_select'
 # as PDF generator
 gem 'prawn-qrcode'
 gem 'prawn-rails'
+# FIXME: for prawn, matrix isn't in the default set of Ruby 3.1 anymore
+# see https://github.com/prawnpdf/prawn/commit/3658d5125c3b20eb11484c3b039ca6b89dc7d1b7
+gem 'matrix', '~> 0.4'
+
+# FIXME: for selenium-webdriver, rexml isn't in the default set of Ruby 3.1 anymore
+# see https://github.com/SeleniumHQ/selenium/commit/526fd9d0de60a53746ffa982feab985fed09a278
+gem 'rexml'
 
 # for QR code generation
 gem 'rqrcode'
 
 # to render XLS spreadsheets
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
-gem 'axlsx_rails'
+gem 'caxlsx_rails'
 
 # as error catcher
 gem 'sentry-rails'
@@ -158,9 +170,6 @@ gem 'font-awesome-rails'
 # for markdown
 gem 'redcarpet'
 
-# for visitor tracking
-gem 'piwik_analytics', '~> 1.0.1'
-
 # for recurring jobs
 gem 'delayed_job_active_record'
 gem 'whenever', :require => false
@@ -175,7 +184,7 @@ gem 'money-rails'
 gem 'acts_as_list'
 
 # for switch checkboxes
-gem 'bootstrap-switch-rails', '~> 3.0.0'
+gem 'bootstrap-switch-rails', '3.3.3' # Locked pending Bttstrp/bootstrap-switch#707
 
 # for parsing OEmbed data
 gem 'ruby-oembed'
@@ -221,17 +230,15 @@ gem 'dalli'
 
 gem 'icalendar'
 
-# Use guard and spring for testing in development
 group :development do
-  # to launch specs when files are modified
-  gem 'guard-rspec'
-  gem 'haml_lint'
-  gem 'spring-commands-rspec'
   # for static code analisys
   gem 'rubocop', require: false
-  gem 'rubocop-rspec'
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-rails', require: false
+  gem 'haml_lint'
   # to open mails
   gem 'letter_opener'
+  gem 'letter_opener_web'
   # as deployment system
   gem 'mina'
   # as debugger on error pages
@@ -256,7 +263,7 @@ group :test do
   # for mocking external requests
   gem 'webmock'
   # for mocking Stripe responses in tests
-  gem 'stripe-ruby-mock'
+  gem 'stripe-ruby-mock', '~> 3.1.0.rc3'
   # For validating JSON schemas
   gem 'json-schema'
   # For using 'assigns' in tests
@@ -272,4 +279,6 @@ group :development, :test do
   gem 'byebug'
   # as development/test database
   gem 'sqlite3'
+  # to test new rails version
+  gem 'next_rails'
 end

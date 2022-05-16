@@ -190,13 +190,19 @@ module FormatHelper
   def markdown(text, escape_html=true)
     return '' if text.nil?
 
-    options = {
-      autolink:            true,
-      space_after_headers: true,
-      no_intra_emphasis:   true
+    markdown_options = {
+      autolink:                     true,
+      space_after_headers:          true,
+      no_intra_emphasis:            true,
+      fenced_code_blocks:           true,
+      disable_indented_code_blocks: true
     }
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: escape_html), options)
-    markdown.render(text).html_safe
+    render_options = {
+      escape_html:     escape_html,
+      safe_links_only: true
+    }
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(render_options), markdown_options)
+    sanitize(markdown.render(text))
   end
 
   def markdown_hint(text='')

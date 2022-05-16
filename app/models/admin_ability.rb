@@ -51,7 +51,7 @@ class AdminAbility
     # for admins
     can :manage, :all if user.is_admin
     # even admin cannot create new users with ICHAIN enabled
-    cannot [:new, :create], User if ENV['OSEM_ICHAIN_ENABLED'] == 'true'
+    cannot [:new, :create], User if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
     cannot :revert_object, PaperTrail::Version do |version|
       (version.event == 'create' && %w[Conference User Event].include?(version.item_type))
     end
@@ -142,6 +142,10 @@ class AdminAbility
     can :manage, Room, venue: { conference_id: conf_ids }
     can :manage, Sponsor, conference_id: conf_ids
     can :manage, SponsorshipLevel, conference_id: conf_ids
+    can :manage, Survey, surveyable_type: 'Conference',
+                         surveyable_id:   conf_ids
+    can :manage, SurveyQuestion, survey: { surveyable_type: 'Conference',
+                                           surveyable_id:   conf_ids }
     can :manage, Ticket, conference_id: conf_ids
     can :create, TicketScanning do |ticket_scanning|
       conf_id = ticket_scanning.physical_ticket.ticket_purchase.conference_id

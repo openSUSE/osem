@@ -14,7 +14,7 @@ feature Splashpage do
     visit admin_conference_splashpage_path(conference.short_title)
 
     click_link 'Create Splashpage'
-    click_button 'Save Changes'
+    click_button 'Save'
     page.find('#flash')
     expect(flash).to eq('Splashpage successfully created.')
     expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
@@ -28,15 +28,15 @@ feature Splashpage do
       sign_in organizer
       visit admin_conference_splashpage_path(conference.short_title)
 
-      click_link 'Edit'
+      click_link 'Configure'
       check('Make splash page public')
-      click_button 'Save Changes'
+      click_button 'Save'
       page.find('#flash')
       expect(flash).to eq('Splashpage successfully updated.')
       expect(current_path).to eq(admin_conference_splashpage_path(conference.short_title))
       expect(page.has_text?('Public')).to be true
 
-      click_link 'Edit'
+      click_link 'Configure'
       expect(page.has_checked_field?('Make splash page public?')).to be true
     end
 

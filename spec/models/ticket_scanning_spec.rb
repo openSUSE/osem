@@ -13,10 +13,10 @@ describe TicketScanning do
 
   describe 'before_create' do
     it 'marks user as present' do
-      expect(registration.attended).to eq(false)
+      expect(registration.attended).to be(false)
       ticket_scanning
       registration.reload
-      expect(registration.attended).to eq(true)
+      expect(registration.attended).to be(true)
     end
   end
 end

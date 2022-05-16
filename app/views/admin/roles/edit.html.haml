@@ -1,0 +1,11 @@
+.row
+  .col-md-12
+    .page-header
+      %h2
+        Role
+        = @role.name.titleize
+      .text-muted
+        = @role.description
+.row
+  .col-md-5
+    = render partial: 'form'

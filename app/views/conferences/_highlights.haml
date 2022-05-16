@@ -11,9 +11,11 @@
           = link_to(conference_program_proposal_path(conference_id,
             event),
             class: 'thumbnail') do
-            = image_tag speaker.gravatar_url(size: 300),
-              class: ['img-responsive', 'img-circle'],
-              title: speaker.name
+            - if speaker
+              = image_tag speaker.gravatar_url(size: 300),
+                class: ['img-responsive', 'img-circle'],
+                title: speaker.name
             .caption
-              %h3.text-center= speaker.name
+              - if speaker
+                %h3.text-center= speaker.name
               %h4.text-center= event.title
