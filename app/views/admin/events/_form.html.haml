@@ -1,11 +1,43 @@
-.row
-  .col-md-12
-    .page-header
-      %h1
-        -if @event.new_record?
-          New
-        = @event.title
-        Event
-.row
-  .col-md-12
-    = render 'proposals/proposal_form'
+.container
+  .row
+    .col-md-12
+      .tabbable
+        %ul.nav.nav-tabs
+          %li.active
+            = link_to 'Proposal', '#proposal-content', 'data-toggle' => 'tab'
+          %li
+            = link_to 'Commercials', '#commercials-content', 'data-toggle' => 'tab'
+        .tab-content
+          .tab-pane.active#proposal-content
+            = form_for(@event, url: @url) do |f|
+              = render partial: 'proposals/form', locals: { f: f }
+            = render partial: 'shared/user_selectize'
+          .tab-pane#commercials-content
+            %p.text-muted
+              You can add commercials for your proposal. These commercials will be displayed on the
+              = link_to 'public proposal page.', conference_program_proposal_path(@conference.short_title, @event)
+              If you don't add a commercial, the conference commercial will be displayed!
+            - if can? :create, @event.commercials.new
+              .row
+                .col-md-6
+                  #resource-content
+                  #resource-placeholder{ style: 'background-color:#d3d3d3; float: left; width: 400px; height: 250px; margin: 5px; border-width: 1px; border-style: solid; border-color: rgba(0,0,0,.2);' }
+              .row
+                .col-md-6
+                  = form_for(@event.commercials.new, url: conference_program_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event)) do |f|
+                    = render partial: 'proposals/commercial_form_fields', locals: { f: f, commercial: @event.commercials.build }
+              %hr
+            - @event.commercials.each_slice(3) do |slice|
+              .row
+                - slice.each do |commercial|
+                  - if commercial.persisted?
+                    .col-md-4
+                      .thumbnail
+                        .flexvideo{ id: "resource-content-#{commercial.id}"}
+                          = render partial: 'shared/media_item', locals: { commercial: commercial }
+                        .caption
+                          - if can? :update, commercial
+                            = form_for(commercial, url: conference_program_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event, id: commercial)) do |f|
+                              = render partial: 'proposals/commercial_form_fields', locals: { f: f, commercial: commercial }
+
+

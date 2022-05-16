@@ -70,7 +70,6 @@ linters:
   UnnecessaryInterpolation:
     exclude:
       - "app/views/admin/conferences/_recent_submissions.html.haml"
-      - "app/views/proposals/_proposal_form.html.haml"
       - "app/views/proposals/new.html.haml"
 
   # Offense count: 262

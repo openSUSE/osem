@@ -1,37 +1,87 @@
-.tabbable
-  %ul.nav.nav-tabs
-    %li.active
-      = link_to 'Proposal', '#proposal-content', 'data-toggle' => 'tab'
-    %li
-      = link_to 'Commercials', '#commercials-content', 'data-toggle' => 'tab'
-  .tab-content
-    #proposal-content.tab-pane.active
-      = render 'proposals/proposal_form'
-    #commercials-content.tab-pane
-      %p.text-muted
-        You can add commercials for your proposal. These commercials will be displayed on the
-        = link_to 'public proposal page.', conference_program_proposal_path(@conference.short_title, @event)
-        If you don't add a commercial, the conference commercial will be displayed!
-      - if can? :create, @event.commercials.new
-        .row
-          .col-md-6
-            #resource-content
-            #resource-placeholder{ style: 'background-color:#d3d3d3; float: left; width: 400px; height: 250px; margin: 5px; border-width: 1px; border-style: solid; border-color: rgba(0,0,0,.2);' }
-        .row
-          .col-md-6
-            = form_for(@event.commercials.new, url: conference_program_proposal_commercials_path(conference_id: @conference.short_title, proposal_id: @event)) do |f|
-              = render partial: 'proposals/commercial_form_fields', locals: { f: f, commercial: @event.commercials.build }
-        %hr
-      - @event.commercials.each_slice(3) do |slice|
-        .row
-          - slice.each do |commercial|
-            - if commercial.persisted?
-              .col-md-4
-                .thumbnail
-                  .flexvideo{ id: "resource-content-#{commercial.id}"}
-                    = render partial: 'shared/media_item', locals: { commercial: commercial }
-                  .caption
-                    - if can? :update, commercial
-                      = form_for(commercial, url: conference_program_proposal_commercial_path(conference_id: @conference.short_title, proposal_id: @event, id: commercial)) do |f|
-                        = render partial: 'proposals/commercial_form_fields', locals: { f: f, commercial: commercial }
+- action_is_edit = @event.persisted?
+- display_registration = current_user&.is_admin? || @program.cfp&.enable_registrations?
+
+%h4
+  Proposal Information
+%hr
+.form-group
+  = f.label :title
+  %abbr{title: 'This field is required'} *
+  = f.text_field :title, autofocus: true, required: true, class: 'form-control'
+- if action_is_edit
+  .form-group
+    = f.label :subtitle
+    = f.text_field :subtitle, class: 'form-control'
+  .form-group
+    = f.select :speaker_ids, f.object.speakers.pluck(:username, :id), {}, {  multiple: true, class: "form-control", id: "users_selectize", placeholder: "Speakers" }
+    %span.help-block
+      The people responsible for the event, beside you. You can only select existing users.
+  - if @program.tracks.confirmed.cfp_active.any?
+    .form-group
+      = f.label :track_id, 'Track'
+      = f.select :track_id, @program.tracks.confirmed.cfp_active.pluck(:name, :id), { include_blank: '(Please select)' }, { class: 'form-control' }
+.form-group
+  = f.label :event_type_id, 'Type'
+  = f.select :event_type_id, event_type_select_options(@conference.program.event_types), { include_blank: false }, { class: 'select-help-toggle form-control' }
+- if @program.languages.present?
+  .form-group
+  = f.label :language
+  = f.select :language, @languages, { include_blank: false}, { class: 'select-help-toggle form-control' }
+- @conference.program.event_types.each do |event_type|
+  %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
+    = event_type.description
+- if action_is_edit
+  - if @conference.program.difficulty_levels.any?
+    = f.label :difficulty_level
+    = f.select :difficulty_level_id, @conference.program.difficulty_levels.map{|level| [level.title, level.id ] }, {include_blank: false}, { class: 'select-help-toggle form-control' }
+    - @conference.program.difficulty_levels.each do |difficulty_level|
+      %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
+        = difficulty_level.description
+.form-group
+  = f.label :abstract
+  = f.text_area :abstract, required: true, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
+  %span.help-block
+    = markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
+  %p
+    You have used
+    %span#abstract-count = @event.abstract_word_count
+    words.  Abstracts must be between
+    %span#abstract-minimum-word-count
+      0
+    and
+    %span#abstract-maximum-word-count
+      250
+    words.
+  - if display_registration && action_is_edit
+    %h4
+      Event Registration
+    %hr
+  - if display_registration
+    .checkbox
+      %label
+        = f.check_box :require_registration
+        Require participants to register to your event
+  - if display_registration && action_is_edit
+    .form-group
+      = f.number_field :max_attendees
+      %span.help-block
+        - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
+        = 'The maximum number of participants. ' + message
+  - if action_is_edit && current_user.has_any_role?(:admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference })
+    .checkbox
+      %label
+        = f.check_box :is_highlight
+        Is a highlight?
+  %p.text-right
+    = link_to '#description', 'data-toggle' => 'collapse' do
+      Do you require something special for your event?
+  #description{ class: "collapse #{ 'in' if @event.description.present? }" }
+    .form-group
+      = f.label :description, 'Requirements'
+      = f.text_area :description, rows: 5
+      %span.help-block
+        Eg. Whiteboard, printer, or something like that.
+  %p.text-right
+    - submit_copy = action_is_edit ? 'Update Proposal' : 'Create Proposal'
+    = f.submit submit_copy, class: 'btn btn-success'
 
