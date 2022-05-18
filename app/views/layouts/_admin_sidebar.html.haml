@@ -1,41 +1,41 @@
 %ul.nav.nav-stacked.nav-pills.mySidebar.collapse.navbar-collapse#side-nav
   .btn-group
     %button{type:'button', class: 'btn btn-default btn-link dropdown-toggle', 'data-toggle'=>'dropdown'}
-      %span.fa.fa-cog
+      %span.fa-solid.fa-gear
       = @conference.short_title
       %span.caret
     %ul.dropdown-menu{role:'menu'}
       %li
         = link_to(admin_conferences_path) do
-          %span.fa.fa-home
+          %span.fa-solid.fa-house
           All Conferences
       - @conferences.each do |conference|
         - if can? :show, conference
           %li
             = link_to(admin_conference_path(conference.short_title)) do
-              %span.fa.fa-cog
+              %span.fa-solid.fa-gear
               Manage
               = conference.short_title
       - if can? :new, Conference.new
         %li
           = link_to(new_admin_conference_path) do
-            %span.fa.fa-plus
+            %span.fa-solid.fa-plus
             New Conference
   %hr
   - if can? :show, @conference
     %li{class: "#{active_nav_li(admin_conference_path(@conference.short_title))} nav-header nav-header-bigger"}
       = link_to(admin_conference_path(@conference.short_title)) do
-        %span.fa.fa-tachometer
+        %span.fa-solid.fa-gauge-high
         Dashboard
   - if can? :show, @conference
     %li{class: "#{active_nav_li(edit_admin_conference_path(@conference.short_title))}"}
       - if can? :edit, @conference
         = link_to(edit_admin_conference_path(@conference.short_title)) do
-          %span.fa.fa-home
+          %span.fa-solid.fa-house
           Basics
       - else
         %a
-          %span.fa.fa-home
+          %span.fa-solid.fa-house
           Basics
       %ul
         - if can? :update, Contact.new(conference_id: @conference.id)
@@ -50,7 +50,7 @@
   - if can? :show, Venue.new(conference_id: @conference.id)
     %li{class: "#{active_nav_li(admin_conference_venue_path(@conference.short_title))}"}
       = link_to(admin_conference_venue_path(@conference.short_title)) do
-        %span.fa.fa-road
+        %span.fa-solid.fa-road
         Venue
       %ul
         - if @conference.venue && @conference.venue.persisted? && (can? :update, @conference.venue.rooms.build)
@@ -62,7 +62,7 @@
   - if can? :show, @conference.program
     %li{class: "#{active_nav_li(admin_conference_program_path(@conference.short_title))}"}
       = link_to admin_conference_program_path(@conference.short_title) do
-        %span.fa.fa-calendar
+        %span.fa-solid.fa-calendar
         Program
       - if @conference.program
         %ul
@@ -91,7 +91,7 @@
   - if can? :update, Registration.new(conference_id: @conference.id)
     %li{class: active_nav_li(admin_conference_registrations_path(@conference.short_title))}
       = link_to(admin_conference_registrations_path(@conference.short_title)) do
-        %span.fa.fa-user
+        %span.fa-solid.fa-user
         Registrations
       %ul
         - if can? :update, @conference
@@ -104,7 +104,7 @@
   - if (can? :manage, @conference.sponsorship_levels.build) || (can? :manage, @conference.sponsors.build) || (can? :manage, @conference.tickets.build)
     %li
       %a
-        %span.fa.fa-usd
+        %span.fa-solid.fa-dollar-sign
         Donations
       %ul
         - if can? :update, @conference.sponsorship_levels.build
@@ -119,31 +119,31 @@
   - if can? :manage, @conference.booths.build
     %li
       = link_to  admin_conference_booths_path(@conference.short_title) do
-        %span.fa.fa-shopping-bag
+        %span.fa-solid.fa-bag-shopping
         = (t'booth').pluralize.capitalize
   - if can? :update, @conference.email_settings
     %li{class: active_nav_li(admin_conference_emails_path(@conference.short_title))}
       = link_to(admin_conference_emails_path(@conference.short_title)) do
-        %span.fa.fa-envelope
+        %span.fa-solid.fa-envelope
         E-Mails
   %li{ class: active_nav_li(admin_conference_surveys_path(@conference.short_title)) }
     = link_to(admin_conference_surveys_path(@conference.short_title)) do
-      %span.fa.fa-list-alt
+      %span.fa-solid.fa-list
       Surveys
   - if can? :index, Role.new(resource: @conference)
     %li{class: active_nav_li(admin_conference_roles_path(@conference.short_title))}
       = link_to(admin_conference_roles_path(@conference.short_title)) do
-        %span.fa.fa-group
+        %span.fa-solid.fa-user-group
         Roles
 
   - if can? :index, @conference.resources.new
     %li
       = link_to admin_conference_resources_path(@conference.short_title) do
-        %span.fa.fa-pencil-square
+        %span.fa-solid.fa-pencil
         Resources
 
   - if can?(:index, PaperTrail::Version.new(conference_id: @conference.id, item_type: 'Event')) || can?(:index, PaperTrail::Version.new(conference_id: @conference.id, item_type: 'Registration'))
     %li{:class=> active_nav_li(admin_conference_revision_history_path(@conference.short_title))}
       = link_to(admin_conference_revision_history_path(@conference.short_title)) do
-        %span.fa.fa-history
+        %span.fa-solid.fa-clock-rotate-left
         Revision History

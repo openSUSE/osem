@@ -27,7 +27,7 @@
               = organization.conferences.past.count
             %td.text-center
               - unless organization.code_of_conduct.blank?
-                = fa_icon 'check', title: 'yes'
+                = icon 'fa-solid', 'check', title: 'yes'
             %td
               .btn-group
                 = link_to 'Admins', admins_admin_organization_path(organization),

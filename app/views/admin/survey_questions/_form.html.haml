@@ -35,7 +35,7 @@
         .form-group
           %select.selectpicker.form-control{ id: 'survey_question_kind', name: 'survey_question[kind]' }
             - SurveyQuestion.kinds.each do |kind|
-              %option{ id: "#{kind.second}", 'data-icon' => "fa fa-#{SurveyQuestion::ICONS[kind.first.to_sym]}", selected: @survey_question.kind == kind.first }
+              %option{ id: "#{kind.second}", 'data-icon' => "fa-solid fa-#{SurveyQuestion::ICONS[kind.first.to_sym]}", selected: @survey_question.kind == kind.first }
                 = kind.first
         = f.submit nil, class: 'btn btn-primary'
   .col-md-6
@@ -89,7 +89,7 @@
           .form-group{ class: 'datetimepicker' }
             .input-group
               .input-group-addon
-                %span.fa.fa-calendar
+                %span.fa-solid.fa-calendar
               %input.form-control{ readonly: 'readonly' }
               .kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden' }
           %input.form-control{ type: 'number' }

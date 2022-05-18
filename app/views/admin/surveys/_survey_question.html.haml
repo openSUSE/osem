@@ -35,7 +35,7 @@
       .form-group{ class: 'datetimepicker' }
         .input-group
           .input-group-addon
-            %span.fa.fa-calendar
+            %span.fa-solid.fa-calendar
           %input.form-control{ readonly: 'readonly', name: "survey_submission[#{survey_question.id}][]", value: survey_reply.text, required: survey_question.mandatory }
     - elsif survey_question.numeric?
       %input.form-control{ type: 'number', name: "survey_submission[#{survey_question.id}][]", value: survey_reply.text, required: survey_question.mandatory }

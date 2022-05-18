@@ -21,9 +21,9 @@
                 = sponsorship_level.position
                 .btn-group-vertical{role: "group"}
                   = link_to(up_admin_conference_sponsorship_level_path(@conference.short_title, sponsorship_level.id), method: :patch, class: 'btn btn-default btn-xs') do
-                    %i.fa.fa-chevron-up
+                    %i.fa-solid.fa-chevron-up
                   = link_to(down_admin_conference_sponsorship_level_path(@conference.short_title, sponsorship_level.id), method: :patch, class: 'btn btn-default btn-xs') do
-                    %i.fa.fa-chevron-down
+                    %i.fa-solid.fa-chevron-down
               %td
                 = link_to 'Edit', edit_admin_conference_sponsorship_level_path(@conference.short_title, sponsorship_level.id),
                 method: :get, class: 'btn btn-primary'

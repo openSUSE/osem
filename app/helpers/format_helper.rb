@@ -100,9 +100,9 @@ module FormatHelper
 
   def icon_for_todo(bool)
     if bool
-      'fa fa-check'
+      'fa-solid fa-check'
     else
-      'fa fa-times'
+      'fa-solid fa-xmark'
     end
   end
 

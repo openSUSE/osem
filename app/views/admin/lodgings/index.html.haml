@@ -12,7 +12,7 @@
         .thumbnail
           - unless lodging.picture?
             %p.text-center
-              %i.fa.fa-home.fa-5x
+              %i.fa-solid.fa-house.fa-5x
           - else
             - if lodging.website_link.present?
               = link_to(lodging.website_link, class: 'thumbnail') do

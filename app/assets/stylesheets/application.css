@@ -7,7 +7,6 @@
  *= require osem-schedule-print
  *= require osem-dashboard
  *= require osem-splash
- *= require font-awesome
  *= require osem-fonts
  *= require bootstrap-markdown
  *= require bootstrap-datetimepicker
@@ -17,7 +16,6 @@
  *= require osem-navbar
  *= require selectize
  *= require selectize.bootstrap3
- *= require mastodon
  *= require bootstrap-select
  *= require conferences
 */

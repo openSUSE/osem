@@ -13,8 +13,8 @@
             Older conferences
             %span.notranslate
               = "(#{@antiquated.count})"
-            %i.fa.fa-chevron-right
-            %i.fa.fa-chevron-down{ style: 'display: none' }
+            %i.fa-solid.fa-chevron-right
+            %i.fa-solid.fa-chevron-down{ style: 'display: none' }
     #antiquated.collapse
       - @antiquated.each do |conference|
         = render '/conferences/conference_details', conference: conference

@@ -35,6 +35,6 @@
                 = check_box_tag @conference.short_title, @event.id, event_registration.attended, class: 'switch-checkbox', url: "#{toggle_attendance_admin_conference_program_event_path(@conference, @event, events_registration_id: event_registration)}&&event_registration[attended]="
               %td
                 - if event_registration.registration.attended
-                  %i.fa.fa-check.text-success
+                  %i.fa-solid.fa-check.text-success
                 - else
-                  %i.fa.fa-close.text-danger
+                  %i.fa-solid.fa-xmark.text-danger

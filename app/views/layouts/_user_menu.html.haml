@@ -1,6 +1,6 @@
 - if can? :index, Comment
   %li.dropdown-header
-    %span.fa.fa-comment
+    %span.fa-solid.fa-comment
     Notifications (#{unread_notifications(current_user).length})
   - if unread_notifications(current_user).length > 0
     %li.dropdown-header Last 5 Comments for:
@@ -13,71 +13,71 @@
 - unless ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
   %li
     = link_to(edit_user_registration_path) do
-      %span.fa.fa-wrench
+      %span.fa-solid.fa-wrench
       Edit Account
 %li
   = link_to(edit_user_path(current_user.id)) do
-    %span.fa.fa-user
+    %span.fa-solid.fa-user
     Edit Profile
 - if @conference && ((current_user && @conference.user_registered?(current_user)) || @conference.registration_open?)
   %li
     = link_to(conference_conference_registration_path(@conference)) do
-      %span.fa.fa-id-badge
+      %span.fa-solid.fa-id-badge
       = @conference.short_title
       registration
 -if @conference && @conference.program
   %li
     = link_to(conference_program_proposals_path(@conference.short_title)) do
-      %span.fa.fa-comment
+      %span.fa-solid.fa-comment
       My Submissions
   %li
     = link_to(conference_program_tracks_path(@conference.short_title)) do
-      %span.fa.fa-road
+      %span.fa-solid.fa-road
       My Tracks
 -if @conference && (@conference.call_for_booths.try(:open?) || current_user.booths.where(conference_id: @conference.id).count > 0)
   %li
     = link_to (conference_booths_path(@conference.short_title)) do
-      %span.fa.fa-shopping-bag
+      %span.fa-solid.fa-bag-shopping
       My #{(t'booth').capitalize } Requests
 %li
   - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
     = link_to(destroy_user_ichain_session_path, method: 'delete') do
-      %span.fa.fa-minus
+      %span.fa-solid.fa-minus
       Sign out
   - else
     = link_to(destroy_user_session_path, method: 'delete') do
-      %span.fa.fa-minus
+      %span.fa-solid.fa-minus
       Sign out
 - if can? :access, Admin
   %li.divider
     %li
       - if Conference.any?
         = link_to(admin_conferences_path()) do
-          %span.fa.fa-home
+          %span.fa-solid.fa-house
           Administration
       - if can? :new, Conference.new
         =link_to(new_admin_conference_path) do
-          %span.fa.fa-plus
+          %span.fa-solid.fa-plus
           New Conference
     -if @conference && @conference.id && can?(:show, @conference)
       %li
         = link_to(admin_conference_path(@conference.short_title)) do
-          %span.fa.fa-cog
+          %span.fa-solid.fa-gear
           Manage
           %span.notranslate
             = @conference.short_title
 - if can? :manage, User.new
   %li
     = link_to(admin_users_path) do
-      %span.fa.fa-user
+      %span.fa-solid.fa-user
       Users
 - if can? :index, PaperTrail::Version
   %li
     = link_to(admin_revision_history_path) do
-      %span.fa.fa-history
+      %span.fa-solid.fa-clock-rotate-left
       Revision History
   - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
     %li
       = link_to(admin_organizations_path) do
-        %span.fa.fa-group
+        %span.fa-solid.fa-user-group
         Organizations

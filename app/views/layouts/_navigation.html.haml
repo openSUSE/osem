@@ -35,16 +35,16 @@
           - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
             %li{class: "#{active_nav_li(new_ichain_registration_path('user'))}"}
               = link_to(new_ichain_registration_path('user')) do
-                %span.fa.fa-heart
+                %span.fa-solid.fa-heart
                 Sign Up
           - else
             %li{class: "#{active_nav_li(new_registration_path('user'))}"}
               = link_to(new_registration_path('user')) do
-                %span.fa.fa-heart
+                %span.fa-solid.fa-heart
                 Sign Up
           %li.dropdown.visible-desktop
             %a.dropdown-toggle{"data-toggle" => "dropdown", href: '#'}
-              %span.fa.fa-user
+              %span.fa-solid.fa-user
               Sign In
               %span.caret
             .dropdown-menu

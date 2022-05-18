@@ -41,7 +41,7 @@ function truncatify(selector) {
 function iconize(selector, value, icon, title) {
 	$(selector).each(function(){
 		if ($(this).text() == value) {
-			$(this).html("<i class='fa fa-" + icon + "' title='" + title + "'></i>");
+			$(this).html("<i class='fa-solid fa-" + icon + "' title='" + title + "'></i>");
 		}
 	});
 }
