@@ -41,7 +41,7 @@ feature Survey do
       create :boolean_mandatory, survey: survey
 
       visit conference_conference_registration_path(conference)
-      expect(find(:link, survey.title).sibling('.fa')[:title]).to eq('Please fill out the survey')
+      expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Please fill out the survey')
 
       click_link survey.title
       choose 'Yes'
@@ -49,7 +49,7 @@ feature Survey do
       expect(flash).to eq('Successfully responded to survey.')
 
       visit conference_conference_registration_path(conference)
-      expect(find(:link, survey.title).sibling('.fa')[:title]).to eq('Thank you for filling out the survey')
+      expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Thank you for filling out the survey')
     end
   end
 end

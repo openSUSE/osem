@@ -7,7 +7,7 @@ class SurveyQuestion < ActiveRecord::Base
   # Order of this list should not be changed without proper action!
   enum kind: [:boolean, :choice, :string, :text, :datetime, :numeric]
 
-  ICONS = { boolean: 'dot-circle-o', choice: 'check-square-o', string: 'edit', text: 'align-left', datetime: 'clock-o', numeric: 'slack' }.freeze
+  ICONS = { boolean: 'circle-dot', choice: 'square-check', string: 'pen-to-square', text: 'align-left', datetime: 'clock', numeric: 'hashtag' }.freeze
 
   validates :title, presence: true
   validates :possible_answers, :max_choices, :min_choices, presence: true, if: :choice?

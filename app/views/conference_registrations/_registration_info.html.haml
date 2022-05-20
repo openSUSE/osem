@@ -2,7 +2,7 @@
   - code_of_conduct_link = link_to 'Code of Conduct', '#',
     data: { toggle: 'modal', target: '#modal-code-of-conduct'}
   - if @registration.accepted_code_of_conduct
-    = fa_icon 'check-square-o'
+    = icon 'fa-solid', 'square-check'
     I have read and accepted the
     = code_of_conduct_link
   - else

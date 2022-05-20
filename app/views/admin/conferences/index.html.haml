@@ -4,13 +4,13 @@
       icon: "user", subtitle: "User", value: @total_user, delta: @new_user
   .col-sm-3.col-xs-3
     = render "big_statistic",
-      icon: "check-square", subtitle: "Registration", value: @total_reg, delta: @new_reg
+      icon: "square-check", subtitle: "Registration", value: @total_reg, delta: @new_reg
   .col-sm-3.col-xs-3
     = render "big_statistic",
-      icon: "file-text", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
+      icon: "file-lines", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
   .col-sm-3.col-xs-3
     = render "big_statistic",
-      icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn, reverse: true
+      icon: "box-archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn, reverse: true
 
 .row#registrations
   .col-md-8
@@ -33,15 +33,15 @@
     %ul.nav.nav-tabs#recentTable
       %li.active
         %a{ href: '#recent_user', 'data-toggle' => 'tab' }
-          %span.fa.fa-user
+          %span.fa-solid.fa-user
           Recent Users
       %li
         %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
-          %span.fa.fa-check-square
+          %span.fa-solid.fa-square-check
           Recent Registrations
       %li
         %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
-          %span.fa.fa-file-text
+          %span.fa-solid.fa-file-lines
           Recent Submissions
     .tab-content
       .tab-pane.active#recent_user

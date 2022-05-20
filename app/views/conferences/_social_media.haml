@@ -5,25 +5,25 @@
         .col-md-12.text-center
           - if contact.blog?
             = link_to "#{ contact.blog }" do
-              %i.fa.fa-rss-square.fa-4x
+              %i.fa-solid.fa-square-rss.fa-4x
           - if contact.facebook?
             = link_to "#{ contact.facebook }" do
-              %i.fa.fa-facebook-square.fa-4x
+              %i.fa-brand.fa-facebook.fa-4x
           - if contact.twitter?
             = link_to "#{ contact.twitter }" do
-              %i.fa.fa-twitter.fa-4x
+              %i.fa-brand.fa-twitter.fa-4x
           - if contact.instagram?
             = link_to "#{ contact.instagram }" do
-              %i.fa.fa-instagram.fa-4x
+              %i.fa-brand.fa-instagram.fa-4x
           - if contact.googleplus?
             = link_to "#{ contact.googleplus }" do
-              %i.fa.fa-google-plus-square.fa-4x
+              %i.fa-brand.fa-google-plus.fa-4x
           - if contact.mastodon?
             = link_to "#{ contact.mastodon }" do
-              %i.fa.icon-mastodon.fa-4x
+              %i.fa-brand.fa-mastodon.fa-4x
           - if contact.youtube?
             = link_to "#{ contact.youtube }" do
-              %i.fa.fa-youtube.fa-4x
+              %i.fa-brand.fa-youtube.fa-4x
           - if contact.email?
             = mail_to "#{ contact.email }" do
-              %i.fa.fa-envelope-o.fa-4x
+              %i.fa-solid.fa-envelope.fa-4x

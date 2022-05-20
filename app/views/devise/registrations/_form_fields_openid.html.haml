@@ -10,7 +10,7 @@
       %li{ style: "list-style: none; margin-left: 20px;" }
         = link_to user_openid_path(openid, user_id: current_user.id), method: :delete,
         data: { confirm: "Remove association with #{openid.provider} account?" } do
-          %span.fa.fa-times{ style: "color: red;" }
+          %span.fa-solid.fa-xmark.text-danger
         %span #{openid.provider}:#{openid.email}
       %br
   - else

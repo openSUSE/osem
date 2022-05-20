@@ -227,8 +227,8 @@ GEM
     fastimage (2.2.6)
     feature (1.4.0)
     ffi (1.15.5)
-    font-awesome-rails (4.7.0.8)
-      railties (>= 3.2, < 8.0)
+    font-awesome-sass (6.1.1)
+      sassc (~> 2.0)
     geckodriver-helper (0.24.0)
       archive-zip (~> 0.7)
     globalid (1.0.0)
@@ -661,7 +661,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   feature
-  font-awesome-rails
+  font-awesome-sass
   geckodriver-helper
   gravtastic
   haml-rails

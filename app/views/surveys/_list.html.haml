@@ -1,7 +1,7 @@
 - surveys.each do |survey|
   - if survey.survey_submissions.find_by(user: current_user)
-    %i.fa.fa-check-square-o.text-success{ title: 'Thank you for filling out the survey' }
+    %i.fa-solid.fa-square-check.text-success{ title: 'Thank you for filling out the survey' }
   - else
-    %i.fa.fa-minus-square-o.text-danger{ title: 'Please fill out the survey' }
+    %i.fa-solid.fa-square-minus.text-danger{ title: 'Please fill out the survey' }
   = link_to survey.title, conference_survey_path(conference.short_title, survey)
   %br

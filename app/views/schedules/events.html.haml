@@ -29,7 +29,7 @@
             %span{ class: 'date-title', id: "#{ event_schedule.start_time.strftime('%Y-%m-%d') }" }
               = date = event_schedule.start_time.strftime('%Y-%m-%d')
             %a{ title: "Go up", class: "pull-right", href: "#program" }
-              %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
+              %i{ class: "fa-solid fa-angles-up fa-lg", 'aria-hidden' => true }
       - unless event_schedule.start_time.strftime('%H:%M').eql?(time)
         .col-xs-12.col-md-1
           .start-time
@@ -48,7 +48,7 @@
           %span.date-title#unscheduled
             Unscheduled events
           %a{ title: "Go up", class: "pull-right", href: "#program" }
-            %i{ class: "fa fa-angle-double-up fa-lg", 'aria-hidden' => true }
+            %i{ class: "fa-solid fa-angles-up fa-lg", 'aria-hidden' => true }
       - @unscheduled_events.each do |event|
         .col-xs-12.col-md-12
           .unscheduled-event

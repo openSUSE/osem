@@ -1,5 +1,5 @@
 %h1
-  %span.fa.fa-tachometer
+  %span.fa-solid.fa-gauge-high
   Dashboard for #{@conference.title}
 %hr
 .row
@@ -8,13 +8,13 @@
       icon: "user", subtitle: "Registration", value: @total_reg, delta: @new_reg
   .col-sm-3.col-xs-3
     = render "big_statistic",
-      icon: "check-square", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
+      icon: "square-check", subtitle: "Submission", value: @total_submissions, delta: @new_submissions
   .col-sm-3.col-xs-3
     = render "big_statistic",
-      icon: "file-text", subtitle: "Hour", value: @program_length, delta: @new_program_length
+      icon: "file-lines", subtitle: "Hour", value: @program_length, delta: @new_program_length
   .col-sm-3.col-xs-3
     = render "big_statistic",
-      icon: "archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn
+      icon: "box-archive", subtitle: "Withdrawn", value: @total_withdrawn, delta: @new_withdrawn
 
 .row
   .col-md-12
@@ -41,15 +41,15 @@
     %ul.nav.nav-tabs#doughnut_tabs
       %li.active
         %a{ href: '#distribution_all', 'data-toggle' => 'tab' }
-          %span.fa.fa-star
+          %span.fa-solid.fa-star
           All
       %li
         %a{ href: '#distribution_confirmed', 'data-toggle' => 'tab' }
-          %span.fa.fa-comment
+          %span.fa-solid.fa-comment
           Confirmed
       %li
         %a{ href: '#distribution_withdrawn', 'data-toggle' => 'tab' }
-          %span.fa.fa-archive
+          %span.fa-solid.fa-box-archive
           Withdrawn
     .tab-content
       .tab-pane.active#distribution_all
@@ -91,11 +91,11 @@
     %ul.nav.nav-tabs#recentTable
       %li{ 'class' => "active #{hidden_if_conference_over(@conference)}" }
         %a{ href: '#recent_reg', 'data-toggle' => 'tab' }
-          %span.fa.fa-user
+          %span.fa-solid.fa-user
           Recent Registrations
       %li{ 'class' => "#{hidden_if_conference_over(@conference)}" }
         %a{ href: '#recent_submissions', 'data-toggle' => 'tab' }
-          %span.fa.fa-file-text
+          %span.fa-solid.fa-file-lines
           Recent Submissions
     .tab-content
       .tab-pane.active#recent_reg

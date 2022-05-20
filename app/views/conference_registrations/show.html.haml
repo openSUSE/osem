@@ -17,17 +17,19 @@
   - unless @conference.code_of_conduct.blank?
     .row
       .col-md-12
-        %h4= fa_stacked_icon 'handshake-o', base: 'square-o', text: 'Code of Conduct'
+        %h4= fa_stacked_icon 'handshake-o', base: 'square-dashed', text: 'Code of Conduct'
         %ul.fa-ul
           - if @registration.accepted_code_of_conduct
             %li.text-info
-              = fa_icon('check li')
+              %span.fa-li
+                = icon('fa-solid', 'check')
               You have accepted the
               = link_to 'Code of Conduct', '#',
                 data: { toggle: 'modal', target: '#modal-code-of-conduct'}
           - else
             %li.text-warning
-              = fa_icon('exclamation-circle li')
+              %span.fa-li
+                = icon('fa-solid', 'circle-exclamation')
               You need to accept the
               = link_to 'Code of Conduct', '#',
                 data: { toggle: 'modal', target: '#modal-code-of-conduct'}
@@ -38,8 +40,8 @@
       .col-md-12
         %h4
           %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-info.fa-stack-1x
+            %i.fa-solid.fa-square-dashed.fa-stack-2x
+            %i.fa-solid.fa-info.fa-stack-1x
           Surveys
 
         %ul
@@ -49,8 +51,8 @@
       .col-md-12
         %h4
           %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-check.fa-stack-1x
+            %i.fa-solid.fa-square-dashed.fa-stack-2x
+            %i.fa-solid.fa-check.fa-stack-1x
           Registered to the following event(s)
         %ul
           - @registration.events.each do |event|
@@ -63,8 +65,8 @@
       .col-md-12
         %h4
           %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-question.fa-stack-1x
+            %i.fa-solid.fa-square-dashed.fa-stack-2x
+            %i.fa-solid.fa-question.fa-stack-1x
           Events that require registration
         %ul
           - @registration.conference.program.events.remaining_for_registration(@registration).each do |event|
@@ -77,8 +79,8 @@
       .col-md-12
         %h4
           %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-ticket.fa-stack-1x
+            %i.fa-solid.fa-square-dashed.fa-stack-2x
+            %i.fa-solid.fa-ticket.fa-stack-1x
           Tickets
         - if @tickets.any?
           Total Purchased:
@@ -139,8 +141,8 @@
       - if @conference.participants.any?
         %h4
           %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-group.fa-stack-1x
+            %i.fa-solid.fa-square-dashed.fa-stack-2x
+            %i.fa-solid.fa-user-group.fa-stack-1x
           = @conference.participants.count
           Registered
           = word_pluralize(@conference.participants.count, 'Attendee')
@@ -150,8 +152,8 @@
       - if @conference.program.speakers.confirmed.any?
         %h4
           %span.fa-stack
-            %i.fa.fa-square-o.fa-stack-2x
-            %i.fa.fa-microphone.fa-stack-1x
+            %i.fa-solid.fa-square-dashed.fa-stack-2x
+            %i.fa-solid.fa-microphone.fa-stack-1x
           = @conference.program.speakers.confirmed.count
           Confirmed
           = word_pluralize(@conference.program.speakers.confirmed.count, 'Speaker')

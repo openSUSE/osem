@@ -40,13 +40,13 @@
             %tr
               %td{style: "padding:15px 0px 0px 8px;"}
                 - if %w(new to_accept to_reject).include? track.state
-                  %span{ title: 'In review', class: 'fa fa-eye' }
+                  %span{ title: 'In review', class: 'fa-solid fa-eye' }
                 - elsif track.state == 'accepted'
-                  %span{ title: 'Accepted', class: 'fa fa-check text-muted' }
+                  %span{ title: 'Accepted', class: 'fa-solid fa-check text-muted' }
                 - elsif track.state == 'confirmed'
-                  %spam{ title: 'Confirmed', class: 'fa fa-check text-success' }
+                  %spam{ title: 'Confirmed', class: 'fa-solid fa-check text-success' }
                 - elsif %w(rejected withdrawn canceled).include? track.state
-                  %span{ title: track.state.humanize, class: 'fa fa-ban'}
+                  %span{ title: track.state.humanize, class: 'fa-solid fa-ban'}
               %td{style: "padding: 15px 0px 0px 0px;"}
                 = link_to conference_program_track_path(@conference.short_title, track), class: 'btn' do
                   %span.label{style: "background-color: #{track.color}; color: #{ contrast_color(track.color) }"}
