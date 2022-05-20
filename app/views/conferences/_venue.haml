@@ -28,9 +28,10 @@
                   = markdown(venue.description)
           .col-md-6
             %h2
-              = venue.city
-              \/
-              = venue.country_name
+              %span>= venue.city
+              - if conference.city and conference.country_name
+                \/
+              %span>= venue.country_name
             %address
               = venue.street
               %br
