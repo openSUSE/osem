@@ -71,14 +71,14 @@ Rails.application.configure do
   end
 
   config.action_mailer.smtp_settings = {
-    address:              ENV['OSEM_SMTP_ADDRESS'],
-    port:                 ENV['OSEM_SMTP_PORT'],
-    user_name:            ENV['OSEM_SMTP_USERNAME'],
-    password:             ENV['OSEM_SMTP_PASSWORD'],
-    authentication:       ENV['OSEM_SMTP_AUTHENTICATION'].try(:to_sym),
-    domain:               ENV['OSEM_SMTP_DOMAIN'],
-    enable_starttls_auto: ENV['OSEM_SMTP_ENABLE_STARTTLS_AUTO'],
-    openssl_verify_mode:  ENV['OSEM_SMTP_OPENSSL_VERIFY_MODE']
+    address:              ENV.fetch('OSEM_SMTP_ADDRESS'),
+    port:                 ENV.fetch('OSEM_SMTP_PORT'),
+    user_name:            ENV.fetch('OSEM_SMTP_USERNAME'),
+    password:             ENV.fetch('OSEM_SMTP_PASSWORD'),
+    authentication:       ENV.fetch('OSEM_SMTP_AUTHENTICATION').try(:to_sym),
+    domain:               ENV.fetch('OSEM_SMTP_DOMAIN'),
+    enable_starttls_auto: ENV.fetch('OSEM_SMTP_ENABLE_STARTTLS_AUTO'),
+    openssl_verify_mode:  ENV.fetch('OSEM_SMTP_OPENSSL_VERIFY_MODE')
   }.compact
 
   # Do not dump schema after migrations.
