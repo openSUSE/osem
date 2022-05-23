@@ -12,10 +12,10 @@
               = date_string(conference.start_date, conference.end_date)
           - if conference.venue
             %p
-              >= conference.city
+              %span>= conference.city
               - if conference.city and conference.country_name
                 \/
-              >= conference.country_name
+              %span>= conference.country_name
           - unless conference.description.blank?
             %p
               = markdown(conference.description)

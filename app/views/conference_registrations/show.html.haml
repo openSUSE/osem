@@ -17,7 +17,11 @@
   - unless @conference.code_of_conduct.blank?
     .row
       .col-md-12
-        %h4= fa_stacked_icon 'handshake-o', base: 'square-dashed', text: 'Code of Conduct'
+        %h4
+          .fa-stack
+            .fa-solid.fa-square-dashed
+            .fa-solid.fa-handshake
+          Code of Conduct
         %ul.fa-ul
           - if @registration.accepted_code_of_conduct
             %li.text-info
