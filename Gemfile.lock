@@ -288,7 +288,7 @@ GEM
     json-schema (3.0.0)
       addressable (>= 2.8)
     jsonapi-renderer (0.2.2)
-    jwt (2.3.0)
+    jwt (2.4.1)
     launchy (2.5.0)
       addressable (~> 2.7)
     leaflet-rails (1.7.0)
