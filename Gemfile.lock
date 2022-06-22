@@ -317,7 +317,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.15.0)
+    minitest (5.16.1)
     momentjs-rails (2.29.1.1)
       railties (>= 3.1)
     monetize (1.12.0)
