@@ -161,7 +161,7 @@ GEM
     childprocess (4.1.0)
     chronic (0.10.2)
     chunky_png (1.4.0)
-    climate_control (1.0.1)
+    climate_control (1.1.1)
     cloudinary (1.23.0)
       aws_cf_signer
       rest-client (>= 2.0.0)
