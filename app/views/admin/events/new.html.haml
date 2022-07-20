@@ -1,0 +1,3 @@
+= form_for(@event, url: @url) do |f|
+  = render partial: 'proposals/form', locals: { f: f }
+  = render partial: 'shared/user_selectize'
