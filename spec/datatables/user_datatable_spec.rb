@@ -76,6 +76,9 @@ describe UserDatatable do
     allow(view).to receive(:admin_user_path) do |arg|
       "/admin/users/#{arg.to_param}"
     end
+    allow(view).to receive(:dom_id) do |user|
+      "user_#{user.id}"
+    end
     allow(view).to receive(:edit_admin_user_path) do |arg|
       "/admin/users/#{arg.to_param}/edit"
     end

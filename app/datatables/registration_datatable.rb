@@ -3,6 +3,7 @@
 class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
+  def_delegator :@view, :dom_id
   def_delegator :@view, :edit_admin_conference_registration_path
 
   def initialize(params, opts = {})
@@ -41,7 +42,7 @@ class RegistrationDatatable < AjaxDatatablesRails::ActiveRecord
         email:                    record.email,
         accepted_code_of_conduct: !!record.accepted_code_of_conduct, # rubocop:disable Style/DoubleNegation
         edit_url:                 edit_admin_conference_registration_path(conference, record),
-        DT_RowId:                 record.id
+        DT_RowId:                 dom_id(record)
       }
     end
   end
