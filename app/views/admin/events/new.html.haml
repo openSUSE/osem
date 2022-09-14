@@ -1,0 +1,10 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        New Event
+.row
+  .col-md-8
+    = form_for(@event, url: @url) do |f|
+      = render partial: 'proposals/form', locals: { f: f }
+    = render partial: 'shared/user_selectize'
