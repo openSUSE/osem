@@ -3,6 +3,7 @@
 class UserDatatable < AjaxDatatablesRails::ActiveRecord
   extend Forwardable
 
+  def_delegator :@view, :dom_id
   def_delegator :@view, :show_roles
   def_delegator :@view, :admin_user_path
   def_delegator :@view, :edit_admin_user_path
@@ -39,7 +40,7 @@ class UserDatatable < AjaxDatatablesRails::ActiveRecord
         roles:        record.roles.any? ? show_roles(record.get_roles) : 'None',
         view_url:     admin_user_path(record),
         edit_url:     edit_admin_user_path(record),
-        DT_RowId:     record.id
+        DT_RowId:     dom_id(record)
       }
     end
   end
