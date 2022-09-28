@@ -12,7 +12,7 @@ describe EventScheduleSerializer, type: :serializer do
 
   it 'sets date and room' do
     expected_json = {
-      date: ' 2000-01-02T03:04:05+0000 ',
+      date: '2000-01-02T03:04:05.000Z',
       room: event_schedule.room.guid
     }.to_json
 

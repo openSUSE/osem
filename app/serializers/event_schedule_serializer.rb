@@ -3,12 +3,8 @@
 class EventScheduleSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attributes :date, :room
-
-  def date
-    t = object.start_time
-    t.blank? ? '' : %( #{I18n.l t, format: :short}#{t.formatted_offset(false)} )
-  end
+  attribute :start_time, key: :date
+  attributes :room
 
   def room
     object.room.guid

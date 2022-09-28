@@ -3,12 +3,9 @@
 class EventSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attributes :guid, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :room, :track
-
-  def scheduled_date
-    t = object.time
-    t.blank? ? '' : %( #{I18n.l t, format: :short}#{t.formatted_offset(false)} )
-  end
+  attributes :guid, :title, :length
+  attribute :time, key: :scheduled_date
+  attributes :language, :abstract, :speaker_ids, :type, :room, :track
 
   def speaker_ids
     speakers = object.event_users.select { |i| i.event_role == 'speaker' }
