@@ -3,8 +3,11 @@
 class EventScheduleSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attribute :start_time, key: :date
-  attributes :room
+  attributes :date, :room
+
+  def date
+    object.start_time&.change(zone: object.event.program.conference.timezone)
+  end
 
   def room
     object.room.guid

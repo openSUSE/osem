@@ -2,7 +2,13 @@
 
 require 'spec_helper'
 describe EventSerializer, type: :serializer do
-  let(:event) { create(:event, title: 'Some Talk', abstract: 'Lorem ipsum dolor sit amet') }
+  let(:conference) { create(:conference, timezone: 'UTC') }
+  let(:program) { create(:program, conference: conference) }
+  let(:event) do
+    create(:event, program:  program,
+                   title:    'Some Talk',
+                   abstract: 'Lorem ipsum dolor sit amet')
+  end
   let(:serializer) { EventSerializer.new(event) }
 
   context 'event does not have date, room and tracks assigned' do

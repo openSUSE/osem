@@ -3,9 +3,11 @@
 class EventSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
-  attributes :guid, :title, :length
-  attribute :time, key: :scheduled_date
-  attributes :language, :abstract, :speaker_ids, :type, :room, :track
+  attributes :guid, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :room, :track
+
+  def scheduled_date
+    object.time&.change(zone: object.program.conference.timezone)
+  end
 
   def speaker_ids
     speakers = object.event_users.select { |i| i.event_role == 'speaker' }
