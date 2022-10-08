@@ -62,7 +62,7 @@ this code in the future. We define proper commit messages like this:
 * The title of your commit message summarizes **what** has been done
 * The body of your commit message explains **why** you have done this
 
-If the title is to small to explain **what** you have done, then you can of course
+If the title is too small to explain **what** you have done, then you can of course
 elaborate about it in the body. Please avoid explaining *how* you have done this,
 we are developers too and we see the diff, if we do not understand something we will
 ask you in the review.
