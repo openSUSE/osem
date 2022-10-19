@@ -21,41 +21,55 @@
           %th Action
     %tbody
       - if version.event != 'destroy'
-        - version.changeset.reject{ |_, values| values[0].blank? && values[1].blank? }.each do |attribute, values|
-          %tr
-            %td= attribute
-            - if version.event != 'create'
+        -# For deleted models we cannot use all of PaperTrail functionalities, so we simplify the output
+        - if version.item_type == 'Campaign' || version.item_type == 'Target' || version.item_type == 'EventAttachment'
+          - changeset = version.object_changes.split("\n")
+          -# object_changes field is now in the format of ["---", "id:", "- ", "- 6", "conference_id:",  "- ",  "- 2"]
+          - changeset.shift
+          - changeset.each_slice(3).each do |attribute_changes|
+            %tr
+              -# Remove the dash at the beginning
+              - attribute_changes.map!{ |x| x.sub(/^- /, '') }
+              %td= attribute_changes[0]
+              - if version.event != 'create'
+                %td= attribute_changes[1]
+              %td= attribute_changes[2]
+        - else
+          - version.changeset.reject{ |_, values| values[0].blank? && values[1].blank? }.each do |attribute, values|
+            %tr
+              %td= attribute
+              - if version.event != 'create'
+                %td
+                  / If the attribute is an associated model, show the value of the record it corresponds to, not just the ID.
+                  / Eg. when the version is of an Event, if the attribute is event_type_id it shows
+                  / Workshop (ID: 116) instead of just 116
+                  - if attribute.include?('_id')
+                    - model_name = attribute.chomp('_id').camelize
+                    - associated_object = current_or_last_object_state(model_name, values[0])
+
+                    = associated_object.try(:title) || associated_object.try(:name)
+                    = values[0].blank? ? '-' : "(ID: #{values[0]})"
+                  - else
+                    = values[0].blank? ?  '-' : values[0]
+
+                    - if attribute == 'price_cents'
+                      = "(#{humanized_money_with_symbol previous_version.try(:price)})"
               %td
-                / If the attribute is an associated model, show the value of the record it corresponds to, not just the ID.
-                / Eg. when the version is of an Event, if the attribute is event_type_id it shows
-                / Workshop (ID: 116) instead of just 116
                 - if attribute.include?('_id')
                   - model_name = attribute.chomp('_id').camelize
-                  - associated_object = current_or_last_object_state(model_name, values[0])
+                  - associated_object = current_or_last_object_state(model_name, values[1])
 
                   = associated_object.try(:title) || associated_object.try(:name)
-                  = values[0].blank? ? '-' : "(ID: #{values[0]})"
+                  = (values[1].blank? ? '-' : "(ID: #{values[1]})")
+
                 - else
-                  = values[0].blank? ?  '-' : values[0]
+                  = values[1].blank? ?  '-' : values[1]
 
                   - if attribute == 'price_cents'
-                    = "(#{humanized_money_with_symbol previous_version.try(:price)})"
-            %td
-              - if attribute.include?('_id')
-                - model_name = attribute.chomp('_id').camelize
-                - associated_object = current_or_last_object_state(model_name, values[1])
+                    = "(#{humanized_money_with_symbol version_item.try(:price)})"
 
-                = associated_object.try(:title) || associated_object.try(:name)
-                = (values[1].blank? ? '-' : "(ID: #{values[1]})")
-
-              - else
-                = values[1].blank? ?  '-' : values[1]
-
-                - if attribute == 'price_cents'
-                  = "(#{humanized_money_with_symbol version_item.try(:price)})"
-
-            - if can? :revert_attribute, version
-              %td= link_to 'Revert', admin_revision_history_revert_attribute_path(id: version.id, attribute: attribute), class: 'btn btn-sm btn-primary', data: { confirm: "Are you sure you want to revert #{attribute}?" }
+              - if can? :revert_attribute, version
+                %td= link_to 'Revert', admin_revision_history_revert_attribute_path(id: version.id, attribute: attribute), class: 'btn btn-sm btn-primary', data: { confirm: "Are you sure you want to revert #{attribute}?" }
       - else
         - version.reify.attributes.each do |attribute, value|
           %tr
