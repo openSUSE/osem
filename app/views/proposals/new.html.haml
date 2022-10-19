@@ -10,7 +10,7 @@
           = markdown(@program.cfp.description)
   .row
     .col-md-12
-      = render partial: 'encouragement_text'
+      = render partial: 'proposals/encouragement_text'
   .row
     .col-md-8
       - unless current_user
@@ -26,6 +26,6 @@
         .tab-pane.active{role: 'tabpanel', id: 'signup'}
           = form_for(@event, url: @url) do |f|
             = render partial: 'devise/registrations/new_embedded'
-            = render partial: 'form', locals: { f: f }
+            = render partial: 'proposals/form', locals: { f: f }
         .tab-pane{role: 'tabpanel', id: 'signin'}
           = render partial: 'devise/sessions/new_embedded'
