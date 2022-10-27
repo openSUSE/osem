@@ -2,7 +2,9 @@
 
 class ConferenceSerializer < ActiveModel::Serializer
   include ApplicationHelper
-  attributes :short_title, :title, :description, :start_date, :end_date, :picture_url,
+  include Rails.application.routes.url_helpers
+
+  attributes :short_title, :url, :title, :description, :start_date, :end_date, :picture_url,
              :difficulty_levels, :event_types, :rooms, :tracks,
              :date_range, :revision
 
@@ -54,6 +56,10 @@ class ConferenceSerializer < ActiveModel::Serializer
                                            'description' => track.description
                                          }
     end
+  end
+
+  def url
+    url_for(object)
   end
 
   def revision

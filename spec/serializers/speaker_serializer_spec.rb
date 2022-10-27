@@ -8,6 +8,7 @@ describe SpeakerSerializer, type: :serializer do
   context 'speaker does not have biography' do
     it 'sets name and affiliation' do
       expected_json = {
+        url:         "http://localhost:3000/users/#{speaker.id}",
         name:        'John Doe',
         affiliation: 'JohnDoesInc',
         biography:   nil
@@ -22,6 +23,7 @@ describe SpeakerSerializer, type: :serializer do
 
     it 'sets name, affiliation and biography' do
       expected_json = {
+        url:         "http://localhost:3000/users/#{speaker.id}",
         name:        'John Doe',
         affiliation: 'JohnDoesInc',
         biography:   'Doest of all Jon Does'

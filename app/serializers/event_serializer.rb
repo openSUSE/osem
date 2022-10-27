@@ -2,8 +2,13 @@
 
 class EventSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
+  include Rails.application.routes.url_helpers
 
-  attributes :guid, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :room, :track
+  attributes :guid, :url, :title, :length, :scheduled_date, :language, :abstract, :speaker_ids, :type, :room, :track
+
+  def url
+    conference_program_proposal_url(object.conference.short_title, object.id)
+  end
 
   def scheduled_date
     t = object.time

@@ -9,6 +9,7 @@ describe EventSerializer, type: :serializer do
     it 'sets guid, title, length, abstract and type' do
       expected_json = {
         guid:           event.guid,
+        url:            "http://localhost:3000/conferences/#{event.conference.short_title}/program/proposals/#{event.id}",
         title:          'Some Talk',
         length:         30,
         scheduled_date: '',
@@ -39,6 +40,7 @@ describe EventSerializer, type: :serializer do
     it 'sets guid, title, length, abstract, type, date, language, speakers, room and track' do
       expected_json = {
         guid:           event.guid,
+        url:            "http://localhost:3000/conferences/#{event.conference.short_title}/program/proposals/#{event.id}",
         title:          'Some Talk',
         length:         30,
         scheduled_date: ' 2014-03-04T09:00:00+0000 ',
