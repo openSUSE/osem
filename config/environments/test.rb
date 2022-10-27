@@ -43,8 +43,12 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  # Set the detault url for action mailer
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  # Provide a default host for URLs
+  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  config.action_controller.default_url_options = Rails.application.routes.default_url_options
+  config.action_mailer.default_url_options = Rails.application.routes.default_url_options
+
+  # Configure outgoing mail
   config.action_mailer.delivery_method = :test
 
   config.after_initialize do

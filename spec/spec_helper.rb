@@ -117,6 +117,11 @@ RSpec.configure do |config|
   #   end
   # end
 
+  # Expect configured host instead of `test.host` (see https://stackoverflow.com/q/15414847)
+  config.before(:each, type: :controller) do
+    @request.host = Rails.application.routes.default_url_options[:host]
+  end
+
   # use the config to use
   # t('some.locale.key') instead of always having to type I18n.t
   config.include AbstractController::Translation

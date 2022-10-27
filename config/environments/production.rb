@@ -73,7 +73,12 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  config.action_mailer.default_url_options = { host: ENV.fetch('OSEM_HOSTNAME', 'localhost:3000') }
+  # Provide a default host for URLs
+  Rails.application.routes.default_url_options[:host] = ENV.fetch('OSEM_HOSTNAME', 'localhost:3000')
+  config.action_controller.default_url_options = Rails.application.routes.default_url_options
+  config.action_mailer.default_url_options = Rails.application.routes.default_url_options
+
+  # Configure outgoing mail
   config.action_mailer.smtp_settings = {
     address:              ENV.fetch('OSEM_SMTP_ADDRESS', 'localhost'),
     port:                 ENV.fetch('OSEM_SMTP_PORT', 25),
