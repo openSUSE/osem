@@ -61,7 +61,7 @@ There is a rudimentary docker-compose configuration for production usage (`docke
    ```
 
 ## Configuration
-OSEM is configured through environment variables and falls back to sensible defaults. See the [dotenv.example](https://github.com/openSUSE/osem/blob/master/dotenv.example) for all possible configuration options. However here is a list of things you most likey want to configure because otherwise things will not work as expected.
+OSEM is configured through environment variables and falls back to sensible defaults. See the [dotenv.example](https://github.com/openSUSE/osem/blob/master/dotenv.example) for all possible configuration options. However here is a list of things you most likely want to configure because otherwise things will not work as expected.
 
 ### `SECRET_KEY_BASE`
 A [random string](https://www.randomlists.com/string?base=16&length=64&qty=1) to encrypt sessions/cookies.
@@ -73,7 +73,7 @@ The name of your OSEM installation
 By default OSEM tries to send emails over localhost.
 
 #### `OSEM_HOSTNAME`
-The host this OSEM instance runs on. This is used for generating urls in emails sent.
+The host this OSEM instance runs on. This is used for generating URLs in emails sent.
 
 #### `OSEM_EMAIL_ADDRESS`
 The address OSEM uses to sending mails from.
