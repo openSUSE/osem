@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEventSchedules < ActiveRecord::Migration
+class CreateEventSchedules < ActiveRecord::Migration[5.0]
   def change
     create_table :event_schedules do |t|
       t.belongs_to :event, index: true

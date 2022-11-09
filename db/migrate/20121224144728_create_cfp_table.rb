@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateCfpTable < ActiveRecord::Migration
+class CreateCfpTable < ActiveRecord::Migration[5.0]
   def up
     create_table :call_for_papers do |t|
       t.date :start_date, null: false

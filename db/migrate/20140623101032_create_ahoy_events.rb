@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateAhoyEvents < ActiveRecord::Migration
+class CreateAhoyEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :ahoy_events  do |t|
       t.uuid :visit_id

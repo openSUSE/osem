@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddStayingAtSuggestedHotelToQuestions < ActiveRecord::Migration
+class AddStayingAtSuggestedHotelToQuestions < ActiveRecord::Migration[4.2]
   class TempRegistration < ActiveRecord::Base
     self.table_name = 'registrations'
 

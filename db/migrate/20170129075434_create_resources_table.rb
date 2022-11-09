@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateResourcesTable < ActiveRecord::Migration
+class CreateResourcesTable < ActiveRecord::Migration[5.0]
   def change
     create_table :resources do |t|
       t.string :name

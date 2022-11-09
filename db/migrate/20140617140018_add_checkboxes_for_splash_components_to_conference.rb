@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddCheckboxesForSplashComponentsToConference < ActiveRecord::Migration
+class AddCheckboxesForSplashComponentsToConference < ActiveRecord::Migration[4.2]
   def change
     add_column :conferences, :include_registrations_in_splash, :boolean, default: false
     add_column :conferences, :include_sponsors_in_splash, :boolean, default: false

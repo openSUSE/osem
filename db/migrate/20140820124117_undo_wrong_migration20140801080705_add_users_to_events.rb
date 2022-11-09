@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration
+class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration[7.0]
   class TempEvent < ActiveRecord::Base
     self.table_name = 'events'
   end
@@ -20,7 +20,7 @@ class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration
   end
 
   def up
-    if ActiveRecord::Migrator.get_all_versions.include? 20140801080705
+    if ApplicationRecord.connection.migration_context.get_all_versions.include? 20140801080705
       user_deleted = TempUser.find_by(email: 'deleted@localhost.osem')
 
       TempEvent.all.each do |event|

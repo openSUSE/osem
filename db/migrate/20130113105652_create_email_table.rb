@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEmailTable < ActiveRecord::Migration
+class CreateEmailTable < ActiveRecord::Migration[4.2]
   def up
     create_table :email_settings do |t|
       t.references :conference

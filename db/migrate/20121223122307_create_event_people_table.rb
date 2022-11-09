@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEventPeopleTable < ActiveRecord::Migration
+class CreateEventPeopleTable < ActiveRecord::Migration[5.0]
   def self.up
     create_table :event_people do |t|
       t.references :proposal

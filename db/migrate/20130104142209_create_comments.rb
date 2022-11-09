@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateComments < ActiveRecord::Migration
+class CreateComments < ActiveRecord::Migration[4.2]
   def self.up
     create_table :comments do |t|
       t.string :title, limit: 50, default: ''

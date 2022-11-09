@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatePeopleTable < ActiveRecord::Migration
+class CreatePeopleTable < ActiveRecord::Migration[5.0]
   def up
     create_table :people do |t|
       t.string :guid, null: false

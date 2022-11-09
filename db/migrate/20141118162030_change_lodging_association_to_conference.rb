@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeLodgingAssociationToConference < ActiveRecord::Migration
+class ChangeLodgingAssociationToConference < ActiveRecord::Migration[4.2]
   class TempConference < ActiveRecord::Base
     self.table_name = 'conferences'
   end
