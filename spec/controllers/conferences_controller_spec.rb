@@ -49,4 +49,44 @@ describe ConferencesController do
     end
   end
 
+  describe 'GET#calendar' do
+    let(:i_calendar) do
+      instance_double(Icalendar::Calendar, publish: true, to_ical: true)
+    end
+    let!(:conference) { create(:conference) }
+    let(:params) { { full: double(:full), format: :ics } }
+    let(:user) { create :user, is_admin: true }
+    
+    setup do
+      user.update!(is_admin: true)
+      
+      sign_in user
+
+      allow(Conference::Calendar::EventBuilder)
+        .to receive(:call)
+
+      allow(Icalendar::Calendar)
+        .to receive(:new)
+        .and_return(i_calendar)
+    end
+
+    it 'calls Conference::Calendar::EventBuilder with correct params' do
+      expect(Conference::Calendar::EventBuilder)
+        .to receive(:call)
+        .with(
+          conference: conference,
+          conference_url: conference_url(conference.short_title),
+          calendar: i_calendar,
+          is_full_calendar: params[:full].to_s
+        )
+      
+      get :calendar, params: params
+    end
+
+    it 'calls calendar#publish' do
+      expect(i_calendar).to receive(:publish)
+
+      get :calendar, params: params
+    end
+  end
 end
