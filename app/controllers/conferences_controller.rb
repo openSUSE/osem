@@ -14,57 +14,24 @@ class ConferencesController < ApplicationController
   end
 
   def show
-    # load conference with header content
-    @conference = Conference.unscoped.eager_load(
-      :splashpage,
-      :program,
-      :registration_period,
-      :contact,
-      venue: :commercial
-    ).find_by!(conference_finder_conditions)
-    authorize! :show, @conference # TODO: reduce the 10 queries performed here
+    authorize! :show, conference # TODO: reduce the 10 queries performed here
 
-    splashpage = @conference.splashpage
+    splashpage = conference.splashpage
 
     unless splashpage.present?
-      redirect_to admin_conference_splashpage_path(@conference.short_title) && return
+      return redirect_to admin_conference_splashpage_path(conference.short_title)
     end
 
-    @image_url = "#{request.protocol}#{request.host}#{@conference.picture}"
+    @image_url = show_variables_fetcher.conference_image_url(request)
+  
+    assign_cfp_variables if splashpage.include_cfp
+      
+    assign_program_variables if splashpage.include_program
+  
+    @tickets = show_variables_fetcher.fetch_tickets
+    @lodgings = show_variables_fetcher.fetch_lodgings
 
-    if splashpage.include_cfp
-      cfps = @conference.program.cfps
-      @call_for_events = cfps.find { |call| call.cfp_type == 'events' }
-      if @call_for_events.try(:open?)
-        @event_types = @conference.event_types.pluck(:title)
-        @track_names = @conference.confirmed_tracks.pluck(:name).sort
-      end
-      @call_for_tracks = cfps.find { |call| call.cfp_type == 'tracks' }
-      @call_for_booths = cfps.find { |call| call.cfp_type == 'booths' }
-    end
-    if splashpage.include_program
-      @highlights = @conference.highlighted_events.eager_load(:speakers)
-      if splashpage.include_tracks
-        @tracks = @conference.confirmed_tracks.eager_load(
-          :room
-        ).order('tracks.name')
-      end
-      if splashpage.include_booths
-        @booths = @conference.confirmed_booths.order('title')
-      end
-    end
-    if splashpage.include_registrations || splashpage.include_tickets
-      @tickets = @conference.tickets.order('price_cents')
-    end
-    if splashpage.include_lodgings
-      @lodgings = @conference.lodgings.order('name')
-    end
-    if splashpage.include_sponsors
-      @sponsorship_levels = @conference.sponsorship_levels.eager_load(
-        :sponsors
-      ).order('sponsorship_levels.position ASC', 'sponsors.name')
-      @sponsors = @conference.sponsors
-    end
+    assign_sponsor_variables if splashpage.include_sponsors 
   end
 
   def calendar
@@ -109,6 +76,32 @@ class ConferencesController < ApplicationController
   end
 
   private
+
+  def assign_program_variables
+    @highlights = conference.highlighted_events.eager_load(:speakers)
+    @tracks = show_variables_fetcher.fetch_tracks
+    @booths = show_variables_fetcher.fetch_booths
+  end
+
+  def assign_cfp_variables
+    @call_for_events = show_variables_fetcher.cfp_call_by_type('events')
+    @event_types, @track_names = show_variables_fetcher.event_types_and_track_names(@call_for_events)
+    @call_for_tracks = show_variables_fetcher.cfp_call_by_type('tracks')
+    @call_for_booths = show_variables_fetcher.cfp_call_by_type('booths')
+  end
+
+  def assign_sponsor_variables
+    @sponsorship_levels = show_variables_fetcher.sponsorship_levels
+    @sponsors = conference.sponsors
+  end
+
+  def conference
+    @conference ||= Queries::Conferences::conference_by_filter(conference_finder_conditions)
+  end
+
+  def show_variables_fetcher
+    show_variables_fetcher ||= Conferences::ShowVariablesFetcher.new(conference: conference)
+  end
 
   def conference_finder_conditions
     if params[:id]
