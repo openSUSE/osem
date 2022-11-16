@@ -18,7 +18,7 @@ describe ConferencesController do
     context 'conference made public' do
       it 'assigns the requested conference to conference' do
         get :show, params: { id: conference.short_title }
-        # expect(assigns(:conference)).to eq conference
+        expect(assigns(:conference)).to eq conference
       end
 
       it 'renders the show template' do
