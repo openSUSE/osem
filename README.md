@@ -1,12 +1,8 @@
-[![Build Status](https://travis-ci.org/openSUSE/osem.svg?branch=master)](https://travis-ci.org/openSUSE/osem)
 [![Build Status](https://github.com/openSUSE/osem/actions/workflows/spec.yml/badge.svg?branch=master)](https://github.com/openSUSE/osem/actions)
 [![Code Climate](https://codeclimate.com/github/openSUSE/osem.png)](https://codeclimate.com/github/openSUSE/osem)
 [![codecov](https://codecov.io/gh/opensuse/osem/branch/master/graph/badge.svg)](https://codecov.io/gh/opensuse/osem)
-[![Security Status](https://hakiri.io/github/openSUSE/osem/master.svg)](https://hakiri.io/github/openSUSE/osem/master)
 [![Dependencies](https://badges.depfu.com/badges/8fcd630367d20f5b48d393774c00c5fd/overview.svg)](https://depfu.com/repos/openSUSE/osem)
-<a href="https://heroku.com/deploy?template=https://github.com/openSUSE/osem/tree/v1.0">
-  <img src="https://www.herokucdn.com/deploy/button.svg" height="20px" alt="Deploy">
-</a>
+
 # Open Source Event Manager - [osem.io](https://osem.io)
 ![OSEM Logo](doc/osem-logo.png)
 
