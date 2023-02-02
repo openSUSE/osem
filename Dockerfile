@@ -12,10 +12,6 @@ COPY Gemfile /osem/
 COPY Gemfile.lock /osem/
 RUN chown -R osem /osem
 
-# Install bundler & foreman
-RUN gem install bundler -v "$(grep -A 1 "BUNDLED WITH" /osem/Gemfile.lock | tail -n 1)"; \
-    gem install foreman
-
 # Continue as user
 USER osem
 WORKDIR /osem/
