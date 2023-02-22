@@ -3,8 +3,10 @@ step "hello-world-using-bash" {
 
     action {
         action_type = "Octopus.Script"
+        environments = ["staging"]
         is_required = true
         properties = {
+            Octopus.Action.EnabledFeatures = "Octopus.Features.SubstituteInFiles"
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
                 echo 'Hello world, using Bash'
