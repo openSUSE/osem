@@ -1,5 +1,8 @@
-- action_is_edit = @event.persisted?
-- display_registration = current_user&.is_admin? || @program.cfp&.enable_registrations?
+:ruby
+  action_is_edit = @event.persisted?
+  user_is_admin = current_user&.is_admin?
+  display_details = user_is_admin || action_is_edit
+  display_registration = user_is_admin || @program.cfp&.enable_registrations?
 
 %h4
   Proposal Information
@@ -8,7 +11,7 @@
   = f.label :title
   %abbr{title: 'This field is required'} *
   = f.text_field :title, autofocus: true, required: true, class: 'form-control'
-- if action_is_edit
+- if display_details
   .form-group
     = f.label :subtitle
     = f.text_field :subtitle, class: 'form-control'
@@ -32,7 +35,7 @@
   = f.select :language, @languages, { include_blank: false}, { class: 'select-help-toggle form-control' }
 = render 'shared/select_help_text', f: f, for: :event_type_id, options: @conference.program.event_types do |event_type|
   = event_type.description
-- if action_is_edit
+- if display_details
   - if @conference.program.difficulty_levels.any?
     = f.label :difficulty_level
     = f.select :difficulty_level_id, @conference.program.difficulty_levels.map{|level| [level.title, level.id ] }, {include_blank: false}, { class: 'select-help-toggle form-control' }
@@ -53,7 +56,7 @@
     %span#abstract-maximum-word-count
       250
     words.
-  - if display_registration && action_is_edit
+  - if display_registration && display_details
     %h4
       Event Registration
     %hr
@@ -62,14 +65,14 @@
       %label
         = f.check_box :require_registration
         Require participants to register to your event
-  - if display_registration && action_is_edit
+  - if display_registration && display_details
     .form-group
       = f.label :max_attendees
       = f.number_field :max_attendees,  class: 'form-control'
       %span.help-block
         - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
         = 'The maximum number of participants. ' + message
-  - if action_is_edit && current_user.has_any_role?(:admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference })
+  - if display_details && current_user.has_any_role?(:admin, { name: :organizer, resource: @conference }, { name: :cfp, resource: @conference })
     .checkbox
       %label
         = f.check_box :is_highlight
