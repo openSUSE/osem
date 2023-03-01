@@ -50,6 +50,16 @@ FactoryBot.define do
       end
     end
 
+    factory :cfp_user do
+      transient do
+        resource { create(:resource) }
+      end
+
+      after :create do |user, evaluator|
+        user.add_role :cfp, evaluator.resource
+      end
+    end
+
     trait :disabled do
       is_disabled { true }
     end
