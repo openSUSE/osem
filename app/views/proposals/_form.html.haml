@@ -13,6 +13,7 @@
     = f.label :subtitle
     = f.text_field :subtitle, class: 'form-control'
   .form-group
+    %label{for: 'users_selectize-selectized'} Speakers
     = f.select :speaker_ids, f.object.speakers.pluck(:username, :id), {}, {  multiple: true, class: "form-control", id: "users_selectize", placeholder: "Speakers" }
     %span.help-block
       The people responsible for the event, beside you. You can only select existing users.
@@ -63,7 +64,8 @@
         Require participants to register to your event
   - if display_registration && action_is_edit
     .form-group
-      = f.number_field :max_attendees
+      = f.label :max_attendees
+      = f.number_field :max_attendees,  class: 'form-control'
       %span.help-block
         - message = @event.room ? "Value must be between 1 and #{@event.room.size}" : 'Check room capacity after scheduling.'
         = 'The maximum number of participants. ' + message
