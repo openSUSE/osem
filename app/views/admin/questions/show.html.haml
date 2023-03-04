@@ -13,10 +13,11 @@
 
       %table.datatable#question_users
         %thead
-          %th Name
-          %th Username
-          %th Email
-          %th Answer
+          %tr
+            %th Name
+            %th Username
+            %th Email
+            %th Answer
         %tbody
           - @registrations.each do |registration|
             %tr

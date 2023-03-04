@@ -8,10 +8,11 @@
   .col-md-12
     %table.table.table-hover#difficulty_levels
       %thead
-        %th Title
-        %th Description
-        %th Color
-        %th Actions
+        %tr
+          %th Title
+          %th Description
+          %th Color
+          %th Actions
       %tbody
         - @conference.program.difficulty_levels.each do |difficulty_level|
           %tr

@@ -10,15 +10,16 @@
 .col-md-12
   %table.datatable
     %thead
-      %th ID
-      %th Title
-      %th Speakers Registered
-      %th Speakers Biographies
-      %th Commercial
-      %th Subtitle
-      %th Difficulty Level
-      - if @program.tracks.any?
-        %th Track
+      %tr
+        %th ID
+        %th Title
+        %th Speakers Registered
+        %th Speakers Biographies
+        %th Commercial
+        %th Subtitle
+        %th Difficulty Level
+        - if @program.tracks.any?
+          %th Track
     %tbody
       - @events.each do |event|
         %tr

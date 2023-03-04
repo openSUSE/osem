@@ -9,11 +9,12 @@
   .col-md-12
     %table.table.table-bordered.table-striped.table-hover#roles
       %thead
-        %th ID
-        %th Name
-        %th Description
-        %th Users
-        %th Actions
+        %tr
+          %th ID
+          %th Name
+          %th Description
+          %th Users
+          %th Actions
       %tbody
         - @roles.each do |role|
           %tr

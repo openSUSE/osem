@@ -14,12 +14,13 @@
   .col-md-12
     %table.datatable
       %thead
-        %th #
-        %th Name
-        %th Quantity
-        %th E-Mail
-        %th Affiliation
-        %th Paid
+        %tr
+          %th #
+          %th Name
+          %th Quantity
+          %th E-Mail
+          %th Affiliation
+          %th Paid
       %tbody
         - @ticket.buyers.each_with_index do |buyer, index|
           %tr

@@ -10,12 +10,13 @@
     .col-md-12
       %table.datatable#tickets
         %thead
-          %th Title
-          %th Price
-          %th Sold
-          %th Turnover
-          %th Registration Ticket
-          %th Actions
+          %tr
+            %th Title
+            %th Price
+            %th Sold
+            %th Turnover
+            %th Registration Ticket
+            %th Actions
         %tbody
           - @conference.tickets.each do |ticket|
             %tr

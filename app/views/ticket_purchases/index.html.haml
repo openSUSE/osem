@@ -10,11 +10,12 @@
       - if @unpaid_ticket_purchases.present?
         %table.table.table-bordered.table-striped.table-hover#roles
           %thead
-            %th ID
-            %th Type
-            %th Quantity
-            %th Date
-            %th Actions
+            %tr
+              %th ID
+              %th Type
+              %th Quantity
+              %th Date
+              %th Actions
           %tbody
             - @unpaid_ticket_purchases.each do |ticket_purchase|
               %tr

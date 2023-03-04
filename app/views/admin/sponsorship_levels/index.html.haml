@@ -9,9 +9,10 @@
     .col-md-12
       %table.table.table-hover#sponsorship_levels
         %thead
-          %th Title
-          %th Position
-          %th Actions
+          %tr
+            %th Title
+            %th Position
+            %th Actions
         %tbody
           - @conference.sponsorship_levels.each_with_index do |sponsorship_level, index|
             %tr

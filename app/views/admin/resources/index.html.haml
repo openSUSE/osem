@@ -9,10 +9,11 @@
     .col-md-12
       %table.datatable
         %thead
-          %th Name
-          %th Left( Left/Total )
-          %th Used
-          %th Actions
+          %tr
+            %th Name
+            %th Left( Left/Total )
+            %th Used
+            %th Actions
         %tbody
           - @conference.resources.each do |resource|
             %tr

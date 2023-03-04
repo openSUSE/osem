@@ -56,46 +56,48 @@
     - if @booths.any?
       %table.datatable
         %thead
-          %th
-            %b ID
-          %th
-            %b Logo
-          %th
-            %b Title
-          %th
-            %b Submitter
-          %th
-            %b Responsibles
-          %th
-            %b State
-          %th
-            %b Actions
-        - @booths.each do |booth|
           %tr
-            %td
-              = booth.id
-            %td
-              - if booth.logo_link
-                = image_tag(booth.picture.thumb.url, width: '20%')
-            %td
-              = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
-            %td
-              = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
-            %td
-              .responsibles
-                - booth.responsibles.each_with_index do |responsible, i|
-                  = link_to responsible.name, admin_user_path(responsible)
-                  = ", " unless i == booth.responsibles.length - 1
-            %td
-              .btn-group
-                %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
-                  = booth.state.humanize
-                  %span.caret
-                %ul.dropdown-menu{ role: 'menu' }
-                  = render 'change_state_dropdown', booth: booth
+            %th
+              %b ID
+            %th
+              %b Logo
+            %th
+              %b Title
+            %th
+              %b Submitter
+            %th
+              %b Responsibles
+            %th
+              %b State
+            %th
+              %b Actions
+        %tbody
+          - @booths.each do |booth|
+            %tr
               %td
-                = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
-                class: 'btn btn-primary'
+                = booth.id
+              %td
+                - if booth.logo_link
+                  = image_tag(booth.picture.thumb.url, width: '20%')
+              %td
+                = link_to booth.title, admin_conference_booth_path(@conference.short_title, booth)
+              %td
+                = link_to booth.submitter.name, admin_user_path(booth.submitter) if booth.submitter
+              %td
+                .responsibles
+                  - booth.responsibles.each_with_index do |responsible, i|
+                    = link_to responsible.name, admin_user_path(responsible)
+                    = ", " unless i == booth.responsibles.length - 1
+              %td
+                .btn-group
+                  %button{ type: 'button', class: 'btn btn-link dropdown-toggle', 'data-toggle' => 'dropdown' }
+                    = booth.state.humanize
+                    %span.caret
+                  %ul.dropdown-menu{ role: 'menu' }
+                    = render 'change_state_dropdown', booth: booth
+                %td
+                  = link_to 'Edit', edit_admin_conference_booth_path(@conference.short_title, booth.id),
+                  class: 'btn btn-primary'
 .row
   .col-md-12.text-right
     - if can? :create, Booth

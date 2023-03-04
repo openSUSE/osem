@@ -35,16 +35,17 @@
     - if @tracks.any?
       %table.datatable#tracks
         %thead
-          %th ID
-          %th Name
-          %th Description
-          %th Room
-          %th Start Date
-          %th End Date
-          %th Submitter
-          %th Included in Cfp
-          %th State
-          %th Actions
+          %tr
+            %th ID
+            %th Name
+            %th Description
+            %th Room
+            %th Start Date
+            %th End Date
+            %th Submitter
+            %th Included in Cfp
+            %th State
+            %th Actions
         %tbody
           - @tracks.each do |track|
             %tr

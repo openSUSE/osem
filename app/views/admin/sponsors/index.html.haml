@@ -9,12 +9,13 @@
     .col-md-12
       %table.table.table-hover#sponsors
         %thead
-          %th Logo
-          %th Name
-          %th Description
-          %th URL
-          %th Level
-          %th Actions
+          %tr
+            %th Logo
+            %th Name
+            %th Description
+            %th URL
+            %th Level
+            %th Actions
         %tbody
           - @conference.sponsors.each do |sponsor|
             %tr

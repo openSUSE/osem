@@ -7,8 +7,9 @@
       - if survey_question.survey_replies.any?
         %table.table
           %thead
-            %th User Email
-            %th Reply
+            %tr
+              %th User Email
+              %th Reply
           %tbody
             - survey_question.survey_replies.reload.each do |reply|
               %tr
