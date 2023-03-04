@@ -24,5 +24,10 @@ describe FormatHelper, type: :helper do
     it 'removes unallowed elements' do
       expect(markdown('<em>*<style>a</style>*</em>', false)).to eq "<p><em><em>a</em></em></p>\n"
     end
+
+    it 'sets nofollow on links' do
+      expect(markdown('[a](https://example.com/)'))
+        .to eq "<p><a href=\"https://example.com/\" rel=\"nofollow\">a</a></p>\n"
+    end
   end
 end
