@@ -106,6 +106,9 @@ feature Event do
 
     scenario 'update a proposal', js: true do
       conference = create(:conference)
+      create :track, program:     conference.program,
+                     name:        'Example Track',
+                     description: 'This track is an *example*.'
       create(:cfp, program: conference.program)
       proposal = create(:event, program: conference.program)
 
@@ -114,6 +117,8 @@ feature Event do
       visit edit_conference_program_proposal_path(proposal.program.conference.short_title, proposal)
 
       fill_in 'event_subtitle', with: 'My event subtitle'
+      select 'Example Track', from: 'Track'
+      expect(page).to have_selector '.in', text: 'This track is an example.'
       select('Easy', from: 'event[difficulty_level_id]')
       expect(page).to have_selector '.in', text: 'Events are understandable for everyone without knowledge of the topic.'
 
