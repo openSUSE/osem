@@ -145,7 +145,7 @@ function word_count(text, divId, maxcount) {
 /* Wait for the DOM to be ready before attaching events to the elements */
 $( document ).ready(function() {
     /* Set the minimum and maximum proposal abstract word length */
-    $("#event_event_type_id").change(function () {
+    function updateEventTypeRequirements() {
         var $selected = $("#event_event_type_id option:selected")
         var max = $selected.data("max-words");
         var min = $selected.data("min-words");
@@ -153,8 +153,9 @@ $( document ).ready(function() {
         $("#abstract-maximum-word-count").text(max);
         $("#abstract-minimum-word-count").text(min);
         word_count($('#event_abstract').get(0), 'abstract-count', max);
-    })
-        .trigger('change');
+    }
+    $("#event_event_type_id").change(updateEventTypeRequirements);
+    updateEventTypeRequirements();
 
     /* Count the proposal abstract length */
     $("#event_abstract").on('input', function() {

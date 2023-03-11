@@ -1,0 +1,10 @@
+:ruby
+  include_blank ||= false
+  select_id = field_id(f.object_name, local_assigns[:for])
+  value = f.object.send(local_assigns[:for])
+
+- options.each_with_index do |option, i|
+  - selected = value.present? ? option.id == value : !include_blank && i == 0
+
+  %span.help-block.select-help-text.collapse{ id: "#{option.id}-help", class: [select_id, ('in' if selected)] }
+    = yield option
