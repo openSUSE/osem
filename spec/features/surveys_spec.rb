@@ -67,6 +67,9 @@ feature Survey do
       create :boolean_mandatory, survey: survey
 
       visit conference_program_proposals_path(conference.short_title)
+      within('.progress') { expect(page).to have_text '4 left' }
+      click_on 'Complete your proposal'
+      within('.popover') { expect(find(:link, 'Respond to surveys')).to have_sibling('.fa-xmark') }
       expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Please fill out the survey')
 
       click_link survey.title
@@ -75,6 +78,9 @@ feature Survey do
       expect(flash).to eq('Successfully responded to survey.')
 
       visit conference_program_proposals_path(conference.short_title)
+      within('.progress') { expect(page).to have_text '3 left' }
+      click_on 'Complete your proposal'
+      within('.popover') { expect(find(:link, 'Respond to surveys')).to have_sibling('.fa-check') }
       expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Thank you for filling out the survey')
     end
   end

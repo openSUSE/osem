@@ -121,6 +121,6 @@
   - if @surveys.any?
     .row
       .col-md-12
-        %h2 Surveys
+        %h2#surveys Surveys
 
         = render partial: 'surveys/list', locals: { surveys: @surveys, conference: @conference }

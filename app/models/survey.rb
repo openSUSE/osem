@@ -36,4 +36,8 @@ class Survey < ActiveRecord::Base
   def closed?
     !active?
   end
+
+  def replied?(user_id)
+    survey_submissions.where(user_id: user_id).any?
+  end
 end

@@ -228,8 +228,11 @@ class Event < ApplicationRecord
   #
   # Returns +Hash+
   def progress_status
+    surveys = conference.surveys.during_proposal.select(&:active?)
+
     {
       registered:       speakers.all? { |speaker| program.conference.user_registered? speaker },
+      surveys:          (surveys.all? { |survey| survey.replied?(submitter) } if surveys.present?),
       commercials:      commercials.any?,
       biographies:      speakers.all? { |speaker| !speaker.biography.blank? },
       subtitle:         !subtitle.blank?,

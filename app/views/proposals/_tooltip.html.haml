@@ -7,6 +7,10 @@
           Speaker(s) registered to the conference
         - else
           = link_to 'Speaker(s) not registered to the conference', new_conference_conference_registration_path(event.program.conference.short_title)
+  - unless progress_status['surveys'].nil?
+    %li{'class'=>class_for_todo(progress_status['surveys'])}
+      %span{'class'=>icon_for_todo(progress_status['surveys'])}
+      = link_to 'Respond to surveys', '#surveys'
   %li{'class'=>class_for_todo(progress_status['biographies'])}
     %span{'class'=>icon_for_todo(progress_status['biographies'])}
       - if progress_status['biographies']
