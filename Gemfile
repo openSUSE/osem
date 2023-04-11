@@ -227,6 +227,9 @@ gem 'dalli'
 # to generate ical files
 gem 'icalendar'
 
+# to tame logs
+gem 'lograge'
+
 group :development do
   # for static code analisys
   gem 'rubocop', require: false
