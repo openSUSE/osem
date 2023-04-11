@@ -683,7 +683,6 @@ DEPENDENCIES
   money-rails
   mysql2
   next_rails
-  nokogiri (>= 1.8.1)
   omniauth
   omniauth-facebook
   omniauth-github
