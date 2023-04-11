@@ -221,15 +221,14 @@ gem 'selectize-rails'
 # For collecting performance data
 gem 'skylight'
 
-# Nokogiri < 1.8.1 is subject to:
-# CVE-2017-0663, CVE-2017-7375, CVE-2017-7376, CVE-2017-9047, CVE-2017-9048,
-# CVE-2017-9049, CVE-2017-9050
-gem 'nokogiri', '>= 1.8.1'
-
 # memcached binary connector
 gem 'dalli'
 
+# to generate ical files
 gem 'icalendar'
+
+# to tame logs
+gem 'lograge'
 
 group :development do
   # for static code analisys

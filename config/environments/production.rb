@@ -67,6 +67,22 @@ Rails.application.configure do
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
+  # Enable lograge
+  config.lograge.enabled = true
+  config.lograge.custom_payload do |controller|
+    # exceptions = ['controller', 'action', 'format', 'id']
+    {
+      # params: event.payload[:params].except(*exceptions),
+      user: controller.current_user.try(:username)
+    }
+  end
+  config.lograge.custom_options = lambda do |event|
+    exceptions = %w[controller action format id _method authenticity_token]
+    {
+      params: event.payload[:params].except(*exceptions)
+    }
+  end
+
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
