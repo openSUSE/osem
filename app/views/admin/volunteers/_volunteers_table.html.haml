@@ -1,13 +1,14 @@
 .well
   %table.table.table-striped.table-bordered.table-hover#volunteerstable
     %thead
-      %th First Name
-      %th Last Name
-      %th Email
-      %th Mobile
-      %th Languages
-      %th Experience
-      %th Tshirt Size
+      %tr
+        %th First Name
+        %th Last Name
+        %th Email
+        %th Mobile
+        %th Languages
+        %th Experience
+        %th Tshirt Size
     %tbody
       - @volunteers.each do |volunteer|
         %tr

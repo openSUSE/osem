@@ -9,9 +9,10 @@
 .col-md-12
   %table.datatable
     %thead
-      %th ID
-      %th Title
-      %th Speaker(s)
+      %tr
+        %th ID
+        %th Title
+        %th Speaker(s)
     %tbody
       - @events_missing_commercial.each do |event|
         %tr

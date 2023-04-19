@@ -13,7 +13,7 @@ feature EventType do
       visit admin_conference_program_event_types_path(
                 conference_id: conference.short_title)
 
-      within('table#event_types') do
+      within('table#event_types > tbody') do
         expect(page.assert_selector('tr', count: 2)).to be true
       end
 
@@ -30,7 +30,7 @@ feature EventType do
       page.find('#flash')
       # Validations
       expect(flash).to eq('Event type successfully created.')
-      within('table#event_types') do
+      within('table#event_types > tbody') do
         expect(page.has_content?('Party')).to be true
         expect(page.has_content?('13042')).to be true
         expect(page.has_content?('#E4E4E4')).to be true
@@ -44,7 +44,7 @@ feature EventType do
       page.find('#flash')
       expect(flash).to eq('Event type successfully deleted.')
 
-      within('table#event_types') do
+      within('table#event_types > tbody') do
         expect(page.assert_selector('tr', count: 2)).to be true
         expect(page.has_content?('Party')).to be false
       end

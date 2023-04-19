@@ -9,13 +9,14 @@
 .col-md-12
   %table.datatable
     %thead
-      %th ID
-      %th Title
-      %th Speaker(s)
-      %th Requirements
-      %th Room
-      %th Date
-      %th Time
+      %tr
+        %th ID
+        %th Title
+        %th Speaker(s)
+        %th Requirements
+        %th Room
+        %th Date
+        %th Time
     %tbody
       - @events_with_requirements.each do |event|
         %tr

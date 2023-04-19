@@ -11,11 +11,12 @@
   .col-md-12
     %table.datatable
       %thead
-        %th Name
-        %th Upcoming Conferences
-        %th Past Conferences
-        %th Code of Conduct?
-        %th Actions
+        %tr
+          %th Name
+          %th Upcoming Conferences
+          %th Past Conferences
+          %th Code of Conduct?
+          %th Actions
       %tbody
         - @organizations.each do |organization|
           %tr{ id: "organization-#{organization.id}" }

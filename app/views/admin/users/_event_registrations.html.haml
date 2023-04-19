@@ -7,10 +7,11 @@
     .well
       %table.datatable#event_registrations
         %thead
-          %th ID
-          %th Conference
-          %th Title
-          %th Attended
+          %tr
+            %th ID
+            %th Conference
+            %th Title
+            %th Attended
         %tbody
           - @user.events_registrations.each do |event_registration|
             - event = event_registration.event

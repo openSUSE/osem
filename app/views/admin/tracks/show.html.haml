@@ -109,11 +109,12 @@
       .col-md-12
         %table.datatable
           %thead
-            %th Title
-            %th Type
-            %th Submitter
-            %th State
-            %th Time
+            %tr
+              %th Title
+              %th Type
+              %th Submitter
+              %th State
+              %th Time
           %tbody
             - @track.events.each_with_index do |event|
               %tr

@@ -13,10 +13,11 @@
       - if @physical_tickets.present?
         %table.table.table-bordered.table-striped.table-hover#roles
           %thead
-            %th ID
-            %th Type
-            %th User
-            %th Actions
+            %tr
+              %th ID
+              %th Type
+              %th User
+              %th Actions
           %tbody
             - @physical_tickets.each do |physical_ticket|
               %tr

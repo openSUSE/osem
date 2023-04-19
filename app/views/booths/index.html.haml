@@ -8,43 +8,45 @@
     .margin-booth-table
       %table.table.table-striped.table-hover
         %thead
-          %th
-            %b State
-          %th
-            %b Logo
-          %th
-            %b Title
-          %th
-            %b Actions
-        - @booths.each do |booth|
           %tr
-            %td{ style: "padding:20px 8px 20px 8px;" }
-              - if (booth.state == 'to_accept' || booth.state == 'to_reject')
-                - show_state = 'new'
-              - else
-                - show_state = booth.state
-              %span{ title: show_state, class: "fa #{status_icon(booth)}" }
-            %td
-              - if booth.logo_link
-                = image_tag(booth.picture.thumb.url, width: '20%')
-            %td
-              = link_to booth.title, conference_booth_path(@conference.short_title, booth)
-            %td
-              -if can? :edit, booth
-                = link_to 'Edit', edit_conference_booth_path(@conference.short_title, booth.id),
-                  class: 'btn btn-default'
-              - if booth.transition_possible? :withdraw
-                = link_to 'Withdraw',
-                  withdraw_conference_booth_path(@conference.short_title, booth),
-                  method: :patch, class: 'btn btn-mini btn-warning', id: "withdraw_booth_#{booth.id}",
-                  data: { confirm: 'Are you sure you really want to withdraw this request?' }
-              - if booth.transition_possible? :confirm
-                = link_to 'Confirm',
-                  confirm_conference_booth_path(@conference.short_title, booth),
-                  method: :patch, class: 'btn btn-mini btn-success', id: "confirm_booth_#{booth.id}"
-              - if booth.transition_possible? :restart
-                = link_to 'Re-submit',
-                  restart_conference_booth_path(@conference.short_title, booth),
-                  method: :patch, class: 'btn btn-mini btn-success', id: "restart_booth_#{booth.id}"
+            %th
+              %b State
+            %th
+              %b Logo
+            %th
+              %b Title
+            %th
+              %b Actions
+        %tbody
+          - @booths.each do |booth|
+            %tr
+              %td{ style: "padding:20px 8px 20px 8px;" }
+                - if (booth.state == 'to_accept' || booth.state == 'to_reject')
+                  - show_state = 'new'
+                - else
+                  - show_state = booth.state
+                %span{ title: show_state, class: "fa #{status_icon(booth)}" }
+              %td
+                - if booth.logo_link
+                  = image_tag(booth.picture.thumb.url, width: '20%')
+              %td
+                = link_to booth.title, conference_booth_path(@conference.short_title, booth)
+              %td
+                -if can? :edit, booth
+                  = link_to 'Edit', edit_conference_booth_path(@conference.short_title, booth.id),
+                    class: 'btn btn-default'
+                - if booth.transition_possible? :withdraw
+                  = link_to 'Withdraw',
+                    withdraw_conference_booth_path(@conference.short_title, booth),
+                    method: :patch, class: 'btn btn-mini btn-warning', id: "withdraw_booth_#{booth.id}",
+                    data: { confirm: 'Are you sure you really want to withdraw this request?' }
+                - if booth.transition_possible? :confirm
+                  = link_to 'Confirm',
+                    confirm_conference_booth_path(@conference.short_title, booth),
+                    method: :patch, class: 'btn btn-mini btn-success', id: "confirm_booth_#{booth.id}"
+                - if booth.transition_possible? :restart
+                  = link_to 'Re-submit',
+                    restart_conference_booth_path(@conference.short_title, booth),
+                    method: :patch, class: 'btn btn-mini btn-success', id: "restart_booth_#{booth.id}"
     .pull-right
       = link_to "Add #{(t'booth').capitalize }", new_conference_booth_path(@conference.short_title), class: 'button btn btn-primary'

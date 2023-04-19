@@ -6,13 +6,14 @@
     .well
       %table.datatable#submissions
         %thead
-          %th ID
-          %th Conference
-          %th Title
-          %th State
-          %th Type
-          %th Rating
-          %th Created At
+          %tr
+            %th ID
+            %th Conference
+            %th Title
+            %th State
+            %th Type
+            %th Rating
+            %th Created At
         %tbody
           - @user.events.each do |event|
             %tr

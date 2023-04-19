@@ -18,11 +18,12 @@
       .col-md-12
         %table.datatable#tickets
           %thead
-            %th ID
-            %th Type
-            %th User
-            %th Paid
-            %th Actions
+            %tr
+              %th ID
+              %th Type
+              %th User
+              %th Paid
+              %th Actions
           %tbody
             - @physical_tickets.each do |physical_ticket|
               = render "physical_ticket", physical_ticket: physical_ticket,

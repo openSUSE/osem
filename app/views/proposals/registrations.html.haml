@@ -15,12 +15,13 @@
       .well
         %table.datatable#registrations
           %thead
-            %th
-            %th Name
-            %th Email
-            %th Created AT
-            %th Attended
-            %th Attended Conference
+            %tr
+              %th
+              %th Name
+              %th Email
+              %th Created AT
+              %th Attended
+              %th Attended Conference
           %tbody
             - @event.events_registrations.each.with_index(1) do |event_registration, index|
               %tr

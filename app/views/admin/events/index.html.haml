@@ -58,44 +58,46 @@
     .margin-event-table
       %table.datatable
         %thead
-          %th
-            %b ID
-          %th
-            %b Title
-          - if @program.rating_enabled?
+          %tr
             %th
-              %b Rating
-          %th
-            %b Submitter
-          %th
-            %b Speakers
-          - if @program.languages.present?
+              %b ID
             %th
-              %b Language
-          %th
-            %b Requires Registration
-          %th
-            %b Highlight
-          %th
-            %b Type
-          %th
-            %b Track
-          %th
-            %b Difficulty
-          %th
-            %b State
-          %th
-            .fa-solid.fa-comment
-          %th Add Survey
-        - @events.each do |event|
-          = render 'datatable_row',
-            event: event,
-            conference_id: @conference.short_title,
-            program: @program,
-            rating_enabled: @program.rating_enabled?,
-            show_votes: @program.show_voting?,
-            max_rating: @program.rating,
-            event_types: @event_types,
-            tracks: @tracks,
-            difficulty_levels: @difficulty_levels,
-            email_settings: @conference.email_settings
+              %b Title
+            - if @program.rating_enabled?
+              %th
+                %b Rating
+            %th
+              %b Submitter
+            %th
+              %b Speakers
+            - if @program.languages.present?
+              %th
+                %b Language
+            %th
+              %b Requires Registration
+            %th
+              %b Highlight
+            %th
+              %b Type
+            %th
+              %b Track
+            %th
+              %b Difficulty
+            %th
+              %b State
+            %th
+              .fa-solid.fa-comment
+            %th Add Survey
+        %tbody
+          - @events.each do |event|
+            = render 'datatable_row',
+              event: event,
+              conference_id: @conference.short_title,
+              program: @program,
+              rating_enabled: @program.rating_enabled?,
+              show_votes: @program.show_voting?,
+              max_rating: @program.rating,
+              event_types: @event_types,
+              tracks: @tracks,
+              difficulty_levels: @difficulty_levels,
+              email_settings: @conference.email_settings

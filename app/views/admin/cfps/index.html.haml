@@ -10,12 +10,13 @@
     .col-md-12
       %table.table.table-hover#tickets
         %thead
-          %th Type
-          %th Start Date
-          %th End Date
-          %th Description
-          %th Days Left
-          %th Actions
+          %tr
+            %th Type
+            %th Start Date
+            %th End Date
+            %th Description
+            %th Days Left
+            %th Actions
         %tbody
           - @program.cfps.each do |cfp|
             %tr

@@ -3,11 +3,12 @@
 - if users.present?
   %table.datatable#users
     %thead
-      %th Name
-      %th Email
-      - if ( can? :unassign_org_admins, organization )
-        %th
-          Actions
+      %tr
+        %th Name
+        %th Email
+        - if ( can? :unassign_org_admins, organization )
+          %th
+            Actions
     %tbody
       - users.each do |user|
         %tr

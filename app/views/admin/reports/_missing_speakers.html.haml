@@ -9,12 +9,13 @@
 .col-md-12
   %table.datatable
     %thead
-      %th Speaker Name
-      %th Registered?
-      %th Event
-      %th Room
-      %th Date
-      %th Time
+      %tr
+        %th Speaker Name
+        %th Registered?
+        %th Event
+        %th Room
+        %th Date
+        %th Time
     %tbody
       - @missing_event_speakers.each do |event_user|
         - speaker = event_user.user

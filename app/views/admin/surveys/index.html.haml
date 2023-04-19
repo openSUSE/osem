@@ -13,13 +13,14 @@
     .col-md-12
       %table.table.table-hover.datatable#surveys
         %thead
-          %th Title
-          %th # of questions
-          %th # of submissions
-          %th When
-          %th Start Date
-          %th End Date
-          %th Actions
+          %tr
+            %th Title
+            %th # of questions
+            %th # of submissions
+            %th When
+            %th Start Date
+            %th End Date
+            %th Actions
         %tbody
           - @surveys.each_with_index do |survey, index|
             %tr

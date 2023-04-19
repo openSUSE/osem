@@ -10,9 +10,10 @@
     .col-md-12
       %table.table.table-hover#rooms
         %thead
-          %th Name
-          %th Capacity
-          %th Actions
+          %tr
+            %th Name
+            %th Capacity
+            %th Actions
         %tbody
           - @rooms.each_with_index do |room, index|
             %tr

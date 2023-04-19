@@ -16,9 +16,10 @@
         .col-md-12
           %table.table.table-hover
             %thead
-              %th Schedule
-              %th Selected
-              %th Actions
+              %tr
+                %th Schedule
+                %th Selected
+                %th Actions
             %tbody
               - @schedules.where(track: nil).each do |schedule|
                 %tr
@@ -59,10 +60,11 @@
         .col-md-12
           %table.table.table-hover
             %thead
-              %th Schedule
-              %th Track
-              %th Selected
-              %th Actions
+              %tr
+                %th Schedule
+                %th Track
+                %th Selected
+                %th Actions
             %tbody
               - @schedules.where.not(track: nil).each do |schedule|
                 %tr

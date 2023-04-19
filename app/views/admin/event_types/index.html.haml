@@ -8,12 +8,13 @@
   .col-md-12
     %table.table.table-hover#event_types
       %thead
-        %th Title
-        %th Description
-        %th Length
-        %th Abstract Length
-        %th Color
-        %th Actions
+        %tr
+          %th Title
+          %th Description
+          %th Length
+          %th Abstract Length
+          %th Color
+          %th Actions
       %tbody
         - @conference.program.event_types.each do |event_type|
           %tr

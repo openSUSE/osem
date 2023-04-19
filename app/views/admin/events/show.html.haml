@@ -20,9 +20,10 @@
       .col-md-12
         %table.datatable
           %thead
-            %th ID
-            %th Description
-            %th Actions
+            %tr
+              %th ID
+              %th Description
+              %th Actions
           %tbody
             - @versions.each do |version|
               %tr
