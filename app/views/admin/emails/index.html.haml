@@ -22,7 +22,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_registration, data: {name: 'email_settings_registration_subject'}, class: 'send_on_radio'
-                    Send an email when the user registers for the conference?
+                    Send an email to the user when they register for the conference?
                 .form-group
                   = f.label :registration_subject, 'Subject'
                   = f.text_field :registration_subject, class: 'form-control'
@@ -38,7 +38,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_submitted_proposal, data: { name: 'email_settings_proposal_submited_subject'}, class: 'send_on_radio'
-                    Send an email when the proposal is submitted?
+                    Send an email to the submitter when the proposal is submitted?
                 .form-group
                   = f.label :submitted_proposal_subject, 'Subject'
                   = f.text_field :submitted_proposal_subject, class: 'form-control'
@@ -51,7 +51,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_accepted, data: { name: 'email_settings_accepted_subject' }, class: 'send_on_radio'
-                    Send an email when the proposal is accepted?
+                    Send an email to the submitter when the proposal is accepted?
                 .form-group
                   = f.label :accepted_subject, 'Subject'
                   = f.text_field :accepted_subject, class: 'form-control'
@@ -67,7 +67,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_rejected, data: { name: 'email_settings_rejected_subject'}, class: 'send_on_radio'
-                    Send an email when the proposal is rejected?
+                    Send an email to the submitter when the proposal is rejected?
                 .form-group
                   = f.label :rejected_subject, 'Subject'
                   = f.text_field :rejected_subject, class: 'form-control'
@@ -83,7 +83,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_confirmed_without_registration, data: {name: 'email_settings_confirmed_without_registration_subject'}, class: 'send_on_radio'
-                    Send an email when a user has a confirmed proposal, but isn't yet registered?
+                    Send an email to the submitter when their proposal is confirmed but they haven't yet registered for the conference?
                 .form-group
                   = f.label :confirmed_without_registration_subject, 'Subject'
                   = f.text_field :confirmed_without_registration_subject, class: 'form-control'
@@ -132,7 +132,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_venue_updated, data: { name: 'email_settings_venue_updated_subject'}, class: 'send_on_radio'
-                    Send an email on updating the venue?
+                    Send an email to all participants when the venue is updated?
                 .form-group
                   = f.label :venue_updated_subject, 'Subject'
                   = f.text_field :venue_updated_subject, class: 'form-control'
@@ -182,7 +182,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_booths_acceptance
-                    Send an email when the booth is accepted?
+                    Send an email to the submitter when the booth is accepted?
                 .form-group
                   = f.label :booths_acceptance_subject, 'Subject'
                   = f.text_field :booths_acceptance_subject, class: 'form-control'
@@ -198,7 +198,7 @@
                 .checkbox
                   %label
                     = f.check_box :send_on_booths_rejection
-                    Send an email when the booth is rejected?
+                    Send an email to the submitter when the booth is rejected?
                 .form-group
                   = f.label :booths_rejection_subject, 'Subject'
                   = f.text_field :booths_rejection_subject, class: 'form-control'
