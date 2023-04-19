@@ -88,11 +88,11 @@ describe User do
       let(:cfp_user) { create(:user, role_ids: [cfp_role.id]) }
 
       it 'includes organizer and cfp user' do
-        expect(User.comment_notifiable(conference)).to include(organizer, cfp_user)
+        expect(User.comment_notifiable(conference.id)).to include(organizer, cfp_user)
       end
 
       it 'excludes ordinary user' do
-        expect(User.comment_notifiable(conference)).not_to include(user)
+        expect(User.comment_notifiable(conference.id)).not_to include(user)
       end
     end
 

@@ -37,7 +37,7 @@ class User < ApplicationRecord
   after_save :touch_events
 
   # add scope
-  scope :comment_notifiable, ->(conference) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference.id)}
+  scope :comment_notifiable, ->(conference_id) {joins(:roles).where('roles.name IN (?)', [:organizer, :cfp]).where('roles.resource_type = ? AND roles.resource_id = ?', 'Conference', conference_id)}
 
   # scopes for user distributions
   scope :recent, lambda {

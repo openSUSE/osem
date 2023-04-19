@@ -37,6 +37,10 @@
               #proposal.tab-pane{ role: 'tabpanel' }
                 .checkbox
                   %label
+                    = f.check_box :send_on_event_comment
+                    Send an email to all organizers and CfP team members when a comment is added?
+                .checkbox
+                  %label
                     = f.check_box :send_on_submitted_proposal, data: { name: 'email_settings_proposal_submited_subject'}, class: 'send_on_radio'
                     Send an email to the submitter when the proposal is submitted?
                 .form-group
