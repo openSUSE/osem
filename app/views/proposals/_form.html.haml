@@ -19,7 +19,9 @@
   - if @program.tracks.confirmed.cfp_active.any?
     .form-group
       = f.label :track_id, 'Track'
-      = f.select :track_id, @program.tracks.confirmed.cfp_active.pluck(:name, :id), { include_blank: '(Please select)' }, { class: 'form-control' }
+      = f.select :track_id, @program.tracks.confirmed.cfp_active.pluck(:name, :id), { include_blank: '(Please select)' }, { class: 'form-control select-help-toggle' }
+      = render 'shared/select_help_text', f: f, for: :track_id, include_blank: true, options: @program.tracks.confirmed.cfp_active do |track|
+        = markdown(track.description)
 .form-group
   = f.label :event_type_id, 'Type'
   = f.select :event_type_id, event_type_select_options(@conference.program.event_types), { include_blank: false }, { class: 'select-help-toggle form-control' }
@@ -27,16 +29,14 @@
   .form-group
   = f.label :language
   = f.select :language, @languages, { include_blank: false}, { class: 'select-help-toggle form-control' }
-- @conference.program.event_types.each do |event_type|
-  %span{ class: 'help-block select-help-text event_event_type_id collapse', id: "#{event_type.id}-help" }
-    = event_type.description
+= render 'shared/select_help_text', f: f, for: :event_type_id, options: @conference.program.event_types do |event_type|
+  = event_type.description
 - if action_is_edit
   - if @conference.program.difficulty_levels.any?
     = f.label :difficulty_level
     = f.select :difficulty_level_id, @conference.program.difficulty_levels.map{|level| [level.title, level.id ] }, {include_blank: false}, { class: 'select-help-toggle form-control' }
-    - @conference.program.difficulty_levels.each do |difficulty_level|
-      %span{ class: 'help-block select-help-text collapse event_difficulty_level_id', id: "#{difficulty_level.id}-help" }
-        = difficulty_level.description
+    = render 'shared/select_help_text', f: f, for: :difficulty_level_id, options: @conference.program.difficulty_levels do |difficulty_level|
+      = difficulty_level.description
 .form-group
   = f.label :abstract
   = f.text_area :abstract, required: true, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
