@@ -1,5 +1,5 @@
 - surveys.each do |survey|
-  - if survey.survey_submissions.find_by(user: current_user)
+  - if survey.replied?(current_user)
     %i.fa-solid.fa-square-check.text-success{ title: 'Thank you for filling out the survey' }
   - else
     %i.fa-solid.fa-square-minus.text-danger{ title: 'Please fill out the survey' }

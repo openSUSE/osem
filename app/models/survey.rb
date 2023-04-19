@@ -5,7 +5,7 @@ class Survey < ActiveRecord::Base
   has_many :survey_questions, dependent: :destroy
   has_many :survey_submissions, dependent: :destroy
 
-  enum target: [:after_conference, :during_registration, :after_event]
+  enum target: [:after_conference, :during_registration, :after_event, :during_proposal]
   validates :title, presence: true
 
   ##
@@ -35,5 +35,9 @@ class Survey < ActiveRecord::Base
 
   def closed?
     !active?
+  end
+
+  def replied?(user_id)
+    survey_submissions.where(user_id: user_id).any?
   end
 end

@@ -12,6 +12,7 @@ class ProposalsController < ApplicationController
     @event = @program.events.new
     @event.event_users.new(user: current_user, event_role: 'submitter')
     @events = current_user.proposals(@conference)
+    @surveys = @conference.surveys.during_proposal.select(&:active?)
   end
 
   def show

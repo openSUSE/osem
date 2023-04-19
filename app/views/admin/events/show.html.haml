@@ -67,6 +67,11 @@
             %td= link_to "#{'Speaker'.pluralize(@event.speakers.count)} must be registered to the conference", admin_conference_registrations_path(@event.program.conference.short_title)
             %td{ 'class' => class_for_todo(progress_status['registered']) }
               %span{ 'class' => [icon_for_todo(progress_status['registered']), 'fa-lg'] }
+          - unless progress_status['surveys'].nil?
+            %tr
+              %td= link_to 'Respond to surveys', admin_conference_surveys_path(@event.program.conference.short_title)
+              %td{ 'class' => class_for_todo(progress_status['surveys']) }
+                %span{ 'class' => [icon_for_todo(progress_status['surveys']), 'fa-lg'] }
           %tr
             %td
               - speakers_count = @event.speakers.count

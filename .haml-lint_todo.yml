@@ -38,6 +38,7 @@ linters:
       - "app/views/admin/emails/index.html.haml"
       - "app/views/admin/events/_proposal.html.haml"
       - "app/views/admin/events/index.html.haml"
+      - "app/views/admin/events/show.html.haml"
       - "app/views/admin/tracks/index.html.haml"
       - "app/views/admin/tracks/show.html.haml"
       - "app/views/admin/versions/_object_desc_and_link.html.haml"
