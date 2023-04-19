@@ -1,0 +1,10 @@
+.row
+  .col-md-12
+    .page-header
+      %h1
+        Edit User
+      = form_for [:admin, @user] do |f|
+        = render partial: 'users/form', locals: { f: f, full: true }
+        .form-group
+          .text-right
+            = f.submit nil,  class: 'btn btn-primary'
