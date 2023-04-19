@@ -202,7 +202,7 @@ module FormatHelper
       safe_links_only: true
     }
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(render_options), markdown_options)
-    sanitize(markdown.render(text))
+    sanitize(sanitize(markdown.render(text)), scrubber: Loofah::Scrubbers::NoFollow.new)
   end
 
   def markdown_hint(text='')
