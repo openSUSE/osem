@@ -29,15 +29,11 @@ $(function () {
    var end_conference = $('form').data('end-conference');
 
    $('#registration-period-start-datepicker').datetimepicker({
-       format: 'YYYY-MM-DD',
-       minDate : today,
-       maxDate : end_conference
+       format: 'YYYY-MM-DD'
    });
 
    $('#registration-period-end-datepicker').datetimepicker({
-       format: 'YYYY-MM-DD',
-       minDate : today,
-       maxDate : end_conference
+       format: 'YYYY-MM-DD'
    });
 
   $("#conference-start-datepicker").on("dp.change",function (e) {
