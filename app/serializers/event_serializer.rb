@@ -11,8 +11,7 @@ class EventSerializer < ActiveModel::Serializer
   end
 
   def scheduled_date
-    t = object.time
-    t.blank? ? '' : %( #{I18n.l t, format: :short}#{t.formatted_offset(false)} )
+    object.time&.change(zone: object.program.conference.timezone)
   end
 
   def speaker_ids

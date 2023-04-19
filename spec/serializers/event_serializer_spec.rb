@@ -2,7 +2,13 @@
 
 require 'spec_helper'
 describe EventSerializer, type: :serializer do
-  let(:event) { create(:event, title: 'Some Talk', abstract: 'Lorem ipsum dolor sit amet') }
+  let(:conference) { create(:conference, timezone: 'UTC') }
+  let(:program) { create(:program, conference: conference) }
+  let(:event) do
+    create(:event, program:  program,
+                   title:    'Some Talk',
+                   abstract: 'Lorem ipsum dolor sit amet')
+  end
   let(:serializer) { EventSerializer.new(event) }
 
   context 'event does not have date, room and tracks assigned' do
@@ -12,7 +18,7 @@ describe EventSerializer, type: :serializer do
         url:            "http://localhost:3000/conferences/#{event.conference.short_title}/program/proposals/#{event.id}",
         title:          'Some Talk',
         length:         30,
-        scheduled_date: '',
+        scheduled_date: nil,
         language:       nil,
         abstract:       'Lorem ipsum dolor sit amet',
         speaker_ids:    event.speaker_ids,
@@ -43,7 +49,7 @@ describe EventSerializer, type: :serializer do
         url:            "http://localhost:3000/conferences/#{event.conference.short_title}/program/proposals/#{event.id}",
         title:          'Some Talk',
         length:         30,
-        scheduled_date: ' 2014-03-04T09:00:00+0000 ',
+        scheduled_date: '2014-03-04T09:00:00.000Z',
         language:       'English',
         abstract:       'Lorem ipsum dolor sit amet',
         speaker_ids:    [speaker.id],

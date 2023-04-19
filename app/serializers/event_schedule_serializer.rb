@@ -6,8 +6,7 @@ class EventScheduleSerializer < ActiveModel::Serializer
   attributes :date, :room
 
   def date
-    t = object.start_time
-    t.blank? ? '' : %( #{I18n.l t, format: :short}#{t.formatted_offset(false)} )
+    object.start_time&.change(zone: object.event.program.conference.timezone)
   end
 
   def room
