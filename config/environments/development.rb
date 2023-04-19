@@ -54,8 +54,10 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  # Set the detault url for action mailer
-  config.action_mailer.default_url_options = { host: ENV.fetch('OSEM_HOSTNAME', 'localhost:3000') }
+  # Provide a default host for URLs
+  Rails.application.routes.default_url_options[:host] = ENV.fetch('OSEM_HOSTNAME', 'localhost:3000')
+  config.action_controller.default_url_options = Rails.application.routes.default_url_options
+  config.action_mailer.default_url_options = Rails.application.routes.default_url_options
 
   # Access all mails sent at http://localhost:3000/letter_opener
   config.action_mailer.delivery_method = :letter_opener
