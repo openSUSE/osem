@@ -354,7 +354,7 @@ GEM
     netrc (0.11.0)
     next_rails (1.0.5)
       colorize (>= 0.8.1)
-    nio4r (2.5.8)
+    nio4r (2.5.9)
     nokogiri (1.14.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
