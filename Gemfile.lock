@@ -264,7 +264,7 @@ GEM
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     io-like (0.3.1)
-    iso-639 (0.3.5)
+    iso-639 (0.3.6)
     jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
       jquery-rails
