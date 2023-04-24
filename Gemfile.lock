@@ -337,10 +337,8 @@ GEM
       net-protocol
     net-protocol (0.2.1)
       timeout
-    net-smtp (0.3.1)
-      digest
+    net-smtp (0.3.3)
       net-protocol
-      timeout
     netrc (0.11.0)
     next_rails (1.0.5)
       colorize (>= 0.8.1)
