@@ -329,7 +329,7 @@ GEM
       railties (>= 3.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    mysql2 (0.5.4)
+    mysql2 (0.5.5)
     net-imap (0.2.3)
       digest
       net-protocol
