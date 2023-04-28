@@ -137,7 +137,7 @@ gem 'leaflet-rails'
 gem 'gravtastic'
 
 # for country selects
-gem 'country_select'
+gem 'i18n_data'
 
 # as PDF generator
 gem 'prawn-qrcode'
