@@ -41,6 +41,7 @@
 //= require osem-bootstrap
 //= require osem-revisionhistory
 //= require osem-commercials
+//= require osem-register
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
 //= require countable
