@@ -27,6 +27,15 @@ feature Event do
       sign_in organizer
     end
 
+    scenario 'adds a proposal', feature: true, js: true do
+      visit admin_conference_program_events_path(conference.short_title)
+      click_on 'Add Event'
+      fill_in 'Title', with: 'Organizer-Created Proposal'
+      fill_in 'Abstract', with: 'This proposal was created by an organizer.'
+      click_button 'Create Proposal'
+      expect(flash).to eq('Event was successfully submitted.')
+    end
+
     scenario 'rejects a proposal', feature: true, js: true do
       visit admin_conference_program_events_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'

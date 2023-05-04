@@ -1,0 +1,44 @@
+= form_for [:admin, @user] do |f|
+  %h4 Basic Information
+  - unless @user.new_record?
+    .pull-right
+      %b
+        Confirmed?
+      - if can? :toggle_confirmation, @user
+        = check_box_tag @user.id, @user.id, @user.confirmed?,
+          url: "#{toggle_confirmation_admin_user_path(@user.id)}?user[to_confirm]=",
+          class: 'switch-checkbox',
+          readonly: false
+      - else
+        = check_box_tag @user.id, @user.id, @user.confirmed?,
+          url: "#{toggle_confirmation_admin_user_path(@user.id)}?user[to_confirm]=",
+          class: 'switch-checkbox',
+          readonly: true
+  .checkbox
+    %label
+      = f.check_box :is_admin
+      Is admin
+    %span.help-block An admin can create a new conference, manage users and make other users admins.
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  - if @user.new_record?
+    .form-group
+      = label_tag :username
+      = text_field_tag :username, class: 'form-control'
+  .form-group
+    = f.label :email, required: true
+    %abbr{title: 'This field is required'} *
+    = f.email_field :email, required: true, class: 'form-control'
+  - if @user.new_record?
+    .form-group
+      = f.label :password
+      = f.password_field :password, class: 'form-control'
+  .form-group
+    = f.label :affiliation
+    = f.text_field :affiliation, class: 'form-control'
+  .form-group
+    = f.label :biography
+    = f.text_area :biography, rows: 10, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block= markdown_hint
+  = f.submit nil,  class: 'btn btn-primary'
