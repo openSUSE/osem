@@ -220,7 +220,7 @@ GEM
     fastimage (2.2.6)
     feature (1.4.0)
     ffi (1.15.5)
-    font-awesome-sass (6.1.1)
+    font-awesome-sass (6.4.0)
       sassc (~> 2.0)
     geckodriver-helper (0.24.0)
       archive-zip (~> 0.7)
