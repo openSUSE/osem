@@ -170,12 +170,6 @@ GEM
     concurrent-ruby (1.2.2)
     countable-rails (0.0.1)
       railties (>= 3.1)
-    countries (5.0.2)
-      i18n_data (~> 0.16.0)
-      sixarm_ruby_unaccent (~> 1.1)
-    country_select (7.0.0)
-      countries (~> 5.0)
-      sort_alphabetical (~> 1.1)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -256,7 +250,7 @@ GEM
       domain_name (~> 0.5)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
-    i18n_data (0.16.0)
+    i18n_data (0.17.1)
       simple_po_parser (~> 1.1)
     icalendar (2.8.0)
       ice_cube (~> 0.16)
@@ -561,14 +555,11 @@ GEM
       simplecov (~> 0.19)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sixarm_ruby_unaccent (1.2.0)
     skylight (5.3.4)
       activesupport (>= 5.2.0)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sort_alphabetical (1.1.0)
-      unicode_utils (>= 1.2.2)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -603,7 +594,6 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
-    unicode_utils (1.4.0)
     unobtrusive_flash (3.3.1)
       railties
     version_gem (1.1.2)
@@ -656,7 +646,6 @@ DEPENDENCIES
   cloudinary
   cocoon
   countable-rails
-  country_select
   daemons
   dalli
   database_cleaner
@@ -672,6 +661,7 @@ DEPENDENCIES
   gravtastic
   haml-rails
   haml_lint
+  i18n_data
   icalendar
   iso-639
   jquery-datatables-rails

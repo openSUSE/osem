@@ -22,7 +22,7 @@
                       = sanitize link_to(venue.name, venue.website)
                     - else
                       = venue.city
-                      - if venue.country_name != 'US'
+                      - if venue.country_name
                         &bull;
                         = venue.country_name
 
