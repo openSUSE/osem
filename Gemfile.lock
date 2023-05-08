@@ -451,7 +451,7 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
-    recaptcha (5.10.0)
+    recaptcha (5.13.0)
       json
     redcarpet (3.6.0)
     regexp_parser (2.8.0)
