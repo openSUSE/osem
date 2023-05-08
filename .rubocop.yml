@@ -1,6 +1,7 @@
 require:
   - rubocop-rspec
   - rubocop-rails
+  - rubocop-capybara
 
 inherit_from: .rubocop_todo.yml
 

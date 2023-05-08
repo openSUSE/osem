@@ -507,6 +507,8 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.28.0)
       parser (>= 3.2.1.0)
+    rubocop-capybara (2.18.0)
+      rubocop (~> 1.41)
     rubocop-rails (2.15.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
@@ -716,6 +718,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rubocop
+  rubocop-capybara
   rubocop-rails
   rubocop-rspec
   ruby-oembed

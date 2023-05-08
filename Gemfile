@@ -235,6 +235,7 @@ group :development do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rails', require: false
+  gem 'rubocop-capybara', require: false
   gem 'haml_lint'
   # to open mails
   gem 'letter_opener'
