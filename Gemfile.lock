@@ -517,7 +517,7 @@ GEM
       rubocop (~> 1.19)
     ruby-oembed (0.16.1)
     ruby-openid (2.9.2)
-    ruby-progressbar (1.11.0)
+    ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
