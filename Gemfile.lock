@@ -230,7 +230,7 @@ GEM
       sassc (~> 2.0)
     geckodriver-helper (0.24.0)
       archive-zip (~> 0.7)
-    globalid (1.0.1)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     gravtastic (3.2.6)
     haml (5.2.2)
