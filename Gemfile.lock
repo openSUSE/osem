@@ -173,7 +173,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    daemons (1.4.0)
+    daemons (1.4.1)
     dalli (3.2.4)
     dante (0.2.0)
     database_cleaner (2.0.2)
