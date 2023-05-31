@@ -4,6 +4,8 @@
   display_details = user_is_admin || action_is_edit
   display_registration = user_is_admin || @program.cfp&.enable_registrations?
 
+  event_type = @event.event_type || @conference.program.event_types.first
+
 %h4
   Proposal Information
 %hr
@@ -50,11 +52,9 @@
     You have used
     %span#abstract-count= @event.abstract_word_count
     words.  Abstracts must be between
-    %span#abstract-minimum-word-count
-      0
+    %span#abstract-minimum-word-count= event_type.minimum_abstract_length
     and
-    %span#abstract-maximum-word-count
-      250
+    %span#abstract-maximum-word-count= event_type.maximum_abstract_length
     words.
   - if display_registration && display_details
     %h4
