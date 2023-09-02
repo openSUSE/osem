@@ -89,10 +89,16 @@ feature Event do
         fill_in 'user_password_confirmation', with: 'testuserpassword'
       end
       fill_in 'event_title', with: 'Example Proposal'
+
       expect(page).to have_selector '.in', text: 'Presentation in lecture format'
+      expect(page).to have_text 'Abstracts must be between 0 and 500 words.'
       select('Example Event Type', from: 'event[event_type_id]')
       expect(page).to have_selector '.in', text: 'This event type is an example.'
+      expect(page).to have_text 'Abstracts must be between 0 and 123 words.'
+
+      expect(page).to have_text('You have used 0 words')
       fill_in 'event_abstract', with: 'Lorem ipsum abstract'
+      expect(page).to have_text('You have used 3 words')
 
       click_button 'Create Proposal'
       page.find('#flash')
@@ -115,21 +121,38 @@ feature Event do
 
     scenario 'update a proposal', js: true do
       conference = create(:conference)
+      create :event_type, program:                 conference.program,
+                          title:                   'Five to Ten Words',
+                          description:             'This has a nonzero minimum.',
+                          minimum_abstract_length: 5,
+                          maximum_abstract_length: 10
       create :track, program:     conference.program,
                      name:        'Example Track',
                      description: 'This track is an *example*.'
       create(:cfp, program: conference.program)
-      proposal = create(:event, program: conference.program)
+      proposal = create(:event, program: conference.program, abstract: 'Three word abstract')
 
       sign_in proposal.submitter
 
       visit edit_conference_program_proposal_path(proposal.program.conference.short_title, proposal)
 
       fill_in 'event_subtitle', with: 'My event subtitle'
+
       select 'Example Track', from: 'Track'
       expect(page).to have_selector '.in', text: 'This track is an example.'
+
       select('Easy', from: 'event[difficulty_level_id]')
       expect(page).to have_selector '.in', text: 'Events are understandable for everyone without knowledge of the topic.'
+
+      expect(page).to have_selector '.in', text: 'This event type is an example.'
+      expect(page).to have_text 'Abstracts must be between 0 and 123 words.'
+      select 'Five to Ten Words', from: 'Type'
+      expect(page).to have_selector '.in', text: 'This has a nonzero minimum.'
+      expect(page).to have_text 'Abstracts must be between 5 and 10 words.'
+
+      expect(page).to have_text('You have used 3 words')
+      fill_in 'event_abstract', with: 'This abstract has five words.'
+      expect(page).to have_text('You have used 5 words')
 
       click_button 'Update Proposal'
       page.find('#flash')
