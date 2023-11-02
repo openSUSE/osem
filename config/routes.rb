@@ -178,6 +178,7 @@ Osem::Application.routes.draw do
           patch '/withdraw' => 'proposals#withdraw'
           patch '/confirm' => 'proposals#confirm'
           patch '/restart' => 'proposals#restart'
+          patch :toggle_favorite
         end
       end
       resources :tracks, except: :destroy do
