@@ -3,6 +3,7 @@ require:
   - rubocop-rails
   - rubocop-capybara
   - rubocop-performance
+  - rubocop-factory_bot
 
 inherit_from: .rubocop_todo.yml
 
