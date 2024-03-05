@@ -1,28 +1,4 @@
 GEM
-  remote: https://rails-assets.org/
-  specs:
-    rails-assets-bootstrap (3.4.1)
-      rails-assets-jquery (>= 1.9.1, < 4)
-    rails-assets-bootstrap-markdown (2.10.0)
-      rails-assets-bootstrap (~> 3)
-    rails-assets-bootstrap-select (1.13.10)
-      rails-assets-bootstrap (>= 3.0.0)
-      rails-assets-jquery (>= 1.9.1, < 4)
-    rails-assets-date.format (1.2.3)
-    rails-assets-holderjs (2.9.6)
-    rails-assets-jquery (3.4.1)
-    rails-assets-jquery-smooth-scroll (2.2.0)
-      rails-assets-jquery (>= 1.7.0)
-    rails-assets-markdown (0.5.0)
-    rails-assets-momentjs (2.29.4)
-    rails-assets-spectrum (1.8.0)
-      rails-assets-jquery (>= 1.7.2)
-    rails-assets-tinycolor (1.6.0)
-    rails-assets-to-markdown (3.1.1)
-    rails-assets-trianglify (1.2.0)
-    rails-assets-waypoints (4.0.1)
-
-GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (1.1.0)
@@ -697,18 +673,6 @@ DEPENDENCIES
   prawn-rails
   puma
   rails (~> 7.0)
-  rails-assets-bootstrap-markdown!
-  rails-assets-bootstrap-select!
-  rails-assets-date.format!
-  rails-assets-holderjs!
-  rails-assets-jquery-smooth-scroll!
-  rails-assets-markdown!
-  rails-assets-momentjs!
-  rails-assets-spectrum!
-  rails-assets-tinycolor!
-  rails-assets-to-markdown (~> 3)!
-  rails-assets-trianglify!
-  rails-assets-waypoints!
   rails-controller-testing
   rails-i18n
   recaptcha
