@@ -8,11 +8,6 @@ source 'https://rubygems.org'
 
 ruby ENV.fetch('OSEM_RUBY_VERSION', '3.1.4')
 
-# rails-assets requires >= 1.8.4
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.8.4')
-  abort "Bundler version >= 1.8.4 is required"
-end
-
 # as web framework
 if next?
   gem 'rails', '~> 7.1'
@@ -93,32 +88,6 @@ gem 'jquery-ui-rails', '~> 6.0.1'
 
 # for languages validation
 gem 'iso-639'
-
-# frontend javascripts
-source 'https://rails-assets.org' do
-  # for placeholder images
-  gem 'rails-assets-holderjs'
-  # for formating dates
-  gem 'rails-assets-date.format'
-  # for or parsing, validating, manipulating, and formatting dates
-  gem 'rails-assets-momentjs'
-  # for smooth scrolling
-  gem 'rails-assets-jquery-smooth-scroll'
-  # as color picker
-  gem 'rails-assets-spectrum'
-  # for color manipulation
-  gem 'rails-assets-tinycolor'
-  # for drawing triangle backgrounds
-  gem 'rails-assets-trianglify'
-  # for scroll way points
-  gem 'rails-assets-waypoints'
-  # for markdown editors
-  gem 'rails-assets-bootstrap-markdown'
-  # for select with icon
-  gem 'rails-assets-bootstrap-select'
-  gem 'rails-assets-markdown'
-  gem 'rails-assets-to-markdown', '~> 3'
-end
 
 # as date picker
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
