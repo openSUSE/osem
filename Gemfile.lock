@@ -149,7 +149,7 @@ GEM
       rexml
     crass (1.0.6)
     daemons (1.4.1)
-    dalli (3.2.5)
+    dalli (3.2.8)
     dante (0.2.0)
     database_cleaner (2.0.2)
       database_cleaner-active_record (>= 2, < 3)
