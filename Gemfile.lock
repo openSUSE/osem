@@ -256,7 +256,7 @@ GEM
       addressable (~> 2.8)
     leaflet-rails (1.9.3)
       rails (>= 4.2.0)
-    letter_opener (1.8.1)
+    letter_opener (1.9.0)
       launchy (>= 2.2, < 3)
     letter_opener_web (2.0.0)
       actionmailer (>= 5.2)
