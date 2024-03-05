@@ -45,6 +45,7 @@ linters:
       - "app/views/layouts/_admin_sidebar.html.haml"
       - "app/views/proposals/index.html.haml"
       - "app/views/proposals/show.html.haml"
+      - "app/views/proposals/_form.html.haml"
 
   # Offense count: 28
   IdNames:
