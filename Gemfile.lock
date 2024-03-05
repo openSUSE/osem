@@ -495,7 +495,7 @@ GEM
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
-    ruby-oembed (0.16.1)
+    ruby-oembed (0.17.0)
     ruby-openid (2.9.2)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
