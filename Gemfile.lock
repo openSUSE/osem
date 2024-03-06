@@ -193,7 +193,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
-    fastimage (2.2.7)
+    fastimage (2.3.0)
     feature (1.4.0)
     ffi (1.16.3)
     font-awesome-sass (6.5.1)
