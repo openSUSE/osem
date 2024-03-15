@@ -5,7 +5,9 @@
         %h2 Upcoming Conferences
   - @current.each do |conference|
     = render '/conferences/conference_details', conference: conference
-  - if @antiquated and @antiquated.any?
+  - if @current.empty? 
+    %h4 No Upcoming Conference Scheduled
+  - if @antiquated and @antiquated.any? 
     .row
       .col-md-12
         %p.text-right
@@ -18,11 +20,12 @@
     #antiquated.collapse
       - @antiquated.each do |conference|
         = render '/conferences/conference_details', conference: conference
-  %p
-    Add the events to your calendar:
-    %span.btn-group
-      = link_to("Days only", calendar_url(protocol: 'webcal', format: 'ics'), class: 'btn btn-default')
-      = link_to("Detailed", calendar_url(protocol: 'webcal', format: 'ics', full: true), class: 'btn btn-default')
+  - if !@current.empty?
+    %p
+      Add the events to your calendar:
+      %span.btn-group
+        = link_to("Days only", calendar_url(protocol: 'webcal', format: 'ics'), class: 'btn btn-default')
+        = link_to("Detailed", calendar_url(protocol: 'webcal', format: 'ics', full: true), class: 'btn btn-default')
 
 -content_for :script_body do
   :javascript
