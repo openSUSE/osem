@@ -14,7 +14,7 @@ Sentry.init do |config|
   # Unless someone has set a variable of course...
   osem_version_from_file = nil
   version_file = File.expand_path('../../tmp/restart.txt', __dir__)
-  osem_version_from_file = File.new(version_file).atime.to_i if File.file?(version_file)
+  osem_version_from_file = File.new(version_file).atime.strftime('%s') if File.file?(version_file)
   osem_version = ENV.fetch('OSEM_SENTRY_RELEASE', osem_version_from_file)
   config.release = osem_version if osem_version
 end
