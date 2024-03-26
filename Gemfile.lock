@@ -294,7 +294,7 @@ GEM
       railties (>= 3.1)
     monetize (1.13.0)
       money (~> 6.12)
-    money (6.18.0)
+    money (6.19.0)
       i18n (>= 0.6.4, <= 2)
     money-rails (1.15.0)
       activesupport (>= 3.0)
