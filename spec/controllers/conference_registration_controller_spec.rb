@@ -12,7 +12,7 @@ describe ConferenceRegistrationsController, type: :controller do
   shared_examples 'access #new action' do |user, ichain, path, message|
     before :each do
       sign_in send(user) if user
-      stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => ichain))
+      ENV['OSEM_ICHAIN_ENABLED'] = ichain
       get :new, params: { conference_id: conference.short_title }
     end
 
@@ -28,7 +28,7 @@ describe ConferenceRegistrationsController, type: :controller do
   shared_examples 'can access #new action' do |user, ichain|
     before :each do
       sign_in send(user) if user
-      stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => ichain))
+      ENV['OSEM_ICHAIN_ENABLED'] = ichain
       get :new, params: { conference_id: conference.short_title }
     end
 
