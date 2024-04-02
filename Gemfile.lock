@@ -583,7 +583,7 @@ GEM
     unobtrusive_flash (3.3.1)
       railties
     uri (0.13.0)
-    version_gem (1.1.3)
+    version_gem (1.1.4)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
