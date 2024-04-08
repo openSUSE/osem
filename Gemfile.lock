@@ -195,7 +195,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
-    fastimage (2.3.0)
+    fastimage (2.3.1)
     feature (1.4.0)
     ffi (1.16.3)
     font-awesome-sass (6.5.1)
