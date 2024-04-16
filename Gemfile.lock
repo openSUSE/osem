@@ -81,8 +81,8 @@ GEM
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     afm (0.2.2)
-    ajax-datatables-rails (1.4.0)
-      rails (>= 5.2)
+    ajax-datatables-rails (1.5.0)
+      rails (>= 6.0)
       zeitwerk
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
