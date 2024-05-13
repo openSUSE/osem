@@ -257,7 +257,7 @@ GEM
     jwt (2.8.1)
       base64
     language_server-protocol (3.17.0.3)
-    launchy (3.0.0)
+    launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
     leaflet-rails (1.9.4)
