@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    Ascii85 (1.1.0)
+    Ascii85 (1.1.1)
     actioncable (7.0.8.1)
       actionpack (= 7.0.8.1)
       activesupport (= 7.0.8.1)
