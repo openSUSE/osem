@@ -248,8 +248,6 @@ end
 group :development, :test do
   # as debugger
   gem 'byebug'
-  # as development/test database
-  gem 'sqlite3'
   # to test new rails version
   gem 'next_rails'
 end

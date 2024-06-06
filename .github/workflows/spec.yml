@@ -25,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     name: spec
     env:
-      OSEM_DB_ADAPTER: sqlite3
       RAILS_ENV: test
     strategy:
       matrix:

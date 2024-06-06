@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     name: next-rails
     env:
-      OSEM_DB_ADAPTER: sqlite3
       RAILS_ENV: test
     strategy:
       matrix:
