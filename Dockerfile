@@ -17,6 +17,10 @@ USER osem
 WORKDIR /osem/
 
 # Install our bundle
-RUN bundle install --jobs=3 --retry=3
+RUN bundle config set --local path 'vendor/bundle'; \
+    bundle install --jobs=4 --retry=3
+
+# Install our process manager
+RUN gem install foreman
 
 CMD ["foreman", "start"]
