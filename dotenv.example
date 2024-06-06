@@ -105,10 +105,6 @@
 # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
 # FORCE_SSL=true
 
-# Your skylight.io keys
-# SKYLIGHT_AUTHENTICATION=1234
-# SKYLIGHT_PUBLIC_DASHBOARD_URL='https://oss.skylight.io/app/applications/xxxxxxxxxxxx'
-
 # How should browser tests be performed?
 # For headless Chrome (default):
 # OSEM_TEST_DRIVER=chrome_headless
