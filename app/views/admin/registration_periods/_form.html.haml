@@ -1,11 +1,20 @@
+%p
+  Setup the time frame in which people can registrer to your conference
 = form_for(@registration_period, url: admin_conference_registration_period_path(@conference.short_title)) do |f|
   .form-group
     = f.label :start_date
     %abbr{title: 'This field is required'} *
-    = f.text_field :start_date, required: true, 'data-end-conference': @conference.end_date.to_s, id: 'registration-period-start-datepicker', class: 'form-control'
+    %p.small
+      Must be before conference end (#{@conference.end_date}) and the end date
+      - if @registration_period.end_date
+        (#{@registration_period.end_date})
+      below
+    = f.date_field :start_date, required: true, class: 'form-control', max: @conference.end_date, required: true
   .form-group
     = f.label :end_date
     %abbr{title: 'This field is required'} *
-    = f.text_field :end_date, required: true, id: 'registration-period-end-datepicker', class: 'form-control'
+    %p.small
+      Must be before conference end (#{@conference.end_date})
+    = f.date_field :end_date, required: true, class: 'form-control', max: @conference.end_date, required: true
   %p.text-right
     = f.submit 'Save Registration Period', class: 'btn btn-primary'

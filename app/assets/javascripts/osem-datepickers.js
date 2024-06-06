@@ -25,17 +25,6 @@ $(function () {
        format: "YYYY-MM-DD"
    });
 
-   // today <= start_registration <= end_registration <= end_conference
-   var end_conference = $('form').data('end-conference');
-
-   $('#registration-period-start-datepicker').datetimepicker({
-       format: 'YYYY-MM-DD'
-   });
-
-   $('#registration-period-end-datepicker').datetimepicker({
-       format: 'YYYY-MM-DD'
-   });
-
   $("#conference-start-datepicker").on("dp.change",function (e) {
       $('#conference-end-datepicker').data("DateTimePicker").minDate(e.date);
       if (!$('#conference-end-datepicker').val()) {
@@ -55,13 +44,4 @@ $(function () {
       $('#conference-end-datepicker').val()?$('#conference-start-datepicker').data("DateTimePicker").maxDate(e.date):$('#conference-start-datepicker').data("DateTimePicker").maxDate(null);
   });
 
-  $("#registration-period-start-datepicker").on("dp.change",function (e) {
-      $('#registration-period-end-datepicker').data("DateTimePicker").minDate(e.date);
-      if (!$('#registration-period-end-datepicker').val()) {
-         $('#registration-period-end-datepicker').data("DateTimePicker").date(e.date);
-      }
-  });
-  $("#registration-period-end-datepicker").on("dp.change",function (e) {
-      $('#registration-period-start-datepicker').data("DateTimePicker").maxDate(e.date);
-  });
 } );

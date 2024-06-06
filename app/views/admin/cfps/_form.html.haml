@@ -2,10 +2,12 @@
   = f.hidden_field :cfp_type
   .form-group
     = f.label :start_date, "Start Date"
-    = f.text_field :start_date, class: 'form-control', id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date
+    %abbr{title: 'This field is required'} *
+    = f.date_field :start_date, class: 'form-control', required: true
   .form-group
     = f.label :end_date, "End Date"
-    = f.text_field :end_date, class: 'form-control', id: 'registration-period-end-datepicker', start_date: @conference.start_date, end_date: @conference.end_date
+    %abbr{title: 'This field is required'} *
+    = f.date_field :end_date, class: 'form-control', required: true
   .form-group
     = f.label :description, "Description"
     = f.text_area :description, rows: 2, data: { provide: 'markdown' }

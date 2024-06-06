@@ -13,12 +13,12 @@
   = f.color_field :color, size: 6, required: true, class: 'form-control'
 .form-group
   = f.label :start_date, "Start Date"
-  = f.text_field :start_date, id: 'registration-period-start-datepicker', start_date: @conference.start_date, end_date: @conference.end_date, required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control'
+  = f.date_field :start_date, required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control'
   - if @track.self_organized_and_accepted_or_confirmed?
     %abbr{title: 'This field is required'} *
 .form-group
   = f.label :end_date, "End Date"
-  = f.text_field :end_date, id: 'registration-period-end-datepicker', required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control'
+  = f.date_field :end_date, required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control'
   - if @track.self_organized_and_accepted_or_confirmed?
     %abbr{title: 'This field is required'} *
 - if current_user.is_admin?
