@@ -88,9 +88,6 @@ gem 'jquery-ui-rails', '~> 6.0.1'
 # for languages validation
 gem 'iso-639'
 
-# as date picker
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
-
 # data tables
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables-rails'
