@@ -1,7 +1,6 @@
 .bundle/cache
 .git/
 coverage/
-db/*.sqlite3
 Dockerfile
 docker-compose.*
 log/

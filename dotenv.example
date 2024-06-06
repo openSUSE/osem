@@ -9,9 +9,6 @@
 # bundle exec rake secret
 # SECRET_KEY_BASE=12345
 
-# The type of database to use (postgresql, mysql2, sqlite3)
-# OSEM_DB_ADAPTER=mysql2
-
 # The name of the host the database runs on
 # OSEM_DB_HOST=database
 
