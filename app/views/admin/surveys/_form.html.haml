@@ -22,7 +22,7 @@
         = f.select :target, Survey.targets.keys, class: 'form-control'
       .form-group
         = f.label :start_date
-        = f.text_field :start_date, class: 'datetimepicker form-control'
+        = f.datetime_field :start_date, class: 'form-control'
         = f.label :end_date
-        = f.text_field :end_date, class: 'datetimepicker form-control'
+        = f.datetime_field :end_date, class: 'form-control'
       = f.submit nil, class: 'btn btn-primary'

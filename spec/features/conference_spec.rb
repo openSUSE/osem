@@ -3,9 +3,19 @@
 require 'spec_helper'
 
 feature Conference do
-  let!(:user) { create(:admin) }
+  let(:user) { create(:admin) }
   let!(:organization) { create(:organization) }
-  shared_examples 'add and update conference' do
+
+  describe 'admin' do
+    let(:conference) { create(:conference, organization: organization) }
+
+    scenario 'has organization name in menu bar for conference views', feature: true, js: true do
+      sign_in user
+      visit admin_conference_path(conference.short_title)
+
+      expect(find('.navbar-brand').text).to eq(conference.organization.name)
+    end
+
     scenario 'adds a new conference', feature: true, js: true do
       expected_count = Conference.count + 1
       sign_in user
@@ -19,13 +29,8 @@ feature Conference do
       select('(GMT+01:00) Berlin', from: 'conference[timezone]')
 
       today = Time.zone.today - 1
-      page
-      .execute_script("$('#conference-start-datepicker').val('" +
-                         "#{today.strftime('%d/%m/%Y')}')")
-      page
-      .execute_script("$('#conference-end-datepicker').val('" +
-                         "#{(today + 7).strftime('%d/%m/%Y')}')")
-
+      fill_in 'conference_start_date', with: today.strftime('%Y/%m/%d')
+      fill_in 'conference_end_date', with: (today + 7).strftime('%Y/%m/%d')
       click_button 'Create Conference'
 
       page.find('#flash')
@@ -50,13 +55,8 @@ feature Conference do
       fill_in 'conference_short_title', with: 'NewCon'
 
       day = Time.zone.today + 10
-      page
-          .execute_script("$('#conference-start-datepicker').val('" +
-                             "#{day.strftime('%d/%m/%Y')}')")
-      page
-          .execute_script("$('#conference-end-datepicker').val('" +
-                             "#{(day + 7).strftime('%d/%m/%Y')}')")
-
+      fill_in 'conference_start_date', with: day.strftime('%Y/%m/%d')
+      fill_in 'conference_end_date', with: (day + 7).strftime('%Y/%m/%d')
       page.accept_alert do
         click_button 'Update Conference'
       end
@@ -69,18 +69,5 @@ feature Conference do
       expect(conference.short_title).to eq('NewCon')
       expect(Conference.count).to eq(expected_count)
     end
-  end
-
-  describe 'admin' do
-    let!(:conference) { create(:conference) }
-
-    scenario 'has organization name in menu bar for conference views', feature: true, js: true do
-      sign_in user
-      visit admin_conference_path(conference.short_title)
-
-      expect(find('.navbar-brand').text).to eq(conference.organization.name)
-    end
-
-    it_behaves_like 'add and update conference'
   end
 end
