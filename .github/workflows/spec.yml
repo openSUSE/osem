@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     name: spec
     env:
-      OSEM_DB_ADAPTER: sqlite3
+      OSEM_DB_HOST: localhost
       RAILS_ENV: test
     strategy:
       matrix:
@@ -38,7 +38,6 @@ jobs:
           bundler-cache: true
       - name: Prepare spec
         run: |
-          rm -f osem_test osem_development
           bundle exec rake db:setup --trace
           bundle exec bin/rails webdrivers:chromedriver:update
           bundle exec rake factory_bot:lint RAILS_ENV=test
@@ -50,3 +49,15 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage/coverage.xml
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: mysecretpassword
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
