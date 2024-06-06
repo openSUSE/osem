@@ -186,9 +186,6 @@ gem 'sprockets-rails'
 # for multiple speakers select on proposal/event forms
 gem 'selectize-rails'
 
-# For collecting performance data
-gem 'skylight'
-
 # memcached binary connector
 gem 'dalli'
 

@@ -543,8 +543,6 @@ GEM
       simplecov (~> 0.19)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    skylight (6.0.4)
-      activesupport (>= 5.2.0)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -697,7 +695,6 @@ DEPENDENCIES
   sentry-rails
   shoulda-matchers
   simplecov-cobertura
-  skylight
   sprockets-rails
   stripe
   stripe-ruby-mock (~> 3.1.0.rc3)

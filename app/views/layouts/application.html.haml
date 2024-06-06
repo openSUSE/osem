@@ -46,8 +46,5 @@
             You can run, copy, distribute, study, change and improve it.
             The source code and the developers are on
             #{link_to "GitHub", "https://github.com/openSUSE/osem"}.
-            - if ENV.fetch('SKYLIGHT_PUBLIC_DASHBOARD_URL', nil)
-              Performance data is available on
-              #{link_to "Skylight", ENV["SKYLIGHT_PUBLIC_DASHBOARD_URL"]}.
     = yield :script_body
     = yield :charts_js
