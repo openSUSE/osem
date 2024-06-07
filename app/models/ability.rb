@@ -17,7 +17,6 @@ class Ability
 
   # Abilities for not signed in users (guests)
   def not_signed_in
-    can [:index, :conferences, :code_of_conduct], Organization
     can [:index], Conference
     can [:show], Conference do |conference|
       conference.splashpage&.public == true
@@ -86,7 +85,6 @@ class Ability
       end
     end
 
-    can :index, Organization
     can :index, Ticket
     can :manage, TicketPurchase, user_id: user.id
     can [:new, :create], Payment, user_id: user.id
