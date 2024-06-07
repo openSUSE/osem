@@ -213,9 +213,7 @@ group :test do
   # as test framework
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'geckodriver-helper'
   gem 'rspec-rails'
-  gem 'webdrivers'
   # for measuring test coverage
   gem 'simplecov-cobertura'
   # for describing models
@@ -239,6 +237,9 @@ group :test do
 end
 
 group :development, :test do
+  # as capybara driver
+  gem 'webdrivers'
+  gem 'geckodriver-helper'
   # as debugger
   gem 'byebug'
   # to test new rails version
