@@ -86,10 +86,10 @@
         .kinds.text{ class: @survey_question.text? ? '' : 'hidden' }
           %textarea.form-control{ rows: 4 }
         .kinds.datetime{ class: @survey_question.datetime? ? '' : 'hidden' }
-          .form-group{ class: 'datetimepicker' }
+          .form-group
             .input-group
               .input-group-addon
                 %span.fa-solid.fa-calendar
-              %input.form-control{ readonly: 'readonly' }
+              %input.form-control{ type: 'datetime-local', readonly: 'readonly' }
               .kinds.numeric{ class: @survey_question.numeric? ? '' : 'hidden' }
           %input.form-control{ type: 'number' }

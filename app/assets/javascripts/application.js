@@ -31,8 +31,6 @@
 //= require momentjs
 //= require leaflet
 //= require holderjs
-//= require bootstrap-datetimepicker
-//= require osem-datepickers
 //= require osem-datatables
 //= require osem-tickets
 //= require bootstrap-switch

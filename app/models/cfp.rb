@@ -125,7 +125,7 @@ class Cfp < ApplicationRecord
 
   def start_after_end_date
     errors
-    .add(:start_date, "can't be after the end date") if start_date && end_date && start_date > end_date
+    .add(:start_date, "can't be after the end date") if start_date > end_date
   end
 
   def conference_id

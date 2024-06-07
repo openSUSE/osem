@@ -88,9 +88,6 @@ gem 'jquery-ui-rails', '~> 6.0.1'
 # for languages validation
 gem 'iso-639'
 
-# as date picker
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
-
 # data tables
 gem 'ajax-datatables-rails'
 gem 'jquery-datatables-rails'
@@ -216,9 +213,7 @@ group :test do
   # as test framework
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'geckodriver-helper'
   gem 'rspec-rails'
-  gem 'webdrivers'
   # for measuring test coverage
   gem 'simplecov-cobertura'
   # for describing models
@@ -242,6 +237,9 @@ group :test do
 end
 
 group :development, :test do
+  # as capybara driver
+  gem 'webdrivers'
+  gem 'geckodriver-helper'
   # as debugger
   gem 'byebug'
   # to test new rails version

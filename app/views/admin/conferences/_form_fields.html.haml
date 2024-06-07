@@ -49,11 +49,11 @@
 .form-group
   = f.label :start_date, "Start Date"
   %abbr{title: 'This field is required'} *
-  = f.text_field :start_date, id: 'conference-start-datepicker', required: true, class: 'form-control'
+  = f.date_field :start_date, required: true, class: 'form-control'
 .form-group
   = f.label :end_date, "End Date"
   %abbr{title: 'This field is required'} *
-  = f.text_field :end_date,  id: 'conference-end-datepicker', required: true, class: 'form-control'
+  = f.date_field :end_date, required: true, class: 'form-control'
 - unless f.object.new_record? # We are showing more fields on the edit form
   .form-group
     = f.number_field :start_hour, size: 2, min: 0, max: 23, class: 'form-control'

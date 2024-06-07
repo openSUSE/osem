@@ -32,10 +32,10 @@
     - elsif survey_question.text?
       = text_area_tag "survey_submission[#{survey_question.id}][]", survey_reply.text, rows: 4, class: 'form-control', required: survey_question.mandatory
     - elsif survey_question.datetime?
-      .form-group{ class: 'datetimepicker' }
+      .form-group
         .input-group
           .input-group-addon
             %span.fa-solid.fa-calendar
-          %input.form-control{ readonly: 'readonly', name: "survey_submission[#{survey_question.id}][]", value: survey_reply.text, required: survey_question.mandatory }
+          %input.form-control{ type: 'datetime-local', readonly: 'readonly', name: "survey_submission[#{survey_question.id}][]", value: survey_reply.text, required: survey_question.mandatory }
     - elsif survey_question.numeric?
       %input.form-control{ type: 'number', name: "survey_submission[#{survey_question.id}][]", value: survey_reply.text, required: survey_question.mandatory }

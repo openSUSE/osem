@@ -25,9 +25,9 @@
     For the feature to work you need to set the voting dates below as well
   .form-group
     = f.label :voting_start_date
-    = f.text_field :voting_start_date, id: 'datetimepicker-voting_start_date', value: (f.object.voting_start_date.to_formatted_s(:db_without_seconds) unless f.object.voting_start_date.nil?), class: 'form-control'
+    = f.datetime_field :voting_start_date, value: (f.object.voting_start_date.to_formatted_s(:db_without_seconds) unless f.object.voting_start_date.nil?), class: 'form-control'
     = f.label :voting_end_date
-    = f.text_field :voting_end_date, id: 'datetimepicker-voting_end_date', value: (f.object.voting_end_date.to_formatted_s(:db_without_seconds) unless f.object.voting_end_date.nil?), class: 'form-control'
+    = f.datetime_field :voting_end_date, value: (f.object.voting_end_date.to_formatted_s(:db_without_seconds) unless f.object.voting_end_date.nil?), class: 'form-control'
   %h4
     Languages
   %hr

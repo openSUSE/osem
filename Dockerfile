@@ -20,7 +20,8 @@ WORKDIR /osem/
 RUN bundle config set --local path 'vendor/bundle'; \
     bundle install --jobs=4 --retry=3
 
-# Install our process manager
-RUN gem install foreman
+# Install our process manager / update chromedriver
+RUN gem install foreman; \
+    bundle exec bin/rails webdrivers:chromedriver:update
 
 CMD ["foreman", "start"]
