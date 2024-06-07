@@ -4,17 +4,9 @@ require 'spec_helper'
 
 feature Conference do
   let(:user) { create(:admin) }
-  let!(:organization) { create(:organization) }
 
   describe 'admin' do
-    let(:conference) { create(:conference, organization: organization) }
-
-    scenario 'has organization name in menu bar for conference views', feature: true, js: true do
-      sign_in user
-      visit admin_conference_path(conference.short_title)
-
-      expect(find('.navbar-brand').text).to eq(conference.organization.name)
-    end
+    let(:conference) { create(:conference) }
 
     scenario 'adds a new conference', feature: true, js: true do
       expected_count = Conference.count + 1
@@ -22,7 +14,6 @@ feature Conference do
 
       visit new_admin_conference_path
 
-      select organization.name, from: 'conference_organization_id'
       fill_in 'conference_title', with: 'Example Con'
       fill_in 'conference_short_title', with: 'ExCon'
 
@@ -37,7 +28,6 @@ feature Conference do
       expect(flash)
           .to eq('Conference was successfully created.')
       expect(Conference.count).to eq(expected_count)
-      expect(Conference.last.organization).to eq(organization)
       user.reload
       expect(user.has_cached_role? :organizer, Conference.last).to be(true)
     end

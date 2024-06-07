@@ -4,8 +4,7 @@ require 'spec_helper'
 
 feature 'Has correct abilities' do
 
-  let(:organization) { create(:organization) }
-  let(:conference) { create(:full_conference, organization: organization) }
+  let(:conference) { create(:full_conference) }
   let(:self_organized_track) { create(:track, :self_organized, program: conference.program, state: 'confirmed') }
   let(:role_track_organizer) { Role.where(name: 'track_organizer', resource: self_organized_track).first_or_create }
   let(:user_track_organizer) { create(:user, role_ids: [role_track_organizer.id]) }
@@ -15,7 +14,7 @@ feature 'Has correct abilities' do
       sign_in user_track_organizer
     end
 
-    scenario 'for organization and conference attributes' do
+    scenario 'for conference attributes' do
       visit admin_conference_path(conference.short_title)
       expect(current_path).to eq(admin_conference_path(conference.short_title))
 

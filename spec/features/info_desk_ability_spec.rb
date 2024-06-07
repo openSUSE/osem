@@ -4,8 +4,7 @@ require 'spec_helper'
 
 feature 'Has correct abilities' do
 
-  let(:organization) { create(:organization) }
-  let(:conference) { create(:full_conference, organization: organization) }
+  let(:conference) { create(:full_conference) }
   let(:role_info_desk) { Role.find_by(name: 'info_desk', resource: conference) }
   let(:user_info_desk) { create(:user, role_ids: [role_info_desk.id]) }
 
@@ -14,7 +13,7 @@ feature 'Has correct abilities' do
       sign_in user_info_desk
     end
 
-    scenario 'for organization and conference attributes' do
+    scenario 'for conference attributes' do
       visit admin_conference_path(conference.short_title)
       expect(current_path).to eq(admin_conference_path(conference.short_title))
 
@@ -46,15 +45,6 @@ feature 'Has correct abilities' do
       expect(page).to have_link('Questions', href: "/admin/conferences/#{conference.short_title}/questions")
       expect(page).to_not have_link('E-Mails', href: "/admin/conferences/#{conference.short_title}/emails")
       expect(page).to_not have_link('New Conference', href: '/admin/conferences/new')
-
-      visit admin_organizations_path
-      expect(current_path).to eq(admin_organizations_path)
-
-      visit edit_admin_organization_path(organization)
-      expect(current_path).to eq(root_path)
-
-      visit new_admin_organization_path
-      expect(current_path).to eq(root_path)
 
       visit edit_admin_conference_path(conference.short_title)
       expect(current_path).to eq(root_path)

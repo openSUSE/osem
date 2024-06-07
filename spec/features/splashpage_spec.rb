@@ -65,19 +65,4 @@ feature Splashpage do
       expect(current_path).to eq(root_path)
     end
   end
-
-  context 'navigation' do
-    let!(:splashpage) { create(:splashpage, conference: conference, public: true)}
-
-    context 'multiple organizations' do
-      let!(:additional_organization) { create(:organization) }
-
-      scenario 'should have organization name', feature: true, js: true do
-        sign_in participant
-        visit conference_path(conference.short_title)
-
-        expect(page).to have_text(conference.organization.name)
-      end
-    end
-  end
 end

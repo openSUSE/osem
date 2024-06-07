@@ -306,44 +306,6 @@ feature 'Version' do
     expect(page).to have_no_text('Someone (probably via the console) created new commercial')
   end
 
-  scenario 'display changes in organization', feature: true, versioning: true, js: true do
-    admin = create(:admin)
-    sign_in admin
-
-    visit new_admin_organization_path
-    fill_in 'organization_name', with: 'New org'
-    click_button 'Create Organization'
-
-    visit admin_revision_history_path
-    expect(page).to have_text('created new organization New org')
-  end
-
-  context 'organization role', feature: true, versioning: true, js: true do
-    let!(:user) { create(:user) }
-    let!(:role) do
-      Role.find_by(
-        resource_id:   conference.organization.id,
-        resource_type: 'Organization'
-      )
-    end
-
-    setup do
-      user.add_role :organization_admin, conference.organization
-      user.remove_role :organization_admin, conference.organization
-      visit admin_revision_history_path
-    end
-
-    it 'is recorded to history when user is added' do
-      skip('fails since paper_trail 12.2.0')
-      expect(page).to have_text(/added role organization_admin with ID \d+ to user #{user.name} in organization #{conference.organization.name}/)
-    end
-
-    it 'is recorded to history when user is removed' do
-      skip('fails since paper_trail 12.2.0')
-      expect(page).to have_text(/removed role organization_admin with ID \d+ from user #{user.name} in organization #{conference.organization.name}/)
-    end
-  end
-
   scenario 'display changes in users_role for conference role', feature: true, versioning: true, js: true do
     user = create(:user)
     role = Role.find_by(name: 'cfp', resource_id: conference.id, resource_type: 'Conference')

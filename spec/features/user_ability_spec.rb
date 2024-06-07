@@ -4,8 +4,7 @@ require 'spec_helper'
 
 feature 'Has correct abilities' do
 
-  let(:organization) { create(:organization) }
-  let(:conference) { create(:full_conference, organization: organization) } # user is cfp
+  let(:conference) { create(:full_conference) } # user is cfp
   let(:user) { create(:user) }
 
   context 'when user has no role' do
