@@ -21,7 +21,7 @@ RUN bundle config set --local path 'vendor/bundle'; \
     bundle install --jobs=4 --retry=3
 
 # Install our process manager / update chromedriver
-RUN gem install foreman; \
+RUN sudo gem install foreman; \
     bundle exec bin/rails webdrivers:chromedriver:update
 
 CMD ["foreman", "start"]
