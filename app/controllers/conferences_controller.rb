@@ -108,6 +108,8 @@ class ConferencesController < ApplicationController
     end
   end
 
+  def code_of_conduct; end
+
   private
 
   def conference_finder_conditions

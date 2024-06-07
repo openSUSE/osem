@@ -32,6 +32,11 @@
     %span.help-block
       This will be displayed on the front page.
     = f.hidden_field :picture_cache
+  .form-group
+    = f.text_area :code_of_conduct, rows: 10, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      Rules governing behavior and dispute resolution...
+      = markdown_hint
   = f.select :ticket_layout, Conference.ticket_layouts.keys, {}, class: 'form-control'
   %span.help-block
     Layout type for tickets of the conference.

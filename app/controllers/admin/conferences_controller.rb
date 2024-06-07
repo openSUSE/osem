@@ -181,7 +181,7 @@ module Admin
                                          :vpositions_attributes, :use_volunteers, :color,
                                          :sponsorship_levels_attributes, :sponsors_attributes,
                                          :registration_limit, :ticket_layout,
-                                         :booth_limit)
+                                         :booth_limit, :code_of_conduct)
     end
   end
 end

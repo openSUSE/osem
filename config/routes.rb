@@ -192,6 +192,10 @@ Osem::Application.routes.draw do
         get :events
       end
     end
+
+    member do
+      get 'code-of-conduct'
+    end
   end
 
   namespace :api, defaults: {format: 'json'} do

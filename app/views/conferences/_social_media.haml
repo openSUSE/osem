@@ -27,3 +27,9 @@
           - if contact.email?
             = mail_to "#{ contact.email }" do
               %i.fa-solid.fa-envelope.fa-4x
+      .row
+        .col-md-12
+          - if @conference.code_of_conduct.present?
+            %hr
+            %p.text-center
+              = link_to "Code of Conduct", code_of_conduct_conference_path(@conference.short_title)

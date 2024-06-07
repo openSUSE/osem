@@ -26,8 +26,8 @@
                 = link_to "View Conference", conference_path(conference.short_title), class: 'btn btn-default'
             - if conference.program and conference.program.schedule_public
               = link_to "Schedule", conference_schedule_path(conference.short_title), class: 'btn btn-default'
-            - unless conference.code_of_conduct.blank?
-              = link_to "Code of Conduct", :code_of_conduct, class: 'btn btn-default'
+            - if conference.code_of_conduct.present?
+              = link_to "Code of Conduct", code_of_conduct_conference_path(conference.short_title), class: 'btn btn-default'
             - if conference.registration_open?
               - if conference.user_registered?(current_user)
                 = link_to "My Registration", conference_conference_registration_path(conference.short_title), class: 'btn btn-default'
