@@ -8,15 +8,6 @@ module VersionsHelper
     version.item && conference ? link_to(link_text, link_url) : "#{link_text} with ID #{version.item_id}"
   end
 
-  def link_to_organization(organization_id)
-    return 'deleted organization' unless organization_id
-
-    org = Organization.find_by(id: organization_id)
-    return current_or_last_object_state('Organization', organization_id).try(:name) unless org
-
-    org.name.to_s
-  end
-
   def link_to_conference(conference_id)
     return 'deleted conference' if conference_id.nil?
 

@@ -67,10 +67,6 @@ describe ApplicationHelper, type: :helper do
         ENV.delete('OSEM_NAME')
         expect(nav_root_link_for(nil)).to match 'OSEM'
       end
-
-      it 'should use the conference organization name' do
-        expect(nav_root_link_for(conference)).to match h(conference.organization.name)
-      end
     end
   end
 

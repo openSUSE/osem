@@ -37,8 +37,7 @@
               You need to accept the
               = link_to 'Code of Conduct', '#',
                 data: { toggle: 'modal', target: '#modal-code-of-conduct'}
-          = render 'conferences/code_of_conduct',
-            organization: @conference.organization
+          = render 'conferences/code_of_conduct'
   - if @conference.surveys.for_registration.any?
     .row
       .col-md-12

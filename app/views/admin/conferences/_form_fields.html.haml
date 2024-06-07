@@ -1,10 +1,6 @@
 %h4
   Basic Information
 %hr
-- if f.object.new_record?
-  .form-group
-    = f.label :organization, "Organization"
-    = f.select :organization_id, Organization.accessible_by(current_ability, :update).pluck(:name, :id)
 .form-group
   = f.label :title, "Title"
   %abbr{title: 'This field is required'} *
@@ -36,6 +32,11 @@
     %span.help-block
       This will be displayed on the front page.
     = f.hidden_field :picture_cache
+  .form-group
+    = f.text_area :code_of_conduct, rows: 10, data: { provide: 'markdown' }, class: 'form-control'
+    %span.help-block
+      Rules governing behavior and dispute resolution...
+      = markdown_hint
   = f.select :ticket_layout, Conference.ticket_layouts.keys, {}, class: 'form-control'
   %span.help-block
     Layout type for tickets of the conference.

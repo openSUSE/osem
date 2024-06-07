@@ -8,9 +8,6 @@ module Admin
     def index
       @conferences_with_role = current_user.is_admin? ? Conference.pluck(:short_title) : Conference.with_role([:organizer, :cfp, :info_desk], current_user).pluck(:short_title)
 
-      if current_user.has_cached_role? :organization_admin, :any
-        @conferences_with_role = Organization.with_role('organization_admin', current_user).map { |org| org.conferences.pluck :short_title }.flatten
-      end
       @conferences_with_role.uniq!
 
       return if @conference.blank?

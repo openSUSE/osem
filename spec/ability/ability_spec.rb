@@ -11,8 +11,7 @@ describe 'User' do
     subject(:ability){ Ability.new(user) }
     let(:user){ nil }
 
-    let!(:organization) { create(:organization) }
-    let!(:my_conference) { create(:full_conference, organization: organization) }
+    let!(:my_conference) { create(:full_conference) }
 
     let(:my_room) { create(:room, venue: my_conference.venue) }
 
@@ -36,7 +35,6 @@ describe 'User' do
 
     # Test abilities for not signed in users
     context 'when user is not signed in' do
-      it{ should be_able_to(:index, Organization)}
       it{ should be_able_to(:index, Conference)}
 
       it{ should be_able_to(:show, conference_public)}

@@ -27,18 +27,8 @@
       = link_to(admin_users_path) do
         %span.fa-solid.fa-user
         Users
-  - if can? :index, Organization
-    %li
-      = link_to(admin_organizations_path) do
-        %span.fa-solid.fa-users
-        Organizations
   - if can? :index, PaperTrail::Version
     %li
       = link_to(admin_revision_history_path) do
         %span.fa-solid.fa-clock-rotate-left
         Revision History
-    - if ENV.fetch('ORGANIZATIONS_ENABLED', nil) == 'true'
-      %li
-        = link_to(admin_organizations_path) do
-          %span.fa-solid.fa-user-group
-          Organizations

@@ -140,7 +140,7 @@ module ApplicationHelper
 
   def nav_root_link_for(conference)
     link_text = (
-      conference.try(:organization).try(:name) || ENV.fetch('OSEM_NAME', 'OSEM')
+      ENV.fetch('OSEM_NAME', 'OSEM')
     )
     link_to(
       link_text,
