@@ -4,7 +4,7 @@
       data: { toggle: 'modal', target: '#modal-code-of-conduct'}
 
 - content_for :modals do
-  - cache [organization, '#CoC-modal'] do
+  - cache '#CoC-modal' do
     .modal.fade{ id: "modal-code-of-conduct" }
       .modal-dialog
         .modal-content
@@ -13,8 +13,6 @@
               %i.fa-solid.fa-xmark
             %h3.modal-title Code of Conduct
           .modal-body
-            = markdown organization.code_of_conduct
+            = markdown conference.code_of_conduct
           .modal-footer
-            = link_to 'permalink',
-              [:code_of_conduct, organization],
-              target: '_blank'
+            = link_to 'permalink', :code_of_conduct

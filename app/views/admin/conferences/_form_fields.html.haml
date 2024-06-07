@@ -1,10 +1,6 @@
 %h4
   Basic Information
 %hr
-- if f.object.new_record?
-  .form-group
-    = f.label :organization, "Organization"
-    = f.select :organization_id, Organization.accessible_by(current_ability, :update).pluck(:name, :id)
 .form-group
   = f.label :title, "Title"
   %abbr{title: 'This field is required'} *

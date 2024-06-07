@@ -19,7 +19,7 @@
 
 #splash
   - if @conference.code_of_conduct.present?
-    = render 'code_of_conduct', organization: @conference.organization
+    = render 'code_of_conduct'
 
   -# header/description
   = render 'header', conference: @conference, venue: @conference.venue

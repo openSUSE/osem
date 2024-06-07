@@ -12,9 +12,6 @@ class Conference < ApplicationRecord
   scope :upcoming, (-> { where('end_date >= ?', Date.current) })
   scope :past, (-> { where('end_date < ?', Date.current) })
 
-  belongs_to :organization
-  delegate :code_of_conduct, to: :organization
-
   has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
   has_and_belongs_to_many :questions
@@ -83,7 +80,6 @@ class Conference < ApplicationRecord
             :start_hour,
             :end_hour,
             :ticket_layout,
-            :organization,
             :timezone, presence: true
 
   validates :short_title, uniqueness: true
@@ -579,11 +575,11 @@ class Conference < ApplicationRecord
   # * +ActiveRecord+
   def self.get_active_conferences_for_dashboard
     result = Conference.where('start_date > ?', Time.now)
-        .select('id, short_title, color, start_date, organization_id')
+        .select('id, short_title, color, start_date')
 
     if result.empty?
       result = Conference
-          .select('id, short_title, color, start_date, organization_id').limit(2)
+          .select('id, short_title, color, start_date').limit(2)
           .order(start_date: :desc)
     end
     result
@@ -595,7 +591,7 @@ class Conference < ApplicationRecord
   # ====Returns
   # * +ActiveRecord+
   def self.get_conferences_without_active_for_dashboard(active_conferences)
-    result = Conference.select('id, short_title, color, start_date, organization_id').order(start_date: :desc)
+    result = Conference.select('id, short_title, color, start_date').order(start_date: :desc)
     result - active_conferences
   end
 

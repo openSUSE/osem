@@ -34,12 +34,6 @@
         = image_tag(@conference.picture.ticket.url, class: 'img-responsive')
       - else
         = image_tag('/img/osem-logo.png', class: 'img-responsive')
-      %p.text-left
-        %br
-        %strong
-          Organization
-        %br
-        = @conference.organization.name
     .col-md-5.box.well
       %p.text-left
         %strong

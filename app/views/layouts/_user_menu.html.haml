@@ -76,8 +76,3 @@
     = link_to(admin_revision_history_path) do
       %span.fa-solid.fa-clock-rotate-left
       Revision History
-  - if ENV.fetch('OSEM_ICHAIN_ENABLED', nil) == 'true'
-    %li
-      = link_to(admin_organizations_path) do
-        %span.fa-solid.fa-user-group
-        Organizations
