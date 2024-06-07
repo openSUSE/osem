@@ -438,7 +438,7 @@ GEM
     recaptcha (5.16.0)
     redcarpet (3.6.0)
     regexp_parser (2.9.2)
-    request_store (1.6.0)
+    request_store (1.7.0)
       rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
