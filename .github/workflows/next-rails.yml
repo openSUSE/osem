@@ -26,7 +26,6 @@ jobs:
           echo "BUNDLE_CACHE_PATH=vendor/cache.next" >> $GITHUB_ENV
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.2
           bundler-cache: true
       - name: Prepare spec
         run: |
