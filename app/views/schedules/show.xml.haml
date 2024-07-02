@@ -16,7 +16,7 @@
           %room{ name: room.name }
             - events_in_rooms[room].each do |event|
               %event{ guid: event.guid, id: event.id }
-                %date= event.time.in_time_zone(@conference.timezone).iso8601
+                %date= event.time.change(zone: @conference.timezone).iso8601
                 %start= event.time.strftime('%H:%M')
                 %duration= length_timestamp(event.event_type.length)
                 %room= event.room.name
