@@ -32,7 +32,7 @@
 - if @program.languages.present?
   .form-group
   = f.label :language
-  = f.select :language, @languages, { include_blank: false}, { class: 'select-help-toggle form-control' }
+  = f.select :language, @program.languages_list, { include_blank: false}, { class: 'select-help-toggle form-control' }
 = render 'shared/select_help_text', f: f, for: :event_type_id, options: @conference.program.event_types do |event_type|
   = event_type.description
 - if display_details
