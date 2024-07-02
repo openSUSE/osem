@@ -70,15 +70,12 @@ gem 'awesome_nested_set'
 # as templating language
 gem 'haml-rails'
 
-# for stylesheets
-gem 'sass-rails', '>= 4.0.2'
-
 # as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
 # as the front-end framework
-gem 'autoprefixer-rails'
-gem 'bootstrap-sass', '~> 3.4.0'
+gem 'sassc-rails'
+gem 'bootstrap', '~> 5'
 gem 'cocoon'
 
 # as the JavaScript library
@@ -148,9 +145,6 @@ gem 'money-rails'
 
 # for lists
 gem 'acts_as_list'
-
-# for switch checkboxes
-gem 'bootstrap-switch-rails', '3.3.3' # Locked pending Bttstrp/bootstrap-switch#707
 
 # for parsing OEmbed data
 gem 'ruby-oembed'

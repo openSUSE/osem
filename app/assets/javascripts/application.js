@@ -33,7 +33,6 @@
 //= require holderjs
 //= require osem-datatables
 //= require osem-tickets
-//= require bootstrap-switch
 //= require osem-schedule
 //= require osem-switch
 //= require osem-bootstrap
