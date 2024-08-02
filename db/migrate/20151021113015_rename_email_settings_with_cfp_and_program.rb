@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RenameEmailSettingsWithCfpAndProgram < ActiveRecord::Migration
+class RenameEmailSettingsWithCfpAndProgram < ActiveRecord::Migration[4.2]
   def change
     rename_column :email_settings, :send_on_call_for_papers_schedule_public, :send_on_program_schedule_public
     rename_column :email_settings, :call_for_papers_schedule_public_body, :program_schedule_public_body

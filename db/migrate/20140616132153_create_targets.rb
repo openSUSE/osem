@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTargets < ActiveRecord::Migration
+class CreateTargets < ActiveRecord::Migration[4.2]
   def change
     create_table :targets do |t|
       t.integer :conference_id
