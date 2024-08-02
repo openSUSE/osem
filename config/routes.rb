@@ -215,7 +215,7 @@ Osem::Application.routes.draw do
 
   get '/admin' => redirect('/admin/conferences')
 
-  get '/calendar' => 'conferences#calendar'
+  get '/calendar' => 'conferences#calendar', action: :calendar
 
   if ENV.fetch('OSEM_ROOT_CONFERENCE', nil)
     root to: redirect("/conferences/#{ENV.fetch('OSEM_ROOT_CONFERENCE')}")
