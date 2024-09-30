@@ -6,6 +6,8 @@ allowed_urls = Webdrivers::Common.subclasses.map(&:base_url)
 allowed_urls << /geckodriver/
 # We've seen [a redirect](https://github.com/titusfortner/webdrivers/issues/204) to this domain
 allowed_urls += ['github-releases.githubusercontent.com']
+allowed_urls += ['googlechromelabs.github.io']
+allowed_urls += ['storage.googleapis.com']
 
 # Allow stripe.com for stripe integration tests
 allowed_urls += ['stripe.com']
