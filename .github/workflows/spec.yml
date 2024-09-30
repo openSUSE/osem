@@ -41,6 +41,14 @@ jobs:
           bundle exec rake factory_bot:lint RAILS_ENV=test
       - name: spec/${{ matrix.suite }}
         run: bundle exec rake spec:${{ matrix.suite }}
+      - name: Upload Suite Artifacts
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.suite }}
+          path: |
+            log/
+            tmp/capybara
       - name: coverage upload ${{ matrix.suite }}
         uses: codacy/codacy-coverage-reporter-action@master
         if: github.ref == 'refs/heads/master'
