@@ -706,7 +706,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.3.3
+   ruby 3.3.5
 
 BUNDLED WITH
    2.5.9
