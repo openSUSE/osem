@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ChangeVenueTypes < ActiveRecord::Migration
+class ChangeVenueTypes < ActiveRecord::Migration[4.2]
   def up
     change_column :venues, :name, :text
     change_column :venues, :address, :text
