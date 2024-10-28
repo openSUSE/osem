@@ -1,5 +1,5 @@
 FROM registry.opensuse.org/opensuse/infrastructure/dale/containers/osem/base:latest
-ARG CONTAINER_USERID
+ARG CONTAINER_USERID=1000
 
 # Configure our user
 RUN usermod -u $CONTAINER_USERID osem
@@ -8,19 +8,16 @@ RUN usermod -u $CONTAINER_USERID osem
 # changes and all the subsequent stages (a.k.a. the bundle install call below)
 # have to be rebuild. Otherwise, after the first build of this image,
 # docker would use it's cache for this and the following stages.
-COPY Gemfile /osem/
-COPY Gemfile.lock /osem/
+ADD Gemfile /osem/Gemfile
+ADD Gemfile.lock /osem/Gemfile.lock
 RUN chown -R osem /osem
 
-# Continue as user
+WORKDIR /osem
 USER osem
-WORKDIR /osem/
 
-# Install our bundle
-RUN bundle config set --local path 'vendor/bundle'; \
-    bundle install --jobs=4 --retry=3
+# Install our bundle & process manager
+RUN bundle install --jobs=3 --retry=3; \
+    gem install foreman
 
-# Install our process manager
-RUN sudo gem install foreman
-
+# Run our command
 CMD ["foreman", "start"]
