@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2018_12_29_233813) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_21_114727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,7 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2018_12_29_233813) do
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "subject"
+    t.string "subject", limit: 255
     t.integer "parent_id"
     t.integer "lft"
     t.integer "rgt"
