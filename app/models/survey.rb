@@ -5,7 +5,7 @@ class Survey < ActiveRecord::Base
   has_many :survey_questions, dependent: :destroy
   has_many :survey_submissions, dependent: :destroy
 
-  enum target: [:after_conference, :during_registration, :after_event]
+  enum :target, [:after_conference, :during_registration, :after_event]
   validates :title, presence: true
 
   ##

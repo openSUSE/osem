@@ -96,7 +96,7 @@ class Conference < ApplicationRecord
   after_create :create_free_ticket
   after_update :delete_event_schedules
 
-  enum ticket_layout: [:portrait, :landscape]
+  enum :ticket_layout, [:portrait, :landscape]
 
   ##
   # Checks if the user is registered to the conference
