@@ -9,8 +9,8 @@ class Conference < ApplicationRecord
   resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
-  scope :upcoming, (-> { where('end_date >= ?', Date.current) })
-  scope :past, (-> { where('end_date < ?', Date.current) })
+  scope :upcoming, (-> { where(end_date: Date.current..) })
+  scope :past, (-> { where(end_date: ...Date.current) })
 
   has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
