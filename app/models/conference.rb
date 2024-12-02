@@ -196,10 +196,7 @@ class Conference < ApplicationRecord
   # ====Returns
   #  * +Array+ -> e.g. [0, 3, 3, 5] -> first week 0, second week 3 registrations
   def get_registrations_per_week
-    return [] unless registrations &&
-      registration_period &&
-      registration_period.start_date &&
-      registration_period.end_date
+    return [] unless registrations && registration_period&.start_date && registration_period.end_date
 
     reg = registrations.group(:week).order(:week).count
     start_week = get_registration_start_week
