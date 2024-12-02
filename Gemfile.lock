@@ -381,8 +381,9 @@ GEM
     prawn-qrcode (0.5.2)
       prawn (>= 1)
       rqrcode (>= 1.0.0)
-    prawn-rails (1.4.2)
+    prawn-rails (1.5.0)
       actionview (>= 3.1.0)
+      activesupport (>= 3.1.0)
       prawn
       prawn-table
     prawn-table (0.2.2)
