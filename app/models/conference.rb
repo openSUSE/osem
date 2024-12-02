@@ -156,7 +156,7 @@ class Conference < ApplicationRecord
   def get_submissions_per_week
     result = []
 
-    if program&.cfp && program&.events
+    if program&.cfp && program.events
       submissions = program.events.select(:week).group(:week).order(:week).count
       start_week = program.cfp.start_week
       weeks = program.cfp.weeks
@@ -172,7 +172,7 @@ class Conference < ApplicationRecord
   # ====Returns
   #  * +Array+ -> e.g. 'Submitted' => [0, 3, 3, 5]  -> first week 0 events, second week 3 events.
   def get_submissions_data
-    return [] unless program&.cfp && program&.events
+    return [] unless program&.cfp && program.events
 
     start_week = program.cfp.start_week
     get_events_per_week_by_state.collect do |state, values|
@@ -265,7 +265,7 @@ class Conference < ApplicationRecord
     result = 0
     weeks = 0
     if registration_period&.start_date &&
-        registration_period&.end_date
+        registration_period.end_date
       weeks = Date.new(registration_period.start_date.year, 12, 31)
           .strftime('%W').to_i
 
