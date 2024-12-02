@@ -234,7 +234,7 @@ GEM
       ice_cube (~> 0.16)
       ostruct
     ice_cube (0.17.0)
-    image_processing (1.12.2)
+    image_processing (1.13.0)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     io-like (0.3.1)
@@ -270,7 +270,7 @@ GEM
       letter_opener (~> 1.9)
       railties (>= 6.1)
       rexml
-    logger (1.6.1)
+    logger (1.6.2)
     lograge (0.14.0)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -289,7 +289,7 @@ GEM
     method_source (1.1.0)
     mina (1.2.5)
       rake
-    mini_magick (4.12.0)
+    mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.2)
