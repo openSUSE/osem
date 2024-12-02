@@ -44,7 +44,7 @@ class User < ApplicationRecord
     where('last_sign_in_at > ?', Date.today - 3.months).where(is_disabled: false)
   }
   scope :unconfirmed, -> { where('confirmed_at IS NULL') }
-  scope :dead, -> { where('last_sign_in_at < ?', Date.today - 1.year) }
+  scope :dead, -> { where(last_sign_in_at: ...(Date.today - 1.year)) }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

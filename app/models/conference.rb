@@ -9,8 +9,8 @@ class Conference < ApplicationRecord
   resourcify :roles, dependent: :delete_all
 
   default_scope { order('start_date DESC') }
-  scope :upcoming, (-> { where('end_date >= ?', Date.current) })
-  scope :past, (-> { where('end_date < ?', Date.current) })
+  scope :upcoming, (-> { where(end_date: Date.current..) })
+  scope :past, (-> { where(end_date: ...Date.current) })
 
   has_paper_trail ignore: %i(updated_at guid revision events_per_week), meta: { conference_id: :id }
 
@@ -96,7 +96,7 @@ class Conference < ApplicationRecord
   after_create :create_free_ticket
   after_update :delete_event_schedules
 
-  enum ticket_layout: [:portrait, :landscape]
+  enum :ticket_layout, [:portrait, :landscape]
 
   ##
   # Checks if the user is registered to the conference

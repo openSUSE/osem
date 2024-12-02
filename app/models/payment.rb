@@ -12,7 +12,7 @@ class Payment < ApplicationRecord
   validates :user_id, presence: true
   validates :conference_id, presence: true
 
-  enum status: {
+  enum :status, {
     unpaid:  0,
     success: 1,
     failure: 2
