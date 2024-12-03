@@ -360,7 +360,7 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
-    ostruct (0.6.0)
+    ostruct (0.6.1)
     paper_trail (15.1.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)
