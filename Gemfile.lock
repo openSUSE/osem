@@ -557,7 +557,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    ssrf_filter (1.1.2)
+    ssrf_filter (1.2.0)
     stripe (5.55.0)
     stripe-ruby-mock (3.1.0)
       dante (>= 0.2.0)
