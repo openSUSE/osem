@@ -232,7 +232,7 @@ GEM
     htmlentities (4.3.4)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
-    i18n_data (0.17.1)
+    i18n_data (1.1.0)
       simple_po_parser (~> 1.1)
     icalendar (2.10.3)
       ice_cube (~> 0.16)
