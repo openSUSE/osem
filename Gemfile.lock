@@ -157,7 +157,7 @@ GEM
     daemons (1.4.1)
     dalli (3.2.8)
     dante (0.2.0)
-    database_cleaner (2.0.2)
+    database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.0)
       activerecord (>= 5.a)
