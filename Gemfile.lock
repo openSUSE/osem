@@ -133,7 +133,7 @@ GEM
     caxlsx_rails (0.6.4)
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
-    chartkick (5.0.7)
+    chartkick (5.1.2)
     childprocess (5.1.0)
       logger (~> 1.5)
     chronic (0.10.2)
