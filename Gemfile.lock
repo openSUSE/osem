@@ -568,7 +568,7 @@ GEM
     thor (1.3.2)
     tilt (2.4.0)
     timecop (0.9.10)
-    timeout (0.4.1)
+    timeout (0.4.2)
     transitions (1.3.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
