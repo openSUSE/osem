@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateRegistrationsTable < ActiveRecord::Migration
+class CreateRegistrationsTable < ActiveRecord::Migration[5.0]
   def up
     create_table :registrations do |t|
       t.references :person

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTableSupporterRegistrations < ActiveRecord::Migration
+class CreateTableSupporterRegistrations < ActiveRecord::Migration[4.2]
   def up
     create_table :supporter_registrations do |t|
       t.references :registration

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddRequireHandicappedAccessToQuestions < ActiveRecord::Migration
+class AddRequireHandicappedAccessToQuestions < ActiveRecord::Migration[4.2]
   class TempRegistration < ActiveRecord::Base
     self.table_name = 'registrations'
 
