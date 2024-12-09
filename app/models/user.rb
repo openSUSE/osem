@@ -237,7 +237,6 @@ class User < ApplicationRecord
   end
 
   def registered
-    registrations = self.registrations
     if registrations.count == 0
       'None'
     else
