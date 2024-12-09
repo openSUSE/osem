@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTracksTable < ActiveRecord::Migration
+class CreateTracksTable < ActiveRecord::Migration[5.0]
   def up
     create_table :tracks do |t|
       t.string :guid, null: false

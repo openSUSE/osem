@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateConferencesTable < ActiveRecord::Migration
+class CreateConferencesTable < ActiveRecord::Migration[4.2]
   def up
     create_table :conferences do |t|
       t.string :guid, null: false
