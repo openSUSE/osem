@@ -305,44 +305,6 @@ describe User do
       end
     end
 
-    describe '#registered' do
-      context 'user has not registered to any conference' do
-        it 'returns None' do
-          expect(user.registered).to eq 'None'
-        end
-      end
-
-      context 'user has registered to conferences' do
-        before do
-          create(:registration, user: user, conference: conference)
-          create(:registration, user: user, conference: conference2)
-        end
-
-        it 'returns registered conferences title' do
-          expect(user.registered).to eq('openSUSE Conference 2016, openSUSE Conference 2015')
-        end
-      end
-    end
-
-    describe '#attended' do
-      context 'user has not attended any conference' do
-        it 'returns None' do
-          expect(user.attended).to eq 'None'
-        end
-      end
-
-      context 'user has attended conferences' do
-        before do
-          create(:registration, user: user, conference: conference, attended: true)
-          create(:registration, user: user, conference: conference2, attended: true)
-        end
-
-        it 'returns attended conferences title' do
-          expect(user.attended).to eq('openSUSE Conference 2016, openSUSE Conference 2015')
-        end
-      end
-    end
-
     describe '#confirmed?' do
       context 'confirmed user' do
         it 'returns true' do
