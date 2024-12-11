@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSocialEventsTable < ActiveRecord::Migration
+class CreateSocialEventsTable < ActiveRecord::Migration[4.2]
   def up
     create_table :social_events do |t|
       t.references :conference
