@@ -90,7 +90,7 @@ module Admin
       @conference.assign_attributes(conference_params)
       send_mail_on_conf_update = @conference.notify_on_dates_changed?
 
-      if @conference.update(conference_params)
+      if @conference.save
         ConferenceDateUpdateMailJob.perform_later(@conference) if send_mail_on_conf_update
         redirect_to edit_admin_conference_path(id: @conference.short_title),
                     notice: 'Conference was successfully updated.'
