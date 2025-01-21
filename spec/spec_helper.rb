@@ -122,6 +122,12 @@ RSpec.configure do |config|
     @request.host = Rails.application.routes.default_url_options[:host]
   end
 
+  config.before(:each) do
+    Rails.logger.debug '======================================================================'
+    Rails.logger.debug { "\n\n\n\t\t#{RSpec.current_example.metadata[:full_description]}\n\n\n" }
+    Rails.logger.debug '======================================================================'
+  end
+
   # use the config to use
   # t('some.locale.key') instead of always having to type I18n.t
   config.include AbstractController::Translation
