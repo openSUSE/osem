@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSchedules < ActiveRecord::Migration
+class CreateSchedules < ActiveRecord::Migration[5.0]
   def change
     create_table :schedules do |t|
       t.belongs_to :program, index: true

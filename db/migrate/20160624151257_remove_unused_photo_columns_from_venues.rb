@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveUnusedPhotoColumnsFromVenues < ActiveRecord::Migration
+class RemoveUnusedPhotoColumnsFromVenues < ActiveRecord::Migration[4.2]
   def up
     remove_column :venues, :photo_updated_at
     remove_column :venues, :photo_file_size

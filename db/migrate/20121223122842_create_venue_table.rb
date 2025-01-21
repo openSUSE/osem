@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateVenueTable < ActiveRecord::Migration
+class CreateVenueTable < ActiveRecord::Migration[5.0]
   def up
     create_table :venues do |t|
       t.string :guid
