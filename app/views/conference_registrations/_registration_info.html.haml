@@ -1,8 +1,11 @@
 - if @conference.code_of_conduct.present?
+  %h4
+    Code of Conduct for
+    = @conference.short_title
+  = markdown @conference.code_of_conduct
   - if @registration.accepted_code_of_conduct
     = icon 'fa-solid', 'square-check'
-    I have read and accepted the
-    = link_to "Code of Conduct", code_of_conduct_conference_path(@conference.short_title)
+    I have read and accepted the Code of Conduct
   - else
     .checkbox
       %label
