@@ -21,23 +21,20 @@
           .fa-stack
             .fa-solid.fa-square-dashed
             .fa-solid.fa-handshake
-          Code of Conduct
+          = link_to code_of_conduct_conference_path(@conference.short_title) do
+            Code of Conduct
         %ul.fa-ul
           - if @registration.accepted_code_of_conduct
             %li.text-info
               %span.fa-li
                 = icon('fa-solid', 'check')
-              You have accepted the
-              = link_to 'Code of Conduct', '#',
-                data: { toggle: 'modal', target: '#modal-code-of-conduct'}
+              You have accepted the Code of Conduct
           - else
             %li.text-warning
               %span.fa-li
                 = icon('fa-solid', 'circle-exclamation')
-              You need to accept the
-              = link_to 'Code of Conduct', '#',
-                data: { toggle: 'modal', target: '#modal-code-of-conduct'}
-          = render 'conferences/code_of_conduct'
+              You need to accept the Code of Conduct. Please
+              = link_to 'edit your Registration.', edit_conference_conference_registration_path(@conference.short_title), disabled: @conference.end_date < Date.today
   - if @conference.surveys.for_registration.any?
     .row
       .col-md-12
