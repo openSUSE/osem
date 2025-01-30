@@ -21,7 +21,8 @@
                 %duration= length_timestamp(event.event_type.length)
                 %room= event.room.name
                 %type= event.event_type.name
-                %language= ISO_639.find_by_english_name(event.language).third if event.language
+                - if event.language && ISO_639.find_by_english_name(event.language)
+                  %language= ISO_639.find_by_english_name(event.language).third
                 %slug= "#{event.id} #{event.title}".parameterize
                 %title= event.title
                 %subtitle= event.subtitle
