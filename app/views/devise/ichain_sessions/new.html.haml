@@ -6,7 +6,7 @@
           %h3.panel-title
             Sign in
         .panel-body
-          = form_for(@login_url, method: :post, enctype: 'application/x-www-form-urlencoded', id: 'session' do |f|
+          = form_for(@login_url, method: :post, enctype: 'application/x-www-form-urlencoded', id: 'session') do |f|
             = f.hidden_field :url, value: @back_url
             = f.hidden_field :context, value: @context
             = f.hidden_field :proxypath, value: @proxypath
