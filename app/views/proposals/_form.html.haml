@@ -29,12 +29,12 @@
 .form-group
   = f.label :event_type_id, 'Type'
   = f.select :event_type_id, event_type_select_options(@conference.program.event_types), { include_blank: false }, { class: 'select-help-toggle form-control' }
+  = render 'shared/select_help_text', f: f, for: :event_type_id, options: @conference.program.event_types do |event_type|
+    = event_type.description
 - if @program.languages.present?
   .form-group
   = f.label :language
   = f.select :language, @program.languages_list, { include_blank: false}, { class: 'select-help-toggle form-control' }
-= render 'shared/select_help_text', f: f, for: :event_type_id, options: @conference.program.event_types do |event_type|
-  = event_type.description
 - if display_details
   - if @conference.program.difficulty_levels.any?
     = f.label :difficulty_level
@@ -43,19 +43,14 @@
       = difficulty_level.description
 .form-group
   = f.label :abstract
+  %p
+    You have used
+    %span#abstract-count
+      = @event.abstract_word_count
+    words.
   = f.text_area :abstract, required: true, rows: 5, data: { provide: 'markdown' }, class: 'form-control'
   %span.help-block
     = markdown_hint('[Tips to improve your presentations.](http://blog.hubspot.com/blog/tabid/6307/bid/5975/10-Rules-to-Instantly-Improve-Your-Presentations.aspx)')
-  %p
-    You have used
-    %span#abstract-count = @event.abstract_word_count
-    words.  Abstracts must be between
-    %span#abstract-minimum-word-count
-      0
-    and
-    %span#abstract-maximum-word-count
-      250
-    words.
   - if display_registration && display_details
     %h4
       Event Registration
