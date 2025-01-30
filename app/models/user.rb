@@ -101,6 +101,7 @@ class User < ApplicationRecord
             presence:   true
 
   validate :biography_limit
+  validates :affiliation, length: { maximum: 150 }
 
   DISTRIBUTION_COLORS = {
     'Active'      => 'green',
