@@ -182,7 +182,7 @@ GEM
     dotenv-rails (3.1.7)
       dotenv (= 3.1.7)
       railties (>= 6.1)
-    erubi (1.13.0)
+    erubi (1.13.1)
     execjs (2.10.0)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
