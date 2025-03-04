@@ -585,7 +585,7 @@ GEM
     unicode-emoji (4.0.4)
     unobtrusive_flash (3.3.1)
       railties
-    uri (1.0.2)
+    uri (1.0.3)
     version_gem (1.1.4)
     warden (1.2.9)
       rack (>= 2.0.9)
