@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MoveConferenceRegistrationDataToRegistrationPeriods < ActiveRecord::Migration
+class MoveConferenceRegistrationDataToRegistrationPeriods < ActiveRecord::Migration[4.2]
   class TempConference < ActiveRecord::Base
     self.table_name = 'conferences'
   end
