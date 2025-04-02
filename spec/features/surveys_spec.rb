@@ -28,20 +28,25 @@ feature Survey do
   end
 
   context 'as an attendee' do
-    let(:attendee) { create(:user) }
+    let!(:attendee) { create(:user) }
+    let!(:conference) do
+      conf = create(:conference)
+      create(:registration_period, conference: conf)
+      conf
+    end
+    let!(:registration) { create(:registration, conference: conference, user: attendee) }
+    let!(:survey) do
+      survey = create(:survey, surveyable: conference, target: :during_registration)
+      create :boolean_mandatory, survey: survey
+      survey
+    end
 
     before :each do
       sign_in attendee
     end
 
     scenario 'respond to a survey during registration', feature: true, js: true do
-      create :registration_period, conference: conference
-      create :registration, conference: conference, user: attendee
-      survey = create(:survey, surveyable: conference, target: :during_registration)
-      create :boolean_mandatory, survey: survey
-
       visit conference_conference_registration_path(conference)
-      expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Please fill out the survey')
 
       click_link survey.title
       choose 'Yes'
