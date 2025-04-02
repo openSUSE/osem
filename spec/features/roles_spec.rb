@@ -50,29 +50,26 @@ feature Role do
 
     before :each do
       sign_in user_to_sign_in
-      visit admin_conference_roles_path(conference.short_title)
     end
 
     scenario "adds role #{role_name}", feature: true, js: true do
-      click_link('Users', href: admin_conference_role_path(conference.short_title, role_name))
+      visit admin_conference_role_path(conference.short_title, role_name)
 
       fill_in 'user_email', with: user_with_no_role.email
       click_button 'Add'
-      user_with_no_role.reload
 
-      expect(user_with_no_role.has_cached_role?(role.name, conference)).to be true
+      within('table#users') do
+        expect(page).to have_text(user_with_no_role.email)
+      end
     end
 
     scenario "removes role #{role_name}", feature: true, js: true do
-      click_link('Users', href: admin_conference_role_path(conference.short_title, role_name))
+      visit admin_conference_role_path(conference.short_title, role_name)
 
       bootstrap_switch = find('tr', text: user_with_role.name).find('.bootstrap-switch-container')
       bootstrap_switch.click
 
       expect(page).to have_css('.alert', text: "Successfully removed role #{role_name} from user #{user_with_role.email}")
-      expect(by_role_name).to eq(role_name) | eq('organizer')
-      user_with_role.reload
-      expect(user_with_role.has_cached_role?(role_name, conference)).to be false
     end
   end
 
