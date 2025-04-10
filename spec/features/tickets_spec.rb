@@ -45,8 +45,8 @@ feature Ticket do
         # It's necessary to multiply by 100 because the price is in cents
         page.find('#flash')
         expect(flash).to eq('Ticket successfully updated.')
-        expect(ticket.price).to eq(Money.new(50 * 100, 'USD'))
-        expect(ticket.title).to eq('Event Ticket')
+        expect(ticket.reload.price).to eq(Money.new(50 * 100, 'USD'))
+        expect(ticket.reload.title).to eq('Event Ticket')
         expect(Ticket.count).to eq(2)
       end
 

@@ -52,7 +52,7 @@ feature Registration do
         expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
         click_button 'Register'
 
-        expect(conference.user_registered?(participant)).to be(true)
+        expect(conference.reload.user_registered?(participant)).to be(true)
       end
     end
   end
