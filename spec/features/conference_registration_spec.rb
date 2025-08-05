@@ -46,11 +46,10 @@ feature Registration do
 
     context 'who is not registered' do
       scenario 'registers for a conference', feature: true, js: true do
-        visit root_path
-        click_link 'Register'
-
-        expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+        visit new_conference_conference_registration_path(conference.short_title)
         click_button 'Register'
+        page.find('#flash')
+        expect(flash).to eq('You are now registered and will be receiving E-Mail notifications.')
 
         expect(conference.user_registered?(participant)).to be(true)
       end
