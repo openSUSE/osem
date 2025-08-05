@@ -58,6 +58,8 @@ feature Role do
 
       fill_in 'user_email', with: user_with_no_role.email
       click_button 'Add'
+      page.find('.alert')
+
       user_with_no_role.reload
 
       expect(user_with_no_role.has_cached_role?(role.name, conference)).to be true
