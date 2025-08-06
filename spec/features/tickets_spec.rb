@@ -24,8 +24,8 @@ feature Ticket do
       fill_in 'ticket_price', with: '100'
 
       click_button 'Create Ticket'
-      page.find('#flash')
-      expect(flash).to eq('Ticket successfully created.')
+
+      within('#flash') { expect(page).to have_text('Ticket successfully created.') }
       expect(Ticket.count).to eq(2)
     end
 
@@ -41,8 +41,7 @@ feature Ticket do
 
         click_button 'Update Ticket'
 
-        page.find('#flash')
-        expect(flash).to eq('Ticket successfully updated.')
+        within('#flash') { expect(page).to have_text('Ticket successfully updated.') }
         expect(ticket.reload.price.to_i).to eq(50)
         expect(ticket.reload.title).to eq('Event Ticket')
         expect(Ticket.count).to eq(2)
@@ -52,8 +51,8 @@ feature Ticket do
         visit admin_conference_tickets_path(conference.short_title)
         click_link('Delete', href: admin_conference_ticket_path(conference.short_title, ticket.id))
         page.accept_alert
-        page.find('#flash')
-        expect(flash).to eq('Ticket successfully destroyed.')
+
+        within('#flash') { expect(page).to have_text('Ticket successfully destroyed.') }
         expect(Ticket.count).to eq(1)
       end
     end

@@ -26,8 +26,7 @@ feature Commercial do
     page.execute_script("$('#commercial_submit_action').prop('disabled', false)")
 
     click_button 'Create Commercial'
-    page.find('#flash')
-    expect(flash).to eq('Commercial was successfully created.')
+    within('#flash') { expect(page).to have_text('Commercial was successfully created.') }
   end
 
   scenario 'updates a commercial of an event', feature: true, js: true do
@@ -42,8 +41,7 @@ feature Commercial do
       page.execute_script("$('#commercial_submit_action').prop('disabled', false)")
       click_button 'Update Commercial'
     end
-    page.find('#flash')
-    expect(flash).to eq('Commercial was successfully updated.')
+    within('#flash') { expect(page).to have_text('Commercial was successfully updated.') }
     expect(event.commercials.count).to eq(1)
     commercial.reload
     expect(commercial.url).to eq('https://www.youtube.com/watch?v=M9bq_alk-sw')
@@ -58,8 +56,7 @@ feature Commercial do
     page.accept_alert do
       click_link 'Delete'
     end
-    page.find('#flash')
-    expect(flash).to eq('Commercial was successfully destroyed.')
+    within('#flash') { expect(page).to have_text('Commercial was successfully destroyed.') }
     expect(event.commercials.count).to eq(0)
   end
 end

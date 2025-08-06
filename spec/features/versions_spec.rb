@@ -20,8 +20,8 @@ feature 'Version' do
     fill_in 'contact_social_tag', with: 'example'
     fill_in 'contact_googleplus', with: 'http:\\www.google.com'
     click_button 'Update Contact'
-    page.find('#flash')
-    expect(flash).to eq('Contact details were successfully updated.')
+
+    within('#flash') { expect(page).to have_text('Contact details were successfully updated.') }
 
     visit admin_revision_history_path
     expect(page).to have_text("#{organizer.name} updated social tag, email, googleplus and sponsor email of contact details in conference #{conference.short_title}")

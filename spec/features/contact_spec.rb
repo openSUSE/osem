@@ -15,12 +15,9 @@ feature Contact do
       visit edit_admin_conference_contact_path(conference.short_title)
       fill_in 'contact_' + field_name, with: field_value
       click_button 'Update Contact'
-      page.find('#flash')
-      expect(flash)
-          .to eq('Contact details were successfully updated.')
-      contact.reload
+      within('#flash') { expect(page).to have_text('Contact details were successfully updated.') }
 
-      expect(contact.send(field_name)).to eq(field_value)
+      expect(contact.reload.send(field_name)).to eq(field_value)
       expect(Contact.count).to eq(expected_count)
     end
   end

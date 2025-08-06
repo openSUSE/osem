@@ -27,7 +27,7 @@ feature 'BaseController' do
       it 'not an admin it redirects to root_path' do
         visit admin_conferences_path
         expect(current_path).to eq root_path
-        expect(flash).to eq 'You are not authorized to access this page.'
+        within('#flash') { expect(page).to have_text('You are not authorized to access this page.') }
       end
 
       it 'an admin they can access the admin area' do

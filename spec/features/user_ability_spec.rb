@@ -14,9 +14,9 @@ feature 'Has correct abilities' do
 
     scenario 'for administration views' do
       visit admin_conference_path(conference.short_title)
-      page.find('#flash')
+
       expect(current_path).to eq root_path
-      expect(flash).to eq 'You are not authorized to access this page.'
+      within('#flash') { expect(page).to have_text('You are not authorized to access this page.') }
     end
   end
 end

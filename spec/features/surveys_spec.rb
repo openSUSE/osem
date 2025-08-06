@@ -18,12 +18,12 @@ feature Survey do
       click_link 'New'
       fill_in 'Title', with: 'Example Survey'
       click_button 'Create Survey'
-      expect(flash).to eq('Successfully created survey')
+      within('#flash') { expect(page).to have_text('Successfully created survey') }
 
       fill_in :survey_question_title, with: 'Example question'
       select 'boolean', from: 'Type of Question:', visible: false # Hidden by bootstrap-select
       click_button 'Create Survey question'
-      expect(flash).to eq('Successfully created Survey Question.')
+      within('#flash') { expect(page).to have_text('Successfully created Survey Question.') }
     end
   end
 
@@ -46,7 +46,7 @@ feature Survey do
       click_link survey.title
       choose 'Yes'
       click_button 'Submit'
-      expect(flash).to eq('Successfully responded to survey.')
+      within('#flash') { expect(page).to have_text('Successfully responded to survey.') }
 
       visit conference_conference_registration_path(conference)
       expect(find(:link, survey.title).sibling('.fa-solid')[:title]).to eq('Thank you for filling out the survey')

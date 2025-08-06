@@ -23,8 +23,7 @@ feature Resource do
       click_button 'Create Resource'
 
       expect(Resource.count).to eq(2)
-      page.find('#flash')
-      expect(flash).to eq('Resource successfully created.')
+      within('#flash') { expect(page).to have_text('Resource successfully created.') }
     end
 
     scenario 'edit an existing resource' do
@@ -32,18 +31,16 @@ feature Resource do
       click_link('Edit')
       fill_in 'resource_name', with: 'changed_name'
       click_button 'Update Resource'
-      resource.reload
-      page.find('#flash')
-      expect(flash).to eq('Resource successfully updated.')
-      expect(resource.name).to eq('changed_name')
+
+      within('#flash') { expect(page).to have_text('Resource successfully updated.') }
+      expect(resource.reload.name).to eq('changed_name')
     end
 
     scenario 'destroy a resource' do
       visit admin_conference_resources_path(conference.short_title)
       click_link('Delete', href: admin_conference_resource_path(conference.short_title, resource.id))
 
-      page.find('#flash')
-      expect(flash).to eq('Resource successfully destroyed.')
+      within('#flash') { expect(page).to have_text('Resource successfully destroyed.') }
     end
   end
 end

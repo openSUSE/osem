@@ -93,7 +93,6 @@ RSpec.configure do |config|
   config.include OmniauthMacros
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include LoginMacros, type: :feature
-  config.include Flash, type: :feature
   config.include Sidebar, type: :view
   config.include Devise::Test::ControllerHelpers, type: :view
 

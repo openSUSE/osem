@@ -18,11 +18,9 @@ feature Lodging do
     fill_in 'lodging_name', with: 'New lodging'
     fill_in 'lodging_website_link', with: 'http://www.google.com'
     attach_file 'Picture', path
-
     click_button 'Create Lodging'
-    page.find('#flash')
-    # Validations
-    expect(flash).to eq('Lodging successfully created.')
+
+    within('#flash') { expect(page).to have_text('Lodging successfully created.') }
     expect(page.has_content?('New lodging')).to be true
     expect(Lodging.count).to eq(1)
   end
@@ -44,11 +42,9 @@ feature Lodging do
     fill_in 'lodging_name', with: 'New lodging'
     fill_in 'lodging_website_link', with: 'http://www.google.com'
     attach_file 'Picture', path
-
     click_button 'Update Lodging'
-    page.find('#flash')
-    # Validations
-    expect(flash).to eq('Lodging successfully updated.')
+
+    within('#flash') { expect(page).to have_text('Lodging successfully updated.') }
     expect(page.has_content?('New lodging')).to be true
     lodging.reload
     expect(lodging.name).to eq('New lodging')
@@ -69,9 +65,8 @@ feature Lodging do
     page.accept_alert do
       click_link 'Delete'
     end
-    page.find('#flash')
-    # Validations
-    expect(flash).to eq('Lodging successfully deleted.')
+
+    within('#flash') { expect(page).to have_text('Lodging successfully deleted.') }
     expect(page.has_content?(CGI.escapeHTML(lodging.name))).to be false
     expect(Lodging.count).to eq(0)
   end
