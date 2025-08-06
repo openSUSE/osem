@@ -7,22 +7,21 @@ feature Track do
   let!(:organizer) { create(:organizer, resource: conference) }
   let(:user) { create(:user) }
 
-  shared_examples 'admin tracks' do
+  describe 'organizer' do
     scenario 'adds a track', feature: true, js: true do
 
       sign_in organizer
 
-      expected = expect do
+      expect do
         visit admin_conference_program_tracks_path(conference_id: conference.short_title)
         click_link 'New Track'
 
         fill_in 'track_name', with: 'Distribution'
         fill_in 'track_short_name', with: 'Distribution'
         click_button 'Create Track'
-      end
+        within('#flash') { expect(page).to have_text('Track successfully created.') }
+      end.to change { Track.count }.by 1
 
-      expected.to change { Track.count }.by 1
-      within('#flash') { expect(page).to have_text('Track successfully created.') }
       within('table#tracks') do
         expect(page.has_content?('Distribution')).to be true
       end
@@ -48,7 +47,7 @@ feature Track do
       create(:track, program_id: conference.program.id)
       sign_in organizer
 
-      expected = expect do
+      expect do
         visit admin_conference_program_tracks_path(conference_id: conference.short_title)
         within('#tracks', visible: true) do
           click_link 'Edit'
@@ -58,10 +57,9 @@ feature Track do
         fill_in 'track_short_name', with: 'Distribution'
         fill_in 'track_description', with: 'Events about our Linux distribution'
         click_button 'Update Track'
-      end
-      expected.to_not(change { Track.count })
+        within('#flash') { expect(page).to have_text('Track successfully updated.') }
+      end.to_not(change { Track.count })
 
-      within('#flash') { expect(page).to have_text('Track successfully updated.') }
       within('table#tracks') do
         expect(page.has_content?('Distribution')).to be true
         expect(page.has_content?('Events about our Linux')).to be true
@@ -69,12 +67,16 @@ feature Track do
     end
   end
 
-  shared_examples 'non admin tracks' do
+  describe 'signed in user' do
+    before :each do
+      create(:cfp, cfp_type: 'tracks', program: conference.program)
+    end
+
     scenario 'adds a track', feature: true, js: true do
 
       sign_in user
 
-      expected = expect do
+      expect do
         visit conference_program_tracks_path(conference_id: conference.short_title)
         click_link 'New Track request'
 
@@ -83,10 +85,9 @@ feature Track do
         fill_in 'track_description', with: 'Events about our Linux distribution'
         fill_in 'track_relevance', with: 'Maintainer of super awesome distribution'
         click_button 'Create Track'
-      end
+        within('#flash') { expect(page).to have_text('Track request successfully created.') }
+      end.to change { Track.count }.by 1
 
-      expected.to change { Track.count }.by 1
-      within('#flash') { expect(page).to have_text('Track request successfully created.') }
       within('table#tracks') do
         expect(page.has_content?('Distribution')).to be true
         expect(page.has_content?('Events about our Linux dist...')).to be true
@@ -97,16 +98,15 @@ feature Track do
       track = create(:track, :self_organized, program_id: conference.program.id, submitter: user)
       sign_in user
 
-      expected = expect do
+      expect do
         visit conference_program_tracks_path(conference_id: conference.short_title)
 
         accept_confirm do
           click_link 'Withdraw'
         end
-      end
+        within('#flash') { expect(page).to have_text("Track #{track.name} withdrawn.") }
+      end.to_not(change { Track.count })
 
-      expected.to_not(change { Track.count })
-      within('#flash') { expect(page).to have_text("Track #{track.name} withdrawn.") }
       within('table#tracks') do
         expect(page.has_content?(track.name)).to be true
         expect(page.has_link?('Re-Submit')).to be true
@@ -117,7 +117,7 @@ feature Track do
       create(:track, :self_organized, program_id: conference.program.id, submitter: user)
       sign_in user
 
-      expected = expect do
+      expect do
         visit conference_program_tracks_path(conference_id: conference.short_title)
         click_link 'Edit'
 
@@ -125,26 +125,13 @@ feature Track do
         fill_in 'track_short_name', with: 'Distribution'
         fill_in 'track_description', with: 'Events about our Linux distribution'
         click_button 'Update Track'
-      end
+        within('#flash') { expect(page).to have_text('Track request successfully updated.') }
+      end.to_not(change { Track.count })
 
-      expected.to_not(change { Track.count })
-      within('#flash') { expect(page).to have_text('Track request successfully updated.') }
       within('table#tracks') do
         expect(page.has_content?('Distribution')).to be true
         expect(page.has_content?('Events about our Linux dist...')).to be true
       end
     end
-  end
-
-  describe 'organizer' do
-    it_behaves_like 'admin tracks'
-  end
-
-  describe 'signed in user' do
-    before :each do
-      create(:cfp, cfp_type: 'tracks', program: conference.program)
-    end
-
-    it_behaves_like 'non admin tracks'
   end
 end
