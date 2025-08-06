@@ -24,9 +24,7 @@ feature Conference do
       fill_in 'conference_end_date', with: (today + 7).strftime('%Y/%m/%d')
       click_button 'Create Conference'
 
-      page.find('#flash')
-      expect(flash)
-          .to eq('Conference was successfully created.')
+      within('#flash') { expect(page).to have_text('Conference was successfully created.') }
       expect(Conference.count).to eq(expected_count)
       user.reload
       expect(user.has_cached_role? :organizer, Conference.last).to be(true)
@@ -51,8 +49,7 @@ feature Conference do
         click_button 'Update Conference'
       end
 
-      page.find('#flash')
-      expect(flash).to eq('Conference was successfully updated.')
+      within('#flash') { expect(page).to have_text('Conference was successfully updated.') }
 
       conference.reload
       expect(conference.title).to eq('New Con')

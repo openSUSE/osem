@@ -25,9 +25,9 @@ feature Conference do
               with: 'Lorem ipsum dolor sit amet, consetetur' \
               'sadipscing elitr, sed diam nonumy eirmod tempor'
       click_button 'Create Venue'
-      page.find('#flash')
-      expect(flash)
-          .to eq('Venue was successfully created.')
+
+      within('#flash') { expect(page).to have_text('Venue was successfully created.') }
+
       venue = Conference.find(conference.id).venue
       expect(venue.name).to eq('Example University')
       expect(venue.street).to eq('Example Street 42')
@@ -41,13 +41,12 @@ feature Conference do
       fill_in 'venue_website', with: 'www.example.com new'
       fill_in 'venue_description', with: 'new'
       click_button 'Update Venue'
-      page.find('#flash')
-      expect(flash)
-          .to eq('Venue was successfully updated.')
-      venue.reload
-      expect(venue.name).to eq('Example University new')
-      expect(venue.website).to eq('www.example.com new')
-      expect(venue.description).to eq('new')
+
+      within('#flash') { expect(page).to have_text('Venue was successfully updated.') }
+
+      expect(venue.reload.name).to eq('Example University new')
+      expect(venue.reload.website).to eq('www.example.com new')
+      expect(venue.reload.description).to eq('new')
     end
   end
 

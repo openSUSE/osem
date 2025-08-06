@@ -27,9 +27,7 @@ feature EventType do
       page.find('#event_type_color').set('#e4e4e4')
 
       click_button 'Create Event type'
-      page.find('#flash')
-      # Validations
-      expect(flash).to eq('Event type successfully created.')
+      within('#flash') { expect(page).to have_text('Event type successfully created.') }
       within('table#event_types > tbody') do
         expect(page.has_content?('Party')).to be true
         expect(page.has_content?('13042')).to be true
@@ -41,9 +39,8 @@ feature EventType do
       within('tr', text: 'Party') do
         click_link 'Delete'
       end
-      page.find('#flash')
-      expect(flash).to eq('Event type successfully deleted.')
 
+      within('#flash') { expect(page).to have_text('Event type successfully deleted.') }
       within('table#event_types > tbody') do
         expect(page.assert_selector('tr', count: 2)).to be true
         expect(page.has_content?('Party')).to be false

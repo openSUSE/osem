@@ -20,10 +20,9 @@ feature Role do
       click_link('Edit', href: edit_admin_conference_role_path(conference.short_title, role_name))
       fill_in 'role_description', with: 'changed description'
       click_button 'Update Role'
-      role.reload
-      page.find('#flash')
-      expect(flash).to eq("Successfully updated role #{role_name}")
-      expect(role.description).to eq('changed description')
+
+      within('#flash') { expect(page).to have_text("Successfully updated role #{role_name}") }
+      expect(role.reload.description).to eq('changed description')
     end
   end
 

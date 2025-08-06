@@ -14,7 +14,8 @@ feature User do
       end
       fill_in 'Name', with: 'Edited Name'
       click_button 'Update User'
-      expect(flash).to include('Updated Edited Name')
+
+      within('#flash') { expect(page).to have_text('Updated Edited Name') }
     end
   end
 

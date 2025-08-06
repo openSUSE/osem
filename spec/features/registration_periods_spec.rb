@@ -25,8 +25,7 @@ feature RegistrationPeriod do
         fill_in 'registration_period_start_date', with: start_date.strftime('%Y/%m/%d')
         fill_in 'registration_period_end_date', with: end_date.strftime('%Y/%m/%d')
         click_button 'Save Registration Period'
-        page.find('#flash')
-        expect(flash).to eq('Registration Period successfully updated.')
+        within('#flash') { expect(page).to have_text('Registration Period successfully updated.') }
         expect(current_path).to eq(admin_conference_registration_period_path(conference.short_title))
         expect(page).to have_text("Ticket required?\nYes")
       end
@@ -37,8 +36,7 @@ feature RegistrationPeriod do
         fill_in 'registration_period_start_date', with: start_date.strftime('%Y-%m-%d')
         fill_in 'registration_period_end_date', with: end_date.strftime('%Y-%m-%d')
         click_button 'Save Registration Period'
-        page.find('#flash')
-        expect(flash).to eq('Registration Period successfully updated.')
+        within('#flash') { expect(page).to have_text('Registration Period successfully updated.') }
         expect(current_path).to eq(admin_conference_registration_period_path(conference.short_title))
         expect(page).to have_text("Ticket required?\nNo")
       end

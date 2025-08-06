@@ -21,10 +21,8 @@ feature Program do
       fill_in 'program_rating', with: '4'
 
       click_button 'Update Program'
-      page.find('#flash')
-      # Validations
-      expect(flash)
-          .to eq('The program was successfully updated.')
+
+      within('#flash') { expect(page).to have_text('The program was successfully updated.') }
       expect(find('#rating').text).to eq('4')
     end
   end

@@ -54,10 +54,8 @@ feature EmailSettings do
               with: 'Updated conference venue template'
 
       click_button 'Update Email settings'
-      page.find('#flash')
-      expect(flash)
-          .to eq('Email settings have been successfully updated.')
 
+      within('#flash') { expect(page).to have_text('Email settings have been successfully updated.') }
       expect(find('#email_settings_registration_subject')
                  .value).to eq('Registration subject')
       expect(find('#email_settings_registration_body')

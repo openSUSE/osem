@@ -20,9 +20,8 @@ feature SponsorshipLevel do
       fill_in 'sponsorship_level_title', with: 'Platin'
 
       click_button 'Create Sponsorship level'
-      page.find('#flash')
-      # Validations
-      expect(flash).to eq('Sponsorship level successfully created.')
+
+      within('#flash') { expect(page).to have_text('Sponsorship level successfully created.') }
       within('table#sponsorship_levels') do
         expect(page.has_content?('Platin')).to be true
         expect(page.assert_selector('tr', count: 2)).to be true
@@ -38,9 +37,8 @@ feature SponsorshipLevel do
       fill_in 'sponsorship_level_title', with: 'Gold'
 
       click_button 'Update Sponsorship level'
-      page.find('#flash')
-      # Validations
-      expect(flash).to eq('Sponsorship level successfully updated.')
+
+      within('#flash') { expect(page).to have_text('Sponsorship level successfully updated.') }
       within('table#sponsorship_levels') do
         expect(page.has_content?('Gold')).to be true
         expect(page.assert_selector('tr', count: 2)).to be true
