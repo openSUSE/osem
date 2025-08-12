@@ -8,7 +8,7 @@
 # Methods of this module must match whatever Rails version is defined in Gemfile.next.lock.
 # Matching on major and minor versions should be enough for most migrations.
 module RailsVersion
-  def self.is_6?
-    Rails::VERSION::MAJOR == 6
+  def self.next?
+    Rails::VERSION::MAJOR == 7 && Rails::VERSION::MINOR == 2
   end
 end
