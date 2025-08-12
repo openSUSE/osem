@@ -192,9 +192,11 @@ gem 'icalendar'
 # to tame logs
 gem 'lograge'
 
-# FIXME: https://github.com/ruby-concurrency/concurrent-ruby/commit/d7ce956dacd0b772273d39b8ed31a30cff7ecf38
-#        remove after updating to rails to >7.1
-gem 'concurrent-ruby', '1.3.4'
+unless next?
+  # FIXME: https://github.com/ruby-concurrency/concurrent-ruby/commit/d7ce956dacd0b772273d39b8ed31a30cff7ecf38
+  #        remove after updating to rails to >7.1
+  gem 'concurrent-ruby', '1.3.4'
+end
 
 group :development do
   # for static code analisys
