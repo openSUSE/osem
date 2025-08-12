@@ -233,8 +233,8 @@ class Track < ApplicationRecord
     (program.tracks.accepted + program.tracks.confirmed - [self]).each do |existing_track|
       next unless existing_track.room == room && existing_track.start_date && existing_track.end_date
 
-      if start_date >= existing_track.start_date && start_date <= existing_track.end_date ||
-         end_date >= existing_track.start_date && end_date <= existing_track.end_date ||
+      if start_date.between?(existing_track.start_date, existing_track.end_date) ||
+         end_date.between?(existing_track.start_date, existing_track.end_date) ||
          start_date <= existing_track.start_date && end_date >= existing_track.end_date
         errors.add(:track, 'has overlapping dates with a confirmed or accepted track in the same room')
         break

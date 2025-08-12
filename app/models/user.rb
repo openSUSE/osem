@@ -30,6 +30,7 @@ class User < ApplicationRecord
                                                    :avatar_content_type, :avatar_file_size, :avatar_updated_at, :updated_at, :confirmation_sent_at, :confirmation_token, :reset_password_token]
 
   include Gravtastic
+
   gravtastic size: 32
 
   before_create :setup_role
@@ -238,7 +239,7 @@ class User < ApplicationRecord
   end
 
   def registered
-    if registrations.count == 0
+    if registrations.none?
       'None'
     else
       registrations.map { |r| r.conference.title }.join ', '
@@ -247,7 +248,7 @@ class User < ApplicationRecord
 
   def attended
     registrations_attended = registrations.where(attended: true)
-    if registrations_attended.count == 0
+    if registrations_attended.none?
       'None'
     else
       registrations_attended.map { |r| r.conference.title }.join ', '
@@ -271,7 +272,7 @@ class User < ApplicationRecord
   end
 
   def self.empty?
-    User.count == 1 && User.first.email == 'deleted@localhost.osem'
+    User.one? && User.first.email == 'deleted@localhost.osem'
   end
 
   private

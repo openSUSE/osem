@@ -69,7 +69,7 @@ module Admin
       end
 
       # The conference must have at least 1 organizer
-      if @role.name == 'organizer' && state == 'false' && @role.users.count == 1
+      if @role.name == 'organizer' && state == 'false' && @role.users.one?
         redirect_to admin_conference_role_path(@conference.short_title, @role.name),
                     error: 'The conference must have at least 1 organizer!'
         return

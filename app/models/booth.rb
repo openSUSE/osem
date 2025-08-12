@@ -2,6 +2,7 @@
 
 class Booth < ApplicationRecord
   include ActiveRecord::Transitions
+
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
   belongs_to :conference

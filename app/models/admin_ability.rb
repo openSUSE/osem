@@ -141,7 +141,7 @@ class AdminAbility
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
-      role.resource_type == 'Conference' || role.resource_type == 'Track'
+      ['Conference', 'Track'].include?(role.resource_type)
     end
 
     can [:edit, :update, :toggle_user], Role do |role|
@@ -180,7 +180,7 @@ class AdminAbility
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
-      role.resource_type == 'Conference' || role.resource_type == 'Track'
+      ['Conference', 'Track'].include?(role.resource_type)
     end
     # Can add or remove users from role, when user has that same role for the conference
     # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
@@ -218,7 +218,7 @@ class AdminAbility
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
-      role.resource_type == 'Conference' || role.resource_type == 'Track'
+      ['Conference', 'Track'].include?(role.resource_type)
     end
     # Can add or remove users from role, when user has that same role for the conference
     # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
@@ -242,7 +242,7 @@ class AdminAbility
 
     # Abilities for Role (Conference resource)
     can [:index, :show], Role do |role|
-      role.resource_type == 'Conference' || role.resource_type == 'Track'
+      ['Conference', 'Track'].include?(role.resource_type)
     end
     # Can add or remove users from role, when user has that same role for the conference
     # Eg. If you are member of the CfP team, you can add more CfP team members (add users to the role 'CfP')
@@ -278,7 +278,7 @@ class AdminAbility
 
     # Show Roles in the admin sidebar and allow authorization of the index action
     can [:index, :show], Role do |role|
-      role.resource_type == 'Conference' || role.resource_type == 'Track'
+      ['Conference', 'Track'].include?(role.resource_type)
     end
 
     can :toggle_user, Role do |role|

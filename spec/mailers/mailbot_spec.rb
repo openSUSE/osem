@@ -32,7 +32,7 @@ describe Mailbot do
     end
 
     describe '.registration_mail' do
-      include_examples 'mailer actions' do
+      it_behaves_like 'mailer actions' do
         let(:mail) { Mailbot.registration_mail(conference, user).deliver_now }
       end
     end
@@ -44,7 +44,7 @@ describe Mailbot do
                                          accepted_body:    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
       end
 
-      include_examples 'mailer actions' do
+      it_behaves_like 'mailer actions' do
         let(:mail) { Mailbot.acceptance_mail(event).deliver_now }
       end
     end
@@ -56,7 +56,7 @@ describe Mailbot do
                                          rejected_body:    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
       end
 
-      include_examples 'mailer actions' do
+      it_behaves_like 'mailer actions' do
         let(:mail) { Mailbot.rejection_mail(event).deliver_now }
       end
     end
@@ -68,7 +68,7 @@ describe Mailbot do
                                          confirmed_without_registration_body:    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit')
       end
 
-      include_examples 'mailer actions' do
+      it_behaves_like 'mailer actions' do
         let(:mail) { Mailbot.confirm_reminder_mail(event).deliver_now }
       end
     end

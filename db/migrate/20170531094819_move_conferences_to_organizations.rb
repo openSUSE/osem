@@ -13,7 +13,7 @@ class MoveConferencesToOrganizations < ActiveRecord::Migration
     add_reference :conferences, :organization, index: true
 
     TempConference.reset_column_information
-    if TempConference.count != 0
+    if TempConference.any?
       organization = TempOrganization.create(name: 'organization', description: 'Default organization')
       TempConference.all.each do |conference|
         conference.organization_id = organization.id

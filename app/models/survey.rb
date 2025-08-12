@@ -25,7 +25,7 @@ class Survey < ActiveRecord::Base
     now = Time.current.in_time_zone(timezone)
 
     if start_date && end_date
-      now >= start_date && now <= end_date
+      now.between?(start_date, end_date)
     elsif start_date && !end_date
       now >= start_date
     elsif !start_date && end_date

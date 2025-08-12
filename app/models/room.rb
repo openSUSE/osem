@@ -2,6 +2,7 @@
 
 class Room < ApplicationRecord
   include RevisionCount
+
   belongs_to :venue
   has_many :event_schedules, dependent: :destroy
   has_many :tracks
