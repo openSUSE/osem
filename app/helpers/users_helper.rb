@@ -14,11 +14,6 @@ module UsersHelper
 
     providers = []
     Devise.omniauth_providers.each do |provider|
-      provider_key = "#{provider}_key"
-      provider_secret = "#{provider}_secret"
-      unless Rails.application.secrets.send(provider_key).blank? || Rails.application.secrets.send(provider_secret).blank?
-        providers << provider
-      end
       providers << provider if ENV.fetch("OSEM_#{provider.upcase}_KEY", nil).present? && ENV.fetch("OSEM_#{provider.upcase}_SECRET", nil).present?
     end
 
