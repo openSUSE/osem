@@ -42,7 +42,7 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
 
-        if Rails.application.secrets.stripe_publishable_key
+        if ENV.fetch('STRIPE_PUBLISHABLE_KEY', nil)
           find('.stripe-button-el').click
 
           stripe_iframe = all('iframe[name=stripe_checkout_app]').last
@@ -81,7 +81,7 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
 
-        if Rails.application.secrets.stripe_publishable_key
+        if ENV.fetch('STRIPE_PUBLISHABLE_KEY', nil)
           find('.stripe-button-el').click
 
           stripe_iframe = all('iframe[name=stripe_checkout_app]').last
@@ -172,7 +172,7 @@ feature Registration do
         purchase = TicketPurchase.where(user_id: participant.id, ticket_id: ticket.id).first
         expect(purchase.quantity).to eq(2)
 
-        if Rails.application.secrets.stripe_publishable_key
+        if ENV.fetch('STRIPE_PUBLISHABLE_KEY', nil)
           find('.stripe-button-el').click
 
           stripe_iframe = all('iframe[name=stripe_checkout_app]').last
