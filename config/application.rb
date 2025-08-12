@@ -36,6 +36,6 @@ module Osem
     # This is a nightmare with our current data model, no one ever thought about this.
     config.active_record.belongs_to_required_by_default = false
     # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
-    config.active_record.yaml_column_permitted_classes = ['Date', 'DateTime', 'Symbol', 'Time', 'ActiveSupport::TimeWithZone', 'ActiveSupport::TimeZone']
+    config.active_record.yaml_column_permitted_classes = [Date, DateTime, Symbol, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone]
   end
 end

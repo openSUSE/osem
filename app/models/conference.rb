@@ -4,7 +4,12 @@ class Conference < ApplicationRecord
   include RevisionCount
 
   require 'uri'
-  serialize :events_per_week, Hash
+
+  if RailsVersion.next?
+    serialize :events_per_week, type: Hash
+  else
+    serialize :events_per_week, Hash
+  end
   # Needed to call 'Conference.with_role' in /models/ability.rb
   # Dependent destroy will fail as roles#destroy will be cancelled,hence delete_all
   resourcify :roles, dependent: :delete_all
@@ -826,7 +831,12 @@ class Conference < ApplicationRecord
           unless result[state.to_s.capitalize]
             result[state.to_s.capitalize] = {}
           end
-          result[state.to_s.capitalize][week.strftime('%W').to_i] = value
+          week_date_time = if RailsVersion.next?
+                             DateTime.parse(week)
+                           else
+                             week
+                           end
+          result[state.to_s.capitalize][week_date_time.strftime('%W').to_i] = value
         end
       end
     end
