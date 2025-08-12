@@ -8,7 +8,7 @@ class MigrateRolesForCancancan < ActiveRecord::Migration
     Role.all.each do |role|
       role.users.each do |user|
         Conference.all.each do |conference|
-          if role.name == 'Admin' || role.name == 'Organizer'
+          if ['Admin', 'Organizer'].include?(role.name)
             user.add_role :organizer, conference
             user.update_columns(is_admin: true)
           else

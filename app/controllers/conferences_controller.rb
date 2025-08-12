@@ -50,14 +50,14 @@ class ConferencesController < ApplicationController
         ).order('tracks.name')
       end
       if splashpage.include_booths
-        @booths = @conference.confirmed_booths.order('title')
+        @booths = @conference.confirmed_booths.order(:title)
       end
     end
     if splashpage.include_registrations || splashpage.include_tickets
-      @tickets = @conference.tickets.order('price_cents')
+      @tickets = @conference.tickets.order(:price_cents)
     end
     if splashpage.include_lodgings
-      @lodgings = @conference.lodgings.order('name')
+      @lodgings = @conference.lodgings.order(:name)
     end
     if splashpage.include_sponsors
       @sponsorship_levels = @conference.sponsorship_levels.eager_load(

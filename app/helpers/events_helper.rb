@@ -39,7 +39,7 @@ module EventsHelper
   end
 
   def canceled_replacement_event_label(event, event_schedule, *label_classes)
-    if event.state == 'canceled' || event.state == 'withdrawn'
+    if ['canceled', 'withdrawn'].include?(event.state)
       content_tag :span, 'CANCELED', class: (['label', 'label-danger'] + label_classes)
     elsif event_schedule.present? && event_schedule.replacement?(@withdrawn_event_schedules)
       content_tag :span, 'REPLACEMENT', class: (['label', 'label-info'] + label_classes)

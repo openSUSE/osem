@@ -7,13 +7,13 @@ namespace :events_registrations do
       duplicates = EventsRegistration.all.map { |er| er.id if er.valid? == false}.compact
 
       puts "Duplicates found: #{duplicates.count}"
-      if duplicates.count > 0
+      if duplicates.any?
         puts "With IDs: #{duplicates}"
       end
 
       EventsRegistration.all.each do |er|
         records = EventsRegistration.where(registration_id: er.registration_id, event_id: er.event_id)
-        if records.count > 1
+        if records.many?
           # Iterate through duplicates (excluding 1st record)
           (1..(records.count - 1)).each do |i|
             puts "Deleting EventsRegistration record with ID #{records[i].id} ..."

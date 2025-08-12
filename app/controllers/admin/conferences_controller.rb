@@ -8,7 +8,7 @@ module Admin
 
     def index
       # Redirect to new form if there is no conference
-      if Conference.count == 0
+      if Conference.none?
         redirect_to new_admin_conference_path
         return
       end

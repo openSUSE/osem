@@ -2,13 +2,14 @@
 
 class Conference < ApplicationRecord
   include RevisionCount
+
   require 'uri'
   serialize :events_per_week, Hash
   # Needed to call 'Conference.with_role' in /models/ability.rb
   # Dependent destroy will fail as roles#destroy will be cancelled,hence delete_all
   resourcify :roles, dependent: :delete_all
 
-  default_scope { order('start_date DESC') }
+  default_scope { order(start_date: :desc) }
   scope :upcoming, (-> { where(end_date: Date.current..) })
   scope :past, (-> { where(end_date: ...Date.current) })
 
@@ -39,7 +40,7 @@ class Conference < ApplicationRecord
   has_many :participants, through: :registrations, source: :user
   has_many :vdays, dependent: :destroy
   has_many :vpositions, dependent: :destroy
-  has_many :sponsorship_levels, -> { order('position ASC') }, dependent: :destroy
+  has_many :sponsorship_levels, -> { order(:position) }, dependent: :destroy
   has_many :sponsors, dependent: :destroy
   has_many :commercials, as: :commercialable, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
@@ -107,7 +108,7 @@ class Conference < ApplicationRecord
   # * +false+ -> If the user is registered
   # * +true+ - If the user isn't registered
   def user_registered? user
-    user.present? && registrations.where(user_id: user.id).count > 0
+    user.present? && registrations.where(user_id: user.id).any?
   end
 
   ##
@@ -350,7 +351,7 @@ class Conference < ApplicationRecord
   # * +hash+ -> user: submissions
   def self.get_top_submitter(limit = 5)
     submitter = EventUser.select(:user_id).where('event_role = ?', 'submitter').limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count(:all)
+    counter = submitter.order(count_all: :desc).count(:all)
     calculate_user_submission_hash(submitter, counter)
   end
 
@@ -363,7 +364,7 @@ class Conference < ApplicationRecord
     submitter = EventUser.joins(:event).select(:user_id)
         .where('event_role = ? and program_id = ?', 'submitter', Conference.find(id).program.id)
         .limit(limit).group(:user_id)
-    counter = submitter.order('count_all desc').count(:all)
+    counter = submitter.order(count_all: :desc).count(:all)
     Conference.calculate_user_submission_hash(submitter, counter)
   end
 
@@ -921,7 +922,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One difficulty level or more
   # * +False+ -> No diffculty level
   def difficulty_levels_set?
-    program.difficulty_levels.count > 0
+    program.difficulty_levels.any?
   end
 
   ##
@@ -931,7 +932,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One difficulty level or more
   # * +False+ -> No diffculty level
   def event_types_set?
-    program.event_types.count > 0
+    program.event_types.any?
   end
 
   ##
@@ -941,7 +942,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One track or more
   # * +False+ -> No track
   def tracks_set?
-    program.tracks.count > 0
+    program.tracks.any?
   end
 
   ##
@@ -951,7 +952,7 @@ class Conference < ApplicationRecord
   # * +True+ -> One room or more
   # * +False+ -> No room
   def rooms_set?
-    venue.present? && venue.rooms.count > 0
+    venue.present? && venue.rooms.any?
   end
 
   # Checks if the conference has a venue object.
