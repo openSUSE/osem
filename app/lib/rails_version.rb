@@ -9,6 +9,6 @@
 # Matching on major and minor versions should be enough for most migrations.
 module RailsVersion
   def self.next?
-    Rails::VERSION::MAJOR == 7 && Rails::VERSION::MINOR == 2
+    Rails::VERSION::MAJOR == 8 && Rails::VERSION::MINOR == 0
   end
 end
