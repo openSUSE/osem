@@ -624,7 +624,7 @@ GEM
     sysexits (1.2.0)
     temple (0.8.2)
     thor (1.4.0)
-    tilt (2.0.10)
+    tilt (2.6.1)
     timecop (0.9.4)
     timeout (0.4.3)
     transitions (1.2.1)
