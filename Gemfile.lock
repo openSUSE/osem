@@ -419,7 +419,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (4.3.8)
+    puma (6.6.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.16)
