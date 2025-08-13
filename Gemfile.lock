@@ -205,7 +205,7 @@ GEM
       logger
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
-    fastimage (2.2.5)
+    fastimage (2.4.0)
     feature (1.4.0)
     ffi (1.17.2)
     font-awesome-sass (6.7.2)
