@@ -156,6 +156,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv (3.3.5)
     daemons (1.4.0)
     dalli (2.7.11)
     dante (0.2.0)
@@ -192,11 +193,11 @@ GEM
     erubi (1.13.1)
     erubis (2.7.0)
     execjs (2.8.1)
-    factory_bot (6.2.0)
-      activesupport (>= 5.0.0)
-    factory_bot_rails (6.2.0)
-      factory_bot (~> 6.2.0)
-      railties (>= 5.0.0)
+    factory_bot (6.5.4)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.5.0)
+      factory_bot (~> 6.5)
+      railties (>= 6.1.0)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
     faraday (1.7.0)
@@ -270,7 +271,8 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    iso-639 (0.3.5)
+    iso-639 (0.3.8)
+      csv
     jquery-datatables-rails (3.4.0)
       actionpack (>= 3.1)
       jquery-rails
@@ -772,7 +774,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.3.9
+   ruby 3.4.5
 
 BUNDLED WITH
-   2.5.22
+   2.6.9
