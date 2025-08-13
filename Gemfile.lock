@@ -772,7 +772,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.3.9
+   ruby 3.4.5
 
 BUNDLED WITH
-   2.5.22
+   2.6.9
