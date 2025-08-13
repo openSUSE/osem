@@ -16,6 +16,10 @@ describe ConferenceRegistrationsController, type: :controller do
       get :new, params: { conference_id: conference.short_title }
     end
 
+    after :each do
+      ENV['OSEM_ICHAIN_ENABLED'] = nil
+    end
+
     it 'redirects' do
       expect(response).to redirect_to path
     end
@@ -30,6 +34,10 @@ describe ConferenceRegistrationsController, type: :controller do
       sign_in send(user) if user
       ENV['OSEM_ICHAIN_ENABLED'] = ichain
       get :new, params: { conference_id: conference.short_title }
+    end
+
+    after :each do
+      ENV['OSEM_ICHAIN_ENABLED'] = nil
     end
 
     it 'user variable exists' do
