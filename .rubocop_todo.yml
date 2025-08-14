@@ -660,6 +660,7 @@ RSpec/AnyInstance:
   Exclude:
     - 'spec/controllers/admin/rooms_controller_spec.rb'
     - 'spec/controllers/admin/sponsorship_levels_controller_spec.rb'
+    - 'spec/controllers/admin/tickets_controller_spec.rb'
     - 'spec/controllers/admin/tracks_controller_spec.rb'
     - 'spec/controllers/admin/users_controller_spec.rb'
     - 'spec/controllers/conference_registration_controller_spec.rb'

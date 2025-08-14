@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 = form_for(@ticket, url: (@ticket.new_record? ? admin_conference_tickets_path : admin_conference_ticket_path(@conference.short_title, @ticket))) do |f|
   .form-group
     = f.label :title
@@ -21,5 +22,8 @@
     %label
       = f.check_box :registration_ticket
       A registration ticket is with which user register for the conference.
+    %label
+      = f.check_box :visible
+      Only visible tickets are available to registrants. Non-visible tickets can only be managed by Admins.
   %p.text-right
     = f.submit nil, class: 'btn btn-primary'

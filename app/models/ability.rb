@@ -85,7 +85,10 @@ class Ability
       end
     end
 
-    can :index, Ticket
+    can :index, Organization
+    can :index, Ticket do |ticket|
+      ticket.visible
+    end
     can :manage, TicketPurchase, user_id: user.id
     can [:new, :create], Payment, user_id: user.id
     can [:index, :show], PhysicalTicket, user: user
