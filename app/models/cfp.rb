@@ -75,7 +75,9 @@ class Cfp < ApplicationRecord
   # * +false+ -> If the CFP is not set or today isn't in the CFP period.
   # * +true+ -> If today is in the CFP period.
   def open?
-    (start_date..end_date).cover?(Date.current)
+    current_date = Time.now.in_time_zone(program.conference.timezone).to_date
+
+    (start_date..end_date).cover?(current_date)
   end
 
   ##
