@@ -269,8 +269,9 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json (2.13.2)
-    json-schema (2.8.1)
-      addressable (>= 2.4)
+    json-schema (6.0.0)
+      addressable (~> 2.8)
+      bigdecimal (~> 3.1)
     jsonapi-renderer (0.2.2)
     jwt (3.1.2)
       base64
