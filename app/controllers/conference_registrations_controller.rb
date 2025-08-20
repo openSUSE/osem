@@ -57,7 +57,7 @@ class ConferenceRegistrationsController < ApplicationController
         sign_in(@registration.user)
       end
 
-      if @conference.tickets.any? && !current_user.supports?(@conference)
+      if @conference.tickets.visible.any? && !current_user.supports?(@conference)
         redirect_to conference_tickets_path(@conference.short_title),
                     notice: 'You are now registered and will be receiving E-Mail notifications.'
       else
