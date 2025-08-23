@@ -130,11 +130,11 @@ GEM
       fastimage
     case_transform (0.2)
       activesupport
-    caxlsx (4.2.0)
+    caxlsx (4.3.0)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
-      rubyzip (>= 1.3.0, < 3)
+      rubyzip (>= 2.4, < 4)
     caxlsx_rails (0.6.2)
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
