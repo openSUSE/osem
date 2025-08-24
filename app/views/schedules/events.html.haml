@@ -5,6 +5,13 @@
   %h1.text-center
     Program for
     = @conference.title
+  - if current_user
+    .row
+      .col-md-12.text-center
+        = button_to (@favourites ? 'All events' : 'Only favourites events'),
+                    events_conference_schedule_path(@conference.short_title),
+                    params: { favourites: !@favourites },
+                    method: :get, class: 'btn btn-success'
   .dropdown.program-dropdown
     %button{ type: "button", class: "btn btn-default dropdown-toggle", 'data-toggle' => "dropdown" }
       Dates

@@ -81,9 +81,20 @@ class ProposalsController < ApplicationController
       redirect_to conference_program_proposals_path(conference_id: @conference.short_title),
                   notice: 'Proposal was successfully updated.'
     else
-      flash.now[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
+      flash[:error] = "Could not update proposal: #{@event.errors.full_messages.join(', ')}"
       render action: 'edit'
     end
+  end
+
+  def toggle_favorite
+    user = User.find(params[:favourite_user_id])
+    users = @event.favourite_users
+    if users.include? user
+      @event.favourite_users.delete(user)
+    else
+      @event.favourite_users << user
+    end
+    render json: {}
   end
 
   def withdraw
