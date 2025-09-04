@@ -37,11 +37,11 @@ There are too many to list, here are a few we have seen OSEM deployed to:
 
 We recommend to run OSEM in production with [mod\_passenger](https://www.phusionpassenger.com/download/#open_source)
 and the [apache web-server](https://www.apache.org/). There are tons of guides on how to deploy rails apps on various
-base operating systems. [Check Google](https://encrypted.google.com/search?hl=en&q=ruby%20on%20rails%20apache%20passenger). Of course there are also other options for the application server and reverse proxy, pick your poison.
+base operating systems, [check DuckDuckGo](https://duckduckgo.com/?t=h_&q=ruby+on+rails+apache+passenger). Of course there are also other options for the application server and reverse proxy, pick your poison.
 
 ## Deploy via docker/docker-compose
 
-There is a rudimentary docker-compose configuration for production usage (`docker-compose.yml.production-example`). It brings [OSEM up](http://0.0.0.0:8080) on port 8080. It uses persistent storage volumes for all the data users might create. You can start it with
+There is a rudimentary docker-compose configuration for production usage (`docker-compose.yml.production-example`). It brings OSEM up on port 80. It uses persistent storage volumes for all the data your users might create. You can start it with
 
 1. Configure OSEM (at least `SECRET_KEY_BASE`)
    ```
@@ -54,12 +54,13 @@ There is a rudimentary docker-compose configuration for production usage (`docke
    ```
 1. Setup the database (only once)
    ```
-   docker-compose -f docker-compose.yml.production-example run --rm production_web bundle exec rake db:bootstrap
+   docker-compose -f docker-compose.yml.production-example run --rm osem bundle exec rake db:setup
    ```
 1. Start the services
    ```
    docker-compose -f docker-compose.yml.production-example up
    ```
+1. Visit http://0.0.0.0
 
 ## Configuration
 OSEM is configured through environment variables and falls back to sensible defaults. See the [dotenv.example](https://github.com/openSUSE/osem/blob/master/dotenv.example) for all possible configuration options. However here is a list of things you most likely want to configure because otherwise things will not work as expected.
