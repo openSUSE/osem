@@ -8,6 +8,10 @@
 
 An event management tool tailored to Free and Open Source Software conferences.
 
+## Trial
+
+Check out our demo at https://osem.copyleft.dev
+
 ## Installation
 Please refer to our [installation guide](INSTALL.md).
 
@@ -15,4 +19,7 @@ Please refer to our [installation guide](INSTALL.md).
 Please refer to our [contributing guide](CONTRIBUTING.md).
 
 ## Contact
-GitHub issues are the primary way for communicating about specific proposed changes to this project. If you have other questions feel free to subscribe to the [opensuse-web@opensuse.org](http://lists.opensuse.org/opensuse-web/) mailinglist, all OSEM contributors are on that list! Additionally you can use #osem channel on [libera.chat IRC](https://libera.chat).
+GitHub issues are the primary way for communicating about specific proposed changes to this project. If you have other questions feel free chat us up in the #osem channel on [libera.chat IRC](https://libera.chat).
+
+https://web.libera.chat/#osem
+
