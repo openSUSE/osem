@@ -107,7 +107,7 @@ GEM
     bootstrap-switch-rails (3.3.3)
     builder (3.3.0)
     byebug (12.0.0)
-    cancancan (3.3.0)
+    cancancan (3.6.1)
     capybara (3.40.0)
       addressable
       matrix
