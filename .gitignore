@@ -1,5 +1,8 @@
 _site
 .sass-cache
+vendor
+.env.*
+.vscode
 
 # Windows image file caches
 Thumbs.db
