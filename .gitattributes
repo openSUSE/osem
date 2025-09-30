@@ -1,0 +1,2 @@
+# Treat devbox.lock as binary to prevent it from showing in diffs
+devbox.lock binary

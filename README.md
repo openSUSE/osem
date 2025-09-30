@@ -15,6 +15,40 @@ Check out our demo at https://osem.copyleft.dev
 ## Installation
 Please refer to our [installation guide](INSTALL.md).
 
+## DEBUG MAIL ISSUES
+
+If you're experiencing email delivery problems, use these commands to diagnose SMTP configuration issues.
+For these tests, it supposes that you have a valid .env.production file in your home directory.
+
+### Show current mail configuration
+```bash
+bundle exec rake mail:config
+```
+
+### Test SMTP connection and send test email
+```bash
+TEST_EMAIL_TO=your-email@example.com bundle exec rake mail:test
+```
+
+The test command will:
+- Display your SMTP settings (with passwords hidden)
+- Show detailed SMTP protocol conversation for debugging
+- Attempt to send a test email
+- Provide troubleshooting hints if delivery fails
+
+**Common issues:**
+- Authentication method mismatch (try `OSEM_SMTP_AUTHENTICATION=login` instead of `plain`)
+- SSL certificate verification (try `OSEM_SMTP_OPENSSL_VERIFY_MODE=none` for testing)
+
+### Using with devbox
+
+If you're using [devbox](https://www.jetpack.io/devbox/docs/quickstart/) for development, prefix commands with `devbox run`:
+
+```bash
+devbox run bundle exec rake mail:config
+devbox run TEST_EMAIL_TO=your-email@example.com bundle exec rake mail:test
+```
+
 ## How to contribute to OSEM
 Please refer to our [contributing guide](CONTRIBUTING.md).
 

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.16.0/.schema/devbox.schema.json",
+  "packages": {
+    "ruby":       "3.3",
+    "libyamlcpp": "latest",
+    "libyaml": {
+      "version": "latest",
+      "outputs": ["dev"]
+    },
+    "pkg-config": "latest",
+    "postgresql": "latest"
+  },
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}
