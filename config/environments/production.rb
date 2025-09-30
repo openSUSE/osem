@@ -97,13 +97,13 @@ Rails.application.configure do
   # Configure outgoing mail
   config.action_mailer.smtp_settings = {
     address:              ENV.fetch('OSEM_SMTP_ADDRESS', 'localhost'),
-    port:                 ENV.fetch('OSEM_SMTP_PORT', 25),
+    port:                 ENV.fetch('OSEM_SMTP_PORT', '25').to_i,
     user_name:            ENV.fetch('OSEM_SMTP_USERNAME', nil),
     password:             ENV.fetch('OSEM_SMTP_PASSWORD', nil),
-    authentication:       ENV.fetch('OSEM_SMTP_AUTHENTICATION', 'plain').try(:to_sym),
+    authentication:       ENV.fetch('OSEM_SMTP_AUTHENTICATION', nil)&.to_sym,
     domain:               ENV.fetch('OSEM_SMTP_DOMAIN', nil),
-    enable_starttls_auto: ENV.fetch('OSEM_SMTP_ENABLE_STARTTLS_AUTO', nil),
-    openssl_verify_mode:  ENV.fetch('OSEM_SMTP_OPENSSL_VERIFY_MODE', nil)
+    enable_starttls_auto: ENV.fetch('OSEM_SMTP_ENABLE_STARTTLS_AUTO', 'true') == 'true',
+    openssl_verify_mode:  ENV.fetch('OSEM_SMTP_OPENSSL_VERIFY_MODE', nil)&.to_sym
   }.compact
 
   # Use memcache cluster as cache store in production
