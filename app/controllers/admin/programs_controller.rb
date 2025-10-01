@@ -41,7 +41,7 @@ module Admin
     private
 
     def program_params
-      params.require(:program).permit(:rating, :schedule_public, :schedule_interval, :schedule_fluid, :blind_voting, :voting_start_date, :voting_end_date, :selected_schedule_id, :languages)
+      params.require('[program]').permit(:rating, :schedule_public, :schedule_interval, :schedule_fluid, :blind_voting, :voting_start_date, :voting_end_date, :selected_schedule_id, :languages)
     end
   end
 end
