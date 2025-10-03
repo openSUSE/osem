@@ -4,11 +4,11 @@
     .form-group
       - if question.question_type.title == 'Yes/No' || question.question_type.title == 'Single Choice'
         %label= question.title
-        = f.select 'qanswer_ids[]', options_from_collection_for_select(question.qanswers.includes(:answer), :id, lambda { |qa| qa.answer.title }), { include_blank: 'Please make your choice' }, { class: 'form-control' }
+        = select_tag 'registration[qanswer_ids][]', options_from_collection_for_select(question.qanswers.includes(:answer), :id, lambda { |qa| qa.answer.title }, @registration.qanswer_ids), { include_blank: 'Please make your choice', class: 'form-control' }
       - if question.question_type.title == 'Multiple Choice'
         %label= question.title
         - question.qanswers.includes(:answer).each do |qanswer|
           .checkbox
             %label
-              = check_box_tag 'registration[qanswer_ids][]', qanswer.id, false
+              = check_box_tag 'registration[qanswer_ids][]', qanswer.id, @registration.qanswer_ids.include?(qanswer.id)
               = qanswer.answer.title
