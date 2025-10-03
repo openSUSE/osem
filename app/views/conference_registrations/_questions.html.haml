@@ -1,8 +1,14 @@
 - if @conference.questions.any?
-  = f.inputs 'Additional Info' do
-    - @conference.questions.each do |question|
-      - if question.question_type.title == 'Yes/No'  || question.question_type.title == 'Single Choice'
-        = f.input :qanswers, collection: question.qanswers.joins(:answer).pluck("answers.title, qanswers.id"), as: :select, input_html: { multiple: false },
-                  label: question.title, include_blank: 'Please make your choice'
+  %h4 Additional Info
+  - @conference.questions.each do |question|
+    .form-group
+      - if question.question_type.title == 'Yes/No' || question.question_type.title == 'Single Choice'
+        = f.label :qanswer_ids, question.title
+        = f.select :qanswer_ids, options_from_collection_for_select(question.qanswers.joins(:answer), :id, 'answer.title'), { include_blank: 'Please make your choice' }, { multiple: false, class: 'form-control' }
       - if question.question_type.title == 'Multiple Choice'
-        = f.input :qanswers, collection: question.qanswers.joins(:answer).pluck("answers.title, qanswers.id"), as: :check_boxes, label: question.title
+        = f.label :qanswer_ids, question.title
+        - question.qanswers.joins(:answer).each do |qanswer|
+          .checkbox
+            %label
+              = f.check_box :qanswer_ids, { multiple: true }, qanswer.id, nil
+              = qanswer.answer.title
