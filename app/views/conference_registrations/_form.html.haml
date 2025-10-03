@@ -1,6 +1,7 @@
 = form_for(@registration, url: conference_conference_registration_path(@conference.short_title)) do |f|
   = render partial: 'devise/registrations/new_embedded'
   = render partial: 'registration_info', locals: { f: f }
+  = render partial: 'questions', locals: { f: f }
   = f.hidden_field :conference_id, value: @conference.id
   %p.pull-right
     - if @conference.user_registered?(current_user)
