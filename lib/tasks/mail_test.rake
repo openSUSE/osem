@@ -35,11 +35,18 @@ namespace :mail do
     puts "=" * 50
 
     # Display current SMTP settings (without password)
-    smtp_settings = Rails.application.config.action_mailer.smtp_settings.dup
-    smtp_settings[:password] = '[HIDDEN]' if smtp_settings[:password]
+    smtp_settings = Rails.application.config.action_mailer.smtp_settings
+    if smtp_settings
+      smtp_settings = smtp_settings.dup
+      smtp_settings[:password] = '[HIDDEN]' if smtp_settings[:password]
+    end
     puts "SMTP Settings:"
-    smtp_settings.each do |key, value|
-      puts "  #{key}: #{value.inspect}"
+    if smtp_settings
+      smtp_settings.each do |key, value|
+        puts "  #{key}: #{value.inspect}"
+      end
+    else
+      puts "  [No SMTP settings configured - using #{ActionMailer::Base.delivery_method} delivery method]"
     end
     puts
 
@@ -55,6 +62,18 @@ namespace :mail do
 
     begin
       # Create and send test email
+      config_details = if smtp_settings
+        <<~CONFIG
+          Configuration details:
+          - Server: #{smtp_settings[:address]}:#{smtp_settings[:port]}
+          - Authentication: #{smtp_settings[:authentication]}
+          - STARTTLS: #{smtp_settings[:enable_starttls_auto]}
+          - Domain: #{smtp_settings[:domain]}
+        CONFIG
+      else
+        "Configuration details:\n- Delivery method: #{ActionMailer::Base.delivery_method}"
+      end
+
       ActionMailer::Base.mail(
         from: from_email,
         to: to_email,
@@ -62,15 +81,11 @@ namespace :mail do
         body: <<~BODY
           This is a test email from OSEM to verify SMTP configuration.
 
-          Configuration details:
-          - Server: #{smtp_settings[:address]}:#{smtp_settings[:port]}
-          - Authentication: #{smtp_settings[:authentication]}
-          - STARTTLS: #{smtp_settings[:enable_starttls_auto]}
-          - Domain: #{smtp_settings[:domain]}
+          #{config_details}
 
           Sent at: #{Time.current}
 
-          If you receive this email, your SMTP configuration is working correctly!
+          If you receive this email, your mail configuration is working correctly!
         BODY
       ).deliver_now
 
@@ -109,15 +124,22 @@ namespace :mail do
     puts "CURRENT MAIL CONFIGURATION"
     puts "=" * 50
 
-    smtp_settings = Rails.application.config.action_mailer.smtp_settings.dup
-    smtp_settings[:password] = '[HIDDEN]' if smtp_settings[:password]
+    smtp_settings = Rails.application.config.action_mailer.smtp_settings
+    if smtp_settings
+      smtp_settings = smtp_settings.dup
+      smtp_settings[:password] = '[HIDDEN]' if smtp_settings[:password]
+    end
 
     puts "ActionMailer delivery method: #{ActionMailer::Base.delivery_method}"
     puts "Default URL options: #{Rails.application.config.action_mailer.default_url_options}"
     puts
     puts "SMTP Settings:"
-    smtp_settings.each do |key, value|
-      puts "  #{key}: #{value.inspect}"
+    if smtp_settings
+      smtp_settings.each do |key, value|
+        puts "  #{key}: #{value.inspect}"
+      end
+    else
+      puts "  [No SMTP settings configured - using #{ActionMailer::Base.delivery_method} delivery method]"
     end
 
     puts

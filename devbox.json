@@ -12,7 +12,8 @@
   },
   "shell": {
     "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
+      "bundle config set with 'development,test'",
+      "bundle install"
     ],
     "scripts": {
       "test": [
