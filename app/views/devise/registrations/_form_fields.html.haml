@@ -3,10 +3,16 @@
     = f.label :username
     %abbr{title: 'This field is required'} *
     = f.text_field :username, required: true, autocomplete: 'off', class: 'form-control', placeholder: 'Username'
+    - if resource.errors[:username].any?
+      .text-danger
+        = resource.errors[:username].first
 .form-group
   = f.label :email
   %abbr{title: 'This field is required'} *
   = f.email_field :email, required: true, autocomplete: 'off', class: 'form-control', placeholder: 'Email'
+  - if resource.errors[:email].any?
+    .text-danger
+      = resource.errors[:email].first
 - if local_assigns[:full]
   .checkbox
     %label
@@ -19,9 +25,15 @@
   - if !@user.persisted?
     %abbr{title: 'This field is required'} *
   = f.password_field :password, required: !@user.persisted?, class: 'form-control', placeholder: 'Password'
+  - if resource.errors[:password].any?
+    .text-danger
+      = resource.errors[:password].first
 .form-group
   = f.label :password_confirmation, 'Password Confirmation'
   = f.password_field :password_confirmation, required: !@user.persisted?, class: 'form-control', placeholder: 'Password Confirmation'
+  - if resource.errors[:password_confirmation].any?
+    .text-danger
+      = resource.errors[:password_confirmation].first
 - if @user.persisted?
   %p.text-muted
     Leave blank if you don't want to change your password
