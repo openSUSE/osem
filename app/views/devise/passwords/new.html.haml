@@ -10,7 +10,7 @@
             .form-group
               = f.label :email, "Email"
               %abbr{title: 'This field is required'} *
-              = f.email_field :email, autofocus: true, required: true, class: 'form-control', placeholder: 'Email'
+              = f.email_field :email, autofocus: true, required: true, class: 'form-control', placeholder: 'Email', value: params.dig(:user, :email)
             %p.text-right
               %button{type: 'submit', class: 'btn btn-success'}
                 Send me reset password instructions

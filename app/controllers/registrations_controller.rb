@@ -3,6 +3,17 @@
 class RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create]
 
+  def create
+    existing_user = User.find_by(email: sign_up_params[:email])
+    if existing_user
+      flash[:notice] = 'An account with this email already exists. Please reset your password to sign in.'
+      redirect_to new_user_password_path(user: { email: sign_up_params[:email] })
+      return
+    end
+
+    super
+  end
+
   protected
 
   def after_update_path_for(resource)
