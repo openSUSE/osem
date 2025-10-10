@@ -118,6 +118,7 @@ Osem::Application.routes.draw do
       resources :emails, only: [:show, :update, :index] do
         collection do
           get :bulk
+          get :recipients
           post :send_bulk
         end
       end

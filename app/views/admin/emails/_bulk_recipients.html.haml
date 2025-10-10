@@ -1,0 +1,44 @@
+.row
+  .col-md-12
+    %h3 Step 2: Select Recipients
+    %p
+      Found
+      %strong= @selected_recipients.count
+      recipients matching your filter criteria. Select the recipients you want to email:
+
+    = form_tag bulk_admin_conference_emails_path(@conference.short_title), method: :get, id: 'recipients-form' do
+      = hidden_field_tag :step, 'compose'
+      = hidden_field_tag :filter_type, @filter_type
+      = hidden_field_tag :search_term, @search_term
+
+      .row
+        .col-md-12
+          .form-group
+            .btn-toolbar{ style: 'margin-bottom: 15px;' }
+              = button_tag 'Select All', type: 'button', class: 'btn btn-sm btn-default', id: 'select-all-btn'
+              = button_tag 'Deselect All', type: 'button', class: 'btn btn-sm btn-default', id: 'deselect-all-btn'
+              = button_tag 'Remove Selected', type: 'button', class: 'btn btn-sm btn-danger', id: 'remove-selected-btn'
+
+          .panel.panel-default
+            .panel-heading
+              %h4
+                Recipients
+                %span.badge#recipient-count= @selected_recipients.count
+            .panel-body
+              - if @selected_recipients.any?
+                #recipients-list
+                  - @selected_recipients.each do |user|
+                    .recipient-item{ 'data-email' => user.email }
+                      .checkbox
+                        %label
+                          = check_box_tag 'recipient_emails[]', user.email, true, class: 'recipient-checkbox'
+                          %strong= user.name.present? ? user.name : 'No Name'
+                          %br
+                          %small.text-muted= user.email
+              - else
+                %p.text-muted No recipients found with the current filter criteria.
+
+          .form-group
+            = submit_tag 'Next: Compose Email', class: 'btn btn-primary', id: 'next-compose-btn'
+            = link_to 'Back to Filter', bulk_admin_conference_emails_path(@conference.short_title, step: 'filter', filter_type: @filter_type, search_term: @search_term), class: 'btn btn-default'
+            = link_to 'Cancel', admin_conference_emails_path(@conference.short_title), class: 'btn btn-default'

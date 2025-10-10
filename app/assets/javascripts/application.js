@@ -45,6 +45,7 @@
 //= require selectize
 //= require bootstrap-select
 //= require osem-survey
+//= require osem-bulk-email
 
 $(document).ready(function() {
     $('a[disabled=disabled]').click(function(event){

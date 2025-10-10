@@ -1,61 +1,22 @@
 .row
-  .col-md-8
+  .col-md-12
     %h2 Bulk Email
-    %p Send customized emails to registered users based on their registration status.
+    %p Send customized emails to users with advanced filtering and recipient selection.
 
-    = form_tag send_bulk_admin_conference_emails_path(@conference.short_title), method: :post, class: 'form-horizontal' do
-      .form-group
-        = label_tag :subject, 'Subject', class: 'col-sm-2 control-label'
-        .col-sm-10
-          = text_field_tag :subject, params[:subject], class: 'form-control', required: true
+    .nav.nav-pills{ role: 'navigation' }
+      %li{ class: (@step == 'filter' ? 'active' : ''), id: 'step-filter' }
+        %a{ href: '#' } 1. Filter Recipients
+      %li{ class: (@step == 'recipients' ? 'active' : ''), id: 'step-recipients' }
+        %a{ href: '#' } 2. Select Recipients
+      %li{ class: (@step == 'compose' ? 'active' : ''), id: 'step-compose' }
+        %a{ href: '#' } 3. Compose Email
 
-      .form-group
-        = label_tag :body, 'Body', class: 'col-sm-2 control-label'
-        .col-sm-10
-          = text_area_tag :body, params[:body], rows: 10, class: 'form-control', required: true
-          %p.help-block You can use the following variables in your email: {name}, {conference}, {registrationlink}
+    %hr
 
-      .form-group
-        = label_tag :filter_type, 'Send to', class: 'col-sm-2 control-label'
-        .col-sm-10
-          = select_tag :filter_type, options_for_select([
-            ['All registered users', 'all_registered'],
-            ['Users who haven\'t answered any questions', 'no_questions_answered'],
-            ['Users who answered some but not all questions', 'some_questions_answered'],
-            ['Users who answered all questions', 'all_questions_answered']
-          ], params[:filter_type]), { class: 'form-control', required: true }
-
-      - if @questions.any?
-        .form-group
-          .col-sm-offset-2.col-sm-10
-            %h4 Registration Questions
-            %ul
-              - @questions.each do |question|
-                %li= question.title
-
-      .form-group
-        .col-sm-offset-2.col-sm-10
-          = submit_tag 'Send Bulk Email', class: 'btn btn-primary', data: { confirm: 'Are you sure you want to send this email to all selected recipients?' }
-          = link_to 'Cancel', admin_conference_emails_path(@conference.short_title), class: 'btn btn-default'
-
-  .col-md-4
-    .panel.panel-default
-      .panel-heading
-        %h4 Recipient Preview
-      .panel-body
-        %p
-          %strong All registered users:
-          = @conference.registrations.count
-        - if @questions.any?
-          %p
-            %strong No questions answered:
-            = @registrations.select { |r| r.qanswers.empty? }.count
-          %p
-            %strong Some questions answered:
-            = @registrations.select { |r| r.qanswers.any? && r.qanswers.count < @questions.count }.count
-          %p
-            %strong All questions answered:
-            = @registrations.select { |r| r.qanswers.count >= @questions.count }.count
-        - else
-          %p
-            %em No registration questions configured for this conference.
+    - case @step
+    - when 'filter'
+      = render 'bulk_filter'
+    - when 'recipients'
+      = render 'bulk_recipients'
+    - when 'compose'
+      = render 'bulk_compose'

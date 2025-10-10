@@ -1,0 +1,64 @@
+.row
+  .col-md-8
+    %h3 Step 3: Compose Email
+
+    = form_tag send_bulk_admin_conference_emails_path(@conference.short_title), method: :post, class: 'form-horizontal' do
+      - @recipient_emails.each do |email|
+        = hidden_field_tag 'recipient_emails[]', email
+
+      .form-group
+        = label_tag :subject, 'Subject', class: 'col-sm-2 control-label'
+        .col-sm-10
+          = text_field_tag :subject, params[:subject], class: 'form-control', required: true, placeholder: 'Enter email subject'
+
+      .form-group
+        = label_tag :body, 'Message Body', class: 'col-sm-2 control-label'
+        .col-sm-10
+          = text_area_tag :body, params[:body], rows: 15, class: 'form-control', required: true, placeholder: 'Enter your email message here...'
+          %p.help-block
+            You can use the following variables in your email:
+            %code {name}
+            ,
+            %code {conference}
+            ,
+            %code {registrationlink}
+
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          = submit_tag 'Send Bulk Email', class: 'btn btn-success btn-lg', data: { confirm: "Are you sure you want to send this email to #{@recipient_emails.count} recipients?" }
+          = link_to 'Back to Recipients', bulk_admin_conference_emails_path(@conference.short_title, step: 'recipients', filter_type: params[:filter_type], search_term: params[:search_term]), class: 'btn btn-default'
+          = link_to 'Cancel', admin_conference_emails_path(@conference.short_title), class: 'btn btn-default'
+
+  .col-md-4
+    .panel.panel-success
+      .panel-heading
+        %h4 Email Summary
+      .panel-body
+        %p
+          %strong Recipients:
+          = @recipient_emails.count
+          selected
+
+        - if @recipient_emails.any?
+          %h5 Recipient List:
+          .recipient-list{ style: 'max-height: 200px; overflow-y: auto;' }
+            - @recipient_emails.each do |email|
+              .small.text-muted= email
+        - else
+          %p.text-warning No recipients selected. Please go back to select recipients.
+
+    .panel.panel-info
+      .panel-heading
+        %h4 Email Variables
+      .panel-body
+        %p Available template variables:
+        %ul.small
+          %li
+            %code {name}
+            - User's full name
+          %li
+            %code {conference}
+            - Conference name
+          %li
+            %code {registrationlink}
+            - Link to conference registration

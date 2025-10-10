@@ -1,0 +1,56 @@
+.row
+  .col-md-8
+    %h3 Step 1: Filter Recipients
+
+    = form_tag bulk_admin_conference_emails_path(@conference.short_title), method: :get, class: 'form-horizontal', id: 'filter-form' do
+      = hidden_field_tag :step, 'recipients'
+
+      .form-group
+        = label_tag :filter_type, 'Filter Type', class: 'col-sm-3 control-label'
+        .col-sm-9
+          = select_tag :filter_type, options_for_select([
+            ['All users in the system', 'all_users'],
+            ['All registered users', 'all_registered'],
+            ['Users not registered for this conference', 'not_registered'],
+            ['Users who haven\'t answered any registration questions', 'no_questions_answered'],
+            ['Users who answered some but not all questions', 'some_questions_answered'],
+            ['Users who answered all registration questions', 'all_questions_answered']
+          ], params[:filter_type]), { class: 'form-control', id: 'filter-type-select' }
+
+      .form-group
+        = label_tag :search_term, 'Search in Name/Email', class: 'col-sm-3 control-label'
+        .col-sm-9
+          = text_field_tag :search_term, params[:search_term], class: 'form-control', placeholder: 'Enter keyword to search in names or email addresses'
+          %p.help-block Leave empty to include all users matching the filter type above.
+
+      .form-group
+        .col-sm-offset-3.col-sm-9
+          = submit_tag 'Next: Select Recipients', class: 'btn btn-primary', id: 'next-recipients-btn'
+          = link_to 'Cancel', admin_conference_emails_path(@conference.short_title), class: 'btn btn-default'
+
+  .col-md-4
+    .panel.panel-info
+      .panel-heading
+        %h4 Filter Information
+      .panel-body
+        %p
+          %strong Total registered users:
+          = @conference.registrations.count
+        - if @questions.any?
+          %p
+            %strong Registration questions configured:
+            = @questions.count
+          %hr
+          %h5 Current distribution:
+          %p
+            %strong No questions answered:
+            = @registrations.select { |r| r.qanswers.empty? }.count
+          %p
+            %strong Some questions answered:
+            = @registrations.select { |r| r.qanswers.any? && r.qanswers.count < @questions.count }.count
+          %p
+            %strong All questions answered:
+            = @registrations.select { |r| r.qanswers.count >= @questions.count }.count
+        - else
+          %p
+            %em No registration questions configured for this conference.
