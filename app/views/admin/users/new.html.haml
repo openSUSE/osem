@@ -4,4 +4,4 @@
       %h1
         Create User
       = form_for [:admin, @user] do |f|
-        = render partial: 'devise/registrations/form_fields', locals: { f: f, full: true }
+        = render partial: 'devise/registrations/form_fields', locals: { f: f, full: true, resource: @user }
