@@ -16,6 +16,8 @@
                 %a{ 'aria-controls' => 'cfp', 'data-toggle' => 'tab', href: '#cfp', role: 'tab' } Call for Papers
               %li{ role: 'presentation' }
                 %a{ 'aria-controls' => 'booths', 'data-toggle' => 'tab', href: '#booth', role: 'tab' } Booth
+              %li{ role: 'presentation' }
+                %a{ 'aria-controls' => 'bulk', 'data-toggle' => 'tab', href: '#bulk', role: 'tab' } Bulk Email
             / Tab panes
             .tab-content
               #onboarding.tab-pane.active{ role: 'tabpanel' }
@@ -211,6 +213,17 @@
                 'data-body-text' => "Dear {name},\n\nThank you for your #{t'booth'} request {booth_title} for the conference {conference}.\n\nUnfortunately, we are sorry to inform you that your request has been rejected.\n\n\nBest wishes\n\n{conference} Team" } Load Template
                 %a.btn.btn-link.control_label.template_help_link{ 'data-name' => 'booth_rejection_help' } Show help
                 =  render partial: 'help', locals: {id: 'booth_rejection_help', show_event_variables: false}
+              #bulk.tab-pane{ role: 'tabpanel' }
+                %p Send customized emails to registered users based on their registration status.
+                .form-group
+                  = link_to 'Go to Bulk Email', bulk_admin_conference_emails_path(@conference.short_title), class: 'btn btn-success'
+                %p
+                  %strong Available filters:
+                %ul
+                  %li All registered users
+                  %li Users who haven't answered any registration questions
+                  %li Users who answered some but not all questions
+                  %li Users who answered all questions
 
       .row
         .col-md-12

@@ -137,4 +137,11 @@ class Mailbot < ActionMailer::Base
          template_name: 'comment_template',
          subject:       "New comment has been posted for #{@event.title}")
   end
+
+  def bulk_mail(conference, user, subject, body)
+    mail(to:      user.email,
+         from:    conference.contact.email,
+         subject: subject,
+         body:    EmailSettings.new.generate_email_on_conf_updates(conference, user, body))
+  end
 end

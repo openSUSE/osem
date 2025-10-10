@@ -115,7 +115,12 @@ Osem::Application.routes.draw do
       resources :tickets
       resources :sponsors, except: [:show]
       resources :lodgings, except: [:show]
-      resources :emails, only: [:show, :update, :index]
+      resources :emails, only: [:show, :update, :index] do
+        collection do
+          get :bulk
+          post :send_bulk
+        end
+      end
       resources :physical_tickets, only: [:index]
       resources :roles, except: [:new, :create] do
         member do

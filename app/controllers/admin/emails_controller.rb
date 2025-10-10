@@ -22,7 +22,61 @@ module Admin
       @settings = @conference.email_settings
     end
 
+    def bulk
+      authorize! :index, @conference.email_settings
+      @registrations = @conference.registrations.includes(:user, :qanswers)
+      @questions = @conference.questions.includes(:qanswers)
+    end
+
+    def send_bulk
+      authorize! :index, @conference.email_settings
+
+      subject = params[:subject]
+      body = params[:body]
+      filter_type = params[:filter_type]
+
+      if subject.blank? || body.blank?
+        redirect_to bulk_admin_conference_emails_path(@conference.short_title), alert: 'Subject and body are required.'
+        return
+      end
+
+      recipients = get_filtered_recipients(filter_type)
+
+      if recipients.empty?
+        redirect_to bulk_admin_conference_emails_path(@conference.short_title), alert: 'No recipients found with the selected filter.'
+        return
+      end
+
+      recipients.each do |user|
+        Mailbot.bulk_mail(@conference, user, subject, body).deliver_later
+      end
+
+      redirect_to bulk_admin_conference_emails_path(@conference.short_title),
+                  notice: "Bulk email sent to #{recipients.count} recipients."
+    end
+
     private
+
+    def get_filtered_recipients(filter_type)
+      registrations = @conference.registrations.includes(:user, :qanswers)
+
+      case filter_type
+      when 'no_questions_answered'
+        registrations.select { |r| r.qanswers.empty? }.map(&:user)
+      when 'some_questions_answered'
+        registrations.select { |r| r.qanswers.any? && r.qanswers.count < @conference.questions.count }.map(&:user)
+      when 'all_questions_answered'
+        registrations.select { |r| r.qanswers.count >= @conference.questions.count }.map(&:user)
+      when 'all_registered'
+        registrations.map(&:user)
+      else
+        []
+      end
+    end
+
+    def bulk_email_params
+      params.permit(:subject, :body, :filter_type)
+    end
 
     def email_params
       params.require(:email_settings).permit(:send_on_registration,
