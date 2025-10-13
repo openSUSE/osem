@@ -81,6 +81,7 @@ module Admin
 
       recipients.each do |user|
         Mailbot.bulk_mail(@conference, user, subject, body).deliver_later
+        Rails.logger.info "Bulk email queued - Subject: '#{subject}' - Recipient: #{user.email}"
       end
 
       redirect_to admin_conference_emails_path(@conference.short_title),

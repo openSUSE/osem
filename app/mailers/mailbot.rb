@@ -139,8 +139,15 @@ class Mailbot < ActionMailer::Base
   end
 
   def bulk_mail(conference, user, subject, body)
+    from_email = conference.contact&.email.presence ||
+                 ENV['OSEM_EMAIL_ADDRESS'] ||
+                 Rails.application.config.action_mailer.smtp_settings&.dig(:user_name) ||
+                 'noreply@osem.example.com'
+
+    Rails.logger.info "Bulk email delivered - Subject: '#{subject}' - From: #{from_email} - Recipient: #{user.email}"
+
     mail(to:      user.email,
-         from:    conference.contact.email,
+         from:    from_email,
          subject: subject,
          body:    EmailSettings.new.generate_email_on_conf_updates(conference, user, body))
   end
