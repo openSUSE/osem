@@ -66,10 +66,17 @@
           "className": "actions",
           "sortable": false,
           "render":    function (data, type, row, meta) {
-            return '<div class="btn-group">'+
-                   '<a class="btn-info" href="'+row.view_url+'">View</a>'+
-                   '<a class="btn-primary" href="'+row.edit_url+'">Edit</a>'+
-                   '</div>';
+            var buttons = '<div class="btn-group">'+
+                         '<a class="btn-info" href="'+row.view_url+'">View</a>'+
+                         '<a class="btn-primary" href="'+row.edit_url+'">Edit</a>';
+            if (row.delete_url) {
+              buttons += '<a class="btn-danger" href="'+row.delete_url+'" '+
+                        'data-method="delete" '+
+                        'data-confirm="Are you sure you want to delete this user? This action cannot be undone." '+
+                        'rel="nofollow">Delete</a>';
+            }
+            buttons += '</div>';
+            return buttons;
           }
         }
       ]

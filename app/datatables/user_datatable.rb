@@ -7,6 +7,7 @@ class UserDatatable < AjaxDatatablesRails::ActiveRecord
   def_delegator :@view, :show_roles
   def_delegator :@view, :admin_user_path
   def_delegator :@view, :edit_admin_user_path
+  def_delegator :@view, :can?
 
   def initialize(params, opts = {})
     @view = opts[:view_context]
@@ -40,6 +41,7 @@ class UserDatatable < AjaxDatatablesRails::ActiveRecord
         roles:        record.roles.any? ? show_roles(record.get_roles) : 'None',
         view_url:     admin_user_path(record),
         edit_url:     edit_admin_user_path(record),
+        delete_url:   can?(:destroy, record) ? admin_user_path(record) : nil,
         DT_RowId:     dom_id(record)
       }
     end
