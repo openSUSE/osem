@@ -1,5 +1,7 @@
 .row
   .col-md-12
+    .pull-right
+      = link_to '← Back to Email Settings', admin_conference_emails_path(@conference.short_title), class: 'btn btn-default'
     %h2 Bulk Email
     %p Send customized emails to users with advanced filtering and recipient selection.
 
