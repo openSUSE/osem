@@ -73,6 +73,43 @@ module Admin
       end
     end
 
+    def register_user
+      conference = Conference.find(params[:conference_id])
+
+      if @user.registrations.exists?(conference: conference)
+        redirect_to edit_admin_user_path(@user),
+                    error: "User is already registered to #{conference.title}."
+      else
+        registration = @user.registrations.build(conference: conference)
+        registration.accepted_code_of_conduct = true if conference.code_of_conduct.present?
+
+        if registration.save
+          redirect_to edit_admin_user_path(@user),
+                      notice: "Successfully registered #{@user.name} to #{conference.title}."
+        else
+          redirect_to edit_admin_user_path(@user),
+                      error: "Failed to register user: #{registration.errors.full_messages.join('. ')}."
+        end
+      end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to edit_admin_user_path(@user), error: 'Conference not found.'
+    end
+
+    def unregister_user
+      registration = @user.registrations.find(params[:registration_id])
+      conference_title = registration.conference.title
+
+      if registration.destroy
+        redirect_to edit_admin_user_path(@user),
+                    notice: "Successfully removed #{@user.name} from #{conference_title}."
+      else
+        redirect_to edit_admin_user_path(@user),
+                    error: "Failed to remove registration: #{registration.errors.full_messages.join('. ')}."
+      end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to edit_admin_user_path(@user), error: 'Registration not found.'
+    end
+
     private
 
     def user_params

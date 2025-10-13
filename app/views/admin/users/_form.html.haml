@@ -42,3 +42,42 @@
     = f.text_area :biography, rows: 10, data: { provide: 'markdown' }, class: 'form-control'
     %span.help-block= markdown_hint
   = f.submit nil,  class: 'btn btn-primary'
+
+- unless @user.new_record?
+  %hr
+  %h4 Conference Registration
+  .row
+    .col-md-6
+      %h5 Register to Conference
+      = form_with url: register_user_admin_user_path(@user), local: true, method: :post do |form|
+        .form-group
+          = form.label :conference_id, 'Select Conference'
+          = form.select :conference_id,
+            options_from_collection_for_select(Conference.all.order(:title), :id, :title),
+            { prompt: 'Choose a conference...' },
+            { class: 'form-control', required: true }
+        = form.submit 'Register User', class: 'btn btn-success'
+
+    .col-md-6
+      %h5 Current Registrations
+      - if @user.registrations.any?
+        .table-responsive
+          %table.table.table-condensed
+            %thead
+              %tr
+                %th Conference
+                %th Registered On
+                %th Actions
+            %tbody
+              - @user.registrations.includes(:conference).each do |registration|
+                %tr
+                  %td= registration.conference.title
+                  %td= registration.created_at.strftime('%B %d, %Y')
+                  %td
+                    = link_to 'Remove',
+                      unregister_user_admin_user_path(@user, registration_id: registration.id),
+                      method: :delete,
+                      class: 'btn btn-xs btn-danger',
+                      confirm: 'Are you sure you want to remove this registration?'
+      - else
+        %p.text-muted No current registrations

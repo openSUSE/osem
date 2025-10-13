@@ -26,6 +26,8 @@ Osem::Application.routes.draw do
     resources :users do
       member do
         patch :toggle_confirmation
+        post :register_user
+        delete :unregister_user
       end
     end
     resource :ticket_scanning, only: [:create]
