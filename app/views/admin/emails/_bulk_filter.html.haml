@@ -8,14 +8,7 @@
       .form-group
         = label_tag :filter_type, 'Filter Type', class: 'col-sm-3 control-label'
         .col-sm-9
-          = select_tag :filter_type, options_for_select([
-            ['All users in the system', 'all_users'],
-            ['All registered users', 'all_registered'],
-            ['Users not registered for this conference', 'not_registered'],
-            ['Users who haven\'t answered any registration questions', 'no_questions_answered'],
-            ['Users who answered some but not all questions', 'some_questions_answered'],
-            ['Users who answered all registration questions', 'all_questions_answered']
-          ], params[:filter_type]), { class: 'form-control', id: 'filter-type-select' }
+          = select_tag :filter_type, options_for_select([['All users in the system', 'all_users'], ['All registered users', 'all_registered'], ['Users not registered for this conference', 'not_registered'], ["Users who haven't answered any registration questions", 'no_questions_answered'], ['Users who answered some but not all questions', 'some_questions_answered'], ['Users who answered all registration questions', 'all_questions_answered']], params[:filter_type]), { class: 'form-control', id: 'filter-type-select' }
 
       .form-group
         = label_tag :search_term, 'Search in Name/Email', class: 'col-sm-3 control-label'
