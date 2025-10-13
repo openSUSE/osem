@@ -35,9 +35,23 @@ module Admin
         @filter_type = params[:filter_type]
         @search_term = params[:search_term]
       when 'compose'
-        @recipient_emails = params[:recipient_emails] || []
-        @filter_type = params[:filter_type]
-        @search_term = params[:search_term]
+        if params[:bulk_session_token]
+          @bulk_session = BulkEmailSession.active.find_by(token: params[:bulk_session_token])
+          if @bulk_session && !@bulk_session.expired?
+            @recipient_emails = @bulk_session.recipient_emails
+            @filter_type = @bulk_session.filter_type
+            @search_term = @bulk_session.search_term
+          else
+            redirect_to bulk_admin_conference_emails_path(@conference.short_title, step: 'filter'),
+                        alert: 'Bulk email session expired. Please start again.'
+            return
+          end
+        else
+          # Fallback to old method for backward compatibility
+          @recipient_emails = params[:recipient_emails] || []
+          @filter_type = params[:filter_type]
+          @search_term = params[:search_term]
+        end
       end
     end
 
@@ -58,12 +72,53 @@ module Admin
       }
     end
 
+    def create_bulk_session
+      authorize! :index, @conference.email_settings
+
+      recipient_emails = params[:recipient_emails] || []
+      filter_type = params[:filter_type]
+      search_term = params[:search_term]
+
+      if recipient_emails.empty?
+        redirect_to bulk_admin_conference_emails_path(@conference.short_title, step: 'recipients',
+                                                      filter_type: filter_type, search_term: search_term),
+                    alert: 'No recipients selected.'
+        return
+      end
+
+      # Clean up any expired sessions
+      BulkEmailSession.cleanup_expired!
+
+      # Create new session
+      @bulk_session = BulkEmailSession.create!(
+        recipient_emails: recipient_emails,
+        filter_type: filter_type,
+        search_term: search_term
+      )
+
+      redirect_to bulk_admin_conference_emails_path(@conference.short_title, step: 'compose',
+                                                    bulk_session_token: @bulk_session.token)
+    end
+
     def send_bulk
       authorize! :index, @conference.email_settings
 
       subject = params[:subject]
       body = params[:body]
-      recipient_emails = params[:recipient_emails] || []
+
+      # Get recipient emails from either bulk session or direct params
+      if params[:bulk_session_token]
+        bulk_session = BulkEmailSession.active.find_by(token: params[:bulk_session_token])
+        if bulk_session && !bulk_session.expired?
+          recipient_emails = bulk_session.recipient_emails
+        else
+          redirect_to bulk_admin_conference_emails_path(@conference.short_title, step: 'filter'),
+                      alert: 'Bulk email session expired. Please start again.'
+          return
+        end
+      else
+        recipient_emails = params[:recipient_emails] || []
+      end
 
       if subject.blank? || body.blank?
         redirect_to bulk_admin_conference_emails_path(@conference.short_title, step: 'compose'),
@@ -83,6 +138,9 @@ module Admin
         Mailbot.bulk_mail(@conference, user, subject, body).deliver_later
         Rails.logger.info "Bulk email queued - Subject: '#{subject}' - Recipient: #{user.email}"
       end
+
+      # Clean up the bulk session after use
+      bulk_session&.destroy
 
       redirect_to admin_conference_emails_path(@conference.short_title),
                   notice: "Bulk email sent to #{recipients.count} recipients."

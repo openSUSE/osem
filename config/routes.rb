@@ -119,6 +119,7 @@ Osem::Application.routes.draw do
         collection do
           get :bulk
           get :recipients
+          post :create_bulk_session
           post :send_bulk
         end
       end

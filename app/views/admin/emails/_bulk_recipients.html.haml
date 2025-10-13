@@ -6,8 +6,7 @@
       %strong= @selected_recipients.count
       recipients matching your filter criteria. Select the recipients you want to email:
 
-    = form_tag bulk_admin_conference_emails_path(@conference.short_title), method: :get, id: 'recipients-form' do
-      = hidden_field_tag :step, 'compose'
+    = form_tag create_bulk_session_admin_conference_emails_path(@conference.short_title), method: :post, id: 'recipients-form' do
       = hidden_field_tag :filter_type, @filter_type
       = hidden_field_tag :search_term, @search_term
 
