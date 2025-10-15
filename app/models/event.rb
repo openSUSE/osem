@@ -94,7 +94,7 @@ class Event < ApplicationRecord
   }.freeze
 
   ##
-  # Checkes if the event has a start_time and a room for the selected schedule if there is any
+  # Checks if the event has a start_time and a room for the selected schedule if there is any
   # ====Returns
   # * +true+ or +false+
   def scheduled?
