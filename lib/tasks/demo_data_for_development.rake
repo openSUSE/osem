@@ -7,7 +7,7 @@ namespace :data do
   task surveys: :environment do
     conference = create(:full_conference, start_date: Date.current, end_date: Date.current + 1.day)
     survey_after_conference_active = create(:survey, surveyable: conference, target: :after_conference, title: 'Survey about the conference', start_date: conference.start_date - 1.day, end_date: conference.end_date + 5.days, description: 'Survey about the conference. You can already see it.')
-    # survey_after_conference_inactive = create(:survey, surveyable: conference, target: :after_conference, title: 'Survey about the conference', start_date: conference.start_date + 1.day, end_date: conference.end_date + 5.days, description: 'Survey abou the conference. Not available yet!')
+    # survey_after_conference_inactive = create(:survey, surveyable: conference, target: :after_conference, title: 'Survey about the conference', start_date: conference.start_date + 1.day, end_date: conference.end_date + 5.days, description: 'Survey about the conference. Not available yet!')
     # survey_on_registration = create(:survey, surveyable: conference, target: :during_registration, title: 'Survey during registation', start_date: conference.registration_period.start_date, end_date: conference.registration_period.end_date, description: 'Survey during registration.')
 
     create(:boolean_non_mandatory, survey: survey_after_conference_active)

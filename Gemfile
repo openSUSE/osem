@@ -193,7 +193,7 @@ gem 'icalendar'
 gem 'lograge'
 
 group :development do
-  # for static code analisys
+  # for static code analysis
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rails', require: false

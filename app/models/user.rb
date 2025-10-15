@@ -111,7 +111,7 @@ class User < ApplicationRecord
   }.freeze
 
   ##
-  # Checkes if the user attended the event
+  # Checks if the user attended the event
   # This is used for events that require registration
   # The user must have registered to attend the event
   # Gets an event

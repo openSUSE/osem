@@ -94,7 +94,7 @@ module Admin
       elsif user.add_role @role.name, role_resource
         flash[:notice] = "Successfully added role #{@role.name} to user #{user.email}"
       else
-        flash[:error] = "Coud not add role #{@role.name} to #{user.email}"
+        flash[:error] = "Could not add role #{@role.name} to #{user.email}"
       end
 
       respond_to do |format|

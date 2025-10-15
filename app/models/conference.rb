@@ -422,7 +422,7 @@ class Conference < ApplicationRecord
 
   ##
   # Returns a hash with affiliation =>
-  # {value: count of registration whose user has that affilation, color: color}
+  # {value: count of registration whose user has that affiliation, color: color}
   # In case that the affiliation is blank, it groups them in None and
   # if the number of persons that have an affiliation are less than the 2% of
   # the total number of registered people, they are grouped in others.
@@ -696,7 +696,7 @@ class Conference < ApplicationRecord
   end
 
   # Returns the number of hours since the conference start hour (9) to the
-  # current hour, in case that the current hour is beetween the start and the
+  # current hour, in case that the current hour is between the start and the
   # end hour (20). Otherwise, returns 0
   def hours_from_start_time(start_hour, end_hour)
     current_time = Time.find_zone(timezone).now
@@ -744,7 +744,7 @@ class Conference < ApplicationRecord
     '#' + next_color_component(:r, i) + next_color_component(:g, i) + next_color_component(:b, i)
   end
 
-  # Auxiliar function which is used in next_color and returns each component of
+  # Auxiliary function which is used in next_color and returns each component of
   # the color. We make use of big prime numbers to avoid repetition and to make
   # consecutive colors clearly different.
   def next_color_component(component, i)
@@ -787,7 +787,7 @@ class Conference < ApplicationRecord
 
   ##
   # Checks if start hour of the conference is greater or equal than the end hour
-  # and that both hours are beetween 0 and 24
+  # and that both hours are between 0 and 24
   #
   # Reports an error when such a condition is found
   def valid_times_range?
@@ -922,7 +922,7 @@ class Conference < ApplicationRecord
   #
   # ====Returns
   # * +True+ -> One difficulty level or more
-  # * +False+ -> No diffculty level
+  # * +False+ -> No difficulty level
   def difficulty_levels_set?
     program.difficulty_levels.any?
   end
@@ -932,7 +932,7 @@ class Conference < ApplicationRecord
   #
   # ====Returns
   # * +True+ -> One difficulty level or more
-  # * +False+ -> No diffculty level
+  # * +False+ -> No difficulty level
   def event_types_set?
     program.event_types.any?
   end
