@@ -1,4 +1,4 @@
-- cache ['admin', conference_id, program, event, current_user] do
+- cache ['admin', conference_id, program, event, current_user, event.conference.registrations.maximum(:updated_at)] do
   %tr{ id: "event-#{event.id}" }
     %td
       = event.id
