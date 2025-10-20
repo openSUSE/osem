@@ -24,4 +24,4 @@
               %td= registration.name
               %td= registration.username
               %td= registration.email
-              %td= registration.qanswers.find_by(question: @question).answer.title
+              %td= registration.qanswers.find_by(question: @question)&.answer&.title
