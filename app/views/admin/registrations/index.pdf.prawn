@@ -20,7 +20,7 @@ prawn_document(force_download: true, filename: @pdf_filename, page_layout: :land
 
     @conference.questions.each do |question|
       qa = registration.qanswers.find_by(question: question)
-      answer = ( qa ? qa.answer.title : '' )
+      answer = qa&.answer&.title || ''
 
       row << answer
     end

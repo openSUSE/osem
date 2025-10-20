@@ -21,7 +21,7 @@ wb.add_worksheet(name: 'registrations') do |sheet|
     row << registration.user.physical_tickets.by_conference(@conference).first&.token
     @conference.questions.each do |question|
       qa = registration.qanswers.find_by(question: question)
-      answer = ( qa ? qa.answer.title : '' )
+      answer = qa&.answer&.title || ''
 
       row << answer
     end

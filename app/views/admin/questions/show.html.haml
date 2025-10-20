@@ -5,7 +5,7 @@
         %h1= @question.title
         - @question.answers.each do |answer|
           = answer.title
-          (#{answer.qanswers.find_by(question: @question).registrations.where(conference: @conference).count})
+          (#{answer.qanswers.find_by(question: @question)&.registrations&.where(conference: @conference)&.count || 0})
 
 
   .row
