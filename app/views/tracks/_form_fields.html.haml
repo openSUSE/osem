@@ -25,7 +25,7 @@
   - if @conference.venue.try(:rooms).present?
     .form-group
       = f.label :room, "Room"
-      = f.select :room, @conference.venue.rooms.map {|room| ["#{room.name}", room.id]}, { include_blank: true }, { required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control select-help-toggle' }
+      = f.select :room_id, @conference.venue.rooms.map {|room| ["#{room.name}", room.id]}, { include_blank: true }, { required: @track.self_organized_and_accepted_or_confirmed?, class: 'form-control select-help-toggle' }
   - else
     %p
       Please add a
