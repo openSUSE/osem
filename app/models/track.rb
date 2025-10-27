@@ -16,6 +16,7 @@ class Track < ApplicationRecord
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
 
   before_create :generate_guid
+  after_update :sync_room_to_event_schedules, if: :saved_change_to_room_id?
   validates :name, presence: true
   validates :color, format: /\A#[0-9A-F]{6}\z/
   validates :short_name,
@@ -173,6 +174,14 @@ class Track < ApplicationRecord
   end
 
   private
+
+  def sync_room_to_event_schedules
+    return unless room_id
+
+    events.joins(:event_schedules).find_each do |event|
+      event.event_schedules.update_all(room_id: room_id)
+    end
+  end
 
   def generate_guid
     guid = SecureRandom.urlsafe_base64
