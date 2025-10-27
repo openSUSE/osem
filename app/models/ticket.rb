@@ -13,7 +13,7 @@ class Ticket < ApplicationRecord
   scope :for_registration, -> { where(registration_ticket: true) }
 
   # This validation is for the sake of simplicity.
-  # If we would allow different currencies per conference we also have to handle convertions between currencies!
+  # If we would allow different currencies per conference we also have to handle conversions between currencies!
   validate :tickets_of_conference_have_same_currency
 
   validates :price_cents, :price_currency, :title, presence: true

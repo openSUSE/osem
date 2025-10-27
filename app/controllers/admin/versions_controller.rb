@@ -45,7 +45,7 @@ module Admin
         end
 
       elsif @version.event == 'create' && @version.item
-        # if @version represets a create event and is not currently deleted
+        # if @version represents a create event and is not currently deleted
         @version.item.destroy
         flash[:notice] = 'The selected change was successfully reverted'
 

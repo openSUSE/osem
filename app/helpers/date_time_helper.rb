@@ -17,7 +17,7 @@ module DateTimeHelper
   ##
   # Gets a datetime object
   # ====Returns
-  # * +String+ -> formated datetime object
+  # * +String+ -> formatted datetime object
   def format_datetime(obj)
     return unless obj
 
