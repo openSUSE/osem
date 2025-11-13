@@ -39,7 +39,7 @@ class SchedulesController < ApplicationController
         @current_day = @conference.current_conference_day
         @day = @current_day.present? ? @current_day : @dates.first
         if @current_day
-          # the schedule takes you to the current time if it is beetween the start and the end time.
+          # the schedule takes you to the current time if it is between the start and the end time.
           @hour_column = @conference.hours_from_start_time(@conf_start, @conference.end_hour)
         end
         # Ids of the @event_schedules of confrmed self_organized tracks along with the selected_schedule_id

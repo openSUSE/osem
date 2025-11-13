@@ -4,7 +4,7 @@
 
 FactoryBot.define do
   factory :comment do
-    body { 'Most interresting comment ever, created by a girl.' }
+    body { 'Most interesting comment ever, created by a girl.' }
     user
     association :commentable, factory: :event
   end

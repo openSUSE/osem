@@ -12,7 +12,7 @@
 # The name of the host the database runs on
 # OSEM_DB_HOST=database
 
-# The port the databse runs on
+# The port the database runs on
 # OSEM_DB_PORT=3306
 
 # The user to access the database with
