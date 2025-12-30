@@ -633,7 +633,7 @@ GEM
     unicode-emoji (4.0.4)
     unobtrusive_flash (3.3.1)
       railties
-    uri (1.0.3)
+    uri (1.1.1)
     useragent (0.16.11)
     version_gem (1.1.8)
     warden (1.2.9)
