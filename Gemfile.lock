@@ -635,7 +635,7 @@ GEM
       railties
     uri (1.1.1)
     useragent (0.16.11)
-    version_gem (1.1.8)
+    version_gem (1.1.9)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.1.0)
