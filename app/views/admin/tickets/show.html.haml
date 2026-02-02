@@ -7,7 +7,13 @@
           Ticket
           %small
             = humanized_money_with_symbol @ticket.price
-          = link_to 'Edit Ticket', edit_admin_conference_ticket_path, class: 'btn btn-primary pull-right'
+        = link_to 'Edit Ticket', edit_admin_conference_ticket_path, class: 'btn btn-primary pull-right'
+        - if can? :give, Ticket
+          .pull-right
+            = link_to 'Give a Ticket', '#',
+              data: { toggle: 'modal', target: "#modal-give-ticket-#{@ticket.id}" },
+              class: 'button btn btn-default btn-info'
+
       %p.text-muted
         People who bought this ticket
 .row
@@ -36,3 +42,26 @@
               = buyer.affiliation
             %td
               = @ticket.tickets_paid(buyer)
+
+- content_for :modals do
+  .modal.fade{ id: "modal-give-ticket-#{@ticket.id}" }
+    .modal-dialog
+      .modal-content
+        = semantic_form_for(@ticket.ticket_purchases.new,
+          url: give_admin_conference_ticket_path(@conference, @ticket)) do |f|
+          .modal-header
+            %button.close{ data: { dismiss: 'modal' } }
+              %i.fa.fa-close
+            %h3.modal-title
+              Give a
+              = @ticket.title
+              Ticket
+          .modal-body
+            = user_selector_input(:user, f, '', false)
+          .modal-footer
+            = f.action :submit, as: :button, button_html: { class: 'btn btn-primary' }
+
+:javascript
+  $(document).ready(function() {
+    $('#ticket_purchase_user_id').selectize({})
+  });

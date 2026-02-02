@@ -15,7 +15,7 @@ feature Ticket do
       sign_out
     end
 
-    scenario 'add a valid ticket', feature: true, js: true do
+    scenario 'add a valid ticket', feature: true do
       visit admin_conference_tickets_path(conference.short_title)
       click_link 'Add Ticket'
 
@@ -29,10 +29,39 @@ feature Ticket do
       expect(Ticket.count).to eq(2)
     end
 
+    scenario 'add a invalid ticket', feature: true do
+      visit admin_conference_tickets_path(conference.short_title)
+      click_link 'Add Ticket'
+
+      fill_in 'ticket_title', with: ''
+      fill_in 'ticket_price', with: '-1'
+
+      click_button 'Create Ticket'
+      page.find('#flash')
+      expect(flash).to eq("Creating Ticket failed: Title can't be blank. Price cents must be greater than or equal to 0.")
+      expect(Ticket.count).to eq(1)
+    end
+
+    scenario 'add a hidden ticket', feature: true do
+      visit admin_conference_tickets_path(conference.short_title)
+      click_link 'Add Ticket'
+
+      fill_in 'ticket_title', with: 'Hidden Ticket'
+      fill_in 'ticket_description', with: 'The hidden ticket'
+      fill_in 'ticket_price', with: '100'
+      uncheck 'ticket_visible'
+
+      click_button 'Create Ticket'
+      page.find('#flash')
+      expect(flash).to eq('Ticket successfully created.')
+      expect(Ticket.count).to eq(2)
+      expect(Ticket.visible.count).to eq(1)
+    end
+
     context 'Ticket already created' do
       let!(:ticket) { create(:ticket, title: 'Business Ticket', price: 100, conference_id: conference.id) }
 
-      scenario 'edit valid ticket', feature: true, js: true do
+      scenario 'edit valid ticket', feature: true do
         visit admin_conference_tickets_path(conference.short_title)
         click_link('Edit', href: edit_admin_conference_ticket_path(conference.short_title, ticket.id))
 

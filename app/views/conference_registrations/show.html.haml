@@ -74,7 +74,7 @@
               = link_to event.title, conference_program_proposal_path(@conference.short_title, event.id)
               = '(' + registered_text(event) + ')'
 
-  - if @conference.tickets.any?
+  - if @conference.tickets.visible.any?
     .row
       .col-md-12
         %h4
