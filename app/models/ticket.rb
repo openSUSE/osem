@@ -20,6 +20,8 @@ class Ticket < ApplicationRecord
 
   validates :price_cents, numericality: { greater_than_or_equal_to: 0 }
 
+  scope :visible, -> { where(visible: true) }
+
   def bought?(user)
     buyers.include?(user)
   end
