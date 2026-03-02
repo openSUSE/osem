@@ -21,6 +21,7 @@ class Ability
     can [:show], Conference do |conference|
       conference.splashpage&.public == true
     end
+    can :code_of_conduct, Conference
     # Can view the schedule
     can [:schedule, :events], Conference do |conference|
       conference.program.cfp && conference.program.schedule_public
