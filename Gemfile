@@ -183,6 +183,8 @@ gem 'sprockets-rails'
 # for multiple speakers select on proposal/event forms
 gem 'selectize-rails'
 
+# Pin to solve https://github.com/mperham/connection_pool/issues/212
+gem "connection_pool", "< 3"
 # memcached binary connector
 gem 'dalli'
 
