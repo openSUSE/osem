@@ -95,6 +95,7 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
    ```
 1. Set up the development environment (only once)
    ```bash
+   docker compose run --rm osem bundle install
    docker compose run --rm osem bundle exec rake db:bootstrap
    ```
 1. Start the development environment:
