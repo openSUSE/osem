@@ -107,7 +107,7 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
 
 1. Changed something? Run the tests to verify your changes!
    ```bash
-   docker-compose run --rm osem bundle exec rspec spec
+   docker compose run --rm osem bundle exec rspec spec
    ```
 
 1. Issue any standard `rails`/`rake`/`bundler` command
