@@ -130,6 +130,11 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
 
 1. Want to know more? In our [wiki](https://github.com/openSUSE/osem/wiki) you can find more information about what is possible in our development environment, how we work with each other on github or other topics of interest for OSEM developers.
 
+## Note on SELinux
+
+If you experience build issues related to misisng files. This will be likely related to SELinux.
+Consider temporarily switching it to the permissive mode to eliminate this possiblity.
+
 ## How to contribute translations
 
 Please refer to our [translation guide](https://github.com/openSUSE/osem/wiki/Translation) in the wiki.
