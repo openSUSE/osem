@@ -120,6 +120,14 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
    docker compose exec osem /bin/bash -l
    ```
 
+   You might need to remove lock file manually in certain cases, otherwise the app will not start.
+   Please make sure that osem is running (e.g. with  docker compose up --build)
+   ```bash
+   docker compose exec osem /bin/bash -l
+   rm /osem/tmp/pids/server.pid
+   ```
+   
+
 1. Want to know more? In our [wiki](https://github.com/openSUSE/osem/wiki) you can find more information about what is possible in our development environment, how we work with each other on github or other topics of interest for OSEM developers.
 
 ## How to contribute translations
