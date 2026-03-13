@@ -522,6 +522,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_21_114727) do
     t.boolean "registration_ticket", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "visible",             default: true
   end
 
   create_table "tracks", force: :cascade do |t|
