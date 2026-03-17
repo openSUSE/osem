@@ -49,7 +49,7 @@ module Admin
     private
 
     def lodging_params
-      params.require(:lodging).permit(:name, :description, :picture, :picture_cache, :website_link, :conference_id)
+      params.require(:lodging).permit(:name, :description, :picture, :picture_cache, :website_link)
     end
   end
 end

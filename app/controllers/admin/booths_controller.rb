@@ -130,8 +130,7 @@ module Admin
     end
 
     def booth_params
-      params.require(:booth).permit(:title, :description, :reasoning, :state, :picture, :conference_id,
-                                    :created_at, :updated_at, :submitter_relationship, :website_url, responsible_ids: [])
+      params.require(:booth).permit(:title, :description, :reasoning, :picture, :website_url, :submitter_relationship, responsible_ids: [])
     end
   end
 end
