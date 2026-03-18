@@ -17,7 +17,7 @@
           url = update_selected_schedule_admin_conference_program_track_path(@conference.short_title, @schedule.track) + '?[track][selected_schedule_id]='
         else
           value = @schedule.id == @selected_schedule.try(:id)
-          url = admin_conference_program_path(@conference.short_title) + '?[program][selected_schedule_id]='
+          url = admin_conference_program_path(@conference.short_title) + '?program[selected_schedule_id]='
         end
       = check_box_tag @conference.short_title, @schedule.id, value, url: url,
         class: 'switch-checkbox-schedule'
