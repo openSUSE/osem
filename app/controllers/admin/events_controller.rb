@@ -178,7 +178,7 @@ module Admin
     end
 
     def comment_params
-      params.require(:comment).permit(:commentable, :body, :user_id)
+      params.require(:comment).permit(:body)
     end
 
     def update_state(transition, notice, mail = false, subject = false, send_mail = false)

@@ -31,10 +31,4 @@ class TicketPurchasesController < ApplicationController
   def index
     @unpaid_ticket_purchases = current_user.ticket_purchases.by_conference(@conference).unpaid
   end
-
-  private
-
-  def ticket_purchase_params
-    params.require(:ticket_purchase).permit(:ticket_id, :user_id, :conference_id, :quantity)
-  end
 end

@@ -51,7 +51,7 @@ module Admin
     private
 
     def difficulty_level_params
-      params.require(:difficulty_level).permit(:title, :description, :color, :conference_id)
+      params.require(:difficulty_level).permit(:title, :description, :color)
     end
   end
 end

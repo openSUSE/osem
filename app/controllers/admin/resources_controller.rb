@@ -48,7 +48,7 @@ module Admin
     private
 
     def resource_params
-      params.require(:resource).permit(:name, :description, :quantity, :used, :conference_id)
+      params.require(:resource).permit(:name, :description, :quantity, :used)
     end
   end
 end
