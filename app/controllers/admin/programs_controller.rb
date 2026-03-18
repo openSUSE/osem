@@ -11,7 +11,7 @@ module Admin
 
     def update
       authorize! :update, @conference.program
-      @program = @conference.program
+
       params['program']['languages'] = params['program']['languages'].join(',') if params['program']['languages'].present?
       @program.assign_attributes(program_params)
       send_mail_on_schedule_public = @program.notify_on_schedule_public?
