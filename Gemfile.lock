@@ -246,7 +246,7 @@ GEM
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.0)
-    icalendar (2.11.2)
+    icalendar (2.12.1)
       base64
       ice_cube (~> 0.16)
       logger
