@@ -779,7 +779,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.4.9
+   ruby 4.0.2
 
 BUNDLED WITH
    2.6.9
