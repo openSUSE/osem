@@ -213,7 +213,7 @@ GEM
       multipart-post (~> 2.0)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
-    fastimage (2.4.0)
+    fastimage (2.4.1)
     feature (1.4.0)
     ffi (1.17.3)
     font-awesome-sass (6.7.2)
