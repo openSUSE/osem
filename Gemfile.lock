@@ -215,7 +215,7 @@ GEM
       net-http (~> 0.5)
     fastimage (2.4.1)
     feature (1.4.0)
-    ffi (1.17.3)
+    ffi (1.17.4)
     font-awesome-sass (6.7.2)
       sassc (~> 2.0)
     geckodriver-helper (0.24.0)
