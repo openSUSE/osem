@@ -243,7 +243,7 @@ GEM
     hashery (2.1.2)
     hashie (5.1.0)
       logger
-    htmlentities (4.3.4)
+    htmlentities (4.4.2)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.0)
