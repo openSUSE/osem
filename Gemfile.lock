@@ -492,7 +492,7 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
-    recaptcha (5.21.1)
+    recaptcha (5.21.2)
     redcarpet (3.6.1)
     regexp_parser (2.11.3)
     reline (0.6.3)
