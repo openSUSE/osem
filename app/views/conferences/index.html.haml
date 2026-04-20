@@ -23,6 +23,9 @@
     %span.btn-group
       = link_to("Days only", calendar_url(protocol: 'webcal', format: 'ics'), class: 'btn btn-default')
       = link_to("Detailed", calendar_url(protocol: 'webcal', format: 'ics', full: true), class: 'btn btn-default')
+  %p
+    Subscribe to the RSS feed:
+    = link_to("RSS Feed", feed_url(format: :rss), class: 'btn btn-default')
 
 -content_for :script_body do
   :javascript
