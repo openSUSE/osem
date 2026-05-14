@@ -22,9 +22,13 @@ class EventType < ApplicationRecord
 
   ##
   # Check if length is a divisor of program schedule cell size. Used as validation.
+  # Skipped when length is missing or non-numeric so that the numericality
+  # validator can produce a proper error instead of crashing.
   #
   def length_step
-    errors.add(:length, "must be a divisor of #{program.schedule_interval}") if program && length % program.schedule_interval != 0
+    return unless program && length.is_a?(Numeric)
+
+    errors.add(:length, "must be a divisor of #{program.schedule_interval}") if length % program.schedule_interval != 0
   end
 
   def capitalize_color
