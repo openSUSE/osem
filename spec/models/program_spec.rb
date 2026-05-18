@@ -283,6 +283,27 @@ describe Program do
     end
   end
 
+  describe '#any_published_schedule?' do
+    let(:event) { create(:event, program: program) }
+    let(:schedule) { create(:schedule, program: program) }
+    let!(:event_schedule) { create(:event_schedule, event: event, schedule: schedule, start_time: DateTime.parse("#{Date.current + 1} 10:00").utc) }
+
+    it 'returns false when schedule_public is disabled' do
+      program.update!(schedule_public: false, selected_schedule: schedule)
+      expect(program.any_published_schedule?).to be false
+    end
+
+    it 'returns false when schedule_public is enabled but no schedule is selected' do
+      program.update!(schedule_public: true, selected_schedule: nil)
+      expect(program.any_published_schedule?).to be false
+    end
+
+    it 'returns true when schedule_public is enabled and the selected schedule has events' do
+      program.update!(schedule_public: true, selected_schedule: schedule)
+      expect(program.any_published_schedule?).to be true
+    end
+  end
+
   describe '#cfp' do
     it 'returns the cfp for events' do
       create(:cfp, cfp_type: 'events', program: program, end_date: Date.current + 1)
