@@ -3,6 +3,7 @@
 class SchedulesController < ApplicationController
   load_and_authorize_resource
   before_action :respond_to_options
+  before_action :favourites
   load_resource :conference, find_by: :short_title
   load_resource :program, through: :conference, singleton: true, except: :index
   before_action :load_withdrawn_event_schedules, only: [:show, :events]
@@ -58,9 +59,17 @@ class SchedulesController < ApplicationController
     @events_schedules = @program.selected_event_schedules(
       includes: [:room, { event: %i[track event_type speakers submitter] }]
     )
-    @events_schedules = [] unless @events_schedules
 
-    @unscheduled_events = @program.events.confirmed - @events_schedules.map(&:event)
+    @events_schedules = @events_schedules.select{ |e| e.event.favourite_users.exists?(current_user.id) } if @events_schedules && current_user && @favourites
+    @events_schedules = [] unless @events_schedules
+    @favourites = params[:favourites] == 'true'
+
+    @unscheduled_events = if @program.selected_schedule
+                            @program.events.confirmed - @events_schedules.map(&:event)
+                          else
+                            @program.events.confirmed
+                          end
+    @unscheduled_events = @unscheduled_events.select{ |e| e.favourite_users.exists?(current_user.id) } if current_user && @favourites
 
     day = @conference.current_conference_day
     @tag = day.strftime('%Y-%m-%d') if day
@@ -71,6 +80,10 @@ class SchedulesController < ApplicationController
   end
 
   private
+
+  def favourites
+    @favourites = params[:favourites] == 'true'
+  end
 
   def respond_to_options
     respond_to do |format|

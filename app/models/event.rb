@@ -34,9 +34,12 @@ class Event < ApplicationRecord
   belongs_to :difficulty_level
   belongs_to :program
 
+  has_and_belongs_to_many :favourite_users, class_name: 'User'
+
   accepts_nested_attributes_for :event_users, allow_destroy: true
   accepts_nested_attributes_for :speakers, allow_destroy: true
   accepts_nested_attributes_for :users
+  accepts_nested_attributes_for :favourite_users
 
   before_create :generate_guid
 
