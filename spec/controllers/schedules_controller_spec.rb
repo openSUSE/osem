@@ -6,13 +6,13 @@ describe SchedulesController do
   let(:conference) { create(:conference, splashpage: create(:splashpage, public: true), venue: create(:venue)) }
 
   describe 'GET #show' do
+    before :each do
+      conference.program.update!(schedule_public: true)
+      create_pair(:event_scheduled, program: conference.program)
+    end
+
     context 'XML' do
       before :each do
-        conference.program.schedule_public = true
-        conference.program.save!
-        create(:event_scheduled, program: conference.program)
-        create(:event_scheduled, program: conference.program)
-
         get :show, params: { conference_id: conference.short_title, format: :xml }
       end
 
@@ -24,6 +24,21 @@ describe SchedulesController do
 
       it 'has 200 status code' do
         expect(response).to be_successful
+      end
+    end
+
+    context 'iCalendar' do
+      before :each do
+        get :show, params: { conference_id: conference.short_title, format: :ics }
+      end
+
+      it 'has 200 status code' do
+        expect(response).to be_successful
+      end
+
+      it 'returns iCalendar data' do
+        expect(response.content_type).to start_with('text/calendar')
+        expect(response.body).to start_with('BEGIN:VCALENDAR')
       end
     end
   end
