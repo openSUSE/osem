@@ -3,7 +3,8 @@
 class ConferencesController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :respond_to_options
-  load_and_authorize_resource find_by: :short_title, except: :show
+  load_and_authorize_resource find_by: :short_title, except: [:show, :feed]
+  skip_authorization_check only: :feed
 
   def index
     @current    = Conference.upcoming.reorder(start_date: :asc)
@@ -105,6 +106,13 @@ class ConferencesController < ApplicationController
         calendar.publish
         render inline: calendar.to_ical
       end
+    end
+  end
+
+  def feed
+    @conferences = Conference.order(created_at: :desc)
+    respond_to do |format|
+      format.rss { render layout: false }
     end
   end
 
