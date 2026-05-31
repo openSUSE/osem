@@ -264,5 +264,31 @@ describe 'User' do
       it{ should_not be_able_to(:edit, other_self_organized_track) }
       it{ should_not be_able_to(:update, other_self_organized_track) }
     end
+
+    context 'when user is organizer of conference' do
+      let(:conference) { create(:conference) }
+      let(:user) { create(:organizer, resource: conference) }
+      let(:event_in_conference) { create(:event, program: conference.program) }
+      let(:event_in_other_conference) { create(:event) }
+      let(:commercial_in_conference) { create(:commercial, commercialable: event_in_conference) }
+      let(:commercial_in_other_conference) { create(:commercial, commercialable: event_in_other_conference) }
+
+      it{ should be_able_to(:create, event_in_conference.commercials.new) }
+      it{ should be_able_to(:manage, commercial_in_conference) }
+      it{ should_not be_able_to(:manage, commercial_in_other_conference) }
+    end
+
+    context 'when user is on cfp team of conference' do
+      let(:conference) { create(:conference) }
+      let(:user) { create(:cfp_user, resource: conference) }
+      let(:event_in_conference) { create(:event, program: conference.program) }
+      let(:event_in_other_conference) { create(:event) }
+      let(:commercial_in_conference) { create(:commercial, commercialable: event_in_conference) }
+      let(:commercial_in_other_conference) { create(:commercial, commercialable: event_in_other_conference) }
+
+      it{ should be_able_to(:create, event_in_conference.commercials.new) }
+      it{ should be_able_to(:manage, commercial_in_conference) }
+      it{ should_not be_able_to(:manage, commercial_in_other_conference) }
+    end
   end
 end
