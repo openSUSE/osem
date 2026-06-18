@@ -152,6 +152,8 @@ class Ability
       can :manage, Registration, conference_id: conf_ids_for_organizer
       # To access conference/proposals
       can :manage, Event, program: { conference_id: conf_ids_for_organizer }
+      can :manage, Commercial, commercialable_type: 'Event',
+                               commercialable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
       # To access comment link in menu bar
       can :index, Comment, commentable_type: 'Event',
                            commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_organizer).pluck(:id)).pluck(:id)
@@ -163,6 +165,8 @@ class Ability
                            commentable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
       # To access conference/proposals
       can :manage, Event, program: { conference_id: conf_ids_for_cfp }
+      can :manage, Commercial, commercialable_type: 'Event',
+                               commercialable_id:   Event.where(program_id: Program.where(conference_id: conf_ids_for_cfp).pluck(:id)).pluck(:id)
     end
 
     if conf_ids_for_info_desk
