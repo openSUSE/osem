@@ -3,7 +3,8 @@
 class ConferencesController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :respond_to_options
-  load_and_authorize_resource find_by: :short_title, except: :show
+  load_and_authorize_resource find_by: :short_title, except: %i[show calendar]
+  skip_authorization_check only: :calendar
 
   def index
     @current    = Conference.upcoming.reorder(start_date: :asc)
@@ -76,7 +77,7 @@ class ConferencesController < ApplicationController
             event_schedules = conf.program.selected_event_schedules(
               includes: [{ event: %i[event_type speakers submitter] }]
             )
-            calendar = icalendar_proposals(calendar, event_schedules.map(&:event), conf)
+            calendar = helpers.icalendar_proposals(calendar, event_schedules.map(&:event), conf)
           else
             calendar.event do |e|
               e.dtstart = conf.start_date

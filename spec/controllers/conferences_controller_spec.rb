@@ -49,4 +49,25 @@ describe ConferencesController do
     end
   end
 
+  describe 'GET #calendar' do
+    it 'returns iCalendar data for all conferences' do
+      get :calendar, params: { format: :ics }
+
+      expect(response).to be_successful
+      expect(response.content_type).to start_with('text/calendar')
+      expect(response.body).to start_with('BEGIN:VCALENDAR')
+    end
+
+    it 'returns iCalendar data with full schedule when full=true' do
+      conference.program.update!(schedule_public: true)
+      create(:event_scheduled, program: conference.program)
+
+      get :calendar, params: { full: true, format: :ics }
+
+      expect(response).to be_successful
+      expect(response.content_type).to start_with('text/calendar')
+      expect(response.body).to start_with('BEGIN:VCALENDAR')
+    end
+  end
+
 end
