@@ -1,6 +1,8 @@
 Osem::Application.routes.draw do
-  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
-
+  if Rails.env.development? && defined?(LetterOpenerWeb)
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
+  
   constraints DomainConstraint do
     get '/', to: 'conferences#show'
   end
