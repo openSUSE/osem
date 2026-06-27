@@ -164,9 +164,14 @@ feature Event do
       visit conference_program_proposals_path(conference.short_title)
       expect(page).to have_content 'Example Proposal'
       expect(@event.state).to eq('unconfirmed')
-      click_link "confirm_proposal_#{@event.id}"
+      expect(page).to have_selector("#confirm_proposal_#{@event.id}")
+
+      # Clicking the rails-ujs patch link through Selenium can raise a stale
+      # node error after the redirect already happened, so trigger the click in
+      # the page context instead.
+      page.execute_script(%{ document.getElementById('confirm_proposal_#{@event.id}').click(); })
       expect(page).to have_content 'The proposal was confirmed. Please register to attend the conference.'
-      expect(current_path).to eq(new_conference_conference_registration_path(conference.short_title))
+      expect(page).to have_current_path(new_conference_conference_registration_path(conference.short_title))
       @event.reload
       expect(@event.state).to eq('confirmed')
     end
