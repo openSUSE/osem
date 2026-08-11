@@ -165,7 +165,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.7)
-    csv (3.3.5)
+    csv (3.3.6)
     daemons (1.4.0)
     dalli (2.7.11)
     dante (0.2.0)
