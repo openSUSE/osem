@@ -160,7 +160,7 @@ GEM
       railties (>= 3.1)
     crack (0.4.5)
       rexml
-    crass (1.0.6)
+    crass (1.0.7)
     csv (3.3.5)
     daemons (1.4.0)
     dalli (2.7.11)
@@ -305,7 +305,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.25.1)
+    loofah (2.25.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.9.0)
