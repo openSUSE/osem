@@ -36,7 +36,7 @@ gem 'mini_magick'
 # for internationalizing
 gem 'rails-i18n'
 
-# as authentification framework
+# as authentication framework
 gem 'devise'
 gem 'devise_ichain_authenticatable'
 
