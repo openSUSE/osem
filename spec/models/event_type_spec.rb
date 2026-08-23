@@ -44,6 +44,13 @@ describe EventType do
       it 'is not valid when length is not multiple of LENGTH_STEP' do
         expect(build(:event_type, program: conference.program, length: 37)).not_to be_valid
       end
+
+      it 'is not valid when length is blank and does not raise during validation' do
+        event_type = build(:event_type, program: conference.program, length: nil)
+        expect { event_type.valid? }.not_to raise_error
+        expect(event_type).not_to be_valid
+        expect(event_type.errors[:length]).to be_present
+      end
     end
   end
 end
