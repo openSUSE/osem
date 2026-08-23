@@ -163,6 +163,23 @@ class Program < ApplicationRecord
     (!conference.email_settings.program_schedule_public_subject.blank? && !conference.email_settings.program_schedule_public_body.blank?)
   end
 
+  ##
+  # Checks if there is a published schedule that should be displayed.
+  # A schedule is displayable only when the admin has enabled the
+  # +schedule_public+ flag *and* there is at least one event scheduled,
+  # either on the conference-wide selected schedule or on the selected
+  # schedule of any confirmed self-organized track.
+  #
+  # ====Returns
+  # * +true+ -> When the schedule is public and contains at least one event
+  # * +false+ -> Otherwise
+  def any_published_schedule?
+    return false unless schedule_public
+    return true if selected_schedule&.event_schedules&.exists?
+
+    tracks.self_organized.confirmed.any? { |track| track.selected_schedule&.event_schedules&.exists? }
+  end
+
   def languages_list
     languages.split(',').map {|l| ISO_639.find(l).english_name} if languages.present?
   end
