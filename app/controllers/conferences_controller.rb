@@ -67,47 +67,6 @@ class ConferencesController < ApplicationController
     end
   end
 
-  def calendar
-    respond_to do |format|
-      format.ics do
-        calendar = Icalendar::Calendar.new
-        Conference.all.each do |conf|
-          if params[:full]
-            event_schedules = conf.program.selected_event_schedules(
-              includes: [{ event: %i[event_type speakers submitter] }]
-            )
-            calendar = icalendar_proposals(calendar, event_schedules.map(&:event), conf)
-          else
-            calendar.event do |e|
-              e.dtstart = conf.start_date
-              e.dtstart.ical_params = { 'VALUE'=>'DATE' }
-              e.dtend = conf.end_date
-              e.dtend.ical_params = { 'VALUE'=>'DATE' }
-              e.duration = "P#{(conf.end_date - conf.start_date + 1).floor}D"
-              e.created = conf.created_at
-              e.last_modified = conf.updated_at
-              e.summary = conf.title
-              e.description = conf.description
-              e.uid = conf.guid
-              e.url = conference_url(conf.short_title)
-              v = conf.venue
-              if v
-                e.geo = v.latitude, v.longitude if v.latitude && v.longitude
-                location = ''
-                location += "#{v.street}, " if v.street
-                location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
-                location += v.country_name if v.country_name
-                e.location = location if location
-              end
-            end
-          end
-        end
-        calendar.publish
-        render inline: calendar.to_ical
-      end
-    end
-  end
-
   def code_of_conduct; end
 
   private

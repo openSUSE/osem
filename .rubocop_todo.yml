@@ -535,7 +535,9 @@ Metrics/AbcSize:
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
 # AllowedMethods: refine
 Metrics/BlockLength:
-  Max: 202
+  Exclude:
+    - 'config/routes.rb'
+  Max: 100
 
 # Offense count: 1
 # Configuration parameters: CountBlocks, CountModifierForms.
@@ -1435,7 +1437,7 @@ Rails/RedundantPresenceValidationOnBelongsTo:
 # Offense count: 2
 Rails/RenderInline:
   Exclude:
-    - 'app/controllers/conferences_controller.rb'
+    - 'app/controllers/calendars_controller.rb'
     - 'app/controllers/schedules_controller.rb'
 
 # Offense count: 10
