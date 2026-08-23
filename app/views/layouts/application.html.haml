@@ -7,6 +7,7 @@
     %meta{content: '', name: 'author'}
     = stylesheet_link_tag "application", media: 'all'
     = javascript_include_tag "application"
+    = auto_discovery_link_tag(:rss, feed_url(format: :rss), title: "#{ENV.fetch('OSEM_NAME', 'OSEM')} Conferences RSS Feed")
 
     = csrf_meta_tags
     = content_for(:script_head)
