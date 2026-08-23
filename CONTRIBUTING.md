@@ -91,35 +91,49 @@ sed "s/13042/`id -u`/" docker-compose.override.yml.example > docker-compose.over
 
 1. Build the development environment (only once)
    ```bash
-   docker-compose build --no-cache --pull
+   docker compose build --no-cache --pull
    ```
 1. Set up the development environment (only once)
    ```bash
-   docker-compose run --rm osem bundle exec rake db:bootstrap
+   docker compose run --rm osem bundle install
+   docker compose run --rm osem bundle exec rake db:bootstrap
    ```
 1. Start the development environment:
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
 1. Check out your OSEM rails app. You can access the app at http://localhost:3000. Whatever you change in your cloned repository will have effect in the development environment. Sign up, the first user will be automatically assigned the admin role.
 
 1. Changed something? Run the tests to verify your changes!
    ```bash
-   docker-compose run --rm osem bundle exec rspec spec
+   docker compose run --rm osem bundle exec rspec spec
    ```
 
 1. Issue any standard `rails`/`rake`/`bundler` command
    ```bash
-   docker-compose run --rm osem bundle exec rake db:version
+   docker compose run --rm osem bundle exec rake db:version
    ```
 
 1. Or explore the development environment:
    ```bash
-   docker-compose exec osem /bin/bash -l
+   docker compose exec osem /bin/bash -l
    ```
 
+   You might need to remove lock file manually in certain cases, otherwise the app will not start.
+   Please make sure that osem is running (e.g. with  docker compose up --build)
+   ```bash
+   docker compose exec osem /bin/bash -l
+   rm /osem/tmp/pids/server.pid
+   ```
+   
+
 1. Want to know more? In our [wiki](https://github.com/openSUSE/osem/wiki) you can find more information about what is possible in our development environment, how we work with each other on github or other topics of interest for OSEM developers.
+
+## Note on SELinux
+
+If you experience build issues related to misisng files. This will be likely related to SELinux.
+Consider temporarily switching it to the permissive mode to eliminate this possiblity.
 
 ## How to contribute translations
 
