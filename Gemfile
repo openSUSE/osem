@@ -10,7 +10,7 @@ ruby '~> 3.3'
 
 # as web framework
 if next?
-  gem 'rails', '~> 8.0'
+  gem 'rails', '~> 8.0.0'
 else
   gem 'rails', '~> 7.2'
 end
