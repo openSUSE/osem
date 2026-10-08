@@ -25,6 +25,10 @@ gem 'responders', '~> 3.0'
 # as database
 gem 'pg'
 
+# for the admin CSV exports (booths, tracks, registrations). csv is a bundled gem
+# since Ruby 3.4, so it has to be declared, not reached through another gem.
+gem 'csv'
+
 # for tracking data changes
 gem 'paper_trail'
 
