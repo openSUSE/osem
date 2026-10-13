@@ -34,7 +34,7 @@ Osem::Application.routes.draw do
       resources :surveys do
         resources :survey_questions, except: :index
       end
-      resource :contact, except: [:index, :new, :create, :show, :destroy]
+      resource :contact, except: [:new, :create, :show, :destroy]
       resources :schedules, except: [:edit, :update]
       resources :event_schedules, only: [:create, :update, :destroy]
       get 'commercials/render_commercial' => 'commercials#render_commercial'
