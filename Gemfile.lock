@@ -706,6 +706,7 @@ DEPENDENCIES
   cocoon
   connection_pool (< 3)
   countable-rails
+  csv
   daemons
   dalli
   database_cleaner

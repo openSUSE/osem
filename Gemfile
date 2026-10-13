@@ -98,6 +98,9 @@ gem 'chartkick'
 # for displaying maps
 gem 'leaflet-rails'
 
+# for exporting CSV files
+gem 'csv'
+
 # for user avatars
 gem 'gravtastic'
 

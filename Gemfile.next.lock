@@ -158,6 +158,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv (3.3.6)
     daemons (1.4.0)
     dalli (2.7.11)
     dante (0.2.0)
@@ -691,7 +692,9 @@ DEPENDENCIES
   climate_control
   cloudinary
   cocoon
+  connection_pool (< 3)
   countable-rails
+  csv
   daemons
   dalli
   database_cleaner
