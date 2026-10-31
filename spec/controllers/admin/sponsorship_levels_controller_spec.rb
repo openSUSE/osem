@@ -48,7 +48,7 @@ describe Admin::SponsorshipLevelsController do
     end
 
     describe 'POST #create' do
-      context 'saves successfuly' do
+      context 'saves successfully' do
         before(:each, run: true) do
           post :create, params: { sponsorship_level: attributes_for(:sponsorship_level),
                                   conference_id:     conference.short_title }

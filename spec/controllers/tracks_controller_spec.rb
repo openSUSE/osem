@@ -60,7 +60,7 @@ describe TracksController do
   end
 
   describe 'POST #create' do
-    context 'saves successfuly' do
+    context 'saves successfully' do
       before :each do
         post :create, params: { track: attributes_for(:track, :self_organized, short_name: 'my_track'), conference_id: conference.short_title }
       end
