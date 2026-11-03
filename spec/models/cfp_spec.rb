@@ -131,25 +131,57 @@ describe Cfp do
   end
 
   describe '#open?' do
+    # The CFP period is evaluated in the conference timezone, which the factory
+    # randomises, so anchor the dates in that timezone as well.
+    let(:today) { Time.find_zone(conference.timezone).today }
+
     context 'returns false' do
       it 'when start and end dates are in the past' do
-        cfp.start_date = Date.current - 3
-        cfp.end_date = Date.current - 1
+        cfp.start_date = today - 3
+        cfp.end_date = today - 1
         expect(cfp.open?).to be(false)
       end
 
       it 'when start and end dates are in the future' do
-        cfp.start_date = Date.current + 1
-        cfp.end_date = Date.current + 3
+        cfp.start_date = today + 1
+        cfp.end_date = today + 3
         expect(cfp.open?).to be(false)
       end
     end
 
     context 'returns true' do
       it 'when start date is in the past and end date is in the future' do
-        cfp.start_date = Date.current - 1
-        cfp.end_date = Date.current + 1
+        cfp.start_date = today - 1
+        cfp.end_date = today + 1
         expect(cfp.open?).to be(true)
+      end
+    end
+
+    context 'when the conference timezone is ahead of the server' do
+      # 2026-06-01 23:30 UTC is already 2026-06-02 11:30 in Auckland, so the
+      # server and the conference disagree about which day it is.
+      before do
+        cfp.program.conference.update_attribute(:timezone, 'Pacific/Auckland')
+        Timecop.freeze(Time.utc(2026, 6, 1, 23, 30))
+      end
+
+      after { Timecop.return }
+
+      it 'is open on a day that has started for the conference but not for the server' do
+        cfp.start_date = Date.new(2026, 6, 2)
+        cfp.end_date = Date.new(2026, 6, 2)
+        expect(cfp.open?).to be(true)
+      end
+
+      it 'is closed on a day that has ended for the conference but not for the server' do
+        cfp.start_date = Date.new(2026, 6, 1)
+        cfp.end_date = Date.new(2026, 6, 1)
+        expect(cfp.open?).to be(false)
+      end
+
+      it 'counts the remaining days from the conference date' do
+        cfp.end_date = Date.new(2026, 6, 5)
+        expect(cfp.remaining_days).to eq(3)
       end
     end
   end
