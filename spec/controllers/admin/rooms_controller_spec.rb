@@ -50,7 +50,7 @@ describe Admin::RoomsController do
     end
 
     describe 'POST #create' do
-      context 'saves successfuly' do
+      context 'saves successfully' do
         before do
           post :create, params: { room: attributes_for(:room), conference_id: conference.short_title }
         end

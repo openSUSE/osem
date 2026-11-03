@@ -55,7 +55,7 @@ describe Admin::UsersController do
   end
 
   describe 'POST #create' do
-    context 'saves successfuly' do
+    context 'saves successfully' do
       before do
         post :create, params: { user: attributes_for(:user) }
       end
