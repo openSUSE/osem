@@ -23,7 +23,7 @@ class SchedulesController < ApplicationController
       end
       format.ics do
         cal = Icalendar::Calendar.new
-        cal = icalendar_proposals(cal, event_schedules.map(&:event), @conference)
+        cal = helpers.icalendar_proposals(cal, event_schedules.map(&:event), @conference)
         cal.publish
         render inline: cal.to_ical
       end
