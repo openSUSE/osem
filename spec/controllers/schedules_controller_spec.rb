@@ -26,5 +26,17 @@ describe SchedulesController do
         expect(response).to be_successful
       end
     end
+
+    context 'when schedule is public but no events are scheduled' do
+      before :each do
+        conference.program.update!(schedule_public: true)
+      end
+
+      it 'returns 404 instead of rendering a broken page' do
+        expect do
+          get :show, params: { conference_id: conference.short_title }
+        end.to raise_error(ActionController::RoutingError)
+      end
+    end
   end
 end

@@ -12,10 +12,11 @@ class SchedulesController < ApplicationController
       includes: [{ event: %i[event_type speakers submitter] }]
     )
 
-    unless event_schedules
-      redirect_to events_conference_schedule_path(@conference.short_title)
-      return
-    end
+    # The +schedule_public+ flag opts a conference into displaying a schedule,
+    # but the schedule itself only exists once an admin has selected a schedule
+    # and at least one event has been scheduled. Return 404 to avoid rendering
+    # a broken page (or crashing) when the schedule has not yet been published.
+    return not_found if event_schedules.empty?
 
     respond_to do |format|
       format.xml do

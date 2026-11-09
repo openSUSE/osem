@@ -24,7 +24,7 @@
             - if !@conference || @conference != conference
               - if conference.splashpage && conference.splashpage.public
                 = link_to "View Conference", conference_path(conference.short_title), class: 'btn btn-default'
-            - if conference.program and conference.program.schedule_public
+            - if conference.program&.any_published_schedule?
               = link_to "Schedule", conference_schedule_path(conference.short_title), class: 'btn btn-default'
             - if conference.code_of_conduct.present?
               = link_to "Code of Conduct", code_of_conduct_conference_path(conference.short_title), class: 'btn btn-default'
