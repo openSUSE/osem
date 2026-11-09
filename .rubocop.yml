@@ -16,8 +16,6 @@ AllCops:
   UseCache: true
   CacheRootDirectory: tmp/rubocop_cache_rails_dir
   MaxFilesInCache: 4000
-  Exclude:
-    - db/schema.rb
   NewCops: enable
 
 #################### Style ###########################
@@ -25,6 +23,10 @@ AllCops:
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
   EnforcedColonStyle: table
+
+Style/StringLiterals:
+  Exclude:
+    - "config/**/*"
 
 ##################### Metrics ##################################
 
