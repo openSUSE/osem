@@ -15,6 +15,9 @@ else
   gem 'rails', '~> 7.2'
 end
 
+# to test new rails version
+gem 'next_rails'
+
 # Use Puma as the app server
 gem 'puma'
 
@@ -249,6 +252,4 @@ group :development, :test do
   gem 'geckodriver-helper'
   # as debugger
   gem 'byebug'
-  # to test new rails version
-  gem 'next_rails'
 end
