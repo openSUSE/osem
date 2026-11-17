@@ -4,7 +4,7 @@ class SchedulesController < ApplicationController
   load_and_authorize_resource
   before_action :respond_to_options
   load_resource :conference, find_by: :short_title
-  load_resource :program, through: :conference, singleton: true, except: :index
+  load_resource :program, through: :conference, singleton: true
   before_action :load_withdrawn_event_schedules, only: [:show, :events]
 
   def show
