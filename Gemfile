@@ -10,9 +10,9 @@ ruby '~> 3.3'
 
 # as web framework
 if next?
-  gem 'rails', '~> 8.0'
+  gem 'rails', '~> 8.1'
 else
-  gem 'rails', '~> 7.2'
+  gem 'rails', '~> 8.0'
 end
 
 # to test new rails version
