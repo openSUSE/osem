@@ -149,7 +149,10 @@ class AdminAbility
         role.resource_type == 'Track' && (track_ids.include? role.resource_id)
     end
 
-    can [:index, :revert_object, :revert_attribute], PaperTrail::Version, item_type: 'User'
+    # Organizers may view (but not revert) User versions. User versions are not
+    # scoped to a conference, so granting revert here would let an organizer of any
+    # conference modify arbitrary user accounts. Reverting user records stays with admins.
+    can [:index], PaperTrail::Version, item_type: 'User'
     can [:index, :revert_object, :revert_attribute], PaperTrail::Version, conference_id: conf_ids
   end
 
