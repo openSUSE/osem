@@ -63,7 +63,7 @@ class Cfp < ApplicationRecord
     end_date.strftime('%W').to_i
   end
 
-  def remaining_days(date = Date.today)
+  def remaining_days(date = conference_today)
     result = (end_date - date).to_i
     result > 0 ? result : 0
   end
@@ -75,7 +75,7 @@ class Cfp < ApplicationRecord
   # * +false+ -> If the CFP is not set or today isn't in the CFP period.
   # * +true+ -> If today is in the CFP period.
   def open?
-    (start_date..end_date).cover?(Date.current)
+    (start_date..end_date).cover?(conference_today)
   end
 
   ##
@@ -106,6 +106,16 @@ class Cfp < ApplicationRecord
   end
 
   private
+
+  ##
+  # The current date in the conference timezone, so that the CFP opens and
+  # closes when the conference says it does rather than when the server does.
+  #
+  # ====Returns
+  # * +Date+ -> Today in the conference timezone
+  def conference_today
+    Time.find_zone(program.conference.timezone).today
+  end
 
   def before_end_of_conference
     if program&.conference&.end_date && end_date && (end_date > program.conference.end_date)
