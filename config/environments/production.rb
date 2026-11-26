@@ -73,6 +73,9 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = Rails.application.routes.default_url_options
 
+  # Deliver mail via the local sendmail binary instead of SMTP.
+  config.action_mailer.delivery_method = :sendmail if ENV['OSEM_SENDMAIL'].present?
+
   # Specify outgoing SMTP server.
   config.action_mailer.smtp_settings = {
     address:              ENV.fetch('OSEM_SMTP_ADDRESS', 'localhost'),

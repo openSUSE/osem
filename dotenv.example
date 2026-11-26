@@ -77,6 +77,10 @@
 # OSEM_PIWIK_DISABLED=true
 # OSEM_PIWIK_HOSTNAME=localhost
 
+# Deliver mail via /usr/sbin/sendmail instead of SMTP (any value enables it).
+# If set all other `OSEM_SMTP_` variables are ignored.^
+# OSEM_SENDMAIL=true
+
 # The smtp configuration. See the rails guides for more
 # http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 # OSEM_SMTP_ADDRESS=smtp.gmail.com
