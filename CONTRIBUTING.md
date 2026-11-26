@@ -42,6 +42,34 @@ why this particular flaw exists? If nothing else, a discussion of the change wil
 usually familiarize the reviewer with your proposed changes and streamline the
 review process when you finally create a pull request.
 
+### AI Guidance
+
+Using AI to help you write your contribution is acceptable, as long as you
+follow the principles described below.
+
+As the author, you are *accountable* for the code you submit. Contributing to
+OSEM means vouching for the quality, license compliance, and utility of your
+contribution.
+
+Do not leave the first review of AI generated changes to the reviewers. Verify
+the changes (code review, testing, etc.) before submitting your contribution.
+Reviewers may ask questions about your AI-assisted code, and if you cannot
+explain why a change was made, the PR will be closed.
+
+When responding to review comments, you must do so without relying on AI tools.
+Reviewers want to engage directly with you, not with generated responses from
+your AI tool. If you do not engage directly with reviewers, the PR will be
+closed.
+
+You **MUST** disclose if you have used generative AI tools in preparing
+portions of your contribution. The recommended method is an
+`Assisted-by:` [git commit message trailer](https://git-scm.com/docs/SubmittingPatches#commit-trailers)
+like
+
+```
+Assisted-by: AGENT_NAME:MODEL_VERSION
+```
+
 ### Small Commits & Pull Request Scope
 
 A commit should contain a single logical change, the scope should be as small
