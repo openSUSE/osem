@@ -1,4 +1,3 @@
-config/application.rb
 config/config.yml
 config/secrets.yml
 config/master.key
@@ -43,3 +42,5 @@ osem_test
 .ackrc
 spec/support/deprecation_shitlist.json
 .vscode
+AGENTS.md
+/docs/agents
