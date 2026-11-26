@@ -43,4 +43,5 @@ osem_test
 spec/support/deprecation_shitlist.json
 .vscode
 AGENTS.md
+GLOSSARY.md
 /docs/agents
