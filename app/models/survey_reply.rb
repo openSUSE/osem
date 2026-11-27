@@ -3,7 +3,7 @@
 class SurveyReply < ActiveRecord::Base
   belongs_to :user
   belongs_to :survey_question
-  serialize :text
+  serialize :text, coder: YAML
 
   validates :user_id, :survey_question_id, presence: true
   validates :survey_question_id, uniqueness: { scope: :user_id }

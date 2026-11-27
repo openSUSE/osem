@@ -5,7 +5,7 @@ class Conference < ApplicationRecord
 
   require 'uri'
 
-  serialize :events_per_week, type: Hash
+  serialize :events_per_week, type: Hash, coder: YAML
 
   # Needed to call 'Conference.with_role' in /models/ability.rb
   # Dependent destroy will fail as roles#destroy will be cancelled,hence delete_all
