@@ -29,8 +29,9 @@
               %td.room{ style: "height: #{ td_height(@rooms) }px;" }
                 .room.elipsis.break-words{ style: "-webkit-line-clamp: #{ room_lines(@rooms) }; height: #{ room_height(@rooms) }px;" }
                   = room.name
-
                 - event_schedules = (@event_schedules_by_room_id[room.id] || []).select{ |e| (e.end_time > start_time) && (e.start_time <= (start_time + hrs_per_slide.hour)) }
+
+                - event_schedules = event_schedules.select{ |e| e.event.favourite_users.exists?(current_user.id) } if current_user && @favourites
 
                 - interval_count.times do |offset|
                   - if span > 1
