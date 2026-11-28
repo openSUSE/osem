@@ -25,29 +25,45 @@ module ConferenceHelper
   # adds events to icalendar for proposals in a conference
   def icalendar_proposals(calendar, proposals, conference)
     proposals.each do |proposal|
-      calendar.event do |e|
-        e.dtstart = proposal.time
-        e.dtend = proposal.time + proposal.event_type.length * 60
-        e.duration = "PT#{proposal.event_type.length}M"
-        e.created = proposal.created_at
-        e.last_modified = proposal.updated_at
-        e.summary = proposal.title
-        e.description = proposal.abstract
-        e.uid = proposal.guid
-        e.url = conference_program_proposal_url(conference.short_title, proposal.id)
-        v = conference.venue
-        if v
-          e.geo = v.latitude, v.longitude if v.latitude && v.longitude
-          location = ''
-          location += "#{proposal.room.name} - " if proposal.room.name
-          location += " - #{v.street}, " if v.street
-          location += "#{v.postalcode} #{v.city}, " if v.postalcode && v.city
-          location += "#{v.country_name}, " if v.country_name
-          e.location = location
-        end
-        e.categories = conference.title, "Difficulty: #{proposal.difficulty_level.title}", "Track: #{proposal.track.name}"
-      end
+      calendar.event { |e| populate_icalendar_event(e, proposal, conference) }
     end
     calendar
+  end
+
+  private
+
+  def populate_icalendar_event(event, proposal, conference)
+    length = proposal.event_type&.length
+    event.dtstart = proposal.time
+    event.dtend = proposal.time + (length * 60) if proposal.time && length
+    event.duration = "PT#{length}M" if length
+    event.created = proposal.created_at
+    event.last_modified = proposal.updated_at
+    event.summary = proposal.title
+    event.description = proposal.abstract
+    event.uid = proposal.guid
+    event.url = conference_program_proposal_url(conference.short_title, proposal.id)
+    venue = conference.venue
+    if venue
+      event.geo = venue.latitude, venue.longitude if venue.latitude && venue.longitude
+      event.location = icalendar_event_location(proposal, venue)
+    end
+    event.categories = icalendar_event_categories(proposal, conference)
+  end
+
+  def icalendar_event_location(proposal, venue)
+    location = ''
+    location += "#{proposal.room.name} - " if proposal.room&.name
+    location += " - #{venue.street}, " if venue.street
+    location += "#{venue.postalcode} #{venue.city}, " if venue.postalcode && venue.city
+    location += "#{venue.country_name}, " if venue.country_name
+    location
+  end
+
+  def icalendar_event_categories(proposal, conference)
+    categories = [conference.title]
+    categories << "Difficulty: #{proposal.difficulty_level.title}" if proposal.difficulty_level
+    categories << "Track: #{proposal.track.name}" if proposal.track
+    categories
   end
 end
