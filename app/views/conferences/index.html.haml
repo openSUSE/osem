@@ -21,8 +21,8 @@
   %p
     Add the events to your calendar:
     %span.btn-group
-      = link_to("Days only", calendar_url(protocol: 'webcal', format: 'ics'), class: 'btn btn-default')
-      = link_to("Detailed", calendar_url(protocol: 'webcal', format: 'ics', full: true), class: 'btn btn-default')
+      = link_to("Days only", calendars_url(protocol: 'webcal', format: 'ics'), class: 'btn btn-default')
+      = link_to("Detailed", calendars_url(protocol: 'webcal', format: 'ics', full: true), class: 'btn btn-default')
 
 -content_for :script_body do
   :javascript
