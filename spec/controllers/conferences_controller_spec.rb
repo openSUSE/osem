@@ -49,4 +49,20 @@ describe ConferencesController do
     end
   end
 
+  describe 'GET #feed' do
+    render_views
+
+    it 'returns RSS feed successfully' do
+      get :feed, format: :rss
+      expect(response.response_code).to eq(200)
+      expect(response.content_type).to include('application/rss+xml')
+    end
+
+    it 'includes conference data in the feed' do
+      conference # trigger let
+      get :feed, format: :rss
+      expect(response.body).to include(conference.title)
+    end
+  end
+
 end
