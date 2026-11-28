@@ -92,6 +92,8 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include OmniauthMacros
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include BootstrapMacros, type: :feature
+  config.include JQueryMacros, type: :feature
   config.include LoginMacros, type: :feature
   config.include Sidebar, type: :view
   config.include Devise::Test::ControllerHelpers, type: :view
