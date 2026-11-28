@@ -18,10 +18,12 @@
   = f.label :password, 'Password'
   - if !@user.persisted?
     %abbr{title: 'This field is required'} *
-  = f.password_field :password, required: !@user.persisted?, class: 'form-control', placeholder: 'Password'
+  = render partial: 'devise/registrations/password_field_with_view_password_button', locals: { f: f, required: !@user.persisted?, placeholder: 'Password', method: :password }
+
 .form-group
   = f.label :password_confirmation, 'Password Confirmation'
-  = f.password_field :password_confirmation, required: !@user.persisted?, class: 'form-control', placeholder: 'Password Confirmation'
+  = render partial: 'devise/registrations/password_field_with_view_password_button', locals: { f: f, required: !@user.persisted?, placeholder: 'Password Confirmation', method: :password_confirmation }
+
 - if @user.persisted?
   %p.text-muted
     Leave blank if you don't want to change your password
