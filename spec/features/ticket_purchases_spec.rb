@@ -22,7 +22,7 @@ feature Registration do
 
     context 'who is not registered' do
 
-      scenario 'purchases and pays for a ticket succcessfully', feature: true, js: true do
+      scenario 'purchases and pays for a ticket successfully', feature: true, js: true do
         skip 'broken'
 
         visit root_path
@@ -132,7 +132,7 @@ feature Registration do
         expect(current_path).to eq(conference_tickets_path(conference.short_title))
       end
 
-      scenario 'purchases one registration ticket of a different types' do
+      scenario 'purchases one registration ticket of different types' do
         visit root_path
         click_link 'Register'
 
@@ -152,7 +152,7 @@ feature Registration do
 
     context 'who is registered' do
 
-      scenario 'unregisters from conference, but ticket purchases dont delete', feature: true, js: true do
+      scenario "unregisters from conference, but ticket purchases don't delete", feature: true, js: true do
         skip 'broken'
 
         visit root_path
