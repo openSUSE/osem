@@ -24,7 +24,7 @@
         - unless booths.blank?
           = render 'booths', booths: booths
 
-      - if conference.program.try(:schedule_public?)
+      - if conference.program&.any_published_schedule?
         .row
           .col-md-12
             %p.cta-button.text-center
